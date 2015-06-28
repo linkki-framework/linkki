@@ -23,6 +23,7 @@ import com.vaadin.ui.TextField;
 import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.ui.components.DoubleField;
 import de.faktorzehn.ipm.web.ui.components.IntegerField;
+import de.faktorzehn.ipm.web.ui.converters.LocalDateToDateConverter;
 
 public class ComponentFactory {
 

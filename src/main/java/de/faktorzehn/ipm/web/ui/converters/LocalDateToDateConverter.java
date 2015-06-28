@@ -1,4 +1,4 @@
-package de.faktorzehn.ipm.web.ui.util;
+package de.faktorzehn.ipm.web.ui.converters;
 
 import java.util.Date;
 import java.util.Locale;

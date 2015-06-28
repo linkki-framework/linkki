@@ -11,10 +11,11 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.junit.Test;
+
+import de.faktorzehn.ipm.web.ui.converters.LocalDateToDateConverter;
 
 public class LocalDateToDateConverterTest {
 
