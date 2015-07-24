@@ -64,4 +64,10 @@ public class UIDoubleFieldAdpater implements UIFieldDefinition {
     public String modelAttribute() {
         return uiDoubleField.modelAttribute();
     }
+
+    @Override
+    public boolean noLabel() {
+        return uiDoubleField.noLabel();
+    }
+
 }

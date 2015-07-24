@@ -17,6 +17,8 @@ public interface UIFieldDefinition {
 
     String label();
 
+    boolean noLabel();
+
     EnabledType enabled();
 
     RequiredType required();

@@ -71,6 +71,10 @@ public class FieldDescriptor {
      * the label from the property name. Appends the suffix ":" if necessary.
      */
     public String getLabelText() {
+        if (fieldDefinition.noLabel()) {
+            return "";
+        }
+
         String label = fieldDefinition.label();
         if (StringUtils.isEmpty(label)) {
             label = StringUtils.capitalize(getPropertyName());

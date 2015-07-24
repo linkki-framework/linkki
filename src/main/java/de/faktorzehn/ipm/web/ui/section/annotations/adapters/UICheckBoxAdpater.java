@@ -58,4 +58,9 @@ public class UICheckBoxAdpater implements UIFieldDefinition {
         return uiCheckBox.modelAttribute();
     }
 
+    @Override
+    public boolean noLabel() {
+        return uiCheckBox.noLabel();
+    }
+
 }

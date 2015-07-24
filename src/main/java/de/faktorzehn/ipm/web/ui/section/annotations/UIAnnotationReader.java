@@ -13,6 +13,7 @@ import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UICheckBoxAdpater;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UIComboBoxAdpater;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UIDateFieldAdpater;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UIDecimalFieldAdapter;
+import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UIDoubleFieldAdpater;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UIIntegerFieldAdpater;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UITextAreaAdpater;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UITextFieldAdpater;
@@ -91,6 +92,8 @@ public class UIAnnotationReader {
             uiField = new UITextAreaAdpater(method.getAnnotation(UITextArea.class));
         } else if (method.getAnnotation(UIDecimalField.class) != null) {
             uiField = new UIDecimalFieldAdapter(method.getAnnotation(UIDecimalField.class));
+        } else if (method.getAnnotation(UIDoubleField.class) != null) {
+            uiField = new UIDoubleFieldAdpater(method.getAnnotation(UIDoubleField.class));
         }
         return uiField;
     }

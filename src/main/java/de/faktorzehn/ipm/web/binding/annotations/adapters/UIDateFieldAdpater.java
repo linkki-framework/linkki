@@ -57,4 +57,10 @@ public class UIDateFieldAdpater implements UIFieldDefinition {
     public String modelAttribute() {
         return uiDateField.modelAttribute();
     }
+
+    @Override
+    public boolean noLabel() {
+        return uiDateField.noLabel();
+    }
+
 }
