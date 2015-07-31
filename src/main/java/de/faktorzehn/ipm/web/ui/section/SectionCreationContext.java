@@ -52,7 +52,7 @@ public class SectionCreationContext {
 
     /* package private for testing */
     protected PropertyDispatcher createDefaultDispatcher() {
-        ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(pmo.getModelObject(), pmo);
+        ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(getModelObject(), pmo);
         ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(this::getModelObject,
                 exceptionDispatcher);
         ReflectionPropertyDispatcher pmoDispatcher = new ReflectionPropertyDispatcher(this::getPmo,

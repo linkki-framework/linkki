@@ -94,6 +94,8 @@ public class UIAnnotationReader {
             uiField = new UIDecimalFieldAdapter(method.getAnnotation(UIDecimalField.class));
         } else if (method.getAnnotation(UIDoubleField.class) != null) {
             uiField = new UIDoubleFieldAdpater(method.getAnnotation(UIDoubleField.class));
+        } else if (method.getAnnotation(UIDecimalField.class) != null) {
+            uiField = new UIDecimalFieldAdapter(method.getAnnotation(UIDecimalField.class));
         }
         return uiField;
     }
