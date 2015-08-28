@@ -38,7 +38,7 @@ public @interface UIDecimalField {
      * Format for the ui representation of the value. See {@link DecimalFormat} for the
      * documentation of the pattern
      */
-    String format() default "";
+    String format() default "###,###.##";
 
     Class<?> modelClass() default NoModelClassProvided.class;
 

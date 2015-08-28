@@ -45,7 +45,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         this.fallbackDispatcher = fallbackDispatcher;
         this.boundObjectSupplier = boundObjectSupplier;
         Preconditions.checkNotNull(getBoundObject());
-        accessorCache = new LazyInitializingMap<>((String key) -> new PropertyAccessor(getBoundObject().getClass(), key));
+        accessorCache = new LazyInitializingMap<>(
+                (String key) -> new PropertyAccessor(getBoundObject().getClass(), key));
     }
 
     private Object getBoundObject() {
