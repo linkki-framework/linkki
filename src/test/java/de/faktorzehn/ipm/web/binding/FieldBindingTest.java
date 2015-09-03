@@ -126,6 +126,15 @@ public class FieldBindingTest {
     }
 
     @Test
+    public void testVisibleBinding_ifLabelNull() {
+        binding = FieldBinding.create(context, "value", null, field, propertyDispatcher);
+        when(propertyDispatcher.isVisible("value")).thenReturn(false);
+        binding.updateFieldFromPmo();
+
+        verify(field).setVisible(false);
+    }
+
+    @Test
     public void testRequiredBinding() {
         when(propertyDispatcher.isRequired("value")).thenReturn(false);
         assertFalse(binding.isRequired());

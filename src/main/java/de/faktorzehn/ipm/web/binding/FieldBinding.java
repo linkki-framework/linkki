@@ -72,7 +72,9 @@ public class FieldBinding<T> implements Property<T> {
             field.setEnabled(isEnabled());
             boolean visible = isVisible();
             field.setVisible(visible);
-            label.setVisible(visible);
+            if (label != null) {
+                label.setVisible(visible);
+            }
             if (field instanceof AbstractSelect) {
                 AbstractSelect select = (AbstractSelect)field;
                 UiUtil.fillSelectWithItems(select, getAvailableValues());
