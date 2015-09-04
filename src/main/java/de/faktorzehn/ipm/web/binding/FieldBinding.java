@@ -73,6 +73,7 @@ public class FieldBinding<T> implements Property<T> {
             boolean visible = isVisible();
             field.setVisible(visible);
             if (label != null) {
+                // label is null in case of a table
                 label.setVisible(visible);
             }
             if (field instanceof AbstractSelect) {

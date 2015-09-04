@@ -28,14 +28,14 @@ public class PmoBasedTableSectionFactory {
 
     public TableSection createSection() {
         TableSection section = createEmptySection();
-        PmoBasedTable<PresentationModelObject> table = createTable();
+        PmoBasedTable<? extends PresentationModelObject> table = createTable();
         section.setTable(table);
         return section;
     }
 
-    private PmoBasedTable<PresentationModelObject> createTable() {
-        PmoBasedTableFactory tableFactory = new PmoBasedTableFactory<>(containerPmo, bindingContext,
-                propertyBehaviorProvider);
+    private PmoBasedTable<? extends PresentationModelObject> createTable() {
+        PmoBasedTableFactory<? extends PresentationModelObject> tableFactory = new PmoBasedTableFactory<>(containerPmo,
+                bindingContext, propertyBehaviorProvider);
         return tableFactory.createTable();
     }
 

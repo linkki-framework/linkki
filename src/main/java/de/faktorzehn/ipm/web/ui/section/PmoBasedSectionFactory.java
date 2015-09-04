@@ -14,6 +14,9 @@ import de.faktorzehn.ipm.web.ui.section.annotations.UIDateField;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIIntegerField;
 import de.faktorzehn.ipm.web.ui.section.annotations.UISection;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITextField;
+import de.faktorzehn.ipm.web.ui.table.ContainerPmo;
+import de.faktorzehn.ipm.web.ui.table.PmoBasedTableSectionFactory;
+import de.faktorzehn.ipm.web.ui.table.TableSection;
 
 /**
  * Base class for a factory to create a section based on an annotated PMO.
@@ -44,6 +47,19 @@ public abstract class PmoBasedSectionFactory {
 
         SectionCreationContext creator = new SectionCreationContext(pmo, bindingContext, getPropertyBehaviorProvider());
         return creator.createSection();
+    }
+
+    /**
+     * Creates a new section based on the given annotated PMO and binds the created controls via the
+     * given binding context to the PMO.
+     */
+    public TableSection createTableSection(ContainerPmo<?> pmo, BindingContext bindingContext) {
+        checkNotNull(pmo);
+        checkNotNull(bindingContext);
+
+        PmoBasedTableSectionFactory factory = new PmoBasedTableSectionFactory(pmo, bindingContext,
+                propertyBehaviorProvider);
+        return factory.createSection();
     }
 
     public static PropertyDispatcher createDefaultDispatcher(PresentationModelObject pmo) {

@@ -22,15 +22,15 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
 
     private static final long serialVersionUID = 1L;
 
-    private ContainerPmo<T> tablePmo;
+    private ContainerPmo<T> containerPmo;
 
     public PmoBasedTable(ContainerPmo<T> tablePmo) {
         super();
-        this.tablePmo = tablePmo;
+        this.containerPmo = tablePmo;
     }
 
     public ContainerPmo<T> getPmo() {
-        return tablePmo;
+        return containerPmo;
     }
 
     public void updateFromPmo() {
@@ -41,7 +41,8 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
     }
 
     private void createItems() {
-        List<T> rows = tablePmo.getItems();
+        List<T> rows = containerPmo.getItems();
+        // don't add values directly, let data binding take care of it
         rows.forEach(row -> addItem(new Object[0], row));
     }
 
