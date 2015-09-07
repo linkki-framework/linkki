@@ -9,6 +9,7 @@ package de.faktorzehn.ipm.web.binding.dispatcher;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.ClassUtils;
 import org.faktorips.runtime.MessageList;
 
 import com.google.gwt.thirdparty.guava.common.base.Preconditions;
@@ -45,7 +46,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         this.fallbackDispatcher = fallbackDispatcher;
         this.boundObjectSupplier = boundObjectSupplier;
         Preconditions.checkNotNull(getBoundObject());
-        accessorCache = new LazyInitializingMap<>((String key) -> new PropertyAccessor(getBoundObject().getClass(), key));
+        accessorCache = new LazyInitializingMap<>(
+                (String key) -> new PropertyAccessor(getBoundObject().getClass(), key));
     }
 
     private Object getBoundObject() {
@@ -60,7 +62,12 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     @Override
     public Class<?> getValueClass(String property) {
         if (canRead(property)) {
-            return getAccessor(property).getValueClass();
+            Class<?> valueClass = getAccessor(property).getValueClass();
+            // Workaround for primitive type <-> wrapper type conversion bug, see FIPM-326.
+            if (valueClass.isPrimitive()) {
+                return ClassUtils.primitiveToWrapper(valueClass);
+            }
+            return valueClass;
         } else {
             return fallbackDispatcher.getValueClass(property);
         }

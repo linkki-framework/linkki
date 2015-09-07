@@ -6,27 +6,12 @@
 
 package de.faktorzehn.ipm.web.ui.section.annotations;
 
-import java.util.Collections;
-
 import org.junit.Test;
 
 import com.vaadin.data.Buffered;
-import com.vaadin.server.ClientConnector;
-import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ConnectorTracker;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.UI;
 
 import de.faktorzehn.ipm.web.PresentationModelObject;
-import de.faktorzehn.ipm.web.binding.BindingContext;
-import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
-import de.faktorzehn.ipm.web.ui.section.BaseSection;
-import de.faktorzehn.ipm.web.ui.section.PmoBasedSectionFactory;
-import elemental.json.JsonObject;
-import elemental.json.impl.JreJsonFactory;
-import elemental.json.impl.JreJsonObject;
 
 public class UiCheckBoxTest {
 
@@ -43,72 +28,79 @@ public class UiCheckBoxTest {
         }
     }
 
+    public static class TestModelObjectWithObjectBoolean {
+
+        private Boolean value = null;
+
+        public Boolean getBooleanValue() {
+            return value;
+        }
+
+        public void setBooleanValue(Boolean b) {
+            this.value = b;
+        }
+    }
+
     @UISection
     public static class TestPmo implements PresentationModelObject {
+
+        private final Object modelObject;
+
+        public TestPmo(Object modelObject) {
+            super();
+            this.modelObject = modelObject;
+        }
+
         @UICheckBox(position = 1, modelAttribute = "booleanValue")
-        public void primitiveBoolean() {
+        public void booleanValue() {
             // data binding
         }
 
         @Override
         public Object getModelObject() {
-            return new TestModelObjectWithPrimitiveBoolean();
+            return modelObject;
         }
     }
 
-    public static class SectionFactory extends PmoBasedSectionFactory {
-
-        @Override
-        public PropertyBehaviorProvider getPropertyBehaviorProvider() {
-            return () -> Collections.emptyList();
-        }
+    /**
+     * Returns a {@code CheckBox} that is bound to the given model object using the IPM data binder.
+     * The {@code CheckBox} is part of a mostly mocked UI so that a rudimentary Vaadin environment
+     * is in place.
+     * 
+     * @param modelObject the model object to which the {@code CheckBox} is bound
+     * @return a {@code CheckBox} that is bound to the model object
+     */
+    private CheckBox createCheckbox(Object modelObject) {
+        TestPmo pmo = new TestPmo(modelObject);
+        return (CheckBox)TestUi.componentBoundTo(pmo);
     }
 
-    public static class TestConnectorTracker extends ConnectorTracker {
+    @Test
+    public void testSetValueWithPrimitiveBooleanInModelObject() {
+        CheckBox checkBox = createCheckbox(new TestModelObjectWithPrimitiveBoolean());
 
-        private static final long serialVersionUID = 1L;
-
-        public TestConnectorTracker(UI uI) {
-            super(uI);
-        }
-
-        @Override
-        public JsonObject getDiffState(ClientConnector connector) {
-            return new JreJsonObject(new JreJsonFactory());
-        }
-    }
-
-    public static class TestUi extends UI {
-
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        protected void init(VaadinRequest request) {
-            // Nothing to do
-        }
-
-        @Override
-        public ConnectorTracker getConnectorTracker() {
-            return new TestConnectorTracker(this);
-        }
+        // No assertions needed, we just make sure no exception is thrown
+        checkBox.setValue(Boolean.TRUE);
+        checkBox.setValue(Boolean.FALSE);
+        checkBox.setValue(true);
+        checkBox.setValue(false);
     }
 
     @Test(expected = Buffered.SourceException.class)
-    public void testSetValueWithPrimitiveBooleanInPmo() {
+    public void testSetValueWithPrimitiveBooleanInModelObjectFailsForNull() {
+        CheckBox checkBox = createCheckbox(new TestModelObjectWithPrimitiveBoolean());
+        checkBox.setValue(null);
+    }
 
-        TestUi testUi = new TestUi();
-        TestPmo pmo = new TestPmo();
-        SectionFactory sectionFactory = new SectionFactory();
-        BindingContext bindingContext = new BindingContext();
-        BaseSection section = sectionFactory.createSection(pmo, bindingContext);
+    @Test
+    public void testSetValueWithObjectBooleanInModelObject() {
+        CheckBox checkBox = createCheckbox(new TestModelObjectWithObjectBoolean());
 
-        testUi.setContent(section);
-
-        bindingContext.updateUI();
-
-        Panel panel = (Panel)section.getComponent(1);
-        GridLayout gridLayout = (GridLayout)panel.getContent();
-        CheckBox checkBox = (CheckBox)gridLayout.getComponent(1, 0);
+        // No assertions needed, we just make sure no exception is thrown
+        checkBox.setValue(null);
+        checkBox.setValue(Boolean.TRUE);
+        checkBox.setValue(Boolean.FALSE);
         checkBox.setValue(true);
+        checkBox.setValue(false);
     }
 }
