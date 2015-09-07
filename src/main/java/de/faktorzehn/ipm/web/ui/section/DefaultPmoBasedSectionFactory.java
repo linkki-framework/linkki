@@ -6,6 +6,10 @@
 
 package de.faktorzehn.ipm.web.ui.section;
 
+import javax.inject.Inject;
+
+import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
+
 /**
  * This is the default implementation of {@link PmoBasedSectionFactory}. If you do not need any
  * specialization of {@link PmoBasedSectionFactory} you are perfectly right to use this one.
@@ -21,6 +25,9 @@ package de.faktorzehn.ipm.web.ui.section;
  */
 public class DefaultPmoBasedSectionFactory extends PmoBasedSectionFactory {
 
-    // no further implementation needed
+    @Inject
+    public DefaultPmoBasedSectionFactory(PropertyBehaviorProvider propertyBehaviorProvider) {
+        super(propertyBehaviorProvider);
+    }
 
 }

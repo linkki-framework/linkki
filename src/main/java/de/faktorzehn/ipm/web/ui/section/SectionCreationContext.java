@@ -18,12 +18,9 @@ import de.faktorzehn.ipm.web.EditAction;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.FieldBinding;
-import de.faktorzehn.ipm.web.binding.dispatcher.BehaviourDependentDecorator;
-import de.faktorzehn.ipm.web.binding.dispatcher.BindingAnnotationDecorator;
-import de.faktorzehn.ipm.web.binding.dispatcher.ExceptionPropertyDispatcher;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
-import de.faktorzehn.ipm.web.binding.dispatcher.ReflectionPropertyDispatcher;
+import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
 import de.faktorzehn.ipm.web.ui.section.annotations.FieldDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.SectionLayout;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIAnnotationReader;
@@ -36,6 +33,8 @@ import de.faktorzehn.ipm.web.ui.section.annotations.UISection;
  * @author widmaier
  */
 public class SectionCreationContext {
+
+    private static final PropertyDispatcherFactory DISPATCHER_FACTORY = new PropertyDispatcherFactory();
 
     private final PresentationModelObject pmo;
     private final BindingContext bindingContext;
@@ -52,17 +51,7 @@ public class SectionCreationContext {
 
     /* package private for testing */
     protected PropertyDispatcher createDefaultDispatcher() {
-        ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(pmo.getModelObject(), pmo);
-        ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(this::getModelObject,
-                exceptionDispatcher);
-        ReflectionPropertyDispatcher pmoDispatcher = new ReflectionPropertyDispatcher(this::getPmo,
-                modelObjectDispatcher);
-        BindingAnnotationDecorator bindingAnnotationDecorator = new BindingAnnotationDecorator(pmoDispatcher,
-                pmo.getClass());
-        BehaviourDependentDecorator behaviourDependentDecorator = new BehaviourDependentDecorator(
-                bindingAnnotationDecorator, propertyBehaviorProvider);
-
-        return behaviourDependentDecorator;
+        return DISPATCHER_FACTORY.defaultDispatcherChain(pmo, propertyBehaviorProvider);
     }
 
     protected PresentationModelObject getPmo() {

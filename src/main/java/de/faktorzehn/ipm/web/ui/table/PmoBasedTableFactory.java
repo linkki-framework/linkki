@@ -6,8 +6,6 @@
 
 package de.faktorzehn.ipm.web.ui.table;
 
-import static com.vaadin.ui.themes.ValoTheme.BUTTON_BORDERLESS;
-
 import java.util.Set;
 
 import com.vaadin.server.FontAwesome;
@@ -18,15 +16,14 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.themes.ValoTheme;
 
+import de.faktorzehn.ipm.utils.LazyInitializingMap;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.FieldBinding;
-import de.faktorzehn.ipm.web.binding.dispatcher.BehaviourDependentDecorator;
-import de.faktorzehn.ipm.web.binding.dispatcher.BindingAnnotationDecorator;
-import de.faktorzehn.ipm.web.binding.dispatcher.ExceptionPropertyDispatcher;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
-import de.faktorzehn.ipm.web.binding.dispatcher.ReflectionPropertyDispatcher;
+import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
+import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
 import de.faktorzehn.ipm.web.ui.section.annotations.FieldDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIAnnotationReader;
 
@@ -38,6 +35,8 @@ import de.faktorzehn.ipm.web.ui.section.annotations.UIAnnotationReader;
 public class PmoBasedTableFactory<T extends PresentationModelObject> {
 
     private static final String REMOVE_COLUMN = "remove";
+
+    private static final PropertyDispatcherFactory DISPATCHER_FACTORY = new PropertyDispatcherFactory();
 
     private ContainerPmo<T> containerPmo;
     private UIAnnotationReader annotationReader;
@@ -72,18 +71,17 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
         return containerPmo;
     }
 
-    protected PropertyBehaviorProvider getPropertyBehaviorProvider() {
-        return propertyBehaviorProvider;
-    }
-
     protected BindingContext getBindingContext() {
         return bindingContext;
     }
 
+    protected PropertyDispatcher createPropertyDispatcher(final PresentationModelObject pmo) {
+        return DISPATCHER_FACTORY.defaultDispatcherChain(pmo, propertyBehaviorProvider);
+    }
+
     private PmoBasedTable<T> createTableComponent() {
         PmoBasedTable<T> table = new PmoBasedTable<>(containerPmo);
-        // FIXME das muss ins Stylesheet
-        table.setWidth("100%");
+        table.addStyleName(ApplicationStyles.TABLE);
         table.setHeightUndefined();
         table.setPageLength(0);
         table.setSortEnabled(false);
@@ -113,8 +111,10 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
 
         private static final long serialVersionUID = 1L;
 
-        private FieldDescriptor fieldDescriptor;
-        private boolean receiveFocusOnNew;
+        private final LazyInitializingMap<PresentationModelObject, PropertyDispatcher> dispatchers = new LazyInitializingMap<>(
+                PmoBasedTableFactory.this::createPropertyDispatcher);
+        private final FieldDescriptor fieldDescriptor;
+        private final boolean receiveFocusOnNew;
 
         public FieldColumnGenerator(FieldDescriptor fieldDescriptor, boolean receiveFocusOnNew) {
             this.fieldDescriptor = fieldDescriptor;
@@ -125,37 +125,20 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
         @Override
         public Object generateCell(Table source, Object itemId, Object columnId) {
             Component component = fieldDescriptor.newComponent();
-            component.addStyleName("borderless");
+            component.addStyleName(ApplicationStyles.BORDERLESS);
+            component.addStyleName(ApplicationStyles.TABLE_CELL);
             component.setEnabled(getContainerPmo().isEditable());
-            component.setWidth("100%");
             AbstractField field = (AbstractField)component;
             T pmo = (T)itemId;
-            // FIXME createPropertyDispatcher() sollte nicht jedes mal aufgerufen werden!
-            /*
-             * Achtung: man muss natürlich für jedes PMO/Item eigene Dispatcher machen. Aber nicht
-             * für jede Zelle einer Zeile auch noch.
-             */
+
             FieldBinding binding = FieldBinding.create(getBindingContext(), (String)columnId, null, field,
-                                                       createPropertyDispatcher(pmo));
+                                                       dispatchers.get(pmo));
             getBindingContext().add(binding);
             binding.updateFieldFromPmo();
             if (receiveFocusOnNew) {
                 field.focus();
             }
             return component;
-        }
-
-        private PropertyDispatcher createPropertyDispatcher(final PresentationModelObject pmo) {
-            ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(pmo.getModelObject(), pmo);
-            ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(
-                    () -> pmo.getModelObject(), exceptionDispatcher);
-            ReflectionPropertyDispatcher pmoDispatcher = new ReflectionPropertyDispatcher(() -> pmo,
-                    modelObjectDispatcher);
-            BindingAnnotationDecorator bindingAnnotationDecorator = new BindingAnnotationDecorator(pmoDispatcher,
-                    pmo.getClass());
-            BehaviourDependentDecorator behaviourDependentDecorator = new BehaviourDependentDecorator(
-                    bindingAnnotationDecorator, getPropertyBehaviorProvider());
-            return behaviourDependentDecorator;
         }
     }
 
@@ -167,7 +150,7 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
         @Override
         public Object generateCell(Table source, Object itemId, Object columnId) {
             Button button = new Button(FontAwesome.TRASH_O);
-            button.addStyleName(BUTTON_BORDERLESS);
+            button.addStyleName(ValoTheme.BUTTON_BORDERLESS);
             button.addStyleName(ValoTheme.BUTTON_LARGE);
             T row = (T)itemId;
             button.addClickListener(e -> {

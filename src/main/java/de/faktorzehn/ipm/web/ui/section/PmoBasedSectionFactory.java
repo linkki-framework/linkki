@@ -34,8 +34,12 @@ import de.faktorzehn.ipm.web.ui.table.TableSection;
  */
 public abstract class PmoBasedSectionFactory {
 
+    private final PropertyBehaviorProvider propertyBehaviorProvider;
+
     @Inject
-    private PropertyBehaviorProvider propertyBehaviorProvider;
+    public PmoBasedSectionFactory(PropertyBehaviorProvider pbp) {
+        this.propertyBehaviorProvider = pbp;
+    }
 
     /**
      * Creates a new section based on the given annotated PMO and binds the created controls via the
