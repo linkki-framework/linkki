@@ -1,9 +1,6 @@
 package de.faktorzehn.ipm.web.ui.section;
 
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
-
-import javax.inject.Inject;
-
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
@@ -19,8 +16,7 @@ import de.faktorzehn.ipm.web.ui.section.annotations.UITextField;
  * Base class for a factory to create a section based on an annotated PMO.
  * <p>
  * This class is used as a base class for specializations. It need to be abstract to ensure
- * distinction of different implementation when used via dependency injection. If you do not need
- * further specialization just use {@link DefaultPmoBasedSectionFactory}.
+ * distinction of different implementation when used via dependency injection.
  * 
  * @see UISection
  * @see UITextField
@@ -30,9 +26,6 @@ import de.faktorzehn.ipm.web.ui.section.annotations.UITextField;
  * @see UIIntegerField
  */
 public abstract class PmoBasedSectionFactory {
-
-    @Inject
-    private PropertyBehaviorProvider propertyBehaviorProvider;
 
     /**
      * Creates a new section based on the given annotated PMO and binds the created controls via the
@@ -50,8 +43,6 @@ public abstract class PmoBasedSectionFactory {
         return new SectionCreationContext(pmo, null, null).createDefaultDispatcher();
     }
 
-    public PropertyBehaviorProvider getPropertyBehaviorProvider() {
-        return propertyBehaviorProvider;
-    }
+    abstract public PropertyBehaviorProvider getPropertyBehaviorProvider();
 
 }
