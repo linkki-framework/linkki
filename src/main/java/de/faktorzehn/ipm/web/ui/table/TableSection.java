@@ -44,11 +44,6 @@ public class TableSection extends AbstractSection {
         table.updateFromPmo();
     }
 
-    protected void editClicked() {
-        getPmo().newItem();
-        update();
-    }
-
     @Override
     public String toString() {
         return "TableSection based on PMO=" + getPmo();

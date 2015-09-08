@@ -12,8 +12,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -24,6 +24,7 @@ import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
+import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITextField;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -58,7 +59,9 @@ public class PmoBasedTableFactoryTest {
     static class TestContainerPmo implements ContainerPmo<TestPmo> {
 
         public static TestPmo PMO_0 = new TestPmo("foo");
-        public static TestPmo PMO_1 = new TestPmo("baar");
+        public static TestPmo PMO_1 = new TestPmo("bar");
+
+        private Optional<DeleteItemAction<TestPmo>> deleteAction = Optional.empty();
 
         @Override
         public Class<TestPmo> getItemPmoClass() {
@@ -71,30 +74,23 @@ public class PmoBasedTableFactoryTest {
         }
 
         @Override
-        public boolean isAddItemAvailable() {
-            return false;
-        }
-
-        @Override
-        public boolean isDeleteItemAvailable() {
-            return false;
-        }
-
-        @Override
         public List<TestPmo> getItems() {
             return Lists.newArrayList(PMO_0, PMO_1);
         }
 
         @Override
-        public void deleteItem(TestPmo item) {
-            throw new NotImplementedException("deleteItem is not implemented");
+        public Optional<DeleteItemAction<TestPmo>> deleteItemAction() {
+            return deleteAction;
         }
 
-        @Override
-        public void newItem() {
-            throw new NotImplementedException("newItem is not implemented");
+        void setDeleteAction(DeleteItemAction<TestPmo> deleteAction) {
+            this.deleteAction = Optional.of(deleteAction);
         }
+    }
 
+    @UITable(deleteItemColumnHeader = "Test Delete Column Header")
+    static class TestContainerPmoWithAnnotation extends TestContainerPmo {
+        // Noting to implement, class is only needed for the annotation
     }
 
     @Mock
@@ -110,5 +106,27 @@ public class PmoBasedTableFactoryTest {
         PmoBasedTable<TestPmo> table = factory.createTable();
         assertThat(table, is(notNullValue()));
         assertThat(table.getColumnHeaders(), is(arrayContaining("Some Value:")));
+    }
+
+    @Test
+    public void testCreateTable_DeleteColumnHeaderIsReadFromAnnotation() {
+        TestContainerPmoWithAnnotation containerPmo = new TestContainerPmoWithAnnotation();
+        containerPmo.setDeleteAction(System.out::println);
+        PmoBasedTableFactory<TestPmo> factory = new PmoBasedTableFactory<>(containerPmo, bindingContext,
+                propertyBehaviorProvider);
+        PmoBasedTable<TestPmo> table = factory.createTable();
+        assertThat(table, is(notNullValue()));
+        assertThat(table.getColumnHeaders(), is(arrayContaining("Some Value:", "Test Delete Column Header")));
+    }
+
+    @Test
+    public void testCreateTable_DefaultDeleteColumnHeaderIsUsedIfAnnotationIsMissing() {
+        TestContainerPmo containerPmo = new TestContainerPmo();
+        containerPmo.setDeleteAction(System.out::println);
+        PmoBasedTableFactory<TestPmo> factory = new PmoBasedTableFactory<>(containerPmo, bindingContext,
+                propertyBehaviorProvider);
+        PmoBasedTable<TestPmo> table = factory.createTable();
+        assertThat(table, is(notNullValue()));
+        assertThat(table.getColumnHeaders(), is(arrayContaining("Some Value:", "Entfernen")));
     }
 }

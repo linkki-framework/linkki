@@ -8,10 +8,12 @@ package de.faktorzehn.ipm.web.ui.table;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.themes.ValoTheme;
@@ -26,6 +28,8 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
 import de.faktorzehn.ipm.web.ui.section.annotations.FieldDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIAnnotationReader;
+import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
+import de.faktorzehn.ipm.web.ui.table.ContainerPmo.DeleteItemAction;
 
 /**
  * A factory to create a table based on a {@link ContainerPmo}.
@@ -37,6 +41,8 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
     private static final String REMOVE_COLUMN = "remove";
 
     private static final PropertyDispatcherFactory DISPATCHER_FACTORY = new PropertyDispatcherFactory();
+
+    private static final String DEFAULT_DELETE_ITEM_COLUMN_HEADER = "Entfernen";
 
     private ContainerPmo<T> containerPmo;
     private UIAnnotationReader annotationReader;
@@ -95,11 +101,20 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
             createColumn(table, field, receiveFocusOnNew);
             receiveFocusOnNew = false;
         }
-        if (containerPmo.isDeleteItemAvailable()) {
-            table.addGeneratedColumn(REMOVE_COLUMN, new RemoveIconColumnGenerator());
-            table.setColumnHeader(REMOVE_COLUMN, "Entfernen");
+        if (containerPmo.deleteItemAction().isPresent()) {
+            table.addGeneratedColumn(REMOVE_COLUMN,
+                                     new RemoveIconColumnGenerator(containerPmo.deleteItemAction().get()));
+            table.setColumnHeader(REMOVE_COLUMN, getDeleteItemColumnHeader());
             table.setColumnExpandRatio(REMOVE_COLUMN, 0.0f);
         }
+    }
+
+    private String getDeleteItemColumnHeader() {
+        if (containerPmo.getClass().isAnnotationPresent(UITable.class)) {
+            UITable tableAnnotation = containerPmo.getClass().getAnnotation(UITable.class);
+            return StringUtils.defaultIfEmpty(tableAnnotation.deleteItemColumnHeader(), DEFAULT_DELETE_ITEM_COLUMN_HEADER);
+        }
+        return DEFAULT_DELETE_ITEM_COLUMN_HEADER;
     }
 
     private void createColumn(Table table, FieldDescriptor field, boolean receiveFocusOnNew) {
@@ -121,18 +136,17 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
             this.receiveFocusOnNew = receiveFocusOnNew;
         }
 
-        @SuppressWarnings({ "unchecked", "rawtypes" })
         @Override
         public Object generateCell(Table source, Object itemId, Object columnId) {
             Component component = fieldDescriptor.newComponent();
             component.addStyleName(ApplicationStyles.BORDERLESS);
             component.addStyleName(ApplicationStyles.TABLE_CELL);
             component.setEnabled(getContainerPmo().isEditable());
-            AbstractField field = (AbstractField)component;
-            T pmo = (T)itemId;
+            Field<?> field = (Field<?>)component;
+            T pmo = getContainerPmo().getItemPmoClass().cast(itemId);
 
-            FieldBinding binding = FieldBinding.create(getBindingContext(), (String)columnId, null, field,
-                                                       dispatchers.get(pmo));
+            FieldBinding<?> binding = FieldBinding.create(getBindingContext(), (String)columnId, null, field,
+                                                          dispatchers.get(pmo));
             getBindingContext().add(binding);
             binding.updateFieldFromPmo();
             if (receiveFocusOnNew) {
@@ -146,6 +160,13 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
 
         private static final long serialVersionUID = 1L;
 
+        private final DeleteItemAction<T> deleteAction;
+
+        public RemoveIconColumnGenerator(DeleteItemAction<T> deleteAction) {
+            super();
+            this.deleteAction = deleteAction;
+        }
+
         @SuppressWarnings("unchecked")
         @Override
         public Object generateCell(Table source, Object itemId, Object columnId) {
@@ -154,7 +175,7 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
             button.addStyleName(ValoTheme.BUTTON_LARGE);
             T row = (T)itemId;
             button.addClickListener(e -> {
-                getContainerPmo().deleteItem(row);
+                deleteAction.deleteItem(row);
                 ((PmoBasedTable<T>)source).updateFromPmo();
                 getBindingContext().updateUI();
             });

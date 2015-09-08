@@ -43,8 +43,7 @@ public class PmoBasedTableSectionFactory {
         TableSection section;
         UISection sectionDefinition = containerPmo.getClass().getAnnotation(UISection.class);
         checkNotNull(sectionDefinition, "PMO " + containerPmo.getClass() + " must be annotated with @UISection!");
-        section = new TableSection(sectionDefinition.caption(), containerPmo.isAddItemAvailable());
+        section = new TableSection(sectionDefinition.caption(), containerPmo.addItemAction().isPresent());
         return section;
     }
-
 }
