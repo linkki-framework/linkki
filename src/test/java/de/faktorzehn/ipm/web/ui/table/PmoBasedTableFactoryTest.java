@@ -25,6 +25,7 @@ import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
+import de.faktorzehn.ipm.web.ui.section.annotations.UITableColumn;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITextField;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -34,19 +35,21 @@ public class PmoBasedTableFactoryTest {
 
         private final Object modelObject = new Object();
 
-        private String value;
-
-        public TestPmo(String s) {
-            this.value = s;
+        @UITableColumn(width = 100)
+        @UITextField(position = 0, label = "1")
+        public String getValue1() {
+            return "1";
         }
 
-        @UITextField(position = 0, label = "Some Value")
-        public String getValue() {
-            return value;
+        @UITableColumn(expandRation = 2.0f)
+        @UITextField(position = 1, label = "2")
+        public String getValue2() {
+            return "2";
         }
 
-        public void setValue(String s) {
-            this.value = s;
+        @UITextField(position = 2, label = "3")
+        public String getValue3() {
+            return "3";
         }
 
         @Override
@@ -58,8 +61,8 @@ public class PmoBasedTableFactoryTest {
 
     static class TestContainerPmo implements ContainerPmo<TestPmo> {
 
-        public static TestPmo PMO_0 = new TestPmo("foo");
-        public static TestPmo PMO_1 = new TestPmo("bar");
+        public static TestPmo PMO_0 = new TestPmo();
+        public static TestPmo PMO_1 = new TestPmo();
 
         private Optional<DeleteItemAction<TestPmo>> deleteAction = Optional.empty();
 
@@ -100,12 +103,29 @@ public class PmoBasedTableFactoryTest {
     private PropertyBehaviorProvider propertyBehaviorProvider;
 
     @Test
-    public void testCreateTable() {
+    public void testCreateTable_FieldLabelsAreUsedAsColumnHeaders() {
         PmoBasedTableFactory<TestPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), bindingContext,
                 propertyBehaviorProvider);
         PmoBasedTable<TestPmo> table = factory.createTable();
         assertThat(table, is(notNullValue()));
-        assertThat(table.getColumnHeaders(), is(arrayContaining("Some Value:")));
+        assertThat(table.getColumnHeaders(), is(arrayContaining("1:", "2:", "3:")));
+    }
+
+    @Test
+    public void testCreateTable_WidthAndExpandRatioIsReadFromAnnotation() {
+        PmoBasedTableFactory<TestPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), bindingContext,
+                propertyBehaviorProvider);
+        PmoBasedTable<TestPmo> table = factory.createTable();
+        assertThat(table, is(notNullValue()));
+
+        assertThat(table.getColumnWidth("value1"), is(100));
+        assertThat(table.getColumnExpandRatio("value1"), is(UITableColumn.UNDEFINED_EXPAND_RATIO));
+
+        assertThat(table.getColumnWidth("value2"), is(UITableColumn.UNDEFINED_WIDTH));
+        assertThat(table.getColumnExpandRatio("value2"), is(2.0f));
+
+        assertThat(table.getColumnWidth("value3"), is(UITableColumn.UNDEFINED_WIDTH));
+        assertThat(table.getColumnExpandRatio("value3"), is(UITableColumn.UNDEFINED_EXPAND_RATIO));
     }
 
     @Test
@@ -116,7 +136,7 @@ public class PmoBasedTableFactoryTest {
                 propertyBehaviorProvider);
         PmoBasedTable<TestPmo> table = factory.createTable();
         assertThat(table, is(notNullValue()));
-        assertThat(table.getColumnHeaders(), is(arrayContaining("Some Value:", "Test Delete Column Header")));
+        assertThat(table.getColumnHeaders(), is(arrayContaining("1:", "2:", "3:", "Test Delete Column Header")));
     }
 
     @Test
@@ -127,6 +147,6 @@ public class PmoBasedTableFactoryTest {
                 propertyBehaviorProvider);
         PmoBasedTable<TestPmo> table = factory.createTable();
         assertThat(table, is(notNullValue()));
-        assertThat(table.getColumnHeaders(), is(arrayContaining("Some Value:", "Entfernen")));
+        assertThat(table.getColumnHeaders(), is(arrayContaining("1:", "2:", "3:", "Entfernen")));
     }
 }

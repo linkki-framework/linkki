@@ -2,7 +2,9 @@ package de.faktorzehn.ipm.web.ui.section.annotations;
 
 import java.lang.reflect.Method;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -32,32 +34,49 @@ public class UIAnnotationReader {
     private final PositionComparator POSITION_COMPARATOR = new PositionComparator();
 
     private final Class<?> annotatedClass;
-    private final Map<String, FieldDescriptor> descriptorMap;
+    private final Map<String, FieldDescriptor> fieldDescriptors;
+    private final Map<FieldDescriptor, TableColumnDescriptor> columnDescriptors;
 
     public UIAnnotationReader(Class<?> annotatedClass) {
         this.annotatedClass = annotatedClass;
-        descriptorMap = new TreeMap<>();
-        initUIFieldDefinitions();
+        fieldDescriptors = new TreeMap<>();
+        columnDescriptors = new HashMap<>();
+        initDescriptorMaps();
     }
 
     public Set<FieldDescriptor> getFields() {
         TreeSet<FieldDescriptor> treeSet = new TreeSet<FieldDescriptor>(POSITION_COMPARATOR);
-        treeSet.addAll(descriptorMap.values());
+        treeSet.addAll(fieldDescriptors.values());
         return treeSet;
     }
 
     public FieldDescriptor get(String property) {
-        return descriptorMap.get(property);
+        return fieldDescriptors.get(property);
     }
 
-    private void initUIFieldDefinitions() {
-        descriptorMap.clear();
+    public TableColumnDescriptor getTableColumnDescriptor(String property) {
+        Optional<FieldDescriptor> fieldDescriptor = Optional.ofNullable(fieldDescriptors.get(property));
+        return fieldDescriptor.map(this::getTableColumnDescriptor).orElse(null);
+    }
+
+    public TableColumnDescriptor getTableColumnDescriptor(FieldDescriptor d) {
+        return columnDescriptors.get(d);
+    }
+
+    private void initDescriptorMaps() {
+        fieldDescriptors.clear();
         Method[] methods = annotatedClass.getMethods();
         for (Method method : methods) {
             if (isUiDefiningMethod(method)) {
                 UIFieldDefinition uiField = getUiField(method);
-                FieldDescriptor descriptor = new FieldDescriptor(uiField, getFallbackPropertyNameByMethod(method));
-                descriptorMap.put(descriptor.getPropertyName(), descriptor);
+                FieldDescriptor fieldDescriptor = new FieldDescriptor(uiField, getFallbackPropertyNameByMethod(method));
+                fieldDescriptors.put(fieldDescriptor.getPropertyName(), fieldDescriptor);
+
+                UITableColumn columnAnnotation = method.getAnnotation(UITableColumn.class);
+                if (columnAnnotation != null) {
+                    columnDescriptors.put(fieldDescriptor, new TableColumnDescriptor(annotatedClass, method,
+                            columnAnnotation));
+                }
             }
         }
     }
@@ -111,6 +130,10 @@ public class UIAnnotationReader {
     }
 
     public boolean hasAnnotation(String property) {
-        return descriptorMap.containsKey(property);
+        return fieldDescriptors.containsKey(property);
+    }
+
+    public boolean hasTableColumnAnnotation(FieldDescriptor d) {
+        return columnDescriptors.containsKey(d);
     }
 }

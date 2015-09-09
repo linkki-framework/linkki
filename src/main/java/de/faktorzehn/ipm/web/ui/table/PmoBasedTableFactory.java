@@ -27,6 +27,7 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
 import de.faktorzehn.ipm.web.ui.section.annotations.FieldDescriptor;
+import de.faktorzehn.ipm.web.ui.section.annotations.TableColumnDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIAnnotationReader;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
 import de.faktorzehn.ipm.web.ui.table.ContainerPmo.DeleteItemAction;
@@ -120,6 +121,24 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
     private void createColumn(Table table, FieldDescriptor field, boolean receiveFocusOnNew) {
         table.addGeneratedColumn(field.getPropertyName(), new FieldColumnGenerator(field, receiveFocusOnNew));
         table.setColumnHeader(field.getPropertyName(), field.getLabelText());
+        setConfiguredColumndWidthOrExpandRatio(table, field);
+    }
+
+    /**
+     * Sets the configured width or expand ration for the field's column if either one is
+     * configured. Does nothing if no values are configured.
+     */
+    private void setConfiguredColumndWidthOrExpandRatio(Table table, FieldDescriptor field) {
+        if (!annotationReader.hasTableColumnAnnotation(field)) {
+            return;
+        }
+        TableColumnDescriptor column = annotationReader.getTableColumnDescriptor(field);
+        column.checkValidConfiguration();
+        if (column.isCustomWidthDefined()) {
+            table.setColumnWidth(field.getPropertyName(), column.getWidth());
+        } else if (column.isCustomExpandRatioDefined()) {
+            table.setColumnExpandRatio(field.getPropertyName(), column.getExpandRatio());
+        }
     }
 
     class FieldColumnGenerator implements ColumnGenerator {

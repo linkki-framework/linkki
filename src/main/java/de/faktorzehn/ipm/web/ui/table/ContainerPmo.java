@@ -27,6 +27,7 @@ public interface ContainerPmo<T extends PresentationModelObject> {
 
         /** Deletes the given item from the container. */
         void deleteItem(T item);
+
     }
 
     /** Action that adds items to the container. */
@@ -35,6 +36,7 @@ public interface ContainerPmo<T extends PresentationModelObject> {
 
         /** Creates a new item and add it to the container. */
         T newItem();
+
     }
 
     /** Returns the class of the items / rows in the container. */
