@@ -9,11 +9,14 @@ package de.faktorzehn.ipm.web.ui.table;
 import java.util.EventListener;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
+import com.vaadin.server.Resource;
 import com.vaadin.ui.Table;
 
+import de.faktorzehn.ipm.web.EditAction;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 
 /**
@@ -42,6 +45,22 @@ public interface ContainerPmo<T extends PresentationModelObject> {
 
         /** Creates a new item and add it to the container. */
         T newItem();
+
+        /** Maps an add item action to an {@link EditAction} with the given icon. */
+        static <P extends PresentationModelObject> Function<AddItemAction<P>, EditAction> toEditAction(Resource icon) {
+            return a -> new EditAction() {
+
+                @Override
+                public void exec() {
+                    a.newItem();
+                }
+
+                @Override
+                public Resource buttonIcon() {
+                    return icon;
+                }
+            };
+        }
 
     }
 

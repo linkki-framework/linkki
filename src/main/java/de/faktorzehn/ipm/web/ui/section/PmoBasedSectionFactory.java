@@ -57,11 +57,12 @@ public abstract class PmoBasedSectionFactory {
      * Creates a new section based on the given annotated PMO and binds the created controls via the
      * given binding context to the PMO.
      */
-    public TableSection createTableSection(ContainerPmo<?> pmo, BindingContext bindingContext) {
+    public <T extends PresentationModelObject> TableSection<T> createTableSection(ContainerPmo<T> pmo,
+            BindingContext bindingContext) {
         checkNotNull(pmo);
         checkNotNull(bindingContext);
 
-        PmoBasedTableSectionFactory factory = new PmoBasedTableSectionFactory(pmo, bindingContext,
+        PmoBasedTableSectionFactory<T> factory = new PmoBasedTableSectionFactory<>(pmo, bindingContext,
                 propertyBehaviorProvider);
         return factory.createSection();
     }

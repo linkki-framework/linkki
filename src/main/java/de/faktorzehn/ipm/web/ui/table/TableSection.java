@@ -6,23 +6,22 @@
 
 package de.faktorzehn.ipm.web.ui.table;
 
+import java.util.Optional;
+
+import com.vaadin.server.Resource;
+
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.ui.section.AbstractSection;
+import de.faktorzehn.ipm.web.ui.table.ContainerPmo.AddItemAction;
 
-public class TableSection extends AbstractSection {
+public class TableSection<T extends PresentationModelObject> extends AbstractSection {
 
     private static final long serialVersionUID = 1L;
 
     private PmoBasedTable<? extends PresentationModelObject> table;
 
-    public TableSection(String caption, boolean canAdd) {
-        super(caption, false);
-        // FIXME anders lösen
-        // setEditAction(() -> editClicked());
-        if (canAdd) {
-            // FIXME anders lösen
-            // setEditButtonIcon(FontAwesome.PLUS);
-        }
+    public TableSection(String caption, Optional<AddItemAction<T>> addItemAction, Resource addItemIcon) {
+        super(caption, false, addItemAction.map(AddItemAction.toEditAction(addItemIcon)));
     }
 
     void setTable(PmoBasedTable<? extends PresentationModelObject> theTable) {

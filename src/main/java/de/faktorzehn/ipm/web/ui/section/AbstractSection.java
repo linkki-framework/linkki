@@ -93,7 +93,7 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     private void createEditButton(EditAction editAction) {
-        editButton = new Button(FontAwesome.PENCIL);
+        editButton = new Button(editAction.buttonIcon());
         editButton.setTabIndex(-1);
         editButton.addStyleName(ValoTheme.BUTTON_BORDERLESS);
         editButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);

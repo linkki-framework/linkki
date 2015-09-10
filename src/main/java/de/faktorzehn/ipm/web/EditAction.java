@@ -1,5 +1,7 @@
 package de.faktorzehn.ipm.web;
 
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 
 /**
  * Action that is executed when the user clicks on the edit button in a section.
@@ -10,6 +12,11 @@ public interface EditAction {
     /**
      * Executes the action.
      */
-    public void exec();
+    void exec();
+
+    /** Returns the icon for the button executing this action. */
+    default Resource buttonIcon() {
+        return FontAwesome.PENCIL;
+    }
 
 }
