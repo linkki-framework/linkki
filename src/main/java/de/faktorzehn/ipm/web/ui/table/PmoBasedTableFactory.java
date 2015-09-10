@@ -71,6 +71,8 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
     public PmoBasedTable<T> createTable() {
         PmoBasedTable<T> table = createTableComponent();
         createColumns(table);
+        table.setPageLength(containerPmo.getPageLength());
+        containerPmo.addPageLengthListener(table::setPageLength);
         return table;
     }
 

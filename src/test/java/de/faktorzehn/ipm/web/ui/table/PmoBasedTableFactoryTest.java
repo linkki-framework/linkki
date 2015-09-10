@@ -7,12 +7,14 @@
 package de.faktorzehn.ipm.web.ui.table;
 
 import static org.hamcrest.Matchers.arrayContaining;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
+import com.google.gwt.thirdparty.guava.common.collect.Sets;
 
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
@@ -64,6 +67,9 @@ public class PmoBasedTableFactoryTest {
         public static TestPmo PMO_0 = new TestPmo();
         public static TestPmo PMO_1 = new TestPmo();
 
+        private int pageLength = ContainerPmo.DEFAULT_PAGE_LENGTH;
+        private final Set<PageLengthListener> pageLengthListeners = Sets.newHashSet();
+
         private Optional<DeleteItemAction<TestPmo>> deleteAction = Optional.empty();
 
         @Override
@@ -88,6 +94,28 @@ public class PmoBasedTableFactoryTest {
 
         void setDeleteAction(DeleteItemAction<TestPmo> deleteAction) {
             this.deleteAction = Optional.of(deleteAction);
+        }
+
+        @Override
+        public void setPageLength(final int newPageLength) {
+            pageLength = newPageLength;
+            pageLengthListeners.forEach(l -> l.pageLengthChanged(newPageLength));
+        }
+
+        @Override
+        public int getPageLength() {
+            return pageLength;
+        }
+
+        @Override
+        public void addPageLengthListener(PageLengthListener listener) {
+            pageLengthListeners.add(listener);
+
+        }
+
+        @Override
+        public void removePageLengthListener(PageLengthListener listener) {
+            pageLengthListeners.remove(listener);
         }
     }
 
@@ -148,5 +176,45 @@ public class PmoBasedTableFactoryTest {
         PmoBasedTable<TestPmo> table = factory.createTable();
         assertThat(table, is(notNullValue()));
         assertThat(table.getColumnHeaders(), is(arrayContaining("1:", "2:", "3:", "Entfernen")));
+    }
+
+    @Test
+    public void testCreateTable_InitialPageLengthIsSetOnTable() {
+        TestContainerPmo containerPmo = new TestContainerPmo();
+        PmoBasedTableFactory<TestPmo> factory = new PmoBasedTableFactory<>(containerPmo, bindingContext,
+                propertyBehaviorProvider);
+        PmoBasedTable<TestPmo> table = factory.createTable();
+        assertThat(table.getPageLength(), is(ContainerPmo.DEFAULT_PAGE_LENGTH));
+    }
+
+    @Test
+    @SuppressWarnings("synthetic-access")
+    public void testCreateTable_PageLengthListenerIsRegistered() {
+        TestContainerPmo containerPmo = new TestContainerPmo();
+        PmoBasedTableFactory<TestPmo> factory = new PmoBasedTableFactory<>(containerPmo, bindingContext,
+                propertyBehaviorProvider);
+        factory.createTable();
+        assertThat(containerPmo.pageLengthListeners, hasSize(1));
+    }
+
+    @Test
+    @SuppressWarnings("synthetic-access")
+    public void testCreateTable_PageLengthListenerChangesTablesPageLength() {
+        TestContainerPmo containerPmo = new TestContainerPmo();
+        PmoBasedTableFactory<TestPmo> factory = new PmoBasedTableFactory<>(containerPmo, bindingContext,
+                propertyBehaviorProvider);
+        PmoBasedTable<TestPmo> table = factory.createTable();
+
+        containerPmo.setPageLength(5);
+        assertThat(table.getPageLength(), is(5));
+
+        containerPmo.setPageLength(0);
+        assertThat(table.getPageLength(), is(0));
+
+        // This is easier than removing the listener explicitly...
+        containerPmo.pageLengthListeners.clear();
+
+        containerPmo.setPageLength(10);
+        assertThat(table.getPageLength(), is(0));
     }
 }
