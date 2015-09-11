@@ -12,7 +12,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.themes.ValoTheme;
 
-import de.faktorzehn.ipm.web.EditAction;
+import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
@@ -47,14 +47,14 @@ public class FormSection extends BaseSection {
     }
 
     /**
-     * Creates a new, section with the given caption.
+     * Creates a new section with the given caption.
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param editAction If present the section has a button to trigger the given action.
+     * @param editButtonPmo If present the section has an edit button in the header.
      */
-    public FormSection(String caption, boolean closeable, Optional<EditAction> editAction) {
-        super(caption, closeable, editAction);
+    public FormSection(String caption, boolean closeable, Optional<ButtonPmo> editButtonPmo) {
+        super(caption, closeable, editButtonPmo);
         createContent();
         setSpacingInContent(true);
     }
