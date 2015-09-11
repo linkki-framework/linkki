@@ -6,11 +6,11 @@
 
 package de.faktorzehn.ipm.web.ui.section.annotations;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
@@ -20,28 +20,59 @@ public class UIAnnotationReaderTest {
 
     @Test
     public void testGetFieldDefinitions() {
-        assertEquals(3, annotationReader.getFields().size());
+        assertThat(annotationReader.getFields(), hasSize(3));
     }
 
     @Test
     public void testGetFieldDefinition() {
-        assertNotNull(annotationReader.get("test"));
-        assertNotNull(annotationReader.get("test2"));
-        assertNotNull(annotationReader.get("test3"));
-        assertNull(annotationReader.get("illegal"));
+        assertThat(annotationReader.get("test"), is(notNullValue()));
+        assertThat(annotationReader.get("test2"), is(notNullValue()));
+        assertThat(annotationReader.get("test3"), is(notNullValue()));
+        assertThat(annotationReader.get("illegal"), is(nullValue()));
     }
 
     @Test
     public void testHasFieldDefinition() {
-        assertTrue(annotationReader.hasAnnotation("test"));
-        assertTrue(annotationReader.hasAnnotation("test2"));
-        assertTrue(annotationReader.hasAnnotation("test3"));
-        assertFalse(annotationReader.hasAnnotation("illegalProperty"));
+        assertThat(annotationReader.hasAnnotation("test"), is(true));
+        assertThat(annotationReader.hasAnnotation("test2"), is(true));
+        assertThat(annotationReader.hasAnnotation("test3"), is(true));
+        assertThat(annotationReader.hasAnnotation("illegalProperty"), is(false));
     }
 
     @Test(expected = NullPointerException.class)
     public void testHasFieldDefinition_NullProperty() {
-        assertFalse(annotationReader.hasAnnotation(null));
+        assertThat(annotationReader.hasAnnotation(null), is(false));
+    }
+
+    @Test
+    public void testGetTableColumnDescriptorString() {
+        assertThat(annotationReader.getTableColumnDescriptor("test"), is(nullValue()));
+        assertThat(annotationReader.getTableColumnDescriptor("test2"), is(nullValue()));
+        assertThat(annotationReader.getTableColumnDescriptor("test3"), is(notNullValue()));
+    }
+
+    @Test
+    public void testGetTableColumnDescriptorFieldDescriptor() {
+        FieldDescriptor test = annotationReader.get("test");
+        FieldDescriptor test3 = annotationReader.get("test3");
+
+        assertThat(test, is(notNullValue()));
+        assertThat(test3, is(notNullValue()));
+
+        assertThat(annotationReader.getTableColumnDescriptor(test), is(nullValue()));
+        assertThat(annotationReader.getTableColumnDescriptor(test3), is(notNullValue()));
+    }
+
+    @Test
+    public void testHasTableColumnAnnotation() {
+        FieldDescriptor test = annotationReader.get("test");
+        FieldDescriptor test3 = annotationReader.get("test3");
+
+        assertThat(test, is(notNullValue()));
+        assertThat(test3, is(notNullValue()));
+
+        assertThat(annotationReader.hasTableColumnAnnotation(test), is(false));
+        assertThat(annotationReader.hasTableColumnAnnotation(test3), is(true));
     }
 
     public static class TestObject {
@@ -55,9 +86,11 @@ public class UIAnnotationReaderTest {
             //
         }
 
+        @UITableColumn
         @UIDateField(position = 3, modelAttribute = "test3")
         public void isTest3() {
             //
         }
     }
+
 }

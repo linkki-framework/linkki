@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,13 +49,7 @@ public class PmoBasedSectionFactoryTest {
     public void setUp() {
         bindingContext = new BindingContext("testContext");
         pmo = new PMOWithAnnotations();
-
-        new PmoBasedSectionFactory() {
-            @Override
-            public PropertyBehaviorProvider getPropertyBehaviorProvider() {
-                return null;
-            }
-        }.createSection(pmo, bindingContext);
+        new DefaultPmoBasedSectionFactory(mock(PropertyBehaviorProvider.class)).createSection(pmo, bindingContext);
 
         List<FieldBinding<?>> bindings = bindingContext.getFieldBindings();
         assertEquals(4, bindings.size());

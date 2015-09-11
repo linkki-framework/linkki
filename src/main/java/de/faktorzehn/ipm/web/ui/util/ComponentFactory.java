@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.server.FontIcon;
+import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.AbstractOrderedLayout;
@@ -146,7 +147,9 @@ public class ComponentFactory {
     }
 
     public static ComboBox newCombobox() {
-        return new ComboBox();
+        ComboBox comboBox = new ComboBox();
+        comboBox.setFilteringMode(FilteringMode.CONTAINS);
+        return comboBox;
     }
 
     public static CheckBox newCheckbox() {

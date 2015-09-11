@@ -40,6 +40,10 @@ public class TestUi extends UI {
     /** A section factory for tests. */
     static class TestSectionFactory extends PmoBasedSectionFactory {
 
+        public TestSectionFactory() {
+            super(null);
+        }
+
         @Override
         public PropertyBehaviorProvider getPropertyBehaviorProvider() {
             return () -> Collections.emptyList();
