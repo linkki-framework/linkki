@@ -94,4 +94,8 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
         return new MessageList();
     }
 
+    @Override
+    public PresentationModelObject getPmo() {
+        return pmo;
+    }
 }

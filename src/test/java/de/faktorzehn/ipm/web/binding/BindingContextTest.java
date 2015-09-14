@@ -1,6 +1,9 @@
 package de.faktorzehn.ipm.web.binding;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -43,9 +46,9 @@ public class BindingContextTest {
 
     @Test
     public void testAdd() {
-        assertEquals(0, context.getFieldBindings().size());
+        assertThat(context.getFieldBindings(), is(empty()));
         context.add(binding);
-        assertEquals(1, context.getFieldBindings().size());
+        assertThat(context.getFieldBindings(), hasSize(1));
     }
 
     @Test
@@ -72,6 +75,17 @@ public class BindingContextTest {
 
         context.updateUI();
         verify(binding).updateFieldFromPmo();
+    }
+
+    @Test
+    public void testRemoveBindingsForPmo() {
+        context.add(binding);
+        context.add(binding);
+
+        assertThat(context.getFieldBindings(), hasSize(2));
+
+        context.removeBindingsForPmo(pmo);
+        assertThat(context.getFieldBindings(), is(empty()));
     }
 
 }

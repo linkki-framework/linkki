@@ -7,13 +7,17 @@
 package de.faktorzehn.ipm.web.binding.dispatcher;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import de.faktorzehn.ipm.web.PresentationModelObject;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AbstractPropertyDispatcherDecoratorTest {
@@ -99,6 +103,14 @@ public class AbstractPropertyDispatcherDecoratorTest {
         assertEquals(wrappedDispatcher, decorator.getWrappedDispatcher());
     }
 
+    @Test
+    public void testGetPmo() {
+        PresentationModelObject pmo = mock(PresentationModelObject.class);
+        when(wrappedDispatcher.getPmo()).thenReturn(pmo);
+
+        assertEquals(decorator.getPmo(), pmo);
+    }
+
     private static class TestDecorator extends AbstractPropertyDispatcherDecorator {
 
         public TestDecorator(PropertyDispatcher wrappedDispatcher) {
@@ -106,4 +118,5 @@ public class AbstractPropertyDispatcherDecoratorTest {
         }
 
     }
+
 }

@@ -67,4 +67,13 @@ public class LazyInitializingMap<K, V> {
     public V getIfPresent(K key) {
         return internalMap.get(key);
     }
+
+    /**
+     * Removes the key from the map.
+     * 
+     * @see Map#remove(Object)
+     */
+    public V remove(K key) {
+        return internalMap.remove(key);
+    }
 }

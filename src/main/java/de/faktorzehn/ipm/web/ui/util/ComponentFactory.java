@@ -19,7 +19,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.ValoTheme;
 
 import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.ui.components.DoubleField;
@@ -177,8 +176,7 @@ public class ComponentFactory {
     public static Button newButton(ButtonPmo buttonPmo) {
         Button button = new Button(buttonPmo.buttonIcon());
         button.setTabIndex(-1);
-        button.addStyleName(ValoTheme.BUTTON_BORDERLESS);
-        button.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        buttonPmo.styleNames().forEach(style -> button.addStyleName(style));
         button.addClickListener(e -> buttonPmo.onClick());
         return button;
     }
