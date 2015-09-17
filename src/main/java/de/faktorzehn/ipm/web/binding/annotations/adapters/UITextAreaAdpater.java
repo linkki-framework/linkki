@@ -70,4 +70,10 @@ public class UITextAreaAdpater implements UIFieldDefinition {
     public String modelAttribute() {
         return uiTextArea.modelAttribute();
     }
+
+    @Override
+    public boolean noLabel() {
+        return uiTextArea.noLabel();
+    }
+
 }

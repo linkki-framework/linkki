@@ -17,6 +17,8 @@ public @interface UIComboBox {
 
     String label() default "";
 
+    boolean noLabel() default false;
+
     AvailableValuesType lov() default AvailableValuesType.STATIC;
 
     EnabledType enabled() default ENABLED;

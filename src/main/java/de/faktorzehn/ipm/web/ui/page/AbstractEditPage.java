@@ -1,7 +1,5 @@
 package de.faktorzehn.ipm.web.ui.page;
 
-import javax.inject.Inject;
-
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
@@ -19,9 +17,6 @@ import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
  * @see AbstractSection
  */
 public abstract class AbstractEditPage extends VerticalLayout {
-
-    @Inject
-    private BindingManager bindingManager;
 
     private static final long serialVersionUID = 1L;
 
@@ -67,22 +62,6 @@ public abstract class AbstractEditPage extends VerticalLayout {
         }
     }
 
-    public void update() {
-        getBindingContext().updateUI();
-    }
-
-    /**
-     * Returns a cached binding context if present, otherwise creates a new one. Caches one binding
-     * context for each edit page subclass.
-     */
-    protected BindingContext getBindingContext() {
-        return getBindingManager().getExistingContextOrStartNewOne(this.getClass());
-    }
-
-    private BindingManager getBindingManager() {
-        return bindingManager;
-    }
-
     /**
      * Scrolls the view so that the given model object is visible.
      * 
@@ -91,5 +70,15 @@ public abstract class AbstractEditPage extends VerticalLayout {
     public void scrollIntoView(Object modelObject) {
         // TODO not implemented, yet. Can this be done in a generic way?
     }
+
+    protected abstract BindingManager getBindingManager();
+
+    public abstract void update();
+
+    /**
+     * Returns a cached binding context if present, otherwise creates a new one. Caches one binding
+     * context for each edit page subclass.
+     */
+    protected abstract BindingContext getBindingContext();
 
 }

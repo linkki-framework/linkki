@@ -17,6 +17,8 @@ public @interface UITextField {
 
     String label() default "";
 
+    boolean noLabel() default false;
+
     Class<?> modelClass() default NoModelClassProvided.class;
 
     String modelAttribute() default "";

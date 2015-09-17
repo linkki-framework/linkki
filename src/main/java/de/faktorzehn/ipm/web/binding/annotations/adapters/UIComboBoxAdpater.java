@@ -58,4 +58,9 @@ public class UIComboBoxAdpater implements UIFieldDefinition {
         return uiComboField.modelAttribute();
     }
 
+    @Override
+    public boolean noLabel() {
+        return uiComboField.noLabel();
+    }
+
 }

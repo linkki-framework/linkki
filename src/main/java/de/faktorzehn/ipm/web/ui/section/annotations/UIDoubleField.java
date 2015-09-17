@@ -18,6 +18,8 @@ public @interface UIDoubleField {
 
     String label() default "";
 
+    boolean noLabel() default false;
+
     EnabledType enabled() default ENABLED;
 
     RequiredType required() default NOT_REQUIRED;

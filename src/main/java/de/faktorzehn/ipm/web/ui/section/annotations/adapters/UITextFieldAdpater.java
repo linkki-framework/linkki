@@ -67,4 +67,9 @@ public class UITextFieldAdpater implements UIFieldDefinition {
     public String modelAttribute() {
         return uiTextField.modelAttribute();
     }
+
+    @Override
+    public boolean noLabel() {
+        return uiTextField.noLabel();
+    }
 }

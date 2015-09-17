@@ -6,6 +6,7 @@
 
 package de.faktorzehn.ipm.web.ui.section;
 
+import javax.enterprise.inject.Any;
 import javax.inject.Inject;
 
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;

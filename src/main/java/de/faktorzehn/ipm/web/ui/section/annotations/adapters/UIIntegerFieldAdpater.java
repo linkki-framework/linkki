@@ -62,4 +62,9 @@ public class UIIntegerFieldAdpater implements UIFieldDefinition {
     public String modelAttribute() {
         return uiIntegerField.modelAttribute();
     }
+
+    @Override
+    public boolean noLabel() {
+        return uiIntegerField.noLabel();
+    }
 }

@@ -62,6 +62,16 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
+    public void testGetValueClass() {
+        assertEquals(String.class, pmoDispatcher.getValueClass("abc"));
+        assertEquals(String.class, pmoDispatcher.getValueClass("xyz"));
+        assertEquals(Boolean.class, pmoDispatcher.getValueClass("objectBoolean"));
+
+        // Test FIPM-326 workaround: wrapper class is returned for primitive type
+        assertEquals(Boolean.class, pmoDispatcher.getValueClass("primitiveBoolean"));
+    }
+
+    @Test
     public void testGetValue() {
         assertEquals("890", pmoDispatcher.getValue("xyz"));
     }
@@ -354,6 +364,25 @@ public class ReflectionPropertyDispatcherTest {
 
         private String xyz = "123";
         private String abc = "567";
+
+        private boolean primitiveBoolean = false;
+        private Boolean objectBoolean = null;
+
+        public boolean isPrimitiveBoolean() {
+            return primitiveBoolean;
+        }
+
+        public void setPrimitiveBoolean(boolean b) {
+            this.primitiveBoolean = b;
+        }
+
+        public Boolean getObjectBoolean() {
+            return objectBoolean;
+        }
+
+        public void setObjectBoolean(Boolean objectBoolean) {
+            this.objectBoolean = objectBoolean;
+        }
 
         public String getXyz() {
             return xyz;

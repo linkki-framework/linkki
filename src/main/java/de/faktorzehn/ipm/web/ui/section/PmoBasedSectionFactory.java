@@ -64,7 +64,9 @@ public abstract class PmoBasedSectionFactory {
 
         PmoBasedTableSectionFactory<T> factory = new PmoBasedTableSectionFactory<>(pmo, bindingContext,
                 propertyBehaviorProvider);
-        return factory.createSection();
+        TableSection section = factory.createSection();
+        section.update();
+        return section;
     }
 
     public static PropertyDispatcher createDefaultDispatcher(PresentationModelObject pmo) {
