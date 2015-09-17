@@ -67,8 +67,6 @@ public class ApplicationStyles {
 
     public static final String BORDERLESS = "borderless";
 
-    public static final String GRID = "f10-grid";
-
     public static final String TABLE = "f10-table";
 
     public static final String TABLE_CELL = "f10-table-cell";

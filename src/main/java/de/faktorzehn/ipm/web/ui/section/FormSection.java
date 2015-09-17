@@ -13,18 +13,12 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.themes.ValoTheme;
 
 import de.faktorzehn.ipm.web.EditAction;
-import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
-/**
- * A form section is a section that contains a label and control in each line (by default). The form
- * section also allows to have two or more "columns", each column containing label/control pairs.
- */
 public class FormSection extends BaseSection {
 
     private static final long serialVersionUID = 1L;
 
-    // The panel containing the content grid
     private Panel content;
 
     private GridLayout contentGrid;
@@ -43,7 +37,7 @@ public class FormSection extends BaseSection {
      * @param closeable <code>true</code> if the section can be closed/opened.
      */
     public FormSection(String caption, boolean closeable) {
-        this(caption, closeable, null);
+        this(caption, closeable, Optional.empty());
     }
 
     /**
@@ -55,13 +49,17 @@ public class FormSection extends BaseSection {
      */
     public FormSection(String caption, boolean closeable, Optional<EditAction> editAction) {
         super(caption, closeable, editAction);
-        createContent();
+        setWidth("100%");
+        contentGrid = createContent();
+        content = new Panel(contentGrid);
+        content.setStyleName(ValoTheme.PANEL_BORDERLESS);
+        addComponent(content);
         setSpacingInContent(true);
     }
 
     /**
-     * Returns the number of "columns" / label/control pairs per row. Override in subclasses if you
-     * want to have more than one column.
+     * Returns the number of "columns" i.e. the label/control pairs per row. Override in subclasses
+     * if you want to have more than one column.
      */
     protected int getNumOfColumns() {
         return 1;
@@ -85,27 +83,20 @@ public class FormSection extends BaseSection {
         contentGrid.setSpacing(spacing);
     }
 
-    /**
-     * Creates a grid for the content part of the section. By default the label contains 3 columns.
-     * The first column for the labels, the second for the control and the third to grab any
-     * available space if the control has a fixed size.
-     */
-    private void createContent() {
+    protected GridLayout createContent() {
         int columns = getNumOfColumns();
         int gridColumns = getNumOfColumns() * 3;
-        contentGrid = new GridLayout(gridColumns, 1);
-        contentGrid.setStyleName(ApplicationStyles.GRID);
-        contentGrid.setMargin(new MarginInfo(false, true, true, true));
+        GridLayout gridLayout = new GridLayout(gridColumns, 1);
+        gridLayout.setWidth("100%");
+        gridLayout.setMargin(new MarginInfo(false, true, true, true));
+        gridLayout.setSpacing(true);
         float controlExpandRatio = 1.0f / columns;
         for (int i = 0; i < columns; i++) {
-            contentGrid.setColumnExpandRatio(i * 3, 0);
-            contentGrid.setColumnExpandRatio(i * 3 + 1, 0);
-            contentGrid.setColumnExpandRatio(i * 3 + 2, controlExpandRatio);
+            gridLayout.setColumnExpandRatio(i * 3, 0);
+            gridLayout.setColumnExpandRatio(i * 3 + 1, 0);
+            gridLayout.setColumnExpandRatio(i * 3 + 2, controlExpandRatio);
         }
-
-        content = new Panel(contentGrid);
-        content.setStyleName(ValoTheme.PANEL_BORDERLESS);
-        addComponent(content);
+        return gridLayout;
     }
 
     /**
@@ -120,6 +111,7 @@ public class FormSection extends BaseSection {
             contentGrid.addComponent(component, column, row, column + 2, row);
         } else {
             contentGrid.addComponent(component, column, row, column + 1, row);
+            ComponentFactory.addHorizontalSpacer(contentGrid);
         }
     }
 
@@ -132,6 +124,7 @@ public class FormSection extends BaseSection {
     @Override
     public Label add(String label, Component component) {
         Label l = new Label(label);
+        l.setWidthUndefined();
         contentGrid.addComponent(l);
         contentGrid.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
         if (component.getWidth() == 100.0f && component.getWidthUnits() == Unit.PERCENTAGE) {
@@ -141,8 +134,6 @@ public class FormSection extends BaseSection {
             int column = contentGrid.getCursorX();
             contentGrid.addComponent(component, column, row, column + 1, row);
         } else {
-            // if the component has a fixed size, the control is placed in the second column,
-            // so that the third column can grab the available space.
             contentGrid.addComponent(component);
             ComponentFactory.addHorizontalSpacer(contentGrid);
         }
