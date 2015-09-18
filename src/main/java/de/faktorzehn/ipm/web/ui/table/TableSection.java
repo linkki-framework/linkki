@@ -8,11 +8,9 @@ package de.faktorzehn.ipm.web.ui.table;
 
 import java.util.Optional;
 
-import com.vaadin.server.Resource;
-
+import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.ui.section.AbstractSection;
-import de.faktorzehn.ipm.web.ui.table.ContainerPmo.AddItemAction;
 
 public class TableSection<T extends PresentationModelObject> extends AbstractSection {
 
@@ -20,8 +18,8 @@ public class TableSection<T extends PresentationModelObject> extends AbstractSec
 
     private PmoBasedTable<? extends PresentationModelObject> table;
 
-    public TableSection(String caption, Optional<AddItemAction<T>> addItemAction, Resource addItemIcon) {
-        super(caption, false, addItemAction.map(AddItemAction.toEditAction(addItemIcon)));
+    public TableSection(String caption, Optional<ButtonPmo> addItemButtonPmo) {
+        super(caption, false, addItemButtonPmo);
     }
 
     void setTable(PmoBasedTable<? extends PresentationModelObject> theTable) {
@@ -37,10 +35,6 @@ public class TableSection<T extends PresentationModelObject> extends AbstractSec
             throw new IllegalStateException("Table with PMO hasn't been set, yet!");
         }
         return table.getPmo();
-    }
-
-    public void update() {
-        table.updateFromPmo();
     }
 
     @Override

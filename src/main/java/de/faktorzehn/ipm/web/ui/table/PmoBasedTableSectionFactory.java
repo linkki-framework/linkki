@@ -8,13 +8,13 @@ package de.faktorzehn.ipm.web.ui.table;
 
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
 
-import com.vaadin.server.Resource;
+import java.util.Optional;
 
+import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.ui.section.annotations.UISection;
-import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
 
 public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
 
@@ -31,8 +31,9 @@ public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
     }
 
     public TableSection<T> createSection() {
-        TableSection<T> section = createEmptySection();
         PmoBasedTable<T> table = createTable();
+        Optional<ButtonPmo> addItemPmo = table.addItemButtonPmo(bindingContext);
+        TableSection<T> section = createEmptySection(addItemPmo);
         section.setTable(table);
         return section;
     }
@@ -43,21 +44,10 @@ public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
         return tableFactory.createTable();
     }
 
-    /** Returns the icon to display for the add item button. */
-    private Resource addItemIcon() {
-        UITable tableAnnotation = containerPmo.getClass().getAnnotation(UITable.class);
-        if (tableAnnotation != null) {
-            return tableAnnotation.addItemIcon();
-        } else {
-            return UITable.DEFAULT_ADD_ITEM_ICON;
-        }
-    }
-
-    // package private for testing
-    TableSection<T> createEmptySection() {
+    private TableSection<T> createEmptySection(Optional<ButtonPmo> addItemButtonPmo) {
         UISection sectionDefinition = containerPmo.getClass().getAnnotation(UISection.class);
         checkNotNull(sectionDefinition, "PMO " + containerPmo.getClass() + " must be annotated with @UISection!");
-        return new TableSection<>(sectionDefinition.caption(), containerPmo.addItemAction(), addItemIcon());
+        return new TableSection<>(sectionDefinition.caption(), addItemButtonPmo);
     }
 
 }

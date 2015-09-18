@@ -8,7 +8,9 @@ package de.faktorzehn.ipm.web.ui.table;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.server.FontAwesome;
@@ -26,13 +28,12 @@ import de.faktorzehn.ipm.web.binding.FieldBinding;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
 import de.faktorzehn.ipm.web.ui.section.annotations.FieldDescriptor;
+import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
 /**
  * A table that is driven by a {@link ContainerPmo}. The table gets its content from the container
  * PMO, the columns are defined by the annotations of the according item PMO.
- *
- * @author ortmann
  */
 public class PmoBasedTable<T extends PresentationModelObject> extends Table {
 
@@ -56,7 +57,9 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
 
         @Override
         public void onClick() {
-            getPmo().deleteItemAction().get().deleteItem(item);
+            getPmo().deleteItemAction()
+                    .orElseThrow(illegalStateException(getPmo().getClass() + " does not allow to delete items."))//
+                    .accept(item);
             updateFromPmo();
             dispatcherCache().remove(item);
             bindingContext.removeBindingsForPmo(item);
@@ -71,6 +74,36 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
         @Override
         public Collection<String> styleNames() {
             return Lists.newArrayList(ValoTheme.BUTTON_BORDERLESS, ValoTheme.BUTTON_LARGE);
+        }
+
+    }
+
+    /** PMO for the button to add items in this table. */
+    private class AddItemButtonPmo implements ButtonPmo {
+
+        private final BindingContext bindingContext;
+
+        AddItemButtonPmo(BindingContext bindingContext) {
+            this.bindingContext = bindingContext;
+        }
+
+        @Override
+        public void onClick() {
+            getPmo().addItemAction()//
+                    .orElseThrow(illegalStateException(getPmo().getClass() + "does not allow to add items."))//
+                    .get();
+            updateFromPmo();
+            bindingContext.updateUI();
+        }
+
+        @Override
+        public Resource buttonIcon() {
+            UITable tableAnnotation = getPmo().getClass().getAnnotation(UITable.class);
+            if (tableAnnotation != null) {
+                return tableAnnotation.addItemIcon();
+            } else {
+                return UITable.DEFAULT_ADD_ITEM_ICON;
+            }
         }
 
     }
@@ -148,11 +181,10 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
         return containerPmo;
     }
 
-    public void updateFromPmo() {
+    void updateFromPmo() {
         removeAllItems();
         createItems();
         refreshRowCache();
-
     }
 
     private void createItems() {
@@ -171,7 +203,7 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
     }
 
     /**
-     * Create a new column generator that generates a column with a button to delete items in this
+     * Creates a new column generator that generates a column with a button to delete items in this
      * table.
      * 
      * @param ctx the context in which the items in this table are bound
@@ -179,12 +211,12 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
      * @return a new column generator that generates a column with a button to delete items in this
      *         table
      */
-    public ColumnGenerator deleteItemColumnGenerator(BindingContext ctx) {
+    ColumnGenerator deleteItemColumnGenerator(BindingContext ctx) {
         return new DeleteItemColumnGenerator(ctx);
     }
 
     /**
-     * Create a new column generator for a field of a PMO.
+     * Creates a new column generator for a field of a PMO.
      * 
      * @param fieldDescriptor the descriptor for the PMO's field
      * @param receiveFocusOnNew whether or not the generated field should receive the focus when a
@@ -193,9 +225,30 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
      * 
      * @return a new column generator for a field of a PMO
      */
-    public ColumnGenerator fieldColumnGenerator(FieldDescriptor fieldDescriptor,
+    ColumnGenerator fieldColumnGenerator(FieldDescriptor fieldDescriptor,
             boolean receiveFocusOnNew,
             BindingContext bindingContext) {
         return new FieldColumnGenerator(fieldDescriptor, receiveFocusOnNew, bindingContext);
+    }
+
+    /**
+     * Creates a new {@link ButtonPmo} for the button to add items to the table if it is possible to
+     * add items.
+     * 
+     * @param ctx the context in which the item are bound
+     * @return a new {@link ButtonPmo} for the button to add items to the table if it is possible to
+     *         add items
+     */
+    Optional<ButtonPmo> addItemButtonPmo(BindingContext ctx) {
+        if (containerPmo.addItemAction().isPresent()) {
+            return Optional.of(new AddItemButtonPmo(ctx));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    /** Helper function that supplies an {@link IllegalStateException}. */
+    static Supplier<IllegalStateException> illegalStateException(String message) {
+        return () -> new IllegalStateException(message);
     }
 }

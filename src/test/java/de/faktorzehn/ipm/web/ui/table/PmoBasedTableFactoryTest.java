@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITableColumn;
@@ -88,7 +89,7 @@ public class PmoBasedTableFactoryTest {
         TestContainerPmo containerPmo = new TestContainerPmo();
         PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
         factory.createTable();
-        assertThat(containerPmo.pageLengthListeners, hasSize(1));
+        assertThat(containerPmo.pageLengthListeners(), hasSize(1));
     }
 
     @Test
@@ -104,28 +105,35 @@ public class PmoBasedTableFactoryTest {
         assertThat(table.getPageLength(), is(0));
 
         // This is easier than removing the listener explicitly...
-        containerPmo.pageLengthListeners.clear();
+        containerPmo.cleanPageLengthListeners();
 
         containerPmo.setPageLength(10);
         assertThat(table.getPageLength(), is(0));
     }
 
     @Test
-    public void testAddItem_updateTable() {
+    public void testCreateTable_ItemsAreBound() {
         TestContainerPmo containerPmo = new TestContainerPmo();
         PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
         PmoBasedTable<TestColumnPmo> table = factory.createTable();
 
         assertThat(containerPmo.getItems().size(), is(2));
-        assertThat(table.getItemIds().size(), is(0));
-        table.updateFromPmo();
+        assertThat(table.getItemIds().size(), is(2));
+    }
+
+    @Test
+    public void testAddItemButtonPmoUpdatesTable() {
+        TestContainerPmo containerPmo = new TestContainerPmo();
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
+        PmoBasedTable<TestColumnPmo> table = factory.createTable();
+        ButtonPmo addItemButtonPmo = table.addItemButtonPmo(ctx).get();
+
+        assertThat(containerPmo.getItems().size(), is(2));
         assertThat(table.getItemIds().size(), is(2));
 
-        containerPmo.addAction.get().newItem();
+        addItemButtonPmo.onClick();
 
         assertThat(containerPmo.getItems().size(), is(3));
-        assertThat(table.getItemIds().size(), is(2));
-        table.updateFromPmo();
         assertThat(table.getItemIds().size(), is(3));
     }
 

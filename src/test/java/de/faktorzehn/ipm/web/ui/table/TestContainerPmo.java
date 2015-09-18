@@ -1,10 +1,12 @@
 package de.faktorzehn.ipm.web.ui.table;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.google.gwt.thirdparty.guava.common.collect.Sets;
 
 import de.faktorzehn.ipm.web.ui.section.annotations.UISection;
@@ -14,17 +16,11 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
 
     public static final String CAPTION = "container";
 
-    private List<TestColumnPmo> pmos = new ArrayList<TestColumnPmo>();
-    {
-        pmos.add(new TestColumnPmo());
-        pmos.add(new TestColumnPmo());
-    }
+    private final List<TestColumnPmo> pmos = Lists.newArrayList(new TestColumnPmo(), new TestColumnPmo());
+    private final Set<PageLengthListener> pageLengthListeners = Sets.newHashSet();
 
     private int pageLength = ContainerPmo.DEFAULT_PAGE_LENGTH;
-    final Set<PageLengthListener> pageLengthListeners = Sets.newHashSet();
-
-    Optional<AddItemAction<TestColumnPmo>> addAction = Optional.of(this::addItem);
-    Optional<DeleteItemAction<TestColumnPmo>> deleteAction = Optional.empty();
+    private Optional<Consumer<TestColumnPmo>> deleteAction = Optional.empty();
 
     @Override
     public Class<TestColumnPmo> getItemPmoClass() {
@@ -36,7 +32,7 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
         return false;
     }
 
-    private TestColumnPmo addItem() {
+    public TestColumnPmo addItem() {
         TestColumnPmo columnPmo = new TestColumnPmo();
         pmos.add(columnPmo);
         return columnPmo;
@@ -48,21 +44,17 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
     }
 
     @Override
-    public Optional<DeleteItemAction<TestColumnPmo>> deleteItemAction() {
+    public Optional<Consumer<TestColumnPmo>> deleteItemAction() {
         return deleteAction;
     }
 
-    void setDeleteAction(DeleteItemAction<TestColumnPmo> deleteAction) {
+    void setDeleteAction(Consumer<TestColumnPmo> deleteAction) {
         this.deleteAction = Optional.of(deleteAction);
     }
 
     @Override
-    public Optional<AddItemAction<TestColumnPmo>> addItemAction() {
-        return addAction;
-    }
-
-    void setAddAction(AddItemAction<TestColumnPmo> addAction) {
-        this.addAction = Optional.of(addAction);
+    public Optional<Supplier<TestColumnPmo>> addItemAction() {
+        return Optional.of(this::addItem);
     }
 
     @Override
@@ -85,5 +77,13 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
     @Override
     public void removePageLengthListener(PageLengthListener listener) {
         pageLengthListeners.remove(listener);
+    }
+
+    public Set<PageLengthListener> pageLengthListeners() {
+        return pageLengthListeners;
+    }
+
+    public void cleanPageLengthListeners() {
+        pageLengthListeners.clear();
     }
 }

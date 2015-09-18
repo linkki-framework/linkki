@@ -31,12 +31,11 @@ public class PmoBasedTableSectionFactoryTest {
     private PropertyBehaviorProvider pbp;
 
     @Test
-    public void testCreateEmptySection_IconIsReadFromAnnotation() {
+    public void testCreateSection_IconIsReadFromAnnotation() {
         TestContainerPmoWithAnnotation containerPmo = new TestContainerPmoWithAnnotation();
-        containerPmo.setAddAction(TestColumnPmo::new);
         PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<>(containerPmo, ctx, pbp);
 
-        TableSection<TestColumnPmo> section = factory.createEmptySection();
+        TableSection<TestColumnPmo> section = factory.createSection();
         HorizontalLayout header = (HorizontalLayout)section.getComponent(0);
         Button addButton = (Button)header.getComponent(1);
 
@@ -44,12 +43,11 @@ public class PmoBasedTableSectionFactoryTest {
     }
 
     @Test
-    public void testCreateEmptySection_DefaultIconIsUsedIfAnnotationIsMissing() {
+    public void testCreateSection_DefaultIconIsUsedIfAnnotationIsMissing() {
         TestContainerPmo containerPmo = new TestContainerPmo();
-        containerPmo.setAddAction(TestColumnPmo::new);
         PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<>(containerPmo, ctx, pbp);
 
-        TableSection<TestColumnPmo> section = factory.createEmptySection();
+        TableSection<TestColumnPmo> section = factory.createSection();
         HorizontalLayout header = (HorizontalLayout)section.getComponent(0);
         Button addButton = (Button)header.getComponent(1);
 
