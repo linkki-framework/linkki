@@ -1,5 +1,6 @@
 package de.faktorzehn.ipm.web.ui.table;
 
+
 import com.vaadin.server.FontAwesome;
 
 import de.faktorzehn.ipm.web.ui.section.annotations.UISection;

@@ -1,10 +1,10 @@
 package de.faktorzehn.ipm.web.ui.table;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.google.gwt.thirdparty.guava.common.collect.Sets;
 
 import de.faktorzehn.ipm.web.ui.section.annotations.UISection;
@@ -12,15 +12,18 @@ import de.faktorzehn.ipm.web.ui.section.annotations.UISection;
 @UISection(caption = TestContainerPmo.CAPTION)
 public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
 
-    public static final String CAPTION = "caption";
+    public static final String CAPTION = "container";
 
-    public static TestColumnPmo PMO_0 = new TestColumnPmo();
-    public static TestColumnPmo PMO_1 = new TestColumnPmo();
+    private List<TestColumnPmo> pmos = new ArrayList<TestColumnPmo>();
+    {
+        pmos.add(new TestColumnPmo());
+        pmos.add(new TestColumnPmo());
+    }
 
     private int pageLength = ContainerPmo.DEFAULT_PAGE_LENGTH;
     final Set<PageLengthListener> pageLengthListeners = Sets.newHashSet();
 
-    Optional<AddItemAction<TestColumnPmo>> addAction = Optional.empty();
+    Optional<AddItemAction<TestColumnPmo>> addAction = Optional.of(this::addItem);
     Optional<DeleteItemAction<TestColumnPmo>> deleteAction = Optional.empty();
 
     @Override
@@ -33,9 +36,15 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
         return false;
     }
 
+    private TestColumnPmo addItem() {
+        TestColumnPmo columnPmo = new TestColumnPmo();
+        pmos.add(columnPmo);
+        return columnPmo;
+    }
+
     @Override
     public List<TestColumnPmo> getItems() {
-        return Lists.newArrayList(PMO_0, PMO_1);
+        return pmos;
     }
 
     @Override

@@ -55,4 +55,5 @@ public class PmoBasedTableSectionFactoryTest {
 
         assertThat(addButton.getIcon(), is(UITable.DEFAULT_ADD_ITEM_ICON));
     }
+
 }

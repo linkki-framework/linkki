@@ -109,4 +109,24 @@ public class PmoBasedTableFactoryTest {
         containerPmo.setPageLength(10);
         assertThat(table.getPageLength(), is(0));
     }
+
+    @Test
+    public void testAddItem_updateTable() {
+        TestContainerPmo containerPmo = new TestContainerPmo();
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
+        PmoBasedTable<TestColumnPmo> table = factory.createTable();
+
+        assertThat(containerPmo.getItems().size(), is(2));
+        assertThat(table.getItemIds().size(), is(0));
+        table.updateFromPmo();
+        assertThat(table.getItemIds().size(), is(2));
+
+        containerPmo.addAction.get().newItem();
+
+        assertThat(containerPmo.getItems().size(), is(3));
+        assertThat(table.getItemIds().size(), is(2));
+        table.updateFromPmo();
+        assertThat(table.getItemIds().size(), is(3));
+    }
+
 }
