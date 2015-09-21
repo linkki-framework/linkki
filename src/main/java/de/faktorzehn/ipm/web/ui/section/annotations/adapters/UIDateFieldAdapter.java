@@ -59,7 +59,7 @@ public class UIDateFieldAdapter implements UIFieldDefinition {
     }
 
     @Override
-    public boolean noLabel() {
-        return uiDateField.noLabel();
+    public boolean showLabel() {
+        return !uiDateField.noLabel();
     }
 }

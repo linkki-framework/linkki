@@ -11,6 +11,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
@@ -154,6 +155,10 @@ public class ComponentFactory {
 
     public static CheckBox newCheckbox() {
         return new CheckBox();
+    }
+
+    public static Button newButton() {
+        return new Button();
     }
 
     public static DateField newDateField() {

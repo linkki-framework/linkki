@@ -43,9 +43,9 @@ public class BindingContextTest {
 
     @Test
     public void testAdd() {
-        assertEquals(0, context.getFieldBindings().size());
+        assertEquals(0, context.getBindings().size());
         context.add(binding);
-        assertEquals(1, context.getFieldBindings().size());
+        assertEquals(1, context.getBindings().size());
     }
 
     @Test
@@ -53,12 +53,12 @@ public class BindingContextTest {
         binding = spy(binding);
 
         context.updateUI();
-        verify(binding, never()).updateFieldFromPmo();
+        verify(binding, never()).updateFromPmo();
 
         context.add(binding);
 
         context.updateUI();
-        verify(binding).updateFieldFromPmo();
+        verify(binding).updateFromPmo();
     }
 
     @Test
@@ -66,12 +66,12 @@ public class BindingContextTest {
         binding = spy(binding);
 
         context.updateUI();
-        verify(binding, never()).updateFieldFromPmo();
+        verify(binding, never()).updateFromPmo();
 
         context.add(binding);
 
         context.updateUI();
-        verify(binding).updateFieldFromPmo();
+        verify(binding).updateFromPmo();
     }
 
 }

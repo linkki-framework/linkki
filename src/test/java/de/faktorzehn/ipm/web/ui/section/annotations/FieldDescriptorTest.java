@@ -9,6 +9,7 @@ package de.faktorzehn.ipm.web.ui.section.annotations;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -21,6 +22,11 @@ public class FieldDescriptorTest {
 
     @Mock
     private UITextFieldAdapter adapter;
+
+    @Before
+    public void setUp() {
+        when(adapter.showLabel()).thenReturn(true);
+    }
 
     @Test
     public void getLabelText_deriveFromLabel() {

@@ -9,6 +9,8 @@ package de.faktorzehn.ipm.web.binding.dispatcher;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -291,6 +293,20 @@ public class ReflectionPropertyDispatcherTest {
         dispatcher.isEnabled("doesNotExist");
     }
 
+    @Test
+        public void testInvoke() {
+            testPMO = spy(new TestPMO(testModelObject));
+            dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo, new ReflectionPropertyDispatcher(
+                    this::getTestModelObject, new ExceptionPropertyDispatcher(testModelObject, testPMO)));
+            dispatcher.invoke("buttonClick");
+            verify(testPMO).buttonClick();
+        }
+
+    @Test(expected = RuntimeException.class)
+        public void testInvoke_illegalMethodName() {
+            dispatcher.invoke("noSuchMethod");
+        }
+
     public static class TestPMO implements PresentationModelObject {
 
         public static final String PROPERTY_PMO_PROP = "pmoProp";
@@ -348,6 +364,9 @@ public class ReflectionPropertyDispatcherTest {
             this.pmoProp = pmoProp;
         }
 
+        public void buttonClick() {
+            // Nothing to do
+        }
     }
 
     public static class TestModelObject implements IModelObject {

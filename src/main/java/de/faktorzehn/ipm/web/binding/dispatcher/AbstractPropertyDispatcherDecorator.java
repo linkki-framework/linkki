@@ -79,6 +79,11 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
         return getWrappedDispatcher().getMessages(property);
     }
 
+    @Override
+    public void invoke(String property) {
+        getWrappedDispatcher().invoke(property);
+    }
+
     protected PropertyDispatcher getWrappedDispatcher() {
         return wrappedDispatcher;
     }

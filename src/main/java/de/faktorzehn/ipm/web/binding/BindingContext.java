@@ -16,7 +16,7 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 public class BindingContext {
 
     private String name;
-    private List<FieldBinding<?>> fieldBindings = new LinkedList<>();
+    private List<ElementBinding> bindings = new LinkedList<>();
     private Set<PropertyDispatcher> propertyDispatcher = new HashSet<PropertyDispatcher>();
 
     public BindingContext() {
@@ -31,19 +31,19 @@ public class BindingContext {
         return name;
     }
 
-    public BindingContext add(FieldBinding<?> binding) {
-        fieldBindings.add(binding);
+    public BindingContext add(ElementBinding binding) {
+        bindings.add(binding);
         propertyDispatcher.add(binding.getPropertyDispatcher());
         return this;
     }
 
-    public List<FieldBinding<?>> getFieldBindings() {
-        return Collections.unmodifiableList(fieldBindings);
+    public List<ElementBinding> getBindings() {
+        return Collections.unmodifiableList(bindings);
     }
 
     public void updateUI() {
         propertyDispatcher.forEach(pd -> pd.prepareUpdateUI());
-        fieldBindings.forEach(binding -> binding.updateFieldFromPmo());
+        bindings.forEach(binding -> binding.updateFromPmo());
     }
 
     @Override

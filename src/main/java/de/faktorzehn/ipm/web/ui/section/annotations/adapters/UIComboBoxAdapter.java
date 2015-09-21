@@ -59,8 +59,8 @@ public class UIComboBoxAdapter implements UIFieldDefinition {
     }
 
     @Override
-    public boolean noLabel() {
-        return uiComboField.noLabel();
+    public boolean showLabel() {
+        return !uiComboField.noLabel();
     }
 
 }

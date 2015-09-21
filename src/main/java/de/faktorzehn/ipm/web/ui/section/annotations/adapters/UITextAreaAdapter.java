@@ -72,7 +72,7 @@ public class UITextAreaAdapter implements UIFieldDefinition {
     }
 
     @Override
-    public boolean noLabel() {
-        return uiTextArea.noLabel();
+    public boolean showLabel() {
+        return !uiTextArea.noLabel();
     }
 }

@@ -13,6 +13,7 @@ import java.util.Map;
 import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
 
+import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UIButtonAdapter;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UICheckBoxAdapter;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UIComboBoxAdapter;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UIDateFieldAdapter;
@@ -23,14 +24,14 @@ import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UITextAreaAdapter;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UITextFieldAdapter;
 
 /**
- * A registry that links the known <code>@UI...{Field|Box|Area}</code> annotations to their
- * respective adapters.
+ * A registry that links the known <code>@UI...</code> annotations to their respective adapters.
  */
-public class UIFieldDefinitionRegistry {
+public class UIElementDefinitionRegistry {
 
-    private final Map<Class<? extends Annotation>, Class<? extends UIFieldDefinition>> annotations = Maps.newHashMap();
+    private final Map<Class<? extends Annotation>, Class<? extends UIElementDefinition>> annotations = Maps
+            .newHashMap();
 
-    public UIFieldDefinitionRegistry() {
+    public UIElementDefinitionRegistry() {
         annotations.put(UICheckBox.class, UICheckBoxAdapter.class);
         annotations.put(UIComboBox.class, UIComboBoxAdapter.class);
         annotations.put(UIDateField.class, UIDateFieldAdapter.class);
@@ -39,6 +40,7 @@ public class UIFieldDefinitionRegistry {
         annotations.put(UIIntegerField.class, UIIntegerFieldAdapter.class);
         annotations.put(UITextArea.class, UITextAreaAdapter.class);
         annotations.put(UITextField.class, UITextFieldAdapter.class);
+        annotations.put(UIButton.class, UIButtonAdapter.class);
     }
 
     /**
@@ -57,17 +59,17 @@ public class UIFieldDefinitionRegistry {
      * method should only be invoked if {@link #containsAnnotation(Annotation)} returns {@code true}
      * for the given annotation.
      */
-    public UIFieldDefinition fieldDefinition(Annotation annotation) {
+    public UIElementDefinition elementDefinition(Annotation annotation) {
         Preconditions.checkNotNull(annotation, "annotation must not be null");
 
         Class<? extends Annotation> annotationClass = annotation.annotationType();
-        Class<? extends UIFieldDefinition> fieldDefinitionClass = annotations.get(annotationClass);
-        if (fieldDefinitionClass == null) {
+        Class<? extends UIElementDefinition> elementDefinitionClass = annotations.get(annotationClass);
+        if (elementDefinitionClass == null) {
             throw new IllegalArgumentException(annotation + " is not a known annotation");
         }
 
         try {
-            return fieldDefinitionClass.getConstructor(annotationClass).newInstance(annotation);
+            return elementDefinitionClass.getConstructor(annotationClass).newInstance(annotation);
         } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException e) {
             throw new RuntimeException(e);

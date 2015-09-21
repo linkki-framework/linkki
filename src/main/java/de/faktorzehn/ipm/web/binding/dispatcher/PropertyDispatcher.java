@@ -122,4 +122,10 @@ public interface PropertyDispatcher {
      */
     public MessageList getMessages(String property);
 
+    /**
+     * Invokes the property with the given name, i.e. invokes the method of that name.
+     * 
+     * @param property the name of the property (i.e. the method) to invoke
+     */
+    public void invoke(String property);
 }

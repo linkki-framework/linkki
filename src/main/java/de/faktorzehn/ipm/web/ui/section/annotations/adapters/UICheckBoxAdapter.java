@@ -59,8 +59,8 @@ public class UICheckBoxAdapter implements UIFieldDefinition {
     }
 
     @Override
-    public boolean noLabel() {
-        return uiCheckBox.noLabel();
+    public boolean showLabel() {
+        return !uiCheckBox.noLabel();
     }
 
 }

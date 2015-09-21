@@ -6,9 +6,11 @@
 
 package de.faktorzehn.ipm.web.ui.section;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
@@ -18,14 +20,21 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Panel;
+
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
+import de.faktorzehn.ipm.web.binding.ButtonBinding;
+import de.faktorzehn.ipm.web.binding.ElementBinding;
 import de.faktorzehn.ipm.web.binding.FieldBinding;
 import de.faktorzehn.ipm.web.binding.TestEnum;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.ui.section.annotations.AvailableValuesType;
 import de.faktorzehn.ipm.web.ui.section.annotations.EnabledType;
 import de.faktorzehn.ipm.web.ui.section.annotations.RequiredType;
+import de.faktorzehn.ipm.web.ui.section.annotations.UIButton;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIComboBox;
 import de.faktorzehn.ipm.web.ui.section.annotations.UISection;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITextField;
@@ -42,21 +51,25 @@ public class PmoBasedSectionFactoryTest {
     private FieldBinding<?> comboBinding1;
     private FieldBinding<?> comboBinding2;
     private FieldBinding<?> disabledInvisibleBinding;
+    private ButtonBinding buttonBinding;
     private BindingContext bindingContext;
     private PMOWithAnnotations pmo;
+    private BaseSection section;
 
     @Before
     public void setUp() {
         bindingContext = new BindingContext("testContext");
         pmo = new PMOWithAnnotations();
-        new DefaultPmoBasedSectionFactory(mock(PropertyBehaviorProvider.class)).createSection(pmo, bindingContext);
+        section = new DefaultPmoBasedSectionFactory(mock(PropertyBehaviorProvider.class)).createSection(pmo,
+                                                                                                        bindingContext);
 
-        List<FieldBinding<?>> bindings = bindingContext.getFieldBindings();
-        assertEquals(4, bindings.size());
-        textFieldBinding = bindings.get(0);
-        comboBinding1 = bindings.get(1);
-        comboBinding2 = bindings.get(2);
-        disabledInvisibleBinding = bindings.get(3);
+        List<ElementBinding> bindings = bindingContext.getBindings();
+        assertEquals(5, bindings.size());
+        textFieldBinding = (FieldBinding<?>)bindings.get(0);
+        comboBinding1 = (FieldBinding<?>)bindings.get(1);
+        comboBinding2 = (FieldBinding<?>)bindings.get(2);
+        disabledInvisibleBinding = (FieldBinding<?>)bindings.get(3);
+        buttonBinding = (ButtonBinding)bindings.get(4);
     }
 
     @Test
@@ -70,11 +83,13 @@ public class PmoBasedSectionFactoryTest {
         assertTrue(comboBinding1.isEnabled());
         assertTrue(comboBinding2.isEnabled());
         assertFalse(disabledInvisibleBinding.isEnabled());
+        assertTrue(buttonBinding.isEnabled());
 
         assertTrue(textFieldBinding.isVisible());
         assertTrue(comboBinding1.isVisible());
         assertTrue(comboBinding2.isVisible());
         assertFalse(disabledInvisibleBinding.isVisible());
+        assertTrue(buttonBinding.isVisible());
 
         assertTrue(textFieldBinding.isRequired());
         assertFalse(comboBinding1.isRequired());
@@ -108,11 +123,25 @@ public class PmoBasedSectionFactoryTest {
         assertNull(textFieldBinding.getAvailableValues());
     }
 
+    @Test
+    public void testCreateSection_ButtonBinding() {
+        Panel panel = (Panel)section.getComponent(1);
+        GridLayout layout = (GridLayout)panel.getContent();
+        Button button = (Button)layout.getComponent(1, 4);
+        assertThat(pmo.clickCount, is(0));
+        button.click();
+        assertThat(pmo.clickCount, is(1));
+    }
+
     @UISection
     public class PMOWithAnnotations implements PresentationModelObject {
 
         private String xyz = "123";
         private TestEnum staticEnumAttr = TestEnum.THREE;
+
+        public boolean buttonVisible = true;
+        public boolean buttonEnabled = true;
+        public int clickCount = 0;
 
         @UITextField(position = 1, enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED)
         public void xyz() {
@@ -132,6 +161,19 @@ public class PmoBasedSectionFactoryTest {
         @UITextField(position = 4, enabled = EnabledType.DISABLED, visible = VisibleType.INVISIBLE, required = RequiredType.NOT_REQUIRED)
         public void disabledInvisible() {
             // nothing to do
+        }
+
+        @UIButton(position = 5, enabled = EnabledType.DYNAMIC, visible = VisibleType.DYNAMIC)
+        public void button() {
+            clickCount++;
+        }
+
+        public boolean isButtonVisible() {
+            return buttonVisible;
+        }
+
+        public boolean isButtonEnabled() {
+            return buttonEnabled;
         }
 
         public String getXyz() {

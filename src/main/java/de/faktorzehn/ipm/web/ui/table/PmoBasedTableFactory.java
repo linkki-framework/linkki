@@ -26,7 +26,7 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
-import de.faktorzehn.ipm.web.ui.section.annotations.FieldDescriptor;
+import de.faktorzehn.ipm.web.ui.section.annotations.ElementDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.TableColumnDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIAnnotationReader;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
@@ -98,10 +98,10 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
     }
 
     private void createColumns(Table table) {
-        Set<FieldDescriptor> fields = annotationReader.getFields();
+        Set<ElementDescriptor> uiElements = annotationReader.getUiElements();
         boolean receiveFocusOnNew = true;
-        for (FieldDescriptor field : fields) {
-            createColumn(table, field, receiveFocusOnNew);
+        for (ElementDescriptor uiElement : uiElements) {
+            createColumn(table, uiElement, receiveFocusOnNew);
             receiveFocusOnNew = false;
         }
         if (containerPmo.deleteItemAction().isPresent()) {
@@ -115,12 +115,13 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
     private String getDeleteItemColumnHeader() {
         if (containerPmo.getClass().isAnnotationPresent(UITable.class)) {
             UITable tableAnnotation = containerPmo.getClass().getAnnotation(UITable.class);
-            return StringUtils.defaultIfEmpty(tableAnnotation.deleteItemColumnHeader(), DEFAULT_DELETE_ITEM_COLUMN_HEADER);
+            return StringUtils.defaultIfEmpty(tableAnnotation.deleteItemColumnHeader(),
+                                              DEFAULT_DELETE_ITEM_COLUMN_HEADER);
         }
         return DEFAULT_DELETE_ITEM_COLUMN_HEADER;
     }
 
-    private void createColumn(Table table, FieldDescriptor field, boolean receiveFocusOnNew) {
+    private void createColumn(Table table, ElementDescriptor field, boolean receiveFocusOnNew) {
         table.addGeneratedColumn(field.getPropertyName(), new FieldColumnGenerator(field, receiveFocusOnNew));
         table.setColumnHeader(field.getPropertyName(), field.getLabelText());
         setConfiguredColumndWidthOrExpandRatio(table, field);
@@ -130,7 +131,7 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
      * Sets the configured width or expand ration for the field's column if either one is
      * configured. Does nothing if no values are configured.
      */
-    private void setConfiguredColumndWidthOrExpandRatio(Table table, FieldDescriptor field) {
+    private void setConfiguredColumndWidthOrExpandRatio(Table table, ElementDescriptor field) {
         if (!annotationReader.hasTableColumnAnnotation(field)) {
             return;
         }
@@ -149,17 +150,17 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
 
         private final LazyInitializingMap<PresentationModelObject, PropertyDispatcher> dispatchers = new LazyInitializingMap<>(
                 PmoBasedTableFactory.this::createPropertyDispatcher);
-        private final FieldDescriptor fieldDescriptor;
+        private final ElementDescriptor elementDescriptor;
         private final boolean receiveFocusOnNew;
 
-        public FieldColumnGenerator(FieldDescriptor fieldDescriptor, boolean receiveFocusOnNew) {
-            this.fieldDescriptor = fieldDescriptor;
+        public FieldColumnGenerator(ElementDescriptor fieldDescriptor, boolean receiveFocusOnNew) {
+            this.elementDescriptor = fieldDescriptor;
             this.receiveFocusOnNew = receiveFocusOnNew;
         }
 
         @Override
         public Object generateCell(Table source, Object itemId, Object columnId) {
-            Component component = fieldDescriptor.newComponent();
+            Component component = elementDescriptor.newComponent();
             component.addStyleName(ApplicationStyles.BORDERLESS);
             component.addStyleName(ApplicationStyles.TABLE_CELL);
             component.setEnabled(getContainerPmo().isEditable());
@@ -169,7 +170,7 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
             FieldBinding<?> binding = FieldBinding.create(getBindingContext(), (String)columnId, null, field,
                                                           dispatchers.get(pmo));
             getBindingContext().add(binding);
-            binding.updateFieldFromPmo();
+            binding.updateFromPmo();
             if (receiveFocusOnNew) {
                 field.focus();
             }

@@ -69,7 +69,7 @@ public class UITextFieldAdapter implements UIFieldDefinition {
     }
 
     @Override
-    public boolean noLabel() {
-        return uiTextField.noLabel();
+    public boolean showLabel() {
+        return !uiTextField.noLabel();
     }
 }

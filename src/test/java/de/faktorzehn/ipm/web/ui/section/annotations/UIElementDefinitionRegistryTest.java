@@ -27,9 +27,9 @@ import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UIIntegerFieldAdapt
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UITextAreaAdapter;
 import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UITextFieldAdapter;
 
-public class UIFieldDefinitionRegistryTest {
+public class UIElementDefinitionRegistryTest {
 
-    private final UIFieldDefinitionRegistry registry = new UIFieldDefinitionRegistry();
+    private final UIElementDefinitionRegistry registry = new UIElementDefinitionRegistry();
 
     @UICheckBox(position = 0)
     @UIComboBox(position = 0)
@@ -71,25 +71,25 @@ public class UIFieldDefinitionRegistryTest {
     @Test
     public void testFieldDefinition() {
         //@formatter:off
-        assertThat(registry.fieldDefinition(annotation(UICheckBox.class)), is(instanceOf(UICheckBoxAdapter.class)));
-        assertThat(registry.fieldDefinition(annotation(UIComboBox.class)), is(instanceOf(UIComboBoxAdapter.class)));
-        assertThat(registry.fieldDefinition(annotation(UIDateField.class)), is(instanceOf(UIDateFieldAdapter.class)));
-        assertThat(registry.fieldDefinition(annotation(UIDecimalField.class)), is(instanceOf(UIDecimalFieldAdapter.class)));
-        assertThat(registry.fieldDefinition(annotation(UIDoubleField.class)), is(instanceOf(UIDoubleFieldAdapter.class)));
-        assertThat(registry.fieldDefinition(annotation(UIIntegerField.class)), is(instanceOf(UIIntegerFieldAdapter.class)));
-        assertThat(registry.fieldDefinition(annotation(UITextArea.class)), is(instanceOf(UITextAreaAdapter.class)));
-        assertThat(registry.fieldDefinition(annotation(UITextField.class)), is(instanceOf(UITextFieldAdapter.class)));
+        assertThat(registry.elementDefinition(annotation(UICheckBox.class)), is(instanceOf(UICheckBoxAdapter.class)));
+        assertThat(registry.elementDefinition(annotation(UIComboBox.class)), is(instanceOf(UIComboBoxAdapter.class)));
+        assertThat(registry.elementDefinition(annotation(UIDateField.class)), is(instanceOf(UIDateFieldAdapter.class)));
+        assertThat(registry.elementDefinition(annotation(UIDecimalField.class)), is(instanceOf(UIDecimalFieldAdapter.class)));
+        assertThat(registry.elementDefinition(annotation(UIDoubleField.class)), is(instanceOf(UIDoubleFieldAdapter.class)));
+        assertThat(registry.elementDefinition(annotation(UIIntegerField.class)), is(instanceOf(UIIntegerFieldAdapter.class)));
+        assertThat(registry.elementDefinition(annotation(UITextArea.class)), is(instanceOf(UITextAreaAdapter.class)));
+        assertThat(registry.elementDefinition(annotation(UITextField.class)), is(instanceOf(UITextFieldAdapter.class)));
         //@formatter:on
     }
 
     @Test(expected = NullPointerException.class)
     public void testFieldDefinition_ThrowsExceptionForNullAnnotation() {
-        registry.fieldDefinition(null);
+        registry.elementDefinition(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testFieldDefinition_ThrowsExceptionForUnknownAnnotation() {
-        registry.fieldDefinition(annotation(OverridingMethodsMustInvokeSuper.class));
+        registry.elementDefinition(annotation(OverridingMethodsMustInvokeSuper.class));
     }
 
 }

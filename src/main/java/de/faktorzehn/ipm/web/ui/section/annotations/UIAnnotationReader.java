@@ -18,8 +18,8 @@ import org.apache.commons.lang3.StringUtils;
  * Reads UIField annotations, e.g. {@link UITextField}, {@link UIComboBox}, etc. from a given
  * object's class.
  * <p>
- * Provides a set of {@link FieldDescriptor} for all found properties via {@link #getFields()}.
- * Provides a {@link FieldDescriptor} for a single property by means of {@link #get(String)}.
+ * Provides a set of {@link ElementDescriptor} for all found properties via {@link #getUiElements()}.
+ * Provides a {@link ElementDescriptor} for a single property by means of {@link #get(String)}.
  *
  * @author widmaier
  */
@@ -27,53 +27,67 @@ public class UIAnnotationReader {
 
     private final PositionComparator POSITION_COMPARATOR = new PositionComparator();
 
-    private final UIFieldDefinitionRegistry fieldDefinitionRegistry = new UIFieldDefinitionRegistry();
+    private final UIElementDefinitionRegistry fieldDefinitionRegistry = new UIElementDefinitionRegistry();
     private final Class<?> annotatedClass;
-    private final Map<String, FieldDescriptor> fieldDescriptors;
-    private final Map<FieldDescriptor, TableColumnDescriptor> columnDescriptors;
+    private final Map<String, ElementDescriptor> descriptors;
+    private final Map<ElementDescriptor, TableColumnDescriptor> columnDescriptors;
 
     public UIAnnotationReader(Class<?> annotatedClass) {
         this.annotatedClass = annotatedClass;
-        fieldDescriptors = new TreeMap<>();
+        descriptors = new TreeMap<>();
         columnDescriptors = new HashMap<>();
         initDescriptorMaps();
     }
 
-    public Set<FieldDescriptor> getFields() {
-        TreeSet<FieldDescriptor> treeSet = new TreeSet<FieldDescriptor>(POSITION_COMPARATOR);
-        treeSet.addAll(fieldDescriptors.values());
+    public Set<ElementDescriptor> getUiElements() {
+        TreeSet<ElementDescriptor> treeSet = new TreeSet<ElementDescriptor>(POSITION_COMPARATOR);
+        treeSet.addAll(descriptors.values());
         return treeSet;
     }
 
-    public FieldDescriptor get(String property) {
-        return fieldDescriptors.get(property);
+    public ElementDescriptor get(String property) {
+        return descriptors.get(property);
     }
 
     public TableColumnDescriptor getTableColumnDescriptor(String property) {
-        Optional<FieldDescriptor> fieldDescriptor = Optional.ofNullable(fieldDescriptors.get(property));
+        Optional<ElementDescriptor> fieldDescriptor = Optional.ofNullable(descriptors.get(property));
         return fieldDescriptor.map(this::getTableColumnDescriptor).orElse(null);
     }
 
-    public TableColumnDescriptor getTableColumnDescriptor(FieldDescriptor d) {
+    public TableColumnDescriptor getTableColumnDescriptor(ElementDescriptor d) {
         return columnDescriptors.get(d);
     }
 
     private void initDescriptorMaps() {
-        fieldDescriptors.clear();
+        descriptors.clear();
         Method[] methods = annotatedClass.getMethods();
         for (Method method : methods) {
             if (isUiDefiningMethod(method)) {
-                UIFieldDefinition uiField = getUiField(method);
-                FieldDescriptor fieldDescriptor = new FieldDescriptor(uiField, getFallbackPropertyNameByMethod(method));
-                fieldDescriptors.put(fieldDescriptor.getPropertyName(), fieldDescriptor);
+                UIElementDefinition uiElement = getUiElement(method);
+                ElementDescriptor descriptor = addDescriptor(uiElement, method);
 
                 UITableColumn columnAnnotation = method.getAnnotation(UITableColumn.class);
                 if (columnAnnotation != null) {
-                    columnDescriptors.put(fieldDescriptor, new TableColumnDescriptor(annotatedClass, method,
+                    columnDescriptors.put(descriptor, new TableColumnDescriptor(annotatedClass, method,
                             columnAnnotation));
                 }
             }
         }
+    }
+
+    private ElementDescriptor addDescriptor(UIElementDefinition uiElement, Method method) {
+        if (uiElement instanceof UIFieldDefinition) {
+            FieldDescriptor fieldDescriptor = new FieldDescriptor((UIFieldDefinition)uiElement,
+                    getFallbackPropertyNameByMethod(method));
+            descriptors.put(fieldDescriptor.getPropertyName(), fieldDescriptor);
+            return fieldDescriptor;
+        }
+        if (uiElement instanceof UIButtonDefinition) {
+            ButtonDescriptor buttonDescriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, method.getName());
+            descriptors.put(method.getName(), buttonDescriptor);
+            return buttonDescriptor;
+        }
+        throw new IllegalStateException("Unknown UIElementDefinition of type " + uiElement + " on method " + method);
     }
 
     private String getFallbackPropertyNameByMethod(Method method) {
@@ -90,10 +104,10 @@ public class UIAnnotationReader {
         return annotations(method).anyMatch(fieldDefinitionRegistry::containsAnnotation);
     }
 
-    public UIFieldDefinition getUiField(Method method) {
+    public UIElementDefinition getUiElement(Method method) {
         return annotations(method) //
                 .filter(fieldDefinitionRegistry::containsAnnotation) //
-                .map(fieldDefinitionRegistry::fieldDefinition) //
+                .map(fieldDefinitionRegistry::elementDefinition) //
                 .findFirst().orElse(null);
     }
 
@@ -104,20 +118,20 @@ public class UIAnnotationReader {
     /**
      * Compares two annotated methods by their position.
      */
-    class PositionComparator implements Comparator<FieldDescriptor> {
+    class PositionComparator implements Comparator<ElementDescriptor> {
 
         @Override
-        public int compare(FieldDescriptor fieldDef1, FieldDescriptor fieldDef2) {
+        public int compare(ElementDescriptor fieldDef1, ElementDescriptor fieldDef2) {
             return fieldDef1.getPosition() - fieldDef2.getPosition();
         }
 
     }
 
     public boolean hasAnnotation(String property) {
-        return fieldDescriptors.containsKey(property);
+        return descriptors.containsKey(property);
     }
 
-    public boolean hasTableColumnAnnotation(FieldDescriptor d) {
+    public boolean hasTableColumnAnnotation(ElementDescriptor d) {
         return columnDescriptors.containsKey(d);
     }
 }

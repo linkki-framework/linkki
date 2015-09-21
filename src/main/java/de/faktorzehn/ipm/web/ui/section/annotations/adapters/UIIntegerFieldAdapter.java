@@ -64,7 +64,7 @@ public class UIIntegerFieldAdapter implements UIFieldDefinition {
     }
 
     @Override
-    public boolean noLabel() {
-        return uiIntegerField.noLabel();
+    public boolean showLabel() {
+        return !uiIntegerField.noLabel();
     }
 }
