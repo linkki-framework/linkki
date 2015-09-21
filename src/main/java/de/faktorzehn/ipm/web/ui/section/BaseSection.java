@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-import de.faktorzehn.ipm.web.EditAction;
+import de.faktorzehn.ipm.web.ButtonPmo;
 
 /**
  * Base class for sections that are supported by the {@link PmoBasedSectionFactory}.
@@ -36,14 +36,14 @@ public abstract class BaseSection extends AbstractSection {
     }
 
     /**
-     * Creates a new, section with the given caption.
+     * Creates a new section with the given caption.
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param editAction If present the section has a button to trigger the given action.
+     * @param editButtonPmo If present the section has an edit button in the header.
      */
-    public BaseSection(String caption, boolean closeable, Optional<EditAction> editAction) {
-        super(caption, closeable, editAction);
+    public BaseSection(String caption, boolean closeable, Optional<ButtonPmo> editButtonPmo) {
+        super(caption, closeable, editButtonPmo);
     }
 
     /**

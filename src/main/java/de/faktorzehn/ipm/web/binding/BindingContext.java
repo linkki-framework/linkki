@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 
 /**
@@ -17,7 +19,7 @@ public class BindingContext {
 
     private String name;
     private List<FieldBinding<?>> fieldBindings = new LinkedList<>();
-    private Set<PropertyDispatcher> propertyDispatcher = new HashSet<PropertyDispatcher>();
+    private Set<PropertyDispatcher> propertyDispatchers = new HashSet<>();
 
     public BindingContext() {
         this("DefaultContext");
@@ -33,7 +35,7 @@ public class BindingContext {
 
     public BindingContext add(FieldBinding<?> binding) {
         fieldBindings.add(binding);
-        propertyDispatcher.add(binding.getPropertyDispatcher());
+        propertyDispatchers.add(binding.getPropertyDispatcher());
         return this;
     }
 
@@ -41,8 +43,15 @@ public class BindingContext {
         return Collections.unmodifiableList(fieldBindings);
     }
 
+    public void removeBindingsForPmo(PresentationModelObject pmo) {
+        List<FieldBinding<?>> toRemove = fieldBindings.stream()
+                .filter(fb -> fb.getPropertyDispatcher().getPmo() == pmo).collect(Collectors.toList());
+        toRemove.stream().map(fb -> fb.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
+        fieldBindings.removeAll(toRemove);
+    }
+
     public void updateUI() {
-        propertyDispatcher.forEach(pd -> pd.prepareUpdateUI());
+        propertyDispatchers.forEach(pd -> pd.prepareUpdateUI());
         fieldBindings.forEach(binding -> binding.updateFieldFromPmo());
     }
 

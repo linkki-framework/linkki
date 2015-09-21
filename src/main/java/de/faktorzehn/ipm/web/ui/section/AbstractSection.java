@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Alignment;
@@ -15,10 +16,10 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.ValoTheme;
 
-import de.faktorzehn.ipm.web.EditAction;
+import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
+import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
 /**
  * A section consists of a header displaying a caption and a body/content containing controls to
@@ -26,6 +27,24 @@ import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
  * only the header is shown.
  */
 public abstract class AbstractSection extends VerticalLayout {
+
+    /** PMO for the {@link #openCloseButton}. */
+    private class OpenCloseButtonPmo implements ButtonPmo {
+
+        public OpenCloseButtonPmo() {
+            super();
+        }
+
+        @Override
+        public void onClick() {
+            switchOpenStatus();
+        }
+
+        @Override
+        public Resource buttonIcon() {
+            return FontAwesome.ANGLE_DOWN;
+        }
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -58,16 +77,16 @@ public abstract class AbstractSection extends VerticalLayout {
      * 
      * @param caption the caption to display for this section
      * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param editAction If present the section has a button to trigger the given action.
+     * @param editButtonPmo If present the section has an edit button in the header.
      */
-    public AbstractSection(@Nonnull String caption, boolean closeable, Optional<EditAction> editAction) {
+    public AbstractSection(@Nonnull String caption, boolean closeable, Optional<ButtonPmo> editButtonPmo) {
         super();
         checkNotNull(caption);
-        checkNotNull(editAction);
-        createHeader(caption, closeable, editAction);
+        checkNotNull(editButtonPmo);
+        createHeader(caption, closeable, editButtonPmo);
     }
 
-    private void createHeader(@Nonnull String caption, boolean closeable, Optional<EditAction> editAction) {
+    private void createHeader(@Nonnull String caption, boolean closeable, Optional<ButtonPmo> editButtonPmo) {
         header = new HorizontalLayout();
         header.setSpacing(true);
         addComponent(header);
@@ -78,8 +97,8 @@ public abstract class AbstractSection extends VerticalLayout {
         header.addComponent(l);
         header.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
 
-        if (editAction.isPresent()) {
-            createEditButton(editAction.get());
+        if (editButtonPmo.isPresent()) {
+            createEditButton(editButtonPmo.get());
         }
 
         if (closeable) {
@@ -92,12 +111,8 @@ public abstract class AbstractSection extends VerticalLayout {
         header.setComponentAlignment(line, Alignment.MIDDLE_LEFT);
     }
 
-    private void createEditButton(EditAction editAction) {
-        editButton = new Button(FontAwesome.PENCIL);
-        editButton.setTabIndex(-1);
-        editButton.addStyleName(ValoTheme.BUTTON_BORDERLESS);
-        editButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
-        editButton.addClickListener(e -> editAction.exec());
+    private void createEditButton(ButtonPmo buttonPmo) {
+        editButton = ComponentFactory.newButton(buttonPmo);
         header.addComponent(editButton);
     }
 
@@ -106,12 +121,27 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     private void createOpenCloseButton() {
-        openCloseButton = new Button(FontAwesome.ANGLE_DOWN);
-        openCloseButton.setTabIndex(-1);
-        openCloseButton.addStyleName(ValoTheme.BUTTON_BORDERLESS);
-        openCloseButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
-        openCloseButton.addClickListener(e -> switchOpenStatus());
+        openCloseButton = ComponentFactory.newButton(new OpenCloseButtonPmo());
         header.addComponent(openCloseButton);
+    }
+
+    /**
+     * Adds a new button to the header for the given button PMO. The new button is added before the
+     * close button. If the section does not have a close button it is added at the end of the
+     * header.
+     */
+    public void addHeaderButton(ButtonPmo buttonPmo) {
+        Button headerButton = ComponentFactory.newButton(buttonPmo);
+        addBeforeCloseButton(headerButton);
+    }
+
+    private void addBeforeCloseButton(Button headerButton) {
+        if (openCloseButton != null) {
+            header.addComponent(headerButton, header.getComponentIndex(openCloseButton));
+        } else {
+            header.addComponent(headerButton, header.getComponentCount() - 1);
+        }
+
     }
 
     /**

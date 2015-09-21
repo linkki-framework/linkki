@@ -10,6 +10,8 @@ import java.util.Collection;
 
 import org.faktorips.runtime.MessageList;
 
+import de.faktorzehn.ipm.web.PresentationModelObject;
+
 /**
  * Provides field information for arbitrary properties through an unified interface.
  * <p>
@@ -121,5 +123,12 @@ public interface PropertyDispatcher {
      * @return the list of messages
      */
     public MessageList getMessages(String property);
+
+    /**
+     * Returns the presentation model object that this dispatcher accesses. If this dispatcher does
+     * not access a PMO this method may return {@code null} or delegate to another (wrapped)
+     * dispatcher.
+     */
+    public PresentationModelObject getPmo();
 
 }

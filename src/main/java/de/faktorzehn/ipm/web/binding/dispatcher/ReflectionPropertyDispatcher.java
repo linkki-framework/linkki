@@ -15,6 +15,7 @@ import org.faktorips.runtime.MessageList;
 import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 
 import de.faktorzehn.ipm.utils.LazyInitializingMap;
+import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.dispatcher.accessor.PropertyAccessor;
 
 /**
@@ -156,4 +157,12 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         return new MessageList();
     }
 
+    @Override
+    public PresentationModelObject getPmo() {
+        if (getBoundObject() instanceof PresentationModelObject) {
+            return (PresentationModelObject)getBoundObject();
+        } else {
+            return fallbackDispatcher.getPmo();
+        }
+    }
 }

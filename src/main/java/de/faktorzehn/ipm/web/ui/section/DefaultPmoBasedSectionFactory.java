@@ -6,10 +6,7 @@
 
 package de.faktorzehn.ipm.web.ui.section;
 
-import javax.enterprise.inject.Any;
-import javax.inject.Inject;
-
-import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
+import java.util.Collections;
 
 /**
  * This is the default implementation of {@link PmoBasedSectionFactory}. If you do not need any
@@ -26,9 +23,8 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
  */
 public class DefaultPmoBasedSectionFactory extends PmoBasedSectionFactory {
 
-    @Inject
-    public DefaultPmoBasedSectionFactory(PropertyBehaviorProvider propertyBehaviorProvider) {
-        super(propertyBehaviorProvider);
+    public DefaultPmoBasedSectionFactory() {
+        super(() -> Collections.emptyList());
     }
 
 }

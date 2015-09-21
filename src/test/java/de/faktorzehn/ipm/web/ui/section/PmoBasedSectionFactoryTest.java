@@ -10,7 +10,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +21,6 @@ import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.FieldBinding;
 import de.faktorzehn.ipm.web.binding.TestEnum;
-import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.ui.section.annotations.AvailableValuesType;
 import de.faktorzehn.ipm.web.ui.section.annotations.EnabledType;
 import de.faktorzehn.ipm.web.ui.section.annotations.RequiredType;
@@ -49,7 +47,7 @@ public class PmoBasedSectionFactoryTest {
     public void setUp() {
         bindingContext = new BindingContext("testContext");
         pmo = new PMOWithAnnotations();
-        new DefaultPmoBasedSectionFactory(mock(PropertyBehaviorProvider.class)).createSection(pmo, bindingContext);
+        new DefaultPmoBasedSectionFactory().createSection(pmo, bindingContext);
 
         List<FieldBinding<?>> bindings = bindingContext.getFieldBindings();
         assertEquals(4, bindings.size());

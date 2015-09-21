@@ -14,7 +14,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 
-import de.faktorzehn.ipm.web.EditAction;
+import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.FieldBinding;
@@ -72,11 +72,11 @@ public class SectionCreationContext {
         BaseSection section;
         UISection sectionDefinition = pmo.getClass().getAnnotation(UISection.class);
         checkNotNull(sectionDefinition, "PMO " + pmo.getClass() + " must be annotated with @UISection!");
-        Optional<EditAction> editAction = pmo.getEditAction();
+        Optional<ButtonPmo> editButtonPmo = pmo.getEditButtonPmo();
         if (sectionDefinition.layout() == SectionLayout.COLUMN) {
-            section = new FormSection(sectionDefinition.caption(), sectionDefinition.closeable(), editAction);
+            section = new FormSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButtonPmo);
         } else {
-            section = new HorizontalSection(sectionDefinition.caption(), sectionDefinition.closeable(), editAction);
+            section = new HorizontalSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButtonPmo);
         }
         return section;
     }

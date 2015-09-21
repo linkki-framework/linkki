@@ -6,23 +6,20 @@
 
 package de.faktorzehn.ipm.web.ui.table;
 
+import java.util.Optional;
+
+import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.ui.section.AbstractSection;
 
-public class TableSection extends AbstractSection {
+public class TableSection<T extends PresentationModelObject> extends AbstractSection {
 
     private static final long serialVersionUID = 1L;
 
     private PmoBasedTable<? extends PresentationModelObject> table;
 
-    public TableSection(String caption, boolean canAdd) {
-        super(caption, false);
-        // FIXME anders lösen
-        // setEditAction(() -> editClicked());
-        if (canAdd) {
-            // FIXME anders lösen
-            // setEditButtonIcon(FontAwesome.PLUS);
-        }
+    public TableSection(String caption, Optional<ButtonPmo> addItemButtonPmo) {
+        super(caption, false, addItemButtonPmo);
     }
 
     void setTable(PmoBasedTable<? extends PresentationModelObject> theTable) {
@@ -38,10 +35,6 @@ public class TableSection extends AbstractSection {
             throw new IllegalStateException("Table with PMO hasn't been set, yet!");
         }
         return table.getPmo();
-    }
-
-    public void update() {
-        table.updateFromPmo();
     }
 
     @Override

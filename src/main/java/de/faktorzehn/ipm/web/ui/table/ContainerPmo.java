@@ -9,6 +9,8 @@ package de.faktorzehn.ipm.web.ui.table;
 import java.util.EventListener;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 
@@ -27,24 +29,6 @@ public interface ContainerPmo<T extends PresentationModelObject> {
     /** Default page length to use when no other page length is set. */
     public static final int DEFAULT_PAGE_LENGTH = 15;
 
-    /** Action that deletes items from the container. */
-    @FunctionalInterface
-    public static interface DeleteItemAction<T> {
-
-        /** Deletes the given item from the container. */
-        void deleteItem(T item);
-
-    }
-
-    /** Action that adds items to the container. */
-    @FunctionalInterface
-    public static interface AddItemAction<T> {
-
-        /** Creates a new item and add it to the container. */
-        T newItem();
-
-    }
-
     /** Listener that is notified when the page length is changed. */
     @FunctionalInterface
     public static interface PageLengthListener extends EventListener {
@@ -62,20 +46,18 @@ public interface ContainerPmo<T extends PresentationModelObject> {
     public boolean isEditable();
 
     /**
-     * Returns the {@link AddItemAction} to add new items if it is possible to add items to the
-     * container.
+     * Returns the function to add new items if it is possible to add items to the container.
      */
     @Nonnull
-    public default Optional<AddItemAction<T>> addItemAction() {
+    public default Optional<Supplier<T>> addItemAction() {
         return Optional.empty();
     }
 
     /**
-     * Returns the {@link DeleteItemAction} to delete items if it is possible to delete items from
-     * the container.
+     * Returns the function to delete items if it is possible to delete items from the container.
      */
     @Nonnull
-    public default Optional<DeleteItemAction<T>> deleteItemAction() {
+    public default Optional<Consumer<T>> deleteItemAction() {
         return Optional.empty();
     }
 

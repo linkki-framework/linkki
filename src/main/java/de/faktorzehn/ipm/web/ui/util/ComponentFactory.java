@@ -11,6 +11,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
@@ -19,6 +20,7 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
+import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.ui.components.DoubleField;
 import de.faktorzehn.ipm.web.ui.components.IntegerField;
 
@@ -168,6 +170,15 @@ public class ComponentFactory {
 
     public static DoubleField newDoubleField() {
         return new DoubleField();
+    }
+
+    /** Creates a button for the given PMO. */
+    public static Button newButton(ButtonPmo buttonPmo) {
+        Button button = new Button(buttonPmo.buttonIcon());
+        button.setTabIndex(-1);
+        buttonPmo.styleNames().forEach(style -> button.addStyleName(style));
+        button.addClickListener(e -> buttonPmo.onClick());
+        return button;
     }
 
     private ComponentFactory() {

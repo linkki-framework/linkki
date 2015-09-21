@@ -1,6 +1,5 @@
 package de.faktorzehn.ipm.web;
 
-
 import java.util.Optional;
 
 import org.faktorips.runtime.IModelObject;
@@ -18,13 +17,13 @@ public interface PresentationModelObject {
     Object getModelObject();
 
     /**
-     * Returns the {@code EditAction} that edits the PMO if the PMO allows editing. The default
-     * implementation returns {@code Optional.empty()} indicating that the PMO does not allow
-     * editing.
+     * Returns the {@code ButtonPmo} for the button that edits the PMO if the PMO allows editing.
+     * The default implementation returns {@code Optional.empty()} indicating that the PMO does not
+     * allow editing.
      * 
-     * @return the {@code EditAction} that edits the PMO if the PMO allows editing
+     * @return the {@code ButtonPmo} for the button that edits the PMO if the PMO allows editing
      */
-    default Optional<EditAction> getEditAction() {
+    default Optional<ButtonPmo> getEditButtonPmo() {
         return Optional.empty();
     }
 
