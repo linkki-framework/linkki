@@ -2,55 +2,50 @@ package de.faktorzehn.ipm.web.ui.section.annotations.adapters;
 
 import com.vaadin.ui.Component;
 
-import de.faktorzehn.ipm.web.ui.components.IntegerField;
 import de.faktorzehn.ipm.web.ui.section.annotations.AvailableValuesType;
 import de.faktorzehn.ipm.web.ui.section.annotations.EnabledType;
 import de.faktorzehn.ipm.web.ui.section.annotations.RequiredType;
+import de.faktorzehn.ipm.web.ui.section.annotations.UIDateField;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIFieldDefinition;
-import de.faktorzehn.ipm.web.ui.section.annotations.UIIntegerField;
 import de.faktorzehn.ipm.web.ui.section.annotations.VisibleType;
+import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
-public class UIIntegerFieldAdpater implements UIFieldDefinition {
+public class UIDateFieldAdapter implements UIFieldDefinition {
 
-    private final UIIntegerField uiIntegerField;
+    private final UIDateField uiDateField;
 
-    public UIIntegerFieldAdpater(UIIntegerField uiIntegerField) {
-        this.uiIntegerField = uiIntegerField;
+    public UIDateFieldAdapter(UIDateField uiDateField) {
+        this.uiDateField = uiDateField;
     }
 
     @Override
     public Component newComponent() {
-        IntegerField field = new IntegerField(uiIntegerField.format());
-        if (uiIntegerField.maxLength() > 0) {
-            field.setMaxLength(uiIntegerField.maxLength());
-            field.setColumns(uiIntegerField.maxLength() + 2);
-        }
-        return field;
+        return ComponentFactory.newDateField();
     }
 
     @Override
     public int position() {
-        return uiIntegerField.position();
+        return uiDateField.position();
     }
 
     @Override
     public String label() {
-        return uiIntegerField.label();
+        return uiDateField.label();
     }
 
     @Override
     public EnabledType enabled() {
-        return uiIntegerField.enabled();
+        return uiDateField.enabled();
     }
 
     @Override
     public RequiredType required() {
-        return uiIntegerField.required();
+        return uiDateField.required();
     }
 
     @Override
     public VisibleType visible() {
-        return uiIntegerField.visible();
+        return uiDateField.visible();
     }
 
     @Override
@@ -60,11 +55,11 @@ public class UIIntegerFieldAdpater implements UIFieldDefinition {
 
     @Override
     public String modelAttribute() {
-        return uiIntegerField.modelAttribute();
+        return uiDateField.modelAttribute();
     }
 
     @Override
     public boolean noLabel() {
-        return uiIntegerField.noLabel();
+        return uiDateField.noLabel();
     }
 }

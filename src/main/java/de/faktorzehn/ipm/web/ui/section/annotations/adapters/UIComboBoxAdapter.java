@@ -10,11 +10,11 @@ import de.faktorzehn.ipm.web.ui.section.annotations.UIFieldDefinition;
 import de.faktorzehn.ipm.web.ui.section.annotations.VisibleType;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
-public class UIComboBoxAdpater implements UIFieldDefinition {
+public class UIComboBoxAdapter implements UIFieldDefinition {
 
     private final UIComboBox uiComboField;
 
-    public UIComboBoxAdpater(UIComboBox uiComboField) {
+    public UIComboBoxAdapter(UIComboBox uiComboField) {
         this.uiComboField = uiComboField;
     }
 

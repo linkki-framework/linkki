@@ -4,8 +4,8 @@ import com.vaadin.ui.Component;
 
 /**
  * A common interface for all UI-Field annotations. As annotations can't implement an interface, the
- * <tt>UIFieldExtractor</tt> is used to get an instance of this interface for a given annotation
- * instance.
+ * {@link UIAnnotationReader} is used to get instances of this interface for the annotated methods
+ * of a class.
  *
  * @see UIAnnotationReader
  */

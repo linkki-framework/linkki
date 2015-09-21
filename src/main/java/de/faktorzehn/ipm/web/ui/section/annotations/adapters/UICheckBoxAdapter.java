@@ -1,64 +1,51 @@
 package de.faktorzehn.ipm.web.ui.section.annotations.adapters;
 
 import com.vaadin.ui.Component;
-import com.vaadin.ui.TextArea;
 
 import de.faktorzehn.ipm.web.ui.section.annotations.AvailableValuesType;
 import de.faktorzehn.ipm.web.ui.section.annotations.EnabledType;
 import de.faktorzehn.ipm.web.ui.section.annotations.RequiredType;
+import de.faktorzehn.ipm.web.ui.section.annotations.UICheckBox;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIFieldDefinition;
-import de.faktorzehn.ipm.web.ui.section.annotations.UITextArea;
 import de.faktorzehn.ipm.web.ui.section.annotations.VisibleType;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
-public class UITextAreaAdpater implements UIFieldDefinition {
+public class UICheckBoxAdapter implements UIFieldDefinition {
 
-    private final UITextArea uiTextArea;
+    private final UICheckBox uiCheckBox;
 
-    public UITextAreaAdpater(UITextArea uiTextArea) {
-        this.uiTextArea = uiTextArea;
+    public UICheckBoxAdapter(UICheckBox uiCheckBox) {
+        this.uiCheckBox = uiCheckBox;
     }
 
     @Override
     public Component newComponent() {
-        TextArea area = ComponentFactory.newTextArea();
-        if (uiTextArea.columns() > 0) {
-            area.setColumns(uiTextArea.columns());
-        } else {
-            area.setWidth("100%");
-        }
-        if (uiTextArea.maxLength() > 0) {
-            area.setMaxLength(uiTextArea.maxLength());
-        }
-        if (uiTextArea.rows() > 0) {
-            area.setRows(uiTextArea.rows());
-        }
-        return area;
+        return ComponentFactory.newCheckbox();
     }
 
     @Override
     public int position() {
-        return uiTextArea.position();
+        return uiCheckBox.position();
     }
 
     @Override
     public String label() {
-        return uiTextArea.label();
+        return uiCheckBox.label();
     }
 
     @Override
     public EnabledType enabled() {
-        return uiTextArea.enabled();
+        return uiCheckBox.enabled();
     }
 
     @Override
     public RequiredType required() {
-        return uiTextArea.required();
+        return uiCheckBox.required();
     }
 
     @Override
     public VisibleType visible() {
-        return uiTextArea.visible();
+        return uiCheckBox.visible();
     }
 
     @Override
@@ -68,11 +55,12 @@ public class UITextAreaAdpater implements UIFieldDefinition {
 
     @Override
     public String modelAttribute() {
-        return uiTextArea.modelAttribute();
+        return uiCheckBox.modelAttribute();
     }
 
     @Override
     public boolean noLabel() {
-        return uiTextArea.noLabel();
+        return uiCheckBox.noLabel();
     }
+
 }

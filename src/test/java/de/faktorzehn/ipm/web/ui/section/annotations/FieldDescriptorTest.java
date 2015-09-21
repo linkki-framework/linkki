@@ -14,13 +14,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UITextFieldAdpater;
+import de.faktorzehn.ipm.web.ui.section.annotations.adapters.UITextFieldAdapter;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FieldDescriptorTest {
 
     @Mock
-    private UITextFieldAdpater adapter;
+    private UITextFieldAdapter adapter;
 
     @Test
     public void getLabelText_deriveFromLabel() {

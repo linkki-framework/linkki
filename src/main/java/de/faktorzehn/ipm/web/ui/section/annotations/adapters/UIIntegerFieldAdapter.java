@@ -1,61 +1,56 @@
 package de.faktorzehn.ipm.web.ui.section.annotations.adapters;
 
 import com.vaadin.ui.Component;
-import com.vaadin.ui.TextField;
 
+import de.faktorzehn.ipm.web.ui.components.IntegerField;
 import de.faktorzehn.ipm.web.ui.section.annotations.AvailableValuesType;
 import de.faktorzehn.ipm.web.ui.section.annotations.EnabledType;
 import de.faktorzehn.ipm.web.ui.section.annotations.RequiredType;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIFieldDefinition;
-import de.faktorzehn.ipm.web.ui.section.annotations.UITextField;
+import de.faktorzehn.ipm.web.ui.section.annotations.UIIntegerField;
 import de.faktorzehn.ipm.web.ui.section.annotations.VisibleType;
-import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
-public class UITextFieldAdpater implements UIFieldDefinition {
+public class UIIntegerFieldAdapter implements UIFieldDefinition {
 
-    private final UITextField uiTextField;
+    private final UIIntegerField uiIntegerField;
 
-    public UITextFieldAdpater(UITextField uiTextField) {
-        this.uiTextField = uiTextField;
+    public UIIntegerFieldAdapter(UIIntegerField uiIntegerField) {
+        this.uiIntegerField = uiIntegerField;
     }
 
     @Override
     public Component newComponent() {
-        TextField field = ComponentFactory.newTextfield();
-        if (uiTextField.columns() > 0) {
-            field.setColumns(uiTextField.columns());
-        } else {
-            field.setWidth("100%");
-        }
-        if (uiTextField.maxLength() > 0) {
-            field.setMaxLength(uiTextField.maxLength());
+        IntegerField field = new IntegerField(uiIntegerField.format());
+        if (uiIntegerField.maxLength() > 0) {
+            field.setMaxLength(uiIntegerField.maxLength());
+            field.setColumns(uiIntegerField.maxLength() + 2);
         }
         return field;
     }
 
     @Override
     public int position() {
-        return uiTextField.position();
+        return uiIntegerField.position();
     }
 
     @Override
     public String label() {
-        return uiTextField.label();
+        return uiIntegerField.label();
     }
 
     @Override
     public EnabledType enabled() {
-        return uiTextField.enabled();
+        return uiIntegerField.enabled();
     }
 
     @Override
     public RequiredType required() {
-        return uiTextField.required();
+        return uiIntegerField.required();
     }
 
     @Override
     public VisibleType visible() {
-        return uiTextField.visible();
+        return uiIntegerField.visible();
     }
 
     @Override
@@ -65,11 +60,11 @@ public class UITextFieldAdpater implements UIFieldDefinition {
 
     @Override
     public String modelAttribute() {
-        return uiTextField.modelAttribute();
+        return uiIntegerField.modelAttribute();
     }
 
     @Override
     public boolean noLabel() {
-        return uiTextField.noLabel();
+        return uiIntegerField.noLabel();
     }
 }
