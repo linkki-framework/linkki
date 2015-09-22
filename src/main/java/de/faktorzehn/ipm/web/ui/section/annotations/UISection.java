@@ -9,10 +9,19 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface UISection {
 
+    /** Layout for the section, i.e. if fields are displayed horizontally or in vertical columns. */
     SectionLayout layout() default SectionLayout.COLUMN;
 
+    /**
+     * Number of columns if the {@link SectionLayout#COLUMN} layout is used. Ignored if an other
+     * layout is used.
+     */
+    int columns() default 1;
+
+    /** The caption text for the section. */
     String caption() default "";
 
+    /** Whether or not the section can be closed by the user. */
     boolean closeable() default false;
 
 }

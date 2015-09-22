@@ -19,36 +19,41 @@ public class FormSection extends BaseSection {
 
     private static final long serialVersionUID = 1L;
 
-    private Panel content;
+    private final Panel content;
 
-    private GridLayout contentGrid;
+    private final GridLayout contentGrid;
+
+    private final int numberOfColumns;
 
     /**
-     * Creates a new section with the given caption that is not closeable.
+     * Creates a new section non-closable section with the given caption and 1 column.
      */
     public FormSection(@Nonnull String caption) {
         this(caption, false);
     }
 
     /**
-     * Creates a new section with a caption.
+     * Creates a new section with the given caption and 1 column.
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed/opened.
      */
     public FormSection(String caption, boolean closeable) {
-        this(caption, closeable, Optional.empty());
+        this(caption, closeable, Optional.empty(), 1);
     }
 
     /**
-     * Creates a new section with the given caption.
+     * Creates a new section with the given caption, closable state, edit button and number of
+     * columns.
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
      * @param editButtonPmo If present the section has an edit button in the header.
+     * @param numberOfColumns the number of the section's columns
      */
-    public FormSection(String caption, boolean closeable, Optional<ButtonPmo> editButtonPmo) {
+    public FormSection(String caption, boolean closeable, Optional<ButtonPmo> editButtonPmo, int numberOfColumns) {
         super(caption, closeable, editButtonPmo);
+        this.numberOfColumns = numberOfColumns;
         setWidth("100%");
         contentGrid = createContent();
         content = new Panel(contentGrid);
@@ -58,11 +63,10 @@ public class FormSection extends BaseSection {
     }
 
     /**
-     * Returns the number of "columns" i.e. the label/control pairs per row. Override in subclasses
-     * if you want to have more than one column.
+     * Returns the number of "columns" i.e. the label/control pairs per row.
      */
-    protected int getNumOfColumns() {
-        return 1;
+    public int getNumberOfColumns() {
+        return numberOfColumns;
     }
 
     /**
@@ -84,17 +88,16 @@ public class FormSection extends BaseSection {
     }
 
     protected GridLayout createContent() {
-        int columns = getNumOfColumns();
-        int gridColumns = getNumOfColumns() * 3;
+        int columns = getNumberOfColumns();
+        int gridColumns = columns * 3;
         GridLayout gridLayout = new GridLayout(gridColumns, 1);
         gridLayout.setWidth("100%");
         gridLayout.setMargin(new MarginInfo(false, true, true, true));
         gridLayout.setSpacing(true);
-        float controlExpandRatio = 1.0f / columns;
         for (int i = 0; i < columns; i++) {
             gridLayout.setColumnExpandRatio(i * 3, 0);
             gridLayout.setColumnExpandRatio(i * 3 + 1, 0);
-            gridLayout.setColumnExpandRatio(i * 3 + 2, controlExpandRatio);
+            gridLayout.setColumnExpandRatio(i * 3 + 2, 1);
         }
         return gridLayout;
     }

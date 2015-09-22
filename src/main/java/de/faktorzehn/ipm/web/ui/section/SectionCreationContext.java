@@ -74,7 +74,8 @@ public class SectionCreationContext {
         checkNotNull(sectionDefinition, "PMO " + pmo.getClass() + " must be annotated with @UISection!");
         Optional<ButtonPmo> editButtonPmo = pmo.getEditButtonPmo();
         if (sectionDefinition.layout() == SectionLayout.COLUMN) {
-            section = new FormSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButtonPmo);
+            section = new FormSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButtonPmo,
+                    sectionDefinition.columns());
         } else {
             section = new HorizontalSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButtonPmo);
         }
