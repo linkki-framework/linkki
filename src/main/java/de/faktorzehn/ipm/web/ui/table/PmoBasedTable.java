@@ -181,7 +181,10 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
         return containerPmo;
     }
 
-    void updateFromPmo() {
+    /**
+     * Public for updating the table from "outside" e.g. via other buttons than the add item action.
+     */
+    public void updateFromPmo() {
         removeAllItems();
         createItems();
         refreshRowCache();
@@ -240,11 +243,7 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
      *         add items
      */
     Optional<ButtonPmo> addItemButtonPmo(BindingContext ctx) {
-        if (containerPmo.addItemAction().isPresent()) {
-            return Optional.of(new AddItemButtonPmo(ctx));
-        } else {
-            return Optional.empty();
-        }
+        return containerPmo.addItemAction().map(a -> new AddItemButtonPmo(ctx));
     }
 
     /** Helper function that supplies an {@link IllegalStateException}. */
