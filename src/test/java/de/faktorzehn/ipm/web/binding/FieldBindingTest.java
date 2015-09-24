@@ -119,7 +119,7 @@ public class FieldBindingTest {
     @Test
     public void testVisibleBinding_callSetVisibleOnLabelAndField() {
         when(propertyDispatcher.isVisible("value")).thenReturn(false);
-        binding.updateFieldFromPmo();
+        binding.updateFromPmo();
 
         verify(field).setVisible(false);
         verify(label).setVisible(false);
@@ -129,7 +129,7 @@ public class FieldBindingTest {
     public void testVisibleBinding_ifLabelNull() {
         binding = FieldBinding.create(context, "value", null, field, propertyDispatcher);
         when(propertyDispatcher.isVisible("value")).thenReturn(false);
-        binding.updateFieldFromPmo();
+        binding.updateFromPmo();
 
         verify(field).setVisible(false);
     }

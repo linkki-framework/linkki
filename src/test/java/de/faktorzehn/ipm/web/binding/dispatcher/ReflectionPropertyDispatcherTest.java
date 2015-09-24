@@ -11,6 +11,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -301,6 +303,20 @@ public class ReflectionPropertyDispatcherTest {
         assertThat(modelObjectDispatcher.getPmo(), is(testPmo));
     }
 
+    @Test
+    public void testInvoke() {
+        testPmo = spy(new TestPMO(testModelObject));
+        pmoDispatcher = new ReflectionPropertyDispatcher(this::getTestPmo, new ReflectionPropertyDispatcher(
+                this::getTestModelObject, new ExceptionPropertyDispatcher(testModelObject, testPmo)));
+        pmoDispatcher.invoke("buttonClick");
+        verify(testPmo).buttonClick();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testInvoke_illegalMethodName() {
+        pmoDispatcher.invoke("noSuchMethod");
+    }
+
     public static class TestPMO implements PresentationModelObject {
 
         public static final String PROPERTY_PMO_PROP = "pmoProp";
@@ -358,6 +374,9 @@ public class ReflectionPropertyDispatcherTest {
             this.pmoProp = pmoProp;
         }
 
+        public void buttonClick() {
+            // Nothing to do
+        }
     }
 
     public static class TestModelObject implements IModelObject {

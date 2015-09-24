@@ -98,4 +98,11 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     public PresentationModelObject getPmo() {
         return pmo;
     }
+
+    @Override
+    public void invoke(String property) {
+        throw new IllegalArgumentException(MessageFormat.format("Cannot invoke \"{0}\" (object {1}, pmo {2})",
+                                                                property, domainModelObject, pmo));
+    }
+
 }

@@ -9,9 +9,13 @@ package de.faktorzehn.ipm.web.binding.dispatcher;
 import java.util.Arrays;
 import java.util.Collection;
 
+import com.google.gwt.thirdparty.guava.common.base.Preconditions;
+
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.ui.section.annotations.AvailableValuesType;
+import de.faktorzehn.ipm.web.ui.section.annotations.ElementDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.EnabledType;
+import de.faktorzehn.ipm.web.ui.section.annotations.FieldDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.RequiredType;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIAnnotationReader;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIComboBox;
@@ -99,7 +103,7 @@ public class BindingAnnotationDecorator extends AbstractPropertyDispatcherDecora
     }
 
     private boolean calculateRequired(String property) {
-        RequiredType requiredType = annotationReader.get(property).required();
+        RequiredType requiredType = fieldDescriptor(property).required();
         if (requiredType == RequiredType.DYNAMIC) {
             return super.isRequired(property);
         } else if (requiredType == RequiredType.NOT_REQUIRED) {
@@ -121,7 +125,7 @@ public class BindingAnnotationDecorator extends AbstractPropertyDispatcherDecora
     }
 
     private Collection<?> calculateAvailableValues(String property) {
-        AvailableValuesType type = annotationReader.get(property).availableValues();
+        AvailableValuesType type = fieldDescriptor(property).availableValues();
         if (type == AvailableValuesType.DYNAMIC) {
             return super.getAvailableValues(property);
         } else {
@@ -137,5 +141,12 @@ public class BindingAnnotationDecorator extends AbstractPropertyDispatcherDecora
         } else {
             return Arrays.asList(values);
         }
+    }
+
+    private FieldDescriptor fieldDescriptor(String property) {
+        ElementDescriptor descriptor = annotationReader.get(property);
+        Preconditions.checkState(descriptor instanceof FieldDescriptor,
+                                 "Property %s is not annotated with an ui field annotation", property);
+        return (FieldDescriptor)descriptor;
     }
 }

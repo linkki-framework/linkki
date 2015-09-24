@@ -26,7 +26,7 @@ import de.faktorzehn.ipm.web.ui.util.UiUtil;
  * binds the value shown in the field to a property providing the value. It also binds other field
  * properties like enabled required.
  */
-public class FieldBinding<T> implements Property<T> {
+public class FieldBinding<T> implements Property<T>, ElementBinding {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,6 +50,7 @@ public class FieldBinding<T> implements Property<T> {
         this.propertyDispatcher = propertyDispatcher;
     }
 
+    @Override
     public PropertyDispatcher getPropertyDispatcher() {
         return propertyDispatcher;
     }
@@ -58,7 +59,8 @@ public class FieldBinding<T> implements Property<T> {
         return propertyName;
     }
 
-    public void updateFieldFromPmo() {
+    @Override
+    public void updateFromPmo() {
         try {
             // TODO see FIPM-57
             field.setPropertyDataSource(null);
