@@ -159,6 +159,10 @@ public class ComponentFactory {
         return new CheckBox();
     }
 
+    public static Button newButton() {
+        return new Button();
+    }
+
     public static DateField newDateField() {
         DateField field = new DateField();
         field.setConverter(new LocalDateToDateConverter());

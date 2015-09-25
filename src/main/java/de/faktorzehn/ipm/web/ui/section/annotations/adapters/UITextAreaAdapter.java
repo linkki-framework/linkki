@@ -11,11 +11,11 @@ import de.faktorzehn.ipm.web.ui.section.annotations.UITextArea;
 import de.faktorzehn.ipm.web.ui.section.annotations.VisibleType;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
-public class UITextAreaAdpater implements UIFieldDefinition {
+public class UITextAreaAdapter implements UIFieldDefinition {
 
     private final UITextArea uiTextArea;
 
-    public UITextAreaAdpater(UITextArea uiTextArea) {
+    public UITextAreaAdapter(UITextArea uiTextArea) {
         this.uiTextArea = uiTextArea;
     }
 
@@ -72,7 +72,7 @@ public class UITextAreaAdpater implements UIFieldDefinition {
     }
 
     @Override
-    public boolean noLabel() {
-        return uiTextArea.noLabel();
+    public boolean showLabel() {
+        return !uiTextArea.noLabel();
     }
 }

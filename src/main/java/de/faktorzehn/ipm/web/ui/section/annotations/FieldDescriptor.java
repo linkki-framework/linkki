@@ -10,6 +10,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.Label;
+
+import de.faktorzehn.ipm.web.binding.BindingContext;
+import de.faktorzehn.ipm.web.binding.ElementBinding;
+import de.faktorzehn.ipm.web.binding.FieldBinding;
+import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 
 /**
  * Holds all information about a field, which are the property name as well as the settings for
@@ -18,7 +25,7 @@ import com.vaadin.ui.Component;
  *
  * @author widmaier
  */
-public class FieldDescriptor {
+public class FieldDescriptor implements ElementDescriptor {
 
     private final UIFieldDefinition fieldDefinition;
     private String fallbackPropertyName;
@@ -39,6 +46,7 @@ public class FieldDescriptor {
      * Property derived from the "modelAttribute" property defined by the annotation. If no
      * "modelAttribute" exists, derives the property name from the name of the annotated method.
      */
+    @Override
     public String getPropertyName() {
         if (StringUtils.isEmpty(fieldDefinition.modelAttribute())) {
             return fallbackPropertyName;
@@ -46,10 +54,12 @@ public class FieldDescriptor {
         return fieldDefinition.modelAttribute();
     }
 
+    @Override
     public EnabledType enabled() {
         return fieldDefinition.enabled();
     }
 
+    @Override
     public VisibleType visible() {
         return fieldDefinition.visible();
     }
@@ -62,6 +72,7 @@ public class FieldDescriptor {
         return fieldDefinition.availableValues();
     }
 
+    @Override
     public int getPosition() {
         return fieldDefinition.position();
     }
@@ -70,8 +81,9 @@ public class FieldDescriptor {
      * Derives the label from the label defined in the annotation. If no label is defined, derives
      * the label from the property name. Appends the suffix ":" if necessary.
      */
+    @Override
     public String getLabelText() {
-        if (fieldDefinition.noLabel()) {
+        if (!fieldDefinition.showLabel()) {
             return "";
         }
 
@@ -85,10 +97,19 @@ public class FieldDescriptor {
         return label;
     }
 
+    @Override
     public Component newComponent() {
         AbstractComponent component = (AbstractComponent)fieldDefinition.newComponent();
         component.setImmediate(true);
         return component;
+    }
+
+    @Override
+    public ElementBinding createBinding(BindingContext bindingContext,
+            Label label,
+            Component component,
+            PropertyDispatcher propertyDispatcher) {
+        return FieldBinding.create(bindingContext, getPropertyName(), label, (Field<?>)component, propertyDispatcher);
     }
 
 }
