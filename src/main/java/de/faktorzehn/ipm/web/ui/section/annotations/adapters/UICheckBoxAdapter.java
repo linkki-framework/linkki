@@ -10,11 +10,11 @@ import de.faktorzehn.ipm.web.ui.section.annotations.UIFieldDefinition;
 import de.faktorzehn.ipm.web.ui.section.annotations.VisibleType;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
-public class UICheckBoxAdpater implements UIFieldDefinition {
+public class UICheckBoxAdapter implements UIFieldDefinition {
 
     private final UICheckBox uiCheckBox;
 
-    public UICheckBoxAdpater(UICheckBox uiCheckBox) {
+    public UICheckBoxAdapter(UICheckBox uiCheckBox) {
         this.uiCheckBox = uiCheckBox;
     }
 
@@ -59,8 +59,8 @@ public class UICheckBoxAdpater implements UIFieldDefinition {
     }
 
     @Override
-    public boolean noLabel() {
-        return uiCheckBox.noLabel();
+    public boolean showLabel() {
+        return !uiCheckBox.noLabel();
     }
 
 }

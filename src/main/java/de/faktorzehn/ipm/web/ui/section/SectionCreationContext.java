@@ -11,17 +11,16 @@ import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNot
 import java.util.Optional;
 
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 
 import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
-import de.faktorzehn.ipm.web.binding.FieldBinding;
+import de.faktorzehn.ipm.web.binding.ElementBinding;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
-import de.faktorzehn.ipm.web.ui.section.annotations.FieldDescriptor;
+import de.faktorzehn.ipm.web.ui.section.annotations.ElementDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.SectionLayout;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIAnnotationReader;
 import de.faktorzehn.ipm.web.ui.section.annotations.UISection;
@@ -64,7 +63,7 @@ public class SectionCreationContext {
 
     public BaseSection createSection() {
         BaseSection section = createEmptySection();
-        createFields(section);
+        createUiElements(section);
         return section;
     }
 
@@ -82,25 +81,24 @@ public class SectionCreationContext {
         return section;
     }
 
-    private void createFields(BaseSection section) {
+    private void createUiElements(BaseSection section) {
         UIAnnotationReader annotationReader = new UIAnnotationReader(getPmo().getClass());
-        for (FieldDescriptor fieldDesc : annotationReader.getFields()) {
-            SectionCreationContext.LabelField lf = createLabelAndField(section, fieldDesc);
-            bindField(lf.field, fieldDesc, lf.label);
+        for (ElementDescriptor uiElement : annotationReader.getUiElements()) {
+            SectionCreationContext.LabelComponent lf = createLabelAndComponent(section, uiElement);
+            bindUiElement(lf.component, uiElement, lf.label);
         }
     }
 
-    private SectionCreationContext.LabelField createLabelAndField(BaseSection section, FieldDescriptor fieldDesc) {
-        Component component = fieldDesc.newComponent();
-        String labelText = fieldDesc.getLabelText();
+    private SectionCreationContext.LabelComponent createLabelAndComponent(BaseSection section, ElementDescriptor uiElement) {
+        Component component = uiElement.newComponent();
+        String labelText = uiElement.getLabelText();
         Label label = section.add(labelText, component);
-        return new LabelField(label, (Field<?>)component);
+        return new LabelComponent(label, component);
     }
 
-    private void bindField(Field<?> vaadinField, FieldDescriptor fieldDesc, Label label) {
-        FieldBinding<?> fieldBinding = FieldBinding.create(bindingContext, fieldDesc.getPropertyName(), label,
-                                                           vaadinField, getPropertyDispatcher());
-        bindingContext.add(fieldBinding);
+    private void bindUiElement(Component component, ElementDescriptor uiElement, Label label) {
+        ElementBinding binding = uiElement.createBinding(bindingContext, label, component, getPropertyDispatcher());
+        bindingContext.add(binding);
     }
 
     protected PropertyDispatcher getPropertyDispatcher() {
@@ -110,13 +108,13 @@ public class SectionCreationContext {
         return propertyDispatcher;
     }
 
-    private static class LabelField {
-        public Label label;
-        public Field<?> field;
+    private static class LabelComponent {
+        final Label label;
+        final Component component;
 
-        LabelField(Label label, Field<?> field) {
+        LabelComponent(Label label, Component component) {
             this.label = label;
-            this.field = field;
+            this.component = component;
         }
     }
 

@@ -20,7 +20,7 @@ public class UIAnnotationReaderTest {
 
     @Test
     public void testGetFieldDefinitions() {
-        assertThat(annotationReader.getFields(), hasSize(3));
+        assertThat(annotationReader.getUiElements(), hasSize(3));
     }
 
     @Test
@@ -53,8 +53,8 @@ public class UIAnnotationReaderTest {
 
     @Test
     public void testGetTableColumnDescriptorFieldDescriptor() {
-        FieldDescriptor test = annotationReader.get("test");
-        FieldDescriptor test3 = annotationReader.get("test3");
+        ElementDescriptor test = annotationReader.get("test");
+        ElementDescriptor test3 = annotationReader.get("test3");
 
         assertThat(test, is(notNullValue()));
         assertThat(test3, is(notNullValue()));
@@ -65,8 +65,8 @@ public class UIAnnotationReaderTest {
 
     @Test
     public void testHasTableColumnAnnotation() {
-        FieldDescriptor test = annotationReader.get("test");
-        FieldDescriptor test3 = annotationReader.get("test3");
+        ElementDescriptor test = annotationReader.get("test");
+        ElementDescriptor test3 = annotationReader.get("test3");
 
         assertThat(test, is(notNullValue()));
         assertThat(test3, is(notNullValue()));

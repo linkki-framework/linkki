@@ -16,7 +16,7 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
-import de.faktorzehn.ipm.web.ui.section.annotations.FieldDescriptor;
+import de.faktorzehn.ipm.web.ui.section.annotations.ElementDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.TableColumnDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIAnnotationReader;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
@@ -56,7 +56,7 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
     /**
      * Creates a new {@link PropertyDispatcher} chain for the given PMO.
      */
-    private PropertyDispatcher createPropertyDispatcher(final T pmo) {
+    protected PropertyDispatcher createPropertyDispatcher(final T pmo) {
         return DISPATCHER_FACTORY.defaultDispatcherChain(pmo, propertyBehaviorProvider);
     }
 
@@ -72,6 +72,14 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
         return table;
     }
 
+    public ContainerPmo<T> getContainerPmo() {
+        return containerPmo;
+    }
+
+    protected BindingContext getBindingContext() {
+        return bindingContext;
+    }
+
     private PmoBasedTable<T> createTableComponent() {
         PmoBasedTable<T> table = new PmoBasedTable<>(containerPmo, this::createPropertyDispatcher);
         table.addStyleName(ApplicationStyles.TABLE);
@@ -82,10 +90,10 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
     }
 
     private void createColumns(PmoBasedTable<T> table) {
-        Set<FieldDescriptor> fields = annotationReader.getFields();
+        Set<ElementDescriptor> uiElements = annotationReader.getUiElements();
         boolean receiveFocusOnNew = true;
-        for (FieldDescriptor field : fields) {
-            createColumn(table, field, receiveFocusOnNew);
+        for (ElementDescriptor uiElement : uiElements) {
+            createColumn(table, uiElement, receiveFocusOnNew);
             receiveFocusOnNew = false;
         }
         if (containerPmo.deleteItemAction().isPresent()) {
@@ -104,18 +112,18 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
         return DELETE_ITEM_COLUMN_DEFAULT_HEADER;
     }
 
-    private void createColumn(PmoBasedTable<T> table, FieldDescriptor field, boolean receiveFocusOnNew) {
-        table.addGeneratedColumn(field.getPropertyName(),
-                                 table.fieldColumnGenerator(field, receiveFocusOnNew, bindingContext));
-        table.setColumnHeader(field.getPropertyName(), field.getLabelText());
-        setConfiguredColumndWidthOrExpandRatio(table, field);
+    private void createColumn(PmoBasedTable<T> table, ElementDescriptor elementDesc, boolean receiveFocusOnNew) {
+        table.addGeneratedColumn(elementDesc.getPropertyName(),
+                                 table.fieldColumnGenerator(elementDesc, receiveFocusOnNew, bindingContext));
+        table.setColumnHeader(elementDesc.getPropertyName(), elementDesc.getLabelText());
+        setConfiguredColumndWidthOrExpandRatio(table, elementDesc);
     }
 
     /**
      * Sets the configured width or expand ratio for the field's column if either one is configured.
      * Does nothing if no values are configured.
      */
-    private void setConfiguredColumndWidthOrExpandRatio(PmoBasedTable<T> table, FieldDescriptor field) {
+    private void setConfiguredColumndWidthOrExpandRatio(PmoBasedTable<T> table, ElementDescriptor field) {
         if (!annotationReader.hasTableColumnAnnotation(field)) {
             return;
         }

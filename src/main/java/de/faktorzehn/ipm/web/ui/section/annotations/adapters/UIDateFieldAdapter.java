@@ -2,57 +2,50 @@ package de.faktorzehn.ipm.web.ui.section.annotations.adapters;
 
 import com.vaadin.ui.Component;
 
-import de.faktorzehn.ipm.web.ui.components.DoubleField;
 import de.faktorzehn.ipm.web.ui.section.annotations.AvailableValuesType;
 import de.faktorzehn.ipm.web.ui.section.annotations.EnabledType;
 import de.faktorzehn.ipm.web.ui.section.annotations.RequiredType;
-import de.faktorzehn.ipm.web.ui.section.annotations.UIDoubleField;
+import de.faktorzehn.ipm.web.ui.section.annotations.UIDateField;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIFieldDefinition;
 import de.faktorzehn.ipm.web.ui.section.annotations.VisibleType;
+import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
-public class UIDoubleFieldAdpater implements UIFieldDefinition {
+public class UIDateFieldAdapter implements UIFieldDefinition {
 
-    private final UIDoubleField uiDoubleField;
+    private final UIDateField uiDateField;
 
-    public UIDoubleFieldAdpater(UIDoubleField uiDoubleField) {
-        this.uiDoubleField = uiDoubleField;
+    public UIDateFieldAdapter(UIDateField uiDateField) {
+        this.uiDateField = uiDateField;
     }
 
     @Override
     public Component newComponent() {
-
-        DoubleField field = new DoubleField(uiDoubleField.format());
-        if (uiDoubleField.maxLength() > 0) {
-            field.setMaxLength(uiDoubleField.maxLength());
-            field.setColumns(uiDoubleField.maxLength() + 2);
-        }
-
-        return field;
+        return ComponentFactory.newDateField();
     }
 
     @Override
     public int position() {
-        return uiDoubleField.position();
+        return uiDateField.position();
     }
 
     @Override
     public String label() {
-        return uiDoubleField.label();
+        return uiDateField.label();
     }
 
     @Override
     public EnabledType enabled() {
-        return uiDoubleField.enabled();
+        return uiDateField.enabled();
     }
 
     @Override
     public RequiredType required() {
-        return uiDoubleField.required();
+        return uiDateField.required();
     }
 
     @Override
     public VisibleType visible() {
-        return uiDoubleField.visible();
+        return uiDateField.visible();
     }
 
     @Override
@@ -62,11 +55,11 @@ public class UIDoubleFieldAdpater implements UIFieldDefinition {
 
     @Override
     public String modelAttribute() {
-        return uiDoubleField.modelAttribute();
+        return uiDateField.modelAttribute();
     }
 
     @Override
-    public boolean noLabel() {
-        return uiDoubleField.noLabel();
+    public boolean showLabel() {
+        return !uiDateField.noLabel();
     }
 }

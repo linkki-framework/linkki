@@ -6,10 +6,12 @@
 
 package de.faktorzehn.ipm.web.binding.dispatcher;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.faktorips.runtime.MessageList;
 
 import com.google.gwt.thirdparty.guava.common.base.Preconditions;
@@ -133,6 +135,16 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         String availableValuesProperty = propertyNamingConvention.getAvailableValuesProperty(property);
         throwExceptionIfCannotRead(availableValuesProperty);
         return (List<?>)getAccessor(availableValuesProperty).getPropertyValue(getBoundObject());
+    }
+
+    @Override
+    public void invoke(String property) {
+        Object boundObject = getBoundObject();
+        try {
+            MethodUtils.invokeExactMethod(boundObject, property);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void throwExceptionIfCannotRead(String property) {

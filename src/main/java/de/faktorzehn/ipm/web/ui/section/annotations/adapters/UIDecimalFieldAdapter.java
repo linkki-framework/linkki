@@ -71,7 +71,7 @@ public class UIDecimalFieldAdapter implements UIFieldDefinition {
     }
 
     @Override
-    public boolean noLabel() {
-        return uiDecimalField.noLabel();
+    public boolean showLabel() {
+        return !uiDecimalField.noLabel();
     }
 }

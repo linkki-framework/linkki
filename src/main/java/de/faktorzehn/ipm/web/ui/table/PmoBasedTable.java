@@ -27,7 +27,7 @@ import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.FieldBinding;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
-import de.faktorzehn.ipm.web.ui.section.annotations.FieldDescriptor;
+import de.faktorzehn.ipm.web.ui.section.annotations.ElementDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
@@ -133,20 +133,20 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
 
         private static final long serialVersionUID = 1L;
 
-        private final FieldDescriptor fieldDescriptor;
+        private final ElementDescriptor elementDescriptor;
         private final boolean receiveFocusOnNew;
         private final BindingContext bindingContext;
 
-        public FieldColumnGenerator(FieldDescriptor fieldDescriptor, boolean receiveFocusOnNew,
+        public FieldColumnGenerator(ElementDescriptor elementDescriptor, boolean receiveFocusOnNew,
                 BindingContext bindingContext) {
-            this.fieldDescriptor = fieldDescriptor;
+            this.elementDescriptor = elementDescriptor;
             this.receiveFocusOnNew = receiveFocusOnNew;
             this.bindingContext = bindingContext;
         }
 
         @Override
         public Object generateCell(Table source, Object itemId, Object columnId) {
-            Component component = fieldDescriptor.newComponent();
+            Component component = elementDescriptor.newComponent();
             component.addStyleName(ApplicationStyles.BORDERLESS);
             component.addStyleName(ApplicationStyles.TABLE_CELL);
             component.setEnabled(getPmo().isEditable());
@@ -156,7 +156,7 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
             FieldBinding<?> binding = FieldBinding.create(bindingContext, (String)columnId, null, field,
                                                           dispatcherCache().get(itemPmo));
             bindingContext.add(binding);
-            binding.updateFieldFromPmo();
+            binding.updateFromPmo();
             if (receiveFocusOnNew) {
                 field.focus();
             }
@@ -181,7 +181,10 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
         return containerPmo;
     }
 
-    void updateFromPmo() {
+    /**
+     * Public for updating the table from "outside" e.g. via other buttons than the add item action.
+     */
+    public void updateFromPmo() {
         removeAllItems();
         createItems();
         refreshRowCache();
@@ -218,17 +221,17 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
     /**
      * Creates a new column generator for a field of a PMO.
      * 
-     * @param fieldDescriptor the descriptor for the PMO's field
+     * @param elementDesc the descriptor for the PMO's field
      * @param receiveFocusOnNew whether or not the generated field should receive the focus when a
      *            new row is generated
      * @param bindingContext the context in which the field is bound
      * 
      * @return a new column generator for a field of a PMO
      */
-    ColumnGenerator fieldColumnGenerator(FieldDescriptor fieldDescriptor,
+    ColumnGenerator fieldColumnGenerator(ElementDescriptor elementDesc,
             boolean receiveFocusOnNew,
             BindingContext bindingContext) {
-        return new FieldColumnGenerator(fieldDescriptor, receiveFocusOnNew, bindingContext);
+        return new FieldColumnGenerator(elementDesc, receiveFocusOnNew, bindingContext);
     }
 
     /**
@@ -240,11 +243,7 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
      *         add items
      */
     Optional<ButtonPmo> addItemButtonPmo(BindingContext ctx) {
-        if (containerPmo.addItemAction().isPresent()) {
-            return Optional.of(new AddItemButtonPmo(ctx));
-        } else {
-            return Optional.empty();
-        }
+        return containerPmo.addItemAction().map(a -> new AddItemButtonPmo(ctx));
     }
 
     /** Helper function that supplies an {@link IllegalStateException}. */

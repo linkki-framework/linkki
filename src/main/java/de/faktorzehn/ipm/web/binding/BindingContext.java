@@ -18,8 +18,8 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 public class BindingContext {
 
     private String name;
-    private List<FieldBinding<?>> fieldBindings = new LinkedList<>();
-    private Set<PropertyDispatcher> propertyDispatchers = new HashSet<>();
+    private List<ElementBinding> bindings = new LinkedList<>();
+    private Set<PropertyDispatcher> propertyDispatcher = new HashSet<PropertyDispatcher>();
 
     public BindingContext() {
         this("DefaultContext");
@@ -33,26 +33,26 @@ public class BindingContext {
         return name;
     }
 
-    public BindingContext add(FieldBinding<?> binding) {
-        fieldBindings.add(binding);
-        propertyDispatchers.add(binding.getPropertyDispatcher());
+    public BindingContext add(ElementBinding binding) {
+        bindings.add(binding);
+        propertyDispatcher.add(binding.getPropertyDispatcher());
         return this;
     }
 
-    public List<FieldBinding<?>> getFieldBindings() {
-        return Collections.unmodifiableList(fieldBindings);
+    public List<ElementBinding> getBindings() {
+        return Collections.unmodifiableList(bindings);
     }
 
     public void removeBindingsForPmo(PresentationModelObject pmo) {
-        List<FieldBinding<?>> toRemove = fieldBindings.stream()
-                .filter(fb -> fb.getPropertyDispatcher().getPmo() == pmo).collect(Collectors.toList());
-        toRemove.stream().map(fb -> fb.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
-        fieldBindings.removeAll(toRemove);
+        List<ElementBinding> toRemove = bindings.stream().filter(b -> b.getPropertyDispatcher().getPmo() == pmo)
+                .collect(Collectors.toList());
+        toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatcher::remove);
+        bindings.removeAll(toRemove);
     }
 
     public void updateUI() {
-        propertyDispatchers.forEach(pd -> pd.prepareUpdateUI());
-        fieldBindings.forEach(binding -> binding.updateFieldFromPmo());
+        propertyDispatcher.forEach(pd -> pd.prepareUpdateUI());
+        bindings.forEach(binding -> binding.updateFromPmo());
     }
 
     @Override
