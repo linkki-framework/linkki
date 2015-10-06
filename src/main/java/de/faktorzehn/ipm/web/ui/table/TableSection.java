@@ -37,6 +37,15 @@ public class TableSection<T extends PresentationModelObject> extends AbstractSec
         return table.getPmo();
     }
 
+    /**
+     * Manually update the table in this section from its pmo.
+     * 
+     * Introduced for the AA project.
+     */
+    public void update() {
+        table.updateFromPmo();
+    }
+
     @Override
     public String toString() {
         return "TableSection based on PMO=" + getPmo();

@@ -86,6 +86,11 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
         return wrappedDispatcher.getPmo();
     }
 
+    @Override
+    public void invoke(String property) {
+        getWrappedDispatcher().invoke(property);
+    }
+
     protected PropertyDispatcher getWrappedDispatcher() {
         return wrappedDispatcher;
     }

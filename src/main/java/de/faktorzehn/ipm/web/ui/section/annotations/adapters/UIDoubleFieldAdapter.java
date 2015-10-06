@@ -2,55 +2,57 @@ package de.faktorzehn.ipm.web.ui.section.annotations.adapters;
 
 import com.vaadin.ui.Component;
 
-import de.faktorzehn.ipm.web.ui.components.IntegerField;
+import de.faktorzehn.ipm.web.ui.components.DoubleField;
 import de.faktorzehn.ipm.web.ui.section.annotations.AvailableValuesType;
 import de.faktorzehn.ipm.web.ui.section.annotations.EnabledType;
 import de.faktorzehn.ipm.web.ui.section.annotations.RequiredType;
+import de.faktorzehn.ipm.web.ui.section.annotations.UIDoubleField;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIFieldDefinition;
-import de.faktorzehn.ipm.web.ui.section.annotations.UIIntegerField;
 import de.faktorzehn.ipm.web.ui.section.annotations.VisibleType;
 
-public class UIIntegerFieldAdpater implements UIFieldDefinition {
+public class UIDoubleFieldAdapter implements UIFieldDefinition {
 
-    private final UIIntegerField uiIntegerField;
+    private final UIDoubleField uiDoubleField;
 
-    public UIIntegerFieldAdpater(UIIntegerField uiIntegerField) {
-        this.uiIntegerField = uiIntegerField;
+    public UIDoubleFieldAdapter(UIDoubleField uiDoubleField) {
+        this.uiDoubleField = uiDoubleField;
     }
 
     @Override
     public Component newComponent() {
-        IntegerField field = new IntegerField(uiIntegerField.format());
-        if (uiIntegerField.maxLength() > 0) {
-            field.setMaxLength(uiIntegerField.maxLength());
-            field.setColumns(uiIntegerField.maxLength() + 2);
+
+        DoubleField field = new DoubleField(uiDoubleField.format());
+        if (uiDoubleField.maxLength() > 0) {
+            field.setMaxLength(uiDoubleField.maxLength());
+            field.setColumns(uiDoubleField.maxLength() + 2);
         }
+
         return field;
     }
 
     @Override
     public int position() {
-        return uiIntegerField.position();
+        return uiDoubleField.position();
     }
 
     @Override
     public String label() {
-        return uiIntegerField.label();
+        return uiDoubleField.label();
     }
 
     @Override
     public EnabledType enabled() {
-        return uiIntegerField.enabled();
+        return uiDoubleField.enabled();
     }
 
     @Override
     public RequiredType required() {
-        return uiIntegerField.required();
+        return uiDoubleField.required();
     }
 
     @Override
     public VisibleType visible() {
-        return uiIntegerField.visible();
+        return uiDoubleField.visible();
     }
 
     @Override
@@ -60,11 +62,11 @@ public class UIIntegerFieldAdpater implements UIFieldDefinition {
 
     @Override
     public String modelAttribute() {
-        return uiIntegerField.modelAttribute();
+        return uiDoubleField.modelAttribute();
     }
 
     @Override
-    public boolean noLabel() {
-        return uiIntegerField.noLabel();
+    public boolean showLabel() {
+        return !uiDoubleField.noLabel();
     }
 }
