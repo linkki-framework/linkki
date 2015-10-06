@@ -92,7 +92,7 @@ public class FormSection extends BaseSection {
         int gridColumns = columns * 3;
         GridLayout gridLayout = new GridLayout(gridColumns, 1);
         gridLayout.setWidth("100%");
-        gridLayout.setMargin(new MarginInfo(false, true, true, true));
+        gridLayout.setMargin(new MarginInfo(true, true, true, true));
         gridLayout.setSpacing(true);
         for (int i = 0; i < columns; i++) {
             gridLayout.setColumnExpandRatio(i * 3, 0);
@@ -140,6 +140,7 @@ public class FormSection extends BaseSection {
             contentGrid.addComponent(component);
             ComponentFactory.addHorizontalSpacer(contentGrid);
         }
+        contentGrid.setComponentAlignment(component, Alignment.MIDDLE_LEFT);
         return l;
     }
 
