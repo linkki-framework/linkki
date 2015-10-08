@@ -23,13 +23,13 @@ import de.faktorzehn.ipm.web.ui.table.TableSection;
  *
  * @author Jan Ortmann
  */
-public abstract class SectionFactoryBasedEditPage extends AbstractEditPage {
+public abstract class SectionFactoryBasedPage extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
     private PmoBasedSectionFactory sectionFactory;
 
-    public SectionFactoryBasedEditPage(@Nonnull PmoBasedSectionFactory sectionFactory) {
+    public SectionFactoryBasedPage(@Nonnull PmoBasedSectionFactory sectionFactory) {
         super();
         checkNotNull(sectionFactory);
         this.sectionFactory = sectionFactory;

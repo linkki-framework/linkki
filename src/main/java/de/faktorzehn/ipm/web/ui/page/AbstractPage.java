@@ -10,13 +10,15 @@ import de.faktorzehn.ipm.web.ui.section.AbstractSection;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
 /**
- * A page to display and edit data in a vertical layout. The page is made up of so called sections.
- * Sections can be added to the page taking either the whole width of the page or to take 50% of the
- * page.
+ * A page is a child of an area (e.g. {@link AbstractBhbArea}), represented as a tab.
+ * <p>
+ * It allows displaying and editing data in a vertical layout. The page is made up of so called
+ * sections. Sections can be added to the page taking either the whole width of the page or to take
+ * 50% of the page.
  * 
  * @see AbstractSection
  */
-public abstract class AbstractEditPage extends VerticalLayout {
+public abstract class AbstractPage extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
