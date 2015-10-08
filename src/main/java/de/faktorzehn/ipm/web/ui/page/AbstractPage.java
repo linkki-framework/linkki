@@ -1,5 +1,7 @@
 package de.faktorzehn.ipm.web.ui.page;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
@@ -10,11 +12,9 @@ import de.faktorzehn.ipm.web.ui.section.AbstractSection;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
 /**
- * A page is a child of an area (e.g. {@link AbstractBhbArea}), represented as a tab.
- * <p>
- * It allows displaying and editing data in a vertical layout. The page is made up of so called
- * sections. Sections can be added to the page taking either the whole width of the page or to take
- * 50% of the page.
+ * A page allows displaying and editing data in a vertical layout. It usually consists of so called
+ * sections but can also contain arbitrary UI components. Sections (or other components) can be
+ * added to take up either the whole width or 50% of the page.
  * 
  * @see AbstractSection
  */
@@ -73,14 +73,31 @@ public abstract class AbstractPage extends VerticalLayout {
         // TODO not implemented, yet. Can this be done in a generic way?
     }
 
-    protected abstract BindingManager getBindingManager();
+    /**
+     * Refreshes the content displayed on this page. Data bindings are reloaded, but no sections are
+     * removed/added.
+     * <p>
+     * This method should be overridden if the page contains components that do not use data binding
+     * and have to be refreshed manually.
+     */
+    @OverridingMethodsMustInvokeSuper
+    public void refresh() {
+        getBindingContext().updateUI();
+    }
 
-    public abstract void update();
+    /**
+     * Returns the binding manager used to obtain or create binding contexts.
+     * 
+     * @see #getBindingContext()
+     */
+    protected abstract BindingManager getBindingManager();
 
     /**
      * Returns a cached binding context if present, otherwise creates a new one. Caches one binding
-     * context for each edit page subclass.
+     * context for each class.
      */
-    protected abstract BindingContext getBindingContext();
+    protected BindingContext getBindingContext() {
+        return getBindingManager().getExistingContextOrStartNewOne(getClass());
+    }
 
 }
