@@ -28,6 +28,7 @@ abstract class AbstractNumberFieldConverter<T extends Number> implements Convert
     }
 
     @Override
+    @SuppressWarnings("null")
     public final T convertToModel(String value, Class<? extends T> targetType, Locale locale)
             throws ConversionException {
 

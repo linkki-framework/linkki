@@ -14,8 +14,8 @@ import java.util.function.Function;
  * Key-value store that initializes its values lazily. Values will be initialized using the
  * initializer function the {@link LazyInitializingMap map} is created with.
  *
- * @param K the type of key stored in this map
- * @param V the type of values stored in this map
+ * @param <K> the type of key stored in this map
+ * @param <V> the type of values stored in this map
  *
  */
 public class LazyInitializingMap<K, V> {

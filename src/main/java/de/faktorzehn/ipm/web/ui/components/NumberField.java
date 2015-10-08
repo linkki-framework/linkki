@@ -7,7 +7,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * Field to represent Numbers. The format is done by {@link java.text.NumberFormat} (and not by
- * {@link com.google.gwt.i18n.client.NumberFormat}), because we are located on the server side.
+ * {@code com.google.gwt.i18n.client.NumberFormat}), because we are located on the server side.
  *
  * @author Jan Ortmann
  * @author Thorsten Günther
