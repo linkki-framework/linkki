@@ -174,4 +174,9 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
             PropertyDispatcher propertyDispatcher) {
         return new FieldBinding<T>(bindingContext, propertyName, label, field, propertyDispatcher);
     }
+
+    @Override
+    public Field<T> getBoundComponent() {
+        return field;
+    }
 }

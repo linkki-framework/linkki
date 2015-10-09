@@ -1,11 +1,16 @@
 package de.faktorzehn.ipm.web.binding;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.google.gwt.thirdparty.guava.common.collect.Maps;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
@@ -18,7 +23,7 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 public class BindingContext {
 
     private String name;
-    private List<ElementBinding> bindings = new LinkedList<>();
+    private Map<Component, ElementBinding> bindings = Maps.newLinkedHashMap();
     private Set<PropertyDispatcher> propertyDispatcher = new HashSet<PropertyDispatcher>();
 
     public BindingContext() {
@@ -34,25 +39,33 @@ public class BindingContext {
     }
 
     public BindingContext add(ElementBinding binding) {
-        bindings.add(binding);
+        bindings.put(binding.getBoundComponent(), binding);
         propertyDispatcher.add(binding.getPropertyDispatcher());
         return this;
     }
 
-    public List<ElementBinding> getBindings() {
-        return Collections.unmodifiableList(bindings);
+    public Collection<ElementBinding> getBindings() {
+        return Collections.unmodifiableCollection(bindings.values());
     }
 
     public void removeBindingsForPmo(PresentationModelObject pmo) {
-        List<ElementBinding> toRemove = bindings.stream().filter(b -> b.getPropertyDispatcher().getPmo() == pmo)
-                .collect(Collectors.toList());
+        List<ElementBinding> toRemove = bindings.values().stream()
+                .filter(b -> b.getPropertyDispatcher().getPmo() == pmo).collect(Collectors.toList());
         toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatcher::remove);
-        bindings.removeAll(toRemove);
+        bindings.values().removeAll(toRemove);
+    }
+
+    public void removeBindingsForComponent(Component c) {
+        bindings.remove(c);
+        if (c instanceof ComponentContainer) {
+            ComponentContainer container = (ComponentContainer)c;
+            container.iterator().forEachRemaining(this::removeBindingsForComponent);
+        }
     }
 
     public void updateUI() {
         propertyDispatcher.forEach(pd -> pd.prepareUpdateUI());
-        bindings.forEach(binding -> binding.updateFromPmo());
+        bindings.values().forEach(binding -> binding.updateFromPmo());
     }
 
     @Override

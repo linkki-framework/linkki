@@ -18,6 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 
 import de.faktorzehn.ipm.web.binding.dispatcher.ExceptionPropertyDispatcher;
 import de.faktorzehn.ipm.web.binding.dispatcher.ReflectionPropertyDispatcher;
@@ -28,16 +29,21 @@ public class BindingContextTest {
     private BindingContext context;
 
     @Mock
-    private Label label;
+    private Label label1;
+    private Label label2;
     private TestPMO pmo = new TestPMO();
-    private Field<String> field = spy(new TextField());
+    private Field<String> field1 = spy(new TextField());
+    private Field<String> field2 = spy(new TextField());
 
-    private FieldBinding<String> binding;
+    private FieldBinding<String> binding1;
+    private FieldBinding<String> binding2;
 
     @Before
     public void setUp() {
         context = new BindingContext();
-        binding = new FieldBinding<String>(context, "value", label, field, new ReflectionPropertyDispatcher(
+        binding1 = new FieldBinding<String>(context, "value", label1, field1, new ReflectionPropertyDispatcher(
+                this::getPmo, new ExceptionPropertyDispatcher(pmo, pmo)));
+        binding2 = new FieldBinding<String>(context, "value", label2, field2, new ReflectionPropertyDispatcher(
                 this::getPmo, new ExceptionPropertyDispatcher(pmo, pmo)));
     }
 
@@ -48,44 +54,57 @@ public class BindingContextTest {
     @Test
     public void testAdd() {
         assertEquals(0, context.getBindings().size());
-        context.add(binding);
+        context.add(binding1);
         assertEquals(1, context.getBindings().size());
     }
 
     @Test
     public void testUpdateUI() {
-        binding = spy(binding);
+        binding1 = spy(binding1);
 
         context.updateUI();
-        verify(binding, never()).updateFromPmo();
+        verify(binding1, never()).updateFromPmo();
 
-        context.add(binding);
+        context.add(binding1);
 
         context.updateUI();
-        verify(binding).updateFromPmo();
+        verify(binding1).updateFromPmo();
     }
 
     @Test
     public void testChangeBoundObject() {
-        binding = spy(binding);
+        binding1 = spy(binding1);
 
         context.updateUI();
-        verify(binding, never()).updateFromPmo();
+        verify(binding1, never()).updateFromPmo();
 
-        context.add(binding);
+        context.add(binding1);
 
         context.updateUI();
-        verify(binding).updateFromPmo();
+        verify(binding1).updateFromPmo();
     }
 
     @Test
     public void testRemoveBindingsForPmo() {
-        context.add(binding);
-        context.add(binding);
+        context.add(binding1);
+        context.add(binding2);
 
         assertThat(context.getBindings(), hasSize(2));
 
         context.removeBindingsForPmo(pmo);
+        assertThat(context.getBindings(), is(empty()));
+    }
+
+    @Test
+    public void testRemoveBindingsForComponent() {
+        context.add(binding1);
+        context.add(binding2);
+
+        assertThat(context.getBindings(), hasSize(2));
+
+        VerticalLayout layout = new VerticalLayout(field1, field2);
+
+        context.removeBindingsForComponent(layout);
         assertThat(context.getBindings(), is(empty()));
     }
 }

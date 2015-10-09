@@ -6,6 +6,8 @@
 
 package de.faktorzehn.ipm.web.binding;
 
+import com.vaadin.ui.Component;
+
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 
 public interface ElementBinding {
@@ -13,5 +15,7 @@ public interface ElementBinding {
     void updateFromPmo();
 
     PropertyDispatcher getPropertyDispatcher();
+
+    Component getBoundComponent();
 
 }

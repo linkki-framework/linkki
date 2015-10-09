@@ -1,10 +1,10 @@
 package de.faktorzehn.ipm.web.binding;
 
-import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkState;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Manages a set of binding contexts.
@@ -29,14 +29,12 @@ public abstract class BindingManager {
 
     protected abstract BindingContext newBindingContext(String name);
 
-    public BindingContext getExistingContext(Class<?> clazz) {
+    public Optional<BindingContext> getExistingContext(Class<?> clazz) {
         return getExistingContext(clazz.getName());
     }
 
-    public BindingContext getExistingContext(String name) {
-        BindingContext context = contextsByName.get(name);
-        checkNotNull(context, "No context '%s' registered in BindingManager.", name);
-        return context;
+    public Optional<BindingContext> getExistingContext(String name) {
+        return Optional.ofNullable(contextsByName.get(name));
     }
 
     public BindingContext getExistingContextOrStartNewOne(Class<?> clazz) {

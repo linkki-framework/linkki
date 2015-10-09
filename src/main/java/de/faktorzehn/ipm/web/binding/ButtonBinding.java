@@ -72,4 +72,9 @@ public class ButtonBinding implements ElementBinding, Serializable {
             PropertyDispatcher propertyDispatcher) {
         return new ButtonBinding(bindingContext, methodName, label, button, propertyDispatcher);
     }
+
+    @Override
+    public Button getBoundComponent() {
+        return button;
+    }
 }
