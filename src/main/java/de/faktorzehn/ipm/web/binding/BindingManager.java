@@ -54,4 +54,8 @@ public abstract class BindingManager {
     public void removeContext(BindingContext context) {
         contextsByName.remove(context.getName());
     }
+
+    public void removeAllContexts() {
+        contextsByName.clear();
+    }
 }
