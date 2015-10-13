@@ -14,6 +14,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
@@ -60,13 +62,14 @@ public class PmoBasedSectionFactoryTest {
         pmo = new PMOWithAnnotations();
         section = new DefaultPmoBasedSectionFactory().createSection(pmo, bindingContext);
 
-        List<ElementBinding> bindings = bindingContext.getBindings();
+        Collection<ElementBinding> bindings = bindingContext.getBindings();
         assertEquals(5, bindings.size());
-        textFieldBinding = (FieldBinding<?>)bindings.get(0);
-        comboBinding1 = (FieldBinding<?>)bindings.get(1);
-        comboBinding2 = (FieldBinding<?>)bindings.get(2);
-        disabledInvisibleBinding = (FieldBinding<?>)bindings.get(3);
-        buttonBinding = (ButtonBinding)bindings.get(4);
+        Iterator<ElementBinding> it = bindings.iterator();
+        textFieldBinding = (FieldBinding<?>)it.next();
+        comboBinding1 = (FieldBinding<?>)it.next();
+        comboBinding2 = (FieldBinding<?>)it.next();
+        disabledInvisibleBinding = (FieldBinding<?>)it.next();
+        buttonBinding = (ButtonBinding)it.next();
     }
 
     @Test
