@@ -14,10 +14,10 @@ import java.util.Collections;
  * Example:
  * 
  * <pre>
- * &#64;Inject
+ * &#064;Inject
  * private DefaultPmoBasedSectionFactory sectionFactory;
  * 
- * <pre>
+ * </pre>
  *
  * @author dirmeier
  */
