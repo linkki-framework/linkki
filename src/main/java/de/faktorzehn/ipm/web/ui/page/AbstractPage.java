@@ -1,6 +1,7 @@
 package de.faktorzehn.ipm.web.ui.page;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+import javax.annotation.PostConstruct;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -16,11 +17,22 @@ import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
  * sections but can also contain arbitrary UI components. Sections (or other components) can be
  * added to take up either the whole width or 50% of the page.
  * 
+ * If the page is created via injection framework, the {@link #init()} method is called
+ * automatically and ensures that the {@link #createContent()} method is called.
+ * 
+ * Note: If the page is not injected you need to call {@link #init()} manually!
+ * 
  * @see AbstractSection
  */
-public abstract class AbstractPage extends VerticalLayout {
+public abstract class AbstractPage extends VerticalLayout implements Page {
 
     private static final long serialVersionUID = 1L;
+
+    @PostConstruct
+    public final void init() {
+        setSizeFull();
+        createContent();
+    }
 
     /**
      * Adds the given component / section to the page taking 100% of the page width.
@@ -80,8 +92,9 @@ public abstract class AbstractPage extends VerticalLayout {
      * This method should be overridden if the page contains components that do not use data binding
      * and have to be refreshed manually.
      */
+    @Override
     @OverridingMethodsMustInvokeSuper
-    public void refresh() {
+    public void reloadBindings() {
         getBindingContext().updateUI();
     }
 
