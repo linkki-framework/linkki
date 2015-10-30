@@ -6,6 +6,7 @@
 
 package de.faktorzehn.ipm.web.binding;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -31,8 +32,7 @@ public class TableBindingTest {
 
     private TestContainerPmo containerPmo = new TestContainerPmo();
 
-    @Mock
-    private Table table;
+    private Table table = new Table();
 
     @Mock
     private ItemSetChangeListener listener;
@@ -43,17 +43,21 @@ public class TableBindingTest {
     public void setUp() {
         tableBinding = new TableBinding<TestColumnPmo>(bindingContext, table, containerPmo);
         tableBinding.addItemSetChangeListener(listener);
-        verify(table).setContainerDataSource(tableBinding);
     }
 
     @Test
-    public void testUpdateFromPmo_noChanged() {
+    public void testDataSourceSet() {
+        assertEquals(tableBinding, table.getContainerDataSource());
+    }
+
+    @Test
+    public void testUpdateFromPmo_pageLength() {
+        containerPmo.setPageLength(23);
+
         tableBinding.updateFromPmo();
 
-        verify(table).setPageLength(15);
-        verifyNoMoreInteractions(table);
+        assertEquals(23, table.getPageLength());
         verifyZeroInteractions(listener);
-        verifyZeroInteractions(bindingContext);
     }
 
     @Test
@@ -62,10 +66,9 @@ public class TableBindingTest {
 
         tableBinding.updateFromPmo();
 
-        verify(table).setPageLength(15);
-        verifyNoMoreInteractions(table);
+        assertEquals(containerPmo.getItems(), table.getItemIds());
         verify(listener).containerItemSetChange(any());
-        verifyZeroInteractions(bindingContext);
+        verifyNoMoreInteractions(listener);
     }
 
     @Test
@@ -74,8 +77,7 @@ public class TableBindingTest {
 
         tableBinding.updateFromPmo();
 
-        verify(table).setPageLength(15);
-        verifyNoMoreInteractions(table);
+        assertEquals(containerPmo.getItems(), table.getItemIds());
         verify(listener).containerItemSetChange(any());
         verifyNoMoreInteractions(listener);
         verify(bindingContext).removeBindingsForPmo(removed);

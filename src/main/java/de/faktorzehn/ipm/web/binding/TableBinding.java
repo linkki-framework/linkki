@@ -3,6 +3,8 @@ package de.faktorzehn.ipm.web.binding;
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.vaadin.viritin.ListContainer;
@@ -10,6 +12,7 @@ import org.vaadin.viritin.ListContainer;
 import com.vaadin.ui.Table;
 
 import de.faktorzehn.ipm.web.PresentationModelObject;
+import de.faktorzehn.ipm.web.binding.annotations.BindContext;
 import de.faktorzehn.ipm.web.ui.table.ContainerPmo;
 
 /**
@@ -42,13 +45,27 @@ public class TableBinding<T extends PresentationModelObject> extends ListContain
     }
 
     private void updateItemCopy() {
-        this.itemCopy = new ArrayList<>(getContainerPmo().getItems());
+        itemCopy = new ArrayList<>(getBackingList());
+    }
+
+    @Override
+    protected List<T> getBackingList() {
+        return containerPmo.getItems();
+    }
+
+    /**
+     * Need to return an empty list for container parameter ids because every column should be
+     * generated using the column generator.
+     */
+    @Override
+    public Collection<String> getContainerPropertyIds() {
+        return Collections.emptyList();
     }
 
     @Override
     public void updateFromPmo() {
-        if (itemCopy.size() != getContainerPmo().getItems().size()) {
-            itemCopy.removeAll(getContainerPmo().getItems());
+        if (itemCopy.size() != getBackingList().size()) {
+            itemCopy.removeAll(getBackingList());
             itemCopy.forEach(bindingContext::removeBindingsForPmo);
             fireItemSetChange();
             updateItemCopy();
@@ -71,10 +88,22 @@ public class TableBinding<T extends PresentationModelObject> extends ListContain
                 + getContainerPmo() + "]";
     }
 
+    /**
+     * Creates a new {@link TableBinding} and add the new binding to the given {@link BindContext}
+     * 
+     * @param bindingContext The binding context used to bind the given {@link ContainerPmo} to the
+     *            given {@link Table}
+     * @param table The table that should be updated by this binding
+     * @param containerPmo The {@link ContainerPmo} that holds the item that should be displayed in
+     *            the table
+     * @return The newly created {@link TableBinding}
+     */
     public static <T extends PresentationModelObject> TableBinding<T> create(BindingContext bindingContext,
             Table table,
             ContainerPmo<T> containerPmo) {
-        return new TableBinding<T>(bindingContext, table, containerPmo);
+        TableBinding<T> tableBinding = new TableBinding<T>(bindingContext, table, containerPmo);
+        bindingContext.add(tableBinding);
+        return tableBinding;
     }
 
 }

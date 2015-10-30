@@ -43,4 +43,8 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
         return pageLength;
     }
 
+    public void setPageLength(int pageLength) {
+        this.pageLength = pageLength;
+    }
+
 }
