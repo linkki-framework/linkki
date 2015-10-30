@@ -10,6 +10,8 @@ import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNot
 
 import java.util.Optional;
 
+import com.vaadin.ui.Table;
+
 import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
@@ -35,14 +37,14 @@ public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
     }
 
     public TableSection<T> createSection() {
-        PmoBasedTable<T> table = createTable();
-        Optional<ButtonPmo> addItemPmo = table.getNewItemButtonPmo();
+        Table table = createTable();
+        Optional<ButtonPmo> addItemPmo = containerPmo.getAddItemButtonPmo();
         TableSection<T> section = createEmptySection(addItemPmo);
         section.setTable(table);
         return section;
     }
 
-    private PmoBasedTable<T> createTable() {
+    private Table createTable() {
         PmoBasedTableFactory<T> tableFactory = new PmoBasedTableFactory<>(containerPmo, bindingContext,
                 this::createPropertyDispatcher);
         return tableFactory.createTable();

@@ -23,7 +23,7 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 public class BindingContext {
 
     private String name;
-    private Map<Component, Binding> bindings = Maps.newLinkedHashMap();
+    private Map<Component, Binding> bindings = Maps.newConcurrentMap();
     private Set<PropertyDispatcher> propertyDispatchers = new HashSet<PropertyDispatcher>();
 
     public BindingContext() {

@@ -82,8 +82,8 @@ public class BindingUtils {
             javaField.setAccessible(true);
             vaadinField = (Field<?>)javaField.get(uiElement);
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException("Error getting Vaadin field from the Java field, " + javaField.getName()
-                    + " in " + uiElement, e);
+            throw new RuntimeException(
+                    "Error getting Vaadin field from the Java field, " + javaField.getName() + " in " + uiElement, e);
         } finally {
             javaField.setAccessible(false);
         }
@@ -93,7 +93,6 @@ public class BindingUtils {
         }
         FieldBinding<?> fieldBinding = FieldBinding.create(bindingContext, bindAnnotation.valueProperty(), label,
                                                            vaadinField, getDispatcher(pmo));
-        bindingContext.add(fieldBinding);
     }
 
     /*
@@ -131,7 +130,8 @@ public class BindingUtils {
                 method = pmo.getClass().getMethod("getModelObject", Class.class);
             }
         } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("PMO " + pmo.getClass() + " hasn't got a method to acess the model object.");
+            throw new IllegalStateException(
+                    "PMO " + pmo.getClass() + " hasn't got a method to acess the model object.");
         } catch (SecurityException e) {
             throw new RuntimeException(e);
         }

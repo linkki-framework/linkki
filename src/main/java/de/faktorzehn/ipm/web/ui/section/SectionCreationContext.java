@@ -16,7 +16,6 @@ import com.vaadin.ui.Label;
 import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
-import de.faktorzehn.ipm.web.binding.ElementBinding;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
@@ -97,8 +96,7 @@ public class SectionCreationContext {
     }
 
     private void bindUiElement(Component component, ElementDescriptor uiElement, Label label) {
-        ElementBinding binding = uiElement.createBinding(bindingContext, label, component, getPropertyDispatcher());
-        bindingContext.add(binding);
+        uiElement.createBinding(bindingContext, label, component, getPropertyDispatcher());
     }
 
     protected PropertyDispatcher getPropertyDispatcher() {

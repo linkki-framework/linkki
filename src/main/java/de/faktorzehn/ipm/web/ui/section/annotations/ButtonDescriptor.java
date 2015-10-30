@@ -60,7 +60,7 @@ public class ButtonDescriptor implements ElementDescriptor {
             Label label,
             Component component,
             PropertyDispatcher propertyDispatcher) {
-        return new ButtonBinding(bindingContext, getPropertyName(), label, (Button)component, propertyDispatcher);
+        return ButtonBinding.create(bindingContext, getPropertyName(), label, (Button)component, propertyDispatcher);
     }
 
     @Override

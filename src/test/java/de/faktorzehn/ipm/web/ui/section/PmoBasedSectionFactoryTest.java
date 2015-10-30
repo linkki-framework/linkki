@@ -15,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
@@ -64,12 +63,22 @@ public class PmoBasedSectionFactoryTest {
 
         Collection<Binding> bindings = bindingContext.getBindings();
         assertEquals(5, bindings.size());
-        Iterator<Binding> it = bindings.iterator();
-        textFieldBinding = (FieldBinding<?>)it.next();
-        comboBinding1 = (FieldBinding<?>)it.next();
-        comboBinding2 = (FieldBinding<?>)it.next();
-        disabledInvisibleBinding = (FieldBinding<?>)it.next();
-        buttonBinding = (ButtonBinding)it.next();
+        for (Binding binding : bindings) {
+            if (binding instanceof FieldBinding) {
+                FieldBinding<?> fieldBinding = (FieldBinding<?>)binding;
+                if (fieldBinding.getPropertyName().equals("xyz")) {
+                    textFieldBinding = fieldBinding;
+                } else if (fieldBinding.getPropertyName().equals("staticEnumAttr")) {
+                    comboBinding1 = fieldBinding;
+                } else if (fieldBinding.getPropertyName().equals("dynamicEnumAttr")) {
+                    comboBinding2 = fieldBinding;
+                } else if (fieldBinding.getPropertyName().equals("disabledInvisible")) {
+                    disabledInvisibleBinding = fieldBinding;
+                }
+            } else if (binding instanceof ButtonBinding) {
+                buttonBinding = (ButtonBinding)binding;
+            }
+        }
     }
 
     @Test

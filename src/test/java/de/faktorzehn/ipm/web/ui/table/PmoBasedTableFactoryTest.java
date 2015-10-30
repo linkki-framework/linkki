@@ -18,6 +18,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.vaadin.ui.Table;
+
 import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
@@ -36,7 +38,7 @@ public class PmoBasedTableFactoryTest {
     public void testCreateTable_FieldLabelsAreUsedAsColumnHeaders() {
         PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx,
                 propertyDispatcherBuilder);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
+        Table table = factory.createTable();
         assertThat(table, is(notNullValue()));
         assertThat(table.getColumnHeaders(), is(arrayContaining("1", "2", "3")));
     }
@@ -45,7 +47,7 @@ public class PmoBasedTableFactoryTest {
     public void testCreateTable_WidthAndExpandRatioIsReadFromAnnotation() {
         PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx,
                 propertyDispatcherBuilder);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
+        Table table = factory.createTable();
         assertThat(table, is(notNullValue()));
 
         assertThat(table.getColumnWidth("value1"), is(100));
@@ -63,7 +65,7 @@ public class PmoBasedTableFactoryTest {
         TestContainerPmo containerPmo = new TestContainerPmo();
         PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
                 propertyDispatcherBuilder);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
+        Table table = factory.createTable();
         assertThat(table.getPageLength(), is(ContainerPmo.DEFAULT_PAGE_LENGTH));
     }
 
@@ -72,7 +74,7 @@ public class PmoBasedTableFactoryTest {
         TestContainerPmo containerPmo = new TestContainerPmo();
         PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
                 propertyDispatcherBuilder);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
+        Table table = factory.createTable();
 
         assertThat(containerPmo.getItems().size(), is(2));
         assertThat(table.getItemIds().size(), is(2));
@@ -83,8 +85,8 @@ public class PmoBasedTableFactoryTest {
         TestContainerPmo containerPmo = new TestContainerPmo();
         PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
                 propertyDispatcherBuilder);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
-        ButtonPmo addItemButtonPmo = table.getNewItemButtonPmo().get();
+        Table table = factory.createTable();
+        ButtonPmo addItemButtonPmo = containerPmo.getAddItemButtonPmo().get();
 
         assertThat(containerPmo.getItems().size(), is(2));
         assertThat(table.getItemIds().size(), is(2));
