@@ -59,29 +59,6 @@ public class PmoBasedTableFactoryTest {
     }
 
     @Test
-    public void testCreateTable_DeleteColumnHeaderIsReadFromAnnotation() {
-        TestContainerPmoWithAnnotation containerPmo = new TestContainerPmoWithAnnotation();
-        containerPmo.setDeleteAction(System.out::println);
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
-                propertyDispatcherBuilder);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
-        assertThat(table, is(notNullValue()));
-        assertThat(table.getColumnHeaders(),
-                   is(arrayContaining("1", "2", "3", TestContainerPmoWithAnnotation.DELETE_ITEM_COLUMN_HEADER)));
-    }
-
-    @Test
-    public void testCreateTable_DefaultDeleteColumnHeaderIsUsedIfAnnotationIsMissing() {
-        TestContainerPmo containerPmo = new TestContainerPmo();
-        containerPmo.setDeleteAction(System.out::println);
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
-                propertyDispatcherBuilder);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
-        assertThat(table, is(notNullValue()));
-        assertThat(table.getColumnHeaders(), is(arrayContaining("1", "2", "3", "Entfernen")));
-    }
-
-    @Test
     public void testCreateTable_InitialPageLengthIsSetOnTable() {
         TestContainerPmo containerPmo = new TestContainerPmo();
         PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,

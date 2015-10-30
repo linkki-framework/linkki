@@ -6,12 +6,8 @@
 
 package de.faktorzehn.ipm.web.ui.table;
 
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.function.Function;
-
-import org.apache.commons.lang3.StringUtils;
 
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
@@ -20,7 +16,6 @@ import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
 import de.faktorzehn.ipm.web.ui.section.annotations.ElementDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.TableColumnDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.UIAnnotationReader;
-import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
 
 /**
  * A factory to create a table based on a {@link ContainerPmo}.
@@ -28,9 +23,6 @@ import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
  * @author ortmann
  */
 public class PmoBasedTableFactory<T extends PresentationModelObject> {
-
-    private static final String DELETE_ITEM_COLUMN_ID = "remove";
-    private static final String DELETE_ITEM_COLUMN_DEFAULT_HEADER = "Entfernen";
 
     private ContainerPmo<T> containerPmo;
     private UIAnnotationReader annotationReader;
@@ -88,21 +80,6 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
             createColumn(table, uiElement, receiveFocusOnNew);
             receiveFocusOnNew = false;
         }
-        Optional<Consumer<T>> deleteItemConsumer = containerPmo.getDeleteItemConsumer();
-        if (deleteItemConsumer.isPresent()) {
-            table.createDeleteItemColumn(DELETE_ITEM_COLUMN_ID, getDeleteItemColumnHeader(), deleteItemConsumer.get(),
-                                         bindingContext);
-            table.setColumnWidth(DELETE_ITEM_COLUMN_ID, -1);
-        }
-    }
-
-    private String getDeleteItemColumnHeader() {
-        if (containerPmo.getClass().isAnnotationPresent(UITable.class)) {
-            UITable tableAnnotation = containerPmo.getClass().getAnnotation(UITable.class);
-            return StringUtils.defaultIfEmpty(tableAnnotation.deleteItemColumnHeader(),
-                                              DELETE_ITEM_COLUMN_DEFAULT_HEADER);
-        }
-        return DELETE_ITEM_COLUMN_DEFAULT_HEADER;
     }
 
     private void createColumn(PmoBasedTable<T> table, ElementDescriptor elementDesc, boolean receiveFocusOnNew) {

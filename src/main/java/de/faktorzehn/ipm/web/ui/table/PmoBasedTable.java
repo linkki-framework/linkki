@@ -28,7 +28,6 @@ import de.faktorzehn.ipm.web.binding.FieldBinding;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
 import de.faktorzehn.ipm.web.ui.section.annotations.ElementDescriptor;
-import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
 /**
@@ -95,16 +94,7 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
      *         add items
      */
     Optional<ButtonPmo> getNewItemButtonPmo() {
-        return container.getNewItemAction().map(a -> new AddItemButtonPmo(a, getAddButtonIcon()));
-    }
-
-    private Resource getAddButtonIcon() {
-        UITable tableAnnotation = container.getContainerPmo().getClass().getAnnotation(UITable.class);
-        if (tableAnnotation != null) {
-            return tableAnnotation.addItemIcon();
-        } else {
-            return UITable.DEFAULT_ADD_ITEM_ICON;
-        }
+        return container.getContainerPmo().getAddItemButtonPmo();
     }
 
     /**
@@ -149,30 +139,6 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
         @Override
         public Collection<String> styleNames() {
             return Lists.newArrayList(ValoTheme.BUTTON_BORDERLESS, ValoTheme.BUTTON_LARGE);
-        }
-
-    }
-
-    /** PMO for the button to add items in this table. */
-    private static class AddItemButtonPmo implements ButtonPmo {
-
-        private Runnable addAction;
-
-        private Resource addButtonIcon;
-
-        AddItemButtonPmo(Runnable addAction, Resource addButtonIcon) {
-            this.addAction = addAction;
-            this.addButtonIcon = addButtonIcon;
-        }
-
-        @Override
-        public void onClick() {
-            addAction.run();
-        }
-
-        @Override
-        public Resource buttonIcon() {
-            return addButtonIcon;
         }
 
     }

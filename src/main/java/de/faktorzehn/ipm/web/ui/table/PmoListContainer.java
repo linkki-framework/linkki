@@ -9,7 +9,6 @@ package de.faktorzehn.ipm.web.ui.table;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import org.vaadin.viritin.ListContainer;
 
@@ -46,17 +45,6 @@ public class PmoListContainer<T extends PresentationModelObject> extends ListCon
 
     public ContainerPmo<T> getContainerPmo() {
         return containerPmo;
-    }
-
-    public Optional<Runnable> getNewItemAction() {
-        return containerPmo.getAddItemAction().map(this::newItemAction);
-    }
-
-    private Runnable newItemAction(Runnable f) {
-        return (() -> {
-            f.run();
-            updateItems();
-        });
     }
 
     public void addColumn(String id) {

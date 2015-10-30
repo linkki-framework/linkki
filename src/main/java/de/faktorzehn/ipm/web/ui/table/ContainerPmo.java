@@ -8,12 +8,12 @@ package de.faktorzehn.ipm.web.ui.table;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
 import com.vaadin.ui.Table;
 
+import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 
 /**
@@ -35,23 +35,12 @@ public interface ContainerPmo<T extends PresentationModelObject> {
     @Nonnull
     public List<T> getItems();
 
-    /** Returns {@code true} if the items are editable, otherwise {@code false}. */
-    public boolean isEditable();
-
     /**
-     * Returns the function to add new items if it is possible to add items to the container.
+     * Returns a {@link ButtonPmo} for the add button in the table section
      * 
      */
     @Nonnull
-    public default Optional<Runnable> getAddItemAction() {
-        return Optional.empty();
-    }
-
-    /**
-     * Returns the function to delete items if it is possible to delete items from the container.
-     */
-    @Nonnull
-    public default Optional<Consumer<T>> getDeleteItemConsumer() {
+    public default Optional<ButtonPmo> getAddItemButtonPmo() {
         return Optional.empty();
     }
 
