@@ -26,9 +26,9 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Panel;
 
 import de.faktorzehn.ipm.web.PresentationModelObject;
+import de.faktorzehn.ipm.web.binding.Binding;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.ButtonBinding;
-import de.faktorzehn.ipm.web.binding.ElementBinding;
 import de.faktorzehn.ipm.web.binding.FieldBinding;
 import de.faktorzehn.ipm.web.binding.TestEnum;
 import de.faktorzehn.ipm.web.ui.section.annotations.AvailableValuesType;
@@ -62,9 +62,9 @@ public class PmoBasedSectionFactoryTest {
         pmo = new PMOWithAnnotations();
         section = new DefaultPmoBasedSectionFactory().createSection(pmo, bindingContext);
 
-        Collection<ElementBinding> bindings = bindingContext.getBindings();
+        Collection<Binding> bindings = bindingContext.getBindings();
         assertEquals(5, bindings.size());
-        Iterator<ElementBinding> it = bindings.iterator();
+        Iterator<Binding> it = bindings.iterator();
         textFieldBinding = (FieldBinding<?>)it.next();
         comboBinding1 = (FieldBinding<?>)it.next();
         comboBinding2 = (FieldBinding<?>)it.next();
