@@ -48,7 +48,6 @@ public class SectionCreationContext {
         this.propertyBehaviorProvider = propertyBehaviorProvider;
     }
 
-    /* package private for testing */
     protected PropertyDispatcher createDefaultDispatcher() {
         return DISPATCHER_FACTORY.defaultDispatcherChain(pmo, propertyBehaviorProvider);
     }
@@ -89,7 +88,8 @@ public class SectionCreationContext {
         }
     }
 
-    private SectionCreationContext.LabelComponent createLabelAndComponent(BaseSection section, ElementDescriptor uiElement) {
+    private SectionCreationContext.LabelComponent createLabelAndComponent(BaseSection section,
+            ElementDescriptor uiElement) {
         Component component = uiElement.newComponent();
         String labelText = uiElement.getLabelText();
         Label label = section.add(labelText, component);

@@ -7,8 +7,8 @@
 package de.faktorzehn.ipm.web.ui.table;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -39,31 +39,106 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
 
     private static final long serialVersionUID = 1L;
 
-    private final ContainerPmo<T> containerPmo;
-
     /** Cache for property dispatchers used by the column generators. */
     private final LazyInitializingMap<T, PropertyDispatcher> dispatcherCache;
 
+    private final PmoListContainer<T> container;
+
+    /**
+     * Constructor for a PmoBasedTable.
+     * 
+     * @param tablePmo the container PMO
+     * @param dispatcherBuilder the function that creates a new {@link PropertyDispatcher} for an
+     *            item from the container PMO
+     */
+    public PmoBasedTable(ContainerPmo<T> tablePmo, Function<T, PropertyDispatcher> dispatcherBuilder) {
+        super();
+        container = new PmoListContainer<T>(tablePmo);
+        setContainerDataSource(container);
+        this.dispatcherCache = new LazyInitializingMap<>(dispatcherBuilder);
+    }
+
+    /**
+     * Public for updating the table from "outside" e.g. via other buttons than the add item action.
+     */
+    public void updateFromPmo() {
+        refreshRowCache();
+    }
+
+    @Override
+    public String toString() {
+        return "Table based on PMO=" + container.getContainerPmo();
+    }
+
+    /**
+     * Creates a new column for a field of a PMO.
+     * 
+     * @param elementDesc the descriptor for the PMO's field
+     * @param receiveFocusOnNew whether or not the generated field should receive the focus when a
+     *            new row is generated
+     * @param bindingContext the context in which the field is bound
+     */
+    void createColumn(ElementDescriptor elementDesc, boolean receiveFocusOnNew, BindingContext bindingContext) {
+        FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<T>(elementDesc, receiveFocusOnNew, bindingContext,
+                dispatcherCache);
+        String propertyName = elementDesc.getPropertyName();
+        addGeneratedColumn(propertyName, columnGen);
+        setColumnHeader(propertyName, elementDesc.getLabelText());
+        container.addColumn(propertyName);
+    }
+
+    /**
+     * Creates a new {@link ButtonPmo} for the button to add items to the table if it is possible to
+     * add items.
+     * 
+     * @return a new {@link ButtonPmo} for the button to add items to the table if it is possible to
+     *         add items
+     */
+    Optional<ButtonPmo> getNewItemButtonPmo() {
+        return container.getNewItemAction().map(a -> new AddItemButtonPmo(a, getAddButtonIcon()));
+    }
+
+    private Resource getAddButtonIcon() {
+        UITable tableAnnotation = container.getContainerPmo().getClass().getAnnotation(UITable.class);
+        if (tableAnnotation != null) {
+            return tableAnnotation.addItemIcon();
+        } else {
+            return UITable.DEFAULT_ADD_ITEM_ICON;
+        }
+    }
+
+    /**
+     * Creates a new column generator that generates a column with a button to delete items in this
+     * table.
+     * 
+     * @param ctx the context in which the items in this table are bound
+     * 
+     */
+    public void createDeleteItemColumn(String deleteColId, String header, Consumer<T> deleteConsumer, BindingContext ctx) {
+        DeleteItemColumnGenerator<T> colGen = new DeleteItemColumnGenerator<T>(deleteConsumer
+                .andThen(item -> container.updateItems()).andThen(item -> dispatcherCache.remove(item))
+                .andThen(item -> ctx.removeBindingsForPmo(item)));
+        addGeneratedColumn(deleteColId, colGen);
+        setColumnHeader(deleteColId, header);
+    }
+
+    /** Helper function that supplies an {@link IllegalStateException}. */
+    static Supplier<IllegalStateException> illegalStateException(String message) {
+        return () -> new IllegalStateException(message);
+    }
+
     /** PMO for the button to delete items in this table. */
-    private class DeleteItemButtonPmo implements ButtonPmo {
+    private static class DeleteItemButtonPmo<T> implements ButtonPmo {
 
-        private final T item;
-        private final BindingContext bindingContext;
+        private Runnable deleteAction;
 
-        DeleteItemButtonPmo(T item, BindingContext bindingContext) {
-            this.item = item;
-            this.bindingContext = bindingContext;
+        DeleteItemButtonPmo(Runnable deleteAction) {
+            this.deleteAction = deleteAction;
         }
 
         @Override
         public void onClick() {
-            getPmo().deleteItemAction()
-                    .orElseThrow(illegalStateException(getPmo().getClass() + " does not allow to delete items."))//
-                    .accept(item);
-            updateFromPmo();
-            dispatcherCache().remove(item);
-            bindingContext.removeBindingsForPmo(item);
-            bindingContext.updateUI();
+            deleteAction.run();
         }
 
         @Override
@@ -79,57 +154,56 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
     }
 
     /** PMO for the button to add items in this table. */
-    private class AddItemButtonPmo implements ButtonPmo {
+    private static class AddItemButtonPmo implements ButtonPmo {
 
-        private final BindingContext bindingContext;
+        private Runnable addAction;
 
-        AddItemButtonPmo(BindingContext bindingContext) {
-            this.bindingContext = bindingContext;
+        private Resource addButtonIcon;
+
+        AddItemButtonPmo(Runnable addAction, Resource addButtonIcon) {
+            this.addAction = addAction;
+            this.addButtonIcon = addButtonIcon;
         }
 
         @Override
         public void onClick() {
-            getPmo().addItemAction()//
-                    .orElseThrow(illegalStateException(getPmo().getClass() + "does not allow to add items."))//
-                    .get();
-            updateFromPmo();
-            bindingContext.updateUI();
+            addAction.run();
         }
 
         @Override
         public Resource buttonIcon() {
-            UITable tableAnnotation = getPmo().getClass().getAnnotation(UITable.class);
-            if (tableAnnotation != null) {
-                return tableAnnotation.addItemIcon();
-            } else {
-                return UITable.DEFAULT_ADD_ITEM_ICON;
-            }
+            return addButtonIcon;
         }
 
     }
 
     /** Column generator that generates a column with a button to delete items in this table. */
-    private class DeleteItemColumnGenerator implements ColumnGenerator {
+    private static class DeleteItemColumnGenerator<T extends PresentationModelObject> implements ColumnGenerator {
 
         private static final long serialVersionUID = 1L;
 
-        private final BindingContext bindingContext;
+        private Consumer<T> deleteConsumer;
 
-        DeleteItemColumnGenerator(BindingContext bindingContext) {
+        DeleteItemColumnGenerator(Consumer<T> deleteConsumer) {
             super();
-            this.bindingContext = bindingContext;
+            this.deleteConsumer = deleteConsumer;
         }
 
         @Override
         public Object generateCell(Table source, Object itemId, Object columnId) {
-            T itemPmo = getPmo().getItemPmoClass().cast(itemId);
-            return ComponentFactory.newButton(new DeleteItemButtonPmo(itemPmo, bindingContext));
+            @SuppressWarnings("unchecked")
+            T itemPmo = (T)itemId;
+            return ComponentFactory.newButton(new DeleteItemButtonPmo<T>(() -> delete(itemPmo)));
+        }
+
+        private void delete(T itemPmo) {
+            deleteConsumer.accept(itemPmo);
         }
 
     }
 
     /** Column generator that generates a column for a field of a PMO. */
-    private class FieldColumnGenerator implements ColumnGenerator {
+    private static class FieldColumnGenerator<T> implements ColumnGenerator {
 
         private static final long serialVersionUID = 1L;
 
@@ -137,11 +211,14 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
         private final boolean receiveFocusOnNew;
         private final BindingContext bindingContext;
 
+        private final LazyInitializingMap<T, PropertyDispatcher> dispatcherCache;
+
         public FieldColumnGenerator(ElementDescriptor elementDescriptor, boolean receiveFocusOnNew,
-                BindingContext bindingContext) {
+                BindingContext bindingContext, LazyInitializingMap<T, PropertyDispatcher> dispatcherCache) {
             this.elementDescriptor = elementDescriptor;
             this.receiveFocusOnNew = receiveFocusOnNew;
             this.bindingContext = bindingContext;
+            this.dispatcherCache = dispatcherCache;
         }
 
         @Override
@@ -149,12 +226,12 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
             Component component = elementDescriptor.newComponent();
             component.addStyleName(ApplicationStyles.BORDERLESS);
             component.addStyleName(ApplicationStyles.TABLE_CELL);
-            component.setEnabled(getPmo().isEditable());
             Field<?> field = (Field<?>)component;
-            T itemPmo = getPmo().getItemPmoClass().cast(itemId);
+            @SuppressWarnings("unchecked")
+            T itemPmo = (T)itemId;
 
             FieldBinding<?> binding = FieldBinding.create(bindingContext, (String)columnId, null, field,
-                                                          dispatcherCache().get(itemPmo));
+                                                          dispatcherCache.get(itemPmo));
             bindingContext.add(binding);
             binding.updateFromPmo();
             if (receiveFocusOnNew) {
@@ -164,90 +241,4 @@ public class PmoBasedTable<T extends PresentationModelObject> extends Table {
         }
     }
 
-    /**
-     * Constructor for a PmoBasedTable.
-     * 
-     * @param tablePmo the container PMO
-     * @param dispatcherBuilder the function that creates a new {@link PropertyDispatcher} for an
-     *            item from the container PMO
-     */
-    public PmoBasedTable(ContainerPmo<T> tablePmo, Function<T, PropertyDispatcher> dispatcherBuilder) {
-        super();
-        this.containerPmo = tablePmo;
-        this.dispatcherCache = new LazyInitializingMap<>(dispatcherBuilder);
-    }
-
-    public ContainerPmo<T> getPmo() {
-        return containerPmo;
-    }
-
-    /**
-     * Public for updating the table from "outside" e.g. via other buttons than the add item action.
-     */
-    public void updateFromPmo() {
-        removeAllItems();
-        createItems();
-        refreshRowCache();
-    }
-
-    private void createItems() {
-        List<T> rows = containerPmo.getItems();
-        // don't add values directly, let data binding take care of it
-        rows.forEach(row -> addItem(new Object[0], row));
-    }
-
-    @Override
-    public String toString() {
-        return "Table based on PMO=" + getPmo();
-    }
-
-    LazyInitializingMap<T, PropertyDispatcher> dispatcherCache() {
-        return dispatcherCache;
-    }
-
-    /**
-     * Creates a new column generator that generates a column with a button to delete items in this
-     * table.
-     * 
-     * @param ctx the context in which the items in this table are bound
-     * 
-     * @return a new column generator that generates a column with a button to delete items in this
-     *         table
-     */
-    ColumnGenerator deleteItemColumnGenerator(BindingContext ctx) {
-        return new DeleteItemColumnGenerator(ctx);
-    }
-
-    /**
-     * Creates a new column generator for a field of a PMO.
-     * 
-     * @param elementDesc the descriptor for the PMO's field
-     * @param receiveFocusOnNew whether or not the generated field should receive the focus when a
-     *            new row is generated
-     * @param bindingContext the context in which the field is bound
-     * 
-     * @return a new column generator for a field of a PMO
-     */
-    ColumnGenerator fieldColumnGenerator(ElementDescriptor elementDesc,
-            boolean receiveFocusOnNew,
-            BindingContext bindingContext) {
-        return new FieldColumnGenerator(elementDesc, receiveFocusOnNew, bindingContext);
-    }
-
-    /**
-     * Creates a new {@link ButtonPmo} for the button to add items to the table if it is possible to
-     * add items.
-     * 
-     * @param ctx the context in which the item are bound
-     * @return a new {@link ButtonPmo} for the button to add items to the table if it is possible to
-     *         add items
-     */
-    Optional<ButtonPmo> addItemButtonPmo(BindingContext ctx) {
-        return containerPmo.addItemAction().map(a -> new AddItemButtonPmo(ctx));
-    }
-
-    /** Helper function that supplies an {@link IllegalStateException}. */
-    static Supplier<IllegalStateException> illegalStateException(String message) {
-        return () -> new IllegalStateException(message);
-    }
 }

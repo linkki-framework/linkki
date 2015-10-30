@@ -6,15 +6,16 @@
 
 package de.faktorzehn.ipm.web.ui.table;
 
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
-import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
-import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
 import de.faktorzehn.ipm.web.ui.section.annotations.ElementDescriptor;
 import de.faktorzehn.ipm.web.ui.section.annotations.TableColumnDescriptor;
@@ -31,33 +32,25 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
     private static final String DELETE_ITEM_COLUMN_ID = "remove";
     private static final String DELETE_ITEM_COLUMN_DEFAULT_HEADER = "Entfernen";
 
-    private static final PropertyDispatcherFactory DISPATCHER_FACTORY = new PropertyDispatcherFactory();
-
     private ContainerPmo<T> containerPmo;
     private UIAnnotationReader annotationReader;
     private BindingContext bindingContext;
-    private PropertyBehaviorProvider propertyBehaviorProvider;
+    private Function<T, PropertyDispatcher> propertyDispatcherBuilder;
 
     /**
      * Creates a new factory.
      * 
      * @param containerPmo The container providing the contents and column definitions.
      * @param bindingContext The binding context to which the cell bindings are added.
-     * @param propertyBehaviorProvider The property behavior provider ...
+     * @param propertyDispatcherBuilder A function that provides property dispatcher for a given
+     *            {@link PresentationModelObject}
      */
     public PmoBasedTableFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext,
-            PropertyBehaviorProvider propertyBehaviorProvider) {
+            Function<T, PropertyDispatcher> propertyDispatcherBuilder) {
         this.containerPmo = containerPmo;
+        this.propertyDispatcherBuilder = propertyDispatcherBuilder;
         this.annotationReader = new UIAnnotationReader(containerPmo.getItemPmoClass());
         this.bindingContext = bindingContext;
-        this.propertyBehaviorProvider = propertyBehaviorProvider;
-    }
-
-    /**
-     * Creates a new {@link PropertyDispatcher} chain for the given PMO.
-     */
-    protected PropertyDispatcher createPropertyDispatcher(final T pmo) {
-        return DISPATCHER_FACTORY.defaultDispatcherChain(pmo, propertyBehaviorProvider);
     }
 
     /**
@@ -67,7 +60,6 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
         PmoBasedTable<T> table = createTableComponent();
         createColumns(table);
         table.setPageLength(containerPmo.getPageLength());
-        containerPmo.addPageLengthListener(table::setPageLength);
         table.updateFromPmo();
         return table;
     }
@@ -81,10 +73,10 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
     }
 
     private PmoBasedTable<T> createTableComponent() {
-        PmoBasedTable<T> table = new PmoBasedTable<>(containerPmo, this::createPropertyDispatcher);
+        PmoBasedTable<T> table = new PmoBasedTable<>(containerPmo, propertyDispatcherBuilder);
         table.addStyleName(ApplicationStyles.TABLE);
         table.setHeightUndefined();
-        table.setPageLength(0);
+        table.setWidth("100%");
         table.setSortEnabled(false);
         return table;
     }
@@ -96,10 +88,11 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
             createColumn(table, uiElement, receiveFocusOnNew);
             receiveFocusOnNew = false;
         }
-        if (containerPmo.deleteItemAction().isPresent()) {
-            table.addGeneratedColumn(DELETE_ITEM_COLUMN_ID, table.deleteItemColumnGenerator(bindingContext));
-            table.setColumnHeader(DELETE_ITEM_COLUMN_ID, getDeleteItemColumnHeader());
-            table.setColumnExpandRatio(DELETE_ITEM_COLUMN_ID, 0.0f);
+        Optional<Consumer<T>> deleteItemConsumer = containerPmo.getDeleteItemConsumer();
+        if (deleteItemConsumer.isPresent()) {
+            table.createDeleteItemColumn(DELETE_ITEM_COLUMN_ID, getDeleteItemColumnHeader(), deleteItemConsumer.get(),
+                                         bindingContext);
+            table.setColumnWidth(DELETE_ITEM_COLUMN_ID, -1);
         }
     }
 
@@ -113,9 +106,7 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
     }
 
     private void createColumn(PmoBasedTable<T> table, ElementDescriptor elementDesc, boolean receiveFocusOnNew) {
-        table.addGeneratedColumn(elementDesc.getPropertyName(),
-                                 table.fieldColumnGenerator(elementDesc, receiveFocusOnNew, bindingContext));
-        table.setColumnHeader(elementDesc.getPropertyName(), elementDesc.getLabelText());
+        table.createColumn(elementDesc, receiveFocusOnNew, bindingContext);
         setConfiguredColumndWidthOrExpandRatio(table, elementDesc);
     }
 

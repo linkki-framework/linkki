@@ -33,14 +33,14 @@ public class FieldDescriptorTest {
         when(adapter.label()).thenReturn("blablub");
         FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "xyz");
 
-        assertEquals("blablub:", fieldDescriptor.getLabelText());
+        assertEquals("blablub", fieldDescriptor.getLabelText());
     }
 
     @Test
     public void getLabelText_deriveFromPropertyName() {
         FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test");
 
-        assertEquals("Test:", fieldDescriptor.getLabelText());
+        assertEquals("Test", fieldDescriptor.getLabelText());
     }
 
     @Test

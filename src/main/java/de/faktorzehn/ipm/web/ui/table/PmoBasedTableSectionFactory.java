@@ -14,9 +14,13 @@ import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
+import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
+import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
 import de.faktorzehn.ipm.web.ui.section.annotations.UISection;
 
 public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
+
+    private static final PropertyDispatcherFactory DISPATCHER_FACTORY = new PropertyDispatcherFactory();
 
     private ContainerPmo<T> containerPmo;
     private BindingContext bindingContext;
@@ -32,7 +36,7 @@ public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
 
     public TableSection<T> createSection() {
         PmoBasedTable<T> table = createTable();
-        Optional<ButtonPmo> addItemPmo = table.addItemButtonPmo(bindingContext);
+        Optional<ButtonPmo> addItemPmo = table.getNewItemButtonPmo();
         TableSection<T> section = createEmptySection(addItemPmo);
         section.setTable(table);
         return section;
@@ -40,7 +44,7 @@ public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
 
     private PmoBasedTable<T> createTable() {
         PmoBasedTableFactory<T> tableFactory = new PmoBasedTableFactory<>(containerPmo, bindingContext,
-                propertyBehaviorProvider);
+                this::createPropertyDispatcher);
         return tableFactory.createTable();
     }
 
@@ -48,6 +52,13 @@ public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
         UISection sectionDefinition = containerPmo.getClass().getAnnotation(UISection.class);
         checkNotNull(sectionDefinition, "PMO " + containerPmo.getClass() + " must be annotated with @UISection!");
         return new TableSection<>(sectionDefinition.caption(), addItemButtonPmo);
+    }
+
+    /**
+     * Creates a new {@link PropertyDispatcher} chain for the given PMO.
+     */
+    protected PropertyDispatcher createPropertyDispatcher(final PresentationModelObject pmo) {
+        return DISPATCHER_FACTORY.defaultDispatcherChain(pmo, propertyBehaviorProvider);
     }
 
 }

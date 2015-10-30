@@ -91,9 +91,6 @@ public class FieldDescriptor implements ElementDescriptor {
         if (StringUtils.isEmpty(label)) {
             label = StringUtils.capitalize(getPropertyName());
         }
-        if (!label.endsWith(":")) {
-            label = label + ":";
-        }
         return label;
     }
 

@@ -24,7 +24,7 @@ public class BindingContext {
 
     private String name;
     private Map<Component, ElementBinding> bindings = Maps.newLinkedHashMap();
-    private Set<PropertyDispatcher> propertyDispatcher = new HashSet<PropertyDispatcher>();
+    private Set<PropertyDispatcher> propertyDispatchers = new HashSet<PropertyDispatcher>();
 
     public BindingContext() {
         this("DefaultContext");
@@ -40,7 +40,7 @@ public class BindingContext {
 
     public BindingContext add(ElementBinding binding) {
         bindings.put(binding.getBoundComponent(), binding);
-        propertyDispatcher.add(binding.getPropertyDispatcher());
+        propertyDispatchers.add(binding.getPropertyDispatcher());
         return this;
     }
 
@@ -51,7 +51,7 @@ public class BindingContext {
     public void removeBindingsForPmo(PresentationModelObject pmo) {
         List<ElementBinding> toRemove = bindings.values().stream()
                 .filter(b -> b.getPropertyDispatcher().getPmo() == pmo).collect(Collectors.toList());
-        toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatcher::remove);
+        toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
         bindings.values().removeAll(toRemove);
     }
 
@@ -64,7 +64,7 @@ public class BindingContext {
     }
 
     public void updateUI() {
-        propertyDispatcher.forEach(pd -> pd.prepareUpdateUI());
+        propertyDispatchers.forEach(pd -> pd.prepareUpdateUI());
         bindings.values().forEach(binding -> binding.updateFromPmo());
     }
 

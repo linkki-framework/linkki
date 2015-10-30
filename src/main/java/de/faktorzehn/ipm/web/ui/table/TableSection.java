@@ -30,13 +30,6 @@ public class TableSection<T extends PresentationModelObject> extends AbstractSec
         addComponent(table);
     }
 
-    public ContainerPmo<?> getPmo() {
-        if (table == null) {
-            throw new IllegalStateException("Table with PMO hasn't been set, yet!");
-        }
-        return table.getPmo();
-    }
-
     /**
      * Manually update the table in this section from its pmo.
      * 
@@ -48,6 +41,6 @@ public class TableSection<T extends PresentationModelObject> extends AbstractSec
 
     @Override
     public String toString() {
-        return "TableSection based on PMO=" + getPmo();
+        return "TableSection based on " + table.getContainerDataSource();
     }
 }
