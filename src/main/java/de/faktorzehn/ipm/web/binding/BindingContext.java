@@ -57,7 +57,7 @@ public class BindingContext {
         List<ElementBinding> toRemove = bindings.values().stream() //
                 .filter(b -> b instanceof ElementBinding) //
                 .map(b -> ((ElementBinding)b)) //
-                .filter(b -> b.getPropertyDispatcher().getPmo() == pmo) //
+                .filter(b -> b.getPmo() == pmo) //
                 .collect(Collectors.toList());
         toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
         bindings.values().removeAll(toRemove);

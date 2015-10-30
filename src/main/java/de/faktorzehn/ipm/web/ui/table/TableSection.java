@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import com.vaadin.ui.Table;
 
-import de.faktorzehn.ipm.web.ButtonPmo;
+import com.vaadin.ui.Button;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.ui.section.AbstractSection;
 
@@ -20,8 +20,8 @@ public class TableSection<T extends PresentationModelObject> extends AbstractSec
 
     private Table table;
 
-    public TableSection(String caption, Optional<ButtonPmo> addItemButtonPmo) {
-        super(caption, false, addItemButtonPmo);
+    public TableSection(String caption, Optional<Button> addItemButton) {
+        super(caption, false, addItemButton);
     }
 
     void setTable(Table table) {

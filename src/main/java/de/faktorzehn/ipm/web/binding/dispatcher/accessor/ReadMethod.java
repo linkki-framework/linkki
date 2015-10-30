@@ -2,6 +2,7 @@ package de.faktorzehn.ipm.web.binding.dispatcher.accessor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Optional;
 
 /**
  * Wrapper for a {@link Method}. {@link #canRead()} can safely be accessed even if no read method
@@ -15,7 +16,7 @@ public class ReadMethod extends AbstractMethod {
         super(descriptor, descriptor.getReflectionReadMethod());
     }
 
-    private Method getReadMethod() {
+    private Optional<Method> getReadMethod() {
         return getReflectionMethod();
     }
 
@@ -41,27 +42,25 @@ public class ReadMethod extends AbstractMethod {
         try {
             return invokeMethod(boundObject);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException("Cannot access class: " + getBoundClass() + ", property: " + getPropertyName()
-                    + " for reading.", e);
+            throw new RuntimeException(
+                    "Cannot access class: " + getBoundClass() + ", property: " + getPropertyName() + " for reading.",
+                    e);
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Cannot read value from object: " + boundObject + ", property: "
-                    + getPropertyName(), e);
+            throw new RuntimeException(
+                    "Cannot read value from object: " + boundObject + ", property: " + getPropertyName(), e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException("Cannot invoke read method on class: " + getBoundClass() + ", property: "
-                    + getPropertyName(), e);
+            throw new RuntimeException(
+                    "Cannot invoke read method on class: " + getBoundClass() + ", property: " + getPropertyName(), e);
         }
     }
 
     private Object invokeMethod(Object boundObject) throws IllegalAccessException, InvocationTargetException {
-        Object returnValue = getReadMethod().invoke(boundObject);
+        Object returnValue = getReadMethod().orElseThrow(noMethodFound("read method")).invoke(boundObject);
         return returnValue;
     }
 
     public Class<?> getReturnType() {
-        if (canRead()) {
-            return getReadMethod().getReturnType();
-        }
-        throw new IllegalStateException("No read method available. Cannot retrieve return type.");
+        return getReadMethod().orElseThrow(noMethodFound("read method")).getReturnType();
     }
 
 }

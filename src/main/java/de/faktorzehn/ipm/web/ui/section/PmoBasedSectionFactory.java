@@ -68,7 +68,7 @@ public abstract class PmoBasedSectionFactory {
     }
 
     public static PropertyDispatcher createDefaultDispatcher(PresentationModelObject pmo) {
-        return new SectionCreationContext(pmo, null, null).createDefaultDispatcher();
+        return new SectionCreationContext(pmo, null, null).createDefaultDispatcher(pmo);
     }
 
     public PropertyBehaviorProvider getPropertyBehaviorProvider() {

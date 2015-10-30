@@ -18,16 +18,21 @@ import de.faktorzehn.ipm.web.binding.annotations.BindContext;
  */
 public interface Binding {
 
-    /**
-     * Called by the {@link BindContext} and trigger control updating.
-     */
+    /** Called by the {@link BindContext} and trigger control updating. */
     void updateFromPmo();
 
     /**
-     * Returns the component that is updated by this binding
+     * Returns the component that is updated by this binding.
      * 
      * @return The component that updated by this binding
      */
     Component getBoundComponent();
+
+    /**
+     * Returns the presentation model object that is bound to the component by this binding.
+     * 
+     * @return The presentation model object that is bound to the component by this binding
+     */
+    Object getPmo();
 
 }

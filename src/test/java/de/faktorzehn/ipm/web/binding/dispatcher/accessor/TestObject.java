@@ -2,11 +2,10 @@ package de.faktorzehn.ipm.web.binding.dispatcher.accessor;
 
 import static org.junit.Assert.assertTrue;
 
-public class TestObject {
+public class TestObject implements TestInterface {
     public static final String STRING_PROPERTY = "stringProperty";
     public static final String INT_PROPERTY = "intProperty";
     public static final String BOOLEAN_PROPERTY = "booleanProperty";
-    public static final String WRITE_ONLY_INT_PROPERTY = "writeOnlyIntProperty";
     public static final String READ_ONLY_LONG_PROPERTY = "readOnlyLongProperty";
     private String stringValue;
 
@@ -35,12 +34,12 @@ public class TestObject {
         assertTrue(value);
     }
 
-    @SuppressWarnings("unused")
-    public void setWriteOnlyIntProperty(int i) {
-        // do nothing
-    }
-
     public long getReadOnlyLongProperty() {
         return 42;
+    }
+
+    @Override
+    public void doSomething() {
+        // do nothing :)
     }
 }

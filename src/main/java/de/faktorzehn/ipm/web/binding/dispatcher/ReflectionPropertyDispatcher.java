@@ -17,7 +17,6 @@ import org.faktorips.runtime.MessageList;
 import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 
 import de.faktorzehn.ipm.utils.LazyInitializingMap;
-import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.dispatcher.accessor.PropertyAccessor;
 
 /**
@@ -112,29 +111,25 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     @Override
     public boolean isEnabled(String property) {
         String enabledProperty = propertyNamingConvention.getEnabledProperty(property);
-        throwExceptionIfCannotRead(enabledProperty);
-        return (boolean)getAccessor(enabledProperty).getPropertyValue(getBoundObject());
+        return (boolean)read(enabledProperty);
     }
 
     @Override
     public boolean isVisible(String property) {
         String visibleProperty = propertyNamingConvention.getVisibleProperty(property);
-        throwExceptionIfCannotRead(visibleProperty);
-        return (boolean)getAccessor(visibleProperty).getPropertyValue(getBoundObject());
+        return (boolean)read(visibleProperty);
     }
 
     @Override
     public boolean isRequired(String property) {
         String requiredProperty = propertyNamingConvention.getRequiredProperty(property);
-        throwExceptionIfCannotRead(requiredProperty);
-        return (boolean)getAccessor(requiredProperty).getPropertyValue(getBoundObject());
+        return (boolean)read(requiredProperty);
     }
 
     @Override
     public List<?> getAvailableValues(String property) {
         String availableValuesProperty = propertyNamingConvention.getAvailableValuesProperty(property);
-        throwExceptionIfCannotRead(availableValuesProperty);
-        return (List<?>)getAccessor(availableValuesProperty).getPropertyValue(getBoundObject());
+        return (List<?>)read(availableValuesProperty);
     }
 
     @Override
@@ -147,9 +142,13 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
     }
 
-    private void throwExceptionIfCannotRead(String property) {
+    /** Reads and returns the given property. If the property cannot be read an exception is thrown. */
+    private Object read(String property) {
         if (!canRead(property)) {
-            throw new IllegalArgumentException("Cannot read property \"" + property + "\"");
+            throw new IllegalArgumentException("Cannot read property \"" + property + "\" on object \""
+                    + boundObjectSupplier.get() + "\"");
+        } else {
+            return getAccessor(property).getPropertyValue(getBoundObject());
         }
     }
 
@@ -169,12 +168,4 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         return new MessageList();
     }
 
-    @Override
-    public PresentationModelObject getPmo() {
-        if (getBoundObject() instanceof PresentationModelObject) {
-            return (PresentationModelObject)getBoundObject();
-        } else {
-            return fallbackDispatcher.getPmo();
-        }
-    }
 }

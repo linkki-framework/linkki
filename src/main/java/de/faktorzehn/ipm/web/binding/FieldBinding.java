@@ -33,21 +33,19 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
     private final BindingContext bindingContext;
     private final Field<T> field;
     private final Label label;
-
+    private final Object pmo;
     private final String propertyName;
     private final PropertyDispatcher propertyDispatcher;
 
-    public FieldBinding(BindingContext bindingContext, String propertyName, Label label, Field<T> field,
+    public FieldBinding(BindingContext bindingContext, Object pmo, String propertyName, Label label, Field<T> field,
             PropertyDispatcher propertyDispatcher) {
-        checkNotNull(bindingContext);
-        checkNotNull(propertyName);
-        checkNotNull(field);
-        checkNotNull(propertyDispatcher);
-        this.bindingContext = bindingContext;
-        this.propertyName = propertyName;
+
+        this.bindingContext = checkNotNull(bindingContext);
+        this.pmo = checkNotNull(pmo);
+        this.propertyName = checkNotNull(propertyName);
         this.label = label;
-        this.field = field;
-        this.propertyDispatcher = propertyDispatcher;
+        this.field = checkNotNull(field);
+        this.propertyDispatcher = checkNotNull(propertyDispatcher);
     }
 
     @Override
@@ -179,11 +177,12 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
      * @return Returns the newly created field binding
      */
     public static <T> FieldBinding<T> create(BindingContext bindingContext,
+            Object pmo,
             String propertyName,
             Label label,
             Field<T> field,
             PropertyDispatcher propertyDispatcher) {
-        FieldBinding<T> fieldBinding = new FieldBinding<T>(bindingContext, propertyName, label, field,
+        FieldBinding<T> fieldBinding = new FieldBinding<T>(bindingContext, pmo, propertyName, label, field,
                 propertyDispatcher);
         bindingContext.add(fieldBinding);
         return fieldBinding;
@@ -192,5 +191,10 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
     @Override
     public Field<T> getBoundComponent() {
         return field;
+    }
+
+    @Override
+    public Object getPmo() {
+        return pmo;
     }
 }

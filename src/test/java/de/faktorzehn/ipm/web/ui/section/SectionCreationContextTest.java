@@ -44,7 +44,7 @@ public class SectionCreationContextTest {
 
     @Test
     public void testCreateDefaultDispatcher_getValueFromPmo() {
-        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher();
+        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher(pmo);
         pmo.setPmoProp("testValue");
 
         Object pmoProp = defaultDispatcher.getValue(TestPMO.PROPERTY_PMO_PROP);
@@ -54,7 +54,7 @@ public class SectionCreationContextTest {
 
     @Test
     public void testCreateDefaultDispatcher_setValueToPmo() {
-        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher();
+        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher(pmo);
 
         defaultDispatcher.setValue(TestPMO.PROPERTY_PMO_PROP, "testSetValue");
 
@@ -63,7 +63,7 @@ public class SectionCreationContextTest {
 
     @Test
     public void testCreateDefaultDispatcher_getValueFromModelObject() {
-        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher();
+        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher(pmo);
         modelObject.setModelProp("testValue");
 
         Object modelProp = defaultDispatcher.getValue(TestModelObject.PROPERTY_MODEL_PROP);
@@ -73,7 +73,7 @@ public class SectionCreationContextTest {
 
     @Test
     public void testCreateDefaultDispatcher_setValueToModelObject() {
-        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher();
+        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher(pmo);
 
         defaultDispatcher.setValue(TestModelObject.PROPERTY_MODEL_PROP, "testSetValue");
 
@@ -82,7 +82,7 @@ public class SectionCreationContextTest {
 
     @Test
     public void testCreateDefaultDispatcher_getValue_changeModelObject() {
-        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher();
+        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher(pmo);
         TestModelObject newModelObject = new TestModelObject();
         pmo.setModelObject(newModelObject);
         newModelObject.setModelProp("testNewValue");
@@ -94,7 +94,7 @@ public class SectionCreationContextTest {
 
     @Test
     public void testCreateDefaultDispatcher_setValue_changeModelObject() {
-        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher();
+        PropertyDispatcher defaultDispatcher = sectionCreationContext.createDefaultDispatcher(pmo);
         TestModelObject newModelObject = new TestModelObject();
         pmo.setModelObject(newModelObject);
 

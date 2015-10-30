@@ -106,4 +106,9 @@ public class TableBinding<T extends PresentationModelObject> extends ListContain
         return tableBinding;
     }
 
+    @Override
+    public Object getPmo() {
+        return containerPmo;
+    }
+
 }

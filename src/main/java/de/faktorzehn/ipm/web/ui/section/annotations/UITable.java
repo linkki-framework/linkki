@@ -6,10 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Table;
 
 /**
- * Annotation to customize how a {@link de.faktorzehn.ipm.web.ui.table.PmoBasedTable} is created
- * from a {@link de.faktorzehn.ipm.web.ui.table.ContainerPmo}.
+ * Annotation to customize how a {@link Table} is created from a
+ * {@link de.faktorzehn.ipm.web.ui.table.ContainerPmo}.
  * <p>
  * Note that this annotation is optional, i.e. a container PMO does <em>not</em> have to be
  * annotated with this annotation if no customization is needed.

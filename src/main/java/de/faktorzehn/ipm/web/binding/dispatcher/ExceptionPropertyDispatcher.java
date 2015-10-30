@@ -7,11 +7,11 @@
 package de.faktorzehn.ipm.web.binding.dispatcher;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.faktorips.runtime.MessageList;
-
-import de.faktorzehn.ipm.web.PresentationModelObject;
 
 /**
  * {@link PropertyDispatcher} that throws exception on every method call except
@@ -24,16 +24,13 @@ import de.faktorzehn.ipm.web.PresentationModelObject;
  */
 public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
 
-    private final Object domainModelObject;
-    private final PresentationModelObject pmo;
+    private final List<Object> objects = new ArrayList<>();
 
     /**
-     * @param domainModelObject used for error messages
-     * @param pmo used for error messages
+     * @param objects used for error messages
      */
-    public ExceptionPropertyDispatcher(Object domainModelObject, PresentationModelObject pmo) {
-        this.domainModelObject = domainModelObject;
-        this.pmo = pmo;
+    public ExceptionPropertyDispatcher(Object... objects) {
+        this.objects.addAll(Arrays.asList(objects));
     }
 
     @Override
@@ -47,8 +44,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     private String getExceptionText(String property, String action) {
-        return MessageFormat.format("Cannot {0} property \"{1}\" (object {2}, pmo {3})", action, property,
-                                    domainModelObject, pmo);
+        return MessageFormat.format("Cannot {0} property \"{1}\" in any of {2}", action, property, objects);
     }
 
     @Override
@@ -95,14 +91,9 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public PresentationModelObject getPmo() {
-        return pmo;
-    }
-
-    @Override
     public void invoke(String property) {
-        throw new IllegalArgumentException(MessageFormat.format("Cannot invoke \"{0}\" (object {1}, pmo {2})",
-                                                                property, domainModelObject, pmo));
+        throw new IllegalArgumentException(MessageFormat.format("Cannot invoke \"{0}\" on any of {1}", property,
+                                                                objects));
     }
 
 }

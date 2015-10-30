@@ -45,6 +45,7 @@ public interface ElementDescriptor {
      * context using the given property dispatcher.
      */
     ElementBinding createBinding(BindingContext bindingContext,
+            Object pmo,
             Label label,
             Component component,
             PropertyDispatcher propertyDispatcher);

@@ -30,7 +30,7 @@ public class TableBindingTest {
     @Mock
     private BindingContext bindingContext;
 
-    private TestContainerPmo containerPmo = new TestContainerPmo();
+    private TestContainerPmo containerPmo;
 
     private Table table = new Table();
 
@@ -41,8 +41,11 @@ public class TableBindingTest {
 
     @Before
     public void setUp() {
+        containerPmo = new TestContainerPmo();
+        containerPmo.addItem();
         tableBinding = new TableBinding<TestColumnPmo>(bindingContext, table, containerPmo);
         tableBinding.addItemSetChangeListener(listener);
+
     }
 
     @Test

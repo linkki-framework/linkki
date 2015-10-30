@@ -21,13 +21,14 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 
 import de.faktorzehn.ipm.web.ButtonPmo;
+import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
 public class AbstractSectionTest {
 
     static class TestSection extends AbstractSection {
 
-        public TestSection(String caption, boolean closeable, Optional<ButtonPmo> buttonPmo) {
-            super(caption, closeable, buttonPmo);
+        public TestSection(String caption, boolean closeable, Optional<Button> button) {
+            super(caption, closeable, button);
         }
 
         private static final long serialVersionUID = 1L;
@@ -44,7 +45,7 @@ public class AbstractSectionTest {
         }
 
         @Override
-        public Resource buttonIcon() {
+        public Resource getButtonIcon() {
             return ICON;
         }
 
@@ -60,12 +61,13 @@ public class AbstractSectionTest {
         }
 
         @Override
-        public Resource buttonIcon() {
+        public Resource getButtonIcon() {
             return ICON;
         }
 
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testAddHeaderButton_HeaderButtonIsAddedBeforeCloseButton() {
         AbstractSection section = new TestSection("caption", true, Optional.empty());
@@ -77,19 +79,20 @@ public class AbstractSectionTest {
         Button closeButton = (Button)sectionHeader.getComponent(1);
         assertThat(closeButton.getIcon(), is(FontAwesome.ANGLE_DOWN));
 
-        section.addHeaderButton(new TestButton1());
+        section.addHeaderButton(ComponentFactory.newButton(new TestButton1()));
         assertThat(sectionHeader.getComponentCount(), is(4));
         assertThat(sectionHeader.getComponent(2), is(closeButton));
         Button button1 = (Button)sectionHeader.getComponent(1);
         assertThat(button1.getIcon(), is(TestButton1.ICON));
 
-        section.addHeaderButton(new TestButton2());
+        section.addHeaderButton(ComponentFactory.newButton(new TestButton2()));
         assertThat(sectionHeader.getComponentCount(), is(5));
         assertThat(sectionHeader.getComponent(3), is(closeButton));
         Button button2 = (Button)sectionHeader.getComponent(2);
         assertThat(button2.getIcon(), is(TestButton2.ICON));
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testAddHeaderButton_HeaderButtonIsAddedAtEndIfCloseButtonIsMissing() {
         AbstractSection section = new TestSection("caption", false, Optional.empty());
@@ -98,12 +101,12 @@ public class AbstractSectionTest {
         assertThat(sectionHeader, is(notNullValue()));
         assertThat(sectionHeader.getComponentCount(), is(2)); // label, line
 
-        section.addHeaderButton(new TestButton1());
+        section.addHeaderButton(ComponentFactory.newButton(new TestButton1()));
         assertThat(sectionHeader.getComponentCount(), is(3));
         Button button1 = (Button)sectionHeader.getComponent(1);
         assertThat(button1.getIcon(), is(TestButton1.ICON));
 
-        section.addHeaderButton(new TestButton2());
+        section.addHeaderButton(ComponentFactory.newButton(new TestButton2()));
         assertThat(sectionHeader.getComponentCount(), is(4));
         assertThat(sectionHeader.getComponent(1), is(button1));
         Button button2 = (Button)sectionHeader.getComponent(2);

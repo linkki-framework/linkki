@@ -91,8 +91,8 @@ public class BindingUtils {
         if (bindAnnotation == null) {
             return;
         }
-        FieldBinding<?> fieldBinding = FieldBinding.create(bindingContext, bindAnnotation.valueProperty(), label,
-                                                           vaadinField, getDispatcher(pmo));
+        FieldBinding.create(bindingContext, pmo, bindAnnotation.valueProperty(), label, vaadinField,
+                            getDispatcher(pmo));
     }
 
     /*

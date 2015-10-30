@@ -160,7 +160,7 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;
-            ElementBinding binding = elementDescriptor.createBinding(bindingContext, null, component,
+            ElementBinding binding = elementDescriptor.createBinding(bindingContext, itemPmo, null, component,
                                                                      dispatcherCache.get(itemPmo));
 
             binding.updateFromPmo();

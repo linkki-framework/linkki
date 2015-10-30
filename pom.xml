@@ -52,5 +52,12 @@
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>de.faktorzehn.ipm</groupId>
+            <artifactId>ipm-test</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

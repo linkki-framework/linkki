@@ -57,10 +57,12 @@ public class ButtonDescriptor implements ElementDescriptor {
 
     @Override
     public ElementBinding createBinding(BindingContext bindingContext,
+            Object pmo,
             Label label,
             Component component,
             PropertyDispatcher propertyDispatcher) {
-        return ButtonBinding.create(bindingContext, getPropertyName(), label, (Button)component, propertyDispatcher);
+        return ButtonBinding.create(bindingContext, getPropertyName(), label, (Button)component, pmo,
+                                    propertyDispatcher);
     }
 
     @Override

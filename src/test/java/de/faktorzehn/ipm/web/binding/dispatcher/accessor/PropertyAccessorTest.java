@@ -3,11 +3,9 @@ package de.faktorzehn.ipm.web.binding.dispatcher.accessor;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -101,26 +99,7 @@ public class PropertyAccessorTest {
     }
 
     @Test
-    public void testAlwaysWriteWriteOnlyProperty() {
-        TestObject testSample = spy(new TestObject());
-        PropertyAccessor accessor = new PropertyAccessor(testSample.getClass(), TestObject.WRITE_ONLY_INT_PROPERTY);
-        accessor.setPropertyValue(testSample, 42);
-        accessor.setPropertyValue(testSample, 42);
-        verify(testSample, times(2)).setWriteOnlyIntProperty(42);
-    }
-
-    @Test
     public void testCanRead() {
-        TestObject testObject2 = new TestObject();
-        PropertyAccessor propertyAccessor = new PropertyAccessor(testObject2.getClass(),
-                TestObject.WRITE_ONLY_INT_PROPERTY);
-        assertTrue(propertyAccessor.canWrite());
-        assertFalse(propertyAccessor.canRead());
-        propertyAccessor.setPropertyValue(testObject2, 5);
-    }
-
-    @Test
-    public void testCanWrite() {
         TestObject testObject2 = new TestObject();
         PropertyAccessor propertyAccessor = new PropertyAccessor(testObject2.getClass(),
                 TestObject.READ_ONLY_LONG_PROPERTY);
@@ -128,13 +107,6 @@ public class PropertyAccessorTest {
         assertTrue(propertyAccessor.canRead());
         Long propertyValue = (Long)propertyAccessor.getPropertyValue(testObject2);
         assertEquals(42, propertyValue.longValue());
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void testGetPropertyValue_writeOnlyProperty() {
-        TestObject testObject2 = new TestObject();
-        PropertyAccessor accessor = new PropertyAccessor(testObject2.getClass(), TestObject.WRITE_ONLY_INT_PROPERTY);
-        assertNull(accessor.getPropertyValue(testObject2));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -158,18 +130,11 @@ public class PropertyAccessorTest {
         assertEquals(boolean.class, accessor.getValueClass());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testGetValueClassIllegalProperty() {
         TestObject testObject2 = new TestObject();
         PropertyAccessor accessor = new PropertyAccessor(testObject2.getClass(), "illegalProperty");
         accessor.getValueClass();
-    }
-
-    @Test
-    public void testWriteOnlyIntProperty() {
-        PropertyAccessor propertyAccessor = new PropertyAccessor(testObject.getClass(),
-                TestObject.WRITE_ONLY_INT_PROPERTY);
-        propertyAccessor.setPropertyValue(testObject, 5);
     }
 
     @Test

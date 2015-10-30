@@ -6,10 +6,8 @@
 
 package de.faktorzehn.ipm.web.binding.dispatcher;
 
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -296,11 +294,6 @@ public class ReflectionPropertyDispatcherTest {
     @Test(expected = IllegalArgumentException.class)
     public void testGetAvailableValues_illegalProperty() {
         pmoDispatcher.isEnabled("doesNotExist");
-    }
-
-    public void testGetPmo() {
-        assertThat(pmoDispatcher.getPmo(), is(testPmo));
-        assertThat(modelObjectDispatcher.getPmo(), is(testPmo));
     }
 
     @Test

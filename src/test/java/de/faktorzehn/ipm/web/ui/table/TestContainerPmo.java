@@ -1,9 +1,8 @@
 package de.faktorzehn.ipm.web.ui.table;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import com.google.gwt.thirdparty.guava.common.collect.Lists;
 
 import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.ui.section.annotations.UISection;
@@ -13,7 +12,7 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
 
     public static final String CAPTION = "container";
 
-    private final List<TestColumnPmo> pmos = Lists.newArrayList(new TestColumnPmo(), new TestColumnPmo());
+    private final List<TestColumnPmo> pmos = new ArrayList<>();
 
     private int pageLength = ContainerPmo.DEFAULT_PAGE_LENGTH;
 
@@ -23,9 +22,13 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
     }
 
     public TestColumnPmo addItem() {
-        TestColumnPmo columnPmo = new TestColumnPmo();
+        TestColumnPmo columnPmo = new TestColumnPmo(this);
         pmos.add(columnPmo);
         return columnPmo;
+    }
+
+    public void deleteItem(TestColumnPmo columnPmo) {
+        pmos.remove(columnPmo);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
 
     @Override
     public Optional<ButtonPmo> getAddItemButtonPmo() {
-        return Optional.of(this::addItem);
+        return Optional.of(ButtonPmo.newAddButton(this::addItem));
     }
 
     @Override
@@ -46,5 +49,4 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
     public void setPageLength(int pageLength) {
         this.pageLength = pageLength;
     }
-
 }

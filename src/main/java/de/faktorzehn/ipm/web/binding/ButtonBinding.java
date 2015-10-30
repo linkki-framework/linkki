@@ -21,16 +21,18 @@ public class ButtonBinding implements ElementBinding, Serializable {
     private final BindingContext bindingContext;
     private final String methodName;
     private final Button button;
+    private final Object pmo;
     private final Label label;
     private final PropertyDispatcher propertyDispatcher;
 
-    public ButtonBinding(BindingContext bindingContext, String methodName, Label label, Button button,
+    public ButtonBinding(BindingContext bindingContext, Object pmo, String methodName, Label label, Button button,
             PropertyDispatcher propertyDispatcher) {
         this.bindingContext = bindingContext;
         this.methodName = methodName;
         this.label = label;
         this.button = button;
         this.propertyDispatcher = propertyDispatcher;
+        this.pmo = pmo;
         button.addClickListener(this::buttonClickCallback);
     }
 
@@ -80,8 +82,10 @@ public class ButtonBinding implements ElementBinding, Serializable {
             String methodName,
             Label label,
             Button button,
+            Object pmo,
             PropertyDispatcher propertyDispatcher) {
-        ButtonBinding buttonBinding = new ButtonBinding(bindingContext, methodName, label, button, propertyDispatcher);
+        ButtonBinding buttonBinding = new ButtonBinding(bindingContext, pmo, methodName, label, button,
+                propertyDispatcher);
         bindingContext.add(buttonBinding);
         return buttonBinding;
     }
@@ -89,5 +93,10 @@ public class ButtonBinding implements ElementBinding, Serializable {
     @Override
     public Button getBoundComponent() {
         return button;
+    }
+
+    @Override
+    public Object getPmo() {
+        return pmo;
     }
 }

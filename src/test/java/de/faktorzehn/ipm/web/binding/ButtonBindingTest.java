@@ -34,7 +34,7 @@ public class ButtonBindingTest {
     public void setUp() {
         context = new BindingContext();
         propertyDispatcher = mock(PropertyDispatcher.class);
-        binding = ButtonBinding.create(context, "method", label, button, propertyDispatcher);
+        binding = ButtonBinding.create(context, "method", label, button, new Object(), propertyDispatcher);
         context.add(binding);
     }
 

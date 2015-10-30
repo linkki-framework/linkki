@@ -52,13 +52,13 @@ public class PmoBasedSectionFactoryTest {
     private FieldBinding<?> disabledInvisibleBinding;
     private ButtonBinding buttonBinding;
     private BindingContext bindingContext;
-    private PMOWithAnnotations pmo;
+    private TestPmoWithAnnotations pmo;
     private BaseSection section;
 
     @Before
     public void setUp() {
         bindingContext = new BindingContext("testContext");
-        pmo = new PMOWithAnnotations();
+        pmo = new TestPmoWithAnnotations();
         section = new DefaultPmoBasedSectionFactory().createSection(pmo, bindingContext);
 
         Collection<Binding> bindings = bindingContext.getBindings();
@@ -143,7 +143,7 @@ public class PmoBasedSectionFactoryTest {
     }
 
     @UISection
-    public class PMOWithAnnotations implements PresentationModelObject {
+    public class TestPmoWithAnnotations implements PresentationModelObject {
 
         private String xyz = "123";
         private TestEnum staticEnumAttr = TestEnum.THREE;

@@ -31,6 +31,8 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 
 public class FieldBindingTest {
 
+    private Object pmo = new Object();
+
     private Label label = spy(new Label());
 
     private Field<String> field = spy(new TextField());
@@ -55,15 +57,20 @@ public class FieldBindingTest {
         messageList = new MessageList();
         when(propertyDispatcher.getMessages(anyString())).thenReturn(messageList);
 
-        binding = FieldBinding.create(context, "value", label, field, propertyDispatcher);
-        selectBinding = FieldBinding.create(context, "enumValue", label, selectField, propertyDispatcher);
+        binding = FieldBinding.create(context, pmo, "value", label, field, propertyDispatcher);
+        selectBinding = FieldBinding.create(context, pmo, "enumValue", label, selectField, propertyDispatcher);
         context.add(binding);
         context.add(selectBinding);
     }
 
     @Test(expected = NullPointerException.class)
-    public void testValuePropertyCheck() {
-        FieldBinding.create(context, null, label, field, propertyDispatcher);
+    public void testValuePropertyCheck_NullFieldName() {
+        FieldBinding.create(context, pmo, null, label, field, propertyDispatcher);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testValuePropertyCheck_NullPmo() {
+        FieldBinding.create(context, null, "value", label, field, propertyDispatcher);
     }
 
     @Test
@@ -127,7 +134,7 @@ public class FieldBindingTest {
 
     @Test
     public void testVisibleBinding_ifLabelNull() {
-        binding = FieldBinding.create(context, "value", null, field, propertyDispatcher);
+        binding = FieldBinding.create(context, pmo, "value", null, field, propertyDispatcher);
         when(propertyDispatcher.isVisible("value")).thenReturn(false);
         binding.updateFromPmo();
 

@@ -4,10 +4,9 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
-
-import de.faktorzehn.ipm.web.ButtonPmo;
 
 /**
  * Base class for sections that are supported by the {@link PmoBasedSectionFactory}.
@@ -40,10 +39,10 @@ public abstract class BaseSection extends AbstractSection {
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param editButtonPmo If present the section has an edit button in the header.
+     * @param editButton If present the section has an edit button in the header.
      */
-    public BaseSection(String caption, boolean closeable, Optional<ButtonPmo> editButtonPmo) {
-        super(caption, closeable, editButtonPmo);
+    public BaseSection(String caption, boolean closeable, Optional<Button> editButton) {
+        super(caption, closeable, editButton);
     }
 
     /**

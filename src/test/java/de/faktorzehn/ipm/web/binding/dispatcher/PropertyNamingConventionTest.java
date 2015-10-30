@@ -8,6 +8,7 @@ package de.faktorzehn.ipm.web.binding.dispatcher;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 public class PropertyNamingConventionTest {
@@ -29,6 +30,11 @@ public class PropertyNamingConventionTest {
         assertEquals("testEnabled", namingConvention.getEnabledProperty("test"));
     }
 
+    @Test
+    public void testGetEnabledProperty_empty() {
+        assertEquals("enabled", namingConvention.getEnabledProperty(StringUtils.EMPTY));
+    }
+
     @Test(expected = NullPointerException.class)
     public void testGetEnabledProperty_null() {
         namingConvention.getEnabledProperty(null);
@@ -37,6 +43,11 @@ public class PropertyNamingConventionTest {
     @Test
     public void testGetVisibleProperty() {
         assertEquals("testVisible", namingConvention.getVisibleProperty("test"));
+    }
+
+    @Test
+    public void testGetVisibleProperty_empty() {
+        assertEquals("visible", namingConvention.getVisibleProperty(StringUtils.EMPTY));
     }
 
     @Test(expected = NullPointerException.class)

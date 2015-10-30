@@ -6,13 +6,13 @@ import javax.annotation.Nonnull;
 
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.themes.ValoTheme;
 
-import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.ui.util.ComponentFactory;
 
 public class FormSection extends BaseSection {
@@ -48,11 +48,11 @@ public class FormSection extends BaseSection {
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param editButtonPmo If present the section has an edit button in the header.
+     * @param editButton If present the section has an edit button in the header.
      * @param numberOfColumns the number of the section's columns
      */
-    public FormSection(String caption, boolean closeable, Optional<ButtonPmo> editButtonPmo, int numberOfColumns) {
-        super(caption, closeable, editButtonPmo);
+    public FormSection(String caption, boolean closeable, Optional<Button> editButton, int numberOfColumns) {
+        super(caption, closeable, editButton);
         this.numberOfColumns = numberOfColumns;
         setWidth("100%");
         contentGrid = createContent();
