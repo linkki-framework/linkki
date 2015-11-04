@@ -30,18 +30,35 @@ public class PropertyDispatcherFactory {
      *            dispatchers
      * @return a new chain of property dispatchers
      */
-    public PropertyDispatcher defaultDispatcherChain(@Nonnull PresentationModelObject pmo,
+    public PropertyDispatcher defaultDispatcherChain(@Nonnull Object pmo,
             @Nonnull PropertyBehaviorProvider behaviorProvider) {
         Preconditions.checkNotNull(pmo, "PresentationModelObject must not be null");
         Preconditions.checkNotNull(behaviorProvider, "PropertyBehaviorProvider must not be null");
 
         // @formatter:off
-        ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(pmo.getModelObject(), pmo);
-        ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(pmo::getModelObject, exceptionDispatcher);
-        ReflectionPropertyDispatcher pmoDispatcher = new ReflectionPropertyDispatcher(() -> pmo, modelObjectDispatcher);
-        BindingAnnotationDecorator bindingAnnotationDecorator = new BindingAnnotationDecorator(pmoDispatcher, pmo.getClass());
+        ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo);
+        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, exceptionDispatcher);
+        BindingAnnotationDecorator bindingAnnotationDecorator = new BindingAnnotationDecorator(reflectionDispatcher, pmo.getClass());
         return new BehaviourDependentDecorator(bindingAnnotationDecorator, behaviorProvider);
         // @formatter:on
+    }
+
+    private ReflectionPropertyDispatcher newReflectionDispatcher(Object pmo, PropertyDispatcher wrappedDispatcher) {
+        if (pmo instanceof PresentationModelObject) {
+            ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(
+                    ((PresentationModelObject)pmo)::getModelObject, wrappedDispatcher);
+            return new ReflectionPropertyDispatcher(() -> pmo, modelObjectDispatcher);
+        } else {
+            return new ReflectionPropertyDispatcher(() -> pmo, wrappedDispatcher);
+        }
+    }
+
+    private ExceptionPropertyDispatcher newExceptionDispatcher(Object pmo) {
+        if (pmo instanceof PresentationModelObject) {
+            return new ExceptionPropertyDispatcher(((PresentationModelObject)pmo).getModelObject(), pmo);
+        } else {
+            return new ExceptionPropertyDispatcher(pmo);
+        }
     }
 
 }

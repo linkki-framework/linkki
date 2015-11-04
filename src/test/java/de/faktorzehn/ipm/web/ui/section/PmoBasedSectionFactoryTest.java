@@ -15,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
@@ -26,9 +25,9 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Panel;
 
 import de.faktorzehn.ipm.web.PresentationModelObject;
+import de.faktorzehn.ipm.web.binding.Binding;
 import de.faktorzehn.ipm.web.binding.BindingContext;
 import de.faktorzehn.ipm.web.binding.ButtonBinding;
-import de.faktorzehn.ipm.web.binding.ElementBinding;
 import de.faktorzehn.ipm.web.binding.FieldBinding;
 import de.faktorzehn.ipm.web.binding.TestEnum;
 import de.faktorzehn.ipm.web.ui.section.annotations.AvailableValuesType;
@@ -53,23 +52,33 @@ public class PmoBasedSectionFactoryTest {
     private FieldBinding<?> disabledInvisibleBinding;
     private ButtonBinding buttonBinding;
     private BindingContext bindingContext;
-    private PMOWithAnnotations pmo;
+    private TestPmoWithAnnotations pmo;
     private BaseSection section;
 
     @Before
     public void setUp() {
         bindingContext = new BindingContext("testContext");
-        pmo = new PMOWithAnnotations();
+        pmo = new TestPmoWithAnnotations();
         section = new DefaultPmoBasedSectionFactory().createSection(pmo, bindingContext);
 
-        Collection<ElementBinding> bindings = bindingContext.getBindings();
+        Collection<Binding> bindings = bindingContext.getBindings();
         assertEquals(5, bindings.size());
-        Iterator<ElementBinding> it = bindings.iterator();
-        textFieldBinding = (FieldBinding<?>)it.next();
-        comboBinding1 = (FieldBinding<?>)it.next();
-        comboBinding2 = (FieldBinding<?>)it.next();
-        disabledInvisibleBinding = (FieldBinding<?>)it.next();
-        buttonBinding = (ButtonBinding)it.next();
+        for (Binding binding : bindings) {
+            if (binding instanceof FieldBinding) {
+                FieldBinding<?> fieldBinding = (FieldBinding<?>)binding;
+                if (fieldBinding.getPropertyName().equals("xyz")) {
+                    textFieldBinding = fieldBinding;
+                } else if (fieldBinding.getPropertyName().equals("staticEnumAttr")) {
+                    comboBinding1 = fieldBinding;
+                } else if (fieldBinding.getPropertyName().equals("dynamicEnumAttr")) {
+                    comboBinding2 = fieldBinding;
+                } else if (fieldBinding.getPropertyName().equals("disabledInvisible")) {
+                    disabledInvisibleBinding = fieldBinding;
+                }
+            } else if (binding instanceof ButtonBinding) {
+                buttonBinding = (ButtonBinding)binding;
+            }
+        }
     }
 
     @Test
@@ -134,7 +143,7 @@ public class PmoBasedSectionFactoryTest {
     }
 
     @UISection
-    public class PMOWithAnnotations implements PresentationModelObject {
+    public class TestPmoWithAnnotations implements PresentationModelObject {
 
         private String xyz = "123";
         private TestEnum staticEnumAttr = TestEnum.THREE;

@@ -2,10 +2,12 @@ package de.faktorzehn.ipm.web.ui.util;
 
 import static de.faktorzehn.ipm.web.ui.application.ApplicationStyles.HORIZONTAL_SPACER;
 
+import java.util.Collection;
 import java.util.Locale;
 
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.server.FontIcon;
+import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
@@ -28,8 +30,8 @@ import de.faktorzehn.ipm.web.ui.converters.LocalDateToDateConverter;
 public class ComponentFactory {
 
     /**
-     * @see <a
-     *      href="http://de.wikipedia.org/wiki/Gesch%C3%BCtztes_Leerzeichen">http://de.wikipedia.org/wiki/Geschütztes_Leerzeichen</a>
+     * @see <a href="http://de.wikipedia.org/wiki/Gesch%C3%BCtztes_Leerzeichen">http://de.wikipedia.
+     *      org/wiki/Geschütztes_Leerzeichen</a>
      */
     public static final String NO_BREAK_SPACE = "&nbsp";
 
@@ -177,12 +179,27 @@ public class ComponentFactory {
         return new DoubleField();
     }
 
-    /** Creates a button for the given PMO. */
+    /**
+     * Creates a button for the given PMO.
+     * 
+     * @deprecated This method creates a button and installs a click listener for the callback on
+     *             {@link ButtonPmo#onClick()}. This is not the recommended way to handle click
+     *             events. Prefer using a binding context! If you cannot use a binding context call
+     *             {@link #newButton(Resource, Collection)} and create the listener on your own.
+     */
+    @Deprecated
     public static Button newButton(ButtonPmo buttonPmo) {
-        Button button = new Button(buttonPmo.buttonIcon());
+        Button button = new Button(buttonPmo.getButtonIcon());
         button.setTabIndex(-1);
-        buttonPmo.styleNames().forEach(style -> button.addStyleName(style));
+        buttonPmo.getStyleNames().forEach(style -> button.addStyleName(style));
         button.addClickListener(e -> buttonPmo.onClick());
+        return button;
+    }
+
+    public static Button newButton(Resource icon, Collection<String> styleNames) {
+        Button button = new Button(icon);
+        button.setTabIndex(-1);
+        styleNames.forEach(style -> button.addStyleName(style));
         return button;
     }
 

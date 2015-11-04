@@ -4,11 +4,11 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
-import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.ui.application.ApplicationStyles;
 import de.faktorzehn.ipm.web.ui.util.UiUtil;
 
@@ -35,7 +35,7 @@ public class HorizontalSection extends BaseSection {
      * @param closeable <code>true</code> if the section can be closed/opened.
      */
     public HorizontalSection(@Nonnull String caption, boolean closeable) {
-        this(caption, closeable, null);
+        this(caption, closeable, Optional.empty());
     }
 
     /**
@@ -43,10 +43,10 @@ public class HorizontalSection extends BaseSection {
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param editButtonPmo If present the section has an edit button in the header.
+     * @param editButton If present the section has an edit button in the header.
      */
-    public HorizontalSection(@Nonnull String caption, boolean closeable, Optional<ButtonPmo> editButtonPmo) {
-        super(caption, closeable, editButtonPmo);
+    public HorizontalSection(@Nonnull String caption, boolean closeable, Optional<Button> editButton) {
+        super(caption, closeable, editButton);
         content = new HorizontalLayout();
         addComponent(content);
     }

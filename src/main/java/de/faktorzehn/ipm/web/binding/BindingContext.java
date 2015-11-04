@@ -23,8 +23,8 @@ import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 public class BindingContext {
 
     private String name;
-    private Map<Component, ElementBinding> bindings = Maps.newLinkedHashMap();
-    private Set<PropertyDispatcher> propertyDispatcher = new HashSet<PropertyDispatcher>();
+    private Map<Component, Binding> bindings = Maps.newConcurrentMap();
+    private Set<PropertyDispatcher> propertyDispatchers = new HashSet<PropertyDispatcher>();
 
     public BindingContext() {
         this("DefaultContext");
@@ -40,18 +40,26 @@ public class BindingContext {
 
     public BindingContext add(ElementBinding binding) {
         bindings.put(binding.getBoundComponent(), binding);
-        propertyDispatcher.add(binding.getPropertyDispatcher());
+        propertyDispatchers.add(binding.getPropertyDispatcher());
         return this;
     }
 
-    public Collection<ElementBinding> getBindings() {
+    public BindingContext add(TableBinding<?> tableBinding) {
+        bindings.put(tableBinding.getBoundComponent(), tableBinding);
+        return this;
+    }
+
+    public Collection<Binding> getBindings() {
         return Collections.unmodifiableCollection(bindings.values());
     }
 
     public void removeBindingsForPmo(PresentationModelObject pmo) {
-        List<ElementBinding> toRemove = bindings.values().stream()
-                .filter(b -> b.getPropertyDispatcher().getPmo() == pmo).collect(Collectors.toList());
-        toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatcher::remove);
+        List<ElementBinding> toRemove = bindings.values().stream() //
+                .filter(b -> b instanceof ElementBinding) //
+                .map(b -> ((ElementBinding)b)) //
+                .filter(b -> b.getPmo() == pmo) //
+                .collect(Collectors.toList());
+        toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
         bindings.values().removeAll(toRemove);
     }
 
@@ -64,7 +72,7 @@ public class BindingContext {
     }
 
     public void updateUI() {
-        propertyDispatcher.forEach(pd -> pd.prepareUpdateUI());
+        propertyDispatchers.forEach(pd -> pd.prepareUpdateUI());
         bindings.values().forEach(binding -> binding.updateFromPmo());
     }
 

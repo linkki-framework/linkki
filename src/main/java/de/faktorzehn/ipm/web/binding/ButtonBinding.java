@@ -21,16 +21,18 @@ public class ButtonBinding implements ElementBinding, Serializable {
     private final BindingContext bindingContext;
     private final String methodName;
     private final Button button;
+    private final Object pmo;
     private final Label label;
     private final PropertyDispatcher propertyDispatcher;
 
-    public ButtonBinding(BindingContext bindingContext, String methodName, Label label, Button button,
+    public ButtonBinding(BindingContext bindingContext, Object pmo, String methodName, Label label, Button button,
             PropertyDispatcher propertyDispatcher) {
         this.bindingContext = bindingContext;
         this.methodName = methodName;
         this.label = label;
         this.button = button;
         this.propertyDispatcher = propertyDispatcher;
+        this.pmo = pmo;
         button.addClickListener(this::buttonClickCallback);
     }
 
@@ -65,16 +67,36 @@ public class ButtonBinding implements ElementBinding, Serializable {
         bindingContext.updateUI();
     }
 
+    /**
+     * Creates a new {@link ButtonBinding} and adds the new binding to the {@link BindingContext}
+     * 
+     * @param bindingContext The {@link BindingContext} used to bind the button to the PMO
+     * @param methodName the method name that should be called when button was clicked
+     * @param label the label of the button
+     * @param button The button that should be bound
+     * @param propertyDispatcher The property dispatcher that is used to call the methods on update.
+     * 
+     * @return The newly created binding
+     */
     public static ButtonBinding create(BindingContext bindingContext,
             String methodName,
             Label label,
             Button button,
+            Object pmo,
             PropertyDispatcher propertyDispatcher) {
-        return new ButtonBinding(bindingContext, methodName, label, button, propertyDispatcher);
+        ButtonBinding buttonBinding = new ButtonBinding(bindingContext, pmo, methodName, label, button,
+                propertyDispatcher);
+        bindingContext.add(buttonBinding);
+        return buttonBinding;
     }
 
     @Override
     public Button getBoundComponent() {
         return button;
+    }
+
+    @Override
+    public Object getPmo() {
+        return pmo;
     }
 }

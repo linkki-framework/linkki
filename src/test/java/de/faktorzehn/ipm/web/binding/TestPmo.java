@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import de.faktorzehn.ipm.web.PresentationModelObject;
 
-public class TestPMO implements PresentationModelObject {
+public class TestPmo implements PresentationModelObject {
     private String value = StringUtils.EMPTY;
 
     private Object modelObject;

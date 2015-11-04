@@ -31,7 +31,7 @@ public class BindingContextTest {
     @Mock
     private Label label1;
     private Label label2;
-    private TestPMO pmo = new TestPMO();
+    private TestPmo pmo = new TestPmo();
     private Field<String> field1 = spy(new TextField());
     private Field<String> field2 = spy(new TextField());
 
@@ -41,13 +41,13 @@ public class BindingContextTest {
     @Before
     public void setUp() {
         context = new BindingContext();
-        binding1 = new FieldBinding<String>(context, "value", label1, field1, new ReflectionPropertyDispatcher(
-                this::getPmo, new ExceptionPropertyDispatcher(pmo, pmo)));
-        binding2 = new FieldBinding<String>(context, "value", label2, field2, new ReflectionPropertyDispatcher(
-                this::getPmo, new ExceptionPropertyDispatcher(pmo, pmo)));
+        binding1 = new FieldBinding<String>(context, pmo, "value", label1, field1, new ReflectionPropertyDispatcher(
+                this::getPmo, new ExceptionPropertyDispatcher(pmo)));
+        binding2 = new FieldBinding<String>(context, pmo, "value", label2, field2, new ReflectionPropertyDispatcher(
+                this::getPmo, new ExceptionPropertyDispatcher(pmo)));
     }
 
-    private TestPMO getPmo() {
+    private TestPmo getPmo() {
         return pmo;
     }
 

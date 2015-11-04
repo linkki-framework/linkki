@@ -8,7 +8,9 @@ package de.faktorzehn.ipm.web.ui.table;
 
 import java.util.Optional;
 
-import de.faktorzehn.ipm.web.ButtonPmo;
+import com.vaadin.ui.Table;
+
+import com.vaadin.ui.Button;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.ui.section.AbstractSection;
 
@@ -16,38 +18,22 @@ public class TableSection<T extends PresentationModelObject> extends AbstractSec
 
     private static final long serialVersionUID = 1L;
 
-    private PmoBasedTable<? extends PresentationModelObject> table;
+    private Table table;
 
-    public TableSection(String caption, Optional<ButtonPmo> addItemButtonPmo) {
-        super(caption, false, addItemButtonPmo);
+    public TableSection(String caption, Optional<Button> addItemButton) {
+        super(caption, false, addItemButton);
     }
 
-    void setTable(PmoBasedTable<? extends PresentationModelObject> theTable) {
+    void setTable(Table table) {
         if (this.table != null) {
             throw new IllegalStateException("Table already set.");
         }
-        this.table = theTable;
+        this.table = table;
         addComponent(table);
-    }
-
-    public ContainerPmo<?> getPmo() {
-        if (table == null) {
-            throw new IllegalStateException("Table with PMO hasn't been set, yet!");
-        }
-        return table.getPmo();
-    }
-
-    /**
-     * Manually update the table in this section from its pmo.
-     * 
-     * Introduced for the AA project.
-     */
-    public void update() {
-        table.updateFromPmo();
     }
 
     @Override
     public String toString() {
-        return "TableSection based on PMO=" + getPmo();
+        return "TableSection based on " + table.getContainerDataSource();
     }
 }

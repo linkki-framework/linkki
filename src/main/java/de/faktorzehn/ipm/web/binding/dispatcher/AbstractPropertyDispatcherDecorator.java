@@ -12,8 +12,6 @@ import org.faktorips.runtime.MessageList;
 
 import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 
-import de.faktorzehn.ipm.web.PresentationModelObject;
-
 /**
  * Base class for all decorating {@link PropertyDispatcher property dispatchers}. Forwards all calls
  * to the dispatcher it was created with.
@@ -79,11 +77,6 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     @Override
     public MessageList getMessages(String property) {
         return getWrappedDispatcher().getMessages(property);
-    }
-
-    @Override
-    public PresentationModelObject getPmo() {
-        return wrappedDispatcher.getPmo();
     }
 
     @Override

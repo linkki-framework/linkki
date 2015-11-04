@@ -6,16 +6,14 @@
 
 package de.faktorzehn.ipm.web.binding;
 
-import com.vaadin.ui.Component;
-
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 
-public interface ElementBinding {
-
-    void updateFromPmo();
+/**
+ * Binds an element to a control using the property dispatchers.
+ *
+ */
+public interface ElementBinding extends Binding {
 
     PropertyDispatcher getPropertyDispatcher();
-
-    Component getBoundComponent();
 
 }

@@ -2,6 +2,7 @@ package de.faktorzehn.ipm.web.binding.dispatcher.accessor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Optional;
 
 /**
  * Wrapper for a {@link Method}. {@link #canWrite()} can safely be accessed even if no write method
@@ -15,7 +16,7 @@ public class WriteMethod extends AbstractMethod {
         super(descriptor, descriptor.getReflectionWriteMethod());
     }
 
-    private Method getWriteMethod() {
+    private Optional<Method> getWriteMethod() {
         return getReflectionMethod();
     }
 
@@ -34,7 +35,7 @@ public class WriteMethod extends AbstractMethod {
         if (canWrite()) {
             writeValueWithExceptionHandling(target, value);
         } else {
-            throw new IllegalStateException("Cannot write property \"" + getPropertyName() + "\".");
+            throw new IllegalStateException("Cannot write property \"" + getPropertyName() + "\" in object " + target);
         }
     }
 
@@ -42,19 +43,21 @@ public class WriteMethod extends AbstractMethod {
         try {
             invokeMethod(boundObject, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException("Cannot access class: " + getBoundClass() + ", property: " + getPropertyName()
-                    + " for writing.", e);
+            throw new RuntimeException(
+                    "Cannot access class: " + getBoundClass() + ", property: " + getPropertyName() + " for writing.",
+                    e);
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Cannot write value: " + value + " in object: " + boundObject + ", property: "
-                    + getPropertyName(), e);
+            throw new RuntimeException(
+                    "Cannot write value: " + value + " in object: " + boundObject + ", property: " + getPropertyName(),
+                    e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException("Cannot invoke write method on class: " + getBoundClass() + ", property: "
-                    + getPropertyName(), e);
+            throw new RuntimeException(
+                    "Cannot invoke write method on class: " + getBoundClass() + ", property: " + getPropertyName(), e);
         }
     }
 
-    private void invokeMethod(Object boundObject, Object value) throws IllegalAccessException,
-            InvocationTargetException {
-        getWriteMethod().invoke(boundObject, value);
+    private void invokeMethod(Object boundObject, Object value)
+            throws IllegalAccessException, InvocationTargetException {
+        getWriteMethod().orElseThrow(noMethodFound("write method")).invoke(boundObject, value);
     }
 }

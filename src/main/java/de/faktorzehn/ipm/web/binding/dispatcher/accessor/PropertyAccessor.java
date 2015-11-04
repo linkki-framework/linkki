@@ -1,5 +1,7 @@
 package de.faktorzehn.ipm.web.binding.dispatcher.accessor;
 
+import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
+
 /**
  * Allows reading and writing a value from/to an object's property. Also provides the value class of
  * the property.
@@ -17,8 +19,9 @@ public class PropertyAccessor {
     private final WriteMethod writeMethod;
 
     public PropertyAccessor(Class<?> boundClass, String propertyName) {
+        checkNotNull(boundClass);
+        checkNotNull(propertyName);
         this.propertyName = propertyName;
-
         PropertyAccessDescriptor propertyAccessDescriptor = new PropertyAccessDescriptor(boundClass, propertyName);
         readMethod = propertyAccessDescriptor.createReadMethod();
         writeMethod = propertyAccessDescriptor.createWriteMethod();

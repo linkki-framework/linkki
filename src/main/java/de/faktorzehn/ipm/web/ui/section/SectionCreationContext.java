@@ -10,13 +10,14 @@ import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNot
 
 import java.util.Optional;
 
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
 import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.PresentationModelObject;
 import de.faktorzehn.ipm.web.binding.BindingContext;
-import de.faktorzehn.ipm.web.binding.ElementBinding;
+import de.faktorzehn.ipm.web.binding.ButtonPmoBinding;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcherFactory;
@@ -48,9 +49,8 @@ public class SectionCreationContext {
         this.propertyBehaviorProvider = propertyBehaviorProvider;
     }
 
-    /* package private for testing */
-    protected PropertyDispatcher createDefaultDispatcher() {
-        return DISPATCHER_FACTORY.defaultDispatcherChain(pmo, propertyBehaviorProvider);
+    protected PropertyDispatcher createDefaultDispatcher(Object o) {
+        return DISPATCHER_FACTORY.defaultDispatcherChain(o, propertyBehaviorProvider);
     }
 
     protected PresentationModelObject getPmo() {
@@ -71,14 +71,18 @@ public class SectionCreationContext {
         BaseSection section;
         UISection sectionDefinition = pmo.getClass().getAnnotation(UISection.class);
         checkNotNull(sectionDefinition, "PMO " + pmo.getClass() + " must be annotated with @UISection!");
-        Optional<ButtonPmo> editButtonPmo = pmo.getEditButtonPmo();
+        Optional<Button> editButton = createEditButton(pmo.getEditButtonPmo());
         if (sectionDefinition.layout() == SectionLayout.COLUMN) {
-            section = new FormSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButtonPmo,
+            section = new FormSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButton,
                     sectionDefinition.columns());
         } else {
-            section = new HorizontalSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButtonPmo);
+            section = new HorizontalSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButton);
         }
         return section;
+    }
+
+    private Optional<Button> createEditButton(Optional<ButtonPmo> buttonPmo) {
+        return buttonPmo.map(b -> ButtonPmoBinding.createBoundButton(bindingContext, b, createDefaultDispatcher(b)));
     }
 
     private void createUiElements(BaseSection section) {
@@ -89,7 +93,8 @@ public class SectionCreationContext {
         }
     }
 
-    private SectionCreationContext.LabelComponent createLabelAndComponent(BaseSection section, ElementDescriptor uiElement) {
+    private SectionCreationContext.LabelComponent createLabelAndComponent(BaseSection section,
+            ElementDescriptor uiElement) {
         Component component = uiElement.newComponent();
         String labelText = uiElement.getLabelText();
         Label label = section.add(labelText, component);
@@ -97,13 +102,12 @@ public class SectionCreationContext {
     }
 
     private void bindUiElement(Component component, ElementDescriptor uiElement, Label label) {
-        ElementBinding binding = uiElement.createBinding(bindingContext, label, component, getPropertyDispatcher());
-        bindingContext.add(binding);
+        uiElement.createBinding(bindingContext, pmo, label, component, getPropertyDispatcher());
     }
 
     protected PropertyDispatcher getPropertyDispatcher() {
         if (propertyDispatcher == null) {
-            propertyDispatcher = createDefaultDispatcher();
+            propertyDispatcher = createDefaultDispatcher(pmo);
         }
         return propertyDispatcher;
     }

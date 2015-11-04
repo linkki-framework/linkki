@@ -91,9 +91,6 @@ public class FieldDescriptor implements ElementDescriptor {
         if (StringUtils.isEmpty(label)) {
             label = StringUtils.capitalize(getPropertyName());
         }
-        if (!label.endsWith(":")) {
-            label = label + ":";
-        }
         return label;
     }
 
@@ -106,10 +103,12 @@ public class FieldDescriptor implements ElementDescriptor {
 
     @Override
     public ElementBinding createBinding(BindingContext bindingContext,
+            Object pmo,
             Label label,
             Component component,
             PropertyDispatcher propertyDispatcher) {
-        return FieldBinding.create(bindingContext, getPropertyName(), label, (Field<?>)component, propertyDispatcher);
+        return FieldBinding.create(bindingContext, pmo, getPropertyName(), label, (Field<?>)component,
+                                   propertyDispatcher);
     }
 
 }

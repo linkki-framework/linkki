@@ -6,52 +6,64 @@
 
 package de.faktorzehn.ipm.web.ui.table;
 
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Table;
 
 import de.faktorzehn.ipm.web.binding.BindingContext;
+import de.faktorzehn.ipm.web.binding.TableBinding;
 import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
-import de.faktorzehn.ipm.web.ui.section.annotations.UITable;
 
-@RunWith(MockitoJUnitRunner.class)
 public class PmoBasedTableSectionFactoryTest {
 
-    @Mock
-    private BindingContext ctx;
-
-    @Mock
-    private PropertyBehaviorProvider pbp;
-
     @Test
-    public void testCreateSection_IconIsReadFromAnnotation() {
-        TestContainerPmoWithAnnotation containerPmo = new TestContainerPmoWithAnnotation();
-        PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<>(containerPmo, ctx, pbp);
+    public void testCreateSection_TableIsAddedAndBound() {
+        TestContainerPmo containerPmo = new TestContainerPmo();
+        BindingContext bindingContext = new BindingContext();
+        PropertyBehaviorProvider propertyBehaviorProvider = mock(PropertyBehaviorProvider.class);
+        PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<TestColumnPmo>(
+                containerPmo, bindingContext, propertyBehaviorProvider);
 
-        TableSection<TestColumnPmo> section = factory.createSection();
-        HorizontalLayout header = (HorizontalLayout)section.getComponent(0);
-        Button addButton = (Button)header.getComponent(1);
+        TableSection<TestColumnPmo> tableSection = factory.createSection();
 
-        assertThat(addButton.getIcon(), is(TestContainerPmoWithAnnotation.ADD_ITEM_ICON));
+        assertThat(tableSection, is(notNullValue()));
+        assertThat(tableSection.getComponentCount(), is(2)); // header and table
+        assertThat(tableSection.getComponent(1), is(instanceOf(Table.class)));
+        Table table = (Table)tableSection.getComponent(1);
+        assertThat(table.getContainerDataSource(), is(instanceOf(TableBinding.class)));
+        TableBinding<?> tableBinding = (TableBinding<?>)table.getContainerDataSource();
+        assertThat(bindingContext.getBindings(), hasItem(tableBinding));
     }
 
     @Test
-    public void testCreateSection_DefaultIconIsUsedIfAnnotationIsMissing() {
+    public void testCreateSection_SectionHasAddButtonInHeader() {
         TestContainerPmo containerPmo = new TestContainerPmo();
-        PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<>(containerPmo, ctx, pbp);
+        BindingContext bindingContext = new BindingContext();
+        PropertyBehaviorProvider propertyBehaviorProvider = mock(PropertyBehaviorProvider.class);
+        PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<TestColumnPmo>(
+                containerPmo, bindingContext, propertyBehaviorProvider);
 
-        TableSection<TestColumnPmo> section = factory.createSection();
-        HorizontalLayout header = (HorizontalLayout)section.getComponent(0);
+        TableSection<TestColumnPmo> tableSection = factory.createSection();
+
+        assertThat(tableSection, is(notNullValue()));
+        assertThat(tableSection.getComponentCount(), is(2)); // header and table
+        assertThat(tableSection.getComponent(0), is(instanceOf(HorizontalLayout.class)));
+        HorizontalLayout header = (HorizontalLayout)tableSection.getComponent(0);
+        assertThat(header.getComponentCount(), is(3)); // caption, add button and close button
+        assertThat(header.getComponent(1), is(instanceOf(Button.class)));
         Button addButton = (Button)header.getComponent(1);
+        assertThat(addButton.getIcon(), is(FontAwesome.PLUS));
 
-        assertThat(addButton.getIcon(), is(UITable.DEFAULT_ADD_ITEM_ICON));
     }
 
 }

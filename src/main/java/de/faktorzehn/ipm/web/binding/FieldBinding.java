@@ -33,21 +33,19 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
     private final BindingContext bindingContext;
     private final Field<T> field;
     private final Label label;
-
+    private final Object pmo;
     private final String propertyName;
     private final PropertyDispatcher propertyDispatcher;
 
-    public FieldBinding(BindingContext bindingContext, String propertyName, Label label, Field<T> field,
+    public FieldBinding(BindingContext bindingContext, Object pmo, String propertyName, Label label, Field<T> field,
             PropertyDispatcher propertyDispatcher) {
-        checkNotNull(bindingContext);
-        checkNotNull(propertyName);
-        checkNotNull(field);
-        checkNotNull(propertyDispatcher);
-        this.bindingContext = bindingContext;
-        this.propertyName = propertyName;
+
+        this.bindingContext = checkNotNull(bindingContext);
+        this.pmo = checkNotNull(pmo);
+        this.propertyName = checkNotNull(propertyName);
         this.label = label;
-        this.field = field;
-        this.propertyDispatcher = propertyDispatcher;
+        this.field = checkNotNull(field);
+        this.propertyDispatcher = checkNotNull(propertyDispatcher);
     }
 
     @Override
@@ -86,8 +84,8 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
                 ((AbstractField<T>)field).setComponentError(getErrorHandler());
             }
         } catch (RuntimeException e) {
-            throw new RuntimeException("Error while updating field " + field.getClass() + ", value property="
-                    + propertyName, e);
+            throw new RuntimeException(
+                    "Error while updating field " + field.getClass() + ", value property=" + propertyName, e);
         }
     }
 
@@ -163,20 +161,40 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
 
     @Override
     public String toString() {
-        return "FieldBinding [bindingContext=" + bindingContext.getName() + ", field=" + field
-                + ", propertyDispatcher=" + propertyDispatcher + " propertyName=" + propertyName;
+        return "FieldBinding [bindingContext=" + bindingContext.getName() + ", field=" + field + ", propertyDispatcher="
+                + propertyDispatcher + " propertyName=" + propertyName;
     }
 
+    /**
+     * Creates a field binding and add the created binding to the given {@link BindingContext}
+     * 
+     * @param bindingContext {@link BindingContext} to create the binding and add the created
+     *            binding to t
+     * @param propertyName The name of the bound property
+     * @param label the label for the bound field
+     * @param field the field that needs to be bound
+     * @param propertyDispatcher The {@link PropertyDispatcher} to get the bound values from
+     * @return Returns the newly created field binding
+     */
     public static <T> FieldBinding<T> create(BindingContext bindingContext,
+            Object pmo,
             String propertyName,
             Label label,
             Field<T> field,
             PropertyDispatcher propertyDispatcher) {
-        return new FieldBinding<T>(bindingContext, propertyName, label, field, propertyDispatcher);
+        FieldBinding<T> fieldBinding = new FieldBinding<T>(bindingContext, pmo, propertyName, label, field,
+                propertyDispatcher);
+        bindingContext.add(fieldBinding);
+        return fieldBinding;
     }
 
     @Override
     public Field<T> getBoundComponent() {
         return field;
+    }
+
+    @Override
+    public Object getPmo() {
+        return pmo;
     }
 }

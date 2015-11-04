@@ -1,6 +1,9 @@
 package de.faktorzehn.ipm.web.binding.dispatcher.accessor;
 
 import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +17,10 @@ public class AbstractMethodTest {
 
     @Test
     public void testHasNoMethod() {
+        when(descriptor.getReflectionWriteMethod()).thenReturn(Optional.empty());
+
         WriteMethod writeMethod = new WriteMethod(descriptor);
+
         assertFalse(writeMethod.hasMethod());
     }
 

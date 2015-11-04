@@ -7,19 +7,25 @@
 package de.faktorzehn.ipm.web.ui.table;
 
 import static org.hamcrest.Matchers.arrayContaining;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+
+import java.util.function.Function;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.vaadin.ui.Table;
+
 import de.faktorzehn.ipm.web.ButtonPmo;
 import de.faktorzehn.ipm.web.binding.BindingContext;
-import de.faktorzehn.ipm.web.binding.dispatcher.PropertyBehaviorProvider;
+import de.faktorzehn.ipm.web.binding.dispatcher.PropertyDispatcher;
 import de.faktorzehn.ipm.web.ui.section.annotations.UITableColumn;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,20 +35,23 @@ public class PmoBasedTableFactoryTest {
     private BindingContext ctx;
 
     @Mock
-    private PropertyBehaviorProvider pbp;
+    private Function<TestColumnPmo, PropertyDispatcher> propertyDispatcherBuilder;
 
     @Test
     public void testCreateTable_FieldLabelsAreUsedAsColumnHeaders() {
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx, pbp);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx,
+                propertyDispatcherBuilder);
+        Table table = factory.createTable();
         assertThat(table, is(notNullValue()));
-        assertThat(table.getColumnHeaders(), is(arrayContaining("1:", "2:", "3:")));
+        // 1, 2 and 3 are the labels for the fields, the delete button has an no label
+        assertThat(table.getColumnHeaders(), is(arrayContaining("1", "2", "3", "")));
     }
 
     @Test
     public void testCreateTable_WidthAndExpandRatioIsReadFromAnnotation() {
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx, pbp);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx,
+                propertyDispatcherBuilder);
+        Table table = factory.createTable();
         assertThat(table, is(notNullValue()));
 
         assertThat(table.getColumnWidth("value1"), is(100));
@@ -56,85 +65,66 @@ public class PmoBasedTableFactoryTest {
     }
 
     @Test
-    public void testCreateTable_DeleteColumnHeaderIsReadFromAnnotation() {
-        TestContainerPmoWithAnnotation containerPmo = new TestContainerPmoWithAnnotation();
-        containerPmo.setDeleteAction(System.out::println);
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
-        assertThat(table, is(notNullValue()));
-        assertThat(table.getColumnHeaders(),
-                   is(arrayContaining("1:", "2:", "3:", TestContainerPmoWithAnnotation.DELETE_ITEM_COLUMN_HEADER)));
-    }
-
-    @Test
-    public void testCreateTable_DefaultDeleteColumnHeaderIsUsedIfAnnotationIsMissing() {
-        TestContainerPmo containerPmo = new TestContainerPmo();
-        containerPmo.setDeleteAction(System.out::println);
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
-        assertThat(table, is(notNullValue()));
-        assertThat(table.getColumnHeaders(), is(arrayContaining("1:", "2:", "3:", "Entfernen")));
-    }
-
-    @Test
     public void testCreateTable_InitialPageLengthIsSetOnTable() {
         TestContainerPmo containerPmo = new TestContainerPmo();
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
+                propertyDispatcherBuilder);
+        Table table = factory.createTable();
         assertThat(table.getPageLength(), is(ContainerPmo.DEFAULT_PAGE_LENGTH));
-    }
-
-    @Test
-    public void testCreateTable_PageLengthListenerIsRegistered() {
-        TestContainerPmo containerPmo = new TestContainerPmo();
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
-        factory.createTable();
-        assertThat(containerPmo.pageLengthListeners(), hasSize(1));
-    }
-
-    @Test
-    public void testCreateTable_PageLengthListenerChangesTablesPageLength() {
-        TestContainerPmo containerPmo = new TestContainerPmo();
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
-
-        containerPmo.setPageLength(5);
-        assertThat(table.getPageLength(), is(5));
-
-        containerPmo.setPageLength(0);
-        assertThat(table.getPageLength(), is(0));
-
-        // This is easier than removing the listener explicitly...
-        containerPmo.cleanPageLengthListeners();
-
-        containerPmo.setPageLength(10);
-        assertThat(table.getPageLength(), is(0));
     }
 
     @Test
     public void testCreateTable_ItemsAreBound() {
         TestContainerPmo containerPmo = new TestContainerPmo();
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
+        TestColumnPmo columnPmo1 = containerPmo.addItem();
+        TestColumnPmo columnPmo2 = containerPmo.addItem();
+        assertThat(containerPmo.getItems(), contains(columnPmo1, columnPmo2));
 
-        assertThat(containerPmo.getItems().size(), is(2));
-        assertThat(table.getItemIds().size(), is(2));
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
+                propertyDispatcherBuilder);
+        Table table = factory.createTable();
+
+        assertThat(table.getItemIds(), contains(columnPmo1, columnPmo2));
     }
 
     @Test
     public void testAddItemButtonPmoUpdatesTable() {
         TestContainerPmo containerPmo = new TestContainerPmo();
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx, pbp);
-        PmoBasedTable<TestColumnPmo> table = factory.createTable();
-        ButtonPmo addItemButtonPmo = table.addItemButtonPmo(ctx).get();
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
+                propertyDispatcherBuilder);
+        Table table = factory.createTable();
+        ButtonPmo addItemButtonPmo = containerPmo.getAddItemButtonPmo().get();
 
-        assertThat(containerPmo.getItems().size(), is(2));
-        assertThat(table.getItemIds().size(), is(2));
+        assertThat(containerPmo.getItems(), is(empty()));
+        assertThat(table.getItemIds(), is(empty()));
 
         addItemButtonPmo.onClick();
 
-        assertThat(containerPmo.getItems().size(), is(3));
-        assertThat(table.getItemIds().size(), is(3));
+        assertThat(containerPmo.getItems(), hasSize(1));
+        assertThat(table.getItemIds(), hasSize(1));
+    }
+
+    @Test
+    public void testDeleteItemInColumnPmoUpdatesTable() {
+        TestContainerPmo containerPmo = new TestContainerPmo();
+        TestColumnPmo columnPmo1 = containerPmo.addItem();
+        TestColumnPmo columnPmo2 = containerPmo.addItem();
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
+                propertyDispatcherBuilder);
+        Table table = factory.createTable();
+
+        assertThat(containerPmo.getItems(), contains(columnPmo1, columnPmo2));
+        assertThat(table.getItemIds(), contains(columnPmo1, columnPmo2));
+
+        columnPmo2.delete();
+
+        assertThat(containerPmo.getItems(), contains(columnPmo1));
+        assertThat(table.getItemIds(), contains(columnPmo1));
+
+        columnPmo1.delete();
+
+        assertThat(containerPmo.getItems(), is(empty()));
+        assertThat(table.getItemIds(), is(empty()));
     }
 
 }

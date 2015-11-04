@@ -81,7 +81,11 @@ public class PropertyNamingConvention {
 
     private String checkAndAddSuffix(String suffix, String property) {
         Preconditions.checkNotNull(property);
-        return property + StringUtils.capitalize(suffix);
+        if (StringUtils.isEmpty(property)) {
+            // Empty suffix is used in ButtonPmo for isVisible/isEnabled properties
+            return suffix;
+        }
+        return StringUtils.uncapitalize(property + StringUtils.capitalize(suffix));
     }
 
 }
