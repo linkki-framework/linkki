@@ -64,7 +64,7 @@ public class TableBinding<T extends PresentationModelObject> extends ListContain
 
     @Override
     public void updateFromPmo() {
-        if (itemCopy.size() != getBackingList().size()) {
+        if (!itemCopy.equals(getBackingList())) {
             itemCopy.removeAll(getBackingList());
             itemCopy.forEach(bindingContext::removeBindingsForPmo);
             fireItemSetChange();
