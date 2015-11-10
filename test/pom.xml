@@ -31,10 +31,5 @@
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
-            <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-junit</artifactId>
-                <scope>compile</scope>
-            </dependency>
     </dependencies>
 </project>

@@ -1,5 +1,7 @@
 package org.linkki.core.binding.dispatcher.accessor;
 
+import static org.linkki.util.ExceptionSupplier.illegalArgumentException;
+
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -42,9 +44,9 @@ public abstract class AbstractMethod {
         return propertyName;
     }
 
-    protected Supplier<RuntimeException> noMethodFound(String accessMethodName) {
-        return () -> new IllegalArgumentException(
-                "Found no " + accessMethodName + "in class: " + getBoundClass() + ", property: " + getPropertyName());
+    protected Supplier<IllegalArgumentException> noMethodFound(String accessMethodName) {
+        return illegalArgumentException("Found no " + accessMethodName + "in class: " + getBoundClass()
+                + ", property: " + getPropertyName());
     }
 
 }

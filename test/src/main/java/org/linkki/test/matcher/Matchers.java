@@ -30,4 +30,12 @@ public class Matchers {
         return new PredicateMatcher<>(function, "function that matches");
     }
 
+    public static <T> StreamMatcher<T> allMatch(Predicate<T> predicate) {
+        return StreamMatcher.allMatch(predicate);
+    }
+
+    public static <T> StreamMatcher<T> anyMatch(Predicate<T> predicate) {
+        return StreamMatcher.anyMatch(predicate);
+    }
+
 }
