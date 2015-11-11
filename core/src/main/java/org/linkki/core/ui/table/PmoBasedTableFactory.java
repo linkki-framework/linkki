@@ -21,7 +21,6 @@ import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 import org.linkki.util.LazyInitializingMap;
 
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 
@@ -88,10 +87,8 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
 
     private void createColumns(Table table) {
         Set<ElementDescriptor> uiElements = annotationReader.getUiElements();
-        boolean receiveFocusOnNew = true;
         for (ElementDescriptor uiElement : uiElements) {
-            createColumn(table, uiElement, receiveFocusOnNew);
-            receiveFocusOnNew = false;
+            createColumn(table, uiElement);
         }
     }
 
@@ -106,9 +103,8 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
      *            new row is generated
      * @param bindingContext the context in which the field is bound
      */
-    private void createColumn(Table table, ElementDescriptor elementDesc, boolean receiveFocusOnNew) {
-        FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<T>(elementDesc, receiveFocusOnNew, bindingContext,
-                dispatcherCache);
+    private void createColumn(Table table, ElementDescriptor elementDesc) {
+        FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<T>(elementDesc, bindingContext, dispatcherCache);
         String propertyName = elementDesc.getPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
         table.setColumnHeader(propertyName, elementDesc.getLabelText());
@@ -138,15 +134,13 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
         private static final long serialVersionUID = 1L;
 
         private final ElementDescriptor elementDescriptor;
-        private final boolean receiveFocusOnNew;
         private final BindingContext bindingContext;
 
         private final LazyInitializingMap<T, PropertyDispatcher> dispatcherCache;
 
-        public FieldColumnGenerator(ElementDescriptor elementDescriptor, boolean receiveFocusOnNew,
-                BindingContext bindingContext, LazyInitializingMap<T, PropertyDispatcher> dispatcherCache) {
+        public FieldColumnGenerator(ElementDescriptor elementDescriptor, BindingContext bindingContext,
+                LazyInitializingMap<T, PropertyDispatcher> dispatcherCache) {
             this.elementDescriptor = elementDescriptor;
-            this.receiveFocusOnNew = receiveFocusOnNew;
             this.bindingContext = bindingContext;
             this.dispatcherCache = dispatcherCache;
         }
@@ -164,9 +158,6 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
                                                                      dispatcherCache.get(itemPmo));
 
             binding.updateFromPmo();
-            if (receiveFocusOnNew && component instanceof Field<?>) {
-                ((Field<?>)component).focus();
-            }
             return component;
         }
     }
