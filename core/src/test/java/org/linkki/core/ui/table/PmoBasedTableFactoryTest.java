@@ -8,8 +8,6 @@ package org.linkki.core.ui.table;
 
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -18,12 +16,9 @@ import java.util.function.Function;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.table.ContainerPmo;
-import org.linkki.core.ui.table.PmoBasedTableFactory;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -86,46 +81,6 @@ public class PmoBasedTableFactoryTest {
         Table table = factory.createTable();
 
         assertThat(table.getItemIds(), contains(columnPmo1, columnPmo2));
-    }
-
-    @Test
-    public void testAddItemButtonPmoUpdatesTable() {
-        TestContainerPmo containerPmo = new TestContainerPmo();
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
-                propertyDispatcherBuilder);
-        Table table = factory.createTable();
-        ButtonPmo addItemButtonPmo = containerPmo.getAddItemButtonPmo().get();
-
-        assertThat(containerPmo.getItems(), is(empty()));
-        assertThat(table.getItemIds(), is(empty()));
-
-        addItemButtonPmo.onClick();
-
-        assertThat(containerPmo.getItems(), hasSize(1));
-        assertThat(table.getItemIds(), hasSize(1));
-    }
-
-    @Test
-    public void testDeleteItemInColumnPmoUpdatesTable() {
-        TestContainerPmo containerPmo = new TestContainerPmo();
-        TestColumnPmo columnPmo1 = containerPmo.addItem();
-        TestColumnPmo columnPmo2 = containerPmo.addItem();
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
-                propertyDispatcherBuilder);
-        Table table = factory.createTable();
-
-        assertThat(containerPmo.getItems(), contains(columnPmo1, columnPmo2));
-        assertThat(table.getItemIds(), contains(columnPmo1, columnPmo2));
-
-        columnPmo2.delete();
-
-        assertThat(containerPmo.getItems(), contains(columnPmo1));
-        assertThat(table.getItemIds(), contains(columnPmo1));
-
-        columnPmo1.delete();
-
-        assertThat(containerPmo.getItems(), is(empty()));
-        assertThat(table.getItemIds(), is(empty()));
     }
 
 }

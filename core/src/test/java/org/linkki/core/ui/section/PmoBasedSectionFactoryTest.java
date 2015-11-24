@@ -23,6 +23,7 @@ import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonBinding;
+import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
@@ -60,7 +61,7 @@ public class PmoBasedSectionFactoryTest {
         pmo = new TestPmoWithAnnotations();
         section = new DefaultPmoBasedSectionFactory().createSection(pmo, bindingContext);
 
-        Collection<Binding> bindings = bindingContext.getBindings();
+        Collection<ElementBinding> bindings = bindingContext.getElementBindings();
         assertEquals(5, bindings.size());
         for (Binding binding : bindings) {
             if (binding instanceof FieldBinding) {

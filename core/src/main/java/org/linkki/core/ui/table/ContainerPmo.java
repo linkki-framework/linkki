@@ -31,7 +31,21 @@ public interface ContainerPmo<T extends PresentationModelObject> {
     @Nonnull
     public Class<T> getItemPmoClass();
 
-    /** Returns the items / rows in the container. */
+    /**
+     * Returns the items / rows in the container.
+     * <p>
+     * !!! Important Note !!!
+     * <p>
+     * The container MUST return a list with identical items if the rows to be displayed haven't
+     * changed. This is not given if you create a new list with new item PMOs on each call of the
+     * <code>getItems()</code> method. If you don't adhere to this rule, the contents of the table
+     * will be replaces each time you leave a cell after you have changed a value. This results in
+     * poor performance and the focus gets lost each time you leave a cell (after changing the
+     * value).
+     * <p>
+     * If you create the item PMOs based on a list of model objects, the easiest way is to use the
+     * {@link SimpleItemSupplier}.
+     */
     @Nonnull
     public List<T> getItems();
 

@@ -23,7 +23,7 @@ import com.vaadin.ui.Label;
 /**
  * A binding for a single Vaadin field to properties of a presentation model object. The binding
  * binds the value shown in the field to a property providing the value. It also binds other field
- * properties like enabled required.
+ * properties like enabled / required etc.
  */
 public class FieldBinding<T> implements Property<T>, ElementBinding {
 
@@ -83,8 +83,8 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
                 ((AbstractField<T>)field).setComponentError(getErrorHandler());
             }
         } catch (RuntimeException e) {
-            throw new RuntimeException(
-                    "Error while updating field " + field.getClass() + ", value property=" + propertyName, e);
+            throw new RuntimeException("Error while updating field " + field.getClass() + ", value property="
+                    + propertyName, e);
         }
     }
 
@@ -160,8 +160,8 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
 
     @Override
     public String toString() {
-        return "FieldBinding [bindingContext=" + bindingContext.getName() + ", field=" + field + ", propertyDispatcher="
-                + propertyDispatcher + " propertyName=" + propertyName;
+        return "FieldBinding [propertyName=" + propertyName + ", pmo=" + pmo + ", field=" + field + ", bindingContext="
+                + bindingContext.getName() + ", propertyDispatcher=" + propertyDispatcher + "]";
     }
 
     /**

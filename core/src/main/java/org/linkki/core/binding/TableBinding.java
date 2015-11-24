@@ -9,15 +9,16 @@ import java.util.List;
 
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.annotations.BindContext;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.vaadin.viritin.ListContainer;
 
 import com.vaadin.ui.Table;
 
 /**
- * A binding for a single Vaadin field to properties of a presentation model object. The binding
- * binds the value shown in the field to a property providing the value. It also binds other field
- * properties like enabled required.
+ * A binding for a Vaadin table to a container PMO and the items provided by it.
+ * 
+ * @see ContainerPmo
  */
 public class TableBinding<T extends PresentationModelObject> extends ListContainer<T> implements Binding {
 
@@ -39,17 +40,17 @@ public class TableBinding<T extends PresentationModelObject> extends ListContain
         this.bindingContext = bindingContext;
         this.table = table;
         this.containerPmo = containerPmo;
-        updateItemCopy();
+        saveItemCopy(containerPmo.getItems());
         table.setContainerDataSource(this);
     }
 
-    private void updateItemCopy() {
-        itemCopy = new ArrayList<>(getBackingList());
+    private void saveItemCopy(List<T> items) {
+        itemCopy = new ArrayList<>(items);
     }
 
     @Override
     protected List<T> getBackingList() {
-        return containerPmo.getItems();
+        return itemCopy;
     }
 
     /**
@@ -61,15 +62,40 @@ public class TableBinding<T extends PresentationModelObject> extends ListContain
         return Collections.emptyList();
     }
 
+    /**
+     * If the list of items to display in the table has changed, the bindings for the old items are
+     * removed from the binding conext, and new bindings are created. As the the binding context
+     * first updates the table bindings and then the field bindings, the cells are updated from the
+     * corresponding field bindings afterwards.
+     */
     @Override
     public void updateFromPmo() {
-        if (!itemCopy.equals(getBackingList())) {
-            itemCopy.removeAll(getBackingList());
-            itemCopy.forEach(bindingContext::removeBindingsForPmo);
-            fireItemSetChange();
-            updateItemCopy();
+        List<T> actualItems = containerPmo.getItems();
+        if (hasItemListChanged(actualItems)) {
+            removeBindingsForOldItems();
+            saveItemCopy(actualItems);
+            createCellsAndBindings();
         }
         table.setPageLength(getContainerPmo().getPageLength());
+    }
+
+    private void removeBindingsForOldItems() {
+        itemCopy.forEach(bindingContext::removeBindingsForPmo);
+    }
+
+    /**
+     * Creates new bindings and updates the table control. This is done by firing an item set
+     * changed event which triggers the recreation of all cells and bindings in the generateCell()
+     * method in PmoBasedSectionFactory.
+     * 
+     * @see PmoBasedSectionFactory
+     */
+    private void createCellsAndBindings() {
+        fireItemSetChange();
+    }
+
+    private boolean hasItemListChanged(List<T> actualItems) {
+        return !itemCopy.equals(actualItems);
     }
 
     @Override

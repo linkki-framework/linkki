@@ -52,9 +52,9 @@ public class BindingContextTest {
 
     @Test
     public void testAdd() {
-        assertEquals(0, context.getBindings().size());
+        assertEquals(0, context.getElementBindings().size());
         context.add(binding1);
-        assertEquals(1, context.getBindings().size());
+        assertEquals(1, context.getElementBindings().size());
     }
 
     @Test
@@ -88,10 +88,10 @@ public class BindingContextTest {
         context.add(binding1);
         context.add(binding2);
 
-        assertThat(context.getBindings(), hasSize(2));
+        assertThat(context.getElementBindings(), hasSize(2));
 
         context.removeBindingsForPmo(pmo);
-        assertThat(context.getBindings(), is(empty()));
+        assertThat(context.getElementBindings(), is(empty()));
     }
 
     @Test
@@ -99,11 +99,11 @@ public class BindingContextTest {
         context.add(binding1);
         context.add(binding2);
 
-        assertThat(context.getBindings(), hasSize(2));
+        assertThat(context.getElementBindings(), hasSize(2));
 
         VerticalLayout layout = new VerticalLayout(field1, field2);
 
         context.removeBindingsForComponent(layout);
-        assertThat(context.getBindings(), is(empty()));
+        assertThat(context.getElementBindings(), is(empty()));
     }
 }

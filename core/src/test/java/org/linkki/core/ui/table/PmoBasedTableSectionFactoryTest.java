@@ -17,8 +17,6 @@ import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
-import org.linkki.core.ui.table.PmoBasedTableSectionFactory;
-import org.linkki.core.ui.table.TableSection;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -43,7 +41,7 @@ public class PmoBasedTableSectionFactoryTest {
         Table table = (Table)tableSection.getComponent(1);
         assertThat(table.getContainerDataSource(), is(instanceOf(TableBinding.class)));
         TableBinding<?> tableBinding = (TableBinding<?>)table.getContainerDataSource();
-        assertThat(bindingContext.getBindings(), hasItem(tableBinding));
+        assertThat(bindingContext.getTableBindings(), hasItem(tableBinding));
     }
 
     @Test

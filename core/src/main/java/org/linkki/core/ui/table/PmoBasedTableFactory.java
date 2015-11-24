@@ -11,7 +11,6 @@ import java.util.function.Function;
 
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.TableBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.application.ApplicationStyles;
@@ -154,10 +153,11 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;
-            ElementBinding binding = elementDescriptor.createBinding(bindingContext, itemPmo, null, component,
-                                                                     dispatcherCache.get(itemPmo));
+            elementDescriptor.createBinding(bindingContext, itemPmo, null, component, dispatcherCache.get(itemPmo));
 
-            binding.updateFromPmo();
+            // removed the following line as on the created binding for the cell
+            // a updateFromPmo() is called later on by the binding manager, see FIPM-497 for details
+            // binding.updateFromPmo()
             return component;
         }
     }
