@@ -10,20 +10,22 @@ import org.apache.deltaspike.core.api.config.ConfigResolver;
 import org.linkki.util.cdi.BeanInstantiator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 
 /**
  * Authentication using Active Directory.
- * 
+ *
  * Configuration via {@link ConfigResolver} using {@link #CONFIG_AD_URL}, {@link #CONFIG_AD_DOMAIN}
  * and {@link #CONFIG_AD_SEARCH_FILTER}.
  */
 @Configuration
 @EnableWebSecurity
-public class ActiveDirectorySecurityConfig extends AbstractSecurityConfig {
+public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String CONFIG_AD_URL = "ad_url";
     public static final String CONFIG_AD_DOMAIN = "ad_domain";
@@ -47,6 +49,12 @@ public class ActiveDirectorySecurityConfig extends AbstractSecurityConfig {
     @Bean
     public UserDetailsContextMapper ipmUserDetailsMapper() {
         return BeanInstantiator.getCDIInstance(UserDetailsContextMapper.class);
+    }
+
+    @Bean(name = "authenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
 }

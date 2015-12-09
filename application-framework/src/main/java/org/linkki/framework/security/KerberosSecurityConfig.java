@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.kerberos.authentication.KerberosAuthenticationProvider;
 import org.springframework.security.kerberos.authentication.KerberosServiceAuthenticationProvider;
@@ -29,19 +30,18 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 /**
  * Authentication using Kerberos.
- * 
+ *
  * Configuration via {@link ConfigResolver}.
  */
 @Configuration
 @EnableWebSecurity
-public class KerberosSecurityConfig extends AbstractSecurityConfig {
+public class KerberosSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String CONFIG_PRINCIPLE_NAME = "kerberos_servicePrinciple";
     public static final String CONFIG_KEYTAB = "kerberos_keyTabLocation";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
         http.addFilterBefore(spnegoAuthenticationProcessingFilter(authenticationManagerBean()),
                              BasicAuthenticationFilter.class).exceptionHandling()
                 .authenticationEntryPoint(spnegoEntryPoint());
@@ -87,7 +87,7 @@ public class KerberosSecurityConfig extends AbstractSecurityConfig {
     /**
      * Create the user details service, uses {@link KerberosUserDetailsServiceProducer} if not
      * overwritten by injection configuration.
-     * 
+     *
      * @return The {@link UserDetailsService} to get user information like groups
      */
     @Bean
@@ -107,4 +107,9 @@ public class KerberosSecurityConfig extends AbstractSecurityConfig {
         return ticketValidator;
     }
 
+    @Bean(name = "authenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 }

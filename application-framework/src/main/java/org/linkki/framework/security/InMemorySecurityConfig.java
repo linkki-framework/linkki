@@ -10,10 +10,13 @@ import javax.enterprise.util.AnnotationLiteral;
 
 import org.linkki.util.cdi.BeanInstantiator;
 import org.linkki.util.cdi.qualifier.InMemory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -25,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-public class InMemorySecurityConfig extends AbstractSecurityConfig {
+public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 
     /** The {@code @InMemory} annotation. */
     private static final AnnotationLiteral<InMemory> IN_MEMORY_ANNOTATION = new AnnotationLiteral<InMemory>() {
@@ -48,5 +51,11 @@ public class InMemorySecurityConfig extends AbstractSecurityConfig {
 
     private UserDetailsService inMemoryUserDetailsService() {
         return BeanInstantiator.getCDIInstance(UserDetailsService.class, IN_MEMORY_ANNOTATION);
+    }
+
+    @Bean(name = "authenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }
