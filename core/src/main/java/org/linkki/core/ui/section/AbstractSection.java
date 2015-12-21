@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.util.ComponentFactory;
@@ -66,7 +67,9 @@ public abstract class AbstractSection extends VerticalLayout {
         checkNotNull(caption);
         checkNotNull(editButton);
         this.editButton = editButton;
-        createHeader(caption, closeable);
+        if (StringUtils.isNotEmpty(caption) || editButton.isPresent()) {
+            createHeader(caption, closeable);
+        }
     }
 
     private void createHeader(@Nonnull String caption, boolean closeable) {

@@ -15,10 +15,4 @@ public @interface Bind {
 
     String valueProperty() default "";
 
-    String enabledProperty() default "";
-
-    String requiredProperty() default "";
-
-    String lovProperty() default "";
-
 }

@@ -134,7 +134,7 @@ public class PmoBasedSectionFactoryTest {
 
     @Test
     public void testCreateSection_ButtonBinding() {
-        Panel panel = (Panel)section.getComponent(1);
+        Panel panel = (Panel)section.getComponent(0);
         GridLayout layout = (GridLayout)panel.getContent();
         Button button = (Button)layout.getComponent(1, 4);
         assertThat(pmo.clickCount, is(0));

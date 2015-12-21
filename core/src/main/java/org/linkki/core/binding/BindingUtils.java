@@ -35,6 +35,7 @@ public class BindingUtils {
     public static void bind(BindingManager bindingManager, Object uiElement, PresentationModelObject pmo) {
         BindingContext ctx = getBindingContext(bindingManager, uiElement);
         bindFields(ctx, uiElement, pmo);
+        ctx.updateUI();
     }
 
     private static BindingContext getBindingContext(BindingManager bindingManager, Object uiElement) {

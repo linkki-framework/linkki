@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
 
+@FunctionalInterface
 public interface PropertyBehaviorProvider {
     /**
      * Returns all behaviors relevant for the given context.

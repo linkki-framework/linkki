@@ -141,11 +141,13 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
     }
 
-    /** Reads and returns the given property. If the property cannot be read an exception is thrown. */
+    /**
+     * Reads and returns the given property. If the property cannot be read an exception is thrown.
+     */
     private Object read(String property) {
         if (!canRead(property)) {
-            throw new IllegalArgumentException("Cannot read property \"" + property + "\" on object \""
-                    + boundObjectSupplier.get() + "\"");
+            throw new IllegalArgumentException(
+                    "Cannot read property \"" + property + "\" on object \"" + boundObjectSupplier.get() + "\"");
         } else {
             return getAccessor(property).getPropertyValue(getBoundObject());
         }

@@ -2,6 +2,8 @@ package org.linkki.core.ui.section;
 
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
 
+import java.util.Collections;
+
 import javax.inject.Inject;
 
 import org.linkki.core.PresentationModelObject;
@@ -68,7 +70,7 @@ public abstract class PmoBasedSectionFactory {
     }
 
     public static PropertyDispatcher createDefaultDispatcher(PresentationModelObject pmo) {
-        return new SectionCreationContext(pmo, null, null).createDefaultDispatcher(pmo);
+        return new SectionCreationContext(pmo, null, () -> Collections.emptyList()).createDefaultDispatcher(pmo);
     }
 
     public PropertyBehaviorProvider getPropertyBehaviorProvider() {
