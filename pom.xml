@@ -371,19 +371,19 @@
     </dependencies>
 
     <scm>
-        <connection>scm:git:ssh://${git.user}@projekte.faktorzehn.de/projekte/ipm/ipm.core.git</connection>
+        <connection>scm:git:ssh://${git.user}@projekte.faktorzehn.de/projekte/linkki/linkki.core.git</connection>
     </scm>
 
     <distributionManagement>
         <repository>
             <id>releases</id>
-            <name>Faktor Zehn Releases</name>
-            <url>https://nexus.faktorzehn.de/content/repositories/releases/</url>
+            <name>Linkki Releases</name>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki/</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
             <name>Faktor Zehn Snapshots</name>
-            <url>https://nexus.faktorzehn.de/content/repositories/snapshots/</url>
+            <url>https://nexus.faktorzehn.de/content/repositories/linkki-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
