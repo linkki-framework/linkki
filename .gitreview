@@ -1,0 +1,9 @@
+[gerrit]
+remote=origin
+defaultremote = origin
+host=gerrit.faktorzehn.de
+port=29418
+project=linkki/linkki.core
+defaultbranch=master
+track=true
+
