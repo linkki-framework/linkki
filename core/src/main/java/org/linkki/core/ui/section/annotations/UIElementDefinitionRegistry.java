@@ -13,6 +13,7 @@ import java.util.Map;
 import org.linkki.core.ui.section.annotations.adapters.UIButtonAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UICheckBoxAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UIComboBoxAdapter;
+import org.linkki.core.ui.section.annotations.adapters.UICustomFieldAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UIDateFieldAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UIDecimalFieldAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UIDoubleFieldAdapter;
@@ -41,6 +42,7 @@ public class UIElementDefinitionRegistry {
         annotations.put(UITextArea.class, UITextAreaAdapter.class);
         annotations.put(UITextField.class, UITextFieldAdapter.class);
         annotations.put(UIButton.class, UIButtonAdapter.class);
+        annotations.put(UICustomField.class, UICustomFieldAdapter.class);
     }
 
     /**

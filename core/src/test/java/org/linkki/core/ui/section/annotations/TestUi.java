@@ -72,9 +72,13 @@ public class TestUi extends UI {
      * @return a {@code CheckBox} that is bound to the model object
      */
     public static Component componentBoundTo(PresentationModelObject pmo) {
+        BindingContext bindingContext = TestBindingContext.create();
+        return componentBoundTo(pmo, bindingContext);
+    }
+
+    public static Component componentBoundTo(PresentationModelObject pmo, BindingContext bindingContext) {
         TestUi testUi = new TestUi();
         TestSectionFactory sectionFactory = new TestSectionFactory();
-        BindingContext bindingContext = TestBindingContext.create();
         BaseSection section = sectionFactory.createSection(pmo, bindingContext);
 
         testUi.setContent(section);
