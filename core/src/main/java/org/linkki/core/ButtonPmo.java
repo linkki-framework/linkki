@@ -24,10 +24,16 @@ public interface ButtonPmo {
         return Lists.newArrayList(ValoTheme.BUTTON_BORDERLESS, ValoTheme.BUTTON_ICON_ONLY);
     }
 
+    /**
+     * Returns <code>true</code> if the button is enabled, otherwise <code>false</code>.
+     */
     default boolean isEnabled() {
         return true;
     }
 
+    /**
+     * Returns <code>true</code> if the button is visible, otherwise <code>false</code>.
+     */
     default boolean isVisible() {
         return true;
     }
