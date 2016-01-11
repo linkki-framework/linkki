@@ -371,7 +371,7 @@
     </dependencies>
 
     <scm>
-        <connection>scm:git:ssh://${git.user}@projekte.faktorzehn.de/projekte/linkki/linkki.core.git</connection>
+        <connection>scm:git:ssh://${git.user}@projekte.faktorzehn.de/projekte/linkki.git</connection>
     </scm>
 
     <distributionManagement>
