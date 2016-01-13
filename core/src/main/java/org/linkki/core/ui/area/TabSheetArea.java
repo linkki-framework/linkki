@@ -65,7 +65,7 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
     /**
      * Removes the tab that contains the given component.
      * 
-     * @param component the component contained in the tab to remove
+     * @param tabPage the component contained in the tab to remove
      */
     protected void removeTab(Page tabPage) {
         tabSheet.removeComponent(tabPage);

@@ -92,8 +92,6 @@ public abstract class OkCancelDialog extends Window {
 
     /**
      * Creates the content of this dialog.
-     * 
-     * @param params Parameters needed while creating the content.
      */
     protected abstract Component createContent();
 
