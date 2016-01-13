@@ -19,8 +19,6 @@ import org.faktorips.runtime.Severity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.dispatcher.MessageDecorator;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -95,8 +93,10 @@ public class MessageDecoratorTest {
         @Override
         public MessageList validate(IValidationContext context) {
             MessageList messageList = new MessageList();
-            messageList.add(new Message.Builder("text", Severity.ERROR).invalidObjects(this, "xyz").create());
-            messageList.add(new Message.Builder("text2", Severity.WARNING).invalidObjects(this, "abc").create());
+            messageList
+                    .add(new Message.Builder("text", Severity.ERROR).invalidObjectWithProperties(this, "xyz").create());
+            messageList.add(new Message.Builder("text2", Severity.WARNING).invalidObjectWithProperties(this, "abc")
+                    .create());
             return messageList;
         }
     }
