@@ -88,13 +88,12 @@ public class SectionCreationContext {
     private void createUiElements(BaseSection section) {
         UIAnnotationReader annotationReader = new UIAnnotationReader(getPmo().getClass());
         for (ElementDescriptor uiElement : annotationReader.getUiElements()) {
-            SectionCreationContext.LabelComponent lf = createLabelAndComponent(section, uiElement);
+            LabelComponent lf = createLabelAndComponent(section, uiElement);
             bindUiElement(lf.component, uiElement, lf.label);
         }
     }
 
-    private SectionCreationContext.LabelComponent createLabelAndComponent(BaseSection section,
-            ElementDescriptor uiElement) {
+    private LabelComponent createLabelAndComponent(BaseSection section, ElementDescriptor uiElement) {
         Component component = uiElement.newComponent();
         String labelText = uiElement.getLabelText();
         Label label = section.add(labelText, component);

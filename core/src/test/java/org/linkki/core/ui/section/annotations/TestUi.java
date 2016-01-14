@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.ui.section.BaseSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
@@ -73,7 +74,7 @@ public class TestUi extends UI {
     public static Component componentBoundTo(PresentationModelObject pmo) {
         TestUi testUi = new TestUi();
         TestSectionFactory sectionFactory = new TestSectionFactory();
-        BindingContext bindingContext = new BindingContext();
+        BindingContext bindingContext = TestBindingContext.create();
         BaseSection section = sectionFactory.createSection(pmo, bindingContext);
 
         testUi.setContent(section);

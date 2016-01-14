@@ -22,6 +22,11 @@ class IntegerFieldConverter extends AbstractNumberFieldConverter<Integer> {
     }
 
     @Override
+    protected Integer getNullValue() {
+        return null;
+    }
+
+    @Override
     protected Integer convertToModel(Number value) {
         return value.intValue();
     }

@@ -42,7 +42,7 @@ public class ButtonPmoBindingTest {
     }
 
     private final PropertyDispatcher wrappedDispatcher = mock(PropertyDispatcher.class);
-    private final BindingContext bindingContext = new BindingContext();
+    private final BindingContext bindingContext = TestBindingContext.create();
     private final Button button = new Button();
 
     @Test

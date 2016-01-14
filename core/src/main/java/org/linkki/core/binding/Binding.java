@@ -6,6 +6,7 @@
 
 package org.linkki.core.binding;
 
+import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.annotations.BindContext;
 
 import com.vaadin.ui.Component;
@@ -17,9 +18,6 @@ import com.vaadin.ui.Component;
  *
  */
 public interface Binding {
-
-    /** Called by the {@link BindContext} and trigger control updating. */
-    void updateFromPmo();
 
     /**
      * Returns the component that is updated by this binding.
@@ -34,5 +32,26 @@ public interface Binding {
      * @return The presentation model object that is bound to the component by this binding
      */
     Object getPmo();
+
+    /**
+     * Called by the {@link BindContext} and trigger control updating. This includes the update of
+     * the value, the states (read-only, enabled, visible) and if supported the list of available
+     * values.
+     * 
+     * This method does not update the validation message.
+     * 
+     * @see #displayMessages(MessageList)
+     */
+    void updateFromPmo();
+
+    /**
+     * Rertrieves those messages from the given list that are relevant for this binding and display
+     * them directly at the bound component. An error message will mark the component propertly.
+     * 
+     * @param messages a list of messages
+     * @return those messages from the given list that are displayed; an empty list if no messages
+     *         are displayed.
+     */
+    MessageList displayMessages(MessageList messages);
 
 }

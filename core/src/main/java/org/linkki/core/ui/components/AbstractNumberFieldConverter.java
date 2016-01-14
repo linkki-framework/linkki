@@ -28,12 +28,11 @@ abstract class AbstractNumberFieldConverter<T extends Number> implements Convert
     }
 
     @Override
-    @SuppressWarnings("null")
     public final T convertToModel(String value, Class<? extends T> targetType, Locale locale)
             throws ConversionException {
 
         if (StringUtils.isEmpty(value)) {
-            return null;
+            return getNullValue();
         }
         try {
             return convertToModel(format.parse(value));
@@ -42,7 +41,9 @@ abstract class AbstractNumberFieldConverter<T extends Number> implements Convert
         }
     }
 
-    abstract protected T convertToModel(Number value);
+    protected abstract T getNullValue();
+    
+    protected abstract T convertToModel(Number value);
 
     @Override
     public String convertToPresentation(T value, Class<? extends String> targetType, Locale locale)

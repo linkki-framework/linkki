@@ -16,6 +16,7 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
+import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 
 import com.vaadin.server.FontAwesome;
@@ -28,7 +29,7 @@ public class PmoBasedTableSectionFactoryTest {
     @Test
     public void testCreateSection_TableIsAddedAndBound() {
         TestContainerPmo containerPmo = new TestContainerPmo();
-        BindingContext bindingContext = new BindingContext();
+        BindingContext bindingContext = TestBindingContext.create();
         PropertyBehaviorProvider propertyBehaviorProvider = mock(PropertyBehaviorProvider.class);
         PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<TestColumnPmo>(
                 containerPmo, bindingContext, propertyBehaviorProvider);
@@ -47,7 +48,7 @@ public class PmoBasedTableSectionFactoryTest {
     @Test
     public void testCreateSection_SectionHasAddButtonInHeader() {
         TestContainerPmo containerPmo = new TestContainerPmo();
-        BindingContext bindingContext = new BindingContext();
+        BindingContext bindingContext = TestBindingContext.create();
         PropertyBehaviorProvider propertyBehaviorProvider = mock(PropertyBehaviorProvider.class);
         PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<TestColumnPmo>(
                 containerPmo, bindingContext, propertyBehaviorProvider);

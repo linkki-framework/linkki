@@ -9,10 +9,11 @@ import java.util.stream.Collectors;
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.util.UiUtil;
 
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
-import com.vaadin.data.Property;
+import com.vaadin.data.util.AbstractProperty;
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.AbstractField;
@@ -25,7 +26,7 @@ import com.vaadin.ui.Label;
  * binds the value shown in the field to a property providing the value. It also binds other field
  * properties like enabled / required etc.
  */
-public class FieldBinding<T> implements Property<T>, ElementBinding {
+public class FieldBinding<T> extends AbstractProperty<T> implements ElementBinding {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,9 +60,9 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
     @Override
     public void updateFromPmo() {
         try {
-            // TODO see FIPM-57
-            field.setPropertyDataSource(null);
-            field.setPropertyDataSource(this);
+            initPropertyDataSource();
+            // triggeres the #getValue() method because this is set as field data source
+            fireValueChange();
 
             field.setRequired(isRequired());
             if (isRequired() && field instanceof AbstractSelect) {
@@ -79,22 +80,15 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
                 AbstractSelect select = (AbstractSelect)field;
                 UiUtil.fillSelectWithItems(select, getAvailableValues());
             }
-            if (field instanceof AbstractField) {
-                ((AbstractField<T>)field).setComponentError(getErrorHandler());
-            }
         } catch (RuntimeException e) {
-            throw new RuntimeException("Error while updating field " + field.getClass() + ", value property="
-                    + propertyName, e);
+            throw new RuntimeException(
+                    "Error while updating field " + field.getClass() + ", value property=" + propertyName, e);
         }
     }
 
-    private UserError getErrorHandler() {
-        MessageList messages = propertyDispatcher.getMessages(propertyName);
-        if (messages.isEmpty()) {
-            return null;
-        } else {
-            return new UserError(formatMessages(messages), ContentMode.PREFORMATTED,
-                    MessageListUtil.getErrorLevel(messages));
+    private void initPropertyDataSource() {
+        if (field.getPropertyDataSource() == null) {
+            field.setPropertyDataSource(this);
         }
     }
 
@@ -158,6 +152,13 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
         return propertyDispatcher.getAvailableValues(getPropertyName());
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @deprecated Damn vaadin has deprecated the toString method :( Also set deprecated to avoid
+     *             warnings
+     */
+    @Deprecated
     @Override
     public String toString() {
         return "FieldBinding [propertyName=" + propertyName + ", pmo=" + pmo + ", field=" + field + ", bindingContext="
@@ -196,4 +197,36 @@ public class FieldBinding<T> implements Property<T>, ElementBinding {
     public Object getPmo() {
         return pmo;
     }
+
+    @Override
+    public MessageList displayMessages(MessageList messages) {
+        MessageList messagesForProperty = getRelevantMessages(messages);
+        if (field instanceof AbstractField) {
+            ((AbstractField<T>)field).setComponentError(getErrorHandler(messagesForProperty));
+        }
+        return messagesForProperty;
+    }
+
+    private MessageList getRelevantMessages(MessageList messages) {
+        MessageList messagesForProperty = propertyDispatcher.getMessages(messages, propertyName);
+        addFatalError(messages, messagesForProperty);
+        return messagesForProperty;
+    }
+
+    private void addFatalError(MessageList messages, MessageList messagesForProperty) {
+        Message fatalErrorMessage = messages.getMessageByCode(ValidationService.FATAL_ERROR_MESSAGE_CODE);
+        if (fatalErrorMessage != null) {
+            messagesForProperty.add(fatalErrorMessage);
+        }
+    }
+
+    private UserError getErrorHandler(MessageList messages) {
+        if (messages.isEmpty()) {
+            return null;
+        } else {
+            return new UserError(formatMessages(messages), ContentMode.PREFORMATTED,
+                    MessageListUtil.getErrorLevel(messages));
+        }
+    }
+
 }

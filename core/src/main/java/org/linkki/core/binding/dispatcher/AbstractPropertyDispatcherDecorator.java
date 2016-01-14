@@ -75,8 +75,8 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
-    public MessageList getMessages(String property) {
-        return getWrappedDispatcher().getMessages(property);
+    public MessageList getMessages(MessageList messageList, String property) {
+        return getWrappedDispatcher().getMessages(messageList, property);
     }
 
     @Override

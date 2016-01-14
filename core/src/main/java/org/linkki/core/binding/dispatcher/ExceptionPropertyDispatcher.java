@@ -15,8 +15,8 @@ import org.faktorips.runtime.MessageList;
 
 /**
  * {@link PropertyDispatcher} that throws exception on every method call except
- * {@link #isReadonly(String)} which returns <code>true</code> and {@link #getMessages(String)},
- * which returns an empty {@link MessageList}.
+ * {@link #isReadonly(String)} which returns <code>true</code> and
+ * {@link #getMessages(MessageList, String)}, which returns an empty {@link MessageList}.
  *
  * Serves as a last resort fallback to simplify exception creation in other dispatchers.
  *
@@ -86,14 +86,14 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
      * Returns an empty {@link MessageList} for all properties.
      */
     @Override
-    public MessageList getMessages(String property) {
+    public MessageList getMessages(MessageList messageList, String property) {
         return new MessageList();
     }
 
     @Override
     public void invoke(String property) {
-        throw new IllegalArgumentException(MessageFormat.format("Cannot invoke \"{0}\" on any of {1}", property,
-                                                                objects));
+        throw new IllegalArgumentException(
+                MessageFormat.format("Cannot invoke \"{0}\" on any of {1}", property, objects));
     }
 
 }

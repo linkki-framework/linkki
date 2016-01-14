@@ -85,9 +85,9 @@ public class BehaviourDependentDecorator extends AbstractPropertyDispatcherDecor
      * returned by the wrapped dispatcher. If it hides messages, returns an empty message list.
      */
     @Override
-    public MessageList getMessages(String property) {
+    public MessageList getMessages(MessageList messageList, String property) {
         if (isConsensus(b -> b.isShowValidationMessages(property))) {
-            return super.getMessages(property);
+            return super.getMessages(messageList, property);
         } else {
             return new MessageList();
         }

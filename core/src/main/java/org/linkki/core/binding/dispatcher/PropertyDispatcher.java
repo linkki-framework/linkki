@@ -33,9 +33,6 @@ public interface PropertyDispatcher {
      * Called to inform this dispatcher about an imminent update of the UI. Dispatchers are expected
      * to execute operations and cache the result in order to be able to answer many subsequent
      * calls to its getters in a timely fashion.
-     * <p>
-     * For example validate an object structure and cache the results. Answer calls to
-     * {@link #getMessages(String)} using the cached validation result.
      */
     public void prepareUpdateUI();
 
@@ -117,10 +114,11 @@ public interface PropertyDispatcher {
      * Note that this method does <em>not</em> throw an exception if a property does not exist. It
      * simply returns an empty message list in all cases.
      *
+     * @param messageList the existing messages from previous model object validation
      * @param property the name of the property
      * @return the list of messages
      */
-    public MessageList getMessages(String property);
+    public MessageList getMessages(MessageList messageList, String property);
 
     /**
      * Invokes the property with the given name, i.e. invokes the method of that name.

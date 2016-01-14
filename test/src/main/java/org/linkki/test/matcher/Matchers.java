@@ -6,7 +6,12 @@
 
 package org.linkki.test.matcher;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+
 import java.util.function.Predicate;
+
+import org.faktorips.runtime.ObjectProperty;
+import org.hamcrest.Matcher;
 
 public class Matchers {
 
@@ -36,6 +41,26 @@ public class Matchers {
 
     public static <T> StreamMatcher<T> anyMatch(Predicate<T> predicate) {
         return StreamMatcher.anyMatch(predicate);
+    }
+
+    public static EmptyMessageListMatcher emptyMessageList() {
+        return new EmptyMessageListMatcher();
+    }
+
+    public static MessageListSizeMatcher hasSize(int size) {
+        return new MessageListSizeMatcher(equalTo(size));
+    }
+
+    public static MessageListSizeMatcher hasSize(Matcher<Integer> intMatcher) {
+        return new MessageListSizeMatcher(intMatcher);
+    }
+
+    public static MessageListObjectPropertyMatcher hasMessageFor(Object o, String property) {
+        return new MessageListObjectPropertyMatcher(new ObjectProperty(o, property));
+    }
+
+    public static MessageListObjectPropertyMatcher hasMessagesFor(int count, Object o, String property) {
+        return new MessageListObjectPropertyMatcher(new ObjectProperty(o, property), count);
     }
 
 }

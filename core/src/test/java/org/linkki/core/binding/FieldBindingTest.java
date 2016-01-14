@@ -50,11 +50,11 @@ public class FieldBindingTest {
 
     @Before
     public void setUp() {
-        context = new BindingContext();
+        context = TestBindingContext.create();
         propertyDispatcher = mock(PropertyDispatcher.class);
 
         messageList = new MessageList();
-        when(propertyDispatcher.getMessages(anyString())).thenReturn(messageList);
+        when(propertyDispatcher.getMessages(any(MessageList.class), anyString())).thenReturn(messageList);
 
         binding = FieldBinding.create(context, pmo, "value", label, field, propertyDispatcher);
         selectBinding = FieldBinding.create(context, pmo, "enumValue", label, selectField, propertyDispatcher);

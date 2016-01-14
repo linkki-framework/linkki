@@ -25,6 +25,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonBinding;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
+import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
@@ -57,7 +58,7 @@ public class PmoBasedSectionFactoryTest {
 
     @Before
     public void setUp() {
-        bindingContext = new BindingContext("testContext");
+        bindingContext = TestBindingContext.create();
         pmo = new TestPmoWithAnnotations();
         section = new DefaultPmoBasedSectionFactory().createSection(pmo, bindingContext);
 

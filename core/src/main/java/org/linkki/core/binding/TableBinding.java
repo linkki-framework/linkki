@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.faktorips.runtime.MessageList;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.annotations.BindContext;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
@@ -134,6 +135,14 @@ public class TableBinding<T extends PresentationModelObject> extends ListContain
     @Override
     public Object getPmo() {
         return containerPmo;
+    }
+
+    /**
+     * We do not support messages on tables at the moment.
+     */
+    @Override
+    public MessageList displayMessages(MessageList messages) {
+        return new MessageList();
     }
 
 }

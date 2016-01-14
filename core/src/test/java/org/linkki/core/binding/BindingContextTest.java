@@ -5,10 +5,12 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import org.faktorips.runtime.MessageList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,11 +41,11 @@ public class BindingContextTest {
 
     @Before
     public void setUp() {
-        context = new BindingContext();
-        binding1 = new FieldBinding<String>(context, pmo, "value", label1, field1, new ReflectionPropertyDispatcher(
-                this::getPmo, new ExceptionPropertyDispatcher(pmo)));
-        binding2 = new FieldBinding<String>(context, pmo, "value", label2, field2, new ReflectionPropertyDispatcher(
-                this::getPmo, new ExceptionPropertyDispatcher(pmo)));
+        context = TestBindingContext.create();
+        binding1 = new FieldBinding<String>(context, pmo, "value", label1, field1,
+                new ReflectionPropertyDispatcher(this::getPmo, new ExceptionPropertyDispatcher(pmo)));
+        binding2 = new FieldBinding<String>(context, pmo, "value", label2, field2,
+                new ReflectionPropertyDispatcher(this::getPmo, new ExceptionPropertyDispatcher(pmo)));
     }
 
     private TestPmo getPmo() {
@@ -63,11 +65,13 @@ public class BindingContextTest {
 
         context.updateUI();
         verify(binding1, never()).updateFromPmo();
+        verify(binding1, never()).displayMessages(any(MessageList.class));
 
         context.add(binding1);
 
         context.updateUI();
         verify(binding1).updateFromPmo();
+        verify(binding1).displayMessages(any(MessageList.class));
     }
 
     @Test

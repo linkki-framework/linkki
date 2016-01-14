@@ -22,6 +22,11 @@ class DoubleFieldConverter extends AbstractNumberFieldConverter<Double> {
     }
 
     @Override
+    protected Double getNullValue() {
+        return null;
+    }
+
+    @Override
     protected Double convertToModel(Number value) {
         return value.doubleValue();
     }

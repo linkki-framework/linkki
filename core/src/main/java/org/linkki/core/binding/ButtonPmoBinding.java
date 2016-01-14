@@ -9,6 +9,7 @@ package org.linkki.core.binding;
 import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
+import org.faktorips.runtime.MessageList;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.util.ComponentFactory;
@@ -85,4 +86,11 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
         return pmo;
     }
 
+    /**
+     * We do not support messages on buttons at the moment.
+     */
+    @Override
+    public MessageList displayMessages(MessageList messages) {
+        return new MessageList();
+    }
 }

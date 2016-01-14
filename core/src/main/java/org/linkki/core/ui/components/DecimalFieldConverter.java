@@ -33,6 +33,11 @@ public class DecimalFieldConverter extends AbstractNumberFieldConverter<Decimal>
     }
 
     @Override
+    protected Decimal getNullValue() {
+        return Decimal.NULL;
+    }
+
+    @Override
     public String convertToPresentation(Decimal value, Class<? extends String> targetType, Locale locale)
             throws ConversionException {
 

@@ -1,5 +1,7 @@
 package org.linkki.core.binding;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,8 +13,10 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
+import org.faktorips.runtime.MessageList;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.validation.ValidationService;
 
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
 import com.vaadin.ui.Component;
@@ -25,24 +29,18 @@ import com.vaadin.ui.ComponentContainer;
  */
 public class BindingContext {
 
-    private String name;
-    private Map<Component, ElementBinding> elementBindings = Maps.newConcurrentMap();
-    private Map<Component, TableBinding<?>> tableBindings = Maps.newConcurrentMap();
-    private Set<PropertyDispatcher> propertyDispatchers = new HashSet<PropertyDispatcher>();
-
-    /**
-     * Creates a new binding context with the name 'DefaultContext'.
-     */
-    public BindingContext() {
-        this("DefaultContext");
-    }
+    private final String name;
+    private final ValidationService validationService;
+    private final Map<Component, ElementBinding> elementBindings = Maps.newConcurrentMap();
+    private final Map<Component, TableBinding<?>> tableBindings = Maps.newConcurrentMap();
+    private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<PropertyDispatcher>();
 
     /**
      * Creates a new binding context with the given name.
      */
-    public BindingContext(@Nonnull String contextName) {
-        Objects.nonNull(contextName);
-        this.name = contextName;
+    public BindingContext(String contextName, ValidationService validationService) {
+        this.name = requireNonNull(contextName);
+        this.validationService = validationService;
     }
 
     /**
@@ -58,7 +56,7 @@ public class BindingContext {
      */
     @Nonnull
     public BindingContext add(@Nonnull ElementBinding binding) {
-        Objects.nonNull(binding);
+        Objects.requireNonNull(binding);
         elementBindings.put(binding.getBoundComponent(), binding);
         propertyDispatchers.add(binding.getPropertyDispatcher());
         return this;
@@ -69,7 +67,7 @@ public class BindingContext {
      */
     @Nonnull
     public BindingContext add(@Nonnull TableBinding<?> tableBinding) {
-        Objects.nonNull(tableBinding);
+        Objects.requireNonNull(tableBinding);
         tableBindings.put(tableBinding.getBoundComponent(), tableBinding);
         return this;
     }
@@ -116,7 +114,9 @@ public class BindingContext {
     }
 
     /**
-     * Updates the UI with the data retrieved via all bindings registered in this context.
+     * Updates the UI with the data retrieved via all bindings registered in this context and
+     * displays the messages that relates to bound components. The messages are retrieved from the
+     * validation services.
      */
     public void updateUI() {
         propertyDispatchers.forEach(pd -> pd.prepareUpdateUI());
@@ -124,11 +124,23 @@ public class BindingContext {
         // and creates new bindings if the table content has changed.
         tableBindings.values().forEach(binding -> binding.updateFromPmo());
         elementBindings.values().forEach(binding -> binding.updateFromPmo());
+        updateMessages();
+    }
+
+    private void updateMessages() {
+        MessageList messages = validationService.getValidationMessages();
+        // TODO merken welches binding welche messages anzeigt
+        elementBindings.values().forEach(binding -> binding.displayMessages(messages));
+        tableBindings.values().forEach(binding -> binding.displayMessages(messages));
+    }
+
+    public ValidationService getValidationService() {
+        return validationService;
     }
 
     @Override
     public String toString() {
-        return "BindingContext[" + name + "]";
+        return "BindingContext [name=" + name + "]";
     }
 
 }

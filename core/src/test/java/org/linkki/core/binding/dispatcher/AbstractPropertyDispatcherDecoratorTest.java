@@ -9,6 +9,7 @@ package org.linkki.core.binding.dispatcher;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 
+import org.faktorips.runtime.MessageList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -92,8 +93,9 @@ public class AbstractPropertyDispatcherDecoratorTest {
 
     @Test
     public void testMessages() {
-        decorator.getMessages("xyz");
-        verify(wrappedDispatcher).getMessages("xyz");
+        MessageList messageList = new MessageList();
+        decorator.getMessages(messageList, "xyz");
+        verify(wrappedDispatcher).getMessages(messageList, "xyz");
     }
 
     @Test

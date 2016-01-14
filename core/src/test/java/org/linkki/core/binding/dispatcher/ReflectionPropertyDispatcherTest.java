@@ -8,7 +8,10 @@ package org.linkki.core.binding.dispatcher;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.linkki.test.matcher.Matchers.emptyMessageList;
+import static org.linkki.test.matcher.Matchers.hasSize;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -18,12 +21,12 @@ import java.util.List;
 
 import org.faktorips.runtime.IModelObject;
 import org.faktorips.runtime.IValidationContext;
+import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
+import org.faktorips.runtime.Severity;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.PresentationModelObject;
-import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
-import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 
 /**
  * @author widmaier
@@ -169,14 +172,58 @@ public class ReflectionPropertyDispatcherTest {
         assertTrue(pmoDispatcher.isReadonly("fooBar"));
     }
 
-    /**
-     * No messages in any case.
-     */
     @Test
-    public void testGetMessages() {
-        assertEquals(0, pmoDispatcher.getMessages("xyz").size());
-        assertEquals(0, pmoDispatcher.getMessages(null).size());
-        assertEquals(0, pmoDispatcher.getMessages("invalidProperty").size());
+    public void testGetMessages_empty() {
+        MessageList messageList = new MessageList();
+        assertThat(pmoDispatcher.getMessages(messageList, "xyz"), emptyMessageList());
+        assertThat(pmoDispatcher.getMessages(messageList, "invalidProperty"), emptyMessageList());
+        assertThat(pmoDispatcher.getMessages(messageList, null), emptyMessageList());
+    }
+
+    @Test
+    public void testGetMessages_ShouldReturnMessagesFromModelObject() {
+        MessageList messageList = new MessageList();
+        Message msg1 = new Message.Builder("abc", Severity.ERROR).invalidObjectWithProperties(testModelObject, "xyz")
+                .create();
+        Message msg2 = new Message.Builder("abc", Severity.ERROR).invalidObjectWithProperties(testModelObject, "abc")
+                .create();
+        messageList.add(msg1);
+        messageList.add(msg2);
+
+        assertThat(pmoDispatcher.getMessages(messageList, "xyz"), hasSize(1));
+        assertThat(pmoDispatcher.getMessages(messageList, "abc"), hasSize(1));
+        assertThat(pmoDispatcher.getMessages(messageList, "invalidProperty"), emptyMessageList());
+    }
+
+    @Test
+    public void testGetMessages_ShouldReturnMessagesFromPmo() {
+        MessageList messageList = new MessageList();
+        Message msg1 = new Message.Builder("abc", Severity.ERROR).invalidObjectWithProperties(testPmo, "xyz").create();
+        Message msg2 = new Message.Builder("abc", Severity.ERROR).invalidObjectWithProperties(testPmo, "abc").create();
+        Message msg3 = new Message.Builder("abc", Severity.ERROR).invalidObjectWithProperties(testModelObject, "xyz")
+                .create();
+        messageList.add(msg1);
+        messageList.add(msg2);
+        messageList.add(msg3);
+
+        assertThat(pmoDispatcher.getMessages(messageList, "xyz"), hasSize(2));
+        assertThat(pmoDispatcher.getMessages(messageList, "abc"), hasSize(1));
+        assertThat(pmoDispatcher.getMessages(messageList, "invalidProperty"), emptyMessageList());
+    }
+
+    @Test
+    public void testGetMessages_IgnoreIrrelevantMessages() {
+        MessageList messageList = new MessageList();
+        Message msg1 = new Message.Builder("abc", Severity.ERROR).invalidObjectWithProperties(new Object(), "xyz")
+                .create();
+        Message msg2 = new Message.Builder("abc", Severity.ERROR).invalidObjectWithProperties(new Object(), "abc")
+                .create();
+        messageList.add(msg1);
+        messageList.add(msg2);
+
+        assertThat(pmoDispatcher.getMessages(messageList, "xyz"), emptyMessageList());
+        assertThat(pmoDispatcher.getMessages(messageList, "abc"), emptyMessageList());
+        assertThat(pmoDispatcher.getMessages(messageList, "invalidProperty"), emptyMessageList());
     }
 
     @Test
