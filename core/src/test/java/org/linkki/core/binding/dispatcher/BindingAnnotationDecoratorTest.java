@@ -192,12 +192,12 @@ public class BindingAnnotationDecoratorTest {
             // nothing to do
         }
 
-        @UIComboBox(position = 2, modelAttribute = "staticEnumAttr", label = "Bla", lov = AvailableValuesType.STATIC, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
+        @UIComboBox(position = 2, modelAttribute = "staticEnumAttr", label = "Bla", content = AvailableValuesType.STATIC, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
         public void staticEnumAttr() {
             // nothing to do
         }
 
-        @UIComboBox(position = 3, modelAttribute = "dynamicEnumAttr", lov = AvailableValuesType.DYNAMIC, visible = VisibleType.VISIBLE, required = RequiredType.NOT_REQUIRED)
+        @UIComboBox(position = 3, modelAttribute = "dynamicEnumAttr", content = AvailableValuesType.DYNAMIC, visible = VisibleType.VISIBLE, required = RequiredType.NOT_REQUIRED)
         public void dynamicEnumAttr() {
             // nothing to do
         }

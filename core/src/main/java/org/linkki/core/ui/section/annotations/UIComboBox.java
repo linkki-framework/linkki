@@ -9,6 +9,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Creates a combobox with the specified parameters.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface UIComboBox {
@@ -19,7 +22,12 @@ public @interface UIComboBox {
 
     boolean noLabel() default false;
 
-    AvailableValuesType lov() default AvailableValuesType.STATIC;
+    /**
+     * Specifies the source of the available values, the content of the combo box.
+     * 
+     * @see AvailableValuesType
+     */
+    AvailableValuesType content() default AvailableValuesType.STATIC;
 
     EnabledType enabled() default ENABLED;
 

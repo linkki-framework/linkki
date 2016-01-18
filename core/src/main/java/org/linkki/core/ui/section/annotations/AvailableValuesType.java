@@ -7,7 +7,16 @@ package org.linkki.core.ui.section.annotations;
  */
 public enum AvailableValuesType {
 
+    /**
+     * Static tries to retrieve the values from an enum class. Only works if the returned type of
+     * the property is an {@link Enum}
+     */
     STATIC,
+
+    /**
+     * When retrieving the content for the input field a method called
+     * get[PropertyName]AvailableValues() is called.
+     */
     DYNAMIC;
 
 }

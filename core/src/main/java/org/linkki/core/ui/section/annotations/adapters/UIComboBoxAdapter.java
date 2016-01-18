@@ -50,7 +50,7 @@ public class UIComboBoxAdapter implements UIFieldDefinition {
 
     @Override
     public AvailableValuesType availableValues() {
-        return uiComboField.lov();
+        return uiComboField.content();
     }
 
     @Override

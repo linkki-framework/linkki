@@ -158,12 +158,12 @@ public class PmoBasedSectionFactoryTest {
             // nothing to do
         }
 
-        @UIComboBox(position = 2, enabled = EnabledType.ENABLED, lov = AvailableValuesType.STATIC)
+        @UIComboBox(position = 2, enabled = EnabledType.ENABLED, content = AvailableValuesType.STATIC)
         public void staticEnumAttr() {
             // nothing to do
         }
 
-        @UIComboBox(position = 3, enabled = EnabledType.ENABLED, visible = VisibleType.VISIBLE, lov = AvailableValuesType.DYNAMIC, required = RequiredType.NOT_REQUIRED)
+        @UIComboBox(position = 3, enabled = EnabledType.ENABLED, visible = VisibleType.VISIBLE, content = AvailableValuesType.DYNAMIC, required = RequiredType.NOT_REQUIRED)
         public void dynamicEnumAttr() {
             // nothing to do
         }
