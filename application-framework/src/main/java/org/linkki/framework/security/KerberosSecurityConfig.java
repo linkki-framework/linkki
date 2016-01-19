@@ -43,8 +43,8 @@ public class KerberosSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(spnegoAuthenticationProcessingFilter(authenticationManagerBean()),
-                             BasicAuthenticationFilter.class).exceptionHandling()
-                .authenticationEntryPoint(spnegoEntryPoint());
+                             BasicAuthenticationFilter.class)
+                .exceptionHandling().authenticationEntryPoint(spnegoEntryPoint());
     }
 
     @Override
@@ -59,7 +59,8 @@ public class KerberosSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SpnegoAuthenticationProcessingFilter spnegoAuthenticationProcessingFilter(AuthenticationManager authenticationManager) {
+    public SpnegoAuthenticationProcessingFilter spnegoAuthenticationProcessingFilter(
+            AuthenticationManager authenticationManager) {
         SpnegoAuthenticationProcessingFilter filter = new SpnegoAuthenticationProcessingFilter();
         filter.setAuthenticationManager(authenticationManager);
         return filter;

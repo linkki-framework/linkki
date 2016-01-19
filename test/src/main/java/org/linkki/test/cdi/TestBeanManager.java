@@ -5,7 +5,6 @@ package org.linkki.test.cdi;
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -65,10 +64,12 @@ public class TestBeanManager implements BeanManager {
     @Override
     public Set<Bean<?>> getBeans(Type beanType, Annotation... qualifiers) {
         Class<?> beanClass = (Class<?>)beanType;
-        return managedInstances.stream()//
-                .filter(o -> beanClass.isInstance(o))//
-                .map(o -> new TestBean<>(o))//
+        // @formatter:off
+        return managedInstances.stream()
+                .filter(o -> beanClass.isInstance(o))
+                .map(o -> new TestBean<>(o))
                 .collect(Collectors.toSet());
+        // @formatter:on
     }
 
     @Override

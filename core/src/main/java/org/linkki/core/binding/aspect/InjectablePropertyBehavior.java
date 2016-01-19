@@ -14,10 +14,8 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
  * are whether a property is
  * <ul>
  * <li>writable</li>
- * <li>
- * visible</li>
- * <li>
- * displaying validation messages</li>
+ * <li>visible</li>
+ * <li>displaying validation messages</li>
  * </ul>
  * <p>
  * {@link BehaviourDependentDecorator} uses instances of this class to influence the data as well as
@@ -25,11 +23,9 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
  * <p>
  * Instances of this class are injectable. This means they are:
  * <ul>
- * <li>
- * self contained and thus have no references to decorators or other
+ * <li>self contained and thus have no references to decorators or other
  * {@link InjectablePropertyBehavior behaviors}</li>
- * <li>
- * generally applicable and thus can be used in any context by any UI- or model element</li>
+ * <li>generally applicable and thus can be used in any context by any UI- or model element</li>
  * </ul>
  * <p>
  * Return values follow a logical AND (or veto logic). If {@link #isVisible(String)} returns

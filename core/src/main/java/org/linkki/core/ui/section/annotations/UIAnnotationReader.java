@@ -1,5 +1,6 @@
 package org.linkki.core.ui.section.annotations;
 
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -18,14 +19,14 @@ import org.apache.commons.lang3.StringUtils;
  * Reads UIField annotations, e.g. {@link UITextField}, {@link UIComboBox}, etc. from a given
  * object's class.
  * <p>
- * Provides a set of {@link ElementDescriptor} for all found properties via {@link #getUiElements()}.
+ * Provides a set of {@link ElementDescriptor} for all found properties via {@link #getUiElements()}
  * Provides a {@link ElementDescriptor} for a single property by means of {@link #get(String)}.
  *
  * @author widmaier
  */
 public class UIAnnotationReader {
 
-    private final PositionComparator POSITION_COMPARATOR = new PositionComparator();
+    private static final PositionComparator POSITION_COMPARATOR = new PositionComparator();
 
     private final UIElementDefinitionRegistry fieldDefinitionRegistry = new UIElementDefinitionRegistry();
     private final Class<?> annotatedClass;
@@ -68,8 +69,8 @@ public class UIAnnotationReader {
 
                 UITableColumn columnAnnotation = method.getAnnotation(UITableColumn.class);
                 if (columnAnnotation != null) {
-                    columnDescriptors.put(descriptor, new TableColumnDescriptor(annotatedClass, method,
-                            columnAnnotation));
+                    columnDescriptors.put(descriptor,
+                                          new TableColumnDescriptor(annotatedClass, method, columnAnnotation));
                 }
             }
         }
@@ -105,26 +106,16 @@ public class UIAnnotationReader {
     }
 
     public UIElementDefinition getUiElement(Method method) {
-        return annotations(method) //
-                .filter(fieldDefinitionRegistry::containsAnnotation) //
-                .map(fieldDefinitionRegistry::elementDefinition) //
+     // @formatter:off
+        return annotations(method)
+                .filter(fieldDefinitionRegistry::containsAnnotation)
+                .map(fieldDefinitionRegistry::elementDefinition)
                 .findFirst().orElse(null);
+     // @formatter:on
     }
 
     private Stream<Annotation> annotations(Method m) {
         return Arrays.stream(m.getAnnotations());
-    }
-
-    /**
-     * Compares two annotated methods by their position.
-     */
-    class PositionComparator implements Comparator<ElementDescriptor> {
-
-        @Override
-        public int compare(ElementDescriptor fieldDef1, ElementDescriptor fieldDef2) {
-            return fieldDef1.getPosition() - fieldDef2.getPosition();
-        }
-
     }
 
     public boolean hasAnnotation(String property) {
@@ -133,5 +124,19 @@ public class UIAnnotationReader {
 
     public boolean hasTableColumnAnnotation(ElementDescriptor d) {
         return columnDescriptors.containsKey(d);
+    }
+
+    /**
+     * Compares two annotated methods by their position.
+     */
+    static class PositionComparator implements Comparator<ElementDescriptor>, Serializable {
+
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public int compare(ElementDescriptor fieldDef1, ElementDescriptor fieldDef2) {
+            return fieldDef1.getPosition() - fieldDef2.getPosition();
+        }
+
     }
 }

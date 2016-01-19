@@ -5,7 +5,6 @@ package org.linkki.test.cdi;
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Set;

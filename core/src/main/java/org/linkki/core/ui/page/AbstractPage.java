@@ -72,7 +72,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
         }
         wrapper.addComponents(sections);
         for (Component component : wrapper) {
-            wrapper.setExpandRatio(component, 1 / sections.length);
+            wrapper.setExpandRatio(component, 1f / sections.length);
         }
     }
 

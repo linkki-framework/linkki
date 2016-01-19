@@ -15,6 +15,10 @@ import org.hamcrest.Matcher;
 
 public class Matchers {
 
+    private Matchers() {
+        // do not instantiate
+    }
+
     public static OptionalPresentMatcher<Object> absent() {
         return new OptionalPresentMatcher<>(false);
     }

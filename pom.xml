@@ -92,6 +92,22 @@
                     <propertyExpansion>config_loc=checkstyle</propertyExpansion>
                     <linkXRef>false</linkXRef>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                                    <groupId>de.faktorzehn</groupId>
+                <artifactId>faktorzehn-codeanalysis</artifactId>
+                <version>1.0.0</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>checkstyle</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <!-- FindBugs: in order to get the config in the correct version 
                 you need to add an extension to the org.faktorips.build.config module -->
@@ -103,6 +119,15 @@
                     <threshold>Low</threshold>
                     <excludeFilterFile>findbugs/exclusion-filter.xml</excludeFilterFile>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>findbugs</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <!-- Jacoco code coverage -->
             <plugin>
@@ -237,6 +262,12 @@
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>annotations</artifactId>
+                <version>3.0.0</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>joda-time</groupId>
@@ -384,6 +415,10 @@
             <artifactId>jsr305</artifactId>
             <scope>provided</scope>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
         </dependency>
 
         <dependency>

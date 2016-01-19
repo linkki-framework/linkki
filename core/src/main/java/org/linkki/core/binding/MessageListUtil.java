@@ -13,6 +13,10 @@ import com.vaadin.server.ErrorMessage.ErrorLevel;
 
 public class MessageListUtil {
 
+    private MessageListUtil() {
+        // do not instatiate
+    }
+
     public static ErrorLevel getErrorLevel(MessageList messages) {
         return getErrorLevel(messages.getSeverity());
     }

@@ -38,6 +38,18 @@ public interface ButtonPmo {
         return true;
     }
 
+    public static ButtonPmo newEditButton(Runnable onClickAction) {
+        return onClickAction::run;
+    }
+
+    public static ButtonPmo newAddButton(Runnable onClickAction) {
+        return Builder.action(onClickAction).icon(FontAwesome.PLUS).get();
+    }
+
+    public static ButtonPmo newDeleteButton(Runnable onClickAction) {
+        return Builder.action(onClickAction).icon(FontAwesome.TRASH_O).get();
+    }
+
     public static class Builder {
 
         private Runnable action;
@@ -71,18 +83,6 @@ public interface ButtonPmo {
             };
         }
 
-    }
-
-    public static ButtonPmo newEditButton(Runnable onClickAction) {
-        return onClickAction::run;
-    }
-
-    public static ButtonPmo newAddButton(Runnable onClickAction) {
-        return Builder.action(onClickAction).icon(FontAwesome.PLUS).get();
-    }
-
-    public static ButtonPmo newDeleteButton(Runnable onClickAction) {
-        return Builder.action(onClickAction).icon(FontAwesome.TRASH_O).get();
     }
 
 }

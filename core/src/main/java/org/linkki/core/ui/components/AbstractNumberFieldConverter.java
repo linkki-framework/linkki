@@ -42,7 +42,7 @@ abstract class AbstractNumberFieldConverter<T extends Number> implements Convert
     }
 
     protected abstract T getNullValue();
-    
+
     protected abstract T convertToModel(Number value);
 
     @Override

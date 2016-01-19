@@ -71,7 +71,7 @@ public class HorizontalSection extends BaseSection {
     }
 
     private void updateExpandRatio() {
-        float ratio = 1 / getNumOfComponentsWith100PctWidth();
+        float ratio = 1f / getNumOfComponentsWith100PctWidth();
         for (Component c : content) {
             if (UiUtil.isWidth100Pct(c)) {
                 content.setExpandRatio(c, ratio);

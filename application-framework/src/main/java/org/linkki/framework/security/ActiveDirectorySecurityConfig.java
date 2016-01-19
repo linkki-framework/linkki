@@ -36,8 +36,8 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
         String url = ConfigResolver.getPropertyValue(CONFIG_AD_URL);
         String domain = ConfigResolver.getPropertyValue(CONFIG_AD_DOMAIN);
 
-        ActiveDirectoryLdapAuthenticationProvider adAuthProvider = new ActiveDirectoryLdapAuthenticationProvider(
-                domain, url);
+        ActiveDirectoryLdapAuthenticationProvider adAuthProvider = new ActiveDirectoryLdapAuthenticationProvider(domain,
+                url);
 
         String searchFilter = ConfigResolver.getPropertyValue(CONFIG_AD_SEARCH_FILTER);
         adAuthProvider.setSearchFilter(searchFilter);

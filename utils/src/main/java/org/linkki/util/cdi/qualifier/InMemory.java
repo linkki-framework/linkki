@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation to qualify in-memory implementations of services etc.
  */
-@Target({TYPE, METHOD, FIELD, PARAMETER})
+@Target({ TYPE, METHOD, FIELD, PARAMETER })
 @java.lang.annotation.Documented
 @java.lang.annotation.Retention(RetentionPolicy.RUNTIME)
 @javax.inject.Qualifier

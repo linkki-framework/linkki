@@ -84,10 +84,12 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
                 AbstractSelect select = (AbstractSelect)field;
                 UiUtil.fillSelectWithItems(select, getAvailableValues());
             }
+            // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
-            throw new RuntimeException("Error while updating field " + field.getClass() + ", value property="
-                    + propertyName, e);
+            throw new RuntimeException(
+                    "Error while updating field " + field.getClass() + ", value property=" + propertyName, e);
         }
+        // CSON: IllegalCatch
     }
 
     private String formatMessages(MessageList messages) {

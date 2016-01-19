@@ -45,8 +45,8 @@ public abstract class AbstractMethod {
     }
 
     protected Supplier<IllegalArgumentException> noMethodFound(String accessMethodName) {
-        return illegalArgumentException("Found no " + accessMethodName + "in class: " + getBoundClass()
-                + ", property: " + getPropertyName());
+        return illegalArgumentException("Found no " + accessMethodName + "in class: " + getBoundClass() + ", property: "
+                + getPropertyName());
     }
 
 }

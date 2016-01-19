@@ -9,6 +9,10 @@ import com.vaadin.ui.Component;
 
 public class UiUtil {
 
+    private UiUtil() {
+        // do not instatiate
+    }
+
     @SuppressWarnings("rawtypes")
     public static final void fillSelectWithItems(AbstractSelect select, Class<? extends Enum> enumeration) {
 

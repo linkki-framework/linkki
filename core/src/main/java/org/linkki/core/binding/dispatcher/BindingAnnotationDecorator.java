@@ -66,10 +66,8 @@ public class BindingAnnotationDecorator extends AbstractPropertyDispatcherDecora
         EnabledType enabledType = annotationReader.get(property).enabled();
         if (enabledType == EnabledType.DYNAMIC) {
             return super.isEnabled(property);
-        } else if (enabledType == EnabledType.DISABLED) {
-            return false;
         } else {
-            return true;
+            return enabledType != EnabledType.DISABLED;
         }
     }
 
@@ -86,10 +84,8 @@ public class BindingAnnotationDecorator extends AbstractPropertyDispatcherDecora
         VisibleType visibleType = annotationReader.get(property).visible();
         if (visibleType == VisibleType.DYNAMIC) {
             return super.isVisible(property);
-        } else if (visibleType == VisibleType.INVISIBLE) {
-            return false;
         } else {
-            return true;
+            return visibleType != VisibleType.INVISIBLE;
         }
     }
 

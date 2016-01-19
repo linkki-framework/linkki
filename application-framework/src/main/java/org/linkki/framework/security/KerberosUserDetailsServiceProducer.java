@@ -54,8 +54,8 @@ public class KerberosUserDetailsServiceProducer {
         DefaultLdapAuthoritiesPopulator authoritiesPopulator = new DefaultLdapAuthoritiesPopulator(contextSource,
                 groupSearchBase);
         authoritiesPopulator.setIgnorePartialResultException(true);
-        LdapUserDetailsService ldapService = new LdapUserDetailsService(new FilterBasedLdapUserSearch(searchBase,
-                searchFilter, contextSource), authoritiesPopulator);
+        LdapUserDetailsService ldapService = new LdapUserDetailsService(
+                new FilterBasedLdapUserSearch(searchBase, searchFilter, contextSource), authoritiesPopulator);
         ldapService.setUserDetailsMapper(ipmUserDetailsMapper());
         return ldapService;
     }

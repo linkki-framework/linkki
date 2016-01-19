@@ -46,8 +46,8 @@ public class TableColumnDescriptor {
 
     public void checkValidConfiguration() {
         if (isCustomWidthDefined() && isCustomExpandRatioDefined()) {
-            throw new IllegalStateException("width and expandRatio cannot be both defined on " + annotatedClass + "."
-                    + annotatedMethod);
+            throw new IllegalStateException(
+                    "width and expandRatio cannot be both defined on " + annotatedClass + "." + annotatedMethod);
         }
     }
 

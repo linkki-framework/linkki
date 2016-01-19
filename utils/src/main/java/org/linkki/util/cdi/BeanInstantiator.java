@@ -51,12 +51,9 @@ public class BeanInstantiator {
      * Uses a {@link JndiBeanManagerProvider} to get a CDI bean manager. Searches that bean manager
      * for all instances of the given class.
      * <ul>
-     * <li>
-     * If no instance can be found: an {@link IllegalStateException} is thrown.</li>
-     * <li>
-     * If multiple instances can be found: an {@link IllegalStateException} is thrown.</li>
-     * <li>
-     * If exactly one instance is found, it is returned.</li>
+     * <li>If no instance can be found: an {@link IllegalStateException} is thrown.</li>
+     * <li>If multiple instances can be found: an {@link IllegalStateException} is thrown.</li>
+     * <li>If exactly one instance is found, it is returned.</li>
      * </ul>
      * 
      * @param beanClass the class of the bean to instantiate
@@ -70,12 +67,9 @@ public class BeanInstantiator {
      * Uses a {@link JndiBeanManagerProvider} to get a CDI bean manager. Searches that bean manager
      * for all instances of the given class with the given qualifier annotations.
      * <ul>
-     * <li>
-     * If no instance can be found: an {@link IllegalStateException} is thrown.</li>
-     * <li>
-     * If multiple instances can be found: an {@link IllegalStateException} is thrown.</li>
-     * <li>
-     * If exactly one instance is found, it is returned.</li>
+     * <li>If no instance can be found: an {@link IllegalStateException} is thrown.</li>
+     * <li>If multiple instances can be found: an {@link IllegalStateException} is thrown.</li>
+     * <li>If exactly one instance is found, it is returned.</li>
      * </ul>
      * 
      * @param beanClass the class of the bean to instantiate
@@ -89,12 +83,9 @@ public class BeanInstantiator {
     /**
      * Searches the bean manager for all instances of the given class with the given qualifiers.
      * <ul>
-     * <li>
-     * If no instance can be found: an {@link IllegalStateException} is thrown.</li>
-     * <li>
-     * If multiple instances can be found: an {@link IllegalStateException} is thrown.</li>
-     * <li>
-     * If exactly one instance is found, it is returned.</li>
+     * <li>If no instance can be found: an {@link IllegalStateException} is thrown.</li>
+     * <li>If multiple instances can be found: an {@link IllegalStateException} is thrown.</li>
+     * <li>If exactly one instance is found, it is returned.</li>
      * </ul>
      * 
      * @param beanClass the class of the bean to instantiate

@@ -18,9 +18,11 @@ import java.util.Map;
 public class PropertyAccess {
 
     private Class<?> clazz;
+
     private Map<String, PropertyDescriptor> propertiesByName = new HashMap<>();
 
     public PropertyAccess(Class<?> clazz) {
+        this.clazz = clazz;
         BeanInfo beanInfo = BeanUtils.getBeanInfo(clazz);
         PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor descriptor : descriptors) {

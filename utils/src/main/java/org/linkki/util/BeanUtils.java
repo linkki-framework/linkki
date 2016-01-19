@@ -12,8 +12,14 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 public class BeanUtils {
+
+    private BeanUtils() {
+
+    }
 
     /**
      * Returns the bean info for the given class.
@@ -72,8 +78,8 @@ public class BeanUtils {
                 classToSearch = classToSearch.getSuperclass();
             }
         }
-        throw new NoSuchFieldError("No field '" + name + "' found in class '" + clazz
-                + "' or any of its super classes.");
+        throw new NoSuchFieldError(
+                "No field '" + name + "' found in class '" + clazz + "' or any of its super classes.");
     }
 
     /**
@@ -83,15 +89,22 @@ public class BeanUtils {
      */
     public static Object getValueFromField(Object object, String name) {
         Field field = getField(object.getClass(), name);
-        boolean accessible = field.isAccessible();
-        field.setAccessible(true);
-        try {
-            return field.get(object);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } finally {
-            field.setAccessible(accessible);
-        }
+        return AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            @Override
+            public Object run() {
+                boolean accessible = field.isAccessible();
+                if (!accessible) {
+                    field.setAccessible(true);
+                }
+                try {
+                    return field.get(object);
+                } catch (IllegalArgumentException | IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    field.setAccessible(accessible);
+                }
+            }
+        });
     }
 
     /**
@@ -107,9 +120,5 @@ public class BeanUtils {
             }
         }
         throw new IllegalArgumentException("Class '" + clazz + "' has not property'" + propertyName + "'.");
-    }
-
-    private BeanUtils() {
-
     }
 }

@@ -112,8 +112,8 @@ public class TableColumnDescriptorTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testCheckValidConfiguration_ThrowsExceptionForInvalidConfiguration() throws NoSuchMethodException,
-            SecurityException {
+    public void testCheckValidConfiguration_ThrowsExceptionForInvalidConfiguration()
+            throws NoSuchMethodException, SecurityException {
         TableColumnDescriptor bothDefined = newDescriptor("methodWithWidthAndExpandRatioAnnotation");
 
         bothDefined.checkValidConfiguration();

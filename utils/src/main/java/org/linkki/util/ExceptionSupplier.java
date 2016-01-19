@@ -24,7 +24,9 @@ public final class ExceptionSupplier {
         return () -> new IllegalArgumentException(message);
     }
 
-    /** Returns a supplier for an {@link IllegalArgumentException} with the given message and cause. */
+    /**
+     * Returns a supplier for an {@link IllegalArgumentException} with the given message and cause.
+     */
     public static Supplier<IllegalArgumentException> illegalArgumentException(String message, Throwable cause) {
         return () -> new IllegalArgumentException(message, cause);
     }

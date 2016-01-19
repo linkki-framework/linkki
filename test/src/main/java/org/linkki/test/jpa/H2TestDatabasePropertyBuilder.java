@@ -22,8 +22,8 @@ public class H2TestDatabasePropertyBuilder {
     }
 
     public H2TestDatabasePropertyBuilder forDatabase(String name) {
-        dbProperties.put(PersistenceProperties.JPA_JDBC_URL, "jdbc:h2:mem:" + name
-                + ";DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
+        dbProperties.put(PersistenceProperties.JPA_JDBC_URL,
+                         "jdbc:h2:mem:" + name + ";DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
         return this;
     }
 

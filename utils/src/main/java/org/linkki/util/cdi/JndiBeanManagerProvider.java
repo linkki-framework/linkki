@@ -23,7 +23,8 @@ public class JndiBeanManagerProvider implements IpmProvider<BeanManager> {
             InitialContext initialContext = new InitialContext();
             Object beanManager = initialContext.lookup(BEAN_MANAGER_JNDI_NAME);
             if (!(beanManager instanceof BeanManager)) {
-                throw new IllegalStateException("Lookup of BeanManager via JNDI failed, lookup returned " + beanManager);
+                throw new IllegalStateException(
+                        "Lookup of BeanManager via JNDI failed, lookup returned " + beanManager);
             } else {
                 return (BeanManager)beanManager;
             }

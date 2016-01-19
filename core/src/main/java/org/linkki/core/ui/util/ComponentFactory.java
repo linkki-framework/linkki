@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.ui.components.LinkkiComboBox;
 import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.components.IntegerField;
+import org.linkki.core.ui.components.LinkkiComboBox;
 import org.linkki.core.ui.components.SubsetChooser;
 import org.linkki.core.ui.converters.LocalDateToDateConverter;
 
@@ -28,6 +28,8 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TwinColSelect;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class ComponentFactory {
 
@@ -223,16 +225,17 @@ public class ComponentFactory {
          */
         private static final long serialVersionUID = 1L;
 
+        @SuppressFBWarnings("NP_BOOLEAN_RETURN_NULL")
         @Override
         public Boolean convertToModel(Object value, Class<? extends Boolean> targetType, Locale locale)
                 throws ConversionException {
             if (value == null) {
                 return null;
             }
-            if (value.equals("Ja")) {
+            if ("Ja".equals(value)) {
                 return Boolean.TRUE;
             }
-            if (value.equals("Nein")) {
+            if ("Nein".equals(value)) {
                 return Boolean.FALSE;
             }
             throw new ConversionException();

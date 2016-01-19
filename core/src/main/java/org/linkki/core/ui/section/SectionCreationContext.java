@@ -112,8 +112,9 @@ public class SectionCreationContext {
     }
 
     private static class LabelComponent {
-        final Label label;
-        final Component component;
+
+        private final Label label;
+        private final Component component;
 
         LabelComponent(Label label, Component component) {
             this.label = label;

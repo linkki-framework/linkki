@@ -92,9 +92,11 @@ public class BindingContext {
      * Removes all bindings in this context that refer to the given PMO.
      */
     public void removeBindingsForPmo(PresentationModelObject pmo) {
-        List<ElementBinding> toRemove = elementBindings.values().stream() //
-                .filter(b -> b.getPmo() == pmo) //
+        // @formatter:off
+        List<ElementBinding> toRemove = elementBindings.values().stream()
+                .filter(b -> b.getPmo() == pmo)
                 .collect(Collectors.toList());
+        // @formatter:on
         toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
         elementBindings.values().removeAll(toRemove);
     }

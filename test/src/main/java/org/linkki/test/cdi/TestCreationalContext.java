@@ -5,7 +5,6 @@ package org.linkki.test.cdi;
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-
 import javax.enterprise.context.spi.CreationalContext;
 
 import org.apache.commons.lang3.NotImplementedException;
