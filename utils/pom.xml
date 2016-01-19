@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.linkki</groupId>
         <artifactId>linkki</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.9.20160119</version>
     </parent>
 
     <artifactId>linkki-utils</artifactId>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>org.linkki</groupId>
             <artifactId>linkki-test</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.9.20160119</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
