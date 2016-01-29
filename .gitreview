@@ -3,7 +3,7 @@ remote=origin
 defaultremote = origin
 host=gerrit.faktorzehn.de
 port=29418
-project=linkki/linkki.core
+project=linkki
 defaultbranch=master
 track=true
 
