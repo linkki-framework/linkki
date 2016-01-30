@@ -44,8 +44,11 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
         this.pmo = checkNotNull(pmo);
         this.propertyName = checkNotNull(propertyName);
         this.label = label;
-        this.field = checkNotNull(field);
         this.propertyDispatcher = checkNotNull(propertyDispatcher);
+        this.field = checkNotNull(field);
+        // data source must be set after dispatcher is available, as value and readOnly-state are
+        // requested from the data source during 'set', and we need the dispatcher in these methods.
+        this.field.setPropertyDataSource(this);
     }
 
     @Override
@@ -60,15 +63,16 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
     @Override
     public void updateFromPmo() {
         try {
-            initPropertyDataSource();
-            // triggeres the #getValue() method because this is set as field data source
+            // Value and ReadOnly-state are provided by the field binding taking the role of the
+            // data source. The update of Value and ReadOnly-state has to be done by triggering
+            // change events.
             fireValueChange();
+            fireReadOnlyStatusChange();
 
             field.setRequired(isRequired());
             if (isRequired() && field instanceof AbstractSelect) {
                 ((AbstractSelect)field).setNullSelectionAllowed(false);
             }
-            field.setReadOnly(isReadOnly());
             field.setEnabled(isEnabled());
             boolean visible = isVisible();
             field.setVisible(visible);
@@ -81,14 +85,8 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
                 UiUtil.fillSelectWithItems(select, getAvailableValues());
             }
         } catch (RuntimeException e) {
-            throw new RuntimeException(
-                    "Error while updating field " + field.getClass() + ", value property=" + propertyName, e);
-        }
-    }
-
-    private void initPropertyDataSource() {
-        if (field.getPropertyDataSource() == null) {
-            field.setPropertyDataSource(this);
+            throw new RuntimeException("Error while updating field " + field.getClass() + ", value property="
+                    + propertyName, e);
         }
     }
 
