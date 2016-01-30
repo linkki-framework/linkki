@@ -1,5 +1,9 @@
 package org.linkki.framework.ui.dialogs;
 
+import static java.util.Objects.requireNonNull;
+
+import javax.annotation.Nonnull;
+
 import org.linkki.core.ui.application.ApplicationStyles;
 
 import com.vaadin.ui.Alignment;
@@ -19,23 +23,37 @@ public abstract class OkCancelDialog extends Window {
     private boolean okPressed = false;
     private boolean cancelPressed = false;
 
+    private final OkHandler okHandler;
     private final VerticalLayout contentContainer;
 
     /**
-     * Creates a new dialog with the given caption.
+     * Creates a new dialog with the given caption and OK and Cancel button.
      */
     public OkCancelDialog(String caption) {
-        this(caption, null);
+        this(caption, OkHandler.NOP_HANDLER, ButtonOption.OK_CANCEL);
+    }
+
+    /**
+     * Creates a new dialog with the given caption and OK and Cancel button.
+     * 
+     * @param caption The caption.
+     * @param theOkHandler Function called when the OK button was pressed.
+     */
+    public OkCancelDialog(String caption, @Nonnull OkHandler theOkHandler) {
+        this(caption, theOkHandler, ButtonOption.OK_CANCEL);
     }
 
     /**
      * Creates a new dialog with the given caption.
      * 
      * @param caption The caption.
-     * @param params Parameters needed during creation of the dialog content.
+     * @param theOkHandler Function called when the OK button was pressed.
+     * @param buttonOption whether to show OK and CANCEL button or only the OK button.
      */
-    public OkCancelDialog(String caption, DialogStartParameters params) {
+    public OkCancelDialog(@Nonnull String caption, @Nonnull OkHandler theOkHandler,
+            @Nonnull ButtonOption buttonOption) {
         super(caption);
+        okHandler = requireNonNull(theOkHandler);
         setStyleName(ApplicationStyles.DIALOG_CAPTION);
         setModal(true);
         setResizable(false);
@@ -51,7 +69,7 @@ public abstract class OkCancelDialog extends Window {
         contentContainer.setStyleName(ApplicationStyles.DIALOG_CONTENT);
         main.addComponent(contentContainer);
 
-        HorizontalLayout buttons = createButtons();
+        HorizontalLayout buttons = createButtons(buttonOption);
         main.addComponent(buttons);
         main.setComponentAlignment(buttons, Alignment.MIDDLE_CENTER);
 
@@ -65,27 +83,8 @@ public abstract class OkCancelDialog extends Window {
     }
 
     /**
-     * Returns <code>true</code> if OK was pressed.
+     * Initializes the dialog's content. Has to be called by client code before opening the dialog.
      */
-    public boolean isOkPressed() {
-        return okPressed;
-    }
-
-    void setOkPressed(boolean okPressed) {
-        this.okPressed = okPressed;
-    }
-
-    /**
-     * Returns <code>true</code> if Cancel was pressed.
-     */
-    public boolean isCancelPressed() {
-        return cancelPressed;
-    }
-
-    void setCancelPressed(boolean cancelPressed) {
-        this.cancelPressed = cancelPressed;
-    }
-
     public void initContent() {
         contentContainer.addComponent(createContent());
     }
@@ -96,9 +95,33 @@ public abstract class OkCancelDialog extends Window {
     protected abstract Component createContent();
 
     /**
-     * Called when the user clicks OK. Default implementation does nothing.
+     * Returns <code>true</code> if OK was pressed.
      */
-    protected abstract void ok();
+    public boolean isOkPressed() {
+        return okPressed;
+    }
+
+    private void setOkPressed(boolean okPressed) {
+        this.okPressed = okPressed;
+    }
+
+    /**
+     * Returns <code>true</code> if Cancel was pressed.
+     */
+    public boolean isCancelPressed() {
+        return cancelPressed;
+    }
+
+    private void setCancelPressed(boolean cancelPressed) {
+        this.cancelPressed = cancelPressed;
+    }
+
+    /**
+     * Called when the user clicks OK.
+     */
+    protected void ok() {
+        okHandler.onOk();
+    }
 
     /**
      * Called when the user clicks Cancel or closes the window. Default implementation does nothing.
@@ -107,7 +130,7 @@ public abstract class OkCancelDialog extends Window {
         // nothing to do as explained in the Java Doc.
     }
 
-    private HorizontalLayout createButtons() {
+    private HorizontalLayout createButtons(ButtonOption buttonOption) {
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.setWidthUndefined();
         buttons.setSpacing(true);
@@ -120,14 +143,25 @@ public abstract class OkCancelDialog extends Window {
             close();
         });
 
-        Button cancel = new Button("Abbrechen");
-        buttons.addComponent(cancel);
-        buttons.setComponentAlignment(cancel, Alignment.MIDDLE_CENTER);
-        cancel.addClickListener(e -> {
-            setCancelPressed(true);
-            cancel();
-            close();
-        });
+        if (buttonOption == ButtonOption.OK_CANCEL) {
+            Button cancel = new Button("Abbrechen");
+            buttons.addComponent(cancel);
+            buttons.setComponentAlignment(cancel, Alignment.MIDDLE_CENTER);
+            cancel.addClickListener(e -> {
+                setCancelPressed(true);
+                cancel();
+                close();
+            });
+        }
         return buttons;
     }
+
+    /**
+     * Options to choose the buttons.
+     */
+    public static enum ButtonOption {
+        OK_ONLY,
+        OK_CANCEL
+    }
+
 }

@@ -15,11 +15,6 @@ public class QuestionDialog extends OkCancelDialog {
     private final Label questionLabel = new Label();
     private final OkHandler okHandler;
 
-    @FunctionalInterface
-    public static interface OkHandler {
-        void onOk();
-    }
-
     public QuestionDialog(String caption, String question, OkHandler okHandler) {
         super(caption);
         questionLabel.setValue(question);
