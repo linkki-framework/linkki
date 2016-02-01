@@ -20,6 +20,7 @@ import org.linkki.core.ui.section.annotations.adapters.UIDoubleFieldAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UIIntegerFieldAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UITextAreaAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UITextFieldAdapter;
+import org.linkki.core.ui.section.annotations.adapters.UITwinColSelectAdapter;
 
 import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
@@ -43,6 +44,7 @@ public class UIElementDefinitionRegistry {
         annotations.put(UITextField.class, UITextFieldAdapter.class);
         annotations.put(UIButton.class, UIButtonAdapter.class);
         annotations.put(UICustomField.class, UICustomFieldAdapter.class);
+        annotations.put(UITwinColSelect.class, UITwinColSelectAdapter.class);
     }
 
     /**

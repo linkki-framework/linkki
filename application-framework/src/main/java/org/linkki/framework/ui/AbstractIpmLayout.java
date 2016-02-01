@@ -49,7 +49,7 @@ public abstract class AbstractIpmLayout implements Serializable {
     }
 
     /**
-     * Creates and initializes the {@link #content} that is displayed by this IPM layout.
+     * Creates and initializes the the content that is displayed by this IPM layout.
      * <p>
      * Note that it is the responsibility of the implementing subclass to add the container used for
      * navigation ({@link #getMainArea()}) to the content.

@@ -26,6 +26,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.TwinColSelect;
 
 public class ComponentFactory {
 
@@ -35,13 +36,16 @@ public class ComponentFactory {
      */
     public static final String NO_BREAK_SPACE = "&nbsp";
 
-    public static final Label addHorizontalSpacer(AbstractLayout layout) {
+    private ComponentFactory() {
+    }
+
+    public static Label addHorizontalSpacer(AbstractLayout layout) {
         Label spacer = createSpacer();
         layout.addComponent(spacer);
         return spacer;
     }
 
-    public static final Label addHorizontalFixedSizeSpacer(AbstractOrderedLayout parent, int px) {
+    public static Label addHorizontalFixedSizeSpacer(AbstractOrderedLayout parent, int px) {
         Label spacer = createSpacer();
         spacer.setWidth("" + px + "px");
         parent.addComponent(spacer);
@@ -203,7 +207,8 @@ public class ComponentFactory {
         return button;
     }
 
-    private ComponentFactory() {
+    public static TwinColSelect newTwinColSelect() {
+        return new TwinColSelect();
     }
 
     static class YesNoToBooleanConverter implements Converter<Object, Boolean> {
@@ -250,4 +255,5 @@ public class ComponentFactory {
             return Object.class;
         }
     }
+
 }

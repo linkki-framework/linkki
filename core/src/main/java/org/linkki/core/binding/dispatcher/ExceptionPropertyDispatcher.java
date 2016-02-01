@@ -9,6 +9,7 @@ package org.linkki.core.binding.dispatcher;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.faktorips.runtime.MessageList;
@@ -78,7 +79,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public List<?> getAvailableValues(String property) {
+    public Collection<?> getAvailableValues(String property) {
         throw new IllegalArgumentException(getExceptionText(property, "get available values for"));
     }
 
