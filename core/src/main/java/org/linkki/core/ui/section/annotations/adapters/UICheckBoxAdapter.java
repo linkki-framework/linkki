@@ -20,7 +20,7 @@ public class UICheckBoxAdapter implements UIFieldDefinition {
 
     @Override
     public Component newComponent() {
-        return ComponentFactory.newCheckbox();
+        return ComponentFactory.newCheckBox();
     }
 
     @Override

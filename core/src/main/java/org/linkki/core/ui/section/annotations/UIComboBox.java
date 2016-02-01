@@ -8,6 +8,9 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.function.Function;
+
+import org.linkki.core.ui.components.LinkkiComboBox.IdAndNameCaptionProvider;
 
 /**
  * Creates a combobox with the specified parameters.
@@ -39,4 +42,5 @@ public @interface UIComboBox {
 
     String modelAttribute() default "";
 
+    Class<? extends Function<Object, String>> itemCaptionProvider() default IdAndNameCaptionProvider.class;
 }

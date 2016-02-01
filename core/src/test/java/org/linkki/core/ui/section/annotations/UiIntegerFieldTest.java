@@ -8,15 +8,13 @@ package org.linkki.core.ui.section.annotations;
 
 import org.junit.Test;
 import org.linkki.core.PresentationModelObject;
-import org.linkki.core.ui.section.annotations.UIIntegerField;
-import org.linkki.core.ui.section.annotations.UISection;
 
 import com.vaadin.data.Buffered;
 import com.vaadin.ui.TextField;
 
 public class UiIntegerFieldTest {
 
-    public static class TestModelObjectWithPrimitiveInteger {
+    protected static class TestModelObjectWithPrimitiveInteger {
 
         private int value = 0;
 
@@ -29,7 +27,7 @@ public class UiIntegerFieldTest {
         }
     }
 
-    public static class TestModelObjectWithObjectInteger {
+    protected static class TestModelObjectWithObjectInteger {
 
         private Integer value = null;
 
@@ -43,7 +41,7 @@ public class UiIntegerFieldTest {
     }
 
     @UISection
-    public static class TestPmo implements PresentationModelObject {
+    protected static class TestPmo implements PresentationModelObject {
 
         private final Object modelObject;
 

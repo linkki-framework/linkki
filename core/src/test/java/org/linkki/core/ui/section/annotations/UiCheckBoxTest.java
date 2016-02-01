@@ -8,15 +8,13 @@ package org.linkki.core.ui.section.annotations;
 
 import org.junit.Test;
 import org.linkki.core.PresentationModelObject;
-import org.linkki.core.ui.section.annotations.UICheckBox;
-import org.linkki.core.ui.section.annotations.UISection;
 
 import com.vaadin.data.Buffered;
 import com.vaadin.ui.CheckBox;
 
 public class UiCheckBoxTest {
 
-    public static class TestModelObjectWithPrimitiveBoolean {
+    protected static class TestModelObjectWithPrimitiveBoolean {
 
         private boolean value = false;
 
@@ -29,7 +27,7 @@ public class UiCheckBoxTest {
         }
     }
 
-    public static class TestModelObjectWithObjectBoolean {
+    protected static class TestModelObjectWithObjectBoolean {
 
         private Boolean value = null;
 
@@ -43,7 +41,7 @@ public class UiCheckBoxTest {
     }
 
     @UISection
-    public static class TestPmo implements PresentationModelObject {
+    protected static class TestPmo implements PresentationModelObject {
 
         private final Object modelObject;
 

@@ -6,8 +6,10 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.ui.components.LinkkiComboBox;
 import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.components.IntegerField;
+import org.linkki.core.ui.components.SubsetChooser;
 import org.linkki.core.ui.converters.LocalDateToDateConverter;
 
 import com.vaadin.data.util.converter.Converter;
@@ -20,7 +22,6 @@ import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
@@ -155,13 +156,13 @@ public class ComponentFactory {
         return field;
     }
 
-    public static ComboBox newCombobox() {
-        ComboBox comboBox = new ComboBox();
-        comboBox.setFilteringMode(FilteringMode.CONTAINS);
-        return comboBox;
+    public static LinkkiComboBox newComboBox() {
+        LinkkiComboBox linkkiComboBox = new LinkkiComboBox();
+        linkkiComboBox.setFilteringMode(FilteringMode.CONTAINS);
+        return linkkiComboBox;
     }
 
-    public static CheckBox newCheckbox() {
+    public static CheckBox newCheckBox() {
         return new CheckBox();
     }
 
@@ -209,6 +210,10 @@ public class ComponentFactory {
 
     public static TwinColSelect newTwinColSelect() {
         return new TwinColSelect();
+    }
+
+    public static SubsetChooser newSubsetChooser() {
+        return new SubsetChooser();
     }
 
     static class YesNoToBooleanConverter implements Converter<Object, Boolean> {

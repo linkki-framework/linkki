@@ -3,8 +3,6 @@ package org.linkki.core.ui.util;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.linkki.core.binding.BindingUtils;
-
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Component;
@@ -19,35 +17,17 @@ public class UiUtil {
     }
 
     public static final void fillSelectWithItems(AbstractSelect select, Collection<?> values) {
-
         select.addItems(values);
-        int maxLength = 0;
-        for (Object value : values) {
-            String text = BindingUtils.getTextForSelectItem(value);
-            select.setItemCaption(value, text);
-            if (text.length() > maxLength) {
-                maxLength = text.length();
-            }
-        }
-        int width = Math.min(400, 40 + (maxLength * 7));
-        select.setWidth("" + width + "px");
     }
 
     public static final <T> void fillSelectWithItems(AbstractSelect select,
             Collection<T> values,
             TextProvider<T> textProvider) {
-
-        select.addItems(values);
-        int maxLength = 0;
+        fillSelectWithItems(select, values);
         for (T value : values) {
             String text = textProvider.getText(value);
             select.setItemCaption(value, text);
-            if (text.length() > maxLength) {
-                maxLength = text.length();
-            }
         }
-        int width = Math.min(400, 40 + (maxLength * 7));
-        select.setWidth("" + width + "px");
     }
 
     public static boolean isWidth100Pct(Component component) {
