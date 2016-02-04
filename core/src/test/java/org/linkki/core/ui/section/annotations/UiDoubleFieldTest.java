@@ -8,15 +8,13 @@ package org.linkki.core.ui.section.annotations;
 
 import org.junit.Test;
 import org.linkki.core.PresentationModelObject;
-import org.linkki.core.ui.section.annotations.UIDoubleField;
-import org.linkki.core.ui.section.annotations.UISection;
 
 import com.vaadin.data.Buffered;
 import com.vaadin.ui.TextField;
 
 public class UiDoubleFieldTest {
 
-    public static class TestModelObjectWithPrimitiveDouble {
+    protected static class TestModelObjectWithPrimitiveDouble {
 
         private double value = 0;
 
@@ -29,7 +27,7 @@ public class UiDoubleFieldTest {
         }
     }
 
-    public static class TestModelObjectWithObjectDouble {
+    protected static class TestModelObjectWithObjectDouble {
 
         private Double value = null;
 
@@ -43,7 +41,7 @@ public class UiDoubleFieldTest {
     }
 
     @UISection
-    public static class TestPmo implements PresentationModelObject {
+    protected static class TestPmo implements PresentationModelObject {
 
         private final Object modelObject;
 

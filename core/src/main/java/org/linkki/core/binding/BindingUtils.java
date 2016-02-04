@@ -108,10 +108,6 @@ public class BindingUtils {
         UiUtil.fillSelectWithItems(select, Arrays.asList(values));
     }
 
-    public static final String getTextForSelectItem(Object value) {
-        return getName(value) + " [" + getId(value) + "]";
-    }
-
     /**
      * Gets the model object from the PMO. If a model class is provided the PMO's method
      * <tt>getModelObject(Class modelClass)</tt> is invoked, otherwise <tt>getModelObject()</tt> is
@@ -150,25 +146,6 @@ public class BindingUtils {
             }
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new IllegalStateException("Error getting model object from PMO " + pmo.getClass(), e);
-        }
-    }
-
-    private static final String getId(Object value) {
-        return getPropertyValue(value, "getId");
-    }
-
-    private static final String getName(Object value) {
-        return getPropertyValue(value, "getName");
-    }
-
-    private static final String getPropertyValue(Object value, String methodName) {
-        Method method;
-        try {
-            method = value.getClass().getDeclaredMethod(methodName);
-            return (String)method.invoke(value);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
-            throw new IllegalStateException("Can't get value from method " + methodName + ", value was " + value);
         }
     }
 

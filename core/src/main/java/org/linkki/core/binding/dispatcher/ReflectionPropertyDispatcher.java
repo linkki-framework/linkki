@@ -7,7 +7,7 @@
 package org.linkki.core.binding.dispatcher;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
+import java.util.Collection;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.ClassUtils;
@@ -126,9 +126,9 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public List<?> getAvailableValues(String property) {
+    public Collection<?> getAvailableValues(String property) {
         String availableValuesProperty = propertyNamingConvention.getAvailableValuesProperty(property);
-        return (List<?>)read(availableValuesProperty);
+        return (Collection<?>)read(availableValuesProperty);
     }
 
     @Override
