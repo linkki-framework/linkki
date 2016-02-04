@@ -31,8 +31,6 @@ public @interface UITextArea {
 
     int maxLength() default 0;
 
-    Class<?> modelClass() default NoModelClassProvided.class;
-
     String modelAttribute() default "";
 
 }

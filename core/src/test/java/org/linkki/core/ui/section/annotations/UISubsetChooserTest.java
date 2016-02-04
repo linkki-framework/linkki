@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.linkki.core.PresentationModelObject;
+import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.components.SubsetChooser;
 
 import com.google.gwt.thirdparty.guava.common.collect.Sets;
@@ -23,23 +24,23 @@ public class UISubsetChooserTest {
     @UISection
     protected static class TestPmo implements PresentationModelObject {
 
-        private final Set<Integer> foo = Sets.newLinkedHashSet();
+        private final Set<TestEnum> foo = Sets.newLinkedHashSet();
 
-        @UISubsetChooser(position = 1, content = AvailableValuesType.DYNAMIC)
-        public Set<Integer> getFoo() {
+        @UISubsetChooser(position = 1)
+        public Set<TestEnum> getFoo() {
             return foo;
         }
 
-        public void setFoo(Set<Integer> selectedFoos) {
+        public void setFoo(Set<TestEnum> selectedFoos) {
             foo.clear();
             foo.addAll(selectedFoos);
         }
 
-        public Set<Integer> getFooAvailableValues() {
-            LinkedHashSet<Integer> someValues = Sets.newLinkedHashSet();
-            someValues.add(1);
-            someValues.add(2);
-            someValues.add(3);
+        public Set<TestEnum> getFooAvailableValues() {
+            LinkedHashSet<TestEnum> someValues = Sets.newLinkedHashSet();
+            someValues.add(TestEnum.ONE);
+            someValues.add(TestEnum.TWO);
+            someValues.add(TestEnum.THREE);
             return someValues;
         }
 
@@ -66,7 +67,7 @@ public class UISubsetChooserTest {
     public void testDefaultItemCaptionProvider() {
         SubsetChooser subsetChooser = createSubsetChooser();
         assertThat(subsetChooser.getItemCaption(null), is(""));
-        assertThat(subsetChooser.getItemCaption(1), is("1"));
+        assertThat(subsetChooser.getItemCaption(TestEnum.ONE), is("ONE"));
     }
 
 }

@@ -10,15 +10,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Collection;
 import java.util.Set;
-import java.util.function.Function;
 
-import org.linkki.core.ui.components.SubsetChooser.ToStringCaptionProvider;
+import org.linkki.core.ui.components.ItemCaptionProvider;
+import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
 
 /**
  * Creates a subset chooser, i.e. a multi-select component with a left and a right list.
- * <p>
- * Note that the value handled by a subset chooser needs to be a {@link Set} whereas the list of
- * available values could be any kind of {@link Collection}. When using this annotation you will
+ * 
+ * Note that the value handled by a subset chooser must be a {@link Set} whereas the list of
+ * available values can be any kind of {@link Collection}. When using this annotation you will
  * presumably need something like this:
  * 
  * <pre>
@@ -42,18 +42,14 @@ public @interface UISubsetChooser {
 
     boolean noLabel() default false;
 
-    AvailableValuesType content() default AvailableValuesType.STATIC;
-
     EnabledType enabled() default ENABLED;
 
     RequiredType required() default NOT_REQUIRED;
 
     VisibleType visible() default VISIBLE;
 
-    Class<?> modelClass() default NoModelClassProvided.class;
-
     String modelAttribute() default "";
 
-    Class<? extends Function<Object, String>> itemCaptionProvider() default ToStringCaptionProvider.class;
+    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default ToStringCaptionProvider.class;
 
 }

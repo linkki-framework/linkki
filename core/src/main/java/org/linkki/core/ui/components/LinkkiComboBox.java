@@ -8,13 +8,8 @@ package org.linkki.core.ui.components;
 
 import static java.util.Objects.requireNonNull;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.function.Function;
-
-import javax.annotation.Nonnull;
-
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.ui.components.ItemCaptionProvider.IdAndNameCaptionProvider;
 
 import com.vaadin.ui.ComboBox;
 
@@ -27,7 +22,7 @@ public class LinkkiComboBox extends ComboBox {
 
     private static final long serialVersionUID = 967930632677587809L;
 
-    private Function<Object, String> itemCaptionProvider;
+    private ItemCaptionProvider<?> itemCaptionProvider;
 
     /** Creates a new LinkkiComboBox that uses {@link IdAndNameCaptionProvider}. */
     public LinkkiComboBox() {
@@ -35,7 +30,7 @@ public class LinkkiComboBox extends ComboBox {
     }
 
     /** Creates a new LinkkiComboBox that uses the given function as its item caption provider. */
-    public LinkkiComboBox(@Nonnull Function<Object, String> itemCaptionProvider) {
+    public LinkkiComboBox(ItemCaptionProvider<?> itemCaptionProvider) {
         super();
         this.itemCaptionProvider = requireNonNull(itemCaptionProvider);
     }
@@ -71,12 +66,12 @@ public class LinkkiComboBox extends ComboBox {
     }
 
     /** Sets the function to use as the item caption provider. */
-    public void setItemCaptionProvider(Function<Object, String> newItemCaptionProvider) {
+    public void setItemCaptionProvider(ItemCaptionProvider<?> newItemCaptionProvider) {
         itemCaptionProvider = requireNonNull(newItemCaptionProvider);
     }
 
     /** Returns the function that is used to obtain an item's caption. */
-    public Function<Object, String> getItemCaptionProvider() {
+    public ItemCaptionProvider<?> getItemCaptionProvider() {
         return itemCaptionProvider;
     }
 
@@ -92,38 +87,7 @@ public class LinkkiComboBox extends ComboBox {
         if (itemId == null) {
             return StringUtils.EMPTY;
         }
-        return itemCaptionProvider.apply(itemId);
-    }
-
-    /**
-     * A caption provider that returns a string in the format "name [id]" and invokes methods
-     * {@code getName} and {@code getId} to obtain these values.
-     */
-    public static class IdAndNameCaptionProvider implements Function<Object, String> {
-
-        @Override
-        public String apply(Object o) {
-            return getName(o) + " [" + getId(o) + "]";
-        }
-
-        private String getId(Object value) {
-            return getPropertyValue(value, "getId");
-        }
-
-        private String getName(Object value) {
-            return getPropertyValue(value, "getName");
-        }
-
-        private String getPropertyValue(Object value, String methodName) {
-            try {
-                Method method = value.getClass().getDeclaredMethod(methodName);
-                return (String)method.invoke(value);
-            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e) {
-                throw new IllegalStateException("Can't get value from method " + methodName + ", value was " + value);
-            }
-        }
-
+        return itemCaptionProvider.getUnsafeCaption(itemId);
     }
 
 }

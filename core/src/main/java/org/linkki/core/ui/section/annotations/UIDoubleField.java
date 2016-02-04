@@ -34,8 +34,6 @@ public @interface UIDoubleField {
      */
     String format() default "";
 
-    Class<?> modelClass() default NoModelClassProvided.class;
-
     String modelAttribute() default "";
 
 }

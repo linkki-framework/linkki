@@ -1,8 +1,7 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
-import java.util.function.Function;
-
 import org.linkki.core.exception.LinkkiRuntimeException;
+import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.LinkkiComboBox;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
@@ -69,7 +68,7 @@ public class UIComboBoxAdapter implements UIFieldDefinition {
         return !uiComboField.noLabel();
     }
 
-    private Function<Object, String> getItemCaptionProvider() {
+    private ItemCaptionProvider<?> getItemCaptionProvider() {
         try {
             return uiComboField.itemCaptionProvider().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {

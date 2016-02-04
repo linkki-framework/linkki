@@ -21,8 +21,6 @@ public @interface UICustomField {
 
     boolean noLabel() default false;
 
-    Class<?> modelClass() default NoModelClassProvided.class;
-
     String modelAttribute() default "";
 
     EnabledType enabled() default ENABLED;

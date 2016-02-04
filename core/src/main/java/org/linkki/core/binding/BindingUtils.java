@@ -1,7 +1,5 @@
 package org.linkki.core.binding;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -10,7 +8,6 @@ import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.annotations.BindContext;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
-import org.linkki.core.ui.section.annotations.NoModelClassProvided;
 import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.AbstractSelect;
@@ -18,6 +15,9 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 
 public class BindingUtils {
+
+    private BindingUtils() {
+    }
 
     public static final boolean isPmo(Object objectToTest) {
         Objects.requireNonNull(objectToTest);
@@ -106,50 +106,6 @@ public class BindingUtils {
 
     public static final void fillSelectWithItems(AbstractSelect select, Object[] values) {
         UiUtil.fillSelectWithItems(select, Arrays.asList(values));
-    }
-
-    /**
-     * Gets the model object from the PMO. If a model class is provided the PMO's method
-     * <tt>getModelObject(Class modelClass)</tt> is invoked, otherwise <tt>getModelObject()</tt> is
-     * invoked.
-     */
-    public static final Object getModelObjectFromPmo(PresentationModelObject pmo, Class<?> modelClass) {
-        Method method = getMethodToGetTheModelObject(pmo, modelClass);
-        return invokeMethodToGetTheModelObject(pmo, method, modelClass);
-    }
-
-    private static final Method getMethodToGetTheModelObject(PresentationModelObject pmo, Class<?> modelClass) {
-        Method method;
-        try {
-            if (modelClass == null || modelClass.equals(NoModelClassProvided.class)) {
-                method = pmo.getClass().getMethod("getModelObject");
-            } else {
-                method = pmo.getClass().getMethod("getModelObject", Class.class);
-            }
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException(
-                    "PMO " + pmo.getClass() + " hasn't got a method to acess the model object.");
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
-        }
-        return method;
-    }
-
-    private static final Object invokeMethodToGetTheModelObject(PresentationModelObject pmo,
-            Method method,
-            Class<?> modelClass) {
-        try {
-            if (modelClass == null || modelClass.equals(NoModelClassProvided.class)) {
-                return method.invoke(pmo);
-            } else {
-                return method.invoke(pmo, modelClass);
-            }
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new IllegalStateException("Error getting model object from PMO " + pmo.getClass(), e);
-        }
-    }
-
-    private BindingUtils() {
     }
 
 }

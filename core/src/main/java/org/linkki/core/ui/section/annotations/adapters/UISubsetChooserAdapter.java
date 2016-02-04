@@ -1,8 +1,7 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
-import java.util.function.Function;
-
 import org.linkki.core.exception.LinkkiRuntimeException;
+import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.SubsetChooser;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
@@ -54,7 +53,7 @@ public class UISubsetChooserAdapter implements UIFieldDefinition {
 
     @Override
     public AvailableValuesType availableValues() {
-        return uiSubsetChooser.content();
+        return AvailableValuesType.DYNAMIC;
     }
 
     @Override
@@ -67,7 +66,7 @@ public class UISubsetChooserAdapter implements UIFieldDefinition {
         return !uiSubsetChooser.noLabel();
     }
 
-    private Function<Object, String> getItemCaptionProvider() {
+    private ItemCaptionProvider<?> getItemCaptionProvider() {
         try {
             return uiSubsetChooser.itemCaptionProvider().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {

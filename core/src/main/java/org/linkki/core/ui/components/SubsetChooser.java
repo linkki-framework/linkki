@@ -8,12 +8,10 @@ package org.linkki.core.ui.components;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Optional;
-import java.util.function.Function;
-
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.ui.components.ItemCaptionProvider.IdAndNameCaptionProvider;
 
 import com.vaadin.ui.TwinColSelect;
 
@@ -27,11 +25,11 @@ public class SubsetChooser extends TwinColSelect {
 
     private static final long serialVersionUID = -3423711510318680768L;
 
-    private Function<Object, String> itemCaptionProvider;
+    private ItemCaptionProvider<?> itemCaptionProvider;
 
-    /** Default constructor that uses a {@link ToStringCaptionProvider}. */
+    /** Default constructor that uses a {@link IdAndNameCaptionProvider}. */
     public SubsetChooser() {
-        this(new ToStringCaptionProvider());
+        this(new IdAndNameCaptionProvider());
     }
 
     /**
@@ -40,7 +38,7 @@ public class SubsetChooser extends TwinColSelect {
      * 
      * @param itemCaptionProvider the function to determine captions for the displayed items
      */
-    public SubsetChooser(@Nonnull Function<Object, String> itemCaptionProvider) {
+    public SubsetChooser(@Nonnull ItemCaptionProvider<?> itemCaptionProvider) {
         super();
         this.itemCaptionProvider = requireNonNull(itemCaptionProvider);
     }
@@ -76,12 +74,12 @@ public class SubsetChooser extends TwinColSelect {
     }
 
     /** Sets the function to use as the item caption provider. */
-    public void setItemCaptionProvider(Function<Object, String> newItemCaptionProvider) {
+    public void setItemCaptionProvider(ItemCaptionProvider<?> newItemCaptionProvider) {
         itemCaptionProvider = requireNonNull(newItemCaptionProvider);
     }
 
     /** Returns the function that is used to obtain an item's caption. */
-    public Function<Object, String> getItemCaptionProvider() {
+    public ItemCaptionProvider<?> getItemCaptionProvider() {
         return itemCaptionProvider;
     }
 
@@ -97,14 +95,7 @@ public class SubsetChooser extends TwinColSelect {
         if (itemId == null) {
             return StringUtils.EMPTY;
         }
-        return itemCaptionProvider.apply(itemId);
+        return itemCaptionProvider.getUnsafeCaption(itemId);
     }
 
-    /** A simple caption provider that uses an item's toString() method as its caption. */
-    public static class ToStringCaptionProvider implements Function<Object, String> {
-        @Override
-        public String apply(Object t) {
-            return Optional.ofNullable(t).map(Object::toString).orElse("");
-        }
-    }
 }

@@ -40,7 +40,5 @@ public @interface UIDecimalField {
      */
     String format() default "###,###.##";
 
-    Class<?> modelClass() default NoModelClassProvided.class;
-
     String modelAttribute() default "";
 }

@@ -19,8 +19,6 @@ public @interface UITextField {
 
     boolean noLabel() default false;
 
-    Class<?> modelClass() default NoModelClassProvided.class;
-
     String modelAttribute() default "";
 
     EnabledType enabled() default ENABLED;

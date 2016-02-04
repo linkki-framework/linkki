@@ -8,9 +8,9 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.function.Function;
 
-import org.linkki.core.ui.components.LinkkiComboBox.IdAndNameCaptionProvider;
+import org.linkki.core.ui.components.ItemCaptionProvider;
+import org.linkki.core.ui.components.ItemCaptionProvider.IdAndNameCaptionProvider;
 
 /**
  * Creates a combobox with the specified parameters.
@@ -38,9 +38,8 @@ public @interface UIComboBox {
 
     VisibleType visible() default VISIBLE;
 
-    Class<?> modelClass() default NoModelClassProvided.class;
-
     String modelAttribute() default "";
 
-    Class<? extends Function<Object, String>> itemCaptionProvider() default IdAndNameCaptionProvider.class;
+    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default IdAndNameCaptionProvider.class;
+
 }
