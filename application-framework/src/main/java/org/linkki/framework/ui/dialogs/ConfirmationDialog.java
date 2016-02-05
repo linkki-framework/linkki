@@ -25,6 +25,7 @@ public class ConfirmationDialog extends OkCancelDialog {
 
     public ConfirmationDialog(@Nonnull String caption, @Nonnull Component content, @Nonnull OkHandler okHandler) {
         super(caption, okHandler, ButtonOption.OK_ONLY);
+        addCloseListener(e -> okHandler.onOk());
         this.content = content;
         initContent();
     }
