@@ -11,7 +11,10 @@ import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.util.UiUtil;
+import org.linkki.core.util.MessageListUtil;
+import org.linkki.core.util.MessageUtil;
 
+import com.google.gwt.thirdparty.guava.common.collect.Iterables;
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.data.util.AbstractProperty;
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
@@ -209,8 +212,13 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
 
     private MessageList getRelevantMessages(MessageList messages) {
         MessageList messagesForProperty = propertyDispatcher.getMessages(messages, propertyName);
+        removeMandatoryFieldMessages(messagesForProperty);
         addFatalError(messages, messagesForProperty);
         return messagesForProperty;
+    }
+
+    private void removeMandatoryFieldMessages(MessageList ml) {
+        Iterables.removeIf(ml, MessageUtil::isMandatoryFieldMessage);
     }
 
     private void addFatalError(MessageList messages, MessageList messagesForProperty) {
