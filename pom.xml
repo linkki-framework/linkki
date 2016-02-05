@@ -92,13 +92,6 @@
                     <propertyExpansion>config_loc=checkstyle</propertyExpansion>
                     <linkXRef>false</linkXRef>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                                    <groupId>de.faktorzehn</groupId>
-                <artifactId>faktorzehn-codeanalysis</artifactId>
-                <version>1.0.0</version>
-                    </dependency>
-                </dependencies>
                 <executions>
                     <execution>
                         <id>checkstyle</id>
