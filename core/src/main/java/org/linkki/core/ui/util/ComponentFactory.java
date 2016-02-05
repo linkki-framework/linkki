@@ -178,12 +178,12 @@ public class ComponentFactory {
         return field;
     }
 
-    public static IntegerField newIntegerField() {
-        return new IntegerField();
+    public static IntegerField newIntegerField(Locale locale) {
+        return new IntegerField(locale);
     }
 
-    public static DoubleField newDoubleField() {
-        return new DoubleField();
+    public static DoubleField newDoubleField(Locale locale) {
+        return new DoubleField(locale);
     }
 
     /**

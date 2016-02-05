@@ -17,8 +17,8 @@ public class DecimalField extends NumberField {
      */
     private static final long serialVersionUID = 1L;
 
-    public DecimalField() {
-        super(NumberFormat.getNumberInstance(Locale.GERMANY));
+    public DecimalField(Locale locale) {
+        super(NumberFormat.getNumberInstance(locale));
         init();
     }
 

@@ -9,14 +9,15 @@ package org.linkki.core.ui.components;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Locale;
+
 import org.junit.Test;
-import org.linkki.core.ui.components.DoubleField;
 
 public class DoubleFieldTest {
 
     @Test
     public void testConstructor() {
-        DoubleField field = new DoubleField();
+        DoubleField field = new DoubleField(Locale.GERMAN);
         assertNotNull(field.getConverter());
         assertEquals(Double.class, field.getConverter().getModelType());
     }
