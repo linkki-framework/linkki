@@ -7,7 +7,6 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.linkki.core.ui.application.ApplicationStyles;
-import org.linkki.framework.ui.application.ApplicationHeader;
 
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.ui.MenuBar;
@@ -20,13 +19,12 @@ public class ApplicationMenu extends MenuBar {
     @Inject
     private Instance<ApplicationMenuItemDefinition> itemDefs;
 
-    public void init(ApplicationHeader header) {
+    public void init() {
         addStyleName(ApplicationStyles.BORDERLESS);
         setSizeUndefined();
         SortedSet<ApplicationMenuItemDefinition> sorted = new TreeSet<ApplicationMenuItemDefinition>();
         itemDefs.forEach(sorted::add);
-        sorted.forEach(item -> item.createItem(this, header.getApplicationLayout()));
-        header.addComponent(this);
+        sorted.forEach(item -> item.createItem(this));
     }
 
 }

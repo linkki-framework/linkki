@@ -32,16 +32,12 @@ public class ApplicationHeader extends HorizontalLayout {
     @Inject
     private SecurityContextProvider securityCtxProvider;
 
-    private ApplicationLayout applicationLayout;
-
-    public ApplicationHeader() {
-    }
-
-    protected void init(ApplicationLayout parent) {
-        this.applicationLayout = parent;
+    protected void init() {
         addStyleName(ApplicationStyles.APPLICATION_HEADER);
         setMargin(new MarginInfo(true, false, true, false));
-        applicationMenu.init(this);
+
+        addComponent(applicationMenu);
+        applicationMenu.init();
 
         HorizontalLayout menuWrapper = new HorizontalLayout();
         menuWrapper.addStyleName(ApplicationStyles.APPLICATION_MENU);
@@ -54,10 +50,6 @@ public class ApplicationHeader extends HorizontalLayout {
         createUserSection(menuWrapper);
 
         setExpandRatio(menuWrapper, 1);
-    }
-
-    public ApplicationLayout getApplicationLayout() {
-        return applicationLayout;
     }
 
     private void createHelpSection(HorizontalLayout menuWrapper) {
