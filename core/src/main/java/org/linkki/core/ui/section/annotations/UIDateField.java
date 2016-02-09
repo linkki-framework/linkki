@@ -27,4 +27,6 @@ public @interface UIDateField {
 
     String modelAttribute() default "";
 
+    String dateFormat() default "";
+
 }
