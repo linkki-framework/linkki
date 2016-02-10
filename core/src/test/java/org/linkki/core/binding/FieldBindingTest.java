@@ -16,9 +16,11 @@ import java.util.List;
 
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
+import org.faktorips.runtime.Severity;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.validation.ValidationMarker;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
@@ -184,7 +186,7 @@ public class FieldBindingTest {
     }
 
     @Test
-    public void testBindMessages() {
+    public void testDisplayMessages() {
         messageList.add(Message.newError("code", "text"));
 
         context.updateUI();
@@ -198,10 +200,33 @@ public class FieldBindingTest {
     }
 
     @Test
-    public void testBindMessages_noMessages() {
+    public void testDisplayMessages_noMessages() {
         context.updateUI();
 
         verify(selectField).setComponentError(null);
+    }
+
+    @Test
+    public void testDisplayMessages_mandatoryFieldMessagesAreFiltered() {
+        ValidationMarker mandatoryFieldMarker = () -> true;
+        messageList.add(new Message.Builder("text", Severity.ERROR).markers(mandatoryFieldMarker).create());
+
+        context.updateUI();
+
+        verify(selectField).setComponentError(null);
+    }
+
+    @Test
+    public void testDisplayMessages_nonMandatoryFieldMessagesAreNotFiltered() {
+        ValidationMarker nonMandatoryFieldMarker = () -> false;
+        messageList.add(new Message.Builder("text", Severity.ERROR).markers(nonMandatoryFieldMarker).create());
+
+        context.updateUI();
+
+        ArgumentCaptor<UserError> captor = ArgumentCaptor.forClass(UserError.class);
+        verify(selectField).setComponentError(captor.capture());
+        assertEquals(captor.getValue().getMessage(), "text");
+        assertEquals(captor.getValue().getErrorLevel(), ErrorLevel.ERROR);
     }
 
 }

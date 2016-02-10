@@ -4,7 +4,7 @@
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-package org.linkki.core.binding;
+package org.linkki.core.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -13,6 +13,7 @@ import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.Severity;
 import org.junit.Test;
+import org.linkki.core.util.MessageListUtil;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 

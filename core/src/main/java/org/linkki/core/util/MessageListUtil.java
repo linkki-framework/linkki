@@ -4,7 +4,7 @@
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-package org.linkki.core.binding;
+package org.linkki.core.util;
 
 import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.Severity;
