@@ -10,9 +10,9 @@ import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.util.UiUtil;
 import org.linkki.core.util.MessageListUtil;
 import org.linkki.core.util.MessageUtil;
+import org.vaadin.viritin.ListContainer;
 
 import com.google.gwt.thirdparty.guava.common.collect.Iterables;
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
@@ -29,9 +29,7 @@ import com.vaadin.ui.Label;
  * binds the value shown in the field to a property providing the value. It also binds other field
  * properties like enabled / required etc.
  */
-public class FieldBinding<T> extends AbstractProperty<T> implements ElementBinding {
-
-    private static final long serialVersionUID = 1L;
+public class FieldBinding<T> implements ElementBinding {
 
     private final BindingContext bindingContext;
     private final Field<T> field;
@@ -39,6 +37,9 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
     private final Object pmo;
     private final String propertyName;
     private final PropertyDispatcher propertyDispatcher;
+    private final FieldBindingDataSource<T> propertyDataSource;
+
+    private final ListContainer<T> containerDataSource;
 
     public FieldBinding(BindingContext bindingContext, Object pmo, String propertyName, Label label, Field<T> field,
             PropertyDispatcher propertyDispatcher) {
@@ -49,9 +50,30 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
         this.label = label;
         this.propertyDispatcher = checkNotNull(propertyDispatcher);
         this.field = checkNotNull(field);
-        // data source must be set after dispatcher is available, as value and readOnly-state are
-        // requested from the data source during 'set', and we need the dispatcher in these methods.
-        this.field.setPropertyDataSource(this);
+
+        if (isAvailableValuesComponent()) {
+            containerDataSource = new ListContainer<T>(getValueClass());
+            AbstractSelect abstractSelect = (AbstractSelect)field;
+            abstractSelect.setContainerDataSource(containerDataSource);
+        } else {
+            containerDataSource = null;
+        }
+        /*
+         * Property data source must be set:
+         * 
+         * - after container data source, as setContainerDataSource() throws an exception, if field
+         * is readonly
+         * 
+         * - after dispatcher is available, as value and readOnly-state are requested from the data
+         * source during 'set', and we need the dispatcher in these methods.
+         */
+        propertyDataSource = new FieldBindingDataSource<T>(this);
+        this.field.setPropertyDataSource(propertyDataSource);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Class<T> getValueClass() {
+        return (Class<T>)propertyDispatcher.getValueClass(propertyName);
     }
 
     @Override
@@ -66,14 +88,13 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
     @Override
     public void updateFromPmo() {
         try {
-            // Value and ReadOnly-state are provided by the field binding taking the role of the
-            // data source. The update of Value and ReadOnly-state has to be done by triggering
-            // change events.
-            fireValueChange();
-            fireReadOnlyStatusChange();
+            // Value and ReadOnly-state are provided by the field binding using the
+            // propertyDataSource. The update is triggered by firing change events.
+            propertyDataSource.fireValueChange();
+            propertyDataSource.fireReadOnlyStatusChange();
 
             field.setRequired(isRequired());
-            if (isRequired() && field instanceof AbstractSelect) {
+            if (isRequired() && isAvailableValuesComponent()) {
                 ((AbstractSelect)field).setNullSelectionAllowed(false);
             }
             field.setEnabled(isEnabled());
@@ -83,9 +104,8 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
                 // label is null in case of a table
                 label.setVisible(visible);
             }
-            if (field instanceof AbstractSelect) {
-                AbstractSelect select = (AbstractSelect)field;
-                UiUtil.fillSelectWithItems(select, getAvailableValues());
+            if (isAvailableValuesComponent()) {
+                containerDataSource.setCollection(getAvailableValues());
             }
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
@@ -93,6 +113,36 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
                     "Error while updating field " + field.getClass() + ", value property=" + propertyName, e);
         }
         // CSON: IllegalCatch
+    }
+
+    private boolean isAvailableValuesComponent() {
+        return field instanceof AbstractSelect;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T getValue() {
+        return (T)getPropertyDispatcher().getValue(getPropertyName());
+    }
+
+    public void setValue(T newValue) {
+        getPropertyDispatcher().setValue(getPropertyName(), newValue);
+        bindingContext.updateUI();
+    }
+
+    public boolean isEnabled() {
+        return propertyDispatcher.isEnabled(getPropertyName());
+    }
+
+    public boolean isRequired() {
+        return propertyDispatcher.isRequired(getPropertyName());
+    }
+
+    public boolean isVisible() {
+        return propertyDispatcher.isVisible(getPropertyName());
+    }
+
+    public boolean isReadOnly() {
+        return propertyDispatcher.isReadonly(getPropertyName());
     }
 
     private String formatMessages(MessageList messages) {
@@ -104,55 +154,12 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
         return field;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public T getValue() {
-        return (T)propertyDispatcher.getValue(getPropertyName());
-    }
-
-    @Override
-    public void setValue(T newValue) {
-        pushValueToPmo(newValue);
-        bindingContext.updateUI();
-    }
-
-    private void pushValueToPmo(T newValue) {
-        propertyDispatcher.setValue(getPropertyName(), newValue);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Class<? extends T> getType() {
-        return (Class<? extends T>)propertyDispatcher.getValueClass(getPropertyName());
-    }
-
-    public boolean isEnabled() {
-        return propertyDispatcher.isEnabled(getPropertyName());
-    }
-
-    @Override
-    public boolean isReadOnly() {
-        return propertyDispatcher.isReadonly(getPropertyName());
-    }
-
-    public boolean isRequired() {
-        return propertyDispatcher.isRequired(getPropertyName());
-    }
-
-    public boolean isVisible() {
-        return propertyDispatcher.isVisible(getPropertyName());
-    }
-
-    @Override
-    public void setReadOnly(boolean newStatus) {
-        throw new UnsupportedOperationException();
-    }
-
     /**
      * Returns the "list" of allowed values for the field.
      */
-    public Collection<?> getAvailableValues() {
-        return propertyDispatcher.getAvailableValues(getPropertyName());
+    @SuppressWarnings("unchecked")
+    public Collection<T> getAvailableValues() {
+        return (Collection<T>)propertyDispatcher.getAvailableValues(getPropertyName());
     }
 
     /**
@@ -235,6 +242,58 @@ public class FieldBinding<T> extends AbstractProperty<T> implements ElementBindi
             return new UserError(formatMessages(messages), ContentMode.PREFORMATTED,
                     MessageListUtil.getErrorLevel(messages));
         }
+    }
+
+    private static final class FieldBindingDataSource<T> extends AbstractProperty<T> {
+
+        private static final long serialVersionUID = 1L;
+        private FieldBinding<T> fieldBinding;
+
+        public FieldBindingDataSource(FieldBinding<T> fieldBinding) {
+            this.fieldBinding = fieldBinding;
+        }
+
+        @Override
+        public T getValue() {
+            return fieldBinding.getValue();
+        }
+
+        @Override
+        public void setValue(T newValue) throws com.vaadin.data.Property.ReadOnlyException {
+            fieldBinding.setValue(newValue);
+        }
+
+        @Override
+        public Class<? extends T> getType() {
+            return fieldBinding.getValueClass();
+        }
+
+        /*
+         * Override for visibility in FieldBinding
+         */
+        @Override
+        protected void fireValueChange() {
+            super.fireValueChange();
+        }
+
+        /*
+         * Override for visibility in FieldBinding
+         */
+        @Override
+        protected void fireReadOnlyStatusChange() {
+            super.fireReadOnlyStatusChange();
+        }
+
+        @Override
+        public boolean isReadOnly() {
+            return fieldBinding.isReadOnly();
+        }
+
+        @Override
+        public void setReadOnly(boolean newStatus) {
+            throw new UnsupportedOperationException();
+        }
+
     }
 
 }

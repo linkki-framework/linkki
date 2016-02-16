@@ -133,7 +133,7 @@ public class BindingAnnotationDecorator extends AbstractPropertyDispatcherDecora
         Class<?> type = getValueClass(property);
         Object[] values = type.getEnumConstants();
         if (values == null) {
-            throw new IllegalStateException("Can't get list of values for Field " + property);
+            throw new IllegalStateException("Can't get list of values for Field " + property + ", ValueClass " + type);
         } else {
             return Arrays.asList(values);
         }

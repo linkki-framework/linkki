@@ -65,7 +65,7 @@ public class TestPmo implements PresentationModelObject {
         this.availableValues = availableValues;
     }
 
-    public List<?> getAvailableValuesEnumValue() {
+    public List<?> getEnumValueAvailableValues() {
         return availableValues;
     }
 
@@ -75,6 +75,38 @@ public class TestPmo implements PresentationModelObject {
 
     public TestEnum getEnumValue() {
         return enumValue;
+    }
+
+    public boolean isEnumValueEnabled() {
+        return true;
+    }
+
+    public boolean isEnumValueRequired() {
+        return false;
+    }
+
+    public boolean isEnumValueVisible() {
+        return true;
+    }
+
+    public TestEnum getReadonlyEnumValue() {
+        return enumValue;
+    }
+
+    public boolean isReadonlyEnumValueEnabled() {
+        return true;
+    }
+
+    public boolean isReadonlyEnumValueRequired() {
+        return true;
+    }
+
+    public boolean isReadonlyEnumValueVisible() {
+        return true;
+    }
+
+    public List<?> getReadonlyEnumValueAvailableValues() {
+        return availableValues;
     }
 
     public String getValueDisabledInvisibleNotRequired() {

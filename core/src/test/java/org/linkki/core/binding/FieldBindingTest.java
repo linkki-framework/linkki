@@ -1,7 +1,9 @@
 package org.linkki.core.binding;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -12,7 +14,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
@@ -42,7 +45,7 @@ public class FieldBindingTest {
     private FieldBinding<String> binding;
     private FieldBinding<Object> selectBinding;
 
-    private List<TestEnum> valueList = Arrays.asList(new TestEnum[] { TestEnum.ONE, TestEnum.THREE });
+    private Collection<TestEnum> valueList = Arrays.asList(new TestEnum[] { TestEnum.ONE, TestEnum.THREE });
 
     private PropertyDispatcher propertyDispatcher;
 
@@ -57,9 +60,13 @@ public class FieldBindingTest {
 
         messageList = new MessageList();
         when(propertyDispatcher.getMessages(any(MessageList.class), anyString())).thenReturn(messageList);
+        doReturn(TestEnum.class).when(propertyDispatcher).getValueClass("enumValue");
 
         binding = FieldBinding.create(context, pmo, "value", label, field, propertyDispatcher);
-        selectBinding = FieldBinding.create(context, pmo, "enumValue", label, selectField, propertyDispatcher);
+
+        selectBinding = new FieldBinding<Object>(context, pmo, "enumValue", label, selectField, propertyDispatcher);
+        context.add(selectBinding);
+
         context.add(binding);
         context.add(selectBinding);
     }
@@ -169,11 +176,25 @@ public class FieldBindingTest {
     }
 
     @Test
-    public void testBindAvailableValues_callAddItemsOnField() {
+    public void testBindAvailableValues_removeOldItemsFromField() {
         doReturn(valueList).when(propertyDispatcher).getAvailableValues("enumValue");
-        context.updateUI();
 
-        verify(selectField).addItems(valueList);
+        context.updateUI();
+        Collection<?> itemIds = selectField.getItemIds();
+        assertThat(itemIds.size(), is(2));
+        Iterator<?> iterator = itemIds.iterator();
+        assertThat(iterator.next(), is(TestEnum.ONE));
+        assertThat(iterator.next(), is(TestEnum.THREE));
+
+        Collection<TestEnum> valueList2 = Arrays.asList(new TestEnum[] { TestEnum.TWO, TestEnum.THREE });
+        doReturn(valueList2).when(propertyDispatcher).getAvailableValues("enumValue");
+
+        context.updateUI();
+        Collection<?> itemIds2 = selectField.getItemIds();
+        assertThat(itemIds2.size(), is(2));
+        Iterator<?> iterator2 = itemIds2.iterator();
+        assertThat(iterator2.next(), is(TestEnum.TWO));
+        assertThat(iterator2.next(), is(TestEnum.THREE));
     }
 
     @Test
