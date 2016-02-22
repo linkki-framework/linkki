@@ -21,18 +21,25 @@ public class ConfirmationDialog extends OkCancelDialog {
 
     private static final long serialVersionUID = 1L;
 
-    private final Component content;
-
+    /**
+     * Creates a new dialog.
+     * 
+     * @param caption The caption.
+     * @param content A component containing the question to ask.
+     * @param okHandler A function that is executed when the OK button was pressed.
+     */
     public ConfirmationDialog(@Nonnull String caption, @Nonnull Component content, @Nonnull OkHandler okHandler) {
-        super(caption, okHandler, ButtonOption.OK_ONLY);
-        addCloseListener(e -> okHandler.onOk());
-        this.content = content;
-        initContent();
+        super(caption, content, okHandler, ButtonOption.OK_ONLY);
     }
 
+    /**
+     * Calls the {@link #ok()} method as a confirmation dialog does only allow confirmation. The
+     * cancel method is called if the user closes the dialog using the close button instead of the
+     * OK button.
+     */
     @Override
-    protected Component createContent() {
-        return content;
+    protected void cancel() {
+        ok();
     }
 
     /**
@@ -41,8 +48,8 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @param caption The caption.
      * @param infoText The information text for the user.
      */
-    public static void open(@Nonnull String caption, @Nonnull String infoText) {
-        open(caption, infoText, OkHandler.NOP_HANDLER);
+    public static ConfirmationDialog open(@Nonnull String caption, @Nonnull String infoText) {
+        return open(caption, infoText, OkHandler.NOP_HANDLER);
     }
 
     /**
@@ -52,13 +59,14 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @param infoText The information text for the user.
      * @param okHandler A function that is executed when the OK button was pressed.
      */
-    public static void open(@Nonnull String caption, @Nonnull String infoText, @Nonnull OkHandler okHandler) {
+    public static ConfirmationDialog open(@Nonnull String caption,
+            @Nonnull String infoText,
+            @Nonnull OkHandler okHandler) {
         Label infoLabel = new Label();
         infoLabel.setValue(infoText);
         infoLabel.setStyleName(ValoTheme.LABEL_H3);
         infoLabel.setContentMode(ContentMode.HTML);
-        ConfirmationDialog d = new ConfirmationDialog(caption, infoLabel, okHandler);
-        UI.getCurrent().addWindow(d);
+        return open(caption, infoLabel, okHandler);
     }
 
     /**
@@ -67,8 +75,8 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @param caption The caption.
      * @param content A component that is rendered as content
      */
-    public static void open(@Nonnull String caption, @Nonnull Component content) {
-        open(caption, content, OkHandler.NOP_HANDLER);
+    public static ConfirmationDialog open(@Nonnull String caption, @Nonnull Component content) {
+        return open(caption, content, OkHandler.NOP_HANDLER);
     }
 
     /**
@@ -78,9 +86,12 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @param content A component that is rendered as content
      * @param okHandler A function that is executed when the OK button was pressed.
      */
-    public static void open(@Nonnull String caption, @Nonnull Component content, @Nonnull OkHandler okHandler) {
+    public static ConfirmationDialog open(@Nonnull String caption,
+            @Nonnull Component content,
+            @Nonnull OkHandler okHandler) {
         ConfirmationDialog d = new ConfirmationDialog(caption, content, okHandler);
         UI.getCurrent().addWindow(d);
+        return d;
     }
 
 }

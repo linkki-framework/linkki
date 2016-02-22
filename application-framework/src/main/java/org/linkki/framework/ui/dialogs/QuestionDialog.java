@@ -1,7 +1,11 @@
 package org.linkki.framework.ui.dialogs;
 
+import javax.annotation.Nonnull;
+
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -12,25 +16,45 @@ public class QuestionDialog extends OkCancelDialog {
 
     private static final long serialVersionUID = 1L;
 
-    private final Label questionLabel = new Label();
-    private final OkHandler okHandler;
+    /**
+     * Creates a new dialog.
+     * 
+     * @param caption The caption.
+     * @param content A component containing the question to ask.
+     * @param okHandler A function that is executed when the OK button was pressed.
+     */
+    public QuestionDialog(@Nonnull String caption, @Nonnull Component content, @Nonnull OkHandler okHandler) {
+        super(caption, content, okHandler, ButtonOption.OK_CANCEL);
+    }
 
-    public QuestionDialog(String caption, String question, OkHandler okHandler) {
-        super(caption);
+    /**
+     * Opens the dialog.
+     * 
+     * @param caption The caption.
+     * @param question The question to ask the user.
+     * @param okHandler A function that is executed when the OK button was pressed.
+     */
+    public static QuestionDialog open(@Nonnull String caption, @Nonnull String question, @Nonnull OkHandler okHandler) {
+        Label questionLabel = new Label();
         questionLabel.setValue(question);
-        this.okHandler = okHandler;
-    }
-
-    @Override
-    protected void ok() {
-        okHandler.onOk();
-    }
-
-    @Override
-    protected Component createContent() {
-        questionLabel.setWidthUndefined();
         questionLabel.setStyleName(ValoTheme.LABEL_H3);
-        return questionLabel;
+        questionLabel.setContentMode(ContentMode.HTML);
+        return open(caption, questionLabel, okHandler);
+    }
+
+    /**
+     * Opens the dialog.
+     * 
+     * @param caption The caption.
+     * @param content A component containing the question to ask.
+     * @param okHandler A function that is executed when the OK button was pressed.
+     */
+    public static QuestionDialog open(@Nonnull String caption,
+            @Nonnull Component content,
+            @Nonnull OkHandler okHandler) {
+        QuestionDialog d = new QuestionDialog(caption, content, okHandler);
+        UI.getCurrent().addWindow(d);
+        return d;
     }
 
 }

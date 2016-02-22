@@ -13,9 +13,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-/**
- * A modal dialog with OK and Cancel buttons.
- */
+/** A modal dialog with OK and Cancel buttons. */
 public abstract class OkCancelDialog extends Window {
 
     private static final long serialVersionUID = 1L;
@@ -52,6 +50,18 @@ public abstract class OkCancelDialog extends Window {
      */
     public OkCancelDialog(@Nonnull String caption, @Nonnull OkHandler theOkHandler,
             @Nonnull ButtonOption buttonOption) {
+        this(caption, null, theOkHandler, buttonOption);
+    }
+
+    /**
+     * Creates a new dialog with the given caption.
+     * 
+     * @param caption The caption.
+     * @param theOkHandler Function called when the OK button was pressed.
+     * @param buttonOption whether to show OK and CANCEL button or only the OK button.
+     */
+    public OkCancelDialog(@Nonnull String caption, Component content, @Nonnull OkHandler theOkHandler,
+            @Nonnull ButtonOption buttonOption) {
         super(caption);
         okHandler = requireNonNull(theOkHandler);
         setStyleName(ApplicationStyles.DIALOG_CAPTION);
@@ -67,6 +77,9 @@ public abstract class OkCancelDialog extends Window {
         contentContainer.setWidthUndefined();
         contentContainer.setMargin(false);
         contentContainer.setStyleName(ApplicationStyles.DIALOG_CONTENT);
+        if (content != null) {
+            contentContainer.addComponent(content);
+        }
         main.addComponent(contentContainer);
 
         HorizontalLayout buttons = createButtons(buttonOption);
@@ -82,17 +95,10 @@ public abstract class OkCancelDialog extends Window {
         center();
     }
 
-    /**
-     * Initializes the dialog's content. Has to be called by client code before opening the dialog.
-     */
-    public void initContent() {
-        contentContainer.addComponent(createContent());
+    /** Adds the given component to the content container of the dialog. */
+    public void addContent(Component c) {
+        contentContainer.addComponent(c);
     }
-
-    /**
-     * Creates the content of this dialog.
-     */
-    protected abstract Component createContent();
 
     /**
      * Returns <code>true</code> if OK was pressed.

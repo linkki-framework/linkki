@@ -18,6 +18,9 @@ public interface OkHandler {
         // nothing to do
     };
 
+    /**
+     * Called when the user clicks OK.
+     */
     void onOk();
 
     /**
