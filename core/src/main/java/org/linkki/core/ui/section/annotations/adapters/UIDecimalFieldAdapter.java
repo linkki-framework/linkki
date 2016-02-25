@@ -13,6 +13,7 @@ import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIDecimalField;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.Component;
 
@@ -26,7 +27,7 @@ public class UIDecimalFieldAdapter implements UIFieldDefinition {
 
     @Override
     public Component newComponent() {
-        DecimalField field = new DecimalField(uiDecimalField.format());
+        DecimalField field = new DecimalField(uiDecimalField.format(), UiUtil.getUiLocale());
         if (uiDecimalField.maxLength() > 0) {
             field.setMaxLength(uiDecimalField.maxLength());
             field.setColumns(uiDecimalField.maxLength() + 2);

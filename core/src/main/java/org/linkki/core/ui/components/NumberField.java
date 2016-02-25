@@ -1,7 +1,5 @@
 package org.linkki.core.ui.components;
 
-import java.text.NumberFormat;
-
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -16,19 +14,9 @@ public abstract class NumberField extends TextField {
 
     private static final long serialVersionUID = 1L;
 
-    private final NumberFormat format;
-
-    public NumberField(NumberFormat format) {
-        if (format == null) {
-            throw new NullPointerException("NumberFormat required");
-        }
-        this.format = format;
+    public NumberField() {
         setStyleName(ValoTheme.TEXTFIELD_ALIGN_RIGHT);
         setConversionError("Die Eingabe stellt keine gültige Zahl dar!");
-    }
-
-    public NumberFormat getFormat() {
-        return format;
     }
 
 }

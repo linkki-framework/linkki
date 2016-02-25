@@ -6,19 +6,31 @@
 
 package org.linkki.core.ui.components;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.Locale;
 
+import org.faktorips.values.Decimal;
 import org.junit.Test;
+
+import com.vaadin.data.util.converter.Converter;
 
 public class DoubleFieldTest {
 
     @Test
-    public void testConstructor() {
+    public void testConstructor1() {
         DoubleField field = new DoubleField(Locale.GERMAN);
-        assertNotNull(field.getConverter());
-        assertEquals(Double.class, field.getConverter().getModelType());
+        assertThat(field.getConverter(), instanceOf(DoubleFieldConverter.class));
+        assertThat(field.getConverter().getModelType(), is(Double.class));
     }
+
+    @Test
+    public void testConstructor2() {
+        DoubleField field = new DoubleField("0.00", Locale.GERMAN);
+        Converter<String, Object> converter = field.getConverter();
+        assertThat(converter.convertToPresentation(Decimal.valueOf(".2"), String.class, null), is("0,20"));
+    }
+
 }

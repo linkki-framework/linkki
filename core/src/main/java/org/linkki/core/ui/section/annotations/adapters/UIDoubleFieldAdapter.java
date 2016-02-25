@@ -7,6 +7,7 @@ import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIDoubleField;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.Component;
 
@@ -21,7 +22,7 @@ public class UIDoubleFieldAdapter implements UIFieldDefinition {
     @Override
     public Component newComponent() {
 
-        DoubleField field = new DoubleField(uiDoubleField.format());
+        DoubleField field = new DoubleField(uiDoubleField.format(), UiUtil.getUiLocale());
         if (uiDoubleField.maxLength() > 0) {
             field.setMaxLength(uiDoubleField.maxLength());
             field.setColumns(uiDoubleField.maxLength() + 2);

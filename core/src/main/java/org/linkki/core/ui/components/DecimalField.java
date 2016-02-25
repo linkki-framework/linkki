@@ -6,11 +6,9 @@
 
 package org.linkki.core.ui.components;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Locale;
 
-public class DecimalField extends NumberField {
+public class DecimalField extends DoubleField {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -18,17 +16,12 @@ public class DecimalField extends NumberField {
     private static final long serialVersionUID = 1L;
 
     public DecimalField(Locale locale) {
-        super(NumberFormat.getNumberInstance(locale));
-        init();
+        this("", locale);
     }
 
-    public DecimalField(String format) {
-        super(new DecimalFormat(format));
-        init();
-    }
-
-    private void init() {
-        setConverter(new DecimalFieldConverter(getFormat()));
+    public DecimalField(String pattern, Locale locale) {
+        super(pattern, locale);
+        setConverter(new DecimalFieldConverter(createFormat()));
     }
 
 }
