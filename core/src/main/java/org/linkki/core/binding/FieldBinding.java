@@ -55,6 +55,8 @@ public class FieldBinding<T> implements ElementBinding {
             containerDataSource = new ListContainer<T>(getValueClass());
             AbstractSelect abstractSelect = (AbstractSelect)field;
             abstractSelect.setContainerDataSource(containerDataSource);
+            // Null value should be provided by the container list
+            abstractSelect.setNullSelectionAllowed(false);
         } else {
             containerDataSource = null;
         }
@@ -94,9 +96,6 @@ public class FieldBinding<T> implements ElementBinding {
             propertyDataSource.fireReadOnlyStatusChange();
 
             field.setRequired(isRequired());
-            if (isRequired() && isAvailableValuesComponent()) {
-                ((AbstractSelect)field).setNullSelectionAllowed(false);
-            }
             field.setEnabled(isEnabled());
             boolean visible = isVisible();
             field.setVisible(visible);
@@ -105,7 +104,8 @@ public class FieldBinding<T> implements ElementBinding {
                 label.setVisible(visible);
             }
             if (isAvailableValuesComponent()) {
-                containerDataSource.setCollection(getAvailableValues());
+                Collection<T> availableValues = getAvailableValues();
+                containerDataSource.setCollection(availableValues);
             }
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {

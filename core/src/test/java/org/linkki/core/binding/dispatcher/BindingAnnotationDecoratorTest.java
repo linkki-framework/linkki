@@ -160,12 +160,21 @@ public class BindingAnnotationDecoratorTest {
     }
 
     @Test
-    public void testGetAvailableValues() {
+    public void testGetAvailableValues_inklNull() {
         doReturn(TestEnum.class).when(mockDispatcher).getValueClass("staticEnumAttr");
         Collection<?> availableValues = decorator.getAvailableValues("staticEnumAttr");
-        assertEquals(3, availableValues.size());
 
+        assertEquals(4, availableValues.size());
         verify(mockDispatcher, never()).getAvailableValues("staticEnumAttr");
+    }
+
+    @Test
+    public void testGetAvailableValues_ExclNull() {
+        doReturn(TestEnum.class).when(mockDispatcher).getValueClass("staticEnumAttrExclNull");
+        Collection<?> availableValues = decorator.getAvailableValues("staticEnumAttrExclNull");
+
+        assertEquals(3, availableValues.size());
+        verify(mockDispatcher, never()).getAvailableValues("staticEnumAttrExclNull");
     }
 
     @Test
@@ -192,8 +201,13 @@ public class BindingAnnotationDecoratorTest {
             // nothing to do
         }
 
-        @UIComboBox(position = 2, modelAttribute = "staticEnumAttr", label = "Bla", content = AvailableValuesType.STATIC, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
+        @UIComboBox(position = 2, modelAttribute = "staticEnumAttr", label = "Bla", content = AvailableValuesType.ENUM_VALUES_INCL_NULL, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
         public void staticEnumAttr() {
+            // nothing to do
+        }
+
+        @UIComboBox(position = 7, modelAttribute = "staticEnumAttrExclNull", label = "Bla", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
+        public void staticEnumAttrExclNull() {
             // nothing to do
         }
 

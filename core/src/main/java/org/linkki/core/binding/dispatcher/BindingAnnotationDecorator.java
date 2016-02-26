@@ -6,8 +6,10 @@
 
 package org.linkki.core.binding.dispatcher;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
@@ -125,15 +127,26 @@ public class BindingAnnotationDecorator extends AbstractPropertyDispatcherDecora
         if (type == AvailableValuesType.DYNAMIC) {
             return super.getAvailableValues(property);
         } else {
-            return getAvailableValuesByValueClass(property);
+            return getAvailableValuesByValueClass(property, type == AvailableValuesType.ENUM_VALUES_INCL_NULL);
         }
     }
 
-    private Collection<?> getAvailableValuesByValueClass(String property) {
+    private Collection<?> getAvailableValuesByValueClass(String property, boolean inclNull) {
         Class<?> type = getValueClass(property);
         Object[] values = type.getEnumConstants();
         if (values == null) {
             throw new IllegalStateException("Can't get list of values for Field " + property + ", ValueClass " + type);
+        } else {
+            return getCollection(values, inclNull);
+        }
+    }
+
+    private Collection<?> getCollection(Object[] values, boolean inclNull) {
+        if (inclNull) {
+            ArrayList<Object> result = new ArrayList<>();
+            result.add(null);
+            result.addAll(Arrays.asList(values));
+            return Collections.unmodifiableCollection(result);
         } else {
             return Arrays.asList(values);
         }

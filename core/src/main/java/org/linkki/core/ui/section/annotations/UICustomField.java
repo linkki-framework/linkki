@@ -35,7 +35,7 @@ public @interface UICustomField {
      * 
      * @see AvailableValuesType
      */
-    AvailableValuesType content() default AvailableValuesType.STATIC;
+    AvailableValuesType content() default AvailableValuesType.ENUM_VALUES_INCL_NULL;
 
     /**
      * The class implementing the custom field. This class has to have a default constructor.

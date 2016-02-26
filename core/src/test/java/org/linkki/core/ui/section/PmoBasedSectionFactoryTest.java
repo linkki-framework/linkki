@@ -106,7 +106,7 @@ public class PmoBasedSectionFactoryTest {
         assertFalse(comboBinding2.isRequired());
         assertFalse(disabledInvisibleBinding.isRequired());
 
-        assertEquals(3, comboBinding1.getAvailableValues().size());
+        assertEquals(4, comboBinding1.getAvailableValues().size());
         assertEquals(2, comboBinding2.getAvailableValues().size());
     }
 
@@ -158,7 +158,7 @@ public class PmoBasedSectionFactoryTest {
             // nothing to do
         }
 
-        @UIComboBox(position = 2, enabled = EnabledType.ENABLED, content = AvailableValuesType.STATIC)
+        @UIComboBox(position = 2, enabled = EnabledType.ENABLED, content = AvailableValuesType.ENUM_VALUES_INCL_NULL)
         public void staticEnumAttr() {
             // nothing to do
         }

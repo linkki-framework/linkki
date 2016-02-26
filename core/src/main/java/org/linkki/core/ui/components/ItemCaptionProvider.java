@@ -10,6 +10,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.vaadin.ui.AbstractSelect;
 
 /**
@@ -35,7 +39,16 @@ public interface ItemCaptionProvider<T> {
      * @param value The value for which we need a caption
      * @return The caption for the specified value
      */
-    String getCaption(T value);
+    String getCaption(@Nonnull T value);
+
+    /**
+     * Returns the caption for the <code>null</code> value. Default is the empty String.
+     * 
+     * @return A caption for the <code>null</code> value
+     */
+    default String getNullCaption() {
+        return StringUtils.EMPTY;
+    }
 
     /**
      * This is the unsafe version of {@link #getCaption(Object)}. The framework will only call this

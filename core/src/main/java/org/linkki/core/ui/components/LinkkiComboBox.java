@@ -8,7 +8,8 @@ package org.linkki.core.ui.components;
 
 import static java.util.Objects.requireNonNull;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Objects;
+
 import org.linkki.core.ui.components.ItemCaptionProvider.IdAndNameCaptionProvider;
 
 import com.vaadin.ui.ComboBox;
@@ -33,6 +34,7 @@ public class LinkkiComboBox extends ComboBox {
     public LinkkiComboBox(ItemCaptionProvider<?> itemCaptionProvider) {
         super();
         this.itemCaptionProvider = requireNonNull(itemCaptionProvider);
+        pageLength = 0;
     }
 
     /**
@@ -84,10 +86,11 @@ public class LinkkiComboBox extends ComboBox {
      */
     @Override
     public String getItemCaption(Object itemId) {
-        if (itemId == null) {
-            return StringUtils.EMPTY;
+        if (Objects.equals(itemId, getNullSelectionItemId())) {
+            return itemCaptionProvider.getNullCaption();
+        } else {
+            return itemCaptionProvider.getUnsafeCaption(requireNonNull(itemId));
         }
-        return itemCaptionProvider.getUnsafeCaption(itemId);
     }
 
 }

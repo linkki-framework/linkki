@@ -30,7 +30,7 @@ public @interface UIComboBox {
      * 
      * @see AvailableValuesType
      */
-    AvailableValuesType content() default AvailableValuesType.STATIC;
+    AvailableValuesType content() default AvailableValuesType.ENUM_VALUES_INCL_NULL;
 
     EnabledType enabled() default ENABLED;
 
