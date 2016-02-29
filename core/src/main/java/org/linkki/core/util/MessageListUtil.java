@@ -6,6 +6,7 @@
 
 package org.linkki.core.util;
 
+import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.Severity;
 
@@ -17,11 +18,25 @@ public class MessageListUtil {
         // do not instatiate
     }
 
+    public static MessageList newMessageList(Message... messages) {
+        if (messages == null) {
+            return new MessageList();
+        }
+        MessageList messageList = new MessageList();
+        for (Message message : messages) {
+            messageList.add(message);
+        }
+        return messageList;
+    }
+
     public static ErrorLevel getErrorLevel(MessageList messages) {
         return getErrorLevel(messages.getSeverity());
     }
 
     public static ErrorLevel getErrorLevel(Severity severity) {
+        if (severity == null) {
+            return null;
+        }
         switch (severity) {
             case ERROR:
                 return ErrorLevel.ERROR;

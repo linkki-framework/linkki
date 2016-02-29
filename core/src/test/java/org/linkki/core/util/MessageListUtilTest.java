@@ -6,14 +6,17 @@
 
 package org.linkki.core.util;
 
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.linkki.test.matcher.Matchers.emptyMessageList;
 
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.Severity;
 import org.junit.Test;
-import org.linkki.core.util.MessageListUtil;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 
@@ -47,8 +50,26 @@ public class MessageListUtilTest {
         assertNull(MessageListUtil.getErrorLevel(Severity.NONE));
     }
 
+    @Test
     public void testGetErrorLevel_null() {
         Severity severity = null;
         assertNull(MessageListUtil.getErrorLevel(severity));
+    }
+
+    @Test
+    public void testNewMessageList_null() {
+        assertThat(MessageListUtil.newMessageList((Message[])null), is(emptyMessageList()));
+    }
+
+    @Test
+    public void testNewMessageList_empty() {
+        assertThat(MessageListUtil.newMessageList(new Message[0]), is(emptyMessageList()));
+    }
+
+    @Test
+    public void testNewMessageList() {
+        Message m1 = Message.newError("error", "error");
+        Message m2 = Message.newWarning("warning", "warning");
+        assertThat(MessageListUtil.newMessageList(m1, m2), hasItems(m1, m2));
     }
 }

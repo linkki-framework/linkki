@@ -2,9 +2,15 @@ package org.linkki.framework.ui.dialogs;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Optional;
+
 import javax.annotation.Nonnull;
 
+import org.faktorips.runtime.Message;
+import org.faktorips.runtime.MessageList;
+import org.faktorips.runtime.Severity;
 import org.linkki.core.ui.application.ApplicationStyles;
+import org.linkki.framework.ui.component.MessageRow;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -14,136 +20,137 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 /** A modal dialog with OK and Cancel buttons. */
-public abstract class OkCancelDialog extends Window {
+public class OkCancelDialog extends Window {
 
     private static final long serialVersionUID = 1L;
 
     private boolean okPressed = false;
     private boolean cancelPressed = false;
 
+    /**
+     * The overall layout of this window. This is the content of the dialog window that contains all
+     * other UI component.
+     */
+    private final VerticalLayout layout;
+
+    /** The main area that contains any content that is added by subclasses etc. */
+    private final VerticalLayout mainArea;
+
+    /** The OK button that is displayed in the dialog. */
+    private final Button okButton;
+
+    /** The handler that handles clicks on the OK button. */
     private final OkHandler okHandler;
-    private final VerticalLayout contentContainer;
+
+    /** The message list that is displayed in this dialog. */
+    private MessageList messageList = new MessageList();
 
     /**
-     * Creates a new dialog with the given caption and OK and Cancel button.
+     * The message row that displays the first message from the message list if there is a message
+     * to display.
+     */
+    private Optional<MessageRow> messageRow = Optional.empty();
+
+    /**
+     * Creates a new dialog with the given caption that displays both the OK and Cancel button and
+     * uses a handler that does nothing when the OK button is clicked.
+     * 
+     * @param caption the dialog's caption
      */
     public OkCancelDialog(String caption) {
         this(caption, OkHandler.NOP_HANDLER, ButtonOption.OK_CANCEL);
     }
 
     /**
-     * Creates a new dialog with the given caption and OK and Cancel button.
+     * Creates a new dialog with the given caption that displays both the OK and Cancel button.
      * 
-     * @param caption The caption.
-     * @param theOkHandler Function called when the OK button was pressed.
+     * @param caption the dialog's caption
+     * @param okHandler okHandler the handler that handles clicks on the OK button
      */
-    public OkCancelDialog(String caption, @Nonnull OkHandler theOkHandler) {
-        this(caption, theOkHandler, ButtonOption.OK_CANCEL);
+    public OkCancelDialog(String caption, @Nonnull OkHandler okHandler) {
+        this(caption, okHandler, ButtonOption.OK_CANCEL);
     }
 
     /**
      * Creates a new dialog with the given caption.
      * 
-     * @param caption The caption.
-     * @param theOkHandler Function called when the OK button was pressed.
-     * @param buttonOption whether to show OK and CANCEL button or only the OK button.
+     * @param caption the dialog's caption
+     * @param okHandler the handler that handles clicks on the OK button
+     * @param buttonOption whether to show both buttons (OK and Cancel) or only the OK button
      */
-    public OkCancelDialog(@Nonnull String caption, @Nonnull OkHandler theOkHandler,
-            @Nonnull ButtonOption buttonOption) {
-        this(caption, null, theOkHandler, buttonOption);
+    public OkCancelDialog(@Nonnull String caption, @Nonnull OkHandler okHandler, @Nonnull ButtonOption buttonOption) {
+        this(caption, null, okHandler, buttonOption);
     }
 
     /**
      * Creates a new dialog with the given caption.
      * 
-     * @param caption The caption.
-     * @param theOkHandler Function called when the OK button was pressed.
-     * @param buttonOption whether to show OK and CANCEL button or only the OK button.
+     * @param caption the dialog's caption
+     * @param okHandler the handler that handle clicks on the OK button
+     * @param buttonOption whether to show both buttons (OK and Cancel) or only the OK button
      */
-    public OkCancelDialog(@Nonnull String caption, Component content, @Nonnull OkHandler theOkHandler,
+    public OkCancelDialog(@Nonnull String caption, Component content, @Nonnull OkHandler okHandler,
             @Nonnull ButtonOption buttonOption) {
         super(caption);
-        okHandler = requireNonNull(theOkHandler);
+        this.okHandler = requireNonNull(okHandler);
+        this.layout = new VerticalLayout();
+        this.mainArea = new VerticalLayout();
+        this.okButton = new Button("OK");
+
+        initDialogWindow();
+        initLayout();
+        initMainArea(content);
+        initButtons(buttonOption);
+        initCloseListener();
+
+        setContent(layout);
+        center();
+    }
+
+    private void initDialogWindow() {
         setStyleName(ApplicationStyles.DIALOG_CAPTION);
         setModal(true);
         setResizable(false);
+    }
 
-        VerticalLayout main = new VerticalLayout();
-        setContent(main);
-        main.setWidthUndefined();
-        main.setMargin(true);
+    private void initLayout() {
+        layout.setWidthUndefined();
+        layout.setMargin(true);
+    }
 
-        this.contentContainer = new VerticalLayout();
-        contentContainer.setWidthUndefined();
-        contentContainer.setMargin(false);
-        contentContainer.setStyleName(ApplicationStyles.DIALOG_CONTENT);
-        if (content != null) {
-            contentContainer.addComponent(content);
+    private void initMainArea(Component c) {
+        mainArea.setWidthUndefined();
+        mainArea.setMargin(false);
+        mainArea.setStyleName(ApplicationStyles.DIALOG_CONTENT);
+        layout.addComponent(mainArea);
+
+        if (c != null) {
+            mainArea.addComponent(c);
         }
-        main.addComponent(contentContainer);
+    }
 
+    private void initButtons(ButtonOption buttonOption) {
         HorizontalLayout buttons = createButtons(buttonOption);
-        main.addComponent(buttons);
-        main.setComponentAlignment(buttons, Alignment.MIDDLE_CENTER);
+        layout.addComponent(buttons);
+        layout.setComponentAlignment(buttons, Alignment.MIDDLE_CENTER);
+    }
 
+    private void initCloseListener() {
         addCloseListener(e -> {
             if (!isOkPressed() && !isCancelPressed()) {
                 // close event was triggered by user clicking on window close icon, not a button
                 cancel();
             }
         });
-        center();
-    }
-
-    /** Adds the given component to the content container of the dialog. */
-    public void addContent(Component c) {
-        contentContainer.addComponent(c);
-    }
-
-    /**
-     * Returns <code>true</code> if OK was pressed.
-     */
-    public boolean isOkPressed() {
-        return okPressed;
-    }
-
-    private void setOkPressed(boolean okPressed) {
-        this.okPressed = okPressed;
-    }
-
-    /**
-     * Returns <code>true</code> if Cancel was pressed.
-     */
-    public boolean isCancelPressed() {
-        return cancelPressed;
-    }
-
-    private void setCancelPressed(boolean cancelPressed) {
-        this.cancelPressed = cancelPressed;
-    }
-
-    /**
-     * Called when the user clicks OK.
-     */
-    protected void ok() {
-        okHandler.onOk();
-    }
-
-    /**
-     * Called when the user clicks Cancel or closes the window. Default implementation does nothing.
-     */
-    protected void cancel() {
-        // nothing to do as explained in the Java Doc.
     }
 
     private HorizontalLayout createButtons(ButtonOption buttonOption) {
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.setWidthUndefined();
         buttons.setSpacing(true);
-        Button ok = new Button("OK");
-        buttons.addComponent(ok);
-        buttons.setComponentAlignment(ok, Alignment.MIDDLE_CENTER);
-        ok.addClickListener(e -> {
+        buttons.addComponent(okButton);
+        buttons.setComponentAlignment(okButton, Alignment.MIDDLE_CENTER);
+        okButton.addClickListener(e -> {
             setOkPressed(true);
             ok();
             close();
@@ -160,6 +167,101 @@ public abstract class OkCancelDialog extends Window {
             });
         }
         return buttons;
+    }
+
+    /**
+     * Displays a message from given message list and disables the OK button if needed.
+     * <p>
+     * A previously displayed message is removed. If the message list contains a message, the first
+     * message with the highest severity is displayed. If the message list contains an error message
+     * the OK button is disabled.
+     */
+    public void setMessageList(@Nonnull MessageList messageList) {
+        this.messageList = requireNonNull(messageList);
+        messageRow.ifPresent(layout::removeComponent);
+        if (getMessageToDisplay() != null) {
+            MessageRow newRow = new MessageRow(getMessageToDisplay());
+            messageRow = Optional.of(newRow);
+            layout.addComponentAsFirst(newRow);
+        }
+        update();
+    }
+
+    /** Returns the message list displayed in the dialog. */
+    public MessageList getMessages() {
+        return messageList;
+    }
+
+    private Message getMessageToDisplay() {
+        // @formatter:off
+        return getFirstMessage(Severity.ERROR)
+                .orElse(getFirstMessage(Severity.WARNING)
+                .orElse(getFirstMessage(Severity.INFO)
+                .orElse(getFirstMessage(Severity.NONE)
+                .orElse(null))));
+        // @formatter:on
+    }
+
+    private Optional<Message> getFirstMessage(Severity severity) {
+        return Optional.ofNullable(messageList.getFirstMessage(severity));
+    }
+
+    /**
+     * Updates the state of the dialog. Currently only the enabled state of the OK button is
+     * updated.
+     * 
+     * @see #isOkEnabled()
+     */
+    public void update() {
+        okButton.setEnabled(isOkEnabled());
+    }
+
+    /** Adds the given component to be displayed in the dialog. */
+    public void addContent(Component c) {
+        mainArea.addComponent(c);
+    }
+
+    /**
+     * Returns whether or not the OK button is enabled. The OK button is enabled when
+     * {@link #getMessages()} does not contain an error message.
+     */
+    public boolean isOkEnabled() {
+        return !messageList.containsErrorMsg();
+    }
+
+    /**
+     * Returns {@code true} if the OK button was pressed.
+     */
+    public boolean isOkPressed() {
+        return okPressed;
+    }
+
+    private void setOkPressed(boolean okPressed) {
+        this.okPressed = okPressed;
+    }
+
+    /**
+     * Returns {@code true} if the cancel button was pressed.
+     */
+    public boolean isCancelPressed() {
+        return cancelPressed;
+    }
+
+    private void setCancelPressed(boolean cancelPressed) {
+        this.cancelPressed = cancelPressed;
+    }
+
+    /** Called when the user clicks the OK button. Delegates to the dialog's OkHandler. */
+    protected void ok() {
+        okHandler.onOk();
+    }
+
+    /**
+     * Called when the user clicks the cancel button or closes the window. Default implementation
+     * does nothing.
+     */
+    protected void cancel() {
+        // nothing to do as explained in the Java Doc.
     }
 
     /**
