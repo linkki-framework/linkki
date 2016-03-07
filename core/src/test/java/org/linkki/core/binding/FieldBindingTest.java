@@ -1,6 +1,7 @@
 package org.linkki.core.binding;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -22,8 +23,13 @@ import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.Severity;
 import org.junit.Before;
 import org.junit.Test;
+import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationMarker;
+import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.ui.section.annotations.TestUi;
+import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.core.ui.section.annotations.UITextField;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
@@ -248,6 +254,61 @@ public class FieldBindingTest {
         verify(selectField).setComponentError(captor.capture());
         assertEquals(captor.getValue().getMessage(), "text");
         assertEquals(captor.getValue().getErrorLevel(), ErrorLevel.ERROR);
+    }
+
+    @Test
+    public void testFieldBindingAllowsNullValueForRequiredFields() {
+        TestModelObject testModelObject = new TestModelObject();
+        TestPmo testPmo = new TestPmo(testModelObject);
+
+        // This creates a FieldBinding for the PMO
+        TextField textField = (TextField)TestUi.componentBoundTo(testPmo);
+
+        // Preconditions
+        assertThat(textField.isRequired(), is(true));
+        assertThat(textField.getValue(), is(TestModelObject.DEFAULT_TEXT));
+        assertThat(testModelObject.getText(), is(TestModelObject.DEFAULT_TEXT));
+
+        textField.setValue(null);
+        assertThat(textField.getValue(), is(nullValue()));
+        assertThat(testModelObject.getText(), is(nullValue()));
+
+    }
+
+    protected static class TestModelObject {
+
+        private static final String DEFAULT_TEXT = "";
+
+        private String text = DEFAULT_TEXT;
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String s) {
+            this.text = s;
+        }
+    }
+
+    @UISection
+    protected static class TestPmo implements PresentationModelObject {
+
+        private final TestModelObject modelObject;
+
+        public TestPmo(TestModelObject modelObject) {
+            super();
+            this.modelObject = modelObject;
+        }
+
+        @UITextField(position = 1, modelAttribute = "text", required = RequiredType.REQUIRED)
+        public void text() {
+            // data binding
+        }
+
+        @Override
+        public TestModelObject getModelObject() {
+            return modelObject;
+        }
     }
 
 }

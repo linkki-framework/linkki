@@ -60,6 +60,10 @@ public class FieldBinding<T> implements ElementBinding {
         } else {
             containerDataSource = null;
         }
+
+        // LIN-90: Allow invalid (null-)values to be set in the bound PMO
+        this.field.setInvalidCommitted(true);
+
         /*
          * Property data source must be set:
          * 
@@ -69,7 +73,7 @@ public class FieldBinding<T> implements ElementBinding {
          * - after dispatcher is available, as value and readOnly-state are requested from the data
          * source during 'set', and we need the dispatcher in these methods.
          */
-        propertyDataSource = new FieldBindingDataSource<T>(this);
+        this.propertyDataSource = new FieldBindingDataSource<T>(this);
         this.field.setPropertyDataSource(propertyDataSource);
     }
 
