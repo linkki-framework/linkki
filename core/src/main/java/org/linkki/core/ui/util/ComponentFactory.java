@@ -5,6 +5,7 @@ import static org.linkki.core.ui.application.ApplicationStyles.HORIZONTAL_SPACER
 import java.util.Collection;
 import java.util.Locale;
 
+import org.joda.time.LocalDate;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.components.IntegerField;
@@ -12,6 +13,7 @@ import org.linkki.core.ui.components.LinkkiComboBox;
 import org.linkki.core.ui.components.SubsetChooser;
 import org.linkki.core.ui.converters.LocalDateToDateConverter;
 
+import com.vaadin.data.Validator;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.server.FontIcon;
 import com.vaadin.server.Resource;
@@ -174,6 +176,8 @@ public class ComponentFactory {
 
     public static DateField newDateField() {
         DateField field = new DateField();
+        field.setValidationVisible(true);
+        field.addValidator(new DateValidator());
         field.setConverter(new LocalDateToDateConverter());
         return field;
     }
@@ -216,6 +220,27 @@ public class ComponentFactory {
 
     public static SubsetChooser newSubsetChooser() {
         return new SubsetChooser();
+    }
+
+    /**
+     * Manual validation as DateField's setRangeStart() setRangeEnd() methods don't work properly.
+     * As the field uses converters, the converted value type (LocalDate) is expected and not Date.
+     */
+    private static final class DateValidator implements Validator {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void validate(Object value) throws InvalidValueException {
+            if (value instanceof LocalDate) {
+                validateDate((LocalDate)value);
+            }
+        }
+
+        private void validateDate(LocalDate date) {
+            if (date.getYear() < 0 || date.getYear() > 9999) {
+                throw new InvalidValueException("Jahreszahlen müssen zwischen 0 und 9999 liegen.");
+            }
+        }
     }
 
     static class YesNoToBooleanConverter implements Converter<Object, Boolean> {
