@@ -14,8 +14,8 @@ import java.util.Locale;
 
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.UIDateField;
-import org.linkki.core.ui.util.DateFormatRegistry;
 import org.linkki.core.ui.util.UiUtil;
+import org.linkki.util.DateFormatRegistry;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;

@@ -13,7 +13,7 @@ import org.faktorips.runtime.IMarker;
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.Severity;
 import org.junit.Test;
-import org.linkki.core.binding.validation.ValidationMarker;
+import org.linkki.util.validation.ValidationMarker;
 
 public class MessageUtilTest {
 

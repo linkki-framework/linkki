@@ -4,7 +4,7 @@
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-package org.linkki.core.ui.util;
+package org.linkki.util;
 
 import static java.util.Locale.ENGLISH;
 import static java.util.Locale.GERMAN;
@@ -18,6 +18,7 @@ import static org.junit.Assert.assertThat;
 import java.util.Locale;
 
 import org.junit.Test;
+import org.linkki.util.DateFormatRegistry;
 
 public class DateFormatRegistryTest {
 

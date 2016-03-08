@@ -25,11 +25,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.validation.ValidationMarker;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.TestUi;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.util.validation.ValidationMarker;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;

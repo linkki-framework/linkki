@@ -10,8 +10,8 @@ import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
-import org.linkki.core.ui.util.DateFormatRegistry;
 import org.linkki.core.ui.util.UiUtil;
+import org.linkki.util.DateFormatRegistry;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;

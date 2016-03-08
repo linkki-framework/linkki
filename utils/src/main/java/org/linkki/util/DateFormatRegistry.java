@@ -4,7 +4,7 @@
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-package org.linkki.core.ui.util;
+package org.linkki.util;
 
 import static java.util.Objects.requireNonNull;
 

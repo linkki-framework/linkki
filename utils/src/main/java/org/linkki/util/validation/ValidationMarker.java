@@ -4,7 +4,7 @@
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-package org.linkki.core.binding.validation;
+package org.linkki.util.validation;
 
 import org.faktorips.runtime.IMarker;
 
