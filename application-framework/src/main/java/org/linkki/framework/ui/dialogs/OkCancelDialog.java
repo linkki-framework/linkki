@@ -8,16 +8,17 @@ import javax.annotation.Nonnull;
 
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
-import org.faktorips.runtime.Severity;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.framework.ui.component.MessageRow;
 
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 
 /** A modal dialog with OK and Cancel buttons. */
 public class OkCancelDialog extends Window {
@@ -96,6 +97,8 @@ public class OkCancelDialog extends Window {
         this.layout = new VerticalLayout();
         this.mainArea = new VerticalLayout();
         this.okButton = new Button("OK");
+        okButton.setClickShortcut(KeyCode.ENTER);
+        okButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
 
         initDialogWindow();
         initLayout();
@@ -179,11 +182,12 @@ public class OkCancelDialog extends Window {
     public void setMessageList(@Nonnull MessageList messageList) {
         this.messageList = requireNonNull(messageList);
         messageRow.ifPresent(layout::removeComponent);
-        if (getMessageToDisplay() != null) {
-            MessageRow newRow = new MessageRow(getMessageToDisplay());
+        getMessageToDisplay().ifPresent(m -> {
+            MessageRow newRow = new MessageRow(m);
+            newRow.setWidth("100%");
             messageRow = Optional.of(newRow);
             layout.addComponentAsFirst(newRow);
-        }
+        });
         update();
     }
 
@@ -192,18 +196,8 @@ public class OkCancelDialog extends Window {
         return messageList;
     }
 
-    private Message getMessageToDisplay() {
-        // @formatter:off
-        return getFirstMessage(Severity.ERROR)
-                .orElse(getFirstMessage(Severity.WARNING)
-                .orElse(getFirstMessage(Severity.INFO)
-                .orElse(getFirstMessage(Severity.NONE)
-                .orElse(null))));
-        // @formatter:on
-    }
-
-    private Optional<Message> getFirstMessage(Severity severity) {
-        return Optional.ofNullable(messageList.getFirstMessage(severity));
+    private Optional<Message> getMessageToDisplay() {
+        return Optional.ofNullable(messageList.getFirstMessage(messageList.getSeverity()));
     }
 
     /**
