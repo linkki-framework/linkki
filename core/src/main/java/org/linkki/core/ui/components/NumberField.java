@@ -1,5 +1,6 @@
 package org.linkki.core.ui.components;
 
+import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -19,4 +20,8 @@ public abstract class NumberField extends TextField {
         setConversionError("Die Eingabe stellt keine gültige Zahl dar!");
     }
 
+    @Override
+    public void validate() throws InvalidValueException {
+        validate(getValue());
+    }
 }

@@ -2,6 +2,7 @@ package org.linkki.core.binding;
 
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
 
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractSelect;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 
@@ -61,8 +63,7 @@ public class FieldBinding<T> implements ElementBinding {
             containerDataSource = null;
         }
 
-        // LIN-90: Allow invalid (null-)values to be set in the bound PMO
-        this.field.setInvalidCommitted(true);
+        prepareFieldToHandleNullForRequiredFields();
 
         /*
          * Property data source must be set:
@@ -75,6 +76,63 @@ public class FieldBinding<T> implements ElementBinding {
          */
         this.propertyDataSource = new FieldBindingDataSource<T>(this);
         this.field.setPropertyDataSource(propertyDataSource);
+    }
+
+    /**
+     * LIN-90, LIN-95: if a field is required and the user enters blank into the field, VAADIN does
+     * not transfer NULL into the data source. This leads to the effect that if the user enters a
+     * value, the value is transfered to the model, if the user then enters blank, he sees an empty
+     * field but the value in the model is still set to the old value. How do we avoid this? If the
+     * field has no converter, we set invalidCommitted to TRUE. NULL is regarded as invalid value,
+     * but it is transferable to the model. This does not work for fields with a converter. NULL
+     * handling is ok for those fields, but if the user enters a none convertable value, VADDIN
+     * tries to commit the value to the data source, but it has to be converted, which leads to an
+     * exception. Example: Enter an invalid number like '123a' into a number field. So in these
+     * cases we can't enter commit the value if they are invalid. To get this to work, those fields
+     * have to override {@link }AbstractField#validate()} to get rid of the unwanted check that in
+     * required fields the value <code>null</code> leads to a validation exception.
+     * 
+     * @see AbstractField#validate()
+     */
+    @SuppressWarnings("rawtypes")
+    private void prepareFieldToHandleNullForRequiredFields() {
+        // note: we prepare the field if it is required or not, as the required state
+        // can be changed dynamically.
+        boolean commitInvalid = true;
+        if (((AbstractField)field).getConverter() != null) {
+            ensureThatFieldsWithAConverterOverrideValidate();
+            commitInvalid = false;
+        }
+        field.setInvalidCommitted(commitInvalid);
+    }
+
+    private void ensureThatFieldsWithAConverterOverrideValidate() {
+        if (ignoredFieldType()) {
+            return;
+        }
+        Method validateMethod;
+        try {
+            validateMethod = field.getClass().getMethod("validate");
+        } catch (NoSuchMethodException | SecurityException e) {
+            throw new RuntimeException(e);
+        }
+        if (validateMethod.getDeclaringClass().getName().startsWith("com.vaadin")) {
+            throw new IllegalStateException(
+                    "A field that has a converter must override validate() to disable Vaadin's required field handling! "
+                            + " See FieldBinding.prepareFieldToHandleNullForRequiredFields for the explanation");
+        }
+    }
+
+    /**
+     * Some fields could have converters because they will never throw a conversion exception.
+     * <ul>
+     * <li>DateField only converts from Date to LocalDate (compatible data type)</li>
+     * </ul>
+     * 
+     * @return
+     */
+    private boolean ignoredFieldType() {
+        return field instanceof DateField;
     }
 
     @SuppressWarnings("unchecked")
