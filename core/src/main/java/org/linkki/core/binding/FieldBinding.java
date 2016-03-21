@@ -99,7 +99,7 @@ public class FieldBinding<T> implements ElementBinding {
         // note: we prepare the field if it is required or not, as the required state
         // can be changed dynamically.
         boolean commitInvalid = true;
-        if (((AbstractField)field).getConverter() != null) {
+        if (((AbstractField)field).getConverter() != null && !compatibleTypeConverter()) {
             ensureThatFieldsWithAConverterOverrideValidate();
             commitInvalid = false;
         }
@@ -107,9 +107,6 @@ public class FieldBinding<T> implements ElementBinding {
     }
 
     private void ensureThatFieldsWithAConverterOverrideValidate() {
-        if (ignoredFieldType()) {
-            return;
-        }
         Method validateMethod;
         try {
             validateMethod = field.getClass().getMethod("validate");
@@ -131,7 +128,7 @@ public class FieldBinding<T> implements ElementBinding {
      * 
      * @return
      */
-    private boolean ignoredFieldType() {
+    private boolean compatibleTypeConverter() {
         return field instanceof DateField;
     }
 
