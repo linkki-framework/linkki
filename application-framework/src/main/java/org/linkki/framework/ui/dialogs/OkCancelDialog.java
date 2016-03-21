@@ -10,6 +10,7 @@ import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.framework.ui.component.MessageRow;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Alignment;
@@ -41,7 +42,7 @@ public class OkCancelDialog extends Window {
     private final Button okButton;
 
     /** The handler that handles clicks on the OK button. */
-    private final OkHandler okHandler;
+    private final Handler okHandler;
 
     /** The message list that is displayed in this dialog. */
     private MessageList messageList = new MessageList();
@@ -59,7 +60,7 @@ public class OkCancelDialog extends Window {
      * @param caption the dialog's caption
      */
     public OkCancelDialog(String caption) {
-        this(caption, OkHandler.NOP_HANDLER, ButtonOption.OK_CANCEL);
+        this(caption, Handler.NOP_HANDLER, ButtonOption.OK_CANCEL);
     }
 
     /**
@@ -68,7 +69,7 @@ public class OkCancelDialog extends Window {
      * @param caption the dialog's caption
      * @param okHandler okHandler the handler that handles clicks on the OK button
      */
-    public OkCancelDialog(String caption, @Nonnull OkHandler okHandler) {
+    public OkCancelDialog(String caption, @Nonnull Handler okHandler) {
         this(caption, okHandler, ButtonOption.OK_CANCEL);
     }
 
@@ -79,7 +80,7 @@ public class OkCancelDialog extends Window {
      * @param okHandler the handler that handles clicks on the OK button
      * @param buttonOption whether to show both buttons (OK and Cancel) or only the OK button
      */
-    public OkCancelDialog(@Nonnull String caption, @Nonnull OkHandler okHandler, @Nonnull ButtonOption buttonOption) {
+    public OkCancelDialog(@Nonnull String caption, @Nonnull Handler okHandler, @Nonnull ButtonOption buttonOption) {
         this(caption, null, okHandler, buttonOption);
     }
 
@@ -90,7 +91,7 @@ public class OkCancelDialog extends Window {
      * @param okHandler the handler that handle clicks on the OK button
      * @param buttonOption whether to show both buttons (OK and Cancel) or only the OK button
      */
-    public OkCancelDialog(@Nonnull String caption, Component content, @Nonnull OkHandler okHandler,
+    public OkCancelDialog(@Nonnull String caption, Component content, @Nonnull Handler okHandler,
             @Nonnull ButtonOption buttonOption) {
         super(caption);
         this.okHandler = requireNonNull(okHandler);
@@ -247,7 +248,7 @@ public class OkCancelDialog extends Window {
 
     /** Called when the user clicks the OK button. Delegates to the dialog's OkHandler. */
     protected void ok() {
-        okHandler.onOk();
+        okHandler.apply();
     }
 
     /**

@@ -6,17 +6,22 @@
 
 package org.linkki.framework.ui.dialogs;
 
-import static java.util.Objects.requireNonNull;
-
 import javax.annotation.Nonnull;
 
+import org.linkki.util.handler.Handler;
+
 @FunctionalInterface
-public interface OkHandler {
+public interface OkHandler extends Handler {
 
     /** A handler that does nothing. */
     OkHandler NOP_HANDLER = () -> {
         // nothing to do
     };
+
+    @Override
+    default void apply() {
+        onOk();
+    }
 
     /**
      * Called when the user clicks OK.
@@ -27,11 +32,11 @@ public interface OkHandler {
      * Returns a composed handler that first executes this handler {@code onOk()} method and then
      * the {@code onOk()} method of the given handler.
      */
-    default OkHandler andThen(@Nonnull OkHandler after) {
-        requireNonNull(after);
+    @Override
+    default OkHandler andThen(@Nonnull Handler after) {
         return () -> {
-            onOk();
-            after.onOk();
+            apply();
+            after.apply();
         };
     }
 

@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Label;
 
@@ -20,10 +21,10 @@ public class ConfirmationDialogTest {
 
     @Test
     public void testCancelCallsOk() {
-        OkHandler handler = mock(OkHandler.class);
+        Handler handler = mock(Handler.class);
         ConfirmationDialog dialog = new ConfirmationDialog("", new Label(), handler);
         dialog.cancel();
-        verify(handler).onOk();
+        verify(handler).apply();
     }
 
 }

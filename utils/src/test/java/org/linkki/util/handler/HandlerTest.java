@@ -4,7 +4,7 @@
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-package org.linkki.framework.ui.dialogs;
+package org.linkki.util.handler;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -12,15 +12,16 @@ import static org.junit.Assert.assertThat;
 import java.util.Stack;
 
 import org.junit.Test;
+import org.linkki.util.handler.Handler;
 
-public class OkHandlerTest {
+public class HandlerTest {
 
     final Stack<TestOkHandler> handlerStack = new Stack<>();
 
-    class TestOkHandler implements OkHandler {
+    class TestOkHandler implements Handler {
 
         @Override
-        public void onOk() {
+        public void apply() {
             handlerStack.push(this);
         }
 
@@ -31,8 +32,8 @@ public class OkHandlerTest {
         TestOkHandler h1 = new TestOkHandler();
         TestOkHandler h2 = new TestOkHandler();
 
-        OkHandler composed = h1.andThen(h2);
-        composed.onOk();
+        Handler composed = h1.andThen(h2);
+        composed.apply();
         assertThat(handlerStack.size(), is(2));
         assertThat(handlerStack.pop(), is(h2));
         assertThat(handlerStack.pop(), is(h1));
