@@ -158,4 +158,10 @@ public class BindingAnnotationDecorator extends AbstractPropertyDispatcherDecora
                                  "Property %s is not annotated with an ui field annotation", property);
         return (FieldDescriptor)descriptor;
     }
+
+    @Override
+    public String toString() {
+        return "BindingAnnotationDecorator [wrappedDispatcher=" + getWrappedDispatcher() + "]";
+    }
+
 }

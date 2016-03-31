@@ -21,8 +21,9 @@ public interface Area extends ComponentContainer {
     void createContent();
 
     /**
-     * Updates the content (children) of this area. Bindings of children have to be reloaded. If
-     * children are rendered dynamically, children may be added or removed.
+     * Updates the content (children) of this area. In most cases it is enough to update the UI
+     * content from the underlying PMOs by just calling <code>reloadBindings()</code>. If child
+     * components are created dynamically, you have to added or remove child components.
      */
     void updateContent();
 

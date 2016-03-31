@@ -97,4 +97,8 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
                 MessageFormat.format("Cannot invoke \"{0}\" on any of {1}", property, objects));
     }
 
+    @Override
+    public String toString() {
+        return "ExceptionPropertyDispatcher";
+    }
 }

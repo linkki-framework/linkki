@@ -108,4 +108,10 @@ public class BehaviourDependentDecorator extends AbstractPropertyDispatcherDecor
         return provider.getBehaviors().stream().allMatch(aspectIsTrue);
     }
 
+    @Override
+    public String toString() {
+        return "BehaviourDependentDecorator[wrappedDispatcher=" + getWrappedDispatcher() + ", providedBehaviours="
+                + provider.getBehaviors() + "]";
+    }
+
 }

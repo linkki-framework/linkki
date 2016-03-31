@@ -88,4 +88,9 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
         return wrappedDispatcher;
     }
 
+    @Override
+    public String toString() {
+        return "PropertyDispatcherDecorator[wrappedDispatcher=" + wrappedDispatcher + "]";
+    }
+
 }

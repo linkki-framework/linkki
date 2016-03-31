@@ -168,8 +168,14 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     public MessageList getMessages(MessageList messageList, String property) {
         MessageList msgListForBoundObject = messageList.getMessagesFor(getBoundObject(), property);
         msgListForBoundObject.add(fallbackDispatcher.getMessages(messageList, property));
-        // TODO may addional call a method like "get<Property>Messages()"
+        // TODO may addionally call a method like "get<Property>Messages()"
         return msgListForBoundObject;
+    }
+
+    @Override
+    public String toString() {
+        return "ReflectionPropertyDispatcher [boundObject=" + boundObjectSupplier.get() + ", fallbackDispatcher="
+                + fallbackDispatcher + "]";
     }
 
 }
