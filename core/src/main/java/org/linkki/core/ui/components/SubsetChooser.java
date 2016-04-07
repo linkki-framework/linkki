@@ -11,7 +11,7 @@ import static java.util.Objects.requireNonNull;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.ui.components.ItemCaptionProvider.IdAndNameCaptionProvider;
+import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
 
 import com.vaadin.ui.TwinColSelect;
 
@@ -27,9 +27,9 @@ public class SubsetChooser extends TwinColSelect {
 
     private ItemCaptionProvider<?> itemCaptionProvider;
 
-    /** Default constructor that uses a {@link IdAndNameCaptionProvider}. */
+    /** Default constructor that uses a {@link DefaultCaptionProvider}. */
     public SubsetChooser() {
-        this(new IdAndNameCaptionProvider());
+        this(new DefaultCaptionProvider());
     }
 
     /**

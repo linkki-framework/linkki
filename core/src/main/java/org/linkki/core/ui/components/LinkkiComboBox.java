@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
-import org.linkki.core.ui.components.ItemCaptionProvider.IdAndNameCaptionProvider;
+import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
 
 import com.vaadin.ui.ComboBox;
 
@@ -25,9 +25,9 @@ public class LinkkiComboBox extends ComboBox {
 
     private ItemCaptionProvider<?> itemCaptionProvider;
 
-    /** Creates a new LinkkiComboBox that uses {@link IdAndNameCaptionProvider}. */
+    /** Creates a new LinkkiComboBox that uses {@link DefaultCaptionProvider}. */
     public LinkkiComboBox() {
-        this(new IdAndNameCaptionProvider());
+        this(new DefaultCaptionProvider());
     }
 
     /** Creates a new LinkkiComboBox that uses the given function as its item caption provider. */

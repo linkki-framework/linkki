@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.linkki.core.ui.components.ItemCaptionProvider;
-import org.linkki.core.ui.components.ItemCaptionProvider.IdAndNameCaptionProvider;
+import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
 
 /**
  * Creates a combobox with the specified parameters.
@@ -40,6 +40,6 @@ public @interface UIComboBox {
 
     String modelAttribute() default "";
 
-    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default IdAndNameCaptionProvider.class;
+    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 
 }

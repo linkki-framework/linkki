@@ -20,13 +20,13 @@ import com.vaadin.ui.AbstractSelect;
  * An {@link ItemCaptionProvider} is used to get the caption for an item in an
  * {@link AbstractSelect}.
  * <p>
- * Due to the current vaadin implementation we cannot be fully type safe.
+ * Due to the current VAADIN implementation we cannot be fully type safe.
  * <p>
  * We provides two simple default implementations:
  * <ul>
  * <li>{@link ToStringCaptionProvider} simply uses the object's {@link Object#toString()} method.
  * </li>
- * <li>{@link IdAndNameCaptionProvider} expects an AbstractBaseEnum and calls the respective getId()
+ * <li>{@link DefaultCaptionProvider} expects an AbstractBaseEnum and calls the respective getId()
  * and getName() methods via reflection.</li>
  * </ul>
  */
@@ -76,6 +76,33 @@ public interface ItemCaptionProvider<T> {
         public String getCaption(Object t) {
             return Optional.ofNullable(t).map(Object::toString).orElse("");
         }
+    }
+
+    /**
+     * A caption provider that returns a string in the format "name [id]" and invokes methods
+     * {@code getName} and {@code getId} to obtain these values.
+     */
+    class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
+
+        @Override
+        public String getCaption(Object o) {
+            return getName(o);
+        }
+
+        private String getName(Object value) {
+            return getPropertyValue(value, "getName");
+        }
+
+        private String getPropertyValue(Object value, String methodName) {
+            try {
+                Method method = value.getClass().getDeclaredMethod(methodName);
+                return (String)method.invoke(value);
+            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException e) {
+                throw new IllegalStateException("Can't get value from method " + methodName + ", value was " + value);
+            }
+        }
+
     }
 
     /**
