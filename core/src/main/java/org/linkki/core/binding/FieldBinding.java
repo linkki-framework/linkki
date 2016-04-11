@@ -57,8 +57,6 @@ public class FieldBinding<T> implements ElementBinding {
             containerDataSource = new ListContainer<T>(getValueClass());
             AbstractSelect abstractSelect = (AbstractSelect)field;
             abstractSelect.setContainerDataSource(containerDataSource);
-            // Null value should be provided by the container list
-            abstractSelect.setNullSelectionAllowed(false);
         } else {
             containerDataSource = null;
         }

@@ -52,4 +52,10 @@ public @interface UISubsetChooser {
 
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default ToStringCaptionProvider.class;
 
+    String width() default "100%";
+
+    String leftColumnCaption() default "";
+
+    String rightColumnCaption() default "";
+
 }
