@@ -204,15 +204,6 @@ public class FieldBindingTest {
     }
 
     @Test
-    public void testBindRequired_prohibitNullForSelectFields() {
-        when(propertyDispatcher.isRequired("enumValue")).thenReturn(true);
-        doReturn(valueList).when(propertyDispatcher).getAvailableValues("enumValue");
-        context.updateUI();
-
-        verify(selectField).setNullSelectionAllowed(false);
-    }
-
-    @Test
     public void testDisplayMessages() {
         messageList.add(Message.newError("code", "text"));
 

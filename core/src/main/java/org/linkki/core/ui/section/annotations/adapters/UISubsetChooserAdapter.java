@@ -23,6 +23,10 @@ public class UISubsetChooserAdapter implements UIFieldDefinition {
     public SubsetChooser newComponent() {
         SubsetChooser subsetChooser = ComponentFactory.newSubsetChooser();
         subsetChooser.setItemCaptionProvider(getItemCaptionProvider());
+        subsetChooser.setNullSelectionAllowed(true);
+        subsetChooser.setWidth(uiSubsetChooser.width());
+        subsetChooser.setLeftColumnCaption(uiSubsetChooser.leftColumnCaption());
+        subsetChooser.setRightColumnCaption(uiSubsetChooser.rightColumnCaption());
         return subsetChooser;
     }
 

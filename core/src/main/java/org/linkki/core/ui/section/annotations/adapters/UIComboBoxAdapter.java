@@ -25,6 +25,7 @@ public class UIComboBoxAdapter implements UIFieldDefinition {
     public Component newComponent() {
         LinkkiComboBox comboBox = ComponentFactory.newComboBox();
         comboBox.setItemCaptionProvider(getItemCaptionProvider());
+        comboBox.setNullSelectionAllowed(false);
         return comboBox;
     }
 
