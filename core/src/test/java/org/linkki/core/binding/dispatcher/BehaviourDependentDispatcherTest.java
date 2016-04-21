@@ -15,26 +15,26 @@ import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.dispatcher.BehaviourDependentDecorator;
+import org.linkki.core.binding.dispatcher.BehaviourDependentDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BehaviourDependentDecoratorTest {
+public class BehaviourDependentDispatcherTest {
 
     @Mock
     private PropertyBehaviorProvider behaviourProvider;
     @Mock
     private PropertyDispatcher wrappedDispatcher;
-    private BehaviourDependentDecorator decorator;
+    private BehaviourDependentDispatcher decorator;
 
     @Before
     public void setUp() {
         when(behaviourProvider.getBehaviors()).thenReturn(Collections.emptyList());
         when(wrappedDispatcher.isVisible(anyString())).thenReturn(true);
-        decorator = new BehaviourDependentDecorator(wrappedDispatcher, behaviourProvider);
+        decorator = new BehaviourDependentDispatcher(wrappedDispatcher, behaviourProvider);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class BehaviourDependentDecoratorTest {
 
     @Test
     public void testNullProvider() {
-        decorator = new BehaviourDependentDecorator(wrappedDispatcher, null);
+        decorator = new BehaviourDependentDispatcher(wrappedDispatcher, null);
         assertTrue(decorator.isVisible("arbitraryProperty"));
     }
 

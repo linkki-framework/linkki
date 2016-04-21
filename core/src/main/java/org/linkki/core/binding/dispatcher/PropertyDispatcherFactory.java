@@ -39,7 +39,7 @@ public class PropertyDispatcherFactory {
         ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo);
         ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, exceptionDispatcher);
         BindingAnnotationDecorator bindingAnnotationDecorator = new BindingAnnotationDecorator(reflectionDispatcher, pmo.getClass());
-        return new BehaviourDependentDecorator(bindingAnnotationDecorator, behaviorProvider);
+        return new BehaviourDependentDispatcher(bindingAnnotationDecorator, behaviorProvider);
         // @formatter:on
     }
 
