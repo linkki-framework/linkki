@@ -32,17 +32,17 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BindingAnnotationDecoratorTest {
+public class BindingAnnotationDispatcherTest {
 
     @Mock
     private PropertyDispatcher mockDispatcher;
-    private BindingAnnotationDecorator decorator;
+    private BindingAnnotationDispatcher decorator;
     private ObjectWithAnnotations annotatedObject;
 
     @Before
     public void setUp() {
         annotatedObject = new ObjectWithAnnotations();
-        decorator = new BindingAnnotationDecorator(mockDispatcher, annotatedObject.getClass());
+        decorator = new BindingAnnotationDispatcher(mockDispatcher, annotatedObject.getClass());
     }
 
     @Test

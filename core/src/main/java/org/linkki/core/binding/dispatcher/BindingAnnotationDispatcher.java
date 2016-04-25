@@ -35,18 +35,18 @@ import com.google.gwt.thirdparty.guava.common.base.Preconditions;
  *
  * @author widmaier
  */
-public class BindingAnnotationDecorator extends AbstractPropertyDispatcherDecorator {
+public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecorator {
 
     private final UIAnnotationReader annotationReader;
 
     /**
-     * Creating a new {@link BindingAnnotationDecorator} for an annotated class, passing the wrapped
-     * dispatcher that should be decorated by this {@link BindingAnnotationDecorator}
+     * Creating a new {@link BindingAnnotationDispatcher} for an annotated class, passing the wrapped
+     * dispatcher that should be decorated by this {@link BindingAnnotationDispatcher}
      *
      * @param wrappedDispatcher The decorated dispatcher
      * @param annotatedClass the annotated class that should be handled
      */
-    public BindingAnnotationDecorator(PropertyDispatcher wrappedDispatcher, Class<?> annotatedClass) {
+    public BindingAnnotationDispatcher(PropertyDispatcher wrappedDispatcher, Class<?> annotatedClass) {
         super(wrappedDispatcher);
         annotationReader = new UIAnnotationReader(annotatedClass);
     }
@@ -161,7 +161,7 @@ public class BindingAnnotationDecorator extends AbstractPropertyDispatcherDecora
 
     @Override
     public String toString() {
-        return "BindingAnnotationDecorator [wrappedDispatcher=" + getWrappedDispatcher() + "]";
+        return "BindingAnnotationDispatcher [wrappedDispatcher=" + getWrappedDispatcher() + "]";
     }
 
 }
