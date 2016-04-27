@@ -67,4 +67,7 @@ public class Matchers {
         return new MessageListObjectPropertyMatcher(new ObjectProperty(o, property), count);
     }
 
+    public static MessageListMessageMatcher hasMessage(String code) {
+        return new MessageListMessageMatcher(new MessageCodeMatcher(code));
+    }
 }
