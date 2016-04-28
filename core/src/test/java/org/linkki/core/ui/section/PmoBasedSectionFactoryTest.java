@@ -60,21 +60,29 @@ public class PmoBasedSectionFactoryTest {
     public void setUp() {
         bindingContext = TestBindingContext.create();
         pmo = new TestPmoWithAnnotations();
-        section = new DefaultPmoBasedSectionFactory().createSection(pmo, bindingContext);
+        section = new PmoBasedSectionFactory().createSection(pmo, bindingContext);
 
         Collection<ElementBinding> bindings = bindingContext.getElementBindings();
         assertEquals(5, bindings.size());
         for (Binding binding : bindings) {
             if (binding instanceof FieldBinding) {
                 FieldBinding<?> fieldBinding = (FieldBinding<?>)binding;
-                if (fieldBinding.getPropertyName().equals("xyz")) {
-                    textFieldBinding = fieldBinding;
-                } else if (fieldBinding.getPropertyName().equals("staticEnumAttr")) {
-                    comboBinding1 = fieldBinding;
-                } else if (fieldBinding.getPropertyName().equals("dynamicEnumAttr")) {
-                    comboBinding2 = fieldBinding;
-                } else if (fieldBinding.getPropertyName().equals("disabledInvisible")) {
-                    disabledInvisibleBinding = fieldBinding;
+                String property = fieldBinding.getPropertyDispatcher().getProperty();
+                switch (property) {
+                    case "xyz":
+                        textFieldBinding = fieldBinding;
+                        break;
+                    case "staticEnumAttr":
+                        comboBinding1 = fieldBinding;
+                        break;
+                    case "dynamicEnumAttr":
+                        comboBinding2 = fieldBinding;
+                        break;
+                    case "disabledInvisible":
+                        disabledInvisibleBinding = fieldBinding;
+                        break;
+                    default:
+                        throw new IllegalStateException("Unknown property: " + property);
                 }
             } else if (binding instanceof ButtonBinding) {
                 buttonBinding = (ButtonBinding)binding;
@@ -128,7 +136,7 @@ public class PmoBasedSectionFactoryTest {
         assertTrue(comboBinding2.isVisible());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateSection_exceptionIllegalAvailableValues() {
         assertNull(textFieldBinding.getAvailableValues());
     }

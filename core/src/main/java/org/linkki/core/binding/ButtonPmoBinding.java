@@ -6,13 +6,17 @@
 
 package org.linkki.core.binding;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.Serializable;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.annotation.Nonnull;
+
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.util.ComponentFactory;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -21,34 +25,31 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final BindingContext bindingContext;
     private final Button button;
-    private final ButtonPmo pmo;
     private final PropertyDispatcher propertyDispatcher;
 
-    public ButtonPmoBinding(BindingContext bindingContext, ButtonPmo pmo, Button button,
-            PropertyDispatcher propertyDispatcher) {
-        this.bindingContext = bindingContext;
-        this.button = button;
-        this.propertyDispatcher = propertyDispatcher;
-        this.pmo = pmo;
+    private Handler updateUI;
+
+    /**
+     * Creates a new {@link ButtonPmoBinding}.
+     * 
+     * @param button the {@link Button} to be bound
+     * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the
+     *            model object
+     * @param updateUI a {@link Handler} that is called when this {@link Binding} desires an update
+     *            of the UI. Usually the {@link BindingContext#updateUI()} method.
+     */
+    public ButtonPmoBinding(@Nonnull Button button, @Nonnull PropertyDispatcher propertyDispatcher,
+            @Nonnull Handler updateUI) {
+        this.button = requireNonNull(button, "Button must not be null");
+        this.propertyDispatcher = requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
+        this.updateUI = requireNonNull(updateUI, "Update-UI-Handler must not be null");
         button.addClickListener(this::buttonClickCallback);
     }
 
-    public static ButtonPmoBinding create(BindingContext bindingContext,
-            ButtonPmo pmo,
-            Button button,
-            PropertyDispatcher propertyDispatcher) {
-        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(bindingContext, pmo, button, propertyDispatcher);
-        bindingContext.add(buttonPmoBinding);
-        return buttonPmoBinding;
-    }
-
-    public static Button createBoundButton(BindingContext bindingContext,
-            ButtonPmo pmo,
-            PropertyDispatcher propertyDispatcher) {
+    public static Button createBoundButton(BindingContext bindingContext, ButtonPmo pmo) {
         Button button = ComponentFactory.newButton(pmo.getButtonIcon(), pmo.getStyleNames());
-        create(bindingContext, pmo, button, propertyDispatcher);
+        bindingContext.bind(pmo, button);
         return button;
     }
 
@@ -64,26 +65,21 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
     }
 
     public boolean isEnabled() {
-        return propertyDispatcher.isEnabled(StringUtils.EMPTY);
+        return propertyDispatcher.isEnabled();
     }
 
     public boolean isVisible() {
-        return propertyDispatcher.isVisible(StringUtils.EMPTY);
+        return propertyDispatcher.isVisible();
     }
 
     private void buttonClickCallback(@SuppressWarnings("unused") ClickEvent event) {
-        propertyDispatcher.invoke("onClick");
-        bindingContext.updateUI();
+        propertyDispatcher.invoke();
+        updateUI.apply();
     }
 
     @Override
     public Button getBoundComponent() {
         return button;
-    }
-
-    @Override
-    public ButtonPmo getPmo() {
-        return pmo;
     }
 
     /**

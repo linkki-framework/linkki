@@ -35,53 +35,53 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
-    public Class<?> getValueClass(String property) {
-        return wrappedDispatcher.getValueClass(property);
+    public Class<?> getValueClass() {
+        return wrappedDispatcher.getValueClass();
     }
 
     @Override
-    public Object getValue(String property) {
-        return getWrappedDispatcher().getValue(property);
+    public Object getValue() {
+        return getWrappedDispatcher().getValue();
     }
 
     @Override
-    public void setValue(String property, Object value) {
-        getWrappedDispatcher().setValue(property, value);
+    public void setValue(Object value) {
+        getWrappedDispatcher().setValue(value);
     }
 
     @Override
-    public boolean isReadonly(String property) {
-        return getWrappedDispatcher().isReadonly(property);
+    public boolean isReadOnly() {
+        return getWrappedDispatcher().isReadOnly();
     }
 
     @Override
-    public boolean isEnabled(String property) {
-        return getWrappedDispatcher().isEnabled(property);
+    public boolean isEnabled() {
+        return getWrappedDispatcher().isEnabled();
     }
 
     @Override
-    public boolean isVisible(String property) {
-        return getWrappedDispatcher().isVisible(property);
+    public boolean isVisible() {
+        return getWrappedDispatcher().isVisible();
     }
 
     @Override
-    public boolean isRequired(String property) {
-        return getWrappedDispatcher().isRequired(property);
+    public boolean isRequired() {
+        return getWrappedDispatcher().isRequired();
     }
 
     @Override
-    public Collection<?> getAvailableValues(String property) {
-        return getWrappedDispatcher().getAvailableValues(property);
+    public Collection<?> getAvailableValues() {
+        return getWrappedDispatcher().getAvailableValues();
     }
 
     @Override
-    public MessageList getMessages(MessageList messageList, String property) {
-        return getWrappedDispatcher().getMessages(messageList, property);
+    public MessageList getMessages(MessageList messageList) {
+        return getWrappedDispatcher().getMessages(messageList);
     }
 
     @Override
-    public void invoke(String property) {
-        getWrappedDispatcher().invoke(property);
+    public void invoke() {
+        getWrappedDispatcher().invoke();
     }
 
     protected PropertyDispatcher getWrappedDispatcher() {
@@ -91,6 +91,16 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     @Override
     public String toString() {
         return "PropertyDispatcherDecorator[wrappedDispatcher=" + wrappedDispatcher + "]";
+    }
+
+    @Override
+    public String getProperty() {
+        return getWrappedDispatcher().getProperty();
+    }
+
+    @Override
+    public Object getBoundObject() {
+        return getWrappedDispatcher().getBoundObject();
     }
 
 }

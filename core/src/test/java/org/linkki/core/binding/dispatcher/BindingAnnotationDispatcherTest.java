@@ -9,7 +9,6 @@ package org.linkki.core.binding.dispatcher;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -17,6 +16,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +26,7 @@ import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
@@ -34,184 +36,186 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class BindingAnnotationDispatcherTest {
 
+    private static final String STATIC_ENUM_ATTR_EXCL_NULL = "staticEnumAttrExclNull";
+    private static final String REQUIRED_IF_ENABLED = "requiredIfEnabled";
+    private static final String DYNAMIC_ENUM_ATTR = "dynamicEnumAttr";
+    private static final String STATIC_ENUM_ATTR = "staticEnumAttr";
+    private static final String DISABLED_INVISIBLE = "disabledInvisible";
+    private static final String XYZ = "xyz";
     @Mock
     private PropertyDispatcher mockDispatcher;
-    private BindingAnnotationDispatcher decorator;
     private ObjectWithAnnotations annotatedObject;
+    private Map<String, BindingAnnotationDispatcher> decorators;
 
     @Before
     public void setUp() {
         annotatedObject = new ObjectWithAnnotations();
-        decorator = new BindingAnnotationDispatcher(mockDispatcher, annotatedObject.getClass());
+        UIAnnotationReader uiAnnotationReader = new UIAnnotationReader(annotatedObject.getClass());
+        decorators = uiAnnotationReader.getUiElements().stream().collect(Collectors
+                .toMap(e -> e.getPropertyName(), e -> new BindingAnnotationDispatcher(mockDispatcher, e)));
     }
 
     @Test
     public void testGetValue() {
-        decorator.getValue("xyz");
+        decorators.get(XYZ).getValue();
 
-        verify(mockDispatcher).getValue("xyz");
+        verify(mockDispatcher).getValue();
     }
 
     @Test
     public void testSetValue() {
-        decorator.setValue("xyz", "value");
+        decorators.get(XYZ).setValue("value");
 
-        verify(mockDispatcher).setValue("xyz", "value");
+        verify(mockDispatcher).setValue("value");
     }
 
     @Test
     public void testIsEnabledDynamic() {
-        decorator.isEnabled("xyz");
+        decorators.get(XYZ).isEnabled();
 
-        verify(mockDispatcher).isEnabled("xyz");
+        verify(mockDispatcher).isEnabled();
     }
 
     @Test
     public void testIsEnabledDisabled() {
-        assertFalse(decorator.isEnabled("disabledInvisible"));
+        assertFalse(decorators.get(DISABLED_INVISIBLE).isEnabled());
 
-        verify(mockDispatcher, never()).isEnabled(anyString());
+        verify(mockDispatcher, never()).isEnabled();
     }
 
     @Test
     public void testIsEnabledEnabled() {
-        assertTrue(decorator.isEnabled("staticEnumAttr"));
+        assertTrue(decorators.get(STATIC_ENUM_ATTR).isEnabled());
 
-        verify(mockDispatcher, never()).isEnabled("staticEnumAttr");
+        verify(mockDispatcher, never()).isEnabled();
     }
 
     @Test
     public void testIsEnabled_missingFieldAnnotation() {
-        decorator.isEnabled("notAnnotatedProperty");
+        decorators.get(XYZ).isEnabled();
 
-        verify(mockDispatcher).isEnabled("notAnnotatedProperty");
+        verify(mockDispatcher).isEnabled();
     }
 
     @Test
     public void testIsVisibleDynamic() {
-        decorator.isVisible("xyz");
+        decorators.get(XYZ).isVisible();
 
-        verify(mockDispatcher).isVisible("xyz");
+        verify(mockDispatcher).isVisible();
     }
 
     @Test
     public void testIsVisibleInvisible() {
-        assertFalse(decorator.isVisible("disabledInvisible"));
+        assertFalse(decorators.get(DISABLED_INVISIBLE).isVisible());
 
-        verify(mockDispatcher, never()).isVisible(anyString());
+        verify(mockDispatcher, never()).isVisible();
     }
 
     @Test
     public void testIsVisibleVisible() {
-        assertTrue(decorator.isVisible("dynamicEnumAttr"));
+        assertTrue(decorators.get(DYNAMIC_ENUM_ATTR).isVisible());
 
-        verify(mockDispatcher, never()).isVisible("staticEnumAttr");
+        verify(mockDispatcher, never()).isVisible();
     }
 
     @Test
     public void testIsVisible_missingFieldAnnotation() {
-        decorator.isVisible("notAnnotatedProperty");
+        decorators.get(XYZ).isVisible();
 
-        verify(mockDispatcher).isVisible("notAnnotatedProperty");
+        verify(mockDispatcher).isVisible();
     }
 
     @Test
     public void testIsRequiredDynamic() {
-        decorator.isRequired("staticEnumAttr");
+        decorators.get(STATIC_ENUM_ATTR).isRequired();
 
-        verify(mockDispatcher).isRequired("staticEnumAttr");
+        verify(mockDispatcher).isRequired();
     }
 
     @Test
     public void testIsRequiredNotRequired() {
-        assertFalse(decorator.isRequired("dynamicEnumAttr"));
+        assertFalse(decorators.get(DYNAMIC_ENUM_ATTR).isRequired());
 
-        verify(mockDispatcher, never()).isRequired(anyString());
+        verify(mockDispatcher, never()).isRequired();
     }
 
     @Test
     public void testIsRequiredRequired() {
-        assertTrue(decorator.isRequired("xyz"));
+        assertTrue(decorators.get(XYZ).isRequired());
 
-        verify(mockDispatcher, never()).isRequired("xyz");
+        verify(mockDispatcher, never()).isRequired();
     }
 
     @Test
     public void testIsRequiredRequiredIfEnabled() {
-        when(mockDispatcher.isEnabled("requiredIfEnabled")).thenReturn(false);
-        assertFalse(decorator.isRequired("requiredIfEnabled"));
+        when(mockDispatcher.isEnabled()).thenReturn(false);
+        assertFalse(decorators.get(REQUIRED_IF_ENABLED).isRequired());
 
-        verify(mockDispatcher, never()).isRequired("requiredIfEnabled");
+        verify(mockDispatcher, never()).isRequired();
     }
 
     @Test
     public void testIsRequiredRequiredIfEnabled2() {
-        when(mockDispatcher.isEnabled("requiredIfEnabled")).thenReturn(true);
-        assertTrue(decorator.isRequired("requiredIfEnabled"));
+        when(mockDispatcher.isEnabled()).thenReturn(true);
+        assertTrue(decorators.get(REQUIRED_IF_ENABLED).isRequired());
 
-        verify(mockDispatcher, never()).isRequired("requiredIfEnabled");
-    }
-
-    @Test
-    public void testIsRequired_missingFieldAnnotation() {
-        decorator.isRequired("notAnnotatedProperty");
-
-        verify(mockDispatcher).isRequired("notAnnotatedProperty");
+        verify(mockDispatcher, never()).isRequired();
     }
 
     @Test
     public void testGetAvailableValues_inklNull() {
-        doReturn(TestEnum.class).when(mockDispatcher).getValueClass("staticEnumAttr");
-        Collection<?> availableValues = decorator.getAvailableValues("staticEnumAttr");
+        doReturn(TestEnum.class).when(mockDispatcher).getValueClass();
+        Collection<?> availableValues = decorators.get(STATIC_ENUM_ATTR).getAvailableValues();
 
         assertEquals(4, availableValues.size());
-        verify(mockDispatcher, never()).getAvailableValues("staticEnumAttr");
+        verify(mockDispatcher, never()).getAvailableValues();
     }
 
     @Test
     public void testGetAvailableValues_ExclNull() {
-        doReturn(TestEnum.class).when(mockDispatcher).getValueClass("staticEnumAttrExclNull");
-        Collection<?> availableValues = decorator.getAvailableValues("staticEnumAttrExclNull");
+        doReturn(TestEnum.class).when(mockDispatcher).getValueClass();
+        Collection<?> availableValues = decorators.get(STATIC_ENUM_ATTR_EXCL_NULL).getAvailableValues();
 
         assertEquals(3, availableValues.size());
-        verify(mockDispatcher, never()).getAvailableValues("staticEnumAttrExclNull");
+        verify(mockDispatcher, never()).getAvailableValues();
     }
 
     @Test
     public void testGetAvailableValues2() {
         doReturn(Arrays.asList(new TestEnum[] { TestEnum.ONE, TestEnum.THREE })).when(mockDispatcher)
-                .getAvailableValues("dynamicEnumAttr");
-        Collection<?> availableValues = decorator.getAvailableValues("dynamicEnumAttr");
+                .getAvailableValues();
+        Collection<?> availableValues = decorators.get(DYNAMIC_ENUM_ATTR).getAvailableValues();
         assertEquals(2, availableValues.size());
 
-        verify(mockDispatcher, never()).getValueClass("dynamicEnumAttr");
+        verify(mockDispatcher, never()).getValueClass();
     }
 
     @Test
     public void testGetAvailableValues_missingFieldAnnotation() {
-        decorator.getAvailableValues("notAnnotatedProperty");
+        doReturn(Void.class).when(mockDispatcher).getValueClass();
+        decorators.get(XYZ).getAvailableValues();
 
-        verify(mockDispatcher).getAvailableValues("notAnnotatedProperty");
+        verify(mockDispatcher).getAvailableValues();
     }
 
     public class ObjectWithAnnotations {
 
-        @UITextField(position = 1, modelAttribute = "xyz", label = "XYZ:", enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED, visible = VisibleType.DYNAMIC)
+        @UITextField(position = 1, modelAttribute = XYZ, label = "XYZ:", enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED, visible = VisibleType.DYNAMIC)
         public void xyz() {
             // nothing to do
         }
 
-        @UIComboBox(position = 2, modelAttribute = "staticEnumAttr", label = "Bla", content = AvailableValuesType.ENUM_VALUES_INCL_NULL, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
+        @UIComboBox(position = 2, modelAttribute = STATIC_ENUM_ATTR, label = "Bla", content = AvailableValuesType.ENUM_VALUES_INCL_NULL, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
         public void staticEnumAttr() {
             // nothing to do
         }
 
-        @UIComboBox(position = 7, modelAttribute = "staticEnumAttrExclNull", label = "Bla", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
+        @UIComboBox(position = 7, modelAttribute = STATIC_ENUM_ATTR_EXCL_NULL, label = "Bla", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
         public void staticEnumAttrExclNull() {
             // nothing to do
         }
 
-        @UIComboBox(position = 3, modelAttribute = "dynamicEnumAttr", content = AvailableValuesType.DYNAMIC, visible = VisibleType.VISIBLE, required = RequiredType.NOT_REQUIRED)
+        @UIComboBox(position = 3, modelAttribute = DYNAMIC_ENUM_ATTR, content = AvailableValuesType.DYNAMIC, visible = VisibleType.VISIBLE, required = RequiredType.NOT_REQUIRED)
         public void dynamicEnumAttr() {
             // nothing to do
         }
@@ -220,12 +224,12 @@ public class BindingAnnotationDispatcherTest {
             return null;
         }
 
-        @UITextField(position = 4, modelAttribute = "disabledInvisible", visible = VisibleType.INVISIBLE, enabled = EnabledType.DISABLED, required = RequiredType.NOT_REQUIRED)
+        @UITextField(position = 4, modelAttribute = DISABLED_INVISIBLE, visible = VisibleType.INVISIBLE, enabled = EnabledType.DISABLED, required = RequiredType.NOT_REQUIRED)
         public void disabledInvisible() {
             // nothing to do
         }
 
-        @UITextField(position = 5, modelAttribute = "requiredIfEnabled", enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED_IF_ENABLED)
+        @UITextField(position = 5, modelAttribute = REQUIRED_IF_ENABLED, enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED_IF_ENABLED)
         public void requiredIfEnabled() {
             // nothing to do
         }

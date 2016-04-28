@@ -9,8 +9,6 @@ package org.linkki.core.ui.section.annotations;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ElementBinding;
-import org.linkki.core.binding.FieldBinding;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
@@ -104,10 +102,14 @@ public class FieldDescriptor implements ElementDescriptor {
     public ElementBinding createBinding(BindingContext bindingContext,
             Object pmo,
             Label label,
-            Component component,
-            PropertyDispatcher propertyDispatcher) {
-        return FieldBinding.create(bindingContext, pmo, getPropertyName(), label, (Field<?>)component,
-                                   propertyDispatcher);
+            Component component) {
+        return bindingContext.bind(pmo, this, label, (Field<?>)component);
+    }
+
+    @Override
+    public String toString() {
+        return "FieldDescriptor [fieldDefinition=" + fieldDefinition + ", fallbackPropertyName=" + fallbackPropertyName
+                + "]";
     }
 
 }

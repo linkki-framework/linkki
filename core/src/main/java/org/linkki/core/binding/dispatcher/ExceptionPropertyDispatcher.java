@@ -6,18 +6,22 @@
 
 package org.linkki.core.binding.dispatcher;
 
+import static java.util.Objects.requireNonNull;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.faktorips.runtime.MessageList;
 
 /**
  * {@link PropertyDispatcher} that throws exception on every method call except
- * {@link #isReadonly(String)} which returns <code>true</code> and
- * {@link #getMessages(MessageList, String)}, which returns an empty {@link MessageList}.
+ * {@link #isReadOnly()} which returns <code>true</code> and {@link #getMessages(MessageList)},
+ * which returns an empty {@link MessageList}.
  *
  * Serves as a last resort fallback to simplify exception creation in other dispatchers.
  *
@@ -26,11 +30,14 @@ import org.faktorips.runtime.MessageList;
 public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
 
     private final List<Object> objects = new ArrayList<>();
+    private String property;
 
     /**
+     * @param property The name of the property
      * @param objects used for error messages
      */
-    public ExceptionPropertyDispatcher(Object... objects) {
+    public ExceptionPropertyDispatcher(@Nonnull String property, Object... objects) {
+        this.property = requireNonNull(property, "The property name must not be null");
         this.objects.addAll(Arrays.asList(objects));
     }
 
@@ -40,65 +47,79 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public Class<?> getValueClass(String property) {
-        throw new IllegalArgumentException(getExceptionText(property, "find getter method for"));
+    public Class<?> getValueClass() {
+        throw new IllegalArgumentException(getExceptionText("find getter method for"));
     }
 
-    private String getExceptionText(String property, String action) {
+    private String getExceptionText(String action) {
         return MessageFormat.format("Cannot {0} property \"{1}\" in any of {2}", action, property, objects);
     }
 
     @Override
-    public Object getValue(String property) {
-        throw new IllegalArgumentException(getExceptionText(property, "read"));
+    public Object getValue() {
+        throw new IllegalArgumentException(getExceptionText("read"));
     }
 
     @Override
-    public void setValue(String property, Object value) {
-        throw new IllegalArgumentException(getExceptionText(property, "write"));
+    public void setValue(Object value) {
+        throw new IllegalArgumentException(getExceptionText("write"));
     }
 
     @Override
-    public boolean isReadonly(String property) {
+    public boolean isReadOnly() {
         return true;
     }
 
     @Override
-    public boolean isEnabled(String property) {
-        throw new IllegalArgumentException(getExceptionText(property, "get enabled state for"));
+    public boolean isEnabled() {
+        throw new IllegalArgumentException(getExceptionText("get enabled state for"));
     }
 
     @Override
-    public boolean isVisible(String property) {
-        throw new IllegalArgumentException(getExceptionText(property, "get visibility for"));
+    public boolean isVisible() {
+        throw new IllegalArgumentException(getExceptionText("get visibility for"));
     }
 
     @Override
-    public boolean isRequired(String property) {
-        throw new IllegalArgumentException(getExceptionText(property, "get required state for"));
+    public boolean isRequired() {
+        throw new IllegalArgumentException(getExceptionText("get required state for"));
     }
 
     @Override
-    public Collection<?> getAvailableValues(String property) {
-        throw new IllegalArgumentException(getExceptionText(property, "get available values for"));
+    public Collection<?> getAvailableValues() {
+        throw new IllegalArgumentException(getExceptionText("get available values for"));
     }
 
     /**
      * Returns an empty {@link MessageList} for all properties.
      */
     @Override
-    public MessageList getMessages(MessageList messageList, String property) {
+    public MessageList getMessages(MessageList messageList) {
         return new MessageList();
     }
 
     @Override
-    public void invoke(String property) {
+    public void invoke() {
         throw new IllegalArgumentException(
                 MessageFormat.format("Cannot invoke \"{0}\" on any of {1}", property, objects));
     }
 
     @Override
     public String toString() {
-        return "ExceptionPropertyDispatcher";
+        return "ExceptionPropertyDispatcher[" + property + "]";
+    }
+
+    @Override
+    public String getProperty() {
+        return property;
+    }
+
+    @Override
+    public Object getBoundObject() {
+        if (objects.size() > 0) {
+            return objects.get(0);
+        } else {
+            throw new IllegalStateException("ExceptionPropertyDispatcher has no presentation model object");
+        }
     }
 }

@@ -7,7 +7,6 @@
 package org.linkki.core.binding.dispatcher;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -33,24 +32,24 @@ public class BehaviourDependentDispatcherTest {
     @Before
     public void setUp() {
         when(behaviourProvider.getBehaviors()).thenReturn(Collections.emptyList());
-        when(wrappedDispatcher.isVisible(anyString())).thenReturn(true);
+        when(wrappedDispatcher.isVisible()).thenReturn(true);
         decorator = new BehaviourDependentDispatcher(wrappedDispatcher, behaviourProvider);
     }
 
     @Test
     public void returnTrueWithNoBehaviors() {
-        assertTrue(decorator.isVisible("arbitraryProperty"));
+        assertTrue(decorator.isVisible());
     }
 
     @Test
     public void testNullProvider() {
         decorator = new BehaviourDependentDispatcher(wrappedDispatcher, null);
-        assertTrue(decorator.isVisible("arbitraryProperty"));
+        assertTrue(decorator.isVisible());
     }
 
     @Test
     public void testNullList() {
         when(behaviourProvider.getBehaviors()).thenReturn(null);
-        assertTrue(decorator.isVisible("arbitraryProperty"));
+        assertTrue(decorator.isVisible());
     }
 }

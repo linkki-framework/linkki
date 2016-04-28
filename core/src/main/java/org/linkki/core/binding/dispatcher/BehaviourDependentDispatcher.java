@@ -45,9 +45,9 @@ public class BehaviourDependentDispatcher extends AbstractPropertyDispatcherDeco
      * only if the property is writable.
      */
     @Override
-    public void setValue(String property, Object value) {
-        if (isConsensus(b -> b.isWritable(property))) {
-            super.setValue(property, value);
+    public void setValue(Object value) {
+        if (isConsensus(b -> b.isWritable(getProperty()))) {
+            super.setValue(value);
         }
     }
 
@@ -57,9 +57,9 @@ public class BehaviourDependentDispatcher extends AbstractPropertyDispatcherDeco
      * returned by the wrapped dispatcher. If it is write protected, returns <code>true</code> .
      */
     @Override
-    public boolean isReadonly(String property) {
-        if (isConsensus(b -> b.isWritable(property))) {
-            return super.isReadonly(property);
+    public boolean isReadOnly() {
+        if (isConsensus(b -> b.isWritable(getProperty()))) {
+            return super.isReadOnly();
         } else {
             return true;
         }
@@ -71,9 +71,9 @@ public class BehaviourDependentDispatcher extends AbstractPropertyDispatcherDeco
      * returned by the wrapped dispatcher. If it is hidden, returns <code>false</code>.
      */
     @Override
-    public boolean isVisible(String property) {
-        if (isConsensus(b -> b.isVisible(property))) {
-            return super.isVisible(property);
+    public boolean isVisible() {
+        if (isConsensus(b -> b.isVisible(getProperty()))) {
+            return super.isVisible();
         } else {
             return false;
         }
@@ -85,9 +85,9 @@ public class BehaviourDependentDispatcher extends AbstractPropertyDispatcherDeco
      * returned by the wrapped dispatcher. If it hides messages, returns an empty message list.
      */
     @Override
-    public MessageList getMessages(MessageList messageList, String property) {
-        if (isConsensus(b -> b.isShowValidationMessages(property))) {
-            return super.getMessages(messageList, property);
+    public MessageList getMessages(MessageList messageList) {
+        if (isConsensus(b -> b.isShowValidationMessages(getProperty()))) {
+            return super.getMessages(messageList);
         } else {
             return new MessageList();
         }

@@ -35,12 +35,12 @@ public class FieldBindingIntergartionTest {
 
     @Before
     public void setUp() {
-        ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(pmo);
-        propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, exceptionDispatcher);
+        ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher("enumValue", pmo);
+        propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, "enumValue", exceptionDispatcher);
 
         context = TestBindingContext.create();
 
-        selectBinding = new FieldBinding<Object>(context, pmo, "enumValue", label, comboField, propertyDispatcher);
+        selectBinding = new FieldBinding<Object>(label, comboField, propertyDispatcher, context::updateUI);
         context.add(selectBinding);
 
         context.add(selectBinding);
@@ -52,11 +52,13 @@ public class FieldBindingIntergartionTest {
      */
     @Test
     public void testFieldBinding_readonlyField() {
+        ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher("readonlyEnumValue", pmo);
+        propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, "readonlyEnumValue", exceptionDispatcher);
         ComboBox comboField2 = new LinkkiComboBox();
         pmo.setEnumValue(TestEnum.THREE);
         @SuppressWarnings("unused")
-        FieldBinding<Object> fieldBinding = new FieldBinding<Object>(context, pmo, "readonlyEnumValue", label,
-                comboField2, propertyDispatcher);
+        FieldBinding<Object> fieldBinding = new FieldBinding<Object>(label, comboField2, propertyDispatcher,
+                context::updateUI);
     }
 
     @Test

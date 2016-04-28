@@ -7,16 +7,16 @@
 package org.linkki.core.ui.section;
 
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
+
+import javax.annotation.Nonnull;
 
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UIAnnotationReader;
@@ -34,23 +34,12 @@ import com.vaadin.ui.Label;
  */
 public class SectionCreationContext {
 
-    private static final PropertyDispatcherFactory DISPATCHER_FACTORY = new PropertyDispatcherFactory();
-
     private final PresentationModelObject pmo;
     private final BindingContext bindingContext;
-    private final PropertyBehaviorProvider propertyBehaviorProvider;
 
-    private PropertyDispatcher propertyDispatcher;
-
-    public SectionCreationContext(PresentationModelObject pmo, BindingContext bindingContext,
-            PropertyBehaviorProvider propertyBehaviorProvider) {
-        this.pmo = pmo;
-        this.bindingContext = bindingContext;
-        this.propertyBehaviorProvider = propertyBehaviorProvider;
-    }
-
-    protected PropertyDispatcher createDefaultDispatcher(Object o) {
-        return DISPATCHER_FACTORY.defaultDispatcherChain(o, propertyBehaviorProvider);
+    public SectionCreationContext(@Nonnull PresentationModelObject pmo, @Nonnull BindingContext bindingContext) {
+        this.pmo = requireNonNull(pmo, "PresentationModelObject must not be null");
+        this.bindingContext = requireNonNull(bindingContext, "BindingContext must not be null");
     }
 
     protected PresentationModelObject getPmo() {
@@ -82,7 +71,7 @@ public class SectionCreationContext {
     }
 
     private Optional<Button> createEditButton(Optional<ButtonPmo> buttonPmo) {
-        return buttonPmo.map(b -> ButtonPmoBinding.createBoundButton(bindingContext, b, createDefaultDispatcher(b)));
+        return buttonPmo.map(b -> ButtonPmoBinding.createBoundButton(bindingContext, b));
     }
 
     private void createUiElements(BaseSection section) {
@@ -101,14 +90,7 @@ public class SectionCreationContext {
     }
 
     private void bindUiElement(Component component, ElementDescriptor uiElement, Label label) {
-        uiElement.createBinding(bindingContext, pmo, label, component, getPropertyDispatcher());
-    }
-
-    protected PropertyDispatcher getPropertyDispatcher() {
-        if (propertyDispatcher == null) {
-            propertyDispatcher = createDefaultDispatcher(pmo);
-        }
-        return propertyDispatcher;
+        uiElement.createBinding(bindingContext, pmo, label, component);
     }
 
     private static class LabelComponent {

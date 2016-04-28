@@ -8,26 +8,40 @@ package org.linkki.core.binding.dispatcher;
 
 import java.util.Collection;
 
+import javax.annotation.Nonnull;
+
 import org.faktorips.runtime.MessageList;
 
 /**
- * Provides field information for arbitrary properties through an unified interface.
+ * Provides field information for an arbitrary property through an unified interface.
  * <p>
- * Instead of many getValueX() methods, one for each property, a single {@link #getValue(String)} is
- * provided. For each aspect that can be bound to a field, such a method exists. The aspects are:
+ * For each aspect that can be bound to a field, a getter method exists. The aspects are:
  * <ul>
- * <li>Value</li>
- * <li>Enabled state</li>
- * <li>Visibility</li>
- * <li>Mandatory state</li>
- * <li>List of available values</li>
- * <li>ErrorMessages/Warnings</li>
+ * <li>{@linkplain #getValue() Value}</li>
+ * <li>{@linkplain #isEnabled() Enabled state}</li>
+ * <li>{@linkplain #isVisible() Visibility}</li>
+ * <li>{@linkplain #isRequired() Mandatory state}</li>
+ * <li>{@linkplain #isReadOnly() Read-only state}</li>
+ * <li>{@linkplain #getAvailableValues() List of available values}</li>
+ * <li>{@linkplain #getMessages(MessageList) ErrorMessages/Warnings}</li>
  * </ul>
  * In contrast to the other aspects the value of a property can also be set.
  *
  * @author widmaier
  */
 public interface PropertyDispatcher {
+
+    /**
+     * @return the name of the property
+     */
+    @Nonnull
+    public String getProperty();
+
+    /**
+     * @return the model object containing the property.
+     */
+    @Nonnull
+    public Object getBoundObject();
 
     /**
      * Called to inform this dispatcher about an imminent update of the UI. Dispatchers are expected
@@ -37,93 +51,83 @@ public interface PropertyDispatcher {
     public void prepareUpdateUI();
 
     /**
-     * Retrieves the value class for the given property. i.e. the return type of the getter method.
+     * Retrieves the value class for the property. i.e. the return type of the getter method.
      *
-     * @param property the name of the property
-     * @return the value class of the given property
-     * @throws IllegalArgumentException if the given property is not available.
+     * @return the value class of the property
+     * @throws IllegalArgumentException if the property is not available.
      */
-    public Class<?> getValueClass(String property);
+    @Nonnull
+    public Class<?> getValueClass();
 
     /**
-     * Retrieves the value for the given property.
+     * Retrieves the value for the property.
      *
-     * @param property the name of the property
-     * @return the value of the given property
-     * @throws IllegalArgumentException if the given property is not available.
+     * @return the value of the property
+     * @throws IllegalArgumentException if the property is not available.
      */
-    public Object getValue(String property);
+    public Object getValue();
 
     /**
-     * Sets the given property to the argument value.
-     *
-     * @param property the name of the property
+     * Sets the property to the argument value.
+     * 
      * @param value the property's new value
-     * @throws IllegalArgumentException if the given property is not available.
+     *
+     * @throws IllegalArgumentException if the property is not available.
      */
-    public void setValue(String property, Object value);
+    public void setValue(Object value);
 
     /**
-     * Retrieves the read-only state for the given property.
+     * Retrieves the read-only state for the property.
      *
-     * @param property the name of the property
-     * @return whether the given property is read-only
-     * @throws IllegalArgumentException if the given property is not available.
+     * @return whether the property is read-only
+     * @throws IllegalArgumentException if the property is not available.
      */
-    public boolean isReadonly(String property);
+    public boolean isReadOnly();
 
     /**
-     * Retrieves the enabled state for the given property.
+     * Retrieves the enabled state for the property.
      *
-     * @param property the name of the property
-     * @return whether the given property is enabled
-     * @throws IllegalArgumentException if the given property is not available.
+     * @return whether the property is enabled
+     * @throws IllegalArgumentException if the property is not available.
      */
-    public boolean isEnabled(String property);
+    public boolean isEnabled();
 
     /**
-     * Retrieves the visibility for the given property.
+     * Retrieves the visibility for the property.
      *
-     * @param property the name of the property
-     * @return whether the given property is visible
-     * @throws IllegalArgumentException if the given property is not available.
+     * @return whether the property is visible
+     * @throws IllegalArgumentException if the property is not available.
      */
-    public boolean isVisible(String property);
+    public boolean isVisible();
 
     /**
-     * Retrieves the mandatory state for the given property.
+     * Retrieves the mandatory state for the property.
      *
-     * @param property the name of the property
-     * @return whether the given property is mandatory
-     * @throws IllegalArgumentException if the given property is not available.
+     * @return whether the property is mandatory
+     * @throws IllegalArgumentException if the property is not available.
      */
-    public boolean isRequired(String property);
+    public boolean isRequired();
 
     /**
-     * Retrieves the list of values for the given property, e.g. all options in a dropdown control
+     * Retrieves the list of values for the property, e.g. all options in a dropdown control
      *
-     * @param property the name of the property
      * @return the list of available values
-     * @throws IllegalArgumentException if the given property is not available.
+     * @throws IllegalArgumentException if the property is not available.
      */
-    public Collection<?> getAvailableValues(String property);
+    @Nonnull
+    public Collection<?> getAvailableValues();
 
     /**
-     * Retrieves the validation messages for the given property.
-     * <p>
-     * Note that this method does <em>not</em> throw an exception if a property does not exist. It
-     * simply returns an empty message list in all cases.
+     * Retrieves the validation messages for the property.
      *
      * @param messageList the existing messages from previous model object validation
-     * @param property the name of the property
      * @return the list of messages
      */
-    public MessageList getMessages(MessageList messageList, String property);
+    @Nonnull
+    public MessageList getMessages(MessageList messageList);
 
     /**
      * Invokes the property with the given name, i.e. invokes the method of that name.
-     * 
-     * @param property the name of the property (i.e. the method) to invoke
      */
-    public void invoke(String property);
+    public void invoke();
 }

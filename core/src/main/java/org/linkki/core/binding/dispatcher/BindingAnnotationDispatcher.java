@@ -6,18 +6,20 @@
 
 package org.linkki.core.binding.dispatcher;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.linkki.core.PresentationModelObject;
+import javax.annotation.Nonnull;
+
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.FieldDescriptor;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
@@ -30,112 +32,77 @@ import com.google.gwt.thirdparty.guava.common.base.Preconditions;
  * for the given property, or if the type is dynamic, the wrapped dispatcher is accessed for a
  * value.
  *
- * Annotations are read from an arbitrary class passed to the constructor, mostly a subclass of
- * {@link PresentationModelObject}.
- *
  * @author widmaier
  */
 public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecorator {
 
-    private final UIAnnotationReader annotationReader;
+    private final ElementDescriptor elementDescriptor;
 
     /**
-     * Creating a new {@link BindingAnnotationDispatcher} for an annotated class, passing the wrapped
-     * dispatcher that should be decorated by this {@link BindingAnnotationDispatcher}
+     * Creating a new {@link BindingAnnotationDispatcher} for an {@link ElementDescriptor}, passing
+     * the wrapped dispatcher that should be decorated by this {@link BindingAnnotationDispatcher}
      *
      * @param wrappedDispatcher The decorated dispatcher
-     * @param annotatedClass the annotated class that should be handled
+     * @param elementDescriptor The descriptor for an element annotated with one of the UI
+     *            annotations like {@link UITextField} or {@link UIComboBox}
      */
-    public BindingAnnotationDispatcher(PropertyDispatcher wrappedDispatcher, Class<?> annotatedClass) {
+    public BindingAnnotationDispatcher(@Nonnull PropertyDispatcher wrappedDispatcher,
+            @Nonnull ElementDescriptor elementDescriptor) {
         super(wrappedDispatcher);
-        annotationReader = new UIAnnotationReader(annotatedClass);
+        this.elementDescriptor = requireNonNull(elementDescriptor, "ElementDescriptor must not be null");
     }
 
     @Override
-    public boolean isEnabled(String property) {
-        if (hasAnnotation(property)) {
-            return calculateEnabled(property);
-        } else {
-            return super.isEnabled(property);
-        }
-    }
-
-    private boolean hasAnnotation(String property) {
-        return annotationReader.hasAnnotation(property);
-    }
-
-    private boolean calculateEnabled(String property) {
-        EnabledType enabledType = annotationReader.get(property).enabled();
-        if (enabledType == EnabledType.DYNAMIC) {
-            return super.isEnabled(property);
+    public boolean isEnabled() {
+        EnabledType enabledType = elementDescriptor.enabled();
+        if (enabledType == null || enabledType == EnabledType.DYNAMIC) {
+            return super.isEnabled();
         } else {
             return enabledType != EnabledType.DISABLED;
         }
     }
 
     @Override
-    public boolean isVisible(String property) {
-        if (hasAnnotation(property)) {
-            return calculateVisible(property);
-        } else {
-            return super.isVisible(property);
-        }
-    }
-
-    private boolean calculateVisible(String property) {
-        VisibleType visibleType = annotationReader.get(property).visible();
-        if (visibleType == VisibleType.DYNAMIC) {
-            return super.isVisible(property);
+    public boolean isVisible() {
+        VisibleType visibleType = elementDescriptor.visible();
+        if (visibleType == null || visibleType == VisibleType.DYNAMIC) {
+            return super.isVisible();
         } else {
             return visibleType != VisibleType.INVISIBLE;
         }
     }
 
     @Override
-    public boolean isRequired(String property) {
-        if (hasAnnotation(property)) {
-            return calculateRequired(property);
-        } else {
-            return super.isRequired(property);
-        }
-    }
-
-    private boolean calculateRequired(String property) {
-        RequiredType requiredType = fieldDescriptor(property).required();
-        if (requiredType == RequiredType.DYNAMIC) {
-            return super.isRequired(property);
+    public boolean isRequired() {
+        RequiredType requiredType = fieldDescriptor().required();
+        if (requiredType == null || requiredType == RequiredType.DYNAMIC) {
+            return super.isRequired();
         } else if (requiredType == RequiredType.NOT_REQUIRED) {
             return false;
         } else if (requiredType == RequiredType.REQUIRED_IF_ENABLED) {
-            return isEnabled(property);
+            return isEnabled();
         } else {
             return true;
         }
     }
 
     @Override
-    public Collection<?> getAvailableValues(String property) {
-        if (hasAnnotation(property)) {
-            return calculateAvailableValues(property);
+    @Nonnull
+    public Collection<?> getAvailableValues() {
+        AvailableValuesType type = fieldDescriptor().availableValues();
+        if (type == null || type == AvailableValuesType.DYNAMIC) {
+            return super.getAvailableValues();
         } else {
-            return super.getAvailableValues(property);
+            return getAvailableValuesByValueClass(type == AvailableValuesType.ENUM_VALUES_INCL_NULL);
         }
     }
 
-    private Collection<?> calculateAvailableValues(String property) {
-        AvailableValuesType type = fieldDescriptor(property).availableValues();
-        if (type == AvailableValuesType.DYNAMIC) {
-            return super.getAvailableValues(property);
-        } else {
-            return getAvailableValuesByValueClass(property, type == AvailableValuesType.ENUM_VALUES_INCL_NULL);
-        }
-    }
-
-    private Collection<?> getAvailableValuesByValueClass(String property, boolean inclNull) {
-        Class<?> type = getValueClass(property);
+    private Collection<?> getAvailableValuesByValueClass(boolean inclNull) {
+        Class<?> type = getValueClass();
         Object[] values = type.getEnumConstants();
         if (values == null) {
-            throw new IllegalStateException("Can't get list of values for Field " + property + ", ValueClass " + type);
+            throw new IllegalStateException(
+                    "Can't get list of values for Field " + getProperty() + ", ValueClass " + type);
         } else {
             return getCollection(values, inclNull);
         }
@@ -152,16 +119,16 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
         }
     }
 
-    private FieldDescriptor fieldDescriptor(String property) {
-        ElementDescriptor descriptor = annotationReader.get(property);
-        Preconditions.checkState(descriptor instanceof FieldDescriptor,
-                                 "Property %s is not annotated with an ui field annotation", property);
-        return (FieldDescriptor)descriptor;
+    private FieldDescriptor fieldDescriptor() {
+        Preconditions.checkState(elementDescriptor instanceof FieldDescriptor,
+                                 "Property %s is not annotated with an ui field annotation", getProperty());
+        return (FieldDescriptor)elementDescriptor;
     }
 
     @Override
     public String toString() {
-        return "BindingAnnotationDispatcher [wrappedDispatcher=" + getWrappedDispatcher() + "]";
+        return "BindingAnnotationDispatcher [wrappedDispatcher=" + getWrappedDispatcher() + ", elementDescriptor="
+                + elementDescriptor + "]";
     }
 
 }

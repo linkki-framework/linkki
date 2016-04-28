@@ -1,11 +1,8 @@
 package org.linkki.core.ui.section.annotations;
 
-import java.util.Collections;
-
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.ui.section.BaseSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 
@@ -39,19 +36,6 @@ public class TestUi extends UI {
         }
     }
 
-    /** A section factory for tests. */
-    static class TestSectionFactory extends PmoBasedSectionFactory {
-
-        public TestSectionFactory() {
-            super(null);
-        }
-
-        @Override
-        public PropertyBehaviorProvider getPropertyBehaviorProvider() {
-            return () -> Collections.emptyList();
-        }
-    }
-
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -78,7 +62,7 @@ public class TestUi extends UI {
 
     public static Component componentBoundTo(PresentationModelObject pmo, BindingContext bindingContext) {
         TestUi testUi = new TestUi();
-        TestSectionFactory sectionFactory = new TestSectionFactory();
+        PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         BaseSection section = sectionFactory.createSection(pmo, bindingContext);
 
         testUi.setContent(section);

@@ -6,8 +6,10 @@ import java.util.Objects;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.annotations.BindContext;
+import org.linkki.core.binding.dispatcher.BehaviourDependentDispatcher;
+import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.AbstractSelect;
@@ -92,16 +94,27 @@ public class BindingUtils {
         if (bindAnnotation == null) {
             return;
         }
-        FieldBinding.create(bindingContext, pmo, bindAnnotation.valueProperty(), label, vaadinField,
-                            getDispatcher(pmo));
+        // TODO LIN-30 bindingContext.bind(...)
+        FieldBinding<?> fieldBinding = new FieldBinding<>(label, vaadinField,
+                createDispatcherChain(bindingContext, pmo, bindAnnotation), bindingContext::updateUI);
+        bindingContext.add(fieldBinding);
+
     }
 
     /*
      * FIXME Quick and dirty Fix. Sections mit alter @Bind Annotation müssen entfernt werden.
      * Stattdessen erhalten die zugehörigen PMOs die neuen @UITextField Annotations. see FIPM-58
      */
-    private static PropertyDispatcher getDispatcher(PresentationModelObject pmo) {
-        return PmoBasedSectionFactory.createDefaultDispatcher(pmo);
+    private static PropertyDispatcher createDispatcherChain(BindingContext bindingContext,
+            PresentationModelObject pmo,
+            Bind bindAnnotation) {
+        String valueProperty = bindAnnotation.valueProperty();
+        ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(valueProperty, pmo);
+        ReflectionPropertyDispatcher reflectionDispatcher = new ReflectionPropertyDispatcher(() -> pmo, valueProperty,
+                exceptionDispatcher);
+        BehaviourDependentDispatcher behaviourDependentDispatcher = new BehaviourDependentDispatcher(
+                reflectionDispatcher, bindingContext.getBehaviorProvider());
+        return behaviourDependentDispatcher;
     }
 
     public static final void fillSelectWithItems(AbstractSelect select, Object[] values) {

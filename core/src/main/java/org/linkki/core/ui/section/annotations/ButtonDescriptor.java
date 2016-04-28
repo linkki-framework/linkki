@@ -7,9 +7,7 @@
 package org.linkki.core.ui.section.annotations;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.ButtonBinding;
 import org.linkki.core.binding.ElementBinding;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -59,10 +57,8 @@ public class ButtonDescriptor implements ElementDescriptor {
     public ElementBinding createBinding(BindingContext bindingContext,
             Object pmo,
             Label label,
-            Component component,
-            PropertyDispatcher propertyDispatcher) {
-        return ButtonBinding.create(bindingContext, getPropertyName(), label, (Button)component, pmo,
-                                    propertyDispatcher);
+            Component component) {
+        return bindingContext.bind(pmo, this, label, (Button)component);
     }
 
     @Override

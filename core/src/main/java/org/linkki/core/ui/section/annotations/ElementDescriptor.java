@@ -8,7 +8,6 @@ package org.linkki.core.ui.section.annotations;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ElementBinding;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -42,11 +41,10 @@ public interface ElementDescriptor {
 
     /**
      * Creates a binding for this UI element to the given Vaadin UI components in the given binding
-     * context using the given property dispatcher.
+     * context using the given property behavior provider.
      */
     ElementBinding createBinding(BindingContext bindingContext,
             Object pmo,
             Label label,
-            Component component,
-            PropertyDispatcher propertyDispatcher);
+            Component component);
 }

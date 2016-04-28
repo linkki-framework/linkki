@@ -7,7 +7,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -41,8 +40,6 @@ import com.vaadin.ui.TextField;
 
 public class FieldBindingTest {
 
-    private Object pmo = new Object();
-
     private Label label = spy(new Label());
 
     private Field<String> field = spy(new TextField());
@@ -53,52 +50,49 @@ public class FieldBindingTest {
 
     private Collection<TestEnum> valueList = Arrays.asList(new TestEnum[] { TestEnum.ONE, TestEnum.THREE });
 
-    private PropertyDispatcher propertyDispatcher;
+    private PropertyDispatcher propertyDispatcherValue;
 
     private BindingContext context;
 
     private MessageList messageList;
 
+    private PropertyDispatcher propertyDispatcherEnumValue;
+
     @Before
     public void setUp() {
         context = TestBindingContext.create();
-        propertyDispatcher = mock(PropertyDispatcher.class);
+        propertyDispatcherValue = mock(PropertyDispatcher.class);
+        when(propertyDispatcherValue.getProperty()).thenReturn("value");
+        propertyDispatcherEnumValue = mock(PropertyDispatcher.class);
+        when(propertyDispatcherEnumValue.getProperty()).thenReturn("enumValue");
+        doReturn(TestEnum.class).when(propertyDispatcherEnumValue).getValueClass();
 
         messageList = new MessageList();
-        when(propertyDispatcher.getMessages(any(MessageList.class), anyString())).thenReturn(messageList);
-        doReturn(TestEnum.class).when(propertyDispatcher).getValueClass("enumValue");
+        when(propertyDispatcherValue.getMessages(any(MessageList.class))).thenReturn(messageList);
+        when(propertyDispatcherEnumValue.getMessages(any(MessageList.class))).thenReturn(messageList);
 
-        binding = FieldBinding.create(context, pmo, "value", label, field, propertyDispatcher);
+        binding = new FieldBinding<>(label, field, propertyDispatcherValue, context::updateUI);
+        context.add(binding);
 
-        selectBinding = new FieldBinding<Object>(context, pmo, "enumValue", label, selectField, propertyDispatcher);
+        selectBinding = new FieldBinding<Object>(label, selectField, propertyDispatcherEnumValue, context::updateUI);
         context.add(selectBinding);
 
         context.add(binding);
         context.add(selectBinding);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testValuePropertyCheck_NullFieldName() {
-        FieldBinding.create(context, pmo, null, label, field, propertyDispatcher);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testValuePropertyCheck_NullPmo() {
-        FieldBinding.create(context, null, "value", label, field, propertyDispatcher);
-    }
-
     @Test
     public void testValueBinding() {
         assertEquals(null, binding.getValue());
 
-        when(propertyDispatcher.getValue("value")).thenReturn("test");
+        when(propertyDispatcherValue.getValue()).thenReturn("test");
 
         assertEquals("test", binding.getValue());
     }
 
     @Test
     public void testValueBinding_field() {
-        when(propertyDispatcher.getValue("value")).thenReturn("test");
+        when(propertyDispatcherValue.getValue()).thenReturn("test");
         context.updateUI();
 
         assertEquals("test", field.getValue());
@@ -106,11 +100,11 @@ public class FieldBindingTest {
 
     @Test
     public void testEnabledBinding() {
-        when(propertyDispatcher.isEnabled("value")).thenReturn(true);
+        when(propertyDispatcherValue.isEnabled()).thenReturn(true);
         assertTrue(binding.isEnabled());
         assertTrue(field.isEnabled());
 
-        when(propertyDispatcher.isEnabled("value")).thenReturn(false);
+        when(propertyDispatcherValue.isEnabled()).thenReturn(false);
         context.updateUI();
 
         assertFalse(binding.isEnabled());
@@ -119,7 +113,7 @@ public class FieldBindingTest {
 
     @Test
     public void testEnabledBinding_callSetEnabledOnField() {
-        when(propertyDispatcher.isEnabled("value")).thenReturn(false);
+        when(propertyDispatcherValue.isEnabled()).thenReturn(false);
         context.updateUI();
 
         verify(field).setEnabled(false);
@@ -127,10 +121,10 @@ public class FieldBindingTest {
 
     @Test
     public void testVisibleBinding() {
-        when(propertyDispatcher.isVisible("value")).thenReturn(true);
+        when(propertyDispatcherValue.isVisible()).thenReturn(true);
         assertTrue(binding.isVisible());
         assertTrue(field.isVisible());
-        when(propertyDispatcher.isVisible("value")).thenReturn(false);
+        when(propertyDispatcherValue.isVisible()).thenReturn(false);
         context.updateUI();
 
         assertFalse(binding.isVisible());
@@ -139,7 +133,7 @@ public class FieldBindingTest {
 
     @Test
     public void testVisibleBinding_callSetVisibleOnLabelAndField() {
-        when(propertyDispatcher.isVisible("value")).thenReturn(false);
+        when(propertyDispatcherValue.isVisible()).thenReturn(false);
         binding.updateFromPmo();
 
         verify(field).setVisible(false);
@@ -148,8 +142,9 @@ public class FieldBindingTest {
 
     @Test
     public void testVisibleBinding_ifLabelNull() {
-        binding = FieldBinding.create(context, pmo, "value", null, field, propertyDispatcher);
-        when(propertyDispatcher.isVisible("value")).thenReturn(false);
+        binding = new FieldBinding<>(null, field, propertyDispatcherValue, context::updateUI);
+        context.add(binding);
+        when(propertyDispatcherValue.isVisible()).thenReturn(false);
         binding.updateFromPmo();
 
         verify(field).setVisible(false);
@@ -157,9 +152,9 @@ public class FieldBindingTest {
 
     @Test
     public void testRequiredBinding() {
-        when(propertyDispatcher.isRequired("value")).thenReturn(false);
+        when(propertyDispatcherValue.isRequired()).thenReturn(false);
         assertFalse(binding.isRequired());
-        when(propertyDispatcher.isRequired("value")).thenReturn(true);
+        when(propertyDispatcherValue.isRequired()).thenReturn(true);
         context.updateUI();
 
         assertTrue(binding.isRequired());
@@ -167,7 +162,7 @@ public class FieldBindingTest {
 
     @Test
     public void testRequiredBinding_callSetRequiredOnField() {
-        when(propertyDispatcher.isRequired("value")).thenReturn(true);
+        when(propertyDispatcherValue.isRequired()).thenReturn(true);
         context.updateUI();
 
         verify(field).setRequired(true);
@@ -176,14 +171,14 @@ public class FieldBindingTest {
     @Test
     public void testBindAvailableValues() {
         assertTrue(selectBinding.getAvailableValues().isEmpty());
-        doReturn(valueList).when(propertyDispatcher).getAvailableValues("enumValue");
+        doReturn(valueList).when(propertyDispatcherEnumValue).getAvailableValues();
 
         assertEquals(2, selectBinding.getAvailableValues().size());
     }
 
     @Test
     public void testBindAvailableValues_removeOldItemsFromField() {
-        doReturn(valueList).when(propertyDispatcher).getAvailableValues("enumValue");
+        doReturn(valueList).when(propertyDispatcherEnumValue).getAvailableValues();
 
         context.updateUI();
         Collection<?> itemIds = selectField.getItemIds();
@@ -193,7 +188,7 @@ public class FieldBindingTest {
         assertThat(iterator.next(), is(TestEnum.THREE));
 
         Collection<TestEnum> valueList2 = Arrays.asList(new TestEnum[] { TestEnum.TWO, TestEnum.THREE });
-        doReturn(valueList2).when(propertyDispatcher).getAvailableValues("enumValue");
+        doReturn(valueList2).when(propertyDispatcherEnumValue).getAvailableValues();
 
         context.updateUI();
         Collection<?> itemIds2 = selectField.getItemIds();

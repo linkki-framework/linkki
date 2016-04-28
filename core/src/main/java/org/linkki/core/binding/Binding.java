@@ -45,8 +45,8 @@ public interface Binding {
     void updateFromPmo();
 
     /**
-     * Rertrieves those messages from the given list that are relevant for this binding and display
-     * them directly at the bound component. An error message will mark the component propertly.
+     * Retrieves those messages from the given list that are relevant for this binding and displays
+     * them directly at the bound component. An error message will mark the component property.
      * 
      * @param messages a list of messages
      * @return those messages from the given list that are displayed; an empty list if no messages
