@@ -101,7 +101,7 @@ public class BindingUtils {
     private static PropertyDispatcher createDispatcherChain(BindingContext bindingContext,
             Object pmo,
             Bind bindAnnotation) {
-        String valueProperty = bindAnnotation.valueProperty();
+        String valueProperty = bindAnnotation.pmoProperty();
         ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(valueProperty, pmo);
         ReflectionPropertyDispatcher reflectionDispatcher = new ReflectionPropertyDispatcher(() -> pmo, valueProperty,
                 exceptionDispatcher);

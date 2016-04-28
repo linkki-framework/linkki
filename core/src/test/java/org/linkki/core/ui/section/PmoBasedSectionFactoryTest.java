@@ -6,6 +6,7 @@
 
 package org.linkki.core.ui.section;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -92,7 +93,7 @@ public class PmoBasedSectionFactoryTest {
     }
 
     @Test
-    public void testCreateSection_defaultState() {
+    public void testCreateSection_DefaultState() {
         assertEquals("123", textFieldBinding.getValue());
         assertEquals(TestEnum.THREE, comboBinding1.getValue());
         assertEquals(TestEnum.TWO, comboBinding2.getValue());
@@ -120,7 +121,7 @@ public class PmoBasedSectionFactoryTest {
     }
 
     @Test
-    public void testCreateSection_dependencies() {
+    public void testCreateSection_Dependencies() {
         pmo.setXyz("abc");
         pmo.setStaticEnumAttr(TestEnum.TWO);
 
@@ -137,9 +138,9 @@ public class PmoBasedSectionFactoryTest {
         assertTrue(comboBinding2.isVisible());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateSection_exceptionIllegalAvailableValues() {
-        assertNull(textFieldBinding.getAvailableValues());
+    @Test
+    public void testCreateSection_NoAvailableValues() {
+        assertThat(textFieldBinding.getAvailableValues(), is(empty()));
     }
 
     @Test

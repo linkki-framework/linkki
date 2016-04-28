@@ -3,7 +3,6 @@ package org.linkki.core.ui.section.annotations.adapters;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIDateField;
@@ -60,11 +59,6 @@ public class UIDateFieldAdapter implements UIFieldDefinition {
     @Override
     public VisibleType visible() {
         return uiDateField.visible();
-    }
-
-    @Override
-    public AvailableValuesType availableValues() {
-        return null;
     }
 
     @Override

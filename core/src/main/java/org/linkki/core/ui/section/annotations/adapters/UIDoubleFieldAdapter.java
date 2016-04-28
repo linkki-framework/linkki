@@ -1,7 +1,6 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
 import org.linkki.core.ui.components.DoubleField;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIDoubleField;
@@ -54,11 +53,6 @@ public class UIDoubleFieldAdapter implements UIFieldDefinition {
     @Override
     public VisibleType visible() {
         return uiDoubleField.visible();
-    }
-
-    @Override
-    public AvailableValuesType availableValues() {
-        return null;
     }
 
     @Override

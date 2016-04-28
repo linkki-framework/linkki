@@ -7,7 +7,6 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
 import org.linkki.core.ui.components.DecimalField;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIDecimalField;
@@ -59,11 +58,6 @@ public class UIDecimalFieldAdapter implements UIFieldDefinition {
     @Override
     public VisibleType visible() {
         return uiDecimalField.visible();
-    }
-
-    @Override
-    public AvailableValuesType availableValues() {
-        return null;
     }
 
     @Override

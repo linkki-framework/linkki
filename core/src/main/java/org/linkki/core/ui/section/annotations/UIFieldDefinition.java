@@ -9,10 +9,6 @@ package org.linkki.core.ui.section.annotations;
  */
 public interface UIFieldDefinition extends UIElementDefinition {
 
-    RequiredType required();
-
-    AvailableValuesType availableValues();
-
     String modelAttribute();
 
 }

@@ -72,10 +72,12 @@ public class FieldDescriptor implements ElementDescriptor {
         return fieldDefinition.visible();
     }
 
+    @Override
     public RequiredType required() {
         return fieldDefinition.required();
     }
 
+    @Override
     public AvailableValuesType availableValues() {
         return fieldDefinition.availableValues();
     }

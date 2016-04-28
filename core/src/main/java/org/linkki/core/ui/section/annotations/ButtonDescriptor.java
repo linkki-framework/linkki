@@ -79,4 +79,14 @@ public class ButtonDescriptor implements ElementDescriptor {
         return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi);
     }
 
+    @Override
+    public RequiredType required() {
+        return RequiredType.NOT_REQUIRED;
+    }
+
+    @Override
+    public AvailableValuesType availableValues() {
+        return AvailableValuesType.NO_VALUES;
+    }
+
 }

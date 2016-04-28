@@ -18,7 +18,7 @@ import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
-import org.linkki.core.ui.section.annotations.ElementDescriptor;
+import org.linkki.core.ui.section.annotations.BindingDescriptor;
 import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 
 /**
@@ -33,17 +33,17 @@ class PropertyDispatcherFactory {
 
     @Nonnull
     static PropertyDispatcher createDispatcherChain(@Nonnull Object pmo,
-            @Nonnull ElementDescriptor elementDescriptor,
+            @Nonnull BindingDescriptor bindingDescriptor,
             @Nonnull PropertyBehaviorProvider behaviorProvider) {
         requireNonNull(pmo, "PresentationModelObject must not be null");
-        requireNonNull(elementDescriptor, "ElementDescriptor must not be null");
+        requireNonNull(bindingDescriptor, "ElementDescriptor must not be null");
         requireNonNull(behaviorProvider, "PropertyBehaviorProvider must not be null");
 
         // @formatter:off
-        String propertyName = elementDescriptor.getPropertyName();
+        String propertyName = bindingDescriptor.getPropertyName();
         ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo, propertyName);
         ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, propertyName, exceptionDispatcher);
-        BindingAnnotationDispatcher bindingAnnotationDispatcher = new BindingAnnotationDispatcher(reflectionDispatcher, elementDescriptor);
+        BindingAnnotationDispatcher bindingAnnotationDispatcher = new BindingAnnotationDispatcher(reflectionDispatcher, bindingDescriptor);
         return new BehaviourDependentDispatcher(bindingAnnotationDispatcher, behaviorProvider);
         // @formatter:on
     }

@@ -23,6 +23,9 @@ public enum AvailableValuesType {
      * When retrieving the content for the input field a method called
      * get[PropertyName]AvailableValues() is called.
      */
-    DYNAMIC;
+    DYNAMIC,
+
+    /** No values can be retrieved, i.e. the collection of available values always is empty. */
+    NO_VALUES;
 
 }

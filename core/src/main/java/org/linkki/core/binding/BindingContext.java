@@ -15,7 +15,7 @@ import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.section.annotations.ElementDescriptor;
+import org.linkki.core.ui.section.annotations.BindingDescriptor;
 
 import com.google.gwt.thirdparty.guava.common.collect.ArrayListMultimap;
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
@@ -159,24 +159,26 @@ public class BindingContext {
     }
 
     /**
-     * Binds the model object's behavior described by the {@linkplain ElementDescriptor} to the
-     * {@linkplain Label} and {@linkplain Component}.
+     * Creates a binding between the presentation model object and UI elements (i.e.
+     * {@linkplain Label} and {@linkplain Component}) as described by the given descriptor.
+     * <p>
+     * If the label is {@code null} it is ignored for the binding
      * 
-     * @param pmo a model object
-     * @param elementDescriptor the descriptor for a button
+     * @param pmo a presentation model object
+     * @param bindingDescriptor the descriptor describing the binding
      * @param component the component to be bound
-     * @param label the label to be bound (optional)
+     * @param label the label to be bound or {@code null} if no label is bound
      */
     @Nonnull
     public void bind(@Nonnull Object pmo,
-            @Nonnull ElementDescriptor elementDescriptor,
+            @Nonnull BindingDescriptor bindingDescriptor,
             @Nonnull Component component,
             Label label) {
         requireNonNull(pmo, "PresentationModelObject must not be null");
-        requireNonNull(elementDescriptor, "ElementDescriptor must not be null");
+        requireNonNull(bindingDescriptor, "BindingDescriptor must not be null");
         requireNonNull(component, "Component must not be null");
-        ElementBinding binding = elementDescriptor
-                .createBinding(createDispatcherChain(pmo, elementDescriptor), this::updateUI, component, label);
+        ElementBinding binding = bindingDescriptor.createBinding(createDispatcherChain(pmo, bindingDescriptor),
+                                                                 this::updateUI, component, label);
         add(binding);
     }
 
@@ -198,11 +200,11 @@ public class BindingContext {
 
     @Nonnull
     protected PropertyDispatcher createDispatcherChain(@Nonnull Object pmo,
-            @Nonnull ElementDescriptor elementDescriptor) {
+            @Nonnull BindingDescriptor bindingDescriptor) {
         requireNonNull(pmo, "PresentationModelObject must not be null");
-        requireNonNull(elementDescriptor, "ElementDescriptor must not be null");
+        requireNonNull(bindingDescriptor, "BindingDescriptor must not be null");
 
-        return PropertyDispatcherFactory.createDispatcherChain(pmo, elementDescriptor, getBehaviorProvider());
+        return PropertyDispatcherFactory.createDispatcherChain(pmo, bindingDescriptor, getBehaviorProvider());
     }
 
     @Nonnull

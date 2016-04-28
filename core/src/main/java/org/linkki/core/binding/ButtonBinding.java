@@ -9,6 +9,7 @@ package org.linkki.core.binding;
 import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
@@ -25,7 +26,7 @@ public class ButtonBinding implements ElementBinding, Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Button button;
-    private final Label label;
+    private final Optional<Label> label;
     private final PropertyDispatcher propertyDispatcher;
     private final Handler updateUi;
 
@@ -41,7 +42,7 @@ public class ButtonBinding implements ElementBinding, Serializable {
      */
     public ButtonBinding(Label label, @Nonnull Button button, @Nonnull PropertyDispatcher propertyDispatcher,
             @Nonnull Handler updateUi) {
-        this.label = label;
+        this.label = Optional.ofNullable(label);
         this.button = requireNonNull(button, "Button must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
         this.updateUi = requireNonNull(updateUi, "Update-UI-Handler must not be null");
@@ -50,15 +51,10 @@ public class ButtonBinding implements ElementBinding, Serializable {
 
     @Override
     public void updateFromPmo() {
-
         button.setEnabled(isEnabled());
         boolean visible = isVisible();
         button.setVisible(visible);
-        if (label != null) {
-            // label is null in case of a table
-            label.setVisible(visible);
-        }
-
+        label.ifPresent(l -> l.setVisible(visible));
     }
 
     @Override

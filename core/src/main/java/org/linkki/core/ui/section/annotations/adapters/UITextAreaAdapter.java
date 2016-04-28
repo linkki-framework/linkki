@@ -1,6 +1,5 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
@@ -59,11 +58,6 @@ public class UITextAreaAdapter implements UIFieldDefinition {
     @Override
     public VisibleType visible() {
         return uiTextArea.visible();
-    }
-
-    @Override
-    public AvailableValuesType availableValues() {
-        return null;
     }
 
     @Override
