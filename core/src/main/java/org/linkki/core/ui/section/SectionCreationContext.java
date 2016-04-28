@@ -34,20 +34,16 @@ import com.vaadin.ui.Label;
  */
 public class SectionCreationContext {
 
-    private final PresentationModelObject pmo;
+    private final Object pmo;
     private final BindingContext bindingContext;
 
-    public SectionCreationContext(@Nonnull PresentationModelObject pmo, @Nonnull BindingContext bindingContext) {
+    public SectionCreationContext(@Nonnull Object pmo, @Nonnull BindingContext bindingContext) {
         this.pmo = requireNonNull(pmo, "PresentationModelObject must not be null");
         this.bindingContext = requireNonNull(bindingContext, "BindingContext must not be null");
     }
 
-    protected PresentationModelObject getPmo() {
+    protected Object getPmo() {
         return pmo;
-    }
-
-    protected Object getModelObject() {
-        return pmo.getModelObject();
     }
 
     public BaseSection createSection() {
@@ -60,7 +56,7 @@ public class SectionCreationContext {
         BaseSection section;
         UISection sectionDefinition = pmo.getClass().getAnnotation(UISection.class);
         checkNotNull(sectionDefinition, "PMO " + pmo.getClass() + " must be annotated with @UISection!");
-        Optional<Button> editButton = createEditButton(pmo.getEditButtonPmo());
+        Optional<Button> editButton = createEditButton(getEditButtonPmo());
         if (sectionDefinition.layout() == SectionLayout.COLUMN) {
             section = new FormSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButton,
                     sectionDefinition.columns());
@@ -68,6 +64,11 @@ public class SectionCreationContext {
             section = new HorizontalSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButton);
         }
         return section;
+    }
+
+    private Optional<ButtonPmo> getEditButtonPmo() {
+        return (pmo instanceof PresentationModelObject) ? ((PresentationModelObject)pmo).getEditButtonPmo()
+                : Optional.empty();
     }
 
     private Optional<Button> createEditButton(Optional<ButtonPmo> buttonPmo) {
@@ -78,7 +79,7 @@ public class SectionCreationContext {
         UIAnnotationReader annotationReader = new UIAnnotationReader(getPmo().getClass());
         for (ElementDescriptor uiElement : annotationReader.getUiElements()) {
             LabelComponent lf = createLabelAndComponent(section, uiElement);
-            bindUiElement(lf.component, uiElement, lf.label);
+            bindUiElement(uiElement, lf.component, lf.label);
         }
     }
 
@@ -89,8 +90,8 @@ public class SectionCreationContext {
         return new LabelComponent(label, component);
     }
 
-    private void bindUiElement(Component component, ElementDescriptor uiElement, Label label) {
-        uiElement.createBinding(bindingContext, pmo, label, component);
+    private void bindUiElement(ElementDescriptor elementDescriptor, Component component, Label label) {
+        bindingContext.bind(pmo, elementDescriptor, component, label);
     }
 
     private static class LabelComponent {

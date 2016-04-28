@@ -30,11 +30,6 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
-    public void prepareUpdateUI() {
-        getWrappedDispatcher().prepareUpdateUI();
-    }
-
-    @Override
     public Class<?> getValueClass() {
         return wrappedDispatcher.getValueClass();
     }

@@ -63,11 +63,6 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public void prepareUpdateUI() {
-        fallbackDispatcher.prepareUpdateUI();
-    }
-
-    @Override
     public Class<?> getValueClass() {
         if (canRead(getProperty())) {
             Class<?> valueClass = getAccessor(getProperty()).getValueClass();

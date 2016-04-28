@@ -26,7 +26,7 @@ import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.Severity;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.PresentationModelObject;
+import org.linkki.core.ui.section.annotations.ModelObject;
 
 /**
  * @author widmaier
@@ -376,7 +376,7 @@ public class ReflectionPropertyDispatcherTest {
         return new ReflectionPropertyDispatcher(this::getTestPmo, property, modelObjectDispatcher);
     }
 
-    public static class TestPMO implements PresentationModelObject {
+    public static class TestPMO {
 
         public static final String PROPERTY_PMO_PROP = "pmoProp";
 
@@ -416,8 +416,8 @@ public class ReflectionPropertyDispatcherTest {
             return "";
         }
 
-        @Override
-        public Object getModelObject() {
+        @ModelObject
+        public TestModelObject getModelObject() {
             return modelObject;
         }
 

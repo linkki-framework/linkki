@@ -7,18 +7,16 @@
 package org.linkki.core.ui.section.annotations;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.function.Supplier;
+
 import org.junit.Test;
-import org.linkki.core.ui.section.annotations.ElementDescriptor;
-import org.linkki.core.ui.section.annotations.UIAnnotationReader;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UIDateField;
-import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.ui.section.annotations.UIAnnotationReader.ModelObjectAnnotationException;
 
 public class UIAnnotationReaderTest {
 
@@ -79,6 +77,81 @@ public class UIAnnotationReaderTest {
 
         assertThat(annotationReader.hasTableColumnAnnotation(test), is(false));
         assertThat(annotationReader.hasTableColumnAnnotation(test3), is(true));
+    }
+
+    @Test(expected = ModelObjectAnnotationException.class)
+    public void testGetModelObjectSupplier_noAnnotation() {
+        Supplier<?> modelObjectSupplier = UIAnnotationReader.getModelObjectSupplier(new TestObject());
+
+        assertThat(modelObjectSupplier, is(notNullValue()));
+        modelObjectSupplier.get();
+    }
+
+    @Test(expected = ModelObjectAnnotationException.class)
+    public void testGetModelObjectSupplier_noMatchingAnnotation() {
+        Supplier<?> modelObjectSupplier = UIAnnotationReader.getModelObjectSupplier(new NamedModelObject());
+
+        assertThat(modelObjectSupplier, is(notNullValue()));
+        modelObjectSupplier.get();
+    }
+
+    @Test(expected = ModelObjectAnnotationException.class)
+    public void testGetModelObjectSupplier_noSupplier() {
+        Supplier<?> modelObjectSupplier = UIAnnotationReader.getModelObjectSupplier(new NoSupplier());
+
+        assertThat(modelObjectSupplier, is(notNullValue()));
+        modelObjectSupplier.get();
+    }
+
+    @Test
+    public void testGetModelObjectSupplier() {
+        Supplier<?> modelObjectSupplier = UIAnnotationReader.getModelObjectSupplier(new TestPmo());
+
+        assertThat(modelObjectSupplier, is(notNullValue()));
+        assertThat(modelObjectSupplier.get(), is(instanceOf(TestObject.class)));
+    }
+
+    @Test
+    public void testHasModelObjectAnnotatedMethod() {
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestPmo()), is(true));
+    }
+
+    @Test
+    public void testHasModelObjectAnnotatedMethod_noAnnotation() {
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestObject()), is(false));
+    }
+
+    @Test
+    public void testHasModelObjectAnnotatedMethod_noMatchingAnnotation() {
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new NamedModelObject()), is(false));
+    }
+
+    public static class NoSupplier {
+
+        @ModelObject()
+        public void getModelObject() {
+            // do nothing
+        }
+    }
+
+    public static class TestPmo {
+
+        private TestObject testObject = new TestObject();
+
+        @ModelObject()
+        public TestObject getTestObject() {
+            return testObject;
+        }
+    }
+
+    public static class NamedModelObject {
+
+        private TestObject testObject = new TestObject();
+
+        @ModelObject(name = "testObject")
+        public TestObject getTestObject() {
+            return testObject;
+        }
     }
 
     public static class TestObject {

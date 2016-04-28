@@ -1,7 +1,10 @@
 package org.linkki.core.ui.section.annotations;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -11,7 +14,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
+
+import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -124,6 +130,113 @@ public class UIAnnotationReader {
 
     public boolean hasTableColumnAnnotation(ElementDescriptor d) {
         return columnDescriptors.containsKey(d);
+    }
+
+    /**
+     * Reads the presentation model object's class to find a method annotated with
+     * {@link ModelObject @ModelObject} with the {@link ModelObject#DEFAULT_NAME}.
+     * 
+     * @param pmo a presentation model object
+     * @return a reference to the annotated method
+     */
+    @Nonnull
+    public static Supplier<?> getModelObjectSupplier(@Nonnull Object pmo) {
+        return getModelObjectSupplier(requireNonNull(pmo), pmo.getClass(), ModelObject.DEFAULT_NAME);
+    }
+
+    /**
+     * Reads the presentation model object's class to find a method annotated with
+     * {@link ModelObject @ModelObject} and the annotation's {@link ModelObject#name()} matching the
+     * given model object name.
+     * 
+     * @param pmo a presentation model object
+     * @param modelObjectName the name of the model object as provided by a method annotated with
+     *            {@link ModelObject @ModelObject}
+     * @return a reference to the annotated method
+     */
+    @Nonnull
+    public static Supplier<?> getModelObjectSupplier(@Nonnull Object pmo, @Nonnull String modelObjectName) {
+        return getModelObjectSupplier(requireNonNull(pmo), pmo.getClass(), requireNonNull(modelObjectName));
+    }
+
+    private static Supplier<?> getModelObjectSupplier(Object pmo,
+            Class<? extends Object> pmoClass,
+            String modelObjectName) {
+        for (Method method : pmoClass.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(ModelObject.class)
+                    && method.getAnnotation(ModelObject.class).name().equals(modelObjectName)) {
+                if (Void.TYPE.equals(method.getReturnType())) {
+                    return () -> {
+                        throw new ModelObjectAnnotationException(pmo, method);
+                    };
+                }
+                return () -> {
+                    try {
+                        return method.invoke(pmo);
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    }
+                };
+            }
+        }
+        if (pmoClass.getSuperclass() != null) {
+            return getModelObjectSupplier(pmo, pmoClass.getSuperclass(), modelObjectName);
+        }
+        return () -> {
+            if (ModelObject.DEFAULT_NAME.equals(modelObjectName)) {
+                throw new ModelObjectAnnotationException(pmo);
+            } else {
+                throw new ModelObjectAnnotationException(pmo, modelObjectName);
+            }
+        };
+    }
+
+    /**
+     * Tests if the presentation model object has a method annotated with
+     * {@link ModelObject @ModelObject} using the {@link ModelObject#DEFAULT_NAME}.
+     * 
+     * @param pmo an object used for a presentation model
+     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using
+     *         the {@link ModelObject#DEFAULT_NAME}
+     */
+    public static boolean hasModelObjectAnnotatedMethod(@Nonnull Object pmo) {
+        return hasModelObjectAnnotatedMethod(requireNonNull(pmo).getClass());
+    }
+
+    private static boolean hasModelObjectAnnotatedMethod(Class<? extends Object> pmoClass) {
+        for (Method method : pmoClass.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(ModelObject.class)
+                    && method.getAnnotation(ModelObject.class).name().equals(ModelObject.DEFAULT_NAME)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Thrown when trying to get a method annotated with {@link ModelObject @ModelObject} via
+     * {@link UIAnnotationReader#getModelObjectSupplier(Object, String)} fails.
+     *
+     * @author dschwering
+     */
+    public static final class ModelObjectAnnotationException extends IllegalArgumentException {
+        private static final long serialVersionUID = 1L;
+
+        public ModelObjectAnnotationException(Object pmo) {
+            super("Presentation model object " + pmo + " has no method annotated with @"
+                    + ModelObject.class.getSimpleName());
+        }
+
+        public ModelObjectAnnotationException(Object pmo, String modelObjectName) {
+            super("Presentation model object " + pmo + " has no method annotated with @"
+                    + ModelObject.class.getSimpleName() + " for the model object named \"" + modelObjectName + "\"");
+        }
+
+        public ModelObjectAnnotationException(Object pmo, Method method) {
+            super("Presentation model object " + pmo + "'s method " + method.getName() + " is annotated with @"
+                    + ModelObject.class.getSimpleName() + " but returns void");
+        }
+
     }
 
     /**

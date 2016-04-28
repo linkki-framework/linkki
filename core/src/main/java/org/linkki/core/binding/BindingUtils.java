@@ -1,15 +1,14 @@
 package org.linkki.core.binding;
 
 import java.util.Arrays;
-import java.util.Objects;
 
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.annotations.BindContext;
 import org.linkki.core.binding.dispatcher.BehaviourDependentDispatcher;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
+import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.AbstractSelect;
@@ -22,19 +21,13 @@ public class BindingUtils {
     }
 
     public static final boolean isPmo(Object objectToTest) {
-        Objects.requireNonNull(objectToTest);
-        return isPmo(objectToTest.getClass());
-    }
-
-    public static final boolean isPmo(Class<?> classToTest) {
-        Objects.requireNonNull(classToTest);
-        return PresentationModelObject.class.isAssignableFrom(classToTest);
+        return UIAnnotationReader.hasModelObjectAnnotatedMethod(objectToTest);
     }
 
     /**
      * Creates the bindings for fields in the UI-Element to the properties of PMO.
      */
-    public static void bind(BindingManager bindingManager, Object uiElement, PresentationModelObject pmo) {
+    public static void bind(BindingManager bindingManager, Object uiElement, Object pmo) {
         BindingContext ctx = getBindingContext(bindingManager, uiElement);
         bindFields(ctx, uiElement, pmo);
         ctx.updateUI();
@@ -48,7 +41,7 @@ public class BindingUtils {
         return bindingManager.getExistingContextOrStartNewOne(annotation.contextClass());
     }
 
-    private static void bindFields(BindingContext ctx, Object uiElement, PresentationModelObject pmo) {
+    private static void bindFields(BindingContext ctx, Object uiElement, Object pmo) {
         java.lang.reflect.Field[] fields = uiElement.getClass().getDeclaredFields();
         for (java.lang.reflect.Field field : fields) {
             bindField(field, ctx, uiElement, pmo);
@@ -62,7 +55,7 @@ public class BindingUtils {
     private static void bindField(java.lang.reflect.Field javaField,
             BindingContext bindingContext,
             Object uiElement,
-            PresentationModelObject pmo) {
+            Object pmo) {
 
         bindField(javaField, bindingContext, uiElement, null, pmo);
     }
@@ -75,7 +68,7 @@ public class BindingUtils {
             BindingContext bindingContext,
             Object uiElement,
             Label label,
-            PresentationModelObject pmo) {
+            Object pmo) {
 
         if (!Field.class.isAssignableFrom(javaField.getType())) {
             return;
@@ -106,7 +99,7 @@ public class BindingUtils {
      * Stattdessen erhalten die zugehörigen PMOs die neuen @UITextField Annotations. see FIPM-58
      */
     private static PropertyDispatcher createDispatcherChain(BindingContext bindingContext,
-            PresentationModelObject pmo,
+            Object pmo,
             Bind bindAnnotation) {
         String valueProperty = bindAnnotation.valueProperty();
         ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(valueProperty, pmo);

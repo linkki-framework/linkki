@@ -10,18 +10,11 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang3.StringUtils;
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.PresentationModelObject;
-import org.linkki.core.binding.dispatcher.BehaviourDependentDispatcher;
-import org.linkki.core.binding.dispatcher.BindingAnnotationDispatcher;
-import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.section.annotations.ButtonDescriptor;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
 
 import com.google.gwt.thirdparty.guava.common.collect.ArrayListMultimap;
@@ -31,7 +24,6 @@ import com.google.gwt.thirdparty.guava.common.collect.Multimaps;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 
 /**
@@ -109,7 +101,7 @@ public class BindingContext {
     /**
      * Removes all bindings in this context that refer to the given PMO.
      */
-    public void removeBindingsForPmo(PresentationModelObject pmo) {
+    public void removeBindingsForPmo(Object pmo) {
         Collection<ElementBinding> toRemove = elementBindingsByPmo.get(pmo);
         toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
         elementBindings.values().removeAll(toRemove);
@@ -136,7 +128,6 @@ public class BindingContext {
      * validation services.
      */
     public void updateUI() {
-        propertyDispatchers.forEach(pd -> pd.prepareUpdateUI());
         // table bindings have to be updated first, as their update removes bindings
         // and creates new bindings if the table content has changed.
         tableBindings.values().forEach(binding -> binding.updateFromPmo());
@@ -168,51 +159,25 @@ public class BindingContext {
     }
 
     /**
-     * Binds the model object's property described by the {@linkplain ElementDescriptor} to the
-     * {@linkplain Label} and {@linkplain Field}.
+     * Binds the model object's behavior described by the {@linkplain ElementDescriptor} to the
+     * {@linkplain Label} and {@linkplain Component}.
      * 
      * @param pmo a model object
-     * @param elementDescriptor the descriptor for a property of the model
+     * @param elementDescriptor the descriptor for a button
+     * @param component the component to be bound
      * @param label the label to be bound (optional)
-     * @param field the field to be bound
-     * @return the {@link FieldBinding} connecting model property and UI elements
      */
     @Nonnull
-    public <T> FieldBinding<T> bind(@Nonnull Object pmo,
+    public void bind(@Nonnull Object pmo,
             @Nonnull ElementDescriptor elementDescriptor,
-            Label label,
-            @Nonnull Field<T> field) {
+            @Nonnull Component component,
+            Label label) {
         requireNonNull(pmo, "PresentationModelObject must not be null");
         requireNonNull(elementDescriptor, "ElementDescriptor must not be null");
-        requireNonNull(field, "Field must not be null");
-        FieldBinding<T> fieldBinding = new FieldBinding<>(label, field, createDispatcherChain(pmo, elementDescriptor),
-                this::updateUI);
-        add(fieldBinding);
-        return fieldBinding;
-    }
-
-    /**
-     * Binds the model object's behavior described by the {@linkplain ButtonDescriptor} to the
-     * {@linkplain Label} and {@linkplain Button}.
-     * 
-     * @param pmo a model object
-     * @param buttonDescriptor the descriptor for a button
-     * @param label the label to be bound (optional)
-     * @param button the button to be bound
-     * @return the {@link ButtonBinding} connecting model and UI elements
-     */
-    @Nonnull
-    public ButtonBinding bind(@Nonnull Object pmo,
-            @Nonnull ButtonDescriptor buttonDescriptor,
-            Label label,
-            @Nonnull Button button) {
-        requireNonNull(pmo, "PresentationModelObject must not be null");
-        requireNonNull(buttonDescriptor, "ButtonDescriptor must not be null");
-        requireNonNull(button, "Button must not be null");
-        ButtonBinding buttonBinding = new ButtonBinding(label, button, createDispatcherChain(pmo, buttonDescriptor),
-                this::updateUI);
-        add(buttonBinding);
-        return buttonBinding;
+        requireNonNull(component, "Component must not be null");
+        ElementBinding binding = elementDescriptor
+                .createBinding(createDispatcherChain(pmo, elementDescriptor), this::updateUI, component, label);
+        add(binding);
     }
 
     /**
@@ -237,46 +202,14 @@ public class BindingContext {
         requireNonNull(pmo, "PresentationModelObject must not be null");
         requireNonNull(elementDescriptor, "ElementDescriptor must not be null");
 
-        // @formatter:off
-        String propertyName = elementDescriptor.getPropertyName();
-        ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo, propertyName);
-        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, propertyName, exceptionDispatcher);
-        BindingAnnotationDispatcher bindingAnnotationDispatcher = new BindingAnnotationDispatcher(reflectionDispatcher, elementDescriptor);
-        return new BehaviourDependentDispatcher(bindingAnnotationDispatcher, behaviorProvider);
-        // @formatter:on
+        return PropertyDispatcherFactory.createDispatcherChain(pmo, elementDescriptor, getBehaviorProvider());
     }
 
     @Nonnull
     protected PropertyDispatcher createDispatcherChain(@Nonnull ButtonPmo buttonPmo) {
         requireNonNull(buttonPmo, "ButtonPmo must not be null");
 
-        // @formatter:off
-        ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(buttonPmo, StringUtils.EMPTY);
-        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(buttonPmo, StringUtils.EMPTY, exceptionDispatcher);
-        @SuppressWarnings("deprecation")
-        org.linkki.core.binding.dispatcher.ButtonPmoDispatcher buttonPmoDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(reflectionDispatcher);
-        return new BehaviourDependentDispatcher(buttonPmoDispatcher, behaviorProvider);
-        // @formatter:on
-    }
-
-    private ReflectionPropertyDispatcher newReflectionDispatcher(Object pmo,
-            String property,
-            PropertyDispatcher wrappedDispatcher) {
-        if (pmo instanceof PresentationModelObject) {
-            ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(
-                    ((PresentationModelObject)pmo)::getModelObject, property, wrappedDispatcher);
-            return new ReflectionPropertyDispatcher(() -> pmo, property, modelObjectDispatcher);
-        } else {
-            return new ReflectionPropertyDispatcher(() -> pmo, property, wrappedDispatcher);
-        }
-    }
-
-    private ExceptionPropertyDispatcher newExceptionDispatcher(Object pmo, String property) {
-        if (pmo instanceof PresentationModelObject) {
-            return new ExceptionPropertyDispatcher(property, ((PresentationModelObject)pmo).getModelObject(), pmo);
-        } else {
-            return new ExceptionPropertyDispatcher(property, pmo);
-        }
+        return PropertyDispatcherFactory.createDispatcherChain(buttonPmo, getBehaviorProvider());
     }
 
 }

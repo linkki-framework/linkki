@@ -13,8 +13,6 @@ import org.faktorips.runtime.MessageList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.dispatcher.AbstractPropertyDispatcherDecorator;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -35,12 +33,6 @@ public class AbstractPropertyDispatcherDecoratorTest {
     // warning suppressed as object is created to test the constructor, not to use it
     public void testConstructor() {
         new TestDecorator(null);
-    }
-
-    @Test
-    public void testPrepareUpdateUI() {
-        decorator.prepareUpdateUI();
-        verify(wrappedDispatcher).prepareUpdateUI();
     }
 
     @Test
@@ -68,10 +60,10 @@ public class AbstractPropertyDispatcherDecoratorTest {
     }
 
     @Test
-        public void testIsReadOnly() {
-            decorator.isReadOnly();
-            verify(wrappedDispatcher).isReadOnly();
-        }
+    public void testIsReadOnly() {
+        decorator.isReadOnly();
+        verify(wrappedDispatcher).isReadOnly();
+    }
 
     @Test
     public void testIsVisible() {

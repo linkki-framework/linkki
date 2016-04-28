@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.components.SubsetChooser;
 
@@ -29,7 +28,7 @@ import com.vaadin.server.PaintTarget;
 public class UISubsetChooserTest {
 
     @UISection
-    protected static class TestPmo implements PresentationModelObject {
+    protected static class TestPmo {
 
         private final Set<TestEnum> foo = Sets.newLinkedHashSet();
 
@@ -51,8 +50,8 @@ public class UISubsetChooserTest {
             return someValues;
         }
 
-        @Override
-        public Object getModelObject() {
+        @ModelObject
+        public TestPmo getModelObject() {
             return this;
         }
 
@@ -76,7 +75,7 @@ public class UISubsetChooserTest {
      * 
      * @return a {@code SubsetChooser} that is bound to a {@link TestPmo}
      */
-    private SubsetChooser createSubsetChooser(PresentationModelObject pmo) {
+    private SubsetChooser createSubsetChooser(Object pmo) {
         try {
             SubsetChooser subsetChooser = (SubsetChooser)TestUi.componentBoundTo(pmo);
             // initializes the internal itemIdMapper which is needed to

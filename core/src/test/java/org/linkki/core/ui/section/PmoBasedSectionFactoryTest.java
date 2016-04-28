@@ -17,9 +17,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonBinding;
@@ -29,6 +29,7 @@ import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -152,7 +153,7 @@ public class PmoBasedSectionFactoryTest {
     }
 
     @UISection
-    public class TestPmoWithAnnotations implements PresentationModelObject {
+    public class TestPmoWithAnnotations {
 
         private String xyz = "123";
         private TestEnum staticEnumAttr = TestEnum.THREE;
@@ -234,9 +235,9 @@ public class PmoBasedSectionFactoryTest {
             return null;
         }
 
-        @Override
+        @ModelObject
         public Object getModelObject() {
-            return "";
+            return StringUtils.EMPTY;
         }
 
     }

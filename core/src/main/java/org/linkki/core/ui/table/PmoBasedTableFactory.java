@@ -8,7 +8,6 @@ package org.linkki.core.ui.table;
 
 import java.util.Set;
 
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
 import org.linkki.core.ui.application.ApplicationStyles;
@@ -25,7 +24,7 @@ import com.vaadin.ui.Table.ColumnGenerator;
  *
  * @author ortmann
  */
-public class PmoBasedTableFactory<T extends PresentationModelObject> {
+public class PmoBasedTableFactory<T> {
 
     private ContainerPmo<T> containerPmo;
 
@@ -139,7 +138,7 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;
-            elementDescriptor.createBinding(bindingContext, itemPmo, null, component);
+            bindingContext.bind(itemPmo, elementDescriptor, component, null);
 
             // removed the following line as on the created binding for the cell
             // a updateFromPmo() is called later on by the binding manager, see FIPM-497 for details

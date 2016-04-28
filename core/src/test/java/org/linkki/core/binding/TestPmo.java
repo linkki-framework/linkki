@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.PresentationModelObject;
+import org.linkki.core.ui.section.annotations.ModelObject;
 
-public class TestPmo implements PresentationModelObject {
+public class TestPmo {
     private String value = StringUtils.EMPTY;
 
     private Object modelObject;
@@ -44,7 +44,7 @@ public class TestPmo implements PresentationModelObject {
         this.visible = visible;
     }
 
-    @Override
+    @ModelObject
     public Object getModelObject() {
         return modelObject;
     }

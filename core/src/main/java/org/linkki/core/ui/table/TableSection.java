@@ -8,13 +8,12 @@ package org.linkki.core.ui.table;
 
 import java.util.Optional;
 
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.ui.section.AbstractSection;
 
-import com.vaadin.ui.Table;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Table;
 
-public class TableSection<T extends PresentationModelObject> extends AbstractSection {
+public class TableSection<T> extends AbstractSection {
 
     private static final long serialVersionUID = 1L;
 

@@ -16,11 +16,13 @@ import org.faktorips.runtime.IModelObject;
 @Target(ElementType.METHOD)
 public @interface ModelObject {
 
+    public static final String DEFAULT_NAME = "modelObject";
+
     /**
      * @return the name used to reference the domain model object. If there is only one such object
      *         in the presentation model, the default name "modelObject" can be used by omitting
      *         this attribute.
      */
-    String name() default "modelObject";
+    String name() default DEFAULT_NAME;
 
 }

@@ -1,6 +1,5 @@
 package org.linkki.core.ui.section.annotations;
 
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.ui.section.BaseSection;
@@ -55,12 +54,12 @@ public class TestUi extends UI {
      * @param pmo the PMO to which the component is bound is bound
      * @return a {@code CheckBox} that is bound to the model object
      */
-    public static Component componentBoundTo(PresentationModelObject pmo) {
+    public static Component componentBoundTo(Object pmo) {
         BindingContext bindingContext = TestBindingContext.create();
         return componentBoundTo(pmo, bindingContext);
     }
 
-    public static Component componentBoundTo(PresentationModelObject pmo, BindingContext bindingContext) {
+    public static Component componentBoundTo(Object pmo, BindingContext bindingContext) {
         TestUi testUi = new TestUi();
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         BaseSection section = sectionFactory.createSection(pmo, bindingContext);

@@ -42,11 +42,6 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public void prepareUpdateUI() {
-        // do nothing
-    }
-
-    @Override
     public Class<?> getValueClass() {
         throw new IllegalArgumentException(getExceptionText("find getter method for"));
     }

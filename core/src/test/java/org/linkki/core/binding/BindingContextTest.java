@@ -9,15 +9,12 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import org.faktorips.runtime.MessageList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
-import org.linkki.core.ui.section.annotations.ElementDescriptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -35,19 +32,15 @@ public class BindingContextTest {
     private Label label1;
     private Label label2;
     private TestPmo pmo = new TestPmo();
-    private TestModelObject modelObject;
+    private TestModelObject modelObject = new TestModelObject();
     private Field<String> field1 = spy(new TextField());
     private Field<String> field2 = spy(new TextField());
 
     private FieldBinding<String> binding1;
     private FieldBinding<String> binding2;
 
-    @Mock
-    private ElementDescriptor elementDescriptor;
-
     private void setUpPmo() {
         context = TestBindingContext.create();
-        modelObject = new TestModelObject();
         pmo.setModelObject(modelObject);
     }
 
@@ -136,79 +129,6 @@ public class BindingContextTest {
 
         context.removeBindingsForComponent(layout);
         assertThat(context.getElementBindings(), is(empty()));
-    }
-
-    @Test
-    public void testCreateDispatcherChain_getValueFromPmo() {
-        setUpPmo();
-        when(elementDescriptor.getPropertyName()).thenReturn("value");
-        PropertyDispatcher defaultDispatcher = context.createDispatcherChain(pmo, elementDescriptor);
-        pmo.setValue("testValue");
-
-        Object pmoProp = defaultDispatcher.getValue();
-
-        assertThat(pmoProp, is("testValue"));
-    }
-
-    @Test
-    public void testCreateDispatcherChain_setValueToPmo() {
-        setUpPmo();
-        when(elementDescriptor.getPropertyName()).thenReturn("value");
-        PropertyDispatcher defaultDispatcher = context.createDispatcherChain(pmo, elementDescriptor);
-
-        defaultDispatcher.setValue("testSetValue");
-
-        assertThat(pmo.getValue(), is("testSetValue"));
-    }
-
-    @Test
-    public void testCreateDispatcherChain_getValueFromModelObject() {
-        setUpPmo();
-        when(elementDescriptor.getPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
-        PropertyDispatcher defaultDispatcher = context.createDispatcherChain(pmo, elementDescriptor);
-        modelObject.setModelProp("testValue");
-
-        Object modelProp = defaultDispatcher.getValue();
-
-        assertThat(modelProp, is("testValue"));
-    }
-
-    @Test
-    public void testCreateDispatcherChain_setValueToModelObject() {
-        setUpPmo();
-        when(elementDescriptor.getPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
-        PropertyDispatcher defaultDispatcher = context.createDispatcherChain(pmo, elementDescriptor);
-
-        defaultDispatcher.setValue("testSetValue");
-
-        assertThat(modelObject.getModelProp(), is("testSetValue"));
-    }
-
-    @Test
-    public void testCreateDispatcherChain_getValueFromChangedModelObject() {
-        setUpPmo();
-        when(elementDescriptor.getPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
-        PropertyDispatcher defaultDispatcher = context.createDispatcherChain(pmo, elementDescriptor);
-        TestModelObject newModelObject = new TestModelObject();
-        pmo.setModelObject(newModelObject);
-        newModelObject.setModelProp("testNewValue");
-
-        Object modelProp = defaultDispatcher.getValue();
-
-        assertThat(modelProp, is("testNewValue"));
-    }
-
-    @Test
-    public void testCreateDispatcherChain_setValueToChangedModelObject() {
-        setUpPmo();
-        when(elementDescriptor.getPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
-        PropertyDispatcher defaultDispatcher = context.createDispatcherChain(pmo, elementDescriptor);
-        TestModelObject newModelObject = new TestModelObject();
-        pmo.setModelObject(newModelObject);
-
-        defaultDispatcher.setValue("testNewSetValue");
-
-        assertThat(newModelObject.getModelProp(), is("testNewSetValue"));
     }
 
     public static class TestModelObject {

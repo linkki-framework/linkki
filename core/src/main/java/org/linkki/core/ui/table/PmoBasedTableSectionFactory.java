@@ -11,7 +11,6 @@ import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNot
 import java.util.Optional;
 
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
 import org.linkki.core.ui.section.annotations.UISection;
@@ -19,7 +18,7 @@ import org.linkki.core.ui.section.annotations.UISection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
-public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
+public class PmoBasedTableSectionFactory<T> {
 
     private ContainerPmo<T> containerPmo;
     private BindingContext bindingContext;

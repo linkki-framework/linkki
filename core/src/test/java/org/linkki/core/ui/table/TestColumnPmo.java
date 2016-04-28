@@ -1,11 +1,11 @@
 package org.linkki.core.ui.table;
 
-import org.linkki.core.PresentationModelObject;
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITextField;
 
-public class TestColumnPmo implements PresentationModelObject {
+public class TestColumnPmo {
 
     private final Object modelObject = new Object();
 
@@ -38,7 +38,7 @@ public class TestColumnPmo implements PresentationModelObject {
         parent.deleteItem(this);
     }
 
-    @Override
+    @ModelObject
     public Object getModelObject() {
         return modelObject;
     }

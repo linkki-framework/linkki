@@ -2,7 +2,6 @@ package org.linkki.core.ui.section;
 
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
 
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -30,7 +29,7 @@ public class PmoBasedSectionFactory {
      * Creates a new section based on the given annotated PMO and binds the created controls via the
      * given binding context to the PMO.
      */
-    public BaseSection createSection(PresentationModelObject pmo, BindingContext bindingContext) {
+    public BaseSection createSection(Object pmo, BindingContext bindingContext) {
         checkNotNull(pmo);
         checkNotNull(bindingContext);
 
@@ -42,8 +41,7 @@ public class PmoBasedSectionFactory {
      * Creates a new section based on the given annotated PMO and binds the created controls via the
      * given binding context to the PMO.
      */
-    public <T extends PresentationModelObject> TableSection<T> createTableSection(ContainerPmo<T> pmo,
-            BindingContext bindingContext) {
+    public <T> TableSection<T> createTableSection(ContainerPmo<T> pmo, BindingContext bindingContext) {
         checkNotNull(pmo);
         checkNotNull(bindingContext);
 

@@ -12,7 +12,6 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.PresentationModelObject;
 
 import com.vaadin.ui.Table;
 
@@ -22,7 +21,7 @@ import com.vaadin.ui.Table;
  *
  * @author ortmann
  */
-public interface ContainerPmo<T extends PresentationModelObject> {
+public interface ContainerPmo<T> {
 
     /** Default page length to use when no other page length is set. */
     public static final int DEFAULT_PAGE_LENGTH = 15;

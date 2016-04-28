@@ -22,8 +22,8 @@ import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.Severity;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.TestUi;
 import org.linkki.core.ui.section.annotations.UISection;
@@ -277,7 +277,7 @@ public class FieldBindingTest {
     }
 
     @UISection
-    protected static class TestPmo implements PresentationModelObject {
+    protected static class TestPmo {
 
         private final TestModelObject modelObject;
 
@@ -291,7 +291,7 @@ public class FieldBindingTest {
             // data binding
         }
 
-        @Override
+        @ModelObject
         public TestModelObject getModelObject() {
             return modelObject;
         }

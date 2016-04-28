@@ -6,9 +6,12 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import static java.util.Objects.requireNonNull;
+
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.ElementBinding;
+import org.linkki.core.binding.FieldBinding;
+import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
@@ -99,11 +102,14 @@ public class FieldDescriptor implements ElementDescriptor {
     }
 
     @Override
-    public ElementBinding createBinding(BindingContext bindingContext,
-            Object pmo,
-            Label label,
-            Component component) {
-        return bindingContext.bind(pmo, this, label, (Field<?>)component);
+    public FieldBinding<?> createBinding(PropertyDispatcher propertyDispatcher,
+            Handler updateUi,
+            Component component,
+            Label label) {
+        requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
+        requireNonNull(updateUi, "UpdateUI-Handler must not be null");
+        requireNonNull(component, "Component must not be null");
+        return new FieldBinding<>(label, (Field<?>)component, propertyDispatcher, updateUi);
     }
 
     @Override

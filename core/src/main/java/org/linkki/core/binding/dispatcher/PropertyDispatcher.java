@@ -44,13 +44,6 @@ public interface PropertyDispatcher {
     public Object getBoundObject();
 
     /**
-     * Called to inform this dispatcher about an imminent update of the UI. Dispatchers are expected
-     * to execute operations and cache the result in order to be able to answer many subsequent
-     * calls to its getters in a timely fashion.
-     */
-    public void prepareUpdateUI();
-
-    /**
      * Retrieves the value class for the property. i.e. the return type of the getter method.
      *
      * @return the value class of the property
