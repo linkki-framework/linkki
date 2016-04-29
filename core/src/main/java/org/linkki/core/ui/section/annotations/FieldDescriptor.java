@@ -29,6 +29,7 @@ public class FieldDescriptor implements ElementDescriptor {
 
     private final UIFieldDefinition fieldDefinition;
     private String fallbackPropertyName;
+    private String modelObjectName;
 
     /**
      * Constructs a new field description with the following parameters.
@@ -36,10 +37,12 @@ public class FieldDescriptor implements ElementDescriptor {
      * @param fieldDef The field definition that holds every given annotated property
      * @param fallbackPropertyName a fallback property name that is used if
      *            {@link UIFieldDefinition#modelAttribute()} is not specified.
+     * @param modelObjectName the name of the model object containing the property
      */
-    public FieldDescriptor(UIFieldDefinition fieldDef, String fallbackPropertyName) {
+    public FieldDescriptor(UIFieldDefinition fieldDef, String fallbackPropertyName, String modelObjectName) {
         this.fieldDefinition = fieldDef;
         this.fallbackPropertyName = fallbackPropertyName;
+        this.modelObjectName = modelObjectName;
     }
 
     /**
@@ -52,6 +55,11 @@ public class FieldDescriptor implements ElementDescriptor {
             return fallbackPropertyName;
         }
         return fieldDefinition.modelAttribute();
+    }
+
+    @Override
+    public String getModelObjectName() {
+        return modelObjectName;
     }
 
     @Override

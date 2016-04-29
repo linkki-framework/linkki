@@ -84,13 +84,16 @@ public class UIAnnotationReader {
 
     private ElementDescriptor addDescriptor(UIElementDefinition uiElement, Method method) {
         if (uiElement instanceof UIFieldDefinition) {
+            // TODO LIN-138 read model object name from uiElement
             FieldDescriptor fieldDescriptor = new FieldDescriptor((UIFieldDefinition)uiElement,
-                    getFallbackPropertyNameByMethod(method));
+                    getFallbackPropertyNameByMethod(method), ModelObject.DEFAULT_NAME);
             descriptors.put(fieldDescriptor.getPropertyName(), fieldDescriptor);
             return fieldDescriptor;
         }
         if (uiElement instanceof UIButtonDefinition) {
-            ButtonDescriptor buttonDescriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, method.getName());
+            // TODO LIN-138 read model object name from uiElement
+            ButtonDescriptor buttonDescriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, method.getName(),
+                    ModelObject.DEFAULT_NAME);
             descriptors.put(method.getName(), buttonDescriptor);
             return buttonDescriptor;
         }

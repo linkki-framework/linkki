@@ -43,6 +43,11 @@ public interface ElementDescriptor {
     String getPropertyName();
 
     /**
+     * The name of the model object containing the {@link #getPropertyName() property}.
+     */
+    String getModelObjectName();
+
+    /**
      * Creates a binding for this UI element to the given Vaadin UI components in the given binding
      * context using the given property behavior provider.
      */

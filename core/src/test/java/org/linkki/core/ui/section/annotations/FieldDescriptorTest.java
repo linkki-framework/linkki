@@ -31,21 +31,21 @@ public class FieldDescriptorTest {
     @Test
     public void getLabelText_deriveFromLabel() {
         when(adapter.label()).thenReturn("blablub");
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "xyz");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "xyz", ModelObject.DEFAULT_NAME);
 
         assertEquals("blablub", fieldDescriptor.getLabelText());
     }
 
     @Test
     public void getLabelText_deriveFromPropertyName() {
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test", ModelObject.DEFAULT_NAME);
 
         assertEquals("Test", fieldDescriptor.getLabelText());
     }
 
     @Test
     public void getLabelText_addSuffixOnlyIfNecessary() {
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test:");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test:", ModelObject.DEFAULT_NAME);
 
         assertEquals("Test:", fieldDescriptor.getLabelText());
     }
@@ -53,14 +53,14 @@ public class FieldDescriptorTest {
     @Test
     public void getPropertyName_favorModelAttribute() {
         when(adapter.modelAttribute()).thenReturn("xyz");
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test", ModelObject.DEFAULT_NAME);
 
         assertEquals("xyz", fieldDescriptor.getPropertyName());
     }
 
     @Test
     public void getPropertyName_byMethodName() {
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test", ModelObject.DEFAULT_NAME);
 
         assertEquals("Test", fieldDescriptor.getPropertyName());
     }
