@@ -31,6 +31,8 @@ public @interface UITextArea {
 
     int maxLength() default 0;
 
+    String modelObject() default ModelObject.DEFAULT_NAME;
+
     String modelAttribute() default "";
 
 }

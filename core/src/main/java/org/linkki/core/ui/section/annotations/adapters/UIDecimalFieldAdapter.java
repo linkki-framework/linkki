@@ -69,4 +69,9 @@ public class UIDecimalFieldAdapter implements UIFieldDefinition {
     public boolean showLabel() {
         return !uiDecimalField.noLabel();
     }
+
+    @Override
+    public String modelObject() {
+        return uiDecimalField.modelObject();
+    }
 }

@@ -25,6 +25,8 @@ public @interface UIDateField {
 
     VisibleType visible() default VISIBLE;
 
+    String modelObject() default ModelObject.DEFAULT_NAME;
+
     String modelAttribute() default "";
 
     String dateFormat() default "";

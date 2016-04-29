@@ -40,5 +40,7 @@ public @interface UIDecimalField {
      */
     String format() default "###,###.##";
 
+    String modelObject() default ModelObject.DEFAULT_NAME;
+
     String modelAttribute() default "";
 }

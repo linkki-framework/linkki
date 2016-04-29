@@ -70,4 +70,9 @@ public class UIDateFieldAdapter implements UIFieldDefinition {
     public boolean showLabel() {
         return !uiDateField.noLabel();
     }
+
+    @Override
+    public String modelObject() {
+        return uiDateField.modelObject();
+    }
 }

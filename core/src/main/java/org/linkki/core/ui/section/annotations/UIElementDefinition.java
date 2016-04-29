@@ -30,4 +30,5 @@ public interface UIElementDefinition extends BindingDefinition {
 
     boolean showLabel();
 
+    String modelObject();
 }

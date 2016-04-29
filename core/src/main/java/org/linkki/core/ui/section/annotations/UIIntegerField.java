@@ -29,6 +29,8 @@ public @interface UIIntegerField {
 
     String format() default "";
 
+    String modelObject() default ModelObject.DEFAULT_NAME;
+    
     String modelAttribute() default "";
 
 }

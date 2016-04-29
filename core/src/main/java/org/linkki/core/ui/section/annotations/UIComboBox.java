@@ -38,8 +38,9 @@ public @interface UIComboBox {
 
     VisibleType visible() default VISIBLE;
 
+    String modelObject() default ModelObject.DEFAULT_NAME;
+
     String modelAttribute() default "";
 
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
-
 }

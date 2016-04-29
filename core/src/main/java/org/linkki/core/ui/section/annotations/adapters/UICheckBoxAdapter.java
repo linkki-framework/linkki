@@ -48,6 +48,11 @@ public class UICheckBoxAdapter implements UIFieldDefinition {
     }
 
     @Override
+    public String modelObject() {
+        return uiCheckBox.modelObject();
+    }
+
+    @Override
     public String modelAttribute() {
         return uiCheckBox.modelAttribute();
     }
@@ -56,5 +61,4 @@ public class UICheckBoxAdapter implements UIFieldDefinition {
     public boolean showLabel() {
         return !uiCheckBox.noLabel();
     }
-
 }

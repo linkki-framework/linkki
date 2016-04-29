@@ -25,6 +25,7 @@ public @interface UICheckBox {
 
     VisibleType visible() default VISIBLE;
 
-    String modelAttribute() default "";
+    String modelObject() default ModelObject.DEFAULT_NAME;
 
+    String modelAttribute() default "";
 }

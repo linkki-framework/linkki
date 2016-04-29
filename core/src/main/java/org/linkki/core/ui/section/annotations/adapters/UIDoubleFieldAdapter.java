@@ -64,4 +64,9 @@ public class UIDoubleFieldAdapter implements UIFieldDefinition {
     public boolean showLabel() {
         return !uiDoubleField.noLabel();
     }
+
+    @Override
+    public String modelObject() {
+        return uiDoubleField.modelObject();
+    }
 }
