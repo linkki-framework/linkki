@@ -35,7 +35,6 @@ import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
-import org.linkki.core.ui.section.annotations.adapters.BindAnnotationAdapter;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -221,7 +220,7 @@ public class BindingAnnotationDispatcherTest {
         }
 
         public BindAnnotationDescriptor bindAnnotationDescriptor() {
-            return new BindAnnotationDescriptor(new BindAnnotationAdapter(bindAnnotation()));
+            return new BindAnnotationDescriptor(bindAnnotation());
         }
     }
 

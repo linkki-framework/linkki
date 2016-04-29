@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.faktorips.runtime.MessageList;
-import org.linkki.core.binding.annotations.BindContext;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.vaadin.viritin.ListContainer;
@@ -114,7 +113,8 @@ public class TableBinding<T> extends ListContainer<T> implements Binding {
     }
 
     /**
-     * Creates a new {@link TableBinding} and add the new binding to the given {@link BindContext}
+     * Creates a new {@link TableBinding} and add the new binding to the given
+     * {@link BindingContext}.
      * 
      * @param bindingContext The binding context used to bind the given {@link ContainerPmo} to the
      *            given {@link Table}

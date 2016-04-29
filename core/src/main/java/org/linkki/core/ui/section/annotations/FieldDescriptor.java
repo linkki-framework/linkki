@@ -13,7 +13,6 @@ import org.linkki.core.binding.FieldBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
@@ -106,9 +105,7 @@ public class FieldDescriptor implements ElementDescriptor {
 
     @Override
     public Component newComponent() {
-        AbstractComponent component = (AbstractComponent)fieldDefinition.newComponent();
-        component.setImmediate(true);
-        return component;
+        return fieldDefinition.newComponent();
     }
 
     @Override

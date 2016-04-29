@@ -7,13 +7,12 @@
 package org.linkki.core.binding;
 
 import org.faktorips.runtime.MessageList;
-import org.linkki.core.binding.annotations.BindContext;
 
 import com.vaadin.ui.Component;
 
 /**
  * Common interface for bindings handled by the {@link BindingContext}. A binding has a PMO and an
- * UI control and is able to update this control when the {@link BindContext} calls
+ * UI control and is able to update this control when the {@link BindingContext} calls
  * {@link #updateFromPmo()}.
  *
  */
@@ -34,8 +33,8 @@ public interface Binding {
     Object getPmo();
 
     /**
-     * Called by the {@link BindContext} and trigger control updating. This includes the update of
-     * the value, the states (read-only, enabled, visible) and if supported the list of available
+     * Called by the {@link BindingContext} and trigger control updating. This includes the update
+     * of the value, the states (read-only, enabled, visible) and if supported the list of available
      * values.
      * 
      * This method does not update the validation message.

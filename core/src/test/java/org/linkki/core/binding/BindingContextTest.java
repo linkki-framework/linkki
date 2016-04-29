@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -15,6 +16,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
+import org.linkki.core.ui.section.annotations.FieldDescriptor;
+import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -129,6 +132,20 @@ public class BindingContextTest {
 
         context.removeBindingsForComponent(layout);
         assertThat(context.getElementBindings(), is(empty()));
+    }
+
+    @Test
+    public void testBind_BoundComponentsAreMadeImmediate() {
+        setUpPmo();
+        TextField field = new TextField();
+        UIFieldDefinition fieldDefintion = mock(UIFieldDefinition.class);
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, "value", "");
+
+        // Precondition
+        assertThat(field.isImmediate(), is(false));
+
+        context.bind(pmo, fieldDescriptor, field, null);
+        assertThat(field.isImmediate(), is(true));
     }
 
     public static class TestModelObject {

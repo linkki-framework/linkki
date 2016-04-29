@@ -21,6 +21,7 @@ import com.google.gwt.thirdparty.guava.common.collect.ArrayListMultimap;
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
 import com.google.gwt.thirdparty.guava.common.collect.Multimap;
 import com.google.gwt.thirdparty.guava.common.collect.Multimaps;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
@@ -177,6 +178,13 @@ public class BindingContext {
         requireNonNull(pmo, "PresentationModelObject must not be null");
         requireNonNull(bindingDescriptor, "BindingDescriptor must not be null");
         requireNonNull(component, "Component must not be null");
+
+        // Make bound components "immediate", i.e. let them update their PMO as soon as a field is
+        // left, a checkbox is checked etc.
+        if (component instanceof AbstractComponent) {
+            ((AbstractComponent)component).setImmediate(true);
+        }
+
         ElementBinding binding = bindingDescriptor.createBinding(createDispatcherChain(pmo, bindingDescriptor),
                                                                  this::updateUI, component, label);
         add(binding);

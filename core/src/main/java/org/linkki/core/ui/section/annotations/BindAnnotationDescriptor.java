@@ -9,6 +9,7 @@ package org.linkki.core.ui.section.annotations;
 import org.linkki.core.binding.ButtonBinding;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
+import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.adapters.BindAnnotationAdapter;
 import org.linkki.util.handler.Handler;
@@ -25,6 +26,10 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
     public BindAnnotationDescriptor(BindAnnotationAdapter bindAnnotationAdapter) {
         super();
         this.bindAnnotationAdapter = bindAnnotationAdapter;
+    }
+
+    public BindAnnotationDescriptor(Bind annotation) {
+        this(new BindAnnotationAdapter(annotation));
     }
 
     @Override
