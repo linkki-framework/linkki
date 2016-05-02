@@ -19,6 +19,7 @@ import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 
 /**
@@ -41,8 +42,9 @@ class PropertyDispatcherFactory {
 
         // @formatter:off
         String propertyName = bindingDescriptor.getPropertyName();
-        ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo, propertyName);
-        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, propertyName, exceptionDispatcher);
+        String modelObjectName = bindingDescriptor.getModelObjectName();
+        ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo, modelObjectName, propertyName);
+        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, modelObjectName, propertyName, exceptionDispatcher);
         BindingAnnotationDispatcher bindingAnnotationDispatcher = new BindingAnnotationDispatcher(reflectionDispatcher, bindingDescriptor);
         return new BehaviourDependentDispatcher(bindingAnnotationDispatcher, behaviorProvider);
         // @formatter:on
@@ -55,8 +57,9 @@ class PropertyDispatcherFactory {
         requireNonNull(behaviorProvider, "PropertyBehaviorProvider must not be null");
 
         // @formatter:off
-        ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(buttonPmo, StringUtils.EMPTY);
-        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(buttonPmo, StringUtils.EMPTY, exceptionDispatcher);
+        String modelObjectName = ModelObject.DEFAULT_NAME;
+        ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(buttonPmo, modelObjectName, StringUtils.EMPTY);
+        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(buttonPmo, modelObjectName, StringUtils.EMPTY, exceptionDispatcher);
         @SuppressWarnings("deprecation")
         org.linkki.core.binding.dispatcher.ButtonPmoDispatcher buttonPmoDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(reflectionDispatcher);
         return new BehaviourDependentDispatcher(buttonPmoDispatcher, behaviorProvider);
@@ -64,20 +67,24 @@ class PropertyDispatcherFactory {
     }
 
     private static ReflectionPropertyDispatcher newReflectionDispatcher(Object pmo,
+            String modelObjectName,
             String property,
             PropertyDispatcher wrappedDispatcher) {
-        if (UIAnnotationReader.hasModelObjectAnnotatedMethod(pmo)) {
+        if (UIAnnotationReader.hasModelObjectAnnotatedMethod(pmo, modelObjectName)) {
             ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(
-                    UIAnnotationReader.getModelObjectSupplier(pmo), property, wrappedDispatcher);
+                    UIAnnotationReader.getModelObjectSupplier(pmo, modelObjectName), property, wrappedDispatcher);
             return new ReflectionPropertyDispatcher(() -> pmo, property, modelObjectDispatcher);
         } else {
             return new ReflectionPropertyDispatcher(() -> pmo, property, wrappedDispatcher);
         }
     }
 
-    private static ExceptionPropertyDispatcher newExceptionDispatcher(Object pmo, String property) {
-        if (UIAnnotationReader.hasModelObjectAnnotatedMethod(pmo)) {
-            return new ExceptionPropertyDispatcher(property, UIAnnotationReader.getModelObjectSupplier(pmo).get(), pmo);
+    private static ExceptionPropertyDispatcher newExceptionDispatcher(Object pmo,
+            String modelObjectName,
+            String property) {
+        if (UIAnnotationReader.hasModelObjectAnnotatedMethod(pmo, modelObjectName)) {
+            return new ExceptionPropertyDispatcher(property,
+                    UIAnnotationReader.getModelObjectSupplier(pmo, modelObjectName).get(), pmo);
         } else {
             return new ExceptionPropertyDispatcher(property, pmo);
         }

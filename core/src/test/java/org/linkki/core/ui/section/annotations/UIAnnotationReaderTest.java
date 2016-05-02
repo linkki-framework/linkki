@@ -81,31 +81,27 @@ public class UIAnnotationReaderTest {
 
     @Test(expected = ModelObjectAnnotationException.class)
     public void testGetModelObjectSupplier_noAnnotation() {
-        Supplier<?> modelObjectSupplier = UIAnnotationReader.getModelObjectSupplier(new TestObject());
+        Supplier<?> modelObjectSupplier = UIAnnotationReader.getModelObjectSupplier(new TestObject(),
+                                                                                    ModelObject.DEFAULT_NAME);
 
         assertThat(modelObjectSupplier, is(notNullValue()));
         modelObjectSupplier.get();
     }
 
     @Test(expected = ModelObjectAnnotationException.class)
-    public void testGetModelObjectSupplier_noMatchingAnnotation() {
-        Supplier<?> modelObjectSupplier = UIAnnotationReader.getModelObjectSupplier(new NamedModelObject());
-
-        assertThat(modelObjectSupplier, is(notNullValue()));
-        modelObjectSupplier.get();
+    public void testGetModelObjectSupplier_ThrowsExceptionIfNoMatchingAnnotationExists() {
+        UIAnnotationReader.getModelObjectSupplier(new TestPmoWithNamedModelObject(), ModelObject.DEFAULT_NAME);
     }
 
     @Test(expected = ModelObjectAnnotationException.class)
-    public void testGetModelObjectSupplier_noSupplier() {
-        Supplier<?> modelObjectSupplier = UIAnnotationReader.getModelObjectSupplier(new NoSupplier());
-
-        assertThat(modelObjectSupplier, is(notNullValue()));
-        modelObjectSupplier.get();
+    public void testGetModelObjectSupplier_ThrowsExceptionIfAnnotatedMethodReturnsVoid() {
+        UIAnnotationReader.getModelObjectSupplier(new TestPmoWithVoidModelObjectMethod(), ModelObject.DEFAULT_NAME);
     }
 
     @Test
     public void testGetModelObjectSupplier() {
-        Supplier<?> modelObjectSupplier = UIAnnotationReader.getModelObjectSupplier(new TestPmo());
+        Supplier<?> modelObjectSupplier = UIAnnotationReader
+                .getModelObjectSupplier(new TestPmoWithNamedModelObject(), TestPmoWithNamedModelObject.MODEL_OBJECT);
 
         assertThat(modelObjectSupplier, is(notNullValue()));
         assertThat(modelObjectSupplier.get(), is(instanceOf(TestObject.class)));
@@ -113,22 +109,29 @@ public class UIAnnotationReaderTest {
 
     @Test
     public void testHasModelObjectAnnotatedMethod() {
-        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestPmo()), is(true));
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestPmo(), ModelObject.DEFAULT_NAME), is(true));
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestPmoWithNamedModelObject(),
+                                                                    TestPmoWithNamedModelObject.MODEL_OBJECT),
+                   is(true));
     }
 
     @Test
     public void testHasModelObjectAnnotatedMethod_noAnnotation() {
-        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestObject()), is(false));
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestObject(), ModelObject.DEFAULT_NAME),
+                   is(false));
     }
 
     @Test
     public void testHasModelObjectAnnotatedMethod_noMatchingAnnotation() {
-        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new NamedModelObject()), is(false));
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestPmoWithNamedModelObject(),
+                                                                    ModelObject.DEFAULT_NAME),
+                   is(false));
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestPmo(), "FooBar"), is(false));
     }
 
-    public static class NoSupplier {
+    public static class TestPmoWithVoidModelObjectMethod {
 
-        @ModelObject()
+        @ModelObject
         public void getModelObject() {
             // do nothing
         }
@@ -144,11 +147,13 @@ public class UIAnnotationReaderTest {
         }
     }
 
-    public static class NamedModelObject {
+    public static class TestPmoWithNamedModelObject {
+
+        public static final String MODEL_OBJECT = "testObject";
 
         private TestObject testObject = new TestObject();
 
-        @ModelObject(name = "testObject")
+        @ModelObject(name = MODEL_OBJECT)
         public TestObject getTestObject() {
             return testObject;
         }

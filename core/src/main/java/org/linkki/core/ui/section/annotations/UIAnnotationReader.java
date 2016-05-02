@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.util.BeanUtils;
 
 /**
  * Reads UIField annotations, e.g. {@link UITextField}, {@link UIComboBox}, etc. from a given
@@ -84,16 +85,14 @@ public class UIAnnotationReader {
 
     private ElementDescriptor addDescriptor(UIElementDefinition uiElement, Method method) {
         if (uiElement instanceof UIFieldDefinition) {
-            // TODO LIN-138 read model object name from uiElement
             FieldDescriptor fieldDescriptor = new FieldDescriptor((UIFieldDefinition)uiElement,
-                    getFallbackPropertyNameByMethod(method), ModelObject.DEFAULT_NAME);
+                    getFallbackPropertyNameByMethod(method), uiElement.modelObject());
             descriptors.put(fieldDescriptor.getPropertyName(), fieldDescriptor);
             return fieldDescriptor;
         }
         if (uiElement instanceof UIButtonDefinition) {
-            // TODO LIN-138 read model object name from uiElement
             ButtonDescriptor buttonDescriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, method.getName(),
-                    ModelObject.DEFAULT_NAME);
+                    uiElement.modelObject());
             descriptors.put(method.getName(), buttonDescriptor);
             return buttonDescriptor;
         }
@@ -136,84 +135,60 @@ public class UIAnnotationReader {
     }
 
     /**
-     * Reads the presentation model object's class to find a method annotated with
-     * {@link ModelObject @ModelObject} with the {@link ModelObject#DEFAULT_NAME}.
-     * 
-     * @param pmo a presentation model object
-     * @return a reference to the annotated method
-     */
-    @Nonnull
-    public static Supplier<?> getModelObjectSupplier(@Nonnull Object pmo) {
-        return getModelObjectSupplier(requireNonNull(pmo), pmo.getClass(), ModelObject.DEFAULT_NAME);
-    }
-
-    /**
-     * Reads the presentation model object's class to find a method annotated with
+     * Reads the given presentation model object's class to find a method annotated with
      * {@link ModelObject @ModelObject} and the annotation's {@link ModelObject#name()} matching the
-     * given model object name.
-     * 
+     * given model object name. Returns a supplier that supplies a model object by invoking that
+     * method.
+     *
      * @param pmo a presentation model object
      * @param modelObjectName the name of the model object as provided by a method annotated with
      *            {@link ModelObject @ModelObject}
-     * @return a reference to the annotated method
+     * @return a supplier that supplies a model object by invoking the annotated method
+     *
+     * @throws ModelObjectAnnotationException if no matching method is found or the method has no
+     *             return value
      */
     @Nonnull
     public static Supplier<?> getModelObjectSupplier(@Nonnull Object pmo, @Nonnull String modelObjectName) {
-        return getModelObjectSupplier(requireNonNull(pmo), pmo.getClass(), requireNonNull(modelObjectName));
-    }
-
-    private static Supplier<?> getModelObjectSupplier(Object pmo,
-            Class<? extends Object> pmoClass,
-            String modelObjectName) {
-        for (Method method : pmoClass.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(ModelObject.class)
-                    && method.getAnnotation(ModelObject.class).name().equals(modelObjectName)) {
-                if (Void.TYPE.equals(method.getReturnType())) {
-                    return () -> {
-                        throw new ModelObjectAnnotationException(pmo, method);
-                    };
+        requireNonNull(pmo, "PMO must not be null");
+        requireNonNull(modelObjectName, "model object name must not be null");
+        Optional<Method> modelObjectMethod = BeanUtils
+                .getMethod(requireNonNull(pmo).getClass(), (m) -> m.isAnnotationPresent(ModelObject.class)
+                        && m.getAnnotation(ModelObject.class).name().equals(modelObjectName));
+        if (modelObjectMethod.isPresent()) {
+            Method method = modelObjectMethod.get();
+            if (Void.TYPE.equals(method.getReturnType())) {
+                throw new ModelObjectAnnotationException(pmo, method);
+            }
+            return () -> {
+                try {
+                    return method.invoke(pmo);
+                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                    throw new RuntimeException(e);
                 }
-                return () -> {
-                    try {
-                        return method.invoke(pmo);
-                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                        throw new RuntimeException(e);
-                    }
-                };
-            }
+            };
         }
-        if (pmoClass.getSuperclass() != null) {
-            return getModelObjectSupplier(pmo, pmoClass.getSuperclass(), modelObjectName);
+        if (ModelObject.DEFAULT_NAME.equals(modelObjectName)) {
+            throw new ModelObjectAnnotationException(pmo);
+        } else {
+            throw new ModelObjectAnnotationException(pmo, modelObjectName);
         }
-        return () -> {
-            if (ModelObject.DEFAULT_NAME.equals(modelObjectName)) {
-                throw new ModelObjectAnnotationException(pmo);
-            } else {
-                throw new ModelObjectAnnotationException(pmo, modelObjectName);
-            }
-        };
     }
 
     /**
      * Tests if the presentation model object has a method annotated with
-     * {@link ModelObject @ModelObject} using the {@link ModelObject#DEFAULT_NAME}.
+     * {@link ModelObject @ModelObject} using a given name
      * 
      * @param pmo an object used for a presentation model
+     * @param modelObjectName the name of the model object
      * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using
-     *         the {@link ModelObject#DEFAULT_NAME}
+     *         the given name
      */
-    public static boolean hasModelObjectAnnotatedMethod(@Nonnull Object pmo) {
-        return hasModelObjectAnnotatedMethod(requireNonNull(pmo).getClass());
-    }
-
-    private static boolean hasModelObjectAnnotatedMethod(Class<? extends Object> pmoClass) {
-        for (Method method : pmoClass.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(ModelObject.class)
-                    && method.getAnnotation(ModelObject.class).name().equals(ModelObject.DEFAULT_NAME)) {
-                return true;
-            }
-        }
-        return false;
+    public static boolean hasModelObjectAnnotatedMethod(@Nonnull Object pmo, String modelObjectName) {
+        return BeanUtils.getMethod(requireNonNull(pmo).getClass(),
+                                   (m) -> m.isAnnotationPresent(ModelObject.class)
+                                           && m.getAnnotation(ModelObject.class).name().equals(modelObjectName))
+                .isPresent();
     }
 
     /**

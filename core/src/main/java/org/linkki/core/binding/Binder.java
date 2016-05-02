@@ -17,11 +17,11 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.commons.lang3.reflect.MethodUtils;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.exception.LinkkiRuntimeException;
 import org.linkki.core.ui.section.annotations.BindAnnotationDescriptor;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
+import org.linkki.util.BeanUtils;
 
 import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
@@ -76,8 +76,8 @@ public class Binder {
      * the given map.
      */
     private void addMethodBindings(LinkedHashMap<BindingDescriptor, Component> bindings) {
-        List<Method> methods = MethodUtils.getMethodsListWithAnnotation(view.getClass(), Bind.class);
-        methods.forEach(m -> addMethodBinding(m, bindings));
+        BeanUtils.getMethods(view.getClass(), m -> m.isAnnotationPresent(Bind.class))
+                .forEach(m -> addMethodBinding(m, bindings));
     }
 
     /**
@@ -94,6 +94,9 @@ public class Binder {
         Preconditions.checkState(method.getParameterCount() == 0,
                                  method + " has parameters and cannot be annotated with @Bind");
         try {
+            if (!method.isAccessible()) {
+                method.setAccessible(true);
+            }
             Component component = (Component)method.invoke(view);
             Preconditions.checkNotNull(component,
                                        "Cannot create binding for method " + method + " as it returned null");

@@ -16,6 +16,7 @@ import org.linkki.core.binding.BindingContextTest.TestModelObject;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -37,6 +38,7 @@ public class PropertyDispatcherFactoryTest {
     public void testCreateDispatcherChain_getValueFromPmo() {
         setUpPmo();
         when(elementDescriptor.getPropertyName()).thenReturn("value");
+        when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         PropertyDispatcher defaultDispatcher = PropertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         pmo.setValue("testValue");
@@ -50,6 +52,7 @@ public class PropertyDispatcherFactoryTest {
     public void testCreateDispatcherChain_setValueToPmo() {
         setUpPmo();
         when(elementDescriptor.getPropertyName()).thenReturn("value");
+        when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         PropertyDispatcher defaultDispatcher = PropertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
@@ -62,6 +65,7 @@ public class PropertyDispatcherFactoryTest {
     public void testCreateDispatcherChain_getValueFromModelObject() {
         setUpPmo();
         when(elementDescriptor.getPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
+        when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         PropertyDispatcher defaultDispatcher = PropertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         modelObject.setModelProp("testValue");
@@ -75,6 +79,7 @@ public class PropertyDispatcherFactoryTest {
     public void testCreateDispatcherChain_setValueToModelObject() {
         setUpPmo();
         when(elementDescriptor.getPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
+        when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         PropertyDispatcher defaultDispatcher = PropertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
@@ -87,6 +92,7 @@ public class PropertyDispatcherFactoryTest {
     public void testCreateDispatcherChain_getValueFromChangedModelObject() {
         setUpPmo();
         when(elementDescriptor.getPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
+        when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         PropertyDispatcher defaultDispatcher = PropertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         TestModelObject newModelObject = new TestModelObject();
@@ -102,6 +108,7 @@ public class PropertyDispatcherFactoryTest {
     public void testCreateDispatcherChain_setValueToChangedModelObject() {
         setUpPmo();
         when(elementDescriptor.getPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
+        when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         PropertyDispatcher defaultDispatcher = PropertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         TestModelObject newModelObject = new TestModelObject();
