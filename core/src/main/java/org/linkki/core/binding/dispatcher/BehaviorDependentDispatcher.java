@@ -30,11 +30,11 @@ import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
  *
  * @author widmaier
  */
-public class BehaviourDependentDispatcher extends AbstractPropertyDispatcherDecorator {
+public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecorator {
 
     private PropertyBehaviorProvider provider;
 
-    public BehaviourDependentDispatcher(PropertyDispatcher wrappedDispatcher, PropertyBehaviorProvider provider) {
+    public BehaviorDependentDispatcher(PropertyDispatcher wrappedDispatcher, PropertyBehaviorProvider provider) {
         super(wrappedDispatcher);
         this.provider = provider;
     }

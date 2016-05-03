@@ -6,7 +6,7 @@
 
 package org.linkki.core.binding.aspect;
 
-import org.linkki.core.binding.dispatcher.BehaviourDependentDispatcher;
+import org.linkki.core.binding.dispatcher.BehaviorDependentDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 
 /**
@@ -18,7 +18,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
  * <li>displaying validation messages</li>
  * </ul>
  * <p>
- * {@link BehaviourDependentDispatcher} uses instances of this class to influence the data as well as
+ * {@link BehaviorDependentDispatcher} uses instances of this class to influence the data as well as
  * the data flow from/to other {@link PropertyDispatcher dispatchers}.
  * <p>
  * Instances of this class are injectable. This means they are:

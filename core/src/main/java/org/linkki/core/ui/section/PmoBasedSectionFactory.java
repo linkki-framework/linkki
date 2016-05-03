@@ -15,6 +15,11 @@ import org.linkki.core.ui.table.TableSection;
 
 /**
  * Base class for a factory to create a section based on an annotated PMO.
+ * <p>
+ * This class is used as a base class. It must be abstract to ensure distinction of different
+ * implementations when used via dependency injection. You should never use
+ * {@link PmoBasedSectionFactory} directly, only one of its subclasses. If you do not need further
+ * specialization just use {@link DefaultPmoBasedSectionFactory}.
  * 
  * @see UISection
  * @see UITextField
@@ -23,7 +28,7 @@ import org.linkki.core.ui.table.TableSection;
  * @see UIComboBox
  * @see UIIntegerField
  */
-public class PmoBasedSectionFactory {
+public abstract class PmoBasedSectionFactory {
 
     /**
      * Creates a new section based on the given annotated PMO and binds the created controls via the

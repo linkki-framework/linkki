@@ -69,6 +69,13 @@ public class LazyInitializingMap<K, V> {
     }
 
     /**
+     * Clears this map.
+     */
+    public void clear() {
+        internalMap.clear();
+    }
+
+    /**
      * Removes the key from the map.
      * 
      * @see Map#remove(Object)

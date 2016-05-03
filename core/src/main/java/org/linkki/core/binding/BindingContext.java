@@ -41,7 +41,10 @@ public class BindingContext {
             .synchronizedListMultimap(ArrayListMultimap.create());
     private final Map<Component, TableBinding<?>> tableBindings = Maps.newConcurrentMap();
     private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<PropertyDispatcher>();
+    private final PropertyDispatcherFactory dispatcherFactory = new PropertyDispatcherFactory();
     private final PropertyBehaviorProvider behaviorProvider;
+
+    private final PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
 
     /**
      * Creates a new binding context with the given name.
@@ -212,14 +215,14 @@ public class BindingContext {
         requireNonNull(pmo, "PresentationModelObject must not be null");
         requireNonNull(bindingDescriptor, "BindingDescriptor must not be null");
 
-        return PropertyDispatcherFactory.createDispatcherChain(pmo, bindingDescriptor, getBehaviorProvider());
+        return propertyDispatcherFactory.createDispatcherChain(pmo, bindingDescriptor, getBehaviorProvider());
     }
 
     @Nonnull
     protected PropertyDispatcher createDispatcherChain(@Nonnull ButtonPmo buttonPmo) {
         requireNonNull(buttonPmo, "ButtonPmo must not be null");
 
-        return PropertyDispatcherFactory.createDispatcherChain(buttonPmo, getBehaviorProvider());
+        return dispatcherFactory.createDispatcherChain(buttonPmo, getBehaviorProvider());
     }
 
 }
