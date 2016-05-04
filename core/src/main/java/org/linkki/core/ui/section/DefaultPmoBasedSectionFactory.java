@@ -6,8 +6,6 @@
 
 package org.linkki.core.ui.section;
 
-import java.util.Collections;
-
 /**
  * This is the default implementation of {@link PmoBasedSectionFactory}. If you do not need any
  * specialization of {@link PmoBasedSectionFactory} you are perfectly right to use this one.
@@ -24,7 +22,7 @@ import java.util.Collections;
 public class DefaultPmoBasedSectionFactory extends PmoBasedSectionFactory {
 
     public DefaultPmoBasedSectionFactory() {
-        super(() -> Collections.emptyList());
+        super();
     }
 
 }

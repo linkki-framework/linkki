@@ -11,31 +11,21 @@ import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNot
 import java.util.Optional;
 
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.ui.section.annotations.UISection;
 
-import com.vaadin.ui.Table;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Table;
 
-public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
-
-    private static final PropertyDispatcherFactory DISPATCHER_FACTORY = new PropertyDispatcherFactory();
+public class PmoBasedTableSectionFactory<T> {
 
     private ContainerPmo<T> containerPmo;
     private BindingContext bindingContext;
-    private PropertyBehaviorProvider propertyBehaviorProvider;
 
-    public PmoBasedTableSectionFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext,
-            PropertyBehaviorProvider propertyBehaviorProvider) {
-
+    public PmoBasedTableSectionFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
         this.containerPmo = containerPmo;
         this.bindingContext = bindingContext;
-        this.propertyBehaviorProvider = propertyBehaviorProvider;
     }
 
     public TableSection<T> createSection() {
@@ -47,8 +37,7 @@ public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
     }
 
     private Table createTable() {
-        PmoBasedTableFactory<T> tableFactory = new PmoBasedTableFactory<>(containerPmo, bindingContext,
-                this::createPropertyDispatcher);
+        PmoBasedTableFactory<T> tableFactory = new PmoBasedTableFactory<>(containerPmo, bindingContext);
         return tableFactory.createTable();
     }
 
@@ -59,14 +48,7 @@ public class PmoBasedTableSectionFactory<T extends PresentationModelObject> {
     }
 
     private Optional<Button> createAddItemButton(Optional<ButtonPmo> buttonPmo) {
-        return buttonPmo.map(b -> ButtonPmoBinding.createBoundButton(bindingContext, b, createPropertyDispatcher(b)));
-    }
-
-    /**
-     * Creates a new {@link PropertyDispatcher} chain for the given PMO.
-     */
-    protected PropertyDispatcher createPropertyDispatcher(final Object pmo) {
-        return DISPATCHER_FACTORY.defaultDispatcherChain(pmo, propertyBehaviorProvider);
+        return buttonPmo.map(b -> ButtonPmoBinding.createBoundButton(bindingContext, b));
     }
 
 }

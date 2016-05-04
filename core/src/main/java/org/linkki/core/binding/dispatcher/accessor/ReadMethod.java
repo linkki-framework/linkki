@@ -2,7 +2,6 @@ package org.linkki.core.binding.dispatcher.accessor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Optional;
 
 /**
  * Wrapper for a {@link Method}. {@link #canRead()} can safely be accessed even if no read method
@@ -14,10 +13,6 @@ public class ReadMethod extends AbstractMethod {
 
     public ReadMethod(PropertyAccessDescriptor descriptor) {
         super(descriptor, descriptor.getReflectionReadMethod());
-    }
-
-    private Optional<Method> getReadMethod() {
-        return getReflectionMethod();
     }
 
     public boolean canRead() {
@@ -55,12 +50,11 @@ public class ReadMethod extends AbstractMethod {
     }
 
     private Object invokeMethod(Object boundObject) throws IllegalAccessException, InvocationTargetException {
-        Object returnValue = getReadMethod().orElseThrow(noMethodFound("read method")).invoke(boundObject);
-        return returnValue;
+        return getMethodWithExceptionHandling().invoke(boundObject);
     }
 
     public Class<?> getReturnType() {
-        return getReadMethod().orElseThrow(noMethodFound("read method")).getReturnType();
+        return getMethodWithExceptionHandling().getReturnType();
     }
 
 }

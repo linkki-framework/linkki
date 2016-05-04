@@ -7,6 +7,8 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
 import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIButtonDefinition;
 import org.linkki.core.ui.section.annotations.VisibleType;
@@ -67,6 +69,16 @@ public class UIButtonAdapter implements UIButtonDefinition {
     @Override
     public VisibleType visible() {
         return buttonAnnotation.visible();
+    }
+
+    @Override
+    public RequiredType required() {
+        return RequiredType.NOT_REQUIRED;
+    }
+
+    @Override
+    public String modelObject() {
+        return ModelObject.DEFAULT_NAME;
     }
 
 }

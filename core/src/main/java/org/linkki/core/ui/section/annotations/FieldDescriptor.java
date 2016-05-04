@@ -6,13 +6,13 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import static java.util.Objects.requireNonNull;
+
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.util.handler.Handler;
 
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
@@ -28,6 +28,7 @@ public class FieldDescriptor implements ElementDescriptor {
 
     private final UIFieldDefinition fieldDefinition;
     private String fallbackPropertyName;
+    private String modelObjectName;
 
     /**
      * Constructs a new field description with the following parameters.
@@ -35,10 +36,12 @@ public class FieldDescriptor implements ElementDescriptor {
      * @param fieldDef The field definition that holds every given annotated property
      * @param fallbackPropertyName a fallback property name that is used if
      *            {@link UIFieldDefinition#modelAttribute()} is not specified.
+     * @param modelObjectName the name of the model object containing the property
      */
-    public FieldDescriptor(UIFieldDefinition fieldDef, String fallbackPropertyName) {
+    public FieldDescriptor(UIFieldDefinition fieldDef, String fallbackPropertyName, String modelObjectName) {
         this.fieldDefinition = fieldDef;
         this.fallbackPropertyName = fallbackPropertyName;
+        this.modelObjectName = modelObjectName;
     }
 
     /**
@@ -54,6 +57,11 @@ public class FieldDescriptor implements ElementDescriptor {
     }
 
     @Override
+    public String getModelObjectName() {
+        return modelObjectName;
+    }
+
+    @Override
     public EnabledType enabled() {
         return fieldDefinition.enabled();
     }
@@ -63,10 +71,12 @@ public class FieldDescriptor implements ElementDescriptor {
         return fieldDefinition.visible();
     }
 
+    @Override
     public RequiredType required() {
         return fieldDefinition.required();
     }
 
+    @Override
     public AvailableValuesType availableValues() {
         return fieldDefinition.availableValues();
     }
@@ -95,19 +105,24 @@ public class FieldDescriptor implements ElementDescriptor {
 
     @Override
     public Component newComponent() {
-        AbstractComponent component = (AbstractComponent)fieldDefinition.newComponent();
-        component.setImmediate(true);
-        return component;
+        return fieldDefinition.newComponent();
     }
 
     @Override
-    public ElementBinding createBinding(BindingContext bindingContext,
-            Object pmo,
-            Label label,
+    public FieldBinding<?> createBinding(PropertyDispatcher propertyDispatcher,
+            Handler updateUi,
             Component component,
-            PropertyDispatcher propertyDispatcher) {
-        return FieldBinding.create(bindingContext, pmo, getPropertyName(), label, (Field<?>)component,
-                                   propertyDispatcher);
+            Label label) {
+        requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
+        requireNonNull(updateUi, "UpdateUI-Handler must not be null");
+        requireNonNull(component, "Component must not be null");
+        return new FieldBinding<>(label, (Field<?>)component, propertyDispatcher, updateUi);
+    }
+
+    @Override
+    public String toString() {
+        return "FieldDescriptor [fieldDefinition=" + fieldDefinition + ", fallbackPropertyName=" + fallbackPropertyName
+                + "]";
     }
 
 }

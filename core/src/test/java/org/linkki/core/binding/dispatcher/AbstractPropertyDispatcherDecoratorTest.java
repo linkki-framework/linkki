@@ -13,8 +13,6 @@ import org.faktorips.runtime.MessageList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.dispatcher.AbstractPropertyDispatcherDecorator;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -38,64 +36,58 @@ public class AbstractPropertyDispatcherDecoratorTest {
     }
 
     @Test
-    public void testPrepareUpdateUI() {
-        decorator.prepareUpdateUI();
-        verify(wrappedDispatcher).prepareUpdateUI();
-    }
-
-    @Test
     public void testGetValue() {
-        decorator.getValue("xyz");
-        verify(wrappedDispatcher).getValue("xyz");
+        decorator.getValue();
+        verify(wrappedDispatcher).getValue();
     }
 
     @Test
     public void testSetValue() {
-        decorator.setValue("xyz", "value");
-        verify(wrappedDispatcher).setValue("xyz", "value");
+        decorator.setValue("value");
+        verify(wrappedDispatcher).setValue("value");
     }
 
     @Test
     public void testGetValueClass() {
-        decorator.getValueClass("xyz");
-        verify(wrappedDispatcher).getValueClass("xyz");
+        decorator.getValueClass();
+        verify(wrappedDispatcher).getValueClass();
     }
 
     @Test
     public void testIsEnabled() {
-        decorator.isEnabled("xyz");
-        verify(wrappedDispatcher).isEnabled("xyz");
+        decorator.isEnabled();
+        verify(wrappedDispatcher).isEnabled();
     }
 
     @Test
-    public void testIsReadonly() {
-        decorator.isReadonly("xyz");
-        verify(wrappedDispatcher).isReadonly("xyz");
+    public void testIsReadOnly() {
+        decorator.isReadOnly();
+        verify(wrappedDispatcher).isReadOnly();
     }
 
     @Test
     public void testIsVisible() {
-        decorator.isVisible("xyz");
-        verify(wrappedDispatcher).isVisible("xyz");
+        decorator.isVisible();
+        verify(wrappedDispatcher).isVisible();
     }
 
     @Test
     public void testIsRequired() {
-        decorator.isRequired("xyz");
-        verify(wrappedDispatcher).isRequired("xyz");
+        decorator.isRequired();
+        verify(wrappedDispatcher).isRequired();
     }
 
     @Test
     public void testGetAvailableValues() {
-        decorator.getAvailableValues("xyz");
-        verify(wrappedDispatcher).getAvailableValues("xyz");
+        decorator.getAvailableValues();
+        verify(wrappedDispatcher).getAvailableValues();
     }
 
     @Test
     public void testMessages() {
         MessageList messageList = new MessageList();
-        decorator.getMessages(messageList, "xyz");
-        verify(wrappedDispatcher).getMessages(messageList, "xyz");
+        decorator.getMessages(messageList);
+        verify(wrappedDispatcher).getMessages(messageList);
     }
 
     @Test

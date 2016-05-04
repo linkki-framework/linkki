@@ -33,24 +33,24 @@ public class ButtonBindingTest {
     public void setUp() {
         context = TestBindingContext.create();
         propertyDispatcher = mock(PropertyDispatcher.class);
-        binding = ButtonBinding.create(context, "method", label, button, new Object(), propertyDispatcher);
+        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI);
         context.add(binding);
     }
 
     @Test
     public void testClickBinding() {
         button.click();
-        verify(propertyDispatcher).invoke("method");
+        verify(propertyDispatcher).invoke();
     }
 
     @Test
     public void testUpdateFromPmo_SetsButtonAndFieldVisible() {
-        when(propertyDispatcher.isVisible("method")).thenReturn(false);
+        when(propertyDispatcher.isVisible()).thenReturn(false);
         binding.updateFromPmo();
         assertThat(button.isVisible(), is(false));
         assertThat(label.isVisible(), is(false));
 
-        when(propertyDispatcher.isVisible("method")).thenReturn(true);
+        when(propertyDispatcher.isVisible()).thenReturn(true);
         binding.updateFromPmo();
         assertThat(button.isVisible(), is(true));
         assertThat(label.isVisible(), is(true));
@@ -58,11 +58,11 @@ public class ButtonBindingTest {
 
     @Test
     public void testUpdateFromPmo_EnablesButton() {
-        when(propertyDispatcher.isEnabled("method")).thenReturn(false);
+        when(propertyDispatcher.isEnabled()).thenReturn(false);
         binding.updateFromPmo();
         assertThat(button.isEnabled(), is(false));
 
-        when(propertyDispatcher.isEnabled("method")).thenReturn(true);
+        when(propertyDispatcher.isEnabled()).thenReturn(true);
         binding.updateFromPmo();
         assertThat(button.isEnabled(), is(true));
     }

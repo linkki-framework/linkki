@@ -7,7 +7,6 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
 import org.linkki.core.ui.components.DecimalField;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIDecimalField;
@@ -62,11 +61,6 @@ public class UIDecimalFieldAdapter implements UIFieldDefinition {
     }
 
     @Override
-    public AvailableValuesType availableValues() {
-        return null;
-    }
-
-    @Override
     public String modelAttribute() {
         return uiDecimalField.modelAttribute();
     }
@@ -74,5 +68,10 @@ public class UIDecimalFieldAdapter implements UIFieldDefinition {
     @Override
     public boolean showLabel() {
         return !uiDecimalField.noLabel();
+    }
+
+    @Override
+    public String modelObject() {
+        return uiDecimalField.modelObject();
     }
 }

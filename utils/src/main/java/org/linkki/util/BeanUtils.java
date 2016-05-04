@@ -14,6 +14,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class BeanUtils {
 
@@ -45,6 +51,34 @@ public class BeanUtils {
         } catch (SecurityException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    /**
+     * Returns the class' method matching the given predicate, if one or more (then any one is
+     * returned) such methods exist. If you expect more than one match,
+     * {@link #getMethods(Class, Predicate)} might be what you're looking for.
+     */
+    public static Optional<Method> getMethod(Class<?> clazz, Predicate<Method> predicate) {
+        return getMethods(clazz, predicate).findAny();
+    }
+
+    /**
+     * Returns the class' methods matching the given predicate.
+     */
+    public static Stream<Method> getMethods(Class<?> clazz, Predicate<Method> predicate) {
+        List<Method> allMethods = collectMethods(clazz, new ArrayList<>());
+        return allMethods.stream().filter(predicate);
+    }
+
+    private static List<Method> collectMethods(Class<?> clazz, List<Method> allMethods) {
+        allMethods.addAll(Arrays.asList(clazz.getDeclaredMethods()));
+        if (clazz.getSuperclass() != null) {
+            collectMethods(clazz.getSuperclass(), allMethods);
+        }
+        for (Class<?> interfaze : clazz.getInterfaces()) {
+            collectMethods(interfaze, allMethods);
+        }
+        return allMethods;
     }
 
     /**

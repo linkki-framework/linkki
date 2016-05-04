@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
 
@@ -116,9 +115,9 @@ public class UiCustomFieldTest {
     }
 
     @UISection
-    public static class TestPmo implements PresentationModelObject {
+    public static class TestPmo {
 
-        private final Object modelObject;
+        private final TestModelObject modelObject;
 
         private boolean enabled = false;
 
@@ -129,7 +128,7 @@ public class UiCustomFieldTest {
         private List<TestValue> availableValues = Arrays.asList(new TestValue("a"), new TestValue("b"),
                                                                 new TestValue("c"));
 
-        public TestPmo(Object modelObject) {
+        public TestPmo(TestModelObject modelObject) {
             super();
             this.modelObject = modelObject;
         }
@@ -139,8 +138,8 @@ public class UiCustomFieldTest {
             // data binding
         }
 
-        @Override
-        public Object getModelObject() {
+        @ModelObject
+        public TestModelObject getModelObject() {
             return modelObject;
         }
 

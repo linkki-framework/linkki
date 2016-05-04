@@ -78,4 +78,9 @@ public class UISubsetChooserAdapter implements UIFieldDefinition {
         }
     }
 
+    @Override
+    public String modelObject() {
+        return uiSubsetChooser.modelObject();
+    }
+
 }

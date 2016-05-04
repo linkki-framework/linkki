@@ -12,12 +12,9 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.function.Function;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -30,13 +27,9 @@ public class PmoBasedTableFactoryTest {
     @Mock
     private BindingContext ctx;
 
-    @Mock
-    private Function<TestColumnPmo, PropertyDispatcher> propertyDispatcherBuilder;
-
     @Test
     public void testCreateTable_FieldLabelsAreUsedAsColumnHeaders() {
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx,
-                propertyDispatcherBuilder);
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx);
         Table table = factory.createTable();
         assertThat(table, is(notNullValue()));
         // 1, 2 and 3 are the labels for the fields, the delete button has an no label
@@ -45,8 +38,7 @@ public class PmoBasedTableFactoryTest {
 
     @Test
     public void testCreateTable_WidthAndExpandRatioIsReadFromAnnotation() {
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx,
-                propertyDispatcherBuilder);
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx);
         Table table = factory.createTable();
         assertThat(table, is(notNullValue()));
 
@@ -63,8 +55,7 @@ public class PmoBasedTableFactoryTest {
     @Test
     public void testCreateTable_InitialPageLengthIsSetOnTable() {
         TestContainerPmo containerPmo = new TestContainerPmo();
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
-                propertyDispatcherBuilder);
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx);
         Table table = factory.createTable();
         assertThat(table.getPageLength(), is(ContainerPmo.DEFAULT_PAGE_LENGTH));
     }
@@ -76,8 +67,7 @@ public class PmoBasedTableFactoryTest {
         TestColumnPmo columnPmo2 = containerPmo.addItem();
         assertThat(containerPmo.getItems(), contains(columnPmo1, columnPmo2));
 
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx,
-                propertyDispatcherBuilder);
+        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx);
         Table table = factory.createTable();
 
         assertThat(table.getItemIds(), contains(columnPmo1, columnPmo2));

@@ -11,13 +11,11 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
 import org.linkki.core.binding.TestBindingContext;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -30,9 +28,8 @@ public class PmoBasedTableSectionFactoryTest {
     public void testCreateSection_TableIsAddedAndBound() {
         TestContainerPmo containerPmo = new TestContainerPmo();
         BindingContext bindingContext = TestBindingContext.create();
-        PropertyBehaviorProvider propertyBehaviorProvider = mock(PropertyBehaviorProvider.class);
         PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<TestColumnPmo>(
-                containerPmo, bindingContext, propertyBehaviorProvider);
+                containerPmo, bindingContext);
 
         TableSection<TestColumnPmo> tableSection = factory.createSection();
 
@@ -49,9 +46,8 @@ public class PmoBasedTableSectionFactoryTest {
     public void testCreateSection_SectionHasAddButtonInHeader() {
         TestContainerPmo containerPmo = new TestContainerPmo();
         BindingContext bindingContext = TestBindingContext.create();
-        PropertyBehaviorProvider propertyBehaviorProvider = mock(PropertyBehaviorProvider.class);
         PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<TestColumnPmo>(
-                containerPmo, bindingContext, propertyBehaviorProvider);
+                containerPmo, bindingContext);
 
         TableSection<TestColumnPmo> tableSection = factory.createSection();
 

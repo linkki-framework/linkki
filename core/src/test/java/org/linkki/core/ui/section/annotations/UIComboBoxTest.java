@@ -13,7 +13,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.junit.Test;
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.TestEnum;
 
 import com.google.gwt.thirdparty.guava.common.collect.Sets;
@@ -22,7 +21,7 @@ import com.vaadin.ui.ComboBox;
 public class UIComboBoxTest {
 
     @UISection
-    protected static class TestPmo implements PresentationModelObject {
+    protected static class TestPmo {
 
         @UIComboBox(position = 1)
         public TestEnum getFoo() {
@@ -37,8 +36,8 @@ public class UIComboBoxTest {
             return someValues;
         }
 
-        @Override
-        public Object getModelObject() {
+        @ModelObject
+        public TestPmo getModelObject() {
             return this;
         }
     }

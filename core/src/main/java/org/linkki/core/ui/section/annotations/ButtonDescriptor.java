@@ -6,10 +6,11 @@
 
 package org.linkki.core.ui.section.annotations;
 
-import org.linkki.core.binding.BindingContext;
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.binding.ButtonBinding;
-import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -19,10 +20,12 @@ public class ButtonDescriptor implements ElementDescriptor {
 
     private final UIButtonDefinition uiButton;
     private final String methodName;
+    private String modelObjectName;
 
-    public ButtonDescriptor(UIButtonDefinition buttonAnnotation, String methodName) {
+    public ButtonDescriptor(UIButtonDefinition buttonAnnotation, String methodName, String modelObjectName) {
         this.uiButton = buttonAnnotation;
         this.methodName = methodName;
+        this.modelObjectName = modelObjectName;
     }
 
     @Override
@@ -56,18 +59,34 @@ public class ButtonDescriptor implements ElementDescriptor {
     }
 
     @Override
-    public ElementBinding createBinding(BindingContext bindingContext,
-            Object pmo,
-            Label label,
-            Component component,
-            PropertyDispatcher propertyDispatcher) {
-        return ButtonBinding.create(bindingContext, getPropertyName(), label, (Button)component, pmo,
-                                    propertyDispatcher);
+    public String getPropertyName() {
+        return methodName;
     }
 
     @Override
-    public String getPropertyName() {
-        return methodName;
+    public String getModelObjectName() {
+        return modelObjectName;
+    }
+
+    @Override
+    public ButtonBinding createBinding(PropertyDispatcher propertyDispatcher,
+            Handler updateUi,
+            Component component,
+            Label label) {
+        requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
+        requireNonNull(updateUi, "UpdateUI-Handler must not be null");
+        requireNonNull(component, "Component must not be null");
+        return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi);
+    }
+
+    @Override
+    public RequiredType required() {
+        return RequiredType.NOT_REQUIRED;
+    }
+
+    @Override
+    public AvailableValuesType availableValues() {
+        return AvailableValuesType.NO_VALUES;
     }
 
 }

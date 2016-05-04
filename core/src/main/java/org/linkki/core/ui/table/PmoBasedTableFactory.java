@@ -7,17 +7,13 @@
 package org.linkki.core.ui.table;
 
 import java.util.Set;
-import java.util.function.Function;
 
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
 import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
 import org.linkki.core.ui.section.annotations.UIAnnotationReader;
-import org.linkki.util.LazyInitializingMap;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
@@ -28,31 +24,24 @@ import com.vaadin.ui.Table.ColumnGenerator;
  *
  * @author ortmann
  */
-public class PmoBasedTableFactory<T extends PresentationModelObject> {
+public class PmoBasedTableFactory<T> {
 
     private ContainerPmo<T> containerPmo;
 
     private UIAnnotationReader annotationReader;
 
-    private BindingContext bindingContext;
-
-    /** Cache for property dispatchers used by the column generators. */
-    private final LazyInitializingMap<T, PropertyDispatcher> dispatcherCache;
+    private final BindingContext bindingContext;
 
     /**
      * Creates a new factory.
      * 
      * @param containerPmo The container providing the contents and column definitions.
      * @param bindingContext The binding context to which the cell bindings are added.
-     * @param propertyDispatcherBuilder A function that provides property dispatcher for a given
-     *            {@link PresentationModelObject}
      */
-    public PmoBasedTableFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext,
-            Function<T, PropertyDispatcher> propertyDispatcherBuilder) {
+    public PmoBasedTableFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
         this.containerPmo = containerPmo;
         this.annotationReader = new UIAnnotationReader(containerPmo.getItemPmoClass());
         this.bindingContext = bindingContext;
-        dispatcherCache = new LazyInitializingMap<>(propertyDispatcherBuilder);
     }
 
     /**
@@ -103,7 +92,7 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
      * @param bindingContext the context in which the field is bound
      */
     private void createColumn(Table table, ElementDescriptor elementDesc) {
-        FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<T>(elementDesc, bindingContext, dispatcherCache);
+        FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<T>(elementDesc, bindingContext);
         String propertyName = elementDesc.getPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
         table.setColumnHeader(propertyName, elementDesc.getLabelText());
@@ -135,13 +124,9 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
         private final ElementDescriptor elementDescriptor;
         private final BindingContext bindingContext;
 
-        private final LazyInitializingMap<T, PropertyDispatcher> dispatcherCache;
-
-        public FieldColumnGenerator(ElementDescriptor elementDescriptor, BindingContext bindingContext,
-                LazyInitializingMap<T, PropertyDispatcher> dispatcherCache) {
+        public FieldColumnGenerator(ElementDescriptor elementDescriptor, BindingContext bindingContext) {
             this.elementDescriptor = elementDescriptor;
             this.bindingContext = bindingContext;
-            this.dispatcherCache = dispatcherCache;
         }
 
         @Override
@@ -153,7 +138,7 @@ public class PmoBasedTableFactory<T extends PresentationModelObject> {
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;
-            elementDescriptor.createBinding(bindingContext, itemPmo, null, component, dispatcherCache.get(itemPmo));
+            bindingContext.bind(itemPmo, elementDescriptor, component, null);
 
             // removed the following line as on the created binding for the cell
             // a updateFromPmo() is called later on by the binding manager, see FIPM-497 for details

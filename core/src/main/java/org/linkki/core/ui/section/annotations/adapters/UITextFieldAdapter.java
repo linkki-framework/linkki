@@ -1,6 +1,5 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
@@ -59,11 +58,6 @@ public class UITextFieldAdapter implements UIFieldDefinition {
     }
 
     @Override
-    public AvailableValuesType availableValues() {
-        return null;
-    }
-
-    @Override
     public String modelAttribute() {
         return uiTextField.modelAttribute();
     }
@@ -71,5 +65,10 @@ public class UITextFieldAdapter implements UIFieldDefinition {
     @Override
     public boolean showLabel() {
         return !uiTextField.noLabel();
+    }
+
+    @Override
+    public String modelObject() {
+        return uiTextField.modelObject();
     }
 }

@@ -49,4 +49,17 @@ public abstract class AbstractMethod {
                 + getPropertyName());
     }
 
+    /**
+     * Performance optimization. Avoid creating exception supplier to save memory.
+     * 
+     * @return the read method if existent. Otherwise throws an IllegalArgumentException.
+     */
+    protected Method getMethodWithExceptionHandling() {
+        if (hasMethod()) {
+            return getReflectionMethod().get();
+        } else {
+            throw noMethodFound(this.getClass().getSimpleName()).get();
+        }
+    }
+
 }

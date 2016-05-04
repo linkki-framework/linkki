@@ -10,7 +10,10 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -18,6 +21,7 @@ import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 
 import com.vaadin.ui.Button;
 
+@SuppressWarnings("deprecation")
 public class ButtonPmoBindingTest {
 
     static class TestButtonPmo implements ButtonPmo {
@@ -45,11 +49,18 @@ public class ButtonPmoBindingTest {
     private final BindingContext bindingContext = TestBindingContext.create();
     private final Button button = new Button();
 
+    @Before
+    public void setUp() {
+        when(wrappedDispatcher.getProperty()).thenReturn(StringUtils.EMPTY);
+    }
+
     @Test
     public void testButtonClickIsForwaredToPmo() {
         ButtonPmo pmo = mock(ButtonPmo.class);
-        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, wrappedDispatcher);
-        ButtonPmoBinding.create(bindingContext, pmo, button, propertyDispatcher);
+        PropertyDispatcher propertyDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(
+                new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY, wrappedDispatcher));
+        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::updateUI);
+        bindingContext.add(buttonPmoBinding);
         button.click();
         verify(pmo).onClick();
     }
@@ -57,8 +68,10 @@ public class ButtonPmoBindingTest {
     @Test
     public void testUpdateFromPmo_PmoSublass() {
         TestButtonPmo pmo = new TestButtonPmo();
-        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, wrappedDispatcher);
-        ButtonPmoBinding binding = ButtonPmoBinding.create(bindingContext, pmo, button, propertyDispatcher);
+        PropertyDispatcher propertyDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(
+                new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY, wrappedDispatcher));
+        ButtonPmoBinding binding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::updateUI);
+        bindingContext.add(binding);
 
         pmo.enabled = true;
         pmo.visible = true;
@@ -76,8 +89,10 @@ public class ButtonPmoBindingTest {
     @Test
     public void testUpdateFromPmo_LambdaPmo() {
         ButtonPmo lambdaPmo = () -> System.out.println("click");
-        PropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> lambdaPmo, wrappedDispatcher);
-        ButtonPmoBinding binding = ButtonPmoBinding.create(bindingContext, lambdaPmo, button, dispatcher);
+        PropertyDispatcher propertyDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(
+                new ReflectionPropertyDispatcher(() -> lambdaPmo, StringUtils.EMPTY, wrappedDispatcher));
+        ButtonPmoBinding binding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::updateUI);
+        bindingContext.add(binding);
 
         binding.updateFromPmo();
         assertThat(button.isVisible(), is(true));

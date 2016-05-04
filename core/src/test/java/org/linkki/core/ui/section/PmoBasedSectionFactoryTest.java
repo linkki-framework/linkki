@@ -6,6 +6,7 @@
 
 package org.linkki.core.ui.section;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -17,9 +18,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonBinding;
@@ -29,6 +30,7 @@ import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -67,14 +69,22 @@ public class PmoBasedSectionFactoryTest {
         for (Binding binding : bindings) {
             if (binding instanceof FieldBinding) {
                 FieldBinding<?> fieldBinding = (FieldBinding<?>)binding;
-                if (fieldBinding.getPropertyName().equals("xyz")) {
-                    textFieldBinding = fieldBinding;
-                } else if (fieldBinding.getPropertyName().equals("staticEnumAttr")) {
-                    comboBinding1 = fieldBinding;
-                } else if (fieldBinding.getPropertyName().equals("dynamicEnumAttr")) {
-                    comboBinding2 = fieldBinding;
-                } else if (fieldBinding.getPropertyName().equals("disabledInvisible")) {
-                    disabledInvisibleBinding = fieldBinding;
+                String property = fieldBinding.getPropertyDispatcher().getProperty();
+                switch (property) {
+                    case "xyz":
+                        textFieldBinding = fieldBinding;
+                        break;
+                    case "staticEnumAttr":
+                        comboBinding1 = fieldBinding;
+                        break;
+                    case "dynamicEnumAttr":
+                        comboBinding2 = fieldBinding;
+                        break;
+                    case "disabledInvisible":
+                        disabledInvisibleBinding = fieldBinding;
+                        break;
+                    default:
+                        throw new IllegalStateException("Unknown property: " + property);
                 }
             } else if (binding instanceof ButtonBinding) {
                 buttonBinding = (ButtonBinding)binding;
@@ -83,7 +93,7 @@ public class PmoBasedSectionFactoryTest {
     }
 
     @Test
-    public void testCreateSection_defaultState() {
+    public void testCreateSection_DefaultState() {
         assertEquals("123", textFieldBinding.getValue());
         assertEquals(TestEnum.THREE, comboBinding1.getValue());
         assertEquals(TestEnum.TWO, comboBinding2.getValue());
@@ -111,7 +121,7 @@ public class PmoBasedSectionFactoryTest {
     }
 
     @Test
-    public void testCreateSection_dependencies() {
+    public void testCreateSection_Dependencies() {
         pmo.setXyz("abc");
         pmo.setStaticEnumAttr(TestEnum.TWO);
 
@@ -128,9 +138,9 @@ public class PmoBasedSectionFactoryTest {
         assertTrue(comboBinding2.isVisible());
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testCreateSection_exceptionIllegalAvailableValues() {
-        assertNull(textFieldBinding.getAvailableValues());
+    @Test
+    public void testCreateSection_NoAvailableValues() {
+        assertThat(textFieldBinding.getAvailableValues(), is(empty()));
     }
 
     @Test
@@ -144,7 +154,7 @@ public class PmoBasedSectionFactoryTest {
     }
 
     @UISection
-    public class TestPmoWithAnnotations implements PresentationModelObject {
+    public class TestPmoWithAnnotations {
 
         private String xyz = "123";
         private TestEnum staticEnumAttr = TestEnum.THREE;
@@ -226,9 +236,9 @@ public class PmoBasedSectionFactoryTest {
             return null;
         }
 
-        @Override
+        @ModelObject
         public Object getModelObject() {
-            return "";
+            return StringUtils.EMPTY;
         }
 
     }

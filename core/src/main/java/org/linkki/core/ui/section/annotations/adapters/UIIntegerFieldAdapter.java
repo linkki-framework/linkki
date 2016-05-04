@@ -1,7 +1,6 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
 import org.linkki.core.ui.components.IntegerField;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
@@ -55,11 +54,6 @@ public class UIIntegerFieldAdapter implements UIFieldDefinition {
     }
 
     @Override
-    public AvailableValuesType availableValues() {
-        return null;
-    }
-
-    @Override
     public String modelAttribute() {
         return uiIntegerField.modelAttribute();
     }
@@ -67,5 +61,10 @@ public class UIIntegerFieldAdapter implements UIFieldDefinition {
     @Override
     public boolean showLabel() {
         return !uiIntegerField.noLabel();
+    }
+
+    @Override
+    public String modelObject() {
+        return uiIntegerField.modelObject();
     }
 }

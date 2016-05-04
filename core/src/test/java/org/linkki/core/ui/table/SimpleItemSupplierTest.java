@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
-import org.linkki.core.PresentationModelObject;
+import org.linkki.core.ui.section.annotations.ModelObject;
 
 public class SimpleItemSupplierTest {
 
@@ -55,7 +55,7 @@ public class SimpleItemSupplierTest {
         return modelObjects;
     }
 
-    class SimplePmo implements PresentationModelObject {
+    class SimplePmo {
 
         private Integer mo;
 
@@ -63,8 +63,8 @@ public class SimpleItemSupplierTest {
             this.mo = mo;
         }
 
-        @Override
-        public Object getModelObject() {
+        @ModelObject
+        public Integer getModelObject() {
             return mo;
         }
 

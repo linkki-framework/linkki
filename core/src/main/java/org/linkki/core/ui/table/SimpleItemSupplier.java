@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import org.linkki.core.PresentationModelObject;
-
 /**
  * A supplier for item PMOs based on a list of underlying model objects. The PMOs are created from
  * the model objects via a mapping function. The simple item supplier recreates the list of item
@@ -36,7 +34,7 @@ import org.linkki.core.PresentationModelObject;
  *
  * @author ortmann
  */
-public class SimpleItemSupplier<PMO extends PresentationModelObject, MO> implements Supplier<List<PMO>> {
+public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
 
     private List<PMO> items = new ArrayList<>(0);
     private List<? extends MO> modelObjectsCopy = null;

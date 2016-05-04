@@ -77,4 +77,9 @@ public class UIComboBoxAdapter implements UIFieldDefinition {
         }
     }
 
+    @Override
+    public String modelObject() {
+        return uiComboField.modelObject();
+    }
+
 }

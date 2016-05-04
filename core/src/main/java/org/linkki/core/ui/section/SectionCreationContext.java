@@ -7,16 +7,16 @@
 package org.linkki.core.ui.section;
 
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
+
+import javax.annotation.Nonnull;
 
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UIAnnotationReader;
@@ -34,31 +34,16 @@ import com.vaadin.ui.Label;
  */
 public class SectionCreationContext {
 
-    private static final PropertyDispatcherFactory DISPATCHER_FACTORY = new PropertyDispatcherFactory();
-
-    private final PresentationModelObject pmo;
+    private final Object pmo;
     private final BindingContext bindingContext;
-    private final PropertyBehaviorProvider propertyBehaviorProvider;
 
-    private PropertyDispatcher propertyDispatcher;
-
-    public SectionCreationContext(PresentationModelObject pmo, BindingContext bindingContext,
-            PropertyBehaviorProvider propertyBehaviorProvider) {
-        this.pmo = pmo;
-        this.bindingContext = bindingContext;
-        this.propertyBehaviorProvider = propertyBehaviorProvider;
+    public SectionCreationContext(@Nonnull Object pmo, @Nonnull BindingContext bindingContext) {
+        this.pmo = requireNonNull(pmo, "PresentationModelObject must not be null");
+        this.bindingContext = requireNonNull(bindingContext, "BindingContext must not be null");
     }
 
-    protected PropertyDispatcher createDefaultDispatcher(Object o) {
-        return DISPATCHER_FACTORY.defaultDispatcherChain(o, propertyBehaviorProvider);
-    }
-
-    protected PresentationModelObject getPmo() {
+    protected Object getPmo() {
         return pmo;
-    }
-
-    protected Object getModelObject() {
-        return pmo.getModelObject();
     }
 
     public BaseSection createSection() {
@@ -71,7 +56,7 @@ public class SectionCreationContext {
         BaseSection section;
         UISection sectionDefinition = pmo.getClass().getAnnotation(UISection.class);
         checkNotNull(sectionDefinition, "PMO " + pmo.getClass() + " must be annotated with @UISection!");
-        Optional<Button> editButton = createEditButton(pmo.getEditButtonPmo());
+        Optional<Button> editButton = createEditButton(getEditButtonPmo());
         if (sectionDefinition.layout() == SectionLayout.COLUMN) {
             section = new FormSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButton,
                     sectionDefinition.columns());
@@ -81,15 +66,20 @@ public class SectionCreationContext {
         return section;
     }
 
+    private Optional<ButtonPmo> getEditButtonPmo() {
+        return (pmo instanceof PresentationModelObject) ? ((PresentationModelObject)pmo).getEditButtonPmo()
+                : Optional.empty();
+    }
+
     private Optional<Button> createEditButton(Optional<ButtonPmo> buttonPmo) {
-        return buttonPmo.map(b -> ButtonPmoBinding.createBoundButton(bindingContext, b, createDefaultDispatcher(b)));
+        return buttonPmo.map(b -> ButtonPmoBinding.createBoundButton(bindingContext, b));
     }
 
     private void createUiElements(BaseSection section) {
         UIAnnotationReader annotationReader = new UIAnnotationReader(getPmo().getClass());
         for (ElementDescriptor uiElement : annotationReader.getUiElements()) {
             LabelComponent lf = createLabelAndComponent(section, uiElement);
-            bindUiElement(lf.component, uiElement, lf.label);
+            bindUiElement(uiElement, lf.component, lf.label);
         }
     }
 
@@ -100,15 +90,8 @@ public class SectionCreationContext {
         return new LabelComponent(label, component);
     }
 
-    private void bindUiElement(Component component, ElementDescriptor uiElement, Label label) {
-        uiElement.createBinding(bindingContext, pmo, label, component, getPropertyDispatcher());
-    }
-
-    protected PropertyDispatcher getPropertyDispatcher() {
-        if (propertyDispatcher == null) {
-            propertyDispatcher = createDefaultDispatcher(pmo);
-        }
-        return propertyDispatcher;
+    private void bindUiElement(ElementDescriptor elementDescriptor, Component component, Label label) {
+        bindingContext.bind(pmo, elementDescriptor, component, label);
     }
 
     private static class LabelComponent {

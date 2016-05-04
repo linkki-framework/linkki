@@ -5,22 +5,27 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
 import org.faktorips.runtime.MessageList;
-import org.linkki.core.PresentationModelObject;
+import org.linkki.core.ButtonPmo;
+import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.ui.section.annotations.BindingDescriptor;
 
+import com.google.gwt.thirdparty.guava.common.collect.ArrayListMultimap;
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
+import com.google.gwt.thirdparty.guava.common.collect.Multimap;
+import com.google.gwt.thirdparty.guava.common.collect.Multimaps;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Label;
 
 /**
  * A binding context binds fields and tables in a part of the user interface like a page or a dialog
@@ -32,15 +37,23 @@ public class BindingContext {
     private final String name;
     private final ValidationService validationService;
     private final Map<Component, ElementBinding> elementBindings = Maps.newConcurrentMap();
+    private final Multimap<Object, ElementBinding> elementBindingsByPmo = Multimaps
+            .synchronizedListMultimap(ArrayListMultimap.create());
     private final Map<Component, TableBinding<?>> tableBindings = Maps.newConcurrentMap();
     private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<PropertyDispatcher>();
+    private final PropertyDispatcherFactory dispatcherFactory = new PropertyDispatcherFactory();
+    private final PropertyBehaviorProvider behaviorProvider;
+
+    private final PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
 
     /**
      * Creates a new binding context with the given name.
      */
-    public BindingContext(String contextName, ValidationService validationService) {
+    public BindingContext(@Nonnull String contextName, @Nonnull ValidationService validationService,
+            @Nonnull PropertyBehaviorProvider behaviorProvider) {
         this.name = requireNonNull(contextName);
-        this.validationService = validationService;
+        this.validationService = requireNonNull(validationService);
+        this.behaviorProvider = requireNonNull(behaviorProvider);
     }
 
     /**
@@ -56,8 +69,9 @@ public class BindingContext {
      */
     @Nonnull
     public BindingContext add(@Nonnull ElementBinding binding) {
-        Objects.requireNonNull(binding);
+        requireNonNull(binding);
         elementBindings.put(binding.getBoundComponent(), binding);
+        elementBindingsByPmo.put(binding.getPmo(), binding);
         propertyDispatchers.add(binding.getPropertyDispatcher());
         return this;
     }
@@ -67,7 +81,7 @@ public class BindingContext {
      */
     @Nonnull
     public BindingContext add(@Nonnull TableBinding<?> tableBinding) {
-        Objects.requireNonNull(tableBinding);
+        requireNonNull(tableBinding);
         tableBindings.put(tableBinding.getBoundComponent(), tableBinding);
         return this;
     }
@@ -91,14 +105,11 @@ public class BindingContext {
     /**
      * Removes all bindings in this context that refer to the given PMO.
      */
-    public void removeBindingsForPmo(PresentationModelObject pmo) {
-        // @formatter:off
-        List<ElementBinding> toRemove = elementBindings.values().stream()
-                .filter(b -> b.getPmo() == pmo)
-                .collect(Collectors.toList());
-        // @formatter:on
+    public void removeBindingsForPmo(Object pmo) {
+        Collection<ElementBinding> toRemove = elementBindingsByPmo.get(pmo);
         toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
         elementBindings.values().removeAll(toRemove);
+        elementBindingsByPmo.removeAll(pmo);
     }
 
     /**
@@ -121,7 +132,6 @@ public class BindingContext {
      * validation services.
      */
     public void updateUI() {
-        propertyDispatchers.forEach(pd -> pd.prepareUpdateUI());
         // table bindings have to be updated first, as their update removes bindings
         // and creates new bindings if the table content has changed.
         tableBindings.values().forEach(binding -> binding.updateFromPmo());
@@ -136,13 +146,83 @@ public class BindingContext {
         tableBindings.values().forEach(binding -> binding.displayMessages(messages));
     }
 
+    @Nonnull
     public ValidationService getValidationService() {
         return validationService;
     }
 
+    @Nonnull
+    public PropertyBehaviorProvider getBehaviorProvider() {
+        return behaviorProvider;
+    }
+
     @Override
     public String toString() {
-        return "BindingContext [name=" + name + "]";
+        return "BindingContext [name=" + name + ", validationService=" + validationService + ", behaviorProvider="
+                + behaviorProvider + "]";
+    }
+
+    /**
+     * Creates a binding between the presentation model object and UI elements (i.e.
+     * {@linkplain Label} and {@linkplain Component}) as described by the given descriptor.
+     * <p>
+     * If the label is {@code null} it is ignored for the binding
+     * 
+     * @param pmo a presentation model object
+     * @param bindingDescriptor the descriptor describing the binding
+     * @param component the component to be bound
+     * @param label the label to be bound or {@code null} if no label is bound
+     */
+    @Nonnull
+    public void bind(@Nonnull Object pmo,
+            @Nonnull BindingDescriptor bindingDescriptor,
+            @Nonnull Component component,
+            Label label) {
+        requireNonNull(pmo, "PresentationModelObject must not be null");
+        requireNonNull(bindingDescriptor, "BindingDescriptor must not be null");
+        requireNonNull(component, "Component must not be null");
+
+        // Make bound components "immediate", i.e. let them update their PMO as soon as a field is
+        // left, a checkbox is checked etc.
+        if (component instanceof AbstractComponent) {
+            ((AbstractComponent)component).setImmediate(true);
+        }
+
+        ElementBinding binding = bindingDescriptor.createBinding(createDispatcherChain(pmo, bindingDescriptor),
+                                                                 this::updateUI, component, label);
+        add(binding);
+    }
+
+    /**
+     * Binds the {@linkplain ButtonPmo} to the {@linkplain Button}.
+     * 
+     * @param pmo a button model object
+     * @param button the button to be bound
+     * @return the {@link ButtonPmoBinding} connecting the button and its model
+     */
+    @Nonnull
+    public ButtonPmoBinding bind(@Nonnull ButtonPmo pmo, @Nonnull Button button) {
+        requireNonNull(pmo, "ButtonPmo must not be null");
+        requireNonNull(button, "Button must not be null");
+        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, createDispatcherChain(pmo), this::updateUI);
+        add(buttonPmoBinding);
+        return buttonPmoBinding;
+    }
+
+    @Nonnull
+    protected PropertyDispatcher createDispatcherChain(@Nonnull Object pmo,
+            @Nonnull BindingDescriptor bindingDescriptor) {
+        requireNonNull(pmo, "PresentationModelObject must not be null");
+        requireNonNull(bindingDescriptor, "BindingDescriptor must not be null");
+
+        return propertyDispatcherFactory.createDispatcherChain(pmo, bindingDescriptor, getBehaviorProvider());
+    }
+
+    @Nonnull
+    protected PropertyDispatcher createDispatcherChain(@Nonnull ButtonPmo buttonPmo) {
+        requireNonNull(buttonPmo, "ButtonPmo must not be null");
+
+        return dispatcherFactory.createDispatcherChain(buttonPmo, getBehaviorProvider());
     }
 
 }

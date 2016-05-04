@@ -1,11 +1,14 @@
 package org.linkki.core.binding;
 
-import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
 
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
@@ -13,6 +16,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.util.MessageListUtil;
 import org.linkki.core.util.MessageUtil;
+import org.linkki.util.handler.Handler;
 import org.vaadin.viritin.ListContainer;
 
 import com.google.gwt.thirdparty.guava.common.collect.Iterables;
@@ -33,25 +37,30 @@ import com.vaadin.ui.Label;
  */
 public class FieldBinding<T> implements ElementBinding {
 
-    private final BindingContext bindingContext;
     private final Field<T> field;
-    private final Label label;
-    private final Object pmo;
-    private final String propertyName;
+    private final Optional<Label> label;
     private final PropertyDispatcher propertyDispatcher;
+    private final Handler updateUi;
     private final FieldBindingDataSource<T> propertyDataSource;
 
     private final ListContainer<T> containerDataSource;
 
-    public FieldBinding(BindingContext bindingContext, Object pmo, String propertyName, Label label, Field<T> field,
-            PropertyDispatcher propertyDispatcher) {
-
-        this.bindingContext = checkNotNull(bindingContext);
-        this.pmo = checkNotNull(pmo);
-        this.propertyName = checkNotNull(propertyName);
-        this.label = label;
-        this.propertyDispatcher = checkNotNull(propertyDispatcher);
-        this.field = checkNotNull(field);
+    /**
+     * Creates a new {@link FieldBinding}.
+     * 
+     * @param label the button's label (optional)
+     * @param field the {@link Field} to be bound
+     * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the
+     *            model object
+     * @param updateUi a {@link Handler} that is called when this {@link Binding} desires an update
+     *            of the UI. Usually the {@link BindingContext#updateUI()} method.
+     */
+    public FieldBinding(Label label, @Nonnull Field<T> field, @Nonnull PropertyDispatcher propertyDispatcher,
+            @Nonnull Handler updateUi) {
+        this.label = Optional.ofNullable(label);
+        this.field = requireNonNull(field, "Field must not be null");
+        this.propertyDispatcher = requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
+        this.updateUi = requireNonNull(updateUi, "Update-UI-Handler must not be null");
 
         if (isAvailableValuesComponent()) {
             containerDataSource = new ListContainer<T>(getValueClass());
@@ -77,18 +86,22 @@ public class FieldBinding<T> implements ElementBinding {
     }
 
     /**
-     * LIN-90, LIN-95: if a field is required and the user enters blank into the field, VAADIN does
-     * not transfer NULL into the data source. This leads to the effect that if the user enters a
-     * value, the value is transfered to the model, if the user then enters blank, he sees an empty
-     * field but the value in the model is still set to the old value. How do we avoid this? If the
-     * field has no converter, we set invalidCommitted to TRUE. NULL is regarded as invalid value,
-     * but it is transferable to the model. This does not work for fields with a converter. NULL
-     * handling is ok for those fields, but if the user enters a none convertable value, VADDIN
-     * tries to commit the value to the data source, but it has to be converted, which leads to an
-     * exception. Example: Enter an invalid number like '123a' into a number field. So in these
-     * cases we can't enter commit the value if they are invalid. To get this to work, those fields
-     * have to override {@link }AbstractField#validate()} to get rid of the unwanted check that in
-     * required fields the value <code>null</code> leads to a validation exception.
+     * LIN-90, LIN-95: if a field is required and the user enters blank into the field, Vaadin does
+     * not transfer {@code null} into the data source. This leads to the effect that if the user
+     * enters a value, the value is transfered to the model, if the user then enters blank, he sees
+     * an empty field but the value in the model is still set to the old value.
+     * <p>
+     * How do we avoid this? If the field has no converter, we set invalidCommitted to {@code true}.
+     * {@code null} is regarded as invalid value, but it is transferable to the model. This does not
+     * work for fields with a converter. {@code null} handling is OK for those fields, but if the
+     * user enters a value that cannot be converted, Vaadin tries to commit the value to the data
+     * source doing so tries to convert it. This leads to an exception (as the value cannot be
+     * converted).
+     * <p>
+     * Example: Enter an invalid number like '123a' into a number field. We can't commit the value
+     * as it is invalid and cannot be converted. To get this to work, those fields have to override
+     * {@link AbstractField#validate()} to get rid of the unwanted check that leads to a validation
+     * exception for {@code null} values in required fields.
      * 
      * @see AbstractField#validate()
      */
@@ -132,16 +145,12 @@ public class FieldBinding<T> implements ElementBinding {
 
     @SuppressWarnings("unchecked")
     private Class<T> getValueClass() {
-        return (Class<T>)propertyDispatcher.getValueClass(propertyName);
+        return (Class<T>)propertyDispatcher.getValueClass();
     }
 
     @Override
     public PropertyDispatcher getPropertyDispatcher() {
         return propertyDispatcher;
-    }
-
-    public String getPropertyName() {
-        return propertyName;
     }
 
     @Override
@@ -156,18 +165,15 @@ public class FieldBinding<T> implements ElementBinding {
             field.setEnabled(isEnabled());
             boolean visible = isVisible();
             field.setVisible(visible);
-            if (label != null) {
-                // label is null in case of a table
-                label.setVisible(visible);
-            }
+            label.ifPresent(l -> l.setVisible(visible));
             if (isAvailableValuesComponent()) {
                 Collection<T> availableValues = getAvailableValues();
                 containerDataSource.setCollection(availableValues);
             }
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
-            throw new RuntimeException(
-                    "Error while updating field " + field.getClass() + ", value property=" + propertyName, e);
+            throw new RuntimeException("Error while updating field " + field.getClass() + ", value property="
+                    + propertyDispatcher.getProperty(), e);
         }
         // CSON: IllegalCatch
     }
@@ -178,28 +184,28 @@ public class FieldBinding<T> implements ElementBinding {
 
     @SuppressWarnings("unchecked")
     public T getValue() {
-        return (T)getPropertyDispatcher().getValue(getPropertyName());
+        return (T)getPropertyDispatcher().getValue();
     }
 
     public void setValue(T newValue) {
-        getPropertyDispatcher().setValue(getPropertyName(), newValue);
-        bindingContext.updateUI();
+        getPropertyDispatcher().setValue(newValue);
+        updateUi.apply();
     }
 
     public boolean isEnabled() {
-        return propertyDispatcher.isEnabled(getPropertyName());
+        return propertyDispatcher.isEnabled();
     }
 
     public boolean isRequired() {
-        return propertyDispatcher.isRequired(getPropertyName());
+        return propertyDispatcher.isRequired();
     }
 
     public boolean isVisible() {
-        return propertyDispatcher.isVisible(getPropertyName());
+        return propertyDispatcher.isVisible();
     }
 
     public boolean isReadOnly() {
-        return propertyDispatcher.isReadonly(getPropertyName());
+        return propertyDispatcher.isReadOnly();
     }
 
     private String formatMessages(MessageList messages) {
@@ -216,7 +222,7 @@ public class FieldBinding<T> implements ElementBinding {
      */
     @SuppressWarnings("unchecked")
     public Collection<T> getAvailableValues() {
-        return (Collection<T>)propertyDispatcher.getAvailableValues(getPropertyName());
+        return (Collection<T>)propertyDispatcher.getAvailableValues();
     }
 
     /**
@@ -228,41 +234,12 @@ public class FieldBinding<T> implements ElementBinding {
     @Deprecated
     @Override
     public String toString() {
-        return "FieldBinding [propertyName=" + propertyName + ", pmo=" + pmo + ", field=" + field + ", bindingContext="
-                + bindingContext.getName() + ", propertyDispatcher=" + propertyDispatcher + "]";
-    }
-
-    /**
-     * Creates a field binding and add the created binding to the given {@link BindingContext}
-     * 
-     * @param bindingContext {@link BindingContext} to create the binding and add the created
-     *            binding to t
-     * @param propertyName The name of the bound property
-     * @param label the label for the bound field
-     * @param field the field that needs to be bound
-     * @param propertyDispatcher The {@link PropertyDispatcher} to get the bound values from
-     * @return Returns the newly created field binding
-     */
-    public static <T> FieldBinding<T> create(BindingContext bindingContext,
-            Object pmo,
-            String propertyName,
-            Label label,
-            Field<T> field,
-            PropertyDispatcher propertyDispatcher) {
-        FieldBinding<T> fieldBinding = new FieldBinding<T>(bindingContext, pmo, propertyName, label, field,
-                propertyDispatcher);
-        bindingContext.add(fieldBinding);
-        return fieldBinding;
+        return "FieldBinding [field=" + field + ", label=" + label + ", propertyDispatcher=" + propertyDispatcher + "]";
     }
 
     @Override
     public Field<T> getBoundComponent() {
         return field;
-    }
-
-    @Override
-    public Object getPmo() {
-        return pmo;
     }
 
     @Override
@@ -275,7 +252,7 @@ public class FieldBinding<T> implements ElementBinding {
     }
 
     private MessageList getRelevantMessages(MessageList messages) {
-        MessageList messagesForProperty = propertyDispatcher.getMessages(messages, propertyName);
+        MessageList messagesForProperty = propertyDispatcher.getMessages(messages);
         removeMandatoryFieldMessages(messagesForProperty);
         addFatalError(messages, messagesForProperty);
         return messagesForProperty;

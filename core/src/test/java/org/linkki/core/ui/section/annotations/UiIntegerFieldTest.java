@@ -7,7 +7,6 @@
 package org.linkki.core.ui.section.annotations;
 
 import org.junit.Test;
-import org.linkki.core.PresentationModelObject;
 
 import com.vaadin.data.Buffered;
 import com.vaadin.ui.TextField;
@@ -41,7 +40,7 @@ public class UiIntegerFieldTest {
     }
 
     @UISection
-    protected static class TestPmo implements PresentationModelObject {
+    protected static class TestPmo {
 
         private final Object modelObject;
 
@@ -55,7 +54,7 @@ public class UiIntegerFieldTest {
             // data binding
         }
 
-        @Override
+        @ModelObject
         public Object getModelObject() {
             return modelObject;
         }

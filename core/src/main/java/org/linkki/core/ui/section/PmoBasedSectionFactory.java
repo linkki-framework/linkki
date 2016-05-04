@@ -2,14 +2,7 @@ package org.linkki.core.ui.section;
 
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
 
-import java.util.Collections;
-
-import javax.inject.Inject;
-
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UIDateField;
@@ -23,9 +16,10 @@ import org.linkki.core.ui.table.TableSection;
 /**
  * Base class for a factory to create a section based on an annotated PMO.
  * <p>
- * This class is used as a base class for specializations. It need to be abstract to ensure
- * distinction of different implementation when used via dependency injection. If you do not need
- * further specialization just use {@link DefaultPmoBasedSectionFactory}.
+ * This class is used as a base class. It must be abstract to ensure distinction of different
+ * implementations when used via dependency injection. You should never use
+ * {@link PmoBasedSectionFactory} directly, only one of its subclasses. If you do not need further
+ * specialization just use {@link DefaultPmoBasedSectionFactory}.
  * 
  * @see UISection
  * @see UITextField
@@ -36,22 +30,15 @@ import org.linkki.core.ui.table.TableSection;
  */
 public abstract class PmoBasedSectionFactory {
 
-    private final PropertyBehaviorProvider propertyBehaviorProvider;
-
-    @Inject
-    public PmoBasedSectionFactory(PropertyBehaviorProvider pbp) {
-        this.propertyBehaviorProvider = pbp;
-    }
-
     /**
      * Creates a new section based on the given annotated PMO and binds the created controls via the
      * given binding context to the PMO.
      */
-    public BaseSection createSection(PresentationModelObject pmo, BindingContext bindingContext) {
+    public BaseSection createSection(Object pmo, BindingContext bindingContext) {
         checkNotNull(pmo);
         checkNotNull(bindingContext);
 
-        SectionCreationContext creator = new SectionCreationContext(pmo, bindingContext, getPropertyBehaviorProvider());
+        SectionCreationContext creator = new SectionCreationContext(pmo, bindingContext);
         return creator.createSection();
     }
 
@@ -59,22 +46,12 @@ public abstract class PmoBasedSectionFactory {
      * Creates a new section based on the given annotated PMO and binds the created controls via the
      * given binding context to the PMO.
      */
-    public <T extends PresentationModelObject> TableSection<T> createTableSection(ContainerPmo<T> pmo,
-            BindingContext bindingContext) {
+    public <T> TableSection<T> createTableSection(ContainerPmo<T> pmo, BindingContext bindingContext) {
         checkNotNull(pmo);
         checkNotNull(bindingContext);
 
-        PmoBasedTableSectionFactory<T> factory = new PmoBasedTableSectionFactory<>(pmo, bindingContext,
-                propertyBehaviorProvider);
+        PmoBasedTableSectionFactory<T> factory = new PmoBasedTableSectionFactory<>(pmo, bindingContext);
         return factory.createSection();
-    }
-
-    public static PropertyDispatcher createDefaultDispatcher(PresentationModelObject pmo) {
-        return new SectionCreationContext(pmo, null, () -> Collections.emptyList()).createDefaultDispatcher(pmo);
-    }
-
-    public PropertyBehaviorProvider getPropertyBehaviorProvider() {
-        return propertyBehaviorProvider;
     }
 
 }

@@ -16,4 +16,9 @@ public interface ElementBinding extends Binding {
 
     PropertyDispatcher getPropertyDispatcher();
 
+    @Override
+    default Object getPmo() {
+        return getPropertyDispatcher().getBoundObject();
+    }
+
 }

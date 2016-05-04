@@ -2,7 +2,6 @@ package org.linkki.core.binding.dispatcher.accessor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Optional;
 
 /**
  * Wrapper for a {@link Method}. {@link #canWrite()} can safely be accessed even if no write method
@@ -14,10 +13,6 @@ public class WriteMethod extends AbstractMethod {
 
     public WriteMethod(PropertyAccessDescriptor descriptor) {
         super(descriptor, descriptor.getReflectionWriteMethod());
-    }
-
-    private Optional<Method> getWriteMethod() {
-        return getReflectionMethod();
     }
 
     public boolean canWrite() {
@@ -58,6 +53,7 @@ public class WriteMethod extends AbstractMethod {
 
     private void invokeMethod(Object boundObject, Object value)
             throws IllegalAccessException, InvocationTargetException {
-        getWriteMethod().orElseThrow(noMethodFound("write method")).invoke(boundObject, value);
+        getMethodWithExceptionHandling().invoke(boundObject, value);
     }
+
 }
