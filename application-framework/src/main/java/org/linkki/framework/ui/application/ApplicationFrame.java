@@ -1,10 +1,12 @@
 package org.linkki.framework.ui.application;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
-import com.google.gwt.thirdparty.guava.common.collect.Iterators;
+import org.linkki.util.StreamUtil;
+
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.cdi.internal.Conventions;
@@ -15,7 +17,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * OVerall layout frame for the application. Contains the application header, the main work area and
+ * Overall layout frame for the application. Contains the application header, the main work area and
  * a footer.
  */
 @UIScoped
@@ -102,11 +104,11 @@ public class ApplicationFrame implements Serializable {
     }
 
     /**
-     * Returns the view that is currently displayed. Returns {@code null} if no view is displayed
-     * (yet).
+     * Returns the view that is currently displayed in an {@link Optional}, which is empty if no
+     * view is displayed (yet).
      */
-    public Component getCurrentView() {
-        return Iterators.getNext(mainArea.iterator(), null);
+    public Optional<Component> getCurrentView() {
+        return StreamUtil.stream(mainArea).findFirst();
     }
 
 }
