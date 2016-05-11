@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 
+import com.google.gwt.thirdparty.guava.common.collect.Iterators;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.cdi.internal.Conventions;
@@ -100,9 +101,12 @@ public class ApplicationFrame implements Serializable {
         navigator.navigateTo(Conventions.deriveMappingForView(clazz));
     }
 
-    /** Returns the view that is currently displayed. */
+    /**
+     * Returns the view that is currently displayed. Returns {@code null} if no view is displayed
+     * (yet).
+     */
     public Component getCurrentView() {
-        return mainArea.getComponent(0);
+        return Iterators.getNext(mainArea.iterator(), null);
     }
 
 }
