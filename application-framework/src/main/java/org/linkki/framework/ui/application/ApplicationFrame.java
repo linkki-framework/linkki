@@ -1,8 +1,11 @@
 package org.linkki.framework.ui.application;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.inject.Inject;
+
+import org.linkki.util.StreamUtil;
 
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.cdi.UIScoped;
@@ -14,7 +17,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * OVerall layout frame for the application. Contains the application header, the main work area and
+ * Overall layout frame for the application. Contains the application header, the main work area and
  * a footer.
  */
 @UIScoped
@@ -100,9 +103,12 @@ public class ApplicationFrame implements Serializable {
         navigator.navigateTo(Conventions.deriveMappingForView(clazz));
     }
 
-    /** Returns the view that is currently displayed. */
-    public Component getCurrentView() {
-        return mainArea.getComponent(0);
+    /**
+     * Returns the view that is currently displayed in an {@link Optional}, which is empty if no
+     * view is displayed (yet).
+     */
+    public Optional<Component> getCurrentView() {
+        return StreamUtil.stream(mainArea).findFirst();
     }
 
 }
