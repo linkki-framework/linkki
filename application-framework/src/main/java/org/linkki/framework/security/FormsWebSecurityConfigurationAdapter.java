@@ -26,14 +26,22 @@ public class FormsWebSecurityConfigurationAdapter extends WebSecurityConfigurerA
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        // @formatter:off
         http
-                // Configure access to our web application
-                .authorizeRequests().anyRequest().authenticated()
-                // ...except the login page (and the Vaadin resources excluded above)
-                .and().formLogin().loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/main")
-                .failureUrl("/login").usernameParameter("username").passwordParameter("password").permitAll().and()
-                // Logout configuration
-                .logout().permitAll();
+            // Configure access to our web application needs to be authenticated
+            .authorizeRequests().anyRequest().authenticated()
+            // ...except the login page (and the Vaadin resources excluded above)
+            .and().formLogin()
+                      .loginPage("/login")
+                      .loginProcessingUrl("/login")
+                      .defaultSuccessUrl("/main")
+                      .failureUrl("/login?error")
+                      .usernameParameter("username")
+                      .passwordParameter("password")
+                  .permitAll()
+            // ... and the logout
+           .and().logout().permitAll();
+        // @formatter:on
 
     }
 
