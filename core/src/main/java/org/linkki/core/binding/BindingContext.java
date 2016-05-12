@@ -14,8 +14,8 @@ import org.faktorips.runtime.MessageList;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
+import org.linkki.util.handler.Handler;
 
 import com.google.gwt.thirdparty.guava.common.collect.ArrayListMultimap;
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
@@ -35,7 +35,6 @@ import com.vaadin.ui.Label;
 public class BindingContext {
 
     private final String name;
-    private final ValidationService validationService;
     private final Map<Component, ElementBinding> elementBindings = Maps.newConcurrentMap();
     private final Multimap<Object, ElementBinding> elementBindingsByPmo = Multimaps
             .synchronizedListMultimap(ArrayListMultimap.create());
@@ -45,15 +44,17 @@ public class BindingContext {
     private final PropertyBehaviorProvider behaviorProvider;
 
     private final PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
+    private Handler afterUpdateHandler;
 
     /**
-     * Creates a new binding context with the given name.
+     * Creates a new binding context with the given name, using the behavior provider to decorate
+     * it's bindings and notifying the after-update handler after every UI update.
      */
-    public BindingContext(@Nonnull String contextName, @Nonnull ValidationService validationService,
-            @Nonnull PropertyBehaviorProvider behaviorProvider) {
+    public BindingContext(@Nonnull String contextName, @Nonnull PropertyBehaviorProvider behaviorProvider,
+            @Nonnull Handler afterUpdateHandler) {
         this.name = requireNonNull(contextName);
-        this.validationService = requireNonNull(validationService);
         this.behaviorProvider = requireNonNull(behaviorProvider);
+        this.afterUpdateHandler = requireNonNull(afterUpdateHandler);
     }
 
     /**
@@ -136,19 +137,13 @@ public class BindingContext {
         // and creates new bindings if the table content has changed.
         tableBindings.values().forEach(binding -> binding.updateFromPmo());
         elementBindings.values().forEach(binding -> binding.updateFromPmo());
-        updateMessages();
+        afterUpdateHandler.apply();
     }
 
-    private void updateMessages() {
-        MessageList messages = validationService.getValidationMessages();
+    public void updateMessages(MessageList messages) {
         // TODO merken welches binding welche messages anzeigt
         elementBindings.values().forEach(binding -> binding.displayMessages(messages));
         tableBindings.values().forEach(binding -> binding.displayMessages(messages));
-    }
-
-    @Nonnull
-    public ValidationService getValidationService() {
-        return validationService;
     }
 
     @Nonnull
@@ -158,8 +153,7 @@ public class BindingContext {
 
     @Override
     public String toString() {
-        return "BindingContext [name=" + name + ", validationService=" + validationService + ", behaviorProvider="
-                + behaviorProvider + "]";
+        return "BindingContext [name=" + name + ", behaviorProvider=" + behaviorProvider + "]";
     }
 
     /**

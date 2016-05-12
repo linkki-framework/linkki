@@ -11,13 +11,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.Collections;
 import java.util.Locale;
 
 import org.faktorips.runtime.MessageList;
 import org.junit.Test;
 import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.components.IntegerField;
 
@@ -27,8 +25,8 @@ import com.vaadin.ui.VerticalLayout;
 
 public class BinderTest {
 
-    private PropertyBehaviorProvider behaviorProvider = () -> Collections.emptySet();
-    private ValidationService validationService = () -> new MessageList();
+    private final ValidationService validationService = () -> new MessageList();
+    private final BindingManager bindingManager = new DefaultBindingManager(validationService);
 
     @Test
     public void testSetupBindings() {
@@ -40,7 +38,7 @@ public class BinderTest {
         assertThat(pmo.getClickCount(), is(0));
 
         Binder binder = new Binder(view, pmo);
-        BindingContext ctx = new BindingContext("", validationService, behaviorProvider);
+        BindingContext ctx = bindingManager.startNewContext("");
         binder.setupBindings(ctx);
         assertThat(ctx.getElementBindings(), hasSize(3));
 
@@ -66,7 +64,7 @@ public class BinderTest {
         TestPmo pmo = new TestPmo();
 
         Binder binder = new Binder(testView, pmo);
-        BindingContext ctx = new BindingContext("", validationService, behaviorProvider);
+        BindingContext ctx = bindingManager.startNewContext("");
         binder.setupBindings(ctx);
 
         assertThat(ctx.getElementBindings(), hasSize(1));
@@ -90,7 +88,7 @@ public class BinderTest {
         assertThat(testView.textField, is(nullValue()));
 
         Binder binder = new Binder(testView, pmo);
-        BindingContext ctx = new BindingContext("", validationService, behaviorProvider);
+        BindingContext ctx = bindingManager.startNewContext("");
         binder.setupBindings(ctx);
     }
 
@@ -104,7 +102,7 @@ public class BinderTest {
         assertThat(testView.getNumberField(), is(nullValue()));
 
         Binder binder = new Binder(testView, pmo);
-        BindingContext ctx = new BindingContext("", validationService, behaviorProvider);
+        BindingContext ctx = bindingManager.startNewContext("");
         binder.setupBindings(ctx);
     }
 
@@ -114,7 +112,7 @@ public class BinderTest {
         TestPmo pmo = new TestPmo();
 
         Binder binder = new Binder(view, pmo);
-        binder.setupBindings(new BindingContext("", validationService, behaviorProvider));
+        binder.setupBindings(bindingManager.startNewContext(""));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -123,7 +121,7 @@ public class BinderTest {
         TestPmo pmo = new TestPmo();
 
         Binder binder = new Binder(view, pmo);
-        binder.setupBindings(new BindingContext("", validationService, behaviorProvider));
+        binder.setupBindings(bindingManager.startNewContext(""));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -132,7 +130,7 @@ public class BinderTest {
         TestPmo pmo = new TestPmo();
 
         Binder binder = new Binder(view, pmo);
-        binder.setupBindings(new BindingContext("", validationService, behaviorProvider));
+        binder.setupBindings(bindingManager.startNewContext(""));
     }
 
     protected static class TestView extends VerticalLayout {

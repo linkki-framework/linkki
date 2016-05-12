@@ -1,10 +1,16 @@
 package org.linkki.core.binding;
 
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.annotation.Nonnull;
+
+import org.faktorips.runtime.MessageList;
+import org.linkki.core.binding.validation.ValidationService;
 
 /**
  * Manages a set of binding contexts.
@@ -12,6 +18,11 @@ import java.util.Optional;
 public abstract class BindingManager {
 
     private Map<String, BindingContext> contextsByName = new HashMap<>();
+    private final ValidationService validationService;
+
+    public BindingManager(@Nonnull ValidationService validationService) {
+        this.validationService = requireNonNull(validationService, "ValidationService must not be null.");
+    }
 
     /**
      * Starts a new binding context and uses the class' qualified name as context name.
@@ -55,5 +66,21 @@ public abstract class BindingManager {
 
     public void removeAllContexts() {
         contextsByName.clear();
+    }
+
+    /**
+     * Should be called by all binding contexts after they updated their UI. Will be passed as the
+     * after-update handler to the {@link BindingContext} constructor by the
+     * {@link DefaultBindingManager}.
+     */
+    public void afterUpdateUi() {
+        MessageList messages = this.validationService.getValidationMessages();
+        contextsByName.values().forEach(bc -> bc.updateMessages(messages));
+    }
+
+    @Override
+    public String toString() {
+        return "BindingManager [validationService=" + validationService + ", contextsByName=" + contextsByName.keySet()
+                + "]";
     }
 }

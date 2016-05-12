@@ -18,6 +18,7 @@ import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.ui.section.annotations.FieldDescriptor;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
+import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -29,7 +30,7 @@ import com.vaadin.ui.VerticalLayout;
 @RunWith(MockitoJUnitRunner.class)
 public class BindingContextTest {
 
-    private BindingContext context;
+    private TestBindingContext context;
 
     @Mock
     private Label label1;
@@ -73,20 +74,32 @@ public class BindingContextTest {
     }
 
     @Test
-    public void testUpdateUI() {
-        setUpPmo();
+    public void testUpdateUI_noBindingInContext() {
+        Handler afterUpdateUi = mock(Handler.class);
+        context = TestBindingContext.create(afterUpdateUi);
+        pmo.setModelObject(modelObject);
         setUpBinding1();
         binding1 = spy(binding1);
 
         context.updateUI();
         verify(binding1, never()).updateFromPmo();
         verify(binding1, never()).displayMessages(any(MessageList.class));
+        verify(afterUpdateUi).apply();
+    }
+
+    @Test
+    public void testUpdateUI() {
+        Handler afterUpdateUi = mock(Handler.class);
+        context = TestBindingContext.create(afterUpdateUi);
+        pmo.setModelObject(modelObject);
+        setUpBinding1();
+        binding1 = spy(binding1);
 
         context.add(binding1);
 
         context.updateUI();
         verify(binding1).updateFromPmo();
-        verify(binding1).displayMessages(any(MessageList.class));
+        verify(afterUpdateUi).apply();
     }
 
     @Test
