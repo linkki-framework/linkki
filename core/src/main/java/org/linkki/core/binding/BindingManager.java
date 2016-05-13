@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import javax.faces.bean.ViewScoped;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.validation.ValidationService;
@@ -15,9 +17,11 @@ import org.linkki.core.binding.validation.ValidationService;
 /**
  * Manages a set of binding contexts.
  */
+@ViewScoped
 public abstract class BindingManager {
 
     private Map<String, BindingContext> contextsByName = new HashMap<>();
+
     private final ValidationService validationService;
 
     public BindingManager(@Nonnull ValidationService validationService) {
@@ -69,12 +73,24 @@ public abstract class BindingManager {
     }
 
     /**
+     * Retrieves the current messages from the validation service and uses them to update the
+     * messages in all registered contexts.
+     * <p>
      * Should be called by all binding contexts after they updated their UI. Will be passed as the
      * after-update handler to the {@link BindingContext} constructor by the
      * {@link DefaultBindingManager}.
      */
     public void afterUpdateUi() {
         MessageList messages = this.validationService.getValidationMessages();
+        updateMessages(messages);
+    }
+
+    /**
+     * Uses the given messages to update all registered binding contexts. Can be overridden in
+     * subclasses to notify further observers about the new messages.
+     */
+    @OverridingMethodsMustInvokeSuper
+    protected void updateMessages(MessageList messages) {
         contextsByName.values().forEach(bc -> bc.updateMessages(messages));
     }
 
@@ -83,4 +99,5 @@ public abstract class BindingManager {
         return "BindingManager [validationService=" + validationService + ", contextsByName=" + contextsByName.keySet()
                 + "]";
     }
+
 }

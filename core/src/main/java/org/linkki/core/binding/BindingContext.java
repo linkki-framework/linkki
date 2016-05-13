@@ -128,15 +128,17 @@ public class BindingContext {
     }
 
     /**
-     * Updates the UI with the data retrieved via all bindings registered in this context and
-     * displays the messages that relates to bound components. The messages are retrieved from the
-     * validation services.
+     * Updates the UI with the data retrieved via all bindings registered in this context. Notifies
+     * the binding manager that messages (in all contexts) should be updated.
      */
     public void updateUI() {
         // table bindings have to be updated first, as their update removes bindings
-        // and creates new bindings if the table content has changed.
+        // and creates new bindings if the table content has changed
         tableBindings.values().forEach(binding -> binding.updateFromPmo());
         elementBindings.values().forEach(binding -> binding.updateFromPmo());
+
+        // Notify handler that the UI was updated for this context and the messages in all
+        // contexts should now be updated
         afterUpdateHandler.apply();
     }
 

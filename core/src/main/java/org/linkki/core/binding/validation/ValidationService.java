@@ -16,7 +16,14 @@ import org.faktorips.runtime.MessageList;
 @FunctionalInterface
 public interface ValidationService {
 
-    public static final String FATAL_ERROR_MESSAGE_CODE = "fatalValiationError";
+    /**
+     * Message code for a {@link org.faktorips.runtime.Message Message} indicating a non-specific
+     * fatal validation error.
+     */
+    String FATAL_ERROR_MESSAGE_CODE = "fatalValiationError";
+
+    /** A validation service that always returns an empty message list. */
+    ValidationService NOP_VALIDATION_SERVICE = () -> new MessageList();
 
     /**
      * This message returns the validation messages that should be displayed in the UI. It should
@@ -26,6 +33,6 @@ public interface ValidationService {
      *         {@link MessageList} if there are no messages at all.
      */
     @Nonnull
-    public MessageList getValidationMessages();
+    MessageList getValidationMessages();
 
 }
