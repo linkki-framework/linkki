@@ -13,7 +13,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Locale;
 
-import org.faktorips.runtime.MessageList;
 import org.junit.Test;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.validation.ValidationService;
@@ -25,8 +24,7 @@ import com.vaadin.ui.VerticalLayout;
 
 public class BinderTest {
 
-    private final ValidationService validationService = () -> new MessageList();
-    private final BindingManager bindingManager = new DefaultBindingManager(validationService);
+    private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
 
     @Test
     public void testSetupBindings() {

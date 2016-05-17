@@ -23,7 +23,7 @@ public interface ValidationService {
     String FATAL_ERROR_MESSAGE_CODE = "fatalValiationError";
 
     /** A validation service that always returns an empty message list. */
-    ValidationService NOP_VALIDATION_SERVICE = () -> new MessageList();
+    ValidationService NOP_VALIDATION_SERVICE = MessageList::new;
 
     /**
      * This message returns the validation messages that should be displayed in the UI. It should
@@ -35,4 +35,8 @@ public interface ValidationService {
     @Nonnull
     MessageList getValidationMessages();
 
+    /** Returns a new validation service that always returns the given message list. */
+    static ValidationService of(MessageList messages) {
+        return () -> messages;
+    }
 }

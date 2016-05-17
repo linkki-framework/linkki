@@ -14,6 +14,9 @@ import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
 @FunctionalInterface
 public interface PropertyBehaviorProvider {
 
+    /**
+     * A provider that provides no additional / special behavior.
+     */
     public static final PropertyBehaviorProvider NO_BEHAVIOR_PROVIDER = () -> Collections.emptyList();
 
     /**

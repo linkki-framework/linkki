@@ -8,6 +8,8 @@ import javax.annotation.Nonnull;
 
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
+import org.linkki.core.binding.validation.ValidationDisplayState;
+import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.framework.ui.component.MessageRow;
 import org.linkki.util.handler.Handler;
@@ -44,8 +46,14 @@ public class OkCancelDialog extends Window {
     /** The handler that handles clicks on the OK button. */
     private final Handler okHandler;
 
-    /** The message list that is displayed in this dialog. */
-    private MessageList messageList = new MessageList();
+    /** The validation messages displayed in the dialog. */
+    private MessageList messages = new MessageList();
+
+    /** Service to validate data in the dialog, called when the user clicks OK. */
+    private ValidationService validationService = ValidationService.NOP_VALIDATION_SERVICE;
+
+    /** The state which validation messages are displayed. */
+    private ValidationDisplayState validationDisplayState = ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS;
 
     /**
      * The message row that displays the first message from the message list if there is a message
@@ -178,9 +186,11 @@ public class OkCancelDialog extends Window {
         buttons.addComponent(okButton);
         buttons.setComponentAlignment(okButton, Alignment.MIDDLE_CENTER);
         okButton.addClickListener(e -> {
-            setOkPressed(true);
-            ok();
-            close();
+            setOkPressed();
+            if (!validate().containsErrorMsg()) {
+                ok();
+                close();
+            }
         });
 
         if (buttonOption == ButtonOption.OK_CANCEL) {
@@ -197,14 +207,16 @@ public class OkCancelDialog extends Window {
     }
 
     /**
-     * Displays a message from given message list and disables the OK button if needed.
+     * Retrieves the message list from the validation service and filters it according to its
+     * {@link #getValidationDisplayState()}. The filtered messages are returned. If needed, a
+     * message from the list is displayed and the OK button is disabled.
      * <p>
-     * A previously displayed message is removed. If the message list contains a message, the first
-     * message with the highest severity is displayed. If the message list contains an error message
-     * the OK button is disabled.
+     * A previously displayed message is removed if the message list does not contain any messages.
+     * If the message list contains a message, the first message with the highest severity is
+     * displayed. If the message list contains an error message the OK button is disabled.
      */
-    public void setMessageList(@Nonnull MessageList messageList) {
-        this.messageList = requireNonNull(messageList);
+    public MessageList validate() {
+        messages = validationDisplayState.filter(validationService.getValidationMessages());
         messageRow.ifPresent(layout::removeComponent);
         getMessageToDisplay().ifPresent(m -> {
             MessageRow newRow = new MessageRow(m);
@@ -213,15 +225,30 @@ public class OkCancelDialog extends Window {
             layout.addComponentAsFirst(newRow);
         });
         update();
+        return messages;
     }
 
-    /** Returns the message list displayed in the dialog. */
+    /**
+     * Returns the messages from which a message is displayed in the dialog (if the list is not
+     * empty).
+     */
     public MessageList getMessages() {
-        return messageList;
+        return messages;
+    }
+
+    /** Returns the validation service that validates data in the dialog. */
+    @Nonnull
+    public ValidationService getValidationService() {
+        return validationService;
+    }
+
+    /** Sets the validation service that validates data in the dialog. */
+    public void setValidationService(@Nonnull ValidationService validationService) {
+        this.validationService = requireNonNull(validationService);
     }
 
     private Optional<Message> getMessageToDisplay() {
-        return Optional.ofNullable(messageList.getFirstMessage(messageList.getSeverity()));
+        return Optional.ofNullable(messages.getFirstMessage(messages.getSeverity()));
     }
 
     /**
@@ -230,7 +257,7 @@ public class OkCancelDialog extends Window {
      * 
      * @see #isOkEnabled()
      */
-    public void update() {
+    private void update() {
         okButton.setEnabled(isOkEnabled());
     }
 
@@ -244,7 +271,7 @@ public class OkCancelDialog extends Window {
      * {@link #getMessages()} does not contain an error message.
      */
     public boolean isOkEnabled() {
-        return !messageList.containsErrorMsg();
+        return !messages.containsErrorMsg();
     }
 
     /**
@@ -254,8 +281,14 @@ public class OkCancelDialog extends Window {
         return okPressed;
     }
 
-    private void setOkPressed(boolean okPressed) {
-        this.okPressed = okPressed;
+    /** Returns the state regarding the displayed validation messages. */
+    public ValidationDisplayState getValidationDisplayState() {
+        return validationDisplayState;
+    }
+
+    private void setOkPressed() {
+        this.okPressed = true;
+        this.validationDisplayState = ValidationDisplayState.SHOW_ALL;
     }
 
     /**
@@ -269,7 +302,10 @@ public class OkCancelDialog extends Window {
         this.cancelPressed = cancelPressed;
     }
 
-    /** Called when the user clicks the OK button. Delegates to the dialog's OkHandler. */
+    /**
+     * Called when the user clicks the OK button and {@link #validate()} does not return any error
+     * messages. Delegates to the dialog's OkHandler.
+     */
     protected void ok() {
         okHandler.apply();
     }
