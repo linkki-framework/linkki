@@ -8,6 +8,7 @@ package org.linkki.framework.ui.dialogs;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.linkki.core.util.MessageListUtil.newMessageList;
@@ -17,12 +18,37 @@ import org.faktorips.runtime.MessageList;
 import org.junit.Test;
 import org.linkki.framework.ui.component.MessageRow;
 
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
 public class OkCancelDialogTest {
+
+    @Test
+    public void testWdithSetsWidthOfLayoutAndContainer() {
+        OkCancelDialog dialog = new OkCancelDialog("caption");
+        VerticalLayout layout = (VerticalLayout)dialog.getContent();
+        Component mainArea = layout.getComponent(0);
+
+        // width of 100% should set undefined width for layout and mainArea
+        dialog.setWidth(100.0f, Unit.PERCENTAGE);
+        assertThat(layout.getWidth(), is(lessThan(0f)));
+        assertThat(mainArea.getWidth(), is(lessThan(0f)));
+
+        // width other than 100% should set width for layout and mainArea to 100%
+        dialog.setWidth("500px");
+        assertThat(layout.getWidth(), is(100f));
+        assertThat(layout.getWidthUnits(), is(Unit.PERCENTAGE));
+        assertThat(mainArea.getWidth(), is(100f));
+        assertThat(mainArea.getWidthUnits(), is(Unit.PERCENTAGE));
+
+        // Setting width using a String should work
+        dialog.setWidth("100%");
+        assertThat(layout.getWidth(), is(lessThan(0f)));
+        assertThat(mainArea.getWidth(), is(lessThan(0f)));
+    }
 
     @Test
     public void testSetMessageList() {

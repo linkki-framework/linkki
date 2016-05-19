@@ -110,6 +110,29 @@ public class OkCancelDialog extends Window {
         center();
     }
 
+    /**
+     * If a fixed sized is set to the dialog window, the two inner vertical layouts gets 100% width
+     * to give the space to their components. If the dialog window width is set to 100%, the inner
+     * layouts get undefined width so that the actual width is defined by the content of the inner
+     * layout (main area).
+     */
+    @Override
+    public void setWidth(float width, Unit unit) {
+        super.setWidth(width, unit);
+
+        // Superclass constructor calls this method so we have to handle uninitialized fields...
+        if (layout == null || mainArea == null) {
+            return;
+        }
+        if (width == 100f && unit == Unit.PERCENTAGE) {
+            layout.setWidthUndefined();
+            mainArea.setWidthUndefined();
+        } else {
+            layout.setWidth(100f, Unit.PERCENTAGE);
+            mainArea.setWidth(100f, Unit.PERCENTAGE);
+        }
+    }
+
     private void initDialogWindow() {
         setStyleName(ApplicationStyles.DIALOG_CAPTION);
         setModal(true);
