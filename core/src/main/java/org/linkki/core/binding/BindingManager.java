@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.util.MessageListUtil;
 
 /**
  * Manages a set of binding contexts.
@@ -82,7 +83,7 @@ public abstract class BindingManager {
      */
     public void afterUpdateUi() {
         MessageList messages = this.validationService.getValidationMessages();
-        updateMessages(messages);
+        updateMessages(MessageListUtil.sortBySeverity(messages));
     }
 
     /**
