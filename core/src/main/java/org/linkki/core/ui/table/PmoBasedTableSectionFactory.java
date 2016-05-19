@@ -7,8 +7,11 @@
 package org.linkki.core.ui.table;
 
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
+
+import javax.annotation.Nonnull;
 
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.BindingContext;
@@ -18,16 +21,27 @@ import org.linkki.core.ui.section.annotations.UISection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
+/**
+ * A factory to create sections showing a single table based on a PMO.
+ */
 public class PmoBasedTableSectionFactory<T> {
 
-    private ContainerPmo<T> containerPmo;
-    private BindingContext bindingContext;
+    private final ContainerPmo<T> containerPmo;
+    private final BindingContext bindingContext;
 
-    public PmoBasedTableSectionFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
-        this.containerPmo = containerPmo;
-        this.bindingContext = bindingContext;
+    /**
+     * Creates a new factory.
+     */
+    public PmoBasedTableSectionFactory(@Nonnull ContainerPmo<T> containerPmo, @Nonnull BindingContext bindingContext) {
+        this.containerPmo = requireNonNull(containerPmo);
+        this.bindingContext = requireNonNull(bindingContext);
     }
 
+    /**
+     * Creates a new section showing a table, table structure and content is defined by the
+     * factory's {@link ContainerPmo}.
+     */
+    @Nonnull
     public TableSection<T> createSection() {
         Table table = createTable();
         Optional<ButtonPmo> addItemPmo = containerPmo.getAddItemButtonPmo();
