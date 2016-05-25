@@ -30,6 +30,7 @@ import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 public class OkCancelDialogTest {
@@ -129,6 +130,14 @@ public class OkCancelDialogTest {
 
     }
 
+    @Test
+    public void testSetContent() {
+        OkCancelDialog dialog = new OkCancelDialog("");
+        dialog.setContent(new Label());
+
+        assertThat(dialog, is(showingEnabledOkButton()));
+    }
+
     private Matcher<OkCancelDialog> displayingMessage() {
         return new TypeSafeMatcher<OkCancelDialog>() {
 
@@ -187,4 +196,5 @@ public class OkCancelDialogTest {
         VerticalLayout layout = (VerticalLayout)dialog.getContent();
         return (Button)((HorizontalLayout)Iterables.getLast(layout)).getComponent(0);
     }
+
 }

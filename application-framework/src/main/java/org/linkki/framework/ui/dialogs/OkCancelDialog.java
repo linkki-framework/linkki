@@ -115,7 +115,8 @@ public class OkCancelDialog extends Window {
         initButtons(buttonOption);
         initCloseListener();
 
-        setContent(layout);
+        // We want to set the dialog's content, the method is overridden here
+        super.setContent(layout);
         center();
     }
 
@@ -139,6 +140,29 @@ public class OkCancelDialog extends Window {
         } else {
             layout.setWidth(100f, Unit.PERCENTAGE);
             mainArea.setWidth(100f, Unit.PERCENTAGE);
+        }
+    }
+
+    /**
+     * Override {@link Window#setContent(Component)} as the OkCancelDialog does not allow replacing
+     * its entire content (e.g. the OK and Cancel buttons). Instead, the content of the main area
+     * need to be replaced.
+     * <p>
+     * Note that this will remove any components that were added using
+     * {@link #addContent(Component)}.
+     */
+    @Override
+    public void setContent(Component content) {
+        // This method is invoked by superclass constructors. In this case the superclass'
+        // implementation has to be used. Once initialization is finished, we implement a different
+        // behavior (as described in the JavaDoc).
+        //
+        // This is bad. Thou shalt not call non-private methods in thy constructor!
+        if (mainArea == null) {
+            super.setContent(content);
+        } else {
+            mainArea.removeAllComponents();
+            mainArea.addComponent(content);
         }
     }
 
