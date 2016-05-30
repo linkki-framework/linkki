@@ -17,6 +17,9 @@ public class StreamUtil {
     }
 
     public static <T> Stream<T> stream(Iterable<T> iterable) {
+        if (iterable == null) {
+            return Stream.empty();
+        }
         return StreamSupport.stream(iterable.spliterator(), false);
     }
 }

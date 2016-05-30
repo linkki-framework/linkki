@@ -6,11 +6,13 @@
 
 package org.linkki.core.util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.linkki.test.matcher.Matchers.emptyMessageList;
 
 import org.faktorips.runtime.Message;
@@ -71,5 +73,27 @@ public class MessageListUtilTest {
         Message m1 = Message.newError("error", "error");
         Message m2 = Message.newWarning("warning", "warning");
         assertThat(MessageListUtil.newMessageList(m1, m2), hasItems(m1, m2));
+    }
+
+    @Test
+    public void testSortBySeverity() {
+        Message e1 = Message.newError("e1", "E1");
+        Message e2 = Message.newError("e2", "E2");
+        Message e3 = Message.newError("e3", "E3");
+        Message w1 = Message.newWarning("w1", "W1");
+        Message w2 = Message.newWarning("w2", "W2");
+        Message i1 = Message.newInfo("i1", "I1");
+        Message i2 = Message.newInfo("i2", "I2");
+        MessageList unsortedMessageList = MessageListUtil.newMessageList(i2, e1, w1, e3, i1, e2, w2);
+        MessageList sortedMessageList = MessageListUtil.newMessageList(e1, e3, e2, w1, w2, i2, i1);
+
+        MessageList actualMessageList = MessageListUtil.sortBySeverity(unsortedMessageList);
+
+        assertThat(actualMessageList, is(equalTo(sortedMessageList)));
+    }
+
+    @Test
+    public void testSortBySeverity_Null() {
+        assertThat(MessageListUtil.sortBySeverity(null), is(nullValue()));
     }
 }
