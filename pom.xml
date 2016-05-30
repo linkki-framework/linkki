@@ -21,7 +21,7 @@
         <git.user>${user.name}</git.user>
 
         <vaadin.version>7.4.8</vaadin.version>
-        <faktorips.version>3.16.0</faktorips.version>
+        <faktorips.version>3.17.0</faktorips.version>
         <joda-time.version>2.4</joda-time.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.8</mockito.version>
