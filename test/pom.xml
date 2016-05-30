@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.linkki</groupId>
         <artifactId>linkki</artifactId>
-        <version>0.9.20160411.1-SNAPSHOT</version>
+        <version>0.9.20160411.1</version>
     </parent>
     <artifactId>linkki-test</artifactId>
     <name>Linkki Test</name>
