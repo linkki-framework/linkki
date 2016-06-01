@@ -26,6 +26,10 @@ public class TestBean<T> implements Bean<T> {
         this.instance = instance;
     }
 
+    public T getInstance() {
+        return instance;
+    }
+
     @Override
     public T create(CreationalContext<T> creationalContext) {
         return instance;

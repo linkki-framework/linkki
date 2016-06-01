@@ -72,9 +72,10 @@ public class TestBeanManager implements BeanManager {
         // @formatter:on
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public Object getReference(Bean<?> bean, Type beanType, CreationalContext<?> ctx) {
-        throw new NotImplementedException("");
+        return ((TestBean)bean).getInstance();
     }
 
     @Override
