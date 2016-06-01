@@ -14,7 +14,7 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 
 /**
- * Helper class to instantiate objects using a {@link BeanManager}.
+ * Helper class to access objects managed by the CDI {@link BeanManager}.
  */
 public class BeanInstantiator {
 
@@ -26,7 +26,7 @@ public class BeanInstantiator {
     }
 
     /**
-     * Create instances of the given class with the given qualifier annotations using the
+     * Returns the instances of the given class with the given qualifier annotations using the
      * BeanManager.
      * 
      * @param beanClass the class of the beans to instantiate
@@ -38,7 +38,7 @@ public class BeanInstantiator {
         Set<T> instances = new HashSet<>();
         // @formatter:off
         for (@SuppressWarnings("rawtypes") Bean bean : beans) {
-            @SuppressWarnings("unchecked") Object o = bean.create(beanManager.createCreationalContext(bean));
+            @SuppressWarnings("unchecked") Object o = beanManager.getReference(bean, beanClass, beanManager.createCreationalContext(bean));
             if (beanClass.isInstance(o)) {
                 instances.add(beanClass.cast(o));
             }
