@@ -169,7 +169,6 @@ public class BindingContext {
      * @param component the component to be bound
      * @param label the label to be bound or {@code null} if no label is bound
      */
-    @Nonnull
     public void bind(@Nonnull Object pmo,
             @Nonnull BindingDescriptor bindingDescriptor,
             @Nonnull Component component,
