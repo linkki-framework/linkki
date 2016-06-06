@@ -3,7 +3,7 @@
 
     <groupId>org.linkki</groupId>
     <artifactId>linkki</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.9.20160411.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Linkki</name>
