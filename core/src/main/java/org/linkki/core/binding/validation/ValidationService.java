@@ -23,7 +23,8 @@ public interface ValidationService {
     String FATAL_ERROR_MESSAGE_CODE = "fatalValiationError";
 
     /** A validation service that always returns an empty message list. */
-    ValidationService NOP_VALIDATION_SERVICE = MessageList::new;
+    // Using MessageList::new instead of () -> new MessageList() causes strange JDT problems?!?
+    ValidationService NOP_VALIDATION_SERVICE = () -> new MessageList();
 
     /**
      * This message returns the validation messages that should be displayed in the UI. It should
