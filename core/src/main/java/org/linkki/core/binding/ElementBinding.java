@@ -10,7 +10,6 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 
 /**
  * Binds an element to a control using the property dispatchers.
- *
  */
 public interface ElementBinding extends Binding {
 

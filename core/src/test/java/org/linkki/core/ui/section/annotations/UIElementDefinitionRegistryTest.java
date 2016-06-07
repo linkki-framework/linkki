@@ -15,15 +15,6 @@ import java.lang.annotation.Annotation;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import org.junit.Test;
-import org.linkki.core.ui.section.annotations.UICheckBox;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UIDateField;
-import org.linkki.core.ui.section.annotations.UIDecimalField;
-import org.linkki.core.ui.section.annotations.UIDoubleField;
-import org.linkki.core.ui.section.annotations.UIElementDefinitionRegistry;
-import org.linkki.core.ui.section.annotations.UIIntegerField;
-import org.linkki.core.ui.section.annotations.UITextArea;
-import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.adapters.UICheckBoxAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UIComboBoxAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UIDateFieldAdapter;
@@ -47,6 +38,7 @@ public class UIElementDefinitionRegistryTest {
     @UIIntegerField(position = 0)
     @UITextArea(position = 0)
     @UITextField(position = 0)
+    @UILabel(position = 0)
     @OverridingMethodsMustInvokeSuper
     public void annotatedMethod() {
         // Nothing to do
@@ -74,6 +66,7 @@ public class UIElementDefinitionRegistryTest {
         assertThat(registry.containsAnnotation(annotation(UIIntegerField.class)), is(true));
         assertThat(registry.containsAnnotation(annotation(UITextArea.class)), is(true));
         assertThat(registry.containsAnnotation(annotation(UITextField.class)), is(true));
+        assertThat(registry.containsAnnotation(annotation(UILabel.class)), is(true));
     }
 
     @Test

@@ -96,6 +96,12 @@ public class UIAnnotationReader {
             descriptors.put(method.getName(), buttonDescriptor);
             return buttonDescriptor;
         }
+        if (uiElement instanceof UILabelDefinition) {
+            LabelDescriptor labelDescriptor = new LabelDescriptor((UILabelDefinition)uiElement,
+                    getFallbackPropertyNameByMethod(method), uiElement.modelObject());
+            descriptors.put(labelDescriptor.getPropertyName(), labelDescriptor);
+            return labelDescriptor;
+        }
         throw new IllegalStateException("Unknown UIElementDefinition of type " + uiElement + " on method " + method);
     }
 

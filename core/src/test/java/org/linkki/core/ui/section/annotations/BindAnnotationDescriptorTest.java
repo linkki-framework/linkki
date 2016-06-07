@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.linkki.core.binding.ButtonBinding;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
+import org.linkki.core.binding.LabelBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.adapters.BindAnnotationAdapter;
 import org.linkki.util.handler.Handler;
@@ -22,6 +23,7 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 
 public class BindAnnotationDescriptorTest {
 
@@ -41,11 +43,19 @@ public class BindAnnotationDescriptorTest {
         assertThat(binding, is(instanceOf(ButtonBinding.class)));
     }
 
+    @Test
+    public void testCreateBinding_CreatesLabelBindingForLabel() {
+        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(BindAnnotationAdapter.class));
+        PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
+        ElementBinding binding = descriptor.createBinding(dispatcher, Handler.NOP_HANDLER, new Label(), null);
+        assertThat(binding, is(instanceOf(LabelBinding.class)));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testCreateBinding_ThrowsExceptionForUnknownComponent() {
         BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(BindAnnotationAdapter.class));
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
-        descriptor.createBinding(dispatcher, Handler.NOP_HANDLER, new Label(), null);
+        descriptor.createBinding(dispatcher, Handler.NOP_HANDLER, new VerticalLayout(), null);
     }
 
 }

@@ -9,6 +9,7 @@ package org.linkki.core.ui.section.annotations;
 import org.linkki.core.binding.ButtonBinding;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
+import org.linkki.core.binding.LabelBinding;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.adapters.BindAnnotationAdapter;
@@ -73,6 +74,8 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
             return new FieldBinding<>(label, (Field<?>)component, propertyDispatcher, updateUi);
         } else if (component instanceof Button) {
             return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi);
+        } else if (component instanceof Label) {
+            return new LabelBinding(label, (Label)component, propertyDispatcher);
         } else {
             throw new IllegalArgumentException("Cannot create a binding for component " + component);
         }

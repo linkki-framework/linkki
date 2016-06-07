@@ -18,9 +18,10 @@ import org.linkki.core.ui.section.annotations.adapters.UIDateFieldAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UIDecimalFieldAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UIDoubleFieldAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UIIntegerFieldAdapter;
+import org.linkki.core.ui.section.annotations.adapters.UILabelAdapter;
+import org.linkki.core.ui.section.annotations.adapters.UISubsetChooserAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UITextAreaAdapter;
 import org.linkki.core.ui.section.annotations.adapters.UITextFieldAdapter;
-import org.linkki.core.ui.section.annotations.adapters.UISubsetChooserAdapter;
 
 import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
@@ -45,6 +46,7 @@ public class UIElementDefinitionRegistry {
         annotations.put(UIButton.class, UIButtonAdapter.class);
         annotations.put(UICustomField.class, UICustomFieldAdapter.class);
         annotations.put(UISubsetChooser.class, UISubsetChooserAdapter.class);
+        annotations.put(UILabel.class, UILabelAdapter.class);
     }
 
     /**
