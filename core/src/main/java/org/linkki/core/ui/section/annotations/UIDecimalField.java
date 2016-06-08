@@ -35,10 +35,10 @@ public @interface UIDecimalField {
     int maxLength() default 0;
 
     /**
-     * Format for the ui representation of the value. See {@link DecimalFormat} for the
-     * documentation of the pattern
+     * Format for the UI representation of the value. See {@link DecimalFormat} for the
+     * documentation of the pattern.
      */
-    String format() default "###,###.##";
+    String format() default "#,##0.00##";
 
     String modelObject() default ModelObject.DEFAULT_NAME;
 
