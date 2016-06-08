@@ -15,17 +15,17 @@ package org.linkki.core.binding.aspect;
 public abstract class DefaultPropertyBehavior implements InjectablePropertyBehavior {
 
     @Override
-    public boolean isWritable(String property) {
+    public boolean isWritable(Object boundObject, String property) {
         return true;
     }
 
     @Override
-    public boolean isVisible(String property) {
+    public boolean isVisible(Object boundObject, String property) {
         return true;
     }
 
     @Override
-    public boolean isShowValidationMessages(String property) {
+    public boolean isShowValidationMessages(Object boundObject, String property) {
         return true;
     }
 

@@ -21,9 +21,9 @@ import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
  * property. Boolean return values are evaluated with a logical AND.
  * <p>
  * An example. To decide whether a property is visible, this dispatcher calls
- * {@link InjectablePropertyBehavior#isVisible(String)} for all behaviors. The field is visible only
- * if all behaviors return <code>true</code>. If at least one returns <code>false</code>, the
- * property is hidden.
+ * {@link InjectablePropertyBehavior#isVisible(Object, String)} for all behaviors. The field is
+ * visible only if all behaviors return <code>true</code>. If at least one returns
+ * <code>false</code>, the property is hidden.
  * <p>
  * In other words behaviors normally return <code>true</code>, but can veto an aspect, by returning
  * <code>false</code>, if they desire to change the behavior.
@@ -46,7 +46,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      */
     @Override
     public void setValue(Object value) {
-        if (isConsensus(b -> b.isWritable(getProperty()))) {
+        if (isConsensus(b -> b.isWritable(getBoundObject(), getProperty()))) {
             super.setValue(value);
         }
     }
@@ -58,7 +58,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      */
     @Override
     public boolean isReadOnly() {
-        if (isConsensus(b -> b.isWritable(getProperty()))) {
+        if (isConsensus(b -> b.isWritable(getBoundObject(), getProperty()))) {
             return super.isReadOnly();
         } else {
             return true;
@@ -72,7 +72,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      */
     @Override
     public boolean isVisible() {
-        if (isConsensus(b -> b.isVisible(getProperty()))) {
+        if (isConsensus(b -> b.isVisible(getBoundObject(), getProperty()))) {
             return super.isVisible();
         } else {
             return false;
@@ -86,7 +86,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      */
     @Override
     public MessageList getMessages(MessageList messageList) {
-        if (isConsensus(b -> b.isShowValidationMessages(getProperty()))) {
+        if (isConsensus(b -> b.isShowValidationMessages(getBoundObject(), getProperty()))) {
             return super.getMessages(messageList);
         } else {
             return new MessageList();
@@ -110,7 +110,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
 
     @Override
     public String toString() {
-        return "BehaviourDependentDecorator[wrappedDispatcher=" + getWrappedDispatcher() + ", providedBehaviours="
+        return "BehaviourDependentDispatcher[wrappedDispatcher=" + getWrappedDispatcher() + ", providedBehaviours="
                 + provider.getBehaviors() + "]";
     }
 

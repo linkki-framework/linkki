@@ -28,7 +28,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
  * <li>generally applicable and thus can be used in any context by any UI- or model element</li>
  * </ul>
  * <p>
- * Return values follow a logical AND (or veto logic). If {@link #isVisible(String)} returns
+ * Return values follow a logical AND (or veto logic). If {@link #isVisible(Object, String)} returns
  * <code>false</code>, that property will be hidden, no matter what other
  * {@link InjectablePropertyBehavior behaviors} say. This means a behavior should return
  * <code>true</code> for all properties be default, unless it wants to restrict the behavior. In
@@ -37,27 +37,30 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
  * @author widmaier
  */
 public interface InjectablePropertyBehavior {
+
     /**
-     * Indicates whether the property should be able to be written to the model/PMO.
+     * Indicates whether the property of the given object should be writable (values can be entered
+     * in the UI-Field and are written to the PMO/model).
      *
-     * @return <code>true</code> if the property should be written. <code>false</code> if writing
+     * @return <code>true</code> if the property should be written, <code>false</code> if writing
      *         data is prohibited.
      */
-    public boolean isWritable(String property);
+    boolean isWritable(Object boundObject, String property);
 
     /**
-     * Indicates whether the property should be visible.
+     * Indicates whether the property of the given object should be visible.
      *
-     * @return <code>true</code> if the property should be displayed. <code>false</code> if the
+     * @return <code>true</code> if the property should be displayed, <code>false</code> if the
      *         property should be hidden.
      */
-    public boolean isVisible(String property);
+    boolean isVisible(Object boundObject, String property);
 
     /**
-     * Indicates whether the property should display validation messages, i.e. input errors.
+     * Indicates whether the property of the given object should display validation messages, i.e.
+     * input errors.
      *
-     * @return <code>true</code> if messages should be displayed. <code>false</code> else.
+     * @return <code>true</code> if messages should be displayed, else <code>false</code>.
      */
-    public boolean isShowValidationMessages(String property);
+    boolean isShowValidationMessages(Object boundObject, String property);
 
 }
