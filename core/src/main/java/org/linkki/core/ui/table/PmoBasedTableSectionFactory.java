@@ -58,7 +58,8 @@ public class PmoBasedTableSectionFactory<T> {
     private TableSection<T> createEmptySection(Optional<ButtonPmo> addItemButtonPmo) {
         UISection sectionDefinition = containerPmo.getClass().getAnnotation(UISection.class);
         checkNotNull(sectionDefinition, "PMO " + containerPmo.getClass() + " must be annotated with @UISection!");
-        return new TableSection<>(sectionDefinition.caption(), createAddItemButton(addItemButtonPmo));
+        return new TableSection<>(sectionDefinition.caption(), sectionDefinition.closeable(),
+                createAddItemButton(addItemButtonPmo));
     }
 
     private Optional<Button> createAddItemButton(Optional<ButtonPmo> buttonPmo) {

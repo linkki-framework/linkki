@@ -6,6 +6,7 @@
 
 package org.linkki.core.ui.table;
 
+import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
@@ -14,7 +15,6 @@ import javax.annotation.Nonnull;
 
 import org.linkki.core.ui.section.AbstractSection;
 
-import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
@@ -29,8 +29,8 @@ public class TableSection<T> extends AbstractSection {
     private Table table;
 
     /* package private, used by the PmoBaseTableFactory */
-    TableSection(String caption, Optional<Button> addItemButton) {
-        super(caption, false, addItemButton);
+    TableSection(@Nonnull String caption, boolean closeable, Optional<Button> addItemButton) {
+        super(caption, closeable, addItemButton);
     }
 
     /**
@@ -38,7 +38,7 @@ public class TableSection<T> extends AbstractSection {
      */
     /* package private, used by the PmoBaseTableFactory */
     void setTable(Table table) {
-        Preconditions.checkState(this.table == null, "Table already set.");
+        checkState(this.table == null, "Table already set.");
         this.table = requireNonNull(table);
         addComponent(table);
     }
@@ -46,6 +46,7 @@ public class TableSection<T> extends AbstractSection {
     /**
      * Returns the table shown in the section.
      */
+    @SuppressWarnings("null")
     @Nonnull
     public Table getTable() {
         return requireNonNull(table, "Table hasn't been set, yet");

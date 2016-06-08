@@ -20,7 +20,7 @@ public abstract class BaseSection extends AbstractSection {
      * 
      * @param caption the caption
      */
-    public BaseSection(String caption) {
+    public BaseSection(@Nonnull String caption) {
         super(caption);
     }
 
@@ -30,7 +30,7 @@ public abstract class BaseSection extends AbstractSection {
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
-    public BaseSection(String caption, boolean closeable) {
+    public BaseSection(@Nonnull String caption, boolean closeable) {
         super(caption, closeable);
     }
 
@@ -41,7 +41,7 @@ public abstract class BaseSection extends AbstractSection {
      * @param closeable <code>true</code> if the section can be closed and opened.
      * @param editButton If present the section has an edit button in the header.
      */
-    public BaseSection(String caption, boolean closeable, Optional<Button> editButton) {
+    public BaseSection(@Nonnull String caption, boolean closeable, Optional<Button> editButton) {
         super(caption, closeable, editButton);
     }
 
