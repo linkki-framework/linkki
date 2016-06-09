@@ -5,35 +5,37 @@ import java.util.List;
 import java.util.Optional;
 
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.TableFooterPmo;
 import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.table.ContainerPmo;
 
-@UISection(caption = TestContainerPmo.CAPTION)
-public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
+@UISection(caption = TestTablePmo.CAPTION)
+public class TestTablePmo implements ContainerPmo<TestRowPmo> {
 
     public static final String CAPTION = "container";
 
-    private final List<TestColumnPmo> pmos = new ArrayList<>();
+    private final List<TestRowPmo> pmos = new ArrayList<>();
 
     private int pageLength = ContainerPmo.DEFAULT_PAGE_LENGTH;
 
+    private TableFooterPmo footerPmo = null;
+
     @Override
-    public Class<TestColumnPmo> getItemPmoClass() {
-        return TestColumnPmo.class;
+    public Class<TestRowPmo> getItemPmoClass() {
+        return TestRowPmo.class;
     }
 
-    public TestColumnPmo addItem() {
-        TestColumnPmo columnPmo = new TestColumnPmo(this);
+    public TestRowPmo addItem() {
+        TestRowPmo columnPmo = new TestRowPmo(this);
         pmos.add(columnPmo);
         return columnPmo;
     }
 
-    public void deleteItem(TestColumnPmo columnPmo) {
+    public void deleteItem(TestRowPmo columnPmo) {
         pmos.remove(columnPmo);
     }
 
     @Override
-    public List<TestColumnPmo> getItems() {
+    public List<TestRowPmo> getItems() {
         return pmos;
     }
 
@@ -49,5 +51,14 @@ public class TestContainerPmo implements ContainerPmo<TestColumnPmo> {
 
     public void setPageLength(int pageLength) {
         this.pageLength = pageLength;
+    }
+
+    @Override
+    public Optional<TableFooterPmo> getFooterPmo() {
+        return Optional.ofNullable(footerPmo);
+    }
+
+    public void setFooterPmo(TableFooterPmo footerPmo) {
+        this.footerPmo = footerPmo;
     }
 }

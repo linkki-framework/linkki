@@ -5,13 +5,18 @@ import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITextField;
 
-public class TestColumnPmo {
+public class TestRowPmo {
+
+    public static final String PROPERTY_VALUE_1 = "value1";
+    public static final String PROPERTY_VALUE_2 = "value2";
+    public static final String PROPERTY_VALUE_3 = "value3";
+    public static final String PROPERTY_DELETE = "delete";
 
     private final Object modelObject = new Object();
 
-    private final TestContainerPmo parent;
+    private final TestTablePmo parent;
 
-    public TestColumnPmo(TestContainerPmo parent) {
+    public TestRowPmo(TestTablePmo parent) {
         super();
         this.parent = parent;
     }

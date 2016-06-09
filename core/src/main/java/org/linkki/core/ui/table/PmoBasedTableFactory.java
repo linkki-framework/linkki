@@ -6,7 +6,12 @@
 
 package org.linkki.core.ui.table;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
@@ -21,14 +26,12 @@ import com.vaadin.ui.Table.ColumnGenerator;
 
 /**
  * A factory to create a table based on a {@link ContainerPmo}.
- *
- * @author ortmann
  */
 public class PmoBasedTableFactory<T> {
 
-    private ContainerPmo<T> containerPmo;
+    private final ContainerPmo<T> containerPmo;
 
-    private UIAnnotationReader annotationReader;
+    private final UIAnnotationReader annotationReader;
 
     private final BindingContext bindingContext;
 
@@ -38,10 +41,10 @@ public class PmoBasedTableFactory<T> {
      * @param containerPmo The container providing the contents and column definitions.
      * @param bindingContext The binding context to which the cell bindings are added.
      */
-    public PmoBasedTableFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
-        this.containerPmo = containerPmo;
+    public PmoBasedTableFactory(@Nonnull ContainerPmo<T> containerPmo, @Nonnull BindingContext bindingContext) {
+        this.containerPmo = requireNonNull(containerPmo);
+        this.bindingContext = requireNonNull(bindingContext);
         this.annotationReader = new UIAnnotationReader(containerPmo.getItemPmoClass());
-        this.bindingContext = bindingContext;
     }
 
     /**
@@ -49,8 +52,8 @@ public class PmoBasedTableFactory<T> {
      */
     public Table createTable() {
         Table table = createTableComponent();
-        createColumns(table);
-        bindTable(table);
+        Set<String> columnNames = createColumns(table);
+        bindTable(table, columnNames);
         table.setPageLength(containerPmo.getPageLength());
         bindingContext.updateUI();
         return table;
@@ -73,23 +76,19 @@ public class PmoBasedTableFactory<T> {
         return table;
     }
 
-    private void createColumns(Table table) {
+    private Set<String> createColumns(Table table) {
         Set<ElementDescriptor> uiElements = annotationReader.getUiElements();
         for (ElementDescriptor uiElement : uiElements) {
             createColumn(table, uiElement);
         }
+        return uiElements.stream().map(e -> e.getPropertyName()).collect(Collectors.toSet());
     }
 
     /**
-     * Sets the configured width or expand ratio for the field's column if either one is configured.
-     * Does nothing if no values are configured.
-     * 
-     * /** Creates a new column for a field of a PMO.
+     * Creates a new column for a field of a PMO. Sets the configured width or expand ratio for the
+     * field's column if either one is configured. Does nothing if no values are configured.
      * 
      * @param elementDesc the descriptor for the PMO's field
-     * @param receiveFocusOnNew whether or not the generated field should receive the focus when a
-     *            new row is generated
-     * @param bindingContext the context in which the field is bound
      */
     private void createColumn(Table table, ElementDescriptor elementDesc) {
         FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<T>(elementDesc, bindingContext);
@@ -112,8 +111,8 @@ public class PmoBasedTableFactory<T> {
         }
     }
 
-    private void bindTable(Table table) {
-        TableBinding.create(bindingContext, table, getContainerPmo());
+    private void bindTable(Table table, Set<String> columnNames) {
+        TableBinding.create(bindingContext, table, columnNames, getContainerPmo());
     }
 
     /** Column generator that generates a column for a field of a PMO. */

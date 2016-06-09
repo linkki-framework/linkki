@@ -8,18 +8,24 @@ package org.linkki.core.binding;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.ui.table.TestColumnPmo;
-import org.linkki.core.ui.table.TestContainerPmo;
+import org.linkki.core.TableFooterPmo;
+import org.linkki.core.ui.table.TestRowPmo;
+import org.linkki.core.ui.table.TestTablePmo;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.google.gwt.thirdparty.guava.common.collect.Sets;
 import com.vaadin.data.Container.ItemSetChangeListener;
 import com.vaadin.ui.Table;
 
@@ -29,20 +35,22 @@ public class TableBindingTest {
     @Mock
     private BindingContext bindingContext;
 
-    private TestContainerPmo containerPmo;
+    private TestTablePmo containerPmo;
 
     private Table table = new Table();
+    private Set<String> columnNames = Sets.newHashSet(TestRowPmo.PROPERTY_VALUE_1, TestRowPmo.PROPERTY_VALUE_2,
+                                                      TestRowPmo.PROPERTY_VALUE_3, TestRowPmo.PROPERTY_DELETE);
 
     @Mock
     private ItemSetChangeListener listener;
 
-    private TableBinding<TestColumnPmo> tableBinding;
+    private TableBinding<TestRowPmo> tableBinding;
 
     @Before
     public void setUp() {
-        containerPmo = new TestContainerPmo();
+        containerPmo = new TestTablePmo();
         containerPmo.addItem();
-        tableBinding = new TableBinding<TestColumnPmo>(bindingContext, table, containerPmo);
+        tableBinding = new TableBinding<TestRowPmo>(bindingContext, table, columnNames, containerPmo);
         tableBinding.addItemSetChangeListener(listener);
 
     }
@@ -53,7 +61,7 @@ public class TableBindingTest {
     }
 
     @Test
-    public void testUpdateFromPmo_pageLength() {
+    public void testUpdateFromPmo_PageLengthIsSet() {
         containerPmo.setPageLength(23);
 
         tableBinding.updateFromPmo();
@@ -63,7 +71,7 @@ public class TableBindingTest {
     }
 
     @Test
-    public void testUpdateFromPmo_newItem() {
+    public void testUpdateFromPmo_NewItemsAreAdded() {
         containerPmo.addItem();
 
         tableBinding.updateFromPmo();
@@ -74,8 +82,8 @@ public class TableBindingTest {
     }
 
     @Test
-    public void testUpdateFromPmo_delItem() {
-        TestColumnPmo removed = containerPmo.getItems().remove(0);
+    public void testUpdateFromPmo_RemovedItemsAreCleanedUp() {
+        TestRowPmo removed = containerPmo.getItems().remove(0);
 
         tableBinding.updateFromPmo();
 
@@ -84,6 +92,26 @@ public class TableBindingTest {
         verifyNoMoreInteractions(listener);
         verify(bindingContext).removeBindingsForPmo(removed);
         verifyNoMoreInteractions(bindingContext);
+    }
+
+    @Test
+    public void testUpdateFromPmo_FooterIsAlwaysUpdated() {
+        TableFooterPmo footerPmo = mock(TableFooterPmo.class);
+        containerPmo.setFooterPmo(footerPmo);
+
+        tableBinding.updateFromPmo();
+        tableBinding.updateFromPmo();
+
+        // item set did not change
+        verifyNoMoreInteractions(listener);
+
+        // each footer property was requested for each call of updateFromPmo
+        verify(footerPmo, times(2)).getFooterText(TestRowPmo.PROPERTY_VALUE_1);
+        verify(footerPmo, times(2)).getFooterText(TestRowPmo.PROPERTY_VALUE_2);
+        verify(footerPmo, times(2)).getFooterText(TestRowPmo.PROPERTY_VALUE_3);
+        verify(footerPmo, times(2)).getFooterText(TestRowPmo.PROPERTY_DELETE);
+        verifyNoMoreInteractions(footerPmo);
+
     }
 
 }

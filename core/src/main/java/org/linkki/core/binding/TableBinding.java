@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.faktorips.runtime.MessageList;
+import org.linkki.core.TableFooterPmo;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.vaadin.viritin.ListContainer;
@@ -26,18 +29,20 @@ public class TableBinding<T> extends ListContainer<T> implements Binding {
     private final BindingContext bindingContext;
 
     private final Table table;
-
+    private final Set<String> columnNames;
     private final ContainerPmo<T> containerPmo;
 
     private List<T> itemCopy;
 
-    public TableBinding(BindingContext bindingContext, Table table, ContainerPmo<T> containerPmo) {
+    public TableBinding(BindingContext bindingContext, Table table, Set<String> columnNames,
+            ContainerPmo<T> containerPmo) {
         super(containerPmo.getItemPmoClass());
         checkNotNull(bindingContext);
         checkNotNull(table);
         checkNotNull(containerPmo);
         this.bindingContext = bindingContext;
         this.table = table;
+        this.columnNames = columnNames;
         this.containerPmo = containerPmo;
         saveItemCopy(containerPmo.getItems());
         table.setContainerDataSource(this);
@@ -63,8 +68,8 @@ public class TableBinding<T> extends ListContainer<T> implements Binding {
 
     /**
      * If the list of items to display in the table has changed, the bindings for the old items are
-     * removed from the binding conext, and new bindings are created. As the the binding context
-     * first updates the table bindings and then the field bindings, the cells are updated from the
+     * removed from the binding context, and new bindings are created. As the binding context first
+     * updates the table bindings and then the field bindings, the cells are updated from the
      * corresponding field bindings afterwards.
      */
     @Override
@@ -75,7 +80,21 @@ public class TableBinding<T> extends ListContainer<T> implements Binding {
             saveItemCopy(actualItems);
             createCellsAndBindings();
         }
+        // Update the footer even if the same rows are displayed. Selecting a displayed row might
+        // change the footer, e.g. when the footer sums up the selected rows
+        updateFooter();
         table.setPageLength(getContainerPmo().getPageLength());
+    }
+
+    private void updateFooter() {
+        Optional<TableFooterPmo> footerPmo = containerPmo.getFooterPmo();
+        table.setFooterVisible(footerPmo.isPresent());
+        if (footerPmo.isPresent()) {
+            for (String column : columnNames) {
+                String text = footerPmo.get().getFooterText(column);
+                table.setColumnFooter(column, text);
+            }
+        }
     }
 
     private void removeBindingsForOldItems() {
@@ -119,12 +138,16 @@ public class TableBinding<T> extends ListContainer<T> implements Binding {
      * @param bindingContext The binding context used to bind the given {@link ContainerPmo} to the
      *            given {@link Table}
      * @param table The table that should be updated by this binding
+     * @param columnNames The table's column names (propertyIds)
      * @param containerPmo The {@link ContainerPmo} that holds the item that should be displayed in
      *            the table
      * @return The newly created {@link TableBinding}
      */
-    public static <T> TableBinding<T> create(BindingContext bindingContext, Table table, ContainerPmo<T> containerPmo) {
-        TableBinding<T> tableBinding = new TableBinding<T>(bindingContext, table, containerPmo);
+    public static <T> TableBinding<T> create(BindingContext bindingContext,
+            Table table,
+            Set<String> columnNames,
+            ContainerPmo<T> containerPmo) {
+        TableBinding<T> tableBinding = new TableBinding<T>(bindingContext, table, columnNames, containerPmo);
         bindingContext.add(tableBinding);
         return tableBinding;
     }

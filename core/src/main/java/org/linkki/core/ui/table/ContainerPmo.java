@@ -12,6 +12,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.TableFooterPmo;
 
 import com.vaadin.ui.Table;
 
@@ -28,7 +29,7 @@ public interface ContainerPmo<T> {
 
     /** Returns the class of the items / rows in the container. */
     @Nonnull
-    public Class<T> getItemPmoClass();
+    Class<T> getItemPmoClass();
 
     /**
      * Returns the items / rows in the container.
@@ -46,14 +47,24 @@ public interface ContainerPmo<T> {
      * {@link SimpleItemSupplier}.
      */
     @Nonnull
-    public List<T> getItems();
+    List<T> getItems();
+
+    /**
+     * Returns s {@link TableFooterPmo} that provides the data for the table footer.
+     * 
+     * @return The PMO that provides the data for the footer or an empty optional if no footer
+     *         should be shown (default).
+     */
+    @Nonnull
+    default Optional<TableFooterPmo> getFooterPmo() {
+        return Optional.empty();
+    }
 
     /**
      * Returns a {@link ButtonPmo} for the add button in the table section
-     * 
      */
     @Nonnull
-    public default Optional<ButtonPmo> getAddItemButtonPmo() {
+    default Optional<ButtonPmo> getAddItemButtonPmo() {
         return Optional.empty();
     }
 

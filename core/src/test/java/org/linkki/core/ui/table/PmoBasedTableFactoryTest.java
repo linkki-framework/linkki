@@ -29,7 +29,7 @@ public class PmoBasedTableFactoryTest {
 
     @Test
     public void testCreateTable_FieldLabelsAreUsedAsColumnHeaders() {
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx);
+        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(new TestTablePmo(), ctx);
         Table table = factory.createTable();
         assertThat(table, is(notNullValue()));
         // 1, 2 and 3 are the labels for the fields, the delete button has an no label
@@ -38,7 +38,7 @@ public class PmoBasedTableFactoryTest {
 
     @Test
     public void testCreateTable_WidthAndExpandRatioIsReadFromAnnotation() {
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(new TestContainerPmo(), ctx);
+        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(new TestTablePmo(), ctx);
         Table table = factory.createTable();
         assertThat(table, is(notNullValue()));
 
@@ -54,20 +54,20 @@ public class PmoBasedTableFactoryTest {
 
     @Test
     public void testCreateTable_InitialPageLengthIsSetOnTable() {
-        TestContainerPmo containerPmo = new TestContainerPmo();
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx);
+        TestTablePmo containerPmo = new TestTablePmo();
+        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx);
         Table table = factory.createTable();
         assertThat(table.getPageLength(), is(ContainerPmo.DEFAULT_PAGE_LENGTH));
     }
 
     @Test
     public void testCreateTable_ItemsAreBound() {
-        TestContainerPmo containerPmo = new TestContainerPmo();
-        TestColumnPmo columnPmo1 = containerPmo.addItem();
-        TestColumnPmo columnPmo2 = containerPmo.addItem();
+        TestTablePmo containerPmo = new TestTablePmo();
+        TestRowPmo columnPmo1 = containerPmo.addItem();
+        TestRowPmo columnPmo2 = containerPmo.addItem();
         assertThat(containerPmo.getItems(), contains(columnPmo1, columnPmo2));
 
-        PmoBasedTableFactory<TestColumnPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx);
+        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx);
         Table table = factory.createTable();
 
         assertThat(table.getItemIds(), contains(columnPmo1, columnPmo2));

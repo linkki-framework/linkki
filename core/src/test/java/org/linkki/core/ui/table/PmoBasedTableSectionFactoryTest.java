@@ -26,12 +26,12 @@ public class PmoBasedTableSectionFactoryTest {
 
     @Test
     public void testCreateSection_TableIsAddedAndBound() {
-        TestContainerPmo containerPmo = new TestContainerPmo();
+        TestTablePmo containerPmo = new TestTablePmo();
         BindingContext bindingContext = TestBindingContext.create();
-        PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<TestColumnPmo>(
+        PmoBasedTableSectionFactory<TestRowPmo> factory = new PmoBasedTableSectionFactory<TestRowPmo>(
                 containerPmo, bindingContext);
 
-        TableSection<TestColumnPmo> tableSection = factory.createSection();
+        TableSection<TestRowPmo> tableSection = factory.createSection();
 
         assertThat(tableSection, is(notNullValue()));
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
@@ -44,12 +44,12 @@ public class PmoBasedTableSectionFactoryTest {
 
     @Test
     public void testCreateSection_SectionHasAddButtonInHeader() {
-        TestContainerPmo containerPmo = new TestContainerPmo();
+        TestTablePmo containerPmo = new TestTablePmo();
         BindingContext bindingContext = TestBindingContext.create();
-        PmoBasedTableSectionFactory<TestColumnPmo> factory = new PmoBasedTableSectionFactory<TestColumnPmo>(
+        PmoBasedTableSectionFactory<TestRowPmo> factory = new PmoBasedTableSectionFactory<TestRowPmo>(
                 containerPmo, bindingContext);
 
-        TableSection<TestColumnPmo> tableSection = factory.createSection();
+        TableSection<TestRowPmo> tableSection = factory.createSection();
 
         assertThat(tableSection, is(notNullValue()));
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
