@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 
 import org.linkki.core.ui.util.ComponentFactory;
+import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -110,7 +111,7 @@ public class FormSection extends BaseSection {
     public void add(Component component) {
         int row = contentGrid.getCursorY();
         int column = contentGrid.getCursorX();
-        if (component.getWidth() == 100.0f && component.getWidthUnits() == Unit.PERCENTAGE) {
+        if (UiUtil.isWidth100Pct(component)) {
             contentGrid.addComponent(component, column, row, column + 2, row);
         } else {
             contentGrid.addComponent(component, column, row, column + 1, row);
@@ -130,7 +131,7 @@ public class FormSection extends BaseSection {
         l.setWidthUndefined();
         contentGrid.addComponent(l);
         contentGrid.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
-        if (component.getWidth() == 100.0f && component.getWidthUnits() == Unit.PERCENTAGE) {
+        if (UiUtil.isWidth100Pct(component)) {
             // if the component has 100% width, it spans the last two grid columns to grab all
             // available space.
             int row = contentGrid.getCursorY();
