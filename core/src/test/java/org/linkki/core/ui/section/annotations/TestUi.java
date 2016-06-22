@@ -69,7 +69,7 @@ public class TestUi extends UI {
 
         bindingContext.updateUI();
 
-        Panel panel = (Panel)section.getComponent(0);
+        Panel panel = (Panel)section.getComponent(1);
         GridLayout gridLayout = (GridLayout)panel.getContent();
         return gridLayout.getComponent(1, 0);
     }

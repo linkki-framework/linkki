@@ -69,6 +69,9 @@ public abstract class AbstractSection extends VerticalLayout {
         this.editButton = editButton;
         if (StringUtils.isNotEmpty(caption) || editButton.isPresent()) {
             createHeader(caption, closeable);
+        } else {
+            // just some space
+            addComponent(new Label());
         }
     }
 
