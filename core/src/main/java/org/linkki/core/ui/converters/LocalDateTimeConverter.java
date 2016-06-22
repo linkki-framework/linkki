@@ -25,7 +25,7 @@ public class LocalDateTimeConverter implements Converter<String, LocalDateTime> 
         if (value == null) {
             return "";
         }
-        return DateTimeFormat.mediumTime().withLocale(locale).print(value);
+        return DateTimeFormat.mediumDateTime().withLocale(locale).print(value);
     }
 
     @Override
