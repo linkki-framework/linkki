@@ -8,6 +8,7 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
@@ -39,7 +40,7 @@ public class LabelBinding implements ElementBinding {
     public void updateFromPmo() {
         boolean visible = propertyDispatcher.isVisible();
         labelsLabel.ifPresent(l -> l.setVisible(visible));
-        label.setValue(propertyDispatcher.getValue().toString());
+        label.setValue(Objects.toString(propertyDispatcher.getValue(), ""));
         label.setVisible(visible);
     }
 
