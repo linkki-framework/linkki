@@ -1,6 +1,7 @@
 package org.linkki.framework.ui.component;
 
 import org.faktorips.runtime.Message;
+import org.linkki.core.ui.application.ApplicationStyles;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -22,6 +23,7 @@ public class MessageRow extends FormLayout {
         label.addStyleName(messagePmo.getStyle());
         label.setDescription(this.messagePmo.getToolTip());
         addComponent(label);
+        addStyleName(ApplicationStyles.MESSAGE_ROW);
     }
 
     public String getText() {

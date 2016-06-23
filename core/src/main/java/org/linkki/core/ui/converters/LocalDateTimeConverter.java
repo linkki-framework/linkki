@@ -13,14 +13,14 @@ public class LocalDateTimeConverter implements Converter<String, LocalDateTime> 
 
     @Override
     public LocalDateTime convertToModel(String value, Class<? extends LocalDateTime> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+            throws ConversionException {
 
         throw new UnsupportedOperationException();
     }
 
     @Override
     public String convertToPresentation(LocalDateTime value, Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+            throws ConversionException {
 
         if (value == null) {
             return "";

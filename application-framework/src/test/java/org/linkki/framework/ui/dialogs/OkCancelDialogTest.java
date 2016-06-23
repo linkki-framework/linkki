@@ -133,14 +133,15 @@ public class OkCancelDialogTest {
             @Override
             public void describeTo(Description description) {
                 description.appendText("an OkCancelDialog displaying a message with the text '");
-                description.appendText("text");
+                description.appendText(text);
                 description.appendText("'");
             }
 
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
-                return FluentIterable.from(layout).filter(MessageRow.class).first()
+                VerticalLayout nestedLayout = (VerticalLayout)layout.getComponent(0);
+                return FluentIterable.from(nestedLayout).filter(MessageRow.class).first()
                         .transform(m -> text.equals(m.getText())).or(false);
             }
         };

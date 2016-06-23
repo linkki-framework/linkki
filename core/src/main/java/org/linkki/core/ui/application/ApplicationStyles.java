@@ -73,6 +73,10 @@ public class ApplicationStyles {
 
     public static final String SPACING_HORIZONTAL_SECTION = "horizontal-section-spacing";
 
+    public static final String DIALOG_BUTTON_BAR = "linkki-dialog-button-bar";
+
+    public static final String MESSAGE_ROW = "linkki-message-row";
+
     private ApplicationStyles() {
     }
 

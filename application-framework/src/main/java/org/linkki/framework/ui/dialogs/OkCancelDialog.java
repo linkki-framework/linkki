@@ -37,6 +37,8 @@ public class OkCancelDialog extends Window {
      */
     private final VerticalLayout layout;
 
+    private final VerticalLayout contentArea;
+
     /** The main area that contains any content that is added by subclasses etc. */
     private final VerticalLayout mainArea;
 
@@ -104,6 +106,7 @@ public class OkCancelDialog extends Window {
         super(caption);
         this.okHandler = requireNonNull(okHandler);
         this.layout = new VerticalLayout();
+        this.contentArea = new VerticalLayout();
         this.mainArea = new VerticalLayout();
         this.okButton = new Button("OK");
         okButton.setClickShortcut(KeyCode.ENTER);
@@ -152,12 +155,15 @@ public class OkCancelDialog extends Window {
     private void initLayout() {
         layout.setWidth("100%");
         layout.setMargin(true);
+        layout.addComponent(contentArea);
+        layout.setExpandRatio(contentArea, 1f);
     }
 
     private void initMainArea(Component c) {
         mainArea.addStyleName(ApplicationStyles.DIALOG_CONTENT);
-        layout.addComponent(mainArea);
-
+        contentArea.addStyleName("content-area");
+        contentArea.addComponent(mainArea);
+        contentArea.setExpandRatio(mainArea, 1f);
         if (c != null) {
             mainArea.addComponent(c);
         }
@@ -166,6 +172,7 @@ public class OkCancelDialog extends Window {
     private void initButtons(ButtonOption buttonOption) {
         HorizontalLayout buttons = createButtons(buttonOption);
         layout.addComponent(buttons);
+        layout.setExpandRatio(buttons, 0f);
         layout.setComponentAlignment(buttons, Alignment.MIDDLE_CENTER);
     }
 
@@ -180,10 +187,12 @@ public class OkCancelDialog extends Window {
 
     private HorizontalLayout createButtons(ButtonOption buttonOption) {
         HorizontalLayout buttons = new HorizontalLayout();
+        buttons.addStyleName(ApplicationStyles.DIALOG_BUTTON_BAR);
+        buttons.setSizeFull();
         buttons.setWidthUndefined();
         buttons.setSpacing(true);
         buttons.addComponent(okButton);
-        buttons.setComponentAlignment(okButton, Alignment.MIDDLE_CENTER);
+        buttons.setComponentAlignment(okButton, Alignment.BOTTOM_CENTER);
         okButton.addClickListener(e -> {
             setOkPressed();
             if (!validate().containsErrorMsg()) {
@@ -206,6 +215,40 @@ public class OkCancelDialog extends Window {
     }
 
     /**
+     * Specifies the height of the content in PIXELS.
+     * <p>
+     * If you specify the height you have to ensure that the content has enough space to be visible.
+     * The dialog will not create scroll bars. If you have dynamic content like a table you have to
+     * specify the height of the table by giving a page length or fixed height (page length must be
+     * 0). The height is given in PIXELS, relative height would not work. Alternatively you should
+     * consider to use {@link #setContentHeightEm(int)} to specify the height in unit EM.
+     * <p>
+     * If you need a dialog with dynamic height you must not call this method.
+     * 
+     * @param height The height of the content area in pixel.
+     */
+    public void setContentHeight(int height) {
+        this.contentArea.setHeight(height, Unit.PIXELS);
+    }
+
+    /**
+     * Specifies the height of the content in EM.
+     * <p>
+     * If you specify the height you have to ensure that the content has enough space to be visible.
+     * The dialog will not create scroll bars. If you have dynamic content like a table you have to
+     * specify the height of the table by giving a page length or fixed height (page length must be
+     * 0). The height is given in EM, relative height would not work. Alternatively you should
+     * consider to use {@link #setContentHeight(int)} to specify the height in unit PIXELS.
+     * <p>
+     * If you need a dialog with dynamic height you must not call this method.
+     * 
+     * @param height The height of the content area in pixel.
+     */
+    public void setContentHeightEm(int height) {
+        this.contentArea.setHeight(height, Unit.EM);
+    }
+
+    /**
      * Retrieves the message list from the validation service and filters it according to its
      * {@link #getValidationDisplayState()}. The filtered messages are returned. If needed, a
      * message from the list is displayed and the OK button is disabled.
@@ -216,12 +259,14 @@ public class OkCancelDialog extends Window {
      */
     public MessageList validate() {
         messages = validationDisplayState.filter(validationService.getValidationMessages());
-        messageRow.ifPresent(layout::removeComponent);
+        messageRow.ifPresent(contentArea::removeComponent);
         getMessageToDisplay().ifPresent(m -> {
             MessageRow newRow = new MessageRow(m);
             newRow.setWidth("100%");
             messageRow = Optional.of(newRow);
-            layout.addComponentAsFirst(newRow);
+            contentArea.addComponent(newRow);
+            contentArea.setExpandRatio(newRow, 0f);
+            contentArea.setComponentAlignment(newRow, Alignment.MIDDLE_LEFT);
         });
         update();
         return messages;
