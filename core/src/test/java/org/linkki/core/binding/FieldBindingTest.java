@@ -19,7 +19,6 @@ import java.util.Iterator;
 
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
-import org.faktorips.runtime.Severity;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -28,7 +27,6 @@ import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.TestUi;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.util.validation.ValidationMarker;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
@@ -58,6 +56,7 @@ public class FieldBindingTest {
 
     private PropertyDispatcher propertyDispatcherEnumValue;
 
+    @SuppressWarnings("null")
     @Before
     public void setUp() {
         context = TestBindingContext.create();
@@ -140,6 +139,7 @@ public class FieldBindingTest {
         verify(label).setVisible(false);
     }
 
+    @SuppressWarnings("null")
     @Test
     public void testVisibleBinding_ifLabelNull() {
         binding = new FieldBinding<>(null, field, propertyDispatcherValue, context::updateUI);
@@ -217,29 +217,6 @@ public class FieldBindingTest {
         context.updateUI();
 
         verify(selectField).setComponentError(null);
-    }
-
-    @Test
-    public void testDisplayMessages_mandatoryFieldMessagesAreFiltered() {
-        ValidationMarker mandatoryFieldMarker = () -> true;
-        messageList.add(new Message.Builder("text", Severity.ERROR).markers(mandatoryFieldMarker).create());
-
-        context.updateUI();
-
-        verify(selectField).setComponentError(null);
-    }
-
-    @Test
-    public void testDisplayMessages_nonMandatoryFieldMessagesAreNotFiltered() {
-        ValidationMarker nonMandatoryFieldMarker = () -> false;
-        messageList.add(new Message.Builder("text", Severity.ERROR).markers(nonMandatoryFieldMarker).create());
-
-        context.updateUI();
-
-        ArgumentCaptor<UserError> captor = ArgumentCaptor.forClass(UserError.class);
-        verify(selectField).setComponentError(captor.capture());
-        assertEquals(captor.getValue().getMessage(), "text");
-        assertEquals(captor.getValue().getErrorLevel(), ErrorLevel.ERROR);
     }
 
     @Test
