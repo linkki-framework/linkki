@@ -38,6 +38,14 @@ public @interface UIComboBox {
 
     VisibleType visible() default VISIBLE;
 
+    /**
+     * Specify the width of the field. Use CSS units like em, px or %.
+     * <p>
+     * For example: "25em" or "100%".
+     * 
+     */
+    String width() default "-1px";
+
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     String modelAttribute() default "";

@@ -26,6 +26,7 @@ public class UIComboBoxAdapter implements UIFieldDefinition {
         LinkkiComboBox comboBox = ComponentFactory.newComboBox();
         comboBox.setItemCaptionProvider(getItemCaptionProvider());
         comboBox.setNullSelectionAllowed(false);
+        comboBox.setWidth(uiComboField.width());
         return comboBox;
     }
 
