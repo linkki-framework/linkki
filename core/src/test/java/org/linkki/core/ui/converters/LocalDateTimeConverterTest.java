@@ -29,11 +29,11 @@ public class LocalDateTimeConverterTest {
 
         String presentation = localDateTimeConverter.convertToPresentation(value, String.class, Locale.GERMANY);
 
-        assertThat(presentation, is(equalTo("29.06.2016 08:04")));
+        assertThat(presentation, is(equalTo("29.06.2016\t08:04")));
 
         presentation = localDateTimeConverter.convertToPresentation(value, String.class, Locale.US);
 
-        assertThat(presentation, is(equalTo("6/29/16 8:04 AM")));
+        assertThat(presentation, is(equalTo("6/29/16\t8:04 AM")));
     }
 
 }

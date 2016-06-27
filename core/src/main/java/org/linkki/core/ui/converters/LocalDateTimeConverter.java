@@ -15,7 +15,6 @@ public class LocalDateTimeConverter implements Converter<String, LocalDateTime> 
     @Override
     public LocalDateTime convertToModel(String value, Class<? extends LocalDateTime> targetType, Locale locale)
             throws ConversionException {
-
         throw new UnsupportedOperationException();
     }
 
@@ -28,7 +27,7 @@ public class LocalDateTimeConverter implements Converter<String, LocalDateTime> 
         String dateString = localDateConverter.convertToPresentation(value.toLocalDate(), targetType, locale);
         String timeString = DateTimeFormat.shortTime().withLocale(LocalDateConverter.getNullsafeLocale(locale))
                 .print(value);
-        return dateString + ' ' + timeString;
+        return dateString + '\t' + timeString;
     }
 
     @Override
