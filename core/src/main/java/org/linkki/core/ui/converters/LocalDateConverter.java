@@ -37,7 +37,7 @@ public class LocalDateConverter implements Converter<String, LocalDate> {
 
     @SuppressWarnings("null")
     @Nonnull
-    private static Locale getNullsafeLocale(Locale locale) {
+    static Locale getNullsafeLocale(Locale locale) {
         if (locale == null) {
             return Locale.getDefault();
         } else {

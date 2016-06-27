@@ -10,6 +10,7 @@ import com.vaadin.data.util.converter.Converter;
 public class LocalDateTimeConverter implements Converter<String, LocalDateTime> {
 
     private static final long serialVersionUID = 1L;
+    private LocalDateConverter localDateConverter = new LocalDateConverter();
 
     @Override
     public LocalDateTime convertToModel(String value, Class<? extends LocalDateTime> targetType, Locale locale)
@@ -21,11 +22,13 @@ public class LocalDateTimeConverter implements Converter<String, LocalDateTime> 
     @Override
     public String convertToPresentation(LocalDateTime value, Class<? extends String> targetType, Locale locale)
             throws ConversionException {
-
         if (value == null) {
             return "";
         }
-        return DateTimeFormat.mediumDateTime().withLocale(locale).print(value);
+        String dateString = localDateConverter.convertToPresentation(value.toLocalDate(), targetType, locale);
+        String timeString = DateTimeFormat.shortTime().withLocale(LocalDateConverter.getNullsafeLocale(locale))
+                .print(value);
+        return dateString + ' ' + timeString;
     }
 
     @Override
