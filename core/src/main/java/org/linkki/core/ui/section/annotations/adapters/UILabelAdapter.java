@@ -6,9 +6,6 @@
 
 package org.linkki.core.ui.section.annotations.adapters;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -45,7 +42,9 @@ public class UILabelAdapter implements UILabelDefinition {
     @Override
     public Component newComponent() {
         Label label = new Label();
-        styleNames().forEach(label::addStyleName);
+        for (String styleName : labelAnnotation.styleNames()) {
+            label.addStyleName(styleName);
+        }
         return label;
     }
 
@@ -72,10 +71,6 @@ public class UILabelAdapter implements UILabelDefinition {
     @Override
     public String modelAttribute() {
         return labelAnnotation.modelAttribute();
-    }
-
-    private List<String> styleNames() {
-        return Arrays.asList(labelAnnotation.styleNames());
     }
 
 }
