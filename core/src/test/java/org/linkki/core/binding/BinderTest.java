@@ -131,9 +131,7 @@ public class BinderTest {
         binder.setupBindings(bindingManager.startNewContext(""));
     }
 
-    protected static class TestView extends VerticalLayout {
-
-        private static final long serialVersionUID = 1L;
+    protected static class TestView {
 
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT)
         private TextField textField;

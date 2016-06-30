@@ -45,13 +45,17 @@ import com.vaadin.ui.Component;
  * binder.setupBindings(bindingCtx);
  * </code>
  * </pre>
+ * 
+ * Note that the view does not necessarily have to be a Vaadin UI component, it is possible to bind
+ * the annotated fields and methods in a POJO. Of course, the bound fields/methods still have to
+ * be/return Vaadin components.
  */
 public class Binder {
 
-    private final Component view;
+    private final Object view;
     private final Object pmo;
 
-    public Binder(@Nonnull Component view, @Nonnull Object pmo) {
+    public Binder(@Nonnull Object view, @Nonnull Object pmo) {
         super();
         this.view = requireNonNull(view, "View must not be null");
         this.pmo = requireNonNull(pmo, "PMO must not be null");
