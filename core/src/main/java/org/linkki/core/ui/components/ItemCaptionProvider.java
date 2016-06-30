@@ -95,7 +95,7 @@ public interface ItemCaptionProvider<T> {
 
         private String getPropertyValue(Object value, String methodName) {
             try {
-                Method method = value.getClass().getDeclaredMethod(methodName);
+                Method method = value.getClass().getMethod(methodName);
                 return (String)method.invoke(value);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
@@ -126,7 +126,7 @@ public interface ItemCaptionProvider<T> {
 
         private String getPropertyValue(Object value, String methodName) {
             try {
-                Method method = value.getClass().getDeclaredMethod(methodName);
+                Method method = value.getClass().getMethod(methodName);
                 return (String)method.invoke(value);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
