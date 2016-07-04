@@ -73,7 +73,7 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
         if (component instanceof Field<?>) {
             return new FieldBinding<>(label, (Field<?>)component, propertyDispatcher, updateUi);
         } else if (component instanceof Button) {
-            return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi);
+            return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi, false);
         } else if (component instanceof Label) {
             return new LabelBinding(label, (Label)component, propertyDispatcher);
         } else {

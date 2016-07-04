@@ -185,6 +185,7 @@ public class BindingContext {
 
         ElementBinding binding = bindingDescriptor.createBinding(createDispatcherChain(pmo, bindingDescriptor),
                                                                  this::updateUI, component, label);
+        binding.updateFromPmo();
         add(binding);
     }
 

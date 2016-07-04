@@ -19,7 +19,6 @@ import com.vaadin.server.FontAwesome;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface UIButton {
-
     int position();
 
     String label() default "";
@@ -28,6 +27,13 @@ public @interface UIButton {
 
     String caption() default "";
 
+    CaptionType captionType() default CaptionType.STATIC;
+
+    /**
+     * @deprecated Deprecated, use captionType=CaptionType.STATIC instead. Will be removed in next
+     *             version!
+     */
+    @Deprecated
     boolean showCaption() default true;
 
     EnabledType enabled() default ENABLED;

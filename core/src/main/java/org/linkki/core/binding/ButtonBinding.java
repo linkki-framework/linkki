@@ -30,6 +30,8 @@ public class ButtonBinding implements ElementBinding, Serializable {
     private final PropertyDispatcher propertyDispatcher;
     private final Handler updateUi;
 
+    private boolean bindCaption;
+
     /**
      * Creates a new {@link ButtonBinding}.
      * 
@@ -39,13 +41,17 @@ public class ButtonBinding implements ElementBinding, Serializable {
      *            model object
      * @param updateUi a {@link Handler} that is called when this {@link Binding} desires an update
      *            of the UI. Usually the {@link BindingContext#updateUI()} method.
+     * @param bindCaption indicates whether the button's caption should be bound. <code>true</code>
+     *            updates the caption. <code>false</code> prevents caption updates and thus also
+     *            prevents a caption to be requested from the property dispatcher.
      */
     public ButtonBinding(Label label, @Nonnull Button button, @Nonnull PropertyDispatcher propertyDispatcher,
-            @Nonnull Handler updateUi) {
+            @Nonnull Handler updateUi, boolean bindCaption) {
         this.label = Optional.ofNullable(label);
         this.button = requireNonNull(button, "Button must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
         this.updateUi = requireNonNull(updateUi, "Update-UI-Handler must not be null");
+        this.bindCaption = bindCaption;
         button.addClickListener(this::buttonClickCallback);
     }
 
@@ -55,6 +61,9 @@ public class ButtonBinding implements ElementBinding, Serializable {
         boolean visible = isVisible();
         button.setVisible(visible);
         label.ifPresent(l -> l.setVisible(visible));
+        if (bindCaption) {
+            button.setCaption(getCaption());
+        }
     }
 
     @Override
@@ -68,6 +77,10 @@ public class ButtonBinding implements ElementBinding, Serializable {
 
     public boolean isVisible() {
         return propertyDispatcher.isVisible();
+    }
+
+    public String getCaption() {
+        return propertyDispatcher.getCaption();
     }
 
     private void buttonClickCallback(@SuppressWarnings("unused") ClickEvent event) {

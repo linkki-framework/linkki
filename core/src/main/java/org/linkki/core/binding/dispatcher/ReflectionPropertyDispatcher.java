@@ -176,4 +176,14 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
                 + fallbackDispatcher + "]";
     }
 
+    @Override
+    public String getCaption() {
+        String captionProperty = propertyNamingConvention.getCaptionProperty(property);
+        if (canRead(captionProperty)) {
+            Object propertyValue = getAccessor(captionProperty).getPropertyValue(getBoundObject());
+            return (String)propertyValue;
+        } else {
+            return fallbackDispatcher.getCaption();
+        }
+    }
 }

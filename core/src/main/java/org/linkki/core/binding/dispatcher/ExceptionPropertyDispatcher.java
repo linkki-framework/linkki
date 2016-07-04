@@ -117,4 +117,9 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
             throw new IllegalStateException("ExceptionPropertyDispatcher has no presentation model object");
         }
     }
+
+    @Override
+    public String getCaption() {
+        throw new IllegalStateException(getExceptionText("find caption method for"));
+    }
 }

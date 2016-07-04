@@ -51,7 +51,7 @@ public class DialogBindingManagerTest {
         dialog.setValidationService(ValidationService.of(messages));
 
         ButtonBinding binding = spy(new ButtonBinding(new Label(), new Button(), mock(PropertyDispatcher.class),
-                Handler.NOP_HANDLER));
+                Handler.NOP_HANDLER, false));
         ctx.add(binding);
 
         ctx.updateUI();

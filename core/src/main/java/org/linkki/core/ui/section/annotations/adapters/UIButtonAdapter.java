@@ -6,6 +6,7 @@
 
 package org.linkki.core.ui.section.annotations.adapters;
 
+import org.linkki.core.ui.section.annotations.CaptionType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -15,7 +16,6 @@ import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
 
 /**
  * The adapter to provide access to an {@link UIButton} annotation through the definition interface.
@@ -29,20 +29,14 @@ public class UIButtonAdapter implements UIButtonDefinition {
     }
 
     @Override
-    public Component newComponent() {
+    public Button newComponent() {
         Button button = ComponentFactory.newButton();
         if (buttonAnnotation.showIcon()) {
             button.setIcon(buttonAnnotation.icon());
         }
-
-        if (buttonAnnotation.showCaption()) {
-            button.setCaption(buttonAnnotation.caption());
-        }
-
         for (String styleName : buttonAnnotation.styleNames()) {
             button.addStyleName(styleName);
         }
-
         return button;
     }
 
@@ -81,4 +75,13 @@ public class UIButtonAdapter implements UIButtonDefinition {
         return ModelObject.DEFAULT_NAME;
     }
 
+    @Override
+    public CaptionType captionType() {
+        return buttonAnnotation.captionType();
+    }
+
+    @Override
+    public String caption() {
+        return buttonAnnotation.caption();
+    }
 }

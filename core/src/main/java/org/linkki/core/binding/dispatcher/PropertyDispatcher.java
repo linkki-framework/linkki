@@ -123,4 +123,9 @@ public interface PropertyDispatcher {
      * Invokes the property with the given name, i.e. invokes the method of that name.
      */
     public void invoke();
+
+    /**
+     * @return the caption of a control, i.e. a button's text.
+     */
+    public String getCaption();
 }

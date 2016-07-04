@@ -16,11 +16,15 @@ import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
+import org.linkki.core.ui.section.annotations.ButtonDescriptor;
+import org.linkki.core.ui.section.annotations.CaptionType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
@@ -129,4 +133,21 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
                 + bindingDescriptor + "]";
     }
 
+    /**
+     * If the {@linkplain UIButton} annotation caption type is CaptionType.DYNAMIC a method
+     * get[AnnotatedMethodName]Caption() is called to retrieve the caption name dynamically
+     */
+    @Override
+    public String getCaption() {
+        if (bindingDescriptor instanceof ButtonDescriptor) {
+            if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.STATIC) {
+                return ((ButtonDescriptor)bindingDescriptor).caption();
+            } else if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.NONE) {
+                return StringUtils.EMPTY;
+            } else if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.DYNAMIC) {
+                return super.getCaption();
+            }
+        }
+        throw new IllegalArgumentException("Caption only supported for buttons");
+    }
 }

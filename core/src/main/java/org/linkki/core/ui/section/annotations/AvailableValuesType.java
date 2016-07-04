@@ -1,7 +1,7 @@
 package org.linkki.core.ui.section.annotations;
 
 /**
- * The type of available values of a property. Either dynamic or static.
+ * The type of available values of a property.
  *
  * @author widmaier
  */

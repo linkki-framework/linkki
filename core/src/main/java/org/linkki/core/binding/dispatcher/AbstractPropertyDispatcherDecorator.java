@@ -98,4 +98,9 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
         return getWrappedDispatcher().getBoundObject();
     }
 
+    @Override
+    public String getCaption() {
+        return getWrappedDispatcher().getCaption();
+    }
+
 }

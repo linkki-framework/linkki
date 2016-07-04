@@ -38,6 +38,14 @@ public class ButtonDescriptor implements ElementDescriptor {
         return uiButton.visible();
     }
 
+    public CaptionType captionType() {
+        return uiButton.captionType();
+    }
+
+    public String caption() {
+        return uiButton.caption();
+    }
+
     @Override
     public int getPosition() {
         return uiButton.position();
@@ -76,7 +84,8 @@ public class ButtonDescriptor implements ElementDescriptor {
         requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
         requireNonNull(updateUi, "UpdateUI-Handler must not be null");
         requireNonNull(component, "Component must not be null");
-        return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi);
+
+        return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi, true);
     }
 
     @Override
@@ -88,5 +97,4 @@ public class ButtonDescriptor implements ElementDescriptor {
     public AvailableValuesType availableValues() {
         return AvailableValuesType.NO_VALUES;
     }
-
 }

@@ -6,16 +6,20 @@
 
 package org.linkki.core.ui.section.annotations;
 
-import com.vaadin.ui.Button;
+public enum CaptionType {
 
-/**
- * The element definition for the {@link UIButton} annotation.
- */
-public interface UIButtonDefinition extends UIElementDefinition {
-    public CaptionType captionType();
+    /**
+     * Defined by the attribute caption.
+     */
+    STATIC,
 
-    public String caption();
+    /**
+     * Do not show any caption.
+     */
+    NONE,
 
-    @Override
-    Button newComponent();
+    /**
+     * Caption is bound to the property using the method get&lt;PropertyName&gt;Caption().
+     */
+    DYNAMIC;
 }

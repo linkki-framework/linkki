@@ -24,6 +24,7 @@ public class PropertyNamingConvention {
     public static final String REQUIRED_PROPERTY_SUFFIX = "required";
     public static final String MESSAGES_PROPERTY_SUFFIX = "messages";
     public static final String AVAILABLE_VALUES_PROPERTY_SUFFIX = "availableValues";
+    public static final String CAPTION_PROPERTY_SUFFIX = "caption";
 
     /**
      * @return the property without change
@@ -77,6 +78,15 @@ public class PropertyNamingConvention {
      */
     public String getRequiredProperty(String property) {
         return checkAndAddSuffix(REQUIRED_PROPERTY_SUFFIX, property);
+    }
+
+    /**
+     * @return the capitalized property with the suffix {@link #CAPTION_PROPERTY_SUFFIX} . e.g.
+     *         "premium" results in "premiumCaption".
+     * @throws NullPointerException if the given property is <code>null</code>
+     */
+    public String getCaptionProperty(String property) {
+        return checkAndAddSuffix(CAPTION_PROPERTY_SUFFIX, property);
     }
 
     private String checkAndAddSuffix(String suffix, String property) {

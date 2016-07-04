@@ -12,8 +12,8 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.linkki.core.ui.section.annotations.CaptionType;
 import org.linkki.core.ui.section.annotations.UIButton;
-import org.linkki.core.ui.section.annotations.adapters.UIButtonAdapter;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -40,16 +40,23 @@ public class UIButtonAdapterTest {
         }
     }
 
+    @UIButton(position = 1, showCaption = true, caption = "test")
+    public UIButton anotherAnnotation() {
+        try {
+            return getClass().getMethod("anotherAnnotation", new Class<?>[] {}).getAnnotation(UIButton.class);
+        } catch (NoSuchMethodException | SecurityException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void testNewComponent_DefaultAnnotations() {
         UIButtonAdapter adapter = new UIButtonAdapter(defaultAnnotation());
         Component component = adapter.newComponent();
         assertThat(component, is(instanceOf(Button.class)));
         Button button = (Button)component;
-        assertThat(button.getCaption(), is(""));
         assertThat(button.getIcon(), is(nullValue()));
         assertThat(button.getStyleName(), is(""));
-
     }
 
     @Test
@@ -60,7 +67,13 @@ public class UIButtonAdapterTest {
         Button button = (Button)component;
         assertThat(button.getIcon(), is(FontAwesome.AMBULANCE));
         assertThat(button.getStyleName(), is(ValoTheme.BUTTON_ICON_ONLY));
+    }
 
+    @Test
+    public void testNewComponent_showCaptionResultsInStaticCaptionType() {
+        UIButtonAdapter adapter = new UIButtonAdapter(anotherAnnotation());
+
+        assertThat(adapter.captionType(), is(CaptionType.STATIC));
     }
 
 }

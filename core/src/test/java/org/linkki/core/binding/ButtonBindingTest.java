@@ -9,11 +9,11 @@ package org.linkki.core.binding;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 
@@ -26,25 +26,24 @@ public class ButtonBindingTest {
     private Button button = spy(new Button());
 
     private ButtonBinding binding;
-    private PropertyDispatcher propertyDispatcher;
-    private BindingContext context;
+    private PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
+    private BindingContext context = TestBindingContext.create();
 
-    @Before
-    public void setUp() {
-        context = TestBindingContext.create();
-        propertyDispatcher = mock(PropertyDispatcher.class);
-        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI);
+    private void setUpDefaultBinding() {
+        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI, true);
         context.add(binding);
     }
 
     @Test
     public void testClickBinding() {
+        setUpDefaultBinding();
         button.click();
         verify(propertyDispatcher).invoke();
     }
 
     @Test
     public void testUpdateFromPmo_SetsButtonAndFieldVisible() {
+        setUpDefaultBinding();
         when(propertyDispatcher.isVisible()).thenReturn(false);
         binding.updateFromPmo();
         assertThat(button.isVisible(), is(false));
@@ -58,6 +57,7 @@ public class ButtonBindingTest {
 
     @Test
     public void testUpdateFromPmo_EnablesButton() {
+        setUpDefaultBinding();
         when(propertyDispatcher.isEnabled()).thenReturn(false);
         binding.updateFromPmo();
         assertThat(button.isEnabled(), is(false));
@@ -66,4 +66,24 @@ public class ButtonBindingTest {
         binding.updateFromPmo();
         assertThat(button.isEnabled(), is(true));
     }
+
+    @Test
+    public void testUpdateFromPmo_updateCaption() {
+        setUpDefaultBinding();
+
+        binding.updateFromPmo();
+
+        verify(propertyDispatcher).getCaption();
+    }
+
+    @Test
+    public void testUpdateFromPmo_ignoreCaption() {
+        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI, false);
+        context.add(binding);
+
+        binding.updateFromPmo();
+
+        verify(propertyDispatcher, never()).getCaption();
+    }
+
 }
