@@ -39,7 +39,7 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
     public TabSheetArea() {
         super();
         addComponent(tabSheet);
-        tabSheet.addSelectedTabChangeListener(e -> getSelectedTab().reloadBindings());
+        tabSheet.addSelectedTabChangeListener(e -> reloadBindings());
     }
 
     @PostConstruct
