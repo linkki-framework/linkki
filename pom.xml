@@ -3,7 +3,7 @@
 
     <groupId>org.linkki</groupId>
     <artifactId>linkki</artifactId>
-    <version>0.9.20160711</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Linkki</name>
@@ -430,7 +430,7 @@
 
     <scm>
         <connection>scm:git:ssh://${git.user}@projekte.faktorzehn.de/projekte/linkki.git</connection>
-        <tag>linkki-0.9.20160711</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
