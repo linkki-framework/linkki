@@ -17,5 +17,5 @@ public interface UIButtonDefinition extends UIElementDefinition {
     public String caption();
 
     @Override
-    Button newComponent();
+    public Button newComponent();
 }

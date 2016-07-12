@@ -81,7 +81,7 @@ public class PmoBasedTableFactory<T> {
         for (ElementDescriptor uiElement : uiElements) {
             createColumn(table, uiElement);
         }
-        return uiElements.stream().map(e -> e.getPropertyName()).collect(Collectors.toSet());
+        return uiElements.stream().map(e -> e.getModelPropertyName()).collect(Collectors.toSet());
     }
 
     /**
@@ -92,7 +92,7 @@ public class PmoBasedTableFactory<T> {
      */
     private void createColumn(Table table, ElementDescriptor elementDesc) {
         FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<T>(elementDesc, bindingContext);
-        String propertyName = elementDesc.getPropertyName();
+        String propertyName = elementDesc.getModelPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
         table.setColumnHeader(propertyName, elementDesc.getLabelText());
         setConfiguredColumndWidthOrExpandRatio(table, elementDesc);
@@ -105,9 +105,9 @@ public class PmoBasedTableFactory<T> {
         TableColumnDescriptor column = annotationReader.getTableColumnDescriptor(field);
         column.checkValidConfiguration();
         if (column.isCustomWidthDefined()) {
-            table.setColumnWidth(field.getPropertyName(), column.getWidth());
+            table.setColumnWidth(field.getModelPropertyName(), column.getWidth());
         } else if (column.isCustomExpandRatioDefined()) {
-            table.setColumnExpandRatio(field.getPropertyName(), column.getExpandRatio());
+            table.setColumnExpandRatio(field.getModelPropertyName(), column.getExpandRatio());
         }
     }
 

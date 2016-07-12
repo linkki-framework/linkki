@@ -20,19 +20,17 @@ import com.vaadin.ui.Label;
 public class LabelDescriptor implements ElementDescriptor {
 
     private final UILabelDefinition labelDefinition;
-    private String fallbackPropertyName;
-    private String modelObjectName;
+    private final String pmoPropertyName;
 
-    public LabelDescriptor(UILabelDefinition labelDefinition, String fallbackPropertyName, String modelObjectName) {
+    public LabelDescriptor(UILabelDefinition labelDefinition, String pmoPropertyName) {
         this.labelDefinition = labelDefinition;
-        this.fallbackPropertyName = fallbackPropertyName;
-        this.modelObjectName = modelObjectName;
+        this.pmoPropertyName = pmoPropertyName;
     }
 
     @Override
-    public String getPropertyName() {
+    public String getModelPropertyName() {
         if (StringUtils.isEmpty(labelDefinition.modelAttribute())) {
-            return fallbackPropertyName;
+            return getPmoPropertyName();
         }
         return labelDefinition.modelAttribute();
     }
@@ -59,7 +57,7 @@ public class LabelDescriptor implements ElementDescriptor {
 
     @Override
     public String getModelObjectName() {
-        return modelObjectName;
+        return labelDefinition.modelObject();
     }
 
     @Override
@@ -90,6 +88,11 @@ public class LabelDescriptor implements ElementDescriptor {
     @Override
     public Component newComponent() {
         return labelDefinition.newComponent();
+    }
+
+    @Override
+    public String getPmoPropertyName() {
+        return pmoPropertyName;
     }
 
 }

@@ -61,8 +61,9 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
     }
 
     @Override
-    public String getPropertyName() {
-        return bindAnnotationAdapter.getPropertyName();
+    public String getModelPropertyName() {
+        // We currently do not support a model property name in the binding annotation
+        return getPmoPropertyName();
     }
 
     @Override
@@ -81,4 +82,8 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
         }
     }
 
+    @Override
+    public String getPmoPropertyName() {
+        return bindAnnotationAdapter.getPmoPropertyName();
+    }
 }

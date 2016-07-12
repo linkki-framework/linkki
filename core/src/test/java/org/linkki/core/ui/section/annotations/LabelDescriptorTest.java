@@ -18,25 +18,25 @@ import org.linkki.core.ui.section.annotations.adapters.UILabelAdapter;
 public class LabelDescriptorTest {
 
     @Test
-    public void testGetPropertyName_UsesPropertyFromAnnotation() {
+    public void testGetModelPropertyName_UsesPropertyFromAnnotation() {
         UILabel labelAnnotation = mock(UILabel.class);
         when(labelAnnotation.modelAttribute()).thenReturn("property");
         UILabelDefinition labelDefinition = new UILabelAdapter(labelAnnotation);
-        LabelDescriptor descriptor = new LabelDescriptor(labelDefinition, "fallback", "modelObject");
+        LabelDescriptor descriptor = new LabelDescriptor(labelDefinition, "fallback");
 
-        assertThat(descriptor.getPropertyName(), is("property"));
+        assertThat(descriptor.getModelPropertyName(), is("property"));
     }
 
     @Test
-    public void testGetPropertyName_UsesFallbackPropertyName() {
+    public void testGetModelPropertyName_UsesFallbackPropertyName() {
         UILabel labelAnnotation = mock(UILabel.class);
         UILabelDefinition labelDefinition = new UILabelAdapter(labelAnnotation);
-        LabelDescriptor descriptor = new LabelDescriptor(labelDefinition, "fallback", "modelObject");
+        LabelDescriptor descriptor = new LabelDescriptor(labelDefinition, "fallback");
 
         // precondition
         assertThat(labelDefinition.modelAttribute(), is(nullValue()));
 
-        assertThat(descriptor.getPropertyName(), is("fallback"));
+        assertThat(descriptor.getModelPropertyName(), is("fallback"));
     }
 
 }

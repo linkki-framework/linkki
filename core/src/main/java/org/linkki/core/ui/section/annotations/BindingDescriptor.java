@@ -38,11 +38,11 @@ public interface BindingDescriptor {
      * the field of a model/PMO class, this is the name of that field. For an UI element that
      * invokes a method (i.e. a button) this is the name of the method.
      */
-    String getPropertyName();
+    String getModelPropertyName();
 
     /**
-     * The name of the model object containing the {@link #getPropertyName() property} if the bound
-     * PMO itself does not contain the property. The PMO has to have a
+     * The name of the model object containing the {@link #getModelPropertyName() property} if the
+     * bound PMO itself does not contain the property. The PMO has to have a
      * {@link ModelObject @ModelObject} annotation with that name on the method that returns the
      * model object.
      */
@@ -56,5 +56,10 @@ public interface BindingDescriptor {
             @Nonnull Handler updateUi,
             @Nonnull Component component,
             Label label);
+
+    /**
+     * The name of the property from the pmo
+     */
+    String getPmoPropertyName();
 
 }

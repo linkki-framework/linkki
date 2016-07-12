@@ -27,21 +27,17 @@ import com.vaadin.ui.Label;
 public class FieldDescriptor implements ElementDescriptor {
 
     private final UIFieldDefinition fieldDefinition;
-    private String fallbackPropertyName;
-    private String modelObjectName;
+    private final String pmoPropertyName;
 
     /**
      * Constructs a new field description with the following parameters.
      *
      * @param fieldDef The field definition that holds every given annotated property
-     * @param fallbackPropertyName a fallback property name that is used if
-     *            {@link UIFieldDefinition#modelAttribute()} is not specified.
-     * @param modelObjectName the name of the model object containing the property
+     * @param pmoPropertyName the property name that is used to find the methods in the PMO.
      */
-    public FieldDescriptor(UIFieldDefinition fieldDef, String fallbackPropertyName, String modelObjectName) {
+    public FieldDescriptor(UIFieldDefinition fieldDef, String pmoPropertyName) {
         this.fieldDefinition = fieldDef;
-        this.fallbackPropertyName = fallbackPropertyName;
-        this.modelObjectName = modelObjectName;
+        this.pmoPropertyName = pmoPropertyName;
     }
 
     /**
@@ -49,16 +45,16 @@ public class FieldDescriptor implements ElementDescriptor {
      * "modelAttribute" exists, derives the property name from the name of the annotated method.
      */
     @Override
-    public String getPropertyName() {
+    public String getModelPropertyName() {
         if (StringUtils.isEmpty(fieldDefinition.modelAttribute())) {
-            return fallbackPropertyName;
+            return getPmoPropertyName();
         }
         return fieldDefinition.modelAttribute();
     }
 
     @Override
     public String getModelObjectName() {
-        return modelObjectName;
+        return fieldDefinition.modelObject();
     }
 
     @Override
@@ -98,7 +94,7 @@ public class FieldDescriptor implements ElementDescriptor {
 
         String label = fieldDefinition.label();
         if (StringUtils.isEmpty(label)) {
-            label = StringUtils.capitalize(getPropertyName());
+            label = StringUtils.capitalize(getModelPropertyName());
         }
         return label;
     }
@@ -121,8 +117,12 @@ public class FieldDescriptor implements ElementDescriptor {
 
     @Override
     public String toString() {
-        return "FieldDescriptor [fieldDefinition=" + fieldDefinition + ", fallbackPropertyName=" + fallbackPropertyName
+        return "FieldDescriptor [fieldDefinition=" + fieldDefinition + ", fallbackPropertyName=" + getPmoPropertyName()
                 + "]";
     }
 
+    @Override
+    public String getPmoPropertyName() {
+        return pmoPropertyName;
+    }
 }

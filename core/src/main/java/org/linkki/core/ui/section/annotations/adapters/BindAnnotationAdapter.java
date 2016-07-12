@@ -42,7 +42,7 @@ public class BindAnnotationAdapter implements BindingDefinition {
         return bindAnnotation.availableValues();
     }
 
-    public String getPropertyName() {
+    public String getPmoPropertyName() {
         return bindAnnotation.pmoProperty();
     }
 

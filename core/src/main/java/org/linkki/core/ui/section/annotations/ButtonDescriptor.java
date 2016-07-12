@@ -20,12 +20,10 @@ public class ButtonDescriptor implements ElementDescriptor {
 
     private final UIButtonDefinition uiButton;
     private final String methodName;
-    private String modelObjectName;
 
-    public ButtonDescriptor(UIButtonDefinition buttonAnnotation, String methodName, String modelObjectName) {
+    public ButtonDescriptor(UIButtonDefinition buttonAnnotation, String methodName) {
         this.uiButton = buttonAnnotation;
         this.methodName = methodName;
-        this.modelObjectName = modelObjectName;
     }
 
     @Override
@@ -67,13 +65,13 @@ public class ButtonDescriptor implements ElementDescriptor {
     }
 
     @Override
-    public String getPropertyName() {
+    public String getModelPropertyName() {
         return methodName;
     }
 
     @Override
     public String getModelObjectName() {
-        return modelObjectName;
+        return uiButton.modelObject();
     }
 
     @Override
@@ -96,5 +94,10 @@ public class ButtonDescriptor implements ElementDescriptor {
     @Override
     public AvailableValuesType availableValues() {
         return AvailableValuesType.NO_VALUES;
+    }
+
+    @Override
+    public String getPmoPropertyName() {
+        return getModelPropertyName();
     }
 }

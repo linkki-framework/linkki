@@ -9,10 +9,10 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -27,7 +27,6 @@ import org.linkki.util.BeanUtils;
  * object's class.
  * <p>
  * Provides a set of {@link ElementDescriptor} for all found properties via {@link #getUiElements()}
- * Provides a {@link ElementDescriptor} for a single property by means of {@link #get(String)}.
  *
  * @author widmaier
  */
@@ -37,29 +36,20 @@ public class UIAnnotationReader {
 
     private final UIElementDefinitionRegistry fieldDefinitionRegistry = new UIElementDefinitionRegistry();
     private final Class<?> annotatedClass;
-    private final Map<String, ElementDescriptor> descriptors;
+    private final Set<ElementDescriptor> descriptors;
     private final Map<ElementDescriptor, TableColumnDescriptor> columnDescriptors;
 
     public UIAnnotationReader(Class<?> annotatedClass) {
         this.annotatedClass = annotatedClass;
-        descriptors = new TreeMap<>();
+        descriptors = new HashSet<>();
         columnDescriptors = new HashMap<>();
         initDescriptorMaps();
     }
 
     public Set<ElementDescriptor> getUiElements() {
         TreeSet<ElementDescriptor> treeSet = new TreeSet<ElementDescriptor>(POSITION_COMPARATOR);
-        treeSet.addAll(descriptors.values());
+        treeSet.addAll(descriptors);
         return treeSet;
-    }
-
-    public ElementDescriptor get(String property) {
-        return descriptors.get(property);
-    }
-
-    public TableColumnDescriptor getTableColumnDescriptor(String property) {
-        Optional<ElementDescriptor> fieldDescriptor = Optional.ofNullable(descriptors.get(property));
-        return fieldDescriptor.map(this::getTableColumnDescriptor).orElse(null);
     }
 
     public TableColumnDescriptor getTableColumnDescriptor(ElementDescriptor d) {
@@ -84,28 +74,23 @@ public class UIAnnotationReader {
     }
 
     private ElementDescriptor addDescriptor(UIElementDefinition uiElement, Method method) {
+        ElementDescriptor descriptor;
         if (uiElement instanceof UIFieldDefinition) {
-            FieldDescriptor fieldDescriptor = new FieldDescriptor((UIFieldDefinition)uiElement,
-                    getFallbackPropertyNameByMethod(method), uiElement.modelObject());
-            descriptors.put(fieldDescriptor.getPropertyName(), fieldDescriptor);
-            return fieldDescriptor;
+            descriptor = new FieldDescriptor((UIFieldDefinition)uiElement, getPmoPropertyName(method));
+        } else if (uiElement instanceof UIButtonDefinition) {
+            descriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, method.getName());
+        } else if (uiElement instanceof UILabelDefinition) {
+            descriptor = new LabelDescriptor((UILabelDefinition)uiElement, getPmoPropertyName(method));
+        } else {
+            throw new IllegalStateException(
+                    "Unknown UIElementDefinition of type " + uiElement + " on method " + method);
         }
-        if (uiElement instanceof UIButtonDefinition) {
-            ButtonDescriptor buttonDescriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, method.getName(),
-                    uiElement.modelObject());
-            descriptors.put(method.getName(), buttonDescriptor);
-            return buttonDescriptor;
-        }
-        if (uiElement instanceof UILabelDefinition) {
-            LabelDescriptor labelDescriptor = new LabelDescriptor((UILabelDefinition)uiElement,
-                    getFallbackPropertyNameByMethod(method), uiElement.modelObject());
-            descriptors.put(labelDescriptor.getPropertyName(), labelDescriptor);
-            return labelDescriptor;
-        }
-        throw new IllegalStateException("Unknown UIElementDefinition of type " + uiElement + " on method " + method);
+
+        descriptors.add(descriptor);
+        return descriptor;
     }
 
-    private String getFallbackPropertyNameByMethod(Method method) {
+    private String getPmoPropertyName(Method method) {
         if (method.getName().startsWith("is")) {
             return StringUtils.uncapitalize(method.getName().substring(2));
         } else if (method.getName().startsWith("get")) {
@@ -130,10 +115,6 @@ public class UIAnnotationReader {
 
     private Stream<Annotation> annotations(Method m) {
         return Arrays.stream(m.getAnnotations());
-    }
-
-    public boolean hasAnnotation(String property) {
-        return descriptors.containsKey(property);
     }
 
     public boolean hasTableColumnAnnotation(ElementDescriptor d) {

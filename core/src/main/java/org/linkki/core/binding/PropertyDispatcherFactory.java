@@ -8,6 +8,8 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.function.Supplier;
+
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
@@ -41,10 +43,11 @@ public class PropertyDispatcherFactory {
         requireNonNull(behaviorProvider, "PropertyBehaviorProvider must not be null");
 
         // @formatter:off
-        String propertyName = bindingDescriptor.getPropertyName();
+        String modelPropertyName = bindingDescriptor.getModelPropertyName();
         String modelObjectName = bindingDescriptor.getModelObjectName();
-        ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo, modelObjectName, propertyName);
-        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, modelObjectName, propertyName, exceptionDispatcher);
+        String pmoPropertyName = bindingDescriptor.getPmoPropertyName();
+        ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo, modelObjectName, pmoPropertyName);
+        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, pmoPropertyName, modelObjectName, modelPropertyName, exceptionDispatcher);
         BindingAnnotationDispatcher bindingAnnotationDispatcher = new BindingAnnotationDispatcher(reflectionDispatcher, bindingDescriptor);
         PropertyDispatcher customDispatchers = createCustomDispatchers(pmo, bindingDescriptor, bindingAnnotationDispatcher);
         return new BehaviorDependentDispatcher(customDispatchers, behaviorProvider);
@@ -81,8 +84,9 @@ public class PropertyDispatcherFactory {
 
         // @formatter:off
         String modelObjectName = ModelObject.DEFAULT_NAME;
+        
         ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(buttonPmo, modelObjectName, StringUtils.EMPTY);
-        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(buttonPmo, modelObjectName, StringUtils.EMPTY, exceptionDispatcher);
+        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(buttonPmo, StringUtils.EMPTY, modelObjectName, StringUtils.EMPTY, exceptionDispatcher);
         @SuppressWarnings("deprecation")
         org.linkki.core.binding.dispatcher.ButtonPmoDispatcher buttonPmoDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(reflectionDispatcher);
         return new BehaviorDependentDispatcher(buttonPmoDispatcher, behaviorProvider);
@@ -90,15 +94,17 @@ public class PropertyDispatcherFactory {
     }
 
     private ReflectionPropertyDispatcher newReflectionDispatcher(Object pmo,
+            String pmoPropertyName,
             String modelObjectName,
-            String property,
+            String modelObjectProperty,
             PropertyDispatcher wrappedDispatcher) {
         if (UIAnnotationReader.hasModelObjectAnnotatedMethod(pmo, modelObjectName)) {
-            ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(
-                    UIAnnotationReader.getModelObjectSupplier(pmo, modelObjectName), property, wrappedDispatcher);
-            return new ReflectionPropertyDispatcher(() -> pmo, property, modelObjectDispatcher);
+            Supplier<?> modelObject = UIAnnotationReader.getModelObjectSupplier(pmo, modelObjectName);
+            ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(modelObject,
+                    modelObjectProperty, wrappedDispatcher);
+            return new ReflectionPropertyDispatcher(() -> pmo, pmoPropertyName, modelObjectDispatcher);
         } else {
-            return new ReflectionPropertyDispatcher(() -> pmo, property, wrappedDispatcher);
+            return new ReflectionPropertyDispatcher(() -> pmo, pmoPropertyName, wrappedDispatcher);
         }
     }
 

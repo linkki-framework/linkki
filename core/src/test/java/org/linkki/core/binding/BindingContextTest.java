@@ -152,7 +152,7 @@ public class BindingContextTest {
         setUpPmo();
         TextField field = new TextField();
         UIFieldDefinition fieldDefintion = mock(UIFieldDefinition.class);
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, "value", "");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, "value");
 
         // Precondition
         assertThat(field.isImmediate(), is(false));
