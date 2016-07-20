@@ -40,6 +40,10 @@ public class TestPmo {
         return visible;
     }
 
+    public String getValueToolTip() {
+        return "abc";
+    }
+
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
@@ -75,6 +79,10 @@ public class TestPmo {
 
     public TestEnum getEnumValue() {
         return enumValue;
+    }
+
+    public String getEnumValueToolTip() {
+        return "xyz";
     }
 
     public boolean isEnumValueEnabled() {

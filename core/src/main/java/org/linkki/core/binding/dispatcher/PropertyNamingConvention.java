@@ -25,6 +25,7 @@ public class PropertyNamingConvention {
     public static final String MESSAGES_PROPERTY_SUFFIX = "messages";
     public static final String AVAILABLE_VALUES_PROPERTY_SUFFIX = "availableValues";
     public static final String CAPTION_PROPERTY_SUFFIX = "caption";
+    public static final String TOOLTIP_PROPERTY_SUFFIX = "toolTip";
 
     /**
      * @return the property without change
@@ -87,6 +88,15 @@ public class PropertyNamingConvention {
      */
     public String getCaptionProperty(String property) {
         return checkAndAddSuffix(CAPTION_PROPERTY_SUFFIX, property);
+    }
+
+    /**
+     * @return the capitalized property with the suffix {@link #TOOLTIP_PROPERTY_SUFFIX} . e.g.
+     *         "premium" results in "premiumToolTip".
+     * @throws NullPointerException if the given property is <code>null</code>
+     */
+    public String getToolTipProperty(String property) {
+        return checkAndAddSuffix(TOOLTIP_PROPERTY_SUFFIX, property);
     }
 
     private String checkAndAddSuffix(String suffix, String property) {

@@ -62,4 +62,13 @@ public interface BindingDescriptor {
      */
     String getPmoPropertyName();
 
+    /**
+     * The tooltip of the UI element
+     */
+    String getToolTip();
+
+    /**
+     * The type of the tooltip
+     */
+    ToolTipType getToolTipType();
 }

@@ -15,6 +15,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.adapters.BindAnnotationAdapter;
 import org.linkki.util.handler.Handler;
 
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
@@ -72,7 +73,7 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
             Component component,
             Label label) {
         if (component instanceof Field<?>) {
-            return new FieldBinding<>(label, (Field<?>)component, propertyDispatcher, updateUi);
+            return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, updateUi);
         } else if (component instanceof Button) {
             return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi, false);
         } else if (component instanceof Label) {
@@ -85,5 +86,17 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
     @Override
     public String getPmoPropertyName() {
         return bindAnnotationAdapter.getPmoPropertyName();
+    }
+
+    @Override
+    public String getToolTip() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ToolTipType getToolTipType() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -6,29 +6,34 @@
 
 package org.linkki.core.ui.section.annotations.adapters;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.section.annotations.ToolTipType;
-import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIToolTip;
 import org.linkki.core.ui.section.annotations.UIToolTipDefinition;
 
 /**
- * The adapter to provide access to an {@link UIButton} annotation through the definition interface.
+ * The adapter to provide access to an {@link UIToolTip} annotation through the definition
+ * interface.
  */
 public class UIToolTipAdapter implements UIToolTipDefinition {
 
     private final UIToolTip toolTipAnnotation;
 
+    /**
+     * @param annotation the annotation or <code>null</code> if no {@link UIToolTip} is present
+     */
     public UIToolTipAdapter(UIToolTip annotation) {
         this.toolTipAnnotation = annotation;
     }
 
     @Override
     public ToolTipType toolTipType() {
-        return toolTipAnnotation.toolTipType();
+        return toolTipAnnotation == null ? ToolTipType.NONE : toolTipAnnotation.toolTipType();
     }
 
     @Override
     public String text() {
-        return toolTipAnnotation.text();
+        return toolTipAnnotation == null || toolTipType() == ToolTipType.NONE ? StringUtils.EMPTY
+                : toolTipAnnotation.text();
     }
 }

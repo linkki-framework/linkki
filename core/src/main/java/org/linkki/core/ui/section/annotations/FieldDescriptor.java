@@ -13,8 +13,8 @@ import org.linkki.core.binding.FieldBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.util.handler.Handler;
 
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 
 /**
@@ -27,6 +27,7 @@ import com.vaadin.ui.Label;
 public class FieldDescriptor implements ElementDescriptor {
 
     private final UIFieldDefinition fieldDefinition;
+    private final UIToolTipDefinition toolTipDefinition;
     private final String pmoPropertyName;
 
     /**
@@ -35,8 +36,9 @@ public class FieldDescriptor implements ElementDescriptor {
      * @param fieldDef The field definition that holds every given annotated property
      * @param pmoPropertyName the property name that is used to find the methods in the PMO.
      */
-    public FieldDescriptor(UIFieldDefinition fieldDef, String pmoPropertyName) {
+    public FieldDescriptor(UIFieldDefinition fieldDef, UIToolTipDefinition toolTipDefinition, String pmoPropertyName) {
         this.fieldDefinition = fieldDef;
+        this.toolTipDefinition = toolTipDefinition;
         this.pmoPropertyName = pmoPropertyName;
     }
 
@@ -112,7 +114,7 @@ public class FieldDescriptor implements ElementDescriptor {
         requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
         requireNonNull(updateUi, "UpdateUI-Handler must not be null");
         requireNonNull(component, "Component must not be null");
-        return new FieldBinding<>(label, (Field<?>)component, propertyDispatcher, updateUi);
+        return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, updateUi);
     }
 
     @Override
@@ -124,5 +126,15 @@ public class FieldDescriptor implements ElementDescriptor {
     @Override
     public String getPmoPropertyName() {
         return pmoPropertyName;
+    }
+
+    @Override
+    public String getToolTip() {
+        return toolTipDefinition.text();
+    }
+
+    @Override
+    public ToolTipType getToolTipType() {
+        return toolTipDefinition.toolTipType();
     }
 }

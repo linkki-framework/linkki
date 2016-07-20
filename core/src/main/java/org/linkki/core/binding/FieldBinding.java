@@ -35,7 +35,7 @@ import com.vaadin.ui.Label;
  */
 public class FieldBinding<T> implements ElementBinding {
 
-    private final Field<T> field;
+    private final AbstractField<T> field;
     private final Optional<Label> label;
     private final PropertyDispatcher propertyDispatcher;
     private final Handler updateUi;
@@ -53,7 +53,7 @@ public class FieldBinding<T> implements ElementBinding {
      * @param updateUi a {@link Handler} that is called when this {@link Binding} desires an update
      *            of the UI. Usually the {@link BindingContext#updateUI()} method.
      */
-    public FieldBinding(Label label, @Nonnull Field<T> field, @Nonnull PropertyDispatcher propertyDispatcher,
+    public FieldBinding(Label label, @Nonnull AbstractField<T> field, @Nonnull PropertyDispatcher propertyDispatcher,
             @Nonnull Handler updateUi) {
         this.label = Optional.ofNullable(label);
         this.field = requireNonNull(field, "Field must not be null");
@@ -161,6 +161,9 @@ public class FieldBinding<T> implements ElementBinding {
 
             field.setRequired(isRequired());
             field.setEnabled(isEnabled());
+            String toolTip = propertyDispatcher.getToolTip();
+            field.setDescription(toolTip);
+            label.ifPresent(l -> l.setDescription(toolTip));
             boolean visible = isVisible();
             field.setVisible(visible);
             label.ifPresent(l -> l.setVisible(visible));
@@ -244,7 +247,7 @@ public class FieldBinding<T> implements ElementBinding {
     public MessageList displayMessages(MessageList messages) {
         MessageList messagesForProperty = getRelevantMessages(messages);
         if (field instanceof AbstractField) {
-            ((AbstractField<T>)field).setComponentError(getErrorHandler(messagesForProperty));
+            field.setComponentError(getErrorHandler(messagesForProperty));
         }
         return messagesForProperty;
     }

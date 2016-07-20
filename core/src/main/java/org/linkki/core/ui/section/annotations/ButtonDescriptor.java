@@ -20,9 +20,12 @@ public class ButtonDescriptor implements ElementDescriptor {
 
     private final UIButtonDefinition uiButton;
     private final String methodName;
+    private final UIToolTipDefinition toolTipDefinition;
 
-    public ButtonDescriptor(UIButtonDefinition buttonAnnotation, String methodName) {
+    public ButtonDescriptor(UIButtonDefinition buttonAnnotation, UIToolTipDefinition toolTipDefinition,
+            String methodName) {
         this.uiButton = buttonAnnotation;
+        this.toolTipDefinition = toolTipDefinition;
         this.methodName = methodName;
     }
 
@@ -99,5 +102,15 @@ public class ButtonDescriptor implements ElementDescriptor {
     @Override
     public String getPmoPropertyName() {
         return getModelPropertyName();
+    }
+
+    @Override
+    public String getToolTip() {
+        return toolTipDefinition.text();
+    }
+
+    @Override
+    public ToolTipType getToolTipType() {
+        return toolTipDefinition.toolTipType();
     }
 }
