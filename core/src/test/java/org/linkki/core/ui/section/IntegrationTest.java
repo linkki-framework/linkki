@@ -50,6 +50,26 @@ public class IntegrationTest {
     }
 
     @Test
+    public void testGetStaticToolTipFromUIButton() {
+        ElementDescriptor elementDescriptor = reader.findDescriptor("button1");
+
+        PropertyDispatcher dispatcher = propertyDispatcherFactory
+                .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+        assertThat(dispatcher.getToolTip(), is(TestPmoWithAnnotations.STATIC_STRING));
+    }
+
+    @Test
+    public void testGetDynamicToolTipFromUIButton() {
+        ElementDescriptor elementDescriptor = reader.findDescriptor("button2");
+
+        PropertyDispatcher dispatcher = propertyDispatcherFactory
+                .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+        assertThat(dispatcher.getToolTip(), is(TestPmoWithAnnotations.STATIC_STRING + "0"));
+        pmo.button2();
+        assertThat(dispatcher.getToolTip(), is(TestPmoWithAnnotations.STATIC_STRING + "1"));
+    }
+
+    @Test
     public void testGetDynamicToolTipFromUITextField() {
         ElementDescriptor elementDescriptor = reader.findDescriptor("abc");
 
@@ -127,11 +147,13 @@ public class IntegrationTest {
             this.xyz = xyz;
         }
 
+        @UIToolTip(text = STATIC_STRING)
         @UIButton(position = 3, caption = STATIC_STRING)
         public void button1() {
             // nothing to do
         }
 
+        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
         @UIButton(position = 4, captionType = CaptionType.DYNAMIC)
         public void button2() {
             clickCount++;
@@ -139,6 +161,10 @@ public class IntegrationTest {
 
         public String getButton2Caption() {
             return String.valueOf(clickCount);
+        }
+
+        public String getButton2ToolTip() {
+            return STATIC_STRING + clickCount;
         }
 
         @ModelObject
