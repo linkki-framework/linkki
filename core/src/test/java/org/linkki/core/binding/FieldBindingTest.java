@@ -31,8 +31,8 @@ import org.mockito.ArgumentCaptor;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 import com.vaadin.server.UserError;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
@@ -40,7 +40,7 @@ public class FieldBindingTest {
 
     private Label label = spy(new Label());
 
-    private Field<String> field = spy(new TextField());
+    private AbstractField<String> field = spy(new TextField());
     private ComboBox selectField = spy(new ComboBox());
 
     private FieldBinding<String> binding;

@@ -103,4 +103,8 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
         return getWrappedDispatcher().getCaption();
     }
 
+    @Override
+    public String getToolTip() {
+        return getWrappedDispatcher().getToolTip();
+    }
 }

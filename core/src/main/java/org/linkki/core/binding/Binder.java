@@ -21,6 +21,9 @@ import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.exception.LinkkiRuntimeException;
 import org.linkki.core.ui.section.annotations.BindAnnotationDescriptor;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
+import org.linkki.core.ui.section.annotations.UIToolTip;
+import org.linkki.core.ui.section.annotations.UIToolTipDefinition;
+import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.linkki.util.BeanUtils;
 
 import com.google.gwt.thirdparty.guava.common.base.Preconditions;
@@ -104,11 +107,16 @@ public class Binder {
             Component component = (Component)method.invoke(view);
             Preconditions.checkNotNull(component,
                                        "Cannot create binding for method " + method + " as it returned null");
-            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(method.getAnnotation(Bind.class));
+            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(method.getAnnotation(Bind.class),
+                    getUIToolTipDefinition(method.getAnnotation(UIToolTip.class)));
             bindings.put(descriptor, component);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new LinkkiRuntimeException(e);
         }
+    }
+
+    private UIToolTipDefinition getUIToolTipDefinition(UIToolTip toolTipAnnotation) {
+        return new UIToolTipAdapter(toolTipAnnotation);
     }
 
     /**
@@ -136,7 +144,9 @@ public class Binder {
             }
             Component component = (Component)field.get(view);
             Preconditions.checkNotNull(component, "Cannot create binding for field " + field + " as it is null");
-            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(field.getAnnotation(Bind.class));
+            UIToolTip annotation = field.getAnnotation(UIToolTip.class);
+            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(field.getAnnotation(Bind.class),
+                    getUIToolTipDefinition(annotation));
             bindings.put(descriptor, component);
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new LinkkiRuntimeException(e);

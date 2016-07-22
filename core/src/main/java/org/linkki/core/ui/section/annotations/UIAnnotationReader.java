@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
@@ -20,6 +21,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.linkki.util.BeanUtils;
 
 /**
@@ -62,7 +64,8 @@ public class UIAnnotationReader {
         for (Method method : methods) {
             if (isUiDefiningMethod(method)) {
                 UIElementDefinition uiElement = getUiElement(method);
-                ElementDescriptor descriptor = addDescriptor(uiElement, method);
+                UIToolTipDefinition toolTipDefinition = getUIToolTipDefinition(method);
+                ElementDescriptor descriptor = addDescriptor(uiElement, toolTipDefinition, method);
 
                 UITableColumn columnAnnotation = method.getAnnotation(UITableColumn.class);
                 if (columnAnnotation != null) {
@@ -73,14 +76,23 @@ public class UIAnnotationReader {
         }
     }
 
-    private ElementDescriptor addDescriptor(UIElementDefinition uiElement, Method method) {
+    private UIToolTipDefinition getUIToolTipDefinition(Method method) {
+        UIToolTip toolTip = method.getAnnotation(UIToolTip.class);
+        return new UIToolTipAdapter(toolTip);
+    }
+
+    private ElementDescriptor addDescriptor(UIElementDefinition uiElement,
+            UIToolTipDefinition toolTipDefinition,
+            Method method) {
         ElementDescriptor descriptor;
         if (uiElement instanceof UIFieldDefinition) {
-            descriptor = new FieldDescriptor((UIFieldDefinition)uiElement, getPmoPropertyName(method));
+            descriptor = new FieldDescriptor((UIFieldDefinition)uiElement, toolTipDefinition,
+                    getPmoPropertyName(method));
         } else if (uiElement instanceof UIButtonDefinition) {
-            descriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, method.getName());
+            descriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, toolTipDefinition, method.getName());
         } else if (uiElement instanceof UILabelDefinition) {
-            descriptor = new LabelDescriptor((UILabelDefinition)uiElement, getPmoPropertyName(method));
+            descriptor = new LabelDescriptor((UILabelDefinition)uiElement, toolTipDefinition,
+                    getPmoPropertyName(method));
         } else {
             throw new IllegalStateException(
                     "Unknown UIElementDefinition of type " + uiElement + " on method " + method);
@@ -115,6 +127,16 @@ public class UIAnnotationReader {
 
     private Stream<Annotation> annotations(Method m) {
         return Arrays.stream(m.getAnnotations());
+    }
+
+    /**
+     * Currently for testing purposes only!
+     *
+     * @return the descriptor for the given property.
+     * @throws NoSuchElementException if no descriptor with the given property can be found
+     */
+    public ElementDescriptor findDescriptor(String propertyName) {
+        return getUiElements().stream().filter(el -> el.getPmoPropertyName().equals(propertyName)).findFirst().get();
     }
 
     public boolean hasTableColumnAnnotation(ElementDescriptor d) {

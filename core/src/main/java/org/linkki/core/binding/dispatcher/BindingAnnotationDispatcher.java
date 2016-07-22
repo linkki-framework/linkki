@@ -24,6 +24,7 @@ import org.linkki.core.ui.section.annotations.ButtonDescriptor;
 import org.linkki.core.ui.section.annotations.CaptionType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.ui.section.annotations.ToolTipType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
@@ -149,5 +150,13 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
             }
         }
         throw new IllegalArgumentException("Caption only supported for buttons");
+    }
+
+    @Override
+    public String getToolTip() {
+        if (bindingDescriptor.getToolTipType() == ToolTipType.DYNAMIC) {
+            return super.getToolTip();
+        }
+        return bindingDescriptor.getToolTip();
     }
 }

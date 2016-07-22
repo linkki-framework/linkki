@@ -15,6 +15,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.adapters.BindAnnotationAdapter;
 import org.linkki.util.handler.Handler;
 
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
@@ -23,14 +24,11 @@ import com.vaadin.ui.Label;
 public class BindAnnotationDescriptor implements BindingDescriptor {
 
     private final BindAnnotationAdapter bindAnnotationAdapter;
+    private final UIToolTipDefinition toolTipDefinition;
 
-    public BindAnnotationDescriptor(BindAnnotationAdapter bindAnnotationAdapter) {
-        super();
-        this.bindAnnotationAdapter = bindAnnotationAdapter;
-    }
-
-    public BindAnnotationDescriptor(Bind annotation) {
-        this(new BindAnnotationAdapter(annotation));
+    public BindAnnotationDescriptor(Bind annotation, UIToolTipDefinition toolTipDefinition) {
+        this.bindAnnotationAdapter = new BindAnnotationAdapter(annotation);
+        this.toolTipDefinition = toolTipDefinition;
     }
 
     @Override
@@ -72,7 +70,7 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
             Component component,
             Label label) {
         if (component instanceof Field<?>) {
-            return new FieldBinding<>(label, (Field<?>)component, propertyDispatcher, updateUi);
+            return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, updateUi);
         } else if (component instanceof Button) {
             return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi, false);
         } else if (component instanceof Label) {
@@ -85,5 +83,15 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
     @Override
     public String getPmoPropertyName() {
         return bindAnnotationAdapter.getPmoPropertyName();
+    }
+
+    @Override
+    public String getToolTip() {
+        return toolTipDefinition.text();
+    }
+
+    @Override
+    public ToolTipType getToolTipType() {
+        return toolTipDefinition.toolTipType();
     }
 }

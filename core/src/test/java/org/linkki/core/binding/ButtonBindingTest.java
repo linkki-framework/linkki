@@ -86,4 +86,11 @@ public class ButtonBindingTest {
         verify(propertyDispatcher, never()).getCaption();
     }
 
+    @Test
+    public void testUpdateFromPmo_ButtonToolTip() {
+        setUpDefaultBinding();
+        when(propertyDispatcher.getToolTip()).thenReturn("ToolTip");
+        binding.updateFromPmo();
+        assertThat(button.getDescription(), is("ToolTip"));
+    }
 }

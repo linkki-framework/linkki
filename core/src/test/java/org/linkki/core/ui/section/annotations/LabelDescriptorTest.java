@@ -22,7 +22,7 @@ public class LabelDescriptorTest {
         UILabel labelAnnotation = mock(UILabel.class);
         when(labelAnnotation.modelAttribute()).thenReturn("property");
         UILabelDefinition labelDefinition = new UILabelAdapter(labelAnnotation);
-        LabelDescriptor descriptor = new LabelDescriptor(labelDefinition, "fallback");
+        LabelDescriptor descriptor = new LabelDescriptor(labelDefinition, null, "fallback");
 
         assertThat(descriptor.getModelPropertyName(), is("property"));
     }
@@ -31,7 +31,7 @@ public class LabelDescriptorTest {
     public void testGetModelPropertyName_UsesFallbackPropertyName() {
         UILabel labelAnnotation = mock(UILabel.class);
         UILabelDefinition labelDefinition = new UILabelAdapter(labelAnnotation);
-        LabelDescriptor descriptor = new LabelDescriptor(labelDefinition, "fallback");
+        LabelDescriptor descriptor = new LabelDescriptor(labelDefinition, null, "fallback");
 
         // precondition
         assertThat(labelDefinition.modelAttribute(), is(nullValue()));

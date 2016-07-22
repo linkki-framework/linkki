@@ -40,6 +40,9 @@ public class LabelBinding implements ElementBinding {
     public void updateFromPmo() {
         boolean visible = propertyDispatcher.isVisible();
         labelsLabel.ifPresent(l -> l.setVisible(visible));
+        String toolTip = propertyDispatcher.getToolTip();
+        labelsLabel.ifPresent(l -> l.setDescription(toolTip));
+        label.setDescription(toolTip);
         label.setValue(Objects.toString(propertyDispatcher.getValue(), ""));
         label.setVisible(visible);
     }

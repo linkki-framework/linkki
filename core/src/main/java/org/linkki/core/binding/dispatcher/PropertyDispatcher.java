@@ -128,4 +128,9 @@ public interface PropertyDispatcher {
      * @return the caption of a control, i.e. a button's text.
      */
     public String getCaption();
+
+    /**
+     * @return the tooltip of a control, i.e. a button's tooltip.
+     */
+    public String getToolTip();
 }

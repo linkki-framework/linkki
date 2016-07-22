@@ -122,4 +122,9 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     public String getCaption() {
         throw new IllegalStateException(getExceptionText("find caption method for"));
     }
+
+    @Override
+    public String getToolTip() {
+        throw new IllegalStateException(getExceptionText("find tooltip method for"));
+    }
 }

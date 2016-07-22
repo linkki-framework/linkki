@@ -18,11 +18,12 @@ import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.ui.section.annotations.FieldDescriptor;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
+import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.vaadin.ui.Field;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -37,8 +38,8 @@ public class BindingContextTest {
     private Label label2;
     private TestPmo pmo = new TestPmo();
     private TestModelObject modelObject = new TestModelObject();
-    private Field<String> field1 = spy(new TextField());
-    private Field<String> field2 = spy(new TextField());
+    private AbstractField<String> field1 = spy(new TextField());
+    private AbstractField<String> field2 = spy(new TextField());
 
     private FieldBinding<String> binding1;
     private FieldBinding<String> binding2;
@@ -152,7 +153,7 @@ public class BindingContextTest {
         setUpPmo();
         TextField field = new TextField();
         UIFieldDefinition fieldDefintion = mock(UIFieldDefinition.class);
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, "value");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, new UIToolTipAdapter(null), "value");
 
         // Precondition
         assertThat(field.isImmediate(), is(false));

@@ -10,6 +10,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
@@ -29,10 +30,13 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     private final PropertyNamingConvention propertyNamingConvention = new PropertyNamingConvention();
 
+    @Nonnull
     private final PropertyDispatcher fallbackDispatcher;
 
+    @Nonnull
     private final Supplier<?> boundObjectSupplier;
 
+    @Nonnull
     private final String property;
 
     /**
@@ -44,6 +48,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
      *            (because no getters/setters exist) from the accessed object property. Must not be
      *            {@code null}.
      */
+    @SuppressWarnings("null")
     public ReflectionPropertyDispatcher(@Nonnull Supplier<?> boundObjectSupplier, @Nonnull String property,
             @Nonnull PropertyDispatcher fallbackDispatcher) {
         this.boundObjectSupplier = requireNonNull(boundObjectSupplier, "boundObjectSupplier must not be null");
@@ -82,11 +87,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     public Object getValue() {
-        if (canRead(getProperty())) {
-            return getAccessor(getProperty()).getPropertyValue(getBoundObject());
-        } else {
-            return fallbackDispatcher.getValue();
-        }
+        return get(propertyNamingConvention::getValueProperty, fallbackDispatcher::getValue);
     }
 
     @Override
@@ -107,26 +108,23 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     public boolean isEnabled() {
-        String enabledProperty = propertyNamingConvention.getEnabledProperty(getProperty());
-        return (boolean)read(enabledProperty);
+        return (boolean)get(propertyNamingConvention::getEnabledProperty, fallbackDispatcher::isEnabled);
     }
 
     @Override
     public boolean isVisible() {
-        String visibleProperty = propertyNamingConvention.getVisibleProperty(getProperty());
-        return (boolean)read(visibleProperty);
+        return (boolean)get(propertyNamingConvention::getVisibleProperty, fallbackDispatcher::isVisible);
     }
 
     @Override
     public boolean isRequired() {
-        String requiredProperty = propertyNamingConvention.getRequiredProperty(getProperty());
-        return (boolean)read(requiredProperty);
+        return (boolean)get(propertyNamingConvention::getRequiredProperty, fallbackDispatcher::isRequired);
     }
 
     @Override
     public Collection<?> getAvailableValues() {
-        String availableValuesProperty = propertyNamingConvention.getAvailableValuesProperty(getProperty());
-        return (Collection<?>)read(availableValuesProperty);
+        return (Collection<?>)get(propertyNamingConvention::getAvailableValuesProperty,
+                                  fallbackDispatcher::getAvailableValues);
     }
 
     @Override
@@ -136,18 +134,6 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
             MethodUtils.invokeExactMethod(boundObject, getProperty());
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Reads and returns the given property. If the property cannot be read an exception is thrown.
-     */
-    private Object read(String propertyToRead) {
-        if (!canRead(propertyToRead)) {
-            throw new IllegalArgumentException(
-                    "Cannot read property \"" + propertyToRead + "\" on object \"" + boundObjectSupplier.get() + "\"");
-        } else {
-            return getAccessor(propertyToRead).getPropertyValue(getBoundObject());
         }
     }
 
@@ -178,12 +164,21 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     public String getCaption() {
-        String captionProperty = propertyNamingConvention.getCaptionProperty(property);
-        if (canRead(captionProperty)) {
-            Object propertyValue = getAccessor(captionProperty).getPropertyValue(getBoundObject());
-            return (String)propertyValue;
+        return (String)get(propertyNamingConvention::getCaptionProperty, fallbackDispatcher::getCaption);
+    }
+
+    @Override
+    public String getToolTip() {
+        return (String)get(propertyNamingConvention::getToolTipProperty, fallbackDispatcher::getToolTip);
+    }
+
+    private Object get(Function<String, String> methodNameProvider, Supplier<Object> fallbackProvider) {
+        String methodName = methodNameProvider.apply(property);
+        if (canRead(methodName)) {
+            Object propertyValue = getAccessor(methodName).getPropertyValue(getBoundObject());
+            return propertyValue;
         } else {
-            return fallbackDispatcher.getCaption();
+            return fallbackProvider.get();
         }
     }
 }

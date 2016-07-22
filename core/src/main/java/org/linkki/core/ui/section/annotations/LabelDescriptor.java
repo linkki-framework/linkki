@@ -21,9 +21,12 @@ public class LabelDescriptor implements ElementDescriptor {
 
     private final UILabelDefinition labelDefinition;
     private final String pmoPropertyName;
+    private final UIToolTipDefinition toolTipDefinition;
 
-    public LabelDescriptor(UILabelDefinition labelDefinition, String pmoPropertyName) {
+    public LabelDescriptor(UILabelDefinition labelDefinition, UIToolTipDefinition toolTipDefinition,
+            String pmoPropertyName) {
         this.labelDefinition = labelDefinition;
+        this.toolTipDefinition = toolTipDefinition;
         this.pmoPropertyName = pmoPropertyName;
     }
 
@@ -95,4 +98,13 @@ public class LabelDescriptor implements ElementDescriptor {
         return pmoPropertyName;
     }
 
+    @Override
+    public String getToolTip() {
+        return toolTipDefinition.text();
+    }
+
+    @Override
+    public ToolTipType getToolTipType() {
+        return toolTipDefinition.toolTipType();
+    }
 }

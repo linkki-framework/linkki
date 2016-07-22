@@ -9,6 +9,7 @@ package org.linkki.core.ui.section.annotations;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.function.Supplier;
@@ -17,6 +18,8 @@ import org.junit.Test;
 import org.linkki.core.ui.section.annotations.UIAnnotationReader.ModelObjectAnnotationException;
 
 public class UIAnnotationReaderTest {
+
+    private UIAnnotationReader reader = new UIAnnotationReader(TestObject.class);
 
     @Test(expected = ModelObjectAnnotationException.class)
     public void testGetModelObjectSupplier_noAnnotation() {
@@ -68,6 +71,19 @@ public class UIAnnotationReaderTest {
         assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestPmo(), "FooBar"), is(false));
     }
 
+    @Test
+    public void testToolTipStatic() {
+        ElementDescriptor desc = reader.findDescriptor("test");
+        assertEquals("TestToolTip", desc.getToolTip());
+        assertEquals(ToolTipType.STATIC, desc.getToolTipType());
+    }
+
+    @Test
+    public void testToolTipDynamic() {
+        ElementDescriptor desc = reader.findDescriptor("test3");
+        assertEquals(ToolTipType.DYNAMIC, desc.getToolTipType());
+    }
+
     public static class TestPmoWithVoidModelObjectMethod {
 
         @ModelObject
@@ -99,6 +115,7 @@ public class UIAnnotationReaderTest {
     }
 
     public static class TestObject {
+        @UIToolTip(text = "TestToolTip")
         @UITextField(position = 1, modelAttribute = "test")
         public void test() {
             //
@@ -109,6 +126,7 @@ public class UIAnnotationReaderTest {
             //
         }
 
+        @UIToolTip(text = "", toolTipType = ToolTipType.DYNAMIC)
         @UITableColumn
         @UIDateField(position = 3, modelAttribute = "test3")
         public void isTest3() {

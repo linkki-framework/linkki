@@ -220,7 +220,7 @@ public class BindingAnnotationDispatcherTest {
         }
 
         public BindAnnotationDescriptor bindAnnotationDescriptor() {
-            return new BindAnnotationDescriptor(bindAnnotation());
+            return new BindAnnotationDescriptor(bindAnnotation(), null);
         }
     }
 

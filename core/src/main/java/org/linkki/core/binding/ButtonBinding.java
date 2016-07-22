@@ -60,7 +60,10 @@ public class ButtonBinding implements ElementBinding, Serializable {
         button.setEnabled(isEnabled());
         boolean visible = isVisible();
         button.setVisible(visible);
+        String toolTip = propertyDispatcher.getToolTip();
+        button.setDescription(toolTip);
         label.ifPresent(l -> l.setVisible(visible));
+        label.ifPresent(l -> l.setDescription(toolTip));
         if (bindCaption) {
             button.setCaption(getCaption());
         }

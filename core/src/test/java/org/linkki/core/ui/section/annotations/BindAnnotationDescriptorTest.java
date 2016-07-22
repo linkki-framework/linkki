@@ -16,8 +16,8 @@ import org.linkki.core.binding.ButtonBinding;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
 import org.linkki.core.binding.LabelBinding;
+import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.ui.section.annotations.adapters.BindAnnotationAdapter;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;
@@ -29,7 +29,7 @@ public class BindAnnotationDescriptorTest {
 
     @Test
     public void testCreateBinding_CreatesFieldBindingForField() {
-        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(BindAnnotationAdapter.class));
+        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(Bind.class), null);
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
         ElementBinding binding = descriptor.createBinding(dispatcher, Handler.NOP_HANDLER, new TextField(), null);
         assertThat(binding, is(instanceOf(FieldBinding.class)));
@@ -37,7 +37,7 @@ public class BindAnnotationDescriptorTest {
 
     @Test
     public void testCreateBinding_CreatesButtonBindingForButton() {
-        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(BindAnnotationAdapter.class));
+        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(Bind.class), null);
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
         ElementBinding binding = descriptor.createBinding(dispatcher, Handler.NOP_HANDLER, new Button(), null);
         assertThat(binding, is(instanceOf(ButtonBinding.class)));
@@ -45,7 +45,7 @@ public class BindAnnotationDescriptorTest {
 
     @Test
     public void testCreateBinding_CreatesLabelBindingForLabel() {
-        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(BindAnnotationAdapter.class));
+        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(Bind.class), null);
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
         ElementBinding binding = descriptor.createBinding(dispatcher, Handler.NOP_HANDLER, new Label(), null);
         assertThat(binding, is(instanceOf(LabelBinding.class)));
@@ -53,7 +53,7 @@ public class BindAnnotationDescriptorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateBinding_ThrowsExceptionForUnknownComponent() {
-        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(BindAnnotationAdapter.class));
+        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(Bind.class), null);
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
         descriptor.createBinding(dispatcher, Handler.NOP_HANDLER, new VerticalLayout(), null);
     }
