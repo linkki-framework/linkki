@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 import org.apache.commons.lang3.StringUtils;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target(value = { ElementType.FIELD, ElementType.METHOD })
 public @interface UIToolTip {
 
     String text() default StringUtils.EMPTY;

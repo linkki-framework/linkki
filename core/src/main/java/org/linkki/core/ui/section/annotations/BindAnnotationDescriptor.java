@@ -24,14 +24,11 @@ import com.vaadin.ui.Label;
 public class BindAnnotationDescriptor implements BindingDescriptor {
 
     private final BindAnnotationAdapter bindAnnotationAdapter;
+    private final UIToolTipDefinition toolTipDefinition;
 
-    public BindAnnotationDescriptor(BindAnnotationAdapter bindAnnotationAdapter) {
-        super();
-        this.bindAnnotationAdapter = bindAnnotationAdapter;
-    }
-
-    public BindAnnotationDescriptor(Bind annotation) {
-        this(new BindAnnotationAdapter(annotation));
+    public BindAnnotationDescriptor(Bind annotation, UIToolTipDefinition toolTipDefinition) {
+        this.bindAnnotationAdapter = new BindAnnotationAdapter(annotation);
+        this.toolTipDefinition = toolTipDefinition;
     }
 
     @Override
@@ -90,13 +87,11 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
 
     @Override
     public String getToolTip() {
-        // TODO Auto-generated method stub
-        return null;
+        return toolTipDefinition.text();
     }
 
     @Override
     public ToolTipType getToolTipType() {
-        // TODO Auto-generated method stub
-        return null;
+        return toolTipDefinition.toolTipType();
     }
 }
