@@ -79,13 +79,6 @@ public class UIAnnotationReaderTest {
     }
 
     @Test
-    public void testToolTipNone() {
-        ElementDescriptor desc = reader.findDescriptor("abc");
-        assertEquals("", desc.getToolTip());
-        assertEquals(ToolTipType.NONE, desc.getToolTipType());
-    }
-
-    @Test
     public void testToolTipDynamic() {
         ElementDescriptor desc = reader.findDescriptor("test3");
         assertEquals(ToolTipType.DYNAMIC, desc.getToolTipType());
@@ -128,7 +121,6 @@ public class UIAnnotationReaderTest {
             //
         }
 
-        @UIToolTip(text = "TestToolTip", toolTipType = ToolTipType.NONE)
         @UIComboBox(position = 2, modelAttribute = "test2")
         public void abc() {
             //

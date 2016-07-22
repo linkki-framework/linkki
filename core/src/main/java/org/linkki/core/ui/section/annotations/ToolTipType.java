@@ -14,11 +14,6 @@ public enum ToolTipType {
     STATIC,
 
     /**
-     * Do not show any tooltip.
-     */
-    NONE,
-
-    /**
      * Caption is bound to the property using the method get&lt;PropertyName&gt;ToolTip().
      */
     DYNAMIC;

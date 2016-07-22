@@ -28,12 +28,11 @@ public class UIToolTipAdapter implements UIToolTipDefinition {
 
     @Override
     public ToolTipType toolTipType() {
-        return toolTipAnnotation == null ? ToolTipType.NONE : toolTipAnnotation.toolTipType();
+        return toolTipAnnotation == null ? null : toolTipAnnotation.toolTipType();
     }
 
     @Override
     public String text() {
-        return toolTipAnnotation == null || toolTipType() == ToolTipType.NONE ? StringUtils.EMPTY
-                : toolTipAnnotation.text();
+        return toolTipAnnotation == null || toolTipType() == null ? StringUtils.EMPTY : toolTipAnnotation.text();
     }
 }
