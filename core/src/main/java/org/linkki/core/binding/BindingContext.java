@@ -34,6 +34,7 @@ import com.vaadin.ui.Label;
  */
 public class BindingContext {
 
+    @Nonnull
     private final String name;
     private final Map<Component, ElementBinding> elementBindings = Maps.newConcurrentMap();
     private final Multimap<Object, ElementBinding> elementBindingsByPmo = Multimaps
@@ -41,15 +42,18 @@ public class BindingContext {
     private final Map<Component, TableBinding<?>> tableBindings = Maps.newConcurrentMap();
     private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<PropertyDispatcher>();
     private final PropertyDispatcherFactory dispatcherFactory = new PropertyDispatcherFactory();
+
+    @Nonnull
     private final PropertyBehaviorProvider behaviorProvider;
 
-    private final PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
+    @Nonnull
     private Handler afterUpdateHandler;
 
     /**
      * Creates a new binding context with the given name, using the behavior provider to decorate
      * it's bindings and notifying the after-update handler after every UI update.
      */
+    @SuppressWarnings("null")
     public BindingContext(@Nonnull String contextName, @Nonnull PropertyBehaviorProvider behaviorProvider,
             @Nonnull Handler afterUpdateHandler) {
         this.name = requireNonNull(contextName);
@@ -90,6 +94,7 @@ public class BindingContext {
     /**
      * Returns all element bindings in the context.
      */
+    @SuppressWarnings("null")
     @Nonnull
     public Collection<ElementBinding> getElementBindings() {
         return Collections.unmodifiableCollection(elementBindings.values());
@@ -98,6 +103,7 @@ public class BindingContext {
     /**
      * Returns all table bindings in the context.
      */
+    @SuppressWarnings("null")
     @Nonnull
     public Collection<TableBinding<?>> getTableBindings() {
         return Collections.unmodifiableCollection(tableBindings.values());
@@ -211,7 +217,7 @@ public class BindingContext {
         requireNonNull(pmo, "PresentationModelObject must not be null");
         requireNonNull(bindingDescriptor, "BindingDescriptor must not be null");
 
-        return propertyDispatcherFactory.createDispatcherChain(pmo, bindingDescriptor, getBehaviorProvider());
+        return dispatcherFactory.createDispatcherChain(pmo, bindingDescriptor, getBehaviorProvider());
     }
 
     @Nonnull
