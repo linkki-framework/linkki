@@ -43,10 +43,9 @@ public class BeanUtilsTest {
         assertThat(method, is(present()));
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void testgetMethod_oneMatchingMethodIsFound() {
-        Optional<Method> method = BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("baz"));
-        assertThat(method, is(present()));
+        BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("baz"));
     }
 
     @Test
