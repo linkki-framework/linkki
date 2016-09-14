@@ -9,6 +9,8 @@ package org.linkki.core.ui.section;
 import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
@@ -18,9 +20,11 @@ import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
+import org.linkki.core.ui.section.annotations.SectionID;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.util.BeanUtils;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -63,7 +67,21 @@ public class SectionCreationContext {
         } else {
             section = new HorizontalSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButton);
         }
+        section.setId(getSectionId());
         return section;
+    }
+
+    private String getSectionId() {
+        Optional<Method> idMethod = BeanUtils.getMethod(pmo.getClass(), (m) -> m.isAnnotationPresent(SectionID.class));
+        return idMethod.map(this::getId).orElse(pmo.getClass().getSimpleName());
+    }
+
+    public String getId(Method m) {
+        try {
+            return (String)m.invoke(pmo);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Optional<ButtonPmo> getEditButtonPmo() {
@@ -91,6 +109,7 @@ public class SectionCreationContext {
     }
 
     private void bindUiElement(ElementDescriptor elementDescriptor, Component component, Label label) {
+        component.setId(elementDescriptor.getPmoPropertyName());
         bindingContext.bind(pmo, elementDescriptor, component, label);
     }
 

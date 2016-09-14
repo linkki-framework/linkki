@@ -14,6 +14,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,12 +55,17 @@ public class BeanUtils {
     }
 
     /**
-     * Returns the class' method matching the given predicate, if one or more (then any one is
-     * returned) such methods exist. If you expect more than one match,
-     * {@link #getMethods(Class, Predicate)} might be what you're looking for.
+     * Returns an optional containing the class' method matching the given predicate (empty optional
+     * if none matches). If you expect more than one match, {@link #getMethods(Class, Predicate)}
+     * might be what you're looking for.
+     * 
+     * @throws IllegalStateException If more than one method matches the predicate.
      */
     public static Optional<Method> getMethod(Class<?> clazz, Predicate<Method> predicate) {
-        return getMethods(clazz, predicate).findAny();
+        return getMethods(clazz, predicate).reduce((m1, m2) -> {
+            throw new IllegalStateException(
+                    MessageFormat.format("Ambiguous methods ({0} and {1}) found in {2}", m1, m2, clazz));
+        });
     }
 
     /**
