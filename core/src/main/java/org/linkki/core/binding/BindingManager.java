@@ -9,11 +9,12 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import javax.faces.bean.ViewScoped;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.util.MessageListUtil;
+
+import com.vaadin.cdi.ViewScoped;
 
 /**
  * Manages a set of binding contexts.
