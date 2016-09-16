@@ -11,10 +11,13 @@ import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.application.ApplicationStyles;
+import org.linkki.core.ui.area.TabSheetArea;
+import org.linkki.core.ui.page.Page;
 import org.linkki.framework.ui.component.MessageRow;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -23,7 +26,22 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
-/** A modal dialog with OK and Cancel buttons. */
+/**
+ * A modal dialog with a header/title, an OK button and an optional cancel button at the bottom.
+ * This class provides several constructors for different use cases. To add a component to the
+ * content use {@link #addContent(Component)}.
+ * <p>
+ * When using a validation service ({@link #setValidationService(ValidationService)}) this dialog
+ * can be validated via {@link #validate()}. Errors reported during that validation are displayed at
+ * the bottom of the dialog, between its content and the OK and cancel buttons.
+ * <p>
+ * To create a dialog with fixed dimensions, use the method {@link #setSize(String, String)}. This
+ * is useful if:
+ * <ul>
+ * <li>there are different options that may change the layout</li>
+ * <li>you do not want that the dialog dynamically increase height for validation messages</li>
+ * </ul>
+ */
 public class OkCancelDialog extends Window {
 
     private static final long serialVersionUID = 1L;
@@ -124,11 +142,11 @@ public class OkCancelDialog extends Window {
     }
 
     /**
-     * Override {@link Window#setContent(Component)} as the OkCancelDialog does not allow replacing
-     * its entire content (e.g. the OK and Cancel buttons). Instead, the content of the main area
-     * need to be replaced.
+     * Overrides {@link Window#setContent(Component)} as the OkCancelDialog does not allow replacing
+     * its entire content (e.g. the OK and Cancel buttons). Instead, only the content of the main
+     * area is replaced.
      * <p>
-     * Note that this will remove any components that were added using
+     * Note that this also removes any components that were added using
      * {@link #addContent(Component)}.
      */
     @Override
@@ -188,8 +206,6 @@ public class OkCancelDialog extends Window {
     private HorizontalLayout createButtons(ButtonOption buttonOption) {
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.addStyleName(ApplicationStyles.DIALOG_BUTTON_BAR);
-        buttons.setSizeFull();
-        buttons.setWidthUndefined();
         buttons.setSpacing(true);
         buttons.addComponent(okButton);
         buttons.setComponentAlignment(okButton, Alignment.BOTTOM_CENTER);
@@ -215,37 +231,43 @@ public class OkCancelDialog extends Window {
     }
 
     /**
-     * Specifies the height of the content in PIXELS.
+     * Use this method to create a dialog with fixed size. The size may be absolute or relative for
+     * example 60% of browser window. Specifies the width and height of the dialog and sets all
+     * internal layout components to full size.
      * <p>
-     * If you specify the height you have to ensure that the content has enough space to be visible.
-     * The dialog will not create scroll bars. If you have dynamic content like a table you have to
-     * specify the height of the table by giving a page length or fixed height (page length must be
-     * 0). The height is given in PIXELS, relative height would not work. Alternatively you should
-     * consider to use {@link #setContentHeightEm(int)} to specify the height in unit EM.
+     * If you specify the height and add multiple components using {@link #addContent(Component)}
+     * all added components will have the same expand ratio by default (which is 0). This causes all
+     * components to be assigned equal space. Use {@link #addContent(Component, float)} to assign a
+     * specific expand ratios to a component. For example, if you want to have all components to use
+     * only as much space as they need and the last component to consume all excess space, add the
+     * last component using <code>addContent(component, 1)</code> and all other components without
+     * expand ratio (using <code>addContent(component)</code>).
+     * <p>
+     * When calculating the correct height always consider that there might be validation messages
+     * below your content. If the dialog's height is too small the components may overlap or be
+     * cropped.
+     * <p>
+     * The dialog will never create scroll bars. If you want scroll bars, add a single panel as root
+     * content, and configure it to use scroll bars. The header, the button(s) and the validation
+     * messages will then always be visible.
+     * <p>
+     * Note: If you have multiple nested layout components (like {@link TabSheetArea tab sheet
+     * areas}, {@link Page pages} or vaadin layouts you have to make sure that every component is
+     * set to full size (AbstractComponent{@link #setSizeFull()}.
      * <p>
      * If you need a dialog with dynamic height you must not call this method.
      * 
-     * @param height The height of the content area in pixel.
-     */
-    public void setContentHeight(int height) {
-        this.contentArea.setHeight(height, Unit.PIXELS);
-    }
-
-    /**
-     * Specifies the height of the content in EM.
-     * <p>
-     * If you specify the height you have to ensure that the content has enough space to be visible.
-     * The dialog will not create scroll bars. If you have dynamic content like a table you have to
-     * specify the height of the table by giving a page length or fixed height (page length must be
-     * 0). The height is given in EM, relative height would not work. Alternatively you should
-     * consider to use {@link #setContentHeight(int)} to specify the height in unit PIXELS.
-     * <p>
-     * If you need a dialog with dynamic height you must not call this method.
+     * @see AbstractOrderedLayout#setExpandRatio(Component, float)
      * 
-     * @param height The height of the content area in pixel.
+     * @param width the width of the dialog including the unit (for example 700px or 65%)
+     * @param height the height of the dialog including the unit (for example 700px or 65%)
      */
-    public void setContentHeightEm(int height) {
-        this.contentArea.setHeight(height, Unit.EM);
+    public void setSize(String width, String height) {
+        setHeight(height);
+        setWidth(width);
+        layout.setSizeFull();
+        contentArea.setSizeFull();
+        mainArea.setSizeFull();
     }
 
     /**
@@ -305,9 +327,26 @@ public class OkCancelDialog extends Window {
         okButton.setEnabled(isOkEnabled());
     }
 
-    /** Adds the given component to be displayed in the dialog. */
+    /**
+     * Adds the given component to be displayed in the dialog. If you have fixed the height of the
+     * dialog using {@link #setSize(String, String)} you might want to use
+     * {@link #addContent(Component, float)} to assign specific expand ratios to components.
+     */
     public void addContent(Component c) {
         mainArea.addComponent(c);
+    }
+
+    /**
+     * Adds the given component to be displayed in the dialog with the given expand ratio. For more
+     * explanation about expand ratio please read
+     * {@link AbstractOrderedLayout#setExpandRatio(Component, float)}
+     * 
+     * @see AbstractOrderedLayout#setExpandRatio(Component, float)
+     * 
+     */
+    public void addContent(Component c, float expandRatio) {
+        mainArea.addComponent(c);
+        mainArea.setExpandRatio(c, expandRatio);
     }
 
     /**

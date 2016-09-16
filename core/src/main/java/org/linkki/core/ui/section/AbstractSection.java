@@ -70,8 +70,7 @@ public abstract class AbstractSection extends VerticalLayout {
         if (StringUtils.isNotEmpty(caption) || editButton.isPresent()) {
             createHeader(caption, closeable);
         } else {
-            // just some space
-            addComponent(new Label());
+            createSpacer();
         }
     }
 
@@ -96,6 +95,17 @@ public abstract class AbstractSection extends VerticalLayout {
         line.addStyleName(ApplicationStyles.SECTION_CAPTION_LINE);
         header.addComponent(line);
         header.setComponentAlignment(line, Alignment.MIDDLE_LEFT);
+    }
+
+    /**
+     * The spacer consists of a layout and a label. The layout is needed to force vaadin to
+     * correctly calculate the hight when the content below is set to height: 100%
+     */
+    private void createSpacer() {
+        VerticalLayout verticalLayout = new VerticalLayout();
+        Label spacer = new Label();
+        verticalLayout.addComponent(spacer);
+        addComponent(verticalLayout);
     }
 
     public boolean isEditButtonAvailable() {

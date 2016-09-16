@@ -41,6 +41,8 @@ public class TableSection<T> extends AbstractSection {
         checkState(this.table == null, "Table already set.");
         this.table = requireNonNull(table);
         addComponent(table);
+        setExpandRatio(table, 1f);
+        table.setSizeFull();
     }
 
     /**
