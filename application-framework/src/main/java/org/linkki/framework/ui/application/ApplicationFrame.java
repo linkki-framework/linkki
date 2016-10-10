@@ -104,6 +104,23 @@ public class ApplicationFrame implements Serializable {
     }
 
     /**
+     * Attempts to show a view of the given class, appending pathAndParameters to the URL to provide
+     * information to the called view.
+     * <p>
+     * Note that navigation to a view might not be performed if there is a
+     * {@link com.vaadin.navigator.ViewChangeListener ViewChangeListener} that prohibits the
+     * navigation. Thus there is no guarantee that a view of the given class is displayed after this
+     * method returns.
+     * 
+     * @param pathAndParameters a string containing an URL-Like path as well as URL parameters. Must
+     *            not start with &quot;/&quot;. Example:
+     *            &quot;lobId/SHOW_POLICY/arg0=23&amp;arg1=42&quot;.
+     */
+    public <T extends View> void showView(Class<T> clazz, String pathAndParameters) {
+        navigator.navigateTo(Conventions.deriveMappingForView(clazz) + "/" + pathAndParameters);
+    }
+
+    /**
      * Returns the view that is currently displayed in an {@link Optional}, which is empty if no
      * view is displayed (yet).
      */
