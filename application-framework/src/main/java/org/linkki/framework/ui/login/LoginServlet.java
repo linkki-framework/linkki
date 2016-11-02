@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.linkki.framework.security.AuthenticationProvider;
 import org.linkki.framework.state.ApplicationConfig;
 
 @WebServlet(urlPatterns = { "/login/*", "/logout/*" })
@@ -34,10 +33,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(NAME, applicationConfiguration.getApplicationName());
-        if (AuthenticationProvider.getCurrent() == AuthenticationProvider.IN_MEMORY) {
-            req.setAttribute("username", "ortmann");
-            req.setAttribute("password", "password");
-        }
         req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 

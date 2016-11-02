@@ -19,12 +19,19 @@ html, body {
     href="./VAADIN/themes/mytheme/favicon.ico">
 <link rel="stylesheet" type="text/css"
     href="./VAADIN/themes/mytheme/styles.css?v=7.4.3">
-</head>
 
+<c:url value="/login" var="loginProcessingUrl" />
+<script>
+	function setSubmitUrl(form) {
+		var hash = unescape(self.document.location.hash);
+		form.action = "${loginProcessingUrl}" + hash;
+		return true;
+	}
+</script>
 </head>
-<body class=" v-generated-body v-sa v-ch v-webkit v-lin" onLoad="document.getElementById('username').focus();">
-    <c:url value="/login" var="loginProcessingUrl" />
-    <form name="f" action="${loginProcessingUrl}" method="post"
+<body class=" v-generated-body v-sa v-ch v-webkit v-lin"
+	onLoad="document.getElementById('username').focus();">
+	<form name="f" onSubmit="return setSubmitUrl(this);" method="POST"
         style="height: 100%;">
         <div id="ipmwebapplication10SNAPSHOTmaster-2058184743"
             class=" v-app mytheme loginui">
