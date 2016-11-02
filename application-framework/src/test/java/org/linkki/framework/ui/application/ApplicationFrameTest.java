@@ -6,7 +6,6 @@
 
 package org.linkki.framework.ui.application;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.linkki.test.matcher.Matchers.absent;
@@ -75,15 +74,6 @@ public class ApplicationFrameTest {
 
         assertThat(currentView, is(present()));
         assertThat(currentView, hasValue(c));
-    }
-
-    @Test
-    public void testGetViewName() {
-        assertThat(applicationFrame.getViewName(""), is(equalTo("")));
-        assertThat(applicationFrame.getViewName("foo"), is(equalTo("foo")));
-        assertThat(applicationFrame.getViewName("!foo"), is(equalTo("foo")));
-        assertThat(applicationFrame.getViewName("foo/bar"), is(equalTo("foo")));
-        assertThat(applicationFrame.getViewName("!bar/foo"), is(equalTo("bar")));
     }
 
 }

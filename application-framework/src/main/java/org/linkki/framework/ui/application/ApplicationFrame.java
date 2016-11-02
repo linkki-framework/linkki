@@ -13,7 +13,9 @@ import com.vaadin.cdi.UIScoped;
 import com.vaadin.cdi.internal.Conventions;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewProvider;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -80,8 +82,20 @@ public class ApplicationFrame implements Serializable {
         // Footer
         content.addComponent(footer);
 
-        navigator = new Navigator(ui, mainArea);
-        navigator.addProvider(viewProvider);
+        navigator = createNavigator(ui, mainArea);
+        navigator.addProvider(getViewProvider());
+    }
+
+    protected Navigator createNavigator(UI ui, ComponentContainer componentContainer) {
+        return new CdiFixNavigator(ui, componentContainer);
+    }
+
+    protected VerticalLayout getMainArea() {
+        return mainArea;
+    }
+
+    protected ViewProvider getViewProvider() {
+        return viewProvider;
     }
 
     /**
@@ -112,41 +126,21 @@ public class ApplicationFrame implements Serializable {
      * {@link com.vaadin.navigator.ViewChangeListener ViewChangeListener} that prohibits the
      * navigation. Thus there is no guarantee that a view of the given class is displayed after this
      * method returns.
-     * <p>
-     * Note2: Switching to the same view does not clear the view scope
-     * (https://github.com/vaadin/cdi/issues/166). To get a clean view scope we first navigate to
-     * the {@link EmptyCdiView} before navigating to the correct new view.
      * 
      * @param pathAndParameters a string containing an URL-Like path as well as URL parameters. Must
      *            not start with &quot;/&quot;. Example:
      *            &quot;part1/part2/arg1=23&amp;arg2=42&quot;.
      */
     public <T extends View> void showView(Class<T> clazz, String pathAndParameters) {
-        String currentFragment = navigator.getUI().getPage().getUriFragment();
         String newViewName = Conventions.deriveMappingForView(clazz);
         String newFragment = newViewName + "/" + pathAndParameters;
-        if (currentFragment != null && newViewName.equals(getViewName(currentFragment))) {
-            navigator.navigateTo(Conventions.deriveMappingForView(EmptyCdiView.class));
-        }
         navigator.navigateTo(newFragment);
     }
 
-    protected String getViewName(String fragment) {
-        int begin = 0;
-        // according to vaadin documentation the currentFragment may start with ! or not
-        if (fragment.startsWith("!")) {
-            begin = 1;
-        }
-        int end = fragment.indexOf('/');
-        return fragment.substring(begin, end > begin ? end : fragment.length());
-    }
-
     /**
-     * Returns the view that is currently displayed in an {@link Optional}, which is empty if no
-     * view is displayed (yet).
+     * Returns the view that is currently displayed if there is any.
      */
     public Optional<Component> getCurrentView() {
         return StreamUtil.stream(mainArea).findFirst();
     }
-
 }
