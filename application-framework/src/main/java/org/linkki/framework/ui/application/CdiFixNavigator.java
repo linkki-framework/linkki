@@ -25,16 +25,23 @@ public class CdiFixNavigator extends Navigator {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Navigation state is updated before the {@link #navigateTo(String)} method is called. So we
+     * need to save the name of the current view for our own.
+     */
+    private String currentView = StringUtils.EMPTY;
+
     public CdiFixNavigator(UI ui, ComponentContainer container) {
         super(ui, container);
     }
 
     @Override
     public void navigateTo(String navigationState) {
-        String currentFragment = getState();
-        if (currentFragment != null && getViewName(navigationState).equals(getViewName(currentFragment))) {
+        String newViewName = getViewName(navigationState);
+        if (newViewName.equals(getViewName(currentView))) {
             super.navigateTo(Conventions.deriveMappingForView(EmptyCdiView.class));
         }
+        currentView = newViewName;
         super.navigateTo(navigationState);
     }
 
