@@ -10,10 +10,12 @@ import org.linkki.util.StreamUtil;
 
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.cdi.UIScoped;
+import com.vaadin.cdi.ViewScoped;
 import com.vaadin.cdi.internal.Conventions;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewProvider;
+import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
@@ -98,6 +100,10 @@ public class ApplicationFrame implements Serializable {
         return viewProvider;
     }
 
+    protected Navigator getNavigator() {
+        return navigator;
+    }
+
     /**
      * Returns the vertical layout that displays all content. Make sure that it was initialized
      * using {@link #init(UI)} method before calling this method.
@@ -143,4 +149,18 @@ public class ApplicationFrame implements Serializable {
     public Optional<Component> getCurrentView() {
         return StreamUtil.stream(mainArea).findFirst();
     }
+
+    /**
+     * Navigates to the same view as the current view. The complete URL will be preserved. This will
+     * clear all objects in {@link ViewScoped} of dependency injection but will keep the
+     * {@link UIScoped}. As long as all your state is in {@link UIScoped} objects you can call this
+     * method to reload the whole UI while keeping current state.
+     * <p>
+     * Note: You will get two {@link UriFragmentChangedEvent} because we switch to the
+     * {@link EmptyCdiView} and back to the current view!
+     */
+    public void refreshCurrentView() {
+        getNavigator().navigateTo(getNavigator().getState());
+    }
+
 }
