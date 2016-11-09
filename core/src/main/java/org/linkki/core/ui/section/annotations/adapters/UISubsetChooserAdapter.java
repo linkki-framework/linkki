@@ -27,6 +27,7 @@ public class UISubsetChooserAdapter implements UIFieldDefinition {
         subsetChooser.setWidth(uiSubsetChooser.width());
         subsetChooser.setLeftColumnCaption(uiSubsetChooser.leftColumnCaption());
         subsetChooser.setRightColumnCaption(uiSubsetChooser.rightColumnCaption());
+        subsetChooser.setRows(5);
         return subsetChooser;
     }
 
