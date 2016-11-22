@@ -18,7 +18,8 @@ import com.vaadin.ui.VerticalLayout;
  * added to take up either the whole width or 50% of the page.
  * 
  * If the page is created via injection framework, the {@link #init()} method is called
- * automatically and ensures that the {@link #createContent()} method is called.
+ * automatically and ensures that the {@link #createContent()} method is called. Additionally,
+ * margins are added to the page.
  * 
  * Note: If the page is not injected you need to call {@link #init()} manually!
  * 
@@ -30,8 +31,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
 
     @PostConstruct
     public final void init() {
-        setSizeFull();
         createContent();
+        setMargin(true);
     }
 
     /**
