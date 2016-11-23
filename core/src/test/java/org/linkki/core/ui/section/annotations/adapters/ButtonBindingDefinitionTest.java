@@ -31,7 +31,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.themes.ValoTheme;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UIButtonAdapterTest {
+public class ButtonBindingDefinitionTest {
 
     @Captor
     private ArgumentCaptor<ClickShortcut> clickShortcutCaptor;
@@ -74,7 +74,7 @@ public class UIButtonAdapterTest {
 
     @Test
     public void testNewComponent_DefaultAnnotations() {
-        UIButtonAdapter adapter = new UIButtonAdapter(defaultAnnotation());
+        ButtonBindingDefinition adapter = new ButtonBindingDefinition(defaultAnnotation());
         Component component = adapter.newComponent();
         assertThat(component, is(instanceOf(Button.class)));
         Button button = (Button)component;
@@ -84,7 +84,7 @@ public class UIButtonAdapterTest {
 
     @Test
     public void testNewComponent_CustomAnnotationsAreUsed() {
-        UIButtonAdapter adapter = new UIButtonAdapter(customAnnotation());
+        ButtonBindingDefinition adapter = new ButtonBindingDefinition(customAnnotation());
         Component component = adapter.newComponent();
         assertThat(component, is(instanceOf(Button.class)));
         Button button = (Button)component;
@@ -94,14 +94,14 @@ public class UIButtonAdapterTest {
 
     @Test
     public void testNewComponent_showCaptionResultsInStaticCaptionType() {
-        UIButtonAdapter adapter = new UIButtonAdapter(anotherAnnotation());
+        ButtonBindingDefinition adapter = new ButtonBindingDefinition(anotherAnnotation());
 
         assertThat(adapter.captionType(), is(CaptionType.STATIC));
     }
 
     @Test
     public void testNewComponent_UseShortcutKeyCode() {
-        Button button = new UIButtonAdapter(shortcutButton()).newComponent();
+        Button button = new ButtonBindingDefinition(shortcutButton()).newComponent();
 
         assertThat(button, not(nullValue()));
         // cannot really test the keycode. But when we set a new shortcut the old one should be

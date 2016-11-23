@@ -10,11 +10,11 @@ import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.Component;
 
-public class UIDoubleFieldAdapter implements UIFieldDefinition {
+public class DoubleFieldBindingDefinition implements UIFieldDefinition {
 
     private final UIDoubleField uiDoubleField;
 
-    public UIDoubleFieldAdapter(UIDoubleField uiDoubleField) {
+    public DoubleFieldBindingDefinition(UIDoubleField uiDoubleField) {
         this.uiDoubleField = uiDoubleField;
     }
 

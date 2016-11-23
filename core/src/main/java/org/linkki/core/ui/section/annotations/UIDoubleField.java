@@ -10,8 +10,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.text.DecimalFormat;
 
+import org.linkki.core.ui.section.annotations.adapters.DoubleFieldBindingDefinition;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiBindingDefinition(DoubleFieldBindingDefinition.class)
 public @interface UIDoubleField {
 
     int position();

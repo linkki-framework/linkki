@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
+import org.linkki.core.ui.section.annotations.adapters.SubsetChooserBindingDefinition;
 
 /**
  * Creates a subset chooser, i.e. a multi-select component with a left and a right list.
@@ -34,6 +35,7 @@ public Set&lt;T&gt; getFooAvailableValues() { ... }
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiBindingDefinition(SubsetChooserBindingDefinition.class)
 public @interface UISubsetChooser {
 
     int position();

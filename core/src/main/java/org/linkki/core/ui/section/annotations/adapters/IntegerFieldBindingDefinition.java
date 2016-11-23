@@ -10,11 +10,11 @@ import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.Component;
 
-public class UIIntegerFieldAdapter implements UIFieldDefinition {
+public class IntegerFieldBindingDefinition implements UIFieldDefinition {
 
     private final UIIntegerField uiIntegerField;
 
-    public UIIntegerFieldAdapter(UIIntegerField uiIntegerField) {
+    public IntegerFieldBindingDefinition(UIIntegerField uiIntegerField) {
         this.uiIntegerField = uiIntegerField;
     }
 

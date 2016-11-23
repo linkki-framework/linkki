@@ -13,7 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
-import org.linkki.core.ui.section.annotations.adapters.UILabelAdapter;
+import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
 
 public class LabelDescriptorTest {
 
@@ -21,7 +21,7 @@ public class LabelDescriptorTest {
     public void testGetModelPropertyName_UsesPropertyFromAnnotation() {
         UILabel labelAnnotation = mock(UILabel.class);
         when(labelAnnotation.modelAttribute()).thenReturn("property");
-        UILabelDefinition labelDefinition = new UILabelAdapter(labelAnnotation);
+        UILabelDefinition labelDefinition = new LabelBindingDefinition(labelAnnotation);
         LabelDescriptor descriptor = new LabelDescriptor(labelDefinition, null, "fallback");
 
         assertThat(descriptor.getModelPropertyName(), is("property"));
@@ -30,7 +30,7 @@ public class LabelDescriptorTest {
     @Test
     public void testGetModelPropertyName_UsesFallbackPropertyName() {
         UILabel labelAnnotation = mock(UILabel.class);
-        UILabelDefinition labelDefinition = new UILabelAdapter(labelAnnotation);
+        UILabelDefinition labelDefinition = new LabelBindingDefinition(labelAnnotation);
         LabelDescriptor descriptor = new LabelDescriptor(labelDefinition, null, "fallback");
 
         // precondition

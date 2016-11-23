@@ -10,11 +10,11 @@ import org.linkki.core.ui.util.ComponentFactory;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextArea;
 
-public class UITextAreaAdapter implements UIFieldDefinition {
+public class TextAreaBindingDefinition implements UIFieldDefinition {
 
     private final UITextArea uiTextArea;
 
-    public UITextAreaAdapter(UITextArea uiTextArea) {
+    public TextAreaBindingDefinition(UITextArea uiTextArea) {
         this.uiTextArea = uiTextArea;
     }
 

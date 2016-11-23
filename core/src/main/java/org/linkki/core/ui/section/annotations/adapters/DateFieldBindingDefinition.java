@@ -15,12 +15,12 @@ import org.linkki.util.DateFormatRegistry;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 
-public class UIDateFieldAdapter implements UIFieldDefinition {
+public class DateFieldBindingDefinition implements UIFieldDefinition {
 
     private final UIDateField uiDateField;
     private final DateFormatRegistry dateFormatRegistry = new DateFormatRegistry();
 
-    public UIDateFieldAdapter(UIDateField uiDateField) {
+    public DateFieldBindingDefinition(UIDateField uiDateField) {
         this.uiDateField = uiDateField;
     }
 

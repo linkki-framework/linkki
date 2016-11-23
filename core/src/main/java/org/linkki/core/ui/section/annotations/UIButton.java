@@ -14,12 +14,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.ui.section.annotations.adapters.ButtonBindingDefinition;
+
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
 import com.vaadin.server.FontAwesome;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiBindingDefinition(ButtonBindingDefinition.class)
 public @interface UIButton {
     int position();
 

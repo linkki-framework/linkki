@@ -11,12 +11,14 @@ import java.lang.annotation.Target;
 
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
+import org.linkki.core.ui.section.annotations.adapters.ComboboxBindingDefinition;
 
 /**
  * Creates a combobox with the specified parameters.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiBindingDefinition(ComboboxBindingDefinition.class)
 public @interface UIComboBox {
 
     int position();

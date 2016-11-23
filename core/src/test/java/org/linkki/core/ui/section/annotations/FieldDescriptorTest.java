@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.ui.section.annotations.adapters.UITextFieldAdapter;
+import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinition;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -20,7 +20,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class FieldDescriptorTest {
 
     @Mock
-    private UITextFieldAdapter adapter;
+    private TextFieldBindingDefinition adapter;
 
     @Before
     public void setUp() {

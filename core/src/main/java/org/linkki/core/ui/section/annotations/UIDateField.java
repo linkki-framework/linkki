@@ -9,8 +9,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.ui.section.annotations.adapters.DateFieldBindingDefinition;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiBindingDefinition(DateFieldBindingDefinition.class)
 public @interface UIDateField {
 
     int position();

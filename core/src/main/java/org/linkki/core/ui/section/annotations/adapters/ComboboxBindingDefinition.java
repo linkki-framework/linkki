@@ -13,11 +13,11 @@ import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.ui.Component;
 
-public class UIComboBoxAdapter implements UIFieldDefinition {
+public class ComboboxBindingDefinition implements UIFieldDefinition {
 
     private final UIComboBox uiComboField;
 
-    public UIComboBoxAdapter(UIComboBox uiComboField) {
+    public ComboboxBindingDefinition(UIComboBox uiComboField) {
         this.uiComboField = uiComboField;
     }
 

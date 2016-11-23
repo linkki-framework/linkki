@@ -9,11 +9,11 @@ import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.ui.Component;
 
-public class UICheckBoxAdapter implements UIFieldDefinition {
+public class CheckboxBindingDefinition implements UIFieldDefinition {
 
     private final UICheckBox uiCheckBox;
 
-    public UICheckBoxAdapter(UICheckBox uiCheckBox) {
+    public CheckboxBindingDefinition(UICheckBox uiCheckBox) {
         this.uiCheckBox = uiCheckBox;
     }
 

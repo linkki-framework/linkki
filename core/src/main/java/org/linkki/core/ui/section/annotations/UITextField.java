@@ -9,8 +9,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinition;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiBindingDefinition(TextFieldBindingDefinition.class)
 public @interface UITextField {
 
     int position();

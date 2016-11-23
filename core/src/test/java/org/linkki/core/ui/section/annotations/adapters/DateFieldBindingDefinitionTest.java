@@ -20,7 +20,7 @@ import org.linkki.util.DateFormatRegistry;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 
-public class UIDateFieldAdapterTest {
+public class DateFieldBindingDefinitionTest {
 
     private static final String CUSTOM_DATE_FORMAT = "yy.dd.MM";
 
@@ -47,7 +47,7 @@ public class UIDateFieldAdapterTest {
         // Precondition
         assertThat(UiUtil.getUiLocale(), is(Locale.GERMAN));
 
-        UIDateFieldAdapter adapter = new UIDateFieldAdapter(defaultAnnotation());
+        DateFieldBindingDefinition adapter = new DateFieldBindingDefinition(defaultAnnotation());
         Component component = adapter.newComponent();
         assertThat(component, is(instanceOf(DateField.class)));
         DateField dateField = (DateField)component;
@@ -57,7 +57,7 @@ public class UIDateFieldAdapterTest {
     @Test
     public void testNewComponent_CustomDateFormatIsUsed() {
 
-        UIDateFieldAdapter adapter = new UIDateFieldAdapter(customAnnotation());
+        DateFieldBindingDefinition adapter = new DateFieldBindingDefinition(customAnnotation());
         Component component = adapter.newComponent();
         assertThat(component, is(instanceOf(DateField.class)));
         DateField dateField = (DateField)component;

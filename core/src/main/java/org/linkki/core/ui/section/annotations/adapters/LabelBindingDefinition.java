@@ -16,11 +16,11 @@ import org.linkki.core.ui.section.annotations.VisibleType;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-public class UILabelAdapter implements UILabelDefinition {
+public class LabelBindingDefinition implements UILabelDefinition {
 
     private UILabel labelAnnotation;
 
-    public UILabelAdapter(UILabel labelAnnotation) {
+    public LabelBindingDefinition(UILabel labelAnnotation) {
         this.labelAnnotation = labelAnnotation;
     }
 

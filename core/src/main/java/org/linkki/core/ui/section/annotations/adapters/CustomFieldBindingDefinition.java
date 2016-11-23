@@ -9,11 +9,11 @@ import org.linkki.core.ui.section.annotations.VisibleType;
 
 import com.vaadin.ui.Component;
 
-public class UICustomFieldAdapter implements UIFieldDefinition {
+public class CustomFieldBindingDefinition implements UIFieldDefinition {
 
     private final UICustomField uiCustomField;
 
-    public UICustomFieldAdapter(UICustomField uiCustomField) {
+    public CustomFieldBindingDefinition(UICustomField uiCustomField) {
         this.uiCustomField = uiCustomField;
     }
 

@@ -20,11 +20,11 @@ import com.vaadin.ui.Button;
 /**
  * The adapter to provide access to an {@link UIButton} annotation through the definition interface.
  */
-public class UIButtonAdapter implements UIButtonDefinition {
+public class ButtonBindingDefinition implements UIButtonDefinition {
 
     private final UIButton buttonAnnotation;
 
-    public UIButtonAdapter(UIButton annotation) {
+    public ButtonBindingDefinition(UIButton annotation) {
         this.buttonAnnotation = annotation;
     }
 

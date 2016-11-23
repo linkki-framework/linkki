@@ -10,11 +10,11 @@ import org.linkki.core.ui.util.ComponentFactory;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 
-public class UITextFieldAdapter implements UIFieldDefinition {
+public class TextFieldBindingDefinition implements UIFieldDefinition {
 
     private final UITextField uiTextField;
 
-    public UITextFieldAdapter(UITextField uiTextField) {
+    public TextFieldBindingDefinition(UITextField uiTextField) {
         this.uiTextField = uiTextField;
     }
 

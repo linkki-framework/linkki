@@ -16,11 +16,11 @@ import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.Component;
 
-public class UIDecimalFieldAdapter implements UIFieldDefinition {
+public class DecimalFieldBindingDefinition implements UIFieldDefinition {
 
     private final UIDecimalField uiDecimalField;
 
-    public UIDecimalFieldAdapter(UIDecimalField uiDecimalField) {
+    public DecimalFieldBindingDefinition(UIDecimalField uiDecimalField) {
         this.uiDecimalField = uiDecimalField;
     }
 

@@ -11,11 +11,11 @@ import org.linkki.core.ui.section.annotations.UISubsetChooser;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
 
-public class UISubsetChooserAdapter implements UIFieldDefinition {
+public class SubsetChooserBindingDefinition implements UIFieldDefinition {
 
     private final UISubsetChooser uiSubsetChooser;
 
-    public UISubsetChooserAdapter(UISubsetChooser uiTwinColSelect) {
+    public SubsetChooserBindingDefinition(UISubsetChooser uiTwinColSelect) {
         this.uiSubsetChooser = uiTwinColSelect;
     }
 

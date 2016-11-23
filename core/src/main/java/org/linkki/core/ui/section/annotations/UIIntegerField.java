@@ -9,8 +9,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.ui.section.annotations.adapters.IntegerFieldBindingDefinition;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiBindingDefinition(IntegerFieldBindingDefinition.class)
 public @interface UIIntegerField {
 
     int position();
@@ -30,7 +33,7 @@ public @interface UIIntegerField {
     String format() default "";
 
     String modelObject() default ModelObject.DEFAULT_NAME;
-    
+
     String modelAttribute() default "";
 
 }

@@ -36,7 +36,6 @@ public class UIAnnotationReader {
 
     private static final PositionComparator POSITION_COMPARATOR = new PositionComparator();
 
-    private final UIElementDefinitionRegistry fieldDefinitionRegistry = new UIElementDefinitionRegistry();
     private final Class<?> annotatedClass;
     private final Set<ElementDescriptor> descriptors;
     private final Map<ElementDescriptor, TableColumnDescriptor> columnDescriptors;
@@ -113,14 +112,14 @@ public class UIAnnotationReader {
     }
 
     private boolean isUiDefiningMethod(Method method) {
-        return annotations(method).anyMatch(fieldDefinitionRegistry::containsAnnotation);
+        return annotations(method).anyMatch(UIElementDefinition::isLinkkiBindingDefinition);
     }
 
     public UIElementDefinition getUiElement(Method method) {
      // @formatter:off
         return annotations(method)
-                .filter(fieldDefinitionRegistry::containsAnnotation)
-                .map(fieldDefinitionRegistry::elementDefinition)
+                .filter(UIElementDefinition::isLinkkiBindingDefinition)
+                .map(UIElementDefinition::from)
                 .findFirst().orElse(null);
      // @formatter:on
     }
