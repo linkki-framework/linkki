@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 
 import org.linkki.core.ui.page.Page;
 
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
@@ -34,8 +35,6 @@ import com.vaadin.ui.VerticalLayout;
  * automatically and ensures that the {@link #createContent()} method is called.
  * 
  * Note: If the area is not injected you need to call {@link #init()} manually!
- * 
- * @author dirmeier
  */
 public abstract class TabSheetArea extends VerticalLayout implements Area {
 
@@ -65,6 +64,7 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
             tabSheet.setSizeFull();
             setSizeFull();
         }
+        setMargin(new MarginInfo(true, false, false, false));
     }
 
     @PostConstruct

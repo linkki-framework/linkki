@@ -8,6 +8,7 @@ import org.linkki.core.binding.BindingManager;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.util.ComponentFactory;
 
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
@@ -29,10 +30,16 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Creates an page without top margin and with margins on left, right and bottom.
+     */
+    public AbstractPage() {
+        setMargin(new MarginInfo(false, true, true, true));
+    }
+
     @PostConstruct
     public final void init() {
         createContent();
-        setMargin(true);
     }
 
     /**
