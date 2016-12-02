@@ -14,6 +14,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.event.ShortcutAction.ModifierKey;
 import com.vaadin.server.FontAwesome;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -45,4 +47,16 @@ public @interface UIButton {
     boolean showIcon() default false;
 
     String[] styleNames() default {};
+
+    /**
+     * Set a short cut for the button, use constants in {@link KeyCode}
+     */
+    int shortcutKeyCode() default -1;
+
+    /**
+     * Set a modifier for the short cut. Only useful in combination with a
+     * {@link #shortcutKeyCode()}. Use constants from {@link ModifierKey}.
+     */
+    int[] shortcutModifierKeys() default {};
+
 }

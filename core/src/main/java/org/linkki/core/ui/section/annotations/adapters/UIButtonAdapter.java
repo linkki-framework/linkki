@@ -37,6 +37,9 @@ public class UIButtonAdapter implements UIButtonDefinition {
         for (String styleName : buttonAnnotation.styleNames()) {
             button.addStyleName(styleName);
         }
+        if (buttonAnnotation.shortcutKeyCode() != -1) {
+            button.setClickShortcut(buttonAnnotation.shortcutKeyCode(), buttonAnnotation.shortcutModifierKeys());
+        }
         return button;
     }
 
@@ -84,4 +87,5 @@ public class UIButtonAdapter implements UIButtonDefinition {
     public String caption() {
         return buttonAnnotation.caption();
     }
+
 }
