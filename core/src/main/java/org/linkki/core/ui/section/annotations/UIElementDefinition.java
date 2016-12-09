@@ -6,10 +6,11 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import static java.util.Objects.requireNonNull;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 
-import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 import com.vaadin.ui.Component;
 
 /**
@@ -19,8 +20,8 @@ import com.vaadin.ui.Component;
  * As annotations can't implement an interface, the {@link UIAnnotationReader} is used to get
  * definition instances for the annotated methods of a (PMO) class.
  * <p>
- * The static methods {@link #isLinkkiBindingDefinition(Annotation)} and {@link #from(Annotation)} can be used
- * to check annotations and create {@link UIElementDefinition} instances from them.
+ * The static methods {@link #isLinkkiBindingDefinition(Annotation)} and {@link #from(Annotation)}
+ * can be used to check annotations and create {@link UIElementDefinition} instances from them.
  * 
  * @see UIAnnotationReader
  * @see LinkkiBindingDefinition
@@ -52,13 +53,13 @@ public interface UIElementDefinition extends BindingDefinition {
     /**
      * Returns the {@link UIFieldDefinition} for the given annotation. Throws an exception if the
      * annotation is {@code null} or not annotated as a {@link LinkkiBindingDefinition}. In other
-     * words, this method should only be invoked if {@link #isLinkkiBindingDefinition(Annotation)} returns
-     * {@code true} for the given annotation.
+     * words, this method should only be invoked if {@link #isLinkkiBindingDefinition(Annotation)}
+     * returns {@code true} for the given annotation.
      */
     public static UIElementDefinition from(Annotation annotation) {
-        Preconditions.checkNotNull(annotation, "annotation must not be null");
+        Class<? extends Annotation> annotationClass = requireNonNull(annotation, "annotation must not be null")
+                .annotationType();
 
-        Class<? extends Annotation> annotationClass = annotation.annotationType();
         LinkkiBindingDefinition[] linkkiElements = annotationClass.getAnnotationsByType(LinkkiBindingDefinition.class);
         if (linkkiElements.length == 0) {
             throw new IllegalArgumentException(

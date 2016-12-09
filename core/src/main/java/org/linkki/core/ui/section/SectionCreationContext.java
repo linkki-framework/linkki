@@ -6,7 +6,6 @@
 
 package org.linkki.core.ui.section;
 
-import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.InvocationTargetException;
@@ -58,8 +57,8 @@ public class SectionCreationContext {
 
     private BaseSection createEmptySection() {
         BaseSection section;
-        UISection sectionDefinition = pmo.getClass().getAnnotation(UISection.class);
-        checkNotNull(sectionDefinition, "PMO " + pmo.getClass() + " must be annotated with @UISection!");
+        UISection sectionDefinition = requireNonNull(pmo.getClass()
+                .getAnnotation(UISection.class), () -> "PMO " + pmo.getClass() + " must be annotated with @UISection!");
         Optional<Button> editButton = createEditButton(getEditButtonPmo());
         if (sectionDefinition.layout() == SectionLayout.COLUMN) {
             section = new FormSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButton,

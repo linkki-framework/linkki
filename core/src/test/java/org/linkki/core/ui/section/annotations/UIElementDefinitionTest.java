@@ -6,6 +6,7 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import static java.util.Objects.requireNonNull;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -29,7 +30,6 @@ import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
 import org.linkki.core.ui.section.annotations.adapters.TextAreaBindingDefinition;
 import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinition;
 
-import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 import com.vaadin.ui.Component;
 
 public class UIElementDefinitionTest {
@@ -53,7 +53,7 @@ public class UIElementDefinitionTest {
     private <T extends Annotation> T annotation(Class<T> annotationClass) {
         try {
             T annotation = getClass().getMethod("annotatedMethod", new Class<?>[] {}).getAnnotation(annotationClass);
-            return Preconditions.checkNotNull(annotation, "Missing annotation @%s", annotationClass.getSimpleName());
+            return requireNonNull(annotation, () -> "Missing annotation @" + annotationClass.getSimpleName());
         } catch (NoSuchMethodException | SecurityException e) {
             throw new RuntimeException(e);
         }

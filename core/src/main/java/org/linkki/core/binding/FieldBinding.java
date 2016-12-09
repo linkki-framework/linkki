@@ -4,9 +4,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.annotation.Nonnull;
 
@@ -18,7 +18,6 @@ import org.linkki.core.util.MessageListUtil;
 import org.linkki.util.handler.Handler;
 import org.vaadin.viritin.ListContainer;
 
-import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.data.util.AbstractProperty;
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
@@ -210,8 +209,8 @@ public class FieldBinding<T> implements ElementBinding {
     }
 
     private String formatMessages(MessageList messages) {
-        List<Message> messagesAsList = Lists.newArrayList(messages);
-        return messagesAsList.stream().map(m -> m.getText()).collect(Collectors.joining("\n"));
+        return StreamSupport.stream(messages.spliterator(), false).map(Message::getText)
+                .collect(Collectors.joining("\n"));
     }
 
     public Field<T> getField() {

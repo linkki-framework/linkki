@@ -1,8 +1,9 @@
 package org.linkki.core;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
-import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.themes.ValoTheme;
@@ -21,7 +22,8 @@ public interface ButtonPmo {
 
     /** Returns the style names for the button. */
     default Collection<String> getStyleNames() {
-        return Lists.newArrayList(ValoTheme.BUTTON_BORDERLESS, ValoTheme.BUTTON_ICON_ONLY);
+        // return a modifiable list, so the user can add custom styles
+        return new ArrayList<>(Arrays.asList(ValoTheme.BUTTON_BORDERLESS, ValoTheme.BUTTON_ICON_ONLY));
     }
 
     /**

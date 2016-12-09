@@ -14,6 +14,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Before;
@@ -25,7 +27,6 @@ import org.linkki.core.ui.table.TestTablePmo;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.google.gwt.thirdparty.guava.common.collect.Sets;
 import com.vaadin.data.Container.ItemSetChangeListener;
 import com.vaadin.ui.Table;
 
@@ -38,8 +39,9 @@ public class TableBindingTest {
     private TestTablePmo containerPmo;
 
     private Table table = new Table();
-    private Set<String> columnNames = Sets.newHashSet(TestRowPmo.PROPERTY_VALUE_1, TestRowPmo.PROPERTY_VALUE_2,
-                                                      TestRowPmo.PROPERTY_VALUE_3, TestRowPmo.PROPERTY_DELETE);
+    private Set<String> columnNames = new HashSet<>(
+            Arrays.asList(TestRowPmo.PROPERTY_VALUE_1, TestRowPmo.PROPERTY_VALUE_2, TestRowPmo.PROPERTY_VALUE_3,
+                          TestRowPmo.PROPERTY_DELETE));
 
     @Mock
     private ItemSetChangeListener listener;

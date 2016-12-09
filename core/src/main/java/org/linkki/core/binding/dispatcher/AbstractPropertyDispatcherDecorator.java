@@ -6,11 +6,11 @@
 
 package org.linkki.core.binding.dispatcher;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collection;
 
 import org.faktorips.runtime.MessageList;
-
-import com.google.gwt.thirdparty.guava.common.base.Preconditions;
 
 /**
  * Base class for all decorating {@link PropertyDispatcher property dispatchers}. Forwards all calls
@@ -25,8 +25,7 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     private final PropertyDispatcher wrappedDispatcher;
 
     public AbstractPropertyDispatcherDecorator(PropertyDispatcher wrappedDispatcher) {
-        Preconditions.checkNotNull(wrappedDispatcher);
-        this.wrappedDispatcher = wrappedDispatcher;
+        this.wrappedDispatcher = requireNonNull(wrappedDispatcher);
     }
 
     @Override

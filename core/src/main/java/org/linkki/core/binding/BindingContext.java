@@ -2,11 +2,15 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 
@@ -17,10 +21,6 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
 import org.linkki.util.handler.Handler;
 
-import com.google.gwt.thirdparty.guava.common.collect.ArrayListMultimap;
-import com.google.gwt.thirdparty.guava.common.collect.Maps;
-import com.google.gwt.thirdparty.guava.common.collect.Multimap;
-import com.google.gwt.thirdparty.guava.common.collect.Multimaps;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -36,11 +36,10 @@ public class BindingContext {
 
     @Nonnull
     private final String name;
-    private final Map<Component, ElementBinding> elementBindings = Maps.newConcurrentMap();
-    private final Multimap<Object, ElementBinding> elementBindingsByPmo = Multimaps
-            .synchronizedListMultimap(ArrayListMultimap.create());
-    private final Map<Component, TableBinding<?>> tableBindings = Maps.newConcurrentMap();
-    private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<PropertyDispatcher>();
+    private final Map<Component, ElementBinding> elementBindings = new ConcurrentHashMap<>();
+    private final Map<Object, List<ElementBinding>> elementBindingsByPmo = Collections.synchronizedMap(new HashMap<>());
+    private final Map<Component, TableBinding<?>> tableBindings = new ConcurrentHashMap<>();
+    private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<>();
     private final PropertyDispatcherFactory dispatcherFactory = new PropertyDispatcherFactory();
 
     @Nonnull
@@ -76,7 +75,8 @@ public class BindingContext {
     public BindingContext add(@Nonnull ElementBinding binding) {
         requireNonNull(binding);
         elementBindings.put(binding.getBoundComponent(), binding);
-        elementBindingsByPmo.put(binding.getPmo(), binding);
+        elementBindingsByPmo.computeIfAbsent(binding.getPmo(), (pmo) -> Collections.synchronizedList(new ArrayList<>()))
+                .add(binding);
         propertyDispatchers.add(binding.getPropertyDispatcher());
         return this;
     }
@@ -116,7 +116,7 @@ public class BindingContext {
         Collection<ElementBinding> toRemove = elementBindingsByPmo.get(pmo);
         toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
         elementBindings.values().removeAll(toRemove);
-        elementBindingsByPmo.removeAll(pmo);
+        elementBindingsByPmo.remove(pmo);
     }
 
     /**

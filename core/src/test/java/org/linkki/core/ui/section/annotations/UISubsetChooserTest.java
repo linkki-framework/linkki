@@ -21,7 +21,6 @@ import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.components.SubsetChooser;
 
-import com.google.gwt.thirdparty.guava.common.collect.Sets;
 import com.vaadin.server.PaintException;
 import com.vaadin.server.PaintTarget;
 
@@ -30,7 +29,7 @@ public class UISubsetChooserTest {
     @UISection
     protected static class TestPmo {
 
-        private final Set<TestEnum> foo = Sets.newLinkedHashSet();
+        private final Set<TestEnum> foo = new LinkedHashSet<>();
 
         @UISubsetChooser(position = 1, leftColumnCaption = "Left Column Caption", rightColumnCaption = "Right Column Caption")
         public Set<TestEnum> getFoo() {
@@ -43,7 +42,7 @@ public class UISubsetChooserTest {
         }
 
         public Set<TestEnum> getFooAvailableValues() {
-            LinkedHashSet<TestEnum> someValues = Sets.newLinkedHashSet();
+            LinkedHashSet<TestEnum> someValues = new LinkedHashSet<>();
             someValues.add(TestEnum.ONE);
             someValues.add(TestEnum.TWO);
             someValues.add(TestEnum.THREE);

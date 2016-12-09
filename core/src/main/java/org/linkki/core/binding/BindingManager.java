@@ -1,6 +1,5 @@
 package org.linkki.core.binding;
 
-import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import java.util.HashMap;
@@ -10,6 +9,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
+import org.apache.commons.lang3.Validate;
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.util.MessageListUtil;
@@ -22,7 +22,7 @@ import com.vaadin.cdi.ViewScoped;
 @ViewScoped
 public abstract class BindingManager {
 
-    private Map<String, BindingContext> contextsByName = new HashMap<>();
+    private final Map<String, BindingContext> contextsByName = new HashMap<>();
 
     private final ValidationService validationService;
 
@@ -38,7 +38,8 @@ public abstract class BindingManager {
     }
 
     public BindingContext startNewContext(String name) {
-        checkState(!contextsByName.containsKey(name), "BindingManager already contains a BindingContext '%s'.", name);
+        Validate.isTrue(!contextsByName.containsKey(name), "BindingManager already contains a BindingContext '%s'.",
+                        name);
         BindingContext newContext = newBindingContext(name);
         contextsByName.put(name, newContext);
         return newContext;

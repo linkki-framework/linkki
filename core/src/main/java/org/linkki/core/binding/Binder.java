@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.exception.LinkkiRuntimeException;
@@ -26,8 +27,6 @@ import org.linkki.core.ui.section.annotations.UIToolTipDefinition;
 import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.linkki.util.BeanUtils;
 
-import com.google.gwt.thirdparty.guava.common.base.Preconditions;
-import com.google.gwt.thirdparty.guava.common.collect.Maps;
 import com.vaadin.ui.Component;
 
 /**
@@ -72,7 +71,7 @@ public class Binder {
 
     /** Reads the descriptors and the components to use for binding from the view. */
     private LinkedHashMap<BindingDescriptor, Component> readBindings() {
-        LinkedHashMap<BindingDescriptor, Component> bindings = Maps.newLinkedHashMap();
+        LinkedHashMap<BindingDescriptor, Component> bindings = new LinkedHashMap<>();
         addFieldBindings(bindings);
         addMethodBindings(bindings);
         return bindings;
@@ -96,17 +95,19 @@ public class Binder {
      * @throws NullPointerException if the component returned by the method is {@code null}
      */
     private void addMethodBinding(Method method, LinkedHashMap<BindingDescriptor, Component> bindings) {
-        Preconditions.checkState(Component.class.isAssignableFrom(method.getReturnType()),
-                                 method + " does not return a Component and cannot be annotated with @Bind");
-        Preconditions.checkState(method.getParameterCount() == 0,
-                                 method + " has parameters and cannot be annotated with @Bind");
+        Validate.validState(Component.class.isAssignableFrom(method.getReturnType()),
+                            "%s does not return a Component and cannot be annotated with @Bind", method);
+        Validate.validState(method.getParameterCount() == 0, "%s has parameters and cannot be annotated with @Bind",
+                            method);
+
         try {
             if (!method.isAccessible()) {
                 method.setAccessible(true);
             }
-            Component component = (Component)method.invoke(view);
-            Preconditions.checkNotNull(component,
-                                       "Cannot create binding for method " + method + " as it returned null");
+
+            Component component = requireNonNull((Component)method
+                    .invoke(view), () -> "Cannot create binding for method " + method + " as it returned null");
+
             BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(method.getAnnotation(Bind.class),
                     getUIToolTipDefinition(method.getAnnotation(UIToolTip.class)));
             bindings.put(descriptor, component);
@@ -136,14 +137,17 @@ public class Binder {
      * @throws NullPointerException if the component held by the field is {@code null}
      */
     private void addFieldBinding(Field field, LinkedHashMap<BindingDescriptor, Component> bindings) {
-        Preconditions.checkState(Component.class.isAssignableFrom(field.getType()),
-                                 field + " is not a Component-typed field and cannot be annotated with @Bind");
+        Validate.validState(Component.class.isAssignableFrom(field.getType()),
+                            "%s is not a Component-typed field and cannot be annotated with @Bind", field);
+
         try {
             if (!field.isAccessible()) {
                 field.setAccessible(true);
             }
-            Component component = (Component)field.get(view);
-            Preconditions.checkNotNull(component, "Cannot create binding for field " + field + " as it is null");
+
+            Component component = requireNonNull((Component)field.get(view),
+                                                 () -> "Cannot create binding for field " + field + " as it is null");
+
             UIToolTip annotation = field.getAnnotation(UIToolTip.class);
             BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(field.getAnnotation(Bind.class),
                     getUIToolTipDefinition(annotation));
@@ -152,4 +156,5 @@ public class Binder {
             throw new LinkkiRuntimeException(e);
         }
     }
+
 }

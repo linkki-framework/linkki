@@ -6,7 +6,6 @@
 
 package org.linkki.core.ui.table;
 
-import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
@@ -56,8 +55,10 @@ public class PmoBasedTableSectionFactory<T> {
     }
 
     private TableSection<T> createEmptySection(Optional<ButtonPmo> addItemButtonPmo) {
-        UISection sectionDefinition = containerPmo.getClass().getAnnotation(UISection.class);
-        checkNotNull(sectionDefinition, "PMO " + containerPmo.getClass() + " must be annotated with @UISection!");
+        UISection sectionDefinition = requireNonNull(containerPmo.getClass().getAnnotation(UISection.class),
+                                                     () -> "PMO " + containerPmo.getClass()
+                                                             + " must be annotated with @UISection!");
+
         return new TableSection<>(sectionDefinition.caption(), sectionDefinition.closeable(),
                 createAddItemButton(addItemButtonPmo));
     }

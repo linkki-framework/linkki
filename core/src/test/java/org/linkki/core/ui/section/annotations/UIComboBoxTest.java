@@ -15,7 +15,6 @@ import java.util.Set;
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
 
-import com.google.gwt.thirdparty.guava.common.collect.Sets;
 import com.vaadin.ui.ComboBox;
 
 public class UIComboBoxTest {
@@ -29,7 +28,7 @@ public class UIComboBoxTest {
         }
 
         public Set<TestEnum> getFooAvailableValues() {
-            LinkedHashSet<TestEnum> someValues = Sets.newLinkedHashSet();
+            LinkedHashSet<TestEnum> someValues = new LinkedHashSet<>();
             someValues.add(TestEnum.ONE);
             someValues.add(TestEnum.TWO);
             someValues.add(TestEnum.THREE);

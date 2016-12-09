@@ -6,13 +6,13 @@
 
 package org.linkki.core.ui.table;
 
-import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.Validate;
 import org.linkki.core.ui.section.AbstractSection;
 
 import com.vaadin.ui.Button;
@@ -38,7 +38,7 @@ public class TableSection<T> extends AbstractSection {
      */
     /* package private, used by the PmoBaseTableFactory */
     void setTable(Table table) {
-        checkState(this.table == null, "Table already set.");
+        Validate.isTrue(this.table == null, "Table already set.");
         this.table = requireNonNull(table);
         addComponent(table);
         setExpandRatio(table, 1f);

@@ -12,6 +12,9 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.linkki.test.matcher.Matchers.emptyMessageList;
 
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.hamcrest.Description;
@@ -23,9 +26,8 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.framework.ui.component.MessageRow;
 import org.linkki.util.validation.ValidationMarker;
 
-import com.google.gwt.thirdparty.guava.common.collect.FluentIterable;
-import com.google.gwt.thirdparty.guava.common.collect.Iterables;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -122,7 +124,7 @@ public class OkCancelDialogTest {
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
-                return FluentIterable.from(layout).first().transform(c -> c instanceof MessageRow).or(false);
+                return components(layout).findFirst().map(MessageRow.class::isInstance).orElse(false);
             }
         };
     }
@@ -141,8 +143,11 @@ public class OkCancelDialogTest {
             protected boolean matchesSafely(OkCancelDialog dialog) {
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
                 VerticalLayout nestedLayout = (VerticalLayout)layout.getComponent(0);
-                return FluentIterable.from(nestedLayout).filter(MessageRow.class).first()
-                        .transform(m -> text.equals(m.getText())).or(false);
+
+                return components(nestedLayout).filter(MessageRow.class::isInstance) //
+                        .findFirst() //
+                        .map(c -> ((MessageRow)c).getText().equals(text)) //
+                        .orElse(false);
             }
         };
     }
@@ -168,7 +173,11 @@ public class OkCancelDialogTest {
 
     Button getOkButton(OkCancelDialog dialog) {
         VerticalLayout layout = (VerticalLayout)dialog.getContent();
-        return (Button)((HorizontalLayout)Iterables.getLast(layout)).getComponent(0);
+        return (Button)((HorizontalLayout)layout.getComponent(layout.getComponentCount() - 1)).getComponent(0);
+    }
+
+    private static Stream<Component> components(VerticalLayout layout) {
+        return StreamSupport.stream(layout.spliterator(), false);
     }
 
 }

@@ -1,6 +1,6 @@
 package org.linkki.core.ui.section;
 
-import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
@@ -64,9 +64,8 @@ public abstract class AbstractSection extends VerticalLayout {
      */
     public AbstractSection(@Nonnull String caption, boolean closeable, Optional<Button> editButton) {
         super();
-        checkNotNull(caption);
-        checkNotNull(editButton);
-        this.editButton = editButton;
+        requireNonNull(caption);
+        this.editButton = requireNonNull(editButton);
         if (StringUtils.isNotEmpty(caption) || editButton.isPresent()) {
             createHeader(caption, closeable);
         } else {

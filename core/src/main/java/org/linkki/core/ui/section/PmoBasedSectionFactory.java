@@ -1,6 +1,8 @@
 package org.linkki.core.ui.section;
 
-import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
+
+import javax.annotation.Nonnull;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.annotations.UICheckBox;
@@ -34,11 +36,10 @@ public abstract class PmoBasedSectionFactory {
      * Creates a new section based on the given annotated PMO and binds the created controls via the
      * given binding context to the PMO.
      */
-    public BaseSection createSection(Object pmo, BindingContext bindingContext) {
-        checkNotNull(pmo);
-        checkNotNull(bindingContext);
+    public BaseSection createSection(@Nonnull Object pmo, @Nonnull BindingContext bindingContext) {
 
-        SectionCreationContext creator = new SectionCreationContext(pmo, bindingContext);
+        SectionCreationContext creator = new SectionCreationContext(requireNonNull(pmo),
+                requireNonNull(bindingContext));
         return creator.createSection();
     }
 
@@ -46,11 +47,11 @@ public abstract class PmoBasedSectionFactory {
      * Creates a new section based on the given annotated PMO and binds the created controls via the
      * given binding context to the PMO.
      */
-    public <T> TableSection<T> createTableSection(ContainerPmo<T> pmo, BindingContext bindingContext) {
-        checkNotNull(pmo);
-        checkNotNull(bindingContext);
+    public <T> TableSection<T> createTableSection(@Nonnull ContainerPmo<T> pmo,
+            @Nonnull BindingContext bindingContext) {
 
-        PmoBasedTableSectionFactory<T> factory = new PmoBasedTableSectionFactory<>(pmo, bindingContext);
+        PmoBasedTableSectionFactory<T> factory = new PmoBasedTableSectionFactory<>(requireNonNull(pmo),
+                requireNonNull(bindingContext));
         return factory.createSection();
     }
 

@@ -6,9 +6,9 @@
 
 package org.linkki.core.binding.dispatcher;
 
-import org.apache.commons.lang3.StringUtils;
+import static java.util.Objects.requireNonNull;
 
-import com.google.gwt.thirdparty.guava.common.base.Preconditions;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Naming convention for properties. Adds suffixes, e.g. "enabled", to the base property, e.g.
@@ -32,8 +32,7 @@ public class PropertyNamingConvention {
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getValueProperty(String property) {
-        Preconditions.checkNotNull(property);
-        return property;
+        return requireNonNull(property);
     }
 
     /**
@@ -100,8 +99,7 @@ public class PropertyNamingConvention {
     }
 
     private String checkAndAddSuffix(String suffix, String property) {
-        Preconditions.checkNotNull(property);
-        if (StringUtils.isEmpty(property)) {
+        if (StringUtils.isEmpty(requireNonNull(property))) {
             // Empty suffix is used in ButtonPmo for isVisible/isEnabled properties
             return suffix;
         }

@@ -1,6 +1,6 @@
 package org.linkki.core.binding;
 
-import static com.google.gwt.thirdparty.guava.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,13 +37,10 @@ public class TableBinding<T> extends ListContainer<T> implements Binding {
     public TableBinding(BindingContext bindingContext, Table table, Set<String> columnNames,
             ContainerPmo<T> containerPmo) {
         super(containerPmo.getItemPmoClass());
-        checkNotNull(bindingContext);
-        checkNotNull(table);
-        checkNotNull(containerPmo);
-        this.bindingContext = bindingContext;
-        this.table = table;
+        this.bindingContext = requireNonNull(bindingContext);
+        this.table = requireNonNull(table);
         this.columnNames = columnNames;
-        this.containerPmo = containerPmo;
+        this.containerPmo = requireNonNull(containerPmo);
         saveItemCopy(containerPmo.getItems());
         table.setContainerDataSource(this);
     }
