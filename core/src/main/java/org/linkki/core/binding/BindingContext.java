@@ -114,9 +114,11 @@ public class BindingContext {
      */
     public void removeBindingsForPmo(Object pmo) {
         Collection<ElementBinding> toRemove = elementBindingsByPmo.get(pmo);
-        toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
-        elementBindings.values().removeAll(toRemove);
-        elementBindingsByPmo.remove(pmo);
+        if (toRemove != null) {
+            toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
+            elementBindings.values().removeAll(toRemove);
+            elementBindingsByPmo.remove(pmo);
+        }
     }
 
     /**
