@@ -2,27 +2,23 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.TableFooterPmo;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.ui.table.ContainerPmo;
-import org.vaadin.viritin.ListContainer;
 
 import com.vaadin.ui.Table;
 
 /**
  * A binding for a Vaadin table to a container PMO and the items provided by it.
- * 
+ *
  * @see ContainerPmo
  */
-public class TableBinding<T> extends ListContainer<T> implements Binding {
+public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Binding {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,35 +28,14 @@ public class TableBinding<T> extends ListContainer<T> implements Binding {
     private final Set<String> columnNames;
     private final ContainerPmo<T> containerPmo;
 
-    private List<T> itemCopy;
-
     public TableBinding(BindingContext bindingContext, Table table, Set<String> columnNames,
             ContainerPmo<T> containerPmo) {
-        super(containerPmo.getItemPmoClass());
         this.bindingContext = requireNonNull(bindingContext);
         this.table = requireNonNull(table);
         this.columnNames = columnNames;
         this.containerPmo = requireNonNull(containerPmo);
-        saveItemCopy(containerPmo.getItems());
         table.setContainerDataSource(this);
-    }
-
-    private void saveItemCopy(List<T> items) {
-        itemCopy = new ArrayList<>(items);
-    }
-
-    @Override
-    protected List<T> getBackingList() {
-        return itemCopy;
-    }
-
-    /**
-     * Need to return an empty list for container parameter ids because every column should be
-     * generated using the column generator.
-     */
-    @Override
-    public Collection<String> getContainerPropertyIds() {
-        return Collections.emptyList();
+        addAllItems(containerPmo.getItems());
     }
 
     /**
@@ -74,8 +49,7 @@ public class TableBinding<T> extends ListContainer<T> implements Binding {
         List<T> actualItems = containerPmo.getItems();
         if (hasItemListChanged(actualItems)) {
             removeBindingsForOldItems();
-            saveItemCopy(actualItems);
-            createCellsAndBindings();
+            addAllItems(actualItems);
         }
         // Update the footer even if the same rows are displayed. Selecting a displayed row might
         // change the footer, e.g. when the footer sums up the selected rows
@@ -95,22 +69,12 @@ public class TableBinding<T> extends ListContainer<T> implements Binding {
     }
 
     private void removeBindingsForOldItems() {
-        itemCopy.forEach(bindingContext::removeBindingsForPmo);
-    }
-
-    /**
-     * Creates new bindings and updates the table control. This is done by firing an item set
-     * changed event which triggers the recreation of all cells and bindings in the generateCell()
-     * method in PmoBasedSectionFactory.
-     * 
-     * @see PmoBasedSectionFactory
-     */
-    private void createCellsAndBindings() {
-        fireItemSetChange();
+        getBackupList().forEach(bindingContext::removeBindingsForPmo);
+        removeAllItems();
     }
 
     private boolean hasItemListChanged(List<T> actualItems) {
-        return !itemCopy.equals(actualItems);
+        return !getBackupList().equals(actualItems);
     }
 
     @Override
@@ -131,7 +95,7 @@ public class TableBinding<T> extends ListContainer<T> implements Binding {
     /**
      * Creates a new {@link TableBinding} and add the new binding to the given
      * {@link BindingContext}.
-     * 
+     *
      * @param bindingContext The binding context used to bind the given {@link ContainerPmo} to the
      *            given {@link Table}
      * @param table The table that should be updated by this binding

@@ -278,11 +278,6 @@
                 <version>${vaadin.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.vaadin</groupId>
-                <artifactId>viritin</artifactId>
-                <version>1.24</version>
-            </dependency>
-            <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-client-compiled</artifactId>
                 <version>${vaadin.version}</version>

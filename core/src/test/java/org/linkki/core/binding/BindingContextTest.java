@@ -11,13 +11,19 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.faktorips.runtime.MessageList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.ui.section.annotations.FieldDescriptor;
+import org.linkki.core.ui.section.annotations.TestUi;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
+import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
@@ -162,12 +168,31 @@ public class BindingContextTest {
         assertThat(field.isImmediate(), is(true));
     }
 
+    @Test
+    public void testRemoveBinding() {
+
+        context = TestBindingContext.create();
+
+        List<TestModelObject> pmos = new ArrayList<>(100);
+        for (int i = 0; i < 100; i++) {
+
+            TestModelObject pmo = new TestModelObject();
+            pmos.add(pmo);
+
+            TestUi.componentBoundTo(pmo, context);
+        }
+
+        pmos.forEach(context::removeBindingsForPmo);
+    }
+
+    @UISection
     public static class TestModelObject {
 
         public static final String PROPERTY_MODEL_PROP = "modelProp";
 
         private String modelProp;
 
+        @UITextField(position = 1)
         public String getModelProp() {
             return modelProp;
         }

@@ -31,9 +31,5 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-cdi</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.vaadin</groupId>
-            <artifactId>viritin</artifactId>
-        </dependency>
     </dependencies>
 </project>

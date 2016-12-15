@@ -14,9 +14,9 @@ import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.util.MessageListUtil;
 import org.linkki.util.handler.Handler;
-import org.vaadin.viritin.ListContainer;
 
 import com.vaadin.data.util.AbstractProperty;
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
@@ -40,7 +40,7 @@ public class FieldBinding<T> implements ElementBinding {
     private final Handler updateUi;
     private final FieldBindingDataSource<T> propertyDataSource;
 
-    private final ListContainer<T> containerDataSource;
+    private final LinkkiInMemoryContainer<T> containerDataSource;
 
     /**
      * Creates a new {@link FieldBinding}.
@@ -60,7 +60,7 @@ public class FieldBinding<T> implements ElementBinding {
         this.updateUi = requireNonNull(updateUi, "Update-UI-Handler must not be null");
 
         if (isAvailableValuesComponent()) {
-            containerDataSource = new ListContainer<T>(getValueClass());
+            containerDataSource = new LinkkiInMemoryContainer<T>();
             AbstractSelect abstractSelect = (AbstractSelect)field;
             abstractSelect.setContainerDataSource(containerDataSource);
         } else {
@@ -168,7 +168,8 @@ public class FieldBinding<T> implements ElementBinding {
             label.ifPresent(l -> l.setVisible(visible));
             if (isAvailableValuesComponent()) {
                 Collection<T> availableValues = getAvailableValues();
-                containerDataSource.setCollection(availableValues);
+                containerDataSource.removeAllItems();
+                containerDataSource.addAllItems(availableValues);
             }
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
