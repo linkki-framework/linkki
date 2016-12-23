@@ -144,9 +144,9 @@ public class OkCancelDialogTest {
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
                 VerticalLayout nestedLayout = (VerticalLayout)layout.getComponent(0);
 
-                return components(nestedLayout).filter(MessageRow.class::isInstance) //
-                        .findFirst() //
-                        .map(c -> ((MessageRow)c).getText().equals(text)) //
+                return components(nestedLayout).filter(MessageRow.class::isInstance)
+                        .findFirst()
+                        .map(c -> ((MessageRow)c).getText().equals(text))
                         .orElse(false);
             }
         };

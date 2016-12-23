@@ -63,13 +63,11 @@ public class MessageListUtil {
         if (unsortedMessageList == null) {
             return null;
         }
-        // @formatter:off
         MessageList messageList = StreamUtil.stream(unsortedMessageList)
                 .collect(Collectors.groupingBy(m -> m.getSeverity()))
                 .entrySet().stream().sorted((e1, e2) -> e2.getKey().compareTo(e1.getKey()))
                 .flatMap(e -> e.getValue().stream())
                 .collect(() -> new MessageList(), (ml, m) -> ml.add(m), (ml1, ml2) -> ml1.add(ml2));
-        // @formatter:on
         return messageList;
     }
 

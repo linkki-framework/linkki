@@ -102,13 +102,11 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
      * @return the tab pages that are contained in the tabs of this TabSheet.
      */
     protected List<Page> getTabs() {
-        // @formatter:off
         Iterable<Component> iterable = () -> tabSheet.iterator();
         return StreamSupport.stream(iterable.spliterator(), false)
                 .filter(c -> c instanceof Page)
                 .map(c -> (Page)c)
                 .collect(Collectors.toList());
-        // @formatter:on
     }
 
     /**

@@ -42,7 +42,6 @@ public class FormsWebSecurityConfigurationAdapter extends WebSecurityConfigurerA
             // ... and the logout
            .and().logout().permitAll();
         // @formatter:on
-
     }
 
 }

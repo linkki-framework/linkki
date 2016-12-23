@@ -64,12 +64,10 @@ public class TestBeanManager implements BeanManager {
     @Override
     public Set<Bean<?>> getBeans(Type beanType, Annotation... qualifiers) {
         Class<?> beanClass = (Class<?>)beanType;
-        // @formatter:off
         return managedInstances.stream()
                 .filter(o -> beanClass.isInstance(o))
                 .map(o -> new TestBean<>(o))
                 .collect(Collectors.toSet());
-        // @formatter:on
     }
 
     @SuppressWarnings("rawtypes")

@@ -82,7 +82,7 @@ public class LinkkiInMemoryContainer<T>
 
         @Override
         public Property<T> getItemProperty(Object id) {
-            // probalby we should throw an UnsupportedOperationException
+            // probably we should throw an UnsupportedOperationException
             // this method shall never be called but without an exception we'll never
             // notice it...
             return null;

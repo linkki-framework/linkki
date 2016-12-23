@@ -116,12 +116,10 @@ public class UIAnnotationReader {
     }
 
     public UIElementDefinition getUiElement(Method method) {
-     // @formatter:off
         return annotations(method)
                 .filter(UIElementDefinition::isLinkkiBindingDefinition)
                 .map(UIElementDefinition::from)
                 .findFirst().orElse(null);
-     // @formatter:on
     }
 
     private Stream<Annotation> annotations(Method m) {
