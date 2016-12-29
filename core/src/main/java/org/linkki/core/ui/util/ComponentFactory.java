@@ -2,16 +2,15 @@ package org.linkki.core.ui.util;
 
 import static org.linkki.core.ui.application.ApplicationStyles.HORIZONTAL_SPACER;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Locale;
 
-import org.joda.time.LocalDate;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.components.IntegerField;
 import org.linkki.core.ui.components.LinkkiComboBox;
 import org.linkki.core.ui.components.SubsetChooser;
-import org.linkki.core.ui.converters.LocalDateToDateConverter;
 
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.converter.Converter;
@@ -178,7 +177,9 @@ public class ComponentFactory {
         DateField field = new DateField();
         field.setValidationVisible(true);
         field.addValidator(new DateValidator());
-        field.setConverter(new LocalDateToDateConverter());
+        // converter is not set here but found automatically in
+        // com.vaadin.ui.AbstractField.setPropertyDataSource(Property) from the
+        // org.linkki.core.ui.converters.LinkkiConverterFactory
         return field;
     }
 
@@ -243,7 +244,7 @@ public class ComponentFactory {
         }
     }
 
-    static class YesNoToBooleanConverter implements Converter<Object, Boolean> {
+    static class YesNoToBooleanConverter implements Converter<String, Boolean> {
 
         /**
          * Comment for <code>serialVersionUID</code>
@@ -252,7 +253,7 @@ public class ComponentFactory {
 
         @SuppressFBWarnings("NP_BOOLEAN_RETURN_NULL")
         @Override
-        public Boolean convertToModel(Object value, Class<? extends Boolean> targetType, Locale locale)
+        public Boolean convertToModel(String value, Class<? extends Boolean> targetType, Locale locale)
                 throws ConversionException {
             if (value == null) {
                 return null;
@@ -267,7 +268,7 @@ public class ComponentFactory {
         }
 
         @Override
-        public Object convertToPresentation(Boolean value, Class<? extends Object> targetType, Locale locale)
+        public String convertToPresentation(Boolean value, Class<? extends String> targetType, Locale locale)
                 throws ConversionException {
             if (value == null) {
                 return null;
@@ -284,8 +285,8 @@ public class ComponentFactory {
         }
 
         @Override
-        public Class<Object> getPresentationType() {
-            return Object.class;
+        public Class<String> getPresentationType() {
+            return String.class;
         }
     }
 

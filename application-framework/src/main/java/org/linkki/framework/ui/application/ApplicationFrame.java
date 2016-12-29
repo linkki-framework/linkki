@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.util.StreamUtil;
 
 import com.vaadin.cdi.CDIViewProvider;
@@ -16,6 +17,7 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewProvider;
 import com.vaadin.server.Page.UriFragmentChangedEvent;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
@@ -67,6 +69,12 @@ public class ApplicationFrame implements Serializable {
      * the UI which is still under construction at this point in time.
      */
     public void init(UI ui) {
+        // init converters
+        VaadinSession vaadinSession = VaadinSession.getCurrent();
+        if (vaadinSession != null) {
+            vaadinSession.setConverterFactory(new LinkkiConverterFactory());
+        }
+
         content = new VerticalLayout();
         content.setMargin(false);
         content.setSizeFull();

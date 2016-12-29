@@ -266,6 +266,7 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
+                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>com.google.code.findbugs</groupId>
@@ -311,11 +312,6 @@
             <dependency>
                 <groupId>org.faktorips</groupId>
                 <artifactId>faktorips-valuetypes</artifactId>
-                <version>${faktorips.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.faktorips</groupId>
-                <artifactId>faktorips-valuetypes-joda</artifactId>
                 <version>${faktorips.version}</version>
             </dependency>
             <dependency>
@@ -406,10 +402,6 @@
         <dependency>
             <groupId>org.faktorips</groupId>
             <artifactId>faktorips-runtime</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.faktorips</groupId>
-            <artifactId>faktorips-valuetypes-joda</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Copyright (c) 2014 Faktor Zehn AG.
+ *
+ * Alle Rechte vorbehalten.
+ *******************************************************************************/
+
 package org.linkki.core.ui.converters;
 
 import java.util.Locale;
@@ -11,7 +17,15 @@ import org.linkki.util.DateFormatRegistry;
 
 import com.vaadin.data.util.converter.Converter;
 
-public class LocalDateConverter implements Converter<String, LocalDate> {
+/**
+ * Converter for converting {@link LocalDate} to {@link String}. <br>
+ * This converter can be used for example in {@link com.vaadin.ui.Table Tables} or for
+ * {@link com.vaadin.ui.Label Labels}
+ * <p>
+ * Do <strong>NOT</strong> use this converter for Fields - this converter is for representation only
+ * only!!
+ */
+public class JodaLocalDateToStringConverter implements Converter<String, LocalDate>, AutoDiscoveredConverter {
 
     private static final long serialVersionUID = 1L;
 
