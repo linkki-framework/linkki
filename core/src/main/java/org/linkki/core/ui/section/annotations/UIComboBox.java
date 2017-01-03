@@ -41,10 +41,9 @@ public @interface UIComboBox {
     VisibleType visible() default VISIBLE;
 
     /**
-     * Specify the width of the field. Use CSS units like em, px or %.
+     * Specifies the width of the field. Use CSS units like em, px or %.
      * <p>
      * For example: "25em" or "100%".
-     * 
      */
     String width() default "-1px";
 
@@ -52,5 +51,12 @@ public @interface UIComboBox {
 
     String modelAttribute() default "";
 
+    /**
+     * Specifies which {@link ItemCaptionProvider} should be used to convert {@link #content()} into
+     * String captions.
+     * <p>
+     * Default value assumes that the value class has a method "getName" and uses this method for
+     * the String representation.
+     */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 }

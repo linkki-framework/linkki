@@ -71,7 +71,7 @@ public interface ItemCaptionProvider<T> {
      * It is in general no good idea to use this, except your list consists of Strings.
      * 
      */
-    class ToStringCaptionProvider implements ItemCaptionProvider<Object> {
+    public class ToStringCaptionProvider implements ItemCaptionProvider<Object> {
         @Override
         public String getCaption(Object t) {
             return Optional.ofNullable(t).map(Object::toString).orElse("");

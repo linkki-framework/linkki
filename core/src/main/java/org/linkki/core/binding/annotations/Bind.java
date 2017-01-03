@@ -38,5 +38,4 @@ public @interface Bind {
      * available values (e.g. combo boxes), ignored for all other elements.
      */
     AvailableValuesType availableValues() default AvailableValuesType.NO_VALUES;
-
 }
