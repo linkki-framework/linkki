@@ -21,34 +21,21 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 
-public class BindAnnotationDescriptor implements BindingDescriptor {
-
-    private final BindAnnotationAdapter bindAnnotationAdapter;
-    private final UIToolTipDefinition toolTipDefinition;
+public class BindAnnotationDescriptor extends BindingDescriptor {
 
     public BindAnnotationDescriptor(Bind annotation, UIToolTipDefinition toolTipDefinition) {
-        this.bindAnnotationAdapter = new BindAnnotationAdapter(annotation);
-        this.toolTipDefinition = toolTipDefinition;
+        super(new BindAnnotationAdapter(annotation), toolTipDefinition);
     }
 
     @Override
-    public EnabledType enabled() {
-        return bindAnnotationAdapter.enabled();
+    protected BindAnnotationAdapter getBindingDefinition() {
+        return (BindAnnotationAdapter)super.getBindingDefinition();
     }
 
     @Override
-    public VisibleType visible() {
-        return bindAnnotationAdapter.visible();
-    }
-
-    @Override
-    public RequiredType required() {
-        return bindAnnotationAdapter.required();
-    }
-
-    @Override
-    public AvailableValuesType availableValues() {
-        return bindAnnotationAdapter.availableValues();
+    public String getModelPropertyName() {
+        // We currently do not support a model property name in the binding annotation
+        return getPmoPropertyName();
     }
 
     @Override
@@ -56,12 +43,6 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
         // We currently do not support multiple model objects for PMOs that are bound to a view
         // annotated with @Bind
         return ModelObject.DEFAULT_NAME;
-    }
-
-    @Override
-    public String getModelPropertyName() {
-        // We currently do not support a model property name in the binding annotation
-        return getPmoPropertyName();
     }
 
     @Override
@@ -82,16 +63,7 @@ public class BindAnnotationDescriptor implements BindingDescriptor {
 
     @Override
     public String getPmoPropertyName() {
-        return bindAnnotationAdapter.getPmoPropertyName();
+        return getBindingDefinition().getPmoPropertyName();
     }
 
-    @Override
-    public String getToolTip() {
-        return toolTipDefinition.text();
-    }
-
-    @Override
-    public ToolTipType getToolTipType() {
-        return toolTipDefinition.toolTipType();
-    }
 }

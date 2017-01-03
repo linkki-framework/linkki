@@ -17,50 +17,37 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-public class LabelDescriptor implements ElementDescriptor {
+public class LabelDescriptor extends ElementDescriptor {
 
-    private final UILabelDefinition labelDefinition;
     private final String pmoPropertyName;
-    private final UIToolTipDefinition toolTipDefinition;
 
     public LabelDescriptor(UILabelDefinition labelDefinition, UIToolTipDefinition toolTipDefinition,
             String pmoPropertyName) {
-        this.labelDefinition = labelDefinition;
-        this.toolTipDefinition = toolTipDefinition;
+        super(labelDefinition, toolTipDefinition);
         this.pmoPropertyName = pmoPropertyName;
     }
 
     @Override
-    public String getModelPropertyName() {
-        if (StringUtils.isEmpty(labelDefinition.modelAttribute())) {
-            return getPmoPropertyName();
-        }
-        return labelDefinition.modelAttribute();
-    }
-
-    @Override
-    public EnabledType enabled() {
-        return labelDefinition.enabled();
-    }
-
-    @Override
-    public VisibleType visible() {
-        return labelDefinition.visible();
-    }
-
-    @Override
-    public RequiredType required() {
-        return labelDefinition.required();
+    protected UILabelDefinition getBindingDefinition() {
+        return (UILabelDefinition)super.getBindingDefinition();
     }
 
     @Override
     public AvailableValuesType availableValues() {
-        return labelDefinition.availableValues();
+        return getBindingDefinition().availableValues();
+    }
+
+    @Override
+    public String getModelPropertyName() {
+        if (StringUtils.isEmpty(getBindingDefinition().modelAttribute())) {
+            return getPmoPropertyName();
+        }
+        return getBindingDefinition().modelAttribute();
     }
 
     @Override
     public String getModelObjectName() {
-        return labelDefinition.modelObject();
+        return getBindingDefinition().modelObject();
     }
 
     @Override
@@ -75,36 +62,16 @@ public class LabelDescriptor implements ElementDescriptor {
     }
 
     @Override
-    public int getPosition() {
-        return labelDefinition.position();
-    }
-
-    @Override
-    public String getLabelText() {
-        if (labelDefinition.showLabel()) {
-            return labelDefinition.label();
-        } else {
-            return "";
-        }
-    }
-
-    @Override
-    public Component newComponent() {
-        return labelDefinition.newComponent();
-    }
-
-    @Override
     public String getPmoPropertyName() {
         return pmoPropertyName;
     }
 
     @Override
-    public String getToolTip() {
-        return toolTipDefinition.text();
-    }
-
-    @Override
-    public ToolTipType getToolTipType() {
-        return toolTipDefinition.toolTipType();
+    public String getLabelText() {
+        if (getBindingDefinition().showLabel()) {
+            return getBindingDefinition().label();
+        } else {
+            return "";
+        }
     }
 }

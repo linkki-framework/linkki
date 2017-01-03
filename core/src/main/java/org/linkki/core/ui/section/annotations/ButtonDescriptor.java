@@ -16,55 +16,19 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-public class ButtonDescriptor implements ElementDescriptor {
+public class ButtonDescriptor extends ElementDescriptor {
 
-    private final UIButtonDefinition uiButton;
     private final String methodName;
-    private final UIToolTipDefinition toolTipDefinition;
 
     public ButtonDescriptor(UIButtonDefinition buttonAnnotation, UIToolTipDefinition toolTipDefinition,
             String methodName) {
-        this.uiButton = buttonAnnotation;
-        this.toolTipDefinition = toolTipDefinition;
+        super(buttonAnnotation, toolTipDefinition);
         this.methodName = methodName;
     }
 
     @Override
-    public EnabledType enabled() {
-        return uiButton.enabled();
-    }
-
-    @Override
-    public VisibleType visible() {
-        return uiButton.visible();
-    }
-
-    public CaptionType captionType() {
-        return uiButton.captionType();
-    }
-
-    public String caption() {
-        return uiButton.caption();
-    }
-
-    @Override
-    public int getPosition() {
-        return uiButton.position();
-    }
-
-    @Override
-    public String getLabelText() {
-        if (uiButton.showLabel()) {
-            return uiButton.label();
-        } else {
-            return "";
-        }
-
-    }
-
-    @Override
-    public Component newComponent() {
-        return uiButton.newComponent();
+    protected UIButtonDefinition getBindingDefinition() {
+        return (UIButtonDefinition)super.getBindingDefinition();
     }
 
     @Override
@@ -74,7 +38,7 @@ public class ButtonDescriptor implements ElementDescriptor {
 
     @Override
     public String getModelObjectName() {
-        return uiButton.modelObject();
+        return getBindingDefinition().modelObject();
     }
 
     @Override
@@ -105,12 +69,25 @@ public class ButtonDescriptor implements ElementDescriptor {
     }
 
     @Override
-    public String getToolTip() {
-        return toolTipDefinition.text();
+    public int getPosition() {
+        return getBindingDefinition().position();
     }
 
     @Override
-    public ToolTipType getToolTipType() {
-        return toolTipDefinition.toolTipType();
+    public String getLabelText() {
+        if (getBindingDefinition().showLabel()) {
+            return getBindingDefinition().label();
+        } else {
+            return "";
+        }
+
+    }
+
+    public CaptionType captionType() {
+        return getBindingDefinition().captionType();
+    }
+
+    public String caption() {
+        return getBindingDefinition().caption();
     }
 }

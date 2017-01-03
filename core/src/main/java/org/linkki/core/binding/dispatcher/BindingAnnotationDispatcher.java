@@ -35,8 +35,6 @@ import org.linkki.core.ui.section.annotations.VisibleType;
  * defined by annotations like {@link UITextField} and {@link UIComboBox}. If no annotation exists
  * for the given property, or if the type is dynamic, the wrapped dispatcher is accessed for a
  * value.
- *
- * @author widmaier
  */
 public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecorator {
 
@@ -102,6 +100,7 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
         } else if (type == AvailableValuesType.DYNAMIC) {
             return super.getAvailableValues();
         } else {
+            // return bindingDescriptor.getAvailableValues();
             return getAvailableValuesByValueClass(type == AvailableValuesType.ENUM_VALUES_INCL_NULL);
         }
     }

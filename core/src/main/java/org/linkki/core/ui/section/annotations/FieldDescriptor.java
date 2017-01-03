@@ -21,25 +21,26 @@ import com.vaadin.ui.Label;
  * Holds all information about a field, which are the property name as well as the settings for
  * visibility, enabled-state etc. The given property name is only used as fallback if there is
  * {@link UIFieldDefinition#modelAttribute()} is not set.
- *
- * @author widmaier
  */
-public class FieldDescriptor implements ElementDescriptor {
+public class FieldDescriptor extends ElementDescriptor {
 
-    private final UIFieldDefinition fieldDefinition;
-    private final UIToolTipDefinition toolTipDefinition;
     private final String pmoPropertyName;
 
     /**
-     * Constructs a new field description with the following parameters.
+     * Constructs a new field description.
      *
-     * @param fieldDef The field definition that holds every given annotated property
-     * @param pmoPropertyName the property name that is used to find the methods in the PMO.
+     * @param fieldDef field definition that holds given annotated properties
+     * @param toolTipDefinition text and type of the tooltip
+     * @param pmoPropertyName name of the corresponding method in the PMO
      */
     public FieldDescriptor(UIFieldDefinition fieldDef, UIToolTipDefinition toolTipDefinition, String pmoPropertyName) {
-        this.fieldDefinition = fieldDef;
-        this.toolTipDefinition = toolTipDefinition;
+        super(fieldDef, toolTipDefinition);
         this.pmoPropertyName = pmoPropertyName;
+    }
+
+    @Override
+    protected UIFieldDefinition getBindingDefinition() {
+        return (UIFieldDefinition)super.getBindingDefinition();
     }
 
     /**
@@ -48,62 +49,15 @@ public class FieldDescriptor implements ElementDescriptor {
      */
     @Override
     public String getModelPropertyName() {
-        if (StringUtils.isEmpty(fieldDefinition.modelAttribute())) {
+        if (StringUtils.isEmpty(getBindingDefinition().modelAttribute())) {
             return getPmoPropertyName();
         }
-        return fieldDefinition.modelAttribute();
+        return getBindingDefinition().modelAttribute();
     }
 
     @Override
     public String getModelObjectName() {
-        return fieldDefinition.modelObject();
-    }
-
-    @Override
-    public EnabledType enabled() {
-        return fieldDefinition.enabled();
-    }
-
-    @Override
-    public VisibleType visible() {
-        return fieldDefinition.visible();
-    }
-
-    @Override
-    public RequiredType required() {
-        return fieldDefinition.required();
-    }
-
-    @Override
-    public AvailableValuesType availableValues() {
-        return fieldDefinition.availableValues();
-    }
-
-    @Override
-    public int getPosition() {
-        return fieldDefinition.position();
-    }
-
-    /**
-     * Derives the label from the label defined in the annotation. If no label is defined, derives
-     * the label from the property name. Appends the suffix ":" if necessary.
-     */
-    @Override
-    public String getLabelText() {
-        if (!fieldDefinition.showLabel()) {
-            return "";
-        }
-
-        String label = fieldDefinition.label();
-        if (StringUtils.isEmpty(label)) {
-            label = StringUtils.capitalize(getModelPropertyName());
-        }
-        return label;
-    }
-
-    @Override
-    public Component newComponent() {
-        return fieldDefinition.newComponent();
+        return getBindingDefinition().modelObject();
     }
 
     @Override
@@ -118,23 +72,31 @@ public class FieldDescriptor implements ElementDescriptor {
     }
 
     @Override
-    public String toString() {
-        return "FieldDescriptor [fieldDefinition=" + fieldDefinition + ", fallbackPropertyName=" + getPmoPropertyName()
-                + "]";
-    }
-
-    @Override
     public String getPmoPropertyName() {
         return pmoPropertyName;
     }
 
+    /**
+     * Derives the label from the label defined in the annotation. If no label is defined, derives
+     * the label from the property name.
+     */
     @Override
-    public String getToolTip() {
-        return toolTipDefinition.text();
+    public String getLabelText() {
+        if (!getBindingDefinition().showLabel()) {
+            return "";
+        }
+
+        String label = getBindingDefinition().label();
+        if (StringUtils.isEmpty(label)) {
+            label = StringUtils.capitalize(getModelPropertyName());
+        }
+        return label;
     }
 
     @Override
-    public ToolTipType getToolTipType() {
-        return toolTipDefinition.toolTipType();
+    public String toString() {
+        return "FieldDescriptor [getBindingDefinition()=" + getBindingDefinition() + ", fallbackPropertyName="
+                + getPmoPropertyName()
+                + "]";
     }
 }
