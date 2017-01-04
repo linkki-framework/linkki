@@ -15,7 +15,6 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
@@ -71,10 +70,6 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     public Class<?> getValueClass() {
         if (canRead(getProperty())) {
             Class<?> valueClass = getAccessor(getProperty()).getValueClass();
-            // Workaround for primitive type <-> wrapper type conversion bug, see FIPM-326.
-            if (valueClass.isPrimitive()) {
-                return ClassUtils.primitiveToWrapper(valueClass);
-            }
             return valueClass;
         } else {
             return fallbackDispatcher.getValueClass();

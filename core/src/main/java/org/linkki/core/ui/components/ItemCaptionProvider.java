@@ -68,7 +68,7 @@ public interface ItemCaptionProvider<T> {
     /**
      * A simple caption provider that uses an item's toString() method as its caption.
      * <p>
-     * It is in general no good idea to use this, expect your list consists of Strings.
+     * It is in general no good idea to use this, except your list consists of Strings.
      * 
      */
     class ToStringCaptionProvider implements ItemCaptionProvider<Object> {

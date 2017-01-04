@@ -80,9 +80,7 @@ public class ReflectionPropertyDispatcherTest {
         assertEquals(String.class, setupPmoDispatcher(ABC).getValueClass());
         assertEquals(String.class, setupPmoDispatcher(XYZ).getValueClass());
         assertEquals(Boolean.class, setupPmoDispatcher(OBJECT_BOOLEAN).getValueClass());
-
-        // Test FIPM-326 workaround: wrapper class is returned for primitive type
-        assertEquals(Boolean.class, setupPmoDispatcher(PRIMITIVE_BOOLEAN).getValueClass());
+        assertEquals(Boolean.TYPE, setupPmoDispatcher(PRIMITIVE_BOOLEAN).getValueClass());
     }
 
     @Test
