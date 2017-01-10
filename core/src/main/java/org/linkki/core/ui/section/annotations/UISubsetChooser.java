@@ -54,6 +54,10 @@ public @interface UISubsetChooser {
 
     String modelAttribute() default "";
 
+    /**
+     * Specifies which {@link ItemCaptionProvider} should be used to convert available values into
+     * String captions. Uses the method "toString" per default.
+     */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default ToStringCaptionProvider.class;
 
     String width() default "100%";

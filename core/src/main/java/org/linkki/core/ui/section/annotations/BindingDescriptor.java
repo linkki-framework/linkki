@@ -15,30 +15,42 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-/**
- * Holds information about a bound UI element such as the settings for visibility, enabled-state
- * etc.
- */
-public interface BindingDescriptor {
+public abstract class BindingDescriptor {
 
-    /** If and how the bound UI element is enabled. */
-    EnabledType enabled();
+    private final BindingDefinition bindingDefinition;
+    private final UIToolTipDefinition toolTipDefinition;
 
-    /** If and how the bound UI element is visible. */
-    VisibleType visible();
+    public BindingDescriptor(BindingDefinition bindingDefinition, UIToolTipDefinition toolTipDefinition) {
+        this.bindingDefinition = bindingDefinition;
+        this.toolTipDefinition = toolTipDefinition;
+    }
 
-    /** If and how the bound UI element is required. */
-    RequiredType required();
+    protected BindingDefinition getBindingDefinition() {
+        return bindingDefinition;
+    }
 
-    /** If and how available values can be obtained. */
-    AvailableValuesType availableValues();
+    public EnabledType enabled() {
+        return bindingDefinition.enabled();
+    }
+
+    public VisibleType visible() {
+        return bindingDefinition.visible();
+    }
+
+    public RequiredType required() {
+        return bindingDefinition.required();
+    }
+
+    public AvailableValuesType availableValues() {
+        return bindingDefinition.availableValues();
+    }
 
     /**
      * The name of the property that the bound UI element displays. For an UI element that accesses
      * the field of a model/PMO class, this is the name of that field. For an UI element that
      * invokes a method (i.e. a button) this is the name of the method.
      */
-    String getModelPropertyName();
+    public abstract String getModelPropertyName();
 
     /**
      * The name of the model object containing the {@link #getModelPropertyName() property} if the
@@ -46,13 +58,13 @@ public interface BindingDescriptor {
      * {@link ModelObject @ModelObject} annotation with that name on the method that returns the
      * model object.
      */
-    String getModelObjectName();
+    public abstract String getModelObjectName();
 
     /**
      * Creates a binding with the given dispatcher, the given handler for updating the UI and the
      * given UI components using the binding information from this descriptor.
      */
-    ElementBinding createBinding(@Nonnull PropertyDispatcher propertyDispatcher,
+    public abstract ElementBinding createBinding(@Nonnull PropertyDispatcher propertyDispatcher,
             @Nonnull Handler updateUi,
             @Nonnull Component component,
             Label label);
@@ -60,15 +72,20 @@ public interface BindingDescriptor {
     /**
      * The name of the property from the pmo
      */
-    String getPmoPropertyName();
+    public abstract String getPmoPropertyName();
+
 
     /**
      * The tooltip of the UI element
      */
-    String getToolTip();
+    public String getToolTip() {
+        return toolTipDefinition.text();
+    }
 
     /**
      * The type of the tooltip
      */
-    ToolTipType getToolTipType();
+    public ToolTipType getToolTipType() {
+        return toolTipDefinition.toolTipType();
+    }
 }

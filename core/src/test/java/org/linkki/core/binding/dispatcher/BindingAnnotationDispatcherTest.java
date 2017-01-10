@@ -231,7 +231,7 @@ public class BindingAnnotationDispatcherTest {
             // nothing to do
         }
 
-        @UIComboBox(position = 2, modelAttribute = STATIC_ENUM_ATTR, label = "Bla", content = AvailableValuesType.ENUM_VALUES_INCL_NULL, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
+        @UIComboBox(position = 2, modelAttribute = STATIC_ENUM_ATTR, label = "Bla", enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
         public void staticEnumAttr() {
             // nothing to do
         }

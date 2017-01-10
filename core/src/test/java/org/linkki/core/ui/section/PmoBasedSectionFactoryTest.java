@@ -168,7 +168,7 @@ public class PmoBasedSectionFactoryTest {
             // nothing to do
         }
 
-        @UIComboBox(position = 2, enabled = EnabledType.ENABLED, content = AvailableValuesType.ENUM_VALUES_INCL_NULL)
+        @UIComboBox(position = 2, enabled = EnabledType.ENABLED)
         public void staticEnumAttr() {
             // nothing to do
         }

@@ -12,15 +12,28 @@ import com.vaadin.ui.Component;
  * Holds information about a bound UI element (such as the settings for visibility, enabled-state
  * etc.) and on how to create and display such an UI element.
  */
-public interface ElementDescriptor extends BindingDescriptor {
+public abstract class ElementDescriptor extends BindingDescriptor {
+
+    public ElementDescriptor(BindingDefinition bindingDefinition, UIToolTipDefinition toolTipDefinition) {
+        super(bindingDefinition, toolTipDefinition);
+    }
+
+    @Override
+    protected UIElementDefinition getBindingDefinition() {
+        return (UIElementDefinition)super.getBindingDefinition();
+    }
 
     /** The position of the UI element in its parent/container. */
-    int getPosition();
+    public int getPosition() {
+        return getBindingDefinition().position();
+    }
 
     /** The text for the UI element's label. */
-    String getLabelText();
+    public abstract String getLabelText();
 
     /** Creates a new Vaadin UI component for this UI element. */
-    Component newComponent();
+    public Component newComponent() {
+        return getBindingDefinition().newComponent();
+    }
 
 }

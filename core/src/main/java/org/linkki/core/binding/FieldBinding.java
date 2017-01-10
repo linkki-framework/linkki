@@ -10,6 +10,7 @@ import java.util.stream.StreamSupport;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.ClassUtils;
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -293,9 +294,10 @@ public class FieldBinding<T> implements ElementBinding {
             fieldBinding.setValue(newValue);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public Class<? extends T> getType() {
-            return fieldBinding.getValueClass();
+            return (Class<? extends T>)ClassUtils.primitiveToWrapper(fieldBinding.getValueClass());
         }
 
         /*

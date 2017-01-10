@@ -8,8 +8,6 @@ package org.linkki.core.binding.dispatcher;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -29,14 +27,13 @@ import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.core.ui.section.annotations.adapters.AvailableValuesProvider;
 
 /**
  * Provides default values for enabled state, required state, visibility and available values
  * defined by annotations like {@link UITextField} and {@link UIComboBox}. If no annotation exists
  * for the given property, or if the type is dynamic, the wrapped dispatcher is accessed for a
  * value.
- *
- * @author widmaier
  */
 public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecorator {
 
@@ -102,29 +99,20 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
         } else if (type == AvailableValuesType.DYNAMIC) {
             return super.getAvailableValues();
         } else {
-            return getAvailableValuesByValueClass(type == AvailableValuesType.ENUM_VALUES_INCL_NULL);
-        }
-    }
+            if (getValueClass().isEnum()) {
+                return AvailableValuesProvider.enumToValues(getValueClass().asSubclass(Enum.class),
+                                                            type == AvailableValuesType.ENUM_VALUES_INCL_NULL);
+            }
+            if (getValueClass() == Boolean.TYPE) {
+                return AvailableValuesProvider.booleanPrimitiveToValues();
+            }
+            if (getValueClass() == Boolean.class) {
+                return AvailableValuesProvider.booleanWrapperToValues();
+            } else {
+                throw new IllegalStateException(
+                        "Cannot retrieve list of available values for field " + getProperty() + ", valueClass " + type);
+            }
 
-    private Collection<?> getAvailableValuesByValueClass(boolean inclNull) {
-        Class<?> type = getValueClass();
-        Object[] values = type.getEnumConstants();
-        if (values == null) {
-            throw new IllegalStateException(
-                    "Can't get list of values for Field " + getProperty() + ", ValueClass " + type);
-        } else {
-            return getCollection(values, inclNull);
-        }
-    }
-
-    private Collection<?> getCollection(Object[] values, boolean inclNull) {
-        if (inclNull) {
-            ArrayList<Object> result = new ArrayList<>();
-            result.add(null);
-            result.addAll(Arrays.asList(values));
-            return Collections.unmodifiableCollection(result);
-        } else {
-            return Arrays.asList(values);
         }
     }
 
