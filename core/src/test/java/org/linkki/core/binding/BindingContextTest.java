@@ -55,16 +55,23 @@ public class BindingContextTest {
         pmo.setModelObject(modelObject);
     }
 
+    private Handler setUpPmoWithAfterUpdateUiHandler() {
+        Handler afterUpdateUi = mock(Handler.class);
+        context = TestBindingContext.create(afterUpdateUi);
+        pmo.setModelObject(modelObject);
+        return afterUpdateUi;
+    }
+
     private void setUpBinding2() {
         binding2 = new FieldBinding<String>(label2, field2,
                 new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
-                context::updateUI);
+                context::updateUIForBinding);
     }
 
     private void setUpBinding1() {
         binding1 = new FieldBinding<String>(label1, field1,
                 new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
-                context::updateUI);
+                context::updateUIForBinding);
     }
 
     private TestPmo getPmo() {
@@ -81,30 +88,55 @@ public class BindingContextTest {
     }
 
     @Test
-    public void testUpdateUI_noBindingInContext() {
-        Handler afterUpdateUi = mock(Handler.class);
-        context = TestBindingContext.create(afterUpdateUi);
-        pmo.setModelObject(modelObject);
-        setUpBinding1();
-        binding1 = spy(binding1);
-
-        context.updateUI();
-        verify(binding1, never()).updateFromPmo();
-        verify(binding1, never()).displayMessages(any(MessageList.class));
-        verify(afterUpdateUi).apply();
-    }
-
-    @Test
     public void testUpdateUI() {
-        Handler afterUpdateUi = mock(Handler.class);
-        context = TestBindingContext.create(afterUpdateUi);
-        pmo.setModelObject(modelObject);
+        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
         setUpBinding1();
+
         binding1 = spy(binding1);
 
         context.add(binding1);
 
         context.updateUI();
+        verify(binding1).updateFromPmo();
+        verify(afterUpdateUi, never()).apply();
+    }
+
+    @Test
+    public void testUpdateUI_noBindingInContext() {
+        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
+        setUpBinding1();
+
+        binding1 = spy(binding1);
+
+        context.updateUI();
+
+        verify(binding1, never()).updateFromPmo();
+        verify(binding1, never()).displayMessages(any(MessageList.class));
+        verify(afterUpdateUi, never()).apply();
+    }
+
+    @Test
+    public void testUpdateUIAndValidate_noBindingInContext() {
+        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
+        setUpBinding1();
+
+        binding1 = spy(binding1);
+
+        context.updateUIForBinding();
+
+        verify(afterUpdateUi).apply();
+    }
+
+    @Test
+    public void testUpdateUIAndValidate() {
+        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
+
+        setUpBinding1();
+        binding1 = spy(binding1);
+
+        context.add(binding1);
+
+        context.updateUIForBinding();
         verify(binding1).updateFromPmo();
         verify(afterUpdateUi).apply();
     }

@@ -27,6 +27,7 @@ import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.TestUi;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
@@ -50,8 +51,6 @@ public class FieldBindingTest {
 
     private PropertyDispatcher propertyDispatcherValue;
 
-    private BindingContext context;
-
     private MessageList messageList;
 
     private PropertyDispatcher propertyDispatcherEnumValue;
@@ -59,7 +58,6 @@ public class FieldBindingTest {
     @SuppressWarnings("null")
     @Before
     public void setUp() {
-        context = TestBindingContext.create();
         propertyDispatcherValue = mock(PropertyDispatcher.class);
         when(propertyDispatcherValue.getProperty()).thenReturn("value");
         propertyDispatcherEnumValue = mock(PropertyDispatcher.class);
@@ -70,14 +68,9 @@ public class FieldBindingTest {
         when(propertyDispatcherValue.getMessages(any(MessageList.class))).thenReturn(messageList);
         when(propertyDispatcherEnumValue.getMessages(any(MessageList.class))).thenReturn(messageList);
 
-        binding = new FieldBinding<>(label, field, propertyDispatcherValue, context::updateUI);
-        context.add(binding);
+        binding = new FieldBinding<>(label, field, propertyDispatcherValue, Handler.NOP_HANDLER);
 
-        selectBinding = new FieldBinding<Object>(label, selectField, propertyDispatcherEnumValue, context::updateUI);
-        context.add(selectBinding);
-
-        context.add(binding);
-        context.add(selectBinding);
+        selectBinding = new FieldBinding<Object>(label, selectField, propertyDispatcherEnumValue, Handler.NOP_HANDLER);
     }
 
     @Test
@@ -92,7 +85,7 @@ public class FieldBindingTest {
     @Test
     public void testValueBinding_field() {
         when(propertyDispatcherValue.getValue()).thenReturn("test");
-        context.updateUI();
+        binding.updateFromPmo();
 
         assertEquals("test", field.getValue());
     }
@@ -104,7 +97,8 @@ public class FieldBindingTest {
         assertTrue(field.isEnabled());
 
         when(propertyDispatcherValue.isEnabled()).thenReturn(false);
-        context.updateUI();
+
+        binding.updateFromPmo();
 
         assertFalse(binding.isEnabled());
         assertFalse(field.isEnabled());
@@ -113,7 +107,7 @@ public class FieldBindingTest {
     @Test
     public void testEnabledBinding_callSetEnabledOnField() {
         when(propertyDispatcherValue.isEnabled()).thenReturn(false);
-        context.updateUI();
+        binding.updateFromPmo();
 
         verify(field).setEnabled(false);
     }
@@ -124,7 +118,7 @@ public class FieldBindingTest {
         assertTrue(binding.isVisible());
         assertTrue(field.isVisible());
         when(propertyDispatcherValue.isVisible()).thenReturn(false);
-        context.updateUI();
+        binding.updateFromPmo();
 
         assertFalse(binding.isVisible());
         assertFalse(field.isVisible());
@@ -142,8 +136,7 @@ public class FieldBindingTest {
     @SuppressWarnings("null")
     @Test
     public void testVisibleBinding_ifLabelNull() {
-        binding = new FieldBinding<>(null, field, propertyDispatcherValue, context::updateUI);
-        context.add(binding);
+        binding = new FieldBinding<>(null, field, propertyDispatcherValue, Handler.NOP_HANDLER);
         when(propertyDispatcherValue.isVisible()).thenReturn(false);
         binding.updateFromPmo();
 
@@ -155,7 +148,7 @@ public class FieldBindingTest {
         when(propertyDispatcherValue.isRequired()).thenReturn(false);
         assertFalse(binding.isRequired());
         when(propertyDispatcherValue.isRequired()).thenReturn(true);
-        context.updateUI();
+        binding.updateFromPmo();
 
         assertTrue(binding.isRequired());
     }
@@ -163,7 +156,7 @@ public class FieldBindingTest {
     @Test
     public void testRequiredBinding_callSetRequiredOnField() {
         when(propertyDispatcherValue.isRequired()).thenReturn(true);
-        context.updateUI();
+        binding.updateFromPmo();
 
         verify(field).setRequired(true);
     }
@@ -180,7 +173,7 @@ public class FieldBindingTest {
     public void testBindAvailableValues_removeOldItemsFromField() {
         doReturn(valueList).when(propertyDispatcherEnumValue).getAvailableValues();
 
-        context.updateUI();
+        selectBinding.updateFromPmo();
         Collection<?> itemIds = selectField.getItemIds();
         assertThat(itemIds.size(), is(2));
         Iterator<?> iterator = itemIds.iterator();
@@ -190,7 +183,7 @@ public class FieldBindingTest {
         Collection<TestEnum> valueList2 = Arrays.asList(new TestEnum[] { TestEnum.TWO, TestEnum.THREE });
         doReturn(valueList2).when(propertyDispatcherEnumValue).getAvailableValues();
 
-        context.updateUI();
+        selectBinding.updateFromPmo();
         Collection<?> itemIds2 = selectField.getItemIds();
         assertThat(itemIds2.size(), is(2));
         Iterator<?> iterator2 = itemIds2.iterator();
@@ -202,7 +195,7 @@ public class FieldBindingTest {
     public void testDisplayMessages() {
         messageList.add(Message.newError("code", "text"));
 
-        context.updateUI();
+        selectBinding.displayMessages(messageList);
 
         verify(selectField).setComponentError(any(UserError.class));
 
@@ -214,7 +207,7 @@ public class FieldBindingTest {
 
     @Test
     public void testDisplayMessages_noMessages() {
-        context.updateUI();
+        selectBinding.displayMessages(messageList);
 
         verify(selectField).setComponentError(null);
     }

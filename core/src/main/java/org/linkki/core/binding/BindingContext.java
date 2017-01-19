@@ -16,6 +16,7 @@ import javax.annotation.Nonnull;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
@@ -31,8 +32,13 @@ import com.vaadin.ui.Label;
  * A binding context binds fields and tables in a part of the user interface like a page or a dialog
  * to properties of presentation model objects. If the value in one of the fields is changed, all
  * fields in the context are updated from the presentation model objects via their bindings.
+ * <p>
+ * {@linkplain BindingContext}s are usually managed by a {@link BindingManager} that handles events
+ * across multiple contexts.
+ * 
+ * @see BindingManager#getExistingContextOrStartNewOne(String)
  */
-public class BindingContext {
+public class BindingContext implements UiUpdateObserver {
 
     @Nonnull
     private final String name;
@@ -50,7 +56,19 @@ public class BindingContext {
 
     /**
      * Creates a new binding context with the given name, using the behavior provider to decorate
-     * it's bindings and notifying the after-update handler after every UI update.
+     * its bindings and notifying a handler after every UI update.
+     * <p>
+     * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event
+     * outside of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()}
+     * is used by {@link BindingManager} to trigger the validation service and to notify other
+     * contexts in the manager to show the validation result.
+     * 
+     * @param contextName name of this context that is used as identifier in a
+     *            {@linkplain BindingManager}
+     * @param behaviorProvider used to retrieve all {@link InjectablePropertyBehavior}s that are
+     *            relevant to this context
+     * @param afterUpdateHandler a handler that is applied after the UI update. Usually
+     *            {@link BindingManager#afterUpdateUi()}
      */
     @SuppressWarnings("null")
     public BindingContext(@Nonnull String contextName, @Nonnull PropertyBehaviorProvider behaviorProvider,
@@ -61,7 +79,7 @@ public class BindingContext {
     }
 
     /**
-     * Returns the context's name that uniquely identifies it in a binding manager.
+     * Returns the context's name that uniquely identifies it in a {@linkplain BindingManager}.
      */
     @Nonnull
     public String getName() {
@@ -136,20 +154,33 @@ public class BindingContext {
     }
 
     /**
-     * Updates the UI with the data retrieved via all bindings registered in this context. Notifies
-     * the binding manager that messages (in all contexts) should be updated.
+     * Updates the UI with the data retrieved via bindings registered in this context. Executes
+     * afterUpdateHandler that is set in the constructor.
      */
-    public void updateUI() {
-        // table bindings have to be updated first, as their update removes bindings
-        // and creates new bindings if the table content has changed
-        tableBindings.values().forEach(binding -> binding.updateFromPmo());
-        elementBindings.values().forEach(binding -> binding.updateFromPmo());
+    public void updateUIForBinding() {
+        updateUI();
 
         // Notify handler that the UI was updated for this context and the messages in all
         // contexts should now be updated
         afterUpdateHandler.apply();
     }
 
+    @Override
+    public void updateUI() {
+        // table bindings have to be updated first, as their update removes bindings
+        // and creates new bindings if the table content has changed
+        tableBindings.values().forEach(binding -> binding.updateFromPmo());
+        elementBindings.values().forEach(binding -> binding.updateFromPmo());
+    }
+
+    /**
+     * Updates all bindings with the given message list.
+     * <p>
+     * This method is used by a {@link BindingManager} to push validation results to all registered
+     * {@linkplain BindingContext}s.
+     * 
+     * @see BindingManager#updateMessages(MessageList)
+     */
     public void updateMessages(MessageList messages) {
         // TODO merken welches binding welche messages anzeigt
         elementBindings.values().forEach(binding -> binding.displayMessages(messages));
@@ -192,7 +223,7 @@ public class BindingContext {
         }
 
         ElementBinding binding = bindingDescriptor.createBinding(createDispatcherChain(pmo, bindingDescriptor),
-                                                                 this::updateUI, component, label);
+                                                                 this::updateUIForBinding, component, label);
         binding.updateFromPmo();
         add(binding);
     }
@@ -208,7 +239,8 @@ public class BindingContext {
     public ButtonPmoBinding bind(@Nonnull ButtonPmo pmo, @Nonnull Button button) {
         requireNonNull(pmo, "ButtonPmo must not be null");
         requireNonNull(button, "Button must not be null");
-        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, createDispatcherChain(pmo), this::updateUI);
+        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, createDispatcherChain(pmo),
+                this::updateUIForBinding);
         add(buttonPmoBinding);
         return buttonPmoBinding;
     }

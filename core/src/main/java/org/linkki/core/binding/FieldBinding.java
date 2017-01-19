@@ -51,7 +51,7 @@ public class FieldBinding<T> implements ElementBinding {
      * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the
      *            model object
      * @param updateUi a {@link Handler} that is called when this {@link Binding} desires an update
-     *            of the UI. Usually the {@link BindingContext#updateUI()} method.
+     *            of the UI. Usually declared in {@link BindingContext#updateUI()}.
      */
     public FieldBinding(Label label, @Nonnull AbstractField<T> field, @Nonnull PropertyDispatcher propertyDispatcher,
             @Nonnull Handler updateUi) {

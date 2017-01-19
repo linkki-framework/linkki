@@ -3,8 +3,10 @@ package org.linkki.core.binding;
 import static java.util.Objects.requireNonNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
@@ -17,12 +19,14 @@ import org.linkki.core.util.MessageListUtil;
 import com.vaadin.cdi.ViewScoped;
 
 /**
- * Manages a set of binding contexts.
+ * Manages a set of {@link BindingContext}s that are effected by each other.
  */
 @ViewScoped
 public abstract class BindingManager {
 
     private final Map<String, BindingContext> contextsByName = new HashMap<>();
+
+    private final List<UiUpdateObserver> uiUpdateObservers = new CopyOnWriteArrayList<>();
 
     private final ValidationService validationService;
 
@@ -31,12 +35,24 @@ public abstract class BindingManager {
     }
 
     /**
-     * Starts a new binding context and uses the class' qualified name as context name.
+     * Creates a new {@link BindingContext} and assigns it to this manager. The class' qualified
+     * name is used as context name.
+     * 
+     * @param clazz the class of which the qualified name is used to identify the
+     *            {@linkplain BindingContext} in this manager
+     * @see BindingContext
      */
     public BindingContext startNewContext(Class<?> clazz) {
         return startNewContext(clazz.getName());
     }
 
+    /**
+     * Creates a new {@link BindingContext} with the given name and assigns it to this
+     * {@linkplain BindingManager}.
+     * 
+     * @param name the name of the {@linkplain BindingContext} that identifies it in this manager
+     * @see BindingContext
+     */
     public BindingContext startNewContext(String name) {
         Validate.isTrue(!contextsByName.containsKey(name), "BindingManager already contains a BindingContext '%s'.",
                         name);
@@ -45,6 +61,17 @@ public abstract class BindingManager {
         return newContext;
     }
 
+    /**
+     * Creates a new {@link BindingContext} with the given name. Does not assign the created context
+     * to this manager.
+     * <p>
+     * Note that the created {@linkplain BindingContext} should call {@link #afterUpdateUi()} (e.g.
+     * by providing this::afterUpdateUI as a handler) if it is to be added to a manager, so related
+     * binding contexts can be notified about UI updates.
+     * 
+     * @see DefaultBindingManager#newBindingContext(String)
+     * @see BindingManager#afterUpdateUi()
+     */
     protected abstract BindingContext newBindingContext(String name);
 
     public Optional<BindingContext> getExistingContext(Class<?> clazz) {
@@ -75,17 +102,27 @@ public abstract class BindingManager {
         contextsByName.clear();
     }
 
+    public void registerUiUpdateObserver(UiUpdateObserver observer) {
+        uiUpdateObservers.add(observer);
+    }
+
     /**
      * Retrieves the current messages from the validation service and uses them to update the
-     * messages in all registered contexts.
+     * messages in all registered contexts using {@link #updateMessages(MessageList)}. The
+     * {@link UiUpdateObserver}s are then notified by {@link #notifyUiUpdateObservers()}.
      * <p>
      * Should be called by all binding contexts after they updated their UI. Will be passed as the
      * after-update handler to the {@link BindingContext} constructor by the
      * {@link DefaultBindingManager}.
+     * <p>
+     * All overriding methods should call {@link #notifyUiUpdateObservers()} to notify registered
+     * {@link UiUpdateObserver}s properly.
      */
     public void afterUpdateUi() {
         MessageList messages = this.validationService.getValidationMessages();
         updateMessages(MessageListUtil.sortBySeverity(messages));
+
+        notifyUiUpdateObservers();
     }
 
     /**
@@ -95,6 +132,17 @@ public abstract class BindingManager {
     @OverridingMethodsMustInvokeSuper
     protected void updateMessages(MessageList messages) {
         contextsByName.values().forEach(bc -> bc.updateMessages(messages));
+    }
+
+    /**
+     * Notifies all registered {@link UiUpdateObserver}s about UI changes triggered by a managed
+     * {@linkplain BindingContext}.
+     * <p>
+     * If a {@linkplain BindingContext} do not apply {@link #afterUpdateUi()} after UI updates, this
+     * method has to be called manually.
+     */
+    public void notifyUiUpdateObservers() {
+        uiUpdateObservers.forEach(o -> o.updateUI());
     }
 
     @Override
