@@ -106,6 +106,10 @@ public abstract class BindingManager {
         uiUpdateObservers.add(observer);
     }
 
+    public void removeUiUpdateObserver(UiUpdateObserver observer) {
+        uiUpdateObservers.remove(observer);
+    }
+
     /**
      * Retrieves the current messages from the validation service and uses them to update the
      * messages in all registered contexts using {@link #updateMessages(MessageList)}. The

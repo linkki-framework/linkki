@@ -9,6 +9,9 @@ package org.linkki.core.binding;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
@@ -42,6 +45,32 @@ public class BindingManagerTest {
         bindingManager.afterUpdateUi();
 
         assertThat(context.messages, is(equalTo(sortedMessageList)));
+    }
+
+    @Test
+    public void testRegisterUiUpdateObserver() {
+        TestBindingManager bindingManager = new TestBindingManager(() -> new MessageList());
+        UiUpdateObserver observer = mock(UiUpdateObserver.class);
+
+        bindingManager.afterUpdateUi();
+        verify(observer, never()).updateUI();
+
+        bindingManager.registerUiUpdateObserver(observer);
+        bindingManager.afterUpdateUi();
+
+        verify(observer).updateUI();
+    }
+
+    @Test
+    public void testRemoveUiUpdateObserver() {
+        TestBindingManager bindingManager = new TestBindingManager(() -> new MessageList());
+        UiUpdateObserver observer = mock(UiUpdateObserver.class);
+        bindingManager.registerUiUpdateObserver(observer);
+
+        bindingManager.removeUiUpdateObserver(observer);
+        bindingManager.afterUpdateUi();
+
+        verify(observer, never()).updateUI();
     }
 
     private static class TestBindingContext extends BindingContext {
