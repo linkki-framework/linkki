@@ -10,8 +10,11 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 import java.util.function.Predicate;
 
+import org.faktorips.runtime.Message;
 import org.faktorips.runtime.ObjectProperty;
+import org.faktorips.runtime.Severity;
 import org.hamcrest.Matcher;
+import org.hamcrest.core.CombinableMatcher;
 
 public class Matchers {
 
@@ -69,5 +72,21 @@ public class Matchers {
 
     public static MessageListMessageMatcher hasMessage(String code) {
         return new MessageListMessageMatcher(new MessageCodeMatcher(code));
+    }
+
+    public static MessageListMessageMatcher hasInfoMessage(String code) {
+        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.INFO));
+    }
+
+    public static MessageListMessageMatcher hasWarningMessage(String code) {
+        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.WARNING));
+    }
+
+    public static MessageListMessageMatcher hasErrorMessage(String code) {
+        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.ERROR));
+    }
+
+    private static Matcher<Message> codeAndSeverity(String code, Severity severity) {
+        return CombinableMatcher.both(new MessageCodeMatcher(code)).and(new MessageSeverityMatcher(severity));
     }
 }
