@@ -19,11 +19,6 @@ public class TestTablePmo implements ContainerPmo<TestRowPmo> {
 
     private TableFooterPmo footerPmo = null;
 
-    @Override
-    public Class<TestRowPmo> getItemPmoClass() {
-        return TestRowPmo.class;
-    }
-
     public TestRowPmo addItem() {
         TestRowPmo columnPmo = new TestRowPmo(this);
         pmos.add(columnPmo);

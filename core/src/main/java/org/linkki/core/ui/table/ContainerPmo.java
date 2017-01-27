@@ -27,9 +27,16 @@ public interface ContainerPmo<T> {
     /** Default page length to use when no other page length is set. */
     public static final int DEFAULT_PAGE_LENGTH = 15;
 
-    /** Returns the class of the items / rows in the container. */
-    @Nonnull
-    Class<T> getItemPmoClass();
+    /**
+     * Returns the class of the items / rows in the container.
+     * 
+     * @deprecated This method is not used anymore because the type could be derived from the
+     *             generic interface.
+     */
+    @Deprecated
+    default Class<T> getItemPmoClass() {
+        return null;
+    }
 
     /**
      * Returns the items / rows in the container.

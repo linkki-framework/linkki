@@ -12,6 +12,9 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.BindingContext;
@@ -71,6 +74,35 @@ public class PmoBasedTableFactoryTest {
         Table table = factory.createTable();
 
         assertThat(table.getItemIds(), contains(columnPmo1, columnPmo2));
+    }
+
+    @Test
+    public void testGetItemPmoClass() {
+        PmoBasedTableFactory<TestRowPmo> pmoBasedTableFactory = new PmoBasedTableFactory<>(new TestTablePmo(), ctx);
+
+        Class<?> itemPmoClass = pmoBasedTableFactory.getItemPmoClass();
+
+        assertThat(itemPmoClass, is(TestRowPmo.class));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @SuppressWarnings("unchecked")
+    public void testGetItemPmoClass_exception() {
+        PmoBasedTableFactory<TestRowPmo> pmoBasedTableFactory = new PmoBasedTableFactory<>(new RawContainerPmo(), ctx);
+
+        Class<?> itemPmoClass = pmoBasedTableFactory.getItemPmoClass();
+
+        assertThat(itemPmoClass, is(TestRowPmo.class));
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static class RawContainerPmo implements ContainerPmo {
+
+        @Override
+        public List getItems() {
+            return new ArrayList<>();
+        }
+
     }
 
 }

@@ -8,6 +8,8 @@ package org.linkki.core.ui.table;
 
 import static java.util.Objects.requireNonNull;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,7 +46,20 @@ public class PmoBasedTableFactory<T> {
     public PmoBasedTableFactory(@Nonnull ContainerPmo<T> containerPmo, @Nonnull BindingContext bindingContext) {
         this.containerPmo = requireNonNull(containerPmo);
         this.bindingContext = requireNonNull(bindingContext);
-        this.annotationReader = new UIAnnotationReader(containerPmo.getItemPmoClass());
+        this.annotationReader = new UIAnnotationReader(getItemPmoClass());
+    }
+
+    /* private */ final Class<?> getItemPmoClass() {
+        Type[] genericInterfaces = containerPmo.getClass().getGenericInterfaces();
+        for (Type type : genericInterfaces) {
+            if (type instanceof ParameterizedType) {
+                ParameterizedType parameterizedType = (ParameterizedType)type;
+                if (parameterizedType.getRawType().equals(ContainerPmo.class)) {
+                    return (Class<?>)parameterizedType.getActualTypeArguments()[0];
+                }
+            }
+        }
+        throw new IllegalArgumentException("Cannot identify row pmo type");
     }
 
     /**
