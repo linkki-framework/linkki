@@ -14,10 +14,12 @@ import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.section.BaseSection;
+import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.UI;
 
@@ -67,20 +69,43 @@ public class PmoBasedDialogFactory {
     /**
      * Creates a new {@link OkCancelDialog}.
      * 
+     * @deprecated use {@link #newOkCancelDialog(String, Handler, Object...)} instead.
+     * 
      * @param title The dialog title.
      * @param pmo The presentation model object providing the data and the layout information.
      * @param okHandler The called when OK is clicked.
      * @return A dialog with the content defined by the given PMO.
      */
     @Nonnull
-    public OkCancelDialog newOkCancelDialog(String title, PresentationModelObject pmo, OkHandler okHandler) {
+    @Deprecated
+    public OkCancelDialog newOkCancelDialog(String title, Object pmo, Handler okHandler) {
+        return newOkCancelDialog(title, okHandler, pmo);
+    }
+
+    /**
+     * Creates a new {@link OkCancelDialog}.
+     * 
+     * @param title The dialog title.
+     * @param okHandler The called when OK is clicked.
+     * @param pmos The presentation model objects providing the data and the layout information.
+     * @return A dialog with the content defined by the given PMO.
+     */
+    @Nonnull
+    public OkCancelDialog newOkCancelDialog(String title, Handler okHandler, Object... pmos) {
         OkCancelDialog dialog = new OkCancelDialog(title, okHandler, ButtonOption.OK_CANCEL);
         DialogBindingManager bindingManager = new DialogBindingManager(dialog, validationService,
                 propertyBehaviorProvider);
 
         BindingContext bindingContext = bindingManager.startNewContext(dialog.getClass());
-        BaseSection content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
-        dialog.setContent(content);
+        for (Object pmo : pmos) {
+            AbstractSection content;
+            if (pmo instanceof ContainerPmo) {
+                content = pmoBasedSectionFactory.createTableSection((ContainerPmo<?>)pmo, bindingContext);
+            } else {
+                content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
+            }
+            dialog.addContent(content);
+        }
         bindingContext.updateUI();
 
         return dialog;
@@ -95,8 +120,22 @@ public class PmoBasedDialogFactory {
      * @return A dialog with the content defined by the given PMO.
      */
     @Nonnull
-    public OkCancelDialog openOkCancelDialog(String title, PresentationModelObject pmo, OkHandler okHandler) {
-        OkCancelDialog dialog = newOkCancelDialog(title, pmo, okHandler);
+    public OkCancelDialog openOkCancelDialog(String title, Object pmo, Handler okHandler) {
+        return open(newOkCancelDialog(title, okHandler, pmo));
+    }
+
+    /**
+     * Creates a new {@link OkCancelDialog} and opens it.
+     * 
+     * Usage: <code>
+     * PmoBasedDialogFactory.open(factory.newOkCancelDialog(...));
+     * </code>
+     * 
+     * @param dialog the dialog that should be opened
+     * @return A dialog with the content defined by the given PMO.
+     */
+    @Nonnull
+    public static OkCancelDialog open(OkCancelDialog dialog) {
         UI.getCurrent().addWindow(dialog);
         return dialog;
     }
