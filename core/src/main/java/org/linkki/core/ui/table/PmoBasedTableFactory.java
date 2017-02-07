@@ -8,13 +8,16 @@ package org.linkki.core.ui.table;
 
 import static java.util.Objects.requireNonNull;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
 import org.linkki.core.ui.application.ApplicationStyles;
@@ -50,13 +53,11 @@ public class PmoBasedTableFactory<T> {
     }
 
     /* private */ final Class<?> getItemPmoClass() {
-        Type[] genericInterfaces = containerPmo.getClass().getGenericInterfaces();
-        for (Type type : genericInterfaces) {
-            if (type instanceof ParameterizedType) {
-                ParameterizedType parameterizedType = (ParameterizedType)type;
-                if (parameterizedType.getRawType().equals(ContainerPmo.class)) {
-                    return (Class<?>)parameterizedType.getActualTypeArguments()[0];
-                }
+        Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(containerPmo.getClass(),
+                                                                              ContainerPmo.class);
+        for (Entry<TypeVariable<?>, Type> typeArgument : typeArguments.entrySet()) {
+            if (typeArgument.getKey().getGenericDeclaration().equals(ContainerPmo.class)) {
+                return (Class<?>)typeArgument.getValue();
             }
         }
         throw new IllegalArgumentException("Cannot identify row pmo type");

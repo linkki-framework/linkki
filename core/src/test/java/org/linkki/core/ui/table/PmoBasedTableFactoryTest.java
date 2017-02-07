@@ -13,6 +13,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -85,14 +86,22 @@ public class PmoBasedTableFactoryTest {
         assertThat(itemPmoClass, is(TestRowPmo.class));
     }
 
+    @Test
+    public void testGetItemPmoClass_Indirect() {
+        PmoBasedTableFactory<SubTestRow> pmoBasedTableFactory = new PmoBasedTableFactory<>(new IndirectContainerPmo(),
+                ctx);
+
+        Class<?> itemPmoClass = pmoBasedTableFactory.getItemPmoClass();
+
+        assertThat(itemPmoClass, is(SubTestRow.class));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     @SuppressWarnings("unchecked")
     public void testGetItemPmoClass_exception() {
         PmoBasedTableFactory<TestRowPmo> pmoBasedTableFactory = new PmoBasedTableFactory<>(new RawContainerPmo(), ctx);
 
-        Class<?> itemPmoClass = pmoBasedTableFactory.getItemPmoClass();
-
-        assertThat(itemPmoClass, is(TestRowPmo.class));
+        pmoBasedTableFactory.getItemPmoClass();
     }
 
     @SuppressWarnings("rawtypes")
@@ -101,6 +110,28 @@ public class PmoBasedTableFactoryTest {
         @Override
         public List getItems() {
             return new ArrayList<>();
+        }
+
+    }
+
+    private static class SubTestRow extends TestRowPmo {
+
+        public SubTestRow(TestTablePmo parent) {
+            super(parent);
+        }
+
+    }
+
+    private abstract static class AnotherTestTablePmo<T extends TestRowPmo> implements ContainerPmo<T> {
+        // nothing
+    }
+
+    private static class IndirectContainerPmo extends AnotherTestTablePmo<SubTestRow>
+            implements ContainerPmo<SubTestRow> {
+
+        @Override
+        public List<SubTestRow> getItems() {
+            return Arrays.asList(new SubTestRow(null));
         }
 
     }
