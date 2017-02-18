@@ -53,6 +53,7 @@ public abstract class BindingManager {
      * @param name the name of the {@linkplain BindingContext} that identifies it in this manager
      * @see BindingContext
      */
+    @Nonnull
     public BindingContext startNewContext(String name) {
         Validate.isTrue(!contextsByName.containsKey(name), "BindingManager already contains a BindingContext '%s'.",
                         name);
@@ -72,6 +73,7 @@ public abstract class BindingManager {
      * @see DefaultBindingManager#newBindingContext(String)
      * @see BindingManager#afterUpdateUi()
      */
+    @Nonnull
     protected abstract BindingContext newBindingContext(String name);
 
     public Optional<BindingContext> getExistingContext(Class<?> clazz) {
@@ -82,10 +84,12 @@ public abstract class BindingManager {
         return Optional.ofNullable(contextsByName.get(name));
     }
 
+    @Nonnull
     public BindingContext getExistingContextOrStartNewOne(Class<?> clazz) {
         return getExistingContextOrStartNewOne(clazz.getName());
     }
 
+    @Nonnull
     public BindingContext getExistingContextOrStartNewOne(String name) {
         BindingContext context = contextsByName.get(name);
         if (context == null) {

@@ -1,11 +1,19 @@
 package org.linkki.core.ui.page;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.Arrays;
+
+import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.PostConstruct;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.ui.section.AbstractSection;
+import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.shared.ui.MarginInfo;
@@ -30,10 +38,25 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
 
     private static final long serialVersionUID = 1L;
 
+    @Nonnull
+    private final PmoBasedSectionFactory sectionFactory;
+
     /**
-     * Creates an page without top margin and with margins on left, right and bottom.
+     * Creates a page without top margin and with margins on left, right and bottom. Uses the
+     * {@link DefaultPmoBasedSectionFactory} to create sections based on given PMOs.
      */
     public AbstractPage() {
+        this(new DefaultPmoBasedSectionFactory());
+    }
+
+    /**
+     * Creates a page without top margin and with margins on left, right and bottom.
+     * 
+     * @param sectionFactory Factory used to create sections based on given PMOs.
+     */
+    public AbstractPage(@Nonnull PmoBasedSectionFactory sectionFactory) {
+        super();
+        this.sectionFactory = requireNonNull(sectionFactory);
         setMargin(new MarginInfo(false, true, true, true));
     }
 
@@ -43,29 +66,63 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     }
 
     /**
+     * Returns the factory used to create PMO based sections.
+     */
+    @Nonnull
+    public PmoBasedSectionFactory getPmoBasedSectionFactory() {
+        return sectionFactory;
+    }
+
+    /**
      * Adds the given component / section to the page taking 100% of the page width.
      */
-    protected void add(Component section) {
+    protected void add(@Nonnull Component section) {
         addComponent(section);
     }
 
     /**
-     * Adds the two components / sections to the page, each taking 50% of the page width.
+     * Creates a section based on the given PMO and adds it to the page taking 100% of the page
+     * width. If the PMO is a {@link ContainerPmo} a table section is created.
+     * 
+     * @return The new section created based on the given PMO.
      */
-    protected void add(Component leftSection, Component rightSection) {
-        add(0, leftSection, rightSection);
+    @Nonnull
+    protected AbstractSection addSection(@Nonnull Object pmo) {
+        AbstractSection section = sectionFactory.createSection(pmo, getBindingContext());
+        addComponent(section);
+        return section;
     }
 
     /**
      * Adds the two components / sections to the page, each taking 50% of the page width.
+     */
+    protected void add(@Nonnull Component leftSection, @Nonnull Component rightSection) {
+        add(0, leftSection, rightSection);
+    }
+
+    /**
+     * Adds the components / sections to the page, each taking an equal part of the page width.
      */
     protected void add(Component... sections) {
         add(0, sections);
     }
 
     /**
-     * Adds the two components / sections to the page, and indents them. Each section is taking 50%
-     * of the rest of the page width.
+     * Creates sections based on the given PMOs and adds them to the page each taking equal part of
+     * the page width. If a PMO is a {@link ContainerPmo} a table section is created.
+     * 
+     * @throws NullPointerException if one of the given PMOs is <code>null</code>.
+     */
+    protected void addSections(@Nonnull Object... pmos) {
+        AbstractSection[] sections = Arrays.stream(pmos)
+                .map(pmo -> sectionFactory.createSection(pmo, getBindingContext()))
+                .toArray(AbstractSection[]::new);
+        add(0, sections);
+    }
+
+    /**
+     * Adds the two components / sections to the page, and indents them. Each section is taking an
+     * equal part of the rest of the page width.
      * 
      * @param indentation level of indentation, indentation size is indentation * 30px. Indentation
      *            0 or less does not indent.
@@ -82,15 +139,6 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
         for (Component component : wrapper) {
             wrapper.setExpandRatio(component, 1f / sections.length);
         }
-    }
-
-    /**
-     * Scrolls the view so that the given model object is visible.
-     * 
-     * @param modelObject The model object to show
-     */
-    public void scrollIntoView(Object modelObject) {
-        // TODO not implemented, yet. Can this be done in a generic way?
     }
 
     /**
@@ -111,12 +159,14 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * 
      * @see #getBindingContext()
      */
+    @Nonnull
     protected abstract BindingManager getBindingManager();
 
     /**
      * Returns a cached binding context if present, otherwise creates a new one. Caches one binding
      * context for each class.
      */
+    @Nonnull
     protected BindingContext getBindingContext() {
         return getBindingManager().getExistingContextOrStartNewOne(getClass());
     }

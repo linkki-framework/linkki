@@ -62,7 +62,7 @@ public class PmoBasedSectionFactoryTest {
     public void setUp() {
         bindingContext = TestBindingContext.create();
         pmo = new TestPmoWithAnnotations();
-        section = new DefaultPmoBasedSectionFactory().createSection(pmo, bindingContext);
+        section = new DefaultPmoBasedSectionFactory().createBaseSection(pmo, bindingContext);
 
         Collection<ElementBinding> bindings = bindingContext.getElementBindings();
         assertEquals(5, bindings.size());

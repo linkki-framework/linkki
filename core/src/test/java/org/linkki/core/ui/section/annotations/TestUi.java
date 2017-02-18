@@ -2,7 +2,7 @@ package org.linkki.core.ui.section.annotations;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
-import org.linkki.core.ui.section.BaseSection;
+import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 
@@ -63,7 +63,7 @@ public class TestUi extends UI {
     public static Component componentBoundTo(Object pmo, BindingContext bindingContext) {
         TestUi testUi = new TestUi();
         PmoBasedSectionFactory sectionFactory = new DefaultPmoBasedSectionFactory();
-        BaseSection section = sectionFactory.createSection(pmo, bindingContext);
+        AbstractSection section = sectionFactory.createSection(pmo, bindingContext);
 
         testUi.setContent(section);
 
