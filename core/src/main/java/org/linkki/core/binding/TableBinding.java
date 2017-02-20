@@ -2,6 +2,7 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -46,7 +47,10 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
      */
     @Override
     public void updateFromPmo() {
-        List<T> actualItems = containerPmo.getItems();
+
+        List<T> pmoItems = containerPmo.getItems();
+        List<LinkkiItemWrapper<T>> actualItems = asLinkkiItemWrapper(pmoItems, new ArrayList<>(pmoItems.size()));
+
         if (hasItemListChanged(actualItems)) {
             removeBindingsForOldItems();
             addAllItems(actualItems);
@@ -69,11 +73,11 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
     }
 
     private void removeBindingsForOldItems() {
-        getBackupList().forEach(bindingContext::removeBindingsForPmo);
+        getBackupList().forEach(i -> bindingContext.removeBindingsForPmo(i.getItem()));
         removeAllItems();
     }
 
-    private boolean hasItemListChanged(List<T> actualItems) {
+    private boolean hasItemListChanged(List<LinkkiItemWrapper<T>> actualItems) {
         return !getBackupList().equals(actualItems);
     }
 

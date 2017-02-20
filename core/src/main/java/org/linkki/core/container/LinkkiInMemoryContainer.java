@@ -28,7 +28,7 @@ public class LinkkiInMemoryContainer<T>
 
     private static final long serialVersionUID = -1708252890035638419L;
 
-    private List<T> backupList = new ArrayList<>();
+    private List<LinkkiItemWrapper<T>> backupList = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
     @Override
@@ -54,23 +54,53 @@ public class LinkkiInMemoryContainer<T>
     @Override
     public boolean removeAllItems() throws UnsupportedOperationException {
         getAllItemIds().clear();
+        backupList.clear();
         return true;
     }
 
     public void addAllItems(@Nonnull Collection<T> items) {
-        getAllItemIds().addAll(requireNonNull(items));
-        backupList.addAll(items);
+        addAllItems(asLinkkiItemWrapper(items, new ArrayList<>(items.size())));
+    }
+
+    protected void addAllItems(@Nonnull List<LinkkiItemWrapper<T>> items) {
+
+        requireNonNull(items, "items must not be null");
+
+        List<Object> allItemIds = getAllItemIds();
+
+        for (LinkkiItemWrapper<T> item : items) {
+            backupList.add(item);
+            allItemIds.add(item.getItem());
+        }
+
         fireItemSetChange();
     }
 
-    protected List<T> getBackupList() {
+    @Nonnull
+    protected List<LinkkiItemWrapper<T>> asLinkkiItemWrapper(@Nonnull Collection<T> items,
+            @Nonnull List<LinkkiItemWrapper<T>> target) {
+
+        requireNonNull(items, "items must be null");
+        requireNonNull(target, "target must not be null");
+
+        for (T item : items) {
+            target.add(new LinkkiItemWrapper<T>(item));
+        }
+
+        return target;
+    }
+
+    protected List<LinkkiItemWrapper<T>> getBackupList() {
         return backupList;
     }
 
     /**
      * A simple Wrapper class for the Object in {@link LinkkiInMemoryContainer}.
+     * <p>
+     * This wrapper is needed to 'override' the {@link #equals(Object)} and {@link #hashCode()} of
+     * the containing objects for our 'need to reload the container' check.
      */
-    static class LinkkiItemWrapper<T> implements Item {
+    protected static class LinkkiItemWrapper<T> implements Item {
 
         private static final long serialVersionUID = -8239631444860890275L;
 
@@ -119,11 +149,18 @@ public class LinkkiInMemoryContainer<T>
 
             LinkkiItemWrapper<?> that = (LinkkiItemWrapper<?>)o;
 
-            return item.equals(that.item);
+            // only reference check because we only want to reload
+            // the container if references has changed!
+            return item == that.item;
         }
 
         @Override
         public int hashCode() {
+
+            if (item == null) {
+                return 0;
+            }
+
             return item.hashCode();
         }
     }
