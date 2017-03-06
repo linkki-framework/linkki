@@ -12,6 +12,8 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
+import javax.annotation.Nullable;
+
 import org.linkki.util.DateFormatRegistry;
 
 /**
@@ -35,7 +37,7 @@ public class LocalDateTimeToStringConverter extends TemporalAccessorToStringConv
     }
 
     @Override
-    protected DateTimeFormatter getFormatter(Locale locale) {
+    protected DateTimeFormatter getFormatter(@Nullable Locale locale) {
         Locale localeForConversion = getLocale(locale);
         String pattern = FORMAT_REGISTRY.getPattern(localeForConversion);
 

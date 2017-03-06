@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.annotation.Nullable;
+
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.themes.ValoTheme;
@@ -52,9 +54,14 @@ public interface ButtonPmo {
         return Builder.action(onClickAction).icon(FontAwesome.TRASH_O).get();
     }
 
+    /**
+     * Builder to create a {@link ButtonPmo} with a fluent API. <em>{@link #icon(Resource)} must be
+     * called before {@link #get()} as buttons are not created without icon</em>
+     */
     public static class Builder {
 
         private Runnable action;
+        @Nullable
         private Resource icon;
 
         public Builder(Runnable onClickAction) {
@@ -71,6 +78,9 @@ public interface ButtonPmo {
         }
 
         public ButtonPmo get() {
+            if (icon == null) {
+                throw new IllegalStateException("icon must be set before calling get()");
+            }
             return new ButtonPmo() {
 
                 @Override
@@ -78,6 +88,7 @@ public interface ButtonPmo {
                     action.run();
                 }
 
+                @SuppressWarnings("null")
                 @Override
                 public Resource getButtonIcon() {
                     return icon;

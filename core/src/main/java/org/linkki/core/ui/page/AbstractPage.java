@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
 
-import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.PostConstruct;
 
@@ -38,7 +37,6 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
 
     private static final long serialVersionUID = 1L;
 
-    @Nonnull
     private final PmoBasedSectionFactory sectionFactory;
 
     /**
@@ -54,9 +52,10 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * 
      * @param sectionFactory Factory used to create sections based on given PMOs.
      */
-    public AbstractPage(@Nonnull PmoBasedSectionFactory sectionFactory) {
+    public AbstractPage(PmoBasedSectionFactory sectionFactory) {
         super();
-        this.sectionFactory = requireNonNull(sectionFactory);
+        requireNonNull(sectionFactory, "sectionFactory must not be null");
+        this.sectionFactory = sectionFactory;
         setMargin(new MarginInfo(false, true, true, true));
     }
 
@@ -68,7 +67,6 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     /**
      * Returns the factory used to create PMO based sections.
      */
-    @Nonnull
     public PmoBasedSectionFactory getPmoBasedSectionFactory() {
         return sectionFactory;
     }
@@ -76,7 +74,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     /**
      * Adds the given component / section to the page taking 100% of the page width.
      */
-    protected void add(@Nonnull Component section) {
+    protected void add(Component section) {
         addComponent(section);
     }
 
@@ -86,8 +84,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * 
      * @return The new section created based on the given PMO.
      */
-    @Nonnull
-    protected AbstractSection addSection(@Nonnull Object pmo) {
+    protected AbstractSection addSection(Object pmo) {
         AbstractSection section = sectionFactory.createSection(pmo, getBindingContext());
         addComponent(section);
         return section;
@@ -96,7 +93,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     /**
      * Adds the two components / sections to the page, each taking 50% of the page width.
      */
-    protected void add(@Nonnull Component leftSection, @Nonnull Component rightSection) {
+    protected void add(Component leftSection, Component rightSection) {
         add(0, leftSection, rightSection);
     }
 
@@ -113,7 +110,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * 
      * @throws NullPointerException if one of the given PMOs is <code>null</code>.
      */
-    protected void addSections(@Nonnull Object... pmos) {
+    protected void addSections(Object... pmos) {
         AbstractSection[] sections = Arrays.stream(pmos)
                 .map(pmo -> sectionFactory.createSection(pmo, getBindingContext()))
                 .toArray(AbstractSection[]::new);
@@ -159,14 +156,12 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * 
      * @see #getBindingContext()
      */
-    @Nonnull
     protected abstract BindingManager getBindingManager();
 
     /**
      * Returns a cached binding context if present, otherwise creates a new one. Caches one binding
      * context for each class.
      */
-    @Nonnull
     protected BindingContext getBindingContext() {
         return getBindingManager().getExistingContextOrStartNewOne(getClass());
     }

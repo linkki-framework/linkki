@@ -1,0 +1,4 @@
+class org/springframework/security/core/context/SecurityContextHolder
+getContext
+ ()Lorg/springframework/security/core/context/SecurityContext;
+ ()L1org/springframework/security/core/context/SecurityContext;

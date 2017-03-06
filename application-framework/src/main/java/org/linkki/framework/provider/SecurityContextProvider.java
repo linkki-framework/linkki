@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Provider for the current {@link SecurityContext} obtained from the current session and using
- * {@link SecurityContextHolder} as a fallback.
+ * {@link SecurityContextHolder} as a fall-back.
  *
  * @see SecurityContextHolder#getContext()
  */

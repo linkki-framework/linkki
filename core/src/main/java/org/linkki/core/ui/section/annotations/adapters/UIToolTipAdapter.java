@@ -6,6 +6,9 @@
 
 package org.linkki.core.ui.section.annotations.adapters;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.section.annotations.ToolTipType;
 import org.linkki.core.ui.section.annotations.UIToolTip;
@@ -17,20 +20,23 @@ import org.linkki.core.ui.section.annotations.UIToolTipDefinition;
  */
 public class UIToolTipAdapter implements UIToolTipDefinition {
 
+    @Nullable
     private final UIToolTip toolTipAnnotation;
 
     /**
      * @param annotation the annotation or <code>null</code> if no {@link UIToolTip} is present
      */
-    public UIToolTipAdapter(UIToolTip annotation) {
+    public UIToolTipAdapter(@Nullable UIToolTip annotation) {
         this.toolTipAnnotation = annotation;
     }
 
     @Override
+    @CheckForNull
     public ToolTipType toolTipType() {
-        return toolTipAnnotation == null ? null : toolTipAnnotation.toolTipType();
+        return toolTipAnnotation != null ? toolTipAnnotation.toolTipType() : null;
     }
 
+    @SuppressWarnings("null")
     @Override
     public String text() {
         return toolTipAnnotation == null || toolTipType() == null ? StringUtils.EMPTY : toolTipAnnotation.text();

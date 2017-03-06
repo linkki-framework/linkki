@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.Validate;
 import org.linkki.core.ui.section.AbstractSection;
@@ -26,10 +26,11 @@ public class TableSection<T> extends AbstractSection {
 
     private static final long serialVersionUID = 1L;
 
+    @Nullable
     private Table table;
 
     /* package private, used by the PmoBaseTableFactory */
-    TableSection(@Nonnull String caption, boolean closeable, Optional<Button> addItemButton) {
+    TableSection(String caption, boolean closeable, Optional<Button> addItemButton) {
         super(caption, closeable, addItemButton);
     }
 
@@ -39,7 +40,8 @@ public class TableSection<T> extends AbstractSection {
     /* package private, used by the PmoBaseTableFactory */
     void setTable(Table table) {
         Validate.isTrue(this.table == null, "Table already set.");
-        this.table = requireNonNull(table);
+        requireNonNull(table, "table must not be null");
+        this.table = table;
         addComponent(table);
         setExpandRatio(table, 1f);
         table.setSizeFull();
@@ -48,14 +50,13 @@ public class TableSection<T> extends AbstractSection {
     /**
      * Returns the table shown in the section.
      */
-    @SuppressWarnings("null")
-    @Nonnull
     public Table getTable() {
-        return requireNonNull(table, "Table hasn't been set, yet");
+        Validate.isTrue(this.table != null, "Table must be already set.");
+        return table;
     }
 
     @Override
     public String toString() {
-        return "TableSection based on " + table.getContainerDataSource();
+        return "TableSection based on " + (table != null ? table.getContainerDataSource() : null);
     }
 }

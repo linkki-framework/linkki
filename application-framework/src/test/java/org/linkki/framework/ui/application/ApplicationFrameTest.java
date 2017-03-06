@@ -31,21 +31,27 @@ import com.vaadin.ui.VerticalLayout;
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicationFrameTest {
 
+    @SuppressWarnings("null")
     @Mock
     UI ui;
 
+    @SuppressWarnings("null")
     @Mock
     Page page;
 
+    @SuppressWarnings("null")
     @Mock
     ApplicationHeader header;
 
+    @SuppressWarnings("null")
     @Mock
     ApplicationFooter footer;
 
+    @SuppressWarnings("null")
     @Mock
     CDIViewProvider viewProvider;
 
+    @SuppressWarnings("null")
     @InjectMocks
     ApplicationFrame applicationFrame;
 

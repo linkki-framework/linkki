@@ -9,7 +9,7 @@ package org.linkki.core.ui.table;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
 
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.TableFooterPmo;
@@ -34,6 +34,7 @@ public interface ContainerPmo<T> {
      *             generic interface.
      */
     @Deprecated
+    @CheckForNull
     default Class<T> getItemPmoClass() {
         return null;
     }
@@ -53,7 +54,6 @@ public interface ContainerPmo<T> {
      * If you create the item PMOs based on a list of model objects, the easiest way is to use the
      * {@link SimpleItemSupplier}.
      */
-    @Nonnull
     List<T> getItems();
 
     /**
@@ -62,7 +62,6 @@ public interface ContainerPmo<T> {
      * @return The PMO that provides the data for the footer or an empty optional if no footer
      *         should be shown (default).
      */
-    @Nonnull
     default Optional<TableFooterPmo> getFooterPmo() {
         return Optional.empty();
     }
@@ -70,7 +69,6 @@ public interface ContainerPmo<T> {
     /**
      * Returns a {@link ButtonPmo} for the add button in the table section
      */
-    @Nonnull
     default Optional<ButtonPmo> getAddItemButtonPmo() {
         return Optional.empty();
     }

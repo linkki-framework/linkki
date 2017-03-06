@@ -8,6 +8,8 @@ package org.linkki.core.ui.components;
 
 import java.text.NumberFormat;
 
+import javax.annotation.CheckForNull;
+
 class IntegerFieldConverter extends AbstractNumberFieldConverter<Integer> {
 
     private static final long serialVersionUID = 6756969882235490962L;
@@ -22,6 +24,7 @@ class IntegerFieldConverter extends AbstractNumberFieldConverter<Integer> {
     }
 
     @Override
+    @CheckForNull
     protected Integer getNullValue() {
         return null;
     }

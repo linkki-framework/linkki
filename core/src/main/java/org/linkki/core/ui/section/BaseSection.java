@@ -2,8 +2,6 @@ package org.linkki.core.ui.section;
 
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -20,7 +18,7 @@ public abstract class BaseSection extends AbstractSection {
      * 
      * @param caption the caption
      */
-    public BaseSection(@Nonnull String caption) {
+    public BaseSection(String caption) {
         super(caption);
     }
 
@@ -30,7 +28,7 @@ public abstract class BaseSection extends AbstractSection {
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
-    public BaseSection(@Nonnull String caption, boolean closeable) {
+    public BaseSection(String caption, boolean closeable) {
         super(caption, closeable);
     }
 
@@ -41,18 +39,18 @@ public abstract class BaseSection extends AbstractSection {
      * @param closeable <code>true</code> if the section can be closed and opened.
      * @param editButton If present the section has an edit button in the header.
      */
-    public BaseSection(@Nonnull String caption, boolean closeable, Optional<Button> editButton) {
+    public BaseSection(String caption, boolean closeable, Optional<Button> editButton) {
         super(caption, closeable, editButton);
     }
 
     /**
      * Adds the given label / component pair to the section.
      */
-    public abstract Label add(@Nonnull String label, @Nonnull Component component);
+    public abstract Label add(String label, Component component);
 
     /**
      * Adds the component to the section without a label.
      */
-    public abstract void add(@Nonnull Component component);
+    public abstract void add(Component component);
 
 }

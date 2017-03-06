@@ -6,9 +6,13 @@
 
 package org.linkki.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+
+import javax.annotation.CheckForNull;
 
 /**
  * Key-value store that initializes its values lazily. Values will be initialized using the
@@ -30,7 +34,7 @@ public class LazyInitializingMap<K, V> {
      *            <code>null</code> values otherwise.
      */
     public LazyInitializingMap(Function<K, V> initializer) {
-        this.initializer = initializer;
+        this.initializer = requireNonNull(initializer, "initializer must not be null");
     }
 
     /**
@@ -50,20 +54,19 @@ public class LazyInitializingMap<K, V> {
      *             function violates its contract and returns <code>null</code>.
      */
     public V get(K key) {
-        if (!internalMap.containsKey(key)) {
-            init(key);
-        }
-        return getIfPresent(key);
-    }
 
-    private void init(K key) {
-        internalMap.put(key, initializer.apply(key));
+        V value = internalMap.computeIfAbsent(key, initializer);
+        if (value == null) {
+            throw new NullPointerException("Initializer must not create a null value");
+        }
+        return value;
     }
 
     /**
      * Returns the value the given key maps to. Returns <code>null</code> if the key does not map to
      * a value.
      */
+    @CheckForNull
     public V getIfPresent(K key) {
         return internalMap.get(key);
     }
@@ -76,10 +79,12 @@ public class LazyInitializingMap<K, V> {
     }
 
     /**
-     * Removes the key from the map.
+     * Removes the key from the map. Returns the removed value or <code>null</code> if the key does
+     * not map to a value.
      * 
      * @see Map#remove(Object)
      */
+    @CheckForNull
     public V remove(K key) {
         return internalMap.remove(key);
     }

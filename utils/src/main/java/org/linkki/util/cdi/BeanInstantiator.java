@@ -10,6 +10,7 @@ import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 
@@ -94,7 +95,10 @@ public class BeanInstantiator {
     public <T> T getInstance(Class<T> beanClass, Annotation... qualifiers) {
         Set<T> instances = getInstances(beanClass, qualifiers);
         checkExactlyOneInstance(beanClass, instances);
-        return instances.iterator().next();
+        @SuppressWarnings("null")
+        @Nonnull
+        T next = instances.iterator().next();
+        return next;
     }
 
     private <T> void checkExactlyOneInstance(Class<T> beanClass, Set<T> instances) {

@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.ButtonPmo;
@@ -40,19 +41,15 @@ import com.vaadin.ui.Label;
  */
 public class BindingContext implements UiUpdateObserver {
 
-    @Nonnull
     private final String name;
+    private final PropertyBehaviorProvider behaviorProvider;
+    private final Handler afterUpdateHandler;
+
     private final Map<Component, ElementBinding> elementBindings = new ConcurrentHashMap<>();
     private final Map<Object, List<ElementBinding>> elementBindingsByPmo = Collections.synchronizedMap(new HashMap<>());
     private final Map<Component, TableBinding<?>> tableBindings = new ConcurrentHashMap<>();
     private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<>();
     private final PropertyDispatcherFactory dispatcherFactory = new PropertyDispatcherFactory();
-
-    @Nonnull
-    private final PropertyBehaviorProvider behaviorProvider;
-
-    @Nonnull
-    private Handler afterUpdateHandler;
 
     /**
      * Creates a new binding context with the given name, using the behavior provider to decorate
@@ -73,15 +70,17 @@ public class BindingContext implements UiUpdateObserver {
     @SuppressWarnings("null")
     public BindingContext(@Nonnull String contextName, @Nonnull PropertyBehaviorProvider behaviorProvider,
             @Nonnull Handler afterUpdateHandler) {
-        this.name = requireNonNull(contextName);
-        this.behaviorProvider = requireNonNull(behaviorProvider);
-        this.afterUpdateHandler = requireNonNull(afterUpdateHandler);
+        requireNonNull(contextName, "contextName must not be null");
+        requireNonNull(behaviorProvider, "behaviorProvider must not be null");
+        requireNonNull(afterUpdateHandler, "afterUpdateHandler must not be null");
+        this.name = contextName;
+        this.behaviorProvider = behaviorProvider;
+        this.afterUpdateHandler = afterUpdateHandler;
     }
 
     /**
      * Returns the context's name that uniquely identifies it in a {@linkplain BindingManager}.
      */
-    @Nonnull
     public String getName() {
         return name;
     }
@@ -89,9 +88,8 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Adds an element binding to the context.
      */
-    @Nonnull
-    public BindingContext add(@Nonnull ElementBinding binding) {
-        requireNonNull(binding);
+    public BindingContext add(ElementBinding binding) {
+        requireNonNull(binding, "binding must not be null");
         elementBindings.put(binding.getBoundComponent(), binding);
         elementBindingsByPmo.computeIfAbsent(binding.getPmo(), (pmo) -> Collections.synchronizedList(new ArrayList<>()))
                 .add(binding);
@@ -102,9 +100,9 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Adds a table binding to the context.
      */
-    @Nonnull
-    public BindingContext add(@Nonnull TableBinding<?> tableBinding) {
-        requireNonNull(tableBinding);
+
+    public BindingContext add(TableBinding<?> tableBinding) {
+        requireNonNull(tableBinding, "tableBinding must not be null");
         tableBindings.put(tableBinding.getBoundComponent(), tableBinding);
         return this;
     }
@@ -181,13 +179,13 @@ public class BindingContext implements UiUpdateObserver {
      * 
      * @see BindingManager#updateMessages(MessageList)
      */
-    public void updateMessages(MessageList messages) {
+    public void updateMessages(@Nullable MessageList messages) {
         // TODO merken welches binding welche messages anzeigt
         elementBindings.values().forEach(binding -> binding.displayMessages(messages));
         tableBindings.values().forEach(binding -> binding.displayMessages(messages));
     }
 
-    @Nonnull
+
     public PropertyBehaviorProvider getBehaviorProvider() {
         return behaviorProvider;
     }
@@ -208,13 +206,13 @@ public class BindingContext implements UiUpdateObserver {
      * @param component the component to be bound
      * @param label the label to be bound or {@code null} if no label is bound
      */
-    public void bind(@Nonnull Object pmo,
-            @Nonnull BindingDescriptor bindingDescriptor,
-            @Nonnull Component component,
-            Label label) {
-        requireNonNull(pmo, "PresentationModelObject must not be null");
-        requireNonNull(bindingDescriptor, "BindingDescriptor must not be null");
-        requireNonNull(component, "Component must not be null");
+    public void bind(Object pmo,
+            BindingDescriptor bindingDescriptor,
+            Component component,
+            @Nullable Label label) {
+        requireNonNull(pmo, "pmo must not be null");
+        requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
+        requireNonNull(component, "component must not be null");
 
         // Make bound components "immediate", i.e. let them update their PMO as soon as a field is
         // left, a checkbox is checked etc.
@@ -235,28 +233,26 @@ public class BindingContext implements UiUpdateObserver {
      * @param button the button to be bound
      * @return the {@link ButtonPmoBinding} connecting the button and its model
      */
-    @Nonnull
-    public ButtonPmoBinding bind(@Nonnull ButtonPmo pmo, @Nonnull Button button) {
-        requireNonNull(pmo, "ButtonPmo must not be null");
-        requireNonNull(button, "Button must not be null");
+    public ButtonPmoBinding bind(ButtonPmo pmo, Button button) {
+        requireNonNull(pmo, "pmo must not be null");
+        requireNonNull(button, "button must not be null");
         ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, createDispatcherChain(pmo),
                 this::updateUIForBinding);
         add(buttonPmoBinding);
         return buttonPmoBinding;
     }
 
-    @Nonnull
-    protected PropertyDispatcher createDispatcherChain(@Nonnull Object pmo,
-            @Nonnull BindingDescriptor bindingDescriptor) {
-        requireNonNull(pmo, "PresentationModelObject must not be null");
-        requireNonNull(bindingDescriptor, "BindingDescriptor must not be null");
+    protected PropertyDispatcher createDispatcherChain(Object pmo,
+            BindingDescriptor bindingDescriptor) {
+        requireNonNull(pmo, "pmo must not be null");
+        requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
 
         return dispatcherFactory.createDispatcherChain(pmo, bindingDescriptor, getBehaviorProvider());
     }
 
-    @Nonnull
-    protected PropertyDispatcher createDispatcherChain(@Nonnull ButtonPmo buttonPmo) {
-        requireNonNull(buttonPmo, "ButtonPmo must not be null");
+
+    protected PropertyDispatcher createDispatcherChain(ButtonPmo buttonPmo) {
+        requireNonNull(buttonPmo, "buttonPmo must not be null");
 
         return dispatcherFactory.createDispatcherChain(buttonPmo, getBehaviorProvider());
     }

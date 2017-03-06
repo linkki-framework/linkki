@@ -14,12 +14,10 @@ import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.dispatcher.BehaviorDependentDispatcher;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+@SuppressWarnings("null")
 @RunWith(MockitoJUnitRunner.class)
 public class BehaviorDependentDispatcherTest {
 
@@ -41,15 +39,20 @@ public class BehaviorDependentDispatcherTest {
         assertTrue(decorator.isVisible());
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testNullProvider() {
         decorator = new BehaviorDependentDispatcher(wrappedDispatcher, null);
-        assertTrue(decorator.isVisible());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullList() {
+        when(behaviourProvider.getBehaviors()).thenReturn(null);
+        decorator.isVisible();
     }
 
     @Test
-    public void testNullList() {
-        when(behaviourProvider.getBehaviors()).thenReturn(null);
+    public void testEmptyList() {
+        when(behaviourProvider.getBehaviors()).thenReturn(Collections.emptyList());
         assertTrue(decorator.isVisible());
     }
 }

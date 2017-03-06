@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
@@ -97,7 +97,7 @@ public class OkCancelDialog extends Window {
      * @param caption the dialog's caption
      * @param okHandler okHandler the handler that handles clicks on the OK button
      */
-    public OkCancelDialog(String caption, @Nonnull Handler okHandler) {
+    public OkCancelDialog(String caption, Handler okHandler) {
         this(caption, okHandler, ButtonOption.OK_CANCEL);
     }
 
@@ -108,7 +108,7 @@ public class OkCancelDialog extends Window {
      * @param okHandler the handler that handles clicks on the OK button
      * @param buttonOption whether to show both buttons (OK and Cancel) or only the OK button
      */
-    public OkCancelDialog(@Nonnull String caption, @Nonnull Handler okHandler, @Nonnull ButtonOption buttonOption) {
+    public OkCancelDialog(String caption, Handler okHandler, ButtonOption buttonOption) {
         this(caption, null, okHandler, buttonOption);
     }
 
@@ -119,10 +119,11 @@ public class OkCancelDialog extends Window {
      * @param okHandler the handler that handle clicks on the OK button
      * @param buttonOption whether to show both buttons (OK and Cancel) or only the OK button
      */
-    public OkCancelDialog(@Nonnull String caption, Component content, @Nonnull Handler okHandler,
-            @Nonnull ButtonOption buttonOption) {
+    public OkCancelDialog(String caption, @Nullable Component content, Handler okHandler,
+            ButtonOption buttonOption) {
         super(caption);
-        this.okHandler = requireNonNull(okHandler);
+        requireNonNull(okHandler, "okHandler must not be null");
+        this.okHandler = okHandler;
         this.layout = new VerticalLayout();
         this.contentArea = new VerticalLayout();
         this.mainArea = new VerticalLayout();
@@ -149,8 +150,11 @@ public class OkCancelDialog extends Window {
      * Note that this also removes any components that were added using
      * {@link #addContent(Component)}.
      */
+    // mainArea is null when setContent is called from the superclass constructor. For all other
+    // purposes, we consider it @Nonnull
+    @SuppressWarnings({ "null", "unused" })
     @Override
-    public void setContent(Component content) {
+    public void setContent(@Nullable Component content) {
         // This method is invoked by superclass constructors. In this case the superclass'
         // implementation has to be used. Once initialization is finished, we implement a different
         // behavior (as described in the JavaDoc).
@@ -177,7 +181,7 @@ public class OkCancelDialog extends Window {
         layout.setExpandRatio(contentArea, 1f);
     }
 
-    private void initMainArea(Component c) {
+    private void initMainArea(@Nullable Component c) {
         mainArea.addStyleName(ApplicationStyles.DIALOG_CONTENT);
         contentArea.addStyleName("content-area");
         contentArea.addComponent(mainArea);
@@ -303,14 +307,15 @@ public class OkCancelDialog extends Window {
     }
 
     /** Returns the validation service that validates data in the dialog. */
-    @Nonnull
+
     public ValidationService getValidationService() {
         return validationService;
     }
 
     /** Sets the validation service that validates data in the dialog. */
-    public void setValidationService(@Nonnull ValidationService validationService) {
-        this.validationService = requireNonNull(validationService);
+    public void setValidationService(ValidationService validationService) {
+        requireNonNull(validationService, "validationService must not be null");
+        this.validationService = validationService;
     }
 
     private Optional<Message> getMessageToDisplay() {

@@ -8,8 +8,6 @@ package org.linkki.framework.ui.dialogs;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.Nonnull;
-
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
@@ -48,7 +46,7 @@ public class PmoBasedDialogFactory {
      * 
      * @param validationService A service validating the data in the dialog.
      */
-    public PmoBasedDialogFactory(@Nonnull ValidationService validationService) {
+    public PmoBasedDialogFactory(ValidationService validationService) {
         this(validationService, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
     }
 
@@ -59,11 +57,13 @@ public class PmoBasedDialogFactory {
      * @param propertyBehaviorProvider A provider providing special property behavior like read-only
      *            modus if an objects can't be edited.
      */
-    public PmoBasedDialogFactory(@Nonnull ValidationService validationService,
-            @Nonnull PropertyBehaviorProvider propertyBehaviorProvider) {
+    public PmoBasedDialogFactory(ValidationService validationService,
+            PropertyBehaviorProvider propertyBehaviorProvider) {
+        requireNonNull(validationService, "validationService must not be null");
+        requireNonNull(propertyBehaviorProvider, "propertyBehaviorProvider must not be null");
+        this.validationService = validationService;
+        this.propertyBehaviorProvider = propertyBehaviorProvider;
         this.pmoBasedSectionFactory = new DefaultPmoBasedSectionFactory();
-        this.validationService = requireNonNull(validationService);
-        this.propertyBehaviorProvider = requireNonNull(propertyBehaviorProvider);
     }
 
     /**
@@ -76,7 +76,6 @@ public class PmoBasedDialogFactory {
      * @param okHandler The called when OK is clicked.
      * @return A dialog with the content defined by the given PMO.
      */
-    @Nonnull
     @Deprecated
     public OkCancelDialog newOkCancelDialog(String title, Object pmo, Handler okHandler) {
         return newOkCancelDialog(title, okHandler, pmo);
@@ -90,7 +89,6 @@ public class PmoBasedDialogFactory {
      * @param pmos The presentation model objects providing the data and the layout information.
      * @return A dialog with the content defined by the given PMO.
      */
-    @Nonnull
     public OkCancelDialog newOkCancelDialog(String title, Handler okHandler, Object... pmos) {
         OkCancelDialog dialog = new OkCancelDialog(title, okHandler, ButtonOption.OK_CANCEL);
         DialogBindingManager bindingManager = new DialogBindingManager(dialog, validationService,
@@ -119,7 +117,6 @@ public class PmoBasedDialogFactory {
      * @param okHandler The called when OK is clicked.
      * @return A dialog with the content defined by the given PMO.
      */
-    @Nonnull
     public OkCancelDialog openOkCancelDialog(String title, Object pmo, Handler okHandler) {
         return open(newOkCancelDialog(title, okHandler, pmo));
     }
@@ -134,7 +131,6 @@ public class PmoBasedDialogFactory {
      * @param dialog the dialog that should be opened
      * @return A dialog with the content defined by the given PMO.
      */
-    @Nonnull
     public static OkCancelDialog open(OkCancelDialog dialog) {
         UI.getCurrent().addWindow(dialog);
         return dialog;

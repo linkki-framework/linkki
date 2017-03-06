@@ -133,12 +133,14 @@ public class BinderTest {
 
     protected static class TestView {
 
+        @SuppressWarnings("null")
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT)
         private TextField textField;
 
         @Bind(pmoProperty = TestPmo.METHOD_ON_CLICK)
         private Button button = new Button();
 
+        @SuppressWarnings("null")
         private IntegerField numberField;
 
         public void initTextField() {

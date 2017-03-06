@@ -8,6 +8,8 @@ package org.linkki.framework.security;
 
 import static org.linkki.framework.security.SpringUtil.afterPropertiesSet;
 
+import javax.annotation.Nullable;
+
 import org.apache.deltaspike.core.api.config.ConfigResolver;
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.util.cdi.BeanInstantiator;
@@ -41,16 +43,20 @@ public class KerberosSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String CONFIG_KEYTAB = "kerberos_keyTabLocation";
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(spnegoAuthenticationProcessingFilter(authenticationManagerBean()),
-                             BasicAuthenticationFilter.class)
-                .exceptionHandling().authenticationEntryPoint(spnegoEntryPoint());
+    protected void configure(@Nullable HttpSecurity http) throws Exception {
+        if (http != null) {
+            http.addFilterBefore(spnegoAuthenticationProcessingFilter(authenticationManagerBean()),
+                                 BasicAuthenticationFilter.class)
+                    .exceptionHandling().authenticationEntryPoint(spnegoEntryPoint());
+        }
     }
 
     @Override
-    public void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(kerberosAuthenticationProvider());
-        auth.authenticationProvider(kerberosServiceAuthenticationProvider());
+    public void configure(@Nullable AuthenticationManagerBuilder auth) {
+        if (auth != null) {
+            auth.authenticationProvider(kerberosAuthenticationProvider());
+            auth.authenticationProvider(kerberosServiceAuthenticationProvider());
+        }
     }
 
     @Bean

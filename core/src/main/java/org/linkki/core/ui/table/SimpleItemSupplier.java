@@ -14,7 +14,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * A supplier for item PMOs based on a list of underlying model objects. The PMOs are created from
@@ -37,7 +37,8 @@ import javax.annotation.Nonnull;
 public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
 
     private List<PMO> items = new ArrayList<>(0);
-    private List<? extends MO> modelObjectsCopy = null;
+    @Nullable
+    private List<? extends MO> modelObjectsCopy;
 
     private Supplier<List<? extends MO>> modelObjectSupplier;
     private Function<MO, PMO> mo2pmoMapping;
@@ -48,15 +49,21 @@ public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
      * @param modelObjectSupplier Supplies the underlying model objects.
      * @param mo2pmoMapping A function to create an item PMO based on a model object.
      */
-    public SimpleItemSupplier(@Nonnull Supplier<List<? extends MO>> modelObjectSupplier,
-            @Nonnull Function<MO, PMO> mo2pmoMapping) {
-        this.modelObjectSupplier = requireNonNull(modelObjectSupplier);
-        this.mo2pmoMapping = requireNonNull(mo2pmoMapping);
+    public SimpleItemSupplier(Supplier<List<? extends MO>> modelObjectSupplier,
+            Function<MO, PMO> mo2pmoMapping) {
+        requireNonNull(modelObjectSupplier, "modelObjectSupplier must not be null");
+        requireNonNull(mo2pmoMapping, "mo2pmoMapping must not be null");
+        this.modelObjectSupplier = modelObjectSupplier;
+        this.mo2pmoMapping = mo2pmoMapping;
     }
 
     @Override
     public List<PMO> get() {
-        List<? extends MO> actualModelObjects = requireNonNull(modelObjectSupplier.get());
+        List<? extends MO> actualModelObjects = modelObjectSupplier.get();
+        if (actualModelObjects == null) {
+            throw new IllegalStateException(
+                    "modelObjectSupplier must supply a List of model objects (which may be empty)");
+        }
         if (hasUnderlyingModelObjectListChanged(actualModelObjects)) {
             modelObjectsCopy = new ArrayList<>(actualModelObjects);
             items = actualModelObjects.stream().map(mo2pmoMapping).collect(Collectors.toList());

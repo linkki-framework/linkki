@@ -20,7 +20,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Panel;
 
-@SuppressWarnings("null")
 public class SectionCreationContextTest {
 
     private BindingContext bindingContext = new BindingContext("testBindingContext",

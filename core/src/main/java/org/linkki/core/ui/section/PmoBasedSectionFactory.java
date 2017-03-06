@@ -2,8 +2,6 @@ package org.linkki.core.ui.section;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.Nonnull;
-
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -36,8 +34,7 @@ public abstract class PmoBasedSectionFactory {
      * given binding context to the PMO. If the given PMO is a {@link ContainerPmo}, a table section
      * is created.
      */
-    @Nonnull
-    public AbstractSection createSection(@Nonnull Object pmo, @Nonnull BindingContext bindingContext) {
+    public AbstractSection createSection(Object pmo, BindingContext bindingContext) {
         if (pmo instanceof ContainerPmo<?>) {
             return createTableSection((ContainerPmo<?>)pmo, bindingContext);
         } else {
@@ -50,10 +47,9 @@ public abstract class PmoBasedSectionFactory {
      * Creates a new base section based on the given annotated PMO and binds the created controls
      * via the given binding context to the PMO.
      */
-    @Nonnull
-    public BaseSection createBaseSection(@Nonnull Object pmo, @Nonnull BindingContext bindingContext) {
-        SectionCreationContext creator = new SectionCreationContext(requireNonNull(pmo),
-                requireNonNull(bindingContext));
+    public BaseSection createBaseSection(Object pmo, BindingContext bindingContext) {
+        SectionCreationContext creator = new SectionCreationContext(requireNonNull(pmo, "pmo must not be null"),
+                requireNonNull(bindingContext, "bindingContext must not be null"));
         return creator.createSection();
     }
 
@@ -61,12 +57,12 @@ public abstract class PmoBasedSectionFactory {
      * Creates a new section containing a table based on the given annotated {@link ContainerPmo}
      * and binds the table via the given binding context to the PMO.
      */
-    @Nonnull
-    public <T> TableSection<T> createTableSection(@Nonnull ContainerPmo<T> pmo,
-            @Nonnull BindingContext bindingContext) {
+    public <T> TableSection<T> createTableSection(ContainerPmo<T> pmo,
+            BindingContext bindingContext) {
 
-        PmoBasedTableSectionFactory<T> factory = new PmoBasedTableSectionFactory<>(requireNonNull(pmo),
-                requireNonNull(bindingContext));
+        PmoBasedTableSectionFactory<T> factory = new PmoBasedTableSectionFactory<>(
+                requireNonNull(pmo, "pmo must not be null"),
+                requireNonNull(bindingContext, "bindingContext must not be null"));
         return factory.createSection();
     }
 

@@ -31,6 +31,7 @@ import com.vaadin.data.Container.ItemSetChangeListener;
 import com.vaadin.ui.Table;
 
 @RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings("null")
 public class TableBindingTest {
 
     @Mock

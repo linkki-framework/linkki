@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.Nullable;
+
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.TableFooterPmo;
 import org.linkki.core.ui.section.annotations.UISection;
@@ -17,7 +19,8 @@ public class TestTablePmo implements ContainerPmo<TestRowPmo> {
 
     private int pageLength = ContainerPmo.DEFAULT_PAGE_LENGTH;
 
-    private TableFooterPmo footerPmo = null;
+    @Nullable
+    private TableFooterPmo footerPmo;
 
     public TestRowPmo addItem() {
         TestRowPmo columnPmo = new TestRowPmo(this);

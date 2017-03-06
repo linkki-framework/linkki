@@ -6,8 +6,6 @@
 
 package org.linkki.core.binding.validation;
 
-import javax.annotation.Nonnull;
-
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.util.MessageUtil;
 import org.linkki.util.StreamUtil;
@@ -38,6 +36,5 @@ public enum ValidationDisplayState {
      * Returns a message list containing all the messages that are to be displayed from the given
      * message list according to this state.
      */
-    @Nonnull
-    public abstract MessageList filter(@Nonnull MessageList messageList);
+    public abstract MessageList filter(MessageList messageList);
 }

@@ -1,7 +1,5 @@
 package org.linkki.framework.ui.dialogs;
 
-import javax.annotation.Nonnull;
-
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.shared.ui.label.ContentMode;
@@ -25,7 +23,7 @@ public class QuestionDialog extends OkCancelDialog {
      * @param content A component containing the question to ask.
      * @param okHandler A function that is executed when the OK button was pressed.
      */
-    public QuestionDialog(@Nonnull String caption, @Nonnull Component content, @Nonnull Handler okHandler) {
+    public QuestionDialog(String caption, Component content, Handler okHandler) {
         super(caption, content, okHandler, ButtonOption.OK_CANCEL);
     }
 
@@ -36,7 +34,7 @@ public class QuestionDialog extends OkCancelDialog {
      * @param question The question to ask the user.
      * @param okHandler A function that is executed when the OK button was pressed.
      */
-    public static QuestionDialog open(@Nonnull String caption, @Nonnull String question, @Nonnull Handler okHandler) {
+    public static QuestionDialog open(String caption, String question, Handler okHandler) {
         Label questionLabel = new Label();
         questionLabel.setValue(question);
         questionLabel.setStyleName(ValoTheme.LABEL_H3);
@@ -51,9 +49,9 @@ public class QuestionDialog extends OkCancelDialog {
      * @param content A component containing the question to ask.
      * @param okHandler A function that is executed when the OK button was pressed.
      */
-    public static QuestionDialog open(@Nonnull String caption,
-            @Nonnull Component content,
-            @Nonnull Handler okHandler) {
+    public static QuestionDialog open(String caption,
+            Component content,
+            Handler okHandler) {
         QuestionDialog d = new QuestionDialog(caption, content, okHandler);
         UI.getCurrent().addWindow(d);
         return d;

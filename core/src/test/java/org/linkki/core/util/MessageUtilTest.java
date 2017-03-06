@@ -9,6 +9,8 @@ package org.linkki.core.util;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import javax.annotation.Nullable;
+
 import org.faktorips.runtime.IMarker;
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.Severity;
@@ -28,7 +30,7 @@ public class MessageUtilTest {
         assertThat(MessageUtil.isMandatoryFieldMessage(createMessage(notMandatoryMarker, mandatoryMarker)), is(true));
     }
 
-    private Message createMessage(ValidationMarker... markers) {
+    private Message createMessage(@Nullable ValidationMarker... markers) {
         return new Message.Builder("", Severity.ERROR).markers(markers != null ? markers : new IMarker[] {}).create();
     }
 

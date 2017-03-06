@@ -9,8 +9,6 @@ package org.linkki.core.ui.section;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import javax.annotation.Nonnull;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,11 +31,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class IntegrationTest {
     private static final String ANY_VALUE = "ukztu7kxju76r";
-    @Nonnull
+
     private final TestPmoWithAnnotations pmo = new TestPmoWithAnnotations();
-    @Nonnull
+
     private final PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
-    @Nonnull
+
     private final UIAnnotationReader reader = new UIAnnotationReader(TestPmoWithAnnotations.class);
 
     @Test

@@ -33,6 +33,7 @@ import com.vaadin.ui.themes.ValoTheme;
 @RunWith(MockitoJUnitRunner.class)
 public class ButtonBindingDefinitionTest {
 
+    @SuppressWarnings("null")
     @Captor
     private ArgumentCaptor<ClickShortcut> clickShortcutCaptor;
 

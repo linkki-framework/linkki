@@ -6,8 +6,6 @@
 
 package org.linkki.framework.ui.dialogs;
 
-import javax.annotation.Nonnull;
-
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.shared.ui.label.ContentMode;
@@ -30,7 +28,7 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @param content A component containing the question to ask.
      * @param okHandler A function that is executed when the OK button was pressed.
      */
-    public ConfirmationDialog(@Nonnull String caption, @Nonnull Component content, @Nonnull Handler okHandler) {
+    public ConfirmationDialog(String caption, Component content, Handler okHandler) {
         super(caption, content, okHandler, ButtonOption.OK_ONLY);
     }
 
@@ -50,7 +48,7 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @param caption The caption.
      * @param infoText The information text for the user.
      */
-    public static ConfirmationDialog open(@Nonnull String caption, @Nonnull String infoText) {
+    public static ConfirmationDialog open(String caption, String infoText) {
         return open(caption, infoText, Handler.NOP_HANDLER);
     }
 
@@ -61,9 +59,9 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @param infoText The information text for the user.
      * @param okHandler A function that is executed when the OK button was pressed.
      */
-    public static ConfirmationDialog open(@Nonnull String caption,
-            @Nonnull String infoText,
-            @Nonnull Handler okHandler) {
+    public static ConfirmationDialog open(String caption,
+            String infoText,
+            Handler okHandler) {
         Label infoLabel = new Label();
         infoLabel.setValue(infoText);
         infoLabel.setStyleName(ValoTheme.LABEL_H3);
@@ -77,7 +75,7 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @param caption The caption.
      * @param content A component that is rendered as content
      */
-    public static ConfirmationDialog open(@Nonnull String caption, @Nonnull Component content) {
+    public static ConfirmationDialog open(String caption, Component content) {
         return open(caption, content, Handler.NOP_HANDLER);
     }
 
@@ -88,9 +86,9 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @param content A component that is rendered as content
      * @param okHandler A function that is executed when the OK button was pressed.
      */
-    public static ConfirmationDialog open(@Nonnull String caption,
-            @Nonnull Component content,
-            @Nonnull Handler okHandler) {
+    public static ConfirmationDialog open(String caption,
+            Component content,
+            Handler okHandler) {
         ConfirmationDialog d = new ConfirmationDialog(caption, content, okHandler);
         UI.getCurrent().addWindow(d);
         return d;

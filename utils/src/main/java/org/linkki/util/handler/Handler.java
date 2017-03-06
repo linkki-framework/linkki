@@ -8,8 +8,6 @@ package org.linkki.util.handler;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.Nonnull;
-
 /**
  * A functional interface to proceed any operation. May be used to provide click handler or any
  * other runnable action.
@@ -33,8 +31,8 @@ public interface Handler {
      * Returns a composed handler that first executes this handler {@link #apply()} method and then
      * the {@link #apply()} method of the given handler.
      */
-    default Handler andThen(@Nonnull Handler after) {
-        requireNonNull(after);
+    default Handler andThen(Handler after) {
+        requireNonNull(after, "after must not be null");
         return () -> {
             apply();
             after.apply();

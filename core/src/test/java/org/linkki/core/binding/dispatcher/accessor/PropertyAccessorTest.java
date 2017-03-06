@@ -10,10 +10,11 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 
 public class PropertyAccessorTest {
+    @SuppressWarnings("null")
     private TestObject testObject;
+    @SuppressWarnings("null")
     private PropertyAccessor stringAccessor;
 
     @Before
@@ -55,16 +56,19 @@ public class PropertyAccessorTest {
         assertFalse(propertyAccessor.canWrite());
     }
 
+    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testConstructor_nullObject() {
         stringAccessor = new PropertyAccessor(null, "anyProperty");
     }
 
+    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testConstructor_nullPropertyName() {
         stringAccessor = new PropertyAccessor(testObject.getClass(), null);
     }
 
+    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testConstructor_nullArguments() {
         stringAccessor = new PropertyAccessor(null, null);

@@ -2,6 +2,10 @@ package org.linkki.core.binding.dispatcher.accessor;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Objects;
+
+import javax.annotation.Nullable;
+
 /**
  * Allows reading and writing a value from/to an object's property. Also provides the value class of
  * the property.
@@ -19,8 +23,10 @@ public class PropertyAccessor {
     private final WriteMethod writeMethod;
 
     public PropertyAccessor(Class<?> boundClass, String propertyName) {
-        this.propertyName = requireNonNull(propertyName);
-        PropertyAccessDescriptor propertyAccessDescriptor = new PropertyAccessDescriptor(requireNonNull(boundClass),
+        requireNonNull(propertyName, "propertyName must not be null");
+        this.propertyName = propertyName;
+        PropertyAccessDescriptor propertyAccessDescriptor = new PropertyAccessDescriptor(
+                requireNonNull(boundClass, "boundClass must not be null"),
                 propertyName);
         readMethod = propertyAccessDescriptor.createReadMethod();
         writeMethod = propertyAccessDescriptor.createWriteMethod();
@@ -49,22 +55,14 @@ public class PropertyAccessor {
      *
      * @throws IllegalStateException if no setter can be found
      */
-    public void setPropertyValue(Object boundObject, Object value) {
+    public void setPropertyValue(Object boundObject, @Nullable Object value) {
         if (requiresWrite(boundObject, value)) {
             writeMethod.writeValue(boundObject, value);
         }
     }
 
-    private boolean requiresWrite(Object boundObject, Object value) {
-        return !canRead() || !valuesEqual(value, readMethod.readValue(boundObject));
-    }
-
-    private boolean valuesEqual(Object value, Object readValue) {
-        if (value == null || readValue == null) {
-            return value == null && readValue == null ? true : false;
-        } else {
-            return value.equals(readValue);
-        }
+    private boolean requiresWrite(Object boundObject, @Nullable Object value) {
+        return !canRead() || !Objects.equals(value, readMethod.readValue(boundObject));
     }
 
     /**

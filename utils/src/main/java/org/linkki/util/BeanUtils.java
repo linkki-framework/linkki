@@ -22,6 +22,8 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import javax.annotation.CheckForNull;
+
 public class BeanUtils {
 
     private BeanUtils() {
@@ -40,7 +42,7 @@ public class BeanUtils {
     }
 
     /**
-     * Gibt die Methode mit dem übergebenen name und den übergebenen Parametertypen zurück.
+     * Returns the method with the given name and parameter types.
      * 
      * @see Class#getMethod(String, Class...)
      */
@@ -78,8 +80,10 @@ public class BeanUtils {
 
     private static List<Method> collectMethods(Class<?> clazz, List<Method> allMethods) {
         allMethods.addAll(Arrays.asList(clazz.getDeclaredMethods()));
-        if (clazz.getSuperclass() != null) {
-            collectMethods(clazz.getSuperclass(), allMethods);
+
+        Class<?> superclass = clazz.getSuperclass();
+        if (superclass != null) {
+            collectMethods(superclass, allMethods);
         }
         for (Class<?> interfaze : clazz.getInterfaces()) {
             collectMethods(interfaze, allMethods);
@@ -105,6 +109,8 @@ public class BeanUtils {
      * Returns the class' field with the given name. In contrast to <tt>getDeclaredField</tt> this
      * method searches the type's hierarchy (if the class extends a super class)
      * 
+     * @throws RuntimeException wrapping a NoSuchFieldException if no such field exists.
+     * 
      * @see Class#getDeclaredField(String)
      */
     public static Field getField(Class<?> clazz, String name) {
@@ -118,8 +124,9 @@ public class BeanUtils {
                 classToSearch = classToSearch.getSuperclass();
             }
         }
-        throw new NoSuchFieldError(
-                "No field '" + name + "' found in class '" + clazz + "' or any of its super classes.");
+        throw new RuntimeException(
+                new NoSuchFieldException(
+                        "No field '" + name + "' found in class '" + clazz + "' or any of its super classes."));
     }
 
     /**
@@ -127,10 +134,12 @@ public class BeanUtils {
      * 
      * @see Class#getDeclaredField(String)
      */
+    @CheckForNull
     public static Object getValueFromField(Object object, String name) {
         Field field = getField(object.getClass(), name);
         return AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
+            @CheckForNull
             public Object run() {
                 boolean accessible = field.isAccessible();
                 if (!accessible) {

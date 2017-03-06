@@ -8,8 +8,6 @@ package org.linkki.framework.ui.dialogs;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.Nonnull;
-
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
@@ -25,15 +23,16 @@ public class DialogBindingManager extends BindingManager {
 
     private final PropertyBehaviorProvider behaviorProvider;
 
-    public DialogBindingManager(@Nonnull OkCancelDialog dialog, @Nonnull ValidationService validationService) {
+    public DialogBindingManager(OkCancelDialog dialog, ValidationService validationService) {
         this(dialog, validationService, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
     }
 
-    public DialogBindingManager(@Nonnull OkCancelDialog dialog, @Nonnull ValidationService validationService,
-            @Nonnull PropertyBehaviorProvider behaviorProvider) {
+    public DialogBindingManager(OkCancelDialog dialog, ValidationService validationService,
+            PropertyBehaviorProvider behaviorProvider) {
         super(() -> dialog.validate());
-        this.behaviorProvider = requireNonNull(behaviorProvider);
-        requireNonNull(dialog);
+        requireNonNull(behaviorProvider, "behaviorProvider must not be null");
+        this.behaviorProvider = behaviorProvider;
+        requireNonNull(dialog, "dialog must not be null");
         dialog.setValidationService(validationService);
     }
 

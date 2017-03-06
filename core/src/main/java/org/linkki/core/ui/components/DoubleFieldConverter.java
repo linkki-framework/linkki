@@ -8,6 +8,8 @@ package org.linkki.core.ui.components;
 
 import java.text.NumberFormat;
 
+import javax.annotation.CheckForNull;
+
 class DoubleFieldConverter extends AbstractNumberFieldConverter<Double> {
 
     private static final long serialVersionUID = 6756969882235490962L;
@@ -22,6 +24,7 @@ class DoubleFieldConverter extends AbstractNumberFieldConverter<Double> {
     }
 
     @Override
+    @CheckForNull
     protected Double getNullValue() {
         return null;
     }

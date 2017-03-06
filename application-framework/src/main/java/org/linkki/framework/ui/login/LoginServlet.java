@@ -8,6 +8,7 @@ package org.linkki.framework.ui.login;
 
 import java.io.IOException;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,9 +32,12 @@ public class LoginServlet extends HttpServlet {
     private ApplicationConfig applicationConfiguration;
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute(NAME, applicationConfiguration.getApplicationName());
-        req.getRequestDispatcher("/login.jsp").forward(req, resp);
+    public void doGet(@Nullable HttpServletRequest req, @Nullable HttpServletResponse resp)
+            throws ServletException, IOException {
+        if (req != null) {
+            req.setAttribute(NAME, applicationConfiguration.getApplicationName());
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        }
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.binding.BindingContext;
@@ -46,9 +46,11 @@ public class PmoBasedTableFactory<T> {
      * @param containerPmo The container providing the contents and column definitions.
      * @param bindingContext The binding context to which the cell bindings are added.
      */
-    public PmoBasedTableFactory(@Nonnull ContainerPmo<T> containerPmo, @Nonnull BindingContext bindingContext) {
-        this.containerPmo = requireNonNull(containerPmo);
-        this.bindingContext = requireNonNull(bindingContext);
+    public PmoBasedTableFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
+        requireNonNull(containerPmo, "containerPmo must not be null");
+        requireNonNull(bindingContext, "bindingContext must not be null");
+        this.containerPmo = containerPmo;
+        this.bindingContext = bindingContext;
         this.annotationReader = new UIAnnotationReader(getItemPmoClass());
     }
 
@@ -145,8 +147,10 @@ public class PmoBasedTableFactory<T> {
         }
 
         @Override
-        public Object generateCell(Table source, Object itemId, Object columnId) {
-
+        public Object generateCell(@Nullable Table source,
+                @SuppressWarnings("null") Object itemId,
+                @Nullable Object columnId) {
+            requireNonNull(itemId, "itemId must not be null");
             Component component = elementDescriptor.newComponent();
             component.addStyleName(ApplicationStyles.BORDERLESS);
             component.addStyleName(ApplicationStyles.TABLE_CELL);

@@ -1,0 +1,4 @@
+class java/util/stream/StreamSupport
+stream
+ <T:Ljava/lang/Object;>(Ljava/util/Spliterator<TT;>;Z)Ljava/util/stream/Stream<TT;>;
+ <T:Ljava/lang/Object;>(Ljava/util/Spliterator<TT;>;Z)L1java/util/stream/Stream<TT;>;

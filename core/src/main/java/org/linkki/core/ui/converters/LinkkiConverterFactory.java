@@ -9,6 +9,9 @@ package org.linkki.core.ui.converters;
 import java.util.Collection;
 import java.util.function.Supplier;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.apache.deltaspike.core.api.provider.BeanProvider;
 
 import com.vaadin.data.util.converter.Converter;
@@ -39,8 +42,9 @@ public class LinkkiConverterFactory extends DefaultConverterFactory {
     }
 
     @Override
+    @CheckForNull
     protected <PRESENTATION, MODEL> Converter<PRESENTATION, MODEL> findConverter(
-            Class<PRESENTATION> presentationType, Class<MODEL> modelType) {
+            @Nullable Class<PRESENTATION> presentationType, @Nullable Class<MODEL> modelType) {
         @SuppressWarnings("unchecked")
         Converter<PRESENTATION, MODEL> converter = converterFinder.get().stream()
                 .filter(Converter.class::isInstance)

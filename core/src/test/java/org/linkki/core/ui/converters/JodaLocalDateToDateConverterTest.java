@@ -12,6 +12,9 @@ import static org.junit.Assert.assertThat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,12 +24,15 @@ import org.junit.runners.Parameterized;
 public class JodaLocalDateToDateConverterTest {
 
     @Parameterized.Parameter(value = 0)
+    @SuppressWarnings("null")
     public String date;
 
     @Parameterized.Parameter(value = 1)
+    @SuppressWarnings("null")
     public String pattern;
 
     @Parameterized.Parameter(value = 2)
+    @SuppressWarnings("null")
     public LocalDate localDate;
 
 
@@ -59,17 +65,19 @@ public class JodaLocalDateToDateConverterTest {
         assertThat(converted, is(convertToDate(getDateToConvert(date, pattern), pattern)));
     }
 
-
+    @CheckForNull
     private static LocalDate convert(String toConvert, String pattern) throws Exception {
         // we do not need type and locale
         return new JodaLocalDateToDateConverter().convertToModel(convertToDate(toConvert, pattern), null, null);
     }
 
+    @CheckForNull
     private static Date convert(LocalDate toConvert) {
         return new JodaLocalDateToDateConverter().convertToPresentation(toConvert, null, null);
     }
 
-    private static Date convertToDate(String date, String pattern) throws Exception {
+    @CheckForNull
+    private static Date convertToDate(@Nullable String date, String pattern) throws Exception {
         if (date == null) {
             return null;
         }
@@ -81,7 +89,8 @@ public class JodaLocalDateToDateConverterTest {
      * we fake the java heuristic for 2 digit years in dates currently it works like a charm but who
      * knows - sometime it will be broken
      */
-    private static String getDateToConvert(String date, String pattern) throws Exception {
+    @CheckForNull
+    private static String getDateToConvert(@Nullable String date, String pattern) throws Exception {
 
         if (date == null || !date.startsWith("00")) {
             return date;

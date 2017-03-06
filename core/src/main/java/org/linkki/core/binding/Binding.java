@@ -6,6 +6,8 @@
 
 package org.linkki.core.binding;
 
+import javax.annotation.Nullable;
+
 import org.faktorips.runtime.MessageList;
 
 import com.vaadin.ui.Component;
@@ -51,6 +53,6 @@ public interface Binding {
      * @return those messages from the given list that are displayed; an empty list if no messages
      *         are displayed.
      */
-    MessageList displayMessages(MessageList messages);
+    MessageList displayMessages(@Nullable MessageList messages);
 
 }

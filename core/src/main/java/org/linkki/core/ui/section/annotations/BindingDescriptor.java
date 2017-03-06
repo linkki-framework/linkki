@@ -6,7 +6,8 @@
 
 package org.linkki.core.ui.section.annotations;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -64,10 +65,10 @@ public abstract class BindingDescriptor {
      * Creates a binding with the given dispatcher, the given handler for updating the UI and the
      * given UI components using the binding information from this descriptor.
      */
-    public abstract ElementBinding createBinding(@Nonnull PropertyDispatcher propertyDispatcher,
-            @Nonnull Handler updateUi,
-            @Nonnull Component component,
-            Label label);
+    public abstract ElementBinding createBinding(PropertyDispatcher propertyDispatcher,
+            Handler updateUi,
+            Component component,
+            @Nullable Label label);
 
     /**
      * The name of the property from the pmo
@@ -85,6 +86,7 @@ public abstract class BindingDescriptor {
     /**
      * The type of the tooltip
      */
+    @CheckForNull
     public ToolTipType getToolTipType() {
         return toolTipDefinition.toolTipType();
     }

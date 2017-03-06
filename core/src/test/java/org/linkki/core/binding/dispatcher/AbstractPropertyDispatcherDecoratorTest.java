@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings("null")
 public class AbstractPropertyDispatcherDecoratorTest {
     @Mock
     private PropertyDispatcher wrappedDispatcher;

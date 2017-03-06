@@ -14,8 +14,6 @@ import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.binding.annotations.Bind;
@@ -57,10 +55,11 @@ public class Binder {
     private final Object view;
     private final Object pmo;
 
-    public Binder(@Nonnull Object view, @Nonnull Object pmo) {
-        super();
-        this.view = requireNonNull(view, "View must not be null");
-        this.pmo = requireNonNull(pmo, "PMO must not be null");
+    public Binder(Object view, Object pmo) {
+        requireNonNull(view, "view must not be null");
+        requireNonNull(pmo, "pmo must not be null");
+        this.view = view;
+        this.pmo = pmo;
     }
 
     /** Creates bindings between the view and the PMO and adds them to the given binding context. */

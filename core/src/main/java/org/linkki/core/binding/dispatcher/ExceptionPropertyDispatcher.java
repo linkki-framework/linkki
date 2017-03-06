@@ -14,7 +14,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 
@@ -36,8 +37,9 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
      * @param property The name of the property
      * @param objects used for error messages
      */
-    public ExceptionPropertyDispatcher(@Nonnull String property, Object... objects) {
-        this.property = requireNonNull(property, "The property name must not be null");
+    public ExceptionPropertyDispatcher(String property, Object... objects) {
+        requireNonNull(property, "property must not be null");
+        this.property = property;
         this.objects.addAll(Arrays.asList(objects));
     }
 
@@ -51,12 +53,13 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
+    @CheckForNull
     public Object getValue() {
         throw new IllegalArgumentException(getExceptionText("read"));
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
         throw new IllegalArgumentException(getExceptionText("write"));
     }
 
@@ -119,11 +122,13 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
+    @CheckForNull
     public String getCaption() {
         throw new IllegalStateException(getExceptionText("find caption method for"));
     }
 
     @Override
+    @CheckForNull
     public String getToolTip() {
         throw new IllegalStateException(getExceptionText("find tooltip method for"));
     }

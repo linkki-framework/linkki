@@ -1,5 +1,7 @@
 package org.linkki.core.ui.section.annotations;
 
+import javax.annotation.Nullable;
+
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.ui.section.AbstractSection;
@@ -31,7 +33,7 @@ public class TestUi extends UI {
         }
 
         @Override
-        public JsonObject getDiffState(ClientConnector connector) {
+        public JsonObject getDiffState(@Nullable ClientConnector connector) {
             return new JreJsonObject(new JreJsonFactory());
         }
     }
@@ -39,7 +41,7 @@ public class TestUi extends UI {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void init(VaadinRequest request) {
+    protected void init(@Nullable VaadinRequest request) {
         // Nothing to do
     }
 

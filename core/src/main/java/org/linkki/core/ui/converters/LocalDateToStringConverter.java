@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import javax.annotation.Nullable;
+
 import org.linkki.util.DateFormatRegistry;
 
 /**
@@ -18,7 +20,7 @@ import org.linkki.util.DateFormatRegistry;
  * {@link com.vaadin.ui.Label Labels}
  * <p>
  * Do <strong>NOT</strong> use this converter for Fields - this converter is for representation only
- * only!!
+ * only, as it handles only one way conversion from model to label!!
  */
 public class LocalDateToStringConverter extends TemporalAccessorToStringConverter<LocalDate>
         implements AutoDiscoveredConverter {
@@ -31,7 +33,7 @@ public class LocalDateToStringConverter extends TemporalAccessorToStringConverte
     }
 
     @Override
-    protected DateTimeFormatter getFormatter(Locale locale) {
+    protected DateTimeFormatter getFormatter(@Nullable Locale locale) {
         Locale localeForConversion = getLocale(locale);
         return DateTimeFormatter.ofPattern(new DateFormatRegistry().getPattern(localeForConversion),
                                            localeForConversion);

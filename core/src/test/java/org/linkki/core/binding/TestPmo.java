@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.section.annotations.ModelObject;
 
+@SuppressWarnings("null")
 public class TestPmo {
     private String value = StringUtils.EMPTY;
 

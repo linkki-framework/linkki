@@ -4,14 +4,13 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.dispatcher.accessor.PropertyAccessDescriptor;
-import org.linkki.core.binding.dispatcher.accessor.WriteMethod;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WriteMethodTest {
     @Mock
+    @SuppressWarnings("null")
     PropertyAccessDescriptor descriptor;
 
     @Test

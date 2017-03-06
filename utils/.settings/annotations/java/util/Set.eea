@@ -1,0 +1,4 @@
+class java/util/Set
+iterator
+ ()Ljava/util/Iterator<TE;>;
+ ()L1java/util/Iterator<TE;>;

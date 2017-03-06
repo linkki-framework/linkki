@@ -19,7 +19,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.framework.security.InMemoryAuthenticationProvider;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.core.Authentication;
@@ -31,12 +30,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @RunWith(MockitoJUnitRunner.class)
 public class InMemoryAuthenticationProviderTest {
 
+    @SuppressWarnings("null")
     @Mock
     UserDetailsService userDetailsService;
 
+    @SuppressWarnings("null")
     @Mock
     UserDetails userDetails;
 
+    @SuppressWarnings("null")
     @Mock
     Authentication inputAuthentication;
 

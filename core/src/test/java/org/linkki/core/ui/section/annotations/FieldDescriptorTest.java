@@ -13,12 +13,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinition;
+import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FieldDescriptorTest {
 
+    @SuppressWarnings("null")
     @Mock
     private TextFieldBindingDefinition adapter;
 
@@ -30,21 +32,21 @@ public class FieldDescriptorTest {
     @Test
     public void getLabelText_deriveFromLabel() {
         when(adapter.label()).thenReturn("blablub");
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, null, "xyz");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, new UIToolTipAdapter(null), "xyz");
 
         assertEquals("blablub", fieldDescriptor.getLabelText());
     }
 
     @Test
     public void getLabelText_deriveFromPropertyName() {
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, null, "Test");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, new UIToolTipAdapter(null), "Test");
 
         assertEquals("Test", fieldDescriptor.getLabelText());
     }
 
     @Test
     public void getLabelText_addSuffixOnlyIfNecessary() {
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, null, "Test:");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, new UIToolTipAdapter(null), "Test:");
 
         assertEquals("Test:", fieldDescriptor.getLabelText());
     }
@@ -52,14 +54,14 @@ public class FieldDescriptorTest {
     @Test
     public void getPropertyName_favorModelAttribute() {
         when(adapter.modelAttribute()).thenReturn("xyz");
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, null, "Test");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, new UIToolTipAdapter(null), "Test");
 
         assertEquals("xyz", fieldDescriptor.getModelPropertyName());
     }
 
     @Test
     public void getPropertyName_byMethodName() {
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, null, "Test");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, new UIToolTipAdapter(null), "Test");
 
         assertEquals("Test", fieldDescriptor.getModelPropertyName());
     }

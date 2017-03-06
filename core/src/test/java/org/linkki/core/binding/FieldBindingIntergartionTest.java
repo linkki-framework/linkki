@@ -18,6 +18,7 @@ import org.linkki.core.ui.components.LinkkiComboBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
 
+@SuppressWarnings("null")
 public class FieldBindingIntergartionTest {
 
     private TestPmo pmo = new TestPmo();

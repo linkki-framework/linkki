@@ -8,6 +8,8 @@ package org.linkki.core.ui.converters;
 
 import java.util.Locale;
 
+import javax.annotation.Nullable;
+
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -28,14 +30,16 @@ public class JodaLocalDateTimeToStringConverter implements Converter<String, Loc
     private JodaLocalDateToStringConverter localDateConverter = new JodaLocalDateToStringConverter();
 
     @Override
-    public LocalDateTime convertToModel(String value, Class<? extends LocalDateTime> targetType, Locale locale)
-            throws ConversionException {
+    public LocalDateTime convertToModel(@Nullable String value,
+            @Nullable Class<? extends LocalDateTime> targetType,
+            @Nullable Locale locale) throws ConversionException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String convertToPresentation(LocalDateTime value, Class<? extends String> targetType, Locale locale)
-            throws ConversionException {
+    public String convertToPresentation(@Nullable LocalDateTime value,
+            @Nullable Class<? extends String> targetType,
+            @Nullable Locale locale) throws ConversionException {
         if (value == null) {
             return "";
         }

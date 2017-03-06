@@ -1,0 +1,4 @@
+class java/beans/Introspector
+getBeanInfo
+ (Ljava/lang/Class<*>;)Ljava/beans/BeanInfo;
+ (Ljava/lang/Class<*>;)L1java/beans/BeanInfo;

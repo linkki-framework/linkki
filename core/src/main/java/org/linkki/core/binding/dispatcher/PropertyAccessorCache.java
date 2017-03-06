@@ -45,11 +45,12 @@ class PropertyAccessorCache {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
-            result = prime * result + ((property == null) ? 0 : property.hashCode());
+            result = prime * result + clazz.hashCode();
+            result = prime * result + property.hashCode();
             return result;
         }
 
+        @SuppressWarnings({ "null", "unused" })
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {
@@ -62,18 +63,10 @@ class PropertyAccessorCache {
                 return false;
             }
             CacheKey other = (CacheKey)obj;
-            if (clazz == null) {
-                if (other.clazz != null) {
-                    return false;
-                }
-            } else if (!clazz.getName().equals(other.clazz.getName())) {
+            if (!clazz.getName().equals(other.clazz.getName())) {
                 return false;
             }
-            if (property == null) {
-                if (other.property != null) {
-                    return false;
-                }
-            } else if (!property.equals(other.property)) {
+            if (!property.equals(other.property)) {
                 return false;
             }
             return true;

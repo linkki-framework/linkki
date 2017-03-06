@@ -13,6 +13,9 @@ import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
@@ -163,20 +166,24 @@ public class UiCustomFieldTest {
 
     public static class TestValue {
 
+        @Nullable
         private String value;
 
         public TestValue(String value) {
             this.value = value;
         }
 
+        @CheckForNull
         public String getId() {
             return value;
         }
 
+        @CheckForNull
         public String getName() {
             return value;
         }
 
+        @SuppressWarnings("null")
         @Override
         public int hashCode() {
             final int prime = 31;
@@ -185,8 +192,9 @@ public class UiCustomFieldTest {
             return result;
         }
 
+        @SuppressWarnings("null")
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(@Nullable Object obj) {
             if (this == obj) {
                 return true;
             }

@@ -6,7 +6,11 @@
 
 package org.linkki.core.binding.dispatcher;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
@@ -34,8 +38,10 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
 
     private PropertyBehaviorProvider provider;
 
-    public BehaviorDependentDispatcher(PropertyDispatcher wrappedDispatcher, PropertyBehaviorProvider provider) {
+    public BehaviorDependentDispatcher(PropertyDispatcher wrappedDispatcher,
+            PropertyBehaviorProvider provider) {
         super(wrappedDispatcher);
+        requireNonNull(provider, "provider must not be null");
         this.provider = provider;
     }
 
@@ -45,7 +51,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      * only if the property is writable.
      */
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
         if (isConsensus(b -> b.isWritable(getBoundObject(), getProperty()))) {
             super.setValue(value);
         }
@@ -102,7 +108,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      *
      */
     protected boolean isConsensus(Predicate<InjectablePropertyBehavior> aspectIsTrue) {
-        if (provider == null || provider.getBehaviors() == null) {
+        if (provider.getBehaviors().isEmpty()) {
             return true;
         }
         return provider.getBehaviors().stream().allMatch(aspectIsTrue);

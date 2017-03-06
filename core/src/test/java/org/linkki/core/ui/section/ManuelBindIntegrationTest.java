@@ -26,8 +26,6 @@ import com.vaadin.ui.TextField;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ManuelBindIntegrationTest {
-    private static final String ANY_VALUE = "ukztu7kxju76r";
-
     private final ManuallyBoundPmo pmo = new ManuallyBoundPmo();
     private final TestBindingContext bindingContext = TestBindingContext.create();
     private final ManuallyBoundSection section = new ManuallyBoundSection();

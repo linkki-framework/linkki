@@ -8,7 +8,8 @@ package org.linkki.core.ui.components;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
@@ -18,8 +19,8 @@ import com.vaadin.ui.TwinColSelect;
 /**
  * Extends {@link TwinColSelect} and overrides various methods in order to implement a different
  * behavior for obtaining item captions, namely to use an {@link #getItemCaptionProvider() item
- * caption provider} function when an item's caption is needed. As an additional bonus
- * "subset chooser" is a much nicer name for a multi-select component with a left and right list.
+ * caption provider} function when an item's caption is needed. As an additional bonus "subset
+ * chooser" is a much nicer name for a multi-select component with a left and right list.
  */
 public class SubsetChooser extends TwinColSelect {
 
@@ -38,9 +39,10 @@ public class SubsetChooser extends TwinColSelect {
      * 
      * @param itemCaptionProvider the function to determine captions for the displayed items
      */
-    public SubsetChooser(@Nonnull ItemCaptionProvider<?> itemCaptionProvider) {
+    public SubsetChooser(ItemCaptionProvider<?> itemCaptionProvider) {
         super();
-        this.itemCaptionProvider = requireNonNull(itemCaptionProvider);
+        requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
+        this.itemCaptionProvider = itemCaptionProvider;
     }
 
     /**
@@ -49,7 +51,7 @@ public class SubsetChooser extends TwinColSelect {
      * captions for items.
      */
     @Override
-    public void setItemCaption(Object itemId, String caption) {
+    public void setItemCaption(@Nullable Object itemId, @Nullable String caption) {
         throw new UnsupportedOperationException("SubsetChooser does not support explicit item captions");
     }
 
@@ -59,7 +61,7 @@ public class SubsetChooser extends TwinColSelect {
      * used to get captions for items.
      */
     @Override
-    public void setItemCaptionMode(ItemCaptionMode mode) {
+    public void setItemCaptionMode(@Nullable ItemCaptionMode mode) {
         throw new UnsupportedOperationException("SubsetChooser does not allow to specify the item caption mode");
     }
 
@@ -74,8 +76,9 @@ public class SubsetChooser extends TwinColSelect {
     }
 
     /** Sets the function to use as the item caption provider. */
-    public void setItemCaptionProvider(ItemCaptionProvider<?> newItemCaptionProvider) {
-        itemCaptionProvider = requireNonNull(newItemCaptionProvider);
+    public void setItemCaptionProvider(ItemCaptionProvider<?> itemCaptionProvider) {
+        requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
+        this.itemCaptionProvider = itemCaptionProvider;
     }
 
     /** Returns the function that is used to obtain an item's caption. */
@@ -91,7 +94,8 @@ public class SubsetChooser extends TwinColSelect {
      * @return the item's caption
      */
     @Override
-    public String getItemCaption(Object itemId) {
+    @CheckForNull
+    public String getItemCaption(@Nullable Object itemId) {
         if (itemId == null) {
             return StringUtils.EMPTY;
         }

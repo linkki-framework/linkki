@@ -13,7 +13,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -32,7 +33,7 @@ public class LinkkiInMemoryContainer<T>
 
     @SuppressWarnings("unchecked")
     @Override
-    protected LinkkiItemWrapper<T> getUnfilteredItem(Object itemId) {
+    protected LinkkiItemWrapper<T> getUnfilteredItem(@Nullable Object itemId) {
         return new LinkkiItemWrapper<>((T)itemId);
     }
 
@@ -42,12 +43,14 @@ public class LinkkiInMemoryContainer<T>
     }
 
     @Override
-    public Property<T> getContainerProperty(Object itemId, Object propertyId) {
+    @CheckForNull
+    public Property<T> getContainerProperty(@Nullable Object itemId, @Nullable Object propertyId) {
         return null;
     }
 
     @Override
-    public Class<?> getType(Object propertyId) {
+    @CheckForNull
+    public Class<?> getType(@Nullable Object propertyId) {
         throw new UnsupportedOperationException("getType is not supported");
     }
 
@@ -58,11 +61,11 @@ public class LinkkiInMemoryContainer<T>
         return true;
     }
 
-    public void addAllItems(@Nonnull Collection<T> items) {
+    public void addAllItems(Collection<T> items) {
         addAllItems(asLinkkiItemWrapper(items, new ArrayList<>(items.size())));
     }
 
-    protected void addAllItems(@Nonnull List<LinkkiItemWrapper<T>> items) {
+    protected void addAllItems(List<LinkkiItemWrapper<T>> items) {
 
         requireNonNull(items, "items must not be null");
 
@@ -76,11 +79,9 @@ public class LinkkiInMemoryContainer<T>
         fireItemSetChange();
     }
 
-    @Nonnull
-    protected List<LinkkiItemWrapper<T>> asLinkkiItemWrapper(@Nonnull Collection<T> items,
-            @Nonnull List<LinkkiItemWrapper<T>> target) {
-
-        requireNonNull(items, "items must be null");
+    protected List<LinkkiItemWrapper<T>> asLinkkiItemWrapper(Collection<T> items,
+            List<LinkkiItemWrapper<T>> target) {
+        requireNonNull(items, "items must not be null");
         requireNonNull(target, "target must not be null");
 
         for (T item : items) {
@@ -104,14 +105,16 @@ public class LinkkiInMemoryContainer<T>
 
         private static final long serialVersionUID = -8239631444860890275L;
 
+        @Nullable
         private final T item;
 
-        public LinkkiItemWrapper(T item) {
+        public LinkkiItemWrapper(@Nullable T item) {
             this.item = item;
         }
 
         @Override
-        public Property<T> getItemProperty(Object id) {
+        @CheckForNull
+        public Property<T> getItemProperty(@Nullable Object id) {
             // probably we should throw an UnsupportedOperationException
             // this method shall never be called but without an exception we'll never
             // notice it...
@@ -124,20 +127,22 @@ public class LinkkiInMemoryContainer<T>
         }
 
         @Override
-        public boolean addItemProperty(Object id, @SuppressWarnings("rawtypes") Property property)
+        public boolean addItemProperty(@Nullable Object id, @SuppressWarnings("rawtypes") @Nullable Property property)
                 throws UnsupportedOperationException {
             throw new UnsupportedOperationException("addItemProperty is not supported");
         }
 
         @Override
-        public boolean removeItemProperty(Object id) throws UnsupportedOperationException {
+        public boolean removeItemProperty(@Nullable Object id) throws UnsupportedOperationException {
             throw new UnsupportedOperationException("removeItemProperty is not supported");
         }
 
+        @CheckForNull
         public T getItem() {
             return item;
         }
 
+        @SuppressWarnings("null")
         @Override
         public boolean equals(Object o) {
             if (this == o) {
@@ -154,13 +159,12 @@ public class LinkkiInMemoryContainer<T>
             return item == that.item;
         }
 
+        @SuppressWarnings("null")
         @Override
         public int hashCode() {
-
             if (item == null) {
                 return 0;
             }
-
             return item.hashCode();
         }
     }

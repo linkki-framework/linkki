@@ -11,7 +11,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -25,10 +25,12 @@ public class LabelBinding implements ElementBinding {
     private final Optional<Label> labelsLabel;
     private final PropertyDispatcher propertyDispatcher;
 
-    public LabelBinding(Label labelsLabel, @Nonnull Label label, @Nonnull PropertyDispatcher propertyDispatcher) {
+    public LabelBinding(@Nullable Label labelsLabel, Label label, PropertyDispatcher propertyDispatcher) {
         this.labelsLabel = Optional.ofNullable(labelsLabel);
-        this.label = requireNonNull(label);
-        this.propertyDispatcher = requireNonNull(propertyDispatcher);
+        requireNonNull(label, "label must not be null");
+        this.label = label;
+        requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+        this.propertyDispatcher = propertyDispatcher;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class LabelBinding implements ElementBinding {
     }
 
     @Override
-    public MessageList displayMessages(MessageList messages) {
+    public MessageList displayMessages(@Nullable MessageList messages) {
         return new MessageList();
     }
 

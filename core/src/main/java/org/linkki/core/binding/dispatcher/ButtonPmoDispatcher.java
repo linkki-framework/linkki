@@ -4,6 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.faktorips.runtime.MessageList;
 
@@ -36,12 +39,13 @@ public class ButtonPmoDispatcher extends AbstractPropertyDispatcherDecorator {
     }
 
     @Override
+    @CheckForNull
     public Object getValue() {
         return null;
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
         // do nothing
     }
 

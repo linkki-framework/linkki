@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import org.apache.commons.lang3.Validate;
@@ -30,8 +30,9 @@ public abstract class BindingManager {
 
     private final ValidationService validationService;
 
-    public BindingManager(@Nonnull ValidationService validationService) {
-        this.validationService = requireNonNull(validationService, "ValidationService must not be null.");
+    public BindingManager(ValidationService validationService) {
+        requireNonNull(validationService, "validationService must not be null");
+        this.validationService = validationService;
     }
 
     /**
@@ -53,7 +54,7 @@ public abstract class BindingManager {
      * @param name the name of the {@linkplain BindingContext} that identifies it in this manager
      * @see BindingContext
      */
-    @Nonnull
+
     public BindingContext startNewContext(String name) {
         Validate.isTrue(!contextsByName.containsKey(name), "BindingManager already contains a BindingContext '%s'.",
                         name);
@@ -73,7 +74,7 @@ public abstract class BindingManager {
      * @see DefaultBindingManager#newBindingContext(String)
      * @see BindingManager#afterUpdateUi()
      */
-    @Nonnull
+
     protected abstract BindingContext newBindingContext(String name);
 
     public Optional<BindingContext> getExistingContext(Class<?> clazz) {
@@ -84,12 +85,12 @@ public abstract class BindingManager {
         return Optional.ofNullable(contextsByName.get(name));
     }
 
-    @Nonnull
+
     public BindingContext getExistingContextOrStartNewOne(Class<?> clazz) {
         return getExistingContextOrStartNewOne(clazz.getName());
     }
 
-    @Nonnull
+
     public BindingContext getExistingContextOrStartNewOne(String name) {
         BindingContext context = contextsByName.get(name);
         if (context == null) {
@@ -138,7 +139,7 @@ public abstract class BindingManager {
      * subclasses to notify further observers about the new messages.
      */
     @OverridingMethodsMustInvokeSuper
-    protected void updateMessages(MessageList messages) {
+    protected void updateMessages(@Nullable MessageList messages) {
         contextsByName.values().forEach(bc -> bc.updateMessages(messages));
     }
 
