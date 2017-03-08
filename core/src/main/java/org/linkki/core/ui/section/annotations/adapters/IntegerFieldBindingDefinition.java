@@ -1,5 +1,7 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.ui.components.IntegerField;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -15,7 +17,7 @@ public class IntegerFieldBindingDefinition implements UIFieldDefinition {
     private final UIIntegerField uiIntegerField;
 
     public IntegerFieldBindingDefinition(UIIntegerField uiIntegerField) {
-        this.uiIntegerField = uiIntegerField;
+        this.uiIntegerField = requireNonNull(uiIntegerField, "uiIntegerField must not be null");
     }
 
     @Override

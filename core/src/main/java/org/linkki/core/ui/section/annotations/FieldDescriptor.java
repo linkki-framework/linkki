@@ -37,7 +37,7 @@ public class FieldDescriptor extends ElementDescriptor {
      */
     public FieldDescriptor(UIFieldDefinition fieldDef, UIToolTipDefinition toolTipDefinition, String pmoPropertyName) {
         super(fieldDef, toolTipDefinition);
-        this.pmoPropertyName = pmoPropertyName;
+        this.pmoPropertyName = requireNonNull(pmoPropertyName, "pmoPropertyName must not be null");
     }
 
     @Override

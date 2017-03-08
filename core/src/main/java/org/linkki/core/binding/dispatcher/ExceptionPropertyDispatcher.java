@@ -38,8 +38,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
      * @param objects used for error messages
      */
     public ExceptionPropertyDispatcher(String property, Object... objects) {
-        requireNonNull(property, "property must not be null");
-        this.property = property;
+        this.property = requireNonNull(property, "property must not be null");
         this.objects.addAll(Arrays.asList(objects));
     }
 

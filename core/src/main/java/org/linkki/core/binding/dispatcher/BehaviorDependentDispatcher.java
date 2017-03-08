@@ -41,8 +41,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     public BehaviorDependentDispatcher(PropertyDispatcher wrappedDispatcher,
             PropertyBehaviorProvider provider) {
         super(wrappedDispatcher);
-        requireNonNull(provider, "provider must not be null");
-        this.provider = provider;
+        this.provider = requireNonNull(provider, "provider must not be null");
     }
 
     /**

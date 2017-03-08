@@ -1,5 +1,7 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -14,7 +16,7 @@ public class CustomFieldBindingDefinition implements UIFieldDefinition {
     private final UICustomField uiCustomField;
 
     public CustomFieldBindingDefinition(UICustomField uiCustomField) {
-        this.uiCustomField = uiCustomField;
+        this.uiCustomField = requireNonNull(uiCustomField, "uiCustomField must not be null");
     }
 
     @Override

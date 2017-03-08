@@ -33,13 +33,10 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
 
     public TableBinding(BindingContext bindingContext, Table table, Set<String> columnNames,
             ContainerPmo<T> containerPmo) {
-        requireNonNull(bindingContext, "bindingContext must not be null");
-        this.bindingContext = bindingContext;
-        requireNonNull(table, "table must not be null");
-        this.table = table;
-        this.columnNames = columnNames;
-        requireNonNull(containerPmo, "containerPmo must not be null");
-        this.containerPmo = containerPmo;
+        this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
+        this.table = requireNonNull(table, "table must not be null");
+        this.columnNames = requireNonNull(columnNames, "columnNames must not be null");
+        this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
         table.setContainerDataSource(this);
         addAllItems(containerPmo.getItems());
     }

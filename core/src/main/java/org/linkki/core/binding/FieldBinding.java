@@ -57,12 +57,9 @@ public class FieldBinding<T> implements ElementBinding {
     public FieldBinding(@Nullable Label label, AbstractField<T> field, PropertyDispatcher propertyDispatcher,
             Handler updateUi) {
         this.label = Optional.ofNullable(label);
-        requireNonNull(field, "field must not be null");
-        this.field = field;
-        requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
-        this.propertyDispatcher = propertyDispatcher;
-        requireNonNull(updateUi, "updateUi must not be null");
-        this.updateUi = updateUi;
+        this.field = requireNonNull(field, "field must not be null");
+        this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+        this.updateUi = requireNonNull(updateUi, "updateUi must not be null");
 
         if (isAvailableValuesComponent()) {
             containerDataSource = new LinkkiInMemoryContainer<T>();
@@ -294,7 +291,7 @@ public class FieldBinding<T> implements ElementBinding {
         private FieldBinding<T> fieldBinding;
 
         public FieldBindingDataSource(FieldBinding<T> fieldBinding) {
-            this.fieldBinding = fieldBinding;
+            this.fieldBinding = requireNonNull(fieldBinding, "fieldBinding must not be null");
         }
 
         @Override

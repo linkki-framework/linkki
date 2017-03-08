@@ -3,6 +3,8 @@ package org.linkki.core.binding.dispatcher.accessor;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -18,7 +20,7 @@ public class ReadMethodTest {
     @SuppressWarnings("unused")
     // warning suppressed as object is created to test the constructor, not to use it
     public void testConstructor() {
-        when(descriptor.getReflectionReadMethod()).thenReturn(null);
+        when(descriptor.getReflectionReadMethod()).thenReturn(Optional.empty());
         new ReadMethod(descriptor);
     }
 

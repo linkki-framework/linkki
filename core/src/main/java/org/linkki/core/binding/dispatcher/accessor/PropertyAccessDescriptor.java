@@ -1,5 +1,7 @@
 package org.linkki.core.binding.dispatcher.accessor;
 
+import static java.util.Objects.requireNonNull;
+
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Optional;
@@ -18,8 +20,8 @@ public class PropertyAccessDescriptor {
     private final Optional<PropertyDescriptor> propertyDescriptor;
 
     public PropertyAccessDescriptor(Class<?> boundClass, String propertyName) {
-        this.boundClass = boundClass;
-        this.propertyName = propertyName;
+        this.boundClass = requireNonNull(boundClass, "boundClass must not be null");
+        this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
 
         propertyDescriptor = findDescriptor();
     }

@@ -25,7 +25,7 @@ public class ButtonDescriptor extends ElementDescriptor {
     public ButtonDescriptor(UIButtonDefinition buttonAnnotation, UIToolTipDefinition toolTipDefinition,
             String methodName) {
         super(buttonAnnotation, toolTipDefinition);
-        this.methodName = methodName;
+        this.methodName = requireNonNull(methodName, "methodName must not be null");
     }
 
     @Override

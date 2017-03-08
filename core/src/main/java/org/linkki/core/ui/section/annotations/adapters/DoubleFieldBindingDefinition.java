@@ -1,5 +1,7 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -15,7 +17,7 @@ public class DoubleFieldBindingDefinition implements UIFieldDefinition {
     private final UIDoubleField uiDoubleField;
 
     public DoubleFieldBindingDefinition(UIDoubleField uiDoubleField) {
-        this.uiDoubleField = uiDoubleField;
+        this.uiDoubleField = requireNonNull(uiDoubleField, "uiDoubleField must not be null");
     }
 
     @Override

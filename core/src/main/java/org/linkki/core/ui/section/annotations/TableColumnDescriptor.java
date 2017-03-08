@@ -6,6 +6,8 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import static java.util.Objects.requireNonNull;
+
 import java.lang.reflect.Method;
 
 /**
@@ -23,9 +25,9 @@ public class TableColumnDescriptor {
      * @param columnAnnotation the annotation that holds the configured values.
      */
     public TableColumnDescriptor(Class<?> annotatedClass, Method annotatedMethod, UITableColumn columnAnnotation) {
-        this.annotatedClass = annotatedClass;
-        this.annotatedMethod = annotatedMethod;
-        this.columnAnnotation = columnAnnotation;
+        this.annotatedClass = requireNonNull(annotatedClass, "annotatedClass must not be null");
+        this.annotatedMethod = requireNonNull(annotatedMethod, "annotatedMethod must not be null");
+        this.columnAnnotation = requireNonNull(columnAnnotation, "columnAnnotation must not be null");
     }
 
     public boolean isCustomWidthDefined() {

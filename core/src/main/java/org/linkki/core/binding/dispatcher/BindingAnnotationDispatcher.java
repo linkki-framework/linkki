@@ -51,8 +51,7 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
     public BindingAnnotationDispatcher(PropertyDispatcher wrappedDispatcher,
             BindingDescriptor bindingDescriptor) {
         super(wrappedDispatcher);
-        requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
-        this.bindingDescriptor = bindingDescriptor;
+        this.bindingDescriptor = requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
     }
 
     @Override

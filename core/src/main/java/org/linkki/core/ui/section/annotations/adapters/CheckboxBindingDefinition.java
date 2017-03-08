@@ -1,5 +1,7 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UICheckBox;
@@ -14,7 +16,7 @@ public class CheckboxBindingDefinition implements UIFieldDefinition {
     private final UICheckBox uiCheckBox;
 
     public CheckboxBindingDefinition(UICheckBox uiCheckBox) {
-        this.uiCheckBox = uiCheckBox;
+        this.uiCheckBox = requireNonNull(uiCheckBox, "uiCheckBox must not be null");
     }
 
     @Override

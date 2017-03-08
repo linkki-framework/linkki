@@ -1,5 +1,7 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.exception.LinkkiRuntimeException;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.LinkkiComboBox;
@@ -18,7 +20,7 @@ public class ComboboxBindingDefinition implements UIFieldDefinition {
     private final UIComboBox uiComboField;
 
     public ComboboxBindingDefinition(UIComboBox uiComboField) {
-        this.uiComboField = uiComboField;
+        this.uiComboField = requireNonNull(uiComboField, "uiComboField must not be null");
     }
 
     @Override

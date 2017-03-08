@@ -1,5 +1,7 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +23,7 @@ public class DateFieldBindingDefinition implements UIFieldDefinition {
     private final DateFormatRegistry dateFormatRegistry = new DateFormatRegistry();
 
     public DateFieldBindingDefinition(UIDateField uiDateField) {
-        this.uiDateField = uiDateField;
+        this.uiDateField = requireNonNull(uiDateField, "uiDateField must not be null");
     }
 
     @Override

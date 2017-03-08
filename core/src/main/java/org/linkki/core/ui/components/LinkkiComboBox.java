@@ -36,8 +36,7 @@ public class LinkkiComboBox extends ComboBox {
     /** Creates a new LinkkiComboBox that uses the given function as its item caption provider. */
     public LinkkiComboBox(ItemCaptionProvider<?> itemCaptionProvider) {
         super();
-        requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
-        this.itemCaptionProvider = itemCaptionProvider;
+        this.itemCaptionProvider = requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
         pageLength = 0;
     }
 

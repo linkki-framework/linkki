@@ -122,8 +122,7 @@ public class OkCancelDialog extends Window {
     public OkCancelDialog(String caption, @Nullable Component content, Handler okHandler,
             ButtonOption buttonOption) {
         super(caption);
-        requireNonNull(okHandler, "okHandler must not be null");
-        this.okHandler = okHandler;
+        this.okHandler = requireNonNull(okHandler, "okHandler must not be null");
         this.layout = new VerticalLayout();
         this.contentArea = new VerticalLayout();
         this.mainArea = new VerticalLayout();
@@ -314,8 +313,7 @@ public class OkCancelDialog extends Window {
 
     /** Sets the validation service that validates data in the dialog. */
     public void setValidationService(ValidationService validationService) {
-        requireNonNull(validationService, "validationService must not be null");
-        this.validationService = validationService;
+        this.validationService = requireNonNull(validationService, "validationService must not be null");
     }
 
     private Optional<Message> getMessageToDisplay() {

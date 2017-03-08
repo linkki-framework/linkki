@@ -6,6 +6,8 @@
 
 package org.linkki.util.cdi;
 
+import static java.util.Objects.requireNonNull;
+
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +25,7 @@ public class BeanInstantiator {
 
     public BeanInstantiator(BeanManager beanManager) {
         super();
-        this.beanManager = beanManager;
+        this.beanManager = requireNonNull(beanManager, "beanManager must not be null");
     }
 
     /**

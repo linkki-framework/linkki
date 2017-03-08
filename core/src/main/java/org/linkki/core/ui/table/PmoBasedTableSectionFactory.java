@@ -30,10 +30,8 @@ public class PmoBasedTableSectionFactory<T> {
      * Creates a new factory.
      */
     public PmoBasedTableSectionFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
-        requireNonNull(containerPmo, "containerPmo must not be null");
-        requireNonNull(bindingContext, "bindingContext must not be null");
-        this.containerPmo = containerPmo;
-        this.bindingContext = bindingContext;
+        this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
+        this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
     }
 
     /**

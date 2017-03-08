@@ -40,8 +40,7 @@ public class TableSection<T> extends AbstractSection {
     /* package private, used by the PmoBaseTableFactory */
     void setTable(Table table) {
         Validate.isTrue(this.table == null, "Table already set.");
-        requireNonNull(table, "table must not be null");
-        this.table = table;
+        this.table = requireNonNull(table, "table must not be null");
         addComponent(table);
         setExpandRatio(table, 1f);
         table.setSizeFull();

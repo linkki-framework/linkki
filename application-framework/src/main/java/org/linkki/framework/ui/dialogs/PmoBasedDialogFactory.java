@@ -59,10 +59,8 @@ public class PmoBasedDialogFactory {
      */
     public PmoBasedDialogFactory(ValidationService validationService,
             PropertyBehaviorProvider propertyBehaviorProvider) {
-        requireNonNull(validationService, "validationService must not be null");
-        requireNonNull(propertyBehaviorProvider, "propertyBehaviorProvider must not be null");
-        this.validationService = validationService;
-        this.propertyBehaviorProvider = propertyBehaviorProvider;
+        this.validationService = requireNonNull(validationService, "validationService must not be null");
+        this.propertyBehaviorProvider = requireNonNull(propertyBehaviorProvider, "propertyBehaviorProvider must not be null");
         this.pmoBasedSectionFactory = new DefaultPmoBasedSectionFactory();
     }
 

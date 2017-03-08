@@ -56,10 +56,8 @@ public class Binder {
     private final Object pmo;
 
     public Binder(Object view, Object pmo) {
-        requireNonNull(view, "view must not be null");
-        requireNonNull(pmo, "pmo must not be null");
-        this.view = view;
-        this.pmo = pmo;
+        this.view = requireNonNull(view, "view must not be null");
+        this.pmo = requireNonNull(pmo, "pmo must not be null");
     }
 
     /** Creates bindings between the view and the PMO and adds them to the given binding context. */

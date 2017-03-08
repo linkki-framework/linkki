@@ -23,11 +23,9 @@ public class PropertyAccessor {
     private final WriteMethod writeMethod;
 
     public PropertyAccessor(Class<?> boundClass, String propertyName) {
-        requireNonNull(propertyName, "propertyName must not be null");
-        this.propertyName = propertyName;
-        PropertyAccessDescriptor propertyAccessDescriptor = new PropertyAccessDescriptor(
-                requireNonNull(boundClass, "boundClass must not be null"),
-                propertyName);
+        this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
+        requireNonNull(boundClass, "boundClass must not be null");
+        PropertyAccessDescriptor propertyAccessDescriptor = new PropertyAccessDescriptor(boundClass, propertyName);
         readMethod = propertyAccessDescriptor.createReadMethod();
         writeMethod = propertyAccessDescriptor.createWriteMethod();
     }

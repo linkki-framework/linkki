@@ -41,12 +41,9 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
      */
     public ButtonPmoBinding(Button button, PropertyDispatcher propertyDispatcher,
             Handler updateUI) {
-        requireNonNull(button, "button must not be null");
-        this.button = button;
-        requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
-        this.propertyDispatcher = propertyDispatcher;
-        requireNonNull(updateUI, "updateUI must not be null");
-        this.updateUI = updateUI;
+        this.button = requireNonNull(button, "button must not be null");
+        this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+        this.updateUI = requireNonNull(updateUI, "updateUI must not be null");
         button.addClickListener(this::buttonClickCallback);
     }
 

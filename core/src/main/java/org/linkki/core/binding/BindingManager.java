@@ -31,8 +31,7 @@ public abstract class BindingManager {
     private final ValidationService validationService;
 
     public BindingManager(ValidationService validationService) {
-        requireNonNull(validationService, "validationService must not be null");
-        this.validationService = validationService;
+        this.validationService = requireNonNull(validationService, "validationService must not be null");
     }
 
     /**

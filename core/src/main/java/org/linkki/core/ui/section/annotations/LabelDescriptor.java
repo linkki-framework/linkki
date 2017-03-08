@@ -26,7 +26,7 @@ public class LabelDescriptor extends ElementDescriptor {
     public LabelDescriptor(UILabelDefinition labelDefinition, UIToolTipDefinition toolTipDefinition,
             String pmoPropertyName) {
         super(labelDefinition, toolTipDefinition);
-        this.pmoPropertyName = pmoPropertyName;
+        this.pmoPropertyName = requireNonNull(pmoPropertyName, "pmoPropertyName must not be null");
     }
 
     @Override

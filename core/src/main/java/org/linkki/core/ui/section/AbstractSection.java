@@ -67,8 +67,7 @@ public abstract class AbstractSection extends VerticalLayout {
     public AbstractSection(String caption, boolean closeable, Optional<Button> editButton) {
         super();
         requireNonNull(caption, "caption must not be null");
-        requireNonNull(editButton, "editButton must not be null");
-        this.editButton = editButton;
+        this.editButton = requireNonNull(editButton, "editButton must not be null");
         if (StringUtils.isNotEmpty(caption) || editButton.isPresent()) {
             createHeader(caption, closeable);
         } else {
@@ -102,7 +101,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
     /**
      * The spacer consists of a layout and a label. The layout is needed to force vaadin to
-     * correctly calculate the hight when the content below is set to height: 100%
+     * correctly calculate the height when the content below is set to height: 100%
      */
     private void createSpacer() {
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -203,7 +202,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
         public OpenCloseButtonPmo(Runnable switchRunnable) {
             super();
-            this.switchRunnable = switchRunnable;
+            this.switchRunnable = requireNonNull(switchRunnable, "switchRunnable must not be null");
         }
 
         @Override

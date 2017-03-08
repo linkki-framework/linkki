@@ -28,8 +28,7 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     private final PropertyDispatcher wrappedDispatcher;
 
     public AbstractPropertyDispatcherDecorator(PropertyDispatcher wrappedDispatcher) {
-        requireNonNull(wrappedDispatcher, "wrappedDispatcher must not be null");
-        this.wrappedDispatcher = wrappedDispatcher;
+        this.wrappedDispatcher = requireNonNull(wrappedDispatcher, "wrappedDispatcher must not be null");
     }
 
     @Override

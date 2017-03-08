@@ -70,12 +70,9 @@ public class BindingContext implements UiUpdateObserver {
     @SuppressWarnings("null")
     public BindingContext(@Nonnull String contextName, @Nonnull PropertyBehaviorProvider behaviorProvider,
             @Nonnull Handler afterUpdateHandler) {
-        requireNonNull(contextName, "contextName must not be null");
-        requireNonNull(behaviorProvider, "behaviorProvider must not be null");
-        requireNonNull(afterUpdateHandler, "afterUpdateHandler must not be null");
-        this.name = contextName;
-        this.behaviorProvider = behaviorProvider;
-        this.afterUpdateHandler = afterUpdateHandler;
+        this.name = requireNonNull(contextName, "contextName must not be null");
+        this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
+        this.afterUpdateHandler = requireNonNull(afterUpdateHandler, "afterUpdateHandler must not be null");
     }
 
     /**

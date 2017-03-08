@@ -6,6 +6,8 @@
 
 package org.linkki.core.binding.dispatcher;
 
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 import org.linkki.util.LazyInitializingMap;
 
@@ -37,8 +39,8 @@ class PropertyAccessorCache {
 
         public CacheKey(Class<?> clazz, String property) {
             super();
-            this.clazz = clazz;
-            this.property = property;
+            this.clazz = requireNonNull(clazz, "clazz must not be null");
+            this.property = requireNonNull(property, "property must not be null");
         }
 
         @Override

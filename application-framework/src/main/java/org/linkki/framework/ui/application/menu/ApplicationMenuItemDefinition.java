@@ -17,7 +17,7 @@ public abstract class ApplicationMenuItemDefinition implements Comparable<Applic
     private int position;
 
     public ApplicationMenuItemDefinition(String name, int position) {
-        this.name = name;
+        this.name = requireNonNull(name, "name must not be null");
         this.position = position;
     }
 

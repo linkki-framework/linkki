@@ -6,6 +6,8 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import static java.util.Objects.requireNonNull;
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -22,8 +24,8 @@ public abstract class BindingDescriptor {
     private final UIToolTipDefinition toolTipDefinition;
 
     public BindingDescriptor(BindingDefinition bindingDefinition, UIToolTipDefinition toolTipDefinition) {
-        this.bindingDefinition = bindingDefinition;
-        this.toolTipDefinition = toolTipDefinition;
+        this.bindingDefinition = requireNonNull(bindingDefinition, "bindingDefinition must not be null");
+        this.toolTipDefinition = requireNonNull(toolTipDefinition, "toolTipDefinition must not be null");
     }
 
     protected BindingDefinition getBindingDefinition() {

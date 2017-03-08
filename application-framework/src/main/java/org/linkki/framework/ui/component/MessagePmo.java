@@ -6,6 +6,8 @@
 
 package org.linkki.framework.ui.component;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +23,7 @@ public class MessagePmo {
     private final Message message;
 
     public MessagePmo(Message message) {
-        this.message = message;
+        this.message = requireNonNull(message, "message must not be null");
     }
 
     public String getStyle() {

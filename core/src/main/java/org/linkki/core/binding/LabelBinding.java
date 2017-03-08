@@ -27,10 +27,8 @@ public class LabelBinding implements ElementBinding {
 
     public LabelBinding(@Nullable Label labelsLabel, Label label, PropertyDispatcher propertyDispatcher) {
         this.labelsLabel = Optional.ofNullable(labelsLabel);
-        requireNonNull(label, "label must not be null");
-        this.label = label;
-        requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
-        this.propertyDispatcher = propertyDispatcher;
+        this.label = requireNonNull(label, "label must not be null");
+        this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
     }
 
     @Override

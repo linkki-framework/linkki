@@ -49,12 +49,9 @@ public class ButtonBinding implements ElementBinding, Serializable {
     public ButtonBinding(@Nullable Label label, Button button, PropertyDispatcher propertyDispatcher,
             Handler updateUi, boolean bindCaption) {
         this.label = Optional.ofNullable(label);
-        requireNonNull(button, "button must not be null");
-        this.button = button;
-        requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
-        this.propertyDispatcher = propertyDispatcher;
-        requireNonNull(updateUi, "updateUi must not be null");
-        this.updateUi = updateUi;
+        this.button = requireNonNull(button, "button must not be null");
+        this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+        this.updateUi = requireNonNull(updateUi, "updateUi must not be null");
         this.bindCaption = bindCaption;
         button.addClickListener(this::buttonClickCallback);
     }

@@ -39,10 +39,8 @@ public class SectionCreationContext {
     private final BindingContext bindingContext;
 
     public SectionCreationContext(Object pmo, BindingContext bindingContext) {
-        requireNonNull(pmo, "pmo must not be null");
-        requireNonNull(bindingContext, "bindingContext must not be null");
-        this.pmo = pmo;
-        this.bindingContext = bindingContext;
+        this.pmo = requireNonNull(pmo, "pmo must not be null");
+        this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
     }
 
     protected Object getPmo() {
@@ -118,8 +116,8 @@ public class SectionCreationContext {
         private final Component component;
 
         LabelComponent(Label label, Component component) {
-            this.label = label;
-            this.component = component;
+            this.label = requireNonNull(label, "label must not be null");
+            this.component = requireNonNull(component, "component must not be null");
         }
     }
 

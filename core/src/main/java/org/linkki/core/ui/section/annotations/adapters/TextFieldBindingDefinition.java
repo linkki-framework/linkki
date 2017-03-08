@@ -1,5 +1,7 @@
 package org.linkki.core.ui.section.annotations.adapters;
 
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
@@ -15,7 +17,7 @@ public class TextFieldBindingDefinition implements UIFieldDefinition {
     private final UITextField uiTextField;
 
     public TextFieldBindingDefinition(UITextField uiTextField) {
-        this.uiTextField = uiTextField;
+        this.uiTextField = requireNonNull(uiTextField, "uiTextField must not be null");
     }
 
     @Override

@@ -51,10 +51,8 @@ public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
      */
     public SimpleItemSupplier(Supplier<List<? extends MO>> modelObjectSupplier,
             Function<MO, PMO> mo2pmoMapping) {
-        requireNonNull(modelObjectSupplier, "modelObjectSupplier must not be null");
-        requireNonNull(mo2pmoMapping, "mo2pmoMapping must not be null");
-        this.modelObjectSupplier = modelObjectSupplier;
-        this.mo2pmoMapping = mo2pmoMapping;
+        this.modelObjectSupplier = requireNonNull(modelObjectSupplier, "modelObjectSupplier must not be null");
+        this.mo2pmoMapping = requireNonNull(mo2pmoMapping, "mo2pmoMapping must not be null");
     }
 
     @Override

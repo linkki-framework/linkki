@@ -47,10 +47,8 @@ public class PmoBasedTableFactory<T> {
      * @param bindingContext The binding context to which the cell bindings are added.
      */
     public PmoBasedTableFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
-        requireNonNull(containerPmo, "containerPmo must not be null");
-        requireNonNull(bindingContext, "bindingContext must not be null");
-        this.containerPmo = containerPmo;
-        this.bindingContext = bindingContext;
+        this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
+        this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         this.annotationReader = new UIAnnotationReader(getItemPmoClass());
     }
 
@@ -142,8 +140,8 @@ public class PmoBasedTableFactory<T> {
         private final BindingContext bindingContext;
 
         public FieldColumnGenerator(ElementDescriptor elementDescriptor, BindingContext bindingContext) {
-            this.elementDescriptor = elementDescriptor;
-            this.bindingContext = bindingContext;
+            this.elementDescriptor = requireNonNull(elementDescriptor, "elementDescriptor must not be null");
+            this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         }
 
         @Override

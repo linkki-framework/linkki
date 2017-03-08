@@ -6,6 +6,8 @@
 
 package org.linkki.core.ui.converters;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collection;
 import java.util.function.Supplier;
 
@@ -38,7 +40,7 @@ public class LinkkiConverterFactory extends DefaultConverterFactory {
     }
 
     LinkkiConverterFactory(Supplier<Collection<AutoDiscoveredConverter>> converterFinder) {
-        this.converterFinder = converterFinder;
+        this.converterFinder = requireNonNull(converterFinder, "converterFinder must not be null");
     }
 
     @Override

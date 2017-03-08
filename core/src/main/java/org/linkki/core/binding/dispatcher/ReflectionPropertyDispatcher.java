@@ -48,12 +48,9 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
      */
     public ReflectionPropertyDispatcher(Supplier<?> boundObjectSupplier, String property,
             PropertyDispatcher fallbackDispatcher) {
-        requireNonNull(boundObjectSupplier, "boundObjectSupplier must not be null");
-        requireNonNull(property, "property must not be null");
-        requireNonNull(fallbackDispatcher, "fallbackDispatcher must not be null");
-        this.boundObjectSupplier = boundObjectSupplier;
-        this.property = property;
-        this.fallbackDispatcher = fallbackDispatcher;
+        this.boundObjectSupplier = requireNonNull(boundObjectSupplier, "boundObjectSupplier must not be null");
+        this.property = requireNonNull(property, "property must not be null");
+        this.fallbackDispatcher = requireNonNull(fallbackDispatcher, "fallbackDispatcher must not be null");
     }
 
     @Override

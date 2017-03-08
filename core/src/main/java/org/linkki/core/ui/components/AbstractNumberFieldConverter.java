@@ -26,8 +26,7 @@ abstract class AbstractNumberFieldConverter<T extends Number> implements Convert
     private final NumberFormat format;
 
     public AbstractNumberFieldConverter(NumberFormat format) {
-        requireNonNull(format, "format must not be null");
-        this.format = format;
+        this.format = requireNonNull(format, "format must not be null");
     }
 
     @Override

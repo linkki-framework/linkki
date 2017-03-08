@@ -41,8 +41,7 @@ public class SubsetChooser extends TwinColSelect {
      */
     public SubsetChooser(ItemCaptionProvider<?> itemCaptionProvider) {
         super();
-        requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
-        this.itemCaptionProvider = itemCaptionProvider;
+        this.itemCaptionProvider = requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
     }
 
     /**
@@ -77,8 +76,7 @@ public class SubsetChooser extends TwinColSelect {
 
     /** Sets the function to use as the item caption provider. */
     public void setItemCaptionProvider(ItemCaptionProvider<?> itemCaptionProvider) {
-        requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
-        this.itemCaptionProvider = itemCaptionProvider;
+        this.itemCaptionProvider = requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
     }
 
     /** Returns the function that is used to obtain an item's caption. */

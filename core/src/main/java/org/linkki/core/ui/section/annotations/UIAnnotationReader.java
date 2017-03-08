@@ -41,7 +41,7 @@ public class UIAnnotationReader {
     private final Map<ElementDescriptor, TableColumnDescriptor> columnDescriptors;
 
     public UIAnnotationReader(Class<?> annotatedClass) {
-        this.annotatedClass = annotatedClass;
+        this.annotatedClass = requireNonNull(annotatedClass, "annotatedClass must not be null");
         descriptors = new HashSet<>();
         columnDescriptors = new HashMap<>();
         initDescriptorMaps();

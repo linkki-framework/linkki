@@ -30,8 +30,7 @@ public class DialogBindingManager extends BindingManager {
     public DialogBindingManager(OkCancelDialog dialog, ValidationService validationService,
             PropertyBehaviorProvider behaviorProvider) {
         super(() -> dialog.validate());
-        requireNonNull(behaviorProvider, "behaviorProvider must not be null");
-        this.behaviorProvider = behaviorProvider;
+        this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
         requireNonNull(dialog, "dialog must not be null");
         dialog.setValidationService(validationService);
     }
