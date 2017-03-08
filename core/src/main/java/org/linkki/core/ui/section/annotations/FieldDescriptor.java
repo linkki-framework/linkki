@@ -82,6 +82,7 @@ public class FieldDescriptor extends ElementDescriptor {
      * Derives the label from the label defined in the annotation. If no label is defined, derives
      * the label from the property name.
      */
+    @SuppressWarnings("null")
     @Override
     public String getLabelText() {
         if (!getBindingDefinition().showLabel()) {

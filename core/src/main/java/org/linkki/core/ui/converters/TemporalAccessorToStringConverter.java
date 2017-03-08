@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.vaadin.data.util.converter.Converter;
@@ -60,8 +59,6 @@ public abstract class TemporalAccessorToStringConverter<T extends TemporalAccess
     }
 
 
-    @SuppressWarnings("null")
-    @Nonnull
     protected static Locale getLocale(@Nullable Locale locale) {
         if (locale != null) {
             return locale;

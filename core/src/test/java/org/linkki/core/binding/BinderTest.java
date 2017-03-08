@@ -113,7 +113,7 @@ public class BinderTest {
         binder.setupBindings(bindingManager.startNewContext(""));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithParameters() {
         TestViewWithIllegalMethodParamters view = new TestViewWithIllegalMethodParamters();
         TestPmo pmo = new TestPmo();
@@ -122,7 +122,7 @@ public class BinderTest {
         binder.setupBindings(bindingManager.startNewContext(""));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithNonComponentReturnType() {
         TestViewWithIllegalMethodReturnType view = new TestViewWithIllegalMethodReturnType();
         TestPmo pmo = new TestPmo();

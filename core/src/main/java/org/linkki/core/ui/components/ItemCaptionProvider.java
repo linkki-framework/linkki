@@ -11,7 +11,6 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -40,7 +39,6 @@ public interface ItemCaptionProvider<T> {
      * @param value The value for which we need a caption
      * @return The caption for the specified value
      */
-    @CheckForNull
     String getCaption(T value);
 
     /**
@@ -63,7 +61,6 @@ public interface ItemCaptionProvider<T> {
      * @return The caption for the specified value
      */
     @SuppressWarnings("unchecked")
-    @CheckForNull
     default String getUnsafeCaption(Object value) {
         return getCaption((T)value);
     }
@@ -76,7 +73,6 @@ public interface ItemCaptionProvider<T> {
      */
     public class ToStringCaptionProvider implements ItemCaptionProvider<Object> {
         @Override
-        @Nonnull
         public String getCaption(Object t) {
             return Optional.ofNullable(t).map(Object::toString).orElse("");
         }
@@ -89,9 +85,9 @@ public interface ItemCaptionProvider<T> {
     class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
 
         @Override
-        @CheckForNull
         public String getCaption(Object o) {
-            return getName(o);
+            String name = getName(o);
+            return name != null ? name : StringUtils.EMPTY;
         }
 
         @CheckForNull
@@ -119,7 +115,6 @@ public interface ItemCaptionProvider<T> {
     class IdAndNameCaptionProvider implements ItemCaptionProvider<Object> {
 
         @Override
-        @CheckForNull
         public String getCaption(Object o) {
             return getName(o) + " [" + getId(o) + "]";
         }

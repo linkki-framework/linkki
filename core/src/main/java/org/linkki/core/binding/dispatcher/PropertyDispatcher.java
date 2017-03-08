@@ -27,8 +27,6 @@ import org.faktorips.runtime.MessageList;
  * <li>{@linkplain #getMessages(MessageList) ErrorMessages/Warnings}</li>
  * </ul>
  * In contrast to the other aspects the value of a property can also be set.
- *
- * @author widmaier
  */
 public interface PropertyDispatcher {
 

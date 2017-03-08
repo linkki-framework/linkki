@@ -78,6 +78,7 @@ public class ApplicationStyles {
     public static final String MESSAGE_ROW = "linkki-message-row";
 
     private ApplicationStyles() {
+        // prevent initialization
     }
 
 }

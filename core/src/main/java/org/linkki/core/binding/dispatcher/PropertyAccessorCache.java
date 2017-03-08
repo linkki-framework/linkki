@@ -13,8 +13,6 @@ import org.linkki.util.LazyInitializingMap;
 
 /**
  * Global static cache for {@link PropertyAccessor PropertyAccessors}.
- *
- * @author dschwering
  */
 class PropertyAccessorCache {
 
@@ -22,6 +20,7 @@ class PropertyAccessorCache {
             key -> new PropertyAccessor(key.clazz, key.property));
 
     private PropertyAccessorCache() {
+        // should not be instantiated
     }
 
     /**

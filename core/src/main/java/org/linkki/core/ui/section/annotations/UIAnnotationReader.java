@@ -57,6 +57,7 @@ public class UIAnnotationReader {
         return columnDescriptors.get(d);
     }
 
+    @SuppressWarnings("null")
     private void initDescriptorMaps() {
         descriptors.clear();
         Method[] methods = annotatedClass.getMethods();

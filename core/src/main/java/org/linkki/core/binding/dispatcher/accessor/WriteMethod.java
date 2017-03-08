@@ -8,8 +8,6 @@ import javax.annotation.Nullable;
 /**
  * Wrapper for a {@link Method}. {@link #canWrite()} can safely be accessed even if no write method
  * exists. {@link #writeValue(Object, Object)} will access the setter via reflection.
- *
- * @author widmaier
  */
 public class WriteMethod extends AbstractMethod {
 

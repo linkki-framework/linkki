@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.Objects;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.annotations.Bind;
@@ -89,7 +88,6 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     @Override
-    @Nonnull
     public Collection<?> getAvailableValues() {
         AvailableValuesType type = Objects
                 .requireNonNull(bindingDescriptor.availableValues(),

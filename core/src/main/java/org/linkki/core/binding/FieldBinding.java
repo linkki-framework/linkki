@@ -61,7 +61,7 @@ public class FieldBinding<T> implements ElementBinding {
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
         this.updateUi = requireNonNull(updateUi, "updateUi must not be null");
 
-        if (isAvailableValuesComponent()) {
+        if (field instanceof AbstractSelect) {
             containerDataSource = new LinkkiInMemoryContainer<T>();
             AbstractSelect abstractSelect = (AbstractSelect)field;
             abstractSelect.setContainerDataSource(containerDataSource);
@@ -169,8 +169,8 @@ public class FieldBinding<T> implements ElementBinding {
             field.setVisible(visible);
             label.ifPresent(l -> l.setVisible(visible));
             if (isAvailableValuesComponent()) {
-                // yes, it is set if isAvailableValuesComponent() is true, but that is unknown to
-                // eclipse' checker (and could be false in subclasses)
+                // containerDataSource is set if isAvailableValuesComponent() is true, but that is
+                // unknown to eclipse' checker (and may not be consistently set in subclasses)
                 if (containerDataSource != null) {
                     updateAvailableValues(containerDataSource);
                 }
@@ -222,7 +222,8 @@ public class FieldBinding<T> implements ElementBinding {
     }
 
     private String formatMessages(MessageList messages) {
-        return StreamSupport.stream(messages.spliterator(), false).map(Message::getText)
+        return StreamSupport.stream(messages.spliterator(), false)
+                .map(Message::getText)
                 .collect(Collectors.joining("\n"));
     }
 
@@ -241,7 +242,7 @@ public class FieldBinding<T> implements ElementBinding {
     /**
      * {@inheritDoc}
      * 
-     * @deprecated Damn vaadin has deprecated the toString method :( Also set deprecated to avoid
+     * @deprecated Damn Vaadin has deprecated the toString method :( Also set deprecated to avoid
      *             warnings
      */
     @Deprecated
@@ -305,7 +306,7 @@ public class FieldBinding<T> implements ElementBinding {
             fieldBinding.setValue(newValue);
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked", "null" })
         @Override
         public Class<? extends T> getType() {
             return (Class<? extends T>)ClassUtils.primitiveToWrapper(fieldBinding.getValueClass());

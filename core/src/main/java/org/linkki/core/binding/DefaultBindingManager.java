@@ -38,6 +38,7 @@ public class DefaultBindingManager extends BindingManager {
 
     @Override
     protected BindingContext newBindingContext(String name) {
+        requireNonNull(name, "name must not be null");
         return new BindingContext(name, behaviorProvider, this::afterUpdateUi);
     }
 

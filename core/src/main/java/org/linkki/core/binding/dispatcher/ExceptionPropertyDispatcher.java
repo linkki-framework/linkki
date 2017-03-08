@@ -24,9 +24,7 @@ import org.faktorips.runtime.MessageList;
  * {@link #isReadOnly()} which returns <code>true</code> and {@link #getMessages(MessageList)},
  * which returns an empty {@link MessageList}.
  *
- * Serves as a last resort fallback to simplify exception creation in other dispatchers.
- *
- * @author widmaier
+ * Serves as a last resort fall-back to simplify exception creation in other dispatchers.
  */
 public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
 

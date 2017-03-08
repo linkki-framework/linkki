@@ -24,14 +24,8 @@ import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 
 /**
  * Creates Chains of {@link PropertyDispatcher PropertyDispatchers}.
- *
- * @author dschwering
  */
 public class PropertyDispatcherFactory {
-
-    public PropertyDispatcherFactory() {
-    }
-
 
     public PropertyDispatcher createDispatcherChain(Object pmo,
             BindingDescriptor bindingDescriptor,
@@ -67,14 +61,12 @@ public class PropertyDispatcherFactory {
      * @param standardDispatchers the previously created dispatcher chain from
      *            {@link #createDispatcherChain(Object, BindingDescriptor, PropertyBehaviorProvider)}
      */
-
     protected PropertyDispatcher createCustomDispatchers(Object pmo,
             BindingDescriptor bindingDescriptor,
             PropertyDispatcher standardDispatchers) {
         requireNonNull(standardDispatchers, "standardDispatchers must not be null");
         return standardDispatchers;
     }
-
 
     public PropertyDispatcher createDispatcherChain(ButtonPmo buttonPmo,
             PropertyBehaviorProvider behaviorProvider) {

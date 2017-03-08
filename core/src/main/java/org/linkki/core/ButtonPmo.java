@@ -1,5 +1,7 @@
 package org.linkki.core;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -10,7 +12,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.themes.ValoTheme;
 
-/** A presentation model object for a button. */
+/** A presentation model object for a button with only displays an icon (no text). */
 @FunctionalInterface
 public interface ButtonPmo {
 
@@ -56,16 +58,17 @@ public interface ButtonPmo {
 
     /**
      * Builder to create a {@link ButtonPmo} with a fluent API. <em>{@link #icon(Resource)} must be
-     * called before {@link #get()} as buttons are not created without icon</em>
+     * called before {@link #get()} as buttons are not created without an icon</em>
      */
     public static class Builder {
 
         private Runnable action;
+
         @Nullable
         private Resource icon;
 
         public Builder(Runnable onClickAction) {
-            this.action = onClickAction;
+            this.action = requireNonNull(onClickAction, "onClickAction must not be null");
         }
 
         public static Builder action(Runnable onClickAction) {
@@ -81,6 +84,7 @@ public interface ButtonPmo {
             if (icon == null) {
                 throw new IllegalStateException("icon must be set before calling get()");
             }
+
             return new ButtonPmo() {
 
                 @Override

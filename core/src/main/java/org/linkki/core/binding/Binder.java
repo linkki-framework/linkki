@@ -14,6 +14,9 @@ import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.binding.annotations.Bind;
@@ -63,6 +66,7 @@ public class Binder {
     /** Creates bindings between the view and the PMO and adds them to the given binding context. */
     public void setupBindings(BindingContext bindingContext) {
         LinkedHashMap<BindingDescriptor, Component> bindingDescriptors = readBindings();
+
         bindingDescriptors.forEach((descriptor, component) -> bindingContext.bind(pmo, descriptor, component, null));
     }
 
@@ -87,25 +91,33 @@ public class Binder {
      * Adds the descriptor and component (returned by the method) for the given method to the given
      * map.
      * 
-     * @throws IllegalStateException if the method does not return a component or requires
+     * @throws IllegalArgumentException if the method does not return a component or requires
      *             parameters
      * @throws NullPointerException if the component returned by the method is {@code null}
      */
     private void addMethodBinding(Method method, LinkedHashMap<BindingDescriptor, Component> bindings) {
-        Validate.validState(Component.class.isAssignableFrom(method.getReturnType()),
-                            "%s does not return a Component and cannot be annotated with @Bind", method);
-        Validate.validState(method.getParameterCount() == 0, "%s has parameters and cannot be annotated with @Bind",
-                            method);
+        Validate.isAssignableFrom(Component.class, method.getReturnType(),
+                                  "%s does not return a Component and cannot be annotated with @Bind", method);
+        Validate.isTrue(method.getParameterCount() == 0, "%s has parameters and cannot be annotated with @Bind",
+                        method);
 
         try {
             if (!method.isAccessible()) {
                 method.setAccessible(true);
             }
 
-            Component component = requireNonNull((Component)method
-                    .invoke(view), () -> "Cannot create binding for method " + method + " as it returned null");
+            Component component = (Component)method
+                    .invoke(view);
 
-            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(method.getAnnotation(Bind.class),
+            if (component == null) {
+                throw new NullPointerException("Cannot create binding for method " + method + " as it returned null");
+            }
+
+            @SuppressWarnings("null")
+            @Nonnull
+            Bind bindAnnotation = method.getAnnotation(Bind.class);
+
+            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(bindAnnotation,
                     getUIToolTipDefinition(method.getAnnotation(UIToolTip.class)));
             bindings.put(descriptor, component);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
@@ -113,22 +125,20 @@ public class Binder {
         }
     }
 
-    private UIToolTipDefinition getUIToolTipDefinition(UIToolTip toolTipAnnotation) {
-        return new UIToolTipAdapter(toolTipAnnotation);
-    }
-
     /**
      * Adds descriptors and component for the view's fields annotated with {@link Bind @Bind} to the
      * given map.
      */
+    @SuppressWarnings("null")
     private void addFieldBindings(LinkedHashMap<BindingDescriptor, Component> bindings) {
         List<Field> fields = FieldUtils.getFieldsListWithAnnotation(view.getClass(), Bind.class);
         fields.forEach(f -> addFieldBinding(f, bindings));
-
     }
 
     /**
      * Adds the descriptor and component for the given field to the given map.
+     * 
+     * @param field a Component typed field that is annotated with {@link Bind}
      * 
      * @throws IllegalStateException if the field does not hold a component
      * @throws NullPointerException if the component held by the field is {@code null}
@@ -145,13 +155,21 @@ public class Binder {
             Component component = requireNonNull((Component)field.get(view),
                                                  () -> "Cannot create binding for field " + field + " as it is null");
 
-            UIToolTip annotation = field.getAnnotation(UIToolTip.class);
-            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(field.getAnnotation(Bind.class),
-                    getUIToolTipDefinition(annotation));
+            @SuppressWarnings("null")
+            @Nonnull
+            Bind bindAnnotation = field.getAnnotation(Bind.class);
+            UIToolTip tooltipAnnotation = field.getAnnotation(UIToolTip.class);
+
+            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(bindAnnotation,
+                    getUIToolTipDefinition(tooltipAnnotation));
             bindings.put(descriptor, component);
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new LinkkiRuntimeException(e);
         }
     }
 
+
+    private UIToolTipDefinition getUIToolTipDefinition(@Nullable UIToolTip toolTipAnnotation) {
+        return new UIToolTipAdapter(toolTipAnnotation);
+    }
 }

@@ -14,8 +14,6 @@ import org.apache.commons.lang3.StringUtils;
  * Naming convention for properties. Adds suffixes, e.g. "enabled", to the base property, e.g.
  * "premium". To obtain the enabled property for premium, e.g. "premiumEnabled". The respective
  * getter would be called "isPremiumEnabled()".
- *
- * @author widmaier
  */
 public class PropertyNamingConvention {
 
@@ -105,5 +103,4 @@ public class PropertyNamingConvention {
         }
         return StringUtils.uncapitalize(property + StringUtils.capitalize(suffix));
     }
-
 }

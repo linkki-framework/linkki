@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import org.apache.commons.lang3.Validate;
@@ -55,8 +54,10 @@ public abstract class BindingManager {
      */
 
     public BindingContext startNewContext(String name) {
+        requireNonNull(name, "name must not be null");
         Validate.isTrue(!contextsByName.containsKey(name), "BindingManager already contains a BindingContext '%s'.",
                         name);
+
         BindingContext newContext = newBindingContext(name);
         contextsByName.put(name, newContext);
         return newContext;
@@ -77,20 +78,25 @@ public abstract class BindingManager {
     protected abstract BindingContext newBindingContext(String name);
 
     public Optional<BindingContext> getExistingContext(Class<?> clazz) {
+        requireNonNull(clazz, "clazz must not be null");
         return getExistingContext(clazz.getName());
     }
 
     public Optional<BindingContext> getExistingContext(String name) {
+        requireNonNull(name, "name must not be null");
         return Optional.ofNullable(contextsByName.get(name));
     }
 
 
     public BindingContext getExistingContextOrStartNewOne(Class<?> clazz) {
+        requireNonNull(clazz, "clazz must not be null");
         return getExistingContextOrStartNewOne(clazz.getName());
     }
 
 
     public BindingContext getExistingContextOrStartNewOne(String name) {
+        requireNonNull(name, "name must not be null");
+
         BindingContext context = contextsByName.get(name);
         if (context == null) {
             context = startNewContext(name);
@@ -99,6 +105,7 @@ public abstract class BindingManager {
     }
 
     public void removeContext(BindingContext context) {
+        requireNonNull(context, "context must not be null");
         contextsByName.remove(context.getName());
     }
 
@@ -107,10 +114,12 @@ public abstract class BindingManager {
     }
 
     public void registerUiUpdateObserver(UiUpdateObserver observer) {
+        requireNonNull(observer, "observer must not be null");
         uiUpdateObservers.add(observer);
     }
 
     public void removeUiUpdateObserver(UiUpdateObserver observer) {
+        requireNonNull(observer, "observer must not be null");
         uiUpdateObservers.remove(observer);
     }
 
@@ -128,7 +137,13 @@ public abstract class BindingManager {
      */
     public void afterUpdateUi() {
         MessageList messages = this.validationService.getValidationMessages();
-        updateMessages(MessageListUtil.sortBySeverity(messages));
+
+
+        MessageList sortedMessages = MessageListUtil.sortBySeverity(messages);
+
+        if (sortedMessages != null) {
+            updateMessages(sortedMessages);
+        }
 
         notifyUiUpdateObservers();
     }
@@ -138,7 +153,8 @@ public abstract class BindingManager {
      * subclasses to notify further observers about the new messages.
      */
     @OverridingMethodsMustInvokeSuper
-    protected void updateMessages(@Nullable MessageList messages) {
+    protected void updateMessages(MessageList messages) {
+        requireNonNull(messages, "messages must not be null");
         contextsByName.values().forEach(bc -> bc.updateMessages(messages));
     }
 

@@ -48,6 +48,9 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
     }
 
     public static Button createBoundButton(BindingContext bindingContext, ButtonPmo pmo) {
+        requireNonNull(bindingContext, "bindingContext must not be null");
+        requireNonNull(pmo, "pmo must not be null");
+
         Button button = ComponentFactory.newButton(pmo.getButtonIcon(), pmo.getStyleNames());
         bindingContext.bind(pmo, button);
         return button;

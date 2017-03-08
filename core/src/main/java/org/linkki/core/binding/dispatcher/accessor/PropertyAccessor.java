@@ -13,8 +13,6 @@ import javax.annotation.Nullable;
  * For accessing an object's property, create a {@link PropertyAccessor} for the class to be
  * accessed and the name of the property. The accessor can determine whether the property can be
  * read or written.
- *
- * @author widmaier
  */
 public class PropertyAccessor {
 

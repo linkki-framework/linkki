@@ -25,8 +25,19 @@ public class LabelBinding implements ElementBinding {
     private final Optional<Label> labelsLabel;
     private final PropertyDispatcher propertyDispatcher;
 
-    public LabelBinding(@Nullable Label labelsLabel, Label label, PropertyDispatcher propertyDispatcher) {
-        this.labelsLabel = Optional.ofNullable(labelsLabel);
+    /**
+     * Creates the binding for a label. If that label is used to display the non-editable value of a
+     * property, there might be another label naming that property, which is passed as the first
+     * parameter and will be set visible depending on the bound label's visibility.
+     * 
+     * @param labelTextForLabel the label's label (for example the property name if the label is a
+     *            property value)
+     * @param label the label to be bound
+     * @param propertyDispatcher the dispatcher responsible to retrieve the displayed value and
+     *            possibly visibility and tooltip information
+     */
+    public LabelBinding(@Nullable Label labelTextForLabel, Label label, PropertyDispatcher propertyDispatcher) {
+        this.labelsLabel = Optional.ofNullable(labelTextForLabel);
         this.label = requireNonNull(label, "label must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
     }
@@ -47,6 +58,9 @@ public class LabelBinding implements ElementBinding {
         label.setVisible(visible);
     }
 
+    /**
+     * We do not support messages on buttons at the moment.
+     */
     @Override
     public MessageList displayMessages(@Nullable MessageList messages) {
         return new MessageList();

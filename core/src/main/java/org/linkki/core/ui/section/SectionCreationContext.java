@@ -12,6 +12,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
+import javax.annotation.CheckForNull;
+
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
@@ -73,6 +75,7 @@ public class SectionCreationContext {
         return idMethod.map(this::getId).orElse(pmo.getClass().getSimpleName());
     }
 
+    @CheckForNull
     public String getId(Method m) {
         try {
             return (String)m.invoke(pmo);

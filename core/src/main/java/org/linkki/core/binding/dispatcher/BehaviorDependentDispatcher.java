@@ -31,8 +31,6 @@ import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
  * <p>
  * In other words behaviors normally return <code>true</code>, but can veto an aspect, by returning
  * <code>false</code>, if they desire to change the behavior.
- *
- * @author widmaier
  */
 public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecorator {
 

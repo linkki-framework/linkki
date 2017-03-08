@@ -20,8 +20,6 @@ import org.faktorips.runtime.MessageList;
  * to the dispatcher it was created with.
  * <p>
  * Subclasses can override methods and provide their own data.
- *
- * @author widmaier
  */
 public abstract class AbstractPropertyDispatcherDecorator implements PropertyDispatcher {
 

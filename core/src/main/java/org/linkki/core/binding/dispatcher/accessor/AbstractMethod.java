@@ -10,8 +10,6 @@ import java.util.function.Supplier;
 /**
  * Base class for method wrappers. Allows the wrapped {@link Method java.lang.reflect.Method} to be
  * <code>null</code>.
- *
- * @author widmaier
  */
 public abstract class AbstractMethod {
 
@@ -26,6 +24,7 @@ public abstract class AbstractMethod {
     public AbstractMethod(PropertyAccessDescriptor descriptor, Optional<Method> reflectionMethod) {
         this.reflectionMethod = requireNonNull(reflectionMethod, "reflectionMethod must not be null");
         requireNonNull(descriptor, "descriptor must not be null");
+
         boundClass = descriptor.getBoundClass();
         propertyName = descriptor.getPropertyName();
     }

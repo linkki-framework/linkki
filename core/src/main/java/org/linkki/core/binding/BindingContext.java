@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
@@ -67,9 +66,8 @@ public class BindingContext implements UiUpdateObserver {
      * @param afterUpdateHandler a handler that is applied after the UI update. Usually
      *            {@link BindingManager#afterUpdateUi()}
      */
-    @SuppressWarnings("null")
-    public BindingContext(@Nonnull String contextName, @Nonnull PropertyBehaviorProvider behaviorProvider,
-            @Nonnull Handler afterUpdateHandler) {
+    public BindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
+            Handler afterUpdateHandler) {
         this.name = requireNonNull(contextName, "contextName must not be null");
         this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
         this.afterUpdateHandler = requireNonNull(afterUpdateHandler, "afterUpdateHandler must not be null");
@@ -87,6 +85,7 @@ public class BindingContext implements UiUpdateObserver {
      */
     public BindingContext add(ElementBinding binding) {
         requireNonNull(binding, "binding must not be null");
+
         elementBindings.put(binding.getBoundComponent(), binding);
         elementBindingsByPmo.computeIfAbsent(binding.getPmo(), (pmo) -> Collections.synchronizedList(new ArrayList<>()))
                 .add(binding);
@@ -100,6 +99,7 @@ public class BindingContext implements UiUpdateObserver {
 
     public BindingContext add(TableBinding<?> tableBinding) {
         requireNonNull(tableBinding, "tableBinding must not be null");
+
         tableBindings.put(tableBinding.getBoundComponent(), tableBinding);
         return this;
     }
@@ -107,8 +107,6 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Returns all element bindings in the context.
      */
-    @SuppressWarnings("null")
-    @Nonnull
     public Collection<ElementBinding> getElementBindings() {
         return Collections.unmodifiableCollection(elementBindings.values());
     }
@@ -116,8 +114,6 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Returns all table bindings in the context.
      */
-    @SuppressWarnings("null")
-    @Nonnull
     public Collection<TableBinding<?>> getTableBindings() {
         return Collections.unmodifiableCollection(tableBindings.values());
     }
@@ -126,6 +122,8 @@ public class BindingContext implements UiUpdateObserver {
      * Removes all bindings in this context that refer to the given PMO.
      */
     public void removeBindingsForPmo(Object pmo) {
+        requireNonNull(pmo, "pmo must not be null");
+
         Collection<ElementBinding> toRemove = elementBindingsByPmo.get(pmo);
         if (toRemove != null) {
             toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
@@ -233,6 +231,7 @@ public class BindingContext implements UiUpdateObserver {
     public ButtonPmoBinding bind(ButtonPmo pmo, Button button) {
         requireNonNull(pmo, "pmo must not be null");
         requireNonNull(button, "button must not be null");
+
         ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, createDispatcherChain(pmo),
                 this::updateUIForBinding);
         add(buttonPmoBinding);
@@ -247,11 +246,9 @@ public class BindingContext implements UiUpdateObserver {
         return dispatcherFactory.createDispatcherChain(pmo, bindingDescriptor, getBehaviorProvider());
     }
 
-
     protected PropertyDispatcher createDispatcherChain(ButtonPmo buttonPmo) {
         requireNonNull(buttonPmo, "buttonPmo must not be null");
 
         return dispatcherFactory.createDispatcherChain(buttonPmo, getBehaviorProvider());
     }
-
 }

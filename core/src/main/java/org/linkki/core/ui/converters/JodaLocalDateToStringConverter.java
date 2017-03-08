@@ -8,7 +8,6 @@ package org.linkki.core.ui.converters;
 
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.joda.time.LocalDate;
@@ -51,8 +50,6 @@ public class JodaLocalDateToStringConverter implements Converter<String, LocalDa
         return DateTimeFormat.forPattern(new DateFormatRegistry().getPattern(getNullsafeLocale(locale)));
     }
 
-    @SuppressWarnings("null")
-    @Nonnull
     static Locale getNullsafeLocale(@Nullable Locale locale) {
         if (locale == null) {
             return Locale.getDefault();

@@ -24,8 +24,6 @@ import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 /**
  * {@link PropertyDispatcher} that reads properties from an arbitrary object via reflection. Falls
  * back to another dispatcher if no property/method is available in the accessed object.
- *
- * @author widmaier
  */
 public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
