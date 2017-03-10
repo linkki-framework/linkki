@@ -33,6 +33,7 @@ public class CdiFixNavigator extends Navigator {
      */
     private String currentView = StringUtils.EMPTY;
 
+    @SuppressWarnings("null")
     private String emptyView = Conventions.deriveMappingForView(EmptyCdiView.class);
 
     public CdiFixNavigator(UI ui, ComponentContainer container) {

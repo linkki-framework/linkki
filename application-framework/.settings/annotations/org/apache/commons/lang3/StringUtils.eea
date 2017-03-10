@@ -11,3 +11,6 @@ LF
 SPACE
  Ljava/lang/String;
  L1java/lang/String;
+substringBefore
+ (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ (Ljava/lang/String;Ljava/lang/String;)L1java/lang/String;

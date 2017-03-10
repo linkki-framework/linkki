@@ -46,7 +46,8 @@ public class MessagePmo {
     }
 
     public String getToolTip() {
-        String text = message.getInvalidObjectProperties().stream().map(this::getPropertyDesc)
+        String text = message.getInvalidObjectProperties().stream()
+                .map(this::getPropertyDesc)
                 .collect(Collectors.joining(", "));
         return text;
     }
