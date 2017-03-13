@@ -1,5 +1,5 @@
 /**
  * Validation for bound properties.
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
 package org.linkki.core.binding.validation;

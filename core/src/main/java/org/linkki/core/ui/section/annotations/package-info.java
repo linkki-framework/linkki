@@ -3,5 +3,5 @@
  * {@link org.linkki.core.ui.section.annotations.BindingDefinition BindingDefinitions} created for
  * the annotated elements.
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
 package org.linkki.core.ui.section.annotations;

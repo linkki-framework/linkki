@@ -1,5 +1,5 @@
 /**
  * Implementation of {@link com.vaadin.data.Container}.
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
 package org.linkki.core.container;

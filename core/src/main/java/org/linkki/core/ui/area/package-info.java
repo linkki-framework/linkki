@@ -1,5 +1,5 @@
 /**
  * {@link org.linkki.core.ui.area.Area Areas} used by Linkki.
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
 package org.linkki.core.ui.area;

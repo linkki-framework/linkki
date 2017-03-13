@@ -1,5 +1,5 @@
 /**
  * Linkki data binding framework.
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
 package org.linkki.core.binding.aspect;

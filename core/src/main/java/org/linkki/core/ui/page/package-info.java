@@ -1,5 +1,5 @@
 /**
  * {@link org.linkki.core.ui.section.AbstractSection Sections} used to structure UI.
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
 package org.linkki.core.ui.page;
