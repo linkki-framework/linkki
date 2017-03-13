@@ -75,19 +75,19 @@ public abstract class AbstractSection extends VerticalLayout {
         }
     }
 
-    @SuppressWarnings("null")
     private void createHeader(String caption, boolean closeable) {
-        header = new HorizontalLayout();
-        header.setSpacing(true);
-        addComponent(header);
-        header.addStyleName(ApplicationStyles.SECTION_CAPTION);
+        HorizontalLayout newHeader = new HorizontalLayout();
+        this.header = newHeader;
+        newHeader.setSpacing(true);
+        addComponent(newHeader);
+        newHeader.addStyleName(ApplicationStyles.SECTION_CAPTION);
 
         Label l = new Label(caption);
         l.addStyleName(ApplicationStyles.SECTION_CAPTION_TEXT);
-        header.addComponent(l);
-        header.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
+        newHeader.addComponent(l);
+        newHeader.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
 
-        editButton.ifPresent(b -> header.addComponent(b));
+        editButton.ifPresent(b -> newHeader.addComponent(b));
 
         if (closeable) {
             createOpenCloseButton();
@@ -95,8 +95,8 @@ public abstract class AbstractSection extends VerticalLayout {
 
         Label line = new Label("<hr/>", ContentMode.HTML);
         line.addStyleName(ApplicationStyles.SECTION_CAPTION_LINE);
-        header.addComponent(line);
-        header.setComponentAlignment(line, Alignment.MIDDLE_LEFT);
+        newHeader.addComponent(line);
+        newHeader.setComponentAlignment(line, Alignment.MIDDLE_LEFT);
     }
 
     /**

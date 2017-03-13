@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNullableByDefault;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -101,6 +102,7 @@ public class LinkkiInMemoryContainer<T>
      * This wrapper is needed to 'override' the {@link #equals(Object)} and {@link #hashCode()} of
      * the containing objects for our 'need to reload the container' check.
      */
+    @ParametersAreNullableByDefault
     protected static class LinkkiItemWrapper<T> implements Item {
 
         private static final long serialVersionUID = -8239631444860890275L;
@@ -159,13 +161,13 @@ public class LinkkiInMemoryContainer<T>
             return item == that.item;
         }
 
-        @SuppressWarnings("null")
         @Override
         public int hashCode() {
-            if (item == null) {
+            if (item != null) {
+                return item.hashCode();
+            } else {
                 return 0;
             }
-            return item.hashCode();
         }
     }
 

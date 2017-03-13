@@ -8,6 +8,8 @@ import java.util.Collection;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.Validate;
+
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.themes.ValoTheme;
@@ -81,9 +83,7 @@ public interface ButtonPmo {
         }
 
         public ButtonPmo get() {
-            if (icon == null) {
-                throw new IllegalStateException("icon must be set before calling get()");
-            }
+            Resource existingIcon = Validate.notNull(icon, "icon must be set before calling get()");
 
             return new ButtonPmo() {
 
@@ -92,10 +92,9 @@ public interface ButtonPmo {
                     action.run();
                 }
 
-                @SuppressWarnings("null")
                 @Override
                 public Resource getButtonIcon() {
-                    return icon;
+                    return existingIcon;
                 }
             };
         }

@@ -36,9 +36,8 @@ public class UIToolTipAdapter implements UIToolTipDefinition {
         return toolTipAnnotation != null ? toolTipAnnotation.toolTipType() : null;
     }
 
-    @SuppressWarnings("null")
     @Override
     public String text() {
-        return toolTipAnnotation == null || toolTipType() == null ? StringUtils.EMPTY : toolTipAnnotation.text();
+        return toolTipAnnotation != null ? toolTipAnnotation.text() : StringUtils.EMPTY;
     }
 }
