@@ -6,8 +6,6 @@
 
 package org.linkki.core.binding.validation;
 
-import javax.annotation.Nonnull;
-
 import org.faktorips.runtime.MessageList;
 
 /**
@@ -33,7 +31,6 @@ public interface ValidationService {
      * @return A {@link MessageList} containing all validation messages or an empty
      *         {@link MessageList} if there are no messages at all.
      */
-    @Nonnull
     MessageList getValidationMessages();
 
     /** Returns a new validation service that always returns the given message list. */

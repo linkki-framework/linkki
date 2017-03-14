@@ -6,13 +6,16 @@
 
 package org.linkki.core.binding.dispatcher;
 
+import static java.util.Objects.requireNonNull;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNullableByDefault;
+
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 import org.linkki.util.LazyInitializingMap;
 
 /**
  * Global static cache for {@link PropertyAccessor PropertyAccessors}.
- *
- * @author dschwering
  */
 class PropertyAccessorCache {
 
@@ -20,6 +23,7 @@ class PropertyAccessorCache {
             key -> new PropertyAccessor(key.clazz, key.property));
 
     private PropertyAccessorCache() {
+        // should not be instantiated
     }
 
     /**
@@ -31,25 +35,27 @@ class PropertyAccessorCache {
         return ACCESSOR_CACHE.get(new CacheKey(clazz, property));
     }
 
+    @ParametersAreNullableByDefault
     private static final class CacheKey {
         private final Class<?> clazz;
         private final String property;
 
-        public CacheKey(Class<?> clazz, String property) {
+        public CacheKey(@Nonnull Class<?> clazz, @Nonnull String property) {
             super();
-            this.clazz = clazz;
-            this.property = property;
+            this.clazz = requireNonNull(clazz, "clazz must not be null");
+            this.property = requireNonNull(property, "property must not be null");
         }
 
         @Override
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
-            result = prime * result + ((property == null) ? 0 : property.hashCode());
+            result = prime * result + clazz.hashCode();
+            result = prime * result + property.hashCode();
             return result;
         }
 
+        @SuppressWarnings({ "null", "unused" })
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {
@@ -62,18 +68,10 @@ class PropertyAccessorCache {
                 return false;
             }
             CacheKey other = (CacheKey)obj;
-            if (clazz == null) {
-                if (other.clazz != null) {
-                    return false;
-                }
-            } else if (!clazz.getName().equals(other.clazz.getName())) {
+            if (!clazz.getName().equals(other.clazz.getName())) {
                 return false;
             }
-            if (property == null) {
-                if (other.property != null) {
-                    return false;
-                }
-            } else if (!property.equals(other.property)) {
+            if (!property.equals(other.property)) {
                 return false;
             }
             return true;

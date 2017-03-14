@@ -33,8 +33,6 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
  * {@link InjectablePropertyBehavior behaviors} say. This means a behavior should return
  * <code>true</code> for all properties be default, unless it wants to restrict the behavior. In
  * this case <code>false</code> should be returned.
- *
- * @author widmaier
  */
 public interface InjectablePropertyBehavior {
 

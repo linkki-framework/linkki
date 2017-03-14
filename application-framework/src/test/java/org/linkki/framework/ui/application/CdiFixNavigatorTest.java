@@ -22,12 +22,15 @@ import com.vaadin.ui.UI;
 @RunWith(MockitoJUnitRunner.class)
 public class CdiFixNavigatorTest {
 
+    @SuppressWarnings("null")
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private UI ui;
 
+    @SuppressWarnings("null")
     @Mock
     private ComponentContainer container;
 
+    @SuppressWarnings("null")
     private CdiFixNavigator navigator;
 
     @Test

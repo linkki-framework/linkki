@@ -13,29 +13,26 @@ import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 
 /**
  * {@link PropertyDispatcher} that reads properties from an arbitrary object via reflection. Falls
  * back to another dispatcher if no property/method is available in the accessed object.
- *
- * @author widmaier
  */
 public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     private final PropertyNamingConvention propertyNamingConvention = new PropertyNamingConvention();
 
-    @Nonnull
     private final PropertyDispatcher fallbackDispatcher;
 
-    @Nonnull
     private final Supplier<?> boundObjectSupplier;
 
-    @Nonnull
     private final String property;
 
     /**
@@ -47,13 +44,11 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
      *            (because no getters/setters exist) from the accessed object property. Must not be
      *            {@code null}.
      */
-    @SuppressWarnings("null")
-    public ReflectionPropertyDispatcher(@Nonnull Supplier<?> boundObjectSupplier, @Nonnull String property,
-            @Nonnull PropertyDispatcher fallbackDispatcher) {
+    public ReflectionPropertyDispatcher(Supplier<?> boundObjectSupplier, String property,
+            PropertyDispatcher fallbackDispatcher) {
         this.boundObjectSupplier = requireNonNull(boundObjectSupplier, "boundObjectSupplier must not be null");
         this.property = requireNonNull(property, "property must not be null");
         this.fallbackDispatcher = requireNonNull(fallbackDispatcher, "fallbackDispatcher must not be null");
-        requireNonNull(getBoundObject(), "Bound object must be available from supplier");
     }
 
     @Override
@@ -81,12 +76,13 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
+    @CheckForNull
     public Object getValue() {
         return get(propertyNamingConvention::getValueProperty, fallbackDispatcher::getValue);
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
         if (!isReadOnly()) {
             if (canWrite(getProperty())) {
                 getAccessor(getProperty()).setPropertyValue(getBoundObject(), value);
@@ -141,7 +137,9 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     /**
-     * Returns an empty {@link MessageList} for all properties.
+     * Returns the messages stating the {@link #getBoundObject() bound object} as
+     * {@link Message#getInvalidObjectProperties() invalid} and those the {@code fallbackDispatcher}
+     * returns.
      */
     @Override
     public MessageList getMessages(MessageList messageList) {
@@ -158,11 +156,13 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
+    @CheckForNull
     public String getCaption() {
         return (String)get(propertyNamingConvention::getCaptionProperty, fallbackDispatcher::getCaption);
     }
 
     @Override
+    @CheckForNull
     public String getToolTip() {
         return (String)get(propertyNamingConvention::getToolTipProperty, fallbackDispatcher::getToolTip);
     }

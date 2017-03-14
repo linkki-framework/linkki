@@ -6,6 +6,9 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.junit.Test;
 
 import com.vaadin.data.Buffered;
@@ -28,8 +31,10 @@ public class UiCheckBoxTest {
 
     protected static class TestModelObjectWithObjectBoolean {
 
+        @Nullable
         private Boolean value = null;
 
+        @CheckForNull
         public Boolean getBooleanValue() {
             return value;
         }

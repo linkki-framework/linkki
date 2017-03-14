@@ -14,7 +14,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 
@@ -23,9 +24,7 @@ import org.faktorips.runtime.MessageList;
  * {@link #isReadOnly()} which returns <code>true</code> and {@link #getMessages(MessageList)},
  * which returns an empty {@link MessageList}.
  *
- * Serves as a last resort fallback to simplify exception creation in other dispatchers.
- *
- * @author widmaier
+ * Serves as a last resort fall-back to simplify exception creation in other dispatchers.
  */
 public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
 
@@ -36,8 +35,8 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
      * @param property The name of the property
      * @param objects used for error messages
      */
-    public ExceptionPropertyDispatcher(@Nonnull String property, Object... objects) {
-        this.property = requireNonNull(property, "The property name must not be null");
+    public ExceptionPropertyDispatcher(String property, Object... objects) {
+        this.property = requireNonNull(property, "property must not be null");
         this.objects.addAll(Arrays.asList(objects));
     }
 
@@ -51,12 +50,13 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
+    @CheckForNull
     public Object getValue() {
         throw new IllegalArgumentException(getExceptionText("read"));
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
         throw new IllegalArgumentException(getExceptionText("write"));
     }
 
@@ -119,11 +119,13 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
+    @CheckForNull
     public String getCaption() {
         throw new IllegalStateException(getExceptionText("find caption method for"));
     }
 
     @Override
+    @CheckForNull
     public String getToolTip() {
         throw new IllegalStateException(getExceptionText("find tooltip method for"));
     }

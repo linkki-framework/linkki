@@ -8,6 +8,8 @@ package org.linkki.framework.security;
 
 import java.util.Collection;
 
+import javax.annotation.Nullable;
+
 import org.linkki.util.cdi.qualifier.InMemory;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +31,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @InMemory
 class InMemoryAuthenticationProvider implements AuthenticationProvider {
 
+    @Nullable
     private UserDetailsService userDetailsService;
 
     public void setUserDetailsService(UserDetailsService userDetailsService) {
@@ -36,19 +39,23 @@ class InMemoryAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        UserDetails pricipal = userDetailsService.loadUserByUsername(authentication.getName());
-        Collection<? extends GrantedAuthority> authorities = pricipal.getAuthorities();
-        Object credentials = authentication.getCredentials();
-        UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(pricipal, credentials,
-                authorities);
-        result.setDetails(authentication.getDetails());
-        return result;
+    public Authentication authenticate(@Nullable Authentication authentication) throws AuthenticationException {
+        if (userDetailsService != null && authentication != null) {
+            UserDetails principal = userDetailsService.loadUserByUsername(authentication.getName());
+            Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
+            Object credentials = authentication.getCredentials();
+            UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(principal, credentials,
+                    authorities);
+            result.setDetails(authentication.getDetails());
+            return result;
+        } else {
+            throw new IllegalStateException("Can't authenticate without UserDetailsService");
+        }
 
     }
 
     @Override
-    public boolean supports(Class<?> authentication) {
+    public boolean supports(@Nullable Class<?> authentication) {
         return true;
     }
 }

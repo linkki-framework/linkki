@@ -6,12 +6,10 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.binding.dispatcher.accessor.PropertyAccessDescriptor;
-import org.linkki.core.binding.dispatcher.accessor.ReadMethod;
-import org.linkki.core.binding.dispatcher.accessor.WriteMethod;
 
 public class PropertyAccessDescriptorTest {
 
+    @SuppressWarnings("null")
     private TestObject testObject;
 
     @Before

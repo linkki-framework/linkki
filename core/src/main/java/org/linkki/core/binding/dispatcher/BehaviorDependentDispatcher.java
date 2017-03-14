@@ -6,7 +6,11 @@
 
 package org.linkki.core.binding.dispatcher;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
@@ -27,16 +31,15 @@ import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
  * <p>
  * In other words behaviors normally return <code>true</code>, but can veto an aspect, by returning
  * <code>false</code>, if they desire to change the behavior.
- *
- * @author widmaier
  */
 public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecorator {
 
     private PropertyBehaviorProvider provider;
 
-    public BehaviorDependentDispatcher(PropertyDispatcher wrappedDispatcher, PropertyBehaviorProvider provider) {
+    public BehaviorDependentDispatcher(PropertyDispatcher wrappedDispatcher,
+            PropertyBehaviorProvider provider) {
         super(wrappedDispatcher);
-        this.provider = provider;
+        this.provider = requireNonNull(provider, "provider must not be null");
     }
 
     /**
@@ -45,7 +48,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      * only if the property is writable.
      */
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
         if (isConsensus(b -> b.isWritable(getBoundObject(), getProperty()))) {
             super.setValue(value);
         }
@@ -102,7 +105,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      *
      */
     protected boolean isConsensus(Predicate<InjectablePropertyBehavior> aspectIsTrue) {
-        if (provider == null || provider.getBehaviors() == null) {
+        if (provider.getBehaviors().isEmpty()) {
             return true;
         }
         return provider.getBehaviors().stream().allMatch(aspectIsTrue);

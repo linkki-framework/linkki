@@ -8,6 +8,8 @@ package org.linkki.core.ui.section.annotations;
 
 import static java.util.Objects.requireNonNull;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.FieldBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -35,7 +37,7 @@ public class FieldDescriptor extends ElementDescriptor {
      */
     public FieldDescriptor(UIFieldDefinition fieldDef, UIToolTipDefinition toolTipDefinition, String pmoPropertyName) {
         super(fieldDef, toolTipDefinition);
-        this.pmoPropertyName = pmoPropertyName;
+        this.pmoPropertyName = requireNonNull(pmoPropertyName, "pmoPropertyName must not be null");
     }
 
     @Override
@@ -64,10 +66,10 @@ public class FieldDescriptor extends ElementDescriptor {
     public FieldBinding<?> createBinding(PropertyDispatcher propertyDispatcher,
             Handler updateUi,
             Component component,
-            Label label) {
-        requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
-        requireNonNull(updateUi, "UpdateUI-Handler must not be null");
-        requireNonNull(component, "Component must not be null");
+            @Nullable Label label) {
+        requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+        requireNonNull(updateUi, "updateUi must not be null");
+        requireNonNull(component, "component must not be null");
         return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, updateUi);
     }
 
@@ -80,6 +82,7 @@ public class FieldDescriptor extends ElementDescriptor {
      * Derives the label from the label defined in the annotation. If no label is defined, derives
      * the label from the property name.
      */
+    @SuppressWarnings("null")
     @Override
     public String getLabelText() {
         if (!getBindingDefinition().showLabel()) {

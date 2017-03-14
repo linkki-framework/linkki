@@ -10,8 +10,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
-
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
@@ -31,16 +29,15 @@ public class PmoBasedTableSectionFactory<T> {
     /**
      * Creates a new factory.
      */
-    public PmoBasedTableSectionFactory(@Nonnull ContainerPmo<T> containerPmo, @Nonnull BindingContext bindingContext) {
-        this.containerPmo = requireNonNull(containerPmo);
-        this.bindingContext = requireNonNull(bindingContext);
+    public PmoBasedTableSectionFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
+        this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
+        this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
     }
 
     /**
      * Creates a new section showing a table, table structure and content is defined by the
      * factory's {@link ContainerPmo}.
      */
-    @Nonnull
     public TableSection<T> createSection() {
         Table table = createTable();
         Optional<ButtonPmo> addItemPmo = containerPmo.getAddItemButtonPmo();

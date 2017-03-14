@@ -116,11 +116,13 @@ public class OkCancelDialogTest {
     private Matcher<OkCancelDialog> displayingMessage() {
         return new TypeSafeMatcher<OkCancelDialog>() {
 
+            @SuppressWarnings("null")
             @Override
             public void describeTo(Description description) {
                 description.appendText("an OkCancelDialog displaying a message");
             }
 
+            @SuppressWarnings("null")
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
@@ -132,6 +134,7 @@ public class OkCancelDialogTest {
     private Matcher<OkCancelDialog> displayingMessage(String text) {
         return new TypeSafeMatcher<OkCancelDialog>() {
 
+            @SuppressWarnings("null")
             @Override
             public void describeTo(Description description) {
                 description.appendText("an OkCancelDialog displaying a message with the text '");
@@ -139,6 +142,7 @@ public class OkCancelDialogTest {
                 description.appendText("'");
             }
 
+            @SuppressWarnings("null")
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
@@ -159,11 +163,13 @@ public class OkCancelDialogTest {
     private Matcher<OkCancelDialog> showingEnabledOkButton() {
         return new TypeSafeMatcher<OkCancelDialog>() {
 
+            @SuppressWarnings("null")
             @Override
             public void describeTo(Description description) {
                 description.appendText("an OkCancelDialog whose OK button is enabled");
             }
 
+            @SuppressWarnings("null")
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
                 return getOkButton(dialog).isEnabled();
@@ -176,7 +182,7 @@ public class OkCancelDialogTest {
         return (Button)((HorizontalLayout)layout.getComponent(layout.getComponentCount() - 1)).getComponent(0);
     }
 
-    private static Stream<Component> components(VerticalLayout layout) {
+    static Stream<Component> components(VerticalLayout layout) {
         return StreamSupport.stream(layout.spliterator(), false);
     }
 

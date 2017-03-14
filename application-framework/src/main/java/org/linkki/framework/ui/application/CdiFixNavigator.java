@@ -6,6 +6,8 @@
 
 package org.linkki.framework.ui.application;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.vaadin.cdi.internal.Conventions;
@@ -31,6 +33,7 @@ public class CdiFixNavigator extends Navigator {
      */
     private String currentView = StringUtils.EMPTY;
 
+    @SuppressWarnings("null")
     private String emptyView = Conventions.deriveMappingForView(EmptyCdiView.class);
 
     public CdiFixNavigator(UI ui, ComponentContainer container) {
@@ -38,7 +41,7 @@ public class CdiFixNavigator extends Navigator {
     }
 
     @Override
-    public void navigateTo(String navigationState) {
+    public void navigateTo(@Nullable String navigationState) {
         String newViewName = getViewName(navigationState);
         if (newViewName.equals(currentView)) {
             super.navigateTo(emptyView);
@@ -53,7 +56,7 @@ public class CdiFixNavigator extends Navigator {
         return getViewName(getState()).equals(newViewName);
     }
 
-    String getViewName(String fragment) {
-        return StringUtils.substringBefore(fragment, "/");
+    String getViewName(@Nullable String fragment) {
+        return fragment == null ? "" : StringUtils.substringBefore(fragment, "/");
     }
 }

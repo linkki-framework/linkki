@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.ButtonPmo;
@@ -39,15 +39,18 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
      * @param updateUI a {@link Handler} that is called when this {@link Binding} desires an update
      *            of the UI. Usually the {@link BindingContext#updateUI()} method.
      */
-    public ButtonPmoBinding(@Nonnull Button button, @Nonnull PropertyDispatcher propertyDispatcher,
-            @Nonnull Handler updateUI) {
-        this.button = requireNonNull(button, "Button must not be null");
-        this.propertyDispatcher = requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
-        this.updateUI = requireNonNull(updateUI, "Update-UI-Handler must not be null");
+    public ButtonPmoBinding(Button button, PropertyDispatcher propertyDispatcher,
+            Handler updateUI) {
+        this.button = requireNonNull(button, "button must not be null");
+        this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+        this.updateUI = requireNonNull(updateUI, "updateUI must not be null");
         button.addClickListener(this::buttonClickCallback);
     }
 
     public static Button createBoundButton(BindingContext bindingContext, ButtonPmo pmo) {
+        requireNonNull(bindingContext, "bindingContext must not be null");
+        requireNonNull(pmo, "pmo must not be null");
+
         Button button = ComponentFactory.newButton(pmo.getButtonIcon(), pmo.getStyleNames());
         bindingContext.bind(pmo, button);
         return button;
@@ -86,7 +89,7 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
      * We do not support messages on buttons at the moment.
      */
     @Override
-    public MessageList displayMessages(MessageList messages) {
+    public MessageList displayMessages(@Nullable MessageList messages) {
         return new MessageList();
     }
 }

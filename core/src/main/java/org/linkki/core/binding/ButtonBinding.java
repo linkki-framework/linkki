@@ -11,7 +11,8 @@ import static java.util.Objects.requireNonNull;
 import java.io.Serializable;
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -45,12 +46,12 @@ public class ButtonBinding implements ElementBinding, Serializable {
      *            updates the caption. <code>false</code> prevents caption updates and thus also
      *            prevents a caption to be requested from the property dispatcher.
      */
-    public ButtonBinding(Label label, @Nonnull Button button, @Nonnull PropertyDispatcher propertyDispatcher,
-            @Nonnull Handler updateUi, boolean bindCaption) {
+    public ButtonBinding(@Nullable Label label, Button button, PropertyDispatcher propertyDispatcher,
+            Handler updateUi, boolean bindCaption) {
         this.label = Optional.ofNullable(label);
-        this.button = requireNonNull(button, "Button must not be null");
-        this.propertyDispatcher = requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
-        this.updateUi = requireNonNull(updateUi, "Update-UI-Handler must not be null");
+        this.button = requireNonNull(button, "button must not be null");
+        this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+        this.updateUi = requireNonNull(updateUi, "updateUi must not be null");
         this.bindCaption = bindCaption;
         button.addClickListener(this::buttonClickCallback);
     }
@@ -82,6 +83,7 @@ public class ButtonBinding implements ElementBinding, Serializable {
         return propertyDispatcher.isVisible();
     }
 
+    @CheckForNull
     public String getCaption() {
         return propertyDispatcher.getCaption();
     }
@@ -100,7 +102,7 @@ public class ButtonBinding implements ElementBinding, Serializable {
      * We do not support messages on buttons at the moment.
      */
     @Override
-    public MessageList displayMessages(MessageList messages) {
+    public MessageList displayMessages(@Nullable MessageList messages) {
         return new MessageList();
     }
 }

@@ -10,6 +10,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
 
 import com.vaadin.ui.ComboBox;
@@ -33,7 +36,7 @@ public class LinkkiComboBox extends ComboBox {
     /** Creates a new LinkkiComboBox that uses the given function as its item caption provider. */
     public LinkkiComboBox(ItemCaptionProvider<?> itemCaptionProvider) {
         super();
-        this.itemCaptionProvider = requireNonNull(itemCaptionProvider);
+        this.itemCaptionProvider = requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
         pageLength = 0;
     }
 
@@ -43,7 +46,7 @@ public class LinkkiComboBox extends ComboBox {
      * captions for items.
      */
     @Override
-    public void setItemCaption(Object itemId, String caption) {
+    public void setItemCaption(@Nullable Object itemId, @Nullable String caption) {
         throw new UnsupportedOperationException("LinkkiComboBox does not support explicit item captions");
     }
 
@@ -53,7 +56,7 @@ public class LinkkiComboBox extends ComboBox {
      * used to get captions for items.
      */
     @Override
-    public void setItemCaptionMode(ItemCaptionMode mode) {
+    public void setItemCaptionMode(@Nullable ItemCaptionMode mode) {
         throw new UnsupportedOperationException("LinkkiComboBox does not allow to specify the item caption mode");
     }
 
@@ -69,7 +72,7 @@ public class LinkkiComboBox extends ComboBox {
 
     /** Sets the function to use as the item caption provider. */
     public void setItemCaptionProvider(ItemCaptionProvider<?> newItemCaptionProvider) {
-        itemCaptionProvider = requireNonNull(newItemCaptionProvider);
+        itemCaptionProvider = requireNonNull(newItemCaptionProvider, "newItemCaptionProvider must not be null");
     }
 
     /** Returns the function that is used to obtain an item's caption. */
@@ -85,11 +88,13 @@ public class LinkkiComboBox extends ComboBox {
      * @return the item's caption
      */
     @Override
-    public String getItemCaption(Object itemId) {
+    @CheckForNull
+    public String getItemCaption(@Nullable Object itemId) {
         if (Objects.equals(itemId, getNullSelectionItemId())) {
             return itemCaptionProvider.getNullCaption();
         } else {
-            return itemCaptionProvider.getUnsafeCaption(requireNonNull(itemId));
+            requireNonNull(itemId, "itemId must not be null");
+            return itemCaptionProvider.getUnsafeCaption(itemId);
         }
     }
 

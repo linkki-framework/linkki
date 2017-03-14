@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ButtonPmo;
@@ -31,8 +31,10 @@ public abstract class AbstractSection extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
+    @Nullable
     private HorizontalLayout header;
-    private Button openCloseButton = null;
+    @Nullable
+    private Button openCloseButton;
     private boolean open = true;
     private Optional<Button> editButton = Optional.empty();
 
@@ -41,7 +43,7 @@ public abstract class AbstractSection extends VerticalLayout {
      * 
      * @param caption the caption to display for this section
      */
-    public AbstractSection(@Nonnull String caption) {
+    public AbstractSection(String caption) {
         this(caption, false, Optional.empty());
     }
 
@@ -51,7 +53,7 @@ public abstract class AbstractSection extends VerticalLayout {
      * @param caption the caption to display for this section
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
-    public AbstractSection(@Nonnull String caption, boolean closeable) {
+    public AbstractSection(String caption, boolean closeable) {
         this(caption, closeable, Optional.empty());
     }
 
@@ -62,10 +64,10 @@ public abstract class AbstractSection extends VerticalLayout {
      * @param closeable <code>true</code> if the section can be closed and opened.
      * @param editButton If present the section has an edit button in the header.
      */
-    public AbstractSection(@Nonnull String caption, boolean closeable, Optional<Button> editButton) {
+    public AbstractSection(String caption, boolean closeable, Optional<Button> editButton) {
         super();
-        requireNonNull(caption);
-        this.editButton = requireNonNull(editButton);
+        requireNonNull(caption, "caption must not be null");
+        this.editButton = requireNonNull(editButton, "editButton must not be null");
         if (StringUtils.isNotEmpty(caption) || editButton.isPresent()) {
             createHeader(caption, closeable);
         } else {
@@ -73,18 +75,19 @@ public abstract class AbstractSection extends VerticalLayout {
         }
     }
 
-    private void createHeader(@Nonnull String caption, boolean closeable) {
-        header = new HorizontalLayout();
-        header.setSpacing(true);
-        addComponent(header);
-        header.addStyleName(ApplicationStyles.SECTION_CAPTION);
+    private void createHeader(String caption, boolean closeable) {
+        HorizontalLayout newHeader = new HorizontalLayout();
+        this.header = newHeader;
+        newHeader.setSpacing(true);
+        addComponent(newHeader);
+        newHeader.addStyleName(ApplicationStyles.SECTION_CAPTION);
 
         Label l = new Label(caption);
         l.addStyleName(ApplicationStyles.SECTION_CAPTION_TEXT);
-        header.addComponent(l);
-        header.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
+        newHeader.addComponent(l);
+        newHeader.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
 
-        editButton.ifPresent(b -> header.addComponent(b));
+        editButton.ifPresent(b -> newHeader.addComponent(b));
 
         if (closeable) {
             createOpenCloseButton();
@@ -92,13 +95,13 @@ public abstract class AbstractSection extends VerticalLayout {
 
         Label line = new Label("<hr/>", ContentMode.HTML);
         line.addStyleName(ApplicationStyles.SECTION_CAPTION_LINE);
-        header.addComponent(line);
-        header.setComponentAlignment(line, Alignment.MIDDLE_LEFT);
+        newHeader.addComponent(line);
+        newHeader.setComponentAlignment(line, Alignment.MIDDLE_LEFT);
     }
 
     /**
      * The spacer consists of a layout and a label. The layout is needed to force vaadin to
-     * correctly calculate the hight when the content below is set to height: 100%
+     * correctly calculate the height when the content below is set to height: 100%
      */
     private void createSpacer() {
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -115,7 +118,9 @@ public abstract class AbstractSection extends VerticalLayout {
         final OpenCloseButtonPmo buttonPmo = new OpenCloseButtonPmo(this::switchOpenStatus);
         openCloseButton = ComponentFactory.newButton(buttonPmo.getButtonIcon(), buttonPmo.getStyleNames());
         openCloseButton.addClickListener(e -> buttonPmo.onClick());
-        header.addComponent(openCloseButton);
+        if (header != null) {
+            header.addComponent(openCloseButton);
+        }
     }
 
     /**
@@ -129,9 +134,13 @@ public abstract class AbstractSection extends VerticalLayout {
 
     private void addBeforeCloseButton(Button headerButton) {
         if (openCloseButton != null) {
-            header.addComponent(headerButton, header.getComponentIndex(openCloseButton));
+            if (header != null) {
+                header.addComponent(headerButton, header.getComponentIndex(openCloseButton));
+            }
         } else {
-            header.addComponent(headerButton, header.getComponentCount() - 1);
+            if (header != null) {
+                header.addComponent(headerButton, header.getComponentCount() - 1);
+            }
         }
 
     }
@@ -193,7 +202,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
         public OpenCloseButtonPmo(Runnable switchRunnable) {
             super();
-            this.switchRunnable = switchRunnable;
+            this.switchRunnable = requireNonNull(switchRunnable, "switchRunnable must not be null");
         }
 
         @Override

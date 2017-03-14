@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 /**
  * A registry for date format patterns to use instead of the rather unsuitable default patterns
  * provided by {@link DateFormat#getDateInstance(int, Locale)}.
@@ -35,8 +33,8 @@ public class DateFormatRegistry {
      * Returns the registered pattern if existent or a default pattern obtained from
      * {@link DateFormat#getDateInstance(int, Locale)} with style {@link DateFormat#SHORT}.
      */
-    public String getPattern(@Nonnull Locale locale) {
-        requireNonNull(locale);
+    public String getPattern(Locale locale) {
+        requireNonNull(locale, "locale must not be null");
 
         String registeredPattern = languagePatterns.get(locale.getLanguage());
         if (registeredPattern != null) {
@@ -47,6 +45,8 @@ public class DateFormatRegistry {
     }
 
     private String defaultLocalePattern(Locale locale) {
+        requireNonNull(locale, "locale must not be null");
+
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, locale);
         if (dateFormat instanceof SimpleDateFormat) {
             return ((SimpleDateFormat)dateFormat).toPattern();

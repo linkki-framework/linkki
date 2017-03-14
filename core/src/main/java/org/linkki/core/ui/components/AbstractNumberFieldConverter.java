@@ -6,9 +6,14 @@
 
 package org.linkki.core.ui.components;
 
+import static java.util.Objects.requireNonNull;
+
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,16 +26,15 @@ abstract class AbstractNumberFieldConverter<T extends Number> implements Convert
     private final NumberFormat format;
 
     public AbstractNumberFieldConverter(NumberFormat format) {
-        if (format == null) {
-            throw new IllegalArgumentException("NumberFormat required");
-        }
-        this.format = format;
+        this.format = requireNonNull(format, "format must not be null");
     }
 
     @Override
-    public final T convertToModel(String value, Class<? extends T> targetType, Locale locale)
+    @CheckForNull
+    public final T convertToModel(@Nullable String value,
+            @Nullable Class<? extends T> targetType,
+            @Nullable Locale locale)
             throws ConversionException {
-
         if (StringUtils.isEmpty(value)) {
             return getNullValue();
         }
@@ -41,12 +45,15 @@ abstract class AbstractNumberFieldConverter<T extends Number> implements Convert
         }
     }
 
+    @CheckForNull
     protected abstract T getNullValue();
 
     protected abstract T convertToModel(Number value);
 
     @Override
-    public String convertToPresentation(T value, Class<? extends String> targetType, Locale locale)
+    public String convertToPresentation(@Nullable T value,
+            @Nullable Class<? extends String> targetType,
+            @Nullable Locale locale)
             throws ConversionException {
 
         if (value == null) {

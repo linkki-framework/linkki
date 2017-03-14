@@ -29,9 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.ModelObject;
 
-/**
- * @author widmaier
- */
+@SuppressWarnings("null")
 public class ReflectionPropertyDispatcherTest {
     private static final String PRIMITIVE_BOOLEAN = "primitiveBoolean";
     private static final String OBJECT_BOOLEAN = "objectBoolean";

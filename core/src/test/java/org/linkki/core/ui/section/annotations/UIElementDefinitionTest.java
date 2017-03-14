@@ -93,6 +93,7 @@ public class UIElementDefinitionTest {
         //@formatter:on
     }
 
+    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testFrom_ThrowsExceptionForNullAnnotation() {
         UIElementDefinition.from(null);
@@ -128,6 +129,7 @@ interface UIFooBarBindingDefinition extends UIElementDefinition {
     // dummy
 }
 
+@SuppressWarnings("null")
 class UICustomBindingDefinition implements UIElementDefinition {
 
     /**

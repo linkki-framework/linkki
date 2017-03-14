@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.PostConstruct;
 
 import org.linkki.core.ui.page.Page;
@@ -114,6 +115,7 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
      * 
      * @return the tab pages that are contained in the tabs of this TabSheet.
      */
+    @CheckForNull
     protected Page getSelectedTab() {
         Component selectedTab = tabSheet.getSelectedTab();
         if (selectedTab instanceof Page) {

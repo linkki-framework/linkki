@@ -9,11 +9,14 @@ package org.linkki.core.binding;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import javax.annotation.Nullable;
+
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.util.handler.Handler;
 
+@SuppressWarnings("null")
 public class TestBindingContext extends BindingContext {
 
     private MessageList msgList = new MessageList();
@@ -26,7 +29,7 @@ public class TestBindingContext extends BindingContext {
         return create(null);
     }
 
-    public static TestBindingContext create(Handler afterUpdateUi) {
+    public static TestBindingContext create(@Nullable Handler afterUpdateUi) {
         TestValidationService validationService = new TestValidationService();
         TestBindingManager bindingManager = new TestBindingManager(validationService,
                 Optional.ofNullable(afterUpdateUi));

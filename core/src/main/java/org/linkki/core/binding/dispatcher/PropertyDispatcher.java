@@ -8,7 +8,8 @@ package org.linkki.core.binding.dispatcher;
 
 import java.util.Collection;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 
@@ -26,21 +27,17 @@ import org.faktorips.runtime.MessageList;
  * <li>{@linkplain #getMessages(MessageList) ErrorMessages/Warnings}</li>
  * </ul>
  * In contrast to the other aspects the value of a property can also be set.
- *
- * @author widmaier
  */
 public interface PropertyDispatcher {
 
     /**
      * @return the name of the property
      */
-    @Nonnull
     public String getProperty();
 
     /**
      * @return the model object containing the property.
      */
-    @Nonnull
     public Object getBoundObject();
 
     /**
@@ -49,7 +46,6 @@ public interface PropertyDispatcher {
      * @return the value class of the property
      * @throws IllegalArgumentException if the property is not available.
      */
-    @Nonnull
     public Class<?> getValueClass();
 
     /**
@@ -58,16 +54,17 @@ public interface PropertyDispatcher {
      * @return the value of the property
      * @throws IllegalArgumentException if the property is not available.
      */
+    @CheckForNull
     public Object getValue();
 
     /**
      * Sets the property to the argument value.
      * 
-     * @param value the property's new value
+     * @param value the property's new value(may be <code>null</code>)
      *
      * @throws IllegalArgumentException if the property is not available.
      */
-    public void setValue(Object value);
+    public void setValue(@Nullable Object value);
 
     /**
      * Retrieves the read-only state for the property.
@@ -107,7 +104,6 @@ public interface PropertyDispatcher {
      * @return the list of available values
      * @throws IllegalArgumentException if the property is not available.
      */
-    @Nonnull
     public Collection<?> getAvailableValues();
 
     /**
@@ -116,7 +112,6 @@ public interface PropertyDispatcher {
      * @param messageList the existing messages from previous model object validation
      * @return the list of messages
      */
-    @Nonnull
     public MessageList getMessages(MessageList messageList);
 
     /**
@@ -127,10 +122,12 @@ public interface PropertyDispatcher {
     /**
      * @return the caption of a control, i.e. a button's text.
      */
+    @CheckForNull
     public String getCaption();
 
     /**
      * @return the tooltip of a control, i.e. a button's tooltip.
      */
+    @CheckForNull
     public String getToolTip();
 }

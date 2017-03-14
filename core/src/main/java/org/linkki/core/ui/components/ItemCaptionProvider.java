@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -39,7 +39,7 @@ public interface ItemCaptionProvider<T> {
      * @param value The value for which we need a caption
      * @return The caption for the specified value
      */
-    String getCaption(@Nonnull T value);
+    String getCaption(T value);
 
     /**
      * Returns the caption for the <code>null</code> value. Default is the empty String.
@@ -86,13 +86,16 @@ public interface ItemCaptionProvider<T> {
 
         @Override
         public String getCaption(Object o) {
-            return getName(o);
+            String name = getName(o);
+            return name != null ? name : StringUtils.EMPTY;
         }
 
+        @CheckForNull
         private String getName(Object value) {
             return getPropertyValue(value, "getName");
         }
 
+        @CheckForNull
         private String getPropertyValue(Object value, String methodName) {
             try {
                 Method method = value.getClass().getMethod(methodName);
@@ -116,14 +119,17 @@ public interface ItemCaptionProvider<T> {
             return getName(o) + " [" + getId(o) + "]";
         }
 
+        @CheckForNull
         private String getId(Object value) {
             return getPropertyValue(value, "getId");
         }
 
+        @CheckForNull
         private String getName(Object value) {
             return getPropertyValue(value, "getName");
         }
 
+        @CheckForNull
         private String getPropertyValue(Object value, String methodName) {
             try {
                 Method method = value.getClass().getMethod(methodName);

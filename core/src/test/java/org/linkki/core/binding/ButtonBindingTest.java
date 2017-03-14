@@ -20,6 +20,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 
+@SuppressWarnings("null")
 public class ButtonBindingTest {
 
     private Label label = spy(new Label());

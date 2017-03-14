@@ -10,8 +10,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.dispatcher.BehaviorDependentDispatcher;
@@ -26,21 +24,15 @@ import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 
 /**
  * Creates Chains of {@link PropertyDispatcher PropertyDispatchers}.
- *
- * @author dschwering
  */
 public class PropertyDispatcherFactory {
 
-    public PropertyDispatcherFactory() {
-    }
-
-    @Nonnull
-    public PropertyDispatcher createDispatcherChain(@Nonnull Object pmo,
-            @Nonnull BindingDescriptor bindingDescriptor,
-            @Nonnull PropertyBehaviorProvider behaviorProvider) {
-        requireNonNull(pmo, "PresentationModelObject must not be null");
-        requireNonNull(bindingDescriptor, "ElementDescriptor must not be null");
-        requireNonNull(behaviorProvider, "PropertyBehaviorProvider must not be null");
+    public PropertyDispatcher createDispatcherChain(Object pmo,
+            BindingDescriptor bindingDescriptor,
+            PropertyBehaviorProvider behaviorProvider) {
+        requireNonNull(pmo, "pmo must not be null");
+        requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
+        requireNonNull(behaviorProvider, "behaviorProvider must not be null");
 
         // @formatter:off
         String modelPropertyName = bindingDescriptor.getModelPropertyName();
@@ -69,18 +61,17 @@ public class PropertyDispatcherFactory {
      * @param standardDispatchers the previously created dispatcher chain from
      *            {@link #createDispatcherChain(Object, BindingDescriptor, PropertyBehaviorProvider)}
      */
-    @Nonnull
-    protected PropertyDispatcher createCustomDispatchers(@Nonnull Object pmo,
-            @Nonnull BindingDescriptor bindingDescriptor,
-            @Nonnull PropertyDispatcher standardDispatchers) {
+    protected PropertyDispatcher createCustomDispatchers(Object pmo,
+            BindingDescriptor bindingDescriptor,
+            PropertyDispatcher standardDispatchers) {
+        requireNonNull(standardDispatchers, "standardDispatchers must not be null");
         return standardDispatchers;
     }
 
-    @Nonnull
-    public PropertyDispatcher createDispatcherChain(@Nonnull ButtonPmo buttonPmo,
-            @Nonnull PropertyBehaviorProvider behaviorProvider) {
-        requireNonNull(buttonPmo, "ButtonPmo must not be null");
-        requireNonNull(behaviorProvider, "PropertyBehaviorProvider must not be null");
+    public PropertyDispatcher createDispatcherChain(ButtonPmo buttonPmo,
+            PropertyBehaviorProvider behaviorProvider) {
+        requireNonNull(buttonPmo, "buttonPmo must not be null");
+        requireNonNull(behaviorProvider, "behaviorProvider must not be null");
 
         // @formatter:off
         String modelObjectName = ModelObject.DEFAULT_NAME;

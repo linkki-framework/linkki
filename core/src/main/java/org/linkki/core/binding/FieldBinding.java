@@ -8,7 +8,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.faktorips.runtime.Message;
@@ -40,7 +41,7 @@ public class FieldBinding<T> implements ElementBinding {
     private final PropertyDispatcher propertyDispatcher;
     private final Handler updateUi;
     private final FieldBindingDataSource<T> propertyDataSource;
-
+    @Nullable
     private final LinkkiInMemoryContainer<T> containerDataSource;
 
     /**
@@ -53,14 +54,14 @@ public class FieldBinding<T> implements ElementBinding {
      * @param updateUi a {@link Handler} that is called when this {@link Binding} desires an update
      *            of the UI. Usually declared in {@link BindingContext#updateUI()}.
      */
-    public FieldBinding(Label label, @Nonnull AbstractField<T> field, @Nonnull PropertyDispatcher propertyDispatcher,
-            @Nonnull Handler updateUi) {
+    public FieldBinding(@Nullable Label label, AbstractField<T> field, PropertyDispatcher propertyDispatcher,
+            Handler updateUi) {
         this.label = Optional.ofNullable(label);
-        this.field = requireNonNull(field, "Field must not be null");
-        this.propertyDispatcher = requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
-        this.updateUi = requireNonNull(updateUi, "Update-UI-Handler must not be null");
+        this.field = requireNonNull(field, "field must not be null");
+        this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+        this.updateUi = requireNonNull(updateUi, "updateUi must not be null");
 
-        if (isAvailableValuesComponent()) {
+        if (field instanceof AbstractSelect) {
             containerDataSource = new LinkkiInMemoryContainer<T>();
             AbstractSelect abstractSelect = (AbstractSelect)field;
             abstractSelect.setContainerDataSource(containerDataSource);
@@ -168,9 +169,11 @@ public class FieldBinding<T> implements ElementBinding {
             field.setVisible(visible);
             label.ifPresent(l -> l.setVisible(visible));
             if (isAvailableValuesComponent()) {
-                Collection<T> availableValues = getAvailableValues();
-                containerDataSource.removeAllItems();
-                containerDataSource.addAllItems(availableValues);
+                // containerDataSource is set if isAvailableValuesComponent() is true, but that is
+                // unknown to eclipse' checker (and may not be consistently set in subclasses)
+                if (containerDataSource != null) {
+                    updateAvailableValues(containerDataSource);
+                }
             }
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
@@ -180,16 +183,24 @@ public class FieldBinding<T> implements ElementBinding {
         // CSON: IllegalCatch
     }
 
+    private void updateAvailableValues(LinkkiInMemoryContainer<T> container) {
+        Collection<T> availableValues = getAvailableValues();
+        container.removeAllItems();
+        container.addAllItems(availableValues);
+    }
+
     private boolean isAvailableValuesComponent() {
         return field instanceof AbstractSelect;
     }
 
     @SuppressWarnings("unchecked")
+    @CheckForNull
     public T getValue() {
         return (T)getPropertyDispatcher().getValue();
     }
 
-    public void setValue(T newValue) {
+    public void setValue(
+            @Nullable T newValue) {
         getPropertyDispatcher().setValue(newValue);
         updateUi.apply();
     }
@@ -211,7 +222,8 @@ public class FieldBinding<T> implements ElementBinding {
     }
 
     private String formatMessages(MessageList messages) {
-        return StreamSupport.stream(messages.spliterator(), false).map(Message::getText)
+        return StreamSupport.stream(messages.spliterator(), false)
+                .map(Message::getText)
                 .collect(Collectors.joining("\n"));
     }
 
@@ -230,7 +242,7 @@ public class FieldBinding<T> implements ElementBinding {
     /**
      * {@inheritDoc}
      * 
-     * @deprecated Damn vaadin has deprecated the toString method :( Also set deprecated to avoid
+     * @deprecated Damn Vaadin has deprecated the toString method :( Also set deprecated to avoid
      *             warnings
      */
     @Deprecated
@@ -245,11 +257,9 @@ public class FieldBinding<T> implements ElementBinding {
     }
 
     @Override
-    public MessageList displayMessages(MessageList messages) {
-        MessageList messagesForProperty = getRelevantMessages(messages);
-        if (field instanceof AbstractField) {
-            field.setComponentError(getErrorHandler(messagesForProperty));
-        }
+    public MessageList displayMessages(@Nullable MessageList messages) {
+        MessageList messagesForProperty = getRelevantMessages(messages != null ? messages : new MessageList());
+        field.setComponentError(getErrorHandler(messagesForProperty));
         return messagesForProperty;
     }
 
@@ -266,6 +276,7 @@ public class FieldBinding<T> implements ElementBinding {
         }
     }
 
+    @CheckForNull
     private UserError getErrorHandler(MessageList messages) {
         if (messages.isEmpty()) {
             return null;
@@ -281,20 +292,21 @@ public class FieldBinding<T> implements ElementBinding {
         private FieldBinding<T> fieldBinding;
 
         public FieldBindingDataSource(FieldBinding<T> fieldBinding) {
-            this.fieldBinding = fieldBinding;
+            this.fieldBinding = requireNonNull(fieldBinding, "fieldBinding must not be null");
         }
 
         @Override
+        @CheckForNull
         public T getValue() {
             return fieldBinding.getValue();
         }
 
         @Override
-        public void setValue(T newValue) throws com.vaadin.data.Property.ReadOnlyException {
+        public void setValue(@Nullable T newValue) throws com.vaadin.data.Property.ReadOnlyException {
             fieldBinding.setValue(newValue);
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked", "null" })
         @Override
         public Class<? extends T> getType() {
             return (Class<? extends T>)ClassUtils.primitiveToWrapper(fieldBinding.getValueClass());

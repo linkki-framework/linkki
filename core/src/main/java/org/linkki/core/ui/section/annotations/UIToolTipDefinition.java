@@ -6,7 +6,11 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import javax.annotation.Nullable;
+
 public interface UIToolTipDefinition {
+
+    @Nullable
     public ToolTipType toolTipType();
 
     public String text();

@@ -1,5 +1,9 @@
 package org.linkki.framework.ui.application.menu;
 
+import static java.util.Objects.requireNonNull;
+
+import javax.annotation.Nonnull;
+
 import org.linkki.core.ui.application.ApplicationStyles;
 
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -13,7 +17,7 @@ public abstract class ApplicationMenuItemDefinition implements Comparable<Applic
     private int position;
 
     public ApplicationMenuItemDefinition(String name, int position) {
-        this.name = name;
+        this.name = requireNonNull(name, "name must not be null");
         this.position = position;
     }
 
@@ -34,7 +38,8 @@ public abstract class ApplicationMenuItemDefinition implements Comparable<Applic
     protected abstract MenuItem internalCreateItem(ApplicationMenu menu);
 
     @Override
-    public int compareTo(ApplicationMenuItemDefinition other) {
+    public int compareTo(@SuppressWarnings("null") @Nonnull ApplicationMenuItemDefinition other) {
+        requireNonNull(other, "other must not be null");
         int positionCompare = this.position - other.position;
         if (positionCompare == 0) {
             return this.name.compareTo(other.name);
@@ -47,11 +52,12 @@ public abstract class ApplicationMenuItemDefinition implements Comparable<Applic
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + name.hashCode();
         result = prime * result + position;
         return result;
     }
 
+    @SuppressWarnings({ "null", "unused" })
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -64,11 +70,7 @@ public abstract class ApplicationMenuItemDefinition implements Comparable<Applic
             return false;
         }
         ApplicationMenuItemDefinition other = (ApplicationMenuItemDefinition)obj;
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
+        if (!name.equals(other.name)) {
             return false;
         }
         if (position != other.position) {

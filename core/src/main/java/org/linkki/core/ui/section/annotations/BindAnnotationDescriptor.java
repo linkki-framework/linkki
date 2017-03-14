@@ -6,6 +6,8 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import javax.annotation.Nullable;
+
 import org.linkki.core.binding.ButtonBinding;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
@@ -49,7 +51,7 @@ public class BindAnnotationDescriptor extends BindingDescriptor {
     public ElementBinding createBinding(PropertyDispatcher propertyDispatcher,
             Handler updateUi,
             Component component,
-            Label label) {
+            @Nullable Label label) {
         if (component instanceof Field<?>) {
             return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, updateUi);
         } else if (component instanceof Button) {

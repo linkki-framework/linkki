@@ -113,7 +113,7 @@ public class BinderTest {
         binder.setupBindings(bindingManager.startNewContext(""));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithParameters() {
         TestViewWithIllegalMethodParamters view = new TestViewWithIllegalMethodParamters();
         TestPmo pmo = new TestPmo();
@@ -122,7 +122,7 @@ public class BinderTest {
         binder.setupBindings(bindingManager.startNewContext(""));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithNonComponentReturnType() {
         TestViewWithIllegalMethodReturnType view = new TestViewWithIllegalMethodReturnType();
         TestPmo pmo = new TestPmo();
@@ -133,12 +133,14 @@ public class BinderTest {
 
     protected static class TestView {
 
+        @SuppressWarnings("null")
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT)
         private TextField textField;
 
         @Bind(pmoProperty = TestPmo.METHOD_ON_CLICK)
         private Button button = new Button();
 
+        @SuppressWarnings("null")
         private IntegerField numberField;
 
         public void initTextField() {

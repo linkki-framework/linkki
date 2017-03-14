@@ -2,23 +2,24 @@ package org.linkki.core.binding.dispatcher.accessor;
 
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.dispatcher.accessor.PropertyAccessDescriptor;
-import org.linkki.core.binding.dispatcher.accessor.WriteMethod;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WriteMethodTest {
     @Mock
+    @SuppressWarnings("null")
     PropertyAccessDescriptor descriptor;
 
     @Test
     @SuppressWarnings("unused")
     // warning suppressed as object is created to test the constructor, not to use it
     public void testConstructor() {
-        when(descriptor.getReflectionWriteMethod()).thenReturn(null);
+        when(descriptor.getReflectionWriteMethod()).thenReturn(Optional.empty());
         new WriteMethod(descriptor);
     }
 

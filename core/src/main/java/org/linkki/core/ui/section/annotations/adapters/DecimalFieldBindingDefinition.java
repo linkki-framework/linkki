@@ -6,6 +6,8 @@
 
 package org.linkki.core.ui.section.annotations.adapters;
 
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.ui.components.DecimalField;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -21,7 +23,7 @@ public class DecimalFieldBindingDefinition implements UIFieldDefinition {
     private final UIDecimalField uiDecimalField;
 
     public DecimalFieldBindingDefinition(UIDecimalField uiDecimalField) {
-        this.uiDecimalField = uiDecimalField;
+        this.uiDecimalField = requireNonNull(uiDecimalField, "uiDecimalField must not be null");
     }
 
     @Override

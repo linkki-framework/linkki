@@ -2,8 +2,6 @@ package org.linkki.core.ui.section;
 
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
-
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.core.ui.util.UiUtil;
 
@@ -29,7 +27,7 @@ public class FormSection extends BaseSection {
     /**
      * Creates a new section non-closable section with the given caption and 1 column.
      */
-    public FormSection(@Nonnull String caption) {
+    public FormSection(String caption) {
         this(caption, false);
     }
 

@@ -7,6 +7,7 @@ public class TestObject implements TestInterface {
     public static final String INT_PROPERTY = "intProperty";
     public static final String BOOLEAN_PROPERTY = "booleanProperty";
     public static final String READ_ONLY_LONG_PROPERTY = "readOnlyLongProperty";
+    @SuppressWarnings("null")
     private String stringValue;
 
     public String getStringProperty() {

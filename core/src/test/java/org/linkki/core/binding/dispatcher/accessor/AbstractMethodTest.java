@@ -7,14 +7,13 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.dispatcher.accessor.PropertyAccessDescriptor;
-import org.linkki.core.binding.dispatcher.accessor.WriteMethod;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AbstractMethodTest {
     @Mock
+    @SuppressWarnings("null")
     private PropertyAccessDescriptor descriptor;
 
     @Test

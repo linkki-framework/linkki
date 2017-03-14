@@ -10,20 +10,27 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
+import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.FieldDescriptor;
+import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.TestUi;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
@@ -37,17 +44,22 @@ import com.vaadin.ui.VerticalLayout;
 @RunWith(MockitoJUnitRunner.class)
 public class BindingContextTest {
 
+    @SuppressWarnings("null")
     private TestBindingContext context;
 
+    @SuppressWarnings("null")
     @Mock
     private Label label1;
+    @SuppressWarnings("null")
     private Label label2;
     private TestPmo pmo = new TestPmo();
     private TestModelObject modelObject = new TestModelObject();
     private AbstractField<String> field1 = spy(new TextField());
     private AbstractField<String> field2 = spy(new TextField());
 
+    @SuppressWarnings("null")
     private FieldBinding<String> binding1;
+    @SuppressWarnings("null")
     private FieldBinding<String> binding2;
 
     private void setUpPmo() {
@@ -191,6 +203,9 @@ public class BindingContextTest {
         setUpPmo();
         TextField field = new TextField();
         UIFieldDefinition fieldDefintion = mock(UIFieldDefinition.class);
+        when(fieldDefintion.required()).thenReturn(RequiredType.REQUIRED);
+        when(fieldDefintion.enabled()).thenReturn(EnabledType.ENABLED);
+        when(fieldDefintion.visible()).thenReturn(VisibleType.VISIBLE);
         FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, new UIToolTipAdapter(null), "value");
 
         // Precondition
@@ -208,10 +223,10 @@ public class BindingContextTest {
         List<TestModelObject> pmos = new ArrayList<>(100);
         for (int i = 0; i < 100; i++) {
 
-            TestModelObject pmo = new TestModelObject();
-            pmos.add(pmo);
+            TestModelObject testPmo = new TestModelObject();
+            pmos.add(testPmo);
 
-            TestUi.componentBoundTo(pmo, context);
+            TestUi.componentBoundTo(testPmo, context);
         }
 
         pmos.forEach(context::removeBindingsForPmo);
@@ -222,9 +237,11 @@ public class BindingContextTest {
 
         public static final String PROPERTY_MODEL_PROP = "modelProp";
 
+        @Nullable
         private String modelProp;
 
         @UITextField(position = 1)
+        @CheckForNull
         public String getModelProp() {
             return modelProp;
         }

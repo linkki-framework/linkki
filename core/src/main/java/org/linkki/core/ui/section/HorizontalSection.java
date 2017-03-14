@@ -2,8 +2,6 @@ package org.linkki.core.ui.section;
 
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
-
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.util.UiUtil;
 
@@ -24,7 +22,7 @@ public class HorizontalSection extends BaseSection {
     /**
      * Creates a new section with the given caption that is not closeable.
      */
-    public HorizontalSection(@Nonnull String caption) {
+    public HorizontalSection(String caption) {
         this(caption, false);
     }
 
@@ -34,7 +32,7 @@ public class HorizontalSection extends BaseSection {
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed/opened.
      */
-    public HorizontalSection(@Nonnull String caption, boolean closeable) {
+    public HorizontalSection(String caption, boolean closeable) {
         this(caption, closeable, Optional.empty());
     }
 
@@ -45,7 +43,7 @@ public class HorizontalSection extends BaseSection {
      * @param closeable <code>true</code> if the section can be closed and opened.
      * @param editButton If present the section has an edit button in the header.
      */
-    public HorizontalSection(@Nonnull String caption, boolean closeable, Optional<Button> editButton) {
+    public HorizontalSection(String caption, boolean closeable, Optional<Button> editButton) {
         super(caption, closeable, editButton);
         content = new HorizontalLayout();
         addComponent(content);

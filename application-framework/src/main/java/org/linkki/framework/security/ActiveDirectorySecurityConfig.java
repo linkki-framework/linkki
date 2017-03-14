@@ -6,6 +6,8 @@
 
 package org.linkki.framework.security;
 
+import javax.annotation.Nullable;
+
 import org.apache.deltaspike.core.api.config.ConfigResolver;
 import org.linkki.util.cdi.BeanInstantiator;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +34,7 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
     public static final String CONFIG_AD_SEARCH_FILTER = "ad_searchFilter";
 
     @Override
-    public void configure(AuthenticationManagerBuilder auth) {
+    public void configure(@Nullable AuthenticationManagerBuilder auth) {
         String url = ConfigResolver.getPropertyValue(CONFIG_AD_URL);
         String domain = ConfigResolver.getPropertyValue(CONFIG_AD_DOMAIN);
 
@@ -43,7 +45,9 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
         adAuthProvider.setSearchFilter(searchFilter);
         adAuthProvider.setUserDetailsContextMapper(ipmUserDetailsMapper());
 
-        auth.authenticationProvider(adAuthProvider);
+        if (auth != null) {
+            auth.authenticationProvider(adAuthProvider);
+        }
     }
 
     @Bean

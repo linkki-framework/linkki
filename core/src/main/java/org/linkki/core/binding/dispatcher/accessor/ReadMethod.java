@@ -6,8 +6,6 @@ import java.lang.reflect.Method;
 /**
  * Wrapper for a {@link Method}. {@link #canRead()} can safely be accessed even if no read method
  * exists. {@link #readValue(Object)} will access the getter via reflection.
- *
- * @author widmaier
  */
 public class ReadMethod extends AbstractMethod {
 

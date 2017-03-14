@@ -10,6 +10,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.faktorips.runtime.MessageList;
 
 /**
@@ -17,15 +20,13 @@ import org.faktorips.runtime.MessageList;
  * to the dispatcher it was created with.
  * <p>
  * Subclasses can override methods and provide their own data.
- *
- * @author widmaier
  */
 public abstract class AbstractPropertyDispatcherDecorator implements PropertyDispatcher {
 
     private final PropertyDispatcher wrappedDispatcher;
 
     public AbstractPropertyDispatcherDecorator(PropertyDispatcher wrappedDispatcher) {
-        this.wrappedDispatcher = requireNonNull(wrappedDispatcher);
+        this.wrappedDispatcher = requireNonNull(wrappedDispatcher, "wrappedDispatcher must not be null");
     }
 
     @Override
@@ -34,12 +35,13 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
+    @CheckForNull
     public Object getValue() {
         return getWrappedDispatcher().getValue();
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(@Nullable Object value) {
         getWrappedDispatcher().setValue(value);
     }
 
@@ -98,11 +100,13 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
+    @CheckForNull
     public String getCaption() {
         return getWrappedDispatcher().getCaption();
     }
 
     @Override
+    @CheckForNull
     public String getToolTip() {
         return getWrappedDispatcher().getToolTip();
     }

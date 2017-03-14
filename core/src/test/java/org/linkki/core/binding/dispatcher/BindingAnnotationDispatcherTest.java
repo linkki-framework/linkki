@@ -35,10 +35,12 @@ import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings("null")
 public class BindingAnnotationDispatcherTest {
 
     private static final String STATIC_ENUM_ATTR_EXCL_NULL = "staticEnumAttrExclNull";
@@ -220,7 +222,7 @@ public class BindingAnnotationDispatcherTest {
         }
 
         public BindAnnotationDescriptor bindAnnotationDescriptor() {
-            return new BindAnnotationDescriptor(bindAnnotation(), null);
+            return new BindAnnotationDescriptor(bindAnnotation(), new UIToolTipAdapter(null));
         }
     }
 

@@ -15,8 +15,6 @@ import java.util.function.Function;
 
 import org.junit.Test;
 
-import org.linkki.util.LazyInitializingMap;
-
 public class LazyInitializingMapTest {
 
     private Function<String, Object> initializer = (String key) -> key + "x";
@@ -29,6 +27,7 @@ public class LazyInitializingMapTest {
         assertNull(value);
     }
 
+    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testGet_null() {
         LazyInitializingMap<String, Object> lazyInitializingMap = new LazyInitializingMap<String, Object>(initializer);

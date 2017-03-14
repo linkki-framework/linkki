@@ -8,6 +8,9 @@ package org.linkki.core.util;
 
 import java.util.stream.Collectors;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.Severity;
@@ -21,7 +24,7 @@ public class MessageListUtil {
         // do not instatiate
     }
 
-    public static MessageList newMessageList(Message... messages) {
+    public static MessageList newMessageList(@Nullable Message... messages) {
         if (messages == null) {
             return new MessageList();
         }
@@ -32,11 +35,13 @@ public class MessageListUtil {
         return messageList;
     }
 
+    @CheckForNull
     public static ErrorLevel getErrorLevel(MessageList messages) {
         return getErrorLevel(messages.getSeverity());
     }
 
-    public static ErrorLevel getErrorLevel(Severity severity) {
+    @CheckForNull
+    public static ErrorLevel getErrorLevel(@Nullable Severity severity) {
         if (severity == null) {
             return null;
         }
@@ -59,7 +64,8 @@ public class MessageListUtil {
      * <p>
      * {@code null} will remain {@code null}.
      */
-    public static MessageList sortBySeverity(MessageList unsortedMessageList) {
+    @CheckForNull
+    public static MessageList sortBySeverity(@Nullable MessageList unsortedMessageList) {
         if (unsortedMessageList == null) {
             return null;
         }

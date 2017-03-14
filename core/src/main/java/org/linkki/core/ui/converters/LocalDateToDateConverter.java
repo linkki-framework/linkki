@@ -13,6 +13,9 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import com.vaadin.data.util.converter.Converter;
 
 /**
@@ -25,7 +28,10 @@ public class LocalDateToDateConverter implements Converter<Date, LocalDate>, Aut
     private static final long serialVersionUID = -2921191891769430781L;
 
     @Override
-    public LocalDate convertToModel(Date value, Class<? extends LocalDate> targetType, Locale locale)
+    @CheckForNull
+    public LocalDate convertToModel(@Nullable Date value,
+            @Nullable Class<? extends LocalDate> targetType,
+            @Nullable Locale locale)
             throws ConversionException {
         if (value == null) {
             return null;
@@ -35,7 +41,10 @@ public class LocalDateToDateConverter implements Converter<Date, LocalDate>, Aut
     }
 
     @Override
-    public Date convertToPresentation(LocalDate value, Class<? extends Date> targetType, Locale locale)
+    @CheckForNull
+    public Date convertToPresentation(@Nullable LocalDate value,
+            @Nullable Class<? extends Date> targetType,
+            @Nullable Locale locale)
             throws ConversionException {
         if (value == null) {
             return null;

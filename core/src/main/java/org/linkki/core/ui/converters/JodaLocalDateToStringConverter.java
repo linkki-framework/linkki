@@ -8,7 +8,7 @@ package org.linkki.core.ui.converters;
 
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -30,15 +30,16 @@ public class JodaLocalDateToStringConverter implements Converter<String, LocalDa
     private static final long serialVersionUID = 1L;
 
     @Override
-    public LocalDate convertToModel(String value, Class<? extends LocalDate> targetType, Locale locale)
-            throws Converter.ConversionException {
-
+    public LocalDate convertToModel(@Nullable String value,
+            @Nullable Class<? extends LocalDate> targetType,
+            @Nullable Locale locale) throws Converter.ConversionException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String convertToPresentation(LocalDate value, Class<? extends String> targetType, Locale locale)
-            throws Converter.ConversionException {
+    public String convertToPresentation(@Nullable LocalDate value,
+            @Nullable Class<? extends String> targetType,
+            @Nullable Locale locale) throws Converter.ConversionException {
         if (value == null) {
             return "";
         }
@@ -49,9 +50,7 @@ public class JodaLocalDateToStringConverter implements Converter<String, LocalDa
         return DateTimeFormat.forPattern(new DateFormatRegistry().getPattern(getNullsafeLocale(locale)));
     }
 
-    @SuppressWarnings("null")
-    @Nonnull
-    static Locale getNullsafeLocale(Locale locale) {
+    static Locale getNullsafeLocale(@Nullable Locale locale) {
         if (locale == null) {
             return Locale.getDefault();
         } else {

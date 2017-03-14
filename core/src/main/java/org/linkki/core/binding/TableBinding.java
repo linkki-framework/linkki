@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.TableFooterPmo;
 import org.linkki.core.container.LinkkiInMemoryContainer;
@@ -31,10 +33,10 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
 
     public TableBinding(BindingContext bindingContext, Table table, Set<String> columnNames,
             ContainerPmo<T> containerPmo) {
-        this.bindingContext = requireNonNull(bindingContext);
-        this.table = requireNonNull(table);
-        this.columnNames = columnNames;
-        this.containerPmo = requireNonNull(containerPmo);
+        this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
+        this.table = requireNonNull(table, "table must not be null");
+        this.columnNames = requireNonNull(columnNames, "columnNames must not be null");
+        this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
         table.setContainerDataSource(this);
         addAllItems(containerPmo.getItems());
     }
@@ -73,7 +75,10 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
     }
 
     private void removeBindingsForOldItems() {
-        getBackupList().forEach(i -> bindingContext.removeBindingsForPmo(i.getItem()));
+        getBackupList().stream()
+                .map(LinkkiItemWrapper<T>::getItem)
+                .filter(i -> i != null)
+                .forEach(bindingContext::removeBindingsForPmo);
         removeAllItems();
     }
 
@@ -126,7 +131,7 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
      * We do not support messages on tables at the moment.
      */
     @Override
-    public MessageList displayMessages(MessageList messages) {
+    public MessageList displayMessages(@Nullable MessageList messages) {
         return new MessageList();
     }
 

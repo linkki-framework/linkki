@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
 
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
@@ -40,9 +40,9 @@ public class SectionCreationContext {
     private final Object pmo;
     private final BindingContext bindingContext;
 
-    public SectionCreationContext(@Nonnull Object pmo, @Nonnull BindingContext bindingContext) {
-        this.pmo = requireNonNull(pmo, "PresentationModelObject must not be null");
-        this.bindingContext = requireNonNull(bindingContext, "BindingContext must not be null");
+    public SectionCreationContext(Object pmo, BindingContext bindingContext) {
+        this.pmo = requireNonNull(pmo, "pmo must not be null");
+        this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
     }
 
     protected Object getPmo() {
@@ -75,6 +75,7 @@ public class SectionCreationContext {
         return idMethod.map(this::getId).orElse(pmo.getClass().getSimpleName());
     }
 
+    @CheckForNull
     public String getId(Method m) {
         try {
             return (String)m.invoke(pmo);
@@ -118,8 +119,8 @@ public class SectionCreationContext {
         private final Component component;
 
         LabelComponent(Label label, Component component) {
-            this.label = label;
-            this.component = component;
+            this.label = requireNonNull(label, "label must not be null");
+            this.component = requireNonNull(component, "component must not be null");
         }
     }
 

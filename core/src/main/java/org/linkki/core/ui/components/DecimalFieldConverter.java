@@ -9,6 +9,9 @@ package org.linkki.core.ui.components;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.faktorips.values.Decimal;
 
 public class DecimalFieldConverter extends AbstractNumberFieldConverter<Decimal> {
@@ -33,12 +36,15 @@ public class DecimalFieldConverter extends AbstractNumberFieldConverter<Decimal>
     }
 
     @Override
+    @Nonnull
     protected Decimal getNullValue() {
         return Decimal.NULL;
     }
 
     @Override
-    public String convertToPresentation(Decimal value, Class<? extends String> targetType, Locale locale)
+    public String convertToPresentation(@Nullable Decimal value,
+            @Nullable Class<? extends String> targetType,
+            @Nullable Locale locale)
             throws ConversionException {
 
         if (value == null || value.isNull()) {

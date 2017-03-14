@@ -23,6 +23,7 @@ import org.linkki.core.util.MessageListUtil;
 import org.linkki.util.handler.Handler;
 import org.mockito.runners.MockitoJUnitRunner;
 
+@SuppressWarnings("null")
 @RunWith(MockitoJUnitRunner.class)
 public class BindingManagerTest {
     private ValidationService validationService;

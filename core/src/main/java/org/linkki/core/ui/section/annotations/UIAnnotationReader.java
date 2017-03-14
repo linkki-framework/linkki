@@ -18,7 +18,7 @@ import java.util.TreeSet;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
@@ -41,7 +41,7 @@ public class UIAnnotationReader {
     private final Map<ElementDescriptor, TableColumnDescriptor> columnDescriptors;
 
     public UIAnnotationReader(Class<?> annotatedClass) {
-        this.annotatedClass = annotatedClass;
+        this.annotatedClass = requireNonNull(annotatedClass, "annotatedClass must not be null");
         descriptors = new HashSet<>();
         columnDescriptors = new HashMap<>();
         initDescriptorMaps();
@@ -57,6 +57,7 @@ public class UIAnnotationReader {
         return columnDescriptors.get(d);
     }
 
+    @SuppressWarnings("null")
     private void initDescriptorMaps() {
         descriptors.clear();
         Method[] methods = annotatedClass.getMethods();
@@ -154,13 +155,13 @@ public class UIAnnotationReader {
      * @throws ModelObjectAnnotationException if no matching method is found or the method has no
      *             return value
      */
-    @Nonnull
-    public static Supplier<?> getModelObjectSupplier(@Nonnull Object pmo, @Nonnull String modelObjectName) {
-        requireNonNull(pmo, "PMO must not be null");
-        requireNonNull(modelObjectName, "model object name must not be null");
+    public static Supplier<?> getModelObjectSupplier(Object pmo, String modelObjectName) {
+        requireNonNull(pmo, "pmo must not be null");
+        requireNonNull(modelObjectName, "modelObjectName must not be null");
         Optional<Method> modelObjectMethod = BeanUtils
-                .getMethod(requireNonNull(pmo).getClass(), (m) -> m.isAnnotationPresent(ModelObject.class)
-                        && m.getAnnotation(ModelObject.class).name().equals(modelObjectName));
+                .getMethod(requireNonNull(pmo, "pmo must not be null").getClass(),
+                           (m) -> m.isAnnotationPresent(ModelObject.class)
+                                   && m.getAnnotation(ModelObject.class).name().equals(modelObjectName));
         if (modelObjectMethod.isPresent()) {
             Method method = modelObjectMethod.get();
             if (Void.TYPE.equals(method.getReturnType())) {
@@ -190,8 +191,8 @@ public class UIAnnotationReader {
      * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using
      *         the given name
      */
-    public static boolean hasModelObjectAnnotatedMethod(@Nonnull Object pmo, String modelObjectName) {
-        return BeanUtils.getMethod(requireNonNull(pmo).getClass(),
+    public static boolean hasModelObjectAnnotatedMethod(Object pmo, @Nullable String modelObjectName) {
+        return BeanUtils.getMethod(requireNonNull(pmo, "pmo must not be null").getClass(),
                                    (m) -> m.isAnnotationPresent(ModelObject.class)
                                            && m.getAnnotation(ModelObject.class).name().equals(modelObjectName))
                 .isPresent();
@@ -200,8 +201,6 @@ public class UIAnnotationReader {
     /**
      * Thrown when trying to get a method annotated with {@link ModelObject @ModelObject} via
      * {@link UIAnnotationReader#getModelObjectSupplier(Object, String)} fails.
-     *
-     * @author dschwering
      */
     public static final class ModelObjectAnnotationException extends IllegalArgumentException {
         private static final long serialVersionUID = 1L;
@@ -231,7 +230,12 @@ public class UIAnnotationReader {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public int compare(ElementDescriptor fieldDef1, ElementDescriptor fieldDef2) {
+        public int compare(@Nullable ElementDescriptor fieldDef1, @Nullable ElementDescriptor fieldDef2) {
+            if (fieldDef1 == null) {
+                return fieldDef2 == null ? 0 : Integer.MIN_VALUE;
+            } else if (fieldDef2 == null) {
+                return Integer.MAX_VALUE;
+            }
             return fieldDef1.getPosition() - fieldDef2.getPosition();
         }
 

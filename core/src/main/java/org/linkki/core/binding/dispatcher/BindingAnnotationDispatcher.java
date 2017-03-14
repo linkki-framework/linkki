@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.annotations.Bind;
@@ -21,7 +21,6 @@ import org.linkki.core.ui.section.annotations.BindingDescriptor;
 import org.linkki.core.ui.section.annotations.ButtonDescriptor;
 import org.linkki.core.ui.section.annotations.CaptionType;
 import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.ToolTipType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -48,48 +47,47 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
      *            annotations like {@link UITextField} or {@link UIComboBox} or the {@link Bind}
      *            annotation
      */
-    public BindingAnnotationDispatcher(@Nonnull PropertyDispatcher wrappedDispatcher,
-            @Nonnull BindingDescriptor bindingDescriptor) {
+    public BindingAnnotationDispatcher(PropertyDispatcher wrappedDispatcher,
+            BindingDescriptor bindingDescriptor) {
         super(wrappedDispatcher);
-        this.bindingDescriptor = requireNonNull(bindingDescriptor, "BindingDescriptor must not be null");
+        this.bindingDescriptor = requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
     }
 
     @Override
     public boolean isEnabled() {
-        EnabledType enabledType = bindingDescriptor.enabled();
-        if (enabledType == null || enabledType == EnabledType.DYNAMIC) {
-            return super.isEnabled();
-        } else {
-            return enabledType != EnabledType.DISABLED;
+        switch (bindingDescriptor.enabled()) {
+            case DYNAMIC:
+                return super.isEnabled();
+            default:
+                return bindingDescriptor.enabled() != EnabledType.DISABLED;
         }
     }
 
     @Override
     public boolean isVisible() {
-        VisibleType visibleType = bindingDescriptor.visible();
-        if (visibleType == null || visibleType == VisibleType.DYNAMIC) {
-            return super.isVisible();
-        } else {
-            return visibleType != VisibleType.INVISIBLE;
+        switch (bindingDescriptor.visible()) {
+            case DYNAMIC:
+                return super.isVisible();
+            default:
+                return bindingDescriptor.visible() != VisibleType.INVISIBLE;
         }
     }
 
     @Override
     public boolean isRequired() {
-        RequiredType requiredType = bindingDescriptor.required();
-        if (requiredType == null || requiredType == RequiredType.DYNAMIC) {
-            return super.isRequired();
-        } else if (requiredType == RequiredType.NOT_REQUIRED) {
-            return false;
-        } else if (requiredType == RequiredType.REQUIRED_IF_ENABLED) {
-            return isEnabled();
-        } else {
-            return true;
+        switch (bindingDescriptor.required()) {
+            case DYNAMIC:
+                return super.isRequired();
+            case NOT_REQUIRED:
+                return false;
+            case REQUIRED_IF_ENABLED:
+                return isEnabled();
+            default:
+                return true;
         }
     }
 
     @Override
-    @Nonnull
     public Collection<?> getAvailableValues() {
         AvailableValuesType type = Objects
                 .requireNonNull(bindingDescriptor.availableValues(),
@@ -127,6 +125,7 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
      * get[AnnotatedMethodName]Caption() is called to retrieve the caption name dynamically
      */
     @Override
+    @CheckForNull
     public String getCaption() {
         if (bindingDescriptor instanceof ButtonDescriptor) {
             if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.STATIC) {
@@ -141,6 +140,7 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     @Override
+    @CheckForNull
     public String getToolTip() {
         if (bindingDescriptor.getToolTipType() == ToolTipType.DYNAMIC) {
             return super.getToolTip();

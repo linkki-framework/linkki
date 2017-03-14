@@ -37,6 +37,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
+@SuppressWarnings("null")
 public class FieldBindingTest {
 
     private Label label = spy(new Label());
@@ -55,7 +56,6 @@ public class FieldBindingTest {
 
     private PropertyDispatcher propertyDispatcherEnumValue;
 
-    @SuppressWarnings("null")
     @Before
     public void setUp() {
         propertyDispatcherValue = mock(PropertyDispatcher.class);
@@ -133,7 +133,6 @@ public class FieldBindingTest {
         verify(label).setVisible(false);
     }
 
-    @SuppressWarnings("null")
     @Test
     public void testVisibleBinding_ifLabelNull() {
         binding = new FieldBinding<>(null, field, propertyDispatcherValue, Handler.NOP_HANDLER);
@@ -208,6 +207,13 @@ public class FieldBindingTest {
     @Test
     public void testDisplayMessages_noMessages() {
         selectBinding.displayMessages(messageList);
+
+        verify(selectField).setComponentError(null);
+    }
+
+    @Test
+    public void testDisplayMessages_noMessageList() {
+        selectBinding.displayMessages(null);
 
         verify(selectField).setComponentError(null);
     }

@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import org.apache.commons.lang3.Validate;
@@ -30,8 +29,8 @@ public abstract class BindingManager {
 
     private final ValidationService validationService;
 
-    public BindingManager(@Nonnull ValidationService validationService) {
-        this.validationService = requireNonNull(validationService, "ValidationService must not be null.");
+    public BindingManager(ValidationService validationService) {
+        this.validationService = requireNonNull(validationService, "validationService must not be null");
     }
 
     /**
@@ -53,10 +52,12 @@ public abstract class BindingManager {
      * @param name the name of the {@linkplain BindingContext} that identifies it in this manager
      * @see BindingContext
      */
-    @Nonnull
+
     public BindingContext startNewContext(String name) {
+        requireNonNull(name, "name must not be null");
         Validate.isTrue(!contextsByName.containsKey(name), "BindingManager already contains a BindingContext '%s'.",
                         name);
+
         BindingContext newContext = newBindingContext(name);
         contextsByName.put(name, newContext);
         return newContext;
@@ -73,24 +74,29 @@ public abstract class BindingManager {
      * @see DefaultBindingManager#newBindingContext(String)
      * @see BindingManager#afterUpdateUi()
      */
-    @Nonnull
+
     protected abstract BindingContext newBindingContext(String name);
 
     public Optional<BindingContext> getExistingContext(Class<?> clazz) {
+        requireNonNull(clazz, "clazz must not be null");
         return getExistingContext(clazz.getName());
     }
 
     public Optional<BindingContext> getExistingContext(String name) {
+        requireNonNull(name, "name must not be null");
         return Optional.ofNullable(contextsByName.get(name));
     }
 
-    @Nonnull
+
     public BindingContext getExistingContextOrStartNewOne(Class<?> clazz) {
+        requireNonNull(clazz, "clazz must not be null");
         return getExistingContextOrStartNewOne(clazz.getName());
     }
 
-    @Nonnull
+
     public BindingContext getExistingContextOrStartNewOne(String name) {
+        requireNonNull(name, "name must not be null");
+
         BindingContext context = contextsByName.get(name);
         if (context == null) {
             context = startNewContext(name);
@@ -99,6 +105,7 @@ public abstract class BindingManager {
     }
 
     public void removeContext(BindingContext context) {
+        requireNonNull(context, "context must not be null");
         contextsByName.remove(context.getName());
     }
 
@@ -107,10 +114,12 @@ public abstract class BindingManager {
     }
 
     public void registerUiUpdateObserver(UiUpdateObserver observer) {
+        requireNonNull(observer, "observer must not be null");
         uiUpdateObservers.add(observer);
     }
 
     public void removeUiUpdateObserver(UiUpdateObserver observer) {
+        requireNonNull(observer, "observer must not be null");
         uiUpdateObservers.remove(observer);
     }
 
@@ -128,7 +137,13 @@ public abstract class BindingManager {
      */
     public void afterUpdateUi() {
         MessageList messages = this.validationService.getValidationMessages();
-        updateMessages(MessageListUtil.sortBySeverity(messages));
+
+
+        MessageList sortedMessages = MessageListUtil.sortBySeverity(messages);
+
+        if (sortedMessages != null) {
+            updateMessages(sortedMessages);
+        }
 
         notifyUiUpdateObservers();
     }
@@ -139,6 +154,7 @@ public abstract class BindingManager {
      */
     @OverridingMethodsMustInvokeSuper
     protected void updateMessages(MessageList messages) {
+        requireNonNull(messages, "messages must not be null");
         contextsByName.values().forEach(bc -> bc.updateMessages(messages));
     }
 

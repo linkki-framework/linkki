@@ -28,6 +28,7 @@ import com.vaadin.ui.Table;
 @RunWith(MockitoJUnitRunner.class)
 public class PmoBasedTableFactoryTest {
 
+    @SuppressWarnings("null")
     @Mock
     private BindingContext ctx;
 
@@ -126,12 +127,13 @@ public class PmoBasedTableFactoryTest {
         // nothing
     }
 
+    @SuppressWarnings("unused")
     private static class IndirectContainerPmo extends AnotherTestTablePmo<SubTestRow>
             implements ContainerPmo<SubTestRow> {
 
         @Override
         public List<SubTestRow> getItems() {
-            return Arrays.asList(new SubTestRow(null));
+            return Arrays.asList(new SubTestRow(new TestTablePmo()));
         }
 
     }

@@ -17,6 +17,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <m2e.jdt.annotationpath>.settings/annotations</m2e.jdt.annotationpath>
 
         <git.user>${user.name}</git.user>
 

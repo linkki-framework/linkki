@@ -6,11 +6,15 @@
 
 package org.linkki.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.beans.BeanInfo;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.CheckForNull;
 
 /**
  * Gives fast access to a class' properties.
@@ -22,7 +26,7 @@ public class PropertyAccess {
     private Map<String, PropertyDescriptor> propertiesByName = new HashMap<>();
 
     public PropertyAccess(Class<?> clazz) {
-        this.clazz = clazz;
+        this.clazz = requireNonNull(clazz, "clazz must not be null");
         BeanInfo beanInfo = BeanUtils.getBeanInfo(clazz);
         PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor descriptor : descriptors) {
@@ -47,6 +51,7 @@ public class PropertyAccess {
     /**
      * Returns the object's value for the given property.
      */
+    @CheckForNull
     public Object getValue(Object object, String propertyName) {
         PropertyDescriptor descriptor = getPropertyDescriptor(propertyName);
         try {

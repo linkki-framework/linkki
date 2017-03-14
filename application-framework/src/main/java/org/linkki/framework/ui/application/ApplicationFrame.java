@@ -58,6 +58,8 @@ public class ApplicationFrame implements Serializable {
 
     private Navigator navigator;
 
+    // Fields are initialized in init()
+    @SuppressWarnings("null")
     public ApplicationFrame() {
         super();
     }

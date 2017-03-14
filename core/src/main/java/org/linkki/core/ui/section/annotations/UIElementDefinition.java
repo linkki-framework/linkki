@@ -11,6 +11,8 @@ import static java.util.Objects.requireNonNull;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 
+import javax.annotation.Nullable;
+
 import com.vaadin.ui.Component;
 
 /**
@@ -42,7 +44,7 @@ public interface UIElementDefinition extends BindingDefinition {
      * Returns {@code true} if the given annotation is a non-null annotation marked as
      * {@link LinkkiBindingDefinition}.
      */
-    public static boolean isLinkkiBindingDefinition(Annotation annotation) {
+    public static boolean isLinkkiBindingDefinition(@Nullable Annotation annotation) {
         if (annotation == null) {
             return false;
         } else {
@@ -66,10 +68,6 @@ public interface UIElementDefinition extends BindingDefinition {
                     annotation + " is not annotated as " + LinkkiBindingDefinition.class.getName());
         }
         Class<? extends UIElementDefinition> elementDefinitionClass = linkkiElements[0].value();
-        if (elementDefinitionClass == null) {
-            throw new IllegalArgumentException(
-                    annotation + " does not define a " + UIElementDefinition.class.getName());
-        }
 
         try {
             return elementDefinitionClass.getConstructor(annotationClass).newInstance(annotation);

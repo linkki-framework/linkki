@@ -8,6 +8,8 @@ package org.linkki.core.ui.section.annotations;
 
 import static java.util.Objects.requireNonNull;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.LabelBinding;
@@ -24,7 +26,7 @@ public class LabelDescriptor extends ElementDescriptor {
     public LabelDescriptor(UILabelDefinition labelDefinition, UIToolTipDefinition toolTipDefinition,
             String pmoPropertyName) {
         super(labelDefinition, toolTipDefinition);
-        this.pmoPropertyName = pmoPropertyName;
+        this.pmoPropertyName = requireNonNull(pmoPropertyName, "pmoPropertyName must not be null");
     }
 
     @Override
@@ -54,10 +56,10 @@ public class LabelDescriptor extends ElementDescriptor {
     public ElementBinding createBinding(PropertyDispatcher propertyDispatcher,
             Handler updateUi,
             Component component,
-            Label label) {
-        requireNonNull(propertyDispatcher, "PropertyDispatcher must not be null");
-        requireNonNull(updateUi, "UpdateUI-Handler must not be null");
-        requireNonNull(component, "Component must not be null");
+            @Nullable Label label) {
+        requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+        requireNonNull(updateUi, "updateUi must not be null");
+        requireNonNull(component, "component must not be null");
         return new LabelBinding(label, (Label)component, propertyDispatcher);
     }
 

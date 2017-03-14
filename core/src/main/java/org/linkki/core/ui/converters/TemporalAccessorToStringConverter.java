@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.vaadin.data.util.converter.Converter;
 
@@ -29,18 +29,21 @@ public abstract class TemporalAccessorToStringConverter<T extends TemporalAccess
      *
      * @return {@link DateTimeFormatter} used to convert {@code T} to {@link String}
      */
-    protected abstract DateTimeFormatter getFormatter(Locale locale);
+    protected abstract DateTimeFormatter getFormatter(@Nullable Locale locale);
 
 
     @Override
-    public T convertToModel(String value, Class<? extends T> targetType, Locale locale) throws ConversionException {
+    public T convertToModel(@Nullable String value, @Nullable Class<? extends T> targetType, @Nullable Locale locale)
+            throws ConversionException {
         // do not use getSimple name because LocalDate is not enough information in the logs ;)
         throw new UnsupportedOperationException(
                 "this converter shall only be used to convert " + getModelType().getName() + " for presentation");
     }
 
     @Override
-    public String convertToPresentation(T value, Class<? extends String> targetType, Locale locale)
+    public String convertToPresentation(@Nullable T value,
+            @Nullable Class<? extends String> targetType,
+            @Nullable Locale locale)
             throws ConversionException {
 
         if (value == null) {
@@ -56,9 +59,7 @@ public abstract class TemporalAccessorToStringConverter<T extends TemporalAccess
     }
 
 
-    @SuppressWarnings("null")
-    @Nonnull
-    protected static Locale getLocale(Locale locale) {
+    protected static Locale getLocale(@Nullable Locale locale) {
         if (locale != null) {
             return locale;
         }

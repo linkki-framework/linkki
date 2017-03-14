@@ -3,11 +3,11 @@ package org.linkki.core.binding.dispatcher.accessor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.annotation.Nullable;
+
 /**
  * Wrapper for a {@link Method}. {@link #canWrite()} can safely be accessed even if no write method
  * exists. {@link #writeValue(Object, Object)} will access the setter via reflection.
- *
- * @author widmaier
  */
 public class WriteMethod extends AbstractMethod {
 
@@ -26,7 +26,7 @@ public class WriteMethod extends AbstractMethod {
      * @throws IllegalStateException if no write method exists
      * @throws RuntimeException if an error occurs while accessing the write method
      */
-    public void writeValue(Object target, Object value) {
+    public void writeValue(Object target, @Nullable Object value) {
         if (canWrite()) {
             writeValueWithExceptionHandling(target, value);
         } else {
@@ -34,7 +34,7 @@ public class WriteMethod extends AbstractMethod {
         }
     }
 
-    private void writeValueWithExceptionHandling(Object boundObject, Object value) {
+    private void writeValueWithExceptionHandling(Object boundObject, @Nullable Object value) {
         try {
             invokeMethod(boundObject, value);
         } catch (IllegalAccessException e) {
@@ -51,7 +51,7 @@ public class WriteMethod extends AbstractMethod {
         }
     }
 
-    private void invokeMethod(Object boundObject, Object value)
+    private void invokeMethod(Object boundObject, @Nullable Object value)
             throws IllegalAccessException, InvocationTargetException {
         getMethodWithExceptionHandling().invoke(boundObject, value);
     }

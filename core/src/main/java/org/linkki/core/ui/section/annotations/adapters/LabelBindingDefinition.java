@@ -6,6 +6,8 @@
 
 package org.linkki.core.ui.section.annotations.adapters;
 
+import static java.util.Objects.requireNonNull;
+
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -21,7 +23,7 @@ public class LabelBindingDefinition implements UILabelDefinition {
     private UILabel labelAnnotation;
 
     public LabelBindingDefinition(UILabel labelAnnotation) {
-        this.labelAnnotation = labelAnnotation;
+        this.labelAnnotation = requireNonNull(labelAnnotation, "labelAnnotation must not be null");
     }
 
     @Override

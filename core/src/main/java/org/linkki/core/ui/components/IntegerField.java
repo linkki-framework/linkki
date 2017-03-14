@@ -1,5 +1,7 @@
 package org.linkki.core.ui.components;
 
+import static java.util.Objects.requireNonNull;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -21,8 +23,8 @@ public class IntegerField extends NumberField {
 
     public IntegerField(String pattern, Locale locale) {
         super();
-        this.pattern = pattern;
-        this.locale = locale;
+        this.pattern = requireNonNull(pattern, "pattern must not be null");
+        this.locale = requireNonNull(locale, "locale must not be null");
         init();
     }
 

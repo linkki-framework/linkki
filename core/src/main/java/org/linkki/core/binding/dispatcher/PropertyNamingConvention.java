@@ -14,8 +14,6 @@ import org.apache.commons.lang3.StringUtils;
  * Naming convention for properties. Adds suffixes, e.g. "enabled", to the base property, e.g.
  * "premium". To obtain the enabled property for premium, e.g. "premiumEnabled". The respective
  * getter would be called "isPremiumEnabled()".
- *
- * @author widmaier
  */
 public class PropertyNamingConvention {
 
@@ -32,7 +30,7 @@ public class PropertyNamingConvention {
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getValueProperty(String property) {
-        return requireNonNull(property);
+        return requireNonNull(property, "property must not be null");
     }
 
     /**
@@ -99,11 +97,10 @@ public class PropertyNamingConvention {
     }
 
     private String checkAndAddSuffix(String suffix, String property) {
-        if (StringUtils.isEmpty(requireNonNull(property))) {
+        if (StringUtils.isEmpty(requireNonNull(property, "property must not be null"))) {
             // Empty suffix is used in ButtonPmo for isVisible/isEnabled properties
             return suffix;
         }
         return StringUtils.uncapitalize(property + StringUtils.capitalize(suffix));
     }
-
 }

@@ -13,6 +13,8 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Collections;
 
+import javax.annotation.Nullable;
+
 import org.junit.Test;
 
 public class LinkkiInMemoryContainerTest {
@@ -47,12 +49,12 @@ public class LinkkiInMemoryContainerTest {
         assertThat(testItem, is(equalItem));
 
         // wrapped items are not equal because not the same 'testItem' reference
-        assertThat(container.getBackupList().get(0), is(not(new LinkkiInMemoryContainer.LinkkiItemWrapper<>(equalItem))));
+        assertThat(container.getBackupList().get(0),
+                   is(not(new LinkkiInMemoryContainer.LinkkiItemWrapper<>(equalItem))));
 
         // wrapped items are equal because same reference of 'testItem'
         assertThat(container.getBackupList().get(0), is(new LinkkiInMemoryContainer.LinkkiItemWrapper<>(testItem)));
     }
-
 
 
     private static class TestItem {
@@ -60,11 +62,15 @@ public class LinkkiInMemoryContainerTest {
         private int meaningOfLife;
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+        public boolean equals(@Nullable Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
-            TestItem testItem = (TestItem) o;
+            TestItem testItem = (TestItem)o;
 
             return meaningOfLife == testItem.meaningOfLife;
         }

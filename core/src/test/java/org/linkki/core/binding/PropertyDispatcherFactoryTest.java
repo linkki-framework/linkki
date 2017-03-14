@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings("null")
 public class PropertyDispatcherFactoryTest {
 
     private static final String ANY_VALUE = "ukztu7kxju76r";
@@ -132,7 +133,7 @@ public class PropertyDispatcherFactoryTest {
     public void testCreateDispatcherChain_nullCustomDispatchers() {
         propertyDispatcherFactory = new PropertyDispatcherFactory() {
             @Override
-            protected PropertyDispatcher createCustomDispatchers(Object pmo,
+            protected PropertyDispatcher createCustomDispatchers(@SuppressWarnings("hiding") Object pmo,
                     BindingDescriptor bindingDescriptor,
                     PropertyDispatcher standardDispatcher) {
                 return null;

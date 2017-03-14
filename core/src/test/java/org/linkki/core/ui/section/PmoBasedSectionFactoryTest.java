@@ -44,9 +44,8 @@ import com.vaadin.ui.Panel;
 
 /**
  * TODO Add test with messages
- *
- * @author widmaier
  */
+@SuppressWarnings("null")
 public class PmoBasedSectionFactoryTest {
 
     private FieldBinding<?> textFieldBinding;

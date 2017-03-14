@@ -1,5 +1,6 @@
 package org.linkki.core.binding.dispatcher.accessor;
 
+import static java.util.Objects.requireNonNull;
 import static org.linkki.util.ExceptionSupplier.illegalArgumentException;
 
 import java.lang.reflect.Method;
@@ -9,8 +10,6 @@ import java.util.function.Supplier;
 /**
  * Base class for method wrappers. Allows the wrapped {@link Method java.lang.reflect.Method} to be
  * <code>null</code>.
- *
- * @author widmaier
  */
 public abstract class AbstractMethod {
 
@@ -20,12 +19,14 @@ public abstract class AbstractMethod {
 
     /**
      * @param descriptor the descriptor for the property
-     * @param reflectionMethod the method. May be <code>null</code>.
+     * @param reflectionMethod the method. May be {@link Optional#empty()}.
      */
     public AbstractMethod(PropertyAccessDescriptor descriptor, Optional<Method> reflectionMethod) {
+        this.reflectionMethod = requireNonNull(reflectionMethod, "reflectionMethod must not be null");
+        requireNonNull(descriptor, "descriptor must not be null");
+
         boundClass = descriptor.getBoundClass();
         propertyName = descriptor.getPropertyName();
-        this.reflectionMethod = reflectionMethod;
     }
 
     protected boolean hasMethod() {

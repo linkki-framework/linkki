@@ -33,11 +33,12 @@ public class DefaultBindingManager extends BindingManager {
      */
     public DefaultBindingManager(ValidationService validationService, PropertyBehaviorProvider behaviorProvider) {
         super(validationService);
-        this.behaviorProvider = requireNonNull(behaviorProvider, "PropertyBehaviorProvider must not be null.");
+        this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
     }
 
     @Override
     protected BindingContext newBindingContext(String name) {
+        requireNonNull(name, "name must not be null");
         return new BindingContext(name, behaviorProvider, this::afterUpdateUi);
     }
 
