@@ -6,10 +6,10 @@
 
 package org.linkki.core.ui.converters;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -50,7 +50,12 @@ public class LocalDateToDateConverter implements Converter<Date, LocalDate>, Aut
             return null;
         }
 
-        return Date.from(value.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Calendar c = Calendar.getInstance();
+        c.clear();
+        // Cause LocalDate don't have time we set 0 for hours,minutes and seconds
+        c.set(value.getYear(), value.getMonthValue() - 1, value.getDayOfMonth(), 0, 0, 0);
+        return c.getTime();
+
     }
 
     @Override
@@ -74,19 +79,18 @@ public class LocalDateToDateConverter implements Converter<Date, LocalDate>, Aut
      * would "lose" 2 or 3 days (depending on the time zone) with 2 digit years
      */
     private static LocalDate toLocalDateWithHack(Date value) {
-        String pattern = "yyyyMMdd";
+        String pattern = "yyyy.MM.dd";
         String parsedDate = new SimpleDateFormat(pattern).format(value);
         if (parsedDate.startsWith("00")) {
             parsedDate = parsedDate.substring(2);
             pattern = pattern.substring(2);
         }
 
-        try {
-            Date fixedDate = new SimpleDateFormat(pattern).parse(parsedDate);
-            return LocalDate.from(fixedDate.toInstant().atZone(ZoneId.systemDefault()));
-        } catch (ParseException e) {
-            throw new ConversionException("unable to convert " + value, e);
-        }
+
+        return LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern(pattern));
+
+
     }
+
 
 }
