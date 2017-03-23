@@ -9,10 +9,11 @@ package org.linkki.framework.security;
 import static org.linkki.framework.security.SpringUtil.afterPropertiesSet;
 
 import javax.annotation.Nullable;
+import javax.enterprise.util.AnnotationLiteral;
 
 import org.apache.deltaspike.core.api.config.ConfigResolver;
+import org.apache.deltaspike.core.api.provider.BeanProvider;
 import org.linkki.framework.state.ApplicationConfig;
-import org.linkki.util.cdi.BeanInstantiator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
@@ -41,6 +42,12 @@ public class KerberosSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String CONFIG_PRINCIPLE_NAME = "kerberos_servicePrinciple";
     public static final String CONFIG_KEYTAB = "kerberos_keyTabLocation";
+
+    /** The {@code @Kerberos} annotation. */
+    private static final AnnotationLiteral<Kerberos> KERBEROS_ANNOTATION = new AnnotationLiteral<Kerberos>() {
+        private static final long serialVersionUID = 1L;
+    };
+
 
     @Override
     protected void configure(@Nullable HttpSecurity http) throws Exception {
@@ -99,7 +106,7 @@ public class KerberosSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public UserDetailsService ipmUserDetailsService() {
-        return BeanInstantiator.getCDIInstance(UserDetailsService.class);
+        return BeanProvider.getContextualReference(UserDetailsService.class, KERBEROS_ANNOTATION);
     }
 
     @Bean

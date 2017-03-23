@@ -9,7 +9,7 @@ package org.linkki.framework.security;
 import javax.annotation.Nullable;
 import javax.enterprise.util.AnnotationLiteral;
 
-import org.linkki.util.cdi.BeanInstantiator;
+import org.apache.deltaspike.core.api.provider.BeanProvider;
 import org.linkki.util.cdi.qualifier.InMemory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +36,7 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
         private static final long serialVersionUID = 1L;
     };
 
+
     @Override
     public void configure(@Nullable AuthenticationManagerBuilder auth) {
         // It seems that we cannot use auth.inMemoryAuthentication() if we need a special
@@ -52,8 +53,9 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
-    private UserDetailsService inMemoryUserDetailsService() {
-        return BeanInstantiator.getCDIInstance(UserDetailsService.class, IN_MEMORY_ANNOTATION);
+    @Bean
+    public UserDetailsService inMemoryUserDetailsService() {
+        return BeanProvider.getContextualReference(UserDetailsService.class, IN_MEMORY_ANNOTATION);
     }
 
     @Bean(name = "authenticationManager")

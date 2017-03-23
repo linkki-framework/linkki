@@ -10,10 +10,10 @@ import static org.linkki.framework.security.SpringUtil.afterPropertiesSet;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
 import org.apache.deltaspike.core.api.config.ConfigResolver;
 import org.linkki.framework.state.ApplicationConfig;
-import org.linkki.util.cdi.BeanInstantiator;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.kerberos.client.config.SunJaasKrb5LoginConfig;
@@ -31,7 +31,14 @@ public class KerberosUserDetailsServiceProducer {
     public static final String SEARCH_BASE = "ad_searchBase";
     public static final String GROUPS_SEARCH_BASE = "ad_groupSearchBase";
 
+
+    @Inject
+    private UserDetailsContextMapper contextMapper;
+
+
     @Produces
+    @ApplicationScoped
+    @Kerberos
     public UserDetailsService produce() {
         String url = ConfigResolver.getPropertyValue(ActiveDirectorySecurityConfig.CONFIG_AD_URL);
         String searchFilter = ConfigResolver.getPropertyValue(ActiveDirectorySecurityConfig.CONFIG_AD_SEARCH_FILTER);
@@ -56,12 +63,8 @@ public class KerberosUserDetailsServiceProducer {
         authoritiesPopulator.setIgnorePartialResultException(true);
         LdapUserDetailsService ldapService = new LdapUserDetailsService(
                 new FilterBasedLdapUserSearch(searchBase, searchFilter, contextSource), authoritiesPopulator);
-        ldapService.setUserDetailsMapper(ipmUserDetailsMapper());
+        ldapService.setUserDetailsMapper(contextMapper);
         return ldapService;
-    }
-
-    public UserDetailsContextMapper ipmUserDetailsMapper() {
-        return BeanInstantiator.getCDIInstance(UserDetailsContextMapper.class);
     }
 
 }

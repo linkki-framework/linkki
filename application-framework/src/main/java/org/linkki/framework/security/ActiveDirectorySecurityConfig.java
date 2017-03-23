@@ -16,7 +16,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider;
+import org.springframework.security.ldap.search.FilterBasedLdapUserSearch;
+import org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator;
+import org.springframework.security.ldap.userdetails.LdapUserDetailsService;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 
 /**
@@ -32,6 +37,8 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
     public static final String CONFIG_AD_URL = "ad_url";
     public static final String CONFIG_AD_DOMAIN = "ad_domain";
     public static final String CONFIG_AD_SEARCH_FILTER = "ad_searchFilter";
+    public static final String CONFIG_AD_USER = "ad_user";
+    public static final String CONFIG_AD_PASSWORD = "ad_password";
 
     @Override
     public void configure(@Nullable AuthenticationManagerBuilder auth) {
@@ -48,6 +55,33 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
         if (auth != null) {
             auth.authenticationProvider(adAuthProvider);
         }
+    }
+
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+
+        DefaultSpringSecurityContextSource contextSource = new DefaultSpringSecurityContextSource(
+                ConfigResolver.getPropertyValue(CONFIG_AD_URL));
+        // for a more advanced usecase we can provide our own AuthenticationSource
+        contextSource.setUserDn(ConfigResolver.getPropertyValue(CONFIG_AD_USER));
+        contextSource.setPassword(ConfigResolver.getPropertyValue(CONFIG_AD_PASSWORD));
+
+        DefaultLdapAuthoritiesPopulator authoritiesPopulator = new DefaultLdapAuthoritiesPopulator(contextSource,
+                ConfigResolver.getPropertyValue(KerberosUserDetailsServiceProducer.GROUPS_SEARCH_BASE));
+        authoritiesPopulator.setIgnorePartialResultException(true);
+
+        LdapUserDetailsService ldapService = new LdapUserDetailsService(
+                new FilterBasedLdapUserSearch(
+                        ConfigResolver.getPropertyValue(KerberosUserDetailsServiceProducer.SEARCH_BASE),
+                        ConfigResolver.getPropertyValue(CONFIG_AD_SEARCH_FILTER),
+                        contextSource),
+                authoritiesPopulator);
+
+        SpringUtil.afterPropertiesSet(contextSource);
+
+        ldapService.setUserDetailsMapper(ipmUserDetailsMapper());
+        return ldapService;
     }
 
     @Bean
