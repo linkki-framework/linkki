@@ -17,11 +17,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.linkki.framework.state.ApplicationConfig;
+import org.linkki.framework.ui.LinkkiStyles;
 
 @WebServlet(urlPatterns = { "/login/*", "/logout/*" })
 public class LoginServlet extends HttpServlet {
 
-    private static final String NAME = "name";
+
+    private static final String STYLESHEET_PARAM = "stylesheet"; //$NON-NLS-1$
+
+    private static final String ICON_PARAM = "icon"; //$NON-NLS-1$
+
+    private static final String NAME = "name"; //$NON-NLS-1$
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -31,13 +37,19 @@ public class LoginServlet extends HttpServlet {
     @Inject
     private ApplicationConfig applicationConfiguration;
 
+
     @Override
     public void doGet(@Nullable HttpServletRequest req, @Nullable HttpServletResponse resp)
             throws ServletException, IOException {
+
         if (req != null) {
+
+            req.setAttribute(ICON_PARAM, LinkkiStyles.ICON);
+            req.setAttribute(STYLESHEET_PARAM, LinkkiStyles.STYLESHEET);
             req.setAttribute(NAME, applicationConfiguration.getApplicationName());
-            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/login.jsp").forward(req, resp); //$NON-NLS-1$
         }
     }
+
 
 }

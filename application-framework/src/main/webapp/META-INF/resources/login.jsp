@@ -14,11 +14,11 @@ html, body {
 }
 </style>
 <link rel="shortcut icon" type="image/vnd.microsoft.icon"
-    href="./VAADIN/themes/mytheme/favicon.ico">
+    href="${icon}">
 <link rel="icon" type="image/vnd.microsoft.icon"
-    href="./VAADIN/themes/mytheme/favicon.ico">
+    href="${icon}">
 <link rel="stylesheet" type="text/css"
-    href="./VAADIN/themes/mytheme/styles.css?v=7.4.3">
+    href="${stylesheet}">
 
 <c:url value="/login" var="loginProcessingUrl" />
 <script>
