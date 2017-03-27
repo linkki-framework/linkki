@@ -56,16 +56,29 @@ public class SectionCreationContext {
     }
 
     private BaseSection createEmptySection() {
-        BaseSection section;
         UISection sectionDefinition = requireNonNull(pmo.getClass()
                 .getAnnotation(UISection.class), () -> "PMO " + pmo.getClass() + " must be annotated with @UISection!");
+
+        BaseSection section;
         Optional<Button> editButton = createEditButton(getEditButtonPmo());
-        if (sectionDefinition.layout() == SectionLayout.COLUMN) {
-            section = new FormSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButton,
-                    sectionDefinition.columns());
-        } else {
-            section = new HorizontalSection(sectionDefinition.caption(), sectionDefinition.closeable(), editButton);
+
+        SectionLayout layout = sectionDefinition.layout();
+        switch (layout) {
+            case COLUMN:
+                section = new FormSection(sectionDefinition.caption(),
+                        sectionDefinition.closeable(),
+                        editButton,
+                        sectionDefinition.columns());
+                break;
+            case HORIZONTAL:
+                section = new HorizontalSection(sectionDefinition.caption(),
+                        sectionDefinition.closeable(),
+                        editButton);
+                break;
+            default:
+                throw new IllegalStateException("unknown SectionLayout#" + layout);
         }
+
         section.setId(getSectionId());
         return section;
     }

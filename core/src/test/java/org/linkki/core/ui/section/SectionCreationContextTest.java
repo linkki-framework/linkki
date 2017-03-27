@@ -7,11 +7,13 @@
 package org.linkki.core.ui.section;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.ui.section.annotations.SectionID;
+import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.util.handler.Handler;
@@ -49,6 +51,20 @@ public class SectionCreationContextTest {
         assertEquals("testProperty", textField.getId());
     }
 
+    @Test
+    public void testSectionWithDefaultLayout_shouldCreateFormLayout() {
+
+        BaseSection section = createContext(new SCCPmoWithoutID()).createSection();
+        assertTrue(section instanceof FormSection);
+    }
+
+    @Test
+    public void testSectionWithHorizontalLayout_shouldCreateHorizontalSection() {
+
+        BaseSection section = createContext(new SectionWithHorizontalLayout()).createSection();
+        assertTrue(section instanceof HorizontalSection);
+    }
+
     @UISection
     public static class SCCPmoWithID {
 
@@ -65,6 +81,11 @@ public class SectionCreationContextTest {
 
     @UISection
     private static class SCCPmoWithoutID {
+        // no content required
+    }
+
+    @UISection(layout = SectionLayout.HORIZONTAL)
+    private static class SectionWithHorizontalLayout {
         // no content required
     }
 }
