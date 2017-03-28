@@ -8,14 +8,13 @@ package org.linkki.framework.security;
 
 import static org.linkki.framework.security.SpringUtil.afterPropertiesSet;
 
-import javax.annotation.Nullable;
-import javax.enterprise.util.AnnotationLiteral;
-
 import org.apache.deltaspike.core.api.config.ConfigResolver;
 import org.apache.deltaspike.core.api.provider.BeanProvider;
 import org.linkki.framework.state.ApplicationConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -29,7 +28,7 @@ import org.springframework.security.kerberos.authentication.sun.SunJaasKerberosC
 import org.springframework.security.kerberos.authentication.sun.SunJaasKerberosTicketValidator;
 import org.springframework.security.kerberos.web.authentication.SpnegoAuthenticationProcessingFilter;
 import org.springframework.security.kerberos.web.authentication.SpnegoEntryPoint;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Authentication using Kerberos.
@@ -38,32 +37,29 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
  */
 @Configuration
 @EnableWebSecurity
+@Order(1)
 public class KerberosSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String CONFIG_PRINCIPLE_NAME = "kerberos_servicePrinciple";
     public static final String CONFIG_KEYTAB = "kerberos_keyTabLocation";
 
-    /** The {@code @Kerberos} annotation. */
-    private static final AnnotationLiteral<Kerberos> KERBEROS_ANNOTATION = new AnnotationLiteral<Kerberos>() {
-        private static final long serialVersionUID = 1L;
-    };
-
+    @Autowired
+    private FormsWebSecurityConfigurationAdapter formsWebSecurityConfigurationAdapter;
 
     @Override
-    protected void configure(@Nullable HttpSecurity http) throws Exception {
-        if (http != null) {
-            http.addFilterBefore(spnegoAuthenticationProcessingFilter(authenticationManagerBean()),
-                                 BasicAuthenticationFilter.class)
-                    .exceptionHandling().authenticationEntryPoint(spnegoEntryPoint());
-        }
+    protected void configure(HttpSecurity http) throws Exception {
+        // need to delegate because spring does not merge both configurations
+        formsWebSecurityConfigurationAdapter.configure(http);
+        http.addFilterBefore(spnegoAuthenticationProcessingFilter(authenticationManagerBean()),
+                             UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().authenticationEntryPoint(spnegoEntryPoint());
+
     }
 
     @Override
-    public void configure(@Nullable AuthenticationManagerBuilder auth) {
-        if (auth != null) {
-            auth.authenticationProvider(kerberosAuthenticationProvider());
-            auth.authenticationProvider(kerberosServiceAuthenticationProvider());
-        }
+    public void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(kerberosAuthenticationProvider());
+        auth.authenticationProvider(kerberosServiceAuthenticationProvider());
     }
 
     @Bean
@@ -106,7 +102,7 @@ public class KerberosSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public UserDetailsService ipmUserDetailsService() {
-        return BeanProvider.getContextualReference(UserDetailsService.class, KERBEROS_ANNOTATION);
+        return BeanProvider.getContextualReference(UserDetailsService.class, Kerberos.LITERAL);
     }
 
     @Bean

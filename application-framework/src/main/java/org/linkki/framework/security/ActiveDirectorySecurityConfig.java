@@ -6,8 +6,7 @@
 
 package org.linkki.framework.security;
 
-import javax.annotation.Nullable;
-
+import org.apache.commons.lang3.StringUtils;
 import org.apache.deltaspike.core.api.config.ConfigResolver;
 import org.linkki.util.cdi.BeanInstantiator;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +40,7 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
     public static final String CONFIG_AD_PASSWORD = "ad_password";
 
     @Override
-    public void configure(@Nullable AuthenticationManagerBuilder auth) {
+    public void configure(AuthenticationManagerBuilder auth) {
         String url = ConfigResolver.getPropertyValue(CONFIG_AD_URL);
         String domain = ConfigResolver.getPropertyValue(CONFIG_AD_DOMAIN);
 
@@ -57,6 +56,8 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
         }
     }
 
+    // because... spring :(
+    @SuppressWarnings("deprecation")
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
@@ -70,6 +71,12 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
         DefaultLdapAuthoritiesPopulator authoritiesPopulator = new DefaultLdapAuthoritiesPopulator(contextSource,
                 ConfigResolver.getPropertyValue(KerberosUserDetailsServiceProducer.GROUPS_SEARCH_BASE));
         authoritiesPopulator.setIgnorePartialResultException(true);
+
+        // deprecated but default is true and thats NOT what the
+        // ActiveDirectoryLdapAuthenticationProvider#loadUserAuthorities does :(
+        // and per default there is no prefix too
+        authoritiesPopulator.setConvertToUpperCase(false);
+        authoritiesPopulator.setRolePrefix(StringUtils.EMPTY);
 
         LdapUserDetailsService ldapService = new LdapUserDetailsService(
                 new FilterBasedLdapUserSearch(

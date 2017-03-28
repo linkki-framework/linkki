@@ -6,7 +6,6 @@
 
 package org.linkki.framework.security;
 
-import javax.annotation.Nullable;
 import javax.enterprise.util.AnnotationLiteral;
 
 import org.apache.deltaspike.core.api.provider.BeanProvider;
@@ -38,7 +37,7 @@ public class InMemorySecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    public void configure(@Nullable AuthenticationManagerBuilder auth) {
+    public void configure(AuthenticationManagerBuilder auth) {
         // It seems that we cannot use auth.inMemoryAuthentication() if we need a special
         // UserDetailsSercive, thus we have to implement and use our own
         // InMemoryAuthenticationProvider...

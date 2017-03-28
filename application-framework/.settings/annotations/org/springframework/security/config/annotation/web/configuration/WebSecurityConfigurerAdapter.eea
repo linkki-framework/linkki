@@ -2,3 +2,12 @@ class org/springframework/security/config/annotation/web/configuration/WebSecuri
 authenticationManagerBean
  ()Lorg/springframework/security/authentication/AuthenticationManager;
  ()L1org/springframework/security/authentication/AuthenticationManager;
+configure
+ (Lorg/springframework/security/config/annotation/authentication/builders/AuthenticationManagerBuilder;)V
+ (L1org/springframework/security/config/annotation/authentication/builders/AuthenticationManagerBuilder;)V
+configure
+ (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
+ (L1org/springframework/security/config/annotation/web/builders/HttpSecurity;)V
+configure
+ (Lorg/springframework/security/config/annotation/web/builders/WebSecurity;)V
+ (L1org/springframework/security/config/annotation/web/builders/WebSecurity;)V
