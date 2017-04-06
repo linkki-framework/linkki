@@ -17,5 +17,5 @@ public interface UiUpdateObserver {
     /**
      * Called by {@link BindingManager} when UI updates are triggered by {@link BindingContext}s.
      */
-    void updateUI();
+    void updateUIBindings();
 }

@@ -54,7 +54,7 @@ public class DialogBindingManagerTest {
                 Handler.NOP_HANDLER, false));
         ctx.add(binding);
 
-        ctx.updateUIForBinding();
+        ctx.updateUI();
 
         verify(binding).displayMessages(messages);
     }

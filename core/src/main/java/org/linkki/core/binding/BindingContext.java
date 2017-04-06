@@ -150,8 +150,8 @@ public class BindingContext implements UiUpdateObserver {
      * Updates the UI with the data retrieved via bindings registered in this context. Executes
      * afterUpdateHandler that is set in the constructor.
      */
-    public void updateUIForBinding() {
-        updateUI();
+    public void updateUI() {
+        updateUIBindings();
 
         // Notify handler that the UI was updated for this context and the messages in all
         // contexts should now be updated
@@ -159,7 +159,7 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     @Override
-    public void updateUI() {
+    public void updateUIBindings() {
         // table bindings have to be updated first, as their update removes bindings
         // and creates new bindings if the table content has changed
         tableBindings.values().forEach(binding -> binding.updateFromPmo());
@@ -216,7 +216,7 @@ public class BindingContext implements UiUpdateObserver {
         }
 
         ElementBinding binding = bindingDescriptor.createBinding(createDispatcherChain(pmo, bindingDescriptor),
-                                                                 this::updateUIForBinding, component, label);
+                                                                 this::updateUI, component, label);
         binding.updateFromPmo();
         add(binding);
     }
@@ -233,7 +233,7 @@ public class BindingContext implements UiUpdateObserver {
         requireNonNull(button, "button must not be null");
 
         ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, createDispatcherChain(pmo),
-                this::updateUIForBinding);
+                this::updateUI);
         add(buttonPmoBinding);
         return buttonPmoBinding;
     }
