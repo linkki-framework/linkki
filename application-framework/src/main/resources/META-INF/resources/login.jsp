@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${locale}" />
+<fmt:setBundle basename="loginMessage" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=11;chrome=1">
-<title><c:out value="${name} :: Anmeldung"></c:out></title>
+<title><c:out value="${name} :: "></c:out><fmt:message key="login.application" /> </title>
 <style type="text/css">
 html, body {
     height: 100%;
@@ -46,7 +49,7 @@ html, body {
                                 style="margin-top: -27px;">
                                 <div
                                     class="v-panel-caption v-panel-caption-ipm-login-panel-caption">
-                                    <span class="v-icon FontAwesome"></span><span>Anmeldung in ${name}</span>
+                                    <span class="v-icon FontAwesome"></span><span><fmt:message key="login.registrationin" /> ${name}</span>
                                 </div>
                             </div>
                             <div
@@ -77,7 +80,7 @@ html, body {
                                                             <div
                                                                 class="v-label v-widget v-has-width failure v-label-failure"
                                                                 style="width: 100%;">
-                                                                Anmeldung fehlgeschlagen:
+                                                                <fmt:message key="login.loginfailed" />
                                                                 <c:if
                                                                     test="${SPRING_SECURITY_LAST_EXCEPTION != null}">
                                                                     <c:out
@@ -90,12 +93,12 @@ html, body {
                                                             <div
                                                                 class="v-label v-widget v-has-width"
                                                                 style="width: 100%;">
-                                                                Sie sind erfolgreich abgemeldet
+                                                                <fmt:message key="login.logout" />
                                                             </div>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <div class="v-label v-widget v-has-width" style="width: 100%;">
-                                                                Bitte geben Sie ihre Anmeldedaten ein</div>
+                                                                <fmt:message key="login.registrationdetails" /></div>
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </td>
@@ -103,7 +106,7 @@ html, body {
                                             <tr class="v-formlayout-row">
                                                 <td><div
                                                         class="v-caption v-caption-hasdescription">
-                                                        <span>Benutzername:</span>
+                                                        <span><fmt:message key="login.username" /></span>
                                                     </div></td>
                                                 <td
                                                     class="v-formlayout-errorcell"><div
@@ -115,7 +118,7 @@ html, body {
                                             <tr class="v-formlayout-row">
                                                 <td><div
                                                         class="v-caption v-caption-hasdescription">
-                                                        <span>Kennwort:</span>
+                                                        <span><fmt:message key="login.password" /></span>
                                                     </div></td>
                                                 <td
                                                     class="v-formlayout-errorcell"><div
@@ -137,7 +140,7 @@ html, body {
                                                     class="v-button v-widget v-button-wrap v-button-caption"
                                                     name="submit"
                                                     type="submit"
-                                                    value="Anmelden">
+                                                    value="<fmt:message key="login.login" />">
                                                 </td>
                                             </tr>
                                         </tbody>

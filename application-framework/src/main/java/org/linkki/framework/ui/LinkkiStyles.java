@@ -35,7 +35,7 @@ public class LinkkiStyles {
     public static final String STYLESHEET;
 
     /**
-     * login.jsp Icon href. Built from Vaadin theme
+     * login.jsp icon href. Built from Vaadin theme
      */
     public static final String ICON;
 
