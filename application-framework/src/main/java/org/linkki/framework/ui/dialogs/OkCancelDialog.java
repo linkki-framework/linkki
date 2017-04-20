@@ -14,6 +14,7 @@ import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.Page;
 import org.linkki.framework.ui.component.MessageRow;
+import org.linkki.framework.ui.messages.Messages;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -122,11 +123,11 @@ public class OkCancelDialog extends Window {
     public OkCancelDialog(String caption, @Nullable Component content, Handler okHandler,
             ButtonOption buttonOption) {
         super(caption);
-        this.okHandler = requireNonNull(okHandler, "okHandler must not be null");
+        this.okHandler = requireNonNull(okHandler, "okHandler must not be null"); //$NON-NLS-1$
         this.layout = new VerticalLayout();
         this.contentArea = new VerticalLayout();
         this.mainArea = new VerticalLayout();
-        this.okButton = new Button("OK");
+        this.okButton = new Button(Messages.getString("OkCancelDialog.OkButtonCaption")); //$NON-NLS-1$
         okButton.setClickShortcut(KeyCode.ENTER);
         okButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
 
@@ -174,7 +175,7 @@ public class OkCancelDialog extends Window {
     }
 
     private void initLayout() {
-        layout.setWidth("100%");
+        layout.setWidth("100%"); //$NON-NLS-1$
         layout.setMargin(true);
         layout.addComponent(contentArea);
         layout.setExpandRatio(contentArea, 1f);
@@ -182,7 +183,7 @@ public class OkCancelDialog extends Window {
 
     private void initMainArea(@Nullable Component c) {
         mainArea.addStyleName(ApplicationStyles.DIALOG_CONTENT);
-        contentArea.addStyleName("content-area");
+        contentArea.addStyleName("content-area"); //$NON-NLS-1$
         contentArea.addComponent(mainArea);
         contentArea.setExpandRatio(mainArea, 1f);
         if (c != null) {
@@ -221,7 +222,7 @@ public class OkCancelDialog extends Window {
         });
 
         if (buttonOption == ButtonOption.OK_CANCEL) {
-            Button cancel = new Button("Abbrechen");
+            Button cancel = new Button(Messages.getString("OkCancelDialog.CancelButtonCaption")); //$NON-NLS-1$
             buttons.addComponent(cancel);
             buttons.setComponentAlignment(cancel, Alignment.MIDDLE_CENTER);
             cancel.addClickListener(e -> {
@@ -287,7 +288,7 @@ public class OkCancelDialog extends Window {
         messageRow.ifPresent(contentArea::removeComponent);
         getMessageToDisplay().ifPresent(m -> {
             MessageRow newRow = new MessageRow(m);
-            newRow.setWidth("100%");
+            newRow.setWidth("100%"); //$NON-NLS-1$
             messageRow = Optional.of(newRow);
             contentArea.addComponent(newRow);
             contentArea.setExpandRatio(newRow, 0f);
@@ -313,7 +314,7 @@ public class OkCancelDialog extends Window {
 
     /** Sets the validation service that validates data in the dialog. */
     public void setValidationService(ValidationService validationService) {
-        this.validationService = requireNonNull(validationService, "validationService must not be null");
+        this.validationService = requireNonNull(validationService, "validationService must not be null"); //$NON-NLS-1$
     }
 
     private Optional<Message> getMessageToDisplay() {
