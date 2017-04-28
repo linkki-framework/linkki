@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <parent>
+        <groupId>org.linkki.samples</groupId>
+        <artifactId>linkki-samples-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+
+    <artifactId>linkki-getting-started</artifactId>
+    <packaging>war</packaging>
+
+    <name>linkki Samples :: Getting Started</name>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-server</artifactId>
+            <version>${vaadin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client-compiled</artifactId>
+            <version>${vaadin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-themes</artifactId>
+            <version>${vaadin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.linkki</groupId>
+            <artifactId>linkki-core</artifactId>
+            <version>${linkki.version}</version>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+
+        <!-- remove version from artifact so we can always link to http://localhost:8080/linkki-getting-started -->
+        <finalName>${project.artifactId}</finalName>
+
+        <plugins>
+
+            <!--
+             * Since linkki-core comes with vaadin-cdi we need the cdi dependencies as well.
+             * Of course we can do it with just a tomcat but this needs additional setup and is not part of this sample
+             -->
+            <plugin>
+                <groupId>org.apache.tomee.maven</groupId>
+                <artifactId>tomee-maven-plugin</artifactId>
+                <version>7.0.2</version>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>
