@@ -10,9 +10,9 @@ import static org.linkki.framework.security.SpringUtil.afterPropertiesSet;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 
 import org.apache.deltaspike.core.api.config.ConfigResolver;
+import org.apache.deltaspike.core.api.provider.BeanProvider;
 import org.linkki.framework.state.ApplicationConfig;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,10 +30,6 @@ public class KerberosUserDetailsServiceProducer {
     public static final String SERVICE_PRINCIPAL = "kerberos_servicePrinciple";
     public static final String SEARCH_BASE = "ad_searchBase";
     public static final String GROUPS_SEARCH_BASE = "ad_groupSearchBase";
-
-
-    @Inject
-    private UserDetailsContextMapper contextMapper;
 
 
     @Produces
@@ -63,8 +59,14 @@ public class KerberosUserDetailsServiceProducer {
         authoritiesPopulator.setIgnorePartialResultException(true);
         LdapUserDetailsService ldapService = new LdapUserDetailsService(
                 new FilterBasedLdapUserSearch(searchBase, searchFilter, contextSource), authoritiesPopulator);
-        ldapService.setUserDetailsMapper(contextMapper);
+        ldapService.setUserDetailsMapper(ipmUserDetailsMapper());
         return ldapService;
+    }
+
+    public UserDetailsContextMapper ipmUserDetailsMapper() {
+        // need to be resolved by BeanProvider instead simply using @Inject because there might be
+        // no UserDetailsContextMapper in some environments but the producer is validated on startup
+        return BeanProvider.getContextualReference(UserDetailsContextMapper.class);
     }
 
 }
