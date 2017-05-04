@@ -12,11 +12,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-
-    <artifactId>linkki-getting-started</artifactId>
+    <artifactId>linkki-binding-sample</artifactId>
     <packaging>war</packaging>
 
-    <name>linkki Samples :: Getting Started</name>
+    <name>Linkki Samples :: Binding</name>
 
 
     <dependencies>
@@ -40,11 +39,5 @@
         </dependency>
 
     </dependencies>
-
-
-    <build>
-        <!-- remove version from artifact so we can always link to http://localhost:8080/linkki-getting-started -->
-        <finalName>${project.artifactId}</finalName>
-    </build>
 
 </project>

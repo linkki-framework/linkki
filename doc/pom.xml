@@ -20,28 +20,38 @@
       <plugin>
         <groupId>org.asciidoctor</groupId>
         <artifactId>asciidoctor-maven-plugin</artifactId>
-        <version>1.5.3</version>
+        <version>1.5.5</version>
         <configuration>
+          <backend>pdf</backend>
           <sourceHighlighter>coderay</sourceHighlighter>
           <attributes>
             <revnumber>${project.version}</revnumber>
+            <icons>font</icons>
+            <pdf-stylesdir>${project.basedir}/src/theme</pdf-stylesdir>
+            <pdf-style>base</pdf-style>
+            <allow-uri-read>true</allow-uri-read>
           </attributes>
         </configuration>
         
         <executions>
           <execution>
-            <id>generate-pdf</id>
+            <id>generate-readme</id>
             <phase>generate-resources</phase>
             <goals>
               <goal>process-asciidoc</goal>
             </goals>
             <configuration>
-              <backend>pdf</backend>
-              <attributes>
-                <icons>font</icons>
-                <pdf-stylesdir>${project.basedir}/src/theme</pdf-stylesdir>
-                <pdf-style>base</pdf-style>
-              </attributes>
+              <sourceDocumentName>README.adoc</sourceDocumentName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-doc</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <sourceDocumentName>documentation.adoc</sourceDocumentName>
             </configuration>
           </execution>
         </executions>
