@@ -50,14 +50,35 @@ public class BindingContext implements UiUpdateObserver {
     private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<>();
     private final PropertyDispatcherFactory dispatcherFactory = new PropertyDispatcherFactory();
 
+
+    /**
+     * Creates a new binding context with an empty name that defines no property behavior and uses
+     * no after update handler.
+     * 
+     */
+    public BindingContext() {
+        this("");
+    }
+
+    /**
+     * Creates a new binding context with the given name that defines no property behavior and uses
+     * no after update handler.
+     * 
+     * @param contextName name of this context that is used as identifier in a
+     *            {@linkplain BindingManager}
+     */
+    public BindingContext(String contextName) {
+        this(contextName, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, Handler.NOP_HANDLER);
+    }
+
     /**
      * Creates a new binding context with the given name, using the behavior provider to decorate
      * its bindings and notifying a handler after every UI update.
      * <p>
      * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event
      * outside of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()}
-     * is used by {@link BindingManager} to trigger the validation service and to notify other
-     * contexts in the manager to show the validation result.
+     * is used by {@link BindingManager} to trigger the validation service and to notify all
+     * {@link UiUpdateObserver}s in the manager to show the validation result.
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
@@ -151,7 +172,7 @@ public class BindingContext implements UiUpdateObserver {
      * afterUpdateHandler that is set in the constructor.
      */
     public void updateUI() {
-        updateUIBindings();
+        updateBindings();
 
         // Notify handler that the UI was updated for this context and the messages in all
         // contexts should now be updated
@@ -159,7 +180,11 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     @Override
-    public void updateUIBindings() {
+    public void notifyUIUpdate() {
+        updateBindings();
+    }
+
+    private void updateBindings() {
         // table bindings have to be updated first, as their update removes bindings
         // and creates new bindings if the table content has changed
         tableBindings.values().forEach(binding -> binding.updateFromPmo());

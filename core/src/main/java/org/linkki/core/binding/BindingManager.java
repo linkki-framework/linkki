@@ -3,7 +3,6 @@ package org.linkki.core.binding;
 import static java.util.Objects.requireNonNull;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,7 +24,7 @@ public abstract class BindingManager {
 
     private final Map<String, BindingContext> contextsByName = new HashMap<>();
 
-    private final List<UiUpdateObserver> uiUpdateObservers = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<UiUpdateObserver> uiUpdateObservers = new CopyOnWriteArrayList<>();
 
     private final ValidationService validationService;
 
@@ -113,9 +112,9 @@ public abstract class BindingManager {
         contextsByName.clear();
     }
 
-    public void registerUiUpdateObserver(UiUpdateObserver observer) {
+    public void addUiUpdateObserver(UiUpdateObserver observer) {
         requireNonNull(observer, "observer must not be null");
-        uiUpdateObservers.add(observer);
+        uiUpdateObservers.addIfAbsent(observer);
     }
 
     public void removeUiUpdateObserver(UiUpdateObserver observer) {
@@ -166,7 +165,7 @@ public abstract class BindingManager {
      * method has to be called manually.
      */
     public void notifyUiUpdateObservers() {
-        uiUpdateObservers.forEach(o -> o.updateUIBindings());
+        uiUpdateObservers.forEach(o -> o.notifyUIUpdate());
     }
 
     @Override
