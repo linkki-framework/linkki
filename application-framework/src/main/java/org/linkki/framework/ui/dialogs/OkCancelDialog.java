@@ -18,6 +18,7 @@ import org.linkki.framework.ui.messages.Messages;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.server.ErrorMessage;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -28,13 +29,8 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
- * A modal dialog with a header/title, an OK button and an optional cancel button at the bottom.
- * This class provides several constructors for different use cases. To add a component to the
- * content use {@link #addContent(Component)}.
- * <p>
- * When using a validation service ({@link #setValidationService(ValidationService)}) this dialog
- * can be validated via {@link #validate()}. Errors reported during that validation are displayed at
- * the bottom of the dialog, between its content and the OK and cancel buttons.
+ * A modal dialog with a header/title, an OK button and an optional cancel button at the bottom. To
+ * add a component as dialog content use {@link #addContent(Component)}.
  * <p>
  * To create a dialog with fixed dimensions, use the method {@link #setSize(String, String)}. This
  * is useful if:
@@ -42,6 +38,14 @@ import com.vaadin.ui.themes.ValoTheme;
  * <li>there are different options that may change the layout</li>
  * <li>you do not want that the dialog dynamically increase height for validation messages</li>
  * </ul>
+ * For more information on sizing and layout behavior see {@link #setSize(String, String)}.
+ * <p>
+ * To validate the data in the dialog or give the user warning or information messages, set a
+ * validation service via ({@link #setValidationService(ValidationService)}). The first message with
+ * the highest {@link com.vaadin.server.ErrorMessage.ErrorLevel ErrorLevel} reported during the
+ * validation via the {@link ValidationService#getValidationMessages()} is displayed at the bottom
+ * of the dialog, between its content and the OK and cancel buttons. (see
+ * {@link MessageList#getFirstMessage(ErrorMessage.ErrorLevel)})
  */
 public class OkCancelDialog extends Window {
 
