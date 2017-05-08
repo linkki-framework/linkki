@@ -100,58 +100,58 @@ public class BindingContextTest {
     }
 
     @Test
-            public void testUpdateUIBindings() {
-                Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
-                setUpBinding1();
-        
-                binding1 = spy(binding1);
-        
-                context.add(binding1);
-        
-                context.updateUIBindings();
-                verify(binding1).updateFromPmo();
-                verify(afterUpdateUi, never()).apply();
-            }
+    public void testUpdateUIBindings() {
+        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
+        setUpBinding1();
+
+        binding1 = spy(binding1);
+
+        context.add(binding1);
+
+        context.notifyUIUpdate();
+        verify(binding1).updateFromPmo();
+        verify(afterUpdateUi, never()).apply();
+    }
 
     @Test
-            public void testUpdateUIBindings_noBindingInContext() {
-                Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
-                setUpBinding1();
-        
-                binding1 = spy(binding1);
-        
-                context.updateUIBindings();
-        
-                verify(binding1, never()).updateFromPmo();
-                verify(binding1, never()).displayMessages(any(MessageList.class));
-                verify(afterUpdateUi, never()).apply();
-            }
+    public void testUpdateUIBindings_noBindingInContext() {
+        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
+        setUpBinding1();
+
+        binding1 = spy(binding1);
+
+        context.notifyUIUpdate();
+
+        verify(binding1, never()).updateFromPmo();
+        verify(binding1, never()).displayMessages(any(MessageList.class));
+        verify(afterUpdateUi, never()).apply();
+    }
 
     @Test
-            public void testUpdateUIBindingsAndValidate_noBindingInContext() {
-                Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
-                setUpBinding1();
-        
-                binding1 = spy(binding1);
-        
-                context.updateUI();
-        
-                verify(afterUpdateUi).apply();
-            }
+    public void testUpdateUIBindingsAndValidate_noBindingInContext() {
+        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
+        setUpBinding1();
+
+        binding1 = spy(binding1);
+
+        context.updateUI();
+
+        verify(afterUpdateUi).apply();
+    }
 
     @Test
-            public void testUpdateUIBindingsAndValidate() {
-                Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
-        
-                setUpBinding1();
-                binding1 = spy(binding1);
-        
-                context.add(binding1);
-        
-                context.updateUI();
-                verify(binding1).updateFromPmo();
-                verify(afterUpdateUi).apply();
-            }
+    public void testUpdateUIBindingsAndValidate() {
+        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
+
+        setUpBinding1();
+        binding1 = spy(binding1);
+
+        context.add(binding1);
+
+        context.updateUI();
+        verify(binding1).updateFromPmo();
+        verify(afterUpdateUi).apply();
+    }
 
     @Test
     public void testChangeBoundObject() {
@@ -159,12 +159,12 @@ public class BindingContextTest {
         setUpBinding1();
         binding1 = spy(binding1);
 
-        context.updateUIBindings();
+        context.notifyUIUpdate();
         verify(binding1, never()).updateFromPmo();
 
         context.add(binding1);
 
-        context.updateUIBindings();
+        context.notifyUIUpdate();
         verify(binding1).updateFromPmo();
     }
 

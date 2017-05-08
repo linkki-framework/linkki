@@ -7,15 +7,16 @@
 package org.linkki.core.binding;
 
 /**
- * An observer that can be registered at a {@link BindingManager} and is notified if an update UI
- * event is triggered by a managed {@link BindingContext}. Updates own UI upon notification.
+ * An observer that can be attached to a {@link BindingManager} and is notified if an update UI
+ * event is triggered by a managed {@link BindingContext}. Updates its own UI upon notification.
  * 
- * @see BindingManager#registerUiUpdateObserver(UiUpdateObserver)
+ * @see BindingManager#addUiUpdateObserver(UiUpdateObserver)
  */
 public interface UiUpdateObserver {
 
     /**
-     * Called by {@link BindingManager} when UI updates are triggered by {@link BindingContext}s.
+     * Called by {@link BindingManager} when UI updates are triggered (e.g. by managed
+     * {@link BindingContext}s).
      */
-    void updateUIBindings();
+    void notifyUIUpdate();
 }

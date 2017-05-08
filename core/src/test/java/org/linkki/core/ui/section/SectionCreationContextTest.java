@@ -11,12 +11,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.ui.section.annotations.SectionID;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
@@ -24,8 +22,7 @@ import com.vaadin.ui.Panel;
 
 public class SectionCreationContextTest {
 
-    private BindingContext bindingContext = new BindingContext("testBindingContext",
-            PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, Handler.NOP_HANDLER);
+    private BindingContext bindingContext = new BindingContext("testBindingContext");
 
     @Test
     public void testSetSectionId() {
