@@ -71,7 +71,6 @@ public class PmoBasedTableFactory<T> {
         Set<String> columnNames = createColumns(table);
         bindTable(table, columnNames);
         table.setPageLength(containerPmo.getPageLength());
-        bindingContext.updateUI();
         return table;
     }
 
