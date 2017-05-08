@@ -24,12 +24,12 @@ public class TableColumnDescriptorTest {
             // Noting to do
         }
 
-        @UITableColumn(expandRation = 12.34f)
+        @UITableColumn(expandRatio = 12.34f)
         public void methodWithExpandRatioAnnotation() {
             // Noting to do
         }
 
-        @UITableColumn(width = 100, expandRation = 12.34f)
+        @UITableColumn(width = 100, expandRatio = 12.34f)
         public void methodWithWidthAndExpandRatioAnnotation() {
             // Noting to do
         }

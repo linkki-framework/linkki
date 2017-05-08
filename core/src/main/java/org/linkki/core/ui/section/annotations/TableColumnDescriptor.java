@@ -43,7 +43,7 @@ public class TableColumnDescriptor {
     }
 
     public float getExpandRatio() {
-        return columnAnnotation.expandRation();
+        return columnAnnotation.expandRatio();
     }
 
     public void checkValidConfiguration() {

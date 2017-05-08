@@ -27,7 +27,7 @@ public class TestRowPmo {
         return "1";
     }
 
-    @UITableColumn(expandRation = 2.0f)
+    @UITableColumn(expandRatio = 2.0f)
     @UITextField(position = 1, label = "2")
     public String getValue2() {
         return "2";
