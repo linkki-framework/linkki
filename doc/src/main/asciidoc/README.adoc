@@ -1,22 +1,22 @@
 = linkki
 :source-file: ../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportPmo.java
 
-Ein Data-Binding Framework für webbasierte Benutzeroberflächen mit https://vaadin.com/home[Vaadin].
+A data binding framework for web based user interfaces with https://vaadin.com/home[Vaadin].
 
 == Features
 
-Häufig bestehen Applikationen aus vielen Eingabeelementen, die direkt Objekte und Eigenschaften aus dem Domänenmodell widerspiegeln. Die Erstellung solcher Oberflächen, sowie die Implementierung der Synchronisierung mit den Modellobjekten, ist oft eine repetitive Aufgabe. *linkki* übernimmt die Aufgabe dieses Data-Bindings weitestgehend. So können sich Entwickler auf das Domänenmodell und die UI Logik konzentrieren.
+Commonly applications consist of a variety of input elements that closely mirror objects and properties of a domain model. Creating such user interfaces and implementing the synchronization with the domain model is often a repetitive task. *linkki* automates most of the data binding tasks, enabling developers to focus on the domain- and UI logic.
 
-* Schnelle Erstellung von UIs 
-* Deklarative UI Definition (über Annotationen)
-* Implementierung der UI Logik über ein PresentationModel (PMO)
-* Automatisches Data-Binding zwischen PMO und UI Elementen
-* Dynamisches Binding weiterer UI Eigenschaften, u.A.
-** Sichtbarkeit (visible)
-** Aktivierungszustand (enabled)
-** Liste der auswählbaren Werte
+* Fast UI development
+* Declarative UI definition (with annotations)
+* UI logic implementation using the presentation model pattern (PMO)
+* automatic data binding between (P)MO and UI elements
+* dynamic binding of other UI properties, including
+** visibility
+** enabled-state
+** list of available values
 
-== Beispiele
+== Examples
 
 === Model Binding
 [source,java]
@@ -24,7 +24,7 @@ Häufig bestehen Applikationen aus vielen Eingabeelementen, die direkt Objekte u
 include::{source-file}[tags=model-binding]
 ----
 
-=== Textfeld/Textarea
+=== Textfield/Textarea
 [source,java]
 ----
 include::{source-file}[tags=textfield]
@@ -48,12 +48,12 @@ image::report_disabled.png[]
 .Report with enabled Send-Button
 image::report_enabled.png[]
 
-NOTE: das komplette Beispiel ist unter https://github.com/link-to-getting-started[TODO samples/getting-started] zu finden.
+NOTE: the complete example can be found at https://github.com/link-to-getting-started[TODO samples/getting-started].
 
 
 == Installation
 
-*linkki* steht auf Maven Central zur Verfügung und kann über Maven/Gradle eingebunden werden:
+*linkki* is available from Maven Central and can be included via Maven/Gradle:
 
 .maven dependency
 [source,xml]
@@ -65,7 +65,7 @@ NOTE: das komplette Beispiel ist unter https://github.com/link-to-getting-starte
 </dependency>
 ----
 
-Um *linkki* selbst zu kompilieren, muss das Projekt über https://github.com[github] ausgecheckt werden. Als Build-Tool wird Apache Maven verwendet.
+To compile *linkki*, check out the project from https://github.com[github]. The used build tool is Apache Maven.
 [source,bash]
 ----
 $> mvn clean install
@@ -73,18 +73,18 @@ $> mvn clean install
 
 == Contribution
 
-* Bugreports, neue Ideen und Erweiterungen können im https://github.com[TODO github issue tracker] angelegt werden
-* Mitarbeit an den Issues/Tasks mittels Pull-Requests
+* Bug reports, new ideas and improvements can be created in the https://github.com[TODO github issue tracker]
+* Collaboration on issues/tasks via pull requests
 
 
-== Dokumentation
+== Documentation
 
-*Referenz Dokumentation:*
+*Reference documentation:*
 
-*API Dokumentation:*
+*API documentation:*
 
 
-== Lizenz
+== License
 
 Copyright 2017 Faktor Zehn
 
