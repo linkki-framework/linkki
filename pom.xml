@@ -13,6 +13,8 @@
         <module>utils</module>
         <module>core</module>
         <module>application-framework</module>
+        <module>doc</module>
+        <module>samples</module>
     </modules>
 
     <properties>

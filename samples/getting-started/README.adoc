@@ -1,0 +1,124 @@
+= linkki Sample - Getting Started
+:source-dir: src/main/java
+
+In diesem kleinen 'Getting Started' Tutorial schaffen wir einen ersten Überblick über *linkki*.
+
+== Ziel
+
+Ziel ist eine simple Oberfläche für das Melden von Fehlern (Error Report). Der Report muss eine Beschreibung und einen Typ enthalten. Zur Auswahl sollen folgende Typen stehen:
+
+* Bug
+* Improvement
+* Question
+
+Der Report kann erst abgesendet werden, wenn eine Beschreibung eingegeben und ein Typ ausgewählt wurde.
+
+image::report_enabled.png[]
+
+NOTE: Persistieren des Reports ist *nicht* Teil dieses Tutorials.
+
+---
+
+== Schritt 0: Projekt-Setup
+Wir erstellen eine Webanwendung, die als `war` gepackt werden soll. Als Abhängigkeiten benötigen wir neben linkki selbst noch vaadin:
+
+[source,xml]
+----
+include::samples/getting-started/pom.xml[]
+----
+
+== Schritt 1: Modell
+Zuerst implementieren wir das 'DomainModel'. Das Model besteht aus 2 Klassen. <<report, `Report`>> und <<report-type, `ReportType`>>. Diese Klassen enthalten _keine_ UI spezifischen Annotationen.
+
+[[report]]
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/model/Report.java[tags=report]
+
+    // getters and setters
+}
+----
+
+[[report-type]]
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/model/ReportType.java[tags=report-type]
+----
+NOTE: `ReportType` implementiert die Methode `getName()`. Diese Methode wird von linkki aufgerufen um die 'caption' für die Enum-Werte anzuzeigen.
+
+== Schritt 2: PresentationObjectModel (PMO)
+
+Unsere Benutzeroberfläche soll eine Textarea zur Eingabe einer Beschreibung enthalten. Zur Auswahl des Issue-Typs soll eine ComboBox mit den Enum Konstanten des `ReportType` angezeigt werden. Um den Report abschicken zu können, benötigen wir einen `Send`-Button. Dieser soll aber nur dann aktiviert sein, wenn bereits eine Beschreibung eingegeben und der Typ ausgewählt wurde.
+
+Wir legen eine neue Klasse im Package `org.linkki.samples.gettingstarted.pmo` an und nennen diese `ReportPmo`. Wichtig ist die `@UISection`-Annotation an der Klasse.
+
+Die Klasse hat eine Instanzvariable - den <<report, `Report`>> - dieser muss im Konstruktor übergeben werden.
+
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportPmo.java[tags=report-pmo]
+
+    ...
+----
+
+Damit das ModelBinding funktionieren kann, muss eine Methode hinzugefügt und mit `@ModelObject` annotiert werden.
+
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportPmo.java[tags=model-binding]
+----
+
+Jetzt wird die TextArea und die ComboBox definiert. Dazu müssen ebenfalls je eine Methode mit `@UITextArea` und `@UIComboBox` annotiert werden.
+
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportPmo.java[tags=textfield]
+
+include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportPmo.java[tags=combobox]
+----
+
+NOTE: falls die Methoden den gleichen Namen haben wie die Felder im Domänenmodell, kann auf die Property `modelAttribute` verzichtet werden.
+
+IMPORTANT: Die Annotations müssen immer an die Methoden und nicht an Felder der Klasse geschrieben werden.
+
+Der letzte Schritt ist die Definition des Buttons. Die Besonderheit ist hierbei, dass anhand der Werte im Modell entschieden werden soll, ob der Button aktiviert ist oder nicht. Dies wird über die Property `enabled = EnabledType.DYNAMIC` angezeigt.
+
+Durch den `EnabledType.DYNAMIC` sucht linkki nach einer Methode `boolean isSendEnabled()`. Diese wird bei der Aktualisierung der Oberfläche automatisch aufgerufen. Der Rückgabewert bestimmt den Aktivierungszustand des Buttons. 
+
+IMPORTANT: Der Methodenname _muss_ der Konvention is[NameDerZurAnnotiertenMethodeGehörigenProperty]Enabled() entsprechen. Desweiteren muss die Methode public sein und einen boolschen Wert zurückgeben.
+
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportPmo.java[tags=button]
+----
+
+== Schritt 3: Vaadin UI
+
+Das UI enthält 'nur' die Section zur Erstellung des Reports.
+
+Der erste Teil ist 'normaler' Vaadin code. Der interessante *linkki*-Teil beginnt ab Zeile 9. Zuerst wird eine `DefaultPmoBasedSectionFactory` instanziert. Der Methode `createSection` wird das PMO als Parameter übergeben. Als 2. Parameter wird ein `BindingContext` übergeben -> dieser wird in späteren Kapiteln näher beschrieben. Als letzter Schritt muss die erstellte `section` nun dem UI als `content` gesetzt werden.
+
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/GettingStartedUI.java[tags=ui-class]
+----
+
+== Schritt 4: web.xml
+
+Nun muss die Anwendung noch dem Anwendungsserver bekannt gemacht werden. Dieser erwartet eine `web.xml`, in der unser UI mit dem `VaadinServlet` gestartet wird.
+
+[source,xml]
+----
+include::{source-dir}/../webapp/WEB-INF/web.xml[]
+----
+
+== Start der Anwendung
+
+Die Anwendung kann auf der Kommandozeile mittels
+
+[source,bash]
+----
+$> mvn clean install tomee:run
+----
+
+gestartet werden und ist danach unter http://localhost:8080/linkki-getting-started erreichbar.

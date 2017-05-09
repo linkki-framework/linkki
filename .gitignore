@@ -2,4 +2,4 @@
 */.checkstyle
 */.fbExcludeFilterFile
 /bin/
-/target
+target

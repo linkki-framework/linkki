@@ -51,7 +51,12 @@ import com.vaadin.ui.Component;
  * 
  * Note that the view does not necessarily have to be a Vaadin UI component, it is possible to bind
  * the annotated fields and methods in a POJO. Of course, the bound fields/methods still have to
- * be/return Vaadin components.
+ * be/return one of the following types
+ * <ul>
+ *     <li>{@link com.vaadin.ui.Field}</li>
+ *     <li>{@link com.vaadin.ui.Label}</li>
+ *     <li>{@link com.vaadin.ui.Button}</li>
+ * </ul>
  */
 public class Binder {
 

@@ -1,0 +1,101 @@
+= linkki
+:source-file: ../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportPmo.java
+
+Ein Data-Binding Framework für webbasierte Benutzeroberflächen mit https://vaadin.com/home[Vaadin].
+
+== Features
+
+Häufig bestehen Applikationen aus vielen Eingabeelementen, die direkt Objekte und Eigenschaften aus dem Domänenmodell widerspiegeln. Die Erstellung solcher Oberflächen, sowie die Implementierung der Synchronisierung mit den Modellobjekten, ist oft eine repetitive Aufgabe. *linkki* übernimmt die Aufgabe dieses Data-Bindings weitestgehend. So können sich Entwickler auf das Domänenmodell und die UI Logik konzentrieren.
+
+* Schnelle Erstellung von UIs 
+* Deklarative UI Definition (über Annotationen)
+* Implementierung der UI Logik über ein PresentationModel (PMO)
+* Automatisches Data-Binding zwischen (P)MO und UI Elementen
+* Dynamisches Binding weiterer UI Eigenschaften, u.A.
+** Sichtbarkeit (visible)
+** Aktivierungszustand (enabled)
+** Liste der auswählbaren Werte
+
+== Beispiele
+
+=== Model Binding
+[source,java]
+----
+include::{source-file}[tags=model-binding]
+----
+
+=== Textfeld/Textarea
+[source,java]
+----
+include::{source-file}[tags=textfield]
+----
+
+=== ComboBox
+[source,java]
+----
+include::{source-file}[tags=combobox]
+----
+
+=== Button
+[source,java]
+----
+include::{source-file}[tags=button]
+----
+
+.Report with disabled Send-Button
+image::report_disabled.png[]
+
+.Report with enabled Send-Button
+image::report_enabled.png[]
+
+NOTE: das komplette Beispiel ist unter https://github.com/link-to-getting-started[TODO samples/getting-started] zu finden.
+
+
+== Installation
+
+*linkki* steht auf Maven Central zur Verfügung und kann über Maven/Gradle eingebunden werden:
+
+.maven dependency
+[source,xml]
+----
+<dependency>
+  <groupId>org.linkki</groupId>
+  <artifactId>linkki-core</artifactId>
+  <version>${linkki.version}</version>
+</dependency>
+----
+
+Um *linkki* selbst zu kompilieren, muss das Projekt über https://github.com[github] ausgecheckt werden. Als Build-Tool wird Apache Maven verwendet.
+[source,bash]
+----
+$> mvn clean install
+----
+
+== Contribution
+
+* Bugreports, neue Ideen und Erweiterungen können im https://github.com[TODO github issue tracker] angelegt werden
+* Mitarbeit an den Issues/Tasks mittels Pull-Requests
+
+
+== Dokumentation
+
+*Referenz Dokumentation:*
+
+*API Dokumentation:*
+
+
+== Lizenz
+
+Copyright 2017 Faktor Zehn
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

@@ -1,0 +1,101 @@
+= linkki
+:source-file: ../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportPmo.java
+
+A data binding framework for web based user interfaces with https://vaadin.com/home[Vaadin].
+
+== Features
+
+Commonly applications consist of a variety of input elements that closely mirror objects and properties of a domain model. Creating such user interfaces and implementing the synchronization with the domain model is often a repetitive task. *linkki* automates most of the data binding tasks, enabling developers to focus on the domain- and UI logic.
+
+* Fast UI development
+* Declarative UI definition (with annotations)
+* UI logic implementation using the presentation model pattern (PMO)
+* automatic data binding between (P)MO and UI elements
+* dynamic binding of other UI properties, including
+** visibility
+** enabled-state
+** list of available values
+
+== Examples
+
+=== Model Binding
+[source,java]
+----
+include::{source-file}[tags=model-binding]
+----
+
+=== Textfield/Textarea
+[source,java]
+----
+include::{source-file}[tags=textfield]
+----
+
+=== ComboBox
+[source,java]
+----
+include::{source-file}[tags=combobox]
+----
+
+=== Button
+[source,java]
+----
+include::{source-file}[tags=button]
+----
+
+.Report with disabled Send-Button
+image::report_disabled.png[]
+
+.Report with enabled Send-Button
+image::report_enabled.png[]
+
+NOTE: the complete example can be found at https://github.com/link-to-getting-started[TODO samples/getting-started].
+
+
+== Installation
+
+*linkki* is available from Maven Central and can be included via Maven/Gradle:
+
+.maven dependency
+[source,xml]
+----
+<dependency>
+  <groupId>org.linkki</groupId>
+  <artifactId>linkki-core</artifactId>
+  <version>${linkki.version}</version>
+</dependency>
+----
+
+To compile *linkki*, check out the project from https://github.com[github]. The used build tool is Apache Maven.
+[source,bash]
+----
+$> mvn clean install
+----
+
+== Contribution
+
+* Bug reports, new ideas and improvements can be created in the https://github.com[TODO github issue tracker]
+* Collaboration on issues/tasks via pull requests
+
+
+== Documentation
+
+*Reference documentation:*
+
+*API documentation:*
+
+
+== License
+
+Copyright 2017 Faktor Zehn
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
