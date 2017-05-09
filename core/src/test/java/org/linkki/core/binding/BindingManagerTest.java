@@ -54,12 +54,12 @@ public class BindingManagerTest {
         UiUpdateObserver observer = mock(UiUpdateObserver.class);
 
         bindingManager.afterUpdateUi();
-        verify(observer, never()).notifyUIUpdate();
+        verify(observer, never()).uiUpdated();
 
         bindingManager.addUiUpdateObserver(observer);
         bindingManager.afterUpdateUi();
 
-        verify(observer).notifyUIUpdate();
+        verify(observer).uiUpdated();
     }
 
     @Test
@@ -71,7 +71,7 @@ public class BindingManagerTest {
         bindingManager.removeUiUpdateObserver(observer);
         bindingManager.afterUpdateUi();
 
-        verify(observer, never()).notifyUIUpdate();
+        verify(observer, never()).uiUpdated();
     }
 
     private static class TestBindingContext extends BindingContext {

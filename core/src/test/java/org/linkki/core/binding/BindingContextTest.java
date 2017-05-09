@@ -108,7 +108,7 @@ public class BindingContextTest {
 
         context.add(binding1);
 
-        context.notifyUIUpdate();
+        context.uiUpdated();
         verify(binding1).updateFromPmo();
         verify(afterUpdateUi, never()).apply();
     }
@@ -120,7 +120,7 @@ public class BindingContextTest {
 
         binding1 = spy(binding1);
 
-        context.notifyUIUpdate();
+        context.uiUpdated();
 
         verify(binding1, never()).updateFromPmo();
         verify(binding1, never()).displayMessages(any(MessageList.class));
@@ -159,12 +159,12 @@ public class BindingContextTest {
         setUpBinding1();
         binding1 = spy(binding1);
 
-        context.notifyUIUpdate();
+        context.uiUpdated();
         verify(binding1, never()).updateFromPmo();
 
         context.add(binding1);
 
-        context.notifyUIUpdate();
+        context.uiUpdated();
         verify(binding1).updateFromPmo();
     }
 

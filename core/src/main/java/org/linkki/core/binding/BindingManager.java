@@ -165,7 +165,7 @@ public abstract class BindingManager {
      * method has to be called manually.
      */
     public void notifyUiUpdateObservers() {
-        uiUpdateObservers.forEach(o -> o.notifyUIUpdate());
+        uiUpdateObservers.forEach(o -> o.uiUpdated());
     }
 
     @Override

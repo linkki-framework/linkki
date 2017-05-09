@@ -180,7 +180,7 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     @Override
-    public void notifyUIUpdate() {
+    public void uiUpdated() {
         updateBindings();
     }
 
