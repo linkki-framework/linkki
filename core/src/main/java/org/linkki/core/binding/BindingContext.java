@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
 
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
+import org.linkki.core.binding.aspect.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
@@ -82,7 +82,7 @@ public class BindingContext implements UiUpdateObserver {
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
-     * @param behaviorProvider used to retrieve all {@link InjectablePropertyBehavior}s that are
+     * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are
      *            relevant to this context
      * @param afterUpdateHandler a handler that is applied after the UI update. Usually
      *            {@link BindingManager#afterUpdateUi()}

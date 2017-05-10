@@ -9,7 +9,7 @@ package org.linkki.core.binding.dispatcher;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.linkki.core.binding.aspect.InjectablePropertyBehavior;
+import org.linkki.core.binding.aspect.PropertyBehavior;
 
 @FunctionalInterface
 public interface PropertyBehaviorProvider {
@@ -17,10 +17,10 @@ public interface PropertyBehaviorProvider {
     /**
      * A provider that provides no additional / special behavior.
      */
-    public static final PropertyBehaviorProvider NO_BEHAVIOR_PROVIDER = () -> Collections.emptyList();
+    PropertyBehaviorProvider NO_BEHAVIOR_PROVIDER = Collections::emptyList;
 
     /**
      * Returns all behaviors relevant for the given context.
      */
-    public Collection<InjectablePropertyBehavior> getBehaviors();
+    Collection<PropertyBehavior> getBehaviors();
 }
