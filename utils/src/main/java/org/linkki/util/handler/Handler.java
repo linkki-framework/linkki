@@ -12,7 +12,7 @@ import static java.util.Objects.requireNonNull;
  * A functional interface to proceed any operation. May be used to provide click handler or any
  * other runnable action.
  * <p>
- * Handlers could be composed using the {@link #andThen(Handler)} method.
+ * Handlers can be composed using the {@link #andThen(Handler)} method.
  */
 @FunctionalInterface
 public interface Handler {
@@ -28,8 +28,8 @@ public interface Handler {
     void apply();
 
     /**
-     * Returns a composed handler that first executes this handler {@link #apply()} method and then
-     * the {@link #apply()} method of the given handler.
+     * Returns a composed handler that first executes this handler's {@link #apply()} method and
+     * then the {@link #apply()} method of the given handler.
      */
     default Handler andThen(Handler after) {
         requireNonNull(after, "after must not be null");

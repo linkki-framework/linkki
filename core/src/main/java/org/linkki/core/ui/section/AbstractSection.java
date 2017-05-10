@@ -12,7 +12,6 @@ import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Alignment;
@@ -115,7 +114,7 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     private void createOpenCloseButton() {
-        final OpenCloseButtonPmo buttonPmo = new OpenCloseButtonPmo(this::switchOpenStatus);
+        ButtonPmo buttonPmo = ButtonPmo.Builder.action(this::switchOpenStatus).icon(FontAwesome.ANGLE_DOWN).get();
         openCloseButton = ComponentFactory.newButton(buttonPmo.getButtonIcon(), buttonPmo.getStyleNames());
         openCloseButton.addClickListener(e -> buttonPmo.onClick());
         if (header != null) {
@@ -192,27 +191,6 @@ public abstract class AbstractSection extends VerticalLayout {
             if (c != header) {
                 c.setVisible(open);
             }
-        }
-    }
-
-    /** PMO for the {@link #openCloseButton}. */
-    private static class OpenCloseButtonPmo implements ButtonPmo {
-
-        private Runnable switchRunnable;
-
-        public OpenCloseButtonPmo(Runnable switchRunnable) {
-            super();
-            this.switchRunnable = requireNonNull(switchRunnable, "switchRunnable must not be null");
-        }
-
-        @Override
-        public void onClick() {
-            switchRunnable.run();
-        }
-
-        @Override
-        public Resource getButtonIcon() {
-            return FontAwesome.ANGLE_DOWN;
         }
     }
 

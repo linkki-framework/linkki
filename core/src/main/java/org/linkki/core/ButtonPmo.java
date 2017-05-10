@@ -9,6 +9,7 @@ import java.util.Collection;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.Validate;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
@@ -46,15 +47,15 @@ public interface ButtonPmo {
         return true;
     }
 
-    public static ButtonPmo newEditButton(Runnable onClickAction) {
-        return onClickAction::run;
+    public static ButtonPmo newEditButton(Handler onClickAction) {
+        return onClickAction::apply;
     }
 
-    public static ButtonPmo newAddButton(Runnable onClickAction) {
+    public static ButtonPmo newAddButton(Handler onClickAction) {
         return Builder.action(onClickAction).icon(FontAwesome.PLUS).get();
     }
 
-    public static ButtonPmo newDeleteButton(Runnable onClickAction) {
+    public static ButtonPmo newDeleteButton(Handler onClickAction) {
         return Builder.action(onClickAction).icon(FontAwesome.TRASH_O).get();
     }
 
@@ -64,16 +65,16 @@ public interface ButtonPmo {
      */
     public static class Builder {
 
-        private Runnable action;
+        private Handler action;
 
         @Nullable
         private Resource icon;
 
-        public Builder(Runnable onClickAction) {
+        public Builder(Handler onClickAction) {
             this.action = requireNonNull(onClickAction, "onClickAction must not be null");
         }
 
-        public static Builder action(Runnable onClickAction) {
+        public static Builder action(Handler onClickAction) {
             return new Builder(onClickAction);
         }
 
@@ -89,7 +90,7 @@ public interface ButtonPmo {
 
                 @Override
                 public void onClick() {
-                    action.run();
+                    action.apply();
                 }
 
                 @Override
