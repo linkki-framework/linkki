@@ -1,19 +1,29 @@
-== Erstellung eines UI mit Linkki
+== Erstellung eines UI mit linkki
 :source-dir: ../../../../samples/binding/src/main/java
 
-Mit *linkki* git es 2 Möglichkeiten ein UI aufzubauen:
+Mit *linkki* git es zwei Möglichkeiten ein UI zu erstellen:
 
 1. <<pmo-uisection, mittels `@UISection` am PMO>>
 2. <<manual-binding, manuelles Binding über `@Bind`>>
 
+Im ersten Fall wird automatisch eine sogenannte _Section_ erzeugt, in der UI Elemente organisiert werden. Die zweite Option überlässt die Erstellung der UI-Elementen ganz dem Anwender.
+
+=== Section
+
+Eine Gruppe von Eingabefeldern oder eine Tabelle wird als _Section_ bezeichnet. Eine Section kann einen Titel haben und wird in diesem Fall auch optisch durch eine Linie in der Titelleiste abgegrenzt. Wenn eine Section keinen Titel hat, ist sie optisch im fließenden Layout nicht direkt zu erkennen.
+
+Eine Section legt außderdem fest, in welcher Anordnung der Inhalt dargestellt werden soll: horizontal oder vertikal. Im horizontalen Layout werden alle Eingabefelder in einer Zeile, nebeneinander dargestellt. Im vertikalen Layout werden die Felder untereinander dargetstellt. Wenn zusätzlich eine Anzahl von Spalten durch die Eigenschaft `columns` festgelegt wird, wird zeilenweise (links-rechts) eine Art Grid Layout aufgebaut.
+
+Die Section kann anstatt mehrere Eingabefelder auch eine Tabelle enthalten und wird dann als _TableSection_ genannt.
+
 [[pmo-uisection]]
 === PresentationModelObject mit `@UISection`
 
-Wird eine Klasse mit `@UISection` annotiert, übernimmt linkki die Kontrolle über die Erstellung und Anordnung der definierten Komponenten. Über die Annotation für die zugehörigen <<missing-link, `UIElemente`>> können bestimmte Aspekte definiert und/oder gesteuert werden. Die `@UISections` werden über <<missing-link, `SectionFactories`>> erstellt.
+Wird eine Klasse mit `@UISection` annotiert, übernimmt linkki die Kontrolle über die Erstellung und Anordnung der definierten Komponenten. Über die Annotation für die zugehörigen <<missing-link, `UIElemente`>> können bestimmte Aspekte definiert und/oder gesteuert werden. Die Sections werden über <<missing-link, `SectionFactories`>> erstellt.
 
-Die <<missing-link, `UIElemente`>> werden entweder an die 'properties' eines <<binding-modelObjet, `ModelObjects`>> oder eines PMO's gebunden.
+Die <<missing-link, `UIElemente`>> werden entweder an die 'properties' eines <<binding-modelObjet, `ModelObjects`>> oder eines PMO's gebunden. Eine detaillierte Beschreibung gibt es im Kapitel <<missing-link, `Daten auf mehreren Ebenen`>>.
 
-Im <<abschnitt-form-binding, ersten Abschnitt>> wird die Erstellung einer `@UISection` eines 'standard' Formulars beschrieben. Im <<abschnitt-binding-table, zweiten Abschnitt>> wird das erstellen einer `@UISection` mit einer Tabelle erleutert.
+Im <<abschnitt-form-binding, ersten Abschnitt>> wird die Erstellung einer Section eines 'standard' Formulars beschrieben. Im <<abschnitt-binding-table, zweiten Abschnitt>> wird das erstellen einer Section mit einer Tabelle erleutert.
 
 [[abschnitt-form-binding]]
 ==== Binding eines Formulars
@@ -24,12 +34,12 @@ Im <<abschnitt-form-binding, ersten Abschnitt>> wird die Erstellung einer `@UISe
 ----
 include::{source-dir}/org/linkki/samples/binding/pmo/PersonPmo.java[tags=personPmo-class]
 ----
-TIP: die Definition von `modelAttribute` ist optional, wenn der Feldname im `ModelObject` und der Name der annotierten Methode gleich sind.
+TIP: die Definition von `modelAttribute` ist optional, wenn der Property Name im `ModelObject` und der Name der annotierten Methode gleich sind.
 
 [[abschnitt-binding-table]]
 ==== Binding einer Tabelle
 
-Um eine `@UISection` mit einer Tabelle zu erzeugen muss die annotierte Klasse <<missing-link, `org.linkki.core.ui.table.ContainerPmo<T>`>> implementieren. Der `Generic`-Parameter `T` repräsentiert den Typ des PMOs um eine Zeile in dieser Tabelle zu erzeugen.
+Um eine Section mit einer Tabelle zu erzeugen muss die annotierte Klasse <<missing-link, `org.linkki.core.ui.table.ContainerPmo<T>`>> implementieren. Der `Generic`-Parameter `T` repräsentiert den Typ des PMOs um eine Zeile in dieser Tabelle zu erzeugen.
 
 [source,java]
 ----
