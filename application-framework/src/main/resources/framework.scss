@@ -17,7 +17,7 @@ $v-unit-size: 26px;
   /* 
    * Styling for the application's header section.
    */
- .f10-application-header {
+ .linkki-application-header {
    background-color:#205081;
    color:#FFFFFF;
    border-bottom-style: solid;
@@ -25,24 +25,24 @@ $v-unit-size: 26px;
    border-bottom-color:#AAAAAA;
    width: 100% !important;
  
-    .f10-menu-wrapper {
+    .linkki-menu-wrapper {
       width: 100% !important;
       
-      .f10-horizontal-spacer {
+      .linkki-horizontal-spacer {
         height:100% !important;
       }
     }
   }
- .f10-application-header.v-margin-top {
+ .linkki-application-header.v-margin-top {
      padding-top: 5px;}
- .f10-application-header.v-margin-bottom {
+ .linkki-application-header.v-margin-bottom {
      padding-bottom: 5px;}
 
 
   /* 
    * Style for the top level items in the applications main menu in the header including Preferences and help icon.
    */
-  .f10-application-header .v-menubar-menuitem-f10-application-menu .v-menubar-menuitem-caption {
+  .linkki-application-header .v-menubar-menuitem-linkki-application-menu .v-menubar-menuitem-caption {
    color:#FFFFFF;
    font-size: 120%;  
  }
@@ -50,7 +50,7 @@ $v-unit-size: 26px;
  /* 
   * Styles for dialog.
   */
- .f10-dialog-caption .v-window-outerheader {
+ .linkki-dialog-caption .v-window-outerheader {
      font-size: 140%;  
  	 padding-top: 10px;
  	 padding-bottom: 10px;
@@ -59,7 +59,7 @@ $v-unit-size: 26px;
      border-bottom-color:#AAAAAA;
  }
 
- .f10-dialog-content {
+ .linkki-dialog-content {
  	 margin-top: 20px;
  	 margin-bottom: 20px;
  	 margin-left: 20px;
@@ -70,14 +70,14 @@ $v-unit-size: 26px;
  /* 
   * Style for login panel
   */
- .f10-login-panel-caption {
+ .linkki-login-panel-caption {
    width:33% !important;
    color:white;
    background-color:#205081;
    background-image: unquote("linear-gradient(to bottom, #397abc 2%, #648eba 98%)");
  }
 
- .f10-info-panel-caption {
+ .linkki-info-panel-caption {
    width:100% !important;
    color:white;
    background-color:#205081;
