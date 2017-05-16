@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.util.handler.Handler;
@@ -24,9 +24,7 @@ import com.vaadin.ui.Label;
  * visibility, enabled-state etc. The given property name is only used as fallback if there is
  * {@link UIFieldDefinition#modelAttribute()} is not set.
  */
-public class FieldDescriptor extends ElementDescriptor {
-
-    private final String pmoPropertyName;
+public class FieldDescriptor extends AbstractFieldDescriptor {
 
     /**
      * Constructs a new field description.
@@ -36,34 +34,11 @@ public class FieldDescriptor extends ElementDescriptor {
      * @param pmoPropertyName name of the corresponding method in the PMO
      */
     public FieldDescriptor(UIFieldDefinition fieldDef, UIToolTipDefinition toolTipDefinition, String pmoPropertyName) {
-        super(fieldDef, toolTipDefinition);
-        this.pmoPropertyName = requireNonNull(pmoPropertyName, "pmoPropertyName must not be null");
+        super(fieldDef, toolTipDefinition, pmoPropertyName);
     }
 
     @Override
-    protected UIFieldDefinition getBindingDefinition() {
-        return (UIFieldDefinition)super.getBindingDefinition();
-    }
-
-    /**
-     * Property derived from the "modelAttribute" property defined by the annotation. If no
-     * "modelAttribute" exists, derives the property name from the name of the annotated method.
-     */
-    @Override
-    public String getModelPropertyName() {
-        if (StringUtils.isEmpty(getBindingDefinition().modelAttribute())) {
-            return getPmoPropertyName();
-        }
-        return getBindingDefinition().modelAttribute();
-    }
-
-    @Override
-    public String getModelObjectName() {
-        return getBindingDefinition().modelObject();
-    }
-
-    @Override
-    public FieldBinding<?> createBinding(PropertyDispatcher propertyDispatcher,
+    public ElementBinding createBinding(PropertyDispatcher propertyDispatcher,
             Handler updateUi,
             Component component,
             @Nullable Label label) {
@@ -73,33 +48,4 @@ public class FieldDescriptor extends ElementDescriptor {
         return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, updateUi);
     }
 
-    @Override
-    public String getPmoPropertyName() {
-        return pmoPropertyName;
-    }
-
-    /**
-     * Derives the label from the label defined in the annotation. If no label is defined, derives
-     * the label from the property name.
-     */
-    @SuppressWarnings("null")
-    @Override
-    public String getLabelText() {
-        if (!getBindingDefinition().showLabel()) {
-            return "";
-        }
-
-        String label = getBindingDefinition().label();
-        if (StringUtils.isEmpty(label)) {
-            label = StringUtils.capitalize(getModelPropertyName());
-        }
-        return label;
-    }
-
-    @Override
-    public String toString() {
-        return "FieldDescriptor [getBindingDefinition()=" + getBindingDefinition() + ", fallbackPropertyName="
-                + getPmoPropertyName()
-                + "]";
-    }
 }

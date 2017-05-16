@@ -8,7 +8,6 @@ package org.linkki.core.ui.section.annotations.adapters;
 
 import org.linkki.core.ui.section.annotations.CaptionType;
 import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIButtonDefinition;
@@ -71,11 +70,6 @@ public class ButtonBindingDefinition implements UIButtonDefinition {
     @Override
     public RequiredType required() {
         return RequiredType.NOT_REQUIRED;
-    }
-
-    @Override
-    public String modelObject() {
-        return ModelObject.DEFAULT_NAME;
     }
 
     @Override

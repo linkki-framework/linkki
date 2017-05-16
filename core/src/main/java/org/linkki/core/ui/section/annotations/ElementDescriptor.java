@@ -6,6 +6,8 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.vaadin.ui.Component;
 
 /**
@@ -28,8 +30,22 @@ public abstract class ElementDescriptor extends BindingDescriptor {
         return getBindingDefinition().position();
     }
 
-    /** The text for the UI element's label. */
-    public abstract String getLabelText();
+    /**
+     * Derives the label from the label defined in the annotation. If no label is defined, derives
+     * the label from the property name.
+     */
+    @SuppressWarnings("null")
+    public String getLabelText() {
+        if (!getBindingDefinition().showLabel()) {
+            return "";
+        }
+
+        String label = getBindingDefinition().label();
+        if (StringUtils.isEmpty(label)) {
+            label = StringUtils.capitalize(getModelPropertyName());
+        }
+        return label;
+    }
 
     /** Creates a new Vaadin UI component for this UI element. */
     public Component newComponent() {

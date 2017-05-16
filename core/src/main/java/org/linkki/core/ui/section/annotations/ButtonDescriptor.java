@@ -40,7 +40,7 @@ public class ButtonDescriptor extends ElementDescriptor {
 
     @Override
     public String getModelObjectName() {
-        return getBindingDefinition().modelObject();
+        return ModelObject.DEFAULT_NAME;
     }
 
     @Override
@@ -56,33 +56,8 @@ public class ButtonDescriptor extends ElementDescriptor {
     }
 
     @Override
-    public RequiredType required() {
-        return RequiredType.NOT_REQUIRED;
-    }
-
-    @Override
-    public AvailableValuesType availableValues() {
-        return AvailableValuesType.NO_VALUES;
-    }
-
-    @Override
     public String getPmoPropertyName() {
-        return getModelPropertyName();
-    }
-
-    @Override
-    public int getPosition() {
-        return getBindingDefinition().position();
-    }
-
-    @Override
-    public String getLabelText() {
-        if (getBindingDefinition().showLabel()) {
-            return getBindingDefinition().label();
-        } else {
-            return "";
-        }
-
+        return methodName;
     }
 
     public CaptionType captionType() {

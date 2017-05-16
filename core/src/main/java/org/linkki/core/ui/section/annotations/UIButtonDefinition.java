@@ -12,6 +12,7 @@ import com.vaadin.ui.Button;
  * The element definition for the {@link UIButton} annotation.
  */
 public interface UIButtonDefinition extends UIElementDefinition {
+
     public CaptionType captionType();
 
     public String caption();

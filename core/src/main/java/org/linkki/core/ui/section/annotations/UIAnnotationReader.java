@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
 import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.linkki.util.BeanUtils;
 
@@ -85,15 +86,15 @@ public class UIAnnotationReader {
             UIToolTipDefinition toolTipDefinition,
             Method method) {
         ElementDescriptor descriptor;
-        if (uiElement instanceof UIFieldDefinition) {
+        if (uiElement instanceof LabelBindingDefinition) {
+            descriptor = new LabelDescriptor((UIFieldDefinition)uiElement, toolTipDefinition,
+                                             getPmoPropertyName(method));
+        } else if (uiElement instanceof UIFieldDefinition) {
             descriptor = new FieldDescriptor((UIFieldDefinition)uiElement, toolTipDefinition,
                     getPmoPropertyName(method));
         } else if (uiElement instanceof UIButtonDefinition) {
             descriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, toolTipDefinition, method.getName());
-        } else if (uiElement instanceof UILabelDefinition) {
-            descriptor = new LabelDescriptor((UILabelDefinition)uiElement, toolTipDefinition,
-                    getPmoPropertyName(method));
-        } else {
+        } else  {
             throw new IllegalStateException(
                     "Unknown UIElementDefinition of type " + uiElement + " on method " + method);
         }
