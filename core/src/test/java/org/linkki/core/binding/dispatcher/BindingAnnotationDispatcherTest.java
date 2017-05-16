@@ -65,8 +65,9 @@ public class BindingAnnotationDispatcherTest {
         objectWithUIAnnotations = new TestObjectWithUIAnnotations();
         UIAnnotationReader uiAnnotationReader = new UIAnnotationReader(objectWithUIAnnotations.getClass());
         uiAnnotationDispatchers = uiAnnotationReader.getUiElements().stream()
-                .collect(Collectors.toMap(e -> e.getModelPropertyName(),
-                                          e -> new BindingAnnotationDispatcher(uiAnnotationFallbackDispatcher, e)));
+                .collect(Collectors.toMap(e -> e.getPmoPropertyName(),
+                                          e -> new BindingAnnotationDispatcher(uiAnnotationFallbackDispatcher,
+                                                  e.getDescriptor(objectWithUIAnnotations))));
 
         objectWithBindAnnotation = new TestObjectWithBindAnnotation();
         bindAnnotationDispatcher = new BindingAnnotationDispatcher(bindAnnotationFallbackDispatcher,

@@ -12,8 +12,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -22,6 +20,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
+import org.linkki.core.ui.section.annotations.ElementDescriptors;
 import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
 import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 
@@ -68,8 +67,8 @@ public class PmoBasedTableFactory<T> {
      */
     public Table createTable() {
         Table table = createTableComponent();
-        Set<String> columnNames = createColumns(table);
-        bindTable(table, columnNames);
+        createColumns(table);
+        bindTable(table);
         table.setPageLength(containerPmo.getPageLength());
         return table;
     }
@@ -91,12 +90,9 @@ public class PmoBasedTableFactory<T> {
         return table;
     }
 
-    private Set<String> createColumns(Table table) {
-        Set<ElementDescriptor> uiElements = annotationReader.getUiElements();
-        for (ElementDescriptor uiElement : uiElements) {
-            createColumn(table, uiElement);
-        }
-        return uiElements.stream().map(e -> e.getModelPropertyName()).collect(Collectors.toSet());
+    private void createColumns(Table table) {
+        annotationReader.getUiElements()
+                .forEach(e -> createColumn(table, e));
     }
 
     /**
@@ -105,29 +101,29 @@ public class PmoBasedTableFactory<T> {
      * 
      * @param elementDesc the descriptor for the PMO's field
      */
-    private void createColumn(Table table, ElementDescriptor elementDesc) {
-        FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<T>(elementDesc, bindingContext);
-        String propertyName = elementDesc.getModelPropertyName();
+    private void createColumn(Table table, ElementDescriptors elementDesc) {
+        FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<>(elementDesc, bindingContext);
+        String propertyName = elementDesc.getPmoPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
         table.setColumnHeader(propertyName, elementDesc.getLabelText());
         setConfiguredColumndWidthOrExpandRatio(table, elementDesc);
     }
 
-    private void setConfiguredColumndWidthOrExpandRatio(Table table, ElementDescriptor field) {
+    private void setConfiguredColumndWidthOrExpandRatio(Table table, ElementDescriptors field) {
         if (!annotationReader.hasTableColumnAnnotation(field)) {
             return;
         }
         TableColumnDescriptor column = annotationReader.getTableColumnDescriptor(field);
         column.checkValidConfiguration();
         if (column.isCustomWidthDefined()) {
-            table.setColumnWidth(field.getModelPropertyName(), column.getWidth());
+            table.setColumnWidth(field.getPmoPropertyName(), column.getWidth());
         } else if (column.isCustomExpandRatioDefined()) {
-            table.setColumnExpandRatio(field.getModelPropertyName(), column.getExpandRatio());
+            table.setColumnExpandRatio(field.getPmoPropertyName(), column.getExpandRatio());
         }
     }
 
-    private void bindTable(Table table, Set<String> columnNames) {
-        TableBinding.create(bindingContext, table, columnNames, getContainerPmo());
+    private void bindTable(Table table) {
+        TableBinding.create(bindingContext, table, getContainerPmo());
     }
 
     /** Column generator that generates a column for a field of a PMO. */
@@ -135,11 +131,11 @@ public class PmoBasedTableFactory<T> {
 
         private static final long serialVersionUID = 1L;
 
-        private final ElementDescriptor elementDescriptor;
+        private final ElementDescriptors elementDescriptors;
         private final BindingContext bindingContext;
 
-        public FieldColumnGenerator(ElementDescriptor elementDescriptor, BindingContext bindingContext) {
-            this.elementDescriptor = requireNonNull(elementDescriptor, "elementDescriptor must not be null");
+        public FieldColumnGenerator(ElementDescriptors elementDescriptors, BindingContext bindingContext) {
+            this.elementDescriptors = requireNonNull(elementDescriptors, "elementDescriptors must not be null");
             this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         }
 
@@ -148,6 +144,7 @@ public class PmoBasedTableFactory<T> {
                 @SuppressWarnings("null") Object itemId,
                 @Nullable Object columnId) {
             requireNonNull(itemId, "itemId must not be null");
+            ElementDescriptor elementDescriptor = elementDescriptors.getDescriptor(itemId);
             Component component = elementDescriptor.newComponent();
             component.addStyleName(ApplicationStyles.BORDERLESS);
             component.addStyleName(ApplicationStyles.TABLE_CELL);

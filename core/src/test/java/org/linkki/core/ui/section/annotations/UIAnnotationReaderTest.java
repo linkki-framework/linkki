@@ -73,14 +73,14 @@ public class UIAnnotationReaderTest {
 
     @Test
     public void testToolTipStatic() {
-        ElementDescriptor desc = reader.findDescriptor("test");
+        ElementDescriptor desc = reader.findDescriptors("test").getDescriptor(new TestPmo());
         assertEquals("TestToolTip", desc.getToolTip());
         assertEquals(ToolTipType.STATIC, desc.getToolTipType());
     }
 
     @Test
     public void testToolTipDynamic() {
-        ElementDescriptor desc = reader.findDescriptor("test3");
+        ElementDescriptor desc = reader.findDescriptors("test3").getDescriptor(new TestPmo());
         assertEquals(ToolTipType.DYNAMIC, desc.getToolTipType());
     }
 
