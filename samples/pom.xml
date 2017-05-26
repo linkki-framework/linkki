@@ -33,6 +33,7 @@
     <modules>
         <module>getting-started</module>
         <module>binding</module>
+        <module>dynamic-fields</module>
     </modules>
 
 
