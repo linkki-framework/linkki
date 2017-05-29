@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.vaadin.data.util.converter.Converter;
 
-abstract class AbstractNumberFieldConverter<T extends Number> implements Converter<String, T> {
+public abstract class AbstractNumberFieldConverter<T extends Number> implements Converter<String, T> {
 
     private static final long serialVersionUID = -872944068146887949L;
 
