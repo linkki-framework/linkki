@@ -9,6 +9,8 @@ package org.linkki.core.ui.section.annotations;
  */
 public interface UIFieldDefinition extends UIElementDefinition {
 
+    String modelObject();
+
     String modelAttribute();
 
 }

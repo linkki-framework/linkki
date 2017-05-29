@@ -28,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.vaadin.data.Container.ItemSetChangeListener;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -53,9 +54,11 @@ public class TableBindingTest {
     public void setUp() {
         containerPmo = new TestTablePmo();
         containerPmo.addItem();
-        tableBinding = new TableBinding<TestRowPmo>(bindingContext, table, columnNames, containerPmo);
-        tableBinding.addItemSetChangeListener(listener);
 
+        columnNames.forEach(c -> table.addGeneratedColumn(c, (source, itemId, columnId) -> new Label()));
+
+        tableBinding = new TableBinding<TestRowPmo>(bindingContext, table, containerPmo);
+        tableBinding.addItemSetChangeListener(listener);
     }
 
     @Test

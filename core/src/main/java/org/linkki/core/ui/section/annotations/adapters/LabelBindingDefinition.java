@@ -11,14 +11,14 @@ import static java.util.Objects.requireNonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.UILabel;
-import org.linkki.core.ui.section.annotations.UILabelDefinition;
 import org.linkki.core.ui.section.annotations.VisibleType;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-public class LabelBindingDefinition implements UILabelDefinition {
+public class LabelBindingDefinition implements UIFieldDefinition {
 
     private UILabel labelAnnotation;
 

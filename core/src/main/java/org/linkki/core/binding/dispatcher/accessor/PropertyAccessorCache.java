@@ -4,20 +4,19 @@
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-package org.linkki.core.binding.dispatcher;
+package org.linkki.core.binding.dispatcher.accessor;
 
 import static java.util.Objects.requireNonNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNullableByDefault;
 
-import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 import org.linkki.util.LazyInitializingMap;
 
 /**
  * Global static cache for {@link PropertyAccessor PropertyAccessors}.
  */
-class PropertyAccessorCache {
+public final class PropertyAccessorCache {
 
     private static final LazyInitializingMap<CacheKey, PropertyAccessor> ACCESSOR_CACHE = new LazyInitializingMap<>(
             key -> new PropertyAccessor(key.clazz, key.property));

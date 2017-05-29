@@ -11,7 +11,6 @@ import static org.junit.Assert.assertThat;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.linkki.core.binding.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -26,9 +25,7 @@ import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.UIToolTip;
-import org.mockito.runners.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
 public class IntegrationTest {
     private static final String ANY_VALUE = "ukztu7kxju76r";
 
@@ -40,7 +37,7 @@ public class IntegrationTest {
 
     @Test
     public void testGetStaticToolTipFromUIComboBox() {
-        ElementDescriptor elementDescriptor = reader.findDescriptor("xyz");
+        ElementDescriptor elementDescriptor = reader.findDescriptors("xyz").getDescriptor(pmo);
 
         PropertyDispatcher dispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
@@ -49,7 +46,7 @@ public class IntegrationTest {
 
     @Test
     public void testGetStaticToolTipFromUIButton() {
-        ElementDescriptor elementDescriptor = reader.findDescriptor("button1");
+        ElementDescriptor elementDescriptor = reader.findDescriptors("button1").getDescriptor(pmo);
 
         PropertyDispatcher dispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
@@ -58,7 +55,7 @@ public class IntegrationTest {
 
     @Test
     public void testGetDynamicToolTipFromUIButton() {
-        ElementDescriptor elementDescriptor = reader.findDescriptor("button2");
+        ElementDescriptor elementDescriptor = reader.findDescriptors("button2").getDescriptor(pmo);
 
         PropertyDispatcher dispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
@@ -69,7 +66,7 @@ public class IntegrationTest {
 
     @Test
     public void testGetDynamicToolTipFromUITextField() {
-        ElementDescriptor elementDescriptor = reader.findDescriptor("abc");
+        ElementDescriptor elementDescriptor = reader.findDescriptors("abc").getDescriptor(pmo);
 
         PropertyDispatcher dispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
@@ -80,7 +77,7 @@ public class IntegrationTest {
 
     @Test
     public void testGetStaticCaptionFromUIButton() {
-        ElementDescriptor elementDescriptor = reader.findDescriptor("button1");
+        ElementDescriptor elementDescriptor = reader.findDescriptors("button1").getDescriptor(pmo);
 
         PropertyDispatcher dispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
@@ -89,7 +86,7 @@ public class IntegrationTest {
 
     @Test
     public void testGetDynamicCaptionFromUIButton() {
-        ElementDescriptor elementDescriptor = reader.findDescriptor("button2");
+        ElementDescriptor elementDescriptor = reader.findDescriptors("button2").getDescriptor(pmo);
 
         PropertyDispatcher dispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);

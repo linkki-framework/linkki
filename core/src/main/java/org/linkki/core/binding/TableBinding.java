@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -28,14 +27,13 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
     private final BindingContext bindingContext;
 
     private final Table table;
-    private final Set<String> columnNames;
     private final ContainerPmo<T> containerPmo;
 
-    public TableBinding(BindingContext bindingContext, Table table, Set<String> columnNames,
+    public TableBinding(BindingContext bindingContext,
+            Table table,
             ContainerPmo<T> containerPmo) {
         this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         this.table = requireNonNull(table, "table must not be null");
-        this.columnNames = requireNonNull(columnNames, "columnNames must not be null");
         this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
         table.setContainerDataSource(this);
         addAllItems(containerPmo.getItems());
@@ -67,8 +65,8 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
         Optional<TableFooterPmo> footerPmo = containerPmo.getFooterPmo();
         table.setFooterVisible(footerPmo.isPresent());
         if (footerPmo.isPresent()) {
-            for (String column : columnNames) {
-                String text = footerPmo.get().getFooterText(column);
+            for (Object column : table.getVisibleColumns()) {
+                String text = footerPmo.get().getFooterText((String)column);
                 table.setColumnFooter(column, text);
             }
         }
@@ -108,16 +106,14 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
      * @param bindingContext The binding context used to bind the given {@link ContainerPmo} to the
      *            given {@link Table}
      * @param table The table that should be updated by this binding
-     * @param columnNames The table's column names (propertyIds)
      * @param containerPmo The {@link ContainerPmo} that holds the item that should be displayed in
      *            the table
      * @return The newly created {@link TableBinding}
      */
     public static <T> TableBinding<T> create(BindingContext bindingContext,
             Table table,
-            Set<String> columnNames,
             ContainerPmo<T> containerPmo) {
-        TableBinding<T> tableBinding = new TableBinding<T>(bindingContext, table, columnNames, containerPmo);
+        TableBinding<T> tableBinding = new TableBinding<T>(bindingContext, table, containerPmo);
         bindingContext.add(tableBinding);
         return tableBinding;
     }

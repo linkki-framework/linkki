@@ -38,8 +38,6 @@ public interface UIElementDefinition extends BindingDefinition {
 
     boolean showLabel();
 
-    String modelObject();
-
     /**
      * Returns {@code true} if the given annotation is a non-null annotation marked as
      * {@link LinkkiBindingDefinition}.

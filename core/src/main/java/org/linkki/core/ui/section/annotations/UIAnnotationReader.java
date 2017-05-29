@@ -2,14 +2,12 @@ package org.linkki.core.ui.section.annotations;
 
 import static java.util.Objects.requireNonNull;
 
-import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -21,6 +19,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
 import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.linkki.util.BeanUtils;
 
@@ -34,26 +33,24 @@ import org.linkki.util.BeanUtils;
  */
 public class UIAnnotationReader {
 
-    private static final PositionComparator POSITION_COMPARATOR = new PositionComparator();
-
     private final Class<?> annotatedClass;
-    private final Set<ElementDescriptor> descriptors;
-    private final Map<ElementDescriptor, TableColumnDescriptor> columnDescriptors;
+    private final Map<Integer, ElementDescriptors> descriptors;
+    private final Map<ElementDescriptors, TableColumnDescriptor> columnDescriptors;
 
     public UIAnnotationReader(Class<?> annotatedClass) {
         this.annotatedClass = requireNonNull(annotatedClass, "annotatedClass must not be null");
-        descriptors = new HashSet<>();
+        descriptors = new HashMap<>();
         columnDescriptors = new HashMap<>();
         initDescriptorMaps();
     }
 
-    public Set<ElementDescriptor> getUiElements() {
-        TreeSet<ElementDescriptor> treeSet = new TreeSet<ElementDescriptor>(POSITION_COMPARATOR);
-        treeSet.addAll(descriptors);
+    public Set<ElementDescriptors> getUiElements() {
+        TreeSet<ElementDescriptors> treeSet = new TreeSet<>(Comparator.comparing(ElementDescriptors::getPosition));
+        treeSet.addAll(descriptors.values());
         return treeSet;
     }
 
-    public TableColumnDescriptor getTableColumnDescriptor(ElementDescriptor d) {
+    public TableColumnDescriptor getTableColumnDescriptor(ElementDescriptors d) {
         return columnDescriptors.get(d);
     }
 
@@ -62,18 +59,27 @@ public class UIAnnotationReader {
         descriptors.clear();
         Method[] methods = annotatedClass.getMethods();
         for (Method method : methods) {
-            if (isUiDefiningMethod(method)) {
-                UIElementDefinition uiElement = getUiElement(method);
-                UIToolTipDefinition toolTipDefinition = getUIToolTipDefinition(method);
-                ElementDescriptor descriptor = addDescriptor(uiElement, toolTipDefinition, method);
 
-                UITableColumn columnAnnotation = method.getAnnotation(UITableColumn.class);
-                if (columnAnnotation != null) {
-                    columnDescriptors.put(descriptor,
-                                          new TableColumnDescriptor(annotatedClass, method, columnAnnotation));
-                }
-            }
+            readUiAnnotations(method).forEach(a -> createAndAddDescriptor(a, method));
         }
+    }
+
+    private Stream<Annotation> readUiAnnotations(Method m) {
+        return Arrays.stream(m.getAnnotations())
+                .filter(UIElementDefinition::isLinkkiBindingDefinition);
+    }
+
+    private void createAndAddDescriptor(Annotation annotation, Method method) {
+        UIElementDefinition uiElement = UIElementDefinition.from(annotation);
+        UIToolTipDefinition toolTipDefinition = getUIToolTipDefinition(method);
+        ElementDescriptors elementDescriptors = addDescriptor(uiElement, toolTipDefinition, method, annotation);
+
+        UITableColumn columnAnnotation = method.getAnnotation(UITableColumn.class);
+        if (columnAnnotation != null) {
+            columnDescriptors.put(elementDescriptors,
+                                  new TableColumnDescriptor(annotatedClass, method, columnAnnotation));
+        }
+
     }
 
     private UIToolTipDefinition getUIToolTipDefinition(Method method) {
@@ -81,25 +87,29 @@ public class UIAnnotationReader {
         return new UIToolTipAdapter(toolTip);
     }
 
-    private ElementDescriptor addDescriptor(UIElementDefinition uiElement,
+    private ElementDescriptors addDescriptor(UIElementDefinition uiElement,
             UIToolTipDefinition toolTipDefinition,
-            Method method) {
+            Method method,
+            Annotation annotation) {
         ElementDescriptor descriptor;
-        if (uiElement instanceof UIFieldDefinition) {
+        if (uiElement instanceof LabelBindingDefinition) {
+            descriptor = new LabelDescriptor((UIFieldDefinition)uiElement, toolTipDefinition,
+                    getPmoPropertyName(method));
+        } else if (uiElement instanceof UIFieldDefinition) {
             descriptor = new FieldDescriptor((UIFieldDefinition)uiElement, toolTipDefinition,
                     getPmoPropertyName(method));
         } else if (uiElement instanceof UIButtonDefinition) {
             descriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, toolTipDefinition, method.getName());
-        } else if (uiElement instanceof UILabelDefinition) {
-            descriptor = new LabelDescriptor((UILabelDefinition)uiElement, toolTipDefinition,
-                    getPmoPropertyName(method));
         } else {
             throw new IllegalStateException(
                     "Unknown UIElementDefinition of type " + uiElement + " on method " + method);
         }
 
-        descriptors.add(descriptor);
-        return descriptor;
+        ElementDescriptors elementDescriptors = descriptors.computeIfAbsent(uiElement.position(),
+                                                                            ElementDescriptors::new);
+        elementDescriptors.addDescriptor(annotation, descriptor, annotatedClass);
+
+        return elementDescriptors;
     }
 
     private String getPmoPropertyName(Method method) {
@@ -112,32 +122,22 @@ public class UIAnnotationReader {
         }
     }
 
-    private boolean isUiDefiningMethod(Method method) {
-        return annotations(method).anyMatch(UIElementDefinition::isLinkkiBindingDefinition);
-    }
-
-    public UIElementDefinition getUiElement(Method method) {
-        return annotations(method)
-                .filter(UIElementDefinition::isLinkkiBindingDefinition)
-                .map(UIElementDefinition::from)
-                .findFirst().orElse(null);
-    }
-
-    private Stream<Annotation> annotations(Method m) {
-        return Arrays.stream(m.getAnnotations());
-    }
 
     /**
      * Currently for testing purposes only!
      *
      * @return the descriptor for the given property.
+     *
      * @throws NoSuchElementException if no descriptor with the given property can be found
      */
-    public ElementDescriptor findDescriptor(String propertyName) {
-        return getUiElements().stream().filter(el -> el.getPmoPropertyName().equals(propertyName)).findFirst().get();
+    public ElementDescriptors findDescriptors(String propertyName) {
+        return getUiElements().stream()
+                .filter(el -> el.getPmoPropertyName().equals(propertyName))
+                .findFirst()
+                .get();
     }
 
-    public boolean hasTableColumnAnnotation(ElementDescriptor d) {
+    public boolean hasTableColumnAnnotation(ElementDescriptors d) {
         return columnDescriptors.containsKey(d);
     }
 
@@ -150,6 +150,7 @@ public class UIAnnotationReader {
      * @param pmo a presentation model object
      * @param modelObjectName the name of the model object as provided by a method annotated with
      *            {@link ModelObject @ModelObject}
+     *
      * @return a supplier that supplies a model object by invoking the annotated method
      *
      * @throws ModelObjectAnnotationException if no matching method is found or the method has no
@@ -185,9 +186,10 @@ public class UIAnnotationReader {
     /**
      * Tests if the presentation model object has a method annotated with
      * {@link ModelObject @ModelObject} using a given name
-     * 
+     *
      * @param pmo an object used for a presentation model
      * @param modelObjectName the name of the model object
+     *
      * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using
      *         the given name
      */
@@ -222,22 +224,4 @@ public class UIAnnotationReader {
 
     }
 
-    /**
-     * Compares two annotated methods by their position.
-     */
-    static class PositionComparator implements Comparator<ElementDescriptor>, Serializable {
-
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public int compare(@Nullable ElementDescriptor fieldDef1, @Nullable ElementDescriptor fieldDef2) {
-            if (fieldDef1 == null) {
-                return fieldDef2 == null ? 0 : Integer.MIN_VALUE;
-            } else if (fieldDef2 == null) {
-                return Integer.MAX_VALUE;
-            }
-            return fieldDef1.getPosition() - fieldDef2.getPosition();
-        }
-
-    }
 }

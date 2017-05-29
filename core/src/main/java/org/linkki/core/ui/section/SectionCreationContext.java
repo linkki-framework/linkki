@@ -19,6 +19,7 @@ import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
+import org.linkki.core.ui.section.annotations.ElementDescriptors;
 import org.linkki.core.ui.section.annotations.SectionID;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UIAnnotationReader;
@@ -108,7 +109,8 @@ public class SectionCreationContext {
 
     private void createUiElements(BaseSection section) {
         UIAnnotationReader annotationReader = new UIAnnotationReader(getPmo().getClass());
-        for (ElementDescriptor uiElement : annotationReader.getUiElements()) {
+        for (ElementDescriptors elementDescriptors : annotationReader.getUiElements()) {
+            ElementDescriptor uiElement = elementDescriptors.getDescriptor(pmo);
             LabelComponent lf = createLabelAndComponent(section, uiElement);
             bindUiElement(uiElement, lf.component, lf.label);
         }

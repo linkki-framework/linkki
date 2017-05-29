@@ -10,7 +10,6 @@ import static java.util.Objects.requireNonNull;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.LabelBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -19,37 +18,11 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-public class LabelDescriptor extends ElementDescriptor {
+public class LabelDescriptor extends AbstractFieldDescriptor {
 
-    private final String pmoPropertyName;
-
-    public LabelDescriptor(UILabelDefinition labelDefinition, UIToolTipDefinition toolTipDefinition,
+    public LabelDescriptor(UIFieldDefinition labelDefinition, UIToolTipDefinition toolTipDefinition,
             String pmoPropertyName) {
-        super(labelDefinition, toolTipDefinition);
-        this.pmoPropertyName = requireNonNull(pmoPropertyName, "pmoPropertyName must not be null");
-    }
-
-    @Override
-    protected UILabelDefinition getBindingDefinition() {
-        return (UILabelDefinition)super.getBindingDefinition();
-    }
-
-    @Override
-    public AvailableValuesType availableValues() {
-        return getBindingDefinition().availableValues();
-    }
-
-    @Override
-    public String getModelPropertyName() {
-        if (StringUtils.isEmpty(getBindingDefinition().modelAttribute())) {
-            return getPmoPropertyName();
-        }
-        return getBindingDefinition().modelAttribute();
-    }
-
-    @Override
-    public String getModelObjectName() {
-        return getBindingDefinition().modelObject();
+        super(labelDefinition, toolTipDefinition, pmoPropertyName);
     }
 
     @Override
@@ -63,17 +36,4 @@ public class LabelDescriptor extends ElementDescriptor {
         return new LabelBinding(label, (Label)component, propertyDispatcher);
     }
 
-    @Override
-    public String getPmoPropertyName() {
-        return pmoPropertyName;
-    }
-
-    @Override
-    public String getLabelText() {
-        if (getBindingDefinition().showLabel()) {
-            return getBindingDefinition().label();
-        } else {
-            return "";
-        }
-    }
 }

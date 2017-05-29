@@ -32,6 +32,8 @@ import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinitio
 
 import com.vaadin.ui.Component;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class UIElementDefinitionTest {
 
     @UICheckBox(position = 0)
@@ -130,6 +132,7 @@ interface UIFooBarBindingDefinition extends UIElementDefinition {
 }
 
 @SuppressWarnings("null")
+@SuppressFBWarnings
 class UICustomBindingDefinition implements UIElementDefinition {
 
     /**
@@ -172,11 +175,6 @@ class UICustomBindingDefinition implements UIElementDefinition {
     @Override
     public boolean showLabel() {
         return false;
-    }
-
-    @Override
-    public String modelObject() {
-        return null;
     }
 
 }

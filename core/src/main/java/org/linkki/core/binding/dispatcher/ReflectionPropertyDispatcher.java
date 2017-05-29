@@ -20,6 +20,7 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
+import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
 
 /**
  * {@link PropertyDispatcher} that reads properties from an arbitrary object via reflection. Falls
