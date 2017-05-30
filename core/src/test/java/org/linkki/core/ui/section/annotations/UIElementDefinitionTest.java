@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.linkki.core.ui.section.annotations.adapters.CheckboxBindingDefinition;
 import org.linkki.core.ui.section.annotations.adapters.ComboboxBindingDefinition;
 import org.linkki.core.ui.section.annotations.adapters.DateFieldBindingDefinition;
-import org.linkki.core.ui.section.annotations.adapters.DecimalFieldBindingDefinition;
 import org.linkki.core.ui.section.annotations.adapters.DoubleFieldBindingDefinition;
 import org.linkki.core.ui.section.annotations.adapters.IntegerFieldBindingDefinition;
 import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
@@ -39,7 +38,6 @@ public class UIElementDefinitionTest {
     @UICheckBox(position = 0)
     @UIComboBox(position = 0)
     @UIDateField(position = 0)
-    @UIDecimalField(position = 0)
     @UIDoubleField(position = 0)
     @UIIntegerField(position = 0)
     @UITextArea(position = 0)
@@ -70,7 +68,6 @@ public class UIElementDefinitionTest {
         assertThat(UIElementDefinition.isLinkkiBindingDefinition(annotation(UICheckBox.class)), is(true));
         assertThat(UIElementDefinition.isLinkkiBindingDefinition(annotation(UIComboBox.class)), is(true));
         assertThat(UIElementDefinition.isLinkkiBindingDefinition(annotation(UIDateField.class)), is(true));
-        assertThat(UIElementDefinition.isLinkkiBindingDefinition(annotation(UIDecimalField.class)), is(true));
         assertThat(UIElementDefinition.isLinkkiBindingDefinition(annotation(UIDoubleField.class)), is(true));
         assertThat(UIElementDefinition.isLinkkiBindingDefinition(annotation(UIIntegerField.class)), is(true));
         assertThat(UIElementDefinition.isLinkkiBindingDefinition(annotation(UITextArea.class)), is(true));
@@ -85,7 +82,6 @@ public class UIElementDefinitionTest {
         assertThat(UIElementDefinition.from(annotation(UICheckBox.class)), is(instanceOf(CheckboxBindingDefinition.class)));
         assertThat(UIElementDefinition.from(annotation(UIComboBox.class)), is(instanceOf(ComboboxBindingDefinition.class)));
         assertThat(UIElementDefinition.from(annotation(UIDateField.class)), is(instanceOf(DateFieldBindingDefinition.class)));
-        assertThat(UIElementDefinition.from(annotation(UIDecimalField.class)), is(instanceOf(DecimalFieldBindingDefinition.class)));
         assertThat(UIElementDefinition.from(annotation(UIDoubleField.class)), is(instanceOf(DoubleFieldBindingDefinition.class)));
         assertThat(UIElementDefinition.from(annotation(UIIntegerField.class)), is(instanceOf(IntegerFieldBindingDefinition.class)));
         assertThat(UIElementDefinition.from(annotation(UITextArea.class)), is(instanceOf(TextAreaBindingDefinition.class)));
