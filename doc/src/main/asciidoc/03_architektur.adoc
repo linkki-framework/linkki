@@ -1,0 +1,11 @@
+== Architektur
+:source-dir: ../../../../samples/binding/src/main/java
+
+=== Übersicht
+
+Linkki erstellt aus UI-Definitionen (in Form von Annotations an Presentation-Model-Objekten) ein UI, dessen Inhalte (Daten) und Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) bidirektional an Methoden der PMOs gebunden werden. Wird ein Wert im UI geändert werden deshalb auch davon abhängige Änderungen anderer Eigenschaften aktualisiert.
+
+.Bidirektionales Databinding
+image::data_binding.png[]
+ 
+ TODO: Auf die Kapitel eingehen - erst sinnvoll wenn deren Inhalt fest steht.

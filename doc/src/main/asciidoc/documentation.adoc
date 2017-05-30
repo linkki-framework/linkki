@@ -3,6 +3,8 @@
 :toc-title: Inhaltsverzeichnis
 :toclevels: 3
 
+include::03_architektur.adoc[]
+
 include::04_erstellung_eines_ui.adoc[]
 
 <<<
