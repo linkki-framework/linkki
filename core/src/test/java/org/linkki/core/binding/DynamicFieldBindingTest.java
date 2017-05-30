@@ -10,6 +10,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.ModelObject;
@@ -96,6 +98,7 @@ public class DynamicFieldBindingTest {
 
     public static class Model {
 
+        @Nullable
         private String paymentMethod;
         private boolean showComboBox;
 
@@ -104,6 +107,7 @@ public class DynamicFieldBindingTest {
             this.showComboBox = showComboBox;
         }
 
+        @Nullable
         public String getPaymentMethod() {
             return paymentMethod;
         }
@@ -140,7 +144,7 @@ public class DynamicFieldBindingTest {
         public void paymentMethod() {
             /* model binding */}
 
-        public Class getPaymentMethodComponentType() {
+        public Class<?> getPaymentMethodComponentType() {
             if (model.isShowComboBox()) {
                 return UIComboBox.class;
             }
@@ -170,7 +174,7 @@ public class DynamicFieldBindingTest {
         public void component() {
             /* model binding */ }
 
-        public Class getComponentComponentType() {
+        public Class<?> getComponentComponentType() {
             return String.class;
         }
     }

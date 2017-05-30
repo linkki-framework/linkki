@@ -1,10 +1,11 @@
 package org.linkki.samples.binding.components;
 
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.samples.binding.model.Country;
+
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.TextField;
 
 public class AddressFields2 {
 
@@ -21,9 +22,11 @@ public class AddressFields2 {
         zipTxt = createTextField(null);
         cityTxt = createTextField(null);
         countryCb = new ComboBox("Country") {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public String getItemCaption(Object itemId) {
-                return ((Country) itemId).getName();
+                return ((Country)itemId).getName();
             }
         };
     }
@@ -49,7 +52,6 @@ public class AddressFields2 {
         return countryCb;
     }
     // end::addressFields-methodBinding[]
-
 
     private static TextField createTextField(String caption) {
         TextField tf = new TextField(caption);

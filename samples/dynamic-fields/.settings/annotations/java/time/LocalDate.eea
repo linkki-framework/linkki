@@ -1,0 +1,4 @@
+class java/time/LocalDate
+from
+ (Ljava/time/temporal/TemporalAccessor;)Ljava/time/LocalDate;
+ (L1java/time/temporal/TemporalAccessor;)L1java/time/LocalDate;

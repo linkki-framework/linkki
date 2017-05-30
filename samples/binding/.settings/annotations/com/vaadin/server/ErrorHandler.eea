@@ -1,0 +1,4 @@
+class com/vaadin/server/ErrorHandler
+error
+ (Lcom/vaadin/server/ErrorEvent;)V
+ (L1com/vaadin/server/ErrorEvent;)V

@@ -3,11 +3,6 @@ package org.linkki.samples.binding;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vaadin.annotations.Theme;
-import com.vaadin.server.Page;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.HorizontalSplitPanel;
-import com.vaadin.ui.UI;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.binding.DefaultBindingManager;
@@ -18,9 +13,16 @@ import org.linkki.samples.binding.model.Person;
 import org.linkki.samples.binding.pmo.AddressPmo;
 import org.linkki.samples.binding.pmo.PersonPmo;
 
+import com.vaadin.annotations.Theme;
+import com.vaadin.server.Page;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.UI;
+
 @Theme(value = "valo")
 public class BindingSampleUI extends UI {
 
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected void init(VaadinRequest request) {
@@ -35,14 +37,11 @@ public class BindingSampleUI extends UI {
         PersonPmo personPmo = new PersonPmo(new Person());
         AddressPmo addressPmo = new AddressPmo(personPmo.getPerson().getAddress());
 
-        ContactComponent contactComponent = new ContactComponent(personPmo,
-                                                                 addressPmo,
-                                                                 p -> save(p, personStorage),
-                                                                 context);
+        ContactComponent contactComponent = new ContactComponent(personPmo, addressPmo, p -> save(p, personStorage),
+                context);
 
-        ContactsTableComponent contactsTable = new ContactsTableComponent(personStorage,
-                                                                          contactComponent::editContact,
-                                                                          context);
+        ContactsTableComponent contactsTable = new ContactsTableComponent(personStorage, contactComponent::editContact,
+                context);
         bindingManager.addUiUpdateObserver(contactsTable);
 
         HorizontalSplitPanel panel = new HorizontalSplitPanel(contactComponent, contactsTable);
@@ -50,7 +49,6 @@ public class BindingSampleUI extends UI {
 
         setContent(panel);
     }
-
 
     private static void save(Person person, List<Person> personStorage) {
         if (!personStorage.contains(person)) {

@@ -7,7 +7,6 @@ public class Address {
     private String city;
     private Country country;
 
-
     public String getStreet() {
         return street;
     }
@@ -43,8 +42,7 @@ public class Address {
     public String asSingleLineString() {
         StringBuilder builder = new StringBuilder(50);
         if (country != null) {
-            builder.append(country.getIsoA3())
-                    .append(" - ");
+            builder.append(country.getIsoA3()).append(" - ");
         }
         if (zip != null) {
             builder.append(zip);

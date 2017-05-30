@@ -2,11 +2,6 @@ package org.linkki.samples.binding.components;
 
 import java.util.function.Consumer;
 
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.VerticalLayout;
 import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.AbstractSection;
@@ -16,17 +11,23 @@ import org.linkki.samples.binding.model.Person;
 import org.linkki.samples.binding.pmo.AddressPmo;
 import org.linkki.samples.binding.pmo.PersonPmo;
 
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
+
 public class ContactComponent extends Panel {
+
+    private static final long serialVersionUID = 1L;
 
     private final BindingContext context;
 
     private final PersonPmo personPmo;
     private final AddressPmo addressPmo;
 
-    public ContactComponent(PersonPmo personPmo,
-                            AddressPmo addressPmo,
-                            Consumer<Person> saveAction,
-                            BindingContext bindingContext) {
+    public ContactComponent(PersonPmo personPmo, AddressPmo addressPmo, Consumer<Person> saveAction,
+            BindingContext bindingContext) {
 
         this.personPmo = personPmo;
         this.addressPmo = addressPmo;
@@ -36,11 +37,9 @@ public class ContactComponent extends Panel {
         createContent(saveAction);
     }
 
-
     public void editContact(Person person) {
         refreshPmos(person);
     }
-
 
     private void createContent(Consumer<Person> saveAction) {
 
@@ -59,7 +58,6 @@ public class ContactComponent extends Panel {
 
         setContent(new VerticalLayout(personSection, addressComponent, saveBtn));
     }
-
 
     private void save(Consumer<Person> saveAction) {
 
@@ -80,6 +78,5 @@ public class ContactComponent extends Panel {
 
         context.updateUI();
     }
-
 
 }

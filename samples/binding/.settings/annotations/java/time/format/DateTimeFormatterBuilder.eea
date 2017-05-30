@@ -1,0 +1,10 @@
+class java/time/format/DateTimeFormatterBuilder
+append
+ (Ljava/time/format/DateTimeFormatter;)Ljava/time/format/DateTimeFormatterBuilder;
+ (L1java/time/format/DateTimeFormatter;)L1java/time/format/DateTimeFormatterBuilder;
+appendLiteral
+ (C)Ljava/time/format/DateTimeFormatterBuilder;
+ (C)L1java/time/format/DateTimeFormatterBuilder;
+toFormatter
+ (Ljava/util/Locale;)Ljava/time/format/DateTimeFormatter;
+ (Ljava/util/Locale;)L1java/time/format/DateTimeFormatter;

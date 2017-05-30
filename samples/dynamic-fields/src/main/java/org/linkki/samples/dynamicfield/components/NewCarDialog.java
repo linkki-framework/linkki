@@ -43,8 +43,9 @@ public class NewCarDialog extends Window {
         NewCar car = new NewCar();
 
         layout.addComponent(sectionFactory.createSection(new CarTypePmo(car),
-                                                         new BindingContext("car-type", PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
-                                                                            () -> addNewCarSection(layout, car))));
+                                                         new BindingContext("car-type",
+                                                                 PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
+                                                                 () -> addNewCarSection(layout, car))));
         setContent(layout);
 
         center();
@@ -63,7 +64,9 @@ public class NewCarDialog extends Window {
         }
 
         layout.addComponent(sectionFactory.createSection(new NewCarPmo(car, this.carStorage, this::close),
-                                                         new BindingContext("new-car", PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, afterSaveAction)));
+                                                         new BindingContext("new-car",
+                                                                 PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
+                                                                 afterSaveAction)));
         center();
     }
 

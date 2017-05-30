@@ -13,11 +13,9 @@ public class AddressPmo {
     private String city;
     private Country country;
 
-
     public AddressPmo(Address address) {
         refreshAddress(address);
     }
-
 
     public String getStreet() {
         return street;
@@ -54,7 +52,6 @@ public class AddressPmo {
     public List<Country> getCountryAvailableValues() {
         return CountryService.getCountries();
     }
-
 
     public void refreshAddress(Address address) {
         this.street = address.getStreet();

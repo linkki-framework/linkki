@@ -21,7 +21,6 @@ public final class CountryService {
         COUNTRIES = Collections.unmodifiableList(countries);
     }
 
-
     public static List<Country> getCountries() {
         return COUNTRIES;
     }

@@ -5,10 +5,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 // tag::report[]
 public class Report {
 
-// end::report[]
+    // end::report[]
     private static AtomicInteger idGenerator = new AtomicInteger(0);
 
-   // tag::report[]
+    // tag::report[]
     private Integer id;
 
     private String description;

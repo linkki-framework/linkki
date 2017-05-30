@@ -50,8 +50,7 @@ public abstract class CarPmo implements PresentationModelObject, Serializable {
 
     @UITableColumn
     @UIDoubleField(position = 30, label = "Retention", modelAttribute = Car.PROPERTY_RETENTION, required = RequiredType.REQUIRED_IF_ENABLED)
-    @UIComboBox(position = 30, label = "Retention", modelAttribute = Car.PROPERTY_RETENTION, required = RequiredType.REQUIRED_IF_ENABLED,
-            content = AvailableValuesType.DYNAMIC, itemCaptionProvider = RetentionCaptionProvider.class)
+    @UIComboBox(position = 30, label = "Retention", modelAttribute = Car.PROPERTY_RETENTION, required = RequiredType.REQUIRED_IF_ENABLED, content = AvailableValuesType.DYNAMIC, itemCaptionProvider = RetentionCaptionProvider.class)
     public void retention() {
         /* model binding */
     }
