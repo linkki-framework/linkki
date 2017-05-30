@@ -11,8 +11,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.linkki.test.matcher.Matchers.emptyMessageList;
-import static org.linkki.test.matcher.Matchers.hasSize;
+import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
+import static org.linkki.core.matcher.MessageMatchers.hasSize;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -20,13 +20,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.faktorips.runtime.IModelObject;
-import org.faktorips.runtime.IValidationContext;
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
-import org.faktorips.runtime.Severity;
 import org.junit.Before;
 import org.junit.Test;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 import org.linkki.core.ui.section.annotations.ModelObject;
 
 @SuppressWarnings("null")
@@ -411,7 +409,7 @@ public class ReflectionPropertyDispatcherTest {
         }
     }
 
-    public static class TestModelObject implements IModelObject {
+    public static class TestModelObject {
 
         private String xyz = "123";
         private String abc = "567";
@@ -475,9 +473,5 @@ public class ReflectionPropertyDispatcherTest {
             return Collections.emptyList();
         }
 
-        @Override
-        public MessageList validate(IValidationContext context) {
-            return null;
-        }
     }
 }

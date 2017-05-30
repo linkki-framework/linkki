@@ -14,8 +14,8 @@ import java.util.Optional;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.message.MessageList;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;

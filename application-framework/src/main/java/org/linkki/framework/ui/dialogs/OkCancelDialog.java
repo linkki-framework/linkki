@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.Page;

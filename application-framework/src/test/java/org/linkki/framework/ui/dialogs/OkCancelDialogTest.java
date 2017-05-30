@@ -10,19 +10,19 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
-import static org.linkki.test.matcher.Matchers.emptyMessageList;
+import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
 import org.linkki.framework.ui.component.MessageRow;
 import org.linkki.util.validation.ValidationMarker;
 

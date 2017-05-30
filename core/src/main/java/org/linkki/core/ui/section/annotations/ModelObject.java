@@ -5,12 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.faktorips.runtime.IModelObject;
-
 /**
- * Annotates a method returning a domain model object for a presentation model. Preferably
- * {@link IModelObject} instances, as they provide validation messages. The annotated method must
- * not return {@code null}.
+ * Annotates a method returning a domain model object for a presentation model. The annotated method
+ * must not return {@code null}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

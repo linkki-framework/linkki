@@ -9,10 +9,10 @@ package org.linkki.core.binding;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.faktorips.runtime.MessageList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
+import org.linkki.core.message.MessageList;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 

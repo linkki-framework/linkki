@@ -4,11 +4,11 @@
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-package org.linkki.test.matcher;
+package org.linkki.core.matcher;
 
-import org.faktorips.runtime.MessageList;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
+import org.linkki.core.message.MessageList;
 
 public class EmptyMessageListMatcher extends TypeSafeMatcher<MessageList> {
 

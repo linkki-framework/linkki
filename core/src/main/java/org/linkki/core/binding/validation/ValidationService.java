@@ -6,7 +6,7 @@
 
 package org.linkki.core.binding.validation;
 
-import org.faktorips.runtime.MessageList;
+import org.linkki.core.message.MessageList;
 
 /**
  * A validation service is used to get validation messages that should be displayed in the UI.
@@ -15,7 +15,7 @@ import org.faktorips.runtime.MessageList;
 public interface ValidationService {
 
     /**
-     * Message code for a {@link org.faktorips.runtime.Message Message} indicating a non-specific
+     * Message code for a {@link org.linkki.core.message.Message Message} indicating a non-specific
      * fatal validation error.
      */
     String FATAL_ERROR_MESSAGE_CODE = "fatalValiationError";

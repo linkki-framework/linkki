@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
-import org.faktorips.runtime.Severity;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 import org.linkki.util.StreamUtil;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;

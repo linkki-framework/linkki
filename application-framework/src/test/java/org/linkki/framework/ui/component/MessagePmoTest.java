@@ -11,9 +11,9 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.ObjectProperty;
 import org.junit.Test;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.ObjectProperty;
 
 public class MessagePmoTest {
 

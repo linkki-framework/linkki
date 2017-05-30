@@ -11,8 +11,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.ObjectProperty;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.ObjectProperty;
 import org.linkki.framework.ui.LinkkiStyles;
 
 import com.vaadin.server.FontAwesome;

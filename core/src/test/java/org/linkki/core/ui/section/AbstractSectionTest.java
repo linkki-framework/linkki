@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.server.FontAwesome;

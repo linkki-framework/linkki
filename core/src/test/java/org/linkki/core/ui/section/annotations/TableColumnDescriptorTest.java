@@ -12,8 +12,6 @@ import static org.junit.Assert.assertThat;
 import java.lang.reflect.Method;
 
 import org.junit.Test;
-import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
-import org.linkki.core.ui.section.annotations.UITableColumn;
 
 public class TableColumnDescriptorTest {
 

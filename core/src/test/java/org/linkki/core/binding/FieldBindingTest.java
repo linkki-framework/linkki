@@ -17,11 +17,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.TestUi;

@@ -11,7 +11,7 @@ import java.util.Collection;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.MessageList;
+import org.linkki.core.message.MessageList;
 
 /**
  * Provides field information for an arbitrary property through an unified interface.

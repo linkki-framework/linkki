@@ -14,11 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.MessageList;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.aspect.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
 import org.linkki.util.handler.Handler;
 

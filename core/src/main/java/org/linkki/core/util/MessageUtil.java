@@ -6,7 +6,7 @@
 
 package org.linkki.core.util;
 
-import org.faktorips.runtime.Message;
+import org.linkki.core.message.Message;
 import org.linkki.util.validation.ValidationMarker;
 
 public class MessageUtil {

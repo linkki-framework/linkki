@@ -1,6 +1,6 @@
 package org.linkki.framework.ui.component;
 
-import org.faktorips.runtime.Message;
+import org.linkki.core.message.Message;
 import org.linkki.core.ui.application.ApplicationStyles;
 
 import com.vaadin.server.FontAwesome;

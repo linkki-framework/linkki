@@ -17,10 +17,9 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
+import org.linkki.core.message.MessageList;
 
 /**
  * {@link PropertyDispatcher} that reads properties from an arbitrary object via reflection. Falls
@@ -139,8 +138,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     /**
      * Returns the messages stating the {@link #getBoundObject() bound object} as
-     * {@link Message#getInvalidObjectProperties() invalid} and those the {@code fallbackDispatcher}
-     * returns.
+     * {@link org.linkki.core.message.Message#getInvalidObjectProperties() invalid} and those the
+     * {@code fallbackDispatcher} returns.
      */
     @Override
     public MessageList getMessages(MessageList messageList) {

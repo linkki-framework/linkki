@@ -8,7 +8,7 @@ package org.linkki.core.binding;
 
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.MessageList;
+import org.linkki.core.message.MessageList;
 
 import com.vaadin.ui.Component;
 

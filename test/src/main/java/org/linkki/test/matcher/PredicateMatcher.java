@@ -11,7 +11,7 @@ public class PredicateMatcher<T> extends TypeSafeMatcher<T> {
 
     private final String description;
 
-    PredicateMatcher(Predicate<T> predicate, String description) {
+    public PredicateMatcher(Predicate<T> predicate, String description) {
         this.predicate = predicate;
         this.description = description;
     }
