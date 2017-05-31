@@ -24,8 +24,22 @@ In Linkki sind PMOs POJOs, die mit `@UISection` annotiert sind - es gibt also f�
 * `org.linkki.core.ButtonPmo` ist ein PMO für Buttons, siehe <<buttons,Buttons>>
 * `org.linkki.core.ui.table.ContainerPmo` ist ein PMO für Tabellen - die einzelnen Zeilen haben wieder reguläre PMOs, siehe auch <<container-komponenten,Container Komponenten>>
 
+=== Grundaufbau BindingContext - BindingManager
+
+Alle Bindings in Linkki sind Teil eines `BindingContext`. Üblicherweise verbindet ein `BindingContext` alle Bindings auf einer Seite oder in einem thematisch unabhängigen Abschnitt. Bei Änderungen an einem gebundenen Objekt (PMO oder UI) werden alle Bindings im gleichen Kontext aktualisiert. Mehrere PMOs (und damit UI-Abschnitte) können mit dem gleichen `BindingContext` gebunden werden.
+
+.BindingContext und ~Manager
+image::binding_context_manager.png[]
+
+Um einen oder mehrere `BindingContext` zu erstellen und verwalten gibt es einen `BindingManager`. Dieser gibt zu einem Namen (ggf. abgeleitet von einer Klasse) einen `BindingContext` zurück - oder erstellt bei Bedarf einen neuen. In Ableitungen von `BindingManager` kann festgelegt werden, welches Verhalten die vom jeweiligen `BindingContext` erstellten Bindings haben sollen (siehe <<vertikales-binding,Vertikales Binding>>). Soll kein besonderes Verhalten implementiert werden genügt ein `DefaultBindingManager`. Ein `BindingManager` wird üblicherweise `@ViewScoped` angelegt und jeder `Page` (siehe <<page,Page>>) übergeben.  
+
+Ein besonderer `BindingManager` ist der `DialogBindingManager`, der dafür sorgt, dass bei jeder Änderung auch die Validierungsmethode des Dialogs aufgerufen wird.
+
 [[domain-model-binding]]
 === Daten auf mehreren Ebenen (Domain Model Binding)
 
 [[binding-ui-element-properties]]
 === Binding von UI Elementen Eigenschaften und Daten (auswählbare Werte, Enabled, Sichtbarkeit, ToolTip)
+
+[[vertikales-binding]]
+=== Vertikales Binding
