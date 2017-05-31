@@ -1,0 +1,3 @@
+[[container-komponenten]]
+== Container Komponenten
+:source-dir: ../../../../samples/binding/src/main/java

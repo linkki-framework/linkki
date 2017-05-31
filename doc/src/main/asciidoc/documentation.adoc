@@ -7,6 +7,10 @@ include::03_architektur.adoc[]
 
 include::04_erstellung_eines_ui.adoc[]
 
+include::05_ui_komponenten.adoc[]
+
+include::06_Container Komponenten.adoc[]
+
 <<<
 
 [[missing-link]]
