@@ -58,6 +58,7 @@ Model Binding vermeidet unnötigen Delegations-Code und ist damit eine Art "Abk�
 .Model Binding
 image::ModelBinding.png[]
 
+[[modell-attribut-namen]]
 ==== Namen von Modell-Attirbuten angeben
 
 Um das Model Binding Feature verwenden zu können, muss in der UI Annotation die Eigenschaft `modelAttribute` angegeben werden. Der Datentyp der Eigenschaft ist String. Der Wert von `modelAttribute` gibt an, wie die entsprechende Property in der Domain Model Klasse heißt. Existiert keine entsprechende Eigenschaft an der Domain Model Klasse, so wird bei der Erstellung der Oberfläche eine Exception geworfen.
@@ -84,7 +85,69 @@ Im obigen Beispiel definiert die Annotation von `vornameVersichertePerson()`, da
 Wird in der Annotation keine Eigenschaft `modelObject` angegeben, so wird die Methode aufgerufen, die mit `@ModelObject` (ohne weiteren Namen) annotiert wurde. Dementsprechend wird für `vornameVersicherungsnehmer()` das Modellobjekt über `getPolicyHolder()` ermittelt.  
   
 [[binding-ui-element-properties]]
-=== Binding von UI Elementen Eigenschaften und Daten (auswählbare Werte, Enabled, Sichtbarkeit, ToolTip)
+=== Binding von weiteren UI-Element-Eigenschaften
+
+Neben dem anzuzeigenden Wert können weitere Eigenschaften der UI-Elemente per Databinding an Methoden des PMO gebunden werden. Dazu bieten die UI-Annotationen ein paar Attribute an, die jeweils eine direkte Einstellung oder die dynamische Delegation an eine Methode erlauben. Die Namen der Methoden leiten sich jeweils aus dem Namen der gebundenen Property ab. Dieser ist, wenn angegeben, der Name des Modellattributs (siehe <<modell-attribut-namen, Namen von Modell-Attirbuten angeben>>), ansonsten wird er aus dem Methodennamen nach Java Bean Konvention abgeleitet (beginnt die Methode mit `is` oder `get`, so wird der Rest des Methodennamens mit klein geschriebenen erstem Buchstaben verwendet (`getName()` ⇒ `name`), ansonsten der volle Methodenname (`vorname()` ⇒ `vorname`)). Entsprechend der CamelCase-Konvention wird der erste Buchstabe in diesen Methoden wiederum groß geschrieben.
+
+Der jeweils fett markierte Wert ist der Default-Wert, der verwendet wird wenn das Attribut nicht angegeben wird.
+
+[cols="5,11,18"]
+.Eigenschaften
+|===
+|Attribut |Enum-Wert| Beschreibung
+
+|`enabled`   |*`EnabledType.ENABLED`*   |Der Inhalt des Elements ist im UI veränderbar
+|`enabled`   |`EnabledType.DISABLED` |Der Inhalt des Elements ist im UI nicht veränderbar
+|`enabled`   |`EnabledType.DYNAMIC`  |Ob der Inhalt veränderbar ist hängt vom Rückgabewert der Methode `boolean is<PropertyName>Enabled()` ab
+
+|`required`  |`RequiredType.REQUIRED`             |Das UI-Element ist ein Pflichtfeld (ein Wert muss eingegeben/ausgewählt werden)
+|`required`  |`RequiredType
+               .REQUIRED_IF_ENABLED` |Das UI-Element ist ein Pflichtfeld falls es `enabled` ist
+|`required`  |*`RequiredType.NOT_REQUIRED`*          |Das UI-Element ist ein optionales Feld
+|`required`  |`RequiredType.DYNAMIC`              |Ob das Feld ein Pflichtfeld ist hängt vom Rückgabewert der Methode `boolean is<PropertyName>Required()` ab
+
+|`visible`   |*`VisibleType.VISIBLE`*    |Das UI-Element ist sichtbar
+|`visible`   |`VisibleType.INVISIBLE` |Das UI-Element ist unsichtbar
+|`visible`   |`VisibleType.DYNAMIC`   |Ob as UI-Element sichtbar ist hängt vom Rückgabewert der Methode `boolean is<PropertyName>Visible()` ab
+
+|`captionType`   |*`CaptionType.STATIC`*   |Der Text des Buttons wird aus dem Attribut `caption` entnommen
+|`captionType`   |`CaptionType.NONE`     |Der Button hat keinen Text
+|`captionType`   |`CaptionType.DYNAMIC`  |Der Text des Buttons entspricht dem Rückgabewert der Methode `String get<PropertyName>Caption()`
+
+|`toolTipType`   |*`ToolTipType.STATIC`*   |Der Text des Tooltips wird aus dem Attribut `text` entnommen
+|`toolTipType`   |`ToolTipType.DYNAMIC`  |Der Text des Tooltips entspricht dem Rückgabewert der Methode `String get<PropertyName>ToolTip()`
+
+|`content`  |*`AvailableValuesType
+              .ENUM_VALUES_INCL_NULL`* |Die Werte in der Combobox entsprechen den Werten des Enum-Datentypen der Property ergänzt um den Wert `null`
+|`content`  |`AvailableValuesType
+              .ENUM_VALUES_EXCL_NULL`  |Die Werte in der Combobox entsprechen den Werten des Enum-Datentypen der Property
+|`content`  |`AvailableValuesType
+              .DYNAMIC`                |Die Werte in der Combobox werden über die Methode `List<T> get<PropertyName>AvailableValues()` ermittelt
+|`content`  |`AvailableValuesType
+              .NO_VALUES`              |In dieser Combobox sind keine Werte auswählbar
+|===
+
+Nicht alle Eigenschaften sind bei allen Annotations verfügbar.
+
+[cols="5,^3,^3,^3,^4,^4,^3"]
+.Zuordnung Eigenschaften zu UI-Annotations
+|===
+|Annotation        |`enabled` |`required` |`visible` |`captionType` |`toolTipType` |`content`
+
+|`UIButton`       |✓		   |			|✓			|✓				 |				 | 
+|`UICheckBox`     |✓		   |✓			|✓			|				 |				 | 
+|`UIComboBox`     |✓		   |✓			|✓			|				 |				 |✓ 
+|`UICustomField` |✓		   |✓			|✓			|				 |				 |✓ 
+|`UIDateField`   |✓		   |✓			|✓			|				 |				 |  
+|`UIDecimalField`|✓		   |✓			|✓			|				 |				 |  
+|`UIDoubleField` |✓		   |✓			|✓			|				 |				 |  
+|`UIIntegerField`|✓		   |✓			|✓			|				 |				 |  
+|`UILabel`        |		   |			|✓			|				 |				 |  
+|`UITextArea`    |✓		   |✓			|✓			|				 |				 | 
+|`UITextField`   |✓		   |✓			|✓			|				 |				 | 
+|`UIToolTip`     |			   |			|			|				 |✓				 | 
+|===
+
 
 [[vertikales-binding]]
 === Vertikales Binding
