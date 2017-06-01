@@ -24,6 +24,7 @@ In Linkki sind PMOs POJOs, die mit `@UISection` annotiert sind - es gibt also f�
 * `org.linkki.core.ButtonPmo` ist ein PMO für Buttons, siehe <<buttons,Buttons>>
 * `org.linkki.core.ui.table.ContainerPmo` ist ein PMO für Tabellen - die einzelnen Zeilen haben wieder reguläre PMOs, siehe auch <<container-komponenten,Container Komponenten>>
 
+[[grundaufbau-binding]]
 === Grundaufbau BindingContext - BindingManager
 
 Alle Bindings in Linkki sind Teil eines `BindingContext`. Üblicherweise verbindet ein `BindingContext` alle Bindings auf einer Seite oder in einem thematisch unabhängigen Abschnitt. Bei Änderungen an einem gebundenen Objekt (PMO oder UI) werden alle Bindings im gleichen Kontext aktualisiert. Mehrere PMOs (und damit UI-Abschnitte) können mit dem gleichen `BindingContext` gebunden werden.
@@ -149,5 +150,49 @@ Nicht alle Eigenschaften sind bei allen Annotations verfügbar.
 |===
 
 
-[[vertikales-binding]]
-=== Vertikales Binding
+[[querschnittsaspekte-im-binding]]
+=== Querschnitssaspekte im Data Binding
+
+Zum Großteil bestimmen Informationen aus PMOs und Domain Model den Zustand der UI. In vielen Anwendungen jedoch muss die Oberfläche zusätzlich durch andere Informationen, z.B. den Systemzustand beeinflusst werden. Diese Informationen nennen wir im Folgenden _Querschnittsaspekte_.
+
+Das Standardbeispiel für einen Querschnittsaspekt ist der "Browse Mode". Viele Anwendungen unterscheiden zwischen:
+
+* Editiermodus ("Edit Mode"), in dem Informationen in der Oberfläche eingegeben und verändert werden können
+* Ansichtsmodus ("Browse Mode"), in dem Daten in Formularen zwar angezeigt werden, aber schreibgeschützt sind
+
+Häufig wechseln Anwendungen zwischen diesen Modi hin und her, z.B. indem eine "Änderung" begonnen oder abgeschlossen wird. 
+Im Browse Mode gilt, dass alle Felder in Formularen schreibgeschützt sind. Dieser globale Bearbeitungszustand der Anwendung beeinflusst also viele Felder gleichzeitig. Zusätzlich überstimmt der Browse Mode die Einstellungen aus PMOs. Selbst wenn ein PMO ein Feld als editierbar angibt, ist es im Browse Mode schreibgeschützt.
+
+Auf technischer Ebene existieren zwei Linkki-Konstrukte, um Querschnittsaspekte abzubilden: `PropertyDispatcher` und `PropertyBehaviors`.
+
+==== PropertyDispatcher
+
+Der `BindingContext` (siehe <<grundaufbau-binding,Grundaufbau BindingContext - BindingManager>>) verwendet eine `PropertyDispatcherFactory`, die mehrere miteinander verknüpfte `PropertyDispatcher` erstellt. Diese Dispatcher wiederum werden zum Binden der Properties und ihrer Eigenschaften (siehe <<binding-ui-element-properties,Binding von weiteren UI-Element-Eigenschaften>>) verwendet. `PropertyDispatcher` haben Methoden zur Abfrage von Datentyp und Wert einer Property, sowie der zugehörigen Eigenschaften. Standardmäßig werden in Linkki vier miteinander verknüpfte Dispatcher erstellt, die jeweils an den Nächsten delegieren, wenn sie selbst den Wert nicht liefern können: 
+
+* `BehaviorDependentDispatcher` verwendet `PropertyBehaviors` (siehe im nächsten Abschnitt, <<property-behavior,PropertyBehaviors>>)
+* `BindingAnnotationDispatcher` liefert Informationen die aus den UI-Annotationen direkt abgelesen werden können
+* `ReflectionPropertyDispatcher` greift per Reflection auf die aus dem Propertynamen abgeleiteten Methoden am PMO bzw. Domain Model zu
+* `ExceptionPropertyDispatcher` wirft eine Exception, falls die entsprechende Eigenschaft nicht verfügbar ist - dies deutet häufig auf einen Tippfehler in einem Methodennamen hin, aufgrunddessen der `ReflectionPropertyDispatcher` die passende Methode nicht finden kann
+
+.Beispiel für PropertyDispatcher
+image::vertical_binding.png[]
+
+Eigene Dispatcher können über eine eigene `PropertyDispatcherFactory` (in einem eigenen `BindingContext`) erstellt werden. Dort muss die Methode `createCustomDispatchers` überschrieben werden, um einen oder mehrere eigene Dispatcher bereitzustellen. Diese anwendungsspezifischen Dispatcher werden zwischen `BehaviorDependentDispatcher` und `BindingAnnotationDispatcher` eingehängt.
+
+[[property-behavior]]
+==== PropertyBehaviors
+
+PropertyBehaviors werden von einem `PropertyBehaviorProvider` erstellt, der dem `BindingContext` als Konstruktor-Parameter übergeben werden kann. Welche `PropertyBehaviors` verwendet werden, kann also von der Anwendung konfiguriert werden.
+
+Über `PropertyBehaviors` kann ein `BehaviorDependentDispatcher` das Verhalten von Eigenschaften steuern. Nur eine Auswahl der Eigenschaften sind darüber steuerbar: Sichtbarkeit (`isVisible`), Editierbarkeit (`isWritable`) und Anzeige von Fehlern (`isShowValidationMessages`). Dazu werden alle `PropertyBehaviors` aufgerufen; geben sie einstimmig `true` zurück, leitet der `BehaviorDependentDispatcher` die Anfrage an den nächsten `PropertyDispatcher` weiter, ansonsten gibt er direkt `false` bzw. eine leere Fehlerliste zurück, oder setzt den Wert nicht.
+
+.Veto eines PropertyBehaviorsr
+image::property_behavior_veto.png[]
+
+Für eigene Verhaltensweisen kann das Interface `PropertyBehavior` implementiert werden. So kann zum Beispiel eine komplette Seite in einen Lese- oder Schreibmodus versetzt werden:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/ReadOnlyBehavior.java[tags=class]
+----
+ 
