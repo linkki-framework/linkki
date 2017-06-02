@@ -1,0 +1,7 @@
+class org/faktorips/values/Decimal
+NULL
+ Lorg/faktorips/values/Decimal;
+ L1org/faktorips/values/Decimal;
+valueOf
+ (Ljava/lang/Double;)Lorg/faktorips/values/Decimal;
+ (Ljava/lang/Double;)L1org/faktorips/values/Decimal;

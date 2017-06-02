@@ -2,12 +2,12 @@ package org.linkki.samples.gettingstarted.model;
 
 // tag::report-type[]
 public enum ReportType {
-    
+
     BUG,
     IMPROVEMENT,
     QUESTION;
-    
-    //end::report-type[]
+
+    // end::report-type[]
 
 
     /**
@@ -15,10 +15,10 @@ public enum ReportType {
      * 
      * @return the representation for the enum value
      */
-    //tag::report-type[] 
+    // tag::report-type[]
     public String getName() {
         String name = name();
         return name.substring(0, 1) + name.substring(1).toLowerCase();
     }
 }
-//end::report-type[]
+// end::report-type[]

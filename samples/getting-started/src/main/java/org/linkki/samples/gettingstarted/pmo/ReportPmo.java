@@ -35,39 +35,30 @@ public class ReportPmo implements PresentationModelObject {
     // end::model-binding[]
 
     // tag::textfield[]
-    @UITextArea(position = 10,
-                label = "Description",
-                modelAttribute = "description",
-                required = RequiredType.REQUIRED,
-                rows = 5, columns = 50)
+    @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 5, columns = 50)
     public void description() {
-    /* Use description from report (model object) directly */
+        /* Use description from report (model object) directly */
     }
     // end::textfield[]
 
     // tag::combobox[]
-    @UIComboBox(position = 20,
-                label = "Type",
-                modelAttribute = "type",
-                required = RequiredType.REQUIRED)
+    @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED)
     public void type() {
-	/* - bind value to the property "type" from report
-	 * - use enum constants from ReportType as available values
-	 */
+        /*
+         * - bind value to the property "type" from report - use enum constants from ReportType as
+         * available values
+         */
     }
     // end::combobox[]
 
     // tag::button[]
-    @UIButton(position = 30,
-              caption = "Send",
-              icon = FontAwesome.SEND, showIcon = true,
-              enabled = EnabledType.DYNAMIC)
+    @UIButton(position = 30, caption = "Send", icon = FontAwesome.SEND, showIcon = true, enabled = EnabledType.DYNAMIC)
     public void send() {
         report.save();
         Notification.show(
-                String.format("Report with id %d filed!", report.getId()),
-                "Thank you for reporting!",
-                Notification.Type.TRAY_NOTIFICATION);
+                          String.format("Report with id %d filed!", report.getId()),
+                          "Thank you for reporting!",
+                          Notification.Type.TRAY_NOTIFICATION);
     }
 
     /**

@@ -14,11 +14,9 @@ public class PersonPmo implements PresentationModelObject {
     // end::personPmo-class[]
     private Person person;
 
-
     public PersonPmo(Person person) {
         refreshPerson(person);
     }
-
 
     // tag::personPmo-class[]
     @ModelObject
@@ -26,17 +24,13 @@ public class PersonPmo implements PresentationModelObject {
         return person;
     }
 
-    @UITextField(position = 10,
-            label = "Firstname",
-            required = RequiredType.REQUIRED,
-            modelAttribute = "firstname")
-    public void firstname() { /* model binding only */ }
+    @UITextField(position = 10, label = "Firstname", required = RequiredType.REQUIRED, modelAttribute = "firstname")
+    public void firstname() {
+        /* model binding only */ }
 
-    @UITextField(position = 20,
-            label = "Lastname",
-            required = RequiredType.REQUIRED,
-            modelAttribute = "lastname")
-    public void lastname() { /* model binding only */ }
+    @UITextField(position = 20, label = "Lastname", required = RequiredType.REQUIRED, modelAttribute = "lastname")
+    public void lastname() {
+        /* model binding only */ }
 
     // end::personPmo-class[]
     public void refreshPerson(Person person) {

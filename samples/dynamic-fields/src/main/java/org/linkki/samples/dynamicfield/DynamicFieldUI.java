@@ -35,25 +35,25 @@ public class DynamicFieldUI extends UI {
 
         BindingContext bindingContext = new BindingContext();
 
-        TableSection<CarRowPmo> table = new DefaultPmoBasedSectionFactory().createTableSection(new CarTablePmo(carStorage,
-                                                                                                               () -> new NewCarDialog(carStorage, bindingContext::updateUI)),
-                                                                                               bindingContext);
+        TableSection<CarRowPmo> table = new DefaultPmoBasedSectionFactory()
+                .createTableSection(new CarTablePmo(carStorage,
+                        () -> new NewCarDialog(carStorage, bindingContext::updateUI)),
+                                    bindingContext);
         setContent(table);
     }
 
     // some fake persistent storage
     // store the cars in the session so it is available after a browser
     // refresh as long as we are in the same session
-	private List<Car> getCarStorage() {
+    private List<Car> getCarStorage() {
         List<Car> carStorage;
 
         WrappedSession session = CurrentInstance.get(VaadinSession.class).getSession();
         @SuppressWarnings("unchecked")
-		List<Car> storage = (List<Car>) session.getAttribute(CAR_STORAGE_ATTRIBUTE);
+        List<Car> storage = (List<Car>)session.getAttribute(CAR_STORAGE_ATTRIBUTE);
         if (storage != null) {
-            carStorage =  storage;
-        }
-        else {
+            carStorage = storage;
+        } else {
             carStorage = new ArrayList<>();
             addCars(carStorage);
             session.setAttribute(CAR_STORAGE_ATTRIBUTE, carStorage);

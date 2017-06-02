@@ -7,11 +7,9 @@ public class Person {
 
     private Address address;
 
-
     public Person() {
         this.address = new Address();
     }
-
 
     public String getFirstname() {
         return firstname;
@@ -36,7 +34,6 @@ public class Person {
     public void setAddress(Address address) {
         this.address = address;
     }
-
 
     public String getName() {
         StringBuilder builder = new StringBuilder(30);

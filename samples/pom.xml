@@ -64,6 +64,19 @@
     </dependencyManagement>
 
 
+    <dependencies>
+
+        <!-- otherwise we get warnings in eclipse that annotations can not be resolved -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+
     <build>
 
         <plugins>

@@ -33,8 +33,8 @@ public class Messages {
 
         Locale bundleLocale = bundle.getLocale();
 
-        if (!bundleLocale.equals(locale) && !locale.equals(Locale.getDefault()) &&
-                !bundleLocale.getLanguage().equals(locale.getLanguage())) {
+        if (!bundleLocale.equals(locale) && !locale.equals(Locale.getDefault())
+                && !bundleLocale.getLanguage().equals(locale.getLanguage())) {
             bundle = ResourceBundle.getBundle(resource, Locale.ROOT);
         }
 

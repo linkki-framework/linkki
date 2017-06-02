@@ -1,0 +1,16 @@
+class java/lang/Class
+asSubclass
+ <U:Ljava/lang/Object;>(Ljava/lang/Class<TU;>;)Ljava/lang/Class<+TU;>;
+ <U:Ljava/lang/Object;>(Ljava/lang/Class<TU;>;)L1java/lang/Class<+TU;>;
+getConstructor
+ ([Ljava/lang/Class<*>;)Ljava/lang/reflect/Constructor<TT;>;
+ ([Ljava/lang/Class<*>;)L1java/lang/reflect/Constructor<TT;>;
+getName
+ ()Ljava/lang/String;
+ ()L1java/lang/String;
+getSimpleName
+ ()Ljava/lang/String;
+ ()L1java/lang/String;
+newInstance
+ ()TT;
+ ()T1T;

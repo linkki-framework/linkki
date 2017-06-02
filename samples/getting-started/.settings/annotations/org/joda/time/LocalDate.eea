@@ -1,0 +1,4 @@
+class org/joda/time/LocalDate
+fromDateFields
+ (Ljava/util/Date;)Lorg/joda/time/LocalDate;
+ (Ljava/util/Date;)L1org/joda/time/LocalDate;

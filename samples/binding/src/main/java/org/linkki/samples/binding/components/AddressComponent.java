@@ -5,12 +5,10 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
-import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
-import org.linkki.samples.binding.model.Country;
-import org.linkki.samples.binding.pmo.AddressPmo;
 
 public class AddressComponent extends FormLayout {
+
+    private static final long serialVersionUID = 1L;
 
     public AddressComponent(AddressFields fields) {
         setSizeFull();
