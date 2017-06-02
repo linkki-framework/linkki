@@ -11,6 +11,7 @@ import static java.util.Objects.requireNonNull;
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 import javax.enterprise.inject.spi.Bean;
@@ -68,6 +69,36 @@ public class BeanInstantiator {
 
     /**
      * Uses a {@link JndiBeanManagerProvider} to get a CDI bean manager. Searches that bean manager
+     * for all instances of the given class.
+     * <ul>
+     * <li>If CDI is not running: returns the fall back implementation</li>
+     * <li>If no instance can be found: returns the fall back implementation</li>
+     * <li>If multiple instances can be found: an {@link IllegalStateException} is thrown.</li>
+     * <li>If exactly one instance is found, it is returned.</li>
+     * </ul>
+     * 
+     * @param beanClass the class of the bean to instantiate
+     * @param fallbackSupplier a fall back {@link Supplier} for the given bean class
+     */
+    public static <T> T getCDIInstance(Class<T> beanClass, Supplier<T> fallbackSupplier) {
+        try {
+            JndiBeanManagerProvider beanManagerProvider = new JndiBeanManagerProvider();
+            BeanManager beanManager = beanManagerProvider.get();
+            BeanInstantiator beanInstantiator = new BeanInstantiator(beanManager);
+            Set<T> instances = beanInstantiator.getInstances(beanClass);
+            beanInstantiator.checkAtMostOneInstance(instances);
+            if (instances.isEmpty()) {
+                return fallbackSupplier.get();
+            } else {
+                return instances.iterator().next();
+            }
+        } catch (IllegalStateException ise) {
+            return fallbackSupplier.get();
+        }
+    }
+
+    /**
+     * Uses a {@link JndiBeanManagerProvider} to get a CDI bean manager. Searches that bean manager
      * for all instances of the given class with the given qualifier annotations.
      * <ul>
      * <li>If no instance can be found: an {@link IllegalStateException} is thrown.</li>
@@ -104,11 +135,19 @@ public class BeanInstantiator {
     }
 
     private <T> void checkExactlyOneInstance(Class<T> beanClass, Set<T> instances) {
-        if (instances.isEmpty()) {
-            throw new IllegalStateException("Cannot find any instance of class " + beanClass);
-        }
+        checkAtLeastOneInstance(beanClass, instances);
+        checkAtMostOneInstance(instances);
+    }
+
+    private <T> void checkAtMostOneInstance(Set<T> instances) {
         if (instances.size() > 1) {
             throw new IllegalStateException("Multiple instances found. Don't know which one to use " + instances);
+        }
+    }
+
+    private <T> void checkAtLeastOneInstance(Class<T> beanClass, Set<T> instances) {
+        if (instances.isEmpty()) {
+            throw new IllegalStateException("Cannot find any instance of class " + beanClass);
         }
     }
 }

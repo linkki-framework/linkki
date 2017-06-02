@@ -18,6 +18,8 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
+import org.linkki.core.nls.pmo.PmoLabelType;
+import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
 import org.linkki.core.ui.section.annotations.ElementDescriptors;
@@ -32,6 +34,8 @@ import com.vaadin.ui.Table.ColumnGenerator;
  * A factory to create a table based on a {@link ContainerPmo}.
  */
 public class PmoBasedTableFactory<T> {
+
+    private PmoNlsService pmoNlsService;
 
     private final ContainerPmo<T> containerPmo;
 
@@ -49,6 +53,7 @@ public class PmoBasedTableFactory<T> {
         this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
         this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         this.annotationReader = new UIAnnotationReader(getItemPmoClass());
+        pmoNlsService = PmoNlsService.get();
     }
 
     /* private */ final Class<?> getItemPmoClass() {
@@ -105,7 +110,9 @@ public class PmoBasedTableFactory<T> {
         FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<>(elementDesc, bindingContext);
         String propertyName = elementDesc.getPmoPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
-        table.setColumnHeader(propertyName, elementDesc.getLabelText());
+        table.setColumnHeader(propertyName,
+                              pmoNlsService.getLabel(PmoLabelType.PROPERTY_LABEL, getItemPmoClass(), propertyName,
+                                                     elementDesc.getLabelText()));
         setConfiguredColumndWidthOrExpandRatio(table, elementDesc);
     }
 

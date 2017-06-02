@@ -206,7 +206,8 @@ public class BindingContextTest {
         when(fieldDefintion.required()).thenReturn(RequiredType.REQUIRED);
         when(fieldDefintion.enabled()).thenReturn(EnabledType.ENABLED);
         when(fieldDefintion.visible()).thenReturn(VisibleType.VISIBLE);
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, new UIToolTipAdapter(null), "value");
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, new UIToolTipAdapter(null), "value",
+                Void.class);
 
         // Precondition
         assertThat(field.isImmediate(), is(false));

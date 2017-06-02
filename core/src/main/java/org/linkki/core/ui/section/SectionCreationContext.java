@@ -18,6 +18,8 @@ import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
+import org.linkki.core.nls.pmo.PmoLabelType;
+import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.section.annotations.ElementDescriptor;
 import org.linkki.core.ui.section.annotations.ElementDescriptors;
 import org.linkki.core.ui.section.annotations.SectionID;
@@ -38,12 +40,16 @@ import com.vaadin.ui.Label;
  */
 public class SectionCreationContext {
 
+    private PmoNlsService pmoNlsService;
+
     private final Object pmo;
     private final BindingContext bindingContext;
+
 
     public SectionCreationContext(Object pmo, BindingContext bindingContext) {
         this.pmo = requireNonNull(pmo, "pmo must not be null");
         this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
+        pmoNlsService = PmoNlsService.get();
     }
 
     protected Object getPmo() {
@@ -64,15 +70,18 @@ public class SectionCreationContext {
         Optional<Button> editButton = createEditButton(getEditButtonPmo());
 
         SectionLayout layout = sectionDefinition.layout();
+        String caption = pmoNlsService.getLabel(PmoLabelType.SECTION_CAPTION, pmo.getClass(), null,
+                                                    sectionDefinition.caption());
+
         switch (layout) {
             case COLUMN:
-                section = new FormSection(sectionDefinition.caption(),
+                section = new FormSection(caption,
                         sectionDefinition.closeable(),
                         editButton,
                         sectionDefinition.columns());
                 break;
             case HORIZONTAL:
-                section = new HorizontalSection(sectionDefinition.caption(),
+                section = new HorizontalSection(caption,
                         sectionDefinition.closeable(),
                         editButton);
                 break;

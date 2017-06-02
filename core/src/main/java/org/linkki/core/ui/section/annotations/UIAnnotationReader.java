@@ -92,14 +92,16 @@ public class UIAnnotationReader {
             Method method,
             Annotation annotation) {
         ElementDescriptor descriptor;
+
         if (uiElement instanceof LabelBindingDefinition) {
             descriptor = new LabelDescriptor((UIFieldDefinition)uiElement, toolTipDefinition,
-                    getPmoPropertyName(method));
+                    getPmoPropertyName(method), annotatedClass);
         } else if (uiElement instanceof UIFieldDefinition) {
             descriptor = new FieldDescriptor((UIFieldDefinition)uiElement, toolTipDefinition,
-                    getPmoPropertyName(method));
+                    getPmoPropertyName(method), annotatedClass);
         } else if (uiElement instanceof UIButtonDefinition) {
-            descriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, toolTipDefinition, method.getName());
+            descriptor = new ButtonDescriptor((UIButtonDefinition)uiElement, toolTipDefinition, method.getName(),
+                    annotatedClass);
         } else {
             throw new IllegalStateException(
                     "Unknown UIElementDefinition of type " + uiElement + " on method " + method);

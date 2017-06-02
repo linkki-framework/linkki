@@ -32,9 +32,11 @@ public class FieldDescriptor extends AbstractFieldDescriptor {
      * @param fieldDef field definition that holds given annotated properties
      * @param toolTipDefinition text and type of the tooltip
      * @param pmoPropertyName name of the corresponding method in the PMO
+     * @param pmoClass presentation model object class type
      */
-    public FieldDescriptor(UIFieldDefinition fieldDef, UIToolTipDefinition toolTipDefinition, String pmoPropertyName) {
-        super(fieldDef, toolTipDefinition, pmoPropertyName);
+    public FieldDescriptor(UIFieldDefinition fieldDef, UIToolTipDefinition toolTipDefinition, String pmoPropertyName,
+            Class<?> pmoClass) {
+        super(fieldDef, toolTipDefinition, pmoPropertyName, pmoClass);
     }
 
     @Override

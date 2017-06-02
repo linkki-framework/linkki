@@ -16,6 +16,8 @@ import javax.annotation.CheckForNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.annotations.Bind;
+import org.linkki.core.nls.pmo.PmoLabelType;
+import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
 import org.linkki.core.ui.section.annotations.ButtonDescriptor;
@@ -36,7 +38,10 @@ import org.linkki.core.ui.section.annotations.adapters.AvailableValuesProvider;
  */
 public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecorator {
 
+    private PmoNlsService pmoNlsService;
+
     private final BindingDescriptor bindingDescriptor;
+
 
     /**
      * Creating a new {@link BindingAnnotationDispatcher} for an {@link BindingDescriptor}, passing
@@ -51,6 +56,7 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
             BindingDescriptor bindingDescriptor) {
         super(wrappedDispatcher);
         this.bindingDescriptor = requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
+        pmoNlsService = PmoNlsService.get();
     }
 
     @Override
@@ -129,7 +135,11 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
     public String getCaption() {
         if (bindingDescriptor instanceof ButtonDescriptor) {
             if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.STATIC) {
-                return ((ButtonDescriptor)bindingDescriptor).caption();
+                String caption = ((ButtonDescriptor)bindingDescriptor).caption();
+                String nlsCaption = pmoNlsService.getLabel(PmoLabelType.BUTTON_CAPTION, getBoundObject().getClass(),
+                                                           getProperty(), caption);
+
+                return nlsCaption;
             } else if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.NONE) {
                 return StringUtils.EMPTY;
             } else if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.DYNAMIC) {
@@ -145,6 +155,9 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
         if (bindingDescriptor.getToolTipType() == ToolTipType.DYNAMIC) {
             return super.getToolTip();
         }
-        return bindingDescriptor.getToolTip();
+        String toolTip = bindingDescriptor.getToolTip();
+        String nlsToolTip = pmoNlsService.getLabel(PmoLabelType.TOOLTIP, getBoundObject().getClass(),
+                                                   getProperty(), toolTip);
+        return nlsToolTip;
     }
 }

@@ -25,10 +25,11 @@ public abstract class AbstractFieldDescriptor extends ElementDescriptor {
      * @param fieldDef field definition that holds given annotated properties
      * @param toolTipDefinition text and type of the tooltip
      * @param pmoPropertyName name of the corresponding method in the PMO
+     * @param pmoClass presentation model object class type
      */
     public AbstractFieldDescriptor(UIFieldDefinition fieldDef, UIToolTipDefinition toolTipDefinition,
-            String pmoPropertyName) {
-        super(fieldDef, toolTipDefinition);
+            String pmoPropertyName, Class<?> pmoClass) {
+        super(fieldDef, toolTipDefinition, pmoClass);
         this.pmoPropertyName = requireNonNull(pmoPropertyName, "pmoPropertyName must not be null");
     }
 

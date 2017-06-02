@@ -21,8 +21,8 @@ import com.vaadin.ui.Label;
 public class LabelDescriptor extends AbstractFieldDescriptor {
 
     public LabelDescriptor(UIFieldDefinition labelDefinition, UIToolTipDefinition toolTipDefinition,
-            String pmoPropertyName) {
-        super(labelDefinition, toolTipDefinition, pmoPropertyName);
+            String pmoPropertyName, Class<?> pmoClass) {
+        super(labelDefinition, toolTipDefinition, pmoPropertyName, pmoClass);
     }
 
     @Override
