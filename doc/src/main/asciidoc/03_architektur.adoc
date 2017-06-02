@@ -3,13 +3,36 @@
 
 === Übersicht
 
-Linkki erstellt aus UI-Definitionen (in Form von Annotations an Presentation-Model-Objekten) ein UI, dessen Inhalte (Daten) und Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) bidirektional an Methoden der PMOs gebunden werden. Wird ein Wert im UI vom Benutzer verändert, werden auch davon abhängige Eigenschaften und damit andere UI Elemente aktualisiert.
+Zentrale Punkte des Linkki Frameworks sind
+
+* die deklarative Definition von UIs mittels Annotationen
+* das flexible Databinding
+
+Linkki erstellt aus UI-Definitionen (Annotationen) eine Benutzeroberfläche. Die Inhalte (Daten) und Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) werden an sogenannte Presentation Model Objects (PMOs) gebunden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI Elemente aktualisiert.
 
 .Bidirektionales Databinding
 image::data_binding.png[]
- 
- TODO: Auf die Kapitel eingehen - erst sinnvoll wenn deren Inhalt fest steht.
- 
+
+Im ersten Teil dieses Kapitles gehen wir auf den <<grundaufbau-binding, Grundaufbau des `BindingContext` und `BindingManager`>> ein, und darauf wie sie zusammenarbeiten.
+
+Im den folgenden Abschnitten wird das <<databinding, Databinding mit PMOs>> beschrieben. Dies können simple PMOs sein, in denen die Werte verwaltet werden, oder <<domain-model-binding, PMOs mit Domain Model Binding>> in denen die Werte direkt an das Domain Model gebunden werden. Das 'Binding' <<modell-attribut-namen, mehrerer Modelobjekte>> in einem PMO wird ebenfalls erklärt.
+
+Welche Eigenschaften der definierten UI-Elemente gesteuert werden können, und welche weiteren Möglichkeiten Linkki zur Verfügung stellt, wird im Abschnitt <<binding-ui-element-properties, Binding von weiteren UI-Element-Eigenschaften>> beschrieben.
+
+Am Ende des Kaptiels <<architektur, Architektur>> werden noch sogenannte <<querschnittsaspekte-im-binding, Querschnittsaspekte im Databinding>> erläutert.
+
+[[grundaufbau-binding]]
+=== Grundaufbau BindingContext - BindingManager
+
+Alle Bindings in Linkki sind Teil eines `BindingContext`. Üblicherweise verbindet ein `BindingContext` alle Bindings auf einer Seite oder in einem thematisch unabhängigen Abschnitt. Bei Änderungen an einem gebundenen Objekt (PMO oder UI) werden alle Bindings im gleichen Kontext aktualisiert. Mehrere PMOs (und damit UI-Abschnitte) können mit dem gleichen `BindingContext` gebunden werden.
+
+.BindingContext und ~Manager
+image::binding_context_manager.png[]
+
+Um einen oder mehrere `BindingContext` zu erstellen und zu verwalten, gibt es einen `BindingManager`. Dieser gibt zu einem Namen (ggf. abgeleitet von einer Klasse) einen `BindingContext` zurück, oder erstellt bei Bedarf einen neuen. In Ableitungen von `BindingManager` kann festgelegt werden, welches Verhalten die vom jeweiligen `BindingContext` erstellten Bindings haben sollen (siehe <<vertikales-binding,Vertikales Binding>>). Soll kein besonderes Verhalten implementiert werden genügt ein `DefaultBindingManager`. Ein `BindingManager` wird üblicherweise `@ViewScoped` angelegt und jeder `Page` (siehe <<page,Page>>) übergeben.  
+
+Ein besonderer `BindingManager` ist der `DialogBindingManager`, der dafür sorgt, dass bei jeder Änderung auch die Validierungsmethode des Dialogs aufgerufen wird.
+
 [[databinding]]
 === Data Binding mit PMOs
 
@@ -23,18 +46,6 @@ In Linkki sind PMOs POJOs, die mit `@UISection` annotiert sind - es gibt also f�
 * `org.linkki.core.PresentationModelObject` bietet eine Methode, mit der ein Button-PMO erstellt werden kann; der daraus erzeugte Button löst eine Bearbeitung des PMOs aus
 * `org.linkki.core.ButtonPmo` ist ein PMO für Buttons, siehe <<buttons,Buttons>>
 * `org.linkki.core.ui.table.ContainerPmo` ist ein PMO für Tabellen - die einzelnen Zeilen haben wieder reguläre PMOs, siehe auch <<container-komponenten,Container Komponenten>>
-
-[[grundaufbau-binding]]
-=== Grundaufbau BindingContext - BindingManager
-
-Alle Bindings in Linkki sind Teil eines `BindingContext`. Üblicherweise verbindet ein `BindingContext` alle Bindings auf einer Seite oder in einem thematisch unabhängigen Abschnitt. Bei Änderungen an einem gebundenen Objekt (PMO oder UI) werden alle Bindings im gleichen Kontext aktualisiert. Mehrere PMOs (und damit UI-Abschnitte) können mit dem gleichen `BindingContext` gebunden werden.
-
-.BindingContext und ~Manager
-image::binding_context_manager.png[]
-
-Um einen oder mehrere `BindingContext` zu erstellen und verwalten gibt es einen `BindingManager`. Dieser gibt zu einem Namen (ggf. abgeleitet von einer Klasse) einen `BindingContext` zurück - oder erstellt bei Bedarf einen neuen. In Ableitungen von `BindingManager` kann festgelegt werden, welches Verhalten die vom jeweiligen `BindingContext` erstellten Bindings haben sollen (siehe <<vertikales-binding,Vertikales Binding>>). Soll kein besonderes Verhalten implementiert werden genügt ein `DefaultBindingManager`. Ein `BindingManager` wird üblicherweise `@ViewScoped` angelegt und jeder `Page` (siehe <<page,Page>>) übergeben.  
-
-Ein besonderer `BindingManager` ist der `DialogBindingManager`, der dafür sorgt, dass bei jeder Änderung auch die Validierungsmethode des Dialogs aufgerufen wird.
 
 [[domain-model-binding]]
 === Daten auf mehreren Ebenen (Domain Model Binding)
@@ -151,7 +162,7 @@ Nicht alle Eigenschaften sind bei allen Annotations verfügbar.
 
 
 [[querschnittsaspekte-im-binding]]
-=== Querschnitssaspekte im Data Binding
+=== Querschnittsaspekte im Databinding
 
 Zum Großteil bestimmen Informationen aus PMOs und Domain Model den Zustand der UI. In vielen Anwendungen jedoch muss die Oberfläche zusätzlich durch andere Informationen, z.B. den Systemzustand beeinflusst werden. Diese Informationen nennen wir im Folgenden _Querschnittsaspekte_.
 
