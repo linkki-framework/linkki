@@ -48,7 +48,7 @@ public class FieldBindingTest {
     private FieldBinding<String> binding;
     private FieldBinding<Object> selectBinding;
 
-    private Collection<TestEnum> valueList = Arrays.asList(new TestEnum[] { TestEnum.ONE, TestEnum.THREE });
+    private Collection<TestEnum> valueList = Arrays.asList(TestEnum.ONE, TestEnum.THREE);
 
     private PropertyDispatcher propertyDispatcherValue;
 

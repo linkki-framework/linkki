@@ -13,27 +13,7 @@
 	<packaging>jar</packaging>
 	<name>Linkki Application Framework</name>
 
-	<properties>
-		<faktorips.version>3.19.0</faktorips.version>
-	</properties>
-
 	<dependencies>
-		<dependency>
-			<groupId>org.faktorips</groupId>
-			<artifactId>faktorips-runtime</artifactId>
-			<version>${faktorips.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>junit</groupId>
-					<artifactId>junit</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.faktorips</groupId>
-			<artifactId>faktorips-valuetypes</artifactId>
-			<version>${faktorips.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.linkki</groupId>
 			<artifactId>linkki-utils</artifactId>

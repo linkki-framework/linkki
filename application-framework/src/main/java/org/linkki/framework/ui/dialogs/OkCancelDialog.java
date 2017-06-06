@@ -318,7 +318,7 @@ public class OkCancelDialog extends Window {
     }
 
     private Optional<Message> getMessageToDisplay() {
-        return Optional.ofNullable(messages.getFirstMessage(messages.getSeverity()));
+        return messages.getFirstMessage(messages.getSeverity());
     }
 
     /**

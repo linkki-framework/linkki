@@ -8,48 +8,55 @@ package org.linkki.framework.ui.component;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import com.vaadin.server.FontAwesome;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.ObjectProperty;
+import org.linkki.core.message.Severity;
 
+@RunWith(Parameterized.class)
 public class MessagePmoTest {
 
-    private final ObjectProperty propError = new ObjectProperty(new Object(), "foo");
-    private final ObjectProperty propWarning = new ObjectProperty(new Object());
 
-    private final Message error = Message.error("error").invalidObject(propError).create();
-    private final Message warning = Message.warning("warning").invalidObject(propWarning).create();
-    private final Message info = Message.info("info").create();
+    @Parameterized.Parameter(value = 0)
+    public Severity severity;
 
-    @Test
-    public void testGetText() {
-        assertThat(new MessagePmo(error).getText(), is("error"));
-        assertThat(new MessagePmo(warning).getText(), is("warning"));
-        assertThat(new MessagePmo(info).getText(), is("info"));
+    @Parameterized.Parameter(value = 1)
+    public ObjectProperty objectProperty;
+
+    @Parameterized.Parameter(value = 2)
+    public FontAwesome icon;
+
+    @Parameterized.Parameter(value = 3)
+    public String tooltip;
+
+
+    @Parameterized.Parameters
+    public static Object[][] data() {
+        return new Object[][] {
+                {Severity.ERROR, new ObjectProperty(new Object(), "foo"), FontAwesome.EXCLAMATION_CIRCLE, "Object: foo"},
+                {Severity.WARNING, new ObjectProperty(new Object()), FontAwesome.EXCLAMATION_TRIANGLE, "Object"},
+                {Severity.INFO, null, FontAwesome.INFO_CIRCLE, ""}
+        };
     }
 
-    @Test
-    public void testGetIcon() {
-        assertThat(new MessagePmo(error).getIcon(), is(notNullValue()));
-        assertThat(new MessagePmo(warning).getIcon(), is(notNullValue()));
-        assertThat(new MessagePmo(info).getIcon(), is(notNullValue()));
-    }
 
     @Test
-    public void testGetStyle() {
-        assertThat(new MessagePmo(error).getStyle(), endsWith("error"));
-        assertThat(new MessagePmo(warning).getStyle(), endsWith("warning"));
-        assertThat(new MessagePmo(info).getStyle(), endsWith("info"));
-    }
+    public void testMessagePmo() {
+        Message.Builder messageBuilder = Message.builder("text", severity);
+        if (objectProperty != null) {
+            messageBuilder.invalidObject(objectProperty);
+        }
 
-    @Test
-    public void testGetToolTip() {
-        assertThat(new MessagePmo(error).getToolTip(), is("Object: foo"));
-        assertThat(new MessagePmo(warning).getToolTip(), is("Object"));
-        assertThat(new MessagePmo(info).getToolTip(), is(""));
+        MessagePmo message = new MessagePmo(messageBuilder.create());
+
+        assertThat(message.getIcon(), is(icon));
+        assertThat(message.getStyle(), endsWith(severity.name().toLowerCase()));
+        assertThat(message.getToolTip(), is(tooltip));
     }
 
 }

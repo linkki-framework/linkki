@@ -23,6 +23,7 @@ import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 import org.linkki.framework.ui.component.MessageRow;
 import org.linkki.util.validation.ValidationMarker;
 
@@ -81,7 +82,7 @@ public class OkCancelDialogTest {
     @Test
     public void testValidate_FiltersMessages() {
         ValidationMarker mandatoryFieldMarker = () -> true;
-        Message message = Message.error("error").markers(mandatoryFieldMarker).create();
+        Message message = Message.builder("error", Severity.ERROR).markers(mandatoryFieldMarker).create();
         MessageList messages = new MessageList(message);
         ValidationService validationService = ValidationService.of(messages);
 

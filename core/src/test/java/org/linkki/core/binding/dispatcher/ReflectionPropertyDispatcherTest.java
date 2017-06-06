@@ -192,9 +192,9 @@ public class ReflectionPropertyDispatcherTest {
     @Test
     public void testGetMessages_ShouldReturnMessagesFromModelObject() {
         MessageList messageList = new MessageList();
-        Message msg1 = new Message.Builder(ABC, Severity.ERROR).invalidObjectWithProperties(testModelObject, XYZ)
+        Message msg1 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(testModelObject, XYZ)
                 .create();
-        Message msg2 = new Message.Builder(ABC, Severity.ERROR).invalidObjectWithProperties(testModelObject, ABC)
+        Message msg2 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(testModelObject, ABC)
                 .create();
         messageList.add(msg1);
         messageList.add(msg2);
@@ -207,9 +207,9 @@ public class ReflectionPropertyDispatcherTest {
     @Test
     public void testGetMessages_ShouldReturnMessagesFromPmo() {
         MessageList messageList = new MessageList();
-        Message msg1 = new Message.Builder(ABC, Severity.ERROR).invalidObjectWithProperties(testPmo, XYZ).create();
-        Message msg2 = new Message.Builder(ABC, Severity.ERROR).invalidObjectWithProperties(testPmo, ABC).create();
-        Message msg3 = new Message.Builder(ABC, Severity.ERROR).invalidObjectWithProperties(testModelObject, XYZ)
+        Message msg1 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(testPmo, XYZ).create();
+        Message msg2 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(testPmo, ABC).create();
+        Message msg3 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(testModelObject, XYZ)
                 .create();
         messageList.add(msg1);
         messageList.add(msg2);
@@ -223,8 +223,8 @@ public class ReflectionPropertyDispatcherTest {
     @Test
     public void testGetMessages_IgnoreIrrelevantMessages() {
         MessageList messageList = new MessageList();
-        Message msg1 = new Message.Builder(ABC, Severity.ERROR).invalidObjectWithProperties(new Object(), XYZ).create();
-        Message msg2 = new Message.Builder(ABC, Severity.ERROR).invalidObjectWithProperties(new Object(), ABC).create();
+        Message msg1 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(new Object(), XYZ).create();
+        Message msg2 = Message.builder(ABC, Severity.ERROR).invalidObjectWithProperties(new Object(), ABC).create();
         messageList.add(msg1);
         messageList.add(msg2);
 

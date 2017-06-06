@@ -30,5 +30,5 @@ public enum Severity {
     /**
      * Severity error.
      */
-    ERROR;
+    ERROR
 }

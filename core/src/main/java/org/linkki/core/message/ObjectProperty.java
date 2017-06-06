@@ -7,70 +7,44 @@
 package org.linkki.core.message;
 
 import java.io.Serializable;
+import java.util.Objects;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 
 /**
  * An instance of this class identifies a property in an object, e.g. the name property of a
  * specific person.
- * <p>
- * To add custom information that additionally qualifies the object property, it is possible to
- * implement and use an {@link IPropertyQualifier}.
  */
 
 public class ObjectProperty implements Serializable {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -3407760096164658253L;
+    private static final long serialVersionUID = -6116979544231081015L;
+
 
     private final Object object;
-
+    @Nullable
     private final String property;
 
     private final int index;
 
     private final int hashCode;
 
-    private final IPropertyQualifier qualifier;
-
     /**
      * Creates a new ObjectProperty. If the property is a list or an array the index can specify the
      * position within the property. An index smaller than 0 indicates that it is not an indexed
      * property.
-     * <p>
-     * It is possible to provide additional information using the qualifier and implementing the
-     * interface {@link IPropertyQualifier}.
      */
-    public ObjectProperty(Object object, String property, int index, IPropertyQualifier qualifier) {
-        this.object = object;
+    public ObjectProperty(Object object, @Nullable String property, int index) {
+        this.object = Objects.requireNonNull(object, "object must not be null");
         this.property = property;
         this.index = index;
-        this.qualifier = qualifier;
         hashCode = createHashCode();
     }
 
     /**
      * Creates a new ObjectProperty.
-     * <p>
-     * It is possible to provide additional information using the qualifier and implementing the
-     * interface {@link IPropertyQualifier}.
-     */
-    public ObjectProperty(Object object, String property, IPropertyQualifier qualifier) {
-        this(object, property, -1, qualifier);
-    }
-
-    /**
-     * Creates a new ObjectProperty. If the property is a list or an array the index can specify the
-     * position within the property. An index smaller than 0 indicates that it is not an indexed
-     * property.
-     */
-    public ObjectProperty(Object object, String property, int index) {
-        this(object, property, index, null);
-    }
-
-    /**
-     * Creates an ObjectProperty that characterizes the object and the name of the property.
      */
     public ObjectProperty(Object object, String property) {
         this(object, property, -1);
@@ -84,10 +58,10 @@ public class ObjectProperty implements Serializable {
         this(object, null, -1);
     }
 
+
     private int createHashCode() {
         int hash = object.hashCode() + index;
-        hash = property == null ? hash : 31 * hash + property.hashCode();
-        hash = qualifier == null ? hash : 31 * hash + qualifier.hashCode();
+        hash = property != null ? property.hashCode() + 31 * hash : hash;
         return hash;
     }
 
@@ -104,6 +78,7 @@ public class ObjectProperty implements Serializable {
      * should be available as bean property in the given object.
      * 
      */
+    @CheckForNull
     public String getProperty() {
         return property;
     }
@@ -122,17 +97,6 @@ public class ObjectProperty implements Serializable {
     }
 
     /**
-     * Returns the {@link IPropertyQualifier} defined at the instantiation of this
-     * {@link ObjectProperty}.
-     * 
-     * @return an {@link IPropertyQualifier} containing additional information or <code>null</code>
-     *         if no qualifier exists.
-     */
-    public IPropertyQualifier getQualifier() {
-        return qualifier;
-    }
-
-    /**
      * Returns whether this {@link ObjectProperty} has an index that identifies an object in an
      * array or list.
      * 
@@ -144,11 +108,11 @@ public class ObjectProperty implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@SuppressWarnings("null") Object obj) {
         if (obj instanceof ObjectProperty) {
             ObjectProperty other = (ObjectProperty)obj;
-            return ObjectUtil.equals(object, other.object) && index == other.index
-                    && ObjectUtil.equals(property, other.property) && ObjectUtil.equals(qualifier, other.qualifier);
+            return Objects.equals(object, other.object) && index == other.index
+                    && Objects.equals(property, other.property);
         }
         return false;
     }

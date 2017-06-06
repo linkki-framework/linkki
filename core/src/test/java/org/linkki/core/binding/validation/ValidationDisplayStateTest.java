@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.linkki.core.matcher.MessageMatchers;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 import org.linkki.core.util.MessageListUtil;
 import org.linkki.util.validation.ValidationMarker;
 
@@ -25,9 +26,9 @@ public class ValidationDisplayStateTest {
     public void testFilter() {
         ValidationMarker mandatoryFieldMarker = () -> true;
         ValidationMarker nonMandatoryFieldMarker = () -> false;
-        Message m1 = Message.error("m1").markers(mandatoryFieldMarker).create();
-        Message m2 = Message.error("m2").markers(nonMandatoryFieldMarker).create();
-        Message m3 = Message.error("m3").create();
+        Message m1 = Message.builder("m1", Severity.ERROR).markers(mandatoryFieldMarker).create();
+        Message m2 = Message.builder("m2", Severity.ERROR).markers(nonMandatoryFieldMarker).create();
+        Message m3 = Message.builder("m3", Severity.ERROR).create();
         MessageList messages = MessageListUtil.newMessageList(m1, m2, m3);
 
         assertThat(SHOW_ALL.filter(messages), contains(m1, m2, m3));

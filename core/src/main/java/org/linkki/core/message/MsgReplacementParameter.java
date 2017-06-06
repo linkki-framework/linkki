@@ -7,6 +7,10 @@
 package org.linkki.core.message;
 
 import java.io.Serializable;
+import java.util.Objects;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 /**
  * When creating a message the text might be created by replacing parameters (or placeholders) with
@@ -30,6 +34,7 @@ public class MsgReplacementParameter implements Serializable {
     private static final long serialVersionUID = -4588558762246019241L;
 
     private String name;
+    @Nullable
     private Object value;
 
     /**
@@ -38,10 +43,7 @@ public class MsgReplacementParameter implements Serializable {
      * @throws NullPointerException if paramName is null.
      */
     public MsgReplacementParameter(String paramName, Object paramValue) {
-        if (paramName == null) {
-            throw new NullPointerException();
-        }
-        name = paramName;
+        name = Objects.requireNonNull(paramName, "paramName must not be null");
         value = paramValue;
     }
 
@@ -55,12 +57,13 @@ public class MsgReplacementParameter implements Serializable {
     /**
      * Returns the parameter's value.
      */
+    @CheckForNull
     public Object getValue() {
         return value;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@SuppressWarnings("null") Object o) {
         if (!(o instanceof MsgReplacementParameter)) {
             return false;
         }

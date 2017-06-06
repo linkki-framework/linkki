@@ -270,10 +270,8 @@ public class FieldBinding<T> implements ElementBinding {
     }
 
     private void addFatalError(MessageList messages, MessageList messagesForProperty) {
-        Message fatalErrorMessage = messages.getMessageByCode(ValidationService.FATAL_ERROR_MESSAGE_CODE);
-        if (fatalErrorMessage != null) {
-            messagesForProperty.add(fatalErrorMessage);
-        }
+        messages.getMessageByCode(ValidationService.FATAL_ERROR_MESSAGE_CODE)
+                .ifPresent(messagesForProperty::add);
     }
 
     @CheckForNull

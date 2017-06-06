@@ -30,7 +30,7 @@ public class MessageUtilTest {
     }
 
     private Message createMessage(@Nullable ValidationMarker... markers) {
-        return new Message.Builder("", Severity.ERROR).markers(markers).create();
+        return Message.builder("", Severity.ERROR).markers(markers).create();
     }
 
 }

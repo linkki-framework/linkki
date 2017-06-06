@@ -24,8 +24,8 @@ public class MessageUtil {
      * validation message.
      */
     public static boolean isMandatoryFieldMessage(Message msg) {
-        return msg.getMarkers().stream().filter(m -> m instanceof ValidationMarker)
-                .anyMatch(m -> ((ValidationMarker)m).isMandatoryFieldValidation());
+        return msg.getMarkers().stream()
+                .anyMatch(ValidationMarker::isMandatoryFieldValidation);
     }
 
 }

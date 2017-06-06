@@ -27,7 +27,7 @@ public class MessagePmo {
     }
 
     public String getStyle() {
-        return LinkkiStyles.MESSAGE_PREFIX + message.getSeverity().toString().toLowerCase();
+        return LinkkiStyles.MESSAGE_PREFIX + message.getSeverity().name().toLowerCase();
     }
 
     public FontAwesome getIcon() {
