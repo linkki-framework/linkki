@@ -103,7 +103,7 @@ public class MessageListTest {
                 Message.builder("msgWithMatchingMarker", Severity.WARNING).markers(() -> true).create(),
                 Message.builder("msgWithNonMathingMarker", Severity.ERROR).markers(() -> false).create());
 
-        MessageList messagesByMarker = messages.getMessagesByMarker(ValidationMarker::isMandatoryFieldValidation);
+        MessageList messagesByMarker = messages.getMessagesByMarker(ValidationMarker::isRequiredInformationMissing);
         assertThat(messagesByMarker, is(not(sameInstance(messages))));
         assertThat(messagesByMarker, hasSize(1));
         assertThat(messagesByMarker.getMessage(0), is(messages.getMessage(1)));

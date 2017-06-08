@@ -19,13 +19,13 @@ public class MessageUtil {
     /**
      * Returns {@code true} if the given message has at least one marker of type
      * {@code ValidationMarker} marking it as an mandatory field validation message, i.e.
-     * {@link ValidationMarker#isMandatoryFieldValidation()} is {@code true}. Returns {@code false}
+     * {@link ValidationMarker#isRequiredInformationMissing()} is {@code true}. Returns {@code false}
      * if the message has no {@code ValidationMarker} or is not marked as a mandatory field
      * validation message.
      */
     public static boolean isMandatoryFieldMessage(Message msg) {
         return msg.getMarkers().stream()
-                .anyMatch(ValidationMarker::isMandatoryFieldValidation);
+                .anyMatch(ValidationMarker::isRequiredInformationMissing);
     }
 
 }
