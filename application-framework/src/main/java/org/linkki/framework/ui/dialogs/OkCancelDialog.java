@@ -280,7 +280,7 @@ public class OkCancelDialog extends Window {
      * message from the list is displayed and the OK button is disabled.
      * <p>
      * A previously displayed message is removed if the message list does not contain any messages.
-     * If the message list contains a message, the first message with the highest severity is
+     * If the message list contains a message, the first message with the highest errorLevel is
      * displayed. If the message list contains an error message the OK button is disabled.
      */
     public MessageList validate() {
@@ -318,7 +318,8 @@ public class OkCancelDialog extends Window {
     }
 
     private Optional<Message> getMessageToDisplay() {
-        return messages.getFirstMessage(messages.getSeverity());
+        return messages.getErrorLevel()
+                .flatMap(messages::getFirstMessage);
     }
 
     /**

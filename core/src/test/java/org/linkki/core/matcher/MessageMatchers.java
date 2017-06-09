@@ -12,7 +12,8 @@ import org.hamcrest.Matcher;
 import org.hamcrest.core.CombinableMatcher;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.ObjectProperty;
-import org.linkki.core.message.Severity;
+
+import com.vaadin.server.ErrorMessage.ErrorLevel;
 
 public class MessageMatchers {
 
@@ -41,19 +42,19 @@ public class MessageMatchers {
     }
 
     public static MessageListMessageMatcher hasInfoMessage(String code) {
-        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.INFO));
+        return new MessageListMessageMatcher(codeAndErrorLevel(code, ErrorLevel.INFORMATION));
     }
 
     public static MessageListMessageMatcher hasWarningMessage(String code) {
-        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.WARNING));
+        return new MessageListMessageMatcher(codeAndErrorLevel(code, ErrorLevel.WARNING));
     }
 
     public static MessageListMessageMatcher hasErrorMessage(String code) {
-        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.ERROR));
+        return new MessageListMessageMatcher(codeAndErrorLevel(code, ErrorLevel.ERROR));
     }
 
-    private static Matcher<Message> codeAndSeverity(String code, Severity severity) {
-        return CombinableMatcher.both(new MessageCodeMatcher(code)).and(new MessageSeverityMatcher(severity));
+    private static Matcher<Message> codeAndErrorLevel(String code, ErrorLevel errorLevel) {
+        return CombinableMatcher.both(new MessageCodeMatcher(code)).and(new MessageErrorLevelMatcher(errorLevel));
     }
 
 }

@@ -10,20 +10,21 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import com.vaadin.server.FontAwesome;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.ObjectProperty;
-import org.linkki.core.message.Severity;
+
+import com.vaadin.server.ErrorMessage.ErrorLevel;
+import com.vaadin.server.FontAwesome;
 
 @RunWith(Parameterized.class)
 public class MessagePmoTest {
 
 
     @Parameterized.Parameter(value = 0)
-    public Severity severity;
+    public ErrorLevel errorLevel;
 
     @Parameterized.Parameter(value = 1)
     public ObjectProperty objectProperty;
@@ -38,16 +39,17 @@ public class MessagePmoTest {
     @Parameterized.Parameters
     public static Object[][] data() {
         return new Object[][] {
-                {Severity.ERROR, new ObjectProperty(new Object(), "foo"), FontAwesome.EXCLAMATION_CIRCLE, "Object: foo"},
-                {Severity.WARNING, new ObjectProperty(new Object()), FontAwesome.EXCLAMATION_TRIANGLE, "Object"},
-                {Severity.INFO, null, FontAwesome.INFO_CIRCLE, ""}
+                { ErrorLevel.ERROR, new ObjectProperty(new Object(), "foo"), FontAwesome.EXCLAMATION_CIRCLE,
+                        "Object: foo" },
+                { ErrorLevel.WARNING, new ObjectProperty(new Object()), FontAwesome.EXCLAMATION_TRIANGLE, "Object" },
+                { ErrorLevel.INFORMATION, null, FontAwesome.INFO_CIRCLE, "" }
         };
     }
 
 
     @Test
     public void testMessagePmo() {
-        Message.Builder messageBuilder = Message.builder("text", severity);
+        Message.Builder messageBuilder = Message.builder("text", errorLevel);
         if (objectProperty != null) {
             messageBuilder.invalidObject(objectProperty);
         }
@@ -55,7 +57,7 @@ public class MessagePmoTest {
         MessagePmo message = new MessagePmo(messageBuilder.create());
 
         assertThat(message.getIcon(), is(icon));
-        assertThat(message.getStyle(), endsWith(severity.name().toLowerCase()));
+        assertThat(message.getStyle(), endsWith(errorLevel.name().toLowerCase()));
         assertThat(message.getToolTip(), is(tooltip));
     }
 

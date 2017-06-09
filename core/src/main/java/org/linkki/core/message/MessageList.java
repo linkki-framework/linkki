@@ -20,34 +20,32 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.linkki.util.validation.ValidationMarker;
+
+import com.vaadin.server.ErrorMessage.ErrorLevel;
 
 /**
  * A list of {@link Message Messages}.
  */
 public class MessageList implements Serializable, Iterable<Message> {
 
-    private static final long serialVersionUID = 5518835977871253111L;
+    private static final long serialVersionUID = 1557794794967025627L;
 
-    private List<Message> messages = new ArrayList<>(0);
+    private final List<Message> messages;
 
-    /**
-     * Creates an empty message list.
-     */
-    public MessageList() {
-        // Provides default constructor.
-    }
 
     /**
-     * Creates a message list that contains the given message.
+     * Creates a message list that contains the given {@link Message message(s)}.
      *
-     * @throws NullPointerException if any msg is null.
+     * @throws NullPointerException if {@code msgs} or any {@link Message message} is {@code null}
      */
     public MessageList(Message... msgs) {
+        Objects.requireNonNull(msgs, "msgs must not be null");
+
+        messages = new ArrayList<>(msgs.length);
         for (Message msg : msgs) {
             add(msg);
         }
@@ -96,11 +94,11 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * @return the first message with the given severity or null if none is found.
+     * @return the first message with the given errorLevel or null if none is found.
      */
-    public Optional<Message> getFirstMessage(Severity severity) {
+    public Optional<Message> getFirstMessage(ErrorLevel errorLevel) {
         return messages.stream()
-                .filter(m -> m.getSeverity() == severity)
+                .filter(m -> m.getErrorLevel() == errorLevel)
                 .findFirst();
     }
 
@@ -126,11 +124,13 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * Returns the message list's severity. This is the maximum severity of the list's messages. If
-     * the list does not contain any messages, the method returns 0.
+     * Returns the message list's errorLevel. This is the maximum errorLevel of the list's messages.
+     * If the list does not contain any messages, the method returns {@link Optional#empty()}.
      */
-    public Severity getSeverity() {
-        return messages.stream().map(Message::getSeverity).max(Comparator.naturalOrder()).orElse(Severity.NONE);
+    public Optional<ErrorLevel> getErrorLevel() {
+        return messages.stream()
+                .map(Message::getErrorLevel)
+                .max(Comparator.naturalOrder());
     }
 
     /**
@@ -147,7 +147,7 @@ public class MessageList implements Serializable, Iterable<Message> {
      */
     public boolean containsErrorMsg() {
         return messages.stream()
-                .anyMatch(m -> m.getSeverity() == Severity.ERROR);
+                .anyMatch(m -> m.getErrorLevel() == ErrorLevel.ERROR);
     }
 
     /**
@@ -213,6 +213,7 @@ public class MessageList implements Serializable, Iterable<Message> {
      *
      * @throws NullPointerException if markerPredicate is <code>null</code>
      */
+    @SuppressWarnings("null")
     public MessageList getMessagesByMarker(Predicate<ValidationMarker> markerPredicate) {
         Objects.requireNonNull(markerPredicate, "markerPredicate must not be null");
 
@@ -226,13 +227,27 @@ public class MessageList implements Serializable, Iterable<Message> {
                 .anyMatch(markerPredicate);
     }
 
+
     /**
-     * Returns the message with the highest severity. If there are multiple such messages, the first
-     * one is returned. If this list {@link #isEmpty()}, <code>null</code> is returned.
+     * Returns a new {@link MessageList} containing the same {@link Message Messages} as this list,
+     * sorted by descending {@link ErrorLevel}. Within each error level the previous order is
+     * preserved.
      */
-    @CheckForNull
-    public Message getMessageWithHighestSeverity() {
-        return messages.stream().sorted(Comparator.comparing(Message::getSeverity).reversed()).findFirst().orElse(null);
+    public MessageList sortByErrorLevel() {
+        return messages.stream()
+                .sorted(Comparator.comparing(Message::getErrorLevel).reversed())
+                .collect(collector());
+    }
+
+
+    /**
+     * Returns the message with the highest errorLevel. If there are multiple such messages, the
+     * first one is returned. If this list {@link #isEmpty()}, {@link Optional#empty()} is returned.
+     */
+    public Optional<Message> getMessageWithHighestErrorLevel() {
+        return messages.stream()
+                .sorted(Comparator.comparing(Message::getErrorLevel).reversed())
+                .findFirst();
     }
 
     /**

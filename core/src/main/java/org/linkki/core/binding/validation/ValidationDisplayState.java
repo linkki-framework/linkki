@@ -6,9 +6,9 @@
 
 package org.linkki.core.binding.validation;
 
+import static org.linkki.core.message.MessageListCollector.toMessageList;
+
 import org.linkki.core.message.MessageList;
-import org.linkki.core.util.MessageUtil;
-import org.linkki.util.StreamUtil;
 
 /** The state regarding which validation messages are displayed. */
 public enum ValidationDisplayState {
@@ -25,10 +25,7 @@ public enum ValidationDisplayState {
     HIDE_MANDATORY_FIELD_VALIDATIONS {
         @Override
         public MessageList filter(MessageList messageList) {
-            MessageList filteredMessages = new MessageList();
-            StreamUtil.stream(messageList).filter(m -> !MessageUtil.isMandatoryFieldMessage(m))
-                    .forEach(filteredMessages::add);
-            return filteredMessages;
+            return messageList.stream().filter(m -> !m.isMandatoryFieldMessage()).collect(toMessageList());
         }
     };
 

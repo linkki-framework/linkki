@@ -17,7 +17,6 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
-import org.linkki.core.util.MessageListUtil;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.util.AbstractProperty;
@@ -276,12 +275,9 @@ public class FieldBinding<T> implements ElementBinding {
 
     @CheckForNull
     private UserError getErrorHandler(MessageList messages) {
-        if (messages.isEmpty()) {
-            return null;
-        } else {
-            return new UserError(formatMessages(messages), ContentMode.PREFORMATTED,
-                    MessageListUtil.getErrorLevel(messages));
-        }
+        return messages.getErrorLevel()
+                .map(e -> new UserError(formatMessages(messages), ContentMode.PREFORMATTED, e))
+                .orElse(null);
     }
 
     private static final class FieldBindingDataSource<T> extends AbstractProperty<T> {
