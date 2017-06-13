@@ -32,11 +32,19 @@
         <module>getting-started</module>
         <module>binding</module>
         <module>dynamic-fields</module>
+        <module>messages</module>
     </modules>
 
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-servlet_3.0_spec</artifactId>
+                <version>1.0</version>
+                <scope>provided</scope>
+            </dependency>
 
             <dependency>
                 <groupId>com.vaadin</groupId>

@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -12,13 +13,13 @@
     </parent>
 
 
-    <artifactId>linkki-dynamic-fields-sample</artifactId>
+    <artifactId>linkki-messages-sample</artifactId>
     <packaging>war</packaging>
 
-    <name>Linkki Samples :: Dynamic Fields</name>
+    <name>Linkki Samples :: Messages</name>
+
 
     <dependencies>
-
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-servlet_3.0_spec</artifactId>
@@ -41,7 +42,6 @@
             <groupId>org.linkki</groupId>
             <artifactId>linkki-core</artifactId>
         </dependency>
-        
     </dependencies>
 
 </project>
