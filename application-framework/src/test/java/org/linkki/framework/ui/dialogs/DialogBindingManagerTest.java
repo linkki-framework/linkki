@@ -12,13 +12,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;

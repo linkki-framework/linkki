@@ -12,7 +12,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Locale;
 
-import org.faktorips.values.Decimal;
 import org.junit.Test;
 
 import com.vaadin.data.util.converter.Converter;
@@ -30,7 +29,7 @@ public class DoubleFieldTest {
     public void testConstructor2() {
         DoubleField field = new DoubleField("0.00", Locale.GERMAN);
         Converter<String, Object> converter = field.getConverter();
-        assertThat(converter.convertToPresentation(Decimal.valueOf(".2"), String.class, null), is("0,20"));
+        assertThat(converter.convertToPresentation(0.2, String.class, null), is("0,20"));
     }
 
 }

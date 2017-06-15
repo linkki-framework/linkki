@@ -13,8 +13,8 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.message.MessageList;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;

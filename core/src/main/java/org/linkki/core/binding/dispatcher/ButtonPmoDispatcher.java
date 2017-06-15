@@ -8,7 +8,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
-import org.faktorips.runtime.MessageList;
+import org.linkki.core.message.MessageList;
 
 /**
  * @deprecated Temporary solution. Should be replaced with a regular

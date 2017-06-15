@@ -6,7 +6,7 @@
 
 package org.linkki.core.util;
 
-import org.faktorips.runtime.Message;
+import org.linkki.core.message.Message;
 import org.linkki.util.validation.ValidationMarker;
 
 public class MessageUtil {
@@ -19,13 +19,13 @@ public class MessageUtil {
     /**
      * Returns {@code true} if the given message has at least one marker of type
      * {@code ValidationMarker} marking it as an mandatory field validation message, i.e.
-     * {@link ValidationMarker#isMandatoryFieldValidation()} is {@code true}. Returns {@code false}
+     * {@link ValidationMarker#isRequiredInformationMissing()} is {@code true}. Returns {@code false}
      * if the message has no {@code ValidationMarker} or is not marked as a mandatory field
      * validation message.
      */
     public static boolean isMandatoryFieldMessage(Message msg) {
-        return msg.getMarkers().stream().filter(m -> m instanceof ValidationMarker)
-                .anyMatch(m -> ((ValidationMarker)m).isMandatoryFieldValidation());
+        return msg.getMarkers().stream()
+                .anyMatch(ValidationMarker::isRequiredInformationMissing);
     }
 
 }

@@ -13,12 +13,12 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.linkki.test.matcher.Matchers.emptyMessageList;
+import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
-import org.faktorips.runtime.Severity;
 import org.junit.Test;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 

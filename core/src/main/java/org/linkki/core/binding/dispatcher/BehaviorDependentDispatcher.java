@@ -12,22 +12,22 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.aspect.PropertyBehavior;
+import org.linkki.core.message.MessageList;
 
 /**
  * {@link AbstractPropertyDispatcherDecorator DispatcherDecorator} that lets
- * {@link PropertyBehavior} instances influence the data as well as the data flow from/to
- * the wrapped dispatcher.
+ * {@link PropertyBehavior} instances influence the data as well as the data flow from/to the
+ * wrapped dispatcher.
  * <p>
- * This decorator uses all {@link PropertyBehavior} instances provided by the container
- * (dependency injection). All instances are involved equally when deciding the behavior of a
- * property. Boolean return values are evaluated with a logical AND.
+ * This decorator uses all {@link PropertyBehavior} instances provided by the container (dependency
+ * injection). All instances are involved equally when deciding the behavior of a property. Boolean
+ * return values are evaluated with a logical AND.
  * <p>
  * An example. To decide whether a property is visible, this dispatcher calls
- * {@link PropertyBehavior#isVisible(Object, String)} for all behaviors. The field is
- * visible only if all behaviors return <code>true</code>. If at least one returns
- * <code>false</code>, the property is hidden.
+ * {@link PropertyBehavior#isVisible(Object, String)} for all behaviors. The field is visible only
+ * if all behaviors return <code>true</code>. If at least one returns <code>false</code>, the
+ * property is hidden.
  * <p>
  * In other words behaviors normally return <code>true</code>, but can veto an aspect, by returning
  * <code>false</code>, if they desire to change the behavior.
@@ -43,9 +43,8 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     /**
-     * Checks whether the given property is writable (as defined by the
-     * {@link PropertyBehavior behaviors}). Calls setValue() on the wrapped dispatcher
-     * only if the property is writable.
+     * Checks whether the given property is writable (as defined by the {@link PropertyBehavior
+     * behaviors}). Calls setValue() on the wrapped dispatcher only if the property is writable.
      */
     @Override
     public void setValue(@Nullable Object value) {
@@ -55,9 +54,9 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     /**
-     * Checks whether the given property is writable (as defined by the
-     * {@link PropertyBehavior behaviors}). If it is writable, returns the read-only value
-     * returned by the wrapped dispatcher. If it is write protected, returns <code>true</code> .
+     * Checks whether the given property is writable (as defined by the {@link PropertyBehavior
+     * behaviors}). If it is writable, returns the read-only value returned by the wrapped
+     * dispatcher. If it is write protected, returns <code>true</code> .
      */
     @Override
     public boolean isReadOnly() {
@@ -69,9 +68,9 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     /**
-     * Checks whether the given property is visible (as defined by the
-     * {@link PropertyBehavior behaviors}). If it is visible, returns the visible value
-     * returned by the wrapped dispatcher. If it is hidden, returns <code>false</code>.
+     * Checks whether the given property is visible (as defined by the {@link PropertyBehavior
+     * behaviors}). If it is visible, returns the visible value returned by the wrapped dispatcher.
+     * If it is hidden, returns <code>false</code>.
      */
     @Override
     public boolean isVisible() {
@@ -84,8 +83,8 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
 
     /**
      * Checks whether the given property shows validation messages (as defined by the
-     * {@link PropertyBehavior behaviors}). If it shows messages, returns the messages
-     * returned by the wrapped dispatcher. If it hides messages, returns an empty message list.
+     * {@link PropertyBehavior behaviors}). If it shows messages, returns the messages returned by
+     * the wrapped dispatcher. If it hides messages, returns an empty message list.
      */
     @Override
     public MessageList getMessages(MessageList messageList) {

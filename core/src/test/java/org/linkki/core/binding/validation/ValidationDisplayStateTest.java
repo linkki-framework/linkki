@@ -12,11 +12,12 @@ import static org.junit.Assert.assertThat;
 import static org.linkki.core.binding.validation.ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS;
 import static org.linkki.core.binding.validation.ValidationDisplayState.SHOW_ALL;
 
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
 import org.junit.Test;
+import org.linkki.core.matcher.MessageMatchers;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 import org.linkki.core.util.MessageListUtil;
-import org.linkki.test.matcher.Matchers;
 import org.linkki.util.validation.ValidationMarker;
 
 public class ValidationDisplayStateTest {
@@ -25,9 +26,9 @@ public class ValidationDisplayStateTest {
     public void testFilter() {
         ValidationMarker mandatoryFieldMarker = () -> true;
         ValidationMarker nonMandatoryFieldMarker = () -> false;
-        Message m1 = Message.error("m1").markers(mandatoryFieldMarker).create();
-        Message m2 = Message.error("m2").markers(nonMandatoryFieldMarker).create();
-        Message m3 = Message.error("m3").create();
+        Message m1 = Message.builder("m1", Severity.ERROR).markers(mandatoryFieldMarker).create();
+        Message m2 = Message.builder("m2", Severity.ERROR).markers(nonMandatoryFieldMarker).create();
+        Message m3 = Message.builder("m3", Severity.ERROR).create();
         MessageList messages = MessageListUtil.newMessageList(m1, m2, m3);
 
         assertThat(SHOW_ALL.filter(messages), contains(m1, m2, m3));
@@ -38,7 +39,7 @@ public class ValidationDisplayStateTest {
     public void testFilter_EmptyMessageList() {
         MessageList emptyMessageList = new MessageList();
 
-        assertThat(SHOW_ALL.filter(emptyMessageList), is(Matchers.emptyMessageList()));
+        assertThat(SHOW_ALL.filter(emptyMessageList), is(MessageMatchers.emptyMessageList()));
         assertThat(HIDE_MANDATORY_FIELD_VALIDATIONS.filter(emptyMessageList), is(emptyMessageList));
     }
 

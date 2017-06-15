@@ -6,7 +6,7 @@
 
 package org.linkki.core.binding.validation;
 
-import org.faktorips.runtime.MessageList;
+import org.linkki.core.message.MessageList;
 import org.linkki.core.util.MessageUtil;
 import org.linkki.util.StreamUtil;
 

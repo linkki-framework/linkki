@@ -17,7 +17,7 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.MessageList;
+import org.linkki.core.message.MessageList;
 
 /**
  * {@link PropertyDispatcher} that throws exception on every method call except

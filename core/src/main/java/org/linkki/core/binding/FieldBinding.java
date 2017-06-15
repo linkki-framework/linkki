@@ -12,11 +12,11 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.ClassUtils;
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.container.LinkkiInMemoryContainer;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
 import org.linkki.core.util.MessageListUtil;
 import org.linkki.util.handler.Handler;
 
@@ -270,10 +270,8 @@ public class FieldBinding<T> implements ElementBinding {
     }
 
     private void addFatalError(MessageList messages, MessageList messagesForProperty) {
-        Message fatalErrorMessage = messages.getMessageByCode(ValidationService.FATAL_ERROR_MESSAGE_CODE);
-        if (fatalErrorMessage != null) {
-            messagesForProperty.add(fatalErrorMessage);
-        }
+        messages.getMessageByCode(ValidationService.FATAL_ERROR_MESSAGE_CODE)
+                .ifPresent(messagesForProperty::add);
     }
 
     @CheckForNull

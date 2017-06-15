@@ -6,15 +6,7 @@
 
 package org.linkki.test.matcher;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-
 import java.util.function.Predicate;
-
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.ObjectProperty;
-import org.faktorips.runtime.Severity;
-import org.hamcrest.Matcher;
-import org.hamcrest.core.CombinableMatcher;
 
 public class Matchers {
 
@@ -50,43 +42,5 @@ public class Matchers {
         return StreamMatcher.anyMatch(predicate);
     }
 
-    public static EmptyMessageListMatcher emptyMessageList() {
-        return new EmptyMessageListMatcher();
-    }
 
-    public static MessageListSizeMatcher hasSize(int size) {
-        return new MessageListSizeMatcher(equalTo(size));
-    }
-
-    public static MessageListSizeMatcher hasSize(Matcher<Integer> intMatcher) {
-        return new MessageListSizeMatcher(intMatcher);
-    }
-
-    public static MessageListObjectPropertyMatcher hasMessageFor(Object o, String property) {
-        return new MessageListObjectPropertyMatcher(new ObjectProperty(o, property));
-    }
-
-    public static MessageListObjectPropertyMatcher hasMessagesFor(int count, Object o, String property) {
-        return new MessageListObjectPropertyMatcher(new ObjectProperty(o, property), count);
-    }
-
-    public static MessageListMessageMatcher hasMessage(String code) {
-        return new MessageListMessageMatcher(new MessageCodeMatcher(code));
-    }
-
-    public static MessageListMessageMatcher hasInfoMessage(String code) {
-        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.INFO));
-    }
-
-    public static MessageListMessageMatcher hasWarningMessage(String code) {
-        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.WARNING));
-    }
-
-    public static MessageListMessageMatcher hasErrorMessage(String code) {
-        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.ERROR));
-    }
-
-    private static Matcher<Message> codeAndSeverity(String code, Severity severity) {
-        return CombinableMatcher.both(new MessageCodeMatcher(code)).and(new MessageSeverityMatcher(severity));
-    }
 }

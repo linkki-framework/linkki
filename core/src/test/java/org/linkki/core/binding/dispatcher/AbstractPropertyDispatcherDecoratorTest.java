@@ -9,10 +9,10 @@ package org.linkki.core.binding.dispatcher;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 
-import org.faktorips.runtime.MessageList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.linkki.core.message.MessageList;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 

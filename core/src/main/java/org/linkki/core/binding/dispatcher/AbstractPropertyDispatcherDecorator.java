@@ -13,7 +13,8 @@ import java.util.Collection;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.MessageList;
+import org.linkki.core.message.MessageList;
+
 
 /**
  * Base class for all decorating {@link PropertyDispatcher property dispatchers}. Forwards all calls

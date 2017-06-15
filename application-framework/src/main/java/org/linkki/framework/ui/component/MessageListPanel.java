@@ -6,8 +6,8 @@
 
 package org.linkki.framework.ui.component;
 
-import org.faktorips.runtime.Message;
-import org.faktorips.runtime.MessageList;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
 import org.linkki.framework.ui.LinkkiStyles;
 
 import com.vaadin.shared.ui.label.ContentMode;

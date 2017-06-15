@@ -11,9 +11,9 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.MessageList;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.message.MessageList;
 import org.linkki.util.handler.Handler;
 
 @SuppressWarnings("null")

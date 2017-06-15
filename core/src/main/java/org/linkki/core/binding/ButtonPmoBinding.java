@@ -12,9 +12,9 @@ import java.io.Serializable;
 
 import javax.annotation.Nullable;
 
-import org.faktorips.runtime.MessageList;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
 

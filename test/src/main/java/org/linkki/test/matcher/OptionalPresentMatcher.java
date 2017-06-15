@@ -15,7 +15,7 @@ public class OptionalPresentMatcher<T> extends TypeSafeMatcher<Optional<? extend
 
     private final boolean expectedPresent;
 
-    OptionalPresentMatcher(boolean expected) {
+    public OptionalPresentMatcher(boolean expected) {
         this.expectedPresent = expected;
     }
 
