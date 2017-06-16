@@ -19,6 +19,7 @@ import static org.linkki.test.matcher.Matchers.present;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.util.validation.ValidationMarker;
@@ -173,6 +174,29 @@ public class MessageListTest {
         MessageList actualMessageList = unsortedMessageList.sortByErrorLevel();
 
         assertThat(actualMessageList, is(equalTo(sortedMessageList)));
+    }
+
+    @Test
+    public void testGetText_emptyList_shouldReturnEmptyString() {
+        assertThat(new MessageList().getText(), is(StringUtils.EMPTY));
+    }
+
+    @Test
+    public void testGetMessagesFor_noObjects_shouldReturnEmptyMessageList() {
+        MessageList messages = new MessageList(Message.newError("code", "msg"),
+                Message.newWarning("code", "msg"))
+                        .getMessagesFor(new Object());
+
+        assertThat(messages, emptyMessageList());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testGetMessagesFor_objectNull_shouldThrowNullPointerException() {
+        MessageList messages = new MessageList(Message.newError("code", "msg"),
+                Message.newWarning("code", "msg"))
+                        .getMessagesFor(null);
+
+        assertThat(messages, emptyMessageList());
     }
 
 }

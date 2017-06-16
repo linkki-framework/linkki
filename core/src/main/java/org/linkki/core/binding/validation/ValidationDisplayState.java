@@ -25,7 +25,9 @@ public enum ValidationDisplayState {
     HIDE_MANDATORY_FIELD_VALIDATIONS {
         @Override
         public MessageList filter(MessageList messageList) {
-            return messageList.stream().filter(m -> !m.isMandatoryFieldMessage()).collect(toMessageList());
+            return messageList.stream()
+                    .filter(m -> !m.isMandatoryFieldMessage())
+                    .collect(toMessageList());
         }
     };
 

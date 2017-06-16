@@ -26,7 +26,7 @@ import com.vaadin.server.ErrorMessage.ErrorLevel;
 
 /**
  * A human readable text message with an optional code that identifies the type of the message and a
- * errorLevel that indicates if this is an error, warning or information.
+ * {@link ErrorLevel} that indicates if this is an error, warning or information.
  * <p>
  * In addition a message provides access to the objects and their properties the message relates to.
  * E.g. if a message reads that "insured person's age must be at least 18" than the person's age is
@@ -59,10 +59,9 @@ public class Message implements Serializable {
     private final String code;
 
     /**
-     * The object and their properties that are addressed in the message as having an error or that
-     * a warning or information relates to.
+     * The object and their properties that are addressed in the message
      */
-    private final List<ObjectProperty> invalidOp;
+    private final List<ObjectProperty> invalidProperties;
 
     private final List<MsgReplacementParameter> replacementParameters;
 
@@ -79,21 +78,10 @@ public class Message implements Serializable {
      * @param text The human readable text of this message
      * @param errorLevel the message's {@link ErrorLevel}
      */
-    public Message(String code, String text, ErrorLevel errorLevel) {
+    public Message(@Nullable String code, String text, ErrorLevel errorLevel) {
         this(code, text, errorLevel, null, null, null);
     }
 
-    /**
-     * Creates a new message by defining the following parameters.
-     * 
-     * @param code A message code that identifies the kind of the message
-     * @param text The human readable text of this message
-     * @param errorLevel the message's {@link ErrorLevel}
-     * @param invalidObjectProperties A list of object properties the message refers to
-     * @param parameters a list of replacement parameters
-     * @param markers a list of markers. If this parameter is null an empty list is set as markers.
-     *            The List of markers is
-     */
     private Message(@Nullable String code, String text, ErrorLevel errorLevel,
             @Nullable List<ObjectProperty> invalidObjectProperties,
             @Nullable List<MsgReplacementParameter> parameters, @Nullable Set<ValidationMarker> markers) {
@@ -106,9 +94,9 @@ public class Message implements Serializable {
             this.markers = Collections.emptySet();
         }
         if (invalidObjectProperties != null) {
-            invalidOp = Collections.unmodifiableList(new ArrayList<>(invalidObjectProperties));
+            invalidProperties = Collections.unmodifiableList(new ArrayList<>(invalidObjectProperties));
         } else {
-            invalidOp = Collections.emptyList();
+            invalidProperties = Collections.emptyList();
         }
         if (parameters != null) {
             replacementParameters = Collections.unmodifiableList(new ArrayList<>(parameters));
@@ -138,9 +126,6 @@ public class Message implements Serializable {
         return new Message(code, text, ErrorLevel.ERROR);
     }
 
-    /**
-     * Returns the message's errorLevel as one of the constants ERROR, WARNING, INFO or NONE.
-     */
     public ErrorLevel getErrorLevel() {
         return errorLevel;
     }
@@ -161,29 +146,23 @@ public class Message implements Serializable {
     }
 
     /**
-     * Returns the list of object properties the message refers to. E.g. if a message reads "The
-     * driver's age must be greater than 18.", this method would probably return the driver object
-     * and the property name age. Returns an empty array if this message does not refer to any
-     * objects / properties.
+     * @return <strong>unmodifiable</strong> view of the invalid {@link ObjectProperty object
+     *         properties}
      */
     public List<ObjectProperty> getInvalidObjectProperties() {
-        if (invalidOp.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return Collections.unmodifiableList(invalidOp);
+        return invalidProperties;
     }
 
     /**
-     * Returns a set of {@link ValidationMarker}s associated with this class. Returns an empty set
-     * if no markers are set.
+     * @return <strong>unmodifiable</strong> view of all {@link ValidationMarker validation markers}
      */
     public Set<ValidationMarker> getMarkers() {
         return markers;
     }
 
     /**
-     * Returns <code>true</code> if the message contains the specified {@link ValidationMarker}
-     * marker otherwise <code>false</code>.
+     * @return {@code true} if the message contains the specified {@link ValidationMarker marker}
+     *         otherwise {@code false}
      */
     public boolean hasMarker(ValidationMarker marker) {
         return markers.contains(marker);
@@ -194,6 +173,15 @@ public class Message implements Serializable {
      */
     public boolean hasMarkers() {
         return !markers.isEmpty();
+    }
+
+    /**
+     * @return {@code true} if the message has at least one marker of type {@code ValidationMarker}
+     *         marking it as a mandatory field validation message
+     */
+    public boolean isMandatoryFieldMessage() {
+        return getMarkers().stream()
+                .anyMatch(ValidationMarker::isRequiredInformationMissing);
     }
 
     @Override
@@ -215,14 +203,14 @@ public class Message implements Serializable {
         buffer.append(' ');
         buffer.append(code);
         buffer.append('[');
-        int max = invalidOp.size();
+        int max = invalidProperties.size();
         for (int i = 0; i < max; i++) {
             if (i > 0) {
                 buffer.append(", ");
             }
-            buffer.append(invalidOp.get(i).getObject().toString());
+            buffer.append(invalidProperties.get(i).getObject().toString());
             buffer.append('.');
-            buffer.append(invalidOp.get(i).getProperty());
+            buffer.append(invalidProperties.get(i).getProperty());
         }
         buffer.append(']');
         buffer.append(SystemUtils.LINE_SEPARATOR);
@@ -250,7 +238,7 @@ public class Message implements Serializable {
         if (errorLevel != other.errorLevel) {
             return false;
         }
-        if (!Objects.equals(invalidOp, other.invalidOp)) {
+        if (!Objects.equals(invalidProperties, other.invalidProperties)) {
             return false;
         }
         if (!Objects.equals(replacementParameters, other.replacementParameters)) {
@@ -260,18 +248,6 @@ public class Message implements Serializable {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Returns {@code true} if the given message has at least one marker of type
-     * {@code ValidationMarker} marking it as a mandatory field validation message, i.e.
-     * {@link ValidationMarker#isRequiredInformationMissing()} is {@code true}. Returns
-     * {@code false} if the message has no {@code ValidationMarker} or is not marked as a mandatory
-     * field validation message.
-     */
-    public boolean isMandatoryFieldMessage() {
-        return markers.stream()
-                .anyMatch(ValidationMarker::isRequiredInformationMissing);
     }
 
     @Override
@@ -346,7 +322,8 @@ public class Message implements Serializable {
         /**
          * Set the message's code that identifies the kind of the message.
          * 
-         * @param code A message code that identifies the kind of the message
+         * @param code message code that identifies the kind of the message
+         *
          * @return this builder instance to directly add further properties
          */
         public Builder code(String code) {
@@ -355,9 +332,10 @@ public class Message implements Serializable {
         }
 
         /**
-         * Set an object property that message refers to.
+         * Set an object property the message refers to.
          *
-         * @param invalidObjectProperty An object property that message refers to
+         * @param invalidObjectProperty An object property the message refers to
+         *
          * @return this builder instance to directly add further properties
          *
          */
@@ -367,9 +345,10 @@ public class Message implements Serializable {
         }
 
         /**
-         * Add a list of object properties that message refers to.
+         * Add a list of object properties the message refers to.
          * 
-         * @param invalidObjectProperties A list of object properties that message refers to
+         * @param invalidObjectProperties A list of object properties the message refers to
+         *
          * @return this builder instance to directly add further properties
          */
         public Builder invalidObjects(List<ObjectProperty> invalidObjectProperties) {
@@ -378,9 +357,10 @@ public class Message implements Serializable {
         }
 
         /**
-         * Set object properties that message refers to.
+         * Set object properties the message refers to.
          * 
-         * @param invalidObjectProperties Object properties that message refers to
+         * @param invalidObjectProperties Object properties the message refers to
+         *
          * @return this builder instance to directly add further properties
          */
         public Builder invalidObjects(ObjectProperty... invalidObjectProperties) {
@@ -393,10 +373,9 @@ public class Message implements Serializable {
          * 
          * @param object The object the message refers to
          * @param properties Some properties the message refers to
+         *
          * @return this builder instance to directly add further properties
-         * 
          */
-        @SuppressWarnings("null")
         public Builder invalidObjectWithProperties(Object object, String... properties) {
             if (properties.length == 0) {
                 return invalidObject(new ObjectProperty(object));
@@ -413,6 +392,7 @@ public class Message implements Serializable {
          * A list of replacement parameters the message should reference.
          * 
          * @param replacementParams a list of replacement parameters
+         *
          * @return this builder instance to directly add further properties
          */
         public Builder replacements(List<MsgReplacementParameter> replacementParams) {
@@ -424,6 +404,7 @@ public class Message implements Serializable {
          * Some replacement parameters the message should reference.
          * 
          * @param replacementParams Some replacement parameters
+         *
          * @return this builder instance to directly add further properties
          */
         public Builder replacements(MsgReplacementParameter... replacementParams) {
@@ -435,6 +416,7 @@ public class Message implements Serializable {
          * 
          * @param name The name of the {@link MsgReplacementParameter}
          * @param value The value of the {@link MsgReplacementParameter}
+         *
          * @return this builder instance to directly add further properties
          */
         public Builder replacement(String name, Object value) {
@@ -446,6 +428,7 @@ public class Message implements Serializable {
          * Set a collection of markers that should be provided to the new message.
          * 
          * @param markers a set of markers
+         *
          * @return this builder instance to directly add further properties
          */
         public Builder markers(Collection<? extends ValidationMarker> markers) {
@@ -456,7 +439,8 @@ public class Message implements Serializable {
         /**
          * Set some markers that should be provided to the new message.
          * 
-         * @param markers Some markers
+         * @param markers {@link ValidationMarker markers} for the message
+         *
          * @return this builder instance to directly add further properties
          */
         public Builder markers(ValidationMarker... markers) {

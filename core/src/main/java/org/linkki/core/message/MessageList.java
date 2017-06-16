@@ -40,61 +40,81 @@ public class MessageList implements Serializable, Iterable<Message> {
     /**
      * Creates a message list that contains the given {@link Message message(s)}.
      *
-     * @throws NullPointerException if {@code msgs} or any {@link Message message} is {@code null}
+     * @param messages {@link Message messages} which should be added initially to the created
+     *            {@link MessageList}
+     * 
+     * @throws NullPointerException if {@code messages} or any {@link Message message} is
+     *             {@code null}
      */
-    public MessageList(Message... msgs) {
-        Objects.requireNonNull(msgs, "msgs must not be null");
+    public MessageList(Message... messages) {
+        Objects.requireNonNull(messages, "messages must not be null");
 
-        messages = new ArrayList<>(msgs.length);
-        for (Message msg : msgs) {
+        this.messages = new ArrayList<>(messages.length);
+        for (Message msg : messages) {
             add(msg);
         }
     }
 
     /**
-     * Adds the message to the list.
+     * Adds the given {@link Message} to this {@link MessageList list}.
      *
-     * @throws NullPointerException if msg is null.
+     * @param message the {@link Message} to add
+     *
+     * @throws NullPointerException if {@code message} is {@code null}.
      */
-    public void add(Message msg) {
-        Objects.requireNonNull(msg, "msg must not be null");
-        messages.add(msg);
+    public void add(Message message) {
+        Objects.requireNonNull(message, "message must not be null");
+        messages.add(message);
     }
 
     /**
-     * Adds the messages in the given list to this list.
+     * Adds the {@link Message messages} in the given {@link MessageList list} to this
+     * {@link MessageList list}. If the given {@link MessageList list} is {@code null} nothing will
+     * be added to this {@link MessageList list}.
+     *
+     * @param messageList {@link MessageList} with the {@link Message messages} to add to this
+     *            {@link MessageList list}
      */
-    public void add(@Nullable MessageList msgList) {
-        if (msgList == null) {
+    public void add(@Nullable MessageList messageList) {
+        if (messageList == null) {
             return;
         }
 
-        msgList.forEach(this::add);
+        messageList.forEach(this::add);
     }
 
     /**
-     * Returns true if the list is empty.
+     * @return {@code true} if the list is empty otherwise {@code false}.
      */
     public boolean isEmpty() {
         return messages.isEmpty();
     }
 
     /**
-     * @return The size of the message list
+     * @return the size of the message list (the number of {@link Message messages} in this list)
      */
     public int size() {
         return messages.size();
     }
 
     /**
-     * @return the message at the indicated index
+     * @param index index of the {@link Message} to return
+     * 
+     * @return the {@link Message} at the specified index
      */
     public Message getMessage(int index) {
         return messages.get(index);
     }
 
     /**
-     * @return the first message with the given errorLevel or null if none is found.
+     * Searches the <strong>first</strong> {@link Message} with the given {@link ErrorLevel}. If no
+     * such {@link Message} exists, an empty {@link Optional} will be returned.
+     *
+     * @param errorLevel {@link ErrorLevel} to search for
+     * 
+     * @return the <strong>first</strong> {@link Message} with the given {@link ErrorLevel} or
+     *         {@link Optional#empty()} if no {@link Message} with the given {@link ErrorLevel}
+     *         exists.
      */
     public Optional<Message> getFirstMessage(ErrorLevel errorLevel) {
         return messages.stream()
@@ -103,8 +123,17 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * Returns the first message in the list that has the specified message code. Returns null, if
-     * the list does not contain such a message.
+     * Searches the <strong>first</strong> {@link Message} with given {@code code}. If this list
+     * does not contain a {@link Message} with the given {@code code}, an empty {@link Optional}
+     * will be returned.
+     * <p>
+     * If the {@code code} is {@code null}, the first {@link Message} with a {@code null code} will
+     * be returned.
+     *
+     * @param code the code to search for
+     * 
+     * @return the <strong>first</strong> {@link Message} with the given {@code code} or
+     *         {@link Optional#empty()}
      */
     public Optional<Message> getMessageByCode(@Nullable String code) {
         return messages.stream()
@@ -113,9 +142,15 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * Returns a new message list containing all the message in this list that have the specified
-     * message code. Returns an empty list if either code is <code>null</code> or this list does
-     * contain any message with the given code.
+     * Returns a <strong>new</strong> {@link MessageList} containing all {@link Message messages}
+     * with the specified message code.
+     * <p>
+     * If this {@link MessageList list} does not contain any {@link Message} with the given code.
+     *
+     * @param code the code to search for
+     * 
+     * @return <strong>new</strong> {@link MessageList} with all {@link Message messages} with the
+     *         given {@code code}
      */
     public MessageList getMessagesByCode(@Nullable String code) {
         return messages.stream()
@@ -124,17 +159,31 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * Returns the message list's errorLevel. This is the maximum errorLevel of the list's messages.
-     * If the list does not contain any messages, the method returns {@link Optional#empty()}.
+     * Returns the maximum {@link ErrorLevel} of this {@link MessageList}. If this
+     * {@link MessageList list} {@link #isEmpty()}, {@link Optional#empty()} will be returned.
+     * <p>
+     * For Example:<br>
+     * A {@link MessageList} contains 2 {@link Message messages}.<br>
+     * One with {@link ErrorLevel#INFORMATION} and one with {@link ErrorLevel#ERROR}.<br>
+     * {@code getErrorLevel()} returns {@link ErrorLevel#ERROR}.
+     *
+     * @return the {@link MessageList message list's} maximum {@link ErrorLevel} or
+     *         {@link Optional#empty()}.
      */
     public Optional<ErrorLevel> getErrorLevel() {
         return messages.stream()
                 .map(Message::getErrorLevel)
-                .max(Comparator.naturalOrder());
+                .max(Comparator.comparing(ErrorLevel::intValue));
     }
 
     /**
-     * @return the text of all messages in the list, separated by the system's default line ending
+     * Collects all {@link Message#getText() texts} from the containing {@link Message messages}.
+     * <p>
+     * If this {@link MessageList} does not contain any message, an empty String ("") will be
+     * returned.
+     *
+     * @return the text of all {@link Message messages} in this list, separated by the system's
+     *         default line ending or an emtpy String
      */
     public String getText() {
         return messages.stream()
@@ -143,7 +192,8 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * Returns true if one the messages in the list is an error message, otherwise false.
+     * @return {@code true} if one of the {@link Message messages} in this list is has the
+     *         {@link ErrorLevel#ERROR}, otherwise {code false}.
      */
     public boolean containsErrorMsg() {
         return messages.stream()
@@ -151,19 +201,67 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * Returns a new list with the messages in this list that belong to the given object (any
-     * property). Returns an empty list if no such message is found.
+     * Returns a <strong>new</strong> {@link MessageList} containing all {@link Message messages}
+     * for the given {@code object} no matter of the property the {@link Message} is for
+     * ({@link Message#getInvalidObjectProperties()}).
+     * <p>
+     * If this {@link MessageList list} does not contain any {@link Message} for the given
+     * {@code object}, an empty {@link MessageList} will be returned.
+     *
+     * @param object object to search for
+     * 
+     * @return <strong>new</strong> {@link MessageList} containing all {@link Message messages} for
+     *         the given {@code object}
+     * 
+     * @throws NullPointerException if {@code object} is {@code null}
      */
     public MessageList getMessagesFor(Object object) {
         return getMessagesFor(object, null);
     }
 
     /**
-     * Returns a new list with the messages in this list that belong to the given object and
-     * property and the property is of the given index. Returns an empty list if no such message is
-     * found.
+     * Returns a <strong>new</strong> {@link MessageList} containing all {@link Message messages}
+     * for the given {@code object} and {@code property}
+     * ({@link Message#getInvalidObjectProperties()}).
+     * <p>
+     * If this {@link MessageList list} does not contain any {@link Message} for the given
+     * parameters, an empty {@link MessageList} will be returned.
+     *
+     * @param object object to search for
+     * @param property property of the object to search for
+     * 
+     * @return <strong>new</strong> {@link MessageList} containing all {@link Message messages} for
+     *         the given {@code object} and {@code property}
+     * 
+     * @throws NullPointerException if {@code object} is {@code null}
+     */
+    public MessageList getMessagesFor(Object object, @Nullable String property) {
+        return getMessagesFor(object, property, -1);
+    }
+
+    /**
+     * Returns a <strong>new</strong> {@link MessageList} containing all {@link Message messages}
+     * for the given {@code object}, {@code property} and {@code index}
+     * ({@link Message#getInvalidObjectProperties()}).
+     * <p>
+     * The {@code index} is relevant, if the {@code property} is a collection and the {@link Message
+     * messages} for an element at a specific position are needed.
+     * <p>
+     * If this {@link MessageList list} does not contain any {@link Message} for the given
+     * parameters, an empty {@link MessageList} will be returned.
+     *
+     * @param object object to search for
+     * @param property property of the object to search for
+     * @param index index of the object
+     *
+     * @return <strong>new</strong> {@link MessageList} containing all {@link Message messages} for
+     *         the given parameters
+     *
+     * @throws NullPointerException if {@code object} is {@code null}
      */
     public MessageList getMessagesFor(Object object, @Nullable String property, int index) {
+        Objects.requireNonNull(object, "object must not be null");
+
         return messages.stream()
                 .filter(m -> m.getInvalidObjectProperties().stream()
                         .filter(op -> op.getObject().equals(object))
@@ -175,22 +273,17 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * Returns a new list with the messages in this list that belong to the given object and
-     * property. Returns an empty list if no such message is found.
-     */
-    public MessageList getMessagesFor(Object object, @Nullable String property) {
-        return getMessagesFor(object, property, -1);
-    }
-
-
-    /**
-     * Returns a new message list containing all the message in this list that have the specified
-     * {@link ValidationMarker}. If {@code marker} is {@code null} all {@link Message messges}
-     * without any markers are returned.
+     * Returns a <strong>new</strong> {@link MessageList} containing all {@link Message messages}
+     * containing the given {@link ValidationMarker}. If {@code marker} is {@code null} all
+     * {@link Message messages} without any markers are returned.
+     * <p>
+     * If no {@link Message} with the given marker exists in this {@link MessageList}, an empty
+     * {@link MessageList} will be returned.
      *
      * @param marker the {@link ValidationMarker} to look for
-     * @return a new {@link MessageList} containing all {link Message messages} with the given
-     *         {@link ValidationMarker}
+     *
+     * @return a <strong>new</strong> {@link MessageList} containing all {link Message messages}
+     *         with the given {@link ValidationMarker} or an empty {@link MessageList}
      */
     public MessageList getMessagesByMarker(@Nullable ValidationMarker marker) {
         return messages.stream()
@@ -199,9 +292,10 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * Returns a new message list containing all the message in this list with a
-     * {@link ValidationMarker} the specified {@link Predicate} matches. Returns an empty list if
-     * this list does not contain any such message.
+     * Returns a <strong>new</strong> {@link MessageList} containing all {@link Message messages}
+     * with a {@link ValidationMarker} the specified {@link Predicate} matches.
+     * <p>
+     * Returns an empty {@link MessageList list} no such {@link Message} exists.
      * <p>
      * Sample usage:
      * <code>messages.getMessagesByMarker(ValidationMarker::isMandatoryFieldValidation</code>
@@ -239,10 +333,9 @@ public class MessageList implements Serializable, Iterable<Message> {
                 .collect(collector());
     }
 
-
     /**
-     * Returns the message with the highest errorLevel. If there are multiple such messages, the
-     * first one is returned. If this list {@link #isEmpty()}, {@link Optional#empty()} is returned.
+     * @return the <strong>first</strong> {@link Message} with the highest {@link ErrorLevel} or
+     *         {@link Optional#empty()} if this list is {@link #isEmpty()}
      */
     public Optional<Message> getMessageWithHighestErrorLevel() {
         return messages.stream()
@@ -251,7 +344,7 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * Returns an iterator over the messages in this list.
+     * @return iterator for the {@link Message messages} in this list
      */
     @Override
     public Iterator<Message> iterator() {
@@ -259,15 +352,14 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     /**
-     * Removes all of the messages from this list. This list will be empty after this call returns.
+     * Removes all {@link Message messages} from this list.
      */
     public void clear() {
         messages.clear();
     }
 
-    @SuppressWarnings({ "null", "unused" })
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj) {
             return true;
         }
