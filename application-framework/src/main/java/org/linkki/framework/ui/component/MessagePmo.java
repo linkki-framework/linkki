@@ -27,11 +27,11 @@ public class MessagePmo {
     }
 
     public String getStyle() {
-        return LinkkiStyles.MESSAGE_PREFIX + message.getSeverity().name().toLowerCase();
+        return LinkkiStyles.MESSAGE_PREFIX + message.getErrorLevel().name().toLowerCase();
     }
 
     public FontAwesome getIcon() {
-        switch (message.getSeverity()) {
+        switch (message.getErrorLevel()) {
             case ERROR:
                 return FontAwesome.EXCLAMATION_CIRCLE;
             case WARNING:

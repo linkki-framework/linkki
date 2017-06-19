@@ -9,24 +9,25 @@ package org.linkki.core.matcher;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.linkki.core.message.Message;
-import org.linkki.core.message.Severity;
 
-public class MessageSeverityMatcher extends TypeSafeMatcher<Message> {
+import com.vaadin.server.ErrorMessage.ErrorLevel;
 
-    private final Severity severity;
+public class MessageErrorLevelMatcher extends TypeSafeMatcher<Message> {
 
-    public MessageSeverityMatcher(Severity severity) {
-        this.severity = severity;
+    private final ErrorLevel errorLevel;
+
+    public MessageErrorLevelMatcher(ErrorLevel errorLevel) {
+        this.errorLevel = errorLevel;
     }
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("a message with severity " + severity);
+        description.appendText("a message with errorLevel " + errorLevel);
     }
 
     @Override
     protected boolean matchesSafely(Message m) {
-        return severity == m.getSeverity();
+        return errorLevel == m.getErrorLevel();
     }
 
 }

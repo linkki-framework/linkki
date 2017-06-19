@@ -19,7 +19,6 @@ import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
-import org.linkki.core.util.MessageListUtil;
 import org.linkki.util.handler.Handler;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -29,7 +28,7 @@ public class BindingManagerTest {
     private ValidationService validationService;
 
     @Test
-    public void testAfterUpdateUi_sortsMessagesBySeverity() {
+    public void testAfterUpdateUi_sortsMessagesByErrorLevel() {
         Message e1 = Message.newError("e1", "E1");
         Message e2 = Message.newError("e2", "E2");
         Message e3 = Message.newError("e3", "E3");
@@ -37,8 +36,8 @@ public class BindingManagerTest {
         Message w2 = Message.newWarning("w2", "W2");
         Message i1 = Message.newInfo("i1", "I1");
         Message i2 = Message.newInfo("i2", "I2");
-        MessageList unsortedMessageList = MessageListUtil.newMessageList(i2, e1, w1, e3, i1, e2, w2);
-        MessageList sortedMessageList = MessageListUtil.newMessageList(e1, e3, e2, w1, w2, i2, i1);
+        MessageList unsortedMessageList = new MessageList(i2, e1, w1, e3, i1, e2, w2);
+        MessageList sortedMessageList = new MessageList(e1, e3, e2, w1, w2, i2, i1);
         validationService = () -> unsortedMessageList;
         TestBindingManager bindingManager = new TestBindingManager(validationService);
         TestBindingContext context = bindingManager.startNewContext("foo");

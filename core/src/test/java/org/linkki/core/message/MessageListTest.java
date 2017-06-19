@@ -6,20 +6,24 @@
 
 package org.linkki.core.message;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 import static org.linkki.core.matcher.MessageMatchers.hasSize;
+import static org.linkki.test.matcher.Matchers.present;
 
+import java.util.Optional;
 import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.util.validation.ValidationMarker;
+
+import com.vaadin.server.ErrorMessage.ErrorLevel;
 
 public class MessageListTest {
 
@@ -41,9 +45,9 @@ public class MessageListTest {
         invalidObjectProperty3 = new ObjectProperty("C", "higherIndexProperty", 2);
 
 
-        msg1 = Message.builder("Test1", Severity.INFO).invalidObject(invalidObjectProperty1).create();
-        msg2 = Message.builder("Test2", Severity.INFO).invalidObject(invalidObjectProperty2).create();
-        msg3 = Message.builder("Test3", Severity.INFO).invalidObject(invalidObjectProperty3).create();
+        msg1 = Message.builder("Test1", ErrorLevel.INFORMATION).invalidObject(invalidObjectProperty1).create();
+        msg2 = Message.builder("Test2", ErrorLevel.INFORMATION).invalidObject(invalidObjectProperty2).create();
+        msg3 = Message.builder("Test3", ErrorLevel.INFORMATION).invalidObject(invalidObjectProperty3).create();
 
         msgList1 = new MessageList(msg1);
         msgList1.add(msg2);
@@ -75,8 +79,8 @@ public class MessageListTest {
     public void testGetMessagesByMarker_withValidationMarker() {
         ValidationMarker marker = () -> false;
 
-        MessageList messages = new MessageList(Message.builder("msg1", Severity.INFO).create(),
-                Message.builder("msgWithMarker", Severity.WARNING).markers(marker).create());
+        MessageList messages = new MessageList(Message.builder("msg1", ErrorLevel.INFORMATION).create(),
+                Message.builder("msgWithMarker", ErrorLevel.WARNING).markers(marker).create());
 
         MessageList messagesByMarker = messages.getMessagesByMarker(marker);
         assertThat(messagesByMarker, is(not(sameInstance(messages))));
@@ -87,8 +91,8 @@ public class MessageListTest {
     @Test
     public void testGetMessagesByMarker_markerNull_shouldReturnAllMessagesWithoutMarker() {
 
-        MessageList messages = new MessageList(Message.builder("msg1", Severity.INFO).create(),
-                Message.builder("msgWithMarker", Severity.WARNING).markers(() -> false).create());
+        MessageList messages = new MessageList(Message.builder("msg1", ErrorLevel.INFORMATION).create(),
+                Message.builder("msgWithMarker", ErrorLevel.WARNING).markers(() -> false).create());
 
         MessageList messagesByMarker = messages.getMessagesByMarker((ValidationMarker)null);
         assertThat(messagesByMarker, is(not(sameInstance(messages))));
@@ -99,9 +103,9 @@ public class MessageListTest {
     @Test
     public void testGetMessagesByMarker_predicate() {
 
-        MessageList messages = new MessageList(Message.builder("msgWithoutMarker", Severity.INFO).create(),
-                Message.builder("msgWithMatchingMarker", Severity.WARNING).markers(() -> true).create(),
-                Message.builder("msgWithNonMathingMarker", Severity.ERROR).markers(() -> false).create());
+        MessageList messages = new MessageList(Message.builder("msgWithoutMarker", ErrorLevel.INFORMATION).create(),
+                Message.builder("msgWithMatchingMarker", ErrorLevel.WARNING).markers(() -> true).create(),
+                Message.builder("msgWithNonMathingMarker", ErrorLevel.ERROR).markers(() -> false).create());
 
         MessageList messagesByMarker = messages.getMessagesByMarker(ValidationMarker::isRequiredInformationMissing);
         assertThat(messagesByMarker, is(not(sameInstance(messages))));
@@ -115,26 +119,60 @@ public class MessageListTest {
     }
 
     @Test
-    public void testGetMessageWithHighestSeverity() {
+    public void testGetMessageWithHighestErrorLevel() {
 
-        MessageList messages = new MessageList(Message.builder("info", Severity.INFO).create(),
-                Message.builder("error", Severity.ERROR).create(),
-                Message.builder("warning", Severity.WARNING).create());
+        MessageList messages = new MessageList(Message.builder("info", ErrorLevel.INFORMATION).create(),
+                Message.builder("error", ErrorLevel.ERROR).create(),
+                Message.builder("warning", ErrorLevel.WARNING).create());
 
-        @Nonnull
-        Message message = messages.getMessageWithHighestSeverity();
-        assertThat(message.getSeverity(), is(Severity.ERROR));
+        Optional<Message> message = messages.getMessageWithHighestErrorLevel();
+        assertThat(message, is(present()));
+        assertThat(message.get().getErrorLevel(), is(ErrorLevel.ERROR));
 
     }
 
     @Test
-    public void testGetMessageWithHighestSeverity_null() {
+    public void testGetMessageWithHighestErrorLevel_null() {
 
         MessageList messages = new MessageList();
 
-        @Nonnull
-        Message message = messages.getMessageWithHighestSeverity();
-        assertNull(message);
+        Optional<Message> message = messages.getMessageWithHighestErrorLevel();
+        assertThat(message, is(not(present())));
 
     }
+
+    @Test(expected = NullPointerException.class)
+    public void testNewMessageList_null_shouldThrowNullPointerException() {
+        new MessageList((Message[])null);
+    }
+
+    @Test
+    public void testNewMessageList_empty() {
+        assertThat(new MessageList(), is(emptyMessageList()));
+    }
+
+    @Test
+    public void testNewMessageList() {
+        Message m1 = Message.newError("error", "error");
+        Message m2 = Message.newWarning("warning", "warning");
+        assertThat(new MessageList(m1, m2), hasItems(m1, m2));
+    }
+
+    @Test
+    public void testSortByErrorLevel() {
+        Message e1 = Message.newError("e1", "E1");
+        Message e2 = Message.newError("e2", "E2");
+        Message e3 = Message.newError("e3", "E3");
+        Message w1 = Message.newWarning("w1", "W1");
+        Message w2 = Message.newWarning("w2", "W2");
+        Message i1 = Message.newInfo("i1", "I1");
+        Message i2 = Message.newInfo("i2", "I2");
+        MessageList unsortedMessageList = new MessageList(i2, e1, w1, e3, i1, e2, w2);
+        MessageList sortedMessageList = new MessageList(e1, e3, e2, w1, w2, i2, i1);
+
+        MessageList actualMessageList = unsortedMessageList.sortByErrorLevel();
+
+        assertThat(actualMessageList, is(equalTo(sortedMessageList)));
+    }
+
 }

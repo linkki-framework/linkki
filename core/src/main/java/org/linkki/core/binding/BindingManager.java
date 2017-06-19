@@ -12,7 +12,6 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import org.apache.commons.lang3.Validate;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.MessageList;
-import org.linkki.core.util.MessageListUtil;
 
 import com.vaadin.cdi.ViewScoped;
 
@@ -138,11 +137,8 @@ public abstract class BindingManager {
         MessageList messages = this.validationService.getValidationMessages();
 
 
-        MessageList sortedMessages = MessageListUtil.sortBySeverity(messages);
-
-        if (sortedMessages != null) {
-            updateMessages(sortedMessages);
-        }
+        MessageList sortedMessages = messages.sortByErrorLevel();
+        updateMessages(sortedMessages);
 
         notifyUiUpdateObservers();
     }

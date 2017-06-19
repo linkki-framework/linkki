@@ -14,12 +14,12 @@ public class LinkkiStyles {
 
 
     /**
-     * Prefix for message label style classes. The severity in lower case is used as suffix
+     * Prefix for message label style classes. The errorLevel in lower case is used as suffix
      */
     public static final String MESSAGE_PREFIX = "linkki-message-"; //$NON-NLS-1$
 
     /**
-     * Style class prefix message labels. The severity in lower case is used as suffix
+     * Style class prefix message labels. The errorLevel in lower case is used as suffix
      */
     public static final String MESSAGE_LIST_STYLE = "linkki-message-list"; //$NON-NLS-1$
 
