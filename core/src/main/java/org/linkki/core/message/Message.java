@@ -59,11 +59,9 @@ public class Message implements Serializable {
     private final String code;
 
     /**
-     * The object and their properties that are addressed in the message
+     * The objects and their properties that are addressed in the message
      */
     private final List<ObjectProperty> invalidProperties;
-
-    private final List<MsgReplacementParameter> replacementParameters;
 
     /**
      * A set of {@link ValidationMarker} containing additional information.
@@ -79,12 +77,11 @@ public class Message implements Serializable {
      * @param errorLevel the message's {@link ErrorLevel}
      */
     public Message(@Nullable String code, String text, ErrorLevel errorLevel) {
-        this(code, text, errorLevel, null, null, null);
+        this(code, text, errorLevel, null, null);
     }
 
     private Message(@Nullable String code, String text, ErrorLevel errorLevel,
-            @Nullable List<ObjectProperty> invalidObjectProperties,
-            @Nullable List<MsgReplacementParameter> parameters, @Nullable Set<ValidationMarker> markers) {
+            @Nullable List<ObjectProperty> invalidObjectProperties, @Nullable Set<ValidationMarker> markers) {
         this.code = code;
         this.text = Objects.requireNonNull(text, "text must not be null");
         this.errorLevel = Objects.requireNonNull(errorLevel, "errorLevel must not be null");
@@ -97,11 +94,6 @@ public class Message implements Serializable {
             invalidProperties = Collections.unmodifiableList(new ArrayList<>(invalidObjectProperties));
         } else {
             invalidProperties = Collections.emptyList();
-        }
-        if (parameters != null) {
-            replacementParameters = Collections.unmodifiableList(new ArrayList<>(parameters));
-        } else {
-            replacementParameters = Collections.emptyList();
         }
     }
 
@@ -131,7 +123,7 @@ public class Message implements Serializable {
     }
 
     /**
-     * Returns the humand readable message text.
+     * Returns the human readable message text.
      */
     public String getText() {
         return text;
@@ -241,9 +233,6 @@ public class Message implements Serializable {
         if (!Objects.equals(invalidProperties, other.invalidProperties)) {
             return false;
         }
-        if (!Objects.equals(replacementParameters, other.replacementParameters)) {
-            return false;
-        }
         if (!Objects.equals(markers, other.markers)) {
             return false;
         }
@@ -293,8 +282,6 @@ public class Message implements Serializable {
 
         private final ErrorLevel errorLevel;
 
-        private final List<MsgReplacementParameter> replacementParams;
-
         private final List<ObjectProperty> invalidObjectProperties;
 
         private final Set<ValidationMarker> markers;
@@ -314,7 +301,6 @@ public class Message implements Serializable {
             this.text = text;
             this.errorLevel = errorLevel;
 
-            replacementParams = new ArrayList<>();
             invalidObjectProperties = new ArrayList<>();
             markers = new HashSet<>();
         }
@@ -389,42 +375,6 @@ public class Message implements Serializable {
         }
 
         /**
-         * A list of replacement parameters the message should reference.
-         * 
-         * @param replacementParams a list of replacement parameters
-         *
-         * @return this builder instance to directly add further properties
-         */
-        public Builder replacements(List<MsgReplacementParameter> replacementParams) {
-            this.replacementParams.addAll(replacementParams);
-            return this;
-        }
-
-        /**
-         * Some replacement parameters the message should reference.
-         * 
-         * @param replacementParams Some replacement parameters
-         *
-         * @return this builder instance to directly add further properties
-         */
-        public Builder replacements(MsgReplacementParameter... replacementParams) {
-            return replacements(Arrays.asList(replacementParams));
-        }
-
-        /**
-         * Creates a new {@link MsgReplacementParameter} the message should reference
-         * 
-         * @param name The name of the {@link MsgReplacementParameter}
-         * @param value The value of the {@link MsgReplacementParameter}
-         *
-         * @return this builder instance to directly add further properties
-         */
-        public Builder replacement(String name, Object value) {
-            replacementParams.add(new MsgReplacementParameter(name, value));
-            return this;
-        }
-
-        /**
          * Set a collection of markers that should be provided to the new message.
          * 
          * @param markers a set of markers
@@ -453,7 +403,7 @@ public class Message implements Serializable {
          * @return a new message that has the parameters of this builder.
          */
         public Message create() {
-            return new Message(code, text, errorLevel, invalidObjectProperties, replacementParams, markers);
+            return new Message(code, text, errorLevel, invalidObjectProperties, markers);
         }
 
     }

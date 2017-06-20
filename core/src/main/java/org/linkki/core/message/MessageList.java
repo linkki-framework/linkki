@@ -359,7 +359,7 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     @Override
-    @SuppressWarnings("null")
+    @SuppressWarnings({ "null", "unused" })
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
