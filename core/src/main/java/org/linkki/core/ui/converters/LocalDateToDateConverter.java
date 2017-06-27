@@ -8,7 +8,10 @@ package org.linkki.core.ui.converters;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -37,7 +40,30 @@ public class LocalDateToDateConverter implements Converter<Date, LocalDate>, Aut
             return null;
         }
 
-        return toLocalDateWithHack(value);
+        return toLocalWorkaround(value);
+    }
+
+    /**
+     * We need this workaround because the 'real' way doesn't work:
+     * 
+     * <pre>
+     * value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+     * </pre>
+     * 
+     * would "lose" 2 or 3 days (depending on the time zone) with 2 digit years and dates prior to
+     * 1893-04-01
+     */
+    private static LocalDate toLocalWorkaround(Date value) {
+        String formattedDate = new SimpleDateFormat("yyyyMMdd").format(value);
+        if (formattedDate.startsWith("00")) {
+            formattedDate = formattedDate.substring(2);
+        }
+
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendValueReduced(ChronoField.YEAR, 2, 4, Year.now().getValue() - 80)
+                .appendPattern("MMdd")
+                .toFormatter();
+        return LocalDate.parse(formattedDate, formatter);
     }
 
     @Override
@@ -66,30 +92,6 @@ public class LocalDateToDateConverter implements Converter<Date, LocalDate>, Aut
     @Override
     public Class<Date> getPresentationType() {
         return Date.class;
-    }
-
-
-    /**
-     * We need this hack because the 'real' way doesn't work:
-     * 
-     * <pre>
-     * value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-     * </pre>
-     * 
-     * would "lose" 2 or 3 days (depending on the time zone) with 2 digit years
-     */
-    private static LocalDate toLocalDateWithHack(Date value) {
-        String pattern = "yyyy.MM.dd";
-        String parsedDate = new SimpleDateFormat(pattern).format(value);
-        if (parsedDate.startsWith("00")) {
-            parsedDate = parsedDate.substring(2);
-            pattern = pattern.substring(2);
-        }
-
-
-        return LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern(pattern));
-
-
     }
 
 
