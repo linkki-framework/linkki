@@ -44,6 +44,8 @@ public class LocalDateToDateConverterTest {
         final String germanLongPattern = "dd.MM.yyyy";
         final DateTimeFormatter shortYearFormatter = DateTimeFormatter.ofPattern(shortYearPattern);
         final int deltaDays = 1000;
+        final int nearly19Years = 19 * 365;
+        final int nearly80Years = 80 * 365;
 
         return new Object[][] {
                 /* [0] */ { null, "yy.MM.dd", null },
@@ -64,8 +66,10 @@ public class LocalDateToDateConverterTest {
                 /* [14] */ { getDateFromNow(-deltaDays).format(shortYearFormatter), shortYearPattern,getDateFromNow(-deltaDays) },
                 /* [15] */ { "00" + getDateFromNow(deltaDays).format(shortYearFormatter), longYearPattern,getDateFromNow(deltaDays) },
                 /* [16] */ { "00" + getDateFromNow(-deltaDays).format(shortYearFormatter), longYearPattern,getDateFromNow(-deltaDays) },
-                /* [17] */ { getDateFromNow(0).format(shortYearFormatter), shortYearPattern, getDateFromNow(0) }, // today
-                /* [18] */ { "00" + getDateFromNow(0).format(shortYearFormatter), longYearPattern, getDateFromNow(0) } // today
+                /* [17] */ { "00" + getDateFromNow(-nearly80Years).format(shortYearFormatter), longYearPattern,getDateFromNow(-nearly80Years) },
+                /* [18] */ { "00" + getDateFromNow(nearly19Years).format(shortYearFormatter), longYearPattern,getDateFromNow(nearly19Years) },
+                /* [19] */ { getDateFromNow(0).format(shortYearFormatter), shortYearPattern, getDateFromNow(0) }, // today
+                /* [20] */ { "00" + getDateFromNow(0).format(shortYearFormatter), longYearPattern, getDateFromNow(0) } // today
                 // @formatter:on
 
         };
