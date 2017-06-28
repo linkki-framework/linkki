@@ -37,7 +37,7 @@ html, body {
 	<form name="f" onSubmit="return setSubmitUrl(this);" method="POST"
         style="height: 100%;">
         <div id="ipmwebapplication10SNAPSHOTmaster-2058184743"
-            class=" v-app mytheme loginui">
+            class=" v-app ${themename} loginui">
                 <div class="v-customlayout v-layout v-widget v-has-width"
                     style="border-style: none; margin: 0px; padding: 0px; width: 100%; height: 100%">
                     <div id="ipm-login-view-container"

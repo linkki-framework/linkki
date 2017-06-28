@@ -26,7 +26,6 @@ public class LinkkiStyles {
     /**
      * Vaadin theme name. Loaded from DeltaSpike
      */
-
     public static final String THEME_NAME;
 
     /**
@@ -39,26 +38,31 @@ public class LinkkiStyles {
      */
     public static final String ICON;
 
-
-    private static final String THEME = "theme"; //$NON-NLS-1$
-
     private static final String STYLES_CSS = "/styles.css"; //$NON-NLS-1$
 
     private static final String FAVICON_ICO = "/favicon.ico"; //$NON-NLS-1$
 
     private static final String VAADIN_THEMES_PREFIX = "./VAADIN/themes/"; //$NON-NLS-1$
 
-    private static final String STYLESHEET_DS = "stylesheet"; //$NON-NLS-1$
+    /**
+     * Key of deltaspike property for style sheet href
+     */
+    private static final String STYLESHEET_KEY = "stylesheet"; //$NON-NLS-1$
+
+    /**
+     * Key of deltaspike property for theme name
+     */
+    private static final String THEME_NAME_KEY = "theme"; //$NON-NLS-1$
 
     static {
 
-        String themeName = ConfigResolver.getPropertyValue(THEME);
+        String themeName = ConfigResolver.getPropertyValue(THEME_NAME_KEY);
         if (themeName == null) {
             throw new RuntimeException("Wrong DeltaSpike configuration. Missed mandatory property 'theme'"); //$NON-NLS-1$
         }
         THEME_NAME = themeName;
         ICON = buildIconPath(themeName);
-        STYLESHEET = buildStylesheetPath(themeName, ConfigResolver.getPropertyValue(STYLESHEET_DS));
+        STYLESHEET = buildStylesheetPath(themeName, ConfigResolver.getPropertyValue(STYLESHEET_KEY));
     }
 
     // Class used only to define constants, it should not be instantiated
