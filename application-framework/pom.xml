@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.linkki</groupId>
         <artifactId>linkki</artifactId>
-        <version>0.9.20170411.1-SNAPSHOT</version>
+        <version>0.9.20170411.1</version>
     </parent>
 
     <artifactId>linkki-application-framework</artifactId>
@@ -16,17 +16,17 @@
         <dependency>
             <groupId>org.linkki</groupId>
             <artifactId>linkki-utils</artifactId>
-            <version>0.9.20170411.1-SNAPSHOT</version>
+            <version>0.9.20170411.1</version>
         </dependency>
         <dependency>
             <groupId>org.linkki</groupId>
             <artifactId>linkki-core</artifactId>
-            <version>0.9.20170411.1-SNAPSHOT</version>
+            <version>0.9.20170411.1</version>
         </dependency>
         <dependency>
             <groupId>org.linkki</groupId>
             <artifactId>linkki-test</artifactId>
-            <version>0.9.20170411.1-SNAPSHOT</version>
+            <version>0.9.20170411.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
