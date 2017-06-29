@@ -1,5 +1,10 @@
+:jbake-title: Architektur
+:jbake-type: section
+:jbake-status: published
+:jbake-tags: architektur
+
 == Architektur
-:source-dir: ../java
+:source-dir: ../../../java
 
 === Übersicht
 
@@ -11,7 +16,7 @@ Zentrale Punkte des Linkki Frameworks sind
 Linkki erstellt aus UI-Definitionen (Annotationen) eine Benutzeroberfläche. Die Inhalte (Daten) und Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) werden an sogenannte Presentation Model Objects (PMOs) gebunden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI Elemente aktualisiert.
 
 .Bidirektionales Databinding
-image::data_binding.png[]
+image::{images-03_architektur}data_binding.png[]
 
 Im ersten Teil dieses Kapitles gehen wir auf den <<grundaufbau-binding, Grundaufbau des `BindingContext` und `BindingManager`>> ein, und darauf wie sie zusammenarbeiten.
 
@@ -27,7 +32,7 @@ Am Ende des Kaptiels <<architektur, Architektur>> werden noch sogenannte <<quers
 Alle Bindings in Linkki sind Teil eines `BindingContext`. Üblicherweise verbindet ein `BindingContext` alle Bindings auf einer Seite oder in einem thematisch unabhängigen Abschnitt. Bei Änderungen an einem gebundenen Objekt (PMO oder UI) werden alle Bindings im gleichen Kontext aktualisiert. Mehrere PMOs (und damit UI-Abschnitte) können mit dem gleichen `BindingContext` gebunden werden.
 
 .BindingContext und ~Manager
-image::binding_context_manager.png[]
+image::{images-03_architektur}binding_context_manager.png[]
 
 Um einen oder mehrere `BindingContext` zu erstellen und zu verwalten, gibt es einen `BindingManager`. Dieser gibt zu einem Namen (ggf. abgeleitet von einer Klasse) einen `BindingContext` zurück, oder erstellt bei Bedarf einen neuen. In Ableitungen von `BindingManager` kann festgelegt werden, welches Verhalten die vom jeweiligen `BindingContext` erstellten Bindings haben sollen (siehe <<vertikales-binding,Vertikales Binding>>). Soll kein besonderes Verhalten implementiert werden genügt ein `DefaultBindingManager`. Ein `BindingManager` wird üblicherweise `@ViewScoped` angelegt und jeder `Page` (siehe <<page,Page>>) übergeben.  
 
@@ -39,7 +44,7 @@ Ein besonderer `BindingManager` ist der `DialogBindingManager`, der dafür sorgt
 Ein Presentation Model Object kapselt den Zustand des UIs unabhängig von der konkreten UI-Implementierung. Das UI interagiert über Data Binding ausschließlich mit diesem PMO. Dazu muss das PMO nicht alle Daten selber halten - häufig delegiert es an ein oder mehrere bestehende Modellobjekte (siehe <<domain-model-binding,Daten auf mehreren Ebenen>>) und/oder aggregiert und konvertiert Daten zur Darstellung im UI.
 
 .Presentation Model Object
-image::pmo.png[]
+image::{images-03_architektur}pmo.png[]
 
 In Linkki sind PMOs POJOs, die mit `@UISection` annotiert sind - es gibt also für jeden Abschnitt des UIs ein eigenes PMO. Alle an das UI zu bindenden Methoden erhalten passende Annotationen (siehe dazu <<ui-komponenten,UI Komponenten>>). Zusätzlich gibt es ein paar Interfaces, die PMOs implementieren können: 
 
@@ -68,7 +73,7 @@ include::{source-dir}/org/linkki/doc/PersonPmo.java[tags=model-binding]
 Model Binding vermeidet unnötigen Delegations-Code und ist damit eine Art "Abkürzung".
 
 .Model Binding
-image::ModelBinding.png[]
+image::{images-03_architektur}ModelBinding.png[]
 
 [[modell-attribut-namen]]
 ==== Namen von Modell-Attirbuten angeben
@@ -186,7 +191,7 @@ Der `BindingContext` (siehe <<grundaufbau-binding,Grundaufbau BindingContext - B
 * `ExceptionPropertyDispatcher` wirft eine Exception, falls die entsprechende Eigenschaft nicht verfügbar ist - dies deutet häufig auf einen Tippfehler in einem Methodennamen hin, aufgrunddessen der `ReflectionPropertyDispatcher` die passende Methode nicht finden kann
 
 .Beispiel für PropertyDispatcher
-image::vertical_binding.png[]
+image::{images-03_architektur}vertical_binding.png[]
 
 Eigene Dispatcher können über eine eigene `PropertyDispatcherFactory` (in einem eigenen `BindingContext`) erstellt werden. Dort muss die Methode `createCustomDispatchers` überschrieben werden, um einen oder mehrere eigene Dispatcher bereitzustellen. Diese anwendungsspezifischen Dispatcher werden zwischen `BehaviorDependentDispatcher` und `BindingAnnotationDispatcher` eingehängt.
 
@@ -198,7 +203,7 @@ PropertyBehaviors werden von einem `PropertyBehaviorProvider` erstellt, der dem 
 Über `PropertyBehaviors` kann ein `BehaviorDependentDispatcher` das Verhalten von Eigenschaften steuern. Nur eine Auswahl der Eigenschaften sind darüber steuerbar: Sichtbarkeit (`isVisible`), Editierbarkeit (`isWritable`) und Anzeige von Fehlern (`isShowValidationMessages`). Dazu werden alle `PropertyBehaviors` aufgerufen; geben sie einstimmig `true` zurück, leitet der `BehaviorDependentDispatcher` die Anfrage an den nächsten `PropertyDispatcher` weiter, ansonsten gibt er direkt `false` bzw. eine leere Fehlerliste zurück, oder setzt den Wert nicht.
 
 .Veto eines PropertyBehaviorsr
-image::property_behavior_veto.png[]
+image::{images-03_architektur}property_behavior_veto.png[]
 
 Für eigene Verhaltensweisen kann das Interface `PropertyBehavior` implementiert werden. So kann zum Beispiel eine komplette Seite in einen Lese- oder Schreibmodus versetzt werden:
 

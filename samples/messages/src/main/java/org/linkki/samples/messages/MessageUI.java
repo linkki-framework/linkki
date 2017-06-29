@@ -39,7 +39,7 @@ public class MessageUI extends UI {
         messagesPanel.setVisible(false);
 
         User user = new User();
-        RegistrationPmo registrationPmo = new RegistrationPmo(user, u -> handleRegistration(messagesPanel, u));
+        RegistrationPmo registrationPmo = new RegistrationPmo(user, this::handleRegistration);
         validationService = new RegistrationValidationService(registrationPmo);
 
         bindingManager = new RegistrationBindingManager(validationService, m -> updateMessages(messagesPanel, m));
@@ -55,8 +55,8 @@ public class MessageUI extends UI {
     private void updateMessages(MessagesPanel messagesPanel, MessageList messageList) {
         messagesPanel.updateMessages(messageList);
     }
-
-    private void handleRegistration(MessagesPanel messagesPanel, RegistrationPmo userPmo) {
+    
+    private void handleRegistration(RegistrationPmo userPmo) {
         // validate required fields as well
         validationService.setValidationMode(ValidationMode.STRICT);
 

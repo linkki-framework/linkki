@@ -1,0 +1,9 @@
+:jbake-title: UI Komponenten
+:jbake-type: chapter
+:jbake-status: published
+:jbake-tags: UI Komponenten
+:jbake-order: 50
+
+== UI Komponenten
+
+include::05_ui_komponenten.adoc[]

@@ -1,5 +1,10 @@
+:jbake-title: Erstellung eines UI mit linkki
+:jbake-type: section
+:jbake-status: published
+:jbake-tags: ui
+
 == Erstellung eines UI mit linkki
-:source-dir: ../../../../samples/binding/src/main/java
+:source-dir: ../../../../../../samples/binding/src/main/java
 
 Mit *linkki* git es zwei Möglichkeiten ein UI zu erstellen:
 

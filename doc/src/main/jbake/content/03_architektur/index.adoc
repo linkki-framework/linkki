@@ -1,0 +1,10 @@
+:jbake-title: Architektur
+:jbake-type: chapter
+:jbake-status: published
+:jbake-tags: architektur
+:jbake-order: 30
+:images-03_architektur: ../../assets/images/content/03_architektur/
+
+== Architektur
+
+include::03_architektur.adoc[]
