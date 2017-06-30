@@ -4,6 +4,4 @@
 :jbake-tags: UI Komponenten
 :jbake-order: 50
 
-== UI Komponenten
-
 include::05_ui_komponenten.adoc[]

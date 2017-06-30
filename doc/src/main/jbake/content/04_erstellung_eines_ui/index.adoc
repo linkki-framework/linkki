@@ -4,6 +4,4 @@
 :jbake-tags: ui
 :jbake-order: 40
 
-== Erstellung eines UI mit linkki
-
 include::04_erstellung_eines_ui.adoc[]

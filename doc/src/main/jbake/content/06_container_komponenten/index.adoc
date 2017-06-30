@@ -4,6 +4,4 @@
 :jbake-tags: container
 :jbake-order: 60
 
-== Container Komponenten
-
 include::06_container_komponenten.adoc[]
