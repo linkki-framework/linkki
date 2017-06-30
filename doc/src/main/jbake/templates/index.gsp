@@ -3,7 +3,7 @@
 	<%include "menu.gsp"%>
 
 	<div class="page-header">
-		<h1>Dokumentationen</h1>
+		<h1>Linkki Documentation</h1>
 	</div>
 	<%sortedByOverviewName = published_chapters.sort{ it.order }
 	sortedByOverviewName.each {view ->%>
