@@ -2,7 +2,149 @@
 == UI Komponenten
 :source-dir: ../../../../samples/binding/src/main/java
 
-=== Felder
+Linkki beinhaltet für die geläufigsten UI Komponenten vorgefertigte Annotationen, die je nach Datentyp Standard-Vaadin-Elemente oder eigens angepasste Ableitungen erzeugen. Diese sind mit dem Präfix "UI" versehen. Die UI Komponenten werden nicht direkt erstellt, sondern werden zunächst durch Annotationen an den PMO Properties deklariert. Später werden sie dann anhand der Annotation von linkki erstellt und in die UISection eingefügt. Genaueres hierzu siehe Kapitel <<ui-erstellung, Erstellung eines UI mit linkki>>.
 
-[[buttons]]
-=== Buttons
+Grundsätzlich werden vorgefertigte UI Komponenten in linkki in zwei Gruppen zusammengefasst: <<ui-field, Felder>> und <<ui-buttin, Buttons>>. An diesen Komponenten können mit der Annotation <<tooltips, `@UITooltip`>> Tooltips gebunden werden. Zusätzlich bietet linkki auch eine Möglichkeit um <<container-pmo, Tabellen>> zu erstellen.
+
+[[ui-element]]
+=== UIElement
+Felder und Buttons werden zusammengefasst "UIElement" genannt. Es gibt folgende Arten:
+
+[[ui-field]]
+[cols="1,5"]
+.Felder
+|===
+|<<ui-label,`UILabel`>> |Anzeige von Text
+|<<ui-textfield,`UITextField`>> |Feld für einzeilige Texteingabe
+|`UITextArea` |Bereich für mehrzeilige Texteingabe
+|<<ui-integerfield,`UIIntegerField`>>, `UIDoubleField` |Eingabefeld für Zahlen
+|`UICheckbox` |Control für booleanwertige Eingabe
+|<<ui-datefield,`UIDateField`>> |Feld für Datumeingabe mit Date Picker
+|<<ui-combobox,`UICombobox`>> |Dropdown Feld mit vorgegebenen Auswahlmöglichkeiten
+|===
+
+[[ui-button]]
+[cols="1,5"]
+.Buttons
+|===
+|<<ui-button,`UIButton`>> |Ein Button, das beim Klick eine Aktion ausführt
+|===
+
+==== Eigenschaften
+Alle UI Elemente haben folgende Eigenschaften gemeinsam:
+
+* <<position, `position: int`>>
+* <<label, `label: String`>>
+* <<label, `showLabel: boolean`>>
+* <<enabled, `enabled: boolean`>> (nicht bei allem Elementen konfigurierbar)
+* <<visble, `visible: boolean`>>
+* <<required, `required: boolean`>> (nicht bei allem Elementen konfigurierbar)
+
+TIP: <<position, Position>> ist die einzige Eigenschaft die zwingend angegeben werden muss. Für alle anderen Eigenschaft sind Default-Werte konfiguriert.
+
+[[position]]
+===== Position
+Die Eigenschaft "position" bestimmt die Reihenfolge der Elemente im UI. Wichtig dabei ist nur die relative Größe der Zahl. Lücken sind erlaubt und üblich damit bei einem späteren einfügen eines neuen UI Elements nicht alle Positionen neu vergeben werden müssen.
+ 
+[[label]]
+===== Label
+Üblicherweise bestehen die Komponenten aus einem Label und einem Eingabe-Control. Der Inhalt des Labels wird über dieses Attribut festgelegt. Siehe auch <<missing-link, Internationalisierung>>. 
+
+Soll kein Label (im Unterschied zu einem leeren) angezeigt werden, kann dies über `showLabel = false` gesteuert werden.
+
+[[enabled]]
+===== Enabled
+Die Eigenschaft "enabled" steuert, ob die Komponente aktiv/editierbar ist. Es gibt folgende Einstellungsmöglichkeiten:
+
+[cols="1,8"]
+.EnabledType
+|===
+|`ENABLED`  |der Inhalt des Elements ist im UI veränderbar (*default*)
+|`DISABLED` |der Inhalt des Elements ist im UI nicht veränderbar
+|`DYNAMIC`  |ob der Inhalt veränderbar ist hängt vom Rückgabewert der Methode `boolean is<PropertyName>Enabled()` ab
+|===
+
+TIP: Ein <<ui-label, UILabel>> bietet diese Option nicht und ist immer `ENABLED`.
+
+[[visible]]
+===== Visible
+Die Eigenschaft "visible" gibt an ob die Komponente sichtbar ist. Folgende Möglichkeiten stehen zur Verfügung:
+
+[cols="1,7"]
+.VisibleType
+|===
+|`VISIBLE`   |das UI-Element ist sichtbar (*default*)
+|`INVISIBLE` |das UI-Element ist unsichtbar
+|`DYNAMIC`   |ob das UI-Element sichtbar ist hängt vom Rückgabewert der Methode `boolean is<PropertyName>Visible()` ab
+|=== 
+
+[[required]]
+===== Required
+Die Eigenschaft "required" markiert optisch Pflichtfelder. Konfigurierbare Optionen sind:
+
+[cols="1,3"]
+.RequiredType
+|===
+|`REQUIRED`              |das UI-Element ist ein Pflichtfeld (ein Wert muss eingegeben/ausgewählt werden)
+|`REQUIRED_IF_ENABLED` |das UI-Element ist ein Pflichtfeld falls es `enabled` ist
+|`NOT_REQUIRED`         |das UI-Element ist ein optionales Feld (*default*)
+|`DYNAMIC`               |ob das Feld ein Pflichtfeld ist hängt vom Rückgabewert der Methode `boolean is<PropertyName>Required()` ab
+|===
+
+TIP: Ein <<ui-label, UILabel>> bietet diese Einstellung nicht und ist immer `NOT_REQUIRED`.
+
+WARNING: `required` markiert Pflichtfelder nur optisch. Es erfolgt *keine* Validierung.
+
+[[ui-label]]
+==== Label
+//TODO
+
+[[ui-combobox]]
+==== ComboBox
+
+//TODO
+
+* *`content: AvailableValuesType`*
+
+[cols="4,11"]
+.AvailableValuesType
+|===
+|`ENUM_VALUES_INCL_NULL` |die Werte in der Combobox entsprechen den Werten des Enum-Datentypen der Property ergänzt um den Wert `null` (*default*)
+|`ENUM_VALUES_EXCL_NULL` |die Werte in der Combobox entsprechen den Werten des Enum-Datentypen der Property
+|`DYNAMIC`                 |die Werte in der Combobox werden über die Methode `List<T> get<PropertyName>AvailableValues()` ermittelt
+|`NO_VALUES`               |in dieser Combobox sind keine Werte auswählbar
+|===
+
+[[ui-button]]
+==== Button
+
+//TODO Links in Kapitel 04 setzen wenn hier beschrieben
+
+* *`captionType: CaptionType`*
+
+[cols="1,9"]
+.CaptionType
+|===
+|`STATIC`  |Der Text des Buttons wird aus dem Attribut `caption` entnommen (*default*)
+|`NONE`    |Der Button hat keinen Text
+|`DYNAMIC` |Der Text des Buttons entspricht dem Rückgabewert der Methode `String get<PropertyName>Caption()`
+|===
+
+[[tooltips]]
+=== Tooltips
+
+//TODO
+
+* *`toolTipType: ToolTipType`*
+
+[cols="1,9"]
+.ToolTipType
+|===
+|`STATIC`   |Der Text des Tooltips wird aus dem Attribut `text` entnommen (*default*)
+|`DYNAMIC`  |Der Text des Tooltips entspricht dem Rückgabewert der Methode `String get<PropertyName>ToolTip()`
+|===
+
+
+[container-pmo]
+=== Tabellen
+//TODO Links in Kapitel 04 setzen wenn hier beschrieben

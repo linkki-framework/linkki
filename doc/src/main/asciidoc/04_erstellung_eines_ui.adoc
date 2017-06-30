@@ -1,3 +1,4 @@
+[[ui-erstellung]]
 == Erstellung eines UI mit linkki
 :source-dir: ../../../../samples/binding/src/main/java
 
@@ -19,7 +20,7 @@ Die Section kann anstatt mehrere Eingabefelder auch eine Tabelle enthalten und w
 [[pmo-uisection]]
 === PresentationModelObject mit `@UISection`
 
-Wird eine Klasse mit `@UISection` annotiert, übernimmt linkki die Kontrolle über die Erstellung und Anordnung der definierten Komponenten. Über die Annotation für die zugehörigen <<missing-link, `UIElemente`>> können bestimmte Aspekte definiert und/oder gesteuert werden. Die Sections werden über <<missing-link, `SectionFactories`>> erstellt.
+Wird eine Klasse mit `@UISection` annotiert, übernimmt linkki die Kontrolle über die Erstellung und Anordnung der definierten Komponenten. Über die Annotation für die zugehörigen <<ui-komponenten, `UIElemente`>> können bestimmte Aspekte definiert und/oder gesteuert werden. Die Sections werden über <<missing-link, `SectionFactories`>> erstellt.
 
 Die <<missing-link, `UIElemente`>> werden entweder an die 'properties' eines <<binding-modelObjet, `ModelObjects`>> oder eines PMO's gebunden. Eine detaillierte Beschreibung gibt es im Kapitel <<missing-link, `Daten auf mehreren Ebenen`>>.
 
@@ -120,3 +121,4 @@ Binding-Zusammenfassung:
 *linkki* arbeitet mit bestimmten <<missing-link, Namenskonventionen>>. Dadurch verringern sich die Fehlerquellen und der refactoring Aufwand.
 
 Die in den Annotationen verwendeten Werte für `pmoProperty` bzw. `modelAttribute` sollten in Konstanten der jeweiligen Klasse ausgelagert werden.
+====
