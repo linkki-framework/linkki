@@ -20,9 +20,9 @@ Die Section kann anstatt mehrere Eingabefelder auch eine Tabelle enthalten und w
 [[pmo-uisection]]
 === PresentationModelObject mit `@UISection`
 
-Wird eine Klasse mit `@UISection` annotiert, übernimmt linkki die Kontrolle über die Erstellung und Anordnung der definierten Komponenten. Über die Annotation für die zugehörigen <<ui-komponenten, `UIElemente`>> können bestimmte Aspekte definiert und/oder gesteuert werden. Die Sections werden über <<missing-link, `SectionFactories`>> erstellt.
+Wird eine Klasse mit `@UISection` annotiert, übernimmt linkki die Kontrolle über die Erstellung und Anordnung der definierten Komponenten. Über die Annotation für die zugehörigen <<ui-element, `UIElemente`>> können bestimmte Aspekte definiert und/oder gesteuert werden. Die Sections werden über <<missing-link, `SectionFactories`>> erstellt.
 
-Die <<missing-link, `UIElemente`>> werden entweder an die 'properties' eines <<binding-modelObjet, `ModelObjects`>> oder eines PMO's gebunden. Eine detaillierte Beschreibung gibt es im Kapitel <<missing-link, `Daten auf mehreren Ebenen`>>.
+Die <<ui-element, `UIElemente`>> werden entweder an die 'properties' eines <<binding-modelObjet, `ModelObject`>>s oder eines PMO's gebunden. Eine detaillierte Beschreibung gibt es im Kapitel <<domain-model-binding, `Daten auf mehreren Ebenen`>>.
 
 Im <<abschnitt-form-binding, ersten Abschnitt>> wird die Erstellung einer Section eines 'standard' Formulars beschrieben. Im <<abschnitt-binding-table, zweiten Abschnitt>> wird das erstellen einer Section mit einer Tabelle erleutert.
 

@@ -16,9 +16,9 @@ Felder und Buttons werden zusammengefasst "UIElement" genannt. Es gibt folgende 
 |===
 |<<ui-label,`UILabel`>> |Anzeige von Text
 |<<ui-textfield,`UITextField`>> |Feld für einzeilige Texteingabe
-|`UITextArea` |Bereich für mehrzeilige Texteingabe
-|<<ui-integerfield,`UIIntegerField`>>, `UIDoubleField` |Eingabefeld für Zahlen
-|`UICheckbox` |Control für booleanwertige Eingabe
+|<<ui-textarea,`UITextArea`>> |Bereich für mehrzeilige Texteingabe
+|<<ui-numberfield,`UIIntegerField`>>, <<ui-numberfield,`UIDoubleField`>> |Eingabefeld für Zahlen
+|<<ui-checkbox,`UICheckbox`>> |Control für booleanwertige Eingabe
 |<<ui-datefield,`UIDateField`>> |Feld für Datumeingabe mit Date Picker
 |<<ui-combobox,`UICombobox`>> |Dropdown Feld mit vorgegebenen Auswahlmöglichkeiten
 |===
@@ -44,7 +44,7 @@ TIP: <<position, Position>> ist die einzige Eigenschaft die zwingend angegeben w
 
 [[position]]
 ===== Position
-Die Eigenschaft "position" bestimmt die Reihenfolge der Elemente im UI. Wichtig dabei ist nur die relative Größe der Zahl. Lücken sind erlaubt und üblich damit bei einem späteren einfügen eines neuen UI Elements nicht alle Positionen neu vergeben werden müssen.
+Die Eigenschaft "position" bestimmt die Reihenfolge der Elemente im UI. Wichtig dabei ist nur die relative Größe der Zahl. Lücken sind erlaubt und üblich, damit bei einem späteren Einfügen eines neuen UI Elements nicht alle Positionen neu vergeben werden müssen.
  
 [[label]]
 ===== Label

@@ -1,5 +1,6 @@
 package org.linkki.doc;
 
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 
@@ -12,9 +13,12 @@ public class PersonPmo {
         this.person = person;
     }
 
+    // tag::modelobject[]
+    @ModelObject
     public Person getPerson() {
         return person;
     }
+    // end::modelobject[]
 
     // tag::pojo-binding[]
     @UITextField(position = 10, label = "Vorname")
