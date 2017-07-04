@@ -1,12 +1,8 @@
 package org.linkki.samples.dynamicfield;
 
-import com.vaadin.annotations.Theme;
-import com.vaadin.server.Page;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.server.WrappedSession;
-import com.vaadin.ui.UI;
-import com.vaadin.util.CurrentInstance;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.table.TableSection;
@@ -16,8 +12,13 @@ import org.linkki.samples.dynamicfield.model.CarType;
 import org.linkki.samples.dynamicfield.pmo.CarRowPmo;
 import org.linkki.samples.dynamicfield.pmo.CarTablePmo;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.vaadin.annotations.Theme;
+import com.vaadin.server.Page;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.server.WrappedSession;
+import com.vaadin.ui.UI;
+import com.vaadin.util.CurrentInstance;
 
 @Theme(value = "valo")
 public class DynamicFieldUI extends UI {
@@ -64,9 +65,9 @@ public class DynamicFieldUI extends UI {
 
 
     private void addCars(List<Car> carStorage) {
-        carStorage.add(createCar(CarType.STANDARD, "Audi", "A4 Avant", 200.0));
-        carStorage.add(createCar(CarType.PREMIUM, "Porsche", "911 Carrera 4 GTS", 5000.0));
-        carStorage.add(createCar(CarType.STANDARD, "Mercedes", "GLA", 300.0));
+        carStorage.add(createCar(CarType.STANDARD, "Audi", "A4", 200.0));
+        carStorage.add(createCar(CarType.PREMIUM, "Porsche", "911", 5000.0));
+        carStorage.add(createCar(CarType.STANDARD, "Mercedes-Benz", "GLA", 300.0));
         carStorage.add(createCar(CarType.PREMIUM, "Ferrari", "812 superfast", 10000.0));
 
     }

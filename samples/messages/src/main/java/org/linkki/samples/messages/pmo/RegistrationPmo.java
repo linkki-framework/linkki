@@ -37,11 +37,13 @@ public class RegistrationPmo implements PresentationModelObject {
     public void name() {
         // model binding
     }
-
+ 
+    // tag::ui-custom-field[]
     @UICustomField(position = 20, label = "Password", required = RequiredType.REQUIRED, modelAttribute = User.PROPERTY_PASSWORD, uiControl = PasswordField.class)
     public void password() {
         // model binding
     }
+    // end::ui-custom-field[]
 
     @UICustomField(position = 30, label = "Confirm Password", required = RequiredType.REQUIRED, uiControl = PasswordField.class)
     public String getConfirmPassword() {

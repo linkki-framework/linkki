@@ -22,12 +22,13 @@ import com.vaadin.ui.AbstractSelect;
  * <p>
  * Due to the current VAADIN implementation we cannot be fully type safe.
  * <p>
- * We provides two simple default implementations:
+ * We provide two three default implementations:
  * <ul>
+ * <li>{@link DefaultCaptionProvider} calls a method {@code getName()} on the value object.</li>
  * <li>{@link ToStringCaptionProvider} simply uses the object's {@link Object#toString()} method.
  * </li>
- * <li>{@link DefaultCaptionProvider} expects an AbstractBaseEnum and calls the respective getId()
- * and getName() methods via reflection.</li>
+ * <li>{@link IdAndNameCaptionProvider} calls the methods {@code getName()} and {@code getId()} on
+ * the value object and returns a caption in the format "name [id]".</li>
  * </ul>
  */
 @FunctionalInterface
@@ -82,7 +83,7 @@ public interface ItemCaptionProvider<T> {
      * A caption provider that returns a string in the format "name [id]" and invokes methods
      * {@code getName} and {@code getId} to obtain these values.
      */
-    class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
+    public class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
 
         @Override
         public String getCaption(Object o) {
@@ -109,10 +110,10 @@ public interface ItemCaptionProvider<T> {
     }
 
     /**
-     * A caption provider that returns a string in the format "name [id]" and invokes methods
+     * A caption provider that returns a String in the format "name [id]" and invokes the methods
      * {@code getName} and {@code getId} to obtain these values.
      */
-    class IdAndNameCaptionProvider implements ItemCaptionProvider<Object> {
+    public class IdAndNameCaptionProvider implements ItemCaptionProvider<Object> {
 
         @Override
         public String getCaption(Object o) {

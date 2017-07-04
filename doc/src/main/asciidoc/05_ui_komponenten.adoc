@@ -1,6 +1,8 @@
 [[ui-komponenten]]
 == UI Komponenten
-:source-dir: ../../../../samples/binding/src/main/java
+:source-dir-binding: ../../../../samples/binding/src/main/java
+:source-dir-messages: ../../../../samples/messages/src/main/java
+:source-dir-dynamic: ../../../../samples/dynamic-fields/src/main/java
 
 Linkki beinhaltet für die geläufigsten UI Komponenten vorgefertigte Annotationen, die je nach Datentyp Standard-Vaadin-Elemente oder eigens angepasste Ableitungen erzeugen. Diese sind mit dem Präfix "UI" versehen. Die UI Komponenten werden nicht direkt erstellt, sondern werden zunächst durch Annotationen an den PMO Properties deklariert. Später werden sie dann anhand der Annotation von linkki erstellt und in die UISection eingefügt. Genaueres hierzu siehe Kapitel <<ui-erstellung, Erstellung eines UI mit linkki>>.
 
@@ -30,15 +32,22 @@ Felder und Buttons werden zusammengefasst "UIElement" genannt. Es gibt folgende 
 |<<ui-button,`UIButton`>> |Ein Button, das beim Klick eine Aktion ausführt
 |===
 
+Zu einem Property können auch mehrere Felder gebunden werden. Diese Mechanismus wird als <<dynamicfield, Dynamic Field>> bezeichnet.
+
 ==== Eigenschaften
 Alle UI Elemente haben folgende Eigenschaften gemeinsam:
 
 * <<position, `position: int`>>
 * <<label, `label: String`>>
-* <<label, `showLabel: boolean`>>
+* <<label, `noLabel: boolean`>>/<<label, `showLabel: boolean`>>
 * <<enabled, `enabled: boolean`>> (nicht bei allem Elementen konfigurierbar)
 * <<visble, `visible: boolean`>>
 * <<required, `required: boolean`>> (nicht bei allem Elementen konfigurierbar)
+
+<<ui-field,Felder>> haben zusätzlich Eigenschaften, die für das <<domain-model-binding, Domain Model Binding>> benötigt werden:
+
+* <<modelObject, `modelObject: String`>>
+* <<modelAttribute, `modelAttribute: String`>>
 
 TIP: <<position, Position>> ist die einzige Eigenschaft die zwingend angegeben werden muss. Für alle anderen Eigenschaft sind Default-Werte konfiguriert.
 
@@ -48,9 +57,13 @@ Die Eigenschaft "position" bestimmt die Reihenfolge der Elemente im UI. Wichtig 
  
 [[label]]
 ===== Label
-Üblicherweise bestehen die Komponenten aus einem Label und einem Eingabe-Control. Der Inhalt des Labels wird über dieses Attribut festgelegt. Siehe auch <<missing-link, Internationalisierung>>. 
+Üblicherweise gibt es zu einem UI Element einen beistehenden Label-Text, der das Element beschreibt. Der Inhalt des Labels wird über dieses Attribut festgelegt. Siehe auch <<missing-link, Internationalisierung>>. 
 
-Soll kein Label (im Unterschied zu einem leeren) angezeigt werden, kann dies über `showLabel = false` gesteuert werden.
+Soll kein Label (im Unterschied zu einem leeren) angezeigt werden, kann dies über `noLabel = true` gesteuert werden.
+
+Ausnahme ist hier der <<ui-button, Button>>, bei dem normalerweise kein Label angezeigt wird. Daher heiß dort die Eigenschaft `showLabel` und ist mit dem Wert `false` vorbelegt. Das Anzeigen des Labels muss mit `showLabel = true` erzwungen werden.
+
+TIP: Falls ein alleinstehendes Label benötigt wird, soll das UI Element <<ui-label, UILabel>> benutzt werden.
 
 [[enabled]]
 ===== Enabled
@@ -91,33 +104,128 @@ Die Eigenschaft "required" markiert optisch Pflichtfelder. Konfigurierbare Optio
 |`DYNAMIC`               |ob das Feld ein Pflichtfeld ist hängt vom Rückgabewert der Methode `boolean is<PropertyName>Required()` ab
 |===
 
-TIP: Ein <<ui-label, UILabel>> bietet diese Einstellung nicht und ist immer `NOT_REQUIRED`.
+TIP: <<ui-label, UILabels>> und <<ui-button, UIButtons>> bieten diese Einstellung nicht und sind immer `NOT_REQUIRED`.
 
 WARNING: `required` markiert Pflichtfelder nur optisch. Es erfolgt *keine* Validierung.
 
+[[modelObject]]
+[[modelAttribute]]
+===== ModelObject und -Attribute
+Ein <<ui-field, Feld>> kann über <<domain-model-binding, Domain Model Binding>> an einem Attribut von einem bereits bestehenden Modell-Object gebunden werden. Hierfür werden die Eigenschaften `modelAttribute` und gegebenenfalls `modelObject` benötigt. Die genaue Funktionsweise wird im Abschnitt <<modell-attribut-namen, Namen von Modell-Attribut>> beschrieben.
+
+
 [[ui-label]]
-==== Label
-//TODO
+==== UILabel
+Die Annotation `@UILabel` stellt ein alleinstehendes UI Element zur Anzeige von Textinhalten dar. Im Gegensatz zu einem deaktivierten <<ui-textfield, UITextField>> wird der Text nicht in einem Eingabefeld umrahmt. Diese Annotation entspricht einem `com.vaadin.ui.Label`.
+
+Die annotierte Methode muss einen Wert von Typ `String` zurückgeben. Der Rückgabewert bestimmt, was als Label angezeigt wird.
+
+TIP: Auch ein UILabel hat zusätzlich die Eigenschaft <<label,`label`>>. Falls dort ein Wert gesetzt ist, würde der Text neben dem UILabel erscheinen.
+
+[[styleNames]]
+===== Stile
+Um Labels optisch gestalten zu können kann über die Eigenschaft `styleNames` eine Liste (genau genommen: ein `String[]`) von CSS Klassennamen festgelegt werden.
+
+[[ui-checkbox]]
+==== UICheckbox
+Eine `com.vaadin.ui.CheckBox`, gebunden an eine boolesche Property.
+
+[[ui-textfield]]
+==== UITextField
+Ein `com.vaadin.ui.TextField` für Texteingaben. Die Annotation `UITextfield` hat zwei zusätzliche Eigenschaften:
+
+* `columns: int`
+* `maxLength: int`
+
+Die Eigenschaft `columns` bestimmt die Länge des Textfeldes. Wenn hierfür kein positiver Wert gesetzt wird, wird der verfügbare Platz benutzt.  
+
+`maxLength` bestimmt die maximale Anzahl an Zeichen, die in dem Feld eingegeben oder angezeigt werden kann.
+
+[[ui-textarea]]
+==== UITextArea
+Die Annotation `UITextArea` entspricht einen `com.vaadin.ui.TextArea`. Sie dient zur Eingaben/Anzeige von Texten, die über eine Zeile hinausgehen. `UITextArea` hat alle Eigenschaften von der Annotation `UITextfield`. Sie hat zusätzlich es eine Eigenschaft 
+
+* `rows: int`.
+
+Die Eigenschaft `rows` bestimmt, wie hoch die `UITextArea` sein soll, und nicht wie viele Zeilen eingegeben werden dürfen. Der Defaultwert hierfür ist `1`.
+
+[[ui-numberfield]]
+==== UIIntegerField und UIDoubleField
+`@UIInterfield` und `@UIDoubleField` sind Textfelder um Zahlen formatiert dazustellen. Wie <<ui-textfield,`@UITextField`>> haben auch diese Annotationen die Eigenschaft `maxLength`.
+
+Das Format kann über die Eigenschaft `format: String` angegeben werden, wobei die Notation des `java.text.NumberFormat` verwendet wird. 
+
+Wird kein Format angegeben, nutzt *linkki* für ein `UIIntegerField` das Java Default Integer-NumberFormat (`java.text.NumberFormat#getIntegerInstance(java.util.Locale)`). Für ein `UIDoubleField` wird das Format `\#,\##0.00##` benutzt. Dieses Format bedeutet, dass es mindestens eine Stelle vor und zwei nach dem Dezimaltrennzeichen angezeigt werden, mit Tausendertrennzeichen. Die Dokumentation für die Formatangabe kann in der Klasse `java.text.DecimalFormat` nachgelesen werden.
+
+[[ui-datefield]]
+==== UIDateField
+Die Annotation `@UIDateField` entspricht einem Datums-Eingabefeld  (`com.vaadin.ui.DateField`). Es erlaubt die Angabe eines Datumsformats über die Eigenschaft `dateFormat: String`. Wird kein Datumsformat angegeben wird das zur `Locale` passende Format verwendet. In Linkki ist für Deutsch `"dd.MM.yyyy"` als Standardformat eingestellt. Für andere Sprachen wird auf  `DateFormat.SHORT` aus dem JDK zurückgegriffen.
 
 [[ui-combobox]]
-==== ComboBox
+==== UIComboBox
+Ein `@UIComboBox` erlaubt die Auswahl eines Wertes aus einer Liste. Es besitzt 3 weitere Eigenschaften:
 
-//TODO
+* <<ui-combobox-content,`content: AvailableValuesType`>>
+* <<ui-combobox-width,`width: String`>>
+* <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>>
 
-* *`content: AvailableValuesType`*
+[source, java]
+----
+include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarPmo.java[tags=ui-combobox]
+----
+
+[[ui-combobox-content]]
+===== Content
+Über das Attribut `content` wird definiert, welche Werte zur Auswahl stehen:
 
 [cols="4,11"]
 .AvailableValuesType
 |===
-|`ENUM_VALUES_INCL_NULL` |die Werte in der Combobox entsprechen den Werten des Enum-Datentypen der Property ergänzt um den Wert `null` (*default*)
-|`ENUM_VALUES_EXCL_NULL` |die Werte in der Combobox entsprechen den Werten des Enum-Datentypen der Property
-|`DYNAMIC`                 |die Werte in der Combobox werden über die Methode `List<T> get<PropertyName>AvailableValues()` ermittelt
-|`NO_VALUES`               |in dieser Combobox sind keine Werte auswählbar
+|`ENUM_VALUES_INCL_NULL` |Die Werte in der Combobox entsprechen den Werten des Enum-Datentypen der Property ergänzt um den Wert `null` (*default*)
+|`ENUM_VALUES_EXCL_NULL` |Die Werte in der Combobox entsprechen den Werten des Enum-Datentypen der Property
+|`DYNAMIC`                 |Die Werte in der Combobox werden über die Methode `Collection<T> get<PropertyName>AvailableValues()` ermittelt
+|`NO_VALUES`               |In dieser Combobox sind keine Werte auswählbar
 |===
+
+[[ui-combobox-width]]
+===== Width
+Mit der Eigenschaft `width` kann in CSS-Syntax (z.B. `"25em"` oder `"100%"`) die Breite der ComboBox definiert werden. Der Defaultwert ist `-1px` und somit die Standardgröße die Vaadin vorgibt.
+
+[[itemCaptionProvider]]
+===== ItemCaptionProvider
+Für die Darstellung der einzelnen Werte in der ComboBox wird der `org.linkki.core.ui.components.ItemCaptionProvider<T>` verwendet. Per Default ist dies ein `DefaultCaptionProvider`, der eine Methode `getName()` erwartet. Über die Eigenschaft `itemCaptionProvider` kann eine andere Implementierungsklasse angegeben werden. *linkki* bringt dazu noch zwei weitere mit: 
+
+* `ToStringCaptionProvider`: verwendet die `toString()`-Methode der Elemente
+* `IdAndNameCaptionProvider`: zeigt Name und ID zusammen im Format "name [ID]" an (aus den Methoden `getName()` und `getId()`)
+
+[[ui-subsetchooser]]
+==== UISubsetChooser
+Für die Auswahl mehrerer Werte aus einer Liste bietet *linkki* den `@UISubsetChooser`. In diesem UI Control werden Elemente aus der linken Liste in die rechte Liste verschoben um sie auszuwählen. Die Darstellung der einzelenen Werte erfolgt wie bei der <<itemCaptionProvider, `@UIComboBox`>>, wobei der Default in diesem Fall `ToStringCaptionProvider` ist. Ähnlich wie bei <<ui-combobox-width, UICombobox>> kann man die Breite einstellen.
+
+Bei SubsetChooser wird der Inhalt immer dynamisch über die Methode `Collection<T> get<PropertyName>AvailableValues()` bestimmt. Die gebundene Property muss vom Typ `Set<T>` sein.
+
+Die Bezeichungen der beiden Spalten können über die Eigenschaften `leftColumnCaption: String` und `rightColumnCaption: String` angegeben werden.
+
+[[ui-customfield]]
+==== UICustomField
+Auch andere Controls können ohne Aufwand von *linkki* erzeugt und gebunden werden, wenn sie über einen parameterlosen Konstruktor verfügen. Mit der Eigenschaft `uiControl: Class<? extends Field<?>>` wird die Control-Klasse angegeben. Erbt das Control von `com.vaadin.ui.AbstractSelect` kann wie bei der <<ui-combobox,
+UIComboBox>> über `content: AvailableValuesType` angegeben werden, woher die verfügbaren Werte stammen.
+
+.UICustomField Beispiel: PasswordField
+[source,java]
+----
+include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationPmo.java[tags=ui-custom-field]
+----
+
+[[dynamicfield]]
+==== Dynamic Field
+//TODO
+
 
 [[ui-button]]
 ==== Button
 
+Buttons können wie Labels über <<styleNames>> gestaltet werden.
 //TODO Links in Kapitel 04 setzen wenn hier beschrieben
 
 * *`captionType: CaptionType`*
