@@ -10,7 +10,7 @@ Häufig bestehen Applikationen aus vielen Eingabeelementen, die direkt Objekte u
 * Schnelle Erstellung von UIs 
 * Deklarative UI Definition (über Annotationen)
 * Implementierung der UI Logik über ein PresentationModel (PMO)
-* Automatisches Data-Binding zwischen (P)MO und UI Elementen
+* Automatisches Data-Binding zwischen (P)MO und UI-Elementen
 * Dynamisches Binding weiterer UI Eigenschaften, u.A.
 ** Sichtbarkeit (visible)
 ** Aktivierungszustand (enabled)

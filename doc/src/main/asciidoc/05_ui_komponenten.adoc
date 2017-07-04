@@ -1,5 +1,5 @@
 [[ui-komponenten]]
-== UI Komponenten
+== UI-Komponenten
 :source-dir-binding: ../../../../samples/binding/src/main/java
 :source-dir-messages: ../../../../samples/messages/src/main/java
 :source-dir-dynamic: ../../../../samples/dynamic-fields/src/main/java
@@ -9,8 +9,8 @@ Linkki beinhaltet für die geläufigsten UI Komponenten vorgefertigte Annotation
 Grundsätzlich werden vorgefertigte UI Komponenten in *linkki* in zwei Gruppen zusammengefasst: <<ui-field, Felder>> und <<ui-buttin, Buttons>>. An diesen Komponenten können mit der Annotation <<tooltips, `@UITooltip`>> Tooltips gebunden werden. Zusätzlich bietet *linkki* auch eine Möglichkeit um <<container-pmo, Tabellen>> zu erstellen.
 
 [[ui-element]]
-=== UIElement
-Felder und Buttons werden zusammengefasst "UIElement" genannt. Es gibt folgende Arten:
+=== UI-Element
+Felder und Buttons werden zusammengefasst "UI-Element" genannt. Es gibt folgende Arten:
 
 [[ui-field]]
 [cols="1,5"]
@@ -29,13 +29,13 @@ Felder und Buttons werden zusammengefasst "UIElement" genannt. Es gibt folgende 
 [cols="1,5"]
 .Buttons
 |===
-|<<ui-button,`UIButton`>> |Ein Button, das beim Klick eine Aktion ausführt
+|<<ui-button,`UIButton`>> |Ein Button, der beim Klick eine Aktion ausführt
 |===
 
 Zu einem Property können auch mehrere Felder gebunden werden. Diese Mechanismus wird als <<dynamicfield, Dynamic Field>> bezeichnet.
 
 ==== Eigenschaften
-Alle UI Elemente haben folgende Eigenschaften gemeinsam:
+Alle UI-Elemente haben folgende Eigenschaften gemeinsam:
 
 * <<position, `position: int`>>
 * <<label, `label: String`>>
@@ -53,7 +53,7 @@ TIP: <<position, Position>> ist die einzige Eigenschaft die zwingend angegeben w
 
 [[position]]
 ===== Position
-Die Eigenschaft "position" bestimmt die Reihenfolge der Elemente im UI. Wichtig dabei ist nur die relative Größe der Zahl. Lücken sind erlaubt und üblich, damit bei einem späteren Einfügen eines neuen UI Elements nicht alle Positionen neu vergeben werden müssen.
+Die Eigenschaft "position" bestimmt die Reihenfolge der Elemente im UI. Wichtig dabei ist nur die relative Größe der Zahl. Lücken sind erlaubt und üblich, damit bei einem späteren Einfügen eines neuen UI-Elements nicht alle Positionen neu vergeben werden müssen.
  
 [[label]]
 ===== Label

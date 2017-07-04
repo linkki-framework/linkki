@@ -8,7 +8,7 @@ Zentrale Punkte des *linkki* Frameworks sind
 * die deklarative Definition von UIs mittels Annotationen
 * das flexible Databinding
 
-*linkki* ermöglicht eine deklarative Definition von Oberflächen, indem Benutzeroberflächen automatisch aus Annotationen erstellt werden. Unabhängig von der Erstellung können außerdem die Inhalte (Daten) eines UI Elements und deren Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) an sogenannte Presentation Model Objects (PMOs) gebunden werden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI Elemente aktualisiert.
+*linkki* ermöglicht eine deklarative Definition von Oberflächen, indem Benutzeroberflächen automatisch aus Annotationen erstellt werden. Unabhängig von der Erstellung können außerdem die Inhalte (Daten) eines UI-Elements und deren Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) an sogenannte Presentation Model Objects (PMOs) gebunden werden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI Elemente aktualisiert.
 
 .Bidirektionales Databinding
 image::data_binding.png[]

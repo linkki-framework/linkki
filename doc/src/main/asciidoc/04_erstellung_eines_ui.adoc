@@ -7,7 +7,7 @@ Mit *linkki* git es zwei Möglichkeiten ein UI zu erstellen:
 1. <<pmo-uisection, mittels `@UISection` am PMO>>
 2. <<manual-binding, manuelles Binding über `@Bind`>>
 
-Im ersten Fall wird automatisch eine sogenannte _Section_ erzeugt, in der UI Elemente organisiert werden. Die zweite Option überlässt die Erstellung der UI-Elementen ganz dem Anwender.
+Im ersten Fall wird automatisch eine sogenannte _Section_ erzeugt, in der UI-Elemente organisiert werden. Die zweite Option überlässt die Erstellung der UI-Elementen ganz dem Anwender.
 
 === Section
 
@@ -22,7 +22,7 @@ Die Section kann anstatt mehrere Eingabefelder auch eine Tabelle enthalten und w
 
 Wird eine Klasse mit `@UISection` annotiert, übernimmt *linkki* die Kontrolle über die Erstellung und Anordnung der definierten Komponenten. Über die Annotation für die zugehörigen <<ui-element, `UIElemente`>> können bestimmte Aspekte definiert und/oder gesteuert werden. Die Sections werden über <<missing-link, `SectionFactories`>> erstellt.
 
-Die <<ui-element, `UIElemente`>> werden entweder an die 'properties' eines <<binding-modelObjet, `ModelObject`>>s oder eines PMO's gebunden. Eine detaillierte Beschreibung gibt es im Kapitel <<domain-model-binding, `Daten auf mehreren Ebenen`>>.
+Die <<ui-element, `UI-Elemente`>> werden entweder an die 'properties' eines <<binding-modelObjet, `ModelObject`>>s oder eines PMO's gebunden. Eine detaillierte Beschreibung gibt es im Kapitel <<domain-model-binding, `Daten auf mehreren Ebenen`>>.
 
 Im <<abschnitt-form-binding, ersten Abschnitt>> wird die Erstellung einer Section eines 'standard' Formulars beschrieben. Im <<abschnitt-binding-table, zweiten Abschnitt>> wird das erstellen einer Section mit einer Tabelle erleutert.
 
@@ -56,7 +56,7 @@ include::{source-dir}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=pe
 
 Im `interface ContainerPmo<T>` werden noch weitere `default` Methoden spezifiziert. Eine genaue Beschreibung befindet sich <<missing-link, hier>>.
 
-Das sogenannte 'Row PMO' ist grundsätzliche ein gewöhnliches PMO wie in <<abschnitt-form-binding, Abschnitt 1>> beschrieben. Die einzige Besonderheit ist, dass die `UIElemente` ebenfalls mit der Annotation <<missing-link, `@UITableColumn`>> gekennzeichnet sind.
+Das sogenannte 'Row PMO' ist grundsätzliche ein gewöhnliches PMO wie in <<abschnitt-form-binding, Abschnitt 1>> beschrieben. Die einzige Besonderheit ist, dass die UI-Elemente ebenfalls mit der Annotation <<missing-link, `@UITableColumn`>> gekennzeichnet sind.
 
 
 [source,java]
@@ -64,7 +64,7 @@ Das sogenannte 'Row PMO' ist grundsätzliche ein gewöhnliches PMO wie in <<absc
 include::{source-dir}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-labelBinding]
 ----
 
-Es können alle `UIElemente` ebenfalls in Tabellen verwendet werden. Ein Binding eines `@UIButton` sieht folgendermaßen aus:
+Es können alle UI-Elemente ebenfalls in Tabellen verwendet werden. Ein Binding eines `@UIButton` sieht folgendermaßen aus:
 
 [source,java]
 ----
@@ -78,7 +78,7 @@ IMPORTANT: In allen Fällen gilt: existiert im `ModelObject` oder PMO kein 'Sett
 [[manual-binding]]
 === Manuelles Binding mit `@Bind`
 
-Auf Grund spezieller Anforderungen oder spezieller eigener `Fields` ist es manchmal nicht möglich den <<pmo-uisection, automatischen Aufbau über `@UISection`>> zu nutzen. Für diesen Fall besteht die Möglichkeit, dass *linkki* 'nur' das Data-Binding übernimmt. Man behält somit die volle Kontrolle über die Erstellung, Anordnung und Konfiguration (z.B. `setNullRepresentation()` oder `setConverter()`) der Komponenten.
+Auf Grund spezieller Anforderungen oder spezieller eigener `Fields` ist es manchmal nicht möglich den <<pmo-uisection, automatischen Aufbau über `@UISection`>> zu nutzen. Für diesen Fall besteht die Möglichkeit, dass *Linkki* 'nur' das Data-Binding übernimmt. Man behält somit die volle Kontrolle über die Erstellung, Anordnung und Konfiguration (z.B. `setNullRepresentation()` oder `setConverter()`) der Komponenten.
 
 Für die Aktivierung des manuellen Bindings muss die Annotation `@Bind` auf die Komponente geschrieben werden. Es können sowohl Felder als auch Methoden annotiert werden. Unterstützte Typen sind:
 
