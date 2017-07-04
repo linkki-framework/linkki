@@ -4,9 +4,9 @@
 :source-dir-messages: ../../../../samples/messages/src/main/java
 :source-dir-dynamic: ../../../../samples/dynamic-fields/src/main/java
 
-Linkki beinhaltet für die geläufigsten UI Komponenten vorgefertigte Annotationen, die je nach Datentyp Standard-Vaadin-Elemente oder eigens angepasste Ableitungen erzeugen. Diese sind mit dem Präfix "UI" versehen. Die UI Komponenten werden nicht direkt erstellt, sondern werden zunächst durch Annotationen an den PMO Properties deklariert. Später werden sie dann anhand der Annotation von linkki erstellt und in die UISection eingefügt. Genaueres hierzu siehe Kapitel <<ui-erstellung, Erstellung eines UI mit linkki>>.
+Linkki beinhaltet für die geläufigsten UI Komponenten vorgefertigte Annotationen, die je nach Datentyp Standard-Vaadin-Elemente oder eigens angepasste Ableitungen erzeugen. Diese sind mit dem Präfix "UI" versehen. Die UI Komponenten werden nicht direkt erstellt, sondern werden zunächst durch Annotationen an den PMO Properties deklariert. Später werden sie dann anhand der Annotation von *linkki* erstellt und in die UISection eingefügt. Genaueres hierzu siehe Kapitel <<ui-erstellung, Erstellung eines UI mit linkki>>.
 
-Grundsätzlich werden vorgefertigte UI Komponenten in linkki in zwei Gruppen zusammengefasst: <<ui-field, Felder>> und <<ui-buttin, Buttons>>. An diesen Komponenten können mit der Annotation <<tooltips, `@UITooltip`>> Tooltips gebunden werden. Zusätzlich bietet linkki auch eine Möglichkeit um <<container-pmo, Tabellen>> zu erstellen.
+Grundsätzlich werden vorgefertigte UI Komponenten in *linkki* in zwei Gruppen zusammengefasst: <<ui-field, Felder>> und <<ui-buttin, Buttons>>. An diesen Komponenten können mit der Annotation <<tooltips, `@UITooltip`>> Tooltips gebunden werden. Zusätzlich bietet *linkki* auch eine Möglichkeit um <<container-pmo, Tabellen>> zu erstellen.
 
 [[ui-element]]
 === UIElement
@@ -159,7 +159,7 @@ Wird kein Format angegeben, nutzt *linkki* für ein `UIIntegerField` das Java De
 
 [[ui-datefield]]
 ==== UIDateField
-Die Annotation `@UIDateField` entspricht einem Datums-Eingabefeld  (`com.vaadin.ui.DateField`). Es erlaubt die Angabe eines Datumsformats über die Eigenschaft `dateFormat: String`. Wird kein Datumsformat angegeben wird das zur `Locale` passende Format verwendet. In Linkki ist für Deutsch `"dd.MM.yyyy"` als Standardformat eingestellt. Für andere Sprachen wird auf  `DateFormat.SHORT` aus dem JDK zurückgegriffen.
+Die Annotation `@UIDateField` entspricht einem Datums-Eingabefeld  (`com.vaadin.ui.DateField`). Es erlaubt die Angabe eines Datumsformats über die Eigenschaft `dateFormat: String`. Wird kein Datumsformat angegeben wird das zur `Locale` passende Format verwendet. In *linkki* ist für Deutsch `"dd.MM.yyyy"` als Standardformat eingestellt. Für andere Sprachen wird auf  `DateFormat.SHORT` aus dem JDK zurückgegriffen.
 
 [[ui-combobox]]
 ==== UIComboBox

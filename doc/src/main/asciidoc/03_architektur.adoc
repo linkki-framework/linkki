@@ -8,7 +8,7 @@ Zentrale Punkte des *linkki* Frameworks sind
 * die deklarative Definition von UIs mittels Annotationen
 * das flexible Databinding
 
-*Linkki* ermöglicht eine deklarative Definition von Oberflächen, indem Benutzeroberflächen automatisch aus Annotationen erstellt werden. Unabhängig von der Erstellung können außerdem die Inhalte (Daten) eines UI Elements und deren Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) an sogenannte Presentation Model Objects (PMOs) gebunden werden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI Elemente aktualisiert.
+*linkki* ermöglicht eine deklarative Definition von Oberflächen, indem Benutzeroberflächen automatisch aus Annotationen erstellt werden. Unabhängig von der Erstellung können außerdem die Inhalte (Daten) eines UI Elements und deren Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) an sogenannte Presentation Model Objects (PMOs) gebunden werden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI Elemente aktualisiert.
 
 .Bidirektionales Databinding
 image::data_binding.png[]
@@ -139,7 +139,7 @@ Auf technischer Ebene existieren zwei Linkki-Konstrukte, um Querschnittsaspekte 
 
 ==== PropertyDispatcher
 
-Der `BindingContext` (siehe <<grundaufbau-binding,Grundaufbau BindingContext - BindingManager>>) verwendet eine `PropertyDispatcherFactory`, die mehrere miteinander verknüpfte `PropertyDispatcher` erstellt. Diese Dispatcher wiederum werden zum Binden der Properties und ihrer Eigenschaften (siehe <<binding-ui-element-properties,Binding von weiteren UI-Element-Eigenschaften>>) verwendet. `PropertyDispatcher` haben Methoden zur Abfrage von Datentyp und Wert einer Property, sowie der zugehörigen Eigenschaften. Standardmäßig werden in Linkki vier miteinander verknüpfte Dispatcher erstellt, die jeweils an den Nächsten delegieren, wenn sie selbst den Wert nicht liefern können: 
+Der `BindingContext` (siehe <<grundaufbau-binding,Grundaufbau BindingContext - BindingManager>>) verwendet eine `PropertyDispatcherFactory`, die mehrere miteinander verknüpfte `PropertyDispatcher` erstellt. Diese Dispatcher wiederum werden zum Binden der Properties und ihrer Eigenschaften (siehe <<binding-ui-element-properties,Binding von weiteren UI-Element-Eigenschaften>>) verwendet. `PropertyDispatcher` haben Methoden zur Abfrage von Datentyp und Wert einer Property, sowie der zugehörigen Eigenschaften. Standardmäßig werden in *linkki* vier miteinander verknüpfte Dispatcher erstellt, die jeweils an den Nächsten delegieren, wenn sie selbst den Wert nicht liefern können: 
 
 * `BehaviorDependentDispatcher` verwendet `PropertyBehaviors` (siehe im nächsten Abschnitt, <<property-behavior,PropertyBehaviors>>)
 * `BindingAnnotationDispatcher` liefert Informationen die aus den UI-Annotationen direkt abgelesen werden können

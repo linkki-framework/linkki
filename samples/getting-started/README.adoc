@@ -20,7 +20,7 @@ NOTE: Persistieren des Reports ist *nicht* Teil dieses Tutorials.
 ---
 
 == Schritt 0: Projekt-Setup
-Wir erstellen eine Webanwendung, die als `war` gepackt werden soll. Als Abhängigkeiten benötigen wir neben linkki selbst noch vaadin:
+Wir erstellen eine Webanwendung, die als `war` gepackt werden soll. Als Abhängigkeiten benötigen wir neben *linkki* selbst noch vaadin:
 
 [source,xml]
 ----
@@ -44,7 +44,7 @@ include::{source-dir}/org/linkki/samples/gettingstarted/model/Report.java[tags=r
 ----
 include::{source-dir}/org/linkki/samples/gettingstarted/model/ReportType.java[tags=report-type]
 ----
-NOTE: `ReportType` implementiert die Methode `getName()`. Diese Methode wird von linkki aufgerufen um die 'caption' für die Enum-Werte anzuzeigen.
+NOTE: `ReportType` implementiert die Methode `getName()`. Diese Methode wird von *linkki* aufgerufen um die 'caption' für die Enum-Werte anzuzeigen.
 
 == Schritt 2: PresentationObjectModel (PMO)
 
@@ -83,7 +83,7 @@ IMPORTANT: Die Annotations müssen immer an die Methoden und nicht an Felder der
 
 Der letzte Schritt ist die Definition des Buttons. Die Besonderheit ist hierbei, dass anhand der Werte im Modell entschieden werden soll, ob der Button aktiviert ist oder nicht. Dies wird über die Property `enabled = EnabledType.DYNAMIC` angezeigt.
 
-Durch den `EnabledType.DYNAMIC` sucht linkki nach einer Methode `boolean isSendEnabled()`. Diese wird bei der Aktualisierung der Oberfläche automatisch aufgerufen. Der Rückgabewert bestimmt den Aktivierungszustand des Buttons. 
+Durch den `EnabledType.DYNAMIC` sucht *linkki* nach einer Methode `boolean isSendEnabled()`. Diese wird bei der Aktualisierung der Oberfläche automatisch aufgerufen. Der Rückgabewert bestimmt den Aktivierungszustand des Buttons. 
 
 IMPORTANT: Der Methodenname _muss_ der Konvention is[NameDerZurAnnotiertenMethodeGehörigenProperty]Enabled() entsprechen. Desweiteren muss die Methode public sein und einen boolschen Wert zurückgeben.
 
