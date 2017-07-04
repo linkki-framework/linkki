@@ -24,7 +24,7 @@ Am Ende des Kaptiels <<architektur, Architektur>> werden noch sogenannte <<quers
 [[grundaufbau-binding]]
 === Binding, BindingContext, BindingManager
 
-Für jede UI Komponente, die an einem PMO gebunden wird, erstellt *linkki* ein sogenanntes `Binding`. Bei Änderungen im PMO wird über die Methoden des `Bindings` sichergestellt, dass die UI Komponente korrekt aktualisiert wird.
+Für jede UI-Komponente, die an einem PMO gebunden wird, erstellt *linkki* ein sogenanntes `Binding`. Bei Änderungen im PMO wird über die Methoden des `Bindings` sichergestellt, dass die UI-Komponente korrekt aktualisiert wird.
 
 Alle Bindings in *linkki* sind Teil eines `BindingContext`. Üblicherweise verbindet ein `BindingContext` alle Bindings auf einer Seite oder in einem thematisch unabhängigen Abschnitt. Bei Änderungen an einem gebundenen Objekt (PMO oder UI) werden alle Bindings im gleichen Kontext aktualisiert. Mehrere PMOs können mit dem gleichen `BindingContext` gebunden werden.
 
@@ -122,7 +122,7 @@ Wird in der Annotation keine Eigenschaft `modelObject` angegeben, so wird die Me
 [[binding-ui-element-properties]]
 === Binding von weiteren UI-Element-Eigenschaften
 
-Neben dem anzuzeigenden Wert können weitere Eigenschaften der UI-Elemente per Databinding an Methoden des PMO gebunden werden. Die genaue Funktionsweise wird im Kapitel <<ui-komponenten, UI Komponenten>> näher beschrieben.
+Neben dem anzuzeigenden Wert können weitere Eigenschaften der UI-Elemente per Databinding an Methoden des PMO gebunden werden. Die genaue Funktionsweise wird im Kapitel <<ui-komponenten, UI-Komponenten>> näher beschrieben.
 
 [[querschnittsaspekte-im-binding]]
 === Querschnittsaspekte im Databinding

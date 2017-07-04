@@ -15,10 +15,12 @@ public class PersonTablePmo implements ContainerPmo<PersonRowPmo> {
     // end::personTablePmo-class[]
     private final SimpleItemSupplier<PersonRowPmo, Person> items;
 
+    // tag::item-supplier[]
     public PersonTablePmo(List<Person> persons, Consumer<Person> editAction, Consumer<Person> deleteAction) {
-
-        items = new SimpleItemSupplier<>(() -> persons, p -> new PersonRowPmo(p, editAction, deleteAction));
+        items = new SimpleItemSupplier<>(() -> persons,
+                                         p -> new PersonRowPmo(p, editAction, deleteAction));
     }
+    // end::item-supplier[]
 
     // tag::personTablePmo-getItems[]
     @Override
@@ -27,8 +29,10 @@ public class PersonTablePmo implements ContainerPmo<PersonRowPmo> {
     }
     // end::personTablePmo-getItems[]
 
+    //tag::page-length[]
     @Override
     public int getPageLength() {
-        return Math.min(15, getItems().size());
+        return Math.min(ContainerPmo.DEFAULT_PAGE_LENGTH, getItems().size());
     }
+    //end::page-length[]
 }

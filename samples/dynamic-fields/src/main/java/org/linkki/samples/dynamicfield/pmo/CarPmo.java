@@ -40,7 +40,6 @@ public abstract class CarPmo implements PresentationModelObject, Serializable {
     }
 
 
-    @UITableColumn
     @UITextField(position = 10, label = "Make", modelAttribute = Car.PROPERTY_MAKE, required = RequiredType.REQUIRED_IF_ENABLED)
     public void make() {
         /* model binding */

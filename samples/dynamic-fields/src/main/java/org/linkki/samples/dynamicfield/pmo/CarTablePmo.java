@@ -1,6 +1,7 @@
 package org.linkki.samples.dynamicfield.pmo;
 
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.TableFooterPmo;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.SimpleItemSupplier;
@@ -20,12 +21,16 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo>, Serializable {
     private final Handler addCarAction;
     private final SimpleItemSupplier<CarRowPmo, Car> items;
 
+    //tag::table-footer[]
+    private final TableFooterPmo footer;
 
     public CarTablePmo(List<Car> carStorage, Handler addCarAction) {
         this.addCarAction = addCarAction;
         this.items = new SimpleItemSupplier<>(() -> carStorage, CarRowPmo::new);
-    }
 
+        this.footer = c -> calculateTotalRetention(c, carStorage);
+    }
+    //end::table-footer[]
 
     @Override
     public List<CarRowPmo> getItems() {
@@ -41,4 +46,30 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo>, Serializable {
     public int getPageLength() {
         return Math.min(ContainerPmo.super.getPageLength(), getItems().size());
     }
+    //tag::table-footer[]
+
+    @Override
+    public Optional<TableFooterPmo> getFooterPmo() {
+        return Optional.of(footer);
+    }
+
+    private String calculateTotalRetention(String column, List<Car> cars) {
+
+        switch (column) {
+            case Car.PROPERTY_RETENTION:
+
+                return String.format("%,.2f", cars.stream()
+                        .mapToDouble(Car::getRetention)
+                        .sum());
+
+            case Car.PROPERTY_CAR_TYPE:
+
+                return "Total Retention:";
+
+            default:
+
+                return "";
+        }
+    }
+    //end::table-footer[]
 }
