@@ -1,37 +1,78 @@
 	<!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+	<div class="book font-size-2 font-family-1 with-summary">
+		<div class="book-summary">
           <!-- <a class="navbar-brand" href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>">JBake</a> -->
-		  <a class="navbar-brand" href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>index.html"><img src="<%if (content.rootpath.length() > 0) {%>${content.rootpath}<% } else { %><% }%>images/logos/fips_single_final_big.png" style="padding-top:8px;padding-right:20px;padding-left:20px"></a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>index.html">Home</a></li>
-			<%sortedByOverviewName = published_chapters.sort{ it.order }
-			sortedByOverviewName.each {view ->%>
-				<!-- <li><a href="${view.uri}">${view.title}</a></li> -->
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">${view.title}<b class="caret"></b></a>
-					<ul class="dropdown-menu">
-					<li><a href="<%if (content.rootpath.length() > 0) {%>${content.rootpath}<% } else { %><% }%>${view.uri}">Übersicht: ${view.title}</a></li>
-					<%def counter = 1
-					sortedByFileName = published_sections.sort{ it.uri }
-					sortedByFileName.each {section -> if(section.tags != null){ if(view.tags[0] == section.tags[0]){%>
-						<li><a href="<%if (content.rootpath.length() > 0) {%>${content.rootpath}<% } else { %><% }%>${section.uri}">Kapitel ${counter}: ${section.title}</a></li>
-					<%counter++}}}%>
-				  </ul>
+		  <% if(config.logo != "false"){%>
+		  <a class="navbar-brand" href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>index.html"><img src="<%if (content.rootpath.length() > 0) {%>${content.rootpath}<% } else { %><% }%>images/${config.logo}" style="padding-top:8px;padding-right:20px;padding-left:20px"></a>
+		  <%}%>
+			<form  id="book-search-input" role="search" action="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>search/search.html">
+				<input type="text" name="q" id="tipue_search_input" placeholder="Type to search" pattern=".{3,}" title="At least 3 characters" required>
+			</form >
+			<nav role="navigation">
+				<ul class="summary">
+
+					<!--  Home -->				
+					<%if(content.uri == null)
+					{%>
+					<li class="chapter active">
+					<%}
+					else
+					{%>
+					<li class="chapter ">
+					<%}%>
+						<a href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>index.html">Home</a>
+					</li>
+					
+					<!--  Chapters -->	
+					<%
+					sortedByOverviewName = published_chapters.sort{ it.order }
+					sortedByOverviewName.each {
+						view ->
+						if(view.uri == content.uri)
+						{%>
+						<li class="chapter active">
+						<%}
+						else
+						{%>
+						<li class="chapter ">
+						<%}%>
+							<a href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>${view.uri}">${view.title}</a>
+						
+							<ul class="articles">
+							<%
+							sortedByFileName = published_sections.sort{ it.uri }
+							sortedByFileName.each 
+							{
+								section -> 
+								if(section.uri.substring(0, section.uri.indexOf('/')) == view.uri.substring(0, view.uri.indexOf('/')))
+								{
+									if(section.uri == content.uri)
+									{%>				
+									<li class="chapter active">
+									<%
+									}else
+									{%>
+									<li class="chapter ">
+									<%}%>
+										<a href="<%if (content.rootpath.length() > 0) {%>${content.rootpath}<% } else { %><% }%>${section.uri}">${section.title}</a>
+									</li>
+								<%}%>
+							<%}%>
+							</ul>
+						
+						</li>
+					<%}%>
+
+				</ul> <!-- summary -->
+				<!--
+				<li>
+					<a href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>../../files/ExampleProject.zip"">Example Project</a>
 				</li>
-			<%}%>
-			<!-- <li><a href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>../../files/ExampleProject.zip"">Example Project</a></li> -->
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-    <div class="container">
+				-->
+		</nav>
+	</div>
+    <!-- closing </div> in footer -->
+	
+	
+
+    

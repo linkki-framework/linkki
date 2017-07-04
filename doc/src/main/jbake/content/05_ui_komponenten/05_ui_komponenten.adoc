@@ -2,12 +2,12 @@
 :jbake-type: section
 :jbake-status: published
 :jbake-order: 30
+:jbake-tags: ui-komponenten
 
 [[ui-komponenten]]
-== UI Komponenten
-:source-dir: ../../../java
+=== UI Komponenten
 
-=== Felder
+==== Felder
 
 [[buttons]]
-=== Buttons
+==== Buttons

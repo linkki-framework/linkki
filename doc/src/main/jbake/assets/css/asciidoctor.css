@@ -1,6 +1,7 @@
 @import url(http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.0/css/font-awesome.css);
 /* ========================================================================== Embedded content ========================================================================== */
 /** Remove border when inside `a` element in IE 8/9. */
+
 img { border: 0; }
 
 /** Correct overflow displayed oddly in IE 9. */
@@ -314,7 +315,7 @@ table.pyhltable .linenodiv { background-color: transparent !important; padding-r
 
 table thead th, table tfoot th { font-weight: bold; }
 
-table.tableblock.grid-all { border-collapse: separate; border-spacing: 1px; -webkit-border-radius: 4px; border-radius: 4px; border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd; }
+/*table.tableblock.grid-all { border-collapse: separate; border-spacing: 1px; -webkit-border-radius: 4px; border-radius: 4px; border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd; }*/
 
 table.tableblock.frame-topbot, table.tableblock.frame-none { border-left: 0; border-right: 0; }
 
@@ -510,3 +511,4 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 .conum:not([data-value]):empty { display: none; }
 
 .literalblock > .content > pre, .listingblock > .content > pre { -webkit-border-radius: 0; border-radius: 0; }
+

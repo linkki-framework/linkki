@@ -1,0 +1,56 @@
+:jbake-title: Daten auf mehreren Ebenen (Domain Model Binding)
+:jbake-type: section
+:jbake-status: published
+:jbake-tags: architektur
+
+:images-folder-name: 03_architektur
+:source-dir: ../../../java
+
+=== Daten auf mehreren Ebenen (Domain Model Binding)
+[[domain-model-binding]]
+
+Domain Model Binding, oder kurz "Model Binding", ist ein Linkki Feature zur Vermeidung unnötigen Codes in PMO Klassen. Es zielt auf den "einfachen" Fall bei der Anbindung von UIs ab, in dem Eigenschaften aus dem Domain Model unverändert an der Oberfläche angezeigt werden. Unverändert bedeutet, dass das PMO keine Umformattierung oder andere Konvertierungen durchführen muss, bevor Werte in der UI angezeigt werden können. 
+
+Beispielsweise benötigt der Vorname einer Person keinerlei Umformattierung:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/PersonPmo.java[tags=pojo-binding]
+----
+
+Das selbe Verhalten unter Verwendung des Model Bindings:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/PersonPmo.java[tags=model-binding]
+----
+Model Binding vermeidet unnötigen Delegations-Code und ist damit eine Art "Abkürzung".
+
+.Model Binding
+image::{images}/{images-folder-name}/ModelBinding.png[]
+
+[[modell-attribut-namen]]
+==== Namen von Modell-Attirbuten angeben
+
+Um das Model Binding Feature verwenden zu können, muss in der UI Annotation die Eigenschaft `modelAttribute` angegeben werden. Der Datentyp der Eigenschaft ist String. Der Wert von `modelAttribute` gibt an, wie die entsprechende Property in der Domain Model Klasse heißt. Existiert keine entsprechende Eigenschaft an der Domain Model Klasse, so wird bei der Erstellung der Oberfläche eine Exception geworfen.
+
+Sobald `modelAttribute` angegeben wird, ignoriert Linkki sowohl den Rückgabewert als auch den Inhalt der Methode im PMO. Daher kann als Rückgabetyp `void` angegeben, und der Methodenrumpf leer gelassen werden. Von nun an wird vom Data Binding nicht mehr die Methode im PMO aufgerufen, sondern immer direkt die entsprechende Methode im Domain Model.
+
+Im obigen Beispiel heißt die Methode im PersonPMO `vorname()`. Im Domain Model dagegen heißt sie `firstname` bzw. `getFirstname()`. Es ist also möglich, Properties in PMO und Domain Model unterschiedlich zu benennen.
+
+==== Mehrere Modellobjekte
+
+Model Binding kann auch dann zum Einsatz kommen, wenn ein PMO mehrere Modellobjekte verwendet. In diesem Fall kann in der UI Annotation die Eigenschaft `modelObject` angegeben werden. Der Datentyp der Eigenschaft ist ebenfalls String. Der Wert von `modelObject` gibt an, welches Model Object des PMOs für Model Binding verwendet werden soll. Als Identifikator von Modellobjekten wird der in der `@ModelObject` Annotation angegebene Name verwendet.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/ContractPmo.java[tags=class]
+----
+
+Im obigen Beispiel definiert die Annotation von `vornameVersichertePerson()`, dass die Property `firstname` an Modellobjekt `VP` aufgerufen werden soll. Um einen Wert zur Darstellung in der Oberfläche zu ermitteln, geht das Databinding folgendermaßen vor:
+
+* Aufrufen der Methode `getInsuredPerson()` am PMO, da diese Methode mit `@ModelObject("VP")` annotiert ist
+* Speichern des zurückgegebenen Person-Objekts
+* Aufrufen des Getters für `firstname` am ermittelten Person-Objekt
+
+Wird in der Annotation keine Eigenschaft `modelObject` angegeben, so wird die Methode aufgerufen, die mit `@ModelObject` (ohne weiteren Namen) annotiert wurde. Dementsprechend wird für `vornameVersicherungsnehmer()` das Modellobjekt über `getPolicyHolder()` ermittelt.  

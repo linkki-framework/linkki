@@ -1,0 +1,18 @@
+:jbake-title: Grundaufbau Binding Context - BindingManager
+:jbake-type: section
+:jbake-status: published
+:jbake-tags: architektur
+
+:images-folder-name: 03_architektur
+
+[[grundaufbau-binding]]
+=== Grundaufbau Binding Context - Binding Manager
+
+Alle Bindings in Linkki sind Teil eines `BindingContext`. Üblicherweise verbindet ein `BindingContext` alle Bindings auf einer Seite oder in einem thematisch unabhängigen Abschnitt. Bei Änderungen an einem gebundenen Objekt (PMO oder UI) werden alle Bindings im gleichen Kontext aktualisiert. Mehrere PMOs (und damit UI-Abschnitte) können mit dem gleichen `BindingContext` gebunden werden.
+
+.BindingContext und ~Manager
+image::{images}/{images-folder-name}/binding_context_manager.png[]
+
+Um einen oder mehrere `BindingContext` zu erstellen und zu verwalten, gibt es einen `BindingManager`. Dieser gibt zu einem Namen (ggf. abgeleitet von einer Klasse) einen `BindingContext` zurück, oder erstellt bei Bedarf einen neuen. In Ableitungen von `BindingManager` kann festgelegt werden, welches Verhalten die vom jeweiligen `BindingContext` erstellten Bindings haben sollen (siehe <<vertikales-binding,Vertikales Binding>>). Soll kein besonderes Verhalten implementiert werden genügt ein `DefaultBindingManager`. Ein `BindingManager` wird üblicherweise `@ViewScoped` angelegt und jeder `Page` (siehe <<page,Page>>) übergeben.  
+
+Ein besonderer `BindingManager` ist der `DialogBindingManager`, der dafür sorgt, dass bei jeder Änderung auch die Validierungsmethode des Dialogs aufgerufen wird.

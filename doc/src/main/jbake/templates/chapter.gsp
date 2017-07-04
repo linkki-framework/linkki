@@ -1,20 +1,27 @@
 <%include "header.gsp"%>
-
-	<%include "menu.gsp"%>
 	
-	<div class="page-header">
-		<h1>${content.title}</h1>
+<%include "menu.gsp"%>
+	
+<div class="book-body">
+	<div class="body-inner">
+	    <div class="page-wrapper" tabindex="-1" role="main">
+            <div class="page-inner">			
+				<section class="normal markdown-section">
+					<!-- <h1>${content.title}</h1> -->
+					
+					<p>${content.body}</p>
+					
+					<%sortedByOverviewName = published_sections.sort{ it.uri }
+					sortedByOverviewName.each {section ->
+					if(section.uri.substring(0, section.uri.indexOf('/')) == content.uri.substring(0, content.uri.indexOf('/'))){
+					%>
+						<a href="../${section.uri}"><h3>${section.title}</h3></a>
+					<%}}%>		
+					
+				</section>
+			</div>
+		</div>
 	</div>
-
-	<!-- <p><em>${new java.text.SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(content.date)}</em></p> -->
-
-	<%def counter = 1
-	sortedByFileName = published_sections.sort{ it.uri }
-	sortedByFileName.each {section -> if(section.tags != null){ if(content.tags[0] == section.tags[0]){%>
-		<a href="../${section.uri}"><h3>Kapitel ${counter}: ${section.title}</h3></a>
-		<!-- <p>${new java.text.SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(section.date)}</p> -->
-  	<%counter++}}}%>
-
-	<hr />
+</div>
 
 <%include "footer.gsp"%>

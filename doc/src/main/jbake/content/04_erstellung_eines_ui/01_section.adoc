@@ -1,0 +1,13 @@
+:jbake-title: Section
+:jbake-type: section
+:jbake-status: published
+:jbake-tags: ui
+:jbake-order: 10
+
+=== Section
+
+Eine Gruppe von Eingabefeldern oder eine Tabelle wird als _Section_ bezeichnet. Eine Section kann einen Titel haben und wird in diesem Fall auch optisch durch eine Linie in der Titelleiste abgegrenzt. Wenn eine Section keinen Titel hat, ist sie optisch im fließenden Layout nicht direkt zu erkennen.
+
+Eine Section legt außderdem fest, in welcher Anordnung der Inhalt dargestellt werden soll: horizontal oder vertikal. Im horizontalen Layout werden alle Eingabefelder in einer Zeile, nebeneinander dargestellt. Im vertikalen Layout werden die Felder untereinander dargetstellt. Wenn zusätzlich eine Anzahl von Spalten durch die Eigenschaft `columns` festgelegt wird, wird zeilenweise (links-rechts) eine Art Grid Layout aufgebaut.
+
+Die Section kann anstatt mehrere Eingabefelder auch eine Tabelle enthalten und wird dann als _TableSection_ genannt.

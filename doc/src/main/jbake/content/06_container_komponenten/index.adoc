@@ -1,7 +1,0 @@
-:jbake-title: Container Komponenten
-:jbake-type: chapter
-:jbake-status: published
-:jbake-tags: container
-:jbake-order: 60
-
-include::06_container_komponenten.adoc[]

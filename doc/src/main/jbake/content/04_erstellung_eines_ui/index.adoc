@@ -1,7 +1,14 @@
 :jbake-title: Erstellung eines UI mit linkki
 :jbake-type: chapter
 :jbake-status: published
-:jbake-tags: ui
+:jbake-tags: ui, docu
 :jbake-order: 40
 
-include::04_erstellung_eines_ui.adoc[]
+== Erstellung eines UI mit linkki
+
+Mit *linkki* git es zwei Möglichkeiten ein UI zu erstellen:
+
+1. <<pmo-uisection, mittels `@UISection` am PMO>>
+2. <<manual-binding, manuelles Binding über `@Bind`>>
+
+Im ersten Fall wird automatisch eine sogenannte _Section_ erzeugt, in der UI Elemente organisiert werden. Die zweite Option überlässt die Erstellung der UI-Elementen ganz dem Anwender.

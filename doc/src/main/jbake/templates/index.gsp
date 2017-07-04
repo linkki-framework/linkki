@@ -1,18 +1,22 @@
 <%include "header.gsp"%>
 
-	<%include "menu.gsp"%>
-
-	<div class="page-header">
-		<h1>Linkki Documentation</h1>
+	
+<%include "menu.gsp"%>
+	
+<div class="book-body">
+	<div class="body-inner">
+	    <div class="page-wrapper" tabindex="-1" role="main">
+            <div class="page-inner">			
+				<section class="normal markdown-section">
+					<h1>${config.title}</h1>
+					<%sortedByOverviewName = published_chapters.sort{ it.order }
+					sortedByOverviewName.each {view ->%>
+						<a href="${view.uri}"><h3>${view.title}</h3></a>
+					<%}%>
+				</section>
+			</div>
+		</div>
 	</div>
-	<%sortedByOverviewName = published_chapters.sort{ it.order }
-	sortedByOverviewName.each {view ->%>
-		<a href="${view.uri}"><h3>${view.title}</h3></a>
-		<!-- <p>${new java.text.SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(view.date)}</p> -->
-  	<%}%>
-	
-	<hr />
-	
-	<!-- <p>Older posts are available in the <a href="${content.rootpath}${config.archive_file}">archive</a>.</p> -->
+</div>
 
 <%include "footer.gsp"%>
