@@ -1,5 +1,6 @@
 package org.linkki.samples.binding.pmo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -15,7 +16,7 @@ public class PersonPmo implements PresentationModelObject {
     private Person person;
 
     public PersonPmo(Person person) {
-        refreshPerson(person);
+        reset(person);
     }
 
     // tag::personPmo-class[]
@@ -33,10 +34,13 @@ public class PersonPmo implements PresentationModelObject {
         /* model binding only */ }
 
     // end::personPmo-class[]
-    public void refreshPerson(Person person) {
-        this.person = person;
+    public void reset(Person newPerson) {
+        this.person = newPerson;
     }
 
+    public boolean isInputValid() {
+        return !StringUtils.isEmpty(person.getFirstname()) && !StringUtils.isEmpty(person.getLastname());
+    }
     // tag::personPmo-class[]
 }
 // end::personPmo-class[]

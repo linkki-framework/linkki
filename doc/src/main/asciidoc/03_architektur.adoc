@@ -8,7 +8,7 @@ Zentrale Punkte des *linkki* Frameworks sind
 * die deklarative Definition von UIs mittels Annotationen
 * das flexible Databinding
 
-*linkki* ermöglicht eine deklarative Definition von Oberflächen, indem Benutzeroberflächen automatisch aus Annotationen erstellt werden. Unabhängig von der Erstellung können außerdem die Inhalte (Daten) eines UI-Elements und deren Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) an sogenannte Presentation Model Objects (PMOs) gebunden werden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI Elemente aktualisiert.
+*linkki* ermöglicht eine deklarative Definition von Oberflächen, indem Benutzeroberflächen automatisch aus Annotationen erstellt werden. Unabhängig von der Erstellung können außerdem die Inhalte (Daten) eines UI-Elements und deren Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) an sogenannte Presentation Model Objects (PMOs) gebunden werden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI-Elemente aktualisiert.
 
 .Bidirektionales Databinding
 image::data_binding.png[]
@@ -96,9 +96,11 @@ Um das Model Binding Feature verwenden zu können, muss in der <<ui-element,UI A
 
 Sobald `modelAttribute` angegeben wird, ignoriert *linkki* sowohl den Rückgabewert als auch den Inhalt der Methode im PMO. Daher kann als Rückgabetyp `void` angegeben, und der Methodenrumpf leer gelassen werden. Von nun an wird vom Data Binding nicht mehr die Methode im PMO aufgerufen, sondern immer direkt die entsprechende Methode im Domain Model.
 
-Im obigen Beispiel heißt die Methode im PersonPMO `vorname()`. Im Domain Model dagegen heißt sie `firstname` bzw. `getFirstname()`. Es ist also möglich, Properties in PMO und Domain Model unterschiedlich zu benennen.
+Im obigen Beispiel heißt die Methode im `PersonPMO` `vorname()`. Im Domain Model dagegen heißt sie `firstname` bzw. `getFirstname()`. Es ist also möglich, Properties in PMO und Domain Model unterschiedlich zu benennen.
 
-TIP: *linkki* sucht im Modell nach allen benötigten Methoden. Fall die Setter-Methode ignoriert werden soll, muss auf die Benutzung der Abkürzung verzichten werden. Hingegen kann auch bei annotierten Getter-Methoden ein Modellattribut angegeben werden. Dadurch wird im Modell nach allen Methoden gesucht, die *linkki* im PMO nicht finden kann.
+TIP: *linkki* sucht im Modell nach allen benötigten Methoden. Falls die Setter-Methode ignoriert werden soll, muss auf die Benutzung der Abkürzung verzichten werden. Hingegen kann auch bei annotierten Getter-Methoden ein Modellattribut angegeben werden. Dadurch wird im Modell nach allen Methoden gesucht, die *linkki* im PMO nicht finden kann.
+
+Zu Beachten ist dabei, dass die Benennung der Methode nicht ohne Auswirkung ist. Wenn `modelAttribute` bei der Annotation angegeben ist, wird der ganze Methodenname als ein PMO Property behandelt. Der Name des Properties wird verwendet um <<ui-properties,UI Eigenschaften>> wie <<enabled, Editierbarkeit>>, <<visible, Sichtbarkeit>> oder <<available-values,auswählbare Werte>> zu binden.
 
 ==== Mehrere Modellobjekte
 

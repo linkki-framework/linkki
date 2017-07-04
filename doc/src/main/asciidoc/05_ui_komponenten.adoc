@@ -4,9 +4,9 @@
 :source-dir-messages: ../../../../samples/messages/src/main/java
 :source-dir-dynamic: ../../../../samples/dynamic-fields/src/main/java
 
-Linkki beinhaltet für die geläufigsten UI Komponenten vorgefertigte Annotationen, die je nach Datentyp Standard-Vaadin-Elemente oder eigens angepasste Ableitungen erzeugen. Diese sind mit dem Präfix "UI" versehen. Die UI Komponenten werden nicht direkt erstellt, sondern werden zunächst durch Annotationen an den PMO Properties deklariert. Später werden sie dann anhand der Annotation von *linkki* erstellt und in die UISection eingefügt. Genaueres hierzu siehe Kapitel <<ui-erstellung, Erstellung eines UI mit linkki>>.
+*linkki* beinhaltet für die geläufigsten UI Komponenten vorgefertigte Annotationen, die je nach Datentyp Standard-Vaadin-Elemente oder eigens angepasste Ableitungen erzeugen. Diese sind mit dem Präfix "UI" versehen. Die UI Komponenten werden nicht direkt erstellt, sondern werden zunächst durch Annotationen an den PMO Properties deklariert. Später werden sie dann anhand der Annotation von *linkki* erstellt und in die UISection eingefügt. Genaueres hierzu siehe Kapitel <<ui-erstellung, Erstellung eines UI mit linkki>>.
 
-Grundsätzlich werden vorgefertigte UI Komponenten in *linkki* in zwei Gruppen zusammengefasst: <<ui-field, Felder>> und <<ui-buttin, Buttons>>. An diesen Komponenten können mit der Annotation <<tooltips, `@UITooltip`>> Tooltips gebunden werden. Zusätzlich bietet *linkki* auch eine Möglichkeit um <<container-pmo, Tabellen>> zu erstellen.
+Grundsätzlich werden vorgefertigte UI Komponenten in *linkki* in zwei Gruppen zusammengefasst: <<ui-field, Felder>> und <<ui-buttin, Buttons>>. An diesen Komponenten können mit der Annotation <<tooltips, `@UITooltip`>> Tooltips gebunden werden. Zusätzlich bietet linkki auch eine Möglichkeit um <<container-pmo, Tabellen>> zu erstellen.
 
 [[ui-element]]
 === UI-Element
@@ -25,7 +25,7 @@ Felder und Buttons werden zusammengefasst "UI-Element" genannt. Es gibt folgende
 |<<ui-combobox,`UICombobox`>> |Dropdown Feld mit vorgegebenen Auswahlmöglichkeiten
 |===
 
-[[ui-button]]
+[[ui-buttons]]
 [cols="1,5"]
 .Buttons
 |===
@@ -34,6 +34,11 @@ Felder und Buttons werden zusammengefasst "UI-Element" genannt. Es gibt folgende
 
 Zu einem Property können auch mehrere Felder gebunden werden. Diese Mechanismus wird als <<dynamicfield, Dynamic Field>> bezeichnet.
 
+Annotationen für sowohl Felder als auch Buttons müssen an Methoden in einer PMO klasse stehen. Der Hauptunterschied zwischen Feldern und Button liegt darin, dass Felder zur Anzeige und zum Bearbeiten von Werten dienen, und somit per Data Binding an einen Wert gebunden werden. Deshalb müssen die Annotationen für Felder an einer Getter-Methode eines <<databinding, PMO Propertys>> stehen. Nur wenn <<domain-model-binding, Domain Model Binding>> benutzt wird, kann die Methode abweichend benannt werden. 
+
+Buttons hingegen werden nicht an einen Wert gebunden, sondern an die annotierte Methode, die eine ausführbare Aktion darstellt. Die annotierte Methode wird beim Klick auf den Button aufgerufen.
+
+[[ui-properties]]
 ==== Eigenschaften
 Alle UI-Elemente haben folgende Eigenschaften gemeinsam:
 
@@ -57,13 +62,13 @@ Die Eigenschaft "position" bestimmt die Reihenfolge der Elemente im UI. Wichtig 
  
 [[label]]
 ===== Label
-Üblicherweise gibt es zu einem UI Element einen beistehenden Label-Text, der das Element beschreibt. Der Inhalt des Labels wird über dieses Attribut festgelegt. Siehe auch <<missing-link, Internationalisierung>>. 
+Üblicherweise gibt es zu einem UI-Element einen beistehenden Label-Text, der das Element beschreibt. Der Inhalt des Labels wird über dieses Attribut festgelegt. Siehe auch <<missing-link, Internationalisierung>>. 
 
 Soll kein Label (im Unterschied zu einem leeren) angezeigt werden, kann dies über `noLabel = true` gesteuert werden.
 
 Ausnahme ist hier der <<ui-button, Button>>, bei dem normalerweise kein Label angezeigt wird. Daher heiß dort die Eigenschaft `showLabel` und ist mit dem Wert `false` vorbelegt. Das Anzeigen des Labels muss mit `showLabel = true` erzwungen werden.
 
-TIP: Falls ein alleinstehendes Label benötigt wird, soll das UI Element <<ui-label, UILabel>> benutzt werden.
+TIP: Falls ein alleinstehendes Label benötigt wird, soll das UI-Element <<ui-label, UILabel>> benutzt werden.
 
 [[enabled]]
 ===== Enabled
@@ -116,7 +121,7 @@ Ein <<ui-field, Feld>> kann über <<domain-model-binding, Domain Model Binding>>
 
 [[ui-label]]
 ==== UILabel
-Die Annotation `@UILabel` stellt ein alleinstehendes UI Element zur Anzeige von Textinhalten dar. Im Gegensatz zu einem deaktivierten <<ui-textfield, UITextField>> wird der Text nicht in einem Eingabefeld umrahmt. Diese Annotation entspricht einem `com.vaadin.ui.Label`.
+Die Annotation `@UILabel` stellt ein alleinstehendes UI-Element zur Anzeige von Textinhalten dar. Im Gegensatz zu einem deaktivierten <<ui-textfield, UITextField>> wird der Text nicht in einem Eingabefeld umrahmt. Diese Annotation entspricht einem `com.vaadin.ui.Label`.
 
 Die annotierte Methode muss einen Wert von Typ `String` zurückgeben. Der Rückgabewert bestimmt, was als Label angezeigt wird.
 
@@ -225,23 +230,59 @@ include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationPmo.j
 [[ui-button]]
 ==== Button
 
-Buttons können wie Labels über <<styleNames>> gestaltet werden.
-//TODO Links in Kapitel 04 setzen wenn hier beschrieben
+Mit der Annotation `@UIButton` markiert man eine Methode, die beim Klick auf den Button ausgeführt werden soll. 
+
+Buttons werden nicht an einen Wert gebunden. Da dem Button somit auch keinen PMO Property zugeordnet werden kann, wird der Name der annotierten Methode zur Bestimmung von zugehörigen Methoden benutzt. Es verhält sich also ähnlich wie beim <<domain-model-binding, Domain Model Binding>>, obwohl Buttons keine Eigenschaft `modelAttribute` anbieten.
+
+Im Gegensatz zu anderen UI-Elementen ist die Eigenschaft <<label, showLabel>> mit dem Defaultwert `false` belegt. Zusätzlich zu den <<ui-properties, gemeinsamen Eigenschaften>> haben Buttons weitere Eigenschaften:
+
+* <<caption, caption: String>>
+* <<caption, captionType: CaptionType>>
+* <<icon, icon: FontAwesome>>
+* <<icon, show-icon: boolean>>
+* <<button-style-names, styleNames: String[]>>
+* <<button-key-binding, shortcutKeyCode: int>>
+* <<button-key-binding, shortcutModifierKeys: int[]>>
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/binding/pmo/ButtonsSectionPmo.java[tags=button]
+----
+
+[[caption]]
+===== Caption
+
+Mit Caption wird der Text bezeichnet, der auf dem Button erscheint. Dies ist nicht zu verwechseln mit <<label, Label>>, das meist neben dem Control steht. Ein Button kann auch gleichzeitig einen Caption- und Labeltext haben.
 
 * *`captionType: CaptionType`*
 
 [cols="1,9"]
 .CaptionType
 |===
-|`STATIC`  |Der Text des Buttons wird aus dem Attribut `caption` entnommen (*default*)
-|`NONE`    |Der Button hat keinen Text
-|`DYNAMIC` |Der Text des Buttons entspricht dem Rückgabewert der Methode `String get<PropertyName>Caption()`
+|`STATIC`  |Die Caption des Buttons wird aus dem Attribut `caption` entnommen (*default*)
+|`NONE`    |Der Button hat keine Caption
+|`DYNAMIC` |Die Caption des Buttons entspricht dem Rückgabewert der Methode `String get<PropertyName>Caption()`. Der Wert des Attributs `caption` wird ignoriert.
 |===
+
+[[icon]]
+===== Icon
+Zusätzlich zu Caption kann auf Buttons ein Icon angezeigt werden. Hierfür werden die Konstanten von der Vaadin Klasse `FontAwesome` benutzt. Damit ein Icon angezeigt wird, muss zusätzlich die Eigenschaft `showIcon` auf `true` gesetzt werden.
+
+[[button-style-names]]
+===== Style Names
+Je nach Funktion müssen Buttons oft unterschiedlich gestaltet werden. Ein gängiges Beispiel ist hier der Linkbutton, ein Button, der wie ein Link aussieht. Die Annotation `@UIButton` hat deshalb die Eigenschaft `styleNames`. Die Werte dieser Eigenschaft sind die CSS-Klassennamen, die für den Button gelten sollen.
+
+[[button-key-binding]]
+===== Key Bindings
+Manche Buttons sollen nicht nur durch einen Mausklick ausgelöst werden, sondern auch bei bestimmten Tastenkombinationen. Das kann mit den Eigenschaften `shortcutModifierKeys` und `shortcutKeyCode` angegeben werden. `shortcutModifierKeys` gibt an, welche Tasten gedrückt gehalten sein muss, bevor die Taste mit der `shortcutKeyCode` gedrückt wird. Zum Beispiel wird das Speichern in vielen Anwendungen durch die Tastenkombination "Strg + s" ausgelöst. Hier ist die "Strg"-Taste das Modifier, und "s"-Taste das Shortcut Key.
+
+Bei beiden Eigenschaften werden Tasten durch einen Integerwert repräsentiert. Diese können in den Vaadin Klassen `ModifierKey` und `KeyCode` gefunden werden.
+
 
 [[tooltips]]
 === Tooltips
 
-Um Tooltips an UI Elementen anzuzeigen, stellt *linkki* die Annotation `@UITooltip` zur Verfügung. Diese Annotation kann bei PMO-Binding an die Methode, mit der das UI Element gebunden wird, hinzugefügt werden. Bei Binding mittels der `@Bind`-Annotation muss `@UITooltip` direkt an das mit `@Bind` annotierte Feld geschrieben werden.
+Um Tooltips an UI-Elementen anzuzeigen, stellt *linkki* die Annotation `@UITooltip` zur Verfügung. Diese Annotation kann bei PMO-Binding an die Methode, mit der das UI-Element gebunden wird, hinzugefügt werden. Bei Binding mittels der `@Bind`-Annotation muss `@UITooltip` direkt an das mit `@Bind` annotierte Feld geschrieben werden.
 
 Die Annotation `@UITooltip` bietet 2 Eigenschaften an:
 
@@ -249,12 +290,12 @@ Die Annotation `@UITooltip` bietet 2 Eigenschaften an:
 * <<tooltip-type, `toolTipType: ToolTipType`>>
 
 [[tooltip-text]]
-===== Text
+==== Text
 Dieser Text wird bei <<tooltip-type, `ToolTipType.STATIC`>> angezeigt. Als Default ist hier ein Leerstring ("") definiert.
 
 [[tooltip-type]]
 
-===== ToolTipType
+==== ToolTipType
 Folgende Konfigurationsmöglchkeiten stehen für den `ToolTipType` zur Auswahl:
 
 [cols="1,9"]
