@@ -1,7 +1,6 @@
 :jbake-title: Querschnittsaspekte im Databinding
 :jbake-type: section
 :jbake-status: published
-:jbake-tags: architektur
 
 :images-folder-name: 03_architektur
 :source-dir: ../../../java

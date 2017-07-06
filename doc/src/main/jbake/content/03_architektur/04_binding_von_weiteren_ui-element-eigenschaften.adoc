@@ -1,7 +1,6 @@
 :jbake-title: Binding von weiteren UI-Elment-Eigenschaften
 :jbake-type: section
 :jbake-status: published
-:jbake-tags: architektur
 
 :source-dir: ../../../java
 

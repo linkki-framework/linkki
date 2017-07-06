@@ -1,8 +1,6 @@
 :jbake-title: Manuelles Binding mit `@Bind`
 :jbake-type: section
 :jbake-status: published
-:jbake-tags: ui
-:jbake-order: 30
 
 [[manual-binding]]
 

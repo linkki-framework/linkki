@@ -1,9 +1,6 @@
 :jbake-title: Presentationmodelobject mit UI Section
 :jbake-type: section
 :jbake-status: published
-:jbake-tags: ui
-:jbake-order: 20
-
 :source-dir: ../../../../../../samples/binding/src/main/java
 
 [[pmo-uisection]]

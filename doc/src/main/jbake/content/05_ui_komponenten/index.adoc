@@ -1,7 +1,6 @@
 :jbake-title: UI Komponenten
 :jbake-type: chapter
 :jbake-status: published
-:jbake-tags: ui-komponenten, docu
 :jbake-order: 50
 
 == UI Komponenten

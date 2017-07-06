@@ -1,7 +1,6 @@
 :jbake-title: Architektur
 :jbake-type: chapter
 :jbake-status: published
-:jbake-tags: architektur, docu
 :jbake-order: 30
 
 :source-dir: ../../../java

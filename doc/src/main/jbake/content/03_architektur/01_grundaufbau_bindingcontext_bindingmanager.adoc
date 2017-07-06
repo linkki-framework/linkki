@@ -1,7 +1,6 @@
 :jbake-title: Grundaufbau Binding Context - BindingManager
 :jbake-type: section
 :jbake-status: published
-:jbake-tags: architektur
 
 :images-folder-name: 03_architektur
 
