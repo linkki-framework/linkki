@@ -32,7 +32,7 @@ Felder und Buttons werden zusammengefasst "UI-Element" genannt. Es gibt folgende
 |<<ui-button,`UIButton`>> |Ein Button, der beim Klick eine Aktion ausführt
 |===
 
-Zu einem Property können auch mehrere Felder gebunden werden. Diese Mechanismus wird als <<dynamicfield, Dynamic Field>> bezeichnet.
+Zu einem Property können auch mehrere Felder gebunden werden. Dieser Mechanismus wird als <<dynamicfield, Dynamic Field>> bezeichnet.
 
 Annotationen für sowohl Felder als auch Buttons müssen an Methoden in einer PMO klasse stehen. Der Hauptunterschied zwischen Feldern und Button liegt darin, dass Felder zur Anzeige und zum Bearbeiten von Werten dienen, und somit per Data Binding an einen Wert gebunden werden. Deshalb müssen die Annotationen für Felder an einer Getter-Methode eines <<databinding, PMO Propertys>> stehen. Nur wenn <<domain-model-binding, Domain Model Binding>> benutzt wird, kann die Methode abweichend benannt werden. 
 
@@ -224,7 +224,22 @@ include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationPmo.j
 
 [[dynamicfield]]
 ==== Dynamic Field
-//TODO
+
+*linkki* bietet die Möglichkeit dynamisch den Typ des Eingabefelds zu bestimmen. Im folgenden Beispiel soll der Selbstbehalt nur beim Autotyp `STANDARD` frei eingetragen werden dürfen. Andernfalls muss der User einen Wert aus einer vorgegebenen Liste wählen:
+
+[source,java]
+----
+include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarPmo.java[tags=ui-dynamic-field]
+----
+
+Die zur Auswahl stehende UI Elementen werden wie üblich als Annotation an der Methode definiert. Sie müssen allerdings folgende Kriterien erfüllen, damit der Typ des Feldes dynamisch ermittelt werden kann:
+
+1. die `position` in den UI*-Annotations muss übereinstimmen
+2. das `label` muss den gleichen Wert haben
+
+Wenn die `position` Werte identisch sind, aber die `label` Werte sich unterscheiden, wird eine Exception geworfen.
+
+Welches UI-Element für die jeweilige Instanz des PMO angezeigt wird, wird durch die Methode `Class<?> get<PropertyName>ComponentType()` ermittelt. Diese gibt die Klasse der UI*-Annotation für das anzuzeigende UI-Control zurück.
 
 
 [[ui-button]]

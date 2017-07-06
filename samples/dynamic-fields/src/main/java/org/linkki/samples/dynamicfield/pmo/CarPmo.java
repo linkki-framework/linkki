@@ -61,9 +61,17 @@ public abstract class CarPmo implements PresentationModelObject, Serializable {
         return CarModels.getModels(getCar().getMake()).orElse(Collections.singletonList("Sonstige"));
     }
 
-
-    @UIDoubleField(position = 30, label = "Retention", modelAttribute = Car.PROPERTY_RETENTION, required = RequiredType.REQUIRED_IF_ENABLED)
-    @UIComboBox(position = 30, label = "Retention", modelAttribute = Car.PROPERTY_RETENTION, required = RequiredType.REQUIRED_IF_ENABLED, content = AvailableValuesType.DYNAMIC, itemCaptionProvider = RetentionCaptionProvider.class)
+    // tag::ui-dynamic-field[]
+    @UIDoubleField(position = 30,
+            label = "Retention",
+            modelAttribute = Car.PROPERTY_RETENTION,
+            required = RequiredType.REQUIRED_IF_ENABLED)
+    @UIComboBox(position = 30,
+            label = "Retention",
+            modelAttribute = Car.PROPERTY_RETENTION,
+            required = RequiredType.REQUIRED_IF_ENABLED,
+            content = AvailableValuesType.DYNAMIC,
+            itemCaptionProvider = RetentionCaptionProvider.class)
     public void retention() {
         /* model binding */
     }
@@ -75,6 +83,7 @@ public abstract class CarPmo implements PresentationModelObject, Serializable {
     public Class<?> getRetentionComponentType() {
         return car.getCarType() == CarType.STANDARD ? UIDoubleField.class : UIComboBox.class;
     }
+    // end::ui-dynamic-field[]
 
     // must be public, otherwise linkki can not access it
     public final static class RetentionCaptionProvider implements ItemCaptionProvider<Double> {
