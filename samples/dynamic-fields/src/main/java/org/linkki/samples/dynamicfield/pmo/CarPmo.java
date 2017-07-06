@@ -13,7 +13,6 @@ import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UIDoubleField;
-import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.samples.dynamicfield.model.CarModels;

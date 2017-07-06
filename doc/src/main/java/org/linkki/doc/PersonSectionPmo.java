@@ -5,11 +5,11 @@ import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 
 @UISection
-public class PersonPmo {
+public class PersonSectionPmo {
 
     private final Person person;
 
-    public PersonPmo(Person person) {
+    public PersonSectionPmo(Person person) {
         this.person = person;
     }
 

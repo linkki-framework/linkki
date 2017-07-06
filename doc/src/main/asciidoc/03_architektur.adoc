@@ -68,21 +68,21 @@ Um dieses Feature nutzen zu können, muss das UI mittels <<pmo-uisection,`@UISec
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/doc/PersonPmo.java[tags=modelobject]
+include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=modelobject]
 ----
 
 Beispielsweise kann der Vorname aus dem Modell ohne Modifizierung direkt für die Anzeige verwendet werden:
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/doc/PersonPmo.java[tags=pojo-binding]
+include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=pojo-binding]
 ----
 
 In diesem Fall stellt die Getter-Methode eine direkte Delegation an ein Modellattribut dar. Daher kann das gleiche Verhalten unter Verwendung des Model Bindings erzielt werden:
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/doc/PersonPmo.java[tags=model-binding]
+include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=model-binding]
 ----
 Model Binding vermeidet unnötigen Delegations-Code und ist damit eine Art "Abkürzung".
 
@@ -108,7 +108,7 @@ Model Binding kann auch dann zum Einsatz kommen, wenn ein PMO mehrere Modellobje
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/doc/ContractPmo.java[tags=class]
+include::{source-dir}/org/linkki/doc/ContractSectionPmo.java[tags=class]
 ----
 
 Im obigen Beispiel definiert die Annotation von `vornameVersichertePerson()`, dass die Property `firstname` an Modellobjekt `VP` aufgerufen werden soll. Um einen Wert zur Darstellung in der Oberfläche zu ermitteln, geht das Databinding folgendermaßen vor:

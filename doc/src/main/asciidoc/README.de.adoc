@@ -1,5 +1,5 @@
 = linkki
-:source-file: ../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportPmo.java
+:source-file: ../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java
 
 Ein Data-Binding Framework für webbasierte Benutzeroberflächen mit https://vaadin.com/home[Vaadin].
 

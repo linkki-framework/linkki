@@ -35,7 +35,7 @@ Im <<abschnitt-form-binding, ersten Abschnitt>> wird beispielhaft die Erstellung
 .Binding mit `@ModelObject`
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/pmo/PersonPmo.java[tags=personPmo-class]
+include::{source-dir}/org/linkki/samples/binding/pmo/PersonSectionPmo.java[tags=personPmo-class]
 ----
 TIP: die Definition von `modelAttribute` ist optional, wenn der Property Name im `ModelObject` und der Name der annotierten Methode gleich sind.
 

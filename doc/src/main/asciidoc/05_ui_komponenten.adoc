@@ -219,7 +219,7 @@ UIComboBox>> über `content: AvailableValuesType` angegeben werden, woher die ve
 .UICustomField Beispiel: PasswordField
 [source,java]
 ----
-include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationPmo.java[tags=ui-custom-field]
+include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationSectionPmo.java[tags=ui-custom-field]
 ----
 
 [[dynamicfield]]

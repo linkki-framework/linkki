@@ -17,11 +17,11 @@ import com.vaadin.ui.Notification;
 
 // tag::report-pmo[]
 @UISection
-public class ReportPmo implements PresentationModelObject {
+public class ReportSectionPmo implements PresentationModelObject {
 
     private final Report report;
 
-    public ReportPmo(Report report) {
+    public ReportSectionPmo(Report report) {
         this.report = requireNonNull(report, "report must not be null");
     }
 

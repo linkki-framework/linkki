@@ -9,7 +9,7 @@ import org.linkki.util.handler.Handler;
 import java.util.List;
 
 @UISection
-public class NewCarPmo extends CarPmo {
+public class NewCarSectionPmo extends CarPmo {
 
     private static final long serialVersionUID = 6118622651214201674L;
 
@@ -18,7 +18,7 @@ public class NewCarPmo extends CarPmo {
     private final Handler afterOkAction;
 
 
-    public NewCarPmo(Car car, List<Car> carStorage, Handler afterOkAction) {
+    public NewCarSectionPmo(Car car, List<Car> carStorage, Handler afterOkAction) {
         super(car);
         this.carStorage = carStorage;
         this.afterOkAction = afterOkAction;

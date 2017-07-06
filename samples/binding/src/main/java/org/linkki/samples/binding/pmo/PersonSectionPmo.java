@@ -10,12 +10,12 @@ import org.linkki.samples.binding.model.Person;
 
 // tag::personPmo-class[]
 @UISection
-public class PersonPmo implements PresentationModelObject {
+public class PersonSectionPmo implements PresentationModelObject {
 
     // end::personPmo-class[]
     private Person person;
 
-    public PersonPmo(Person person) {
+    public PersonSectionPmo(Person person) {
         reset(person);
     }
 

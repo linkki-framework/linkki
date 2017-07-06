@@ -10,8 +10,8 @@ import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.samples.dynamicfield.model.CarType;
 import org.linkki.samples.dynamicfield.model.NewCar;
-import org.linkki.samples.dynamicfield.pmo.CarTypePmo;
-import org.linkki.samples.dynamicfield.pmo.NewCarPmo;
+import org.linkki.samples.dynamicfield.pmo.CarTypeSectionPmo;
+import org.linkki.samples.dynamicfield.pmo.NewCarSectionPmo;
 import org.linkki.util.handler.Handler;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class NewCarDialog extends Window {
 
         NewCar car = new NewCar();
 
-        layout.addComponent(sectionFactory.createSection(new CarTypePmo(car),
+        layout.addComponent(sectionFactory.createSection(new CarTypeSectionPmo(car),
                                                          new BindingContext("car-type",
                                                                  PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
                                                                  () -> addNewCarSection(layout, car))));
@@ -63,7 +63,7 @@ public class NewCarDialog extends Window {
             car.setRetention(null);
         }
 
-        layout.addComponent(sectionFactory.createSection(new NewCarPmo(car, this.carStorage, this::close),
+        layout.addComponent(sectionFactory.createSection(new NewCarSectionPmo(car, this.carStorage, this::close),
                                                          new BindingContext("new-car",
                                                                  PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
                                                                  afterSaveAction)));

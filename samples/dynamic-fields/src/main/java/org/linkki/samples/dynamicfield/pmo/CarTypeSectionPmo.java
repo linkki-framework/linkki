@@ -10,7 +10,7 @@ import org.linkki.samples.dynamicfield.model.NewCar;
 import java.io.Serializable;
 
 @UISection
-public class CarTypePmo implements PresentationModelObject, Serializable {
+public class CarTypeSectionPmo implements PresentationModelObject, Serializable {
 
     private static final long serialVersionUID = 2629334795264678052L;
 
@@ -18,7 +18,7 @@ public class CarTypePmo implements PresentationModelObject, Serializable {
     private final NewCar car;
 
 
-    public CarTypePmo(NewCar car) {
+    public CarTypeSectionPmo(NewCar car) {
         this.car = car;
     }
 

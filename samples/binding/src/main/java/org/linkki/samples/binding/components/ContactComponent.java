@@ -11,7 +11,7 @@ import org.linkki.samples.binding.model.Address;
 import org.linkki.samples.binding.model.Person;
 import org.linkki.samples.binding.pmo.AddressPmo;
 import org.linkki.samples.binding.pmo.ButtonsSectionPmo;
-import org.linkki.samples.binding.pmo.PersonPmo;
+import org.linkki.samples.binding.pmo.PersonSectionPmo;
 
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
@@ -24,7 +24,7 @@ public class ContactComponent extends Panel {
 
     private final BindingContext context;
 
-    private final PersonPmo personPmo;
+    private final PersonSectionPmo personPmo;
     private final AddressPmo addressPmo;
     private final ButtonsSectionPmo buttonsSectionPmo;
 
@@ -36,7 +36,7 @@ public class ContactComponent extends Panel {
         this.persistAction = persistAction;
 
         Person person = new Person();
-        this.personPmo = new PersonPmo(person);
+        this.personPmo = new PersonSectionPmo(person);
         this.addressPmo = new AddressPmo(person.getAddress());
 
         this.buttonsSectionPmo = new ButtonsSectionPmo(this::canSave, this::save, this::reset);
