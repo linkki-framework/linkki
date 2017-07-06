@@ -232,7 +232,7 @@ include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationSecti
 include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarPmo.java[tags=ui-dynamic-field]
 ----
 
-Die zur Auswahl stehende UI Elementen werden wie üblich als Annotation an der Methode definiert. Sie müssen allerdings folgende Kriterien erfüllen, damit der Typ des Feldes dynamisch ermittelt werden kann:
+Die zur Auswahl stehenden UI-Elemente werden wie üblich als Annotation an der Methode definiert. Sie müssen allerdings folgende Kriterien erfüllen, damit der Typ des Feldes dynamisch ermittelt werden kann:
 
 1. die `position` in den UI*-Annotations muss übereinstimmen
 2. das `label` muss den gleichen Wert haben
@@ -388,3 +388,7 @@ Der Parameter `column` ist die ID der Spalte für die der Text angezeigt werden 
 ```java
 include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarTablePmo.java[tags=table-footer]
 ```
+
+[[button-pmo]]
+==== ButtonPmo
+`ContainerPmo` bietet momentan eine Methode `getAddItemButtonPmo()` an, womit ein Plusbutton neben dem Namen der Tabelle hinzugefügt werden kann. Dieser Teil der API wird mit dem Issue LIN-128 überarbeitet.
