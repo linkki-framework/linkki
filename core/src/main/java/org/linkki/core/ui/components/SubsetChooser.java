@@ -34,8 +34,8 @@ public class SubsetChooser extends TwinColSelect {
     }
 
     /**
-     * Creates a new SubsetChoose using the given function to determine captions for the displayed
-     * items.
+     * Creates a new {@link SubsetChooser} using the given function to determine captions for the
+     * displayed items.
      * 
      * @param itemCaptionProvider the function to determine captions for the displayed items
      */

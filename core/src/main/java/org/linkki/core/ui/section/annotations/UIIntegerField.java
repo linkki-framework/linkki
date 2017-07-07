@@ -8,6 +8,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.text.DecimalFormat;
 
 import org.linkki.core.ui.section.annotations.adapters.IntegerFieldBindingDefinition;
 
@@ -30,6 +31,10 @@ public @interface UIIntegerField {
 
     int maxLength() default 0;
 
+    /**
+     * Format for the UI representation of the value. See {@link DecimalFormat} for the documentation of
+     * the pattern.
+     */
     String format() default "";
 
     String modelObject() default ModelObject.DEFAULT_NAME;

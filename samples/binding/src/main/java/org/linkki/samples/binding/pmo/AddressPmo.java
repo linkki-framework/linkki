@@ -8,13 +8,15 @@ import org.linkki.samples.binding.service.CountryService;
 
 public class AddressPmo {
 
+    private Address address;
+
     private String street;
     private String zip;
     private String city;
     private Country country;
 
     public AddressPmo(Address address) {
-        refreshAddress(address);
+        reset(address);
     }
 
     public String getStreet() {
@@ -53,11 +55,36 @@ public class AddressPmo {
         return CountryService.getCountries();
     }
 
-    public void refreshAddress(Address address) {
-        this.street = address.getStreet();
-        this.zip = address.getZip();
-        this.city = address.getCity();
-        this.country = address.getCountry();
+    public void reset(Address newAddress) {
+        this.address = newAddress;
+
+        if (newAddress != null) {
+            this.street = newAddress.getStreet();
+            this.zip = newAddress.getZip();
+            this.city = newAddress.getCity();
+            this.country = newAddress.getCountry();
+        } else {
+            this.street = null;
+            this.zip = null;
+            this.city = null;
+            this.country = null;
+        }
     }
 
+    public boolean isInputValid() {
+        return true;
+    }
+
+    public Address getAddress() {
+        if (address == null) {
+            address = new Address(street, zip, city, country);
+        } else {
+            address.setStreet(street);
+            address.setZip(zip);
+            address.setCountry(country);
+            address.setCity(city);
+        }
+
+        return address;
+    }
 }

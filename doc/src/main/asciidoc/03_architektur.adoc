@@ -3,12 +3,12 @@
 
 === Übersicht
 
-Zentrale Punkte des Linkki Frameworks sind
+Zentrale Punkte des *linkki* Frameworks sind
 
 * die deklarative Definition von UIs mittels Annotationen
 * das flexible Databinding
 
-Linkki erstellt aus UI-Definitionen (Annotationen) eine Benutzeroberfläche. Die Inhalte (Daten) und Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) werden an sogenannte Presentation Model Objects (PMOs) gebunden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI Elemente aktualisiert.
+*linkki* ermöglicht eine deklarative Definition von Oberflächen, indem Benutzeroberflächen automatisch aus Annotationen erstellt werden. Unabhängig von der Erstellung können außerdem die Inhalte (Daten) eines UI-Elements und deren Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) an sogenannte Presentation Model Objects (PMOs) gebunden werden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI-Elemente aktualisiert.
 
 .Bidirektionales Databinding
 image::data_binding.png[]
@@ -17,14 +17,16 @@ Im ersten Teil dieses Kapitles gehen wir auf den <<grundaufbau-binding, Grundauf
 
 Im den folgenden Abschnitten wird das <<databinding, Databinding mit PMOs>> beschrieben. Dies können simple PMOs sein, in denen die Werte verwaltet werden, oder <<domain-model-binding, PMOs mit Domain Model Binding>> in denen die Werte direkt an das Domain Model gebunden werden. Das 'Binding' <<modell-attribut-namen, mehrerer Modelobjekte>> in einem PMO wird ebenfalls erklärt.
 
-Welche Eigenschaften der definierten UI-Elemente gesteuert werden können, und welche weiteren Möglichkeiten Linkki zur Verfügung stellt, wird im Abschnitt <<binding-ui-element-properties, Binding von weiteren UI-Element-Eigenschaften>> beschrieben.
+Welche Eigenschaften der definierten UI-Elemente gesteuert werden können, und welche weiteren Möglichkeiten *linkki* zur Verfügung stellt, wird im Abschnitt <<binding-ui-element-properties, Binding von weiteren UI-Element-Eigenschaften>> beschrieben.
 
 Am Ende des Kaptiels <<architektur, Architektur>> werden noch sogenannte <<querschnittsaspekte-im-binding, Querschnittsaspekte im Databinding>> erläutert.
 
 [[grundaufbau-binding]]
-=== Grundaufbau BindingContext - BindingManager
+=== Binding, BindingContext, BindingManager
 
-Alle Bindings in Linkki sind Teil eines `BindingContext`. Üblicherweise verbindet ein `BindingContext` alle Bindings auf einer Seite oder in einem thematisch unabhängigen Abschnitt. Bei Änderungen an einem gebundenen Objekt (PMO oder UI) werden alle Bindings im gleichen Kontext aktualisiert. Mehrere PMOs (und damit UI-Abschnitte) können mit dem gleichen `BindingContext` gebunden werden.
+Für jede UI-Komponente, die an einem PMO gebunden wird, erstellt *linkki* ein sogenanntes `Binding`. Bei Änderungen im PMO wird über die Methoden des `Bindings` sichergestellt, dass die UI-Komponente korrekt aktualisiert wird.
+
+Alle Bindings in *linkki* sind Teil eines `BindingContext`. Üblicherweise verbindet ein `BindingContext` alle Bindings auf einer Seite oder in einem thematisch unabhängigen Abschnitt. Bei Änderungen an einem gebundenen Objekt (PMO oder UI) werden alle Bindings im gleichen Kontext aktualisiert. Mehrere PMOs können mit dem gleichen `BindingContext` gebunden werden.
 
 .BindingContext und ~Manager
 image::binding_context_manager.png[]
@@ -36,34 +38,51 @@ Ein besonderer `BindingManager` ist der `DialogBindingManager`, der dafür sorgt
 [[databinding]]
 === Data Binding mit PMOs
 
-Ein Presentation Model Object kapselt den Zustand des UIs unabhängig von der konkreten UI-Implementierung. Das UI interagiert über Data Binding ausschließlich mit diesem PMO. Dazu muss das PMO nicht alle Daten selber halten - häufig delegiert es an ein oder mehrere bestehende Modellobjekte (siehe <<domain-model-binding,Daten auf mehreren Ebenen>>) und/oder aggregiert und konvertiert Daten zur Darstellung im UI.
+Ein Presentation Model Object kapselt den Zustand des UIs unabhängig von der konkreten UI-Implementierung. Das UI interagiert über Data Binding ausschließlich mit diesem PMO. Dazu muss das PMO nicht alle Daten selber halten, sondern kann direkt an ein oder mehrere bestehende Modellobjekte deligieren (siehe <<domain-model-binding,Daten auf mehreren Ebenen>>). Diese Daten werden dann in ein für die Anzeige geeignetes Format konvertiert.
 
-.Presentation Model Object
-image::pmo.png[]
+In *linkki* sind PMOs Plain Old Java Objects (POJOs), in der Daten für einzelne UI Abschnitte organisiert sind. Zu jedem Abschnitt des UIs soll es also ein eigenes PMO geben.
 
-In Linkki sind PMOs POJOs, die mit `@UISection` annotiert sind - es gibt also für jeden Abschnitt des UIs ein eigenes PMO. Alle an das UI zu bindenden Methoden erhalten passende Annotationen (siehe dazu <<ui-komponenten,UI Komponenten>>). Zusätzlich gibt es ein paar Interfaces, die PMOs implementieren können: 
+Ausschlaggebend für das Data Binding sind sogenannte "Properties" eines PMOs. Eine PMO Klasse besitzt ein Property names "property" genau dann, wenn diese Klasse eine Methode `getProperty`  hat. Falls der Wert dieses Propertys modifizierbar sein soll, muss es zusätzlich eine Methode `setProperty` geben. Oft wird der Wert des Propertys in eine Klassenvariable `property` gespeichert. Dies ist an die Namenkonventionen für JavaBean Properties angelehnt. Die PMO Klassen müssen allerdings selbst keine JavaBeans sein.
+
+Betrachte zum Beispiel die folgende Klasse:
+
+```java
+include::{source-dir}/org/linkki/doc/BeispielPmo.java[tags=class]
+```
+
+Diese Klasse hat zwei Properties: "anrede" und "namensanzeige". Am Property "namesanzeige" sieht man, dass es zu einem PMO Property nicht zwingend eine Klassenvariable geben muss. Hingegen ist "nachname" kein Property der Klasse, obwohl es dazu eine Klassenvariable und eine passende Setter-Methode gibt, denn es fehlt die notwendige Methode `String getNachname()`.
+
+
+Es gibt einige Interfaces, die PMO Klassen optional implementieren können: 
 
 * `org.linkki.core.PresentationModelObject` bietet eine Methode, mit der ein Button-PMO erstellt werden kann; der daraus erzeugte Button löst eine Bearbeitung des PMOs aus
-* `org.linkki.core.ButtonPmo` ist ein PMO für Buttons, siehe <<buttons,Buttons>>
+* `org.linkki.core.ButtonPmo` ist ein PMO für Buttons, siehe <<ui-button,Buttons>>
 * `org.linkki.core.ui.table.ContainerPmo` ist ein PMO für Tabellen - die einzelnen Zeilen haben wieder reguläre PMOs, siehe auch <<container-komponenten,Container Komponenten>>
 
 [[domain-model-binding]]
 === Daten auf mehreren Ebenen (Domain Model Binding)
 
-Domain Model Binding, oder kurz "Model Binding", ist ein Linkki Feature zur Vermeidung unnötigen Codes in PMO Klassen. Es zielt auf den "einfachen" Fall bei der Anbindung von UIs ab, in dem Eigenschaften aus dem Domain Model unverändert an der Oberfläche angezeigt werden. Unverändert bedeutet, dass das PMO keine Umformattierung oder andere Konvertierungen durchführen muss, bevor Werte in der UI angezeigt werden können. 
+Domain Model Binding, oder kurz "Model Binding", ist ein *linkki* Feature zur Vermeidung unnötigen Codes in PMO Klassen. Es zielt auf den "einfachen" Fall bei der Anbindung von UIs ab, in dem Eigenschaften aus dem Domain Model unverändert an der Oberfläche angezeigt werden. Unverändert bedeutet, dass das PMO keine Umformattierung oder andere Konvertierungen durchführen muss, bevor Werte in der UI angezeigt werden können. 
 
-Beispielsweise benötigt der Vorname einer Person keinerlei Umformattierung:
-
-[source,java]
-----
-include::{source-dir}/org/linkki/doc/PersonPmo.java[tags=pojo-binding]
-----
-
-Das selbe Verhalten unter Verwendung des Model Bindings:
+Um dieses Feature nutzen zu können, muss das UI mittels <<pmo-uisection,`@UISection`>> erstellt werden. Die Getter-Methode für das Modellobjekt im PMO muss dann mit der Annotation `@ModelObject` markiert werden. 
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/doc/PersonPmo.java[tags=model-binding]
+include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=modelobject]
+----
+
+Beispielsweise kann der Vorname aus dem Modell ohne Modifizierung direkt für die Anzeige verwendet werden:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=pojo-binding]
+----
+
+In diesem Fall stellt die Getter-Methode eine direkte Delegation an ein Modellattribut dar. Daher kann das gleiche Verhalten unter Verwendung des Model Bindings erzielt werden:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=model-binding]
 ----
 Model Binding vermeidet unnötigen Delegations-Code und ist damit eine Art "Abkürzung".
 
@@ -71,13 +90,17 @@ Model Binding vermeidet unnötigen Delegations-Code und ist damit eine Art "Abk�
 image::ModelBinding.png[]
 
 [[modell-attribut-namen]]
-==== Namen von Modell-Attirbuten angeben
+==== Name des Modell-Attributs
 
-Um das Model Binding Feature verwenden zu können, muss in der UI Annotation die Eigenschaft `modelAttribute` angegeben werden. Der Datentyp der Eigenschaft ist String. Der Wert von `modelAttribute` gibt an, wie die entsprechende Property in der Domain Model Klasse heißt. Existiert keine entsprechende Eigenschaft an der Domain Model Klasse, so wird bei der Erstellung der Oberfläche eine Exception geworfen.
+Um das Model Binding Feature verwenden zu können, muss in der <<ui-element,UI Annotation>> die Eigenschaft `modelAttribute` angegeben werden. Der Datentyp der Eigenschaft ist `String` . Der Wert von `modelAttribute` gibt an, wie die entsprechende Property in der Domain Model Klasse heißt. Existiert keine entsprechende Eigenschaft an der Domain Model Klasse, so wird bei der Erstellung der Oberfläche eine Exception geworfen.
 
-Sobald `modelAttribute` angegeben wird, ignoriert Linkki sowohl den Rückgabewert als auch den Inhalt der Methode im PMO. Daher kann als Rückgabetyp `void` angegeben, und der Methodenrumpf leer gelassen werden. Von nun an wird vom Data Binding nicht mehr die Methode im PMO aufgerufen, sondern immer direkt die entsprechende Methode im Domain Model.
+Sobald `modelAttribute` angegeben wird, ignoriert *linkki* sowohl den Rückgabewert als auch den Inhalt der Methode im PMO. Daher kann als Rückgabetyp `void` angegeben, und der Methodenrumpf leer gelassen werden. Von nun an wird vom Data Binding nicht mehr die Methode im PMO aufgerufen, sondern immer direkt die entsprechende Methode im Domain Model.
 
-Im obigen Beispiel heißt die Methode im PersonPMO `vorname()`. Im Domain Model dagegen heißt sie `firstname` bzw. `getFirstname()`. Es ist also möglich, Properties in PMO und Domain Model unterschiedlich zu benennen.
+Im obigen Beispiel heißt die Methode im `PersonPMO` `vorname()`. Im Domain Model dagegen heißt sie `firstname` bzw. `getFirstname()`. Es ist also möglich, Properties in PMO und Domain Model unterschiedlich zu benennen.
+
+TIP: *linkki* sucht im Modell nach allen benötigten Methoden. Falls die Setter-Methode ignoriert werden soll, muss auf die Benutzung der Abkürzung verzichten werden. Hingegen kann auch bei annotierten Getter-Methoden ein Modellattribut angegeben werden. Dadurch wird im Modell nach allen Methoden gesucht, die *linkki* im PMO nicht finden kann.
+
+Zu Beachten ist dabei, dass die Benennung der Methode nicht ohne Auswirkung ist. Wenn `modelAttribute` bei der Annotation angegeben ist, wird der ganze Methodenname als ein PMO Property behandelt. Der Name des Properties wird verwendet um <<ui-properties,UI Eigenschaften>> wie <<enabled, Editierbarkeit>>, <<visible, Sichtbarkeit>> oder <<available-values,auswählbare Werte>> zu binden.
 
 ==== Mehrere Modellobjekte
 
@@ -85,7 +108,7 @@ Model Binding kann auch dann zum Einsatz kommen, wenn ein PMO mehrere Modellobje
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/doc/ContractPmo.java[tags=class]
+include::{source-dir}/org/linkki/doc/ContractSectionPmo.java[tags=class]
 ----
 
 Im obigen Beispiel definiert die Annotation von `vornameVersichertePerson()`, dass die Property `firstname` an Modellobjekt `VP` aufgerufen werden soll. Um einen Wert zur Darstellung in der Oberfläche zu ermitteln, geht das Databinding folgendermaßen vor:
@@ -99,67 +122,7 @@ Wird in der Annotation keine Eigenschaft `modelObject` angegeben, so wird die Me
 [[binding-ui-element-properties]]
 === Binding von weiteren UI-Element-Eigenschaften
 
-Neben dem anzuzeigenden Wert können weitere Eigenschaften der UI-Elemente per Databinding an Methoden des PMO gebunden werden. Dazu bieten die UI-Annotationen ein paar Attribute an, die jeweils eine direkte Einstellung oder die dynamische Delegation an eine Methode erlauben. Die Namen der Methoden leiten sich jeweils aus dem Namen der gebundenen Property ab. Dieser ist, wenn angegeben, der Name des Modellattributs (siehe <<modell-attribut-namen, Namen von Modell-Attirbuten angeben>>), ansonsten wird er aus dem Methodennamen nach Java Bean Konvention abgeleitet (beginnt die Methode mit `is` oder `get`, so wird der Rest des Methodennamens mit klein geschriebenen erstem Buchstaben verwendet (`getName()` ⇒ `name`), ansonsten der volle Methodenname (`vorname()` ⇒ `vorname`)). Entsprechend der CamelCase-Konvention wird der erste Buchstabe in diesen Methoden wiederum groß geschrieben.
-
-Der jeweils fett markierte Wert ist der Default-Wert, der verwendet wird wenn das Attribut nicht angegeben wird.
-
-[cols="5,11,18"]
-.Eigenschaften
-|===
-|Attribut |Enum-Wert| Beschreibung
-
-|`enabled`   |*`EnabledType.ENABLED`*   |Der Inhalt des Elements ist im UI veränderbar
-|`enabled`   |`EnabledType.DISABLED` |Der Inhalt des Elements ist im UI nicht veränderbar
-|`enabled`   |`EnabledType.DYNAMIC`  |Ob der Inhalt veränderbar ist hängt vom Rückgabewert der Methode `boolean is<PropertyName>Enabled()` ab
-
-|`required`  |`RequiredType.REQUIRED`             |Das UI-Element ist ein Pflichtfeld (ein Wert muss eingegeben/ausgewählt werden)
-|`required`  |`RequiredType
-               .REQUIRED_IF_ENABLED` |Das UI-Element ist ein Pflichtfeld falls es `enabled` ist
-|`required`  |*`RequiredType.NOT_REQUIRED`*          |Das UI-Element ist ein optionales Feld
-|`required`  |`RequiredType.DYNAMIC`              |Ob das Feld ein Pflichtfeld ist hängt vom Rückgabewert der Methode `boolean is<PropertyName>Required()` ab
-
-|`visible`   |*`VisibleType.VISIBLE`*    |Das UI-Element ist sichtbar
-|`visible`   |`VisibleType.INVISIBLE` |Das UI-Element ist unsichtbar
-|`visible`   |`VisibleType.DYNAMIC`   |Ob as UI-Element sichtbar ist hängt vom Rückgabewert der Methode `boolean is<PropertyName>Visible()` ab
-
-|`captionType`   |*`CaptionType.STATIC`*   |Der Text des Buttons wird aus dem Attribut `caption` entnommen
-|`captionType`   |`CaptionType.NONE`     |Der Button hat keinen Text
-|`captionType`   |`CaptionType.DYNAMIC`  |Der Text des Buttons entspricht dem Rückgabewert der Methode `String get<PropertyName>Caption()`
-
-|`toolTipType`   |*`ToolTipType.STATIC`*   |Der Text des Tooltips wird aus dem Attribut `text` entnommen
-|`toolTipType`   |`ToolTipType.DYNAMIC`  |Der Text des Tooltips entspricht dem Rückgabewert der Methode `String get<PropertyName>ToolTip()`
-
-|`content`  |*`AvailableValuesType
-              .ENUM_VALUES_INCL_NULL`* |Die Werte in der Combobox entsprechen den Werten des Enum-Datentypen der Property ergänzt um den Wert `null`
-|`content`  |`AvailableValuesType
-              .ENUM_VALUES_EXCL_NULL`  |Die Werte in der Combobox entsprechen den Werten des Enum-Datentypen der Property
-|`content`  |`AvailableValuesType
-              .DYNAMIC`                |Die Werte in der Combobox werden über die Methode `List<T> get<PropertyName>AvailableValues()` ermittelt
-|`content`  |`AvailableValuesType
-              .NO_VALUES`              |In dieser Combobox sind keine Werte auswählbar
-|===
-
-Nicht alle Eigenschaften sind bei allen Annotations verfügbar.
-
-[cols="5,^3,^3,^3,^4,^4,^3"]
-.Zuordnung Eigenschaften zu UI-Annotations
-|===
-|Annotation        |`enabled` |`required` |`visible` |`captionType` |`toolTipType` |`content`
-
-|`UIButton`       |✓		   |			|✓			|✓				 |				 | 
-|`UICheckBox`     |✓		   |✓			|✓			|				 |				 | 
-|`UIComboBox`     |✓		   |✓			|✓			|				 |				 |✓ 
-|`UICustomField` |✓		   |✓			|✓			|				 |				 |✓ 
-|`UIDateField`   |✓		   |✓			|✓			|				 |				 |  
-|`UIDecimalField`|✓		   |✓			|✓			|				 |				 |  
-|`UIDoubleField` |✓		   |✓			|✓			|				 |				 |  
-|`UIIntegerField`|✓		   |✓			|✓			|				 |				 |  
-|`UILabel`        |		   |			|✓			|				 |				 |  
-|`UITextArea`    |✓		   |✓			|✓			|				 |				 | 
-|`UITextField`   |✓		   |✓			|✓			|				 |				 | 
-|`UIToolTip`     |			   |			|			|				 |✓				 | 
-|===
-
+Neben dem anzuzeigenden Wert können weitere Eigenschaften der UI-Elemente per Databinding an Methoden des PMO gebunden werden. Die genaue Funktionsweise wird im Kapitel <<ui-komponenten, UI-Komponenten>> näher beschrieben.
 
 [[querschnittsaspekte-im-binding]]
 === Querschnittsaspekte im Databinding
@@ -174,11 +137,11 @@ Das Standardbeispiel für einen Querschnittsaspekt ist der "Browse Mode". Viele 
 Häufig wechseln Anwendungen zwischen diesen Modi hin und her, z.B. indem eine "Änderung" begonnen oder abgeschlossen wird. 
 Im Browse Mode gilt, dass alle Felder in Formularen schreibgeschützt sind. Dieser globale Bearbeitungszustand der Anwendung beeinflusst also viele Felder gleichzeitig. Zusätzlich überstimmt der Browse Mode die Einstellungen aus PMOs. Selbst wenn ein PMO ein Feld als editierbar angibt, ist es im Browse Mode schreibgeschützt.
 
-Auf technischer Ebene existieren zwei Linkki-Konstrukte, um Querschnittsaspekte abzubilden: `PropertyDispatcher` und `PropertyBehaviors`.
+Auf technischer Ebene existieren zwei *linkki*-Konstrukte, um Querschnittsaspekte abzubilden: `PropertyDispatcher` und `PropertyBehaviors`.
 
 ==== PropertyDispatcher
 
-Der `BindingContext` (siehe <<grundaufbau-binding,Grundaufbau BindingContext - BindingManager>>) verwendet eine `PropertyDispatcherFactory`, die mehrere miteinander verknüpfte `PropertyDispatcher` erstellt. Diese Dispatcher wiederum werden zum Binden der Properties und ihrer Eigenschaften (siehe <<binding-ui-element-properties,Binding von weiteren UI-Element-Eigenschaften>>) verwendet. `PropertyDispatcher` haben Methoden zur Abfrage von Datentyp und Wert einer Property, sowie der zugehörigen Eigenschaften. Standardmäßig werden in Linkki vier miteinander verknüpfte Dispatcher erstellt, die jeweils an den Nächsten delegieren, wenn sie selbst den Wert nicht liefern können: 
+Der `BindingContext` (siehe <<grundaufbau-binding,Grundaufbau BindingContext - BindingManager>>) verwendet eine `PropertyDispatcherFactory`, die mehrere miteinander verknüpfte `PropertyDispatcher` erstellt. Diese Dispatcher wiederum werden zum Binden der Properties und ihrer Eigenschaften (siehe <<binding-ui-element-properties,Binding von weiteren UI-Element-Eigenschaften>>) verwendet. `PropertyDispatcher` haben Methoden zur Abfrage von Datentyp und Wert einer Property, sowie der zugehörigen Eigenschaften. Standardmäßig werden in *linkki* vier miteinander verknüpfte Dispatcher erstellt, die jeweils an den Nächsten delegieren, wenn sie selbst den Wert nicht liefern können: 
 
 * `BehaviorDependentDispatcher` verwendet `PropertyBehaviors` (siehe im nächsten Abschnitt, <<property-behavior,PropertyBehaviors>>)
 * `BindingAnnotationDispatcher` liefert Informationen die aus den UI-Annotationen direkt abgelesen werden können
@@ -197,7 +160,7 @@ PropertyBehaviors werden von einem `PropertyBehaviorProvider` erstellt, der dem 
 
 Über `PropertyBehaviors` kann ein `BehaviorDependentDispatcher` das Verhalten von Eigenschaften steuern. Nur eine Auswahl der Eigenschaften sind darüber steuerbar: Sichtbarkeit (`isVisible`), Editierbarkeit (`isWritable`) und Anzeige von Fehlern (`isShowValidationMessages`). Dazu werden alle `PropertyBehaviors` aufgerufen; geben sie einstimmig `true` zurück, leitet der `BehaviorDependentDispatcher` die Anfrage an den nächsten `PropertyDispatcher` weiter, ansonsten gibt er direkt `false` bzw. eine leere Fehlerliste zurück, oder setzt den Wert nicht.
 
-.Veto eines PropertyBehaviorsr
+.Veto eines PropertyBehaviors
 image::property_behavior_veto.png[]
 
 Für eigene Verhaltensweisen kann das Interface `PropertyBehavior` implementiert werden. So kann zum Beispiel eine komplette Seite in einen Lese- oder Schreibmodus versetzt werden:

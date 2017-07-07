@@ -10,7 +10,7 @@ include::04_erstellung_eines_ui.adoc[]
 
 include::05_ui_komponenten.adoc[]
 
-include::06_Container Komponenten.adoc[]
+include::06_container_komponenten.adoc[]
 
 <<<
 

@@ -2,12 +2,13 @@ package org.linkki.samples.binding.pmo;
 
 import java.util.function.Consumer;
 
-import com.vaadin.server.FontAwesome;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UIToolTip;
 import org.linkki.samples.binding.model.Person;
+
+import com.vaadin.server.FontAwesome;
 
 public class PersonRowPmo {
 

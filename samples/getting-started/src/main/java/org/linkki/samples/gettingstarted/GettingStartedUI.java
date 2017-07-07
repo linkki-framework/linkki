@@ -5,7 +5,7 @@ import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.samples.gettingstarted.model.Report;
-import org.linkki.samples.gettingstarted.pmo.ReportPmo;
+import org.linkki.samples.gettingstarted.pmo.ReportSectionPmo;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.annotations.Theme;
@@ -25,7 +25,7 @@ public class GettingStartedUI extends UI {
         Page.getCurrent().setTitle("Linkki :: Getting Started");
 
         DefaultPmoBasedSectionFactory sectionFactory = new DefaultPmoBasedSectionFactory();
-        AbstractSection section = sectionFactory.createSection(new ReportPmo(new Report()),
+        AbstractSection section = sectionFactory.createSection(new ReportSectionPmo(new Report()),
                                                                new BindingContext("report-context",
                                                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
                                                                        Handler.NOP_HANDLER));

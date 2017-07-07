@@ -15,15 +15,15 @@ import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.samples.messages.model.User;
 
 @UISection
-public class RegistrationPmo implements PresentationModelObject {
+public class RegistrationSectionPmo implements PresentationModelObject {
 
     private final User user;
 
-    private final Consumer<RegistrationPmo> registerHandler;
+    private final Consumer<RegistrationSectionPmo> registerHandler;
 
     private String confirmPassword;
 
-    public RegistrationPmo(User user, Consumer<RegistrationPmo> registerHandler) {
+    public RegistrationSectionPmo(User user, Consumer<RegistrationSectionPmo> registerHandler) {
         this.user = user;
         this.registerHandler = registerHandler;
     }
@@ -37,11 +37,13 @@ public class RegistrationPmo implements PresentationModelObject {
     public void name() {
         // model binding
     }
-
+ 
+    // tag::ui-custom-field[]
     @UICustomField(position = 20, label = "Password", required = RequiredType.REQUIRED, modelAttribute = User.PROPERTY_PASSWORD, uiControl = PasswordField.class)
     public void password() {
         // model binding
     }
+    // end::ui-custom-field[]
 
     @UICustomField(position = 30, label = "Confirm Password", required = RequiredType.REQUIRED, uiControl = PasswordField.class)
     public String getConfirmPassword() {

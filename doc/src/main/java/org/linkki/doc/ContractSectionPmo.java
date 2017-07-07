@@ -6,12 +6,12 @@ import org.linkki.core.ui.section.annotations.UITextField;
 
 // tag::class[]
 @UISection
-public class ContractPmo {
+public class ContractSectionPmo {
 
     private final Contract contract;
 
 
-    public ContractPmo(Contract contract) {
+    public ContractSectionPmo(Contract contract) {
         this.contract = contract;
     }
 
