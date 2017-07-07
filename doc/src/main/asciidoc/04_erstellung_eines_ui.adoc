@@ -31,7 +31,7 @@ Im <<abschnitt-form-binding, ersten Abschnitt>> wird beispielhaft die Erstellung
 [[abschnitt-form-binding]]
 ==== Binding eines Formulars
 
-[[binding-modelObject]]
+[[binding-model-object]]
 .Binding mit `@ModelObject`
 [source,java]
 ----
