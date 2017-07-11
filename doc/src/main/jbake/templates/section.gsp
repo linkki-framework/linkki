@@ -2,7 +2,7 @@
 	
 <%include "menu.gsp"%>
 	
-<div class="book-body" onload="prettyPrint()">
+<div class="book-body">
 	<div class="body-inner">
 	    <div class="page-wrapper" tabindex="-1" role="main">
             <div class="page-inner">			
@@ -16,8 +16,9 @@
 					
 				</section>
 			</div>
-		</div>
+		</div>			
 	</div>
+	<%include "arrows.gsp"%>
 </div>
 
 <%include "footer.gsp"%>

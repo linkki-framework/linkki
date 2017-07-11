@@ -1,7 +1,7 @@
 
-	
-	</div>
-    <!-- <div id="footer">
+</div>
+
+<!-- <div id="footer">
       <div class="container">
         <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake ${version}</a>
 		| Download <a href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>../../files/ExampleProject.zip">Example Project</a></p>

@@ -1,5 +1,4 @@
 <%include "header.gsp"%>
-
 	
 <%include "menu.gsp"%>
 	
@@ -17,6 +16,7 @@
 			</div>
 		</div>
 	</div>
+	<%include "arrows.gsp"%>
 </div>
 
 <%include "footer.gsp"%>
