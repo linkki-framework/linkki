@@ -18,11 +18,11 @@ Das Standardbeispiel für einen Querschnittsaspekt ist der "Browse Mode". Viele 
 Häufig wechseln Anwendungen zwischen diesen Modi hin und her, z.B. indem eine "Änderung" begonnen oder abgeschlossen wird. 
 Im Browse Mode gilt, dass alle Felder in Formularen schreibgeschützt sind. Dieser globale Bearbeitungszustand der Anwendung beeinflusst also viele Felder gleichzeitig. Zusätzlich überstimmt der Browse Mode die Einstellungen aus PMOs. Selbst wenn ein PMO ein Feld als editierbar angibt, ist es im Browse Mode schreibgeschützt.
 
-Auf technischer Ebene existieren zwei Linkki-Konstrukte, um Querschnittsaspekte abzubilden: `PropertyDispatcher` und `PropertyBehaviors`.
+Auf technischer Ebene existieren zwei *linkki*-Konstrukte, um Querschnittsaspekte abzubilden: `PropertyDispatcher` und `PropertyBehaviors`.
 
 ==== PropertyDispatcher
 
-Der `BindingContext` (siehe <<grundaufbau-binding,Grundaufbau BindingContext - BindingManager>>) verwendet eine `PropertyDispatcherFactory`, die mehrere miteinander verknüpfte `PropertyDispatcher` erstellt. Diese Dispatcher wiederum werden zum Binden der Properties und ihrer Eigenschaften (siehe <<binding-ui-element-properties,Binding von weiteren UI-Element-Eigenschaften>>) verwendet. `PropertyDispatcher` haben Methoden zur Abfrage von Datentyp und Wert einer Property, sowie der zugehörigen Eigenschaften. Standardmäßig werden in Linkki vier miteinander verknüpfte Dispatcher erstellt, die jeweils an den Nächsten delegieren, wenn sie selbst den Wert nicht liefern können: 
+Der `BindingContext` (siehe <<grundaufbau-binding,Grundaufbau BindingContext - BindingManager>>) verwendet eine `PropertyDispatcherFactory`, die mehrere miteinander verknüpfte `PropertyDispatcher` erstellt. Diese Dispatcher wiederum werden zum Binden der Properties und ihrer Eigenschaften (siehe <<binding-ui-element-properties,Binding von weiteren UI-Element-Eigenschaften>>) verwendet. `PropertyDispatcher` haben Methoden zur Abfrage von Datentyp und Wert einer Property, sowie der zugehörigen Eigenschaften. Standardmäßig werden in *linkki* vier miteinander verknüpfte Dispatcher erstellt, die jeweils an den Nächsten delegieren, wenn sie selbst den Wert nicht liefern können: 
 
 * `BehaviorDependentDispatcher` verwendet `PropertyBehaviors` (siehe im nächsten Abschnitt, <<property-behavior,PropertyBehaviors>>)
 * `BindingAnnotationDispatcher` liefert Informationen die aus den UI-Annotationen direkt abgelesen werden können
@@ -30,7 +30,7 @@ Der `BindingContext` (siehe <<grundaufbau-binding,Grundaufbau BindingContext - B
 * `ExceptionPropertyDispatcher` wirft eine Exception, falls die entsprechende Eigenschaft nicht verfügbar ist - dies deutet häufig auf einen Tippfehler in einem Methodennamen hin, aufgrunddessen der `ReflectionPropertyDispatcher` die passende Methode nicht finden kann
 
 .Beispiel für PropertyDispatcher
-image::{images}/{images-folder-name}/vertical_binding.png[]
+image::{images}{images-folder-name}/vertical_binding.png[]
 
 Eigene Dispatcher können über eine eigene `PropertyDispatcherFactory` (in einem eigenen `BindingContext`) erstellt werden. Dort muss die Methode `createCustomDispatchers` überschrieben werden, um einen oder mehrere eigene Dispatcher bereitzustellen. Diese anwendungsspezifischen Dispatcher werden zwischen `BehaviorDependentDispatcher` und `BindingAnnotationDispatcher` eingehängt.
 
@@ -41,8 +41,8 @@ PropertyBehaviors werden von einem `PropertyBehaviorProvider` erstellt, der dem 
 
 Über `PropertyBehaviors` kann ein `BehaviorDependentDispatcher` das Verhalten von Eigenschaften steuern. Nur eine Auswahl der Eigenschaften sind darüber steuerbar: Sichtbarkeit (`isVisible`), Editierbarkeit (`isWritable`) und Anzeige von Fehlern (`isShowValidationMessages`). Dazu werden alle `PropertyBehaviors` aufgerufen; geben sie einstimmig `true` zurück, leitet der `BehaviorDependentDispatcher` die Anfrage an den nächsten `PropertyDispatcher` weiter, ansonsten gibt er direkt `false` bzw. eine leere Fehlerliste zurück, oder setzt den Wert nicht.
 
-.Veto eines PropertyBehaviorsr
-image::{images}/{images-folder-name}/property_behavior_veto.png[]
+.Veto eines PropertyBehaviors
+image::{images}{images-folder-name}/property_behavior_veto.png[]
 
 Für eigene Verhaltensweisen kann das Interface `PropertyBehavior` implementiert werden. So kann zum Beispiel eine komplette Seite in einen Lese- oder Schreibmodus versetzt werden:
 

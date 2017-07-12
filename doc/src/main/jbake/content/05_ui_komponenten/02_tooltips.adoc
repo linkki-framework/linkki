@@ -1,0 +1,31 @@
+:jbake-title: Tooltips
+:jbake-type: section
+:jbake-status: published
+
+[[tooltips]]
+=== Tooltips
+
+Um Tooltips an UI-Elementen anzuzeigen, stellt *linkki* die Annotation `@UITooltip` zur Verfügung. Diese Annotation kann bei PMO-Binding an die Methode, mit der das UI-Element gebunden wird, hinzugefügt werden. Bei Binding mittels der `@Bind`-Annotation muss `@UITooltip` direkt an das mit `@Bind` annotierte Feld geschrieben werden.
+
+Die Annotation `@UITooltip` bietet 2 Eigenschaften an:
+
+* <<tooltip-text, `text: String`>>
+* <<tooltip-type, `toolTipType: ToolTipType`>>
+
+[[tooltip-text]]
+==== Text
+Dieser Text wird bei <<tooltip-type, `ToolTipType.STATIC`>> angezeigt. Als Default ist hier ein Leerstring (`""`) definiert.
+
+[[tooltip-type]]
+
+==== ToolTipType
+Folgende Konfigurationsmöglchkeiten stehen für den `ToolTipType` zur Auswahl:
+
+[cols="1,9"]
+.ToolTipType
+|===
+|`STATIC`   |Der Text des Tooltips wird aus dem Attribut `text` entnommen (*default*)
+|`DYNAMIC`  |Der Text des Tooltips entspricht dem Rückgabewert der Methode `String get<PropertyName>ToolTip()`. Der Wert von `text` wird in diesem Fall nicht berücksichtigt.
+|===
+
+TIP: Tooltips können nur für <<ui-field, Felder>> und <<ui-button, Buttons>> erstellt werden.

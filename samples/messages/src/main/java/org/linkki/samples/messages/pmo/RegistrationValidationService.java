@@ -17,11 +17,11 @@ public class RegistrationValidationService implements ValidationService {
         LENIENT, STRICT
     }
 
-    private final RegistrationPmo registrationPmo;
+    private final RegistrationSectionPmo registrationPmo;
 
     private ValidationMode validationMode = ValidationMode.LENIENT;
 
-    public RegistrationValidationService(RegistrationPmo registrationPmo) {
+    public RegistrationValidationService(RegistrationSectionPmo registrationPmo) {
         this.registrationPmo = registrationPmo;
     }
 
@@ -48,7 +48,7 @@ public class RegistrationValidationService implements ValidationService {
         }
     }
 
-    private void validatePassword(RegistrationPmo pmo, MessageList messages) {
+    private void validatePassword(RegistrationSectionPmo pmo, MessageList messages) {
         String password = pmo.getUser().getPassword();
         if (!Objects.equals(password, pmo.getConfirmPassword())) {
             messages.add(Message.builder("Passwords do not match", ErrorMessage.ErrorLevel.ERROR)

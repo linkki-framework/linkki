@@ -3,7 +3,7 @@
 :jbake-status: published
 :jbake-order: 10
 
-:source-file: ../../../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportPmo.java
+:source-file: ../../../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java
 
 === Read Me [ENG]
 

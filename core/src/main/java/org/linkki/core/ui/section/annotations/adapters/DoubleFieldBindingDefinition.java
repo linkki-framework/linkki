@@ -22,7 +22,6 @@ public class DoubleFieldBindingDefinition implements UIFieldDefinition {
 
     @Override
     public Component newComponent() {
-
         DoubleField field = new DoubleField(uiDoubleField.format(), UiUtil.getUiLocale());
         if (uiDoubleField.maxLength() > 0) {
             field.setMaxLength(uiDoubleField.maxLength());

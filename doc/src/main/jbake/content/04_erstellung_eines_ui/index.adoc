@@ -10,4 +10,4 @@ Mit *linkki* git es zwei Möglichkeiten ein UI zu erstellen:
 1. <<pmo-uisection, mittels `@UISection` am PMO>>
 2. <<manual-binding, manuelles Binding über `@Bind`>>
 
-Im ersten Fall wird automatisch eine sogenannte _Section_ erzeugt, in der UI Elemente organisiert werden. Die zweite Option überlässt die Erstellung der UI-Elementen ganz dem Anwender.
+Im ersten Fall wird automatisch eine sogenannte _Section_ erzeugt, in der UI-Elemente organisiert werden. Die zweite Option überlässt die Erstellung der UI-Elementen ganz dem Anwender.

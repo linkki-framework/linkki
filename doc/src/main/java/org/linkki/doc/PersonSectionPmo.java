@@ -1,20 +1,24 @@
 package org.linkki.doc;
 
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 
 @UISection
-public class PersonPmo {
+public class PersonSectionPmo {
 
     private final Person person;
 
-    public PersonPmo(Person person) {
+    public PersonSectionPmo(Person person) {
         this.person = person;
     }
 
+    // tag::modelobject[]
+    @ModelObject
     public Person getPerson() {
         return person;
     }
+    // end::modelobject[]
 
     // tag::pojo-binding[]
     @UITextField(position = 10, label = "Vorname")

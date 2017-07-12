@@ -1,33 +1,34 @@
-:jbake-title: Presentationmodelobject mit UI Section
+:jbake-title: PMO mit UI Section
 :jbake-type: section
 :jbake-status: published
 :source-dir: ../../../../../../samples/binding/src/main/java
 
 [[pmo-uisection]]
+=== PresentationModelObject mit `@UISection`
 
-=== Presentationmodelobject mit UI Section
+Wird eine Klasse mit `@UISection` annotiert, übernimmt *linkki* die Kontrolle über die Erstellung und Anordnung der definierten Komponenten. Über die Annotation für die zugehörigen <<ui-element, UI-Elemente>> können bestimmte Aspekte definiert und/oder gesteuert werden. Die Sections werden über <<missing-link, `SectionFactories`>> erstellt.
 
-Wird eine Klasse mit `@UISection` annotiert, übernimmt linkki die Kontrolle über die Erstellung und Anordnung der definierten Komponenten. Über die Annotation für die zugehörigen <<missing-link, `UIElemente`>> können bestimmte Aspekte definiert und/oder gesteuert werden. Die Sections werden über <<missing-link, `SectionFactories`>> erstellt.
+Die <<ui-element, `UI-Elemente`>> werden entweder an die 'properties' eines <<binding-modelObjet, `ModelObject`>>s oder eines PMO's gebunden. Eine detaillierte Beschreibung gibt es im Kapitel <<domain-model-binding, `Daten auf mehreren Ebenen`>>.
 
-Die <<missing-link, `UIElemente`>> werden entweder an die 'properties' eines <<binding-modelObjet, `ModelObjects`>> oder eines PMO's gebunden. Eine detaillierte Beschreibung gibt es im Kapitel <<missing-link, `Daten auf mehreren Ebenen`>>.
+TIP: In allen Fällen gilt: existiert im `ModelObject` oder PMO kein 'Setter', dann ist das Feld `readOnly`
 
-Im <<abschnitt-form-binding, ersten Abschnitt>> wird die Erstellung einer Section eines 'standard' Formulars beschrieben. Im <<abschnitt-binding-table, zweiten Abschnitt>> wird das erstellen einer Section mit einer Tabelle erleutert.
+Im <<abschnitt-form-binding, ersten Abschnitt>> wird beispielhaft die Erstellung einer Section eines 'standard' Formulars beschreibt. Im <<abschnitt-binding-table, zweiten Abschnitt>> wird das erstellen einer Section mit einer Tabelle erleutert.
 
 [[abschnitt-form-binding]]
 ==== Binding eines Formulars
 
-[[binding-modelObject]]
+[[binding-model-object]]
 .Binding mit `@ModelObject`
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/pmo/PersonPmo.java[tags=personPmo-class]
+include::{source-dir}/org/linkki/samples/binding/pmo/PersonSectionPmo.java[tags=personPmo-class]
 ----
 TIP: die Definition von `modelAttribute` ist optional, wenn der Property Name im `ModelObject` und der Name der annotierten Methode gleich sind.
 
 [[abschnitt-binding-table]]
 ==== Binding einer Tabelle
 
-Um eine Section mit einer Tabelle zu erzeugen muss die annotierte Klasse <<missing-link, `org.linkki.core.ui.table.ContainerPmo<T>`>> implementieren. Der `Generic`-Parameter `T` repräsentiert den Typ des PMOs um eine Zeile in dieser Tabelle zu erzeugen.
+Um eine Section mit einer Tabelle zu erzeugen muss die annotierte Klasse <<ui-container-pmo, `org.linkki.core.ui.table.ContainerPmo<T>`>> implementieren. Der `Generic`-Parameter `T` repräsentiert den Typ des PMOs um eine Zeile in dieser Tabelle zu erzeugen.
 
 [source,java]
 ----
@@ -41,9 +42,9 @@ Die Methode `getItems()` gibt die Zeilen der Tabelle in Form der vorher mit `T` 
 include::{source-dir}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=personTablePmo-getItems]
 ----
 
-Im `interface ContainerPmo<T>` werden noch weitere `default` Methoden spezifiziert. Eine genaue Beschreibung befindet sich <<missing-link, hier>>.
+Im `interface ContainerPmo<T>` werden noch weitere `default` Methoden spezifiziert. Eine genaue Beschreibung befindet sich <<ui-container-pmo, hier>>.
 
-Das sogenannte 'Row PMO' ist grundsätzliche ein gewöhnliches PMO wie in <<abschnitt-form-binding, Abschnitt 1>> beschrieben. Die einzige Besonderheit ist, dass die `UIElemente` ebenfalls mit der Annotation <<missing-link, `@UITableColumn`>> gekennzeichnet sind.
+Das sogenannte 'Row PMO' ist grundsätzliche ein gewöhnliches PMO wie in <<abschnitt-form-binding, Abschnitt 1>> beschrieben. Die einzige Besonderheit ist, dass die UI-Elemente ebenfalls mit der Annotation <<ui-table-column, `@UITableColumn`>> gekennzeichnet sind.
 
 
 [source,java]
@@ -51,13 +52,11 @@ Das sogenannte 'Row PMO' ist grundsätzliche ein gewöhnliches PMO wie in <<absc
 include::{source-dir}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-labelBinding]
 ----
 
-Es können alle `UIElemente` ebenfalls in Tabellen verwendet werden. Ein Binding eines `@UIButton` sieht folgendermaßen aus:
+Es können alle UI-Elemente ebenfalls in Tabellen verwendet werden. Ein Binding eines `@UIButton` sieht folgendermaßen aus:
 
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-buttonBinding]
 ----
 
-NOTE: In unserem Beispiel sollen die Elemente in der Tabelle 'read-only' dargestellt werden. Deswegen erfolgt kein direktes Binding des `ModelObject` über eine mit `@Model` annotierte Methode.
-
-IMPORTANT: In allen Fällen gilt: existiert im `ModelObject` oder PMO kein 'Setter' dann ist das Feld `readOnly`
+NOTE: In unserem Beispiel sollen die Elemente in der Tabelle 'read-only' dargestellt werden. Deswegen erfolgt kein direktes Binding des `ModelObject` über eine mit `@ModelObject` annotierte Methode.

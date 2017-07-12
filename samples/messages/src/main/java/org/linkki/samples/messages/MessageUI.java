@@ -16,7 +16,7 @@ import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.samples.messages.binding.RegistrationBindingManager;
 import org.linkki.samples.messages.components.MessagesPanel;
 import org.linkki.samples.messages.model.User;
-import org.linkki.samples.messages.pmo.RegistrationPmo;
+import org.linkki.samples.messages.pmo.RegistrationSectionPmo;
 import org.linkki.samples.messages.pmo.RegistrationValidationService;
 import org.linkki.samples.messages.pmo.RegistrationValidationService.ValidationMode;
 
@@ -39,7 +39,7 @@ public class MessageUI extends UI {
         messagesPanel.setVisible(false);
 
         User user = new User();
-        RegistrationPmo registrationPmo = new RegistrationPmo(user, this::handleRegistration);
+        RegistrationSectionPmo registrationPmo = new RegistrationSectionPmo(user, u -> handleRegistration(messagesPanel, u));
         validationService = new RegistrationValidationService(registrationPmo);
 
         bindingManager = new RegistrationBindingManager(validationService, m -> updateMessages(messagesPanel, m));
@@ -55,8 +55,8 @@ public class MessageUI extends UI {
     private void updateMessages(MessagesPanel messagesPanel, MessageList messageList) {
         messagesPanel.updateMessages(messageList);
     }
-    
-    private void handleRegistration(RegistrationPmo userPmo) {
+
+    private void handleRegistration(MessagesPanel messagesPanel, RegistrationSectionPmo userPmo) {
         // validate required fields as well
         validationService.setValidationMode(ValidationMode.STRICT);
 

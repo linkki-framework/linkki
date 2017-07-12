@@ -1,0 +1,78 @@
+:jbake-title: Tabellen
+:jbake-type: section
+:jbake-status: published
+
+:source-dir-binding: ../../../../../../samples/binding/src/main/java
+:source-dir-dynamic: ../../../../../../samples/dynamic-fields/src/main/java
+
+
+[[ui-tabellen]]
+=== Tabellen
+
+Die Grundlagen zur Erstellung von Tabellen wurden im Kapitel <<abschnitt-binding-table, Erstellung eines UI>> bereits erklärt. In dieser Sektion werden die <<ui-row-pmo,Definition der Tabellenstruktur>>, das <<ui-container-pmo, `ContainerPmo<T>`>>, der <<ui-simple-item-supplier, `SimpleItemSupplier<PMO, MO>`>> und der <<ui-table-footer, `TableFooter`>> im Detail betrachtet.
+
+[[ui-row-pmo]]
+==== Definition der Tabellenstruktur mit Row PMO
+Die Struktur der Tabelle wird in einer PMO Klasse definiert, deren Instanzen Zeilen in der Tabelle darstellen. Diese Klassen werden deshalb also "Row PMO" bezeichnet. 
+
+Row PMO Klassen sind standard PMO's. Da sie allerdings keine Sections darstellen, sollen sie nicht mit `@UISection` annotiert sein. 
+
+Die <<ui-element,UI-Element>> Annotationen definieren in diesem Fall eine Spalte der Tabelle. Eine Tabellenspalte, in der der Name einer Person angezeigt wird, kann z.B. wie folgt definiert werden:
+
+[source, java]
+----
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-labelBinding]
+----
+
+[[ui-table-column]]
+===== @UITableColumn
+
+Grundsätzlich werden alle Properties eines PMO's in der Tabelle angezeigt. Mit der Annotation `@UITableColumn` kann die Spaltenbreite über die Properties `width` (Pixel) oder `expandRatio` definiert werden.
+
+NOTE: Werden beide Properties definiert, hat `width` die höhere Priortät gegenüber `expandRatio`.
+
+[[ui-container-pmo]]
+==== ContainerPmo
+
+Die Hauptaufgabe des `ContainerPmos` ist die Bereitstellung der in der Tabelle anzuzeigenden PMO's (Items). 
+
+Die Methode `List<T> getItems()` wird vom `TableBinding` aufgerufen um die Elemente der Tabelle hinzuzufügen. Es sollte immer die gleiche Instanz der `List<T>` zurückgegeben werden. Der <<ui-simple-item-supplier, `SimpleItemSupplier`>> bietet dafür Unterstützung.
+
+Durch überschreiben der `default` Methode `int getPageLength()` kann gesteuert werden, wieviele Zeilen angezeigt werden sollen. Per Default werden 15 Zeilen angezeigt. Es ist durchaus üblich, die Tabelle bis zu einer gewissen Anzahl an Zeilen 'wachsen' zu lassen und danach die Zeilenanzahl durch eine Obergrenze zu limitieren und danach das 'scrollen' für die Tabelle zu aktivieren. Wird `0` zurückgegeben, wächst die Tabelle dynamisch mit dem Inhalt. Es existiert somit keine Obergrenze.
+
+```java
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=page-length]
+```
+
+Wenn die Tabelle das hinzufügen von Items unterstützen soll, muss die `default` Methode `Optional<ButtonPmo> getAddItemButtonPmo` überschrieben werden. Wie ein `ButtonPmo` im Detail erzeugt werden kann ist im Kapitel <<button-pmo, ButtonPmo>> beschrieben.
+
+[[ui-simple-item-supplier]]
+==== SimpleItemSupplier
+
+Der `SimpleItemSupplier<PMO, MO>` wird verwendet, um nur dann eine neue `List<PMO>` zu erstellen, wenn sich eine Zeile verändert hat.
+
+Die Instanzierung erfolgt mit 2 Parametern:
+
+* `modelObjectSupplier` vom Typ `Supplier<List<MO>>` wird aufgerufen um auf die Liste der Modell-Objekte zuzugreifen
+* `mo2pmoMapping` vom Typ `Function<MO, PMO>` wird für die Erzeugung eines PMO's für ein Modell-Objekt aufgerufen
+
+.Beispiel Initialisierung eines SimpleItemSuppliers
+[source, java]
+----
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=item-supplier]
+----
+
+[[ui-table-footer]]
+==== TableFooterPmo
+
+Durch überschreiben der `default` Methode `getFooterPmo()` wird eine Fußzeile erzeugt. Die Implementierung des interfaces `TableFooterPmo` muss die Methode `getFooterText(String column)` implementieren.
+
+Der Parameter `column` ist die ID der Spalte für die der Text angezeigt werden soll. Als Beispiel kann die Summe einer bestimmten Spalte aller Items in der Tabelle angezeigt werden.
+
+```java
+include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarTablePmo.java[tags=table-footer]
+```
+
+[[button-pmo]]
+==== ButtonPmo
+Das <<ui-container-pmo, `ContainerPmo`>> bietet momentan eine Methode `getAddItemButtonPmo()` an, womit ein Plusbutton neben dem Namen der Tabelle hinzugefügt werden kann. Dieser Teil der API wird mit dem Issue LIN-128 überarbeitet.

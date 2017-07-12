@@ -3,5 +3,11 @@
 :jbake-status: published
 :jbake-order: 50
 
+[[ui-komponenten]]
 == UI Komponenten
 
+Bei der <<pmo-uisection,Erstellung des UI's mit @UISection>> werden UI-Komponenten nicht direkt erstellt, sondern werden zunächst durch Annotationen an den PMO Properties deklariert. Später werden sie dann anhand der Annotation von *linkki* erstellt und in die UISection eingefügt.
+
+*linkki* beinhaltet für die geläufigsten UI-Komponenten vorgefertigte Annotationen, die je nach Datentyp Standard-Vaadin-Elemente oder eigens angepasste Ableitungen erzeugen. Diese sind mit dem Präfix "UI" versehen. 
+
+Grundsätzlich werden diese UI-Komponenten in zwei Gruppen zusammengefasst: <<ui-field, Felder>> und <<ui-buttin, Buttons>>. An diesen Komponenten können mit der Annotation <<tooltips, `@UITooltip`>> Tooltips gebunden werden. Zusätzlich bietet *linkki* auch eine Möglichkeit um <<ui-container-pmo, Tabellen>> zu erstellen.

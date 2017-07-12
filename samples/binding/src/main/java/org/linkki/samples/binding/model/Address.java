@@ -7,6 +7,13 @@ public class Address {
     private String city;
     private Country country;
 
+    public Address(String street, String zip, String city, Country country) {
+        this.street = street;
+        this.zip = zip;
+        this.city = city;
+        this.country = country;
+    }
+
     public String getStreet() {
         return street;
     }

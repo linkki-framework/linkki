@@ -2,11 +2,10 @@
 :jbake-type: section
 :jbake-status: published
 
-[[manual-binding]]
-
-=== Manuelles Binding mit `@Bind`
-
 :source-dir: ../../../../../../samples/binding/src/main/java
+
+[[manual-binding]]
+=== Manuelles Binding mit `@Bind`
 
 Auf Grund spezieller Anforderungen oder spezieller eigener `Fields` ist es manchmal nicht möglich den <<pmo-uisection, automatischen Aufbau über `@UISection`>> zu nutzen. Für diesen Fall besteht die Möglichkeit, dass *linkki* 'nur' das Data-Binding übernimmt. Man behält somit die volle Kontrolle über die Erstellung, Anordnung und Konfiguration (z.B. `setNullRepresentation()` oder `setConverter()`) der Komponenten.
 
@@ -42,7 +41,8 @@ include::{source-dir}/org/linkki/samples/binding/components/ContactComponent.jav
 <<missing-link, Hier>> ist ein Beispielprojekt mit den verschiedenen Binding-Möglichkeiten.
 
 [TIP]
-==== Binding-Zusammenfassung:
+====
+Binding-Zusammenfassung:
 
 * `@UISection` -> einfaches, schnelles Template mit eingeschränkten Konfigurationsmöglichkeiten
 * manuelles Binding -> volle Kontrolle
@@ -50,3 +50,4 @@ include::{source-dir}/org/linkki/samples/binding/components/ContactComponent.jav
 *linkki* arbeitet mit bestimmten <<missing-link, Namenskonventionen>>. Dadurch verringern sich die Fehlerquellen und der refactoring Aufwand.
 
 Die in den Annotationen verwendeten Werte für `pmoProperty` bzw. `modelAttribute` sollten in Konstanten der jeweiligen Klasse ausgelagert werden.
+====
