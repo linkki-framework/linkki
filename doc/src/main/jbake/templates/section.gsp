@@ -7,12 +7,15 @@
 	    <div class="page-wrapper" tabindex="-1" role="main">
             <div class="page-inner">			
 				<section class="normal markdown-section">
+				
+					<p>
+				
 					<%published_chapters.each {chapter -> if(content.uri.substring(0, content.uri.indexOf('/')) == chapter.uri.substring(0, chapter.uri.indexOf('/'))){%>
 						<h2>${chapter.title}</h2>
 					<%
 					}}%>
 
-					<p>${content.body}</p>
+					${content.body}
 					
 				</section>
 			</div>

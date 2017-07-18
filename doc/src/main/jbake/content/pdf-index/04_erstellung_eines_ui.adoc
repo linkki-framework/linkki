@@ -1,6 +1,6 @@
-include::/exchange/git/linkki/doc/src/main/jbake/content/04_erstellung_eines_ui/01_section.adoc[]
+include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/04_erstellung_eines_ui/01_section.adoc[]
 
-include::/exchange/git/linkki/doc/src/main/jbake/content/04_erstellung_eines_ui/02_presentationmodelobject_mit_uisection.adoc[]
+include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/04_erstellung_eines_ui/02_presentationmodelobject_mit_uisection.adoc[]
 
-include::/exchange/git/linkki/doc/src/main/jbake/content/04_erstellung_eines_ui/03_manuelles_binding_mit_bind.adoc[]
+include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/04_erstellung_eines_ui/03_manuelles_binding_mit_bind.adoc[]
 

@@ -118,6 +118,8 @@
                                 <toc/>
                                 <idprefix/>
                                 <idseparator>-</idseparator>
+				<pdf-stylesdir>${project.basedir/src/theme}</pdf-stylesdir>
+				<pdf-style>base</pdf-style>
                             </attributes>
                         </configuration>
                     </execution>

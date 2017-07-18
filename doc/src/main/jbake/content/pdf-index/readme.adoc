@@ -1,4 +1,4 @@
-include::/exchange/git/linkki/doc/src/main/jbake/content/readme/README_ENG.adoc[]
+include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/readme/README_ENG.adoc[]
 
-include::/exchange/git/linkki/doc/src/main/jbake/content/readme/README_GER.adoc[]
+include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/readme/README_GER.adoc[]
 

@@ -7,9 +7,10 @@
 	    <div class="page-wrapper" tabindex="-1" role="main">
             <div class="page-inner">			
 				<section class="normal markdown-section">
-					<!-- <h1>${content.title}</h1> -->
+
+					${content.body}
 					
-					<p>${content.body}</p>
+					<p>
 					
 					<%sortedByOverviewName = published_sections.sort{ it.uri }
 					sortedByOverviewName.each {sectionTitle ->

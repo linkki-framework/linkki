@@ -1,10 +1,10 @@
-include::/exchange/git/linkki/doc/src/main/jbake/content/03_architektur/01_grundaufbau_bindingcontext_bindingmanager.adoc[]
+include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/03_architektur/01_grundaufbau_bindingcontext_bindingmanager.adoc[]
 
-include::/exchange/git/linkki/doc/src/main/jbake/content/03_architektur/02_data_binding_mit_pmos.adoc[]
+include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/03_architektur/02_data_binding_mit_pmos.adoc[]
 
-include::/exchange/git/linkki/doc/src/main/jbake/content/03_architektur/03_daten_auf_mehreren_ebenen.adoc[]
+include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/03_architektur/03_daten_auf_mehreren_ebenen.adoc[]
 
-include::/exchange/git/linkki/doc/src/main/jbake/content/03_architektur/04_binding_von_weiteren_ui-element-eigenschaften.adoc[]
+include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/03_architektur/04_binding_von_weiteren_ui-element-eigenschaften.adoc[]
 
-include::/exchange/git/linkki/doc/src/main/jbake/content/03_architektur/05_querschnittsaspekte_im_databinding.adoc[]
+include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/03_architektur/05_querschnittsaspekte_im_databinding.adoc[]
 
