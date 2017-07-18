@@ -12,10 +12,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.BindingContext;
@@ -78,64 +74,5 @@ public class PmoBasedTableFactoryTest {
         assertThat(table.getItemIds(), contains(columnPmo1, columnPmo2));
     }
 
-    @Test
-    public void testGetItemPmoClass() {
-        PmoBasedTableFactory<TestRowPmo> pmoBasedTableFactory = new PmoBasedTableFactory<>(new TestTablePmo(), ctx);
-
-        Class<?> itemPmoClass = pmoBasedTableFactory.getItemPmoClass();
-
-        assertThat(itemPmoClass, is(TestRowPmo.class));
-    }
-
-    @Test
-    public void testGetItemPmoClass_Indirect() {
-        PmoBasedTableFactory<SubTestRow> pmoBasedTableFactory = new PmoBasedTableFactory<>(new IndirectContainerPmo(),
-                ctx);
-
-        Class<?> itemPmoClass = pmoBasedTableFactory.getItemPmoClass();
-
-        assertThat(itemPmoClass, is(SubTestRow.class));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    @SuppressWarnings("unchecked")
-    public void testGetItemPmoClass_exception() {
-        PmoBasedTableFactory<TestRowPmo> pmoBasedTableFactory = new PmoBasedTableFactory<>(new RawContainerPmo(), ctx);
-
-        pmoBasedTableFactory.getItemPmoClass();
-    }
-
-    @SuppressWarnings("rawtypes")
-    private static class RawContainerPmo implements ContainerPmo {
-
-        @Override
-        public List getItems() {
-            return new ArrayList<>();
-        }
-
-    }
-
-    private static class SubTestRow extends TestRowPmo {
-
-        public SubTestRow(TestTablePmo parent) {
-            super(parent);
-        }
-
-    }
-
-    private abstract static class AnotherTestTablePmo<T extends TestRowPmo> implements ContainerPmo<T> {
-        // nothing
-    }
-
-    @SuppressWarnings("unused")
-    private static class IndirectContainerPmo extends AnotherTestTablePmo<SubTestRow>
-            implements ContainerPmo<SubTestRow> {
-
-        @Override
-        public List<SubTestRow> getItems() {
-            return Arrays.asList(new SubTestRow(new TestTablePmo()));
-        }
-
-    }
 
 }

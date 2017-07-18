@@ -8,16 +8,11 @@ package org.linkki.core.ui.table;
 
 import static java.util.Objects.requireNonNull;
 
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
 import org.linkki.core.ui.application.ApplicationStyles;
@@ -49,18 +44,7 @@ public class PmoBasedTableFactory<T> {
     public PmoBasedTableFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
         this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
         this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
-        this.annotationReader = new UIAnnotationReader(getItemPmoClass());
-    }
-
-    /* private */ final Class<?> getItemPmoClass() {
-        Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(containerPmo.getClass(),
-                                                                              ContainerPmo.class);
-        for (Entry<TypeVariable<?>, Type> typeArgument : typeArguments.entrySet()) {
-            if (typeArgument.getKey().getGenericDeclaration().equals(ContainerPmo.class)) {
-                return (Class<?>)typeArgument.getValue();
-            }
-        }
-        throw new IllegalArgumentException("Cannot identify row pmo type");
+        this.annotationReader = new UIAnnotationReader(containerPmo.getItemPmoClass());
     }
 
     /**

@@ -46,7 +46,7 @@ public class JodaLocalDateToDateConverterTest {
                 /* [3] */ { "0016.12.29", "yyyy.MM.dd", new LocalDate(2016, 12, 29) },
                 /* [4] */ { "0036.12.29", "yyyy.MM.dd", new LocalDate(2036, 12, 29) },
                 /* [5] */ { "36.12.29", "yy.MM.dd", new LocalDate(2036, 12, 29) },
-                /* [6] */ { "0037.12.29", "yyyy.MM.dd", new LocalDate(1937, 12, 29) },
+                /* [6] */ { "0057.12.29", "yyyy.MM.dd", new LocalDate(1957, 12, 29) },
                 /* [7] */ { "84.12.29", "yy.MM.dd", new LocalDate(1984, 12, 29) }
         };
     }
