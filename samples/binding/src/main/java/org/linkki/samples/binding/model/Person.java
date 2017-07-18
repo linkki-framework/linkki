@@ -6,6 +6,7 @@ public class Person {
     private String lastname;
 
     private Address address;
+    private Gender gender = Gender.OTHER;
 
     public String getFirstname() {
         return firstname;
@@ -44,5 +45,19 @@ public class Person {
         }
 
         return builder.toString();
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public enum Gender {
+        MALE,
+        FEMALE,
+        OTHER
     }
 }

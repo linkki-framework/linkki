@@ -74,6 +74,7 @@ Ausnahme ist hier der <<ui-button, Button>>, bei dem normalerweise kein Label an
 
 NOTE: Falls ein alleinstehendes Label benötigt wird, soll das UI-Element <<ui-label, UILabel>> benutzt werden.
 
+
 [[enabled]]
 ===== Enabled
 Die Eigenschaft `enabled` steuert, ob die Komponente aktiv/editierbar ist. Es gibt folgende Einstellungsmöglichkeiten:
@@ -130,6 +131,15 @@ Die Annotation `@UILabel` stellt ein alleinstehendes UI-Element zur Anzeige von 
 Die annotierte Methode muss einen Wert von Typ `String` zurückgeben. Der Rückgabewert bestimmt, was als Label angezeigt wird.
 
 TIP: Auch ein UILabel hat zusätzlich die Eigenschaft <<label,`label`>>. Falls dort ein Wert gesetzt ist, würde der Text neben dem UILabel erscheinen.
+
+===== HTML-Content
+Der Inhalt des Labels kann mit HTML gestaltet werden, wenn `htmlContent=true` angegeben wird. 
+
+.Beispiel HTML-Label-Content
+[source, java]
+----
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-labelHtmlContent]
+----
 
 [[label-style-names]]
 ===== Stile

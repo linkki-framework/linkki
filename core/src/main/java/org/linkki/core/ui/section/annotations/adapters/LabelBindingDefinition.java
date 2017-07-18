@@ -15,6 +15,7 @@ import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.VisibleType;
 
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
@@ -44,6 +45,7 @@ public class LabelBindingDefinition implements UIFieldDefinition {
     @Override
     public Component newComponent() {
         Label label = new Label();
+        label.setContentMode(labelAnnotation.htmlContent() ? ContentMode.HTML : ContentMode.TEXT);
         for (String styleName : labelAnnotation.styleNames()) {
             label.addStyleName(styleName);
         }

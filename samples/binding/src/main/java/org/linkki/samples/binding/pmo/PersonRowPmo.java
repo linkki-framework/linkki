@@ -23,8 +23,25 @@ public class PersonRowPmo {
         this.deleteAction = deleteAction;
     }
 
+    @UITableColumn(expandRatio = 0.05F)
+    // tag::personRowPmo-labelHtmlContent[]
+    @UILabel(position = 1, label = "", htmlContent = true)
+    public String getGender() {
+        switch (person.getGender()) {
+            case FEMALE:
+                return FontAwesome.FEMALE.getHtml();
+            case MALE:
+                return FontAwesome.MALE.getHtml();
+
+            default:
+                return FontAwesome.GENDERLESS.getHtml();
+        }
+
+    }
+    // end::personRowPmo-labelHtmlContent[]
+
     // tag::personRowPmo-labelBinding[]
-    @UITableColumn(expandRatio = 0.3F)
+    @UITableColumn(expandRatio = 0.25F)
     @UILabel(position = 10, label = "Name")
     public String getName() {
         return person.getName();

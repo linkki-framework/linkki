@@ -31,4 +31,9 @@ public @interface UILabel {
     String modelAttribute() default "";
 
     String[] styleNames() default {};
+
+    /**
+     * When set to {@code true}, the label's content will be displayed as HTML, otherwise as plain text.
+     */
+    boolean htmlContent() default false;
 }

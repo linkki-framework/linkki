@@ -16,11 +16,12 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.themes.ValoTheme;
 
-@Theme(value = "valo")
+@Theme(value = ValoTheme.THEME_NAME)
 public class BindingSampleUI extends UI {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 42L;
 
     @Override
     protected void init(VaadinRequest request) {

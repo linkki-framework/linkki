@@ -82,13 +82,12 @@ public class ElementDescriptors {
             pmoPropertyName = descriptor.getPmoPropertyName();
             labelText = descriptor.getLabelText();
         } else {
-
             Validate.validState(pmoPropertyName.equals(descriptor.getPmoPropertyName()),
                                 "Duplicate position in property %s and %s of pmo class %s",
                                 pmoPropertyName, descriptor.getPmoPropertyName(), pmoClass.getName());
 
             Validate.validState(labelText.equals(descriptor.getLabelText()),
-                                "Labels for property %s in pmo class %s doesn't match. Values are: '%s' and '%s'",
+                                "Labels for property %s in pmo class %s don't match. Values are: '%s' and '%s'",
                                 pmoPropertyName, pmoClass.getName(), labelText, descriptor.getLabelText());
         }
 
