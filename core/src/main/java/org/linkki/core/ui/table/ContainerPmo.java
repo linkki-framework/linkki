@@ -6,11 +6,14 @@
 
 package org.linkki.core.ui.table;
 
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
-import javax.annotation.CheckForNull;
-
+import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.TableFooterPmo;
 
@@ -29,14 +32,19 @@ public interface ContainerPmo<T> {
 
     /**
      * Returns the class of the items / rows in the container.
-     * 
-     * @deprecated This method is not used anymore because the type could be derived from the
-     *             generic interface.
+     * <p>
+     * The default implementation reads the generic type T from the class definition.
      */
-    @Deprecated
-    @CheckForNull
-    default Class<T> getItemPmoClass() {
-        return null;
+    @SuppressWarnings("unchecked")
+    default Class<? extends T> getItemPmoClass() {
+        Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(getClass(),
+                                                                              ContainerPmo.class);
+        for (Entry<TypeVariable<?>, Type> typeArgument : typeArguments.entrySet()) {
+            if (typeArgument.getKey().getGenericDeclaration().equals(ContainerPmo.class)) {
+                return (Class<T>)typeArgument.getValue();
+            }
+        }
+        throw new IllegalArgumentException("Cannot identify row pmo type");
     }
 
     /**
