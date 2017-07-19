@@ -34,7 +34,7 @@ NOTE: Werden beide Properties definiert, hat `width` die höhere Priortät gegen
 [[ui-container-pmo]]
 ==== ContainerPmo
 
-Die Hauptaufgabe des `ContainerPmos` ist die Bereitstellung der in der Tabelle anzuzeigenden PMO's (Items). 
+Als `ContainerPmo` wird eine Klasse bezeichnet, die das Interface `ContainerPmo<T>` implementiert, und mit `@UISection` annotiert ist. Die Hauptaufgabe des `ContainerPmos` ist die Bereitstellung der in der Tabelle anzuzeigenden PMO's. 
 
 Die Methode `List<T> getItems()` wird vom `TableBinding` aufgerufen um die Elemente der Tabelle hinzuzufügen. Es sollte immer die gleiche Instanz der `List<T>` zurückgegeben werden. Der <<ui-simple-item-supplier, `SimpleItemSupplier`>> bietet dafür Unterstützung.
 
@@ -43,6 +43,9 @@ Durch überschreiben der `default` Methode `int getPageLength()` kann gesteuert 
 ```java
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=page-length]
 ```
+
+Die Spaltenstruktur der Tabelle wird anhand der <<ui-row-pmo, Row PMO>> Klasse bestimmt, die von der Methode `Class<? extends T> getItemPmoClass` zurückgegeben wird. In der Default-Implementierung wird die Klasse des Generic Parameters `T` zurückgegeben. Für Tabellen, die die gleiche Zeilen anzeigen, jedoch andere Spalten besitzen sollen,  kann also diese Methode überschrieben werden um eine Subklasse von `T` zu verwenden.
+
 
 Wenn die Tabelle das hinzufügen von Items unterstützen soll, muss die `default` Methode `Optional<ButtonPmo> getAddItemButtonPmo` überschrieben werden. Wie ein `ButtonPmo` im Detail erzeugt werden kann ist im Kapitel <<button-pmo, ButtonPmo>> beschrieben.
 
