@@ -1,6 +1,0 @@
-include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/05_ui_komponenten/01_ui_element.adoc[]
-
-include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/05_ui_komponenten/02_tooltips.adoc[]
-
-include::C:\Users\hjiang\git\linkki\doc\src\main\jbake\content/05_ui_komponenten/03_tabellen.adoc[]
-

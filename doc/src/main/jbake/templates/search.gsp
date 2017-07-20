@@ -19,7 +19,7 @@
 					<%
 					import groovy.json.StringEscapeUtils;
 					
-					String dir = System.getProperty("user.dir") + '/doc/src/main/jbake/'
+					String dir = config.project_basedir + '/src/main/jbake/'
 					PrintWriter pw
 					
 					// Content file for search
@@ -83,7 +83,7 @@
 					
 					// Create a File object representing the folder
 					String contentPath = new File( dir + 'content/' )
-					String pdfPath = contentPath + '/' + 'pdf-index/'
+					String pdfPath = config.project_basedir + '/target/' + 'pdf-index/'
 					def pdfFolder = new File(pdfPath)
 					String documentationPath = pdfPath + 'documentation.adoc'
 					
@@ -132,12 +132,19 @@
 						def include 
 						sortedByFileName = published_sections.sort{ it.uri }
 						sortedByFileName.each
-						{					
-							section -> 
+										
+						
+						{	
+									
+							section -> 				
+								
+							
 							if(chapter.uri.substring(0, chapter.uri.indexOf('/')) == section.uri.substring(0, section.uri.indexOf('/')))
 							{
 								include = 'include::' + contentPath + '/' + section.uri.substring(0, section.uri.indexOf('.')) + '.adoc[]'
-								file.append(include + '\n\n')
+								
+								file.append(include.replaceAll('\\\\', '/') + '\n\n')
+								
 							}
 						}
 						

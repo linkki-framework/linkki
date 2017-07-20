@@ -47,6 +47,7 @@
                         <configuration>
                             <properties>
                                 <site.url>http://localhost:8820/</site.url>
+                                <project.basedir>${project.basedir}</project.basedir>
                             </properties>
                         </configuration>
                     </execution>
@@ -93,7 +94,7 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <sourceDirectory>src/main/jbake/content/pdf-index/</sourceDirectory>
+                    <sourceDirectory>target/pdf-index</sourceDirectory>
                     <sourceDocumentName>documentation.adoc</sourceDocumentName>
                     <!-- Attributes common to all output formats -->
                     <attributes>
@@ -118,8 +119,8 @@
                                 <toc/>
                                 <idprefix/>
                                 <idseparator>-</idseparator>
-				<pdf-stylesdir>${project.basedir/src/theme}</pdf-stylesdir>
-				<pdf-style>base</pdf-style>
+                                <pdf-stylesdir>${project.basedir/src/theme}</pdf-stylesdir>
+                                <pdf-style>base</pdf-style>
                             </attributes>
                         </configuration>
                     </execution>
