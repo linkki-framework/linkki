@@ -1,0 +1,30 @@
+:jbake-title: Data Binding mit PMOs
+:jbake-type: section
+:jbake-status: published
+
+:source-dir: ../../../java
+
+[[databinding]]
+=== Data Binding mit PMOs
+
+Ein Presentation Model Object kapselt den Zustand des UIs unabhängig von der konkreten UI-Implementierung. Das UI interagiert über Data Binding ausschließlich mit diesem PMO. Dazu muss das PMO nicht alle Daten selber halten, sondern kann direkt an ein oder mehrere bestehende Modellobjekte deligieren (siehe <<domain-model-binding,Daten auf mehreren Ebenen>>). Diese Daten werden dann in ein für die Anzeige geeignetes Format konvertiert.
+
+In *linkki* sind PMOs Plain Old Java Objects (POJOs), in der Daten für einzelne UI Abschnitte organisiert sind. Zu jedem Abschnitt des UIs soll es also ein eigenes PMO geben.
+
+Ausschlaggebend für das Data Binding sind sogenannte "Properties" eines PMOs. Eine PMO Klasse besitzt ein Property names "property" genau dann, wenn diese Klasse eine Methode `getProperty`  hat. Falls der Wert dieses Propertys modifizierbar sein soll, muss es zusätzlich eine Methode `setProperty` geben. Oft wird der Wert des Propertys in eine Klassenvariable `property` gespeichert. Dies ist an die Namenkonventionen für JavaBean Properties angelehnt. Die PMO Klassen müssen allerdings selbst keine JavaBeans sein.
+
+Betrachte zum Beispiel die folgende Klasse:
+
+```java
+include::{source-dir}/org/linkki/doc/BeispielPmo.java[tags=class]
+```
+
+Diese Klasse hat zwei Properties: "anrede" und "namensanzeige". Am Property "namesanzeige" sieht man, dass es zu einem PMO Property nicht zwingend eine Klassenvariable geben muss. Hingegen ist "nachname" kein Property der Klasse, obwohl es dazu eine Klassenvariable und eine passende Setter-Methode gibt, denn es fehlt die notwendige Methode `String getNachname()`.
+
+
+Es gibt einige Interfaces, die PMO Klassen optional implementieren können: 
+
+* `org.linkki.core.PresentationModelObject` bietet eine Methode, mit der ein Button-PMO erstellt werden kann; der daraus erzeugte Button löst eine Bearbeitung des PMOs aus
+* `org.linkki.core.ButtonPmo` ist ein PMO für Buttons, siehe <<ui-button,Buttons>>
+* `org.linkki.core.ui.table.ContainerPmo` ist ein PMO für Tabellen - die einzelnen Zeilen haben wieder reguläre PMOs, siehe auch <<container-komponenten,Container Komponenten>>
+

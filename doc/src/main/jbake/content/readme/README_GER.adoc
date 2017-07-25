@@ -1,9 +1,15 @@
-= linkki
-:source-file: ../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java
+:jbake-title: Read Me [GER]
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 20
+
+:source-file: ../../../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java
+
+=== Read Me [GER]
 
 Ein Data-Binding Framework für webbasierte Benutzeroberflächen mit https://vaadin.com/home[Vaadin].
 
-== Features
+==== Features
 
 Häufig bestehen Applikationen aus vielen Eingabeelementen, die direkt Objekte und Eigenschaften aus dem Domänenmodell widerspiegeln. Die Erstellung solcher Oberflächen, sowie die Implementierung der Synchronisierung mit den Modellobjekten, ist oft eine repetitive Aufgabe. *linkki* übernimmt die Aufgabe dieses Data-Bindings weitestgehend. So können sich Entwickler auf das Domänenmodell und die UI Logik konzentrieren.
 
@@ -16,42 +22,42 @@ Häufig bestehen Applikationen aus vielen Eingabeelementen, die direkt Objekte u
 ** Aktivierungszustand (enabled)
 ** Liste der auswählbaren Werte
 
-== Beispiele
+==== Beispiele
 
-=== Model Binding
+===== Model Binding
 [source,java]
 ----
 include::{source-file}[tags=model-binding]
 ----
 
-=== Textfeld/Textarea
+==== Textfeld/Textarea
 [source,java]
 ----
 include::{source-file}[tags=textfield]
 ----
 
-=== ComboBox
+===== ComboBox
 [source,java]
 ----
 include::{source-file}[tags=combobox]
 ----
 
-=== Button
+===== Button
 [source,java]
 ----
 include::{source-file}[tags=button]
 ----
 
 .Report with disabled Send-Button
-image::report_disabled.png[]
+image::{images}/report_disabled.png[]
 
 .Report with enabled Send-Button
-image::report_enabled.png[]
+image::{images}/report_enabled.png[]
 
 NOTE: das komplette Beispiel ist unter https://github.com/link-to-getting-started[TODO samples/getting-started] zu finden.
 
 
-== Installation
+==== Installation
 
 *linkki* steht auf Maven Central zur Verfügung und kann über Maven/Gradle eingebunden werden:
 
@@ -71,20 +77,20 @@ Um *linkki* selbst zu kompilieren, muss das Projekt über https://github.com[git
 $> mvn clean install
 ----
 
-== Contribution
+==== Contribution
 
 * Bugreports, neue Ideen und Erweiterungen können im https://github.com[TODO github issue tracker] angelegt werden
 * Mitarbeit an den Issues/Tasks mittels Pull-Requests
 
 
-== Dokumentation
+==== Dokumentation
 
 *Referenz Dokumentation:*
 
 *API Dokumentation:*
 
 
-== Lizenz
+==== Lizenz
 
 Copyright 2017 Faktor Zehn
 

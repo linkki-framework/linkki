@@ -1,14 +1,10 @@
-[[ui-komponenten]]
-== UI-Komponenten
-:source-dir-binding: ../../../../samples/binding/src/main/java
-:source-dir-messages: ../../../../samples/messages/src/main/java
-:source-dir-dynamic: ../../../../samples/dynamic-fields/src/main/java
+:jbake-title: UI Element
+:jbake-type: section
+:jbake-status: published
 
-Bei der <<pmo-uisection,Erstellung des UI's mit @UISection>> werden UI-Komponenten nicht direkt erstellt, sondern werden zunächst durch Annotationen an den PMO Properties deklariert. Später werden sie dann anhand der Annotation von *linkki* erstellt und in die UISection eingefügt.
-
-*linkki* beinhaltet für die geläufigsten UI-Komponenten vorgefertigte Annotationen, die je nach Datentyp Standard-Vaadin-Elemente oder eigens angepasste Ableitungen erzeugen. Diese sind mit dem Präfix "UI" versehen. 
-
-Grundsätzlich werden diese UI-Komponenten in zwei Gruppen zusammengefasst: <<ui-field, Felder>> und <<ui-buttin, Buttons>>. An diesen Komponenten können mit der Annotation <<tooltips, `@UITooltip`>> Tooltips gebunden werden. Zusätzlich bietet *linkki* auch eine Möglichkeit um <<ui-container-pmo, Tabellen>> zu erstellen.
+:source-dir-binding: ../../../../../../samples/binding/src/main/java
+:source-dir-messages: ../../../../../../samples/messages/src/main/java
+:source-dir-dynamic: ../../../../../../samples/dynamic-fields/src/main/java
 
 [[ui-element]]
 === UI-Element
@@ -312,103 +308,3 @@ Je nach Funktion müssen Buttons oft unterschiedlich gestaltet werden. Ein gäng
 Manche Buttons sollen nicht nur durch einen Mausklick ausgelöst werden, sondern auch bei bestimmten Tastenkombinationen. Das kann mit den Eigenschaften `shortcutModifierKeys` und `shortcutKeyCode` angegeben werden. `shortcutModifierKeys` gibt an, welche Tasten gedrückt gehalten sein muss, bevor die Taste mit der `shortcutKeyCode` gedrückt wird. Zum Beispiel wird das Speichern in vielen Anwendungen durch die Tastenkombination "Strg + s" ausgelöst. Hier ist die "Strg"-Taste der Modifier, und die "s"-Taste der ShortcutKey.
 
 Bei beiden Eigenschaften werden Tasten durch einen Integerwert repräsentiert. Diese können in den Vaadin Klassen `ModifierKey` und `KeyCode` gefunden werden.
-
-
-[[tooltips]]
-=== Tooltips
-
-Um Tooltips an UI-Elementen anzuzeigen, stellt *linkki* die Annotation `@UITooltip` zur Verfügung. Diese Annotation kann bei PMO-Binding an die Methode, mit der das UI-Element gebunden wird, hinzugefügt werden. Bei Binding mittels der `@Bind`-Annotation muss `@UITooltip` direkt an das mit `@Bind` annotierte Feld geschrieben werden.
-
-Die Annotation `@UITooltip` bietet 2 Eigenschaften an:
-
-* <<tooltip-text, `text: String`>>
-* <<tooltip-type, `toolTipType: ToolTipType`>>
-
-[[tooltip-text]]
-==== Text
-Dieser Text wird bei <<tooltip-type, `ToolTipType.STATIC`>> angezeigt. Als Default ist hier ein Leerstring (`""`) definiert.
-
-[[tooltip-type]]
-
-==== ToolTipType
-Folgende Konfigurationsmöglchkeiten stehen für den `ToolTipType` zur Auswahl:
-
-[cols="1,9"]
-.ToolTipType
-|===
-|`STATIC`   |Der Text des Tooltips wird aus dem Attribut `text` entnommen (*default*)
-|`DYNAMIC`  |Der Text des Tooltips entspricht dem Rückgabewert der Methode `String get<PropertyName>ToolTip()`. Der Wert von `text` wird in diesem Fall nicht berücksichtigt.
-|===
-
-TIP: Tooltips können nur für <<ui-field, Felder>> und <<ui-button, Buttons>> erstellt werden.
-
-[[ui-tabellen]]
-=== Tabellen
-
-Die Grundlagen zur Erstellung von Tabellen wurden im Kapitel <<abschnitt-binding-table, Erstellung eines UI>> bereits erklärt. In dieser Sektion werden die <<ui-row-pmo,Definition der Tabellenstruktur>>, das <<ui-container-pmo, `ContainerPmo<T>`>>, der <<ui-simple-item-supplier, `SimpleItemSupplier<PMO, MO>`>> und der <<ui-table-footer, `TableFooter`>> im Detail betrachtet.
-
-[[ui-row-pmo]]
-==== Definition der Tabellenstruktur mit Row PMO
-Die Struktur der Tabelle wird in einer PMO Klasse definiert, deren Instanzen Zeilen in der Tabelle darstellen. Diese Klassen werden deshalb also "Row PMO" bezeichnet. 
-
-Row PMO Klassen sind standard PMO's. Da sie allerdings keine Sections darstellen, sollen sie nicht mit `@UISection` annotiert sein. 
-
-Die <<ui-element,UI-Element>> Annotationen definieren in diesem Fall eine Spalte der Tabelle. Eine Tabellenspalte, in der der Name einer Person angezeigt wird, kann z.B. wie folgt definiert werden:
-
-[source, java]
-----
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-labelBinding]
-----
-
-[[ui-table-column]]
-===== @UITableColumn
-
-Grundsätzlich werden alle Properties eines PMO's in der Tabelle angezeigt. Mit der Annotation `@UITableColumn` kann die Spaltenbreite über die Properties `width` (Pixel) oder `expandRatio` definiert werden.
-
-NOTE: Werden beide Properties definiert, hat `width` die höhere Priortät gegenüber `expandRatio`.
-
-[[ui-container-pmo]]
-==== ContainerPmo
-
-Die Hauptaufgabe des `ContainerPmos` ist die Bereitstellung der in der Tabelle anzuzeigenden PMO's (Items). 
-
-Die Methode `List<T> getItems()` wird vom `TableBinding` aufgerufen um die Elemente der Tabelle hinzuzufügen. Es sollte immer die gleiche Instanz der `List<T>` zurückgegeben werden. Der <<ui-simple-item-supplier, `SimpleItemSupplier`>> bietet dafür Unterstützung.
-
-Durch überschreiben der `default` Methode `int getPageLength()` kann gesteuert werden, wieviele Zeilen angezeigt werden sollen. Per Default werden 15 Zeilen angezeigt. Es ist durchaus üblich, die Tabelle bis zu einer gewissen Anzahl an Zeilen 'wachsen' zu lassen und danach die Zeilenanzahl durch eine Obergrenze zu limitieren und danach das 'scrollen' für die Tabelle zu aktivieren. Wird `0` zurückgegeben, wächst die Tabelle dynamisch mit dem Inhalt. Es existiert somit keine Obergrenze.
-
-```java
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=page-length]
-```
-
-Wenn die Tabelle das hinzufügen von Items unterstützen soll, muss die `default` Methode `Optional<ButtonPmo> getAddItemButtonPmo` überschrieben werden. Wie ein `ButtonPmo` im Detail erzeugt werden kann ist im Kapitel <<button-pmo, ButtonPmo>> beschrieben.
-
-[[ui-simple-item-supplier]]
-==== SimpleItemSupplier
-
-Der `SimpleItemSupplier<PMO, MO>` wird verwendet, um nur dann eine neue `List<PMO>` zu erstellen, wenn sich eine Zeile verändert hat.
-
-Die Instanzierung erfolgt mit 2 Parametern:
-
-* `modelObjectSupplier` vom Typ `Supplier<List<MO>>` wird aufgerufen um auf die Liste der Modell-Objekte zuzugreifen
-* `mo2pmoMapping` vom Typ `Function<MO, PMO>` wird für die Erzeugung eines PMO's für ein Modell-Objekt aufgerufen
-
-.Beispiel Initialisierung eines SimpleItemSuppliers
-[source, java]
-----
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=item-supplier]
-----
-
-[[ui-table-footer]]
-==== TableFooterPmo
-
-Durch überschreiben der `default` Methode `getFooterPmo()` wird eine Fußzeile erzeugt. Die Implementierung des interfaces `TableFooterPmo` muss die Methode `getFooterText(String column)` implementieren.
-
-Der Parameter `column` ist die ID der Spalte für die der Text angezeigt werden soll. Als Beispiel kann die Summe einer bestimmten Spalte aller Items in der Tabelle angezeigt werden.
-
-```java
-include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarTablePmo.java[tags=table-footer]
-```
-
-[[button-pmo]]
-==== ButtonPmo
-Das <<ui-container-pmo, `ContainerPmo`>> bietet momentan eine Methode `getAddItemButtonPmo()` an, womit ein Plusbutton neben dem Namen der Tabelle hinzugefügt werden kann. Dieser Teil der API wird mit dem Issue LIN-128 überarbeitet.

@@ -1,9 +1,15 @@
-= linkki
-:source-file: ../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java
+:jbake-title: Read Me [ENG]
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 10
+
+:source-file: ../../../../../../samples/getting-started/src/main/java/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java
+
+=== Read Me [ENG]
 
 A data binding framework for web based user interfaces with https://vaadin.com/home[Vaadin].
 
-== Features
+==== Features
 
 Commonly applications consist of a variety of input elements that closely mirror objects and properties of a domain model. Creating such user interfaces and implementing the synchronization with the domain model is often a repetitive task. *linkki* automates most of the data binding tasks, enabling developers to focus on the domain- and UI logic.
 
@@ -16,42 +22,46 @@ Commonly applications consist of a variety of input elements that closely mirror
 ** enabled-state
 ** list of available values
 
-== Examples
+==== Examples
 
-=== Model Binding
+==== Model Binding
 [source,java]
+
 ----
 include::{source-file}[tags=model-binding]
 ----
 
-=== Textfield/Textarea
+==== Textfield/Textarea
 [source,java]
+
 ----
 include::{source-file}[tags=textfield]
 ----
 
-=== ComboBox
+==== ComboBox
 [source,java]
+
 ----
 include::{source-file}[tags=combobox]
 ----
 
-=== Button
+==== Button
 [source,java]
+
 ----
 include::{source-file}[tags=button]
 ----
 
 .Report with disabled Send-Button
-image::report_disabled.png[]
+image::{images}/report_disabled.png[]
 
 .Report with enabled Send-Button
-image::report_enabled.png[]
+image::{images}/report_enabled.png[]
 
 NOTE: the complete example can be found at https://github.com/link-to-getting-started[TODO samples/getting-started].
 
 
-== Installation
+==== Installation
 
 *linkki* is available from Maven Central and can be included via Maven/Gradle:
 
@@ -71,20 +81,20 @@ To compile *linkki*, check out the project from https://github.com[github]. The 
 $> mvn clean install
 ----
 
-== Contribution
+==== Contribution
 
 * Bug reports, new ideas and improvements can be created in the https://github.com[TODO github issue tracker]
 * Collaboration on issues/tasks via pull requests
 
 
-== Documentation
+==== Documentation
 
 *Reference documentation:*
 
 *API documentation:*
 
 
-== License
+==== License
 
 Copyright 2017 Faktor Zehn
 

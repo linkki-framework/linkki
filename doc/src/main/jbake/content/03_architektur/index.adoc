@@ -1,0 +1,29 @@
+:jbake-title: Architektur
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 30
+
+:source-dir: ../../../java
+:images-folder-name: 03_architektur
+
+[[Architektur]]
+
+== Architektur
+
+Zentrale Punkte des *linkki* Frameworks sind
+
+* die deklarative Definition von UIs mittels Annotationen
+* das flexible Databinding
+
+*linkki* ermöglicht eine deklarative Definition von Oberflächen, indem Benutzeroberflächen automatisch aus Annotationen erstellt werden. Unabhängig von der Erstellung können außerdem die Inhalte (Daten) eines UI-Elements und deren Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) an sogenannte Presentation Model Objects (PMOs) gebunden werden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI-Elemente aktualisiert.
+
+.Bidirektionales Databinding
+image::{images}{images-folder-name}/data_binding.png[]
+
+Im ersten Teil dieses Kapitles gehen wir auf den <<grundaufbau-binding, Grundaufbau des `BindingContext` und `BindingManager`>> ein, und darauf wie sie zusammenarbeiten.
+
+Im den folgenden Abschnitten wird das <<databinding, Databinding mit PMOs>> beschrieben. Dies können simple PMOs sein, in denen die Werte verwaltet werden, oder <<domain-model-binding, PMOs mit Domain Model Binding>> in denen die Werte direkt an das Domain Model gebunden werden. Das 'Binding' <<modell-attribut-namen, mehrerer Modelobjekte>> in einem PMO wird ebenfalls erklärt.
+
+Welche Eigenschaften der definierten UI-Elemente gesteuert werden können, und welche weiteren Möglichkeiten *linkki* zur Verfügung stellt, wird im Abschnitt <<binding-ui-element-properties, Binding von weiteren UI-Element-Eigenschaften>> beschrieben.
+
+Am Ende des Kaptiels <<architektur, Architektur>> werden noch sogenannte <<querschnittsaspekte-im-binding, Querschnittsaspekte im Databinding>> erläutert.

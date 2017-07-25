@@ -1,0 +1,53 @@
+:jbake-title: Manuelles Binding mit `@Bind`
+:jbake-type: section
+:jbake-status: published
+
+:source-dir: ../../../../../../samples/binding/src/main/java
+
+[[manual-binding]]
+=== Manuelles Binding mit `@Bind`
+
+Auf Grund spezieller Anforderungen oder spezieller eigener `Fields` ist es manchmal nicht möglich den <<pmo-uisection, automatischen Aufbau über `@UISection`>> zu nutzen. Für diesen Fall besteht die Möglichkeit, dass *linkki* 'nur' das Data-Binding übernimmt. Man behält somit die volle Kontrolle über die Erstellung, Anordnung und Konfiguration (z.B. `setNullRepresentation()` oder `setConverter()`) der Komponenten.
+
+Für die Aktivierung des manuellen Bindings muss die Annotation `@Bind` auf die Komponente geschrieben werden. Es können sowohl Felder als auch Methoden annotiert werden. Unterstützte Typen sind:
+
+* `com.vaadin.ui.Field`
+* `com.vaadin.ui.Label`
+* `com.vaadin.ui.Button`
+
+Danach kann das Data-Binding über den <<missing-link, `Binder`>> erstellt werden.
+
+
+.@Bind auf Felder
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/binding/components/AddressFields.java[tags=addressFields-class]
+----
+
+.@Bind auf Methoden
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/binding/components/AddressFields2.java[tags=addressFields-methodBinding]
+----
+
+TIP: wenn das Data-Binding von Vaadin-Komponenten einer verwendeten Library von *linkki* übernommen werden soll, kann dies durch Vererbung oder 'delegete proxies' und `@Bind` auf den Methoden aktiviert werden.
+
+.Binding aktivieren
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/binding/components/ContactComponent.java[tags=manual-binding]
+----
+
+<<missing-link, Hier>> ist ein Beispielprojekt mit den verschiedenen Binding-Möglichkeiten.
+
+[TIP]
+====
+Binding-Zusammenfassung:
+
+* `@UISection` -> einfaches, schnelles Template mit eingeschränkten Konfigurationsmöglichkeiten
+* manuelles Binding -> volle Kontrolle
+
+*linkki* arbeitet mit bestimmten <<missing-link, Namenskonventionen>>. Dadurch verringern sich die Fehlerquellen und der refactoring Aufwand.
+
+Die in den Annotationen verwendeten Werte für `pmoProperty` bzw. `modelAttribute` sollten in Konstanten der jeweiligen Klasse ausgelagert werden.
+====
