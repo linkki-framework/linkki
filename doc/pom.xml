@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.linkki</groupId>
-    <artifactId>linkki</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
+    <parent>
+        <groupId>org.linkki</groupId>
+        <artifactId>linkki</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,27 +17,30 @@
         <asciidoctorj.version>1.5.5</asciidoctorj.version>
         <jruby.version>1.7.26</jruby.version>
     </properties>
-    
-  <artifactId>linkki-core-documentation</artifactId>
-  <packaging>pom</packaging>
 
-  <name>Linkki Core Documentation</name>
+    <artifactId>linkki-core-documentation</artifactId>
+    <packaging>pom</packaging>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.linkki</groupId>
-      <artifactId>linkki-core</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
-   
-  <build>
+    <name>Linkki Core Documentation</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.linkki</groupId>
+            <artifactId>linkki-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
         <plugins>
             <plugin>
                 <groupId>com.blazebit</groupId>
                 <artifactId>jbake-maven-plugin</artifactId>
                 <version>1.0.0</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/linkki-${project.version}</outputDirectory>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>generate-resources</phase>
@@ -80,13 +83,15 @@
                         <artifactId>asciidoctorj-pdf</artifactId>
                         <version>${asciidoctorj.pdf.version}</version>
                     </dependency>
-                    <!-- Comment this section to use the default jruby artifact provided by the plugin -->
+                    <!-- Comment this section to use the default jruby artifact provided 
+                        by the plugin -->
                     <dependency>
                         <groupId>org.jruby</groupId>
                         <artifactId>jruby-complete</artifactId>
                         <version>${jruby.version}</version>
                     </dependency>
-                    <!-- Comment this section to use the default AsciidoctorJ artifact provided by the plugin -->
+                    <!-- Comment this section to use the default AsciidoctorJ artifact 
+                        provided by the plugin -->
                     <dependency>
                         <groupId>org.asciidoctor</groupId>
                         <artifactId>asciidoctorj</artifactId>
@@ -110,14 +115,15 @@
                         </goals>
                         <configuration>
                             <backend>pdf</backend>
-                            <!-- Since 1.5.0-alpha.9 PDF back-end can use 'rouge' as well as 'coderay'
-                            source highlighting -->
+                            <!-- Since 1.5.0-alpha.9 PDF back-end can use 'rouge' 
+                                as well as 'coderay'
+                                source highlighting -->
                             <sourceHighlighter>coderay</sourceHighlighter>
                             <attributes>
                                 <icons>font</icons>
-                                <pagenums/>
-                                <toc/>
-                                <idprefix/>
+                                <pagenums />
+                                <toc />
+                                <idprefix />
                                 <idseparator>-</idseparator>
                                 <pdf-stylesdir>${project.basedir/src/theme}</pdf-stylesdir>
                                 <pdf-style>base</pdf-style>
@@ -129,7 +135,8 @@
         </plugins>
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <!--This plugin's configuration is used to store Eclipse m2e settings 
+                    only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -184,41 +191,41 @@
     </build>
 
 
-  <profiles>
-    <profile>
-      <id>generate-readme</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.asciidoctor</groupId>
-            <artifactId>asciidoctor-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>generate-readme</id>
-                <phase>generate-resources</phase>
-                <goals>
-                  <goal>process-asciidoc</goal>
-                </goals>
-                <configuration>
-                  <sourceDocumentName>README.adoc</sourceDocumentName>
-                </configuration>
-              </execution>
-              <execution>
-                <id>generate-de-readme</id>
-                <phase>generate-resources</phase>
-                <goals>
-                  <goal>process-asciidoc</goal>
-                </goals>
-                <configuration>
-                  <sourceDocumentName>README.de.adoc</sourceDocumentName>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-      </profile>
-  </profiles>
+    <profiles>
+        <profile>
+            <id>generate-readme</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctor-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>generate-readme</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>process-asciidoc</goal>
+                                </goals>
+                                <configuration>
+                                    <sourceDocumentName>README.adoc</sourceDocumentName>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>generate-de-readme</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>process-asciidoc</goal>
+                                </goals>
+                                <configuration>
+                                    <sourceDocumentName>README.de.adoc</sourceDocumentName>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 
