@@ -9,3 +9,10 @@ Eine Gruppe von Eingabefeldern oder eine Tabelle wird als _Section_ bezeichnet. 
 Eine Section legt außderdem fest, in welcher Anordnung der Inhalt dargestellt werden soll: horizontal oder vertikal. Im horizontalen Layout werden alle Eingabefelder in einer Zeile, nebeneinander dargestellt. Im vertikalen Layout werden die Felder untereinander dargetstellt. Wenn zusätzlich eine Anzahl von Spalten durch die Eigenschaft `columns` festgelegt wird, wird zeilenweise (links-rechts) eine Art Grid Layout aufgebaut.
 
 Die Section kann anstatt mehrere Eingabefelder auch eine Tabelle enthalten und wird dann als _TableSection_ genannt.
+
+[[section-id]]
+==== SectionID
+
+Auf jedes HTML Element einer Section kann per ID zugegriffen werden. Dies kann beispielsweise benutzt werden, um eine Section für UI-testing zu identifizieren. Standardmäßig wird die ID mit dem SimpleName der Klasse vorbelegt. Alternativ kann mit der Annotation '@SectionID' eine Methode markiert werden, welche die ID der Section zurückgibt.
+
+Eine Section, die mit '@SectionID' markiert ist, ruft die hinterlegte Methode genau einmal auf. Diese bleibt für die Sitzung unverändert und wird auch nicht dynamisch aktualisiert.

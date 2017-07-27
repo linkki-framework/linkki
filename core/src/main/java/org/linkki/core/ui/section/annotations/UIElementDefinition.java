@@ -30,12 +30,16 @@ import com.vaadin.ui.Component;
  */
 public interface UIElementDefinition extends BindingDefinition {
 
+
     Component newComponent();
 
+    /** Mandatory attribute that defines the order in which UI-Elements are displayed */
     int position();
 
+    /** Provides a description label next to the UI element */
     String label();
 
+    /** Used by {@link UIButton} to enable or disable its {@link UIButton#label()} */
     boolean showLabel();
 
     /**

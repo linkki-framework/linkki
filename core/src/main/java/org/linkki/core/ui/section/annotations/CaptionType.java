@@ -6,10 +6,13 @@
 
 package org.linkki.core.ui.section.annotations;
 
+/**
+ * Available options how the caption is retrieved
+ */
 public enum CaptionType {
 
     /**
-     * Defined by the attribute caption.
+     * Caption is defined by the attribute <code>caption</code>.
      */
     STATIC,
 
@@ -19,7 +22,8 @@ public enum CaptionType {
     NONE,
 
     /**
-     * Caption is bound to the property using the method get&lt;PropertyName&gt;Caption().
+     * Caption is bound to the property using the method
+     * <code>get&lt;PropertyName&gt;Caption()</code>.
      */
     DYNAMIC;
 }

@@ -9,8 +9,15 @@ package org.linkki.core.ui.section.annotations;
  */
 public interface UIFieldDefinition extends UIElementDefinition {
 
+    /**
+     * Name of the model object that is to be bound if multiple model objects are included for model
+     * binding
+     */
     String modelObject();
 
+    /**
+     * The name of a property in the class of the bound {@link ModelObject} to use model binding
+     */
     String modelAttribute();
 
 }

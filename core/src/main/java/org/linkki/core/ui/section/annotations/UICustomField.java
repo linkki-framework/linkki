@@ -13,25 +13,46 @@ import org.linkki.core.ui.section.annotations.adapters.CustomFieldBindingDefinit
 
 import com.vaadin.ui.Field;
 
+/**
+ * {@link UICustomField} can include other, more individual controls. The property
+ * {@link UICustomField#uiControl()} selects the control class. If that class inherits
+ * {@link com.vaadin.ui.AbstractSelect} the values can be included from {@link AvailableValuesType}.
+ * <p>
+ * {@link UICustomField} only supports controls which define an constructor without parameters.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CustomFieldBindingDefinition.class)
 public @interface UICustomField {
 
+    /** Mandatory attribute that defines the order in which UI-Elements are displayed */
     int position();
 
+    /** Provides a description label next to the UI-Element */
     String label() default "";
 
     boolean noLabel() default false;
 
+    /**
+     * Name of the model object that is to be bound if multiple model objects are included for model
+     * binding
+     */
     String modelObject() default ModelObject.DEFAULT_NAME;
 
+    /**
+     * The name of a property in the class of the bound {@link ModelObject} to use model binding
+     */
     String modelAttribute() default "";
 
+    /** Defines if an UI-Component is editable, using values of {@link EnabledType} */
     EnabledType enabled() default ENABLED;
 
+    /** Required() marks mandatory fields visually */
     RequiredType required() default NOT_REQUIRED;
 
+    /**
+     * Specifies if a component is shown, using values of {@link VisibleType}
+     */
     VisibleType visible() default VISIBLE;
 
     /**

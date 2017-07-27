@@ -20,18 +20,30 @@ import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
 import com.vaadin.server.FontAwesome;
 
+/**
+ * Marks a method which is carried out when the {@link UIButton} is clicked.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(ButtonBindingDefinition.class)
 public @interface UIButton {
+
+    /** Mandatory attribute that defines the order in which UI-Elements are displayed */
     int position();
 
+    /** Provides a description label next to the button */
     String label() default "";
 
+    /** Displays a label next to the button. Buttons don't show their label by default */
     boolean showLabel() default false;
 
+    /**
+     * Static text displayed on the button. If the value should be determined dynamically, use
+     * {@link CaptionType#DYNAMIC} instead and ignore this attribute
+     */
     String caption() default "";
 
+    /** Defines how the value of caption should be retrieved, using values of {@link EnabledType} */
     CaptionType captionType() default CaptionType.STATIC;
 
     /**
@@ -41,14 +53,23 @@ public @interface UIButton {
     @Deprecated
     boolean showCaption() default true;
 
+    /** Defines if an UI-Component is editable, using values of {@link EnabledType} */
     EnabledType enabled() default ENABLED;
 
+    /**
+     * Specifies if a component is shown, using values of {@link VisibleType}
+     */
     VisibleType visible() default VISIBLE;
 
+    /** Defines the button's icon, using constants in {@link FontAwesome} */
     FontAwesome icon() default FontAwesome.PLUS;
 
+    /** If <code>true</code>, the button will be displayed with the defined {@link #icon()} */
     boolean showIcon() default false;
 
+    /**
+     * Defines a list of CSS class names that are added to the created UI component.
+     */
     String[] styleNames() default {};
 
     /**

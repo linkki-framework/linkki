@@ -5,6 +5,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.vaadin.shared.ui.grid.GridConstants.Section;
+
+/**
+ * Responsible for creating a {@link Section} in the UI from the annotated PMO class that may
+ * include other UI-Elements.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface UISection {
@@ -21,7 +27,7 @@ public @interface UISection {
     /** The caption text for the section. */
     String caption() default "";
 
-    /** Whether or not the section can be closed by the user. */
+    /** Whether or not the section can be collapsed by the user. */
     boolean closeable() default false;
 
 }
