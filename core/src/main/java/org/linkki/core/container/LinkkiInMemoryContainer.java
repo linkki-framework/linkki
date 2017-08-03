@@ -97,13 +97,14 @@ public class LinkkiInMemoryContainer<T>
     }
 
     /**
-     * A simple Wrapper class for the Object in {@link LinkkiInMemoryContainer}.
+     * A simple Wrapper class for the Object in {@link LinkkiInMemoryContainer}. This class needs to
+     * be public to ensure that it can be accessed from all JVM versions.
      * <p>
      * This wrapper is needed to 'override' the {@link #equals(Object)} and {@link #hashCode()} of
      * the containing objects for our 'need to reload the container' check.
      */
     @ParametersAreNullableByDefault
-    protected static class LinkkiItemWrapper<T> implements Item {
+    public static class LinkkiItemWrapper<T> implements Item {
 
         private static final long serialVersionUID = -8239631444860890275L;
 
