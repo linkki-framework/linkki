@@ -103,7 +103,7 @@ public class LinkkiInMemoryContainer<T>
      * the containing objects for our 'need to reload the container' check.
      */
     @ParametersAreNullableByDefault
-    protected static class LinkkiItemWrapper<T> implements Item {
+    public static class LinkkiItemWrapper<T> implements Item {
 
         private static final long serialVersionUID = -8239631444860890275L;
 
