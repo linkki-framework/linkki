@@ -6,6 +6,7 @@ import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.framework.provider.SecurityContextProvider;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
+import org.linkki.framework.ui.messages.Messages;
 
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.server.FontAwesome;
@@ -57,10 +58,10 @@ public class ApplicationHeader extends HorizontalLayout {
         menuWrapper.addComponent(menuBar);
         menuBar.setSizeUndefined();
         menuBar.addStyleName(ApplicationStyles.BORDERLESS);
-        MenuItem item = menuBar.addItem("", FontAwesome.QUESTION_CIRCLE, null);
+        MenuItem item = menuBar.addItem("", FontAwesome.QUESTION_CIRCLE, null); //$NON-NLS-1$
         item.setStyleName(ApplicationStyles.APPLICATION_HEADER);
-        item.addItem("Hilfe", null);
-        item.addItem("Tastaturkürzel", null);
+        item.addItem(Messages.getString("ApplicationHeader.Help"), null); //$NON-NLS-1$
+        item.addItem(Messages.getString("ApplicationHeader.Shortcuts"), null); //$NON-NLS-1$
     }
 
     private void createUserSection(HorizontalLayout menuWrapper) {
@@ -78,17 +79,17 @@ public class ApplicationHeader extends HorizontalLayout {
         menuWrapper.addComponent(menuBar);
         menuBar.setSizeUndefined();
         menuBar.addStyleName(ValoTheme.MENUBAR_BORDERLESS);
-        MenuItem item = menuBar.addItem("", null);
+        MenuItem item = menuBar.addItem("", null); //$NON-NLS-1$
         item.setStyleName(ApplicationStyles.APPLICATION_HEADER);
-        item.addItem("Preferenzen", null);
+        item.addItem(Messages.getString("ApplicationHeader.Preferences"), null); //$NON-NLS-1$
         item.addSeparator();
-        item.addItem("Logout", newLogoutCommand());
+        item.addItem(Messages.getString("ApplicationHeader.Logout"), newLogoutCommand()); //$NON-NLS-1$
 
     }
 
     private Command newLogoutCommand() {
         return selectedItem -> {
-            getUI().getPage().setLocation("./logout");
+            getUI().getPage().setLocation("./logout"); //$NON-NLS-1$
         };
     }
 
