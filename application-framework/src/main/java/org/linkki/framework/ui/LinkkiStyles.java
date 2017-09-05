@@ -7,19 +7,31 @@
 package org.linkki.framework.ui;
 
 import org.apache.deltaspike.core.api.config.ConfigResolver;
+import org.linkki.framework.ui.component.SidebarComposite;
 
 public final class LinkkiStyles {
 
 
-    /**
-     * Prefix for message label style classes. The errorLevel in lower case is used as suffix
-     */
+    /** Prefix for message label style classes. The errorLevel in lower case is used as suffix */
     public static final String MESSAGE_PREFIX = "linkki-message-"; //$NON-NLS-1$
 
-    /**
-     * Style class prefix message labels. The errorLevel in lower case is used as suffix
-     */
+    /** Style class prefix message labels. The errorLevel in lower case is used as suffix */
     public static final String MESSAGE_LIST_STYLE = "linkki-message-list"; //$NON-NLS-1$
+
+    /** Style class for {@link SidebarComposite} */
+    public static final String SIDEBAR_COMPOSITE = "linkki-sidebar-container"; //$NON-NLS-1$
+
+    /** Style class for the sidebar of {@link SidebarComposite} */
+    public static final String SIDEBAR = "linkki-sidebar"; //$NON-NLS-1$
+
+    /** Style class for selected icons in the sidebar of {@link SidebarComposite} */
+    public static final String SIDEBAR_SELECTED = "selected"; //$NON-NLS-1$
+
+    /** Style class for the content in {@link SidebarComposite} */
+    public static final String SIDEBAR_CONTENT = "linkki-sidebar-content"; //$NON-NLS-1$
+
+    /** Style class for the hidden elements in the content layout of {@link SidebarComposite} */
+    public static final String SIDEBAR_CONTENT_HIDDEN = "hidden"; //$NON-NLS-1$
 
     /**
      * Vaadin theme name. Loaded from DeltaSpike

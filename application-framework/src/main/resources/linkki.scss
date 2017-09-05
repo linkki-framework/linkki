@@ -1,0 +1,264 @@
+/*
+* Styles for linkki application framework
+*
+* Some variables from valo are redefined to make this mixin usable standalone. 
+* Make sure to import valo.scss first if you want to use valo defaults.
+*/
+
+$v-app-background-color: #fdfdfd !default;
+$v-font-color: #474747 !default;
+$v-focus-color: #005596 !default;
+$v-border: 1px solid darken($ipm-color-background, 15%) !default;
+
+$linkki-color-primary: $v-focus-color !default;
+$linkki-color-messagepanel: mix(red, $v-app-background-color, 3%) !default;
+$linkki-sidebar-width: 56px !default;
+
+@mixin linkki {
+  .horizontal-section-spacing {
+    .v-label {
+        margin-right: 10px;
+        line-height: 1.75;
+    }
+  
+    .v-textfield {
+        margin-right: 10px;
+    }
+  }
+  
+  /* 
+  * Login popup
+  */
+  
+  .linkki-login-panel {
+    width: 100% !important;
+    padding: 8px;
+    @include background-image(linear-gradient(to bottom, $v-app-background-color 2%, $v-app-background-color 98%));
+  }
+  
+  .linkki-login-panel-caption {
+    width: 33% !important;
+  
+    .v-panel-caption {
+        color: white;
+        background-color: $linkki-color-primary;
+        @include background-image(linear-gradient(to bottom, $linkki-color-primary 2%, $linkki-color-primary 95%));
+    }
+  }
+  
+  /*
+  * Header
+  */
+  
+  .linkki-application-header {
+    color: white;
+    background-color: $linkki-color-primary;
+    width: 100% !important;
+  
+    .v-slot-linkki-application-menu {
+        position: absolute;
+        right: 0%;
+    }
+  
+    .v-menubar-menuitem-caption {
+        color: white;
+        font-size: 120%;
+    }
+    
+    .linkki-application-menu {
+        .v-menubar {
+            padding-right: 10px;
+        }
+  
+        .v-label {
+            padding-right: 5px;
+        }
+    }
+  }
+  
+  /*
+  * Sidebar Composite
+  */
+  
+  .linkki-sidebar-container {
+    width: 100%;
+    height: 100%;
+    padding-left: $linkki-sidebar-width;
+  }
+  
+  .linkki-sidebar {
+    background-color: darken($v-app-background-color, 4%);
+    height: 100%;
+    width: $linkki-sidebar-width;
+    margin-left: -$linkki-sidebar-width;
+    border-right: $v-border;
+  
+    .v-button {
+        background-color: inherit;
+        border: none;
+        font-size: 150%;
+        line-height: 2.5;
+        height: 2.5em;
+        width: 100%;
+  
+        &:focus:after{
+            @include box-shadow(none);
+        }
+    }
+  
+    .v-button.selected {
+        background-color: darken($v-app-background-color, 8%);
+    }
+  }
+  
+  .linkki-sidebar-content {
+    height: 100%;
+    width: 100%;
+    visibility: visible;
+    opacity: 1;
+    display: initial;
+  
+    .hidden {
+        display: none;
+        visibility: hidden;
+        opacity: 0;
+    }
+  }
+  
+  /* 
+  * Dialogs 
+  */
+  
+  .linkki-dialog-caption .v-window-outerheader {
+    font-size: 140%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: $v-font-color;
+  }
+  
+  .linkki-dialog-content {
+    padding: 10px 20px;
+  }
+  
+  .linkki-message-row {
+    padding: 1em 0px;
+  }
+  
+  /* 
+  * Messages panels
+  */
+  .v-panel-content-linkki-message-list {
+    max-height: 300px;
+  }
+  
+  .v-splitpanel-vsplitter-linkki-message-panel-split {
+    height: 2px !important;
+  }
+  
+  .v-panel-linkki-message-panel {
+    border: none;
+  }
+  
+  .v-panel-linkki-message-panel .v-table-cell-content {
+    border: none;
+    /* for separating lines between the messages:
+    border-right: none;
+    border-left: none;
+    border-color: #ed473b !important;
+    */
+  }
+  
+  .v-panel-linkki-message-panel .v-table-body {
+    border: none;
+  }
+  
+  .v-panel-caption-linkki-message-panel {
+    font-size: 110%;
+    font-weight: bold;
+    background-color: $linkki-color-messagepanel;
+    @include background-image(linear-gradient(to bottom, $linkki-color-messagepanel 0%, $linkki-color-messagepanel 100%));
+    border: none;
+    /* for separating lines between the messages:
+    border-color: #ed473b !important;
+    */
+  }
+  
+  .v-panel-content-linkki-message-panel tr{
+    background-color: white();
+    @include background-image(linear-gradient(to bottom, $linkki-color-messagepanel 0%, $linkki-color-messagepanel 100%));
+  }
+  
+  /* Styles for messages */
+  .v-caption-linkki-message-error .v-icon {
+    color: red;
+  }
+  
+  .v-label-linkki-message-error .v-icon {
+    color: red;
+  }
+  
+  .v-caption-linkki-message-warning .v-icon {
+    color: #f29400;
+  }
+  
+  .v-label-linkki-message-warning .v-icon {
+    color: #f29400;
+  }
+  
+  .v-caption-linkki-message-info .v-icon {
+    color: #3aaadc;
+  }
+  
+  .v-label-linkki-message-info .v-icon {
+    color: #3aaadc;
+  }
+  
+  /* 
+  * Tables
+  */
+  
+  .linkki-table {
+    width: 100% !important;
+  }
+  
+  .linkki-table-cell {
+    width: 100% !important;
+  }
+  
+  .v-button-linkki-table-cell {
+    text-align: left;
+  }
+    
+  /*
+  * Sections
+  */
+  
+  .linkki-section-caption {
+    /* Width of the horizontal layout */
+    width: 100%;
+    overflow: hidden;
+  
+    /* Space before section caption and below caption */
+    padding-top: 20px;
+    padding-bottom: 10px;
+  
+    /* Styles for the section's captions */
+    .v-slot-linkki-section-caption-text {
+        .linkki-section-caption-text {
+            font-size: 110%;
+            font-weight: bold;
+        }
+    }
+  
+    /* Puts a grey line as a separator between the different sections */
+    .v-slot-linkki-section-caption-line {
+        width: 100%;
+  
+        .v-label {
+            width: 100%;
+        }
+    }
+  } //end-linkki-section-caption
+}
