@@ -8,11 +8,32 @@
 $v-app-background-color: #fdfdfd !default;
 $v-font-color: #474747 !default;
 $v-focus-color: #005596 !default;
-$v-border: 1px solid darken($ipm-color-background, 15%) !default;
+$v-border: 1px solid darken($v-app-background-color, 15%) !default;
 
 $linkki-color-primary: $v-focus-color !default;
-$linkki-color-messagepanel: mix(red, $v-app-background-color, 3%) !default;
+$linkki-color-foreground-light: $v-font-color !default;
+$linkki-color-foreground-dark: white !default;
+$linkki-color-error: #ed473b !default;
+$linkki-color-warning: #f29400 !default;
+$linkki-color-info: #3aaadc !default;
+$linkki-color-messagepanel: mix($linkki-color-error, $v-app-background-color, 0.02) !default;
+
+$linkki-border: $v-border !default;
 $linkki-sidebar-width: 56px !default;
+
+/* Returns predefined foreground color depending on the darkness of the given background color. 
+* To automatically calculate a foreground color with enough constrast use valo-font-color instead
+*/
+@function linkki-foreground-color($bg-color){
+  @if type-of($bg-color) == color {
+      @if is-dark-color($bg-color){
+          @return $linkki-color-foreground-dark;
+      } @else {
+          @return $linkki-color-foreground-light;
+      }
+  }
+  @return null;
+}
 
 @mixin linkki {
   .horizontal-section-spacing {
@@ -40,7 +61,7 @@ $linkki-sidebar-width: 56px !default;
     width: 33% !important;
   
     .v-panel-caption {
-        color: white;
+        color: linkki-foreground-color($linkki-color-primary);
         background-color: $linkki-color-primary;
         @include background-image(linear-gradient(to bottom, $linkki-color-primary 2%, $linkki-color-primary 95%));
     }
@@ -51,7 +72,7 @@ $linkki-sidebar-width: 56px !default;
   */
   
   .linkki-application-header {
-    color: white;
+    color: linkki-foreground-color($linkki-color-primary);
     background-color: $linkki-color-primary;
     width: 100% !important;
   
@@ -61,7 +82,7 @@ $linkki-sidebar-width: 56px !default;
     }
   
     .v-menubar-menuitem-caption {
-        color: white;
+        color: linkki-foreground-color($linkki-color-primary);
         font-size: 120%;
     }
     
@@ -91,7 +112,7 @@ $linkki-sidebar-width: 56px !default;
     height: 100%;
     width: $linkki-sidebar-width;
     margin-left: -$linkki-sidebar-width;
-    border-right: $v-border;
+    border-right: $linkki-border;
   
     .v-button {
         background-color: inherit;
@@ -113,16 +134,7 @@ $linkki-sidebar-width: 56px !default;
   
   .linkki-sidebar-content {
     height: 100%;
-    width: 100%;
-    visibility: visible;
-    opacity: 1;
-    display: initial;
-  
-    .hidden {
-        display: none;
-        visibility: hidden;
-        opacity: 0;
-    }
+    width: 100%;  
   }
   
   /* 
@@ -133,9 +145,7 @@ $linkki-sidebar-width: 56px !default;
     font-size: 140%;
     padding-top: 10px;
     padding-bottom: 10px;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: $v-font-color;
+    border-bottom: $linkki-border;
   }
   
   .linkki-dialog-content {
@@ -186,33 +196,33 @@ $linkki-sidebar-width: 56px !default;
   }
   
   .v-panel-content-linkki-message-panel tr{
-    background-color: white();
+    background-color: $linkki-color-messagepanel;
     @include background-image(linear-gradient(to bottom, $linkki-color-messagepanel 0%, $linkki-color-messagepanel 100%));
   }
   
   /* Styles for messages */
   .v-caption-linkki-message-error .v-icon {
-    color: red;
+    color: $linkki-color-error;
   }
   
   .v-label-linkki-message-error .v-icon {
-    color: red;
+    color: $linkki-color-error;
   }
   
   .v-caption-linkki-message-warning .v-icon {
-    color: #f29400;
+    color: $linkki-color-warning;
   }
   
   .v-label-linkki-message-warning .v-icon {
-    color: #f29400;
+    color: $linkki-color-warning;
   }
   
   .v-caption-linkki-message-info .v-icon {
-    color: #3aaadc;
+    color: $linkki-color-info;
   }
   
   .v-label-linkki-message-info .v-icon {
-    color: #3aaadc;
+    color: $linkki-color-info;
   }
   
   /* 

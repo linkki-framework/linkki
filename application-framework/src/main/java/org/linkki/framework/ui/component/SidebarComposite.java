@@ -75,14 +75,14 @@ public abstract class SidebarComposite extends CssLayout {
     private void select(SidebarTabSheet tabSheet) {
         sidebarTabSheets.getSelected().ifPresent(this::unselect);
 
-        tabSheet.getContent().removeStyleName(LinkkiStyles.SIDEBAR_CONTENT_HIDDEN);
+        tabSheet.getContent().setVisible(true);
         tabSheet.getIcon().addStyleName(LinkkiStyles.SIDEBAR_SELECTED);
         sidebarTabSheets.select(tabSheet);
     }
 
     private void unselect(SidebarTabSheet tabSheet) {
         tabSheet.getIcon().removeStyleName(LinkkiStyles.SIDEBAR_SELECTED);
-        tabSheet.getContent().addStyleName(LinkkiStyles.SIDEBAR_CONTENT_HIDDEN);
+        tabSheet.getContent().setVisible(false);
     }
 
     /**

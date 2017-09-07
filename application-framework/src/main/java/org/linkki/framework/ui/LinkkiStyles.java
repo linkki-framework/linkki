@@ -30,9 +30,6 @@ public final class LinkkiStyles {
     /** Style class for the content in {@link SidebarComposite} */
     public static final String SIDEBAR_CONTENT = "linkki-sidebar-content"; //$NON-NLS-1$
 
-    /** Style class for the hidden elements in the content layout of {@link SidebarComposite} */
-    public static final String SIDEBAR_CONTENT_HIDDEN = "hidden"; //$NON-NLS-1$
-
     /**
      * Vaadin theme name. Loaded from DeltaSpike
      */
