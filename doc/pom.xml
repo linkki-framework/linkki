@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.linkki</groupId>
         <artifactId>linkki</artifactId>
-        <version>0.9.20170912</version>
+        <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>org.linkki</groupId>
             <artifactId>linkki-core</artifactId>
-            <version>0.9.20170912</version>
+            <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
