@@ -22,7 +22,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 
 /**
- * A layout consisting of a sidebar and a content area in which {@link SidebarTabSheets} are
+ * A contentArea consisting of a sidebar and a content area in which {@link SidebarTabSheets} are
  * displayed. The {@link SidebarTabSheet#getIcon() icon} of a {@link SidebarTabSheet} is added to
  * the sidebar as a navigator element. The selected {@link SidebarTabSheet#getContent() component}
  * is then shown in the content area.
@@ -32,21 +32,25 @@ public abstract class SidebarComposite extends CssLayout {
     private static final long serialVersionUID = 4896991400908887512L;
 
     private CssLayout sidebar;
-    private CssLayout layout;
+    private CssLayout contentArea;
 
     private SidebarTabSheets sidebarTabSheets;
 
     public SidebarComposite() {
+        // must be set for the splitpanels inside to zoom correctly
+        setSizeFull();
 
         this.sidebar = new CssLayout();
-        this.layout = new CssLayout();
+        this.contentArea = new CssLayout();
 
         sidebar.setStyleName(LinkkiStyles.SIDEBAR);
-        layout.setStyleName(LinkkiStyles.SIDEBAR_CONTENT);
+        contentArea.setStyleName(LinkkiStyles.SIDEBAR_CONTENT);
+        // must be set for the splitpanels inside to zoom correctly
+        contentArea.setSizeFull();
 
         setStyleName(LinkkiStyles.SIDEBAR_COMPOSITE);
         addComponent(sidebar);
-        addComponent(layout);
+        addComponent(contentArea);
 
         this.sidebarTabSheets = SidebarTabSheets.with();
     }
@@ -67,7 +71,7 @@ public abstract class SidebarComposite extends CssLayout {
         }
 
         sidebar.addComponent(tabSheet.getIcon());
-        layout.addComponent(tabSheet.getContent());
+        contentArea.addComponent(tabSheet.getContent());
 
         tabSheet.initUI();
     }
