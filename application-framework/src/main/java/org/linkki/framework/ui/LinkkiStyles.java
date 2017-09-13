@@ -7,7 +7,7 @@
 package org.linkki.framework.ui;
 
 import org.apache.deltaspike.core.api.config.ConfigResolver;
-import org.linkki.framework.ui.component.SidebarComposite;
+import org.linkki.framework.ui.component.sidebar.SidebarLayout;
 
 public final class LinkkiStyles {
 
@@ -18,16 +18,16 @@ public final class LinkkiStyles {
     /** Style class prefix message labels. The errorLevel in lower case is used as suffix */
     public static final String MESSAGE_LIST_STYLE = "linkki-message-list"; //$NON-NLS-1$
 
-    /** Style class for {@link SidebarComposite} */
-    public static final String SIDEBAR_COMPOSITE = "linkki-sidebar-container"; //$NON-NLS-1$
+    /** Style class for {@link SidebarLayout} */
+    public static final String SIDEBAR_LAYOUT = "linkki-sidebar-layout"; //$NON-NLS-1$
 
-    /** Style class for the sidebar of {@link SidebarComposite} */
+    /** Style class for the sidebar of {@link SidebarLayout} */
     public static final String SIDEBAR = "linkki-sidebar"; //$NON-NLS-1$
 
-    /** Style class for selected icons in the sidebar of {@link SidebarComposite} */
+    /** Style class for selected icons in the sidebar of {@link SidebarLayout} */
     public static final String SIDEBAR_SELECTED = "selected"; //$NON-NLS-1$
 
-    /** Style class for the content in {@link SidebarComposite} */
+    /** Style class for the content in {@link SidebarLayout} */
     public static final String SIDEBAR_CONTENT = "linkki-sidebar-content"; //$NON-NLS-1$
 
     /**
