@@ -69,26 +69,6 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-cdi</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-ldap</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security.kerberos</groupId>
-			<artifactId>spring-security-kerberos-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security.kerberos</groupId>
-			<artifactId>spring-security-kerberos-client</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>

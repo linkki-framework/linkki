@@ -4,7 +4,6 @@ import javax.inject.Inject;
 
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.util.ComponentFactory;
-import org.linkki.framework.provider.SecurityContextProvider;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.messages.Messages;
 
@@ -30,9 +29,6 @@ public class ApplicationHeader extends HorizontalLayout {
     @Inject
     private ApplicationMenu applicationMenu;
 
-    @Inject
-    private SecurityContextProvider securityCtxProvider;
-
     protected void init() {
         addStyleName(ApplicationStyles.APPLICATION_HEADER);
         setMargin(new MarginInfo(true, false, true, false));
@@ -44,16 +40,20 @@ public class ApplicationHeader extends HorizontalLayout {
         menuWrapper.addStyleName(ApplicationStyles.APPLICATION_MENU);
         addComponent(menuWrapper);
 
+        createSections(menuWrapper);
+
+        setExpandRatio(menuWrapper, 1);
+    }
+
+    protected void createSections(HorizontalLayout menuWrapper) {
         createHelpSection(menuWrapper);
 
         ComponentFactory.addHorizontalFixedSizeSpacer(menuWrapper, 20);
 
         createUserSection(menuWrapper);
-
-        setExpandRatio(menuWrapper, 1);
     }
 
-    private void createHelpSection(HorizontalLayout menuWrapper) {
+    protected void createHelpSection(HorizontalLayout menuWrapper) {
         MenuBar menuBar = new MenuBar();
         menuWrapper.addComponent(menuBar);
         menuBar.setSizeUndefined();
@@ -64,12 +64,12 @@ public class ApplicationHeader extends HorizontalLayout {
         item.addItem(Messages.getString("ApplicationHeader.Shortcuts"), null); //$NON-NLS-1$
     }
 
-    private void createUserSection(HorizontalLayout menuWrapper) {
+    protected void createUserSection(HorizontalLayout menuWrapper) {
 
         ComponentFactory.labelIcon(menuWrapper, FontAwesome.USER);
         // ComponentFactory.addHorizontalFixedSizeSpacer(menuWrapper, 5);
 
-        String userName = securityCtxProvider.get().getAuthentication().getName();
+        String userName = getUserName();
 
         Label l = ComponentFactory.sizedLabel(menuWrapper, userName);
 
@@ -87,7 +87,11 @@ public class ApplicationHeader extends HorizontalLayout {
 
     }
 
-    private Command newLogoutCommand() {
+    protected String getUserName() {
+        return "anonymous"; //$NON-NLS-1$
+    }
+
+    protected Command newLogoutCommand() {
         return selectedItem -> {
             getUI().getPage().setLocation("./logout"); //$NON-NLS-1$
         };

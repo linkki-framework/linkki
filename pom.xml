@@ -32,9 +32,6 @@
         <commons-lang3.version>3.4</commons-lang3.version>
         <jboss-javaee-6.version>3.0.3.Final</jboss-javaee-6.version>
         <deltaspike.version>1.4.1</deltaspike.version>
-        <spring.version>3.2.13.RELEASE</spring.version>
-        <spring.security.version>3.2.10.RELEASE</spring.security.version>
-        <spring.kerberos.version>1.0.1.RELEASE</spring.kerberos.version>
     </properties>
 
     <build>
@@ -330,31 +327,6 @@
                 <artifactId>deltaspike-core-impl</artifactId>
                 <version>${deltaspike.version}</version>
                 <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-web</artifactId>
-                <version>${spring.security.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-config</artifactId>
-                <version>${spring.security.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-ldap</artifactId>
-                <version>${spring.security.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security.kerberos</groupId>
-                <artifactId>spring-security-kerberos-web</artifactId>
-                <version>${spring.kerberos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security.kerberos</groupId>
-                <artifactId>spring-security-kerberos-client</artifactId>
-                <version>${spring.kerberos.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
