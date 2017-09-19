@@ -38,6 +38,7 @@ public interface PropertyDispatcher {
     /**
      * @return the model object containing the property.
      */
+    @Nullable
     public Object getBoundObject();
 
     /**

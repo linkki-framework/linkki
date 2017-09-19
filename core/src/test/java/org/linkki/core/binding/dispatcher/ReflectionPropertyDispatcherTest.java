@@ -81,7 +81,8 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
-    public void testGetValue() {
+    public void testGetValueFromPmo() {
+
         assertEquals("890", setupPmoDispatcher(XYZ).getValue());
     }
 
@@ -340,12 +341,28 @@ public class ReflectionPropertyDispatcherTest {
         assertThat(dispatcher.getCaption(), is("HodorHodor"));
     }
 
+    @Test
+    public void testModelObjectNullReturn() {
+        testModelObject = null;
+        testPmo = new TestPMO(null);
+
+        assertEquals("890", setupModelObjectDispatcher("xyz").getValue());
+    }
+
     private ReflectionPropertyDispatcher setupPmoDispatcher(String property) {
         ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(property, testModelObject,
                 testPmo);
         ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(this::getTestModelObject,
                 property, exceptionDispatcher);
         return new ReflectionPropertyDispatcher(this::getTestPmo, property, modelObjectDispatcher);
+    }
+
+    private ReflectionPropertyDispatcher setupModelObjectDispatcher(String property) {
+        ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(property, testModelObject,
+                testPmo);
+        ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
+                property, exceptionDispatcher);
+        return new ReflectionPropertyDispatcher(this::getTestModelObject, property, modelObjectDispatcher);
     }
 
     public static class TestPMO {

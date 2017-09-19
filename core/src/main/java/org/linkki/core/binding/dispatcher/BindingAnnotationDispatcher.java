@@ -133,10 +133,14 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
     @Override
     @CheckForNull
     public String getCaption() {
+        Object boundObject = getBoundObject();
+        if (boundObject == null) {
+            return "";
+        }
         if (bindingDescriptor instanceof ButtonDescriptor) {
             if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.STATIC) {
                 String caption = ((ButtonDescriptor)bindingDescriptor).caption();
-                String nlsCaption = pmoNlsService.getLabel(PmoLabelType.BUTTON_CAPTION, getBoundObject().getClass(),
+                String nlsCaption = pmoNlsService.getLabel(PmoLabelType.BUTTON_CAPTION, boundObject.getClass(),
                                                            getProperty(), caption);
 
                 return nlsCaption;
@@ -152,11 +156,15 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
     @Override
     @CheckForNull
     public String getToolTip() {
+        Object boundObject = getBoundObject();
+        if (boundObject == null) {
+            return "";
+        }
         if (bindingDescriptor.getToolTipType() == ToolTipType.DYNAMIC) {
             return super.getToolTip();
         }
         String toolTip = bindingDescriptor.getToolTip();
-        String nlsToolTip = pmoNlsService.getLabel(PmoLabelType.TOOLTIP, getBoundObject().getClass(),
+        String nlsToolTip = pmoNlsService.getLabel(PmoLabelType.TOOLTIP, boundObject.getClass(),
                                                    getProperty(), toolTip);
         return nlsToolTip;
     }

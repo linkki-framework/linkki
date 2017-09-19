@@ -56,6 +56,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         return property;
     }
 
+    @Nullable
     @Override
     public Object getBoundObject() {
         return boundObjectSupplier.get();
@@ -72,7 +73,12 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     private PropertyAccessor getAccessor(String propertyToAccess) {
-        return PropertyAccessorCache.get(getBoundObject().getClass(), propertyToAccess);
+        Object boundObject = getBoundObject();
+        if (boundObject == null) {
+            throw new IllegalStateException("Should not be called without checking canRead or canWrite!");
+        } else {
+            return PropertyAccessorCache.get(boundObject.getClass(), propertyToAccess);
+        }
     }
 
     @Override
@@ -129,11 +135,19 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     private boolean canRead(String propertyToRead) {
-        return getAccessor(propertyToRead).canRead();
+        if (getBoundObject() == null) {
+            return false;
+        } else {
+            return getAccessor(propertyToRead).canRead();
+        }
     }
 
     private boolean canWrite(String propertyToWrite) {
-        return getAccessor(propertyToWrite).canWrite();
+        if (getBoundObject() == null) {
+            return false;
+        } else {
+            return getAccessor(propertyToWrite).canWrite();
+        }
     }
 
     /**
@@ -143,10 +157,15 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
      */
     @Override
     public MessageList getMessages(MessageList messageList) {
-        MessageList msgListForBoundObject = messageList.getMessagesFor(getBoundObject(), getProperty());
-        msgListForBoundObject.add(fallbackDispatcher.getMessages(messageList));
-        // TODO may additionally call a method like "get<Property>Messages()"
-        return msgListForBoundObject;
+        Object boundObject = getBoundObject();
+        if (boundObject == null) {
+            return new MessageList();
+        } else {
+            MessageList msgListForBoundObject = messageList.getMessagesFor(boundObject, getProperty());
+            msgListForBoundObject.add(fallbackDispatcher.getMessages(messageList));
+            // TODO may additionally call a method like "get<Property>Messages()"
+            return msgListForBoundObject;
+        }
     }
 
     @Override
@@ -170,8 +189,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     private Object get(Function<String, String> methodNameProvider, Supplier<Object> fallbackProvider) {
         String methodName = methodNameProvider.apply(property);
         if (canRead(methodName)) {
-            Object propertyValue = getAccessor(methodName).getPropertyValue(getBoundObject());
-            return propertyValue;
+            return getAccessor(methodName).getPropertyValue(getBoundObject());
         } else {
             return fallbackProvider.get();
         }
