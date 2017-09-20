@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
-import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
+import static org.junit.Assert.assertTrue;
 
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -92,7 +92,7 @@ public class OkCancelDialogTest {
         // mandatory field validations are hidden initially
         assertThat(dialog.getValidationDisplayState(), is(ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS));
         MessageList dialogMessage = dialog.validate();
-        assertThat(dialogMessage, is(emptyMessageList()));
+        assertTrue(dialogMessage.isEmpty());
         assertThat(dialog, is(not(displayingMessage())));
         assertThat(dialog, is(showingEnabledOkButton()));
 
