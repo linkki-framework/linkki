@@ -10,7 +10,7 @@
 
 Domain Model Binding, oder kurz "Model Binding", ist ein *linkki* Feature zur Vermeidung unnötigen Codes in PMO Klassen. Es zielt auf den "einfachen" Fall bei der Anbindung von UIs ab, in dem Eigenschaften aus dem Domain Model unverändert an der Oberfläche angezeigt werden. Unverändert bedeutet, dass das PMO keine Umformattierung oder andere Konvertierungen durchführen muss, bevor Werte in der UI angezeigt werden können. 
 
-Um dieses Feature nutzen zu können, muss das UI mittels <<pmo-uisection,`@UISection`>> erstellt werden. Die Getter-Methode für das Modellobjekt im PMO muss dann mit der Annotation `@ModelObject` markiert werden. 
+Um dieses Feature nutzen zu können, muss das UI mittels <<pmo-uisection,`@UISection`>> erstellt werden. Die Getter-Methode für das Modellobjekt im PMO muss dann mit der Annotation `@ModelObject` markiert werden.
 
 [source,java]
 ----
@@ -63,4 +63,6 @@ Im obigen Beispiel definiert die Annotation von `vornameVersichertePerson()`, da
 * Speichern des zurückgegebenen Person-Objekts
 * Aufrufen des Getters für `firstname` am ermittelten Person-Objekt
 
-Wird in der Annotation keine Eigenschaft `modelObject` angegeben, so wird die Methode aufgerufen, die mit `@ModelObject` (ohne weiteren Namen) annotiert wurde. Dementsprechend wird für `vornameVersicherungsnehmer()` das Modellobjekt über `getPolicyHolder()` ermittelt.  
+Wird in der Annotation keine Eigenschaft `modelObject` angegeben, so wird die Methode aufgerufen, die mit `@ModelObject` (ohne weiteren Namen) annotiert wurde. Dementsprechend wird für `vornameVersicherungsnehmer()` das Modellobjekt über `getPolicyHolder()` ermittelt.
+
+Sollte es Zustände geben, in denen eine mit `@ModelObject` annotierte Methode `null` zurück gibt, müssen weiterhin Getter-Methoden implementiert werden. Diese Getter-Methoden müssen an das vorhandene Modellobject delegieren und gegebenenfalls Defaultwerte liefern, wenn das Modellobjekt nicht vorhanden ist. Die Setter-Methoden müssen nicht explizit implementiert werden. Die Felder werden als Read Only behandelt, solange kein Modellobjekt vorhanden ist. Sobald ein Modellobjekt verfügbar ist, wird die Setter-Methode des Modellobjekts automatisch aufgerufen.
