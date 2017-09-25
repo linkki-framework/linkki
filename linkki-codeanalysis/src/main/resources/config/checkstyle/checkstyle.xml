@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+<!--
+    Checkstyle-Configuration: Faktor Zehn
+    Description: none
+-->
+<module name="Checker">
+  <property name="severity" value="warning"/>
+  <module name="TreeWalker">
+    <module name="FileContentsHolder"/>
+    <module name="ConstantName"/>
+    <module name="LocalFinalVariableName"/>
+    <module name="LocalVariableName"/>
+    <module name="MemberName"/>
+    <module name="MethodName"/>
+    <module name="PackageName"/>
+    <module name="ParameterName"/>
+    <module name="StaticVariableName"/>
+    <module name="TypeName">
+      <property name="format" value="^[A-Z][a-zA-Z0-9_]*$"/>
+    </module>
+    <module name="AvoidStarImport"/>
+    <module name="IllegalImport"/>
+    <module name="RedundantImport"/>
+    <module name="MethodLength"/>
+    <module name="ParameterNumber"/>
+    <module name="EmptyForIteratorPad"/>
+    <module name="MethodParamPad"/>
+    <module name="NoWhitespaceBefore"/>
+    <module name="ParenPad"/>
+    <module name="WhitespaceAfter">
+      <property name="tokens" value="COMMA,SEMI"/>
+    </module>
+    <module name="WhitespaceAround"/>
+    <module name="ModifierOrder"/>
+    <module name="RedundantModifier">
+      <property name="tokens" value="ANNOTATION_FIELD_DEF"/>
+    </module>
+    <module name="AvoidNestedBlocks"/>
+    <module name="EmptyBlock"/>
+    <module name="LeftCurly"/>
+    <module name="NeedBraces"/>
+    <module name="RightCurly"/>
+    <module name="EmptyStatement"/>
+    <module name="EqualsHashCode"/>
+    <module name="HiddenField">
+      <property name="tokens" value="VARIABLE_DEF"/>
+    </module>
+    <module name="IllegalInstantiation"/>
+    <module name="InnerAssignment"/>
+    <module name="SimplifyBooleanExpression"/>
+    <module name="SimplifyBooleanReturn"/>
+    <module name="HideUtilityClassConstructor"/>
+    <module name="InterfaceIsType"/>
+    <module name="VisibilityModifier"/>
+    <module name="ArrayTypeStyle"/>
+    <module name="UpperEll"/>
+    <module name="NoWhitespaceAfter">
+      <property name="tokens" value="BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS,TYPECAST"/>
+    </module>
+    <module name="TypecastParenPad">
+      <property name="tokens" value="RPAREN,TYPECAST"/>
+    </module>
+    <module name="MissingDeprecated"/>
+    <module name="OuterTypeNumber"/>
+    <module name="AnonInnerLength"/>
+    <module name="TrailingComment">
+      <property name="legalComment" value="^(\$.+$)?$"/>
+    </module>
+    <module name="InnerTypeLast"/>
+    <module name="MutableException"/>
+    <module name="ThrowsCount">
+      <property name="max" value="2"/>
+    </module>
+    <module name="DeclarationOrder"/>
+    <module name="DefaultComesLast"/>
+    <module name="CovariantEquals"/>
+    <module name="EqualsAvoidNull"/>
+    <module name="IllegalCatch"/>
+    <module name="IllegalThrows"/>
+    <module name="ModifiedControlVariable"/>
+    <module name="MultipleVariableDeclarations"/>
+    <module name="PackageDeclaration"/>
+    <module name="ParameterAssignment"/>
+    <module name="StringLiteralEquality"/>
+    <module name="OneStatementPerLine"/>
+    <module name="BooleanExpressionComplexity">
+      <property name="tokens" value="LAND,LOR"/>
+    </module>
+    <module name="CyclomaticComplexity"/>
+    <module name="OuterTypeFilename"/>
+    <module name="SuppressWarningsHolder">
+      <property name="aliasList"
+         value="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck=all,com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck=all,com.puppycrawl.tools.checkstyle.checks.sizes.FileLengthCheck=all" />
+    </module>
+  </module>
+  <module name="FileLength"/>
+  <module name="FileTabCharacter"/>
+  <module name="SuppressionFilter">
+        <property name="file" value="${checkstyle.suppressions.file}"/>
+  </module>
+  <module name="SuppressWarningsFilter"/>
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CSOFF\: ([\w\|]+)"/>
+    <property name="onCommentFormat" value="CSON\: ([\w\|]+)"/>
+    <property name="checkFormat" value="$1"/>
+  </module>
+  <module name="SuppressWithNearbyCommentFilter">
+    <property name="commentFormat" value=".*BEGIN FAKTORIPS GENERATOR INFORMATION SECTION.*"/>
+    <property name="checkFormat" value="FileLengthCheck"/>
+    <property name="influenceFormat" value="-2"/>
+  </module>
+</module>

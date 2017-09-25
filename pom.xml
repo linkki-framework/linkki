@@ -9,6 +9,7 @@
     <name>Linkki</name>
 
     <modules>
+        <module>linkki-codeanalysis</module>
         <module>test</module>
         <module>utils</module>
         <module>core</module>
@@ -19,13 +20,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
         <m2e.jdt.annotationpath>.settings/annotations</m2e.jdt.annotationpath>
-
         <git.user>${user.name}</git.user>
-
         <vaadin.version>7.7.6</vaadin.version>
-        
         <joda-time.version>2.4</joda-time.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.8</mockito.version>
@@ -35,14 +32,6 @@
     </properties>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>de.faktorzehn</groupId>
-                <artifactId>faktorzehn-codeanalysis</artifactId>
-                <version>1.0.0</version>
-            </extension>
-        </extensions>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -86,9 +75,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.linkki</groupId>
+                        <artifactId>linkki-codeanalysis</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
-                    <configLocation>checkstyle/checkstyle.xml</configLocation>
-                    <suppressionsLocation>checkstyle/suppressions.xml</suppressionsLocation>
+                    <configLocation>config/checkstyle/checkstyle.xml</configLocation>
+                    <suppressionsLocation>config/checkstyle/suppressions.xml</suppressionsLocation>
                     <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                     <propertyExpansion>config_loc=checkstyle</propertyExpansion>
                     <linkXRef>false</linkXRef>
@@ -108,10 +104,17 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.linkki</groupId>
+                        <artifactId>linkki-codeanalysis</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                     <threshold>Low</threshold>
-                    <excludeFilterFile>findbugs/exclusion-filter.xml</excludeFilterFile>
+                    <excludeFilterFile>config/findbugs/exclusion-filter.xml</excludeFilterFile>
                 </configuration>
                 <executions>
                     <execution>
@@ -225,7 +228,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
