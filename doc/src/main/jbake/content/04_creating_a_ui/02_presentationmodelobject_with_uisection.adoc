@@ -21,7 +21,7 @@ In the <<form-binding, first section>> the creation of a section for a 'standard
 .Binding with `@ModelObject`
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/pmo/PersonSectionPmo.java[tags=personPmo-class]
+include::{source-dir}/org/linkki/samples/binding/pmo/ContactSectionPmo.java[tags=contactPmo-class]
 ----
 TIP: The definition of `modelAttribute` is optional if the property name in the `ModelObject` and the name of the annotated method are equal. But it
 is recommended to specify the `modelAttribute` to make it explicit. The value should be externalized to a constant in the target model object.
@@ -33,14 +33,14 @@ To create a section with a table the PMO class must implement <<ui-container-pmo
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=personTablePmo-class]
+include::{source-dir}/org/linkki/samples/binding/pmo/ContactTablePmo.java[tags=contactTablePmo-class]
 ----
 
 The method `getItems()` returns the rows of the table in the form of the previously defined `T` 'row PMOs'.
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=personTablePmo-getItems]
+include::{source-dir}/org/linkki/samples/binding/pmo/ContactTablePmo.java[tags=contactTablePmo-getItems]
 ----
 
 In the `interface ContainerPmo<T>` additional `default` methods are defined. A detailed description can be found in the section about <<ui-container-pmo, ContainerPmo>>.
@@ -49,14 +49,14 @@ The so called 'Row PMO' is a regular PMO as described in <<form-binding, the fir
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-labelBinding]
+include::{source-dir}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
 ----
 
 All UI elements can be used in tables. The binding of a `@UIButton` looks as follows:
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-buttonBinding]
+include::{source-dir}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
 ----
 
 NOTE: In our example the elements of the table shall be presented as read-only. Therefore no direct binding of the `ModelObject` via the `@ModelObject` annotation is done. If the items of your table are provided from a model object you may consider to use `org.linkki.core.ui.table.SimpleTablePmo<MO, ROW>` which is described in chapter <<ui-tables, Tables>> in detail.

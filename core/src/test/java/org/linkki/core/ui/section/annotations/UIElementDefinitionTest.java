@@ -42,7 +42,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class UIElementDefinitionTest {
 
-    @UICheckBox(position = 0)
+    @UICheckBox(position = 0, caption = "")
     @UIComboBox(position = 0)
     @UIDateField(position = 0)
     @UIDoubleField(position = 0)

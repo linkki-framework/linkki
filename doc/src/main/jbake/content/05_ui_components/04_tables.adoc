@@ -17,11 +17,11 @@ The structure of the table is defined in a PMO class, whose instances represent 
 
 Row PMO classes are standard PMOs, which do not represent sections and thus shouldn't be annotated with `@UISection`.
 
-Here, the annotation <<ui-element,UI element>> defines the column in the table. A column showing the name of a person, for instance, can be setup as follows:
+Here, the annotation <<ui-element,UI element>> defines the column in the table. A column showing the name of a contact, for instance, can be setup as follows:
 
 [source, java]
 ----
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-labelBinding]
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
 ----
 
 [[ui-table-column]]
@@ -41,7 +41,7 @@ The method `List<T> getItems()` is called by the `TableBinding` to add the eleme
 By overwriting the `default` method `int getPageLength()` the number of lines shown can be controlled. By default 15 lines are shown. It is a common tactic to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
 
 ```java
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=page-length]
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactTablePmo.java[tags=page-length]
 ```
 
 The column structure of the table is determined by the class <<ui-row-pmo, row PMO>>, which is returned by the method `Class<? extends T> getItemPmoClass`. In the default implementation the class of the generic parameter `T` is returned. For tables that should have the same rows but different columns, this method can be overwritten to use a subclass of `T`.
@@ -61,7 +61,7 @@ The instancing is done with two parameters
 .Example initialising of a SimpleItemSuppliers
 [source, java]
 ----
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=item-supplier]
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactTablePmo.java[tags=item-supplier]
 ----
 
 [[ui-simple-table-pmo]]
@@ -71,7 +71,7 @@ Most commonly, the row PMO objects are converted from a list of model objects. I
 
 [source, java]
 ----
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/SimplePersonTablePmo.java[tags=simplePersonTablePmo]
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/SimpleContactTablePmo.java[tags=simpleContactTablePmo]
 ----
 
 [[ui-table-footer]]

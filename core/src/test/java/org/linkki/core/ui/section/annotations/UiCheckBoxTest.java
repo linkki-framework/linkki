@@ -61,7 +61,7 @@ public class UiCheckBoxTest {
             this.modelObject = modelObject;
         }
 
-        @UICheckBox(position = 1, modelAttribute = "booleanValue")
+        @UICheckBox(position = 1, modelAttribute = "booleanValue", caption = "")
         public void booleanValue() {
             // data binding
         }

@@ -173,7 +173,7 @@ public class DynamicFieldBindingTest {
     @UISection
     public static class PmoWithoutMethod {
 
-        @UICheckBox(position = POS, label = "label")
+        @UICheckBox(position = POS, caption = "label")
         @UIButton(position = POS, label = "label", showLabel = true)
         public void method() {
             /* model binding */ }

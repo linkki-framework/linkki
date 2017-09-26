@@ -25,40 +25,58 @@ import java.lang.annotation.Target;
 import org.linkki.core.ui.section.annotations.adapters.CheckboxBindingDefinition;
 
 /**
- * In accordance to {@link com.vaadin.ui.CheckBox}, bound to an boolean property.
+ * In accordance to {@link com.vaadin.ui.CheckBox}, bound to a boolean property.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CheckboxBindingDefinition.class)
 public @interface UICheckBox {
 
-    /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    /** Mandatory attribute that defines the order in which UI-Elements are displayed. */
     int position();
 
-    /** Provides a description label next to the UI element */
+    /**
+     * Provides a label on the left side of the check box.
+     * <p>
+     * Will not be displayed unless {@link #noLabel()} is {@code false}
+     */
     String label() default "";
 
-    boolean noLabel() default false;
+    /**
+     * Provides a caption on the right side of the check box.
+     * <p>
+     * Use an empty String as caption if no caption is needed.
+     * <p>
+     * For a label on the left, set {@link #noLabel()} to {@code false} and use {@link #label()} for
+     * the label text.
+     * <p>
+     * If the check box is used inside a {@link UITableColumn}, the {@link #label()} will be
+     * displayed in the column header while the {@link #caption()} will be displayed inside the
+     * table cell together with the check box.
+     */
+    String caption();
 
-    /** Defines if an UI-Component is editable, using values of {@link EnabledType} */
+    boolean noLabel() default true;
+
+    /** Defines if an UI-Component is editable, using values of {@link EnabledType}. */
     EnabledType enabled() default ENABLED;
 
     /** Marks mandatory fields visually */
     RequiredType required() default NOT_REQUIRED;
 
     /**
-     * Specifies if a component is shown, using values of {@link VisibleType}
+     * Specifies if a component is shown, using values of {@link VisibleType}.
      */
     VisibleType visible() default VISIBLE;
 
     /**
-     * Name of the model object that is to be bound if multiple model objects are included for model
-     * binding
+     * The name of the model object that is to be bound if multiple model objects are included for
+     * model binding.
      */
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
-     * The name of a property in the class of the bound {@link ModelObject} to use model binding
+     * The name of a property in the class of the bound {@link ModelObject} to use model binding.
      */
     String modelAttribute() default "";
 }

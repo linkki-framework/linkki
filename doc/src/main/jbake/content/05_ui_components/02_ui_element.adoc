@@ -133,7 +133,7 @@ The content of the label can be styled with HTML if `htmlContent=true` is specif
 .Example HTML Label Content
 [source, java]
 ----
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-labelHtmlContent]
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelHtmlContent]
 ----
 
 [[label-style-names]]
@@ -143,6 +143,11 @@ To style labels the property `styleNames` can be used to specify a list (actuall
 [[ui-checkbox]]
 ==== UICheckbox
 A `com.vaadin.ui.CheckBox`, bound to a boolean property.
+Instead of a label on the left side of the UI element, checkboxes usually have a caption on the right. This caption must be set with the property `caption`. If no caption is desired, an empty String must be set. 
+
+The usual `label` property is still available if any display text is needed on the left side additionally. However, the label has to be manually activated by setting `noLabel` to `false`.
+
+When used in a table, the `label` is used as the column name while the `caption` is displayed next to the checkbox in the table cell.
 
 [[ui-textfield]]
 ==== UITextField

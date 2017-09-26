@@ -19,26 +19,27 @@ import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.samples.binding.model.Person;
+import org.linkki.samples.binding.model.Contact;
 
-// tag::personPmo-class[]
+// tag::contactPmo-class[]
 @UISection
-public class PersonSectionPmo implements PresentationModelObject {
+public class ContactSectionPmo implements PresentationModelObject {
 
-    // end::personPmo-class[]
-    private Person person;
+    // end::contactPmo-class[]
+    private Contact contact;
 
-    public PersonSectionPmo(Person person) {
-        reset(person);
+    public ContactSectionPmo(Contact contact) {
+        reset(contact);
     }
 
-    // tag::personPmo-class[]
+    // tag::contactPmo-class[]
     @ModelObject
-    public Person getPerson() {
-        return person;
+    public Contact getContact() {
+        return contact;
     }
 
     @UITextField(position = 10, label = "Firstname", required = RequiredType.REQUIRED, modelAttribute = "firstname")
@@ -53,14 +54,19 @@ public class PersonSectionPmo implements PresentationModelObject {
     public void gender() {
         /* model binding only */ }
 
-    // end::personPmo-class[]
-    public void reset(Person newPerson) {
-        this.person = newPerson;
+    @UICheckBox(position = 40, caption = "Add to favorites")
+    public void favorite() {
+        /* model binding only */
+    }
+
+    // end::contactPmo-class[]
+    public void reset(Contact newContact) {
+        this.contact = newContact;
     }
 
     public boolean isInputValid() {
-        return !StringUtils.isEmpty(person.getFirstname()) && !StringUtils.isEmpty(person.getLastname());
+        return !StringUtils.isEmpty(contact.getFirstname()) && !StringUtils.isEmpty(contact.getLastname());
     }
-    // tag::personPmo-class[]
+    // tag::contactPmo-class[]
 }
-// end::personPmo-class[]
+// end::contactPmo-class[]

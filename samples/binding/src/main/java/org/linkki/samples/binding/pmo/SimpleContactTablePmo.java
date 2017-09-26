@@ -18,24 +18,24 @@ import java.util.function.Consumer;
 
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.SimpleTablePmo;
-import org.linkki.samples.binding.model.Person;
+import org.linkki.samples.binding.model.Contact;
 
-// tag::simplePersonTablePmo[]
+// tag::simpleContactTablePmo[]
 @UISection
-public class SimplePersonTablePmo extends SimpleTablePmo<Person, PersonRowPmo> {
+public class SimpleContactTablePmo extends SimpleTablePmo<Contact, ContactRowPmo> {
 
-    private final Consumer<Person> editAction;
-    private final Consumer<Person> deleteAction;
+    private final Consumer<Contact> editAction;
+    private final Consumer<Contact> deleteAction;
 
-    public SimplePersonTablePmo(List<Person> persons, Consumer<Person> editAction, Consumer<Person> deleteAction) {
-        super(persons);
+    public SimpleContactTablePmo(List<Contact> Contacts, Consumer<Contact> editAction, Consumer<Contact> deleteAction) {
+        super(Contacts);
         this.editAction = editAction;
         this.deleteAction = deleteAction;
     }
 
     @Override
-    protected PersonRowPmo createRow(Person person) {
-        return new PersonRowPmo(person, editAction, deleteAction);
+    protected ContactRowPmo createRow(Contact Contact) {
+        return new ContactRowPmo(Contact, editAction, deleteAction);
     }
 }
-// end::simplePersonTablePmo[]
+// end::simpleContactTablePmo[]

@@ -13,10 +13,11 @@
  */
 package org.linkki.samples.binding.model;
 
-public class Person {
+public class Contact {
 
     private String firstname;
     private String lastname;
+    private boolean favorite;
 
     private Address address;
     private Gender gender = Gender.OTHER;
@@ -35,6 +36,14 @@ public class Person {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
     }
 
     public Address getAddress() {

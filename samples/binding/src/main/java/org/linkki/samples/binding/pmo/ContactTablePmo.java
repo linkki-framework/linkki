@@ -19,28 +19,28 @@ import java.util.function.Consumer;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.SimpleItemSupplier;
-import org.linkki.samples.binding.model.Person;
+import org.linkki.samples.binding.model.Contact;
 
-// tag::personTablePmo-class[]
+// tag::contactTablePmo-class[]
 @UISection
-public class PersonTablePmo implements ContainerPmo<PersonRowPmo> {
+public class ContactTablePmo implements ContainerPmo<ContactRowPmo> {
 
-    // end::personTablePmo-class[]
-    private final SimpleItemSupplier<PersonRowPmo, Person> items;
+    // end::contactTablePmo-class[]
+    private final SimpleItemSupplier<ContactRowPmo, Contact> items;
 
     // tag::item-supplier[]
-    public PersonTablePmo(List<Person> persons, Consumer<Person> editAction, Consumer<Person> deleteAction) {
-        items = new SimpleItemSupplier<>(() -> persons,
-                                          p -> new PersonRowPmo(p, editAction, deleteAction));
+    public ContactTablePmo(List<Contact> contacts, Consumer<Contact> editAction, Consumer<Contact> deleteAction) {
+        items = new SimpleItemSupplier<>(() -> contacts,
+                p -> new ContactRowPmo(p, editAction, deleteAction));
     }
     // end::item-supplier[]
 
-    // tag::personTablePmo-getItems[]
+    // tag::contactTablePmo-getItems[]
     @Override
-    public List<PersonRowPmo> getItems() {
+    public List<ContactRowPmo> getItems() {
         return items.get();
     }
-    // end::personTablePmo-getItems[]
+    // end::contactTablePmo-getItems[]
 
     // tag::page-length[]
     @Override

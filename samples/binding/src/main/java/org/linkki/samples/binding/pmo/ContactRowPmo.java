@@ -16,31 +16,38 @@ package org.linkki.samples.binding.pmo;
 import java.util.function.Consumer;
 
 import org.linkki.core.ui.section.annotations.UIButton;
+import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UIToolTip;
-import org.linkki.samples.binding.model.Person;
+import org.linkki.samples.binding.model.Contact;
 
 import com.vaadin.server.FontAwesome;
 
-public class PersonRowPmo {
+public class ContactRowPmo {
 
-    private final Person person;
-    private final Consumer<Person> editAction;
-    private final Consumer<Person> deleteAction;
+    private final Contact contact;
+    private final Consumer<Contact> editAction;
+    private final Consumer<Contact> deleteAction;
 
-    public PersonRowPmo(Person person, Consumer<Person> editAction, Consumer<Person> deleteAction) {
+    public ContactRowPmo(Contact contact, Consumer<Contact> editAction, Consumer<Contact> deleteAction) {
 
-        this.person = person;
+        this.contact = contact;
         this.editAction = editAction;
         this.deleteAction = deleteAction;
     }
 
     @UITableColumn(expandRatio = 0.05F)
-    // tag::personRowPmo-labelHtmlContent[]
-    @UILabel(position = 1, label = "", htmlContent = true)
+    @UICheckBox(position = 1, label = "&#9733;", noLabel = false, caption = "")
+    public boolean isFavorite() {
+        return contact.isFavorite();
+    }
+
+    @UITableColumn(expandRatio = 0.05F)
+    // tag::contactRowPmo-labelHtmlContent[]
+    @UILabel(position = 5, label = "", htmlContent = true)
     public String getGender() {
-        switch (person.getGender()) {
+        switch (contact.getGender()) {
             case FEMALE:
                 return FontAwesome.FEMALE.getHtml();
             case MALE:
@@ -51,35 +58,36 @@ public class PersonRowPmo {
         }
 
     }
-    // end::personRowPmo-labelHtmlContent[]
+    // end::contactRowPmo-labelHtmlContent[]
 
-    // tag::personRowPmo-labelBinding[]
+
+    // tag::contactRowPmo-labelBinding[]
     @UITableColumn(expandRatio = 0.25F)
     @UILabel(position = 10, label = "Name")
     public String getName() {
-        return person.getName();
+        return contact.getName();
     }
-    // end::personRowPmo-labelBinding[]
+    // end::contactRowPmo-labelBinding[]
 
     @UITableColumn(expandRatio = 0.8F)
     @UILabel(position = 20, label = "Address")
     public String getAddress() {
-        return person.getAddress().asSingleLineString();
+        return contact.getAddress().asSingleLineString();
     }
 
-    // tag::personRowPmo-buttonBinding[]
+    // tag::contactRowPmo-buttonBinding[]
     @UITableColumn(expandRatio = 0.1F)
     @UIToolTip(text = "Edit")
     @UIButton(position = 30, icon = FontAwesome.EDIT, showIcon = true)
     public void edit() {
-        editAction.accept(person);
+        editAction.accept(contact);
     }
-    // end::personRowPmo-buttonBinding[]
+    // end::contactRowPmo-buttonBinding[]
 
     @UITableColumn(expandRatio = 0.1F)
     @UIToolTip(text = "Delete")
     @UIButton(position = 40, icon = FontAwesome.TRASH, showIcon = true)
     public void delete() {
-        deleteAction.accept(person);
+        deleteAction.accept(contact);
     }
 }

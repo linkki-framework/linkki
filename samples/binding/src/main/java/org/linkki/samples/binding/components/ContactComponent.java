@@ -21,10 +21,10 @@ import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.samples.binding.model.Address;
-import org.linkki.samples.binding.model.Person;
+import org.linkki.samples.binding.model.Contact;
 import org.linkki.samples.binding.pmo.AddressPmo;
 import org.linkki.samples.binding.pmo.ButtonsSectionPmo;
-import org.linkki.samples.binding.pmo.PersonSectionPmo;
+import org.linkki.samples.binding.pmo.ContactSectionPmo;
 
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
@@ -37,20 +37,20 @@ public class ContactComponent extends Panel {
 
     private final BindingContext context;
 
-    private final PersonSectionPmo personPmo;
+    private final ContactSectionPmo contactPmo;
     private final AddressPmo addressPmo;
     private final ButtonsSectionPmo buttonsSectionPmo;
 
-    private final Consumer<Person> persistAction;
+    private final Consumer<Contact> persistAction;
 
-    public ContactComponent(Consumer<Person> persistAction, BindingContext bindingContext) {
+    public ContactComponent(Consumer<Contact> persistAction, BindingContext bindingContext) {
 
         this.context = bindingContext;
         this.persistAction = persistAction;
 
-        Person person = new Person();
-        this.personPmo = new PersonSectionPmo(person);
-        this.addressPmo = new AddressPmo(person.getAddress());
+        Contact contact = new Contact();
+        this.contactPmo = new ContactSectionPmo(contact);
+        this.addressPmo = new AddressPmo(contact.getAddress());
 
         this.buttonsSectionPmo = new ButtonsSectionPmo(this::canSave, this::save, this::reset);
 
@@ -58,13 +58,13 @@ public class ContactComponent extends Panel {
         createContent();
     }
 
-    public void editContact(Person person) {
-        resetPmos(person);
+    public void editContact(Contact contact) {
+        resetPmos(contact);
     }
 
     private void createContent() {
 
-        AbstractSection personSection = sectionFactory.createSection(personPmo, context);
+        AbstractSection contactSection = sectionFactory.createSection(contactPmo, context);
 
         AddressFields addressFields = new AddressFields();
         AddressComponent addressComponent = new AddressComponent(addressFields);
@@ -75,32 +75,32 @@ public class ContactComponent extends Panel {
 
         AbstractSection buttonsSection = sectionFactory.createSection(buttonsSectionPmo, context);
 
-        setContent(new VerticalLayout(personSection, addressComponent, buttonsSection));
+        setContent(new VerticalLayout(contactSection, addressComponent, buttonsSection));
     }
 
     private boolean canSave() {
-        return personPmo.isInputValid() && addressPmo.isInputValid();
+        return contactPmo.isInputValid() && addressPmo.isInputValid();
     }
 
     private void save() {
 
         Address address = addressPmo.getAddress();
-        Person person = personPmo.getPerson();
-        person.setAddress(address);
+        Contact contact = contactPmo.getContact();
+        contact.setAddress(address);
 
-        persistAction.accept(person);
+        persistAction.accept(contact);
 
         reset();
     }
 
     private void reset() {
-        resetPmos(new Person());
+        resetPmos(new Contact());
     }
 
-    private void resetPmos(Person person) {
+    private void resetPmos(Contact contact) {
 
-        personPmo.reset(person);
-        addressPmo.reset(person.getAddress());
+        contactPmo.reset(contact);
+        addressPmo.reset(contact.getAddress());
 
         context.updateUI();
     }

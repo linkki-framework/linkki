@@ -22,6 +22,7 @@ import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
 
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 
 public class CheckboxBindingDefinition implements UIFieldDefinition {
@@ -34,7 +35,9 @@ public class CheckboxBindingDefinition implements UIFieldDefinition {
 
     @Override
     public Component newComponent() {
-        return ComponentFactory.newCheckBox();
+        CheckBox newCheckBox = ComponentFactory.newCheckBox();
+        newCheckBox.setCaption(caption());
+        return newCheckBox;
     }
 
     @Override
@@ -75,5 +78,9 @@ public class CheckboxBindingDefinition implements UIFieldDefinition {
     @Override
     public boolean showLabel() {
         return !uiCheckBox.noLabel();
+    }
+
+    private String caption() {
+        return uiCheckBox.caption();
     }
 }
