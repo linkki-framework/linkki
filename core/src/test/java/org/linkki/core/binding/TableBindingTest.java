@@ -21,7 +21,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.TableFooterPmo;
+import org.linkki.core.ui.table.TableFooterPmo;
 import org.linkki.core.ui.table.TestRowPmo;
 import org.linkki.core.ui.table.TestTablePmo;
 import org.mockito.Mock;

@@ -8,10 +8,10 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-import org.linkki.core.TableFooterPmo;
 import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.table.ContainerPmo;
+import org.linkki.core.ui.table.TableFooterPmo;
 
 import com.vaadin.ui.Table;
 

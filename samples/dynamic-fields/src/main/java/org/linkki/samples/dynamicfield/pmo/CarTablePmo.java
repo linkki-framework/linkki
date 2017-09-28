@@ -1,10 +1,10 @@
 package org.linkki.samples.dynamicfield.pmo;
 
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.TableFooterPmo;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.SimpleItemSupplier;
+import org.linkki.core.ui.table.TableFooterPmo;
 import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.util.handler.Handler;
 

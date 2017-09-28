@@ -4,7 +4,7 @@
  * Alle Rechte vorbehalten.
  *******************************************************************************/
 
-package org.linkki.core;
+package org.linkki.core.ui.table;
 
 /**
  * A presentation model for footer cells in a table.

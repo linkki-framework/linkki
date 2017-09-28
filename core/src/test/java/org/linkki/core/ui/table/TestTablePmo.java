@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.TableFooterPmo;
 import org.linkki.core.ui.section.annotations.UISection;
 
 @UISection(caption = TestTablePmo.CAPTION)

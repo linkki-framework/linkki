@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.TableFooterPmo;
 
 import com.vaadin.ui.Table;
 
