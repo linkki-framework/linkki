@@ -7,6 +7,7 @@
 package org.linkki.core.binding;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -118,6 +119,16 @@ public class TableBindingTest {
         verify(footerPmo, times(2)).getFooterText(TestRowPmo.PROPERTY_DELETE);
         verifyNoMoreInteractions(footerPmo);
 
+    }
+
+    @Test
+    public void testFooterUpdateAfterConstruction() {
+        TableFooterPmo footerPmo = mock(TableFooterPmo.class);
+        containerPmo.setFooterPmo(footerPmo);
+
+        tableBinding = new TableBinding<TestRowPmo>(bindingContext, table, containerPmo);
+
+        assertTrue(table.isFooterVisible());
     }
 
 }

@@ -37,6 +37,7 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
         this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
         table.setContainerDataSource(this);
         addAllItems(containerPmo.getItems());
+        updateFooter();
     }
 
     /**
