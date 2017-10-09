@@ -1,30 +1,29 @@
-:jbake-title: Data Binding mit PMOs
+:jbake-title: Data Binding with PMOs
 :jbake-type: section
 :jbake-status: published
 
 :source-dir: ../../../java
 
 [[databinding]]
-=== Data Binding mit PMOs
+=== Data Binding with PMOs
 
-Ein Presentation Model Object kapselt den Zustand des UIs unabhängig von der konkreten UI-Implementierung. Das UI interagiert über Data Binding ausschließlich mit diesem PMO. Dazu muss das PMO nicht alle Daten selber halten, sondern kann direkt an ein oder mehrere bestehende Modellobjekte deligieren (siehe <<domain-model-binding,Daten auf mehreren Ebenen>>). Diese Daten werden dann in ein für die Anzeige geeignetes Format konvertiert.
+A Presentation Model Object encapsulates the UI state independently of the concrete UI implementation. The UI interacts exclusively via Data Binding with this PMO. The PMO isn't required to hold all data, it can delegate to existing model objects (see <<domain-model-binding,Data on Multiple Layers>>). This data is then converted into a format suitable for presentation.
 
-In *linkki* sind PMOs Plain Old Java Objects (POJOs), in der Daten für einzelne UI Abschnitte organisiert sind. Zu jedem Abschnitt des UIs soll es also ein eigenes PMO geben.
+In *linkki* PMOs are Plain Old Java Objects (POJOs), in which data for individual UI sections are structured. There should be a PMO for each UI section.
 
-Ausschlaggebend für das Data Binding sind sogenannte "Properties" eines PMOs. Eine PMO Klasse besitzt ein Property names "property" genau dann, wenn diese Klasse eine Methode `getProperty`  hat. Falls der Wert dieses Propertys modifizierbar sein soll, muss es zusätzlich eine Methode `setProperty` geben. Oft wird der Wert des Propertys in eine Klassenvariable `property` gespeichert. Dies ist an die Namenkonventionen für JavaBean Properties angelehnt. Die PMO Klassen müssen allerdings selbst keine JavaBeans sein.
+Of importance for the data binding are the so called "Properties" of a PMO. A PMO class has a property named "property" if and only if that class has a method `getProperty`. If the value of this property is to be modifiable, the method `setProperty` must exist. The value of the property is often stored in a field `property`. This follows the naming convention of JavaBean properties. However, PMO classes are not required to be JavaBeans.
 
-Betrachte zum Beispiel die folgende Klasse:
+See the following example class:
 
 ```java
 include::{source-dir}/org/linkki/doc/BeispielPmo.java[tags=class]
 ```
 
-Diese Klasse hat zwei Properties: "anrede" und "namensanzeige". Am Property "namesanzeige" sieht man, dass es zu einem PMO Property nicht zwingend eine Klassenvariable geben muss. Hingegen ist "nachname" kein Property der Klasse, obwohl es dazu eine Klassenvariable und eine passende Setter-Methode gibt, denn es fehlt die notwendige Methode `String getNachname()`.
+This class has two properties: "anrede" and "namensanzeige". The property "namensanzeige" shows, that for a PMO property there doesn't necessarily have to exist a corresponding field. Also, "nachname" is no property even though there is a field and a matching setter method, because the required method `String getNachname()` is missing.
 
+There are some optional interfaces that PMO classes may implement:
 
-Es gibt einige Interfaces, die PMO Klassen optional implementieren können: 
-
-* `org.linkki.core.PresentationModelObject` bietet eine Methode, mit der ein Button-PMO erstellt werden kann; der daraus erzeugte Button löst eine Bearbeitung des PMOs aus
-* `org.linkki.core.ButtonPmo` ist ein PMO für Buttons, siehe <<ui-button,Buttons>>
-* `org.linkki.core.ui.table.ContainerPmo` ist ein PMO für Tabellen - die einzelnen Zeilen haben wieder reguläre PMOs, siehe auch <<container-komponenten,Container Komponenten>>
+* `org.linkki.core.PresentationModelObject` offers a method for the creation of a button PMO. This button is displayed in the section header if the PMO is used with <<pmo-uisection, create UI with @UISection>>.
+* `org.linkki.core.ButtonPmo` is a PMO for buttons, see <<ui-button,Buttons>>
+* `org.linkki.core.ui.table.ContainerPmo` is a PMO for tables, of which each row is represented by regular PMOs. See <<container-komponenten,Container Components>>
 

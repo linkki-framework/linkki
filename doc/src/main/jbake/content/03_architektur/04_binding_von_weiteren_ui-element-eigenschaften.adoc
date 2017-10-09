@@ -1,10 +1,10 @@
-:jbake-title: Binding weiterer UI-Eigenschaften
+:jbake-title: Binding further UI properties
 :jbake-type: section
 :jbake-status: published
 
 :source-dir: ../../../java
 
 [[binding-ui-element-properties]]
-=== Binding von weiteren UI-Element-Eigenschaften
+=== Binding of Further UI Element Properties
 
-Neben dem anzuzeigenden Wert können weitere Eigenschaften der UI-Elemente per Databinding an Methoden des PMO gebunden werden. Die genaue Funktionsweise wird im Kapitel <<ui-komponenten, UI-Komponenten>> näher beschrieben.
+Besides the value to be shown on the UI, further properties of UI elements can be bound to PMO methods via data binding. The function is described in the chapter <<ui-komponenten, UI Components>>.

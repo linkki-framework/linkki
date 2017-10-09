@@ -1,4 +1,4 @@
-:jbake-title: Architektur
+:jbake-title: Architecture
 :jbake-type: chapter
 :jbake-status: published
 :jbake-order: 30
@@ -10,20 +10,20 @@
 
 == Architektur
 
-Zentrale Punkte des *linkki* Frameworks sind
+Central aspects of the *linkki* Frameworks are
 
-* die deklarative Definition von UIs mittels Annotationen
-* das flexible Databinding
+* the declarative definition of UIs via annotations
+* the flexible data binding
 
-*linkki* ermöglicht eine deklarative Definition von Oberflächen, indem Benutzeroberflächen automatisch aus Annotationen erstellt werden. Unabhängig von der Erstellung können außerdem die Inhalte (Daten) eines UI-Elements und deren Eigenschaften (z.B. Sichtbarkeit, Editierbarkeit, ...) an sogenannte Presentation Model Objects (PMOs) gebunden werden. Dadurch entsteht ein bidirektionaler update-Mechanismus, das sogenannte Databinding. Wird beispielsweise ein Wert im UI vom Benutzer verändert, werden sowohl der betreffende Wert im Domain Model, als auch davon abhängige Eigenschaften und damit ebenso andere UI-Elemente aktualisiert.
+*linkki* enables a declarative definition of UIs, by generating them automatically from annotations. Additionally, content (data) of an UI element and its properties (for instance visibility, editability, ...) can be bound to so called Presentation Model Objects (PMOs). With this, a bi-directional update mechanisms is provided, the so called data binding. If a value is changed on the UI by a user, for instance, the corresponding value in the domain model ist updated, as well as dependent properties and other UI elements.
 
-.Bidirektionales Databinding
+.Bi-directional data binding
 image::{images}{images-folder-name}/data_binding.png[]
 
-Im ersten Teil dieses Kapitles gehen wir auf den <<grundaufbau-binding, Grundaufbau des `BindingContext` und `BindingManager`>> ein, und darauf wie sie zusammenarbeiten.
+In the first part of this chapter the <<grundaufbau-binding, `BindingContext` and `BindingManager` basics>>, and how they interact, are detailed.
 
-Im den folgenden Abschnitten wird das <<databinding, Databinding mit PMOs>> beschrieben. Dies können simple PMOs sein, in denen die Werte verwaltet werden, oder <<domain-model-binding, PMOs mit Domain Model Binding>> in denen die Werte direkt an das Domain Model gebunden werden. Das 'Binding' <<modell-attribut-namen, mehrerer Modelobjekte>> in einem PMO wird ebenfalls erklärt.
+Further on, <<databinding, Data binding with PMOs>> is explained. These can be simple PMOs, in which values are stored, or <<domain-model-binding, PMOs with domain model binding>>, where values are bound directly to the domain model. The binding of <<modell-attribut-namen, multiple model objects>> in a PMO is also explained.
 
-Welche Eigenschaften der definierten UI-Elemente gesteuert werden können, und welche weiteren Möglichkeiten *linkki* zur Verfügung stellt, wird im Abschnitt <<binding-ui-element-properties, Binding von weiteren UI-Element-Eigenschaften>> beschrieben.
+Which properties of the defined UI elements can be controlled and which possibilities *linkki* provides, is discussed in the section <<binding-ui-element-properties, Binding of further UI element properties>>.
 
-Am Ende des Kaptiels <<architektur, Architektur>> werden noch sogenannte <<querschnittsaspekte-im-binding, Querschnittsaspekte im Databinding>> erläutert.
+The chapter concludes with <<querschnittsaspekte-im-binding,Cross-Sectional Data Binding>>.

@@ -1,4 +1,4 @@
-:jbake-title: Grundaufbau Binding Context
+:jbake-title: BindingContext Basics
 :jbake-type: section
 :jbake-status: published
 
@@ -7,13 +7,13 @@
 [[grundaufbau-binding]]
 === Binding, BindingContext, BindingManager
 
-Für jede UI-Komponente, die an einem PMO gebunden wird, erstellt *linkki* ein sogenanntes `Binding`. Bei Änderungen im PMO wird über die Methoden des `Bindings` sichergestellt, dass die UI-Komponente korrekt aktualisiert wird.
+For each UI component bound to a PMO, *linkki* creates a so called `binding`. The methods of this `binding` ensure that subsequent changes in the PMO lead to an update of the UI component.
 
-Alle Bindings in *linkki* sind Teil eines `BindingContext`. Üblicherweise verbindet ein `BindingContext` alle Bindings auf einer Seite oder in einem thematisch unabhängigen Abschnitt. Bei Änderungen an einem gebundenen Objekt (PMO oder UI) werden alle Bindings im gleichen Kontext aktualisiert. Mehrere PMOs können mit dem gleichen `BindingContext` gebunden werden.
+All bindings in *linkki* are part of a `BindingContext`. Typically a `BindingContext` contains all bindings of a page or a section with independent content. Changes to a bound object (PMO or UI) trigger an update of all bindings in the same context. Multiple PMOs can be bound to the same `BindingContext`.
 
-.BindingContext und ~Manager
+.BindingContext and ~Manager
 image::{images}{images-folder-name}/binding_context_manager.png[]
 
-Um einen oder mehrere `BindingContext` zu erstellen und zu verwalten, gibt es einen `BindingManager`. Dieser gibt zu einem Namen (ggf. abgeleitet von einer Klasse) einen `BindingContext` zurück, oder erstellt bei Bedarf einen neuen. In Ableitungen von `BindingManager` kann festgelegt werden, welches Verhalten die vom jeweiligen `BindingContext` erstellten Bindings haben sollen (siehe <<vertikales-binding,Vertikales Binding>>). Soll kein besonderes Verhalten implementiert werden genügt ein `DefaultBindingManager`. Ein `BindingManager` wird üblicherweise `@ViewScoped` angelegt und jeder `Page` (siehe <<page,Page>>) übergeben.  
+To create and manage one or more `BindingContexts`, a `BindingManager` is used. For a given name (for instance derived from a class) it returns a `BindingContext`, creating a new one when necessary. The desired binding behavior can be defined in subclasses of `BindingManager` (see <<vertikales-binding,Vertical Binding>>). If no special behavior needs to be implemented, a `DefaultBindingManager` can be used. A `BindingManager` is typically created `@ViewScoped` and passed to each `Page` (see <<page,Page>>).
 
-Ein besonderer `BindingManager` ist der `DialogBindingManager`, der dafür sorgt, dass bei jeder Änderung auch die Validierungsmethode des Dialogs aufgerufen wird.
+`DialogBindingManager` is a special `BindingManager`, which triggers a validation method for each change of the dialog.

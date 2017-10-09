@@ -1,4 +1,4 @@
-:jbake-title: Querschnittsaspekte im Databinding
+:jbake-title: Cross-Sectional Data Binding
 :jbake-type: section
 :jbake-status: published
 
@@ -6,45 +6,45 @@
 :source-dir: ../../../java
 
 [[querschnittsaspekte-im-binding]]
-=== Querschnittsaspekte im Databinding
+=== Cross-Sectional Data Binding
 
-Zum Großteil bestimmen Informationen aus PMOs und Domain Model den Zustand der UI. In vielen Anwendungen jedoch muss die Oberfläche zusätzlich durch andere Informationen, z.B. den Systemzustand beeinflusst werden. Diese Informationen nennen wir im Folgenden _Querschnittsaspekte_.
+Although the state of the UI can be mostly defined by information from PMOs and the domain model, it sometimes must be additionaly influenced by other factors, such as system state, for instance. These factors are dealt with via _cross-sectional data binding_.
 
-Das Standardbeispiel für einen Querschnittsaspekt ist der "Browse Mode". Viele Anwendungen unterscheiden zwischen:
+A good example for such aspects is the "browse mode". Many applications distinguish between:
 
-* Editiermodus ("Edit Mode"), in dem Informationen in der Oberfläche eingegeben und verändert werden können
-* Ansichtsmodus ("Browse Mode"), in dem Daten in Formularen zwar angezeigt werden, aber schreibgeschützt sind
+* "Edit Mode", in which data can be entered and modified on the UI
+* "Browse Mode", in which data in forms is shown, but can't be modified
 
-Häufig wechseln Anwendungen zwischen diesen Modi hin und her, z.B. indem eine "Änderung" begonnen oder abgeschlossen wird. 
-Im Browse Mode gilt, dass alle Felder in Formularen schreibgeschützt sind. Dieser globale Bearbeitungszustand der Anwendung beeinflusst also viele Felder gleichzeitig. Zusätzlich überstimmt der Browse Mode die Einstellungen aus PMOs. Selbst wenn ein PMO ein Feld als editierbar angibt, ist es im Browse Mode schreibgeschützt.
+Often, applications toggle between these modes, for instance when "Editing" is started and completed.
+In browse mode all form fields should be read-only. This global editing state of the application thus influences many fields at once. Additionally, the browse mode overrides settings from PMOs. Even when a field is marked as editable by the PMO, it is write protected during browse mode.
 
-Auf technischer Ebene existieren zwei *linkki*-Konstrukte, um Querschnittsaspekte abzubilden: `PropertyDispatcher` und `PropertyBehaviors`.
+*linkki* provides two technical means to implement cross-sectional data binding: `PropertyDispatcher` and `PropertyBehaviors`.
 
 ==== PropertyDispatcher
 
-Der `BindingContext` (siehe <<grundaufbau-binding,Grundaufbau BindingContext - BindingManager>>) verwendet eine `PropertyDispatcherFactory`, die mehrere miteinander verknüpfte `PropertyDispatcher` erstellt. Diese Dispatcher wiederum werden zum Binden der Properties und ihrer Eigenschaften (siehe <<binding-ui-element-properties,Binding von weiteren UI-Element-Eigenschaften>>) verwendet. `PropertyDispatcher` haben Methoden zur Abfrage von Datentyp und Wert einer Property, sowie der zugehörigen Eigenschaften. Standardmäßig werden in *linkki* vier miteinander verknüpfte Dispatcher erstellt, die jeweils an den Nächsten delegieren, wenn sie selbst den Wert nicht liefern können: 
+The `BindingContext` (see <<grundaufbau-binding,BindingContext Basics - BindingManager>>) uses a `PropertyDispatcherFactory`, which creates multiple linked `PropertyDispatchers`. These dispatchers in turn are used to bind PMO properties (see <<binding-ui-element-properties,Binding of further UI element properties>>). `PropertyDispatchers` have methods to determine the data type and value of a property. By default *linkki* creates four linked dispatchers, where each delegates to the next if it can't provide the value:
 
-* `BehaviorDependentDispatcher` verwendet `PropertyBehaviors` (siehe im nächsten Abschnitt, <<property-behavior,PropertyBehaviors>>)
-* `BindingAnnotationDispatcher` liefert Informationen die aus den UI-Annotationen direkt abgelesen werden können
-* `ReflectionPropertyDispatcher` greift per Reflection auf die aus dem Propertynamen abgeleiteten Methoden am PMO bzw. Domain Model zu
-* `ExceptionPropertyDispatcher` wirft eine Exception, falls die entsprechende Eigenschaft nicht verfügbar ist - dies deutet häufig auf einen Tippfehler in einem Methodennamen hin, aufgrunddessen der `ReflectionPropertyDispatcher` die passende Methode nicht finden kann
+* `BehaviorDependentDispatcher` uses `PropertyBehaviors` (see next section, <<property-behavior,PropertyBehaviors>>)
+* `BindingAnnotationDispatcher` provides information that can be read directly from UI annotations
+* `ReflectionPropertyDispatcher` uses reflection to access methods on PMO or domain model derived from property names
+* `ExceptionPropertyDispatcher` throws an exception if the required property is not found. This often indicates a spelling error in the method name, which causes the `ReflectionPropertyDispatcher` to be unable to find the proper method
 
-.Beispiel für PropertyDispatcher
+.Example for PropertyDispatcher
 image::{images}{images-folder-name}/vertical_binding.png[]
 
-Eigene Dispatcher können über eine eigene `PropertyDispatcherFactory` (in einem eigenen `BindingContext`) erstellt werden. Dort muss die Methode `createCustomDispatchers` überschrieben werden, um einen oder mehrere eigene Dispatcher bereitzustellen. Diese anwendungsspezifischen Dispatcher werden zwischen `BehaviorDependentDispatcher` und `BindingAnnotationDispatcher` eingehängt.
+Custom dispatchers can be created via a `PropertyDispatcherFactory` (in its own `BindingContext`). There the method `createCustomDispatchers` must be overwritten to create one or more custom dispatchers. These dispatchers are inserted between `BehaviorDependentDispatcher` and `BindingAnnotationDispatcher`.
 
 [[property-behavior]]
 ==== PropertyBehaviors
 
-PropertyBehaviors werden von einem `PropertyBehaviorProvider` erstellt, der dem `BindingContext` als Konstruktor-Parameter übergeben werden kann. Welche `PropertyBehaviors` verwendet werden, kann also von der Anwendung konfiguriert werden.
+PropertyBehaviors are created by a `PropertyBehaviorProvider` that can be passed to a `BindingContext` as constructor parameter. In this way, the application can configure which `PropertyBehaviors` should be used in the `BindingContext`.
 
-Über `PropertyBehaviors` kann ein `BehaviorDependentDispatcher` das Verhalten von Eigenschaften steuern. Nur eine Auswahl der Eigenschaften sind darüber steuerbar: Sichtbarkeit (`isVisible`), Editierbarkeit (`isWritable`) und Anzeige von Fehlern (`isShowValidationMessages`). Dazu werden alle `PropertyBehaviors` aufgerufen; geben sie einstimmig `true` zurück, leitet der `BehaviorDependentDispatcher` die Anfrage an den nächsten `PropertyDispatcher` weiter, ansonsten gibt er direkt `false` bzw. eine leere Fehlerliste zurück, oder setzt den Wert nicht.
+A `BehaviorDependentDispatcher` can control the behavior of properties through `PropertyBehaviors`. Only a selection of properties can be controlled with it: Visibility (`isVisible`), editability (`isWritable`) and visibility of errors (`isShowValidationMessages`). For this, all `PropertyBehaviors` are called; if all return `true`, the `BehaviorDependentDispatcher` sends the request to the next `PropertyDispatcher`, otherwise it returns `false` or an empty error list, or doesn't set the value.
 
-.Veto eines PropertyBehaviors
+.Veto of a PropertyBehaviors
 image::{images}{images-folder-name}/property_behavior_veto.png[]
 
-Für eigene Verhaltensweisen kann das Interface `PropertyBehavior` implementiert werden. So kann zum Beispiel eine komplette Seite in einen Lese- oder Schreibmodus versetzt werden:
+For custom behaviors the interface `PropertyBehavior` can be implemented. That way, an entire page can be set into the editing or read-only mode:
 
 [source,java]
 ----
