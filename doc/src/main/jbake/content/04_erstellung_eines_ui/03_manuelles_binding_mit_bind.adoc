@@ -1,53 +1,53 @@
-:jbake-title: Manuelles Binding mit `@Bind`
+:jbake-title: Manual Binding With `@Bind`
 :jbake-type: section
 :jbake-status: published
 
 :source-dir: ../../../../../../samples/binding/src/main/java
 
 [[manual-binding]]
-=== Manuelles Binding mit `@Bind`
+=== Manual Binding With `@Bind`
 
-Auf Grund spezieller Anforderungen oder spezieller eigener `Fields` ist es manchmal nicht möglich den <<pmo-uisection, automatischen Aufbau über `@UISection`>> zu nutzen. Für diesen Fall besteht die Möglichkeit, dass *linkki* 'nur' das Data-Binding übernimmt. Man behält somit die volle Kontrolle über die Erstellung, Anordnung und Konfiguration (z.B. `setNullRepresentation()` oder `setConverter()`) der Komponenten.
+Due to special requirements or custom `Fields` it is sometimes not possible to use the <<pmo-uisection, automatic creation via `@UISection`>>. For this case *linkki* offers the option of 'only' using the data binding. This way, control over creation, arrangement and configuration (e.g. `setNullRepresentation()` or `setConverter()`) of the component is kept.
 
-Für die Aktivierung des manuellen Bindings muss die Annotation `@Bind` auf die Komponente geschrieben werden. Es können sowohl Felder als auch Methoden annotiert werden. Unterstützte Typen sind:
+To activate the manual binding the component must be marked with the `@Bind` annotation. Both fields and methods can be annotated. Supported types are:
 
 * `com.vaadin.ui.Field`
 * `com.vaadin.ui.Label`
 * `com.vaadin.ui.Button`
 
-Danach kann das Data-Binding über den <<missing-link, `Binder`>> erstellt werden.
+Then, the data binding can be created via the <<missing-link, `Binder`>>.
 
 
-.@Bind auf Felder
+.@Bind on Fields
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/binding/components/AddressFields.java[tags=addressFields-class]
 ----
 
-.@Bind auf Methoden
+.@Bind on Methods
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/binding/components/AddressFields2.java[tags=addressFields-methodBinding]
 ----
 
-TIP: wenn das Data-Binding von Vaadin-Komponenten einer verwendeten Library von *linkki* übernommen werden soll, kann dies durch Vererbung oder 'delegete proxies' und `@Bind` auf den Methoden aktiviert werden.
+TIP: When the data binding of a Vaadin component of a third party library should be used by *linkki*, it can be activated via inheritance of 'delegate proxies' and `@Bind` on the methods.
 
-.Binding aktivieren
+.Binding Activation
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/binding/components/ContactComponent.java[tags=manual-binding]
 ----
 
-<<missing-link, Hier>> ist ein Beispielprojekt mit den verschiedenen Binding-Möglichkeiten.
+<<missing-link, Here>> is a sample project with the different binding options.
 
 [TIP]
 ====
-Binding-Zusammenfassung:
+Binding summary:
 
-* `@UISection` -> einfaches, schnelles Template mit eingeschränkten Konfigurationsmöglichkeiten
-* manuelles Binding -> volle Kontrolle
+* `@UISection` -> simple and quick template with limited configuration options
+* manual binding -> full control
 
-*linkki* arbeitet mit bestimmten <<missing-link, Namenskonventionen>>. Dadurch verringern sich die Fehlerquellen und der refactoring Aufwand.
+*linkki* uses certain <<missing-link, naming conventions>>. That way sources of errors and refactoring complexity are reduced.
 
-Die in den Annotationen verwendeten Werte für `pmoProperty` bzw. `modelAttribute` sollten in Konstanten der jeweiligen Klasse ausgelagert werden.
+The values used in the annotations for `pmoProperty` and `modelAttribute` should be defined as constants in the corresponding classes.
 ====
