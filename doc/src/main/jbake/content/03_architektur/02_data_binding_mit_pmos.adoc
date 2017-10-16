@@ -19,7 +19,7 @@ See the following example class:
 include::{source-dir}/org/linkki/doc/BeispielPmo.java[tags=class]
 ```
 
-This class has two properties: "anrede" and "namensanzeige". The property "namensanzeige" shows, that for a PMO property there doesn't necessarily have to exist a corresponding field. Also, "nachname" is no property even though there is a field and a matching setter method, because the required method `String getNachname()` is missing.
+This class has two properties: "salutation" and "nameForUI". The property "nameForUI" shows, that for a PMO property there doesn't necessarily have to exist a corresponding field. Also, "surname" is no property even though there is a field and a matching setter method, because the required method `String getSurname()` is missing.
 
 There are some optional interfaces that PMO classes may implement:
 

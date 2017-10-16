@@ -21,18 +21,18 @@ public class ContractSectionPmo {
         return contract.getPolicyHolder();
     }
 
-    @ModelObject(name = "VP")
+    @ModelObject(name = "IP")
     public Person getInsuredPerson() {
         return contract.getInsuredPerson();
     }
 
 
-    @UITextField(position = 10, label = "Vorname VN", modelAttribute = "firstname")
-    public void vornameVersicherungsnehmer() {
+    @UITextField(position = 10, label = "First Name PH", modelAttribute = "firstname")
+    public void firstNamePolicyHolder() {
     }
 
-    @UITextField(position = 20, label = "Vorname VP", modelAttribute = "firstname", modelObject = "VP")
-    public void vornameVersichertePerson() {
+    @UITextField(position = 20, label = "First Name IP", modelAttribute = "firstname", modelObject = "IP")
+    public void firstNameInsuredPerson() {
     }
 
 }

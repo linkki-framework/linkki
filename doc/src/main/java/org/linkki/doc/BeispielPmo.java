@@ -3,23 +3,23 @@ package org.linkki.doc;
 //tag::class[]
 public class BeispielPmo {
 
-    private String nachname;
-    private String anrede;
+    private String surname;
+    private String salutation;
 
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public String getAnrede() {
-        return anrede;
+    public String getSalutation() {
+        return salutation;
     }
 
-    public void setAnrede(String anrede) {
-        this.anrede = anrede;
+    public void setSalutation(String salutation) {
+        this.salutation = salutation;
     }
 
-    public String getNamensanzeige() {
-        return String.join(" ", anrede, nachname);
+    public String getNameForUI() {
+        return String.join(" ", salutation, surname);
     }
 }
 //end::class[]

@@ -17,7 +17,7 @@ To use this feature, the UI needs to be created via <<pmo-uisection,`@UISection`
 include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=modelobject]
 ----
 
-For example, the Vorname property from the model can be used without conversion in the UI:
+For example, the `firstname` property from the model can be used without conversion in the UI:
 
 [source,java]
 ----
@@ -57,12 +57,12 @@ Model binding can also be used if a PMO has multiple model objects. In this case
 include::{source-dir}/org/linkki/doc/ContractSectionPmo.java[tags=class]
 ----
 
-In the example above the annotation of `vornameVersichertePerson()` defines that the property `firstname` on model object `VP` shall be called. To determine the value for the presentation on the UI, the data binding proceeds as follows:
+In the example above the annotation of `firstNameInsuredPerson()` defines that the property `firstname` on model object `IP` shall be called. To determine the value for the presentation on the UI, the data binding proceeds as follows:
 
-* Call the method `getInsuredPerson()` on the PMO, as that method is annotated with `@ModelObject("VP")`
+* Call the method `getInsuredPerson()` on the PMO, as that method is annotated with `@ModelObject("IP")`
 * Save the returned Person object
 * Call the getter method for `firstname` on the found Person object
 
-If the annotation contains no property `modelObject`, the method annotated with `@ModelObject` (without name) is called. Correspondingly the model object for `vornameVersicherungsnehmer()` is determined via `getPolicyHolder()`.
+If the annotation contains no property `modelObject`, the method annotated with `@ModelObject` (without name) is called. Correspondingly the model object for `firstNamePolicyHolder()` is determined via `getPolicyHolder()`.
 
 For situations where a method annotated with `@ModelObject` returns `null`, further getter method may have to be implemented. These methods must delegate to the existing model object or return default values if the model object is unavailable. The setter methods do not have to be implemented explicitly. The fields are treated as read only as long as no model object exists. As soon as one is available, the model object's setter method is called automatically.
