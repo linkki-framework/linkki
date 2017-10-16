@@ -1,9 +1,16 @@
-/*******************************************************************************
- * Copyright (c) 2014 Faktor Zehn AG.
- * 
- * Alle Rechte vorbehalten.
- *******************************************************************************/
-
+/*
+ * Copyright Faktor Zehn AG.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package org.linkki.framework.ui.dialogs;
 
 import static java.util.Objects.requireNonNull;
@@ -30,7 +37,8 @@ public class DialogBindingManager extends BindingManager {
     public DialogBindingManager(OkCancelDialog dialog, ValidationService validationService,
             PropertyBehaviorProvider behaviorProvider) {
         super(() -> dialog.validate());
-        this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
+        this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
+
         requireNonNull(dialog, "dialog must not be null");
         dialog.setValidationService(validationService);
     }

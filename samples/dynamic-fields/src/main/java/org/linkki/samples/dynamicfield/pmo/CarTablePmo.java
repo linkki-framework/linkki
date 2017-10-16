@@ -1,3 +1,16 @@
+/*
+ * Copyright Faktor Zehn AG.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package org.linkki.samples.dynamicfield.pmo;
 
 import org.linkki.core.ButtonPmo;
@@ -21,7 +34,7 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo>, Serializable {
     private final Handler addCarAction;
     private final SimpleItemSupplier<CarRowPmo, Car> items;
 
-    //tag::table-footer[]
+    // tag::table-footer[]
     private final TableFooterPmo footer;
 
     public CarTablePmo(List<Car> carStorage, Handler addCarAction) {
@@ -30,7 +43,7 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo>, Serializable {
 
         this.footer = c -> calculateTotalRetention(c, carStorage);
     }
-    //end::table-footer[]
+    // end::table-footer[]
 
     @Override
     public List<CarRowPmo> getItems() {
@@ -46,7 +59,7 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo>, Serializable {
     public int getPageLength() {
         return Math.min(ContainerPmo.super.getPageLength(), getItems().size());
     }
-    //tag::table-footer[]
+    // tag::table-footer[]
 
     @Override
     public Optional<TableFooterPmo> getFooterPmo() {
@@ -71,5 +84,5 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo>, Serializable {
                 return "";
         }
     }
-    //end::table-footer[]
+    // end::table-footer[]
 }

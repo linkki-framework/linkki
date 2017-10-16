@@ -1,3 +1,18 @@
+/*
+ * Copyright Faktor Zehn AG.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package org.linkki.samples.messages;
 
 import com.vaadin.annotations.Theme;
@@ -23,50 +38,49 @@ import org.linkki.samples.messages.pmo.RegistrationValidationService.ValidationM
 @Theme(value = ValoTheme.THEME_NAME)
 public class MessageUI extends UI {
 
-    private static final long serialVersionUID = 7735020388489427827L;
-    private BindingManager bindingManager;
-    private RegistrationValidationService validationService;
+	private static final long serialVersionUID = 7735020388489427827L;
+	private BindingManager bindingManager;
+	private RegistrationValidationService validationService;
 
+	@Override
+	protected void init(VaadinRequest request) {
 
-    @Override
-    protected void init(VaadinRequest request) {
+		Page.getCurrent().setTitle("linkki Samples :: Messages");
 
-        Page.getCurrent().setTitle("linkki Samples :: Messages");
+		VaadinSession.getCurrent().setConverterFactory(new LinkkiConverterFactory());
 
-        VaadinSession.getCurrent().setConverterFactory(new LinkkiConverterFactory());
+		MessagesPanel messagesPanel = new MessagesPanel();
+		messagesPanel.setVisible(false);
 
-        MessagesPanel messagesPanel = new MessagesPanel();
-        messagesPanel.setVisible(false);
+		User user = new User();
+		RegistrationSectionPmo registrationPmo = new RegistrationSectionPmo(user,
+				u -> handleRegistration(messagesPanel, u));
+		validationService = new RegistrationValidationService(registrationPmo);
 
-        User user = new User();
-        RegistrationSectionPmo registrationPmo = new RegistrationSectionPmo(user, u -> handleRegistration(messagesPanel, u));
-        validationService = new RegistrationValidationService(registrationPmo);
+		bindingManager = new RegistrationBindingManager(validationService, m -> updateMessages(messagesPanel, m));
 
-        bindingManager = new RegistrationBindingManager(validationService, m -> updateMessages(messagesPanel, m));
+		DefaultPmoBasedSectionFactory sectionFactory = new DefaultPmoBasedSectionFactory();
+		AbstractSection section = sectionFactory.createSection(registrationPmo,
+				bindingManager.getExistingContextOrStartNewOne(getClass()));
 
-        DefaultPmoBasedSectionFactory sectionFactory = new DefaultPmoBasedSectionFactory();
-        AbstractSection section = sectionFactory.createSection(registrationPmo,
-                bindingManager.getExistingContextOrStartNewOne(getClass()));
+		setContent(new VerticalLayout(messagesPanel, section));
+	}
 
-        setContent(new VerticalLayout(messagesPanel, section));
-    }
+	private void updateMessages(MessagesPanel messagesPanel, MessageList messageList) {
+		messagesPanel.updateMessages(messageList);
+	}
 
+	private void handleRegistration(MessagesPanel messagesPanel, RegistrationSectionPmo userPmo) {
+		// validate required fields as well
+		validationService.setValidationMode(ValidationMode.STRICT);
 
-    private void updateMessages(MessagesPanel messagesPanel, MessageList messageList) {
-        messagesPanel.updateMessages(messageList);
-    }
+		// trigger validation and display errors in the MessagesPanel
+		bindingManager.afterUpdateUi();
 
-    private void handleRegistration(MessagesPanel messagesPanel, RegistrationSectionPmo userPmo) {
-        // validate required fields as well
-        validationService.setValidationMode(ValidationMode.STRICT);
-
-        // trigger validation and display errors in the MessagesPanel
-        bindingManager.afterUpdateUi();
-
-        if (!validationService.getValidationMessages().containsErrorMsg()) {
-            Notification.show("Registration successful! Thank you for joining us!");
-            userPmo.reset();
-            validationService.setValidationMode(ValidationMode.LENIENT);
-        }
-    }
+		if (!validationService.getValidationMessages().containsErrorMsg()) {
+			Notification.show("Registration successful! Thank you for joining us!");
+			userPmo.reset();
+			validationService.setValidationMode(ValidationMode.LENIENT);
+		}
+	}
 }
