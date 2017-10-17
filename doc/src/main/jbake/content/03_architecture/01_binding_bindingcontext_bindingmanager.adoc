@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:images-folder-name: 03_architektur
+:images-folder-name: 03_architecture
 
 [[grundaufbau-binding]]
 === Binding, BindingContext, BindingManager

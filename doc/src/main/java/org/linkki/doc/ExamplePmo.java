@@ -1,7 +1,7 @@
 package org.linkki.doc;
 
 //tag::class[]
-public class BeispielPmo {
+public class ExamplePmo {
 
     private String surname;
     private String salutation;

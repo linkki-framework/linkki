@@ -4,11 +4,11 @@
 :jbake-order: 30
 
 :source-dir: ../../../java
-:images-folder-name: 03_architektur
+:images-folder-name: 03_architecture
 
-[[Architektur]]
+[[Architecture]]
 
-== Architektur
+== Architecture
 
 Central aspects of the *linkki* Frameworks are
 
