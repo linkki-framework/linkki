@@ -3,7 +3,7 @@
 :jbake-status: published
 :jbake-order: 50
 
-[[ui-komponenten]]
+[[ui-components]]
 == UI Components
 
 

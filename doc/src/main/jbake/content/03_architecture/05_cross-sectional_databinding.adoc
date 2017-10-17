@@ -5,7 +5,7 @@
 :images-folder-name: 03_architecture
 :source-dir: ../../../java
 
-[[querschnittsaspekte-im-binding]]
+[[cross-sectional-binding]]
 === Cross-Sectional Data Binding
 
 Although the state of the UI can be mostly defined by information from PMOs and the domain model, it sometimes must be additionaly influenced by other factors, such as system state, for instance. These factors are dealt with via _cross-sectional data binding_.
@@ -22,7 +22,7 @@ In browse mode all form fields should be read-only. This global editing state of
 
 ==== PropertyDispatcher
 
-The `BindingContext` (see <<grundaufbau-binding,BindingContext Basics - BindingManager>>) uses a `PropertyDispatcherFactory`, which creates multiple linked `PropertyDispatchers`. These dispatchers in turn are used to bind PMO properties (see <<binding-ui-element-properties,Binding of further UI element properties>>). `PropertyDispatchers` have methods to determine the data type and value of a property. By default *linkki* creates four linked dispatchers, where each delegates to the next if it can't provide the value:
+The `BindingContext` (see <<binding-basics,BindingContext Basics - BindingManager>>) uses a `PropertyDispatcherFactory`, which creates multiple linked `PropertyDispatchers`. These dispatchers in turn are used to bind PMO properties (see <<binding-ui-element-properties,Binding of further UI element properties>>). `PropertyDispatchers` have methods to determine the data type and value of a property. By default *linkki* creates four linked dispatchers, where each delegates to the next if it can't provide the value:
 
 * `BehaviorDependentDispatcher` uses `PropertyBehaviors` (see next section, <<property-behavior,PropertyBehaviors>>)
 * `BindingAnnotationDispatcher` provides information that can be read directly from UI annotations

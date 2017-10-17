@@ -6,10 +6,10 @@
 :source-dir-dynamic: ../../../../../../samples/dynamic-fields/src/main/java
 
 
-[[ui-tabellen]]
+[[ui-tables]]
 === Tables
 
-The basics of table creation were already mentioned in the chapter <<abschnitt-binding-table, binding of a table>>. This section details the <<ui-row-pmo,definition of table structure>>, the <<ui-container-pmo, `ContainerPmo<T>`>>, the <<ui-simple-item-supplier, `SimpleItemSupplier<PMO, MO>`>> and the <<ui-table-footer, `TableFooter`>>.
+The basics of table creation were already mentioned in the chapter <<binding-table, binding of a table>>. This section details the <<ui-row-pmo,definition of table structure>>, the <<ui-container-pmo, `ContainerPmo<T>`>>, the <<ui-simple-item-supplier, `SimpleItemSupplier<PMO, MO>`>> and the <<ui-table-footer, `TableFooter`>>.
 
 [[ui-row-pmo]]
 ==== Definition of the table structure with a row PMO

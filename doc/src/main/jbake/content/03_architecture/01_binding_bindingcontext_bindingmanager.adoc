@@ -4,7 +4,7 @@
 
 :images-folder-name: 03_architecture
 
-[[grundaufbau-binding]]
+[[binding-basics]]
 === Binding, BindingContext, BindingManager
 
 For each UI component bound to a PMO, *linkki* creates a so called `binding`. The methods of this `binding` ensure that subsequent changes in the PMO lead to an update of the UI component.
@@ -14,6 +14,6 @@ All bindings in *linkki* are part of a `BindingContext`. Typically a `BindingCon
 .BindingContext and ~Manager
 image::{images}{images-folder-name}/binding_context_manager.png[]
 
-To create and manage one or more `BindingContexts`, a `BindingManager` is used. For a given name (for instance derived from a class) it returns a `BindingContext`, creating a new one when necessary. The desired binding behavior can be defined in subclasses of `BindingManager` (see <<vertikales-binding,Vertical Binding>>). If no special behavior needs to be implemented, a `DefaultBindingManager` can be used. A `BindingManager` is typically created `@ViewScoped` and passed to each `Page` (see <<page,Page>>).
+To create and manage one or more `BindingContexts`, a `BindingManager` is used. For a given name (for instance derived from a class) it returns a `BindingContext`, creating a new one when necessary. The desired binding behavior can be defined in subclasses of `BindingManager` (see <<cross-sectional-binding,Vertical Binding>>). If no special behavior needs to be implemented, a `DefaultBindingManager` can be used. A `BindingManager` is typically created `@ViewScoped` and passed to each `Page` (see <<missing-link,Page>>).
 
 `DialogBindingManager` is a special `BindingManager`, which triggers a validation method for each change of the dialog.

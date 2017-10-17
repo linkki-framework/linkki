@@ -35,18 +35,18 @@ Model binding avoids unnecessary code dealing with delegation and is thus a "sho
 .Model Binding
 image::{images}{images-folder-name}/ModelBinding.png[]
 
-[[modell-attribut-namen]]
+[[model-attribute-names]]
 ==== Names of Model Attributes
 
 To use the model binding feature, the property `modelAttribute` must be set in the <<ui-element,UI Annotation>>. The data type of the property is `String`. The value of `modelAttribute` defines the name of the corresponding property in the domain model class. If no matching property exists in the domain model class, an exception is thrown during generation of the UI.
 
 If `modelAttribute` is given, *linkki* ignores the return value and the body of the method in the PMO. Therefore the method body can remain empty and the return type be `void`. The data binding will skip the PMO method and call the corresponding method in the domain model directly.
 
-In the example above the method in the `PersonPMO` is called `vorname()`. In the domain model, however, it is called `firstname` or `getFirstname()`. It is possible to name properties in PMO and domain model differently.
+In the example above the method in the `PersonSectionPmo` is called `firstName()`. In the domain model, however, it is called `firstname` or `getFirstname()`. It is possible to name properties in PMO and domain model differently.
 
 TIP: *linkki* searches the model for all required methods. If the setter method exists in the model but needs to be ignored in the UI, the shortcut cannot be used. Model attributes can also be set on annotated getter methods. In that case *linkki* searches for all methods in the model that it can't find in the PMO.
 
-If the `modelAttribute` is set in the annotation of a non getter method, the whole method name is treated as a PMO property. This name is then used to bind <<ui-properties,UI Properties>> such as <<enabled,enabled state>>, <<visible,visibility>> or <<available-values,available values>>.
+If the `modelAttribute` is set in the annotation of a non getter method, the whole method name is treated as a PMO property. This name is then used to bind <<ui-properties,UI Properties>> such as <<enabled,enabled state>>, <<visible,visibility>> or <<ui-combobox-content,available values>>.
 
 ==== Multiple Model Objects
 

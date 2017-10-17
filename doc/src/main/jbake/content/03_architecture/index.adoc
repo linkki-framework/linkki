@@ -7,7 +7,6 @@
 :images-folder-name: 03_architecture
 
 [[Architecture]]
-
 == Architecture
 
 Central aspects of the *linkki* Frameworks are
@@ -20,10 +19,10 @@ Central aspects of the *linkki* Frameworks are
 .Bi-directional data binding
 image::{images}{images-folder-name}/data_binding.png[]
 
-In the first part of this chapter the <<grundaufbau-binding, `BindingContext` and `BindingManager` basics>>, and how they interact, are detailed.
+In the first part of this chapter the <<binding-basics, `BindingContext` and `BindingManager` basics>>, and how they interact, are detailed.
 
-Further on, <<databinding, Data binding with PMOs>> is explained. These can be simple PMOs, in which values are stored, or <<domain-model-binding, PMOs with domain model binding>>, where values are bound directly to the domain model. The binding of <<modell-attribut-namen, multiple model objects>> in a PMO is also explained.
+Further on, <<databinding, Data binding with PMOs>> is explained. These can be simple PMOs, in which values are stored, or <<domain-model-binding, PMOs with domain model binding>>, where values are bound directly to the domain model. The binding of <<model-attribute-names, multiple model objects>> in a PMO is also explained.
 
 Which properties of the defined UI elements can be controlled and which possibilities *linkki* provides, is discussed in the section <<binding-ui-element-properties, Binding of further UI element properties>>.
 
-The chapter concludes with <<querschnittsaspekte-im-binding,Cross-Sectional Data Binding>>.
+The chapter concludes with <<cross-sectional-binding,Cross-Sectional Data Binding>>.

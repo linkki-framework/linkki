@@ -8,13 +8,13 @@
 
 When a class is annotated with `@UISection`, *linkki* takes control over the creation and arrangement of the defined components. Using annotations for the <<ui-element, UI elements>>, certain aspects can be defined or controlled. The sections are created via <<missing-link, `SectionFactories`>>.
 
-The <<ui-element, `UI elements`>> are bound either to the 'properties' of a <<binding-modelObjet, `ModelObject`>> or a PMO. A detailed description can be found in the chapter <<domain-model-binding, `Data on Multiple Layers`>>.
+The <<ui-element, `UI elements`>> are bound either to the 'properties' of a `ModelObject` or a PMO. A detailed description can be found in the chapter <<domain-model-binding, `Data on Multiple Layers`>>.
 
 TIP: In all cases, if the `ModelObject` or PMO doesn't have a corresponding setter, the field is `readOnly`.
 
-In the <<abschnitt-form-binding, first section>> the creation of a section for a 'standard' form is exemplified. In the <<abschnitt-binding-table, second section>> the creation of a section with a table is detailed.
+In the <<form-binding, first section>> the creation of a section for a 'standard' form is exemplified. In the <<binding-table, second section>> the creation of a section with a table is detailed.
 
-[[abschnitt-form-binding]]
+[[form-binding]]
 ==== Binding of a Form
 
 [[binding-model-object]]
@@ -25,7 +25,7 @@ include::{source-dir}/org/linkki/samples/binding/pmo/PersonSectionPmo.java[tags=
 ----
 TIP: The definition of `modelAttribute` is optional if the property name in the `ModelObject` and the name of the annotated method are equal.
 
-[[abschnitt-binding-table]]
+[[binding-table]]
 ==== Binding of a Table
 
 To create a section with a table the annotated class must implement <<ui-container-pmo, `org.linkki.core.ui.table.ContainerPmo<T>`>>. The generic parameter `T` represents the type of the PMO to create a row in this table.
@@ -44,7 +44,7 @@ include::{source-dir}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=pe
 
 In the `interface ContainerPmo<T>` additional `default` methods are defined. A detailed description can be found <<ui-container-pmo, here>>.
 
-The so called 'Row PMO' is a regular PMO as described in <<abschnitt-form-binding, the first section>>. The only difference is that the UI elements are also annotated with <<ui-table-column, `@UITableColumn`>>.
+The so called 'Row PMO' is a regular PMO as described in <<form-binding, the first section>>. The only difference is that the UI elements are also annotated with <<ui-table-column, `@UITableColumn`>>.
 
 [source,java]
 ----
