@@ -1,0 +1,135 @@
+=== linkki
+
+A data binding framework for web based user interfaces with https://vaadin.com/home[Vaadin].
+
+==== Features
+
+Commonly applications consist of a variety of input elements that closely mirror objects and properties of a domain model. Creating such user interfaces and implementing the synchronization with the domain model is often a repetitive task. *linkki* automates most of the data binding tasks, enabling developers to focus on the domain- and UI logic.
+
+* Fast UI development
+* Declarative UI definition (with annotations)
+* UI logic implementation using the presentation model pattern (PMO)
+* Automatic data binding between (P)MO and UI elements
+* Dynamic binding of other UI properties, including
+** Visibility
+** Enabled-state
+** List of available values
+
+==== Examples
+
+==== Model Binding
+[source,java]
+
+----
+    @ModelObject
+    public Report getReport() {
+        return report;
+    }
+----
+
+==== Textfield/Textarea
+[source,java]
+
+----
+    @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 5, columns = 50)
+    public void description() {
+        /* Use description from report (model object) directly */
+    }
+----
+
+==== ComboBox
+[source,java]
+
+----
+    @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED)
+    public void type() {
+        /*
+         * - bind value to the property "type" from report - use enum constants from ReportType as
+         * available values
+         */
+    }
+----
+
+==== Button
+[source,java]
+
+----
+    @UIButton(position = 30, caption = "Send", icon = FontAwesome.SEND, showIcon = true, enabled = EnabledType.DYNAMIC)
+    public void send() {
+        report.save();
+        Notification.show(
+                          String.format("Report with id %d filed!", report.getId()),
+                          "Thank you for reporting!",
+                          Notification.Type.TRAY_NOTIFICATION);
+    }
+
+    /**
+     * Enable button only if description and type is present.
+     *
+     * @return {@code true} if button is enabled otherwise {@code false}
+     */
+    public boolean isSendEnabled() {
+        String description = report.getDescription();
+        return description != null && !description.isEmpty()
+                && report.getType() != null;
+    }
+}
+----
+:images: doc/src/main/jbake/assets/images/content
+
+.Report with disabled send button
+image::{images}/report_disabled.png[]
+
+.Report with enabled send button
+image::{images}/report_enabled.png[]
+
+
+NOTE: The complete example can be found at http://doc.linkki-framework.org/linkki-1.0-SNAPSHOT/02_getting-started/01_error_report.html[Getting Started - 'Error report' tutorial].
+
+
+==== Installation
+
+*linkki* is available from Maven Central and can be included via Maven/Gradle:
+
+.Maven dependency
+[source,xml]
+----
+<dependency>
+  <groupId>org.linkki</groupId>
+  <artifactId>linkki-core</artifactId>
+  <version>${linkki.version}</version>
+</dependency>
+----
+
+To compile *linkki*, first clone the project from https://github.com/linkki-framework/linkki-core[GitHub]. The used build tool is Apache Maven.
+[source,bash]
+----
+$> mvn clean install
+----
+
+==== Contribution
+
+* Bug reports, new ideas and improvements can be created in the https://github.com/linkki-framework/linkki-core/issues[GitHub issue tracker]
+* Collaboration on issues/tasks via pull requests
+
+
+==== Documentation
+
+Documentation for linkki can be found at http://doc.linkki-framework.org[doc.linkki-framework.org].
+
+
+==== License
+
+Copyright Faktor Zehn AG.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
