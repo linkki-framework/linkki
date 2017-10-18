@@ -86,7 +86,7 @@
                     def ankorMap = new HashMap<String, String>()
                     def basedir = new File(dir + "/content/")
                     def targetDir = new File(
-                            config.project_basedir + "/target/" + "linkki-core-documentation-" + "1.0-SNAPSHOT" + "/");
+                            config.jbake_outputDirectory);
 
                     for (File dirAdoc : basedir.listFiles()) {
                         for (File adoc : dirAdoc.listFiles()) {

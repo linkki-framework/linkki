@@ -15,6 +15,7 @@
         <asciidoctorj.pdf.version>1.5.0-alpha.14</asciidoctorj.pdf.version>
         <asciidoctorj.version>1.5.5</asciidoctorj.version>
         <jruby.version>1.7.26</jruby.version>
+        <jbake.outputDirectory>${project.build.directory}/linkki-${project.version}</jbake.outputDirectory>
     </properties>
 
     <artifactId>linkki-core-documentation</artifactId>
@@ -38,7 +39,7 @@
                 <artifactId>jbake-maven-plugin</artifactId>
                 <version>1.0.0</version>
                 <configuration>
-                    <outputDirectory>${project.build.directory}/linkki-${project.version}</outputDirectory>
+                    <outputDirectory>${jbake.outputDirectory}</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>
@@ -50,6 +51,7 @@
                             <properties>
                                 <site.url>http://localhost:8820/</site.url>
                                 <project.basedir>${project.basedir}</project.basedir>
+                                <jbake.outputDirectory>${jbake.outputDirectory}</jbake.outputDirectory>
                             </properties>
                         </configuration>
                     </execution>
