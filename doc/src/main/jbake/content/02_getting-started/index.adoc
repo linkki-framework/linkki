@@ -1,0 +1,6 @@
+:jbake-title: Getting Started
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 1
+
+== Getting Started
