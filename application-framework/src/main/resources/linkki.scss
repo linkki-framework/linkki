@@ -47,10 +47,31 @@ $linkki-sidebar-width: 56px !default;
     }
   }
   
+  /*
+   * error markings in table cells need to be repeated here to overwrite textfield-borderless
+   */
+  .v-table-cell-content .v-textfield-error-error {
+    border: 1px solid $linkki-color-error !important;
+    border-radius : 2px;
+    background: #fffbfb;
+    color: #6c2621;
+  }
+  .v-table-cell-content .v-textfield-error-warning {
+    border: 1px solid $linkki-color-warning !important;
+    border-radius : 2px;
+    background: #fffdfa;
+    color: #745119;
+  }
+  .v-table-cell-content .v-textfield-error-info {
+    border: 1px solid $linkki-color-info !important;
+    border-radius : 2px;
+    background: #fafdff;
+    color: #195774;
+  }
+  
   /* 
   * Login popup
   */
-  
   .linkki-login-panel {
     width: 100% !important;
     padding: 8px;
