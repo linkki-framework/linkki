@@ -95,7 +95,7 @@ NOTE: The complete example can be found at http://doc.linkki-framework.org/linkk
 [source,xml]
 ----
 <dependency>
-  <groupId>org.linkki</groupId>
+  <groupId>org.linkki-framework</groupId>
   <artifactId>linkki-core</artifactId>
   <version>${linkki.version}</version>
 </dependency>

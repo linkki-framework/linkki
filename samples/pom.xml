@@ -63,7 +63,7 @@
             </dependency>
 
             <dependency>
-                <groupId>org.linkki</groupId>
+                <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core</artifactId>
                 <version>${linkki.version}</version>
             </dependency>
