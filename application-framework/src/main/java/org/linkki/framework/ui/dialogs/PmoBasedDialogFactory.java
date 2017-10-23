@@ -108,7 +108,11 @@ public class PmoBasedDialogFactory {
             } else {
                 content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
             }
-            dialog.addContent(content);
+            float expRatio = 0f;
+            if (pmo == pmos[pmos.length - 1]) {
+                expRatio = 1f;
+            }
+            dialog.addContent(content, expRatio);
         }
         bindingContext.updateUI();
 
