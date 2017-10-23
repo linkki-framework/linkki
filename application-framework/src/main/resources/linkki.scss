@@ -9,6 +9,11 @@ $v-app-background-color: #fdfdfd !default;
 $v-font-color: #474747 !default;
 $v-focus-color: #005596 !default;
 $v-border: 1px solid darken($v-app-background-color, 15%) !default;
+$v-line-height: 1.0 !default;
+$v-layout-margin-top: 5px !default;
+$v-layout-margin-bottom: 5px !default;
+$v-layout-margin-left: 5px !default;
+$v-layout-margin-right: 5px !default;
 
 $linkki-color-primary: $v-focus-color !default;
 $linkki-color-foreground-light: $v-font-color !default;
