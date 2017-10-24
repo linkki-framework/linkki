@@ -26,11 +26,9 @@ import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.table.ContainerPmo;
-import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -103,17 +101,14 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     }
 
     /**
-     * Adds the two components / sections to the page, each taking 50% of the page width.
-     */
-    protected void add(Component leftSection, Component rightSection) {
-        add(0, leftSection, rightSection);
-    }
-
-    /**
      * Adds the components / sections to the page, each taking an equal part of the page width.
      */
     protected void add(Component... sections) {
-        add(0, sections);
+        setSpacing(true);
+        addComponents(sections);
+        for (Component component : sections) {
+            setExpandRatio(component, 1f / sections.length);
+        }
     }
 
     /**
@@ -126,28 +121,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
         AbstractSection[] sections = Arrays.stream(pmos)
                 .map(pmo -> sectionFactory.createSection(pmo, getBindingContext()))
                 .toArray(AbstractSection[]::new);
-        add(0, sections);
-    }
-
-    /**
-     * Adds the two components / sections to the page, and indents them. Each section is taking an
-     * equal part of the rest of the page width.
-     * 
-     * @param indentation level of indentation, indentation size is indentation * 30px. Indentation
-     *            0 or less does not indent.
-     */
-    protected void add(int indentation, Component... sections) {
-        HorizontalLayout wrapper = new HorizontalLayout();
-        wrapper.setWidth("100%");
-        wrapper.setSpacing(true);
-        addComponent(wrapper);
-        if (indentation > 0) {
-            ComponentFactory.addHorizontalFixedSizeSpacer(wrapper, 30 * indentation);
-        }
-        wrapper.addComponents(sections);
-        for (Component component : wrapper) {
-            wrapper.setExpandRatio(component, 1f / sections.length);
-        }
+        add(sections);
     }
 
     /**
