@@ -21,6 +21,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-checkbox,`UICheckbox`>> |Control for boolean input
 |<<ui-datefield,`UIDateField`>> |Field for date entry with date picker
 |<<ui-combobox,`UICombobox`>> |Dropdown field with predefined options
+|<<ui-yesnocombobox,`UIYesNoCombobox`>> |Dropdown field for boolean choices
 |===
 
 [[ui-buttons]]
@@ -212,6 +213,13 @@ For displaying the individual values in the combobox a `org.linkki.core.ui.compo
 
 * `ToStringCaptionProvider`: uses the `toString()`method of the elements
 * `IdAndNameCaptionProvider`: displays name and ID in the format `"name [ID]"` using the methods `getName()` and `getId()`.
+
+[[ui-yesnocombobox]]
+==== UIYesNoComboBox
+A `@UIYesNoComboBox` allows selection of a boolean value from a dropdown list like a <<ui-combobox, `UIComboBox`>>. The difference is that the values are not a generic enumeration or list but the well known boolean values `true` and `false` (and for `Boolean`, the option `null`). It has two properties known from the <<ui-combobox, `UIComboBox`>>:
+
+* <<ui-combobox-width,`width: String`>>
+* <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>>
 
 [[ui-subsetchooser]]
 ==== UISubsetChooser
