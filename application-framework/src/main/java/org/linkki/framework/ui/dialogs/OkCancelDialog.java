@@ -65,9 +65,6 @@ public class OkCancelDialog extends Window {
 
     private static final long serialVersionUID = 1L;
 
-    private boolean okPressed = false;
-    private boolean cancelPressed = false;
-
     /**
      * The overall layout of this window. This is the content of the dialog window that contains all
      * other UI component.
@@ -85,20 +82,26 @@ public class OkCancelDialog extends Window {
     /** The handler that handles clicks on the OK button. */
     private final Handler okHandler;
 
-    /** The validation messages displayed in the dialog. */
-    private MessageList messages = new MessageList();
-
     /** Service to validate data in the dialog, called when the user clicks OK. */
     private ValidationService validationService = ValidationService.NOP_VALIDATION_SERVICE;
 
     /** The state which validation messages are displayed. */
     private ValidationDisplayState validationDisplayState = ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS;
 
+    /** Called when the dialog was validated, e.g. after the OK button was clicked. */
+    private Handler beforeOkHandler = Handler.NOP_HANDLER;
+
     /**
      * The message row that displays the first message from the message list if there is a message
      * to display.
      */
     private Optional<MessageRow> messageRow = Optional.empty();
+
+    private boolean okPressed = false;
+
+    private boolean cancelPressed = false;
+
+    private boolean mayProceed = true;
 
     /**
      * Creates a new dialog with the given caption that displays both the OK and Cancel button and
@@ -233,10 +236,13 @@ public class OkCancelDialog extends Window {
         buttons.setComponentAlignment(okButton, Alignment.BOTTOM_CENTER);
         okButton.addClickListener(e -> {
             setOkPressed();
-            if (!validate().containsErrorMsg()) {
-                ok();
-                close();
-            }
+            beforeOkHandler.andThen(() -> {
+                if (mayProceed) {
+                    ok();
+                    close();
+                }
+            }).apply();
+
         });
 
         if (buttonOption == ButtonOption.OK_CANCEL) {
@@ -302,26 +308,21 @@ public class OkCancelDialog extends Window {
      * displayed. If the message list contains an error message the OK button is disabled.
      */
     public MessageList validate() {
-        messages = validationDisplayState.filter(validationService.getValidationMessages());
+        MessageList messages = validationDisplayState.filter(getValidationService().getValidationMessages());
         messageRow.ifPresent(contentArea::removeComponent);
-        getMessageToDisplay().ifPresent(m -> {
-            MessageRow newRow = new MessageRow(m);
-            newRow.setWidth("100%"); //$NON-NLS-1$
-            messageRow = Optional.of(newRow);
-            contentArea.addComponent(newRow);
-            contentArea.setExpandRatio(newRow, 0f);
-            contentArea.setComponentAlignment(newRow, Alignment.MIDDLE_LEFT);
-        });
-        update();
+        messages.getErrorLevel().flatMap(messages::getFirstMessage).ifPresent(this::addMessageRow);
+        mayProceed = !messages.containsErrorMsg();
+        okButton.setEnabled(mayProceed);
         return messages;
     }
 
-    /**
-     * Returns the messages from which a message is displayed in the dialog (if the list is not
-     * empty).
-     */
-    public MessageList getMessages() {
-        return messages;
+    private void addMessageRow(Message message) {
+        MessageRow newRow = new MessageRow(message);
+        newRow.setWidth("100%"); //$NON-NLS-1$
+        messageRow = Optional.of(newRow);
+        contentArea.addComponent(newRow);
+        contentArea.setExpandRatio(newRow, 0f);
+        contentArea.setComponentAlignment(newRow, Alignment.MIDDLE_LEFT);
     }
 
     /** Returns the validation service that validates data in the dialog. */
@@ -335,19 +336,13 @@ public class OkCancelDialog extends Window {
         this.validationService = requireNonNull(validationService, "validationService must not be null"); //$NON-NLS-1$
     }
 
-    private Optional<Message> getMessageToDisplay() {
-        return messages.getErrorLevel()
-                .flatMap(messages::getFirstMessage);
-    }
-
     /**
-     * Updates the state of the dialog. Currently only the enabled state of the OK button is
-     * updated.
-     * 
-     * @see #isOkEnabled()
+     * Sets a handler that will be called after the OK button is pressed but before the
+     * {@code okHandler} (given to this dialog's constructor). This handler may change this dialog's
+     * (validation) state so that the {@code okHandler} may not be called afterwards.
      */
-    private void update() {
-        okButton.setEnabled(isOkEnabled());
+    public void setBeforeOkHandler(Handler beforeOkHandler) {
+        this.beforeOkHandler = beforeOkHandler;
     }
 
     /**
@@ -370,14 +365,6 @@ public class OkCancelDialog extends Window {
     public void addContent(Component c, float expandRatio) {
         mainArea.addComponent(c);
         mainArea.setExpandRatio(c, expandRatio);
-    }
-
-    /**
-     * Returns whether or not the OK button is enabled. The OK button is enabled when
-     * {@link #getMessages()} does not contain an error message.
-     */
-    public boolean isOkEnabled() {
-        return !messages.containsErrorMsg();
     }
 
     /**

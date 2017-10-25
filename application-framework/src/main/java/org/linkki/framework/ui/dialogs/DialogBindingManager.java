@@ -41,6 +41,7 @@ public class DialogBindingManager extends BindingManager {
 
         requireNonNull(dialog, "dialog must not be null");
         dialog.setValidationService(validationService);
+        dialog.setBeforeOkHandler(this::afterUpdateUi);
     }
 
     @Override

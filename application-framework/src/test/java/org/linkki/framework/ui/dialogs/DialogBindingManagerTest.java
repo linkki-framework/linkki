@@ -40,7 +40,7 @@ public class DialogBindingManagerTest {
         DialogBindingManager manager = new DialogBindingManager(dialog, ValidationService.of(messages));
 
         manager.afterUpdateUi();
-        assertThat(dialog.getMessages(), is(messages));
+        assertThat(dialog.getValidationService().getValidationMessages(), is(messages));
     }
 
     @Test

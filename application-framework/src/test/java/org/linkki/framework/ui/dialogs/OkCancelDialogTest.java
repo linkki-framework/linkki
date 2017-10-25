@@ -52,7 +52,6 @@ public class OkCancelDialogTest {
 
         assertThat(dialog, is(not(displayingMessage())));
         assertThat(dialog, is(showingEnabledOkButton()));
-        assertThat(dialog.isOkEnabled(), is(true));
     }
 
     @Test
@@ -69,21 +68,18 @@ public class OkCancelDialogTest {
         dialog.validate();
         assertThat(dialog, is(displayingMessage("error")));
         assertThat(dialog, is(showingDisabledOkButton()));
-        assertThat(dialog.isOkEnabled(), is(false));
 
         // MessageList without entries: nothing is displayed, button is enabled
         messages.clear();
         dialog.validate();
         assertThat(dialog, is(not(displayingMessage())));
         assertThat(dialog, is(showingEnabledOkButton()));
-        assertThat(dialog.isOkEnabled(), is(true));
 
         // MessageList with warning: warning is displayed, button is enabled
         messages.add(Message.newWarning("warning", "warning"));
         dialog.validate();
         assertThat(dialog, is(displayingMessage("warning")));
         assertThat(dialog, is(showingEnabledOkButton()));
-        assertThat(dialog.isOkEnabled(), is(true));
     }
 
     @Test
