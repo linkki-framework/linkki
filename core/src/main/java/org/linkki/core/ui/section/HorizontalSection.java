@@ -63,16 +63,23 @@ public class HorizontalSection extends BaseSection {
     }
 
     @Override
+    public void add(String propertyName, Label label, Component component) {
+        add(label, component);
+    }
+
     public Label add(String label, Component component) {
         Label l = new Label(label);
+        add(l, component);
+        return l;
+    }
+
+    private void add(Label l, Component component) {
         l.setWidthUndefined();
         content.addComponent(l);
         content.addStyleName(ApplicationStyles.SPACING_HORIZONTAL_SECTION);
         add(component);
-        return l;
     }
 
-    @Override
     public void add(Component component) {
         content.addComponent(component);
         // content.setComponentAlignment(component, Alignment.MIDDLE_LEFT);

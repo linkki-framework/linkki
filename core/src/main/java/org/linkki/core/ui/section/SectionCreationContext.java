@@ -92,6 +92,11 @@ public class SectionCreationContext {
                         sectionDefinition.closeable(),
                         editButton);
                 break;
+            case CUSTOM:
+                section = new CustomLayoutSection(pmo.getClass().getSimpleName(), caption,
+                        sectionDefinition.closeable(),
+                        editButton);
+                break;
             default:
                 throw new IllegalStateException("unknown SectionLayout#" + layout);
         }
@@ -135,7 +140,9 @@ public class SectionCreationContext {
     private LabelComponent createLabelAndComponent(BaseSection section, ElementDescriptor uiElement) {
         Component component = uiElement.newComponent();
         String labelText = uiElement.getLabelText();
-        Label label = section.add(labelText, component);
+        String pmoPropertyName = uiElement.getPmoPropertyName();
+        Label label = new Label(labelText);
+        section.add(pmoPropertyName, label, component);
         return new LabelComponent(label, component);
     }
 

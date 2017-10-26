@@ -115,30 +115,31 @@ public class FormSection extends BaseSection {
     }
 
     /**
-     * Adds a component to the content without a label in front. The component takes the whole
-     * available width.
+     * Adds a component with a label in front. If the component has 100% width, the component will
+     * span the 2nd and 3rd column. If the component does not have 100% width it will be placed in
+     * the 2nd column and an empty label grabbing any available space will be placed in the 3rd
+     * column.
+     * <p>
+     * The {@code propertyName} is ignored.
      */
     @Override
-    public void add(Component component) {
-        int row = contentGrid.getCursorY();
-        int column = contentGrid.getCursorX();
-        if (UiUtil.isWidth100Pct(component)) {
-            contentGrid.addComponent(component, column, row, column + 2, row);
-        } else {
-            contentGrid.addComponent(component, column, row, column + 1, row);
-            ComponentFactory.addHorizontalSpacer(contentGrid);
-        }
+    public void add(String propertyName, Label label, Component component) {
+        add(label, component);
     }
 
     /**
      * Adds a component with a label in front. If the component has 100% width, the component will
-     * span the 2. and 3. column. If the component hasn't 100% width the component will be placed in
-     * the 2. column and an empty label grabbing any available space will be placed in the 3.
+     * span the 2nd and 3rd column.If the component does not have 100% width it will be placed in
+     * the 2nd column and an empty label grabbing any available space will be placed in the 3rd
      * column.
      */
-    @Override
     public Label add(String label, Component component) {
         Label l = new Label(label);
+        add(l, component);
+        return l;
+    }
+
+    private void add(Label l, Component component) {
         l.setWidthUndefined();
         contentGrid.addComponent(l);
         contentGrid.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
@@ -153,7 +154,21 @@ public class FormSection extends BaseSection {
             ComponentFactory.addHorizontalSpacer(contentGrid);
         }
         contentGrid.setComponentAlignment(component, Alignment.MIDDLE_LEFT);
-        return l;
+    }
+
+    /**
+     * Adds a component to the content without a label in front. The component takes the whole
+     * available width.
+     */
+    public void add(Component component) {
+        int row = contentGrid.getCursorY();
+        int column = contentGrid.getCursorX();
+        if (UiUtil.isWidth100Pct(component)) {
+            contentGrid.addComponent(component, column, row, column + 2, row);
+        } else {
+            contentGrid.addComponent(component, column, row, column + 1, row);
+            ComponentFactory.addHorizontalSpacer(contentGrid);
+        }
     }
 
     @Override
