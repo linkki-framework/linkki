@@ -11,5 +11,19 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
-package org.linkki.framework.ui.messages;
+package org.linkki.framework.ui.nls;
+
+import org.linkki.core.nls.NlsService;
+
+public class NlsText {
+    private static final String BUNDLE_NAME = "org/linkki/framework/ui/messages/messages"; //$NON-NLS-1$
+
+    private NlsText() {
+        // do not instantiate
+    }
+
+    public static String getString(String key) {
+        return NlsService.get().getString(BUNDLE_NAME, key).orElseGet(() -> '!' + key + '!');
+    }
+
+}

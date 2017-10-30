@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
-import org.linkki.framework.ui.messages.Messages;
+import org.linkki.framework.ui.nls.NlsText;
 
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.server.FontAwesome;
@@ -73,8 +73,8 @@ public class ApplicationHeader extends HorizontalLayout {
         menuBar.addStyleName(ApplicationStyles.BORDERLESS);
         MenuItem item = menuBar.addItem("", FontAwesome.QUESTION_CIRCLE, null); //$NON-NLS-1$
         item.setStyleName(ApplicationStyles.APPLICATION_HEADER);
-        item.addItem(Messages.getString("ApplicationHeader.Help"), null); //$NON-NLS-1$
-        item.addItem(Messages.getString("ApplicationHeader.Shortcuts"), null); //$NON-NLS-1$
+        item.addItem(NlsText.getString("ApplicationHeader.Help"), null); //$NON-NLS-1$
+        item.addItem(NlsText.getString("ApplicationHeader.Shortcuts"), null); //$NON-NLS-1$
     }
 
     protected void createUserSection(HorizontalLayout menuWrapper) {
@@ -94,9 +94,9 @@ public class ApplicationHeader extends HorizontalLayout {
         menuBar.addStyleName(ValoTheme.MENUBAR_BORDERLESS);
         MenuItem item = menuBar.addItem("", null); //$NON-NLS-1$
         item.setStyleName(ApplicationStyles.APPLICATION_HEADER);
-        item.addItem(Messages.getString("ApplicationHeader.Preferences"), null); //$NON-NLS-1$
+        item.addItem(NlsText.getString("ApplicationHeader.Preferences"), null); //$NON-NLS-1$
         item.addSeparator();
-        item.addItem(Messages.getString("ApplicationHeader.Logout"), newLogoutCommand()); //$NON-NLS-1$
+        item.addItem(NlsText.getString("ApplicationHeader.Logout"), newLogoutCommand()); //$NON-NLS-1$
 
     }
 

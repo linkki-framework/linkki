@@ -27,7 +27,7 @@ import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.Page;
 import org.linkki.framework.ui.component.MessageRow;
-import org.linkki.framework.ui.messages.Messages;
+import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -144,7 +144,7 @@ public class OkCancelDialog extends Window {
         this.layout = new VerticalLayout();
         this.contentArea = new VerticalLayout();
         this.mainArea = new VerticalLayout();
-        this.okButton = new Button(Messages.getString("OkCancelDialog.OkButtonCaption")); //$NON-NLS-1$
+        this.okButton = new Button(NlsText.getString("OkCancelDialog.OkButtonCaption")); //$NON-NLS-1$
         okButton.setClickShortcut(KeyCode.ENTER);
         okButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
 
@@ -239,7 +239,7 @@ public class OkCancelDialog extends Window {
         });
 
         if (buttonOption == ButtonOption.OK_CANCEL) {
-            Button cancel = new Button(Messages.getString("OkCancelDialog.CancelButtonCaption")); //$NON-NLS-1$
+            Button cancel = new Button(NlsText.getString("OkCancelDialog.CancelButtonCaption")); //$NON-NLS-1$
             buttons.addComponent(cancel);
             buttons.setComponentAlignment(cancel, Alignment.MIDDLE_CENTER);
             cancel.addClickListener(e -> {
