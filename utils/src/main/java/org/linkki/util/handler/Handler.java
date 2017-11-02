@@ -37,12 +37,34 @@ public interface Handler {
     /**
      * Returns a composed handler that first executes this handler's {@link #apply()} method and
      * then the {@link #apply()} method of the given handler.
+     * 
+     * @see #compose(Handler)
      */
     default Handler andThen(Handler after) {
         requireNonNull(after, "after must not be null");
         return () -> {
             apply();
             after.apply();
+        };
+    }
+
+    /**
+     * Returns a composed handler that first applies the {@code before} handler, and then applies
+     * this handler. If evaluation of either handler throws an exception, it is relayed to the
+     * caller of the composed handler.
+     *
+     * @param before the handler to apply before this handler is applied
+     * @return a composed handler that first applies the {@code before} handler and then applies
+     *         this handler
+     * @throws NullPointerException if before is null
+     *
+     * @see #andThen(Handler)
+     */
+    default Handler compose(Handler before) {
+        requireNonNull(before, "before must not be null");
+        return () -> {
+            before.apply();
+            apply();
         };
     }
 
