@@ -35,7 +35,7 @@ import org.linkki.util.validation.ValidationMarker;
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 
 /**
- * A list of {@link Message Messages}.
+ * A list of {@link Message NlsText}.
  */
 public class MessageList implements Serializable, Iterable<Message> {
 
@@ -330,7 +330,7 @@ public class MessageList implements Serializable, Iterable<Message> {
 
 
     /**
-     * Returns a new {@link MessageList} containing the same {@link Message Messages} as this list,
+     * Returns a new {@link MessageList} containing the same {@link Message NlsText} as this list,
      * sorted by descending {@link ErrorLevel}. Within each error level the previous order is
      * preserved.
      */

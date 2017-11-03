@@ -11,22 +11,5 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.core.ui.messages;
-
-import org.linkki.core.nls.NlsService;
-
-/**
- * Message bundle for linkki core i18n.
- */
-public class Messages {
-    private static final String BUNDLE_NAME = "org/linkki/core/ui/messages/messages"; //$NON-NLS-1$
-
-    private Messages() {
-        // do not instantiate
-    }
-
-    public static String getString(String key) {
-        return NlsService.get().getString(BUNDLE_NAME, key).orElseGet(() -> '!' + key + '!');
-    }
-
-}
+@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+package org.linkki.core.ui.nls;

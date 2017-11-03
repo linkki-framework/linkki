@@ -16,7 +16,7 @@ package org.linkki.framework.ui.nls;
 import org.linkki.core.nls.NlsService;
 
 public class NlsText {
-    private static final String BUNDLE_NAME = "org/linkki/framework/ui/messages/messages"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME = "org/linkki/framework/ui/nls/messages"; //$NON-NLS-1$
 
     private NlsText() {
         // do not instantiate

@@ -17,7 +17,7 @@ import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
 
 /**
- * {@link Collector} collecting {@link Message Messages} into a {@link MessageList}.
+ * {@link Collector} collecting {@link Message NlsText} into a {@link MessageList}.
  */
 public final class MessageListCollector {
 

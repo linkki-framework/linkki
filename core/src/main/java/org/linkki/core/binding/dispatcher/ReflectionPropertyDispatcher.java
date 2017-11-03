@@ -170,7 +170,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         } else {
             MessageList msgListForBoundObject = messageList.getMessagesFor(boundObject, getProperty());
             msgListForBoundObject.add(fallbackDispatcher.getMessages(messageList));
-            // TODO may additionally call a method like "get<Property>Messages()"
+            // TODO may additionally call a method like "get<Property>NlsText()"
             return msgListForBoundObject;
         }
     }

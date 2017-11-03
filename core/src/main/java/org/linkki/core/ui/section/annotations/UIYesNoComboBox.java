@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 import javax.annotation.Nonnull;
 
 import org.linkki.core.ui.components.ItemCaptionProvider;
-import org.linkki.core.ui.messages.Messages;
+import org.linkki.core.ui.nls.NlsText;
 import org.linkki.core.ui.section.annotations.adapters.YesNoComboBoxBindingDefinition;
 
 /**
@@ -91,8 +91,8 @@ public @interface UIYesNoComboBox {
         }
 
         private String booleanToCaption(Boolean bool) {
-            return bool ? Messages.getString("BooleanCaptionProvider.True") //$NON-NLS-1$
-                    : Messages.getString("BooleanCaptionProvider.False"); //$NON-NLS-1$
+            return bool ? NlsText.getString("BooleanCaptionProvider.True") //$NON-NLS-1$
+                    : NlsText.getString("BooleanCaptionProvider.False"); //$NON-NLS-1$
         }
     }
 }

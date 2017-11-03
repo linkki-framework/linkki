@@ -45,7 +45,7 @@ public class MessageUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 
-		Page.getCurrent().setTitle("linkki Samples :: Messages");
+		Page.getCurrent().setTitle("linkki Samples :: NlsText");
 
 		VaadinSession.getCurrent().setConverterFactory(new LinkkiConverterFactory());
 
