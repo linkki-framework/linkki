@@ -101,7 +101,7 @@ NOTE: The complete example can be found at http://doc.linkki-framework.org/linkk
 </dependency>
 ----
 
-To compile *linkki*, first clone the project from https://github.com/linkki-framework/linkki-core[GitHub]. The used build tool is Apache Maven.
+To compile *linkki*, first clone the project from https://github.com/linkki-framework/linkki[GitHub]. The used build tool is Apache Maven.
 [source,bash]
 ----
 $> mvn clean install
@@ -109,7 +109,7 @@ $> mvn clean install
 
 ==== Contribution
 
-* Bug reports, new ideas and improvements can be created in the https://github.com/linkki-framework/linkki-core/issues[GitHub issue tracker]
+* Bug reports, new ideas and improvements can be created in the https://github.com/linkki-framework/linkki/issues[GitHub issue tracker]
 * Collaboration on issues/tasks via pull requests
 
 

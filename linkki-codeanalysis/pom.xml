@@ -6,7 +6,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>linkki Code Analysis Configurations</name>
     <description>A data binding framework for web based user interfaces with Vaadin.</description>
-    <url>https://github.com/linkki-framework/linkki-core</url>
+    <url>https://github.com/linkki-framework/linkki</url>
     <licenses>
       <license>
         <name>The Apache License, Version 2.0</name>
@@ -43,9 +43,9 @@
     </build>
 
     <scm>
-        <connection>scm:git:https://github.com/linkki-framework/linkki-core.git</connection>
+        <connection>scm:git:https://github.com/linkki-framework/linkki.git</connection>
         <developerConnection>scm:git:ssh://${git.user}@projekte.faktorzehn.de/projekte/linkki.git</developerConnection>
-        <url>https://github.com/linkki-framework/linkki-core/tree/master</url>
+        <url>https://github.com/linkki-framework/linkki/tree/master</url>
         <tag>HEAD</tag>
     </scm>
 
