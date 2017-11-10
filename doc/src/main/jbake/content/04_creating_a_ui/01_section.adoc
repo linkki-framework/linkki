@@ -6,13 +6,13 @@
 
 A group of input fields or a table is called a _Section_. A section can have a title and when it does it is visually delimited by a line in the title bar. Without a title, a section isn't directly recognizable in the layout. 
 
-A section also defines in which arrangement the content should be displayed: Horizontal or vertical. With the horizontal layout all input fields are displayed on a line, side by side. With the vertical layout fields are displayed one below the other. If additionally a number of columns are defined with the property `columns`, a kind of grid layout is produced, row by row.
+A section also defines <<layout, the layout>> within the section, that means the order how the components are arranged.
 
-A section can contain a table instead of multiple input fields and is then called a _TableSection_.
+If a section contains a table instead of multiple input fields it is called _TableSection_.
 
 [[section-id]]
 ==== SectionID
 
-Each HTML element of a section can be accessed via ID. This can be used, for instance, to identify a section for UI testing. By default the SimpleName of the class is used as ID. Alternatively the annotation '@SectionID' can be used to specify a method that returns the ID for the section.
+Each HTML element of a section can be accessed via an ID. This can be used, for instance, to identify a section for UI testing. By default the SimpleName of the class is used as ID. Alternatively the annotation '@SectionID' can be used to specify a method that returns the ID for the section.
 
-A section that was annotated with '@SectionID', calls the specified method exactly once. It remains the same for the duration of the session and is not updated dynamically.
+A section that was annotated with '@SectionID', calls the specified method exactly once when it is created. It remains the same for the duration of the session and is not updated dynamically.

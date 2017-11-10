@@ -6,10 +6,9 @@
 [[ui-components]]
 == UI Components
 
+As already described in the section <<pmo-uisection, how to create a section>>, UI components are not instantiated directly, they are declared via annotations on the PMO properties instead. When *linkki* is instructed to create a section based on a PMO, the annotations are read and corresponding UI components are instantiated. The components are arranged using the defined position and the layout defined by the `@UISection` annotation.
 
-During the <<pmo-uisection,creation of UIs with @UISection>> UI components are not defined directly, they are declared via annotations on the PMO properties instead. Later they are generated from the annotations by *linkki* and inserted in a UISection.
-
-*linkki* offers ready-to-use annotations for the most common UI components, which generate standard Vaadin elements or custom subclasses depending on the data type. These are prefixed with "UI".
+*linkki* offers ready-to-use annotations for the most common UI components, which generate standard Vaadin elements or custom subclasses depending on the data type. These are prefixed with "@UI...".
 
 These UI components can be divided in two groups: <<ui-field, fields>> and <<ui-button, buttons>>. Using the annotation <<tooltips, `@UITooltip`>>, tooltips can be bound to these components. Additionally *linkki* allows for the creation of <<ui-container-pmo, tables>>.
 
