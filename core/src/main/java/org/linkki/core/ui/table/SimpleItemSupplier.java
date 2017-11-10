@@ -21,6 +21,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -47,8 +48,9 @@ public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
     @Nullable
     private List<? extends MO> modelObjectsCopy;
 
-    private Supplier<List<? extends MO>> modelObjectSupplier;
-    private Function<MO, PMO> mo2pmoMapping;
+    @Nonnull
+    private final Supplier<? extends List<? extends MO>> modelObjectSupplier;
+    private final Function<MO, PMO> mo2pmoMapping;
 
     /**
      * Creates a supplier supplying item PMOs.
@@ -56,7 +58,7 @@ public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
      * @param modelObjectSupplier Supplies the underlying model objects.
      * @param mo2pmoMapping A function to create an item PMO based on a model object.
      */
-    public SimpleItemSupplier(Supplier<List<? extends MO>> modelObjectSupplier,
+    public SimpleItemSupplier(Supplier<? extends List<? extends MO>> modelObjectSupplier,
             Function<MO, PMO> mo2pmoMapping) {
         this.modelObjectSupplier = requireNonNull(modelObjectSupplier, "modelObjectSupplier must not be null");
         this.mo2pmoMapping = requireNonNull(mo2pmoMapping, "mo2pmoMapping must not be null");

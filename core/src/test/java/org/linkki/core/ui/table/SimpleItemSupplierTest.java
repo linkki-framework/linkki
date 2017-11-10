@@ -13,13 +13,17 @@
  */
 package org.linkki.core.ui.table;
 
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.ModelObject;
@@ -30,6 +34,20 @@ public class SimpleItemSupplierTest {
 
     private SimpleItemSupplier<SimplePmo, Integer> itemSupplier = new SimpleItemSupplier<>(this::getModelObjects,
             mo -> new SimplePmo(mo));
+
+    /**
+     * The purpose of this test is not really that the itemSupplier has the specified value but that
+     * the item supplier could be created using a Supplier without <code>? extends</code>
+     */
+    @Test
+    public void testCreateItemSupplierWithoutUnknownType() {
+        Supplier<List<Integer>> supplier = () -> Arrays.asList(1);
+
+        SimpleItemSupplier<Integer, Integer> itemSupplier2 = new SimpleItemSupplier<>(supplier,
+                UnaryOperator.identity());
+
+        assertThat(itemSupplier2.get(), hasItem(1));
+    }
 
     @Test
     public void testGet_shouldReturnEmptyList_ifUnderlyingListIsEmpty() {
