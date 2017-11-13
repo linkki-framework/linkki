@@ -29,6 +29,7 @@ import org.linkki.core.ui.table.ContainerPmo;
 
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -82,13 +83,6 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     }
 
     /**
-     * Adds the given component / section to the page taking 100% of the page width.
-     */
-    protected void add(Component section) {
-        addComponent(section);
-    }
-
-    /**
      * Creates a section based on the given PMO and adds it to the page taking 100% of the page
      * width. If the PMO is a {@link ContainerPmo} a table section is created.
      * 
@@ -96,32 +90,46 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      */
     protected AbstractSection addSection(Object pmo) {
         AbstractSection section = sectionFactory.createSection(pmo, getBindingContext());
-        addComponent(section);
+        add(section);
         return section;
     }
 
     /**
-     * Adds the components / sections to the page, each taking an equal part of the page width.
+     * Adds the given component / section to the page taking 100% of the page width.
      */
-    protected void add(Component... sections) {
-        setSpacing(true);
-        addComponents(sections);
-        for (Component component : sections) {
-            setExpandRatio(component, 1f / sections.length);
-        }
+    protected void add(Component section) {
+        addComponent(section);
     }
 
     /**
-     * Creates sections based on the given PMOs and adds them to the page each taking equal part of
-     * the page width. If a PMO is a {@link ContainerPmo} a table section is created.
+     * Creates sections based on the given PMOs and adds them horizontally, each taking up equal
+     * part of the page width. If a PMO is a {@link ContainerPmo} a table section is created.
+     * <p>
+     * To add sections vertically, call {@link #addSection(Object)} for each pmo instead.
      * 
      * @throws NullPointerException if one of the given PMOs is <code>null</code>.
      */
     protected void addSections(Object... pmos) {
-        AbstractSection[] sections = Arrays.stream(pmos)
+        add(Arrays.stream(pmos)
                 .map(pmo -> sectionFactory.createSection(pmo, getBindingContext()))
-                .toArray(AbstractSection[]::new);
-        add(sections);
+                .toArray(AbstractSection[]::new));
+    }
+
+    /**
+     * Adds the components / sections horizontally, each section taking up an equal part of the page
+     * width.
+     * <p>
+     * To add components vertically, call {@link #add(Component)} for each component instead.
+     */
+    protected void add(Component... sections) {
+        HorizontalLayout wrapper = new HorizontalLayout();
+        wrapper.setWidth("100%");
+        wrapper.setSpacing(true);
+        addComponent(wrapper);
+        wrapper.addComponents(sections);
+        for (Component component : wrapper) {
+            wrapper.setExpandRatio(component, 1f / sections.length);
+        }
     }
 
     /**
