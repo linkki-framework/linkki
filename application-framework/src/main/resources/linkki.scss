@@ -41,6 +41,7 @@ $linkki-sidebar-width: 56px !default;
 }
 
 @mixin linkki {
+
   .horizontal-section-spacing {
     .v-label {
         margin-right: 10px;
@@ -74,6 +75,11 @@ $linkki-sidebar-width: 56px !default;
 	    background: #fafdff;
 	    color: #195774;
 	  }
+  }
+
+  /* Avoid shadow in borderless buttons, used for example in tables */
+  .v-button-borderless:focus:after {
+    @include box-shadow(none);
   }
   
   /* 
@@ -268,6 +274,11 @@ $linkki-sidebar-width: 56px !default;
   
   .v-button-linkki-table-cell {
     text-align: left;
+  }
+
+  .v-horizontal > .v-slot,
+  .v-horizontal > .v-expand > .v-slot {
+     vertical-align: middle;
   }
     
   /*
