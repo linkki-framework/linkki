@@ -23,12 +23,13 @@ In the <<form-binding, first section>> the creation of a section for a 'standard
 ----
 include::{source-dir}/org/linkki/samples/binding/pmo/PersonSectionPmo.java[tags=personPmo-class]
 ----
-TIP: The definition of `modelAttribute` is optional if the property name in the `ModelObject` and the name of the annotated method are equal.
+TIP: The definition of `modelAttribute` is optional if the property name in the `ModelObject` and the name of the annotated method are equal. But it
+is recommended to specify the `modelAttribute` to make it explicit. The value should be externalized to a constant in the target model object.
 
 [[binding-table]]
 ==== Binding of a Table
 
-To create a section with a table the annotated class must implement <<ui-container-pmo, `org.linkki.core.ui.table.ContainerPmo<T>`>>. The generic parameter `T` represents the type of the PMO to create a row in this table.
+To create a section with a table the PMO class must implement <<ui-container-pmo, `org.linkki.core.ui.table.ContainerPmo<T>`>>. The generic parameter `T` represents the type of the PMO to create a row in this table.
 
 [source,java]
 ----
@@ -42,9 +43,9 @@ The method `getItems()` returns the rows of the table in the form of the previou
 include::{source-dir}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=personTablePmo-getItems]
 ----
 
-In the `interface ContainerPmo<T>` additional `default` methods are defined. A detailed description can be found <<ui-container-pmo, here>>.
+In the `interface ContainerPmo<T>` additional `default` methods are defined. A detailed description can be found in the section about <<ui-container-pmo, ContainerPmo>>.
 
-The so called 'Row PMO' is a regular PMO as described in <<form-binding, the first section>>. The only difference is that the UI elements are also annotated with <<ui-table-column, `@UITableColumn`>>.
+The so called 'Row PMO' is a regular PMO as described in <<form-binding, the first section>>. The only difference is that the UI elements may optionally be annotated with <<ui-table-column, `@UITableColumn`>>.
 
 [source,java]
 ----
@@ -58,4 +59,4 @@ All UI elements can be used in tables. The binding of a `@UIButton` looks as fol
 include::{source-dir}/org/linkki/samples/binding/pmo/PersonRowPmo.java[tags=personRowPmo-buttonBinding]
 ----
 
-NOTE: In our example the elements of the table shall be presented as read-only. Therefore no direct binding of the `ModelObject` via the `@ModelObject` annotation is done.
+NOTE: In our example the elements of the table shall be presented as read-only. Therefore no direct binding of the `ModelObject` via the `@ModelObject` annotation is done. If the items of your table are provided from a model object you may consider to use `org.linkki.core.ui.table.SimpleTablePmo<MO, ROW>` which is described in chapter <<ui-tables, Tables>> in detail.

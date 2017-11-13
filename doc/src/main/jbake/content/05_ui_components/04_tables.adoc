@@ -64,6 +64,16 @@ The instancing is done with two parameters
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/PersonTablePmo.java[tags=item-supplier]
 ----
 
+[[ui-simple-table-pmo]]
+==== SimpleTablePmo
+
+Most commonly, the row PMO objects are converted from a list of model objects. In this case, the abstract class `org.linkki.core.ui.table.SimpleTablePmo<MO, ROW>` may be extended. This abstract class defines a constructor that requires the list or the supplier for the list of model objects. Additionally the method `createRow(MO)` needs to be implemented. This method simply get a model object and creates a row PMO for it. The same example as in the previous section may look like this:
+
+[source, java]
+----
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/SimplePersonTablePmo.java[tags=simplePersonTablePmo]
+----
+
 [[ui-table-footer]]
 ==== TableFooterPmo
 
