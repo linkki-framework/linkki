@@ -17,6 +17,13 @@ package org.linkki.util.validation;
 @FunctionalInterface
 public interface ValidationMarker {
 
+    /**
+     * Marks a mandatory field and returns {@code true} for {@code isRequiredInformationMissing()}.
+     */
+    static ValidationMarker REQUIRED = () -> true;
+
     /** Returns {@code true} if the marker marks a validation for a mandatory field. */
     boolean isRequiredInformationMissing();
+
+
 }
