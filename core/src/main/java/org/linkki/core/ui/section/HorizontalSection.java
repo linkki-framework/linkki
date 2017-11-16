@@ -18,6 +18,7 @@ import java.util.Optional;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.util.UiUtil;
 
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -33,7 +34,7 @@ public class HorizontalSection extends BaseSection {
     private HorizontalLayout content;
 
     /**
-     * Creates a new section with the given caption that is not closeable.
+     * Creates a new section with the given caption that is not closable.
      */
     public HorizontalSection(String caption) {
         this(caption, false);
@@ -76,13 +77,14 @@ public class HorizontalSection extends BaseSection {
     private void add(Label l, Component component) {
         l.setWidthUndefined();
         content.addComponent(l);
+        content.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
         content.addStyleName(ApplicationStyles.SPACING_HORIZONTAL_SECTION);
         add(component);
     }
 
     public void add(Component component) {
         content.addComponent(component);
-        // content.setComponentAlignment(component, Alignment.MIDDLE_LEFT);
+        content.setComponentAlignment(component, Alignment.MIDDLE_LEFT);
         if (UiUtil.isWidth100Pct(component)) {
             updateExpandRatio();
         }
