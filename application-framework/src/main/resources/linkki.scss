@@ -110,17 +110,12 @@ $linkki-sidebar-width: 56px !default;
     background-color: $linkki-color-primary;
     width: 100% !important;
   
-    .v-slot-linkki-application-menu {
+    .v-slot-linkki-application-header-right {
         position: absolute;
         right: 0%;
     }
-  
-    .v-menubar-menuitem-caption {
-        color: linkki-foreground-color($linkki-color-primary);
-        font-size: 120%;
-    }
     
-    .linkki-application-menu {
+    .linkki-application-header-right {
         .v-menubar {
             padding-right: 10px;
         }
@@ -128,6 +123,11 @@ $linkki-sidebar-width: 56px !default;
         .v-label {
             padding-right: 5px;
         }
+    }
+  
+    .v-menubar-menuitem-caption {
+        color: linkki-foreground-color($linkki-color-primary);
+        font-size: 120%;
     }
   }
   

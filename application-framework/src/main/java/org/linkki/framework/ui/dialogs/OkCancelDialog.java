@@ -26,6 +26,7 @@ import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.Page;
+import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.framework.ui.component.MessageRow;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
@@ -186,7 +187,7 @@ public class OkCancelDialog extends Window {
     }
 
     private void initDialogWindow() {
-        setStyleName(ApplicationStyles.DIALOG_CAPTION);
+        setStyleName(LinkkiStyles.DIALOG_CAPTION);
         setModal(true);
         setResizable(false);
     }
@@ -199,7 +200,7 @@ public class OkCancelDialog extends Window {
     }
 
     private void initMainArea(@Nullable Component c) {
-        mainArea.addStyleName(ApplicationStyles.DIALOG_CONTENT);
+        mainArea.addStyleName(LinkkiStyles.DIALOG_CONTENT);
         contentArea.addStyleName("content-area"); //$NON-NLS-1$
         contentArea.addComponent(mainArea);
         contentArea.setExpandRatio(mainArea, 1f);

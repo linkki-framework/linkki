@@ -13,101 +13,62 @@
  */
 package org.linkki.framework.ui.application;
 
-import javax.inject.Inject;
+import javax.enterprise.inject.Specializes;
 
 import org.linkki.core.ui.application.ApplicationStyles;
-import org.linkki.core.ui.util.ComponentFactory;
+import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.nls.NlsText;
 
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.themes.ValoTheme;
 
 /**
- * Header-Section of the application containing the application menu and information about the user.
+ * An empty header bar that is displayed on the top of an {@link ApplicationFrame}.
+ * <p>
+ * This header can be extended to include further functionalities such as an {@link ApplicationMenu}
+ * or information about the user. The specialized subclass must be annotated with
+ * {@link Specializes} to take effect as this class is injected by {@link ApplicationFrame}.
+ * <p>
+ * Elements that should be right aligned in the {@link ApplicationHeader} can be wrapped in a layout
+ * that uses the style name {@link LinkkiStyles#APPLICATION_HEADER_RIGHT}.
  */
 @UIScoped
 public class ApplicationHeader extends HorizontalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private ApplicationMenu applicationMenu;
-
+    /**
+     * Initialize UI components.
+     */
     protected void init() {
-        addStyleName(ApplicationStyles.APPLICATION_HEADER);
+        addStyleName(LinkkiStyles.APPLICATION_HEADER);
         setMargin(new MarginInfo(true, false, true, false));
-
-        addComponent(applicationMenu);
-        applicationMenu.init();
-
-        HorizontalLayout menuWrapper = new HorizontalLayout();
-        menuWrapper.addStyleName(ApplicationStyles.APPLICATION_MENU);
-        addComponent(menuWrapper);
-
-        createSections(menuWrapper);
-
-        setExpandRatio(menuWrapper, 1);
     }
 
-    protected void createSections(HorizontalLayout menuWrapper) {
-        createHelpSection(menuWrapper);
-
-        ComponentFactory.addHorizontalFixedSizeSpacer(menuWrapper, 20);
-
-        createUserSection(menuWrapper);
-    }
-
-    protected void createHelpSection(HorizontalLayout menuWrapper) {
-        MenuBar menuBar = new MenuBar();
-        menuWrapper.addComponent(menuBar);
-        menuBar.setSizeUndefined();
-        menuBar.addStyleName(ApplicationStyles.BORDERLESS);
-        MenuItem item = menuBar.addItem("", FontAwesome.QUESTION_CIRCLE, null); //$NON-NLS-1$
-        item.setStyleName(ApplicationStyles.APPLICATION_HEADER);
-        item.addItem(NlsText.getString("ApplicationHeader.Help"), null); //$NON-NLS-1$
-        item.addItem(NlsText.getString("ApplicationHeader.Shortcuts"), null); //$NON-NLS-1$
-    }
-
-    protected void createUserSection(HorizontalLayout menuWrapper) {
-
-        ComponentFactory.labelIcon(menuWrapper, FontAwesome.USER);
-        // ComponentFactory.addHorizontalFixedSizeSpacer(menuWrapper, 5);
-
-        String userName = getUserName();
-
-        Label l = ComponentFactory.sizedLabel(menuWrapper, userName);
-
-        menuWrapper.setComponentAlignment(l, Alignment.MIDDLE_CENTER);
-
-        MenuBar menuBar = new MenuBar();
-        menuWrapper.addComponent(menuBar);
-        menuBar.setSizeUndefined();
-        menuBar.addStyleName(ValoTheme.MENUBAR_BORDERLESS);
-        MenuItem item = menuBar.addItem("", null); //$NON-NLS-1$
-        item.setStyleName(ApplicationStyles.APPLICATION_HEADER);
-        item.addItem(NlsText.getString("ApplicationHeader.Preferences"), null); //$NON-NLS-1$
-        item.addSeparator();
-        item.addItem(NlsText.getString("ApplicationHeader.Logout"), newLogoutCommand()); //$NON-NLS-1$
-
-    }
-
-    protected String getUserName() {
-        return "anonymous"; //$NON-NLS-1$
-    }
-
+    /**
+     * Creates a {@link Command} that can be used for a logout {@link MenuItem item} in a
+     * {@link MenuBar}.
+     */
     protected Command newLogoutCommand() {
         return selectedItem -> {
             getUI().getPage().setLocation("./logout"); //$NON-NLS-1$
         };
     }
 
+    protected void createHelpSection(HorizontalLayout menuWrapper) {
+        MenuBar menuBar = new MenuBar();
+        menuBar.setSizeUndefined();
+        menuBar.addStyleName(ApplicationStyles.BORDERLESS);
+
+        MenuItem item = menuBar.addItem("", FontAwesome.QUESTION_CIRCLE, null); //$NON-NLS-1$
+        item.addItem(NlsText.getString("ApplicationHeader.Help"), null); //$NON-NLS-1$
+
+        menuWrapper.addComponent(menuBar);
+    }
 }
