@@ -1,0 +1,36 @@
+:jbake-title: ValidationService
+:jbake-type: section
+:jbake-status: published
+
+:source-dir-messages: ../../../../../../samples/messages/src/main/java
+
+[[validation-service]]
+=== ValidationService
+A `ValidationService` is a simple functional interface that creates a <<message, MessageList>> containing validation result messages. In order to make use of a `ValidationService` in a `BindingManager`, it must be passed as an argument to the <<binding-basics,BindingManager>>'s constructor. 
+
+[[message]]
+==== Message and MessageList
+A `Message` has a human readable text, an error code and a Vaadin `ErrorLevel` (one of `INFORMATION`, `WARNING`, `ERROR`, `CRITICAL` and `SYSTEMERROR`). It may also contain a set of <<object-properties,ObjectProperties>> to refer to specific invalid objects and/or properties and <<validation-marker,ValidationMarkers>> to distinguish different kinds of validation messages.
+
+The easiest way to create a `Message` is to use its builder (via the `builder()` method). Alternatively, a `Message` can also be created using the static factory methods (`createError()`, `createWarning()`, `createInfo()`) or by directly calling the constructor.
+
+[source, java]
+----
+include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationValidationService.java[tags=message-builder]
+----
+
+[[object-properties]]
+==== ObjectProperties
+A *linkki* message uses `ObjectProperties` to identify which property and object the message refers to. An `ObjectProperty` consists of a reference to the bound object as well as the property's name. If the property has an indexed type, the `ObjectProperty` can additionally contain the index of the referred value.
+
+
+[[validation-marker]]
+==== ValidationMarker
+`ValidationMarkers` are used to group and categorize messages. By default, *linkki* can differentiate between mandatory-field validations and similar messages using the validation marker `ValidationMarker#REQUIRED`. UI elements referring to messages that use this marker are not highlighted as long as a user hasn't had a chance to enter any values (see <<validation-display-state, ValidationDisplayState>>). The method `isMandatoryFieldMessage` on a `Message` can be used to check if any of the message's markers return `true` for `isRequiredInformationMissing`:
+
+[source, java]
+----
+include::{source-dir-messages}/org/linkki/samples/messages/components/MessagesPanel.java[tags=mandatory]
+----
+
+Applications can introduce their own specialized validation markers by implementing the `ValidationMarker` interface. That way special meaning can be attached to messages and they can be categorized and processed accordingly, if required.

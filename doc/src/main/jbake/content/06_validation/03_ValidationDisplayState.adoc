@@ -1,0 +1,7 @@
+:jbake-title: ValidationDisplayState
+:jbake-type: section
+:jbake-status: published
+
+[[validation-display-state]]
+=== ValidationDisplayState
+Applications can use a `ValidationDisplayState` to filter messages depending on the current application state. `HIDE_MANDATORY_FIELD_VALIDATIONS` filters all messages with a <<validation-marker,ValidationMarker>> returning `true` for `isRequiredInformationMissing`. This enables the aforementioned hiding of mandatory-field messages as long as a user hasn't had a chance to enter any values.
