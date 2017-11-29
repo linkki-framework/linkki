@@ -18,11 +18,15 @@ import static java.util.Objects.requireNonNull;
 import javax.annotation.Nonnull;
 
 import org.linkki.framework.ui.LinkkiStyles;
+import org.linkki.framework.ui.application.ApplicationHeader;
 
 import com.vaadin.ui.MenuBar.MenuItem;
 
 /**
- * Defines an item in the applications main menu.
+ * Defines an item in the application's main menu.
+ * 
+ * @see ApplicationMenu
+ * @see ApplicationHeader
  */
 public abstract class ApplicationMenuItemDefinition implements Comparable<ApplicationMenuItemDefinition> {
 

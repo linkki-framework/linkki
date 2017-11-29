@@ -112,17 +112,12 @@ $linkki-sidebar-width: 56px !default;
   
     .v-slot-linkki-application-header-right {
         position: absolute;
-        right: 0%;
+        right: 0;
+        padding-right: 10px;
     }
     
     .linkki-application-header-right {
-        .v-menubar {
-            padding-right: 10px;
-        }
-  
-        .v-label {
-            padding-right: 5px;
-        }
+
     }
   
     .v-menubar-menuitem-caption {

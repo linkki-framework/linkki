@@ -1,0 +1,4 @@
+class com/vaadin/ui/MenuBar
+addItem
+ (Ljava/lang/String;Lcom/vaadin/server/Resource;Lcom/vaadin/ui/MenuBar$Command;)Lcom/vaadin/ui/MenuBar$MenuItem;
+ (Ljava/lang/String;Lcom/vaadin/server/Resource;Lcom/vaadin/ui/MenuBar$Command;)L1com/vaadin/ui/MenuBar$MenuItem;
