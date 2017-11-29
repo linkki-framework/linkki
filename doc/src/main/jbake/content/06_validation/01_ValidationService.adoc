@@ -6,7 +6,7 @@
 
 [[validation-service]]
 === ValidationService
-A `ValidationService` is a simple functional interface that creates a <<message, MessageList>> containing validation result messages. In order to make use of a `ValidationService` in a `BindingManager`, it must be passed as an argument to the <<binding-basics,BindingManager>>'s constructor. 
+A `ValidationService` is a simple functional interface that creates a <<message, MessageList>> containing validation result messages. In order to make use of a `ValidationService` in a `BindingManager`, it must be passed as an argument to the <<binding-basics,BindingManager>>'s constructor. The validation service should  work on the bound model if possible and call domain specific validation methods there.
 
 [[message]]
 ==== Message and MessageList
