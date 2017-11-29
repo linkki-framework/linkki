@@ -6,9 +6,17 @@
 :source-dir: ../../../java
 
 [[domain-model-binding]]
-=== Data on Multiple Layers (Domain Model Binding)
+=== Binding to the Domain Model (Data on Multiple Layers)
 
-Domain Model Binding, "model binding" for short, is a *linkki* feature for reducing delegate code in PMO classes. It is aimed at the "simple" case of UI binding, in which properties from the domain model are directly presented in the UI, meaning that no special formatting or conversion needs to take place before the value can be shown.
+As implicated in <<databinding,Data Binding with PMOs>> a *linkki* application usually consists of multiple layers.
+
+image::{images}{images-folder-name}/layers.png[]
+
+This image intends to highlight where the presentation model layer is situated with respect to UI and domain model. 
+
+The rightmost layer is some kind of a persistence layer, for example a database. To the left are the domain model layer, the presentation model layer and finally the UI. The UI data binding works between the UI and the presentation model. It is responsible for keeping them in sync. 
+
+Very often the presentation model and the domain model have similar structure and properties. In that case the "model binding" can be used. "Model Binding", short-hand for Domain Model Binding, is a *linkki* feature for reducing delegate code in PMO classes. It is aimed at the "simple" case of UI binding, in which properties from the domain model are directly presented in the UI, meaning that no special formatting or conversion needs to take place before the value can be shown.
 
 To use this feature, the UI needs to be created via <<pmo-uisection,`@UISection`>>, and the getter method for the model object in the PMO needs to be marked with the `@ModelObject` annotation.
 

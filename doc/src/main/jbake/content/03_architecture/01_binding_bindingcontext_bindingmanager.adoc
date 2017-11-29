@@ -14,6 +14,12 @@ All bindings in *linkki* are part of a `BindingContext`. Typically a `BindingCon
 .BindingContext and ~Manager
 image::{images}{images-folder-name}/binding_context_manager.png[]
 
-To create and manage one or more `BindingContexts`, a `BindingManager` is used. For a given name (for instance derived from a class) it returns a `BindingContext`, creating a new one when necessary. The desired binding behavior can be defined in subclasses of `BindingManager` (see <<cross-sectional-binding,Vertical Binding>>). If no special behavior needs to be implemented, a `DefaultBindingManager` can be used. A `BindingManager` is typically created `@ViewScoped` and passed to each `Page` (see <<missing-link,Page>>).
+To create and manage one or more `BindingContexts`, a `BindingManager` is used. For a given name (for instance derived from a class) it returns a `BindingContext`, creating a new one when necessary. The desired binding behavior can be defined in subclasses of `BindingManager` (see <<cross-sectional-binding,Vertical Binding>>). If no special behavior needs to be implemented, a `DefaultBindingManager` can be used.
 
-`DialogBindingManager` is a special `BindingManager`, which triggers a validation method for each change of the dialog.
+==== The scope of UI updates
+
+A `BindingContext` ensures that all fields bound to it get updated if one of them changes. Thus a BindingContext defines the a "scope" of UI updates for it's fields.
+
+It is common practice to use a BindingContext for all fields visible to the user at a time. For example a single binding context for a big form. On the other hand, if there are multiple tab sheets it's best to use a separate binding context for each of them, as only one of the tabs is visible at a time. This also avoids unnecessary updates of fields that aren't even visible.
+
+The `BindingManager` is responsible for everything that is beyond that aspect of currently visible fields. For example the input of data on one tab sheet may result in a validation violation on another tab sheet. Hence <<validation,validation>> is part of the `BindingManager`.

@@ -9,9 +9,9 @@
 
 A Presentation Model Object encapsulates the UI state independently of the concrete UI implementation. The UI interacts exclusively via Data Binding with this PMO. The PMO isn't required to hold all data, it can delegate to existing model objects (see <<domain-model-binding,Data on Multiple Layers>>). This data is then converted into a format suitable for presentation.
 
-In *linkki* PMOs are Plain Old Java Objects (POJOs), in which data for individual UI sections are structured. There should be a PMO for each UI section.
+In *linkki* PMOs are Plain Old Java Objects (POJOs), in which data for individual UI sections are structured. There has to be a PMO for every UI section.
 
-Of importance for the data binding are the so called "Properties" of a PMO. A PMO class has a property named "property" if and only if that class has a method `getProperty`. If the value of this property is to be modifiable, the method `setProperty` must exist. The value of the property is often stored in a field `property`. This follows the naming convention of JavaBean properties. However, PMO classes are not required to be JavaBeans.
+Of importance for the data binding are the so called "properties" of a PMO. According to the JavaBean convention a PMO class has a property named "something" if and only if that class has a method `getSomething()` (`isSomething()` for boolean). If the value of this property is to be modifiable, the method `setSomething` must exist additionally. The value of the property may be stored in a field `something` but that is not required. Neither does a PMO have to be a JavaBean with zero-argument constructor - only the bound properties are found following the JavaBean conventions.
 
 See the following example class:
 

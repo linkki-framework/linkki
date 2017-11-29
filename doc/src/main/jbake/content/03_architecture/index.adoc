@@ -14,7 +14,7 @@ Central aspects of the *linkki* Frameworks are
 * the declarative definition of UIs via annotations
 * the flexible data binding
 
-*linkki* enables a declarative definition of UIs, by generating them automatically from annotations. Additionally, content (data) of an UI element and its properties (for instance visibility, editability, ...) can be bound to so called Presentation Model Objects (PMOs). With this, a bi-directional update mechanisms is provided, the so called data binding. If a value is changed on the UI by a user, for instance, the corresponding value in the domain model ist updated, as well as dependent properties and other UI elements.
+*linkki* enables a declarative definition of UIs, by generating them automatically from annotations. Additionally, content (data) of an UI element and its properties (for instance visibility, editability, ...) can be bound to so called Presentation Model Objects (PMOs). With this, a bi-directional update mechanism is provided, the so called data binding. If a value is changed on the UI by a user, for instance, the corresponding value in the domain model is updated, as well as dependent properties and other UI elements.
 
 .Bi-directional data binding
 image::{images}{images-folder-name}/data_binding.png[]
