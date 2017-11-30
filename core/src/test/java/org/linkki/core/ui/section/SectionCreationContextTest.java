@@ -13,8 +13,10 @@
  */
 package org.linkki.core.ui.section;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
@@ -34,7 +36,7 @@ public class SectionCreationContextTest {
     @Test
     public void testSetSectionId() {
         BaseSection section = createContext(new SCCPmoWithID()).createSection();
-        assertEquals("test-ID", section.getId());
+        assertThat(section.getId(), is("test-ID"));
     }
 
     private SectionCreationContext createContext(Object pmo) {
@@ -44,29 +46,36 @@ public class SectionCreationContextTest {
     @Test
     public void testSetSectionDefaultId() {
         BaseSection section = createContext(new SCCPmoWithoutID()).createSection();
-        assertEquals("SCCPmoWithoutID", section.getId());
+        assertThat(section.getId(), is("SCCPmoWithoutID"));
     }
 
     @Test
     public void testSetComponentId() {
         BaseSection section = createContext(new SCCPmoWithID()).createSection();
-        assertEquals(2, section.getComponentCount());
+        assertThat(section.getComponentCount(), is(2));
         Component textField = ((GridLayout)((Panel)section.getComponent(1)).getContent()).getComponent(1, 0);
-        assertEquals("testProperty", textField.getId());
+        assertThat(textField.getId(), is("testProperty"));
     }
 
     @Test
     public void testSectionWithDefaultLayout_shouldCreateFormLayout() {
-
         BaseSection section = createContext(new SCCPmoWithoutID()).createSection();
-        assertTrue(section instanceof FormSection);
+        assertThat(section, is(instanceOf(FormSection.class)));
     }
 
     @Test
     public void testSectionWithHorizontalLayout_shouldCreateHorizontalSection() {
-
         BaseSection section = createContext(new SectionWithHorizontalLayout()).createSection();
-        assertTrue(section instanceof HorizontalSection);
+        assertThat(section, is(instanceOf(HorizontalSection.class)));
+    }
+
+    @Test
+    public void testSectionWithoutAnnotation_usesDefaultValues() {
+        BaseSection section = createContext(new SectionWithoutAnnotation()).createSection();
+        assertThat(section, is(instanceOf(FormSection.class)));
+        assertThat(section.getId(), is(SectionWithoutAnnotation.class.getSimpleName()));
+        assertThat(section.getCaption(), is(nullValue()));
+        assertThat(((FormSection)section).getNumberOfColumns(), is(1));
     }
 
     @UISection
@@ -90,6 +99,10 @@ public class SectionCreationContextTest {
 
     @UISection(layout = SectionLayout.HORIZONTAL)
     private static class SectionWithHorizontalLayout {
+        // no content required
+    }
+
+    private static class SectionWithoutAnnotation {
         // no content required
     }
 }

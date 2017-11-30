@@ -19,6 +19,9 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
@@ -66,7 +69,32 @@ public class PmoBasedTableSectionFactoryTest {
         assertThat(header.getComponent(1), is(instanceOf(Button.class)));
         Button addButton = (Button)header.getComponent(1);
         assertThat(addButton.getIcon(), is(FontAwesome.PLUS));
-
     }
 
+    @Test
+    public void testCreateSection_NoAnnotation() {
+        NoAnnotationTablePmo containerPmo = new NoAnnotationTablePmo();
+        BindingContext bindingContext = TestBindingContext.create();
+        PmoBasedTableSectionFactory<TestRowPmo> factory = new PmoBasedTableSectionFactory<TestRowPmo>(
+                containerPmo, bindingContext);
+
+        TableSection<TestRowPmo> tableSection = factory.createSection();
+
+        assertThat(tableSection, is(notNullValue()));
+        assertThat(tableSection.getComponentCount(), is(2)); // header and table
+        assertThat(tableSection.getComponent(1), is(instanceOf(Table.class)));
+        Table table = (Table)tableSection.getComponent(1);
+        assertThat(table.getContainerDataSource(), is(instanceOf(TableBinding.class)));
+        TableBinding<?> tableBinding = (TableBinding<?>)table.getContainerDataSource();
+        assertThat(bindingContext.getTableBindings(), hasItem(tableBinding));
+    }
+
+    public static class NoAnnotationTablePmo implements ContainerPmo<TestRowPmo> {
+
+        @Override
+        public List<TestRowPmo> getItems() {
+            return new ArrayList<>();
+        }
+
+    }
 }

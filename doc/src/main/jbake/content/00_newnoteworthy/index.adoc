@@ -14,6 +14,10 @@ add further components.
 
 For styling the `Headline` there is a new stylesheet class called `linkki-headline`.
 
+==== Annotation @UISection optional
+
+The annotation `@UISection` is now optional. If a class without that annotation is used as a PMO, the annotation's default values (column layout with one column, no caption, not closable, id equal to the class' simple name) are used for the resulting section. 
+
 
 === 12. Dezember 2017
 

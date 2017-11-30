@@ -19,8 +19,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import javax.annotation.CheckForNull;
-
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
@@ -33,6 +31,7 @@ import org.linkki.core.ui.section.annotations.SectionID;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.core.ui.section.annotations.adapters.UISectionDefinition;
 import org.linkki.util.BeanUtils;
 
 import com.vaadin.ui.Button;
@@ -42,8 +41,8 @@ import com.vaadin.ui.Label;
 /**
  * Object holding the state about PMO and binding context, as well as the property dispatcher in
  * use, while creating a section for them. Intended to be used only once.
- *
- * @author widmaier
+ * <p>
+ * Only used for {@link FormSection}.
  */
 public class SectionCreationContext {
 
@@ -70,50 +69,51 @@ public class SectionCreationContext {
     }
 
     private BaseSection createEmptySection() {
-        UISection sectionDefinition = requireNonNull(pmo.getClass()
-                .getAnnotation(UISection.class), () -> "PMO " + pmo.getClass() + " must be annotated with @UISection!");
+        UISection sectionDefinition = UISectionDefinition.from(pmo);
 
-        BaseSection section;
         Optional<Button> editButton = createEditButton(getEditButtonPmo());
-
         SectionLayout layout = sectionDefinition.layout();
         String caption = pmoNlsService.getLabel(PmoLabelType.SECTION_CAPTION, pmo.getClass(), null,
                                                 sectionDefinition.caption());
 
-        switch (layout) {
-            case COLUMN:
-                section = new FormSection(caption,
-                        sectionDefinition.closeable(),
-                        editButton,
-                        sectionDefinition.columns());
-                break;
-            case HORIZONTAL:
-                section = new HorizontalSection(caption,
-                        sectionDefinition.closeable(),
-                        editButton);
-                break;
-            case CUSTOM:
-                section = new CustomLayoutSection(pmo.getClass().getSimpleName(), caption,
-                        sectionDefinition.closeable(),
-                        editButton);
-                break;
-            default:
-                throw new IllegalStateException("unknown SectionLayout#" + layout);
-        }
+        BaseSection section = createSection(sectionDefinition, editButton, layout, caption);
 
         section.setId(getSectionId());
         return section;
     }
 
-    private String getSectionId() {
-        Optional<Method> idMethod = BeanUtils.getMethod(pmo.getClass(), (m) -> m.isAnnotationPresent(SectionID.class));
-        return idMethod.map(this::getId).orElse(pmo.getClass().getSimpleName());
+    private BaseSection createSection(UISection sectionDefinition,
+            Optional<Button> editButton,
+            SectionLayout layout,
+            String caption) {
+        switch (layout) {
+            case COLUMN:
+                return new FormSection(caption,
+                        sectionDefinition.closeable(),
+                        editButton,
+                        sectionDefinition.columns());
+            case HORIZONTAL:
+                return new HorizontalSection(caption,
+                        sectionDefinition.closeable(),
+                        editButton);
+            case CUSTOM:
+                return new CustomLayoutSection(pmo.getClass().getSimpleName(), caption,
+                        sectionDefinition.closeable(),
+                        editButton);
+            default:
+                throw new IllegalStateException("unknown SectionLayout#" + layout);
+        }
     }
 
-    @CheckForNull
-    public String getId(Method m) {
+    private String getSectionId() {
+        Optional<Method> idMethod = BeanUtils.getMethod(pmo.getClass(), (m) -> m.isAnnotationPresent(SectionID.class));
+        return idMethod.map(this::getIdFromSectionIdMethod).orElse(pmo.getClass().getSimpleName());
+    }
+
+    private String getIdFromSectionIdMethod(Method m) {
         try {
-            return (String)m.invoke(pmo);
+            return requireNonNull((String)m.invoke(pmo), "The method annotated with @" + SectionID.class.getSimpleName()
+                    + " must not return null.");
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
@@ -160,6 +160,12 @@ public class SectionCreationContext {
             this.label = requireNonNull(label, "label must not be null");
             this.component = requireNonNull(component, "component must not be null");
         }
+    }
+
+    @UISection
+    private static final class DefaultUISection {
+        // Default UISection class if there is no @UISection annotation.
+        // This way, the default values from the @UISection annotation get used.
     }
 
 }

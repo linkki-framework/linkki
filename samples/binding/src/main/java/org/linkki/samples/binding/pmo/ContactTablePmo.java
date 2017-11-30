@@ -16,13 +16,11 @@ package org.linkki.samples.binding.pmo;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.SimpleItemSupplier;
 import org.linkki.samples.binding.model.Contact;
 
 // tag::contactTablePmo-class[]
-@UISection
 public class ContactTablePmo implements ContainerPmo<ContactRowPmo> {
 
     // end::contactTablePmo-class[]

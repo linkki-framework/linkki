@@ -14,6 +14,8 @@ TIP: In all cases, if the `ModelObject` or PMO doesn't have a corresponding sett
 
 In the <<form-binding, first section>> the creation of a section for a 'standard' form is exemplified. In the <<binding-table, second section>> the creation of a section with a table is detailed.
 
+TIP: The annotation `@UISection` can be omitted. The `SectionCreationContext` created for a PMO class without that annotation treats that class as having a `@UISection` annotation with default values.
+
 [[form-binding]]
 ==== Binding of a Form
 

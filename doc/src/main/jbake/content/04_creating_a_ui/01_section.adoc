@@ -4,15 +4,15 @@
 
 === Section
 
-A group of input fields or a table is called a _Section_. A section can have a title and when it does it is visually delimited by a line in the title bar. Without a title, a section isn't directly recognizable in the layout. 
+A group of input fields or a table is called a _Section_. Additionally to the content, a section can have a title. If it does, that title is visually delimited by a line in the title bar. Without a title, a section isn't directly recognizable in the layout. 
 
-A section also defines <<layout, the layout>> within the section, that means the order how the components are arranged.
+A section also defines <<layout, the layout>> within the section, that means the order in which the components are arranged.
 
 If a section contains a table instead of multiple input fields it is called _TableSection_.
 
 [[section-id]]
 ==== SectionID
 
-Each HTML element of a section can be accessed via an ID. This can be used, for instance, to identify a section for UI testing. By default the SimpleName of the class is used as ID. Alternatively the annotation '@SectionID' can be used to specify a method that returns the ID for the section.
+Each HTML element of a section can be accessed via an ID. This can be used, for instance, to identify a section for UI testing. By default the simple name of the class is used as ID. Alternatively the annotation '@SectionID' can be used to specify a method that returns the ID for the section.
 
-A section that was annotated with '@SectionID', calls the specified method exactly once when it is created. It remains the same for the duration of the session and is not updated dynamically.
+A method annotated with '@SectionID' is called exactly once when the section is created. The id remains the same for the duration of the session and is not updated dynamically.

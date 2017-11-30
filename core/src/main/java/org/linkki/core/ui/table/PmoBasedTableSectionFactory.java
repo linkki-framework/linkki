@@ -23,6 +23,7 @@ import org.linkki.core.binding.ButtonPmoBinding;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.core.ui.section.annotations.adapters.UISectionDefinition;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
@@ -64,12 +65,12 @@ public class PmoBasedTableSectionFactory<T> {
     }
 
     private TableSection<T> createEmptySection(Optional<ButtonPmo> addItemButtonPmo) {
-        UISection sectionDefinition = requireNonNull(containerPmo.getClass().getAnnotation(UISection.class),
-                                                     () -> "PMO " + containerPmo.getClass()
-                                                             + " must be annotated with @UISection!");
+        UISection sectionDefinition = UISectionDefinition.from(containerPmo);
 
-        return new TableSection<>(pmoNlsService.getLabel(PmoLabelType.SECTION_CAPTION, containerPmo.getClass(), null,
-                                                         sectionDefinition.caption()),
+        String caption = pmoNlsService.getLabel(PmoLabelType.SECTION_CAPTION, containerPmo.getClass(), null,
+                                                sectionDefinition.caption());
+
+        return new TableSection<>(caption,
                 sectionDefinition.closeable(),
                 createAddItemButton(addItemButtonPmo));
     }
@@ -77,5 +78,4 @@ public class PmoBasedTableSectionFactory<T> {
     private Optional<Button> createAddItemButton(Optional<ButtonPmo> buttonPmo) {
         return buttonPmo.map(b -> ButtonPmoBinding.createBoundButton(bindingContext, b));
     }
-
 }
