@@ -13,6 +13,8 @@
  */
 package org.linkki.framework.ui.application;
 
+import java.util.Objects;
+
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,10 +37,13 @@ public class CdiFixNavigator extends Navigator {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Navigation state is updated before the {@link #navigateTo(String)} method is called. So we
-     * need to save the name of the current view on our own.
+     * Navigation state is updated before the {@link #navigateTo(String)} method is called. So we need
+     * to save the name of the current view on our own.
      */
     private String currentView = StringUtils.EMPTY;
+
+    @Nullable
+    private String currentUrl = StringUtils.EMPTY;
 
     @SuppressWarnings("null")
     private String emptyView = Conventions.deriveMappingForView(EmptyCdiView.class);
@@ -50,12 +55,13 @@ public class CdiFixNavigator extends Navigator {
     @Override
     public void navigateTo(@Nullable String navigationState) {
         String newViewName = getViewName(navigationState);
-        if (newViewName.equals(currentView)) {
+        if (newViewName.equals(currentView) && !Objects.equals(currentUrl, navigationState)) {
             super.navigateTo(emptyView);
         }
         super.navigateTo(navigationState);
         if (isNavigationSuccessful(newViewName)) {
             currentView = newViewName;
+            currentUrl = navigationState;
         }
     }
 
