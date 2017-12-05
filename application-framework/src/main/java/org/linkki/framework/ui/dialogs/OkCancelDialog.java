@@ -33,6 +33,7 @@ import org.linkki.util.handler.Handler;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.ErrorMessage;
+import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -99,9 +100,7 @@ public class OkCancelDialog extends Window {
     private Optional<MessageRow> messageRow = Optional.empty();
 
     private boolean okPressed = false;
-
     private boolean cancelPressed = false;
-
     private boolean mayProceed = true;
 
     /**
@@ -161,6 +160,7 @@ public class OkCancelDialog extends Window {
 
         // We want to set the dialog's content, the method is overridden here
         super.setContent(layout);
+
         center();
     }
 
@@ -351,6 +351,18 @@ public class OkCancelDialog extends Window {
      */
     public void open() {
         UI.getCurrent().addWindow(this);
+        initURIChangeListener();
+    }
+
+    /**
+     * Add {@link UriFragmentChangedListener} to the dialog. By default, the dialog is closed upon
+     * uri change by calling {@link #close()}.
+     */
+    protected void initURIChangeListener() {
+        UI current = UI.getCurrent();
+        if (current != null) {
+            current.getPage().addUriFragmentChangedListener(e -> close());
+        }
     }
 
     /**

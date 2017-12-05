@@ -22,10 +22,10 @@ import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextArea;
+import org.linkki.framework.ui.dialogs.ConfirmationDialog;
 import org.linkki.samples.appsample.model.Report;
 
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Notification;
 
 @UISection(caption = "Report")
 public class ReportSectionPmo implements PresentationModelObject {
@@ -62,10 +62,9 @@ public class ReportSectionPmo implements PresentationModelObject {
     @UIButton(position = 40, caption = "Send", icon = FontAwesome.SEND, showIcon = true, enabled = EnabledType.DYNAMIC)
     public void send() {
         report.save();
-        Notification.show(
-                          String.format("Report with id %d filed!", report.getId()),
-                          "Thank you for reporting!",
-                          Notification.Type.TRAY_NOTIFICATION);
+        ConfirmationDialog.open("Thank you!",
+                                String.format("Report with id \"%d\" is sent to our team. Thank you for reporting!",
+                                              report.getId()));
     }
 
     /**

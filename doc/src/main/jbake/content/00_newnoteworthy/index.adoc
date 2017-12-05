@@ -11,7 +11,9 @@ image::https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/lin
 
 ==== `open()` in `OkCancelDialog`
 
-With the new method `open()` in `OkCancelDialog`, a dialog can be directly opend by calling `dialog.open()` instead of using `PmoBasedDialogFactory.open(dialog)`. In addition, the `open()` method can now be extended to add additional behaviors to the dialog. The `open(OkCancelDialog)` method in `PmoBasedDialogFactory` is thus deprecated.
+With the new method `open()` in `OkCancelDialog`, a dialog can be directly opened by calling `dialog.open()` instead of using `PmoBasedDialogFactory.open(dialog)`. The `open()` method can be extended to add additional behaviors to the dialog. By default, a `UriFragmentChangedListener` is added upon opening, ensuring that the dialog is properly closed on URL change. If this behavior should be adapted, make sure that all existing dialogs are opened using the new `open()` method.
+
+The `open(OkCancelDialog)` method in `PmoBasedDialogFactory` is deprecated and will be removed in the future.
 
 === 14. Januar 2018
 
