@@ -38,6 +38,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
@@ -343,6 +344,13 @@ public class OkCancelDialog extends Window {
      */
     public void setBeforeOkHandler(Handler beforeOkHandler) {
         this.beforeOkHandler = beforeOkHandler;
+    }
+
+    /**
+     * Opens this dialog in the current window.
+     */
+    public void open() {
+        UI.getCurrent().addWindow(this);
     }
 
     /**
