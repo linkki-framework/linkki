@@ -3,7 +3,7 @@
 
 html,
 body {
-  height: 100%:
+  height: 100%;
   /* The html and body elements cannot have any padding or margin. */
 }
 
@@ -47,6 +47,20 @@ body {
   margin: 20px 0;
 }
 
-/*code {
-  font-size: 80%;
-}*/
+/* admonition styles, adjusted from asciidoctor.css */
+.admonitionblock td.icon [class^="fa icon-"]:before { font-size: 2.5em; cursor: default; }
+.admonitionblock td.icon .icon-note:before {content: "\f05a"; color: #009fe3;}
+.admonitionblock td.icon .icon-tip:before { content: "\f0eb"; color: #111; }
+.admonitionblock td.icon .icon-warning:before { content: "\f071"; color: #ffb700; }
+.admonitionblock td.icon .icon-caution:before { content: "\f06d"; color: #ffb700; }
+.admonitionblock td.icon .icon-important:before { content: "\f06a"; color: #ff3100; }
+
+.admonitionblock > table { border: 0; background: none; width: 100%; }
+.admonitionblock > table td.icon { text-align: center; width: 80px; border: none;}
+.admonitionblock > table td.icon img { max-width: none; }
+.admonitionblock > table td.icon .title { font-weight: bold; text-transform: uppercase; }
+.admonitionblock > table td.content { padding-left: 1.125em; padding-right: 1.25em; padding-top: 1em; padding-bottom: 1em; border-left: 1px solid #dddddd; color: #6f6f6f; border-right: none; border-top: none; border-bottom: none;}
+.admonitionblock > table td.content > :last-child > :last-child { margin-bottom: 0; }
+
+.admonitionblock > table > tbody > tr {border-top: none;}
+.admonitionblock {padding: 1.5em 0;}

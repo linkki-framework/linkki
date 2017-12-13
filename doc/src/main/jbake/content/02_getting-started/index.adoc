@@ -3,10 +3,11 @@
 :jbake-status: published
 :jbake-order: 1
 
-== Getting Started
 :base-dir: ../../../../../../samples/getting-started
 :source-dir: {base-dir}/src/main/java
 :image-dir: ../../../src/main/jbake/assets/images/content
+
+== Getting Started
 
 This small 'getting started' tutorial shall serve as an introduction to the usage of *linkki*.
 

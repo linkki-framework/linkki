@@ -11,10 +11,8 @@
 
     <!-- Le styles -->
     <link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/asciidoctor.css" rel="stylesheet">-->
     <link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/base.css" rel="stylesheet">
     <link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/styles/idea.css" rel="stylesheet">
-	<!-- <link href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>css/menu.css" rel="stylesheet"> -->
 	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 	
 	<script src="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>js/highlight.pack.js"></script>
