@@ -5,7 +5,7 @@
 
 :base-dir: ../../../../../../samples/getting-started
 :source-dir: {base-dir}/src/main/java
-:image-dir: ../../../src/main/jbake/assets/images/content
+:images-folder-name: 02_getting_started
 
 == Getting Started
 
@@ -21,7 +21,7 @@ The goal is to create a simple user interface for reporting errors. The report s
 
 The report can only be submited if a description has been entered and a type was selected.
 
-image::{image-dir}/report_enabled.png[]
+image::{images}{images-folder-name}/report_enabled.png[]
 
 NOTE: Persisting the report is *not* part of this tutorial.
 
@@ -36,7 +36,7 @@ To start this project, you need
 
 ---
 
-=== Step 0: Project Setup
+=== Project Setup
 We are creating a web application that should be packaged as `war`. Apart from *linkki* we require Vaadin as dependency:
 
 [source,xml]

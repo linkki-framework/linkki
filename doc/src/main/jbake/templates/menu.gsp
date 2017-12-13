@@ -1,7 +1,6 @@
 	<!-- Fixed navbar -->
 	<div class="book font-size-2 font-family-1 with-summary">
 		<div class="book-summary">
-          <!-- <a class="navbar-brand" href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>">JBake</a> -->
 		  <% if(config.logo != "false"){%>
 		  <a class="navbar-brand" href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>index.html"><img src="<%if (content.rootpath.length() > 0) {%>${content.rootpath}<% } else { %><% }%>images/${config.logo}" style="padding-top:8px;padding-right:20px;padding-left:20px"></a>
 		  <%}%>
@@ -63,12 +62,7 @@
 						</li>
 					<%}%>
 
-				</ul> <!-- summary -->
-				<!--
-				<li>
-					<a href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>../../files/ExampleProject.zip"">Example Project</a>
-				</li>
-				-->
+				</ul>
 		</nav>
 	</div>
     <!-- closing </div> in footer -->

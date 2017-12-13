@@ -15,7 +15,9 @@
         <asciidoctorj.pdf.version>1.5.0-alpha.14</asciidoctorj.pdf.version>
         <asciidoctorj.version>1.5.5</asciidoctorj.version>
         <jruby.version>1.7.26</jruby.version>
-        <jbake.outputDirectory>${project.build.directory}/linkki-${project.version}</jbake.outputDirectory>
+        <doc.deployname>linkki-${project.version}</doc.deployname>
+        <jbake.outputDirectory>${project.build.directory}/${doc.deployname}</jbake.outputDirectory>
+        <doc.user>${user.name}</doc.user>
     </properties>
 
     <artifactId>linkki-core-documentation</artifactId>
@@ -133,6 +135,27 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>upload-documentation</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>  
+                            <serverId>linkkidoc</serverId>
+                            <fromDir>${jbake.outputDirectory}</fromDir>
+                            <includes>**/*</includes>
+                            <url>scp://${doc.user}@doc.linkki-framework.org</url>
+                            <toDir>/var/www/doc.linkki-framework.org/${doc.deployname}</toDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -189,6 +212,13 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>3.0.0</version>
+            </extension>
+        </extensions>
     </build>
 
 
@@ -227,7 +257,4 @@
             </build>
         </profile>
     </profiles>
-
-
-
 </project>
