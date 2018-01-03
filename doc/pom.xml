@@ -128,14 +128,14 @@
                                 <toc />
                                 <idprefix />
                                 <idseparator>-</idseparator>
-                                <pdf-stylesdir>${project.basedir/src/theme}</pdf-stylesdir>
+                                <pdf-stylesdir>${project.basedir}/src/theme</pdf-stylesdir>
                                 <pdf-style>base</pdf-style>
                             </attributes>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>wagon-maven-plugin</artifactId>
                 <version>1.0</version>
@@ -155,7 +155,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin> -->
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -239,16 +239,6 @@
                                 </goals>
                                 <configuration>
                                     <sourceDocumentName>README.adoc</sourceDocumentName>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>generate-de-readme</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>process-asciidoc</goal>
-                                </goals>
-                                <configuration>
-                                    <sourceDocumentName>README.de.adoc</sourceDocumentName>
                                 </configuration>
                             </execution>
                         </executions>
