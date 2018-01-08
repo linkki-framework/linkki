@@ -16,6 +16,7 @@ package org.linkki.framework.ui;
 import org.apache.deltaspike.core.api.config.ConfigResolver;
 import org.linkki.core.message.Message;
 import org.linkki.framework.ui.application.ApplicationHeader;
+import org.linkki.framework.ui.component.Headline;
 import org.linkki.framework.ui.component.sidebar.SidebarLayout;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
 
@@ -53,13 +54,15 @@ public final class LinkkiStyles {
     public static final String DIALOG_CONTENT = "linkki-dialog-content";
 
     /**
-     * Prefix for {@link Message} label style classes. The errorLevel in lower case is used as
-     * suffix
+     * Prefix for {@link Message} label style classes. The errorLevel in lower case is used as suffix
      */
     public static final String MESSAGE_PREFIX = "linkki-message-"; //$NON-NLS-1$
 
     /** Style class prefix {@link Message} labels. The errorLevel in lower case is used as suffix */
     public static final String MESSAGE_LIST_STYLE = "linkki-message-list"; //$NON-NLS-1$
+
+    /** Style class for {@link Headline} */
+    public static final String HEADLINE = "linkki-headline"; //$NON-NLS-1$
 
     /**
      * Vaadin theme name. Loaded from DeltaSpike

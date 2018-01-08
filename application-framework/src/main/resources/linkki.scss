@@ -166,6 +166,20 @@ $linkki-sidebar-width: 56px !default;
     width: 100%;  
   }
   
+  /*
+  * Headline
+  */
+  
+  .linkki-headline {
+      border-bottom: $linkki-border;
+      padding: 20px 10px;
+
+        .v-slot {
+            vertical-align: middle;
+        }
+
+  }
+  
   /* 
   * Dialogs 
   */

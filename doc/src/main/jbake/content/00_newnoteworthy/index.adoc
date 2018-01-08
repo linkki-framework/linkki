@@ -5,7 +5,19 @@
 
 == New & Noteworthy
 
-=== Captions for Checkboxes
+=== 5. Januar 2018
+
+==== New component Headline
+
+A new standard component for the application framework called `org.linkki.framework.ui.component.Headline` was introduced. It is used to show a headline at the top of a page below the application header. For customizing it is intended to subclass `Headline` and
+add further components.
+
+For styling the `Headline` there is a new stylesheet class called `linkki-headline`.
+
+
+=== 12. Dezember 2017
+
+==== Captions for Checkboxes
 
 *linkki* versions up to 0.9.20171123 treated checkboxes like any other input field concerining labels: The label is displayed on the left, preceding the input field. But in most UI layouts, checkboxes are followed by a caption instead. To facilitate this layout, the `@UICheckBox` now has a `caption` property that must be set. The old `label` can still be used, but the default value for `noLabel` has been switched to `true`, so that `nolabel=false` has to be used where a label should be displayed.
  
