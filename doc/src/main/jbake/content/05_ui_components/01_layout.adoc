@@ -29,7 +29,7 @@ All you have to do is to create a HTML file located in the `layouts` folder in y
 
 In this sample there is a simple address input section.
 
-image::{images}{images-folder-name}/custom_layout.png[Address section with custom layout,300,align="center"]
+image::{images}{images-folder-name}/custom_layout.png[Address section with custom layout,align="center"]
 
 The relevant code for the class declaration and a part of the field declarations are given in this code snippet.
 

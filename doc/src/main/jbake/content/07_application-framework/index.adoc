@@ -1,0 +1,21 @@
+:jbake-title: Application Framework
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 70
+
+[[validation]]
+== Application Framework
+
+Next to the binding abilities *linkki* provides a set of useful components that could be used to build business enterprise applications.
+
+To use the application framework you need to add an additional dependency, the version should be the same as for *linkki*. 
+
+[source,xml]
+----
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-application-framework</artifactId>
+        </dependency>
+----
+
+The use of the application framework is optional.

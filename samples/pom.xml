@@ -34,6 +34,8 @@
         <module>binding</module>
         <module>dynamic-fields</module>
         <module>messages</module>
+        <module>custom-layout</module>
+        <module>application-framework</module>
     </modules>
 
 
@@ -66,6 +68,11 @@
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core</artifactId>
+                <version>${linkki.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.linkki-framework</groupId>
+                <artifactId>linkki-application-framework</artifactId>
                 <version>${linkki.version}</version>
             </dependency>
 

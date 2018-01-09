@@ -1,0 +1,30 @@
+:jbake-title: Components
+:jbake-type: section
+:jbake-status: published
+:image-dir: ../../../src/main/jbake/assets/images/content/07_application-framework
+:source-dir-application: ../../../../../../samples/application-framework/src/main/java
+
+=== Components
+
+The *linkki* application framework contains the following components.
+
+==== Application Frame
+
+The application framework includes an `ApplicationFrame` that consists of an application header and footer. The header is designed to have multiple menu actions on the left and may have some specific items like help menu or preferences on the right side. The footer simply contains some application info.
+
+==== Sidebar
+
+
+==== Headline
+
+For every sheet it is useful to have a headline that describes the current content. It natively has a headline caption and could be extended by subclasses.
+
+
+image::{image-dir}/create-report-simple.png[]
+
+To use a `Headline` simply instantiate and add the component to your content.
+
+[source,java]
+----
+include::{source-dir-application}/org/linkki/samples/appsample/view/MainView.java[tags=addHeadline-call]
+----
