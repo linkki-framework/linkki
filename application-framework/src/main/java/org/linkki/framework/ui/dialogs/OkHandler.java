@@ -17,6 +17,11 @@ import javax.annotation.Nonnull;
 
 import org.linkki.util.handler.Handler;
 
+/**
+ * @deprecated The {@link OkHandler} is deprecated since 2018-01-10 and will be deleted in version
+ *             1.0. Only use {@link Handler} with the same functionality.
+ */
+@Deprecated
 @FunctionalInterface
 public interface OkHandler extends Handler {
 
@@ -36,8 +41,8 @@ public interface OkHandler extends Handler {
     void onOk();
 
     /**
-     * Returns a composed handler that first executes this handler {@code onOk()} method and then
-     * the {@code onOk()} method of the given handler.
+     * Returns a composed handler that first executes this handler {@code onOk()} method and then the
+     * {@code onOk()} method of the given handler.
      */
     @Override
     default OkHandler andThen(@Nonnull Handler after) {
