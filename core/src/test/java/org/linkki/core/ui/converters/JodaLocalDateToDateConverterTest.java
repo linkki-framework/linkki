@@ -74,8 +74,10 @@ public class JodaLocalDateToDateConverterTest {
                 /* [17] */ { "00" + getDateFromNow(-nearly80Years).toString(shortYearPattern), longYearPattern,getDateFromNow(-nearly80Years) },
                 /* [18] */ { "00" + getDateFromNow(nearly19Years).toString(shortYearPattern), longYearPattern,getDateFromNow(nearly19Years) },
                 /* [19] */ { getDateFromNow(0).toString(shortYearPattern), shortYearPattern, getDateFromNow(0) }, // today
-                /* [20] */ { "00" + getDateFromNow(0).toString(shortYearPattern), longYearPattern, getDateFromNow(0) } // today
+                /* [20] */ { "00" + getDateFromNow(0).toString(shortYearPattern), longYearPattern, getDateFromNow(0) }, // today
                 // @formatter:on
+                /* [21] */ { "04.02.15981", germanLongPattern, new LocalDate(15981, 02, 04) },
+                /* [22] */ { "04.02.15981654", germanLongPattern, new LocalDate(15981654, 02, 04) }
         };
     }
 

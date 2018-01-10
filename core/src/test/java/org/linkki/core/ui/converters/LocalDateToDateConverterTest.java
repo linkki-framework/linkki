@@ -76,8 +76,10 @@ public class LocalDateToDateConverterTest {
                 /* [17] */ { "00" + getDateFromNow(-nearly80Years).format(shortYearFormatter), longYearPattern,getDateFromNow(-nearly80Years) },
                 /* [18] */ { "00" + getDateFromNow(nearly19Years).format(shortYearFormatter), longYearPattern,getDateFromNow(nearly19Years) },
                 /* [19] */ { getDateFromNow(0).format(shortYearFormatter), shortYearPattern, getDateFromNow(0) }, // today
-                /* [20] */ { "00" + getDateFromNow(0).format(shortYearFormatter), longYearPattern, getDateFromNow(0) } // today
+                /* [20] */ { "00" + getDateFromNow(0).format(shortYearFormatter), longYearPattern, getDateFromNow(0) }, // today
                 // @formatter:on
+                /* [21] */ { "04.02.15981", germanLongPattern, LocalDate.of(15981, 02, 04) },
+                /* [22] */ { "04.02.15981654", germanLongPattern, LocalDate.of(15981654, 02, 04) }
 
         };
     }

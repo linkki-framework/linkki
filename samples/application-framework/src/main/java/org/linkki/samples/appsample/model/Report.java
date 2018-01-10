@@ -13,6 +13,7 @@
  */
 package org.linkki.samples.appsample.model;
 
+import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Report {
@@ -24,6 +25,8 @@ public class Report {
     private String description;
 
     private ReportType type;
+
+    private LocalDate occurrenceDate;
 
     public Integer getId() {
         return id;
@@ -45,6 +48,13 @@ public class Report {
         this.type = type;
     }
 
+    public LocalDate getOccurrenceDate() {
+        return occurrenceDate;
+    }
+
+    public void setOccurrenceDate(LocalDate occurrenceDate) {
+        this.occurrenceDate = occurrenceDate;
+    }
 
     public void save() {
         if (id == null) {

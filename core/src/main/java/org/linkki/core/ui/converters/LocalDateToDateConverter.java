@@ -16,6 +16,7 @@ package org.linkki.core.ui.converters;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Year;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
@@ -62,15 +63,18 @@ public class LocalDateToDateConverter implements Converter<Date, LocalDate>, Aut
      */
     private static LocalDate toLocalWorkaround(Date value) {
         String formattedDate = new SimpleDateFormat("yyyyMMdd").format(value);
-        if (formattedDate.startsWith("00")) {
-            formattedDate = formattedDate.substring(2);
+        if (formattedDate.length() > 8) {
+            return value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        } else {
+            if (formattedDate.startsWith("00")) {
+                formattedDate = formattedDate.substring(2);
+            }
+            DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                    .appendValueReduced(ChronoField.YEAR, 2, 4, Year.now().getValue() - 80)
+                    .appendPattern("MMdd")
+                    .toFormatter();
+            return LocalDate.parse(formattedDate, formatter);
         }
-
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                .appendValueReduced(ChronoField.YEAR, 2, 4, Year.now().getValue() - 80)
-                .appendPattern("MMdd")
-                .toFormatter();
-        return LocalDate.parse(formattedDate, formatter);
     }
 
     @Override

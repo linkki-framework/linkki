@@ -19,6 +19,7 @@ import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
+import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextArea;
 import org.linkki.samples.appsample.model.Report;
@@ -48,12 +49,17 @@ public class ReportSectionPmo implements PresentationModelObject {
     @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED)
     public void type() {
         /*
-         * - bind value to the property "type" from report - use enum constants from ReportType as available
-         * values
+         * bind value to the property "type" from report and use enum constants from ReportType as
+         * available values
          */
     }
 
-    @UIButton(position = 30, caption = "Send", icon = FontAwesome.SEND, showIcon = true, enabled = EnabledType.DYNAMIC)
+    @UIDateField(position = 30, label = "Occurrence date", modelAttribute = "occurrenceDate")
+    public void occurenceDate() {
+        /* bind valud to pmo property */
+    }
+
+    @UIButton(position = 40, caption = "Send", icon = FontAwesome.SEND, showIcon = true, enabled = EnabledType.DYNAMIC)
     public void send() {
         report.save();
         Notification.show(
