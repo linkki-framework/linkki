@@ -45,6 +45,9 @@
         <commons-lang3.version>3.4</commons-lang3.version>
         <jboss-javaee-6.version>3.0.3.Final</jboss-javaee-6.version>
         <deltaspike.version>1.4.1</deltaspike.version>
+        <doc.deployname>linkki-${project.version}</doc.deployname>
+        <jbake.outputDirectory>${project.build.directory}/${doc.deployname}</jbake.outputDirectory>
+        <doc.user>${user.name}</doc.user>
     </properties>
 
     <build>
