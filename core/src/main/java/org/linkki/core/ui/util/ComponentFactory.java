@@ -40,6 +40,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
@@ -51,25 +52,47 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class ComponentFactory {
 
     /**
-     * @see <a href="http://de.wikipedia.org/wiki/Gesch%C3%BCtztes_Leerzeichen">http://de.wikipedia.
-     *      org/wiki/Geschütztes_Leerzeichen</a>
+     * @see <a href="https://en.wikipedia.org/wiki/Non-breaking_space">Non-breaking_space</a>
      */
     public static final String NO_BREAK_SPACE = "&nbsp";
 
     private ComponentFactory() {
     }
 
+    /**
+     * Creates a non-breaking space that keeps a horizontal space.
+     * <p>
+     * If you just want to skip one cell in a grid layout do not use this method but simply use
+     * {@link GridLayout#space()}.
+     * 
+     * @param layout the layout where the spacer should be added.
+     * @return the Label that is used as spacer component
+     */
     public static Label addHorizontalSpacer(AbstractLayout layout) {
-        Label spacer = createSpacer();
-        layout.addComponent(spacer);
-        return spacer;
+        if (layout instanceof AbstractOrderedLayout) {
+            return addHorizontalFixedSizeSpacer((AbstractOrderedLayout)layout, -1);
+        } else {
+            Label spacer = createSpacer();
+            layout.addComponent(spacer);
+            return spacer;
+
+        }
     }
 
-    public static Label addHorizontalFixedSizeSpacer(AbstractOrderedLayout parent, int px) {
+    /**
+     * Creates a non-breaking space that keeps a horizontal space. The width of the spacer is specified
+     * in px.
+     * 
+     * @param layout the layout where the spacer should be added.
+     * @return the Label that is used as spacer component
+     */
+    public static Label addHorizontalFixedSizeSpacer(AbstractOrderedLayout layout, int px) {
         Label spacer = createSpacer();
-        spacer.setWidth("" + px + "px");
-        parent.addComponent(spacer);
-        parent.setExpandRatio(spacer, 0);
+        if (px > 0) {
+            spacer.setWidth("" + px + "px");
+        }
+        layout.addComponent(spacer);
+        layout.setExpandRatio(spacer, 0);
         return spacer;
     }
 
@@ -211,8 +234,8 @@ public class ComponentFactory {
      * Creates a button for the given PMO.
      * 
      * @deprecated This method creates a button and installs a click listener for the callback on
-     *             {@link ButtonPmo#onClick()}. This is not the recommended way to handle click
-     *             events. Prefer using a binding context! If you cannot use a binding context call
+     *             {@link ButtonPmo#onClick()}. This is not the recommended way to handle click events.
+     *             Prefer using a binding context! If you cannot use a binding context call
      *             {@link #newButton(Resource, Collection)} and create the listener on your own.
      */
     @Deprecated
@@ -240,8 +263,8 @@ public class ComponentFactory {
     }
 
     /**
-     * Manual validation as DateField's setRangeStart() setRangeEnd() methods don't work properly.
-     * As the field uses converters, the converted value type (LocalDate) is expected and not Date.
+     * Manual validation as DateField's setRangeStart() setRangeEnd() methods don't work properly. As
+     * the field uses converters, the converted value type (LocalDate) is expected and not Date.
      */
     private static final class DateValidator implements Validator {
         private static final long serialVersionUID = 1L;
