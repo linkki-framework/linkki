@@ -37,7 +37,7 @@ import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.TestUi;
+import org.linkki.core.ui.section.annotations.TestUiUtil;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.util.handler.Handler;
@@ -237,7 +237,7 @@ public class FieldBindingTest {
         TestPmo testPmo = new TestPmo(testModelObject);
 
         // This creates a FieldBinding for the PMO
-        TextField textField = (TextField)TestUi.componentBoundTo(testPmo);
+        TextField textField = (TextField)TestUiUtil.createFirstComponentOf(testPmo);
 
         // Preconditions
         assertThat(textField.isRequired(), is(true));

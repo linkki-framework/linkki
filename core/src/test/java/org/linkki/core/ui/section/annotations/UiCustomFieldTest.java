@@ -38,7 +38,7 @@ public class UiCustomFieldTest {
     private BindingContext bindingContext = TestBindingContext.create();
 
     private OptionGroup createCustomField() {
-        return (OptionGroup)TestUi.componentBoundTo(pmo, bindingContext);
+        return (OptionGroup)TestUiUtil.createFirstComponentOf(pmo, bindingContext);
     }
 
     @Test

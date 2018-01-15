@@ -39,7 +39,7 @@ import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.FieldDescriptor;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.TestUi;
+import org.linkki.core.ui.section.annotations.TestUiUtil;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
@@ -240,7 +240,7 @@ public class BindingContextTest {
             TestModelObject testPmo = new TestModelObject();
             pmos.add(testPmo);
 
-            TestUi.componentBoundTo(testPmo, context);
+            TestUiUtil.createFirstComponentOf(testPmo, context);
         }
 
         pmos.forEach(context::removeBindingsForPmo);

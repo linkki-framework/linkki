@@ -82,7 +82,7 @@ public class UiIntegerFieldTest {
      */
     private TextField createIntegerTextField(Object modelObject) {
         TestPmo pmo = new TestPmo(modelObject);
-        return (TextField)TestUi.componentBoundTo(pmo);
+        return (TextField)TestUiUtil.createFirstComponentOf(pmo);
     }
 
     @Test
