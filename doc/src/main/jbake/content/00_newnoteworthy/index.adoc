@@ -5,6 +5,12 @@
 
 == New & Noteworthy
 
+=== 14. Januar 2018
+
+==== Package Umzug für PropertyBehavior
+
+Die Klasse `PropertyBehavior` ist vom Package `org.linkki.core.binding.aspect` nach `org.linkki.core.binding.behavior` umgezogen.
+
 === 10. Januar 2018
 
 ==== New component Headline
