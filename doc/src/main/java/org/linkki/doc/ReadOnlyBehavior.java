@@ -1,6 +1,6 @@
 package org.linkki.doc;
 
-import org.linkki.core.binding.aspect.PropertyBehavior;
+import org.linkki.core.binding.behavior.PropertyBehavior;
 
 //tag::class[]
 class ReadOnlyBehavior implements PropertyBehavior {

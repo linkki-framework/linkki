@@ -16,7 +16,7 @@ package org.linkki.core.binding.dispatcher;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.linkki.core.binding.aspect.PropertyBehavior;
+import org.linkki.core.binding.behavior.PropertyBehavior;
 
 @FunctionalInterface
 public interface PropertyBehaviorProvider {

@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Nullable;
 
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.binding.aspect.PropertyBehavior;
+import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;

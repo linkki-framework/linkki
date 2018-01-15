@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.core.binding.aspect;
+package org.linkki.core.binding.behavior;
 
 /**
  * Influences the behavior of properties. There are multiple aspects that can be influenced. They
