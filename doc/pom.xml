@@ -15,6 +15,7 @@
         <asciidoctorj.pdf.version>1.5.0-alpha.14</asciidoctorj.pdf.version>
         <asciidoctorj.version>1.5.5</asciidoctorj.version>
         <jruby.version>1.7.26</jruby.version>
+        <jbake.outputDirectory>${project.build.directory}/${project.build.finalName}</jbake.outputDirectory>
     </properties>
 
     <artifactId>linkki-core-documentation</artifactId>
@@ -148,7 +149,7 @@
                             <fromDir>${jbake.outputDirectory}</fromDir>
                             <includes>**/*</includes>
                             <url>scp://${doc.user}@doc.linkki-framework.org</url>
-                            <toDir>/var/www/doc.linkki-framework.org/${doc.deployname}</toDir>
+                            <toDir>/var/www/doc.linkki-framework.org/linkki-${project.version}</toDir>
                         </configuration>
                     </execution>
                 </executions>
