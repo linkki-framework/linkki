@@ -350,8 +350,11 @@ public class OkCancelDialog extends Window {
      * Opens this dialog in the current window.
      */
     public void open() {
-        UI.getCurrent().addWindow(this);
-        initURIChangeListener();
+        UI current = UI.getCurrent();
+        if (current != null) {
+            current.addWindow(this);
+            initURIChangeListener();
+        }
     }
 
     /**
@@ -360,9 +363,7 @@ public class OkCancelDialog extends Window {
      */
     protected void initURIChangeListener() {
         UI current = UI.getCurrent();
-        if (current != null) {
-            current.getPage().addUriFragmentChangedListener(e -> close());
-        }
+        current.getPage().addUriFragmentChangedListener(e -> close());
     }
 
     /**
