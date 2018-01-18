@@ -13,7 +13,6 @@
  */
 package org.linkki.core.ui.section.annotations;
 
-import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -24,34 +23,22 @@ import java.util.List;
 
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
-import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
-import org.linkki.core.ui.components.LinkkiComboBox;
-import org.linkki.core.ui.section.annotations.UIComboBoxIntegrationTest.ComboBoxTestPmo;
+import org.linkki.core.ui.components.SubsetChooser;
+import org.linkki.core.ui.section.annotations.UISubsetChooserIntegrationTest.SubsetChooserBoxTestPmo;
 
-import com.vaadin.ui.ComboBox;
+public class UISubsetChooserIntegrationTest
+        extends FieldAnnotationIntegrationTest<SubsetChooser, SubsetChooserBoxTestPmo> {
 
-public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<LinkkiComboBox, ComboBoxTestPmo> {
-
-    public UIComboBoxIntegrationTest() {
-        super(ComboBoxTestModelObject::new, ComboBoxTestPmo::new);
+    public UISubsetChooserIntegrationTest() {
+        super(SubsetChooserModelObject::new, SubsetChooserBoxTestPmo::new);
     }
 
     @Test
-    public void testNullSelection() {
-        assertThat(getStaticComponent().isNullSelectionAllowed(), is(false));
+    public void testLeftRightCaptions() {
+        SubsetChooser subsetChooser = getDynamicComponent();
 
-        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
-
-        ComboBox comboBox = getDynamicComponent();
-        assertThat(availableValues.contains(null), is(false));
-        assertThat(comboBox.isNullSelectionAllowed(), is(false));
-
-        availableValues.add(null);
-        assertThat(availableValues.contains(null), is(true));
-        getDefaultPmo().setValueAvailableValues(availableValues);
-        updateUi();
-        assertThat(comboBox.getItemIds(),
-                   contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, comboBox.getNullSelectionItemId()));
+        assertThat(subsetChooser.getLeftColumnCaption(), is("leftC"));
+        assertThat(subsetChooser.getRightColumnCaption(), is("rightC"));
     }
 
     @Test
@@ -65,19 +52,12 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         assertThat(getDynamicComponent().getItemIds(), contains(TestEnum.TWO, TestEnum.THREE));
     }
 
-    @Test
-    public void testCaptionProvider() {
-        LinkkiComboBox comboBox = getDynamicComponent();
-
-        assertThat((ToStringCaptionProvider)comboBox.getItemCaptionProvider(), isA(ToStringCaptionProvider.class));
-    }
-
     @UISection
-    protected static class ComboBoxTestPmo extends FieldAnnotationTestPmo {
+    protected static class SubsetChooserBoxTestPmo extends FieldAnnotationTestPmo {
 
         private List<TestEnum> availableValues;
 
-        public ComboBoxTestPmo(Object modelObject) {
+        public SubsetChooserBoxTestPmo(Object modelObject) {
             super(modelObject);
             availableValues = new ArrayList<>();
             availableValues.add(TestEnum.ONE);
@@ -86,7 +66,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         }
 
         @Override
-        @UIComboBox(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
+        @UISubsetChooser(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, leftColumnCaption = "leftC", rightColumnCaption = "rightC")
         public void value() {
             // model binding
         }
@@ -100,14 +80,19 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         }
 
         @Override
-        @UIComboBox(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
+        @UISubsetChooser(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
         }
+
+        public List<TestEnum> getStaticValueAvailableValues() {
+            return Collections.unmodifiableList(availableValues);
+        }
+
     }
 
     @SuppressWarnings("null")
-    protected static class ComboBoxTestModelObject {
+    protected static class SubsetChooserModelObject {
 
         private TestEnum value;
 

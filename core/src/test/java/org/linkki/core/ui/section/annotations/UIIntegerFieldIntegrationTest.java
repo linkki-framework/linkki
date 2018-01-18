@@ -27,14 +27,14 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.junit.Test;
-import org.linkki.core.ui.components.DoubleField;
-import org.linkki.core.ui.section.annotations.UIDoubleFieldIntegrationTest.DoubleFieldTestPmo;
+import org.linkki.core.ui.components.IntegerField;
+import org.linkki.core.ui.section.annotations.UIIntegerFieldIntegrationTest.IntegerFieldTestPmo;
 import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.data.Buffered;
 import com.vaadin.ui.TextField;
 
-public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest<DoubleField, DoubleFieldTestPmo> {
+public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTest<IntegerField, IntegerFieldTestPmo> {
 
     private static final String FANCY_FORMAT = "##,##,##.###";
 
@@ -43,63 +43,63 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
     private NumberFormat formatter;
 
     @SuppressWarnings("null")
-    public UIDoubleFieldIntegrationTest() {
-        super(TestModelObjectWithObjectDouble::new, DoubleFieldTestPmo::new);
+    public UIIntegerFieldIntegrationTest() {
+        super(TestModelObjectWithObjectInteger::new, IntegerFieldTestPmo::new);
         Locale.setDefault(UiUtil.getUiLocale());
         formatter = new DecimalFormat(FANCY_FORMAT, DecimalFormatSymbols.getInstance(UiUtil.getUiLocale()));
     }
 
     @Test
-    public void testSetValueWithPrimitiveDoubleInModelObject() {
-        TestModelObjectWithPrimitiveDouble modelObject = new TestModelObjectWithPrimitiveDouble();
+    public void testSetValueWithPrimitiveIntInModelObject() {
+        TestModelObjectWithPrimitiveInteger modelObject = new TestModelObjectWithPrimitiveInteger();
         TextField textField = createFirstComponent(modelObject);
 
         assertThat(textField.getMaxLength(), is(MAX_LENGTH));
-        assertThat(textField.getValue(), is(formatter.format(0.0)));
+        assertThat(textField.getValue(), is(formatter.format(0)));
 
-        textField.setValue(formatter.format(1.0));
-        assertThat(modelObject.getValue(), is(1.0));
+        textField.setValue(formatter.format(1));
+        assertThat(modelObject.getValue(), is(1));
 
-        modelObject.setValue(2.0);
+        modelObject.setValue(2000);
         // updateUi(); not needed at the moment
-        assertThat(textField.getValue(), is(formatter.format(2.0)));
+        assertThat(textField.getValue(), is(formatter.format(2000)));
     }
 
     @Test
-    public void testSetValueWithPrimitiveDoubleInModelObject_IllegalNumbers() {
-        TestModelObjectWithPrimitiveDouble modelObject = new TestModelObjectWithPrimitiveDouble();
+    public void testSetValueWithPrimitiveIntInModelObject_IllegalNumbers() {
+        TestModelObjectWithPrimitiveInteger modelObject = new TestModelObjectWithPrimitiveInteger();
         TextField textField = createFirstComponent(modelObject);
 
         textField.setValue("asd");
-        assertThat(modelObject.getValue(), is(0.0));
+        assertThat(modelObject.getValue(), is(0));
     }
 
     @Test(expected = Buffered.SourceException.class)
-    public void testSetValueWithPrimitiveDoubleInModelObjectFailsForNull() {
-        TextField textField = createFirstComponent(new TestModelObjectWithPrimitiveDouble());
+    public void testSetValueWithPrimitiveIntegerInModelObjectFailsForNull() {
+        TextField textField = createFirstComponent(new TestModelObjectWithPrimitiveInteger());
         textField.setValue(null);
     }
 
     @Test
-    public void testSetValueWithObjectDoubleInModelObject() {
-        TestModelObjectWithObjectDouble modelObject = new TestModelObjectWithObjectDouble();
+    public void testSetValueWithObjectIntegerInModelObject() {
+        TestModelObjectWithObjectInteger modelObject = new TestModelObjectWithObjectInteger();
         TextField textField = createFirstComponent(modelObject);
 
         assertThat(textField.getValue(), is(emptyString()));
 
-        textField.setValue(formatter.format(1.0));
-        assertThat(modelObject.getValue(), is(1.0));
+        textField.setValue(formatter.format(1));
+        assertThat(modelObject.getValue(), is(1));
 
-        modelObject.setValue(2.0);
-        assertThat(textField.getValue(), is(formatter.format(2.0)));
+        modelObject.setValue(2);
+        assertThat(textField.getValue(), is(formatter.format(2)));
 
         textField.setValue(null);
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
     @Test
-    public void testSetValueWithObjectDoubleInModelObject_IllegalNumbers() {
-        TestModelObjectWithObjectDouble modelObject = new TestModelObjectWithObjectDouble();
+    public void testSetValueWithObjectIntegerInModelObject_IllegalNumbers() {
+        TestModelObjectWithObjectInteger modelObject = new TestModelObjectWithObjectInteger();
         TextField textField = createFirstComponent(modelObject);
 
         textField.setValue("asd");
@@ -107,56 +107,56 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
     }
 
     @UISection
-    protected static class DoubleFieldTestPmo extends FieldAnnotationTestPmo {
+    protected static class IntegerFieldTestPmo extends FieldAnnotationTestPmo {
 
-        public DoubleFieldTestPmo(Object modelObject) {
+        public IntegerFieldTestPmo(Object modelObject) {
             super(modelObject);
         }
 
         @Override
-        @UIDoubleField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, format = FANCY_FORMAT, maxLength = MAX_LENGTH)
+        @UIIntegerField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, format = FANCY_FORMAT, maxLength = MAX_LENGTH)
         public void value() {
             // model binding
         }
 
         @Override
-        @UIDoubleField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
+        @UIIntegerField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
         }
     }
 
-    protected static class TestModelObjectWithPrimitiveDouble {
+    protected static class TestModelObjectWithPrimitiveInteger {
 
-        private double value = 0;
+        private int value = 0;
 
-        public double getValue() {
+        public int getValue() {
             return value;
         }
 
-        public void setValue(double d) {
+        public void setValue(int d) {
             this.value = d;
         }
 
-        public double getStaticValue() {
+        public int getStaticValue() {
             return value;
         }
     }
 
-    protected static class TestModelObjectWithObjectDouble extends TestModelObject<Double> {
+    protected static class TestModelObjectWithObjectInteger extends TestModelObject<Integer> {
 
         @Nullable
-        private Double value = null;
+        private Integer value = null;
 
         @SuppressWarnings("null")
         @CheckForNull
         @Override
-        public Double getValue() {
+        public Integer getValue() {
             return value;
         }
 
         @Override
-        public void setValue(@Nullable Double value) {
+        public void setValue(@Nullable Integer value) {
             this.value = value;
         }
     }

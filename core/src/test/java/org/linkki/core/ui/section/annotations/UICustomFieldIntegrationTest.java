@@ -13,9 +13,7 @@
  */
 package org.linkki.core.ui.section.annotations;
 
-import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
@@ -24,34 +22,13 @@ import java.util.List;
 
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
-import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.components.LinkkiComboBox;
-import org.linkki.core.ui.section.annotations.UIComboBoxIntegrationTest.ComboBoxTestPmo;
+import org.linkki.core.ui.section.annotations.UICustomFieldIntegrationTest.ComboBoxTestPmo;
 
-import com.vaadin.ui.ComboBox;
+public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest<LinkkiComboBox, ComboBoxTestPmo> {
 
-public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<LinkkiComboBox, ComboBoxTestPmo> {
-
-    public UIComboBoxIntegrationTest() {
+    public UICustomFieldIntegrationTest() {
         super(ComboBoxTestModelObject::new, ComboBoxTestPmo::new);
-    }
-
-    @Test
-    public void testNullSelection() {
-        assertThat(getStaticComponent().isNullSelectionAllowed(), is(false));
-
-        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
-
-        ComboBox comboBox = getDynamicComponent();
-        assertThat(availableValues.contains(null), is(false));
-        assertThat(comboBox.isNullSelectionAllowed(), is(false));
-
-        availableValues.add(null);
-        assertThat(availableValues.contains(null), is(true));
-        getDefaultPmo().setValueAvailableValues(availableValues);
-        updateUi();
-        assertThat(comboBox.getItemIds(),
-                   contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, comboBox.getNullSelectionItemId()));
     }
 
     @Test
@@ -63,13 +40,6 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         getDefaultPmo().setValueAvailableValues(availableValues);
         updateUi();
         assertThat(getDynamicComponent().getItemIds(), contains(TestEnum.TWO, TestEnum.THREE));
-    }
-
-    @Test
-    public void testCaptionProvider() {
-        LinkkiComboBox comboBox = getDynamicComponent();
-
-        assertThat((ToStringCaptionProvider)comboBox.getItemCaptionProvider(), isA(ToStringCaptionProvider.class));
     }
 
     @UISection
@@ -86,7 +56,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         }
 
         @Override
-        @UIComboBox(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
+        @UICustomField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, uiControl = LinkkiComboBox.class)
         public void value() {
             // model binding
         }
@@ -100,7 +70,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         }
 
         @Override
-        @UIComboBox(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
+        @UICustomField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, uiControl = LinkkiComboBox.class)
         public void staticValue() {
             // model binding
         }

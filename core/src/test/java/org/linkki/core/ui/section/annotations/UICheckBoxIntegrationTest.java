@@ -52,9 +52,11 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
         assertThat(modelObject.getValue(), is(false));
 
         modelObject.setValue(true);
+        // updateUi(); not needed at the moment
         assertThat(checkBox.getValue(), is(true));
 
         modelObject.setValue(false);
+        // updateUi(); not needed at the moment
         assertThat(checkBox.getValue(), is(false));
     }
 
@@ -81,12 +83,15 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
         assertThat(modelObject.getValue(), is(nullValue()));
 
         modelObject.setValue(Boolean.TRUE);
+        // updateUi(); not needed at the moment
         assertThat(checkBox.getValue(), is(true));
 
         modelObject.setValue(Boolean.FALSE);
+        // updateUi(); not needed at the moment
         assertThat(checkBox.getValue(), is(false));
 
         modelObject.setValue(null);
+        // updateUi(); not needed at the moment
         assertThat(checkBox.getValue(), is(nullValue()));
     }
 
@@ -101,17 +106,17 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
 
     @UISection
     protected static class TestCheckboxPmo extends FieldAnnotationTestPmo {
-    
+
         public TestCheckboxPmo(Object modelObject) {
             super(modelObject);
         }
-    
+
         @Override
         @UICheckBox(position = 1, caption = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
         public void value() {
             //
         }
-    
+
         @Override
         @UICheckBox(position = 2, caption = TEST_CAPTION, label = TEST_LABEL, noLabel = false, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {

@@ -46,14 +46,15 @@ public class LinkkiConverterFactory extends DefaultConverterFactory {
         converterFinder = () -> BeanProvider.getContextualReferences(AutoDiscoveredConverter.class, true);
     }
 
-    LinkkiConverterFactory(Supplier<Collection<AutoDiscoveredConverter>> converterFinder) {
+    public LinkkiConverterFactory(Supplier<Collection<AutoDiscoveredConverter>> converterFinder) {
         this.converterFinder = requireNonNull(converterFinder, "converterFinder must not be null");
     }
 
     @Override
     @CheckForNull
     protected <PRESENTATION, MODEL> Converter<PRESENTATION, MODEL> findConverter(
-            @Nullable Class<PRESENTATION> presentationType, @Nullable Class<MODEL> modelType) {
+            @Nullable Class<PRESENTATION> presentationType,
+            @Nullable Class<MODEL> modelType) {
         @SuppressWarnings("unchecked")
         Converter<PRESENTATION, MODEL> converter = converterFinder.get().stream()
                 .filter(Converter.class::isInstance)

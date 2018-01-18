@@ -37,8 +37,8 @@ public abstract class FieldAnnotationTestPmo {
     /**
      * Creates a new {@link FieldAnnotationTestPmo}.
      * 
-     * @param modelObject Object that should have getter and setter for the property
-     *            <code>value</code>. It should also have a getter for <code>staticValue</code>.
+     * @param modelObject Object that should have getter and setter for the property <code>value</code>.
+     *            It should also have a getter for <code>staticValue</code>.
      *            {@link org.linkki.core.ui.section.annotations.FieldAnnotationIntegrationTest.TestModelObject}
      *            can be used as a base class.
      */
@@ -66,7 +66,7 @@ public abstract class FieldAnnotationTestPmo {
      * Should:
      * <ul>
      * <li>be annotated with a UI annotation</li>
-     * <li>have the default label</li>
+     * <li>have the label {@link #TEST_LABEL}</li>
      * <li>be disabled</li>
      * <li>be invisible</li>
      * <li>be required</li>
