@@ -24,7 +24,7 @@ package org.linkki.core.ui.section.annotations;
  * In addition, {@link #staticValue()} should not have a setter in the model.
  */
 @UISection
-public abstract class FieldAnnotationTestPmo {
+public abstract class AnnotationTestPmo {
 
     protected static final String TEST_CAPTION = "testCaption";
     protected static final String TEST_LABEL = "testLabel";
@@ -35,14 +35,14 @@ public abstract class FieldAnnotationTestPmo {
     private boolean visible;
 
     /**
-     * Creates a new {@link FieldAnnotationTestPmo}.
+     * Creates a new {@link AnnotationTestPmo}.
      * 
-     * @param modelObject Object that should have getter and setter for the property <code>value</code>.
-     *            It should also have a getter for <code>staticValue</code>.
-     *            {@link org.linkki.core.ui.section.annotations.FieldAnnotationIntegrationTest.TestModelObject}
+     * @param modelObject Object that should have getter and setter for the property
+     *            <code>value</code>. It should also have a getter for <code>staticValue</code>.
+     *            {@link org.linkki.core.ui.section.annotations.ComponentAnnotationIntegrationTest.TestModelObject}
      *            can be used as a base class.
      */
-    public FieldAnnotationTestPmo(Object modelObject) {
+    public AnnotationTestPmo(Object modelObject) {
         this.modelObject = modelObject;
     }
 

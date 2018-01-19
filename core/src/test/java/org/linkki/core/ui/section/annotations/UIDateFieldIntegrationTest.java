@@ -153,7 +153,7 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
     }
 
     @UISection
-    protected static class DateFieldTestPmo extends FieldAnnotationTestPmo {
+    protected static class DateFieldTestPmo extends AnnotationTestPmo {
 
         public DateFieldTestPmo(Object modelObject) {
             super(modelObject);

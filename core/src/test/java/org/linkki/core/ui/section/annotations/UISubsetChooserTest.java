@@ -75,11 +75,11 @@ public class UISubsetChooserTest {
     }
 
     /**
-     * Returns a {@code SubsetChooser} that is bound to a {@link FieldAnnotationTestPmo} using the
+     * Returns a {@code SubsetChooser} that is bound to a {@link AnnotationTestPmo} using the
      * IPM data binder. The {@code SubsetChooser} is part of a mostly mocked UI so that a
      * rudimentary Vaadin environment is in place.
      * 
-     * @return a {@code SubsetChooser} that is bound to a {@link FieldAnnotationTestPmo}
+     * @return a {@code SubsetChooser} that is bound to a {@link AnnotationTestPmo}
      */
     private SubsetChooser createSubsetChooser(Object pmo) {
         try {

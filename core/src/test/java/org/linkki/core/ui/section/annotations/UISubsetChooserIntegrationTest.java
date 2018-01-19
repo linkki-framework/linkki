@@ -53,7 +53,7 @@ public class UISubsetChooserIntegrationTest
     }
 
     @UISection
-    protected static class SubsetChooserBoxTestPmo extends FieldAnnotationTestPmo {
+    protected static class SubsetChooserBoxTestPmo extends AnnotationTestPmo {
 
         private List<TestEnum> availableValues;
 

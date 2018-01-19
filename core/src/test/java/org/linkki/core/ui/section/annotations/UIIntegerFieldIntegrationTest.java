@@ -107,7 +107,7 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
     }
 
     @UISection
-    protected static class IntegerFieldTestPmo extends FieldAnnotationTestPmo {
+    protected static class IntegerFieldTestPmo extends AnnotationTestPmo {
 
         public IntegerFieldTestPmo(Object modelObject) {
             super(modelObject);

@@ -56,7 +56,7 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
     }
 
     @UISection
-    protected static class TextFieldTestPmo extends FieldAnnotationTestPmo {
+    protected static class TextFieldTestPmo extends AnnotationTestPmo {
 
         public TextFieldTestPmo(Object modelObject) {
             super(modelObject);

@@ -73,7 +73,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     }
 
     @UISection
-    protected static class ComboBoxTestPmo extends FieldAnnotationTestPmo {
+    protected static class ComboBoxTestPmo extends AnnotationTestPmo {
 
         private List<TestEnum> availableValues;
 

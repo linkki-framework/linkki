@@ -101,11 +101,11 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
         assertThat(checkBoxWithNoCaption.getCaption(), is(emptyString()));
 
         CheckBox checkBox = getStaticComponent();
-        assertThat(checkBox.getCaption(), is(FieldAnnotationTestPmo.TEST_CAPTION));
+        assertThat(checkBox.getCaption(), is(AnnotationTestPmo.TEST_CAPTION));
     }
 
     @UISection
-    protected static class TestCheckboxPmo extends FieldAnnotationTestPmo {
+    protected static class TestCheckboxPmo extends AnnotationTestPmo {
 
         public TestCheckboxPmo(Object modelObject) {
             super(modelObject);

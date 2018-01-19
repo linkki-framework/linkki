@@ -107,7 +107,7 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
     }
 
     @UISection
-    protected static class DoubleFieldTestPmo extends FieldAnnotationTestPmo {
+    protected static class DoubleFieldTestPmo extends AnnotationTestPmo {
 
         public DoubleFieldTestPmo(Object modelObject) {
             super(modelObject);
