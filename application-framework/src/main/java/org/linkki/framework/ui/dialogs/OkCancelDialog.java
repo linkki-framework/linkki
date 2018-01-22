@@ -16,7 +16,6 @@ package org.linkki.framework.ui.dialogs;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 import javax.annotation.Nullable;
 
@@ -35,7 +34,6 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.Page.UriFragmentChangedListener;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -367,20 +365,6 @@ public class OkCancelDialog extends Window {
     protected void initURIChangeListener() {
         UI current = UI.getCurrent();
         current.getPage().addUriFragmentChangedListener(e -> close());
-    }
-
-    /**
-     * Focus the first {@link AbstractField} in this dialog. Can be chained with {@link #open()}.
-     * <p>
-     * Note that this would overwrite any focus that is set previously.
-     */
-    public OkCancelDialog focusFirstComponent() {
-        StreamSupport.stream(mainArea.spliterator(), false)
-                .filter(AbstractField.class::isInstance)
-                .findFirst()
-                .map(AbstractField.class::cast)
-                .ifPresent(AbstractField::focus);
-        return this;
     }
 
     /**
