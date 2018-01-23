@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.linkki.core.binding.aspects;
+package org.linkki.core.binding.aspect;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -31,5 +31,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.ANNOTATION_TYPE)
 public @interface LinkkiAspect {
 
-    Class<? extends LinkkiAspectDefinition>[] value();
+    Class<? extends LinkkiAspectDefinition> value();
 }

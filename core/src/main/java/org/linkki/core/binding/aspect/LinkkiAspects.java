@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.linkki.core.binding.aspects;
+package org.linkki.core.binding.aspect;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
