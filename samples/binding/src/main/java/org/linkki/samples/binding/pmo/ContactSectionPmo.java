@@ -29,8 +29,8 @@ import org.linkki.samples.binding.model.Contact;
 @UISection
 public class ContactSectionPmo implements PresentationModelObject {
 
-    // end::contactPmo-class[]
     private Contact contact;
+    // end::contactPmo-class[]
 
     public ContactSectionPmo(Contact contact) {
         reset(contact);

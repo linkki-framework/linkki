@@ -15,7 +15,6 @@ package org.linkki.core.ui.section;
 
 import java.util.Optional;
 
-import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.shared.ui.MarginInfo;
@@ -55,8 +54,7 @@ public class FormSection extends BaseSection {
     }
 
     /**
-     * Creates a new section with the given caption, closable state, edit button and number of
-     * columns.
+     * Creates a new section with the given caption, closable state, edit button and number of columns.
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
@@ -115,10 +113,9 @@ public class FormSection extends BaseSection {
     }
 
     /**
-     * Adds a component with a label in front. If the component has 100% width, the component will
-     * span the 2nd and 3rd column. If the component does not have 100% width it will be placed in
-     * the 2nd column and an empty label grabbing any available space will be placed in the 3rd
-     * column.
+     * Adds a component with a label in front. If the component has 100% width, the component will span
+     * the 2nd and 3rd column. If the component does not have 100% width it will be placed in the 2nd
+     * column and an empty label grabbing any available space will be placed in the 3rd column.
      * <p>
      * The {@code propertyName} is ignored.
      */
@@ -128,10 +125,9 @@ public class FormSection extends BaseSection {
     }
 
     /**
-     * Adds a component with a label in front. If the component has 100% width, the component will
-     * span the 2nd and 3rd column.If the component does not have 100% width it will be placed in
-     * the 2nd column and an empty label grabbing any available space will be placed in the 3rd
-     * column.
+     * Adds a component with a label in front. If the component has 100% width, the component will span
+     * the 2nd and 3rd column.If the component does not have 100% width it will be placed in the 2nd
+     * column and an empty label grabbing any available space will be placed in the 3rd column.
      */
     public Label add(String label, Component component) {
         Label l = new Label(label);
@@ -151,14 +147,14 @@ public class FormSection extends BaseSection {
             contentGrid.addComponent(component, column, row, column + 1, row);
         } else {
             contentGrid.addComponent(component);
-            ComponentFactory.addHorizontalSpacer(contentGrid);
+            contentGrid.space();
         }
         contentGrid.setComponentAlignment(component, Alignment.MIDDLE_LEFT);
     }
 
     /**
-     * Adds a component to the content without a label in front. The component takes the whole
-     * available width.
+     * Adds a component to the content without a label in front. The component takes the whole available
+     * width.
      */
     public void add(Component component) {
         int row = contentGrid.getCursorY();
@@ -167,7 +163,7 @@ public class FormSection extends BaseSection {
             contentGrid.addComponent(component, column, row, column + 2, row);
         } else {
             contentGrid.addComponent(component, column, row, column + 1, row);
-            ComponentFactory.addHorizontalSpacer(contentGrid);
+            contentGrid.space();
         }
     }
 

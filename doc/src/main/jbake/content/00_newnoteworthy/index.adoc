@@ -5,13 +5,23 @@
 
 == New & Noteworthy
 
+image::https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/linkki-core/badge.svg[Maven central]
+
+=== 15. January 2018
+
+==== `open()` in `OkCancelDialog`
+
+With the new method `open()` in `OkCancelDialog`, a dialog can be directly opened by calling `dialog.open()` instead of using `PmoBasedDialogFactory.open(dialog)`. The `open()` method can be extended to add additional behaviors to the dialog. By default, a `UriFragmentChangedListener` is added upon opening, ensuring that the dialog is properly closed on URL change. If this behavior should be adapted, make sure that all existing dialogs are opened using the new `open()` method.
+
+The `open(OkCancelDialog)` method in `PmoBasedDialogFactory` is deprecated and will be removed in the future.
+
 === 14. Januar 2018
 
-==== Package Umzug für PropertyBehavior
+==== Changed package for PropertyBehavior
 
-Die Klasse `PropertyBehavior` ist vom Package `org.linkki.core.binding.aspect` nach `org.linkki.core.binding.behavior` umgezogen.
+The class `PropertyBehavior` was moved from `org.linkki.core.binding.aspect` to `org.linkki.core.binding.behavior`.
 
-=== 10. Januar 2018
+=== 10. January 2018
 
 ==== New component Headline
 
@@ -28,7 +38,7 @@ The interface `OkHandler` is no longer used by *linkki* and will be removed in v
 The annotation `@UISection` is now optional. If a class without that annotation is used as a PMO, the annotation's default values (column layout with one column, no caption, not closable, id equal to the class' simple name) are used for the resulting section. 
 
 
-=== 12. Dezember 2017
+=== 12. December 2017
 
 ==== Captions for Checkboxes
 

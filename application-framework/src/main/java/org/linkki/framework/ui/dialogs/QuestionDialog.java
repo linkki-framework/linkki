@@ -18,7 +18,6 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -66,7 +65,7 @@ public class QuestionDialog extends OkCancelDialog {
             Component content,
             Handler okHandler) {
         QuestionDialog d = new QuestionDialog(caption, content, okHandler);
-        UI.getCurrent().addWindow(d);
+        d.open();
         return d;
     }
 

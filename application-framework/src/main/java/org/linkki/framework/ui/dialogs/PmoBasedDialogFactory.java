@@ -26,8 +26,6 @@ import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.ui.UI;
-
 /**
  * A factory to create dialogs with a content based on a {@link PresentationModelObject}. At the
  * moment only the {@link OkCancelDialog} is supported.
@@ -128,7 +126,9 @@ public class PmoBasedDialogFactory {
      * @return A dialog with the content defined by the given PMO.
      */
     public OkCancelDialog openOkCancelDialog(String title, Object pmo, Handler okHandler) {
-        return open(newOkCancelDialog(title, okHandler, pmo));
+        OkCancelDialog dialog = newOkCancelDialog(title, okHandler, pmo);
+        dialog.open();
+        return dialog;
     }
 
     /**
@@ -140,9 +140,12 @@ public class PmoBasedDialogFactory {
      * 
      * @param dialog the dialog that should be opened
      * @return A dialog with the content defined by the given PMO.
+     * 
+     * @deprecated use {@link OkCancelDialog#open()}
      */
+    @Deprecated
     public static OkCancelDialog open(OkCancelDialog dialog) {
-        UI.getCurrent().addWindow(dialog);
+        dialog.open();
         return dialog;
     }
 
