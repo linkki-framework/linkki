@@ -27,7 +27,7 @@ public interface ComponentWrapper {
 
     void setVisible(boolean visible);
 
-    void setDescription(String text);
+    void setTooltip(String text);
 
     Object getComponent();
 }

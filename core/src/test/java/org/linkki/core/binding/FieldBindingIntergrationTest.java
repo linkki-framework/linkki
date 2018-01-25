@@ -16,6 +16,7 @@ package org.linkki.core.binding;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -32,7 +33,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
 
 @SuppressWarnings("null")
-public class FieldBindingIntergartionTest {
+public class FieldBindingIntergrationTest {
 
     private TestPmo pmo = new TestPmo();
 
@@ -51,10 +52,10 @@ public class FieldBindingIntergartionTest {
     public void setUp() {
         ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher("enumValue", pmo);
         propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, "enumValue", exceptionDispatcher);
-
         context = TestBindingContext.create();
 
-        selectBinding = new FieldBinding<Object>(label, comboField, propertyDispatcher, context::updateUI);
+        selectBinding = new FieldBinding<Object>(label, comboField, propertyDispatcher, context::updateUI,
+                new ArrayList<>());
         context.add(selectBinding);
 
         context.add(selectBinding);
@@ -72,7 +73,7 @@ public class FieldBindingIntergartionTest {
         pmo.setEnumValue(TestEnum.THREE);
         @SuppressWarnings("unused")
         FieldBinding<Object> fieldBinding = new FieldBinding<Object>(label, comboField2, propertyDispatcher,
-                context::updateUI);
+                context::updateUI, new ArrayList<>());
     }
 
     @Test

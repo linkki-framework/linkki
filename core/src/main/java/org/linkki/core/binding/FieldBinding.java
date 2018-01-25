@@ -17,6 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -25,11 +26,14 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.ClassUtils;
+import org.linkki.core.binding.aspect.AspectUpdaters;
+import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.util.AbstractProperty;
@@ -55,23 +59,25 @@ public class FieldBinding<T> implements ElementBinding {
     private final FieldBindingDataSource<T> propertyDataSource;
     @Nullable
     private final LinkkiInMemoryContainer<T> containerDataSource;
+    private AspectUpdaters aspectUpdaters;
 
     /**
      * Creates a new {@link FieldBinding}.
      * 
      * @param label the button's label (optional)
      * @param field the {@link Field} to be bound
-     * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the
-     *            model object
-     * @param updateUi a {@link Handler} that is called when this {@link Binding} desires an update
-     *            of the UI. Usually declared in {@link BindingContext#updateUI()}.
+     * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the model
+     *            object
+     * @param modelChanged a {@link Handler} that is called when this {@link Binding} desires an update
+     *            of the UI because the model has changed. Usually declared in
+     *            {@link BindingContext#updateUI()}.
      */
     public FieldBinding(@Nullable Label label, AbstractField<T> field, PropertyDispatcher propertyDispatcher,
-            Handler updateUi) {
+            Handler modelChanged, List<LinkkiAspectDefinition> aspectDefinitions) {
         this.label = Optional.ofNullable(label);
         this.field = requireNonNull(field, "field must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
-        this.updateUi = requireNonNull(updateUi, "updateUi must not be null");
+        this.updateUi = requireNonNull(modelChanged, "updateUi must not be null");
 
         if (field instanceof AbstractSelect) {
             containerDataSource = new LinkkiInMemoryContainer<T>();
@@ -86,31 +92,34 @@ public class FieldBinding<T> implements ElementBinding {
         /*
          * Property data source must be set:
          * 
-         * - after container data source, as setContainerDataSource() throws an exception, if field
-         * is readonly
+         * - after container data source, as setContainerDataSource() throws an exception, if field is
+         * readonly
          * 
-         * - after dispatcher is available, as value and readOnly-state are requested from the data
-         * source during 'set', and we need the dispatcher in these methods.
+         * - after dispatcher is available, as value and readOnly-state are requested from the data source
+         * during 'set', and we need the dispatcher in these methods.
          */
         this.propertyDataSource = new FieldBindingDataSource<T>(this);
         this.field.setPropertyDataSource(propertyDataSource);
+
+        aspectUpdaters = new AspectUpdaters(aspectDefinitions, propertyDispatcher,
+                new LabelComponentWrapper(label, field),
+                modelChanged);
     }
 
     /**
-     * LIN-90, LIN-95: if a field is required and the user enters blank into the field, Vaadin does
-     * not transfer {@code null} into the data source. This leads to the effect that if the user
-     * enters a value, the value is transfered to the model, if the user then enters blank, he sees
-     * an empty field but the value in the model is still set to the old value.
+     * LIN-90, LIN-95: if a field is required and the user enters blank into the field, Vaadin does not
+     * transfer {@code null} into the data source. This leads to the effect that if the user enters a
+     * value, the value is transfered to the model, if the user then enters blank, he sees an empty
+     * field but the value in the model is still set to the old value.
      * <p>
      * How do we avoid this? If the field has no converter, we set invalidCommitted to {@code true}.
      * {@code null} is regarded as invalid value, but it is transferable to the model. This does not
-     * work for fields with a converter. {@code null} handling is OK for those fields, but if the
-     * user enters a value that cannot be converted, Vaadin tries to commit the value to the data
-     * source doing so tries to convert it. This leads to an exception (as the value cannot be
-     * converted).
+     * work for fields with a converter. {@code null} handling is OK for those fields, but if the user
+     * enters a value that cannot be converted, Vaadin tries to commit the value to the data source
+     * doing so tries to convert it. This leads to an exception (as the value cannot be converted).
      * <p>
-     * Example: Enter an invalid number like '123a' into a number field. We can't commit the value
-     * as it is invalid and cannot be converted. To get this to work, those fields have to override
+     * Example: Enter an invalid number like '123a' into a number field. We can't commit the value as it
+     * is invalid and cannot be converted. To get this to work, those fields have to override
      * {@link AbstractField#validate()} to get rid of the unwanted check that leads to a validation
      * exception for {@code null} values in required fields.
      * 
@@ -174,9 +183,6 @@ public class FieldBinding<T> implements ElementBinding {
 
             field.setRequired(isRequired());
             field.setEnabled(isEnabled());
-            String toolTip = propertyDispatcher.getToolTip();
-            field.setDescription(toolTip);
-            label.ifPresent(l -> l.setDescription(toolTip));
             boolean visible = isVisible();
             field.setVisible(visible);
             label.ifPresent(l -> l.setVisible(visible));
@@ -187,6 +193,8 @@ public class FieldBinding<T> implements ElementBinding {
                     updateAvailableValues(containerDataSource);
                 }
             }
+
+            aspectUpdaters.updateUI();
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
             throw new RuntimeException("Error while updating field " + field.getClass() + ", value property="

@@ -30,13 +30,13 @@ public class SamplePmo {
 
 
     @UITextField(position = 1, label = "Some Label")
-    public void getTextField() {
-        // nothing to do
+    public String getTextField() {
+        return "";
     }
 
     @UITextField(position = 2)
-    public void getCbField() {
-        // nothing to do
+    public String getCbField() {
+        return "";
     }
 
 

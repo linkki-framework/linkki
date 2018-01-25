@@ -15,9 +15,12 @@ package org.linkki.core.ui.section.annotations;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import org.linkki.core.binding.ButtonBinding;
+import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.util.handler.Handler;
 
@@ -29,9 +32,9 @@ public class ButtonDescriptor extends ElementDescriptor {
 
     private final String methodName;
 
-    public ButtonDescriptor(UIButtonDefinition buttonAnnotation, UIToolTipDefinition toolTipDefinition,
-            String methodName, Class<?> pmoClass) {
-        super(buttonAnnotation, toolTipDefinition, pmoClass);
+    public ButtonDescriptor(UIButtonDefinition buttonAnnotation, String methodName, Class<?> pmoClass,
+            List<LinkkiAspectDefinition> aspectDefs) {
+        super(buttonAnnotation, pmoClass, aspectDefs);
         this.methodName = requireNonNull(methodName, "methodName must not be null");
     }
 
@@ -52,14 +55,14 @@ public class ButtonDescriptor extends ElementDescriptor {
 
     @Override
     public ButtonBinding createBinding(PropertyDispatcher propertyDispatcher,
-            Handler updateUi,
+            Handler modelChanged,
             Component component,
             @Nullable Label label) {
         requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
-        requireNonNull(updateUi, "updateUi must not be null");
+        requireNonNull(modelChanged, "updateUi must not be null");
         requireNonNull(component, "component must not be null");
 
-        return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi, true);
+        return new ButtonBinding(label, (Button)component, propertyDispatcher, modelChanged, true, getAspectDefinitions());
     }
 
     @Override

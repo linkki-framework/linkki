@@ -13,12 +13,20 @@
  */
 package org.linkki.core.ui.section.annotations;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.function.Consumer;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.ModelToUiAspectDefinition;
+import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
+import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.section.annotations.UIToolTip.ToolTipAspectDefinition;
 
 /**
  * Shows a tooltip next to a UI-Element. The annotation can be added to the method the UI-Element is
@@ -26,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
+@LinkkiAspect(ToolTipAspectDefinition.class)
 public @interface UIToolTip {
 
     /** The displayed text for {@link ToolTipType#STATIC} */
@@ -33,4 +42,33 @@ public @interface UIToolTip {
 
     /** Defines how the tooltip text should be retrieved */
     ToolTipType toolTipType() default ToolTipType.STATIC;
+
+
+    public static class ToolTipAspectDefinition extends ModelToUiAspectDefinition<String> {
+
+        public static final String NAME = PropertyNamingConvention.TOOLTIP_PROPERTY_SUFFIX;
+
+        @SuppressWarnings("null")
+        private UIToolTip annotation;
+
+        @Override
+        public void initialize(Annotation toolTipAnnotation) {
+            this.annotation = (UIToolTip)toolTipAnnotation;
+        }
+
+        @Override
+        public Aspect<String> createAspect() {
+            if (annotation.toolTipType() == ToolTipType.STATIC) {
+                return Aspect.ofStatic(NAME, annotation.text());
+            } else {
+                return Aspect.newDynamic(NAME);
+            }
+        }
+
+        @Override
+        public Consumer<String> getComponentValueSetter(ComponentWrapper componentWrapper) {
+            return componentWrapper::setTooltip;
+        }
+
+    }
 }

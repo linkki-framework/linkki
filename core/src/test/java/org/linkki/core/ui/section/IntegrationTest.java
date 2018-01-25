@@ -34,53 +34,12 @@ import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.UIToolTip;
 
 public class IntegrationTest {
-    private static final String ANY_VALUE = "ukztu7kxju76r";
 
     private final TestPmoWithAnnotations pmo = new TestPmoWithAnnotations();
 
     private final PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
 
     private final UIAnnotationReader reader = new UIAnnotationReader(TestPmoWithAnnotations.class);
-
-    @Test
-    public void testGetStaticToolTipFromUIComboBox() {
-        ElementDescriptor elementDescriptor = reader.findDescriptors("xyz").getDescriptor(pmo);
-
-        PropertyDispatcher dispatcher = propertyDispatcherFactory
-                .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
-        assertThat(dispatcher.getToolTip(), is(TestPmoWithAnnotations.STATIC_STRING));
-    }
-
-    @Test
-    public void testGetStaticToolTipFromUIButton() {
-        ElementDescriptor elementDescriptor = reader.findDescriptors("button1").getDescriptor(pmo);
-
-        PropertyDispatcher dispatcher = propertyDispatcherFactory
-                .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
-        assertThat(dispatcher.getToolTip(), is(TestPmoWithAnnotations.STATIC_STRING));
-    }
-
-    @Test
-    public void testGetDynamicToolTipFromUIButton() {
-        ElementDescriptor elementDescriptor = reader.findDescriptors("button2").getDescriptor(pmo);
-
-        PropertyDispatcher dispatcher = propertyDispatcherFactory
-                .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
-        assertThat(dispatcher.getToolTip(), is(TestPmoWithAnnotations.STATIC_STRING + "0"));
-        pmo.button2();
-        assertThat(dispatcher.getToolTip(), is(TestPmoWithAnnotations.STATIC_STRING + "1"));
-    }
-
-    @Test
-    public void testGetDynamicToolTipFromUITextField() {
-        ElementDescriptor elementDescriptor = reader.findDescriptors("abc").getDescriptor(pmo);
-
-        PropertyDispatcher dispatcher = propertyDispatcherFactory
-                .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
-        assertThat(dispatcher.getToolTip(), is(pmo.getAbc()));
-        pmo.setAbc(ANY_VALUE);
-        assertThat(dispatcher.getToolTip(), is(ANY_VALUE));
-    }
 
     @Test
     public void testGetStaticCaptionFromUIButton() {

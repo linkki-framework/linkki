@@ -16,9 +16,10 @@ package org.linkki.core.ui.section.annotations;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+import java.util.LinkedHashSet;
 import java.util.function.Supplier;
 
 import org.junit.Test;
@@ -27,6 +28,16 @@ import org.linkki.core.ui.section.annotations.UIAnnotationReader.ModelObjectAnno
 public class UIAnnotationReaderTest {
 
     private UIAnnotationReader reader = new UIAnnotationReader(TestObject.class);
+
+    @Test
+    public void testReadAnnotations() {
+        assertNotNull(reader.findDescriptors("abc"));
+        assertNotNull(reader.findDescriptors("test"));
+        assertNotNull(reader.findDescriptors("test3"));
+
+        LinkedHashSet<PropertyElementDescriptors> uiElements = reader.getUiElements();
+        assertThat(uiElements.size(), is(3));
+    }
 
     @Test(expected = ModelObjectAnnotationException.class)
     public void testGetModelObjectSupplier_noAnnotation() {
@@ -78,19 +89,6 @@ public class UIAnnotationReaderTest {
         assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestPmo(), "FooBar"), is(false));
     }
 
-    @Test
-    public void testToolTipStatic() {
-        ElementDescriptor desc = reader.findDescriptors("test").getDescriptor(new TestPmo());
-        assertEquals("TestToolTip", desc.getToolTip());
-        assertEquals(ToolTipType.STATIC, desc.getToolTipType());
-    }
-
-    @Test
-    public void testToolTipDynamic() {
-        ElementDescriptor desc = reader.findDescriptors("test3").getDescriptor(new TestPmo());
-        assertEquals(ToolTipType.DYNAMIC, desc.getToolTipType());
-    }
-
     public static class TestPmoWithVoidModelObjectMethod {
 
         @ModelObject
@@ -136,7 +134,7 @@ public class UIAnnotationReaderTest {
         @UIToolTip(text = "", toolTipType = ToolTipType.DYNAMIC)
         @UITableColumn
         @UIDateField(position = 3, modelAttribute = "test3")
-        public void isTest3() {
+        public void test3() {
             //
         }
     }

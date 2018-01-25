@@ -61,7 +61,7 @@ public class LabelComponentWrapper implements ComponentWrapper {
     }
 
     @Override
-    public void setDescription(String text) {
+    public void setTooltip(String text) {
         ((AbstractComponent)getComponent()).setDescription(text);
         getLabelComponent().ifPresent(l -> l.setDescription(text));
     }

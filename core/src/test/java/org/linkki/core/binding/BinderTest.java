@@ -13,6 +13,7 @@
  */
 package org.linkki.core.binding;
 
+import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -24,6 +25,8 @@ import org.junit.Test;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.components.IntegerField;
+import org.linkki.core.ui.section.annotations.ToolTipType;
+import org.linkki.core.ui.section.annotations.UIToolTip;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
@@ -43,15 +46,27 @@ public class BinderTest {
         assertThat(pmo.getClickCount(), is(0));
 
         Binder binder = new Binder(view, pmo);
-        BindingContext ctx = bindingManager.startNewContext("");
-        binder.setupBindings(ctx);
-        assertThat(ctx.getElementBindings(), hasSize(3));
+        BindingContext bindingContext = bindingManager.startNewContext("");
+        binder.setupBindings(bindingContext);
+        assertThat(bindingContext.getElementBindings(), hasSize(3));
 
         // Binding pmo -> view
+        assertThat(view.textField.getDescription(), is(TestPmo.TEST_TOOLTIP));
+        assertThat(view.numberField.getDescription(), is(emptyString()));
+        assertThat(view.button.getDescription(), is(emptyString()));
+
         pmo.setNumber(13);
         pmo.setText("foo");
+        pmo.setToolTip("test tool tip");
+
+        bindingContext.updateUI();
+
         assertThat(view.numberField.getValue(), is("13"));
         assertThat(view.textField.getValue(), is("foo"));
+        assertThat(view.textField.getDescription(), is(TestPmo.TEST_TOOLTIP));
+        assertThat(view.numberField.getDescription(), is("test tool tip"));
+        assertThat(view.button.getDescription(), is("test tool tip"));
+
 
         // Binding view -> pmo
         view.numberField.setValue("42");
@@ -142,13 +157,20 @@ public class BinderTest {
 
         @SuppressWarnings("null")
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT)
+        @UIToolTip(text = TestPmo.TEST_TOOLTIP)
         private TextField textField;
 
         @Bind(pmoProperty = TestPmo.METHOD_ON_CLICK)
+        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
         private Button button = new Button();
 
         @SuppressWarnings("null")
         private IntegerField numberField;
+
+        public void initFields() {
+            initTextField();
+            initNumberField();
+        }
 
         public void initTextField() {
             textField = new TextField();
@@ -158,12 +180,8 @@ public class BinderTest {
             numberField = new IntegerField(Locale.CHINESE);
         }
 
-        public void initFields() {
-            initTextField();
-            initNumberField();
-        }
-
         @Bind(pmoProperty = TestPmo.PROPERTY_NUMBER)
+        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
         public IntegerField getNumberField() {
             return numberField;
         }
@@ -176,7 +194,7 @@ public class BinderTest {
         private TextField textField = new TextField();
 
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT)
-        public TextField getTextField() {
+        private TextField getTextField() {
             return textField;
         }
     }
@@ -217,10 +235,12 @@ public class BinderTest {
         public static final String PROPERTY_TEXT = "text";
         public static final String PROPERTY_NUMBER = "number";
         public static final String METHOD_ON_CLICK = "onClick";
+        public static final String TEST_TOOLTIP = "test";
 
         private String text = "";
         private int number = 0;
         private int clickCount = 0;
+        private String toolTip = "";
 
         public String getText() {
             return text;
@@ -238,14 +258,25 @@ public class BinderTest {
             this.number = number;
         }
 
+        public String getNumberToolTip() {
+            return toolTip;
+        }
+
         public void onClick() {
             clickCount++;
+        }
+
+        public String getOnClickToolTip() {
+            return toolTip;
         }
 
         public int getClickCount() {
             return clickCount;
         }
 
+        public void setToolTip(String toolTip) {
+            this.toolTip = toolTip;
+        }
     }
 
 }

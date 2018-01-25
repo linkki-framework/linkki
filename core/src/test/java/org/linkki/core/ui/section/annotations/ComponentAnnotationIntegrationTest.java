@@ -34,12 +34,13 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
 
     private static final String PROPERTY_VALUE = "value";
     private static final String PROPERTY_STATIC_VALUE = "staticValue";
-    protected GridLayout defaultSection;
+
     private Object defaultModelObject;
     private P defaultPmo;
     private TestBindingContext bindingContext;
-    protected Supplier<Object> modelObjectSupplier;
-    protected Function<Object, ? extends P> pmoCreator;
+    private Function<Object, ? extends P> pmoCreator;
+    private Supplier<Object> modelObjectSupplier;
+    private GridLayout defaultSection;
 
     @SuppressWarnings("null")
     public ComponentAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,
@@ -62,6 +63,12 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     }
 
     @Test
+    public void testPosition() {
+        assertThat(getDefaultSection().getComponent(1, 0).getId(), is(getDynamicComponent().getId()));
+        assertThat(getDefaultSection().getComponent(1, 1).getId(), is(getStaticComponent().getId()));
+    }
+
+    @Test
     public void testDynamicVisibleType() {
         testDynamicBinding(C::isVisible, AnnotationTestPmo::setVisible, true);
     }
@@ -72,19 +79,47 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
         assertThat(TestUiUtil.getLabelOfComponentAt(defaultSection, 1), is(AnnotationTestPmo.TEST_LABEL));
     }
 
+    /**
+     * Tests a dynamic boolean binding. Assumes that the {@link #getStaticComponent() static
+     * component} is annotated with the non default boolean value.
+     * 
+     * @param predicate value of the boolean property
+     * @param setter setter for the property in pmo
+     * @param defaultValue default value of the property
+     */
     protected void testDynamicBinding(Predicate<C> predicate,
             BiConsumer<AnnotationTestPmo, Boolean> setter,
             boolean defaultValue) {
+        testDynamicBinding(v -> predicate.test(v), setter, defaultValue, !defaultValue);
+    }
 
-        assertThat(predicate.test(getStaticComponent()), is(!defaultValue));
+    /**
+     * Tests that
+     * <ul>
+     * <li>the {@link #getStaticComponent()} has the <code>testValue</code></li>
+     * <li>the {@link #getDynamicComponent()} has the <code>testValue</code> initially and changes
+     * its value to <code>defaultValue</code> after using the <code>setter</code>
+     * </ul>
+     * 
+     * @param componentValueGetter getter of the property in component
+     * @param setter setter of the property in PMO
+     * @param defaultValue default value of the aspect
+     * @param testValue test value of the apsect, should be the initial value of both components
+     */
+    protected <V> void testDynamicBinding(Function<C, V> componentValueGetter,
+            BiConsumer<AnnotationTestPmo, V> setter,
+            V defaultValue,
+            V testValue) {
+        assertThat(componentValueGetter.apply(getStaticComponent()), is(testValue));
 
-        setter.accept(defaultPmo, !defaultValue);
+        setter.accept(defaultPmo, testValue);
         updateUi();
+
         C dynamicComponent = getDynamicComponent();
-        assertThat(predicate.test(dynamicComponent), is(!defaultValue));
+        assertThat(componentValueGetter.apply(dynamicComponent), is(testValue));
         setter.accept(defaultPmo, defaultValue);
         updateUi();
-        assertThat(predicate.test(dynamicComponent), is(defaultValue));
+        assertThat(componentValueGetter.apply(dynamicComponent), is(defaultValue));
     }
 
     /**
@@ -138,6 +173,10 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
 
     protected Object getDefaultModelObject() {
         return defaultModelObject;
+    }
+
+    protected GridLayout getDefaultSection() {
+        return defaultSection;
     }
 
     /**

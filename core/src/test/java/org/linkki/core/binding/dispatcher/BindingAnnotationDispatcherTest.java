@@ -24,6 +24,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -42,7 +43,6 @@ import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
-import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -230,7 +230,7 @@ public class BindingAnnotationDispatcherTest {
         }
 
         public BindAnnotationDescriptor bindAnnotationDescriptor() {
-            return new BindAnnotationDescriptor(bindAnnotation(), new UIToolTipAdapter(null));
+            return new BindAnnotationDescriptor(bindAnnotation(), new ArrayList<>());
         }
     }
 

@@ -24,6 +24,7 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 
 /**
@@ -132,8 +133,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    @CheckForNull
-    public String getToolTip() {
-        throw new IllegalStateException(getExceptionText("find tooltip method for"));
+    public <T> T getAspectValue(Aspect<T> aspect) {
+        throw new IllegalStateException(getExceptionText("find aspect \"" + aspect.getName() + "\" method for"));
     }
 }

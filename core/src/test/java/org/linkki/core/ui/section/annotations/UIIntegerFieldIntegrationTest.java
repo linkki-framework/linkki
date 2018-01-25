@@ -70,6 +70,7 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         TestModelObjectWithPrimitiveInteger modelObject = new TestModelObjectWithPrimitiveInteger();
         TextField textField = createFirstComponent(modelObject);
 
+        assertThat(textField.isReadOnly(), is(false));
         textField.setValue("asd");
         assertThat(modelObject.getValue(), is(0));
     }
@@ -114,12 +115,14 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         }
 
         @Override
+        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
         @UIIntegerField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, format = FANCY_FORMAT, maxLength = MAX_LENGTH)
         public void value() {
             // model binding
         }
 
         @Override
+        @UIToolTip(text = TEST_TOOLTIP)
         @UIIntegerField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding

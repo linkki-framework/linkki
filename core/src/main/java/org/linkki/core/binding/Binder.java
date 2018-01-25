@@ -18,21 +18,21 @@ import static java.util.Objects.requireNonNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.binding.annotations.Bind;
+import org.linkki.core.binding.aspect.AspectAnnotationReader;
+import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
 import org.linkki.core.exception.LinkkiRuntimeException;
 import org.linkki.core.ui.section.annotations.BindAnnotationDescriptor;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
-import org.linkki.core.ui.section.annotations.UIToolTip;
-import org.linkki.core.ui.section.annotations.UIToolTipDefinition;
-import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.linkki.util.BeanUtils;
 
 import com.vaadin.ui.Component;
@@ -129,8 +129,11 @@ public class Binder {
             @Nonnull
             Bind bindAnnotation = method.getAnnotation(Bind.class);
 
-            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(bindAnnotation,
-                    getUIToolTipDefinition(method.getAnnotation(UIToolTip.class)));
+            List<LinkkiAspectDefinition> aspectDefinitions = Arrays.asList(method.getAnnotations()).stream()
+                    .flatMap(a -> AspectAnnotationReader.createAspectDefinitionsFrom(a).stream())
+                    .collect(Collectors.toList());
+
+            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(bindAnnotation, aspectDefinitions);
             bindings.put(descriptor, component);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new LinkkiRuntimeException(e);
@@ -170,18 +173,15 @@ public class Binder {
             @SuppressWarnings("null")
             @Nonnull
             Bind bindAnnotation = field.getAnnotation(Bind.class);
-            UIToolTip tooltipAnnotation = field.getAnnotation(UIToolTip.class);
 
-            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(bindAnnotation,
-                    getUIToolTipDefinition(tooltipAnnotation));
+            List<LinkkiAspectDefinition> aspectDefinitions = Arrays.asList(field.getAnnotations()).stream()
+                    .flatMap(a -> AspectAnnotationReader.createAspectDefinitionsFrom(a).stream())
+                    .collect(Collectors.toList());
+
+            BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(bindAnnotation, aspectDefinitions);
             bindings.put(descriptor, component);
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new LinkkiRuntimeException(e);
         }
-    }
-
-
-    private UIToolTipDefinition getUIToolTipDefinition(@Nullable UIToolTip toolTipAnnotation) {
-        return new UIToolTipAdapter(toolTipAnnotation);
     }
 }

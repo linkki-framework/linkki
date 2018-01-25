@@ -15,7 +15,10 @@ package org.linkki.core.ui.section.annotations;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
 
 /**
  * Holds all information about a field, which are the property name as well as the settings for
@@ -30,13 +33,12 @@ public abstract class AbstractFieldDescriptor extends ElementDescriptor {
      * Constructs a new field description.
      *
      * @param fieldDef field definition that holds given annotated properties
-     * @param toolTipDefinition text and type of the tooltip
      * @param pmoPropertyName name of the corresponding method in the PMO
      * @param pmoClass presentation model object class type
      */
-    public AbstractFieldDescriptor(UIFieldDefinition fieldDef, UIToolTipDefinition toolTipDefinition,
-            String pmoPropertyName, Class<?> pmoClass) {
-        super(fieldDef, toolTipDefinition, pmoClass);
+    public AbstractFieldDescriptor(UIFieldDefinition fieldDef, String pmoPropertyName, Class<?> pmoClass,
+            List<LinkkiAspectDefinition> aspectDefinitions) {
+        super(fieldDef, pmoClass, aspectDefinitions);
         this.pmoPropertyName = requireNonNull(pmoPropertyName, "pmoPropertyName must not be null");
     }
 

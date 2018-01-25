@@ -13,7 +13,10 @@
  */
 package org.linkki.core.ui.section.annotations;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 
@@ -28,9 +31,9 @@ public abstract class ElementDescriptor extends BindingDescriptor {
     private PmoNlsService pmoNlsService;
     private Class<?> pmoClass;
 
-    public ElementDescriptor(BindingDefinition bindingDefinition, UIToolTipDefinition toolTipDefinition,
-            Class<?> pmoClass) {
-        super(bindingDefinition, toolTipDefinition);
+    public ElementDescriptor(BindingDefinition bindingDefinition, Class<?> pmoClass,
+            List<LinkkiAspectDefinition> aspectDefinitions) {
+        super(bindingDefinition, aspectDefinitions);
         this.pmoClass = pmoClass;
         pmoNlsService = PmoNlsService.get();
     }
@@ -67,6 +70,5 @@ public abstract class ElementDescriptor extends BindingDescriptor {
     public Component newComponent() {
         return getBindingDefinition().newComponent();
     }
-
 
 }

@@ -21,8 +21,15 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.junit.Test;
+import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
@@ -36,9 +43,12 @@ public class ButtonBindingTest {
     private ButtonBinding binding;
     private PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
     private BindingContext context = TestBindingContext.create();
+    private TestAspectDefinition aspectDefinition;
 
     private void setUpDefaultBinding() {
-        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI, true);
+        aspectDefinition = spy(new TestAspectDefinition());
+        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI, true,
+                Arrays.asList(aspectDefinition));
         context.add(binding);
     }
 
@@ -86,7 +96,7 @@ public class ButtonBindingTest {
 
     @Test
     public void testUpdateFromPmo_ignoreCaption() {
-        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI, false);
+        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI, false, new ArrayList<>());
         context.add(binding);
 
         binding.updateFromPmo();
@@ -95,10 +105,31 @@ public class ButtonBindingTest {
     }
 
     @Test
-    public void testUpdateFromPmo_ButtonToolTip() {
+    public void testUpdateFromPmo_AspectUpdate() {
         setUpDefaultBinding();
-        when(propertyDispatcher.getToolTip()).thenReturn("ToolTip");
+        assertThat(button.getDescription(), is(""));
         binding.updateFromPmo();
-        assertThat(button.getDescription(), is("ToolTip"));
+        assertThat(button.getDescription(), is("haha"));
+    }
+
+    private static class TestAspectDefinition implements LinkkiAspectDefinition {
+
+        @Override
+        public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
+            return () -> ((Button)componentWrapper.getComponent()).setDescription("haha");
+        }
+
+        @Override
+        public void initModelUpdate(PropertyDispatcher propertyDispatcher,
+                ComponentWrapper componentWrapper,
+                Handler modelUpdated) {
+            // does nothing
+        }
+
+        @Override
+        public void initialize(Annotation annotation) {
+            // does nothing
+        }
+
     }
 }

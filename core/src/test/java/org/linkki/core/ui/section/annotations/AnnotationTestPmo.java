@@ -18,21 +18,21 @@ package org.linkki.core.ui.section.annotations;
  * A single column PMO for testing.
  * <p>
  * The methods {@link #value()} and {@link #staticValue()} should be overridden to add UI
- * annotations. {@link #value()} should be used for testing dynamically bound properties such as
- * {@link EnabledType}, {@link RequiredType} or {@link VisibleType}. {@link #staticValue()} should
- * be used for label and other non-dynamic aspects and should be annotated with non-default values.
- * In addition, {@link #staticValue()} should not have a setter in the model.
+ * annotations.
  */
 @UISection
 public abstract class AnnotationTestPmo {
 
     protected static final String TEST_CAPTION = "testCaption";
     protected static final String TEST_LABEL = "testLabel";
+    protected static final String TEST_TOOLTIP = "testToolTip";
+    protected static final String DEFAULT_TOOLTIP = "defaultToolTip";
 
     private final Object modelObject;
     private boolean enabled;
     private boolean required;
     private boolean visible;
+    private String toolTip = DEFAULT_TOOLTIP;
 
     /**
      * Creates a new {@link AnnotationTestPmo}.
@@ -50,16 +50,30 @@ public abstract class AnnotationTestPmo {
      * Should:
      * <ul>
      * <li>be annotated with a UI annotation</li>
+     * <li>have a lower position that {@link #staticValue()}</li>
      * <li>have no label</li>
      * <li>be dynamically enabled</li>
      * <li>be dynamically visible</li>
      * <li>be dynamically required</li>
+     * <li>have a dynamic tool tip</li>
      * </ul>
      */
     public abstract void value();
 
     public boolean isValueEnabled() {
         return enabled;
+    }
+
+    public boolean isValueRequired() {
+        return required;
+    }
+
+    public boolean isValueVisible() {
+        return visible;
+    }
+
+    public String getValueToolTip() {
+        return toolTip;
     }
 
     /**
@@ -70,17 +84,10 @@ public abstract class AnnotationTestPmo {
      * <li>be disabled</li>
      * <li>be invisible</li>
      * <li>be required</li>
+     * <li>have the {@link #TEST_TOOLTIP} as tooltip text</li>
      * </ul>
      */
     public abstract void staticValue();
-
-    public boolean isValueRequired() {
-        return required;
-    }
-
-    public boolean isValueVisible() {
-        return visible;
-    }
 
     @ModelObject
     public Object getModelObject() {
@@ -97,5 +104,9 @@ public abstract class AnnotationTestPmo {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public void setToolTip(String toolTip) {
+        this.toolTip = toolTip;
     }
 }

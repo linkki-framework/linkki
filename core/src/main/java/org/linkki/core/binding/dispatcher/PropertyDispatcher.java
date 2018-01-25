@@ -18,6 +18,7 @@ import java.util.Collection;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 
 /**
@@ -134,8 +135,18 @@ public interface PropertyDispatcher {
     public String getCaption();
 
     /**
-     * @return the tooltip of a control, i.e. a button's tooltip.
+     * Returns the value for the given {@link Aspect} according to this dispatcher.
+     * <p>
+     * The given {@link Aspect} may have a {@link Aspect#getStaticValue() static value}. It is up to the
+     * decision of this dispatcher to use this value or to provide another value instead.
+     * <p>
+     * Note: This method may return <code>null</code> if the aspect is designed to accept
+     * <code>null</code> value.
+     * 
+     * @param aspect the {@link Aspect} that is requested from this dispatcher
+     * @return value of the given {@link Aspect} according to this dispatcher
      */
     @CheckForNull
-    public String getToolTip();
+    <T> T getAspectValue(Aspect<T> aspect);
+
 }

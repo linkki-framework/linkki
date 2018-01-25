@@ -23,6 +23,7 @@ import javax.annotation.CheckForNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.annotations.Bind;
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
@@ -30,7 +31,6 @@ import org.linkki.core.ui.section.annotations.BindingDescriptor;
 import org.linkki.core.ui.section.annotations.ButtonDescriptor;
 import org.linkki.core.ui.section.annotations.CaptionType;
 import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.ToolTipType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
@@ -160,19 +160,12 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
         throw new IllegalArgumentException("Caption only supported for buttons");
     }
 
-    @Override
+    /**
+     * Returns the value of the {@link Aspect} if the value is static.
+     */
     @CheckForNull
-    public String getToolTip() {
-        Object boundObject = getBoundObject();
-        if (boundObject == null) {
-            return "";
-        }
-        if (bindingDescriptor.getToolTipType() == ToolTipType.DYNAMIC) {
-            return super.getToolTip();
-        }
-        String toolTip = bindingDescriptor.getToolTip();
-        String nlsToolTip = pmoNlsService.getLabel(PmoLabelType.TOOLTIP, boundObject.getClass(),
-                                                   getProperty(), toolTip);
-        return nlsToolTip;
+    @Override
+    public <T> T getAspectValue(Aspect<T> aspect) {
+        return aspect.getStaticValueOr(() -> super.getAspectValue(aspect));
     }
 }

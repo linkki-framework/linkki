@@ -13,6 +13,8 @@
  */
 package org.linkki.core.ui.section.annotations;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import org.linkki.core.binding.ButtonBinding;
@@ -20,6 +22,7 @@ import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
 import org.linkki.core.binding.LabelBinding;
 import org.linkki.core.binding.annotations.Bind;
+import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.adapters.BindAnnotationAdapter;
 import org.linkki.util.handler.Handler;
@@ -32,8 +35,8 @@ import com.vaadin.ui.Label;
 
 public class BindAnnotationDescriptor extends BindingDescriptor {
 
-    public BindAnnotationDescriptor(Bind annotation, UIToolTipDefinition toolTipDefinition) {
-        super(new BindAnnotationAdapter(annotation), toolTipDefinition);
+    public BindAnnotationDescriptor(Bind annotation, List<LinkkiAspectDefinition> aspectDefinitions) {
+        super(new BindAnnotationAdapter(annotation), aspectDefinitions);
     }
 
     @Override
@@ -56,15 +59,18 @@ public class BindAnnotationDescriptor extends BindingDescriptor {
 
     @Override
     public ElementBinding createBinding(PropertyDispatcher propertyDispatcher,
-            Handler updateUi,
+            Handler modelChanged,
             Component component,
             @Nullable Label label) {
+
         if (component instanceof Field<?>) {
-            return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, updateUi);
+            return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, modelChanged,
+                    getAspectDefinitions());
         } else if (component instanceof Button) {
-            return new ButtonBinding(label, (Button)component, propertyDispatcher, updateUi, false);
+            return new ButtonBinding(label, (Button)component, propertyDispatcher, modelChanged, false,
+                    getAspectDefinitions());
         } else if (component instanceof Label) {
-            return new LabelBinding(label, (Label)component, propertyDispatcher);
+            return new LabelBinding(label, (Label)component, propertyDispatcher, getAspectDefinitions());
         } else {
             throw new IllegalArgumentException("Cannot create a binding for component " + component);
         }

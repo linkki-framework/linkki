@@ -102,7 +102,12 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
         @Override
         @UIButton(position = 2, label = TEST_LABEL, visible = VisibleType.INVISIBLE, caption = "static", enabled = EnabledType.DISABLED, showLabel = true)
         public void staticValue() {
-            // model binding
+            // does nothing
+        }
+
+        @UIButton(position = 30)
+        public void getButton() {
+            // does nothing
         }
     }
 

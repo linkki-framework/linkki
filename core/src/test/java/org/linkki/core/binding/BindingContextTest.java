@@ -44,7 +44,6 @@ import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
-import org.linkki.core.ui.section.annotations.adapters.UIToolTipAdapter;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -90,13 +89,13 @@ public class BindingContextTest {
     private void setUpBinding2() {
         binding2 = new FieldBinding<String>(label2, field2,
                 new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
-                context::updateUI);
+                context::updateUI, new ArrayList<>());
     }
 
     private void setUpBinding1() {
         binding1 = new FieldBinding<String>(label1, field1,
                 new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
-                context::updateUI);
+                context::updateUI, new ArrayList<>());
     }
 
     private TestPmo getPmo() {
@@ -219,8 +218,7 @@ public class BindingContextTest {
         when(fieldDefintion.required()).thenReturn(RequiredType.REQUIRED);
         when(fieldDefintion.enabled()).thenReturn(EnabledType.ENABLED);
         when(fieldDefintion.visible()).thenReturn(VisibleType.VISIBLE);
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, new UIToolTipAdapter(null), "value",
-                Void.class);
+        FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, "value", Void.class, new ArrayList<>());
 
         // Precondition
         assertThat(field.isImmediate(), is(false));

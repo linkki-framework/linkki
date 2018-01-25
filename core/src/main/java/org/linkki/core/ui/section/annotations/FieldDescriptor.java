@@ -15,10 +15,13 @@ package org.linkki.core.ui.section.annotations;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
+import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.util.handler.Handler;
 
@@ -37,24 +40,25 @@ public class FieldDescriptor extends AbstractFieldDescriptor {
      * Constructs a new field description.
      *
      * @param fieldDef field definition that holds given annotated properties
-     * @param toolTipDefinition text and type of the tooltip
      * @param pmoPropertyName name of the corresponding method in the PMO
      * @param pmoClass presentation model object class type
+     * @param aspectDefs aspect definitions that apply to this field
      */
-    public FieldDescriptor(UIFieldDefinition fieldDef, UIToolTipDefinition toolTipDefinition, String pmoPropertyName,
-            Class<?> pmoClass) {
-        super(fieldDef, toolTipDefinition, pmoPropertyName, pmoClass);
+    public FieldDescriptor(UIFieldDefinition fieldDef, String pmoPropertyName, Class<?> pmoClass,
+            List<LinkkiAspectDefinition> aspectDefs) {
+        super(fieldDef, pmoPropertyName, pmoClass, aspectDefs);
     }
 
     @Override
     public ElementBinding createBinding(PropertyDispatcher propertyDispatcher,
-            Handler updateUi,
+            Handler modelChanged,
             Component component,
             @Nullable Label label) {
         requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
-        requireNonNull(updateUi, "updateUi must not be null");
+        requireNonNull(modelChanged, "modelChanged must not be null");
         requireNonNull(component, "component must not be null");
-        return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, updateUi);
+        return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, modelChanged,
+                getAspectDefinitions());
     }
 
 }

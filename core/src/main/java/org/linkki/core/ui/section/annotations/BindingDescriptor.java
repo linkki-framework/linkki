@@ -15,11 +15,14 @@ package org.linkki.core.ui.section.annotations;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.CheckForNull;
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import org.linkki.core.binding.ElementBinding;
+import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.util.Sequence;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Component;
@@ -28,15 +31,29 @@ import com.vaadin.ui.Label;
 public abstract class BindingDescriptor {
 
     private final BindingDefinition bindingDefinition;
-    private final UIToolTipDefinition toolTipDefinition;
+    private Sequence<LinkkiAspectDefinition> aspectDefinitions;
 
-    public BindingDescriptor(BindingDefinition bindingDefinition, UIToolTipDefinition toolTipDefinition) {
+    public BindingDescriptor(BindingDefinition bindingDefinition, List<LinkkiAspectDefinition> aspectDefinitions) {
+        this.aspectDefinitions = Sequence.of(requireNonNull(aspectDefinitions, "aspectDefinitions must not be null"));
         this.bindingDefinition = requireNonNull(bindingDefinition, "bindingDefinition must not be null");
-        this.toolTipDefinition = requireNonNull(toolTipDefinition, "toolTipDefinition must not be null");
     }
 
     protected BindingDefinition getBindingDefinition() {
         return bindingDefinition;
+    }
+
+    protected List<LinkkiAspectDefinition> getAspectDefinitions() {
+        return aspectDefinitions.list();
+    }
+
+    /**
+     * Add the specified list of {@link LinkkiAspectDefinition}. This may be necessary if not all
+     * aspects were present when the descriptor was created.
+     * 
+     * @param additionalAspectDefinition additional aspect definitions that need to be added.
+     */
+    protected void addAspectDefinitions(List<LinkkiAspectDefinition> additionalAspectDefinition) {
+        aspectDefinitions = aspectDefinitions.with(additionalAspectDefinition);
     }
 
     public EnabledType enabled() {
@@ -75,7 +92,7 @@ public abstract class BindingDescriptor {
      * given UI components using the binding information from this descriptor.
      */
     public abstract ElementBinding createBinding(PropertyDispatcher propertyDispatcher,
-            Handler updateUi,
+            Handler modelChanged,
             Component component,
             @Nullable Label label);
 
@@ -84,19 +101,4 @@ public abstract class BindingDescriptor {
      */
     public abstract String getPmoPropertyName();
 
-
-    /**
-     * The tooltip of the UI element
-     */
-    public String getToolTip() {
-        return toolTipDefinition.text();
-    }
-
-    /**
-     * The type of the tooltip
-     */
-    @CheckForNull
-    public ToolTipType getToolTipType() {
-        return toolTipDefinition.toolTipType();
-    }
 }

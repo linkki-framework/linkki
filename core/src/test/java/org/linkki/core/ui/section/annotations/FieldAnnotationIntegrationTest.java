@@ -27,12 +27,10 @@ import com.vaadin.ui.AbstractField;
 public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?>, P extends AnnotationTestPmo>
         extends ComponentAnnotationIntegrationTest<F, P> {
 
-    @SuppressWarnings("null")
     public FieldAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,
             Function<Object, ? extends P> pmoCreator) {
         super(modelObjectSupplier, pmoCreator);
     }
-
 
     @Test
     public void testDynamicEnabledType() {
@@ -50,5 +48,10 @@ public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?>,
         assertThat(getDynamicComponent().isReadOnly(), is(false));
     }
 
+    @Test
+    public void testDynamicToolTip() {
+        testDynamicBinding(F::getDescription, AnnotationTestPmo::setToolTip, AnnotationTestPmo.DEFAULT_TOOLTIP,
+                           AnnotationTestPmo.TEST_TOOLTIP);
+    }
 
 }

@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.section.annotations.ModelObject;
@@ -337,12 +338,6 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
-    public void testGetToolTip() {
-        ReflectionPropertyDispatcher dispatcher = setupPmoDispatcher("Abc");
-        assertThat(dispatcher.getToolTip(), is("Hodor"));
-    }
-
-    @Test
     public void testGetCaption() {
         ReflectionPropertyDispatcher dispatcher = setupPmoDispatcher("Abc");
         assertThat(dispatcher.getCaption(), is("HodorHodor"));
@@ -354,6 +349,25 @@ public class ReflectionPropertyDispatcherTest {
         testPmo = new TestPMO(null);
 
         assertEquals("890", setupModelObjectDispatcher("xyz").getValue());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testGetAspectValue_static() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo,
+                TestModelObject.PROPERTY_ABC,
+                new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
+        dispatcher.getAspectValue(Aspect.ofStatic("visible", false));
+    }
+
+    @Test
+    public void testGetAspectValue_dynamic() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo, TestPMO.PROPERTY_XYZ,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_XYZ));
+        testModelObject.setAbc("nicht bla");
+        assertThat(dispatcher.getAspectValue(Aspect.newDynamic("visible")), is(false));
+
+        testModelObject.setAbc("bla");
+        assertThat(dispatcher.getAspectValue(Aspect.newDynamic("visible")), is(true));
     }
 
     private ReflectionPropertyDispatcher setupPmoDispatcher(String property) {
@@ -375,6 +389,7 @@ public class ReflectionPropertyDispatcherTest {
     public static class TestPMO {
 
         public static final String PROPERTY_PMO_PROP = "pmoProp";
+        public static final String PROPERTY_XYZ = "xyz";
 
         private TestModelObject modelObject;
 
@@ -435,6 +450,8 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     public static class TestModelObject {
+
+        public static final String PROPERTY_ABC = "abc";
 
         private String xyz = "123";
         private String abc = "567";

@@ -42,8 +42,8 @@ public class PropertyNamingConvention {
     }
 
     /**
-     * @return the capitalized property with the suffix {@link #ENABLED_PROPERTY_SUFFIX}. e.g.
-     *         "premium" results in "premiumEnabled".
+     * @return the capitalized property with the suffix {@link #ENABLED_PROPERTY_SUFFIX}. e.g. "premium"
+     *         results in "premiumEnabled".
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getEnabledProperty(String property) {
@@ -51,8 +51,8 @@ public class PropertyNamingConvention {
     }
 
     /**
-     * @return the capitalized property with the suffix {@link #VISIBLE_PROPERTY_SUFFIX}. e.g.
-     *         "premium" results in "premiumVisible".
+     * @return the capitalized property with the suffix {@link #VISIBLE_PROPERTY_SUFFIX}. e.g. "premium"
+     *         results in "premiumVisible".
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getVisibleProperty(String property) {
@@ -69,8 +69,8 @@ public class PropertyNamingConvention {
     }
 
     /**
-     * @return the capitalized property with the suffix {@link #AVAILABLE_VALUES_PROPERTY_SUFFIX}.
-     *         e.g. "premium" results in "premiumAvailableValues".
+     * @return the capitalized property with the suffix {@link #AVAILABLE_VALUES_PROPERTY_SUFFIX}. e.g.
+     *         "premium" results in "premiumAvailableValues".
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getAvailableValuesProperty(String property) {
@@ -113,9 +113,9 @@ public class PropertyNamingConvention {
         return checkAndAddSuffix(COMPONENT_PROPERTY_SUFFIX, property);
     }
 
-    private String checkAndAddSuffix(String suffix, String property) {
+    public String checkAndAddSuffix(String suffix, String property) {
         if (StringUtils.isEmpty(requireNonNull(property, "property must not be null"))) {
-            // Empty suffix is used in ButtonPmo for isVisible/isEnabled properties
+            // Empty property is used in ButtonPmo for isVisible/isEnabled properties
             return suffix;
         }
         return StringUtils.uncapitalize(property + StringUtils.capitalize(suffix));

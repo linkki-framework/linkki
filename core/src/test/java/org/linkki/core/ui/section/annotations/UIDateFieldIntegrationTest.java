@@ -43,7 +43,6 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
 
     private static final String FANCY_FORMAT = "yyyy#MM#dd";
 
-    @SuppressWarnings("null")
     public UIDateFieldIntegrationTest() {
         super(TestModelObjectWithDate::new, DateFieldTestPmo::new);
     }
@@ -160,12 +159,14 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
         }
 
         @Override
+        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
         @UIDateField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, dateFormat = FANCY_FORMAT)
         public void value() {
             // model binding
         }
 
         @Override
+        @UIToolTip(text = TEST_TOOLTIP)
         @UIDateField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding

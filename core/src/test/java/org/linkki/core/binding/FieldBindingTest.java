@@ -26,6 +26,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -81,9 +82,10 @@ public class FieldBindingTest {
         when(propertyDispatcherValue.getMessages(any(MessageList.class))).thenReturn(messageList);
         when(propertyDispatcherEnumValue.getMessages(any(MessageList.class))).thenReturn(messageList);
 
-        binding = new FieldBinding<>(label, field, propertyDispatcherValue, Handler.NOP_HANDLER);
+        binding = new FieldBinding<>(label, field, propertyDispatcherValue, Handler.NOP_HANDLER, new ArrayList<>());
 
-        selectBinding = new FieldBinding<Object>(label, selectField, propertyDispatcherEnumValue, Handler.NOP_HANDLER);
+        selectBinding = new FieldBinding<Object>(label, selectField, propertyDispatcherEnumValue, Handler.NOP_HANDLER,
+                new ArrayList<>());
     }
 
     @Test
@@ -148,7 +150,7 @@ public class FieldBindingTest {
 
     @Test
     public void testVisibleBinding_ifLabelNull() {
-        binding = new FieldBinding<>(null, field, propertyDispatcherValue, Handler.NOP_HANDLER);
+        binding = new FieldBinding<>(null, field, propertyDispatcherValue, Handler.NOP_HANDLER, new ArrayList<>());
         when(propertyDispatcherValue.isVisible()).thenReturn(false);
         binding.updateFromPmo();
 

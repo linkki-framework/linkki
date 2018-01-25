@@ -99,7 +99,7 @@ public class DynamicFieldBindingTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testDynamicField_inconsistentPmoPropertyNames_shouldThrowIllegalArgumentException() {
+    public void testDynamicField_inconsistentPmoPropertyNames_shouldThrowIllegalStateException() {
         TestUiUtil.createFirstComponentOf(new PmoWith2MethodsAnnotated());
     }
 
@@ -155,7 +155,8 @@ public class DynamicFieldBindingTest {
         @UITextField(position = POS, modelAttribute = "paymentMethod")
         @UIComboBox(position = POS, modelAttribute = "paymentMethod", content = AvailableValuesType.DYNAMIC)
         public void paymentMethod() {
-            /* model binding */}
+            // model binding
+        }
 
         public Class<?> getPaymentMethodComponentType() {
             if (model.isShowComboBox()) {
@@ -176,7 +177,8 @@ public class DynamicFieldBindingTest {
         @UICheckBox(position = POS, caption = "label")
         @UIButton(position = POS, label = "label", showLabel = true)
         public void method() {
-            /* model binding */ }
+            // model binding
+        }
     }
 
     @UISection

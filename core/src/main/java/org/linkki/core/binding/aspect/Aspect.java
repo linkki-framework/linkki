@@ -55,6 +55,15 @@ public class Aspect<T> {
     }
 
     /**
+     * Returns if the aspect is static, i.e. has a static value that may be null.
+     * 
+     * @return if the aspect is static
+     */
+    public boolean isStatic() {
+        return value.isStatic;
+    }
+
+    /**
      * Creates a new {@link Aspect} with the same name and the given static value
      * 
      * @param staticValue the new static value
@@ -70,7 +79,7 @@ public class Aspect<T> {
      * @param name name of the new aspect
      * @return a new {@link Aspect} that has no static value
      */
-    public static <T> Aspect<T> ofDynamic(String name) {
+    public static <T> Aspect<T> newDynamic(String name) {
         return new Aspect<>(name, new Value<>(false, null));
     }
 
@@ -102,13 +111,13 @@ public class Aspect<T> {
             this.staticValue = staticValue;
         }
 
-        public boolean isStaticValuePresent() {
+        public boolean isStatic() {
             return isStatic;
         }
 
         @CheckForNull
         public T getStatic() {
-            if (isStaticValuePresent()) {
+            if (isStatic()) {
                 return staticValue;
             } else {
                 throw new NoSuchElementException("There is no static value");
@@ -117,7 +126,7 @@ public class Aspect<T> {
 
         @CheckForNull
         public T orElseGet(Supplier<T> valueSupplier) {
-            if (isStaticValuePresent()) {
+            if (isStatic()) {
                 return getStatic();
             } else {
                 return valueSupplier.get();

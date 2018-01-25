@@ -15,13 +15,18 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import javax.annotation.Nullable;
 
+import org.linkki.core.binding.aspect.AspectUpdaters;
+import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.ui.components.LabelComponentWrapper;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -31,6 +36,7 @@ public class LabelBinding implements ElementBinding {
     private final Label label;
     private final Optional<Label> labelsLabel;
     private final PropertyDispatcher propertyDispatcher;
+    private AspectUpdaters aspects;
 
     /**
      * Creates the binding for a label. If that label is used to display the non-editable value of a
@@ -43,10 +49,15 @@ public class LabelBinding implements ElementBinding {
      * @param propertyDispatcher the dispatcher responsible to retrieve the displayed value and
      *            possibly visibility and tooltip information
      */
-    public LabelBinding(@Nullable Label labelTextForLabel, Label label, PropertyDispatcher propertyDispatcher) {
+    public LabelBinding(@Nullable Label labelTextForLabel, Label label, PropertyDispatcher propertyDispatcher,
+            List<LinkkiAspectDefinition> aspectDefinitions) {
         this.labelsLabel = Optional.ofNullable(labelTextForLabel);
         this.label = requireNonNull(label, "label must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+
+        aspects = new AspectUpdaters(aspectDefinitions, propertyDispatcher,
+                new LabelComponentWrapper(labelTextForLabel, label),
+                Handler.NOP_HANDLER);
     }
 
     @Override
@@ -58,11 +69,10 @@ public class LabelBinding implements ElementBinding {
     public void updateFromPmo() {
         boolean visible = propertyDispatcher.isVisible();
         labelsLabel.ifPresent(l -> l.setVisible(visible));
-        String toolTip = propertyDispatcher.getToolTip();
-        labelsLabel.ifPresent(l -> l.setDescription(toolTip));
-        label.setDescription(toolTip);
         label.setValue(Objects.toString(propertyDispatcher.getValue(), ""));
         label.setVisible(visible);
+
+        aspects.updateUI();
     }
 
     /**

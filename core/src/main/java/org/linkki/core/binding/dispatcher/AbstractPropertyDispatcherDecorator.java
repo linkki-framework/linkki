@@ -20,6 +20,7 @@ import java.util.Collection;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 
 
@@ -113,9 +114,9 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
         return getWrappedDispatcher().getCaption();
     }
 
-    @Override
     @CheckForNull
-    public String getToolTip() {
-        return getWrappedDispatcher().getToolTip();
+    @Override
+    public <T> T getAspectValue(Aspect<T> aspect) {
+        return getWrappedDispatcher().getAspectValue(aspect);
     }
 }
