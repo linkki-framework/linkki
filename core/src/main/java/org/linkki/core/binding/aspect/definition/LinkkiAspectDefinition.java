@@ -37,7 +37,7 @@ public interface LinkkiAspectDefinition {
      * Defines how the the asepct has to be updated.
      * <p>
      * Depending on the aspect, the aspect has to react to changes in the model and update the UI
-     * accordingly, or/and vice versa. *
+     * accordingly, or/and vice versa.
      * <p>
      * An aspect does not have to be bidirectional. Some aspects of an UI component such as the
      * visibility can only be modified by the model. Thus the update of the aspect only have to

@@ -62,19 +62,11 @@ public class ButtonDescriptor extends ElementDescriptor {
         requireNonNull(modelChanged, "updateUi must not be null");
         requireNonNull(component, "component must not be null");
 
-        return new ButtonBinding(label, (Button)component, propertyDispatcher, modelChanged, true, getAspectDefinitions());
+        return new ButtonBinding(label, (Button)component, propertyDispatcher, modelChanged, getAspectDefinitions());
     }
 
     @Override
     public String getPmoPropertyName() {
         return methodName;
-    }
-
-    public CaptionType captionType() {
-        return getBindingDefinition().captionType();
-    }
-
-    public String caption() {
-        return getBindingDefinition().caption();
     }
 }

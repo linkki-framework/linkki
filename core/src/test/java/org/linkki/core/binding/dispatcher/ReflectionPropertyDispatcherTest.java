@@ -331,12 +331,6 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
-    public void testGetCaption() {
-        ReflectionPropertyDispatcher dispatcher = setupPmoDispatcher("Abc");
-        assertThat(dispatcher.getCaption(), is("HodorHodor"));
-    }
-
-    @Test
     public void testModelObjectNullReturn() {
         testModelObject = null;
         testPmo = new TestPMO(null);

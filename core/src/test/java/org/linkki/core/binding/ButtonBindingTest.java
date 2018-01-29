@@ -16,13 +16,11 @@ package org.linkki.core.binding;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Test;
@@ -47,7 +45,7 @@ public class ButtonBindingTest {
 
     private void setUpDefaultBinding() {
         aspectDefinition = spy(new TestAspectDefinition());
-        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI, true,
+        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI,
                 Arrays.asList(aspectDefinition));
         context.add(binding);
     }
@@ -86,37 +84,22 @@ public class ButtonBindingTest {
     }
 
     @Test
-    public void testUpdateFromPmo_updateCaption() {
+    public void testUpdateFromPmo_updateAspect() {
         setUpDefaultBinding();
-
         binding.updateFromPmo();
 
-        verify(propertyDispatcher).getCaption();
-    }
-
-    @Test
-    public void testUpdateFromPmo_ignoreCaption() {
-        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI, false, new ArrayList<>());
-        context.add(binding);
-
-        binding.updateFromPmo();
-
-        verify(propertyDispatcher, never()).getCaption();
-    }
-
-    @Test
-    public void testUpdateFromPmo_AspectUpdate() {
-        setUpDefaultBinding();
-        assertThat(button.getDescription(), is(""));
-        binding.updateFromPmo();
-        assertThat(button.getDescription(), is("haha"));
+        assertThat(aspectDefinition.aspectUpdated, is(true));
     }
 
     private static class TestAspectDefinition implements LinkkiAspectDefinition {
 
+        private boolean aspectUpdated;
+
         @Override
         public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-            return () -> ((Button)componentWrapper.getComponent()).setDescription("haha");
+            return () -> {
+                aspectUpdated = true;
+            };
         }
 
         @Override

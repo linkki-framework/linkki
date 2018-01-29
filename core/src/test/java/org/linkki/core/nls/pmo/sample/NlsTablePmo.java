@@ -19,8 +19,10 @@ import java.util.List;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
 
-@UISection(caption = "Some Caption")
+@UISection(caption = NlsTablePmo.TABLE_CAPTION)
 public class NlsTablePmo implements ContainerPmo<NlsTableRowPmo> {
+
+    public static final String TABLE_CAPTION = "table caption";
 
     private final List<NlsTableRowPmo> rows = new ArrayList<>();
 

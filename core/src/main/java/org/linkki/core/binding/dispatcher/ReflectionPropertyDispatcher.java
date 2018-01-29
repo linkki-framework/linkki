@@ -178,12 +178,6 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
                 + fallbackDispatcher + "]";
     }
 
-    @Override
-    @CheckForNull
-    public String getCaption() {
-        return (String)get(propertyNamingConvention::getCaptionProperty, fallbackDispatcher::getCaption);
-    }
-
     private Object get(Function<String, String> methodNameProvider, Supplier<Object> fallbackProvider) {
         String methodName = methodNameProvider.apply(property);
         Object boundObject = getBoundObject();

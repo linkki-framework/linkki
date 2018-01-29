@@ -19,7 +19,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.linkki.core.binding.aspect.AspectUpdaters;
@@ -42,8 +41,6 @@ public class ButtonBinding implements ElementBinding, Serializable {
     private final PropertyDispatcher propertyDispatcher;
     private final Handler updateUi;
 
-    private boolean bindCaption;
-
     private AspectUpdaters aspects;
 
     /**
@@ -51,22 +48,17 @@ public class ButtonBinding implements ElementBinding, Serializable {
      * 
      * @param label the button's label (optional)
      * @param button the {@link Button} to be bound
-     * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the model
-     *            object
-     * @param modelChanged a {@link Handler} that is called when this {@link Binding} desires an update
-     *            of the UI because the model has changed. Usually the {@link BindingContext#updateUI()}
-     *            method.
-     * @param bindCaption indicates whether the button's caption should be bound. <code>true</code>
-     *            updates the caption. <code>false</code> prevents caption updates and thus also
-     *            prevents a caption to be requested from the property dispatcher.
+     * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the
+     *            model object
+     * @param modelChanged a {@link Handler} that is called when this {@link Binding} desires an
+     *            update of the UI. Usually the {@link BindingContext#updateUI()} method.
      */
     public ButtonBinding(@Nullable Label label, Button button, PropertyDispatcher propertyDispatcher,
-            Handler modelChanged, boolean bindCaption, List<LinkkiAspectDefinition> aspectDefinitions) {
+            Handler modelChanged, List<LinkkiAspectDefinition> aspectDefinitions) {
         this.label = Optional.ofNullable(label);
         this.button = requireNonNull(button, "button must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
         this.updateUi = requireNonNull(modelChanged, "updateUi must not be null");
-        this.bindCaption = bindCaption;
         button.addClickListener(this::buttonClickCallback);
 
         aspects = new AspectUpdaters(aspectDefinitions, propertyDispatcher, new LabelComponentWrapper(label, button),
@@ -79,9 +71,6 @@ public class ButtonBinding implements ElementBinding, Serializable {
         boolean visible = isVisible();
         button.setVisible(visible);
         label.ifPresent(l -> l.setVisible(visible));
-        if (bindCaption) {
-            button.setCaption(getCaption());
-        }
 
         aspects.updateUI();
     }
@@ -97,11 +86,6 @@ public class ButtonBinding implements ElementBinding, Serializable {
 
     public boolean isVisible() {
         return propertyDispatcher.isVisible();
-    }
-
-    @CheckForNull
-    public String getCaption() {
-        return propertyDispatcher.getCaption();
     }
 
     private void buttonClickCallback(@SuppressWarnings("unused") ClickEvent event) {

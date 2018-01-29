@@ -26,26 +26,36 @@ import org.linkki.core.ui.section.annotations.UITextField;
 @UISection(caption = "SamplePmoCaption")
 public class SamplePmo {
 
+    // must be different than the translated label
+    public static final String PMO_LABEL = "No translation label";
+    public static final String PMO_CAPTION = "No translation caption";
+
+    public static final String PROPERTY_TEXTFIELD = "textField";
+    public static final String PROPERTY_CBFIELD = "cbField";
+    public static final String PROPERTY_MYBUTTON = "myButton";
+    public static final String PROPERTY_MYBUTTON2 = "myButton2";
+    public static final String PROPERTY_FOO = "foo";
+
     private final Set<TestEnum> foo = new LinkedHashSet<>();
 
 
-    @UITextField(position = 1, label = "Some Label")
+    @UITextField(position = 1, label = PMO_LABEL)
     public String getTextField() {
         return "";
     }
 
-    @UITextField(position = 2)
+    @UITextField(position = 2, label = PMO_LABEL)
     public String getCbField() {
         return "";
     }
 
 
-    @UIButton(position = 3, label = "Button label", caption = "Button Caption", showLabel = true)
+    @UIButton(position = 3, label = PMO_LABEL, caption = PMO_CAPTION, showLabel = true)
     public void myButton() {
         // nothing here
     }
 
-    @UIButton(position = 4, label = "Button2 label", caption = "Button2 Caption")
+    @UIButton(position = 4, label = PMO_LABEL, caption = PMO_CAPTION)
     public void myButton2() {
         // nothing here
     }

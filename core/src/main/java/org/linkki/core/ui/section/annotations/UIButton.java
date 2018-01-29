@@ -16,11 +16,15 @@ package org.linkki.core.ui.section.annotations;
 import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.CaptionAspectDefinition;
+import org.linkki.core.ui.section.annotations.UIButton.ButtonCaptionAspect;
 import org.linkki.core.ui.section.annotations.adapters.ButtonBindingDefinition;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -33,6 +37,7 @@ import com.vaadin.server.FontAwesome;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(ButtonBindingDefinition.class)
+@LinkkiAspect(ButtonCaptionAspect.class)
 public @interface UIButton {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -90,4 +95,25 @@ public @interface UIButton {
      */
     int[] shortcutModifierKeys() default {};
 
+    class ButtonCaptionAspect extends CaptionAspectDefinition {
+
+        @SuppressWarnings("null")
+        private UIButton buttonAnnotation;
+
+        @Override
+        public void initialize(Annotation annotation) {
+            this.buttonAnnotation = (UIButton)annotation;
+        }
+
+        @Override
+        protected String getStaticCaption() {
+            return buttonAnnotation.caption();
+        }
+
+        @Override
+        public CaptionType getCaptionType() {
+            return buttonAnnotation.captionType();
+        }
+
+    }
 }

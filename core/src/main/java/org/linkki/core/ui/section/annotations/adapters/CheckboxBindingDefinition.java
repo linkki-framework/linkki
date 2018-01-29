@@ -36,7 +36,6 @@ public class CheckboxBindingDefinition implements UIFieldDefinition {
     @Override
     public Component newComponent() {
         CheckBox newCheckBox = ComponentFactory.newCheckBox();
-        newCheckBox.setCaption(caption());
         return newCheckBox;
     }
 
@@ -78,9 +77,5 @@ public class CheckboxBindingDefinition implements UIFieldDefinition {
     @Override
     public boolean showLabel() {
         return !uiCheckBox.noLabel();
-    }
-
-    private String caption() {
-        return uiCheckBox.caption();
     }
 }

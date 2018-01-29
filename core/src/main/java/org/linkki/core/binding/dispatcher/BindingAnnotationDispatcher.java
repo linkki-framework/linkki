@@ -17,16 +17,11 @@ import static java.util.Objects.requireNonNull;
 
 import javax.annotation.CheckForNull;
 
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
-import org.linkki.core.ui.section.annotations.ButtonDescriptor;
-import org.linkki.core.ui.section.annotations.CaptionType;
 import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
@@ -38,8 +33,6 @@ import org.linkki.core.ui.section.annotations.VisibleType;
  * accessed for a value.
  */
 public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecorator {
-
-    private PmoNlsService pmoNlsService;
 
     private final BindingDescriptor bindingDescriptor;
 
@@ -57,7 +50,6 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
             BindingDescriptor bindingDescriptor) {
         super(wrappedDispatcher);
         this.bindingDescriptor = requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
-        pmoNlsService = PmoNlsService.get();
     }
 
     @Override
@@ -101,38 +93,25 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     /**
-     * If the {@linkplain UIButton} annotation caption type is CaptionType.DYNAMIC a method
-     * get[AnnotatedMethodName]Caption() is called to retrieve the caption name dynamically
-     */
-    @Override
-    @CheckForNull
-    public String getCaption() {
-        Object boundObject = getBoundObject();
-        if (boundObject == null) {
-            return "";
-        }
-        if (bindingDescriptor instanceof ButtonDescriptor) {
-            if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.STATIC) {
-                String caption = ((ButtonDescriptor)bindingDescriptor).caption();
-                String nlsCaption = pmoNlsService.getLabel(PmoLabelType.BUTTON_CAPTION, boundObject.getClass(),
-                                                           getProperty(), caption);
-
-                return nlsCaption;
-            } else if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.NONE) {
-                return StringUtils.EMPTY;
-            } else if (((ButtonDescriptor)bindingDescriptor).captionType() == CaptionType.DYNAMIC) {
-                return super.getCaption();
-            }
-        }
-        throw new IllegalArgumentException("Caption only supported for buttons");
-    }
-
-    /**
      * Returns the value of the {@link Aspect} if the value is static.
      */
+    @SuppressWarnings("unchecked")
     @CheckForNull
     @Override
     public <T> T getAspectValue(Aspect<T> aspect) {
-        return aspect.getStaticValueOr(() -> super.getAspectValue(aspect));
+        if (aspect.isStatic()) {
+            T staticValue = aspect.getStaticValue();
+            if (staticValue instanceof String && getBoundObject() != null) {
+                Class<? extends Object> pmoClass = requireNonNull(getBoundObject()).getClass();
+                return (T)PmoNlsService.get()
+                        .getLabel(pmoClass, getProperty(), aspect.getName(), (String)staticValue);
+            } else {
+                return staticValue;
+            }
+        } else {
+            return super.getAspectValue(aspect);
+        }
     }
+
+
 }

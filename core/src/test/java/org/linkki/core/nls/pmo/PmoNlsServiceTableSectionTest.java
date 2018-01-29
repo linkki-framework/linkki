@@ -15,15 +15,17 @@ package org.linkki.core.nls.pmo;
 
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.nls.pmo.sample.NlsOtherTablePmo;
 import org.linkki.core.nls.pmo.sample.NlsTablePmo;
 import org.linkki.core.nls.pmo.sample.NlsTableRowPmo;
+import org.linkki.core.nls.pmo.sample.NoNlsTablePmo;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
 import org.linkki.core.ui.table.PmoBasedTableSectionFactory;
@@ -38,45 +40,59 @@ import com.vaadin.ui.Table;
 @RunWith(MockitoJUnitRunner.class)
 public class PmoNlsServiceTableSectionTest {
 
-
     @SuppressWarnings("null")
     @Mock
     private BindingContext ctx;
+    @SuppressWarnings("null")
+    private String translatedLabel;
+    @SuppressWarnings("null")
+    private String translatedCaption;
+
+    @Before
+    public void setUp() {
+        // test nls setup
+        translatedCaption = PmoNlsService.get().getLabel(PmoLabelType.SECTION_CAPTION, NlsTablePmo.class, null,
+                                                         NlsTablePmo.TABLE_CAPTION);
+        assertThat(translatedCaption, is(not(NlsTablePmo.TABLE_CAPTION)));
+        translatedLabel = getTranslatedLabel(NlsTableRowPmo.PROPERTY_VALUE1);
+        assertThat(translatedLabel, is(not(NlsTableRowPmo.PMO_LABEL)));
+        assertThat(getTranslatedLabel(NlsTableRowPmo.PROPERTY_VALUE2), is(translatedLabel));
+        assertThat(getTranslatedLabel(NlsTableRowPmo.PROPERTY_VALUE3), is(NlsTableRowPmo.PMO_LABEL));
+        assertThat(getTranslatedLabel(NlsTableRowPmo.PROPERTY_DELETE), is(NlsTableRowPmo.PMO_LABEL));
+    }
+
+    private String getTranslatedLabel(String property) {
+        return PmoNlsService.get().getLabel(NlsTableRowPmo.class, property, "label",
+                                            NlsTableRowPmo.PMO_LABEL);
+    }
 
     @Test
     public void testTableRowLabels() {
         PmoBasedTableFactory<NlsTableRowPmo> factory = new PmoBasedTableFactory<>(new NlsTablePmo(), ctx);
         Table table = factory.createTable();
         assertThat(table, is(notNullValue()));
-        // we override labels for rows one and two in linkki-messages.properties. Other two rows
-        // should have labels from PMO
-        assertThat(table.getColumnHeaders(), is(arrayContaining("label1", "label2", "3", "")));
+        assertThat(table.getColumnHeaders(),
+                   is(arrayContaining(translatedLabel, translatedLabel, NlsTableRowPmo.PMO_LABEL, "")));
     }
 
     @Test
-    // Section caption overrides in linkki-messages.properties
     public void testTableSectionCaption() {
-        assertThat(createAndGetTableSectionCaption(new NlsTablePmo()), is("Other Caption"));
-
-
+        assertThat(createAndGetTableSectionCaption(new NlsTablePmo()), is(translatedCaption));
     }
 
     @Test
-    // Section caption do not overrides in linkki-messages.properties
     public void testTableSectionCaptionNoOverriding() {
-
-        assertThat(createAndGetTableSectionCaption(new NlsOtherTablePmo()), is("Some Caption"));
+        assertThat(createAndGetTableSectionCaption(new NoNlsTablePmo()), is(NoNlsTablePmo.CAPTION));
     }
 
 
-    private String createAndGetTableSectionCaption(ContainerPmo<NlsTableRowPmo> container) {
+    private String createAndGetTableSectionCaption(ContainerPmo<NlsTableRowPmo> containerPmo) {
         PmoBasedTableSectionFactory<NlsTableRowPmo> factory = new PmoBasedTableSectionFactory<NlsTableRowPmo>(
-                container, ctx);
+                containerPmo, ctx);
         TableSection<NlsTableRowPmo> tableSection = factory.createSection();
         HorizontalLayout header = (HorizontalLayout)tableSection.getComponent(0);
         Label l = (Label)header.getComponent(0);
         return l.getValue();
-
     }
 
 

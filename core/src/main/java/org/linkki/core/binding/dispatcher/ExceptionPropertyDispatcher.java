@@ -127,12 +127,6 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    @CheckForNull
-    public String getCaption() {
-        throw new IllegalStateException(getExceptionText("find caption method for"));
-    }
-
-    @Override
     public <T> T getAspectValue(Aspect<T> aspect) {
         throw new IllegalStateException(getExceptionText("find aspect \"" + aspect.getName() + "\" method for"));
     }

@@ -101,12 +101,6 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
         return getWrappedDispatcher().getBoundObject();
     }
 
-    @Override
-    @CheckForNull
-    public String getCaption() {
-        return getWrappedDispatcher().getCaption();
-    }
-
     @CheckForNull
     @Override
     public <T> T getAspectValue(Aspect<T> aspect) {

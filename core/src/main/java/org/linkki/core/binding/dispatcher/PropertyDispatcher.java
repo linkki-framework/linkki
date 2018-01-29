@@ -118,12 +118,6 @@ public interface PropertyDispatcher {
     public void invoke();
 
     /**
-     * @return the caption of a control, i.e. a button's text.
-     */
-    @CheckForNull
-    public String getCaption();
-
-    /**
      * Returns the value for the given {@link Aspect} according to this dispatcher.
      * <p>
      * The given {@link Aspect} may have a {@link Aspect#getStaticValue() static value}. It is up to the

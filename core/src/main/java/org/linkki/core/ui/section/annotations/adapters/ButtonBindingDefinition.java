@@ -13,7 +13,6 @@
  */
 package org.linkki.core.ui.section.annotations.adapters;
 
-import org.linkki.core.ui.section.annotations.CaptionType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIButton;
@@ -78,15 +77,4 @@ public class ButtonBindingDefinition implements UIButtonDefinition {
     public RequiredType required() {
         return RequiredType.NOT_REQUIRED;
     }
-
-    @Override
-    public CaptionType captionType() {
-        return buttonAnnotation.captionType();
-    }
-
-    @Override
-    public String caption() {
-        return buttonAnnotation.caption();
-    }
-
 }

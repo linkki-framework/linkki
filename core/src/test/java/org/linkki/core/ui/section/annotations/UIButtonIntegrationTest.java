@@ -37,7 +37,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     }
 
     @Test
-    public void testButtonProperties() {
+    public void testStaticButtonProperties() {
         Button button = getDynamicComponent();
         assertThat(button.getStyleName(), is(STYLES));
         assertThat(button.getIcon(), is(FontAwesome.ADJUST));

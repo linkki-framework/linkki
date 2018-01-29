@@ -67,7 +67,7 @@ public class BindAnnotationDescriptor extends BindingDescriptor {
             return new FieldBinding<>(label, (AbstractField<?>)component, propertyDispatcher, modelChanged,
                     getAspectDefinitions());
         } else if (component instanceof Button) {
-            return new ButtonBinding(label, (Button)component, propertyDispatcher, modelChanged, false,
+            return new ButtonBinding(label, (Button)component, propertyDispatcher, modelChanged,
                     getAspectDefinitions());
         } else if (component instanceof Label) {
             return new LabelBinding(label, (Label)component, propertyDispatcher, getAspectDefinitions());
