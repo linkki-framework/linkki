@@ -20,7 +20,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import org.linkki.core.binding.ElementBinding;
-import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.util.Sequence;
 import org.linkki.util.handler.Handler;

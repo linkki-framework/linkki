@@ -12,10 +12,11 @@
  * the License.
  */
 
-package org.linkki.core.binding.aspect;
+package org.linkki.core.binding.aspect.definition;
 
 import java.util.function.Consumer;
 
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.util.handler.Handler;
@@ -31,8 +32,9 @@ public abstract class ModelToUiAspectDefinition<VALUE_TYPE> implements LinkkiAsp
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        return () -> getComponentValueSetter(componentWrapper)
-                .accept(propertyDispatcher.getAspectValue(createAspect()));
+        Consumer<VALUE_TYPE> setter = createComponentValueSetter(componentWrapper);
+        Aspect<VALUE_TYPE> aspect = createAspect();
+        return () -> setter.accept(propertyDispatcher.getAspectValue(aspect));
     }
 
     /**
@@ -51,5 +53,5 @@ public abstract class ModelToUiAspectDefinition<VALUE_TYPE> implements LinkkiAsp
      * @param componentWrapper UI component of which the value has to be
      * @return setter for the value of the {@link ComponentWrapper}
      */
-    public abstract Consumer<VALUE_TYPE> getComponentValueSetter(ComponentWrapper componentWrapper);
+    public abstract Consumer<VALUE_TYPE> createComponentValueSetter(ComponentWrapper componentWrapper);
 }

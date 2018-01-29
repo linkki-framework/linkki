@@ -23,7 +23,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.linkki.core.binding.aspect.AspectUpdaters;
-import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.LabelComponentWrapper;

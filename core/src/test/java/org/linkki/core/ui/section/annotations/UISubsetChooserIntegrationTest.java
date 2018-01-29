@@ -96,18 +96,18 @@ public class UISubsetChooserIntegrationTest
     @SuppressWarnings("null")
     protected static class SubsetChooserModelObject {
 
-        private TestEnum value;
+        private List<TestEnum> value;
 
-        public TestEnum getValue() {
+        public List<TestEnum> getValue() {
             return value;
         }
 
-        public void setValue(TestEnum value) {
+        public void setValue(List<TestEnum> value) {
             this.value = value;
 
         }
 
-        public TestEnum getStaticValue() {
+        public List<TestEnum> getStaticValue() {
             return getValue();
         }
 

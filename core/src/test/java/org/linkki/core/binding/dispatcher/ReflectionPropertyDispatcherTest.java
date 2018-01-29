@@ -308,13 +308,6 @@ public class ReflectionPropertyDispatcherTest {
         setupPmoDispatcher("doesNotExist").isRequired();
     }
 
-    @Test
-    public void testGetAvailableValues() {
-        assertEquals(0, setupPmoDispatcher(XYZ).getAvailableValues().size());
-        testModelObject.setAbc("lov");
-        assertEquals(3, setupPmoDispatcher(XYZ).getAvailableValues().size());
-    }
-
     @Test(expected = NullPointerException.class)
     public void testGetAvailableValues_nullProperty() {
         setupPmoDispatcher(null).isEnabled();

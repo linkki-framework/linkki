@@ -15,8 +15,6 @@ package org.linkki.core.binding.dispatcher;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Collection;
-
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -72,11 +70,6 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     @Override
     public boolean isRequired() {
         return getWrappedDispatcher().isRequired();
-    }
-
-    @Override
-    public Collection<?> getAvailableValues() {
-        return getWrappedDispatcher().getAvailableValues();
     }
 
     @Override

@@ -16,7 +16,6 @@ package org.linkki.core.binding;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.linkki.core.binding.aspect.AspectUpdaters;
-import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.container.LinkkiInMemoryContainer;
@@ -186,13 +185,6 @@ public class FieldBinding<T> implements ElementBinding {
             boolean visible = isVisible();
             field.setVisible(visible);
             label.ifPresent(l -> l.setVisible(visible));
-            if (isAvailableValuesComponent()) {
-                // containerDataSource is set if isAvailableValuesComponent() is true, but that is
-                // unknown to eclipse' checker (and may not be consistently set in subclasses)
-                if (containerDataSource != null) {
-                    updateAvailableValues(containerDataSource);
-                }
-            }
 
             aspectUpdaters.updateUI();
             // CSOFF: IllegalCatch
@@ -201,16 +193,6 @@ public class FieldBinding<T> implements ElementBinding {
                     + propertyDispatcher.getProperty(), e);
         }
         // CSON: IllegalCatch
-    }
-
-    private void updateAvailableValues(LinkkiInMemoryContainer<T> container) {
-        Collection<T> availableValues = getAvailableValues();
-        container.removeAllItems();
-        container.addAllItems(availableValues);
-    }
-
-    private boolean isAvailableValuesComponent() {
-        return field instanceof AbstractSelect;
     }
 
     @SuppressWarnings("unchecked")
@@ -249,14 +231,6 @@ public class FieldBinding<T> implements ElementBinding {
 
     public Field<T> getField() {
         return field;
-    }
-
-    /**
-     * Returns the "list" of allowed values for the field.
-     */
-    @SuppressWarnings("unchecked")
-    public Collection<T> getAvailableValues() {
-        return (Collection<T>)propertyDispatcher.getAvailableValues();
     }
 
     /**

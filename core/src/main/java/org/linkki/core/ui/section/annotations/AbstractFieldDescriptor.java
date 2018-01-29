@@ -18,7 +18,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 
 /**
  * Holds all information about a field, which are the property name as well as the settings for

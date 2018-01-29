@@ -26,6 +26,7 @@ import java.lang.annotation.Target;
 import java.util.List;
 
 import org.junit.Test;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.util.handler.Handler;

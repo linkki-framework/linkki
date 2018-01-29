@@ -15,10 +15,6 @@ package org.linkki.core.binding.dispatcher;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
-
 import javax.annotation.CheckForNull;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +22,6 @@ import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
 import org.linkki.core.ui.section.annotations.ButtonDescriptor;
 import org.linkki.core.ui.section.annotations.CaptionType;
@@ -35,13 +30,12 @@ import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
-import org.linkki.core.ui.section.annotations.adapters.AvailableValuesProvider;
 
 /**
- * Provides default values for enabled state, required state, visibility and available values
- * defined by annotations like {@link UITextField} and {@link UIComboBox}. If no annotation exists
- * for the given property, or if the type is dynamic, the wrapped dispatcher is accessed for a
- * value.
+ * Provides static values for aspects such as enabled state, required state, visibility and
+ * available values defined by annotations like {@link UITextField} and {@link UIComboBox}. If no
+ * annotation exists for the given property, or if the type is dynamic, the wrapped dispatcher is
+ * accessed for a value.
  */
 public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecorator {
 
@@ -97,33 +91,6 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
                 return isEnabled();
             default:
                 return true;
-        }
-    }
-
-    @Override
-    public Collection<?> getAvailableValues() {
-        AvailableValuesType type = Objects
-                .requireNonNull(bindingDescriptor.availableValues(),
-                                "AvailableValuesType null is not allowed, use AvailableValuesType.NO_VALUES to indicate that available values cannot be obtained");
-        if (type == AvailableValuesType.NO_VALUES) {
-            return Collections.emptySet();
-        } else if (type == AvailableValuesType.DYNAMIC) {
-            return super.getAvailableValues();
-        } else {
-            if (getValueClass().isEnum()) {
-                return AvailableValuesProvider.enumToValues(getValueClass().asSubclass(Enum.class),
-                                                            type == AvailableValuesType.ENUM_VALUES_INCL_NULL);
-            }
-            if (getValueClass() == Boolean.TYPE) {
-                return AvailableValuesProvider.booleanPrimitiveToValues();
-            }
-            if (getValueClass() == Boolean.class) {
-                return AvailableValuesProvider.booleanWrapperToValues();
-            } else {
-                throw new IllegalStateException(
-                        "Cannot retrieve list of available values for field " + getProperty() + ", valueClass " + type);
-            }
-
         }
     }
 

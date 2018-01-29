@@ -27,9 +27,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -61,8 +58,6 @@ public class FieldBindingTest {
 
     private FieldBinding<String> binding;
     private FieldBinding<Object> selectBinding;
-
-    private Collection<TestEnum> valueList = Arrays.asList(TestEnum.ONE, TestEnum.THREE);
 
     private PropertyDispatcher propertyDispatcherValue;
 
@@ -173,36 +168,6 @@ public class FieldBindingTest {
         binding.updateFromPmo();
 
         verify(field).setRequired(true);
-    }
-
-    @Test
-    public void testBindAvailableValues() {
-        assertTrue(selectBinding.getAvailableValues().isEmpty());
-        doReturn(valueList).when(propertyDispatcherEnumValue).getAvailableValues();
-
-        assertEquals(2, selectBinding.getAvailableValues().size());
-    }
-
-    @Test
-    public void testBindAvailableValues_removeOldItemsFromField() {
-        doReturn(valueList).when(propertyDispatcherEnumValue).getAvailableValues();
-
-        selectBinding.updateFromPmo();
-        Collection<?> itemIds = selectField.getItemIds();
-        assertThat(itemIds.size(), is(2));
-        Iterator<?> iterator = itemIds.iterator();
-        assertThat(iterator.next(), is(TestEnum.ONE));
-        assertThat(iterator.next(), is(TestEnum.THREE));
-
-        Collection<TestEnum> valueList2 = Arrays.asList(new TestEnum[] { TestEnum.TWO, TestEnum.THREE });
-        doReturn(valueList2).when(propertyDispatcherEnumValue).getAvailableValues();
-
-        selectBinding.updateFromPmo();
-        Collection<?> itemIds2 = selectField.getItemIds();
-        assertThat(itemIds2.size(), is(2));
-        Iterator<?> iterator2 = itemIds2.iterator();
-        assertThat(iterator2.next(), is(TestEnum.TWO));
-        assertThat(iterator2.next(), is(TestEnum.THREE));
     }
 
     @Test

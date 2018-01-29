@@ -13,28 +13,22 @@
  */
 package org.linkki.core.binding.dispatcher;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.TestEnum;
 import org.linkki.core.binding.annotations.Bind;
+import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.BindAnnotationDescriptor;
 import org.linkki.core.ui.section.annotations.EnabledType;
@@ -185,37 +179,21 @@ public class BindingAnnotationDispatcherTest {
     }
 
     @Test
-    public void testGetAvailableValues_IncludingNull() {
-        doReturn(TestEnum.class).when(uiAnnotationFallbackDispatcher).getValueClass();
-        Collection<?> availableValues = uiAnnotationDispatchers.get(STATIC_ENUM_ATTR).getAvailableValues();
-
-        assertEquals(4, availableValues.size());
-        verify(uiAnnotationFallbackDispatcher, never()).getAvailableValues();
+    public void testGetAspectValue_static() {
+        Aspect<ArrayList<Object>> staticAspect = Aspect.ofStatic(AvailableValuesAspectDefinition.NAME,
+                                                                 new ArrayList<>());
+        uiAnnotationDispatchers.get(STATIC_ENUM_ATTR)
+                .getAspectValue(staticAspect);
+        verify(uiAnnotationFallbackDispatcher, never()).getAspectValue(staticAspect);
     }
 
-    @Test
-    public void testGetAvailableValues_ExcludingNull() {
-        doReturn(TestEnum.class).when(uiAnnotationFallbackDispatcher).getValueClass();
-        Collection<?> availableValues = uiAnnotationDispatchers.get(STATIC_ENUM_ATTR_EXCL_NULL).getAvailableValues();
-
-        assertEquals(3, availableValues.size());
-        verify(uiAnnotationFallbackDispatcher, never()).getAvailableValues();
-    }
 
     @Test
-    public void testGetAvailableValues() {
-        doReturn(Arrays.asList(new TestEnum[] { TestEnum.ONE, TestEnum.THREE })).when(uiAnnotationFallbackDispatcher)
-                .getAvailableValues();
-        Collection<?> availableValues = uiAnnotationDispatchers.get(DYNAMIC_ENUM_ATTR).getAvailableValues();
-        assertEquals(2, availableValues.size());
-
-        verify(uiAnnotationFallbackDispatcher, never()).getValueClass();
-    }
-
-    @Test
-    public void testGetAvailableValues_AnnotationWithoutAvailableValues() {
-        assertThat(uiAnnotationDispatchers.get(XYZ).getAvailableValues(), is(empty()));
-        assertThat(bindAnnotationDispatcher.getAvailableValues(), is(empty()));
+    public void testGetAspectValue_dynamic() {
+        Aspect<ArrayList<Object>> dynamicAspect = Aspect.newDynamic(AvailableValuesAspectDefinition.NAME);
+        uiAnnotationDispatchers.get(STATIC_ENUM_ATTR)
+                .getAspectValue(dynamicAspect);
+        verify(uiAnnotationFallbackDispatcher).getAspectValue(dynamicAspect);
     }
 
     public class TestObjectWithBindAnnotation {

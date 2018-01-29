@@ -21,6 +21,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+
 /**
  * Annotation to add an {@link Aspect} to a linkki UI annotation using a
  * {@link LinkkiAspectDefinition}.

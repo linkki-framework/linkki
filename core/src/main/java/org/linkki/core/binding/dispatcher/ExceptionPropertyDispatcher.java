@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
@@ -48,9 +47,15 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
         this.objects.addAll(Arrays.asList(objects));
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * If there is no value class this dispatcher returns {@link Void#TYPE} because a exception is
+     * not useful in this case.
+     */
     @Override
     public Class<?> getValueClass() {
-        throw new IllegalArgumentException(getExceptionText("find getter method for"));
+        return Void.TYPE;
     }
 
     private String getExceptionText(String action) {
@@ -86,11 +91,6 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     @Override
     public boolean isRequired() {
         throw new IllegalArgumentException(getExceptionText("get required state for"));
-    }
-
-    @Override
-    public Collection<?> getAvailableValues() {
-        throw new IllegalArgumentException(getExceptionText("get available values for"));
     }
 
     /**

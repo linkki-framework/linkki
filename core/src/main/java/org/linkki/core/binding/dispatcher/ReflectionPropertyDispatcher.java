@@ -16,7 +16,6 @@ package org.linkki.core.binding.dispatcher;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -127,12 +126,6 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     @Override
     public boolean isRequired() {
         return (boolean)get(propertyNamingConvention::getRequiredProperty, fallbackDispatcher::isRequired);
-    }
-
-    @Override
-    public Collection<?> getAvailableValues() {
-        return (Collection<?>)get(propertyNamingConvention::getAvailableValuesProperty,
-                                  fallbackDispatcher::getAvailableValues);
     }
 
     @Override

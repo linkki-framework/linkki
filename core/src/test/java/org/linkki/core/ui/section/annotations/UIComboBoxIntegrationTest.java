@@ -55,6 +55,12 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     }
 
     @Test
+    public void testStaticAvailableValues() {
+        ComboBox staticComboBox = getStaticComponent();
+        assertThat(staticComboBox.getItemIds(), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
+    }
+
+    @Test
     public void testDynamicAvailableValues() {
         assertThat(getDynamicComponent().getItemIds(), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
 
@@ -68,7 +74,6 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     @Test
     public void testCaptionProvider() {
         LinkkiComboBox comboBox = getDynamicComponent();
-
         assertThat((ToStringCaptionProvider)comboBox.getItemCaptionProvider(), isA(ToStringCaptionProvider.class));
     }
 

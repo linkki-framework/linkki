@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.LinkkiAspect;
-import org.linkki.core.binding.aspect.ModelToUiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.UIToolTip.ToolTipAspectDefinition;
@@ -66,9 +66,8 @@ public @interface UIToolTip {
         }
 
         @Override
-        public Consumer<String> getComponentValueSetter(ComponentWrapper componentWrapper) {
+        public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
             return componentWrapper::setTooltip;
         }
-
     }
 }

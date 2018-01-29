@@ -22,7 +22,7 @@ import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.FieldBinding;
 import org.linkki.core.binding.LabelBinding;
 import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.adapters.BindAnnotationAdapter;
 import org.linkki.util.handler.Handler;

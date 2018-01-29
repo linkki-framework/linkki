@@ -21,6 +21,8 @@ import java.util.function.Supplier;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+
 /**
  * Represents an aspect of a property that is bind by linkki. This class is a container of an
  * aspect's name and value. How the aspect is created is defined by {@link LinkkiAspectDefinition}.

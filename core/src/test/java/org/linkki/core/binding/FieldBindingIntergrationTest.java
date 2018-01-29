@@ -16,6 +16,7 @@ package org.linkki.core.binding;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,10 +25,12 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.ui.components.LinkkiComboBox;
+import org.linkki.core.ui.section.annotations.AvailableValuesType;
 
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
@@ -55,7 +58,7 @@ public class FieldBindingIntergrationTest {
         context = TestBindingContext.create();
 
         selectBinding = new FieldBinding<Object>(label, comboField, propertyDispatcher, context::updateUI,
-                new ArrayList<>());
+                Arrays.asList(new TestAvailableValuesAspectDefinition()));
         context.add(selectBinding);
 
         context.add(selectBinding);
@@ -124,4 +127,17 @@ public class FieldBindingIntergrationTest {
         assertThat(iterator2.next(), is(TestEnum.ONE));
     }
 
+    private class TestAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
+
+        @Override
+        public void initialize(Annotation annotation) {
+            // does nothing
+        }
+
+        @Override
+        protected AvailableValuesType getAvailableValuesType() {
+            return AvailableValuesType.DYNAMIC;
+        }
+
+    }
 }

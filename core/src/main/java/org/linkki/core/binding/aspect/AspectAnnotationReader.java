@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+
 /**
  * Utility class to creates {@link LinkkiAspectDefinition}s from an UI annotation.
  */

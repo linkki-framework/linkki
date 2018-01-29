@@ -17,6 +17,7 @@ package org.linkki.core.binding.aspect;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.util.handler.Handler;
@@ -30,7 +31,7 @@ import org.linkki.util.handler.Handler;
  */
 public class AspectUpdaters {
 
-    private List<Handler> uiUpdaters;
+    private final List<Handler> uiUpdaters;
 
     public AspectUpdaters(List<LinkkiAspectDefinition> aspectDefinitions, PropertyDispatcher propertyDispatcher,
             ComponentWrapper componentWrapper, Handler modelUpdated) {

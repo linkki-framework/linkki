@@ -13,22 +13,27 @@
  */
 package org.linkki.core.binding;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import org.junit.Test;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.components.IntegerField;
+import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.ToolTipType;
 import org.linkki.core.ui.section.annotations.UIToolTip;
 
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -48,16 +53,18 @@ public class BinderTest {
         Binder binder = new Binder(view, pmo);
         BindingContext bindingContext = bindingManager.startNewContext("");
         binder.setupBindings(bindingContext);
-        assertThat(bindingContext.getElementBindings(), hasSize(3));
+        assertThat(bindingContext.getElementBindings(), hasSize(4));
 
         // Binding pmo -> view
         assertThat(view.textField.getDescription(), is(TestPmo.TEST_TOOLTIP));
         assertThat(view.numberField.getDescription(), is(emptyString()));
         assertThat(view.button.getDescription(), is(emptyString()));
+        assertThat(view.listSelect.getItemIds(), contains("a", "b"));
 
         pmo.setNumber(13);
         pmo.setText("foo");
         pmo.setToolTip("test tool tip");
+        pmo.setTextValues("c");
 
         bindingContext.updateUI();
 
@@ -66,6 +73,7 @@ public class BinderTest {
         assertThat(view.textField.getDescription(), is(TestPmo.TEST_TOOLTIP));
         assertThat(view.numberField.getDescription(), is("test tool tip"));
         assertThat(view.button.getDescription(), is("test tool tip"));
+        assertThat(view.listSelect.getItemIds(), contains("c"));
 
 
         // Binding view -> pmo
@@ -164,6 +172,9 @@ public class BinderTest {
         @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
         private Button button = new Button();
 
+        @Bind(pmoProperty = TestPmo.PROPERTY_SOMEOTHERTEXT, availableValues = AvailableValuesType.DYNAMIC)
+        private ListSelect listSelect = new ListSelect();
+
         @SuppressWarnings("null")
         private IntegerField numberField;
 
@@ -233,11 +244,14 @@ public class BinderTest {
     public static class TestPmo {
 
         public static final String PROPERTY_TEXT = "text";
+        public static final String PROPERTY_SOMEOTHERTEXT = "someothertext";
         public static final String PROPERTY_NUMBER = "number";
         public static final String METHOD_ON_CLICK = "onClick";
         public static final String TEST_TOOLTIP = "test";
 
         private String text = "";
+        private String someothertext = "";
+        private List<String> someotherValues = Arrays.asList("a", "b");
         private int number = 0;
         private int clickCount = 0;
         private String toolTip = "";
@@ -248,6 +262,18 @@ public class BinderTest {
 
         public void setText(String text) {
             this.text = text;
+        }
+
+        public String getSomeothertext() {
+            return someothertext;
+        }
+
+        public List<String> getSomeothertextAvailableValues() {
+            return someotherValues;
+        }
+
+        public void setTextValues(String... textValues) {
+            this.someotherValues = Arrays.asList(textValues);
         }
 
         public int getNumber() {

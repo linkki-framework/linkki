@@ -17,11 +17,15 @@ import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
+import org.linkki.core.ui.section.annotations.UICustomField.CustomFieldAvailableValuesAspect;
 import org.linkki.core.ui.section.annotations.adapters.CustomFieldBindingDefinition;
 
 import com.vaadin.ui.Field;
@@ -36,6 +40,7 @@ import com.vaadin.ui.Field;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CustomFieldBindingDefinition.class)
+@LinkkiAspect(CustomFieldAvailableValuesAspect.class)
 public @interface UICustomField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -81,4 +86,19 @@ public @interface UICustomField {
      */
     Class<? extends Field<?>> uiControl();
 
+    class CustomFieldAvailableValuesAspect extends AvailableValuesAspectDefinition {
+
+        @SuppressWarnings("null")
+        private UICustomField customFieldAnnotation;
+
+        @Override
+        public void initialize(Annotation annotation) {
+            this.customFieldAnnotation = (UICustomField)annotation;
+        }
+
+        @Override
+        protected AvailableValuesType getAvailableValuesType() {
+            return customFieldAnnotation.content();
+        }
+    }
 }

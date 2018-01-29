@@ -14,8 +14,6 @@
 package org.linkki.core.binding.dispatcher;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.Collections;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -70,11 +68,6 @@ public class ButtonPmoDispatcher extends AbstractPropertyDispatcherDecorator {
     @Override
     public boolean isRequired() {
         return false;
-    }
-
-    @Override
-    public Collection<?> getAvailableValues() {
-        return Collections.emptySet();
     }
 
     @Override

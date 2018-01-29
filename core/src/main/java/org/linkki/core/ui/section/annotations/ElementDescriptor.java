@@ -16,7 +16,7 @@ package org.linkki.core.ui.section.annotations;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 

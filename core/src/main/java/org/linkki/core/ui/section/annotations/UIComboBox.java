@@ -17,13 +17,17 @@ import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
+import org.linkki.core.ui.section.annotations.UIComboBox.ComboboxAvailableValuesAspect;
 import org.linkki.core.ui.section.annotations.adapters.ComboboxBindingDefinition;
 
 /**
@@ -31,6 +35,7 @@ import org.linkki.core.ui.section.annotations.adapters.ComboboxBindingDefinition
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiAspect(ComboboxAvailableValuesAspect.class)
 @LinkkiBindingDefinition(ComboboxBindingDefinition.class)
 public @interface UIComboBox {
 
@@ -86,4 +91,21 @@ public @interface UIComboBox {
      * the String representation.
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
+
+    class ComboboxAvailableValuesAspect extends AvailableValuesAspectDefinition {
+
+        @SuppressWarnings("null")
+        private UIComboBox comboBoxAnnotation;
+
+        @Override
+        public void initialize(Annotation annotation) {
+            comboBoxAnnotation = (UIComboBox)annotation;
+        }
+
+        @Override
+        protected AvailableValuesType getAvailableValuesType() {
+            return comboBoxAnnotation.content();
+        }
+
+    }
 }

@@ -83,21 +83,13 @@ public class DefaultNlsServiceTest {
 
         @Test
         public void testBundleExists() {
-
-
             assertEquals(result, service.getString(BUNDLE_NAME, key, locale));
-
         }
 
         @Test
         public void testBundleNotExists() {
-
-
             assertEquals(Optional.empty(), service.getString(BUNDLE_NAME_NOT_EXISTS, key, locale));
-
         }
-
-
     }
 
     public static class NullTests {

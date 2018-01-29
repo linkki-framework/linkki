@@ -17,6 +17,7 @@ import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,8 +25,11 @@ import java.lang.annotation.Target;
 import java.util.Collection;
 import java.util.Set;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
+import org.linkki.core.ui.section.annotations.UISubsetChooser.SubsetChooserAvailableValuesAspect;
 import org.linkki.core.ui.section.annotations.adapters.SubsetChooserBindingDefinition;
 
 /**
@@ -49,6 +53,7 @@ public Set&lt;T&gt; getFooAvailableValues() { ... }
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(SubsetChooserBindingDefinition.class)
+@LinkkiAspect(SubsetChooserAvailableValuesAspect.class)
 public @interface UISubsetChooser {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -100,4 +105,17 @@ public @interface UISubsetChooser {
     /** Caption of the right column */
     String rightColumnCaption() default "";
 
+    class SubsetChooserAvailableValuesAspect extends AvailableValuesAspectDefinition {
+
+        @Override
+        public void initialize(Annotation annotation) {
+            // does not need to do anything
+        }
+
+        @Override
+        protected AvailableValuesType getAvailableValuesType() {
+            return AvailableValuesType.DYNAMIC;
+        }
+
+    }
 }

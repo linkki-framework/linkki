@@ -13,8 +13,6 @@
  */
 package org.linkki.core.binding.dispatcher;
 
-import java.util.Collection;
-
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -31,7 +29,6 @@ import org.linkki.core.message.MessageList;
  * <li>{@linkplain #isVisible() Visibility}</li>
  * <li>{@linkplain #isRequired() Mandatory state}</li>
  * <li>{@linkplain #isReadOnly() Read-only state}</li>
- * <li>{@linkplain #getAvailableValues() List of available values}</li>
  * <li>{@linkplain #getMessages(MessageList) ErrorMessages/Warnings}</li>
  * </ul>
  * In contrast to the other aspects the value of a property can also be set.
@@ -106,14 +103,6 @@ public interface PropertyDispatcher {
      * @throws IllegalArgumentException if the property is not available.
      */
     public boolean isRequired();
-
-    /**
-     * Retrieves the list of values for the property, e.g. all options in a dropdown control
-     *
-     * @return the list of available values
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public Collection<?> getAvailableValues();
 
     /**
      * Retrieves the validation messages for the property.

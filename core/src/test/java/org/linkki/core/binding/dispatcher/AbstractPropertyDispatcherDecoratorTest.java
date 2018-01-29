@@ -86,12 +86,6 @@ public class AbstractPropertyDispatcherDecoratorTest {
     }
 
     @Test
-    public void testGetAvailableValues() {
-        decorator.getAvailableValues();
-        verify(wrappedDispatcher).getAvailableValues();
-    }
-
-    @Test
     public void testMessages() {
         MessageList messageList = new MessageList();
         decorator.getMessages(messageList);

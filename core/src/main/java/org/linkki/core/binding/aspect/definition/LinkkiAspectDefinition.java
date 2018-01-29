@@ -12,11 +12,13 @@
  * the License.
  */
 
-package org.linkki.core.binding.aspect;
+package org.linkki.core.binding.aspect.definition;
 
 import java.lang.annotation.Annotation;
 
 import org.linkki.core.binding.Binding;
+import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.util.handler.Handler;

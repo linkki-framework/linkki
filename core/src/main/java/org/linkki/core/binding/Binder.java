@@ -29,7 +29,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.AspectAnnotationReader;
-import org.linkki.core.binding.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.exception.LinkkiRuntimeException;
 import org.linkki.core.ui.section.annotations.BindAnnotationDescriptor;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;

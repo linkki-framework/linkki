@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 import org.linkki.core.exception.LinkkiRuntimeException;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.LinkkiComboBox;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -68,11 +67,6 @@ public class ComboboxBindingDefinition implements UIFieldDefinition {
     @Override
     public VisibleType visible() {
         return uiComboField.visible();
-    }
-
-    @Override
-    public AvailableValuesType availableValues() {
-        return uiComboField.content();
     }
 
     @Override

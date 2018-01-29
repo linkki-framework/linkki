@@ -13,7 +13,6 @@
  */
 package org.linkki.core.ui.section;
 
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -121,9 +120,6 @@ public class PmoBasedSectionFactoryTest {
         assertFalse(comboBinding1.isRequired());
         assertFalse(comboBinding2.isRequired());
         assertFalse(disabledInvisibleBinding.isRequired());
-
-        assertEquals(4, comboBinding1.getAvailableValues().size());
-        assertEquals(2, comboBinding2.getAvailableValues().size());
     }
 
     @Test
@@ -142,11 +138,6 @@ public class PmoBasedSectionFactoryTest {
         // annotation defines field as always visible, thus the isVisible() methods is ignored
         assertFalse(pmo.isDynamicEnumAttrVisible());
         assertTrue(comboBinding2.isVisible());
-    }
-
-    @Test
-    public void testCreateSection_NoAvailableValues() {
-        assertThat(textFieldBinding.getAvailableValues(), is(empty()));
     }
 
     @Test

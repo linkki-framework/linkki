@@ -13,11 +13,15 @@
  */
 package org.linkki.core.binding.annotations;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.annotations.Bind.BindAvailableValuesAspectDefinition;
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -29,6 +33,7 @@ import org.linkki.core.ui.section.annotations.VisibleType;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
+@LinkkiAspect(BindAvailableValuesAspectDefinition.class)
 public @interface Bind {
 
     /** The name of the PMO's property to which the UI element is bound. */
@@ -41,8 +46,8 @@ public @interface Bind {
     VisibleType visible() default VisibleType.VISIBLE;
 
     /**
-     * If and how the required state of the UI element is bound to the PMO. Ignored for UI elements
-     * that cannot be required, e.g. buttons.
+     * If and how the required state of the UI element is bound to the PMO. Ignored for UI elements that
+     * cannot be required, e.g. buttons.
      */
     RequiredType required() default RequiredType.NOT_REQUIRED;
 
@@ -51,4 +56,21 @@ public @interface Bind {
      * available values (e.g. combo boxes), ignored for all other elements.
      */
     AvailableValuesType availableValues() default AvailableValuesType.NO_VALUES;
+
+    class BindAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
+
+        @SuppressWarnings("null")
+        private Bind bindAnnotation;
+
+        @Override
+        public void initialize(Annotation annotation) {
+            bindAnnotation = (Bind)annotation;
+        }
+
+        @Override
+        protected AvailableValuesType getAvailableValuesType() {
+            return bindAnnotation.availableValues();
+        }
+
+    }
 }
