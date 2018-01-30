@@ -70,6 +70,7 @@ public class FormSection extends BaseSection {
         content.setStyleName(ValoTheme.PANEL_BORDERLESS);
         addComponent(content);
         setSpacingInContent(true);
+        contentGrid.setHideEmptyRowsAndColumns(true);
     }
 
     /**
