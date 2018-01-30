@@ -21,7 +21,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Adds {@link LinkkiAspect binding aspects} to a linkki UI annotation.
+ * This is meant as a container annotation and should not be used at all. It's only purpose is to
+ * store repeated {@link LinkkiAspect LinkkiAspect-annotations} on the same annotation.
+ * <p>
+ * To add {@link Aspect Aspects} to linkki UI annotations use {@link LinkkiAspect}. For more then
+ * one Aspect use {@link LinkkiAspect} multiple times on the same annotation.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

@@ -45,8 +45,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     /**
      * @param boundObjectSupplier a supplier to get the object accessed via reflection. Must not be
      *            {@code null}. The object is provided via a supplier because it may change.
-     * @param property the name of the property of the bound object that this
-     *            {@link PropertyDispatcher} will handle
+     * @param property the name of the property of the bound object that this {@link PropertyDispatcher}
+     *            will handle
      * @param fallbackDispatcher the dispatcher accessed in case a value cannot be read or written
      *            (because no getters/setters exist) from the accessed object property. Must not be
      *            {@code null}.
@@ -150,14 +150,14 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
                     .format("Aspect %s should not be handled by %s. It seems like the dispatcher chain is broken, check your %s",
                             aspect, getClass().getSimpleName(), BindingContext.class.getSimpleName()));
         }
-        return (T)get(p -> propertyNamingConvention.checkAndAddSuffix(aspect.getName(), property),
+        return (T)get(p -> propertyNamingConvention.getCombinedPropertyName(property, aspect.getName()),
                       () -> fallbackDispatcher.getAspectValue(aspect));
     }
 
 
     @Override
     public <T> void setAspectValue(Aspect<T> aspect) {
-        String propertyName = propertyNamingConvention.checkAndAddSuffix(aspect.getName(), property);
+        String propertyName = propertyNamingConvention.getCombinedPropertyName(aspect.getName(), property);
         Object boundObject = getBoundObject();
         if (boundObject != null && hasWriteMethod(propertyName)) {
             getAccessor(propertyName).setPropertyValue(boundObject, aspect.getStaticValue());
@@ -168,7 +168,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     public <T> boolean isWritable(Aspect<T> aspect) {
-        String propertyName = propertyNamingConvention.checkAndAddSuffix(aspect.getName(), property);
+        String propertyName = propertyNamingConvention.getCombinedPropertyName(aspect.getName(), property);
         return hasWriteMethod(propertyName) || fallbackDispatcher.isWritable(aspect);
     }
 
@@ -176,8 +176,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
      * Returns if the {@link #getBoundObject()} has a setter method for the given property.
      * 
      * @param propertyToWrite property name of the bound object
-     * @return wether the bound object has a setter method for the property. False if no bound
-     *         object exists
+     * @return wether the bound object has a setter method for the property. False if no bound object
+     *         exists
      */
     private boolean hasWriteMethod(String propertyToWrite) {
         if (getBoundObject() == null) {

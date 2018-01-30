@@ -77,6 +77,6 @@ public class LabelComponentWrapper implements ComponentWrapper {
 
     @Override
     public String toString() {
-        return "field=" + component + ", label=" + label;
+        return "component=" + component + ", label=" + label;
     }
 }

@@ -47,7 +47,7 @@ public class PropertyNamingConvention {
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getEnabledProperty(String property) {
-        return checkAndAddSuffix(ENABLED_PROPERTY_SUFFIX, property);
+        return getCombinedPropertyName(property, ENABLED_PROPERTY_SUFFIX);
     }
 
     /**
@@ -56,7 +56,7 @@ public class PropertyNamingConvention {
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getVisibleProperty(String property) {
-        return checkAndAddSuffix(VISIBLE_PROPERTY_SUFFIX, property);
+        return getCombinedPropertyName(property, VISIBLE_PROPERTY_SUFFIX);
     }
 
     /**
@@ -65,7 +65,7 @@ public class PropertyNamingConvention {
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getMessagesProperty(String property) {
-        return checkAndAddSuffix(MESSAGES_PROPERTY_SUFFIX, property);
+        return getCombinedPropertyName(property, MESSAGES_PROPERTY_SUFFIX);
     }
 
     /**
@@ -74,7 +74,7 @@ public class PropertyNamingConvention {
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getAvailableValuesProperty(String property) {
-        return checkAndAddSuffix(AVAILABLE_VALUES_PROPERTY_SUFFIX, property);
+        return getCombinedPropertyName(property, AVAILABLE_VALUES_PROPERTY_SUFFIX);
     }
 
     /**
@@ -83,7 +83,7 @@ public class PropertyNamingConvention {
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getRequiredProperty(String property) {
-        return checkAndAddSuffix(REQUIRED_PROPERTY_SUFFIX, property);
+        return getCombinedPropertyName(property, REQUIRED_PROPERTY_SUFFIX);
     }
 
     /**
@@ -92,7 +92,7 @@ public class PropertyNamingConvention {
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getCaptionProperty(String property) {
-        return checkAndAddSuffix(CAPTION_PROPERTY_SUFFIX, property);
+        return getCombinedPropertyName(property, CAPTION_PROPERTY_SUFFIX);
     }
 
     /**
@@ -101,7 +101,7 @@ public class PropertyNamingConvention {
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getToolTipProperty(String property) {
-        return checkAndAddSuffix(TOOLTIP_PROPERTY_SUFFIX, property);
+        return getCombinedPropertyName(property, TOOLTIP_PROPERTY_SUFFIX);
     }
 
     /**
@@ -110,10 +110,10 @@ public class PropertyNamingConvention {
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getComponentTypeProperty(String property) {
-        return checkAndAddSuffix(COMPONENT_PROPERTY_SUFFIX, property);
+        return getCombinedPropertyName(property, COMPONENT_PROPERTY_SUFFIX);
     }
 
-    public String checkAndAddSuffix(String suffix, String property) {
+    public String getCombinedPropertyName(String property, String suffix) {
         if (StringUtils.isEmpty(requireNonNull(property, "property must not be null"))) {
             // Empty property is used in ButtonPmo for isVisible/isEnabled properties
             return suffix;

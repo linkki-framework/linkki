@@ -14,20 +14,52 @@
 
 package org.linkki.core.ui.components;
 
+import com.vaadin.ui.Label;
+
 /**
- * This interface provides the most common API for a component in linkki. Besides the actual
- * control, additional components such as a label may be wrapped together for binding. For most
- * usage it will be necessary to cast to specific implementation.
+ * This interface provides the most common API for a component in linkki. Besides the actual UI
+ * component, additional components such as a label may be wrapped together for binding. It's
+ * encouraged to use an specific implementation rather than using the base class.
+ * 
+ * @see LabelComponentWrapper
+ * 
  */
 public interface ComponentWrapper {
 
+    /**
+     * Text which describes a component. Can be either a component itself, or be a part of another
+     * component.
+     * 
+     * @param labelText the text which is shown to the left of the component
+     */
     void setLabel(String labelText);
 
+    /**
+     * Delegates to the components method. Defines if a component can be edited.
+     * 
+     * @param enabled true if a component is editable, otherwise false
+     */
     void setEnabled(boolean enabled);
 
+    /**
+     * Delegates to the components method. It defines if a component can be seen by users or not. If
+     * a {@link Label} is present, it has to change its visibility too.
+     * 
+     * @param visible if a component is visible to the user or not
+     */
     void setVisible(boolean visible);
 
+    /**
+     * Delegates to an components method.
+     *
+     * @param text the components description
+     */
     void setTooltip(String text);
 
+    /**
+     * Gets the unwrapped UI component.
+     * 
+     * @return the unwrapped component
+     */
     Object getComponent();
 }
