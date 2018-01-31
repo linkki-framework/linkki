@@ -27,9 +27,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
@@ -101,28 +103,6 @@ public class FieldBindingTest {
     }
 
     @Test
-    public void testEnabledBinding() {
-        when(propertyDispatcherValue.isEnabled()).thenReturn(true);
-        assertTrue(binding.isEnabled());
-        assertTrue(field.isEnabled());
-
-        when(propertyDispatcherValue.isEnabled()).thenReturn(false);
-
-        binding.updateFromPmo();
-
-        assertFalse(binding.isEnabled());
-        assertFalse(field.isEnabled());
-    }
-
-    @Test
-    public void testEnabledBinding_callSetEnabledOnField() {
-        when(propertyDispatcherValue.isEnabled()).thenReturn(false);
-        binding.updateFromPmo();
-
-        verify(field).setEnabled(false);
-    }
-
-    @Test
     public void testVisibleBinding() {
         when(propertyDispatcherValue.isVisible()).thenReturn(true);
         assertTrue(binding.isVisible());
@@ -153,21 +133,15 @@ public class FieldBindingTest {
     }
 
     @Test
-    public void testRequiredBinding() {
-        when(propertyDispatcherValue.isRequired()).thenReturn(false);
-        assertFalse(binding.isRequired());
-        when(propertyDispatcherValue.isRequired()).thenReturn(true);
-        binding.updateFromPmo();
+    public void testUpdateFromPmo_updateAspect() {
+        Handler componentUpdater = mock(Handler.class);
+        LinkkiAspectDefinition aspectDefinition = mock(LinkkiAspectDefinition.class);
+        when(aspectDefinition.createUiUpdater(any(), any())).thenReturn(componentUpdater);
+        FieldBinding<String> fieldBinding = new FieldBinding<>(label, field, propertyDispatcherValue,
+                Handler.NOP_HANDLER, Arrays.asList(aspectDefinition));
+        fieldBinding.updateFromPmo();
 
-        assertTrue(binding.isRequired());
-    }
-
-    @Test
-    public void testRequiredBinding_callSetRequiredOnField() {
-        when(propertyDispatcherValue.isRequired()).thenReturn(true);
-        binding.updateFromPmo();
-
-        verify(field).setRequired(true);
+        verify(componentUpdater).apply();
     }
 
     @Test
@@ -214,7 +188,6 @@ public class FieldBindingTest {
         textField.setValue(null);
         assertThat(textField.getValue(), is(nullValue()));
         assertThat(testModelObject.getText(), is(nullValue()));
-
     }
 
     protected static class TestModelObject {

@@ -25,8 +25,9 @@ import java.lang.annotation.Target;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
-import org.linkki.core.ui.section.annotations.UICustomField.CustomFieldAvailableValuesAspect;
+import org.linkki.core.ui.section.annotations.UICustomField.CustomFieldAvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.CustomFieldBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.UIFieldAspectDefinition;
 
 import com.vaadin.ui.Field;
 
@@ -40,7 +41,8 @@ import com.vaadin.ui.Field;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CustomFieldBindingDefinition.class)
-@LinkkiAspect(CustomFieldAvailableValuesAspect.class)
+@LinkkiAspect(CustomFieldAvailableValuesAspectDefinition.class)
+@LinkkiAspect(UIFieldAspectDefinition.class)
 public @interface UICustomField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -86,7 +88,7 @@ public @interface UICustomField {
      */
     Class<? extends Field<?>> uiControl();
 
-    class CustomFieldAvailableValuesAspect extends AvailableValuesAspectDefinition {
+    class CustomFieldAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
 
         @SuppressWarnings("null")
         private UICustomField customFieldAnnotation;

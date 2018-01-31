@@ -65,10 +65,10 @@ public class FieldBinding<T> implements ElementBinding {
      * 
      * @param label the button's label (optional)
      * @param field the {@link Field} to be bound
-     * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the model
-     *            object
-     * @param modelChanged a {@link Handler} that is called when this {@link Binding} desires an update
-     *            of the UI because the model has changed. Usually declared in
+     * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the
+     *            model object
+     * @param modelChanged a {@link Handler} that is called when this {@link Binding} desires an
+     *            update of the UI because the model has changed. Usually declared in
      *            {@link BindingContext#updateUI()}.
      */
     public FieldBinding(@Nullable Label label, AbstractField<T> field, PropertyDispatcher propertyDispatcher,
@@ -91,11 +91,11 @@ public class FieldBinding<T> implements ElementBinding {
         /*
          * Property data source must be set:
          * 
-         * - after container data source, as setContainerDataSource() throws an exception, if field is
-         * readonly
+         * - after container data source, as setContainerDataSource() throws an exception, if field
+         * is readonly
          * 
-         * - after dispatcher is available, as value and readOnly-state are requested from the data source
-         * during 'set', and we need the dispatcher in these methods.
+         * - after dispatcher is available, as value and readOnly-state are requested from the data
+         * source during 'set', and we need the dispatcher in these methods.
          */
         this.propertyDataSource = new FieldBindingDataSource<T>(this);
         this.field.setPropertyDataSource(propertyDataSource);
@@ -106,19 +106,20 @@ public class FieldBinding<T> implements ElementBinding {
     }
 
     /**
-     * LIN-90, LIN-95: if a field is required and the user enters blank into the field, Vaadin does not
-     * transfer {@code null} into the data source. This leads to the effect that if the user enters a
-     * value, the value is transfered to the model, if the user then enters blank, he sees an empty
-     * field but the value in the model is still set to the old value.
+     * LIN-90, LIN-95: if a field is required and the user enters blank into the field, Vaadin does
+     * not transfer {@code null} into the data source. This leads to the effect that if the user
+     * enters a value, the value is transfered to the model, if the user then enters blank, he sees
+     * an empty field but the value in the model is still set to the old value.
      * <p>
      * How do we avoid this? If the field has no converter, we set invalidCommitted to {@code true}.
      * {@code null} is regarded as invalid value, but it is transferable to the model. This does not
-     * work for fields with a converter. {@code null} handling is OK for those fields, but if the user
-     * enters a value that cannot be converted, Vaadin tries to commit the value to the data source
-     * doing so tries to convert it. This leads to an exception (as the value cannot be converted).
+     * work for fields with a converter. {@code null} handling is OK for those fields, but if the
+     * user enters a value that cannot be converted, Vaadin tries to commit the value to the data
+     * source doing so tries to convert it. This leads to an exception (as the value cannot be
+     * converted).
      * <p>
-     * Example: Enter an invalid number like '123a' into a number field. We can't commit the value as it
-     * is invalid and cannot be converted. To get this to work, those fields have to override
+     * Example: Enter an invalid number like '123a' into a number field. We can't commit the value
+     * as it is invalid and cannot be converted. To get this to work, those fields have to override
      * {@link AbstractField#validate()} to get rid of the unwanted check that leads to a validation
      * exception for {@code null} values in required fields.
      * 
@@ -179,9 +180,6 @@ public class FieldBinding<T> implements ElementBinding {
             // propertyDataSource. The update is triggered by firing change events.
             propertyDataSource.fireValueChange();
             propertyDataSource.fireReadOnlyStatusChange();
-
-            field.setRequired(isRequired());
-            field.setEnabled(isEnabled());
             boolean visible = isVisible();
             field.setVisible(visible);
             label.ifPresent(l -> l.setVisible(visible));
@@ -205,14 +203,6 @@ public class FieldBinding<T> implements ElementBinding {
             @Nullable T newValue) {
         getPropertyDispatcher().setValue(newValue);
         updateUi.apply();
-    }
-
-    public boolean isEnabled() {
-        return propertyDispatcher.isEnabled();
-    }
-
-    public boolean isRequired() {
-        return propertyDispatcher.isRequired();
     }
 
     public boolean isVisible() {

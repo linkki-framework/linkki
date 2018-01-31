@@ -67,7 +67,6 @@ public class ButtonBinding implements ElementBinding, Serializable {
 
     @Override
     public void updateFromPmo() {
-        button.setEnabled(isEnabled());
         boolean visible = isVisible();
         button.setVisible(visible);
         label.ifPresent(l -> l.setVisible(visible));
@@ -78,10 +77,6 @@ public class ButtonBinding implements ElementBinding, Serializable {
     @Override
     public PropertyDispatcher getPropertyDispatcher() {
         return propertyDispatcher;
-    }
-
-    public boolean isEnabled() {
-        return propertyDispatcher.isEnabled();
     }
 
     public boolean isVisible() {

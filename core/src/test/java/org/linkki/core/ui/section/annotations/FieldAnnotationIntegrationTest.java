@@ -33,13 +33,9 @@ public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?>,
     }
 
     @Test
-    public void testDynamicEnabledType() {
-        testDynamicBinding(F::isEnabled, AnnotationTestPmo::setEnabled, true);
-    }
-
-    @Test
-    public void testDynamicRequiredType() {
-        testDynamicBinding(F::isRequired, AnnotationTestPmo::setRequired, false);
+    public void testRequired() {
+        assertThat(getStaticComponent().isRequired(), is(true));
+        testBinding(F::isRequired, AnnotationTestPmo::setRequired, false);
     }
 
     @Test
@@ -50,8 +46,7 @@ public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?>,
 
     @Test
     public void testDynamicToolTip() {
-        testDynamicBinding(F::getDescription, AnnotationTestPmo::setToolTip, AnnotationTestPmo.DEFAULT_TOOLTIP,
-                           AnnotationTestPmo.TEST_TOOLTIP);
+        testBinding(F::getDescription, AnnotationTestPmo::setToolTip, AnnotationTestPmo.DEFAULT_TOOLTIP,
+                    AnnotationTestPmo.TEST_TOOLTIP);
     }
-
 }

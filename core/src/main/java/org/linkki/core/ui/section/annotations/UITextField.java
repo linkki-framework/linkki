@@ -22,7 +22,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.UIFieldAspectDefinition;
 
 /**
  * A field for textual input. In accordance with {@link com.vaadin.ui.TextField}. For multiple
@@ -31,6 +33,7 @@ import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinitio
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(TextFieldBindingDefinition.class)
+@LinkkiAspect(UIFieldAspectDefinition.class)
 public @interface UITextField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */

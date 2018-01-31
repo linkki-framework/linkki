@@ -58,18 +58,8 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
-    public boolean isEnabled() {
-        return getWrappedDispatcher().isEnabled();
-    }
-
-    @Override
     public boolean isVisible() {
         return getWrappedDispatcher().isVisible();
-    }
-
-    @Override
-    public boolean isRequired() {
-        return getWrappedDispatcher().isRequired();
     }
 
     @Override

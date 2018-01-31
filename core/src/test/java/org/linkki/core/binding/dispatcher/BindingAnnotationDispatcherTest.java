@@ -17,7 +17,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -88,33 +87,6 @@ public class BindingAnnotationDispatcherTest {
     }
 
     @Test
-    public void testIsEnabled_Dynamic() {
-        uiAnnotationDispatchers.get(XYZ).isEnabled();
-        verify(uiAnnotationFallbackDispatcher).isEnabled();
-    }
-
-    @Test
-    public void testIsEnabled_Disabled() {
-        assertFalse(uiAnnotationDispatchers.get(DISABLED_INVISIBLE).isEnabled());
-        verify(uiAnnotationFallbackDispatcher, never()).isEnabled();
-
-        assertFalse(bindAnnotationDispatcher.isEnabled());
-        verify(bindAnnotationFallbackDispatcher, never()).isEnabled();
-    }
-
-    @Test
-    public void testIsEnabled_Enabled() {
-        assertTrue(uiAnnotationDispatchers.get(STATIC_ENUM_ATTR).isEnabled());
-        verify(uiAnnotationFallbackDispatcher, never()).isEnabled();
-    }
-
-    @Test
-    public void testIsEnabled_MissingFieldAnnotation() {
-        uiAnnotationDispatchers.get(XYZ).isEnabled();
-        verify(uiAnnotationFallbackDispatcher).isEnabled();
-    }
-
-    @Test
     public void testIsVisible_Dynamic() {
         uiAnnotationDispatchers.get(XYZ).isVisible();
         verify(uiAnnotationFallbackDispatcher).isVisible();
@@ -139,43 +111,6 @@ public class BindingAnnotationDispatcherTest {
     public void testIsVisible_MissingFieldAnnotation() {
         uiAnnotationDispatchers.get(XYZ).isVisible();
         verify(uiAnnotationFallbackDispatcher).isVisible();
-    }
-
-    @Test
-    public void testIsRequired_Dynamic() {
-        uiAnnotationDispatchers.get(STATIC_ENUM_ATTR).isRequired();
-        verify(uiAnnotationFallbackDispatcher).isRequired();
-    }
-
-    @Test
-    public void testIsRequired_NotRequired() {
-        assertFalse(uiAnnotationDispatchers.get(DYNAMIC_ENUM_ATTR).isRequired());
-        verify(uiAnnotationFallbackDispatcher, never()).isRequired();
-    }
-
-    @Test
-    public void testIsRequired_Required() {
-        assertTrue(uiAnnotationDispatchers.get(XYZ).isRequired());
-        verify(uiAnnotationFallbackDispatcher, never()).isRequired();
-
-        assertTrue(bindAnnotationDispatcher.isRequired());
-        verify(bindAnnotationFallbackDispatcher, never()).isRequired();
-    }
-
-    @Test
-    public void testIsRequired_RequiredIfEnabled() {
-        when(uiAnnotationFallbackDispatcher.isEnabled()).thenReturn(false);
-
-        assertFalse(uiAnnotationDispatchers.get(REQUIRED_IF_ENABLED).isRequired());
-        verify(uiAnnotationFallbackDispatcher, never()).isRequired();
-    }
-
-    @Test
-    public void testIsRequired_RequiredIfEnabled2() {
-        when(uiAnnotationFallbackDispatcher.isEnabled()).thenReturn(true);
-
-        assertTrue(uiAnnotationDispatchers.get(REQUIRED_IF_ENABLED).isRequired());
-        verify(uiAnnotationFallbackDispatcher, never()).isRequired();
     }
 
     @Test

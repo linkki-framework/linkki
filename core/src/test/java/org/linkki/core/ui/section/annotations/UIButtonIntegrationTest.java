@@ -69,11 +69,6 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
         assertTrue(getDefaultPmo().clicked);
     }
 
-    @Test
-    public void testDynamicEnabledType() {
-        testDynamicBinding(Button::isEnabled, AnnotationTestPmo::setEnabled, true);
-    }
-
     @UISection
     protected static class ButtonTestPmo extends AnnotationTestPmo {
 

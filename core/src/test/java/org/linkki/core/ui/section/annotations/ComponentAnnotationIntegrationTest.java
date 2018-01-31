@@ -69,8 +69,13 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     }
 
     @Test
-    public void testDynamicVisibleType() {
-        testDynamicBinding(C::isVisible, AnnotationTestPmo::setVisible, true);
+    public void testVisible() {
+        testBinding(C::isVisible, AnnotationTestPmo::setVisible, true);
+    }
+
+    @Test
+    public void testEnabled() {
+        testBinding(C::isEnabled, AnnotationTestPmo::setEnabled, true);
     }
 
     @Test
@@ -87,10 +92,10 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
      * @param setter setter for the property in pmo
      * @param defaultValue default value of the property
      */
-    protected void testDynamicBinding(Predicate<C> predicate,
+    protected void testBinding(Predicate<C> predicate,
             BiConsumer<AnnotationTestPmo, Boolean> setter,
             boolean defaultValue) {
-        testDynamicBinding(v -> predicate.test(v), setter, defaultValue, !defaultValue);
+        testBinding(v -> predicate.test(v), setter, defaultValue, !defaultValue);
     }
 
     /**
@@ -106,7 +111,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
      * @param defaultValue default value of the aspect
      * @param testValue test value of the apsect, should be the initial value of both components
      */
-    protected <V> void testDynamicBinding(Function<C, V> componentValueGetter,
+    protected <V> void testBinding(Function<C, V> componentValueGetter,
             BiConsumer<AnnotationTestPmo, V> setter,
             V defaultValue,
             V testValue) {

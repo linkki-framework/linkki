@@ -20,7 +20,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.UILabelAspectDefinition;
 
 /**
  * Provides a single UI-element to display text content. It is equal to {@link com.vaadin.ui.Label}.
@@ -28,6 +30,7 @@ import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(LabelBindingDefinition.class)
+@LinkkiAspect(UILabelAspectDefinition.class)
 public @interface UILabel {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */

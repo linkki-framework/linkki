@@ -72,18 +72,6 @@ public class ButtonBindingTest {
     }
 
     @Test
-    public void testUpdateFromPmo_EnablesButton() {
-        setUpDefaultBinding();
-        when(propertyDispatcher.isEnabled()).thenReturn(false);
-        binding.updateFromPmo();
-        assertThat(button.isEnabled(), is(false));
-
-        when(propertyDispatcher.isEnabled()).thenReturn(true);
-        binding.updateFromPmo();
-        assertThat(button.isEnabled(), is(true));
-    }
-
-    @Test
     public void testUpdateFromPmo_updateAspect() {
         setUpDefaultBinding();
         binding.updateFromPmo();

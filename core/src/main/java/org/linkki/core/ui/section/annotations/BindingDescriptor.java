@@ -56,20 +56,8 @@ public abstract class BindingDescriptor {
         aspectDefinitions = aspectDefinitions.with(additionalAspectDefinition);
     }
 
-    public EnabledType enabled() {
-        return bindingDefinition.enabled();
-    }
-
     public VisibleType visible() {
         return bindingDefinition.visible();
-    }
-
-    public RequiredType required() {
-        return bindingDefinition.required();
-    }
-
-    public AvailableValuesType availableValues() {
-        return bindingDefinition.availableValues();
     }
 
     /**

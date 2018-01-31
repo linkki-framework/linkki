@@ -243,23 +243,6 @@ public class ReflectionPropertyDispatcherTest {
         assertThat(setupPmoDispatcher("invalidProperty").getMessages(messageList), emptyMessageList());
     }
 
-    @Test
-    public void testIsEnabled() {
-        assertFalse(setupPmoDispatcher(XYZ).isEnabled());
-        testModelObject.setAbc("123");
-        assertTrue(setupPmoDispatcher(XYZ).isEnabled());
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testIsEnabled_nullProperty() {
-        setupPmoDispatcher(null).isEnabled();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testIsEnabled_illegalProperty() {
-        setupPmoDispatcher("doesNotExist").isEnabled();
-    }
-
     @Test(expected = NullPointerException.class)
     public void testIsReadOnly_nullProperty() {
         setupPmoDispatcher(null).isReadOnly();
@@ -289,33 +272,6 @@ public class ReflectionPropertyDispatcherTest {
     @Test(expected = IllegalArgumentException.class)
     public void testIsVisible_illegalProperty() {
         setupPmoDispatcher("doesNotExist").isVisible();
-    }
-
-    @Test
-    public void testIsRequired() {
-        assertFalse(setupPmoDispatcher(XYZ).isRequired());
-        testModelObject.setAbc("zzz");
-        assertTrue(setupPmoDispatcher(XYZ).isRequired());
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testIsRequired_nullProperty() {
-        setupPmoDispatcher(null).isRequired();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testIsRequired_illegalProperty() {
-        setupPmoDispatcher("doesNotExist").isRequired();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testGetAvailableValues_nullProperty() {
-        setupPmoDispatcher(null).isEnabled();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetAvailableValues_illegalProperty() {
-        setupPmoDispatcher("doesNotExist").isEnabled();
     }
 
     @Test

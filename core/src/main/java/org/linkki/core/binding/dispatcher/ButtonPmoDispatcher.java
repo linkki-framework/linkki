@@ -66,11 +66,6 @@ public class ButtonPmoDispatcher extends AbstractPropertyDispatcherDecorator {
     }
 
     @Override
-    public boolean isRequired() {
-        return false;
-    }
-
-    @Override
     public MessageList getMessages(MessageList messageList) {
         return new MessageList();
     }

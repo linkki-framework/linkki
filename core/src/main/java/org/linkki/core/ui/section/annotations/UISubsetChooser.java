@@ -29,8 +29,9 @@ import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
-import org.linkki.core.ui.section.annotations.UISubsetChooser.SubsetChooserAvailableValuesAspect;
+import org.linkki.core.ui.section.annotations.UISubsetChooser.SubsetChooserAvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.SubsetChooserBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.UIFieldAspectDefinition;
 
 /**
  * Creates a subset chooser, i.e. a multi-select component with a left and a right list.
@@ -53,7 +54,8 @@ public Set&lt;T&gt; getFooAvailableValues() { ... }
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(SubsetChooserBindingDefinition.class)
-@LinkkiAspect(SubsetChooserAvailableValuesAspect.class)
+@LinkkiAspect(SubsetChooserAvailableValuesAspectDefinition.class)
+@LinkkiAspect(UIFieldAspectDefinition.class)
 public @interface UISubsetChooser {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -105,7 +107,7 @@ public @interface UISubsetChooser {
     /** Caption of the right column */
     String rightColumnCaption() default "";
 
-    class SubsetChooserAvailableValuesAspect extends AvailableValuesAspectDefinition {
+    class SubsetChooserAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
 
         @Override
         public void initialize(Annotation annotation) {

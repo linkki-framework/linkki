@@ -21,7 +21,6 @@ import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
-import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
@@ -53,36 +52,12 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     @Override
-    public boolean isEnabled() {
-        switch (bindingDescriptor.enabled()) {
-            case DYNAMIC:
-                return super.isEnabled();
-            default:
-                return bindingDescriptor.enabled() != EnabledType.DISABLED;
-        }
-    }
-
-    @Override
     public boolean isVisible() {
         switch (bindingDescriptor.visible()) {
             case DYNAMIC:
                 return super.isVisible();
             default:
                 return bindingDescriptor.visible() != VisibleType.INVISIBLE;
-        }
-    }
-
-    @Override
-    public boolean isRequired() {
-        switch (bindingDescriptor.required()) {
-            case DYNAMIC:
-                return super.isRequired();
-            case NOT_REQUIRED:
-                return false;
-            case REQUIRED_IF_ENABLED:
-                return isEnabled();
-            default:
-                return true;
         }
     }
 

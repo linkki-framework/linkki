@@ -25,9 +25,7 @@ import org.linkki.core.message.MessageList;
  * For each aspect that can be bound to a field, a getter method exists. The aspects are:
  * <ul>
  * <li>{@linkplain #getValue() Value}</li>
- * <li>{@linkplain #isEnabled() Enabled state}</li>
  * <li>{@linkplain #isVisible() Visibility}</li>
- * <li>{@linkplain #isRequired() Mandatory state}</li>
  * <li>{@linkplain #isReadOnly() Read-only state}</li>
  * <li>{@linkplain #getMessages(MessageList) ErrorMessages/Warnings}</li>
  * </ul>
@@ -81,28 +79,12 @@ public interface PropertyDispatcher {
     public boolean isReadOnly();
 
     /**
-     * Retrieves the enabled state for the property.
-     *
-     * @return whether the property is enabled
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public boolean isEnabled();
-
-    /**
      * Retrieves the visibility for the property.
      *
      * @return whether the property is visible
      * @throws IllegalArgumentException if the property is not available.
      */
     public boolean isVisible();
-
-    /**
-     * Retrieves the mandatory state for the property.
-     *
-     * @return whether the property is mandatory
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public boolean isRequired();
 
     /**
      * Retrieves the validation messages for the property.
@@ -120,8 +102,8 @@ public interface PropertyDispatcher {
     /**
      * Returns the value for the given {@link Aspect} according to this dispatcher.
      * <p>
-     * The given {@link Aspect} may have a {@link Aspect#getStaticValue() static value}. It is up to the
-     * decision of this dispatcher to use this value or to provide another value instead.
+     * The given {@link Aspect} may have a {@link Aspect#getStaticValue() static value}. It is up to
+     * the decision of this dispatcher to use this value or to provide another value instead.
      * <p>
      * Note: This method may return <code>null</code> if the aspect is designed to accept
      * <code>null</code> value.

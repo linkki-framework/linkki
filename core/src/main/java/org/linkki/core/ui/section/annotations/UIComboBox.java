@@ -27,15 +27,17 @@ import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
-import org.linkki.core.ui.section.annotations.UIComboBox.ComboboxAvailableValuesAspect;
+import org.linkki.core.ui.section.annotations.UIComboBox.ComboBoxAvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.ComboboxBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.UIFieldAspectDefinition;
 
 /**
  * Creates a ComboBox with the specified parameters.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiAspect(ComboboxAvailableValuesAspect.class)
+@LinkkiAspect(ComboBoxAvailableValuesAspectDefinition.class)
+@LinkkiAspect(UIFieldAspectDefinition.class)
 @LinkkiBindingDefinition(ComboboxBindingDefinition.class)
 public @interface UIComboBox {
 
@@ -92,7 +94,7 @@ public @interface UIComboBox {
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 
-    class ComboboxAvailableValuesAspect extends AvailableValuesAspectDefinition {
+    class ComboBoxAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
 
         @SuppressWarnings("null")
         private UIComboBox comboBoxAnnotation;

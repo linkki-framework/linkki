@@ -62,12 +62,6 @@ public class AbstractPropertyDispatcherDecoratorTest {
     }
 
     @Test
-    public void testIsEnabled() {
-        decorator.isEnabled();
-        verify(wrappedDispatcher).isEnabled();
-    }
-
-    @Test
     public void testIsReadOnly() {
         decorator.isReadOnly();
         verify(wrappedDispatcher).isReadOnly();
@@ -77,12 +71,6 @@ public class AbstractPropertyDispatcherDecoratorTest {
     public void testIsVisible() {
         decorator.isVisible();
         verify(wrappedDispatcher).isVisible();
-    }
-
-    @Test
-    public void testIsRequired() {
-        decorator.isRequired();
-        verify(wrappedDispatcher).isRequired();
     }
 
     @Test

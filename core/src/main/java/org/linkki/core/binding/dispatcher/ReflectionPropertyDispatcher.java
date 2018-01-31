@@ -46,8 +46,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     /**
      * @param boundObjectSupplier a supplier to get the object accessed via reflection. Must not be
      *            {@code null}. The object is provided via a supplier because it may change.
-     * @param property the name of the property of the bound object that this {@link PropertyDispatcher}
-     *            will handle
+     * @param property the name of the property of the bound object that this
+     *            {@link PropertyDispatcher} will handle
      * @param fallbackDispatcher the dispatcher accessed in case a value cannot be read or written
      *            (because no getters/setters exist) from the accessed object property. Must not be
      *            {@code null}.
@@ -114,18 +114,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public boolean isEnabled() {
-        return (boolean)get(propertyNamingConvention::getEnabledProperty, fallbackDispatcher::isEnabled);
-    }
-
-    @Override
     public boolean isVisible() {
         return (boolean)get(propertyNamingConvention::getVisibleProperty, fallbackDispatcher::isVisible);
-    }
-
-    @Override
-    public boolean isRequired() {
-        return (boolean)get(propertyNamingConvention::getRequiredProperty, fallbackDispatcher::isRequired);
     }
 
     @Override

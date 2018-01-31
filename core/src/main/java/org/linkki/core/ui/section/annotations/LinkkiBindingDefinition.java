@@ -35,5 +35,4 @@ public @interface LinkkiBindingDefinition {
      * @see UIElementDefinition
      */
     Class<? extends UIElementDefinition> value();
-
 }

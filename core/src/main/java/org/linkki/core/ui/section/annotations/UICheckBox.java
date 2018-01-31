@@ -27,6 +27,7 @@ import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.CaptionAspectDefinition;
 import org.linkki.core.ui.section.annotations.UICheckBox.CheckBoxCaptionAspect;
 import org.linkki.core.ui.section.annotations.adapters.CheckboxBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.UIFieldAspectDefinition;
 
 /**
  * In accordance to {@link com.vaadin.ui.CheckBox}, bound to a boolean property.
@@ -35,6 +36,7 @@ import org.linkki.core.ui.section.annotations.adapters.CheckboxBindingDefinition
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CheckboxBindingDefinition.class)
 @LinkkiAspect(CheckBoxCaptionAspect.class)
+@LinkkiAspect(UIFieldAspectDefinition.class)
 public @interface UICheckBox {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed. */

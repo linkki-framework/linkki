@@ -79,18 +79,8 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public boolean isEnabled() {
-        throw new IllegalArgumentException(getExceptionText("get enabled state for"));
-    }
-
-    @Override
     public boolean isVisible() {
         throw new IllegalArgumentException(getExceptionText("get visibility for"));
-    }
-
-    @Override
-    public boolean isRequired() {
-        throw new IllegalArgumentException(getExceptionText("get required state for"));
     }
 
     /**

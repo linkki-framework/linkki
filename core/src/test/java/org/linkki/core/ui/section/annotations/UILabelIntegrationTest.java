@@ -47,6 +47,12 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
         assertThat(label.getValue(), is("fdsa"));
     }
 
+    @Override
+    public void testEnabled() {
+        assertThat(getStaticComponent().isEnabled(), is(true));
+        assertThat(getDynamicComponent().isEnabled(), is(true));
+    }
+
     @UISection
     protected static class LabelTestPmo extends AnnotationTestPmo {
 
