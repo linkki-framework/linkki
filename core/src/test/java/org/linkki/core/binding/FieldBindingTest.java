@@ -16,9 +16,7 @@ package org.linkki.core.binding;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -100,36 +98,6 @@ public class FieldBindingTest {
         binding.updateFromPmo();
 
         assertEquals("test", field.getValue());
-    }
-
-    @Test
-    public void testVisibleBinding() {
-        when(propertyDispatcherValue.isVisible()).thenReturn(true);
-        assertTrue(binding.isVisible());
-        assertTrue(field.isVisible());
-        when(propertyDispatcherValue.isVisible()).thenReturn(false);
-        binding.updateFromPmo();
-
-        assertFalse(binding.isVisible());
-        assertFalse(field.isVisible());
-    }
-
-    @Test
-    public void testVisibleBinding_callSetVisibleOnLabelAndField() {
-        when(propertyDispatcherValue.isVisible()).thenReturn(false);
-        binding.updateFromPmo();
-
-        verify(field).setVisible(false);
-        verify(label).setVisible(false);
-    }
-
-    @Test
-    public void testVisibleBinding_ifLabelNull() {
-        binding = new FieldBinding<>(null, field, propertyDispatcherValue, Handler.NOP_HANDLER, new ArrayList<>());
-        when(propertyDispatcherValue.isVisible()).thenReturn(false);
-        binding.updateFromPmo();
-
-        verify(field).setVisible(false);
     }
 
     @Test

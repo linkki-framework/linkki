@@ -258,23 +258,6 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
-    public void testIsVisible() {
-        assertFalse(setupPmoDispatcher(XYZ).isVisible());
-        testModelObject.setAbc("bla");
-        assertTrue(setupPmoDispatcher(XYZ).isVisible());
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testIsVisible_nullProperty() {
-        setupPmoDispatcher(null).isVisible();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testIsVisible_illegalProperty() {
-        setupPmoDispatcher("doesNotExist").isVisible();
-    }
-
-    @Test
     public void testInvoke() {
         testPmo = spy(new TestPMO(testModelObject));
         setupPmoDispatcher("buttonClick").invoke();

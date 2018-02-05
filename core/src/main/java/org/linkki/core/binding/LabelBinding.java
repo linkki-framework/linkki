@@ -17,7 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.annotation.Nullable;
 
@@ -34,7 +33,6 @@ import com.vaadin.ui.Label;
 public class LabelBinding implements ElementBinding {
 
     private final Label label;
-    private final Optional<Label> labelsLabel;
     private final PropertyDispatcher propertyDispatcher;
     private AspectUpdaters aspects;
 
@@ -51,7 +49,6 @@ public class LabelBinding implements ElementBinding {
      */
     public LabelBinding(@Nullable Label labelTextForLabel, Label label, PropertyDispatcher propertyDispatcher,
             List<LinkkiAspectDefinition> aspectDefinitions) {
-        this.labelsLabel = Optional.ofNullable(labelTextForLabel);
         this.label = requireNonNull(label, "label must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
 
@@ -67,11 +64,7 @@ public class LabelBinding implements ElementBinding {
 
     @Override
     public void updateFromPmo() {
-        boolean visible = propertyDispatcher.isVisible();
-        labelsLabel.ifPresent(l -> l.setVisible(visible));
         label.setValue(Objects.toString(propertyDispatcher.getValue(), ""));
-        label.setVisible(visible);
-
         aspects.updateUI();
     }
 

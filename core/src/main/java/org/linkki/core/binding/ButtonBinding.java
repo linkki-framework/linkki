@@ -67,20 +67,12 @@ public class ButtonBinding implements ElementBinding, Serializable {
 
     @Override
     public void updateFromPmo() {
-        boolean visible = isVisible();
-        button.setVisible(visible);
-        label.ifPresent(l -> l.setVisible(visible));
-
         aspects.updateUI();
     }
 
     @Override
     public PropertyDispatcher getPropertyDispatcher() {
         return propertyDispatcher;
-    }
-
-    public boolean isVisible() {
-        return propertyDispatcher.isVisible();
     }
 
     private void buttonClickCallback(@SuppressWarnings("unused") ClickEvent event) {

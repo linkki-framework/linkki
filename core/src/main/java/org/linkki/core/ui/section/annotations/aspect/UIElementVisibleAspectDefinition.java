@@ -14,16 +14,24 @@
 
 package org.linkki.core.ui.section.annotations.aspect;
 
-import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.ui.section.annotations.UILabel;
+import java.lang.annotation.Annotation;
 
-/**
- * Aspect definition for {@link UILabel} annotation.
- */
-public class UILabelAspectDefinition extends CompositeAspectDefinition {
+import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
+import org.linkki.core.ui.section.annotations.UIElementDefinition;
+import org.linkki.core.ui.section.annotations.VisibleType;
 
-    public UILabelAspectDefinition() {
-        super(new UIElementEnabledAspectDefinition(),
-                new UIElementVisibleAspectDefinition());
+public class UIElementVisibleAspectDefinition extends VisibleAspectDefinition {
+
+    private UIElementDefinition uiElementDefinition;
+
+    @Override
+    public void initialize(Annotation annotation) {
+        uiElementDefinition = UIElementDefinition.from(annotation);
     }
+
+    @Override
+    public VisibleType getVisibleType() {
+        return uiElementDefinition.visible();
+    }
+
 }

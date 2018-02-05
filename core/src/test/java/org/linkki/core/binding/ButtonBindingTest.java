@@ -18,7 +18,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -55,20 +54,6 @@ public class ButtonBindingTest {
         setUpDefaultBinding();
         button.click();
         verify(propertyDispatcher).invoke();
-    }
-
-    @Test
-    public void testUpdateFromPmo_SetsButtonAndFieldVisible() {
-        setUpDefaultBinding();
-        when(propertyDispatcher.isVisible()).thenReturn(false);
-        binding.updateFromPmo();
-        assertThat(button.isVisible(), is(false));
-        assertThat(label.isVisible(), is(false));
-
-        when(propertyDispatcher.isVisible()).thenReturn(true);
-        binding.updateFromPmo();
-        assertThat(button.isVisible(), is(true));
-        assertThat(label.isVisible(), is(true));
     }
 
     @Test

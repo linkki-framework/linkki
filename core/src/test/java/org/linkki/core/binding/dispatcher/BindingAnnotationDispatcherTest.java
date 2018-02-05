@@ -13,8 +13,6 @@
  */
 package org.linkki.core.binding.dispatcher;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -84,33 +82,6 @@ public class BindingAnnotationDispatcherTest {
     public void testSetValue() {
         uiAnnotationDispatchers.get(XYZ).setValue("value");
         verify(uiAnnotationFallbackDispatcher).setValue("value");
-    }
-
-    @Test
-    public void testIsVisible_Dynamic() {
-        uiAnnotationDispatchers.get(XYZ).isVisible();
-        verify(uiAnnotationFallbackDispatcher).isVisible();
-    }
-
-    @Test
-    public void testIsVisible_Invisible() {
-        assertFalse(uiAnnotationDispatchers.get(DISABLED_INVISIBLE).isVisible());
-        verify(uiAnnotationFallbackDispatcher, never()).isVisible();
-
-        assertFalse(bindAnnotationDispatcher.isVisible());
-        verify(bindAnnotationFallbackDispatcher, never()).isVisible();
-    }
-
-    @Test
-    public void testIsVisible_Visible() {
-        assertTrue(uiAnnotationDispatchers.get(DYNAMIC_ENUM_ATTR).isVisible());
-        verify(uiAnnotationFallbackDispatcher, never()).isVisible();
-    }
-
-    @Test
-    public void testIsVisible_MissingFieldAnnotation() {
-        uiAnnotationDispatchers.get(XYZ).isVisible();
-        verify(uiAnnotationFallbackDispatcher).isVisible();
     }
 
     @Test

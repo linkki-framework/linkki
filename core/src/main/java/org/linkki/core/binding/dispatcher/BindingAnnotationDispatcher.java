@@ -23,7 +23,6 @@ import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.section.annotations.BindingDescriptor;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.core.ui.section.annotations.VisibleType;
 
 /**
  * Provides static values for aspects such as enabled state, required state, visibility and
@@ -49,16 +48,6 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
             BindingDescriptor bindingDescriptor) {
         super(wrappedDispatcher);
         this.bindingDescriptor = requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
-    }
-
-    @Override
-    public boolean isVisible() {
-        switch (bindingDescriptor.visible()) {
-            case DYNAMIC:
-                return super.isVisible();
-            default:
-                return bindingDescriptor.visible() != VisibleType.INVISIBLE;
-        }
     }
 
     @Override

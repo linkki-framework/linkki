@@ -25,7 +25,6 @@ import org.linkki.core.message.MessageList;
  * For each aspect that can be bound to a field, a getter method exists. The aspects are:
  * <ul>
  * <li>{@linkplain #getValue() Value}</li>
- * <li>{@linkplain #isVisible() Visibility}</li>
  * <li>{@linkplain #isReadOnly() Read-only state}</li>
  * <li>{@linkplain #getMessages(MessageList) ErrorMessages/Warnings}</li>
  * </ul>
@@ -77,14 +76,6 @@ public interface PropertyDispatcher {
      * @throws IllegalArgumentException if the property is not available.
      */
     public boolean isReadOnly();
-
-    /**
-     * Retrieves the visibility for the property.
-     *
-     * @return whether the property is visible
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public boolean isVisible();
 
     /**
      * Retrieves the validation messages for the property.

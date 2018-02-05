@@ -28,7 +28,8 @@ public class UIButtonAspectDefinition extends CompositeAspectDefinition {
 
     public UIButtonAspectDefinition() {
         super(new UIElementEnabledAspectDefinition(),
-                new ButtonCaptionAspectDefinition());
+                new ButtonCaptionAspectDefinition(),
+                new UIElementVisibleAspectDefinition());
     }
 
     public static class ButtonCaptionAspectDefinition extends CaptionAspectDefinition {

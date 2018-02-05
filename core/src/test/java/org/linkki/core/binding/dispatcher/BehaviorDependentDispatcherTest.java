@@ -13,15 +13,22 @@
  */
 package org.linkki.core.binding.dispatcher;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
+import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @SuppressWarnings("null")
@@ -32,34 +39,42 @@ public class BehaviorDependentDispatcherTest {
     private PropertyBehaviorProvider behaviourProvider;
     @Mock
     private PropertyDispatcher wrappedDispatcher;
-    private BehaviorDependentDispatcher decorator;
+    private BehaviorDependentDispatcher behaviorDispatcher;
 
     @Before
     public void setUp() {
         when(behaviourProvider.getBehaviors()).thenReturn(Collections.emptyList());
-        when(wrappedDispatcher.isVisible()).thenReturn(true);
-        decorator = new BehaviorDependentDispatcher(wrappedDispatcher, behaviourProvider);
+        when(wrappedDispatcher.getAspectValue(Mockito.any())).thenReturn(true);
+        behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, behaviourProvider);
     }
 
     @Test
-    public void returnTrueWithNoBehaviors() {
-        assertTrue(decorator.isVisible());
+    public void testReturnTrueWithNoBehaviors() {
+        assertThat(behaviorDispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME)), is(true));
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullProvider() {
-        decorator = new BehaviorDependentDispatcher(wrappedDispatcher, null);
+        behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, null);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullList() {
         when(behaviourProvider.getBehaviors()).thenReturn(null);
-        decorator.isVisible();
+        behaviorDispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME));
     }
 
     @Test
-    public void testEmptyList() {
-        when(behaviourProvider.getBehaviors()).thenReturn(Collections.emptyList());
-        assertTrue(decorator.isVisible());
+    public void testNonConsensus() {
+        PropertyBehavior nonVisibleBehavior = new PropertyBehavior() {
+            @Override
+            public boolean isVisible(Object boundObject, String property) {
+                return false;
+            }
+        };
+
+        when(behaviourProvider.getBehaviors()).thenReturn(Arrays.asList(nonVisibleBehavior));
+        when(behaviorDispatcher.getBoundObject()).thenReturn(mock(Object.class));
+        assertThat(behaviorDispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME)), is(false));
     }
 }

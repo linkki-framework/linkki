@@ -19,6 +19,8 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.message.MessageList;
 
@@ -75,20 +77,6 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     /**
-     * Checks whether the given property is visible (as defined by the {@link PropertyBehavior
-     * behaviors}). If it is visible, returns the visible value returned by the wrapped dispatcher.
-     * If it is hidden, returns <code>false</code>.
-     */
-    @Override
-    public boolean isVisible() {
-        if (isConsensus(b -> b.isVisible(getBoundObject(), getProperty()))) {
-            return super.isVisible();
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Checks whether the given property shows validation messages (as defined by the
      * {@link PropertyBehavior behaviors}). If it shows messages, returns the messages returned by
      * the wrapped dispatcher. If it hides messages, returns an empty message list.
@@ -108,7 +96,6 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      * AND).
      * <p>
      * Returns <code>true</code> if there are no registered behaviors.
-     *
      */
     protected boolean isConsensus(Predicate<PropertyBehavior> aspectIsTrue) {
         if (provider.getBehaviors().isEmpty()) {
@@ -117,10 +104,27 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
         return provider.getBehaviors().stream().allMatch(aspectIsTrue);
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Delegates to the wrapped dispatcher except for boolean valued aspect. In case of boolean
+     * valued aspects, this dispatcher delegates to the wrapped dispatcher if all
+     * {@link PropertyBehavior}s returns true for the aspect. Otherwise this method returns
+     * <code>false</code>.
+     */
+    @Override
+    public <T> T getAspectValue(Aspect<T> aspect) {
+        if (aspect.getName().equals(VisibleAspectDefinition.NAME) &&
+                !isConsensus(b -> b.isVisible(requireNonNull(getBoundObject()), getProperty()))) {
+            return (T)Boolean.FALSE;
+        } else {
+            return super.getAspectValue(aspect);
+        }
+    }
+
     @Override
     public String toString() {
         return "BehaviourDependentDispatcher[wrappedDispatcher=" + getWrappedDispatcher() + ", providedBehaviours="
                 + provider.getBehaviors() + "]";
     }
-
 }

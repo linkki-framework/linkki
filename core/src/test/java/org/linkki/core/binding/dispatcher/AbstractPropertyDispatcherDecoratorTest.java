@@ -68,12 +68,6 @@ public class AbstractPropertyDispatcherDecoratorTest {
     }
 
     @Test
-    public void testIsVisible() {
-        decorator.isVisible();
-        verify(wrappedDispatcher).isVisible();
-    }
-
-    @Test
     public void testMessages() {
         MessageList messageList = new MessageList();
         decorator.getMessages(messageList);

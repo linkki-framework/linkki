@@ -36,6 +36,9 @@ public class UIFieldAspectDefinition extends CompositeAspectDefinition {
         UIElementEnabledAspectDefinition enabledAspectDefinition = new UIElementEnabledAspectDefinition();
         UIElementRequiredAspectDefinition requiredAspectDefinition = new UIElementRequiredAspectDefinition(
                 enabledAspectDefinition);
-        return Arrays.asList(enabledAspectDefinition, requiredAspectDefinition);
+
+        return Arrays.asList(enabledAspectDefinition,
+                             requiredAspectDefinition,
+                             new UIElementVisibleAspectDefinition());
     }
 }

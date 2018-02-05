@@ -180,9 +180,6 @@ public class FieldBinding<T> implements ElementBinding {
             // propertyDataSource. The update is triggered by firing change events.
             propertyDataSource.fireValueChange();
             propertyDataSource.fireReadOnlyStatusChange();
-            boolean visible = isVisible();
-            field.setVisible(visible);
-            label.ifPresent(l -> l.setVisible(visible));
 
             aspectUpdaters.updateUI();
             // CSOFF: IllegalCatch
@@ -203,10 +200,6 @@ public class FieldBinding<T> implements ElementBinding {
             @Nullable T newValue) {
         getPropertyDispatcher().setValue(newValue);
         updateUi.apply();
-    }
-
-    public boolean isVisible() {
-        return propertyDispatcher.isVisible();
     }
 
     public boolean isReadOnly() {

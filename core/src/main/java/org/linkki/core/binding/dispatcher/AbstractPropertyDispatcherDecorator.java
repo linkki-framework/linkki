@@ -58,11 +58,6 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
-    public boolean isVisible() {
-        return getWrappedDispatcher().isVisible();
-    }
-
-    @Override
     public MessageList getMessages(MessageList messageList) {
         return getWrappedDispatcher().getMessages(messageList);
     }

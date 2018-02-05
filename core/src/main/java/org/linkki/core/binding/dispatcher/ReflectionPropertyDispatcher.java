@@ -114,11 +114,6 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public boolean isVisible() {
-        return (boolean)get(propertyNamingConvention::getVisibleProperty, fallbackDispatcher::isVisible);
-    }
-
-    @Override
     public void invoke() {
         Object boundObject = getBoundObject();
         try {

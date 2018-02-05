@@ -78,11 +78,6 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
         return true;
     }
 
-    @Override
-    public boolean isVisible() {
-        throw new IllegalArgumentException(getExceptionText("get visibility for"));
-    }
-
     /**
      * Returns an empty {@link MessageList} for all properties.
      */

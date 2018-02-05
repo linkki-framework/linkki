@@ -23,10 +23,12 @@ import javax.annotation.Nullable;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.EnabledAspectDefinition;
+import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
 
@@ -73,17 +75,12 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
 
     @Override
     public void updateFromPmo() {
-        button.setVisible(isVisible());
         uiUpdater.apply();
     }
 
     @Override
     public PropertyDispatcher getPropertyDispatcher() {
         return propertyDispatcher;
-    }
-
-    public boolean isVisible() {
-        return propertyDispatcher.isVisible();
     }
 
     private void buttonClickCallback(@SuppressWarnings("unused") ClickEvent event) {
@@ -106,7 +103,8 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
 
     private static class ButtonPmoAspectDefinition extends CompositeAspectDefinition {
         public ButtonPmoAspectDefinition() {
-            super(new ButtonPmoEnabledAspectDefinition());
+            super(new ButtonPmoEnabledAspectDefinition(),
+                    new ButtonPmoVisibleAspectDefinition());
         }
     }
 
@@ -120,6 +118,19 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
         @Override
         public EnabledType getEnabledType() {
             return EnabledType.DYNAMIC;
+        }
+    }
+
+    private static class ButtonPmoVisibleAspectDefinition extends VisibleAspectDefinition {
+
+        @Override
+        public void initialize(Annotation annotation) {
+            // does nothing
+        }
+
+        @Override
+        public VisibleType getVisibleType() {
+            return VisibleType.DYNAMIC;
         }
     }
 
