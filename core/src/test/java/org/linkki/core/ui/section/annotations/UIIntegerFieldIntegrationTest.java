@@ -107,6 +107,26 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
+    @Test
+    @Override
+    public void testNullInputIfRequired() {
+        TextField textField = getDynamicComponent();
+        getDefaultPmo().setRequired(true);
+        updateUi();
+        assertThat(textField.isRequired(), is(true));
+
+        textField.setValue(formatter.format(1));
+        assertThat(getDefaultModelObject().getValue(), is(1));
+
+        textField.setValue(null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+    }
+
+    @Override
+    protected TestModelObjectWithObjectInteger getDefaultModelObject() {
+        return (TestModelObjectWithObjectInteger)super.getDefaultModelObject();
+    }
+
     @UISection
     protected static class IntegerFieldTestPmo extends AnnotationTestPmo {
 

@@ -104,6 +104,26 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
         assertThat(checkBox.getCaption(), is(AnnotationTestPmo.TEST_CAPTION));
     }
 
+    @Test
+    @Override
+    public void testNullInputIfRequired() {
+        CheckBox checkBox = getDynamicComponent();
+        getDefaultPmo().setRequired(true);
+        updateUi();
+        assertThat(checkBox.isRequired(), is(true));
+
+        checkBox.setValue(false);
+        assertThat(getDefaultModelObject().getValue(), is(false));
+
+        checkBox.setValue(null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+    }
+
+    @Override
+    protected TestModelObjectWithObjectBoolean getDefaultModelObject() {
+        return (TestModelObjectWithObjectBoolean)super.getDefaultModelObject();
+    }
+
     @UISection
     protected static class TestCheckboxPmo extends AnnotationTestPmo {
 

@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.definition.FieldValueAspectDefinition;
 import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.mockito.Mock;
@@ -45,6 +46,7 @@ public class BehaviorDependentDispatcherTest {
     public void setUp() {
         when(behaviourProvider.getBehaviors()).thenReturn(Collections.emptyList());
         when(wrappedDispatcher.getAspectValue(Mockito.any())).thenReturn(true);
+        when(wrappedDispatcher.isWritable(Mockito.any())).thenReturn(true);
         behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, behaviourProvider);
     }
 
@@ -65,7 +67,7 @@ public class BehaviorDependentDispatcherTest {
     }
 
     @Test
-    public void testNonConsensus() {
+    public void testNonConsensus_visible() {
         PropertyBehavior nonVisibleBehavior = new PropertyBehavior() {
             @Override
             public boolean isVisible(Object boundObject, String property) {
@@ -76,5 +78,19 @@ public class BehaviorDependentDispatcherTest {
         when(behaviourProvider.getBehaviors()).thenReturn(Arrays.asList(nonVisibleBehavior));
         when(behaviorDispatcher.getBoundObject()).thenReturn(mock(Object.class));
         assertThat(behaviorDispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME)), is(false));
+    }
+
+    @Test
+    public void testNonConsensus_writable() {
+        PropertyBehavior nonWritableBehavior = new PropertyBehavior() {
+            @Override
+            public boolean isWritable(Object boundObject, String property) {
+                return false;
+            }
+        };
+
+        when(behaviourProvider.getBehaviors()).thenReturn(Arrays.asList(nonWritableBehavior));
+        when(behaviorDispatcher.getBoundObject()).thenReturn(mock(Object.class));
+        assertThat(behaviorDispatcher.isWritable(Aspect.newDynamic(FieldValueAspectDefinition.NAME)), is(false));
     }
 }

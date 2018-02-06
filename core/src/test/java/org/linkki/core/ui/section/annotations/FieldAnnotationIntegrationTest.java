@@ -21,6 +21,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.junit.Test;
+import org.linkki.core.binding.aspect.definition.FieldValueAspectDefinition;
 
 import com.vaadin.ui.AbstractField;
 
@@ -37,6 +38,13 @@ public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?>,
         assertThat(getStaticComponent().isRequired(), is(true));
         testBinding(F::isRequired, AnnotationTestPmo::setRequired, false);
     }
+
+    /**
+     * Tests if null value is correctly transfered to the model if the field is required.
+     * 
+     * @see FieldValueAspectDefinition#prepareFieldToHandleNullForRequiredFields(AbstractField)
+     */
+    public abstract void testNullInputIfRequired();
 
     @Test
     public void testReadonlyWithoutSetter() {

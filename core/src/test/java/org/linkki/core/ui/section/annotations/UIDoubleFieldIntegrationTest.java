@@ -106,6 +106,26 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
+    @Test
+    @Override
+    public void testNullInputIfRequired() {
+        DoubleField doubleField = getDynamicComponent();
+        getDefaultPmo().setRequired(true);
+        updateUi();
+        assertThat(doubleField.isRequired(), is(true));
+
+        doubleField.setValue(formatter.format(1.0));
+        assertThat(getDefaultModelObject().getValue(), is(1.0));
+
+        doubleField.setValue(null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+    }
+
+    @Override
+    protected TestModelObjectWithObjectDouble getDefaultModelObject() {
+        return (TestModelObjectWithObjectDouble)super.getDefaultModelObject();
+    }
+
     @UISection
     protected static class DoubleFieldTestPmo extends AnnotationTestPmo {
 

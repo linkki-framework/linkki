@@ -16,7 +16,6 @@ package org.linkki.core.binding;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.Nullable;
 
@@ -64,7 +63,6 @@ public class LabelBinding implements ElementBinding {
 
     @Override
     public void updateFromPmo() {
-        label.setValue(Objects.toString(propertyDispatcher.getValue(), ""));
         aspects.updateUI();
     }
 

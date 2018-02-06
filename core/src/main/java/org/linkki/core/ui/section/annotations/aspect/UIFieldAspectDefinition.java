@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
+import org.linkki.core.binding.aspect.definition.FieldValueAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.LinkkiBindingDefinition;
 import org.linkki.core.ui.section.annotations.UIFieldDefinition;
@@ -39,6 +40,7 @@ public class UIFieldAspectDefinition extends CompositeAspectDefinition {
 
         return Arrays.asList(enabledAspectDefinition,
                              requiredAspectDefinition,
-                             new UIElementVisibleAspectDefinition());
+                             new UIElementVisibleAspectDefinition(),
+                             new FieldValueAspectDefinition());
     }
 }

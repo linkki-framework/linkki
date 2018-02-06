@@ -20,16 +20,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 
 /**
- * {@link PropertyDispatcher} that throws exception on every method call except
- * {@link #isReadOnly()} which returns <code>true</code> and {@link #getMessages(MessageList)},
- * which returns an empty {@link MessageList}.
+ * {@link PropertyDispatcher} that throws exception for aspect except for
+ * {@link #getMessages(MessageList)}, which returns an empty {@link MessageList}. In case of
+ * {@link #isWritable(Aspect)}, <code>false</code> is returned.
  *
  * Serves as a last resort fall-back to simplify exception creation in other dispatchers.
  */
@@ -60,22 +57,6 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
 
     private String getExceptionText(String action) {
         return MessageFormat.format("Cannot {0} property \"{1}\" in any of {2}", action, property, objects);
-    }
-
-    @Override
-    @CheckForNull
-    public Object getValue() {
-        throw new IllegalArgumentException(getExceptionText("read"));
-    }
-
-    @Override
-    public void setValue(@Nullable Object value) {
-        throw new IllegalArgumentException(getExceptionText("write"));
-    }
-
-    @Override
-    public boolean isReadOnly() {
-        return true;
     }
 
     /**
@@ -114,5 +95,15 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     @Override
     public <T> T getAspectValue(Aspect<T> aspect) {
         throw new IllegalStateException(getExceptionText("find aspect \"" + aspect.getName() + "\" method for"));
+    }
+
+    @Override
+    public <T> void setAspectValue(Aspect<T> aspectInfo) {
+        throw new IllegalArgumentException(getExceptionText("write"));
+    }
+
+    @Override
+    public <T> boolean isWritable(Aspect<T> aspect) {
+        return false;
     }
 }

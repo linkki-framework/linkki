@@ -14,12 +14,17 @@
 package org.linkki.core.ui.section.annotations;
 
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
@@ -50,6 +55,38 @@ public class UISubsetChooserIntegrationTest
         getDefaultPmo().setValueAvailableValues(availableValues);
         updateUi();
         assertThat(getDynamicComponent().getItemIds(), contains(TestEnum.TWO, TestEnum.THREE));
+    }
+
+    @Test
+    public void testValue() {
+        SubsetChooser subsetChooser = getDynamicComponent();
+
+        getDefaultModelObject().setValue(new LinkedHashSet<>(Arrays.asList(TestEnum.ONE, TestEnum.THREE)));
+        updateUi();
+        assertThat((Collection<?>)subsetChooser.getValue(), contains(TestEnum.ONE, TestEnum.THREE));
+
+        subsetChooser.setValue(new LinkedHashSet<>(Arrays.asList(TestEnum.TWO)));
+        assertThat(getDefaultModelObject().getValue(), contains(TestEnum.TWO));
+    }
+
+    @Test
+    @Override
+    public void testNullInputIfRequired() {
+        SubsetChooser subsetChooser = getDynamicComponent();
+        getDefaultPmo().setRequired(true);
+        updateUi();
+        assertThat(subsetChooser.isRequired(), is(true));
+
+        subsetChooser.setValue(new LinkedHashSet<>(Arrays.asList(TestEnum.ONE)));
+        assertThat(getDefaultModelObject().getValue(), contains(TestEnum.ONE));
+
+        subsetChooser.setValue(null);
+        assertThat(getDefaultModelObject().getValue(), is(empty()));
+    }
+
+    @Override
+    protected SubsetChooserModelObject getDefaultModelObject() {
+        return (SubsetChooserModelObject)super.getDefaultModelObject();
     }
 
     @UISection
@@ -96,18 +133,18 @@ public class UISubsetChooserIntegrationTest
     @SuppressWarnings("null")
     protected static class SubsetChooserModelObject {
 
-        private List<TestEnum> value;
+        private Set<TestEnum> value;
 
-        public List<TestEnum> getValue() {
+        public Set<TestEnum> getValue() {
             return value;
         }
 
-        public void setValue(List<TestEnum> value) {
+        public void setValue(Set<TestEnum> value) {
             this.value = value;
 
         }
 
-        public List<TestEnum> getStaticValue() {
+        public Set<TestEnum> getStaticValue() {
             return getValue();
         }
 

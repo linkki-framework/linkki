@@ -14,6 +14,8 @@
 package org.linkki.core.ui.section.annotations;
 
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
@@ -40,6 +42,26 @@ public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest
         getDefaultPmo().setValueAvailableValues(availableValues);
         updateUi();
         assertThat(getDynamicComponent().getItemIds(), contains(TestEnum.TWO, TestEnum.THREE));
+    }
+
+    @Test
+    @Override
+    public void testNullInputIfRequired() {
+        LinkkiComboBox component = getDynamicComponent();
+        getDefaultPmo().setRequired(true);
+        updateUi();
+        assertThat(component.isRequired(), is(true));
+
+        component.setValue(TestEnum.ONE);
+        assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
+
+        component.setValue(null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+    }
+
+    @Override
+    protected ComboBoxTestModelObject getDefaultModelObject() {
+        return (ComboBoxTestModelObject)super.getDefaultModelObject();
     }
 
     @UISection

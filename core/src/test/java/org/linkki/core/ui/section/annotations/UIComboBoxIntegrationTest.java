@@ -16,9 +16,11 @@ package org.linkki.core.ui.section.annotations;
 import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -75,6 +77,48 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     public void testCaptionProvider() {
         LinkkiComboBox comboBox = getDynamicComponent();
         assertThat((ToStringCaptionProvider)comboBox.getItemCaptionProvider(), isA(ToStringCaptionProvider.class));
+    }
+
+    @Test
+    public void testValue() {
+        LinkkiComboBox comboBox = getDynamicComponent();
+
+        getDefaultModelObject().setValue(TestEnum.TWO);
+        updateUi();
+        assertThat(comboBox.getValue(), is(TestEnum.TWO));
+
+        comboBox.setValue(TestEnum.ONE);
+        assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
+    }
+
+    @Test
+    public void testValueRemainsWhenChangingAvailableValues() {
+        getDefaultModelObject().setValue(TestEnum.THREE);
+        assertThat(getDynamicComponent().getValue(), is(TestEnum.THREE));
+
+        getDefaultPmo().setValueAvailableValues(Arrays.asList(TestEnum.THREE));
+        updateUi();
+        assertThat(getDynamicComponent().getValue(), is(TestEnum.THREE));
+    }
+
+    @Test
+    @Override
+    public void testNullInputIfRequired() {
+        LinkkiComboBox comboBox = getDynamicComponent();
+        getDefaultPmo().setRequired(true);
+        updateUi();
+        assertThat(comboBox.isRequired(), is(true));
+
+        comboBox.setValue(TestEnum.ONE);
+        assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
+
+        comboBox.setValue(null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+    }
+
+    @Override
+    protected ComboBoxTestModelObject getDefaultModelObject() {
+        return (ComboBoxTestModelObject)super.getDefaultModelObject();
     }
 
     @UISection

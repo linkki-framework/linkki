@@ -15,7 +15,6 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,23 +23,18 @@ import java.util.stream.StreamSupport;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.ClassUtils;
 import org.linkki.core.binding.aspect.AspectUpdaters;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.data.util.AbstractProperty;
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.AbstractSelect;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 
@@ -54,10 +48,6 @@ public class FieldBinding<T> implements ElementBinding {
     private final AbstractField<T> field;
     private final Optional<Label> label;
     private final PropertyDispatcher propertyDispatcher;
-    private final Handler updateUi;
-    private final FieldBindingDataSource<T> propertyDataSource;
-    @Nullable
-    private final LinkkiInMemoryContainer<T> containerDataSource;
     private AspectUpdaters aspectUpdaters;
 
     /**
@@ -76,96 +66,10 @@ public class FieldBinding<T> implements ElementBinding {
         this.label = Optional.ofNullable(label);
         this.field = requireNonNull(field, "field must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
-        this.updateUi = requireNonNull(modelChanged, "updateUi must not be null");
-
-        if (field instanceof AbstractSelect) {
-            containerDataSource = new LinkkiInMemoryContainer<T>();
-            AbstractSelect abstractSelect = (AbstractSelect)field;
-            abstractSelect.setContainerDataSource(containerDataSource);
-        } else {
-            containerDataSource = null;
-        }
-
-        prepareFieldToHandleNullForRequiredFields();
-
-        /*
-         * Property data source must be set:
-         * 
-         * - after container data source, as setContainerDataSource() throws an exception, if field
-         * is readonly
-         * 
-         * - after dispatcher is available, as value and readOnly-state are requested from the data
-         * source during 'set', and we need the dispatcher in these methods.
-         */
-        this.propertyDataSource = new FieldBindingDataSource<T>(this);
-        this.field.setPropertyDataSource(propertyDataSource);
 
         aspectUpdaters = new AspectUpdaters(aspectDefinitions, propertyDispatcher,
                 new LabelComponentWrapper(label, field),
                 modelChanged);
-    }
-
-    /**
-     * LIN-90, LIN-95: if a field is required and the user enters blank into the field, Vaadin does
-     * not transfer {@code null} into the data source. This leads to the effect that if the user
-     * enters a value, the value is transfered to the model, if the user then enters blank, he sees
-     * an empty field but the value in the model is still set to the old value.
-     * <p>
-     * How do we avoid this? If the field has no converter, we set invalidCommitted to {@code true}.
-     * {@code null} is regarded as invalid value, but it is transferable to the model. This does not
-     * work for fields with a converter. {@code null} handling is OK for those fields, but if the
-     * user enters a value that cannot be converted, Vaadin tries to commit the value to the data
-     * source doing so tries to convert it. This leads to an exception (as the value cannot be
-     * converted).
-     * <p>
-     * Example: Enter an invalid number like '123a' into a number field. We can't commit the value
-     * as it is invalid and cannot be converted. To get this to work, those fields have to override
-     * {@link AbstractField#validate()} to get rid of the unwanted check that leads to a validation
-     * exception for {@code null} values in required fields.
-     * 
-     * @see AbstractField#validate()
-     */
-    @SuppressWarnings("rawtypes")
-    private void prepareFieldToHandleNullForRequiredFields() {
-        // note: we prepare the field if it is required or not, as the required state
-        // can be changed dynamically.
-        boolean commitInvalid = true;
-        if (((AbstractField)field).getConverter() != null && !compatibleTypeConverter()) {
-            ensureThatFieldsWithAConverterOverrideValidate();
-            commitInvalid = false;
-        }
-        field.setInvalidCommitted(commitInvalid);
-    }
-
-    private void ensureThatFieldsWithAConverterOverrideValidate() {
-        Method validateMethod;
-        try {
-            validateMethod = field.getClass().getMethod("validate");
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
-        }
-        if (validateMethod.getDeclaringClass().getName().startsWith("com.vaadin")) {
-            throw new IllegalStateException(
-                    "A field that has a converter must override validate() to disable Vaadin's required field handling! "
-                            + " See FieldBinding.prepareFieldToHandleNullForRequiredFields for the explanation");
-        }
-    }
-
-    /**
-     * Some fields could have converters because they will never throw a conversion exception.
-     * <ul>
-     * <li>DateField only converts from Date to LocalDate (compatible data type)</li>
-     * </ul>
-     * 
-     * @return
-     */
-    private boolean compatibleTypeConverter() {
-        return field instanceof DateField;
-    }
-
-    @SuppressWarnings("unchecked")
-    private Class<T> getValueClass() {
-        return (Class<T>)propertyDispatcher.getValueClass();
     }
 
     @Override
@@ -176,11 +80,6 @@ public class FieldBinding<T> implements ElementBinding {
     @Override
     public void updateFromPmo() {
         try {
-            // Value and ReadOnly-state are provided by the field binding using the
-            // propertyDataSource. The update is triggered by firing change events.
-            propertyDataSource.fireValueChange();
-            propertyDataSource.fireReadOnlyStatusChange();
-
             aspectUpdaters.updateUI();
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
@@ -188,22 +87,6 @@ public class FieldBinding<T> implements ElementBinding {
                     + propertyDispatcher.getProperty(), e);
         }
         // CSON: IllegalCatch
-    }
-
-    @SuppressWarnings("unchecked")
-    @CheckForNull
-    public T getValue() {
-        return (T)getPropertyDispatcher().getValue();
-    }
-
-    public void setValue(
-            @Nullable T newValue) {
-        getPropertyDispatcher().setValue(newValue);
-        updateUi.apply();
-    }
-
-    public boolean isReadOnly() {
-        return propertyDispatcher.isReadOnly();
     }
 
     private String formatMessages(MessageList messages) {
@@ -257,59 +140,4 @@ public class FieldBinding<T> implements ElementBinding {
                 .map(e -> new UserError(formatMessages(messages), ContentMode.PREFORMATTED, e))
                 .orElse(null);
     }
-
-    private static final class FieldBindingDataSource<T> extends AbstractProperty<T> {
-
-        private static final long serialVersionUID = 1L;
-        private FieldBinding<T> fieldBinding;
-
-        public FieldBindingDataSource(FieldBinding<T> fieldBinding) {
-            this.fieldBinding = requireNonNull(fieldBinding, "fieldBinding must not be null");
-        }
-
-        @Override
-        @CheckForNull
-        public T getValue() {
-            return fieldBinding.getValue();
-        }
-
-        @Override
-        public void setValue(@Nullable T newValue) throws com.vaadin.data.Property.ReadOnlyException {
-            fieldBinding.setValue(newValue);
-        }
-
-        @SuppressWarnings({ "unchecked", "null" })
-        @Override
-        public Class<? extends T> getType() {
-            return (Class<? extends T>)ClassUtils.primitiveToWrapper(fieldBinding.getValueClass());
-        }
-
-        /*
-         * Override for visibility in FieldBinding
-         */
-        @Override
-        protected void fireValueChange() {
-            super.fireValueChange();
-        }
-
-        /*
-         * Override for visibility in FieldBinding
-         */
-        @Override
-        protected void fireReadOnlyStatusChange() {
-            super.fireReadOnlyStatusChange();
-        }
-
-        @Override
-        public boolean isReadOnly() {
-            return fieldBinding.isReadOnly();
-        }
-
-        @Override
-        public void setReadOnly(boolean newStatus) {
-            throw new UnsupportedOperationException();
-        }
-
-    }
-
 }

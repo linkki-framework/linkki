@@ -74,14 +74,9 @@ public class BindingAnnotationDispatcherTest {
 
     @Test
     public void testGetValue() {
-        uiAnnotationDispatchers.get(XYZ).getValue();
-        verify(uiAnnotationFallbackDispatcher).getValue();
-    }
-
-    @Test
-    public void testSetValue() {
-        uiAnnotationDispatchers.get(XYZ).setValue("value");
-        verify(uiAnnotationFallbackDispatcher).setValue("value");
+        Aspect<Object> newDynamic = Aspect.newDynamic("");
+        uiAnnotationDispatchers.get(XYZ).getAspectValue(newDynamic);
+        verify(uiAnnotationFallbackDispatcher).getAspectValue(newDynamic);
     }
 
     @Test

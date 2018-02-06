@@ -17,9 +17,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
-import javax.annotation.Nullable;
-
 import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.definition.FieldValueAspectDefinition;
 import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.message.MessageList;
@@ -49,31 +48,6 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
             PropertyBehaviorProvider provider) {
         super(wrappedDispatcher);
         this.provider = requireNonNull(provider, "provider must not be null");
-    }
-
-    /**
-     * Checks whether the given property is writable (as defined by the {@link PropertyBehavior
-     * behaviors}). Calls setValue() on the wrapped dispatcher only if the property is writable.
-     */
-    @Override
-    public void setValue(@Nullable Object value) {
-        if (isConsensus(b -> b.isWritable(getBoundObject(), getProperty()))) {
-            super.setValue(value);
-        }
-    }
-
-    /**
-     * Checks whether the given property is writable (as defined by the {@link PropertyBehavior
-     * behaviors}). If it is writable, returns the read-only value returned by the wrapped
-     * dispatcher. If it is write protected, returns <code>true</code> .
-     */
-    @Override
-    public boolean isReadOnly() {
-        if (isConsensus(b -> b.isWritable(getBoundObject(), getProperty()))) {
-            return super.isReadOnly();
-        } else {
-            return true;
-        }
     }
 
     /**
@@ -119,6 +93,16 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
             return (T)Boolean.FALSE;
         } else {
             return super.getAspectValue(aspect);
+        }
+    }
+
+    @Override
+    public <T> boolean isWritable(Aspect<T> aspect) {
+        if (aspect.getName().equals(FieldValueAspectDefinition.NAME)
+                && !isConsensus(b -> b.isWritable(requireNonNull(getBoundObject()), getProperty()))) {
+            return false;
+        } else {
+            return super.isWritable(aspect);
         }
     }
 

@@ -151,6 +151,47 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
+    @Test
+    @Override
+    public void testNullInputIfRequired() {
+        DateField dateField = getDynamicComponent();
+        getDefaultPmo().setRequired(true);
+        updateUi();
+        assertThat(dateField.isRequired(), is(true));
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(2009, 4, 1);
+        Date date = cal.getTime();
+
+        dateField.setValue(date);
+        assertThat(getDefaultModelObject().getValue(), is(date));
+
+        dateField.setValue(null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+    }
+
+    @Test
+    public void testNullInputIfRequired_withConverter() {
+        TestModelObjectWithLocalDate modelObject = new TestModelObjectWithLocalDate();
+        DateFieldTestPmo pmo = new DateFieldTestPmo(modelObject);
+        DateField dynamicField = TestUiUtil.getComponentById(createSection(pmo),
+                                                             ComponentAnnotationIntegrationTest.PROPERTY_VALUE);
+        pmo.setRequired(true);
+        updateUi();
+        assertThat(dynamicField.isRequired(), is(true));
+
+        dynamicField.setConvertedValue(LocalDate.of(2018, 1, 1));
+        assertThat(modelObject.getValue(), is(LocalDate.of(2018, 1, 1)));
+
+        dynamicField.setConvertedValue(null);
+        assertThat(modelObject.getValue(), is(nullValue()));
+    }
+
+    @Override
+    protected TestModelObjectWithDate getDefaultModelObject() {
+        return (TestModelObjectWithDate)super.getDefaultModelObject();
+    }
+
     @UISection
     protected static class DateFieldTestPmo extends AnnotationTestPmo {
 

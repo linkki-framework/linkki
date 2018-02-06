@@ -35,7 +35,7 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
     }
 
     @Test
-    public void testTextVieldValue() {
+    public void testLabelFieldValue() {
         Label label = getDynamicComponent();
 
         assertThat(label.getContentMode(), is(ContentMode.HTML));

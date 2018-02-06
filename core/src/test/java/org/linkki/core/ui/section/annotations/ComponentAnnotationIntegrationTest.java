@@ -32,8 +32,8 @@ import com.vaadin.ui.GridLayout;
 
 public abstract class ComponentAnnotationIntegrationTest<C extends AbstractComponent, P extends AnnotationTestPmo> {
 
-    private static final String PROPERTY_VALUE = "value";
-    private static final String PROPERTY_STATIC_VALUE = "staticValue";
+    protected static final String PROPERTY_VALUE = "value";
+    protected static final String PROPERTY_STATIC_VALUE = "staticValue";
 
     private Object defaultModelObject;
     private P defaultPmo;
@@ -141,7 +141,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     }
 
     protected GridLayout createSection(AnnotationTestPmo pmo) {
-        return TestUiUtil.createSectionWith(pmo);
+        return TestUiUtil.createSectionWith(pmo, bindingContext);
     }
 
     protected GridLayout createSection() {

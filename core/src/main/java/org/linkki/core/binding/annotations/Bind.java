@@ -23,14 +23,14 @@ import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.VisibleType;
-import org.linkki.core.ui.section.annotations.aspect.BindAnnotationAspecDefinition;
+import org.linkki.core.ui.section.annotations.aspect.BindAnnotationAspectDefinition;
 
 /**
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
-@LinkkiAspect(BindAnnotationAspecDefinition.class)
+@LinkkiAspect(BindAnnotationAspectDefinition.class)
 public @interface Bind {
 
     /** The name of the PMO's property to which the UI element is bound. */

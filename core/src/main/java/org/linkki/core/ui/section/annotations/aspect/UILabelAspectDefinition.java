@@ -20,10 +20,11 @@ import org.linkki.core.ui.section.annotations.UILabel;
 /**
  * Aspect definition for {@link UILabel} annotation.
  */
-public class UILabelAspectDefinition extends CompositeAspectDefinition {
 
+public class UILabelAspectDefinition extends CompositeAspectDefinition {
     public UILabelAspectDefinition() {
         super(new UIElementEnabledAspectDefinition(),
-                new UIElementVisibleAspectDefinition());
+                new UIElementVisibleAspectDefinition(),
+                new LabelValueAspectDefinition());
     }
 }

@@ -20,7 +20,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.linkki.core.binding.BindingContext;
@@ -90,30 +89,6 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    @CheckForNull
-    public Object getValue() {
-        return get(propertyNamingConvention::getValueProperty, fallbackDispatcher::getValue);
-    }
-
-    @Override
-    public void setValue(@Nullable Object value) {
-        if (!isReadOnly()) {
-            Object boundObject = getBoundObject();
-            // double check to avoid null check warning
-            if (canWrite(getProperty()) && boundObject != null) {
-                getAccessor(getProperty()).setPropertyValue(boundObject, value);
-            } else {
-                fallbackDispatcher.setValue(value);
-            }
-        }
-    }
-
-    @Override
-    public boolean isReadOnly() {
-        return !canWrite(getProperty()) && fallbackDispatcher.isReadOnly();
-    }
-
-    @Override
     public void invoke() {
         Object boundObject = getBoundObject();
         try {
@@ -128,14 +103,6 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
             return false;
         } else {
             return getAccessor(propertyToRead).canRead();
-        }
-    }
-
-    private boolean canWrite(String propertyToWrite) {
-        if (getBoundObject() == null) {
-            return false;
-        } else {
-            return getAccessor(propertyToWrite).canWrite();
         }
     }
 
@@ -185,5 +152,38 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
         return (T)get(p -> propertyNamingConvention.checkAndAddSuffix(aspect.getName(), property),
                       () -> fallbackDispatcher.getAspectValue(aspect));
+    }
+
+
+    @Override
+    public <T> void setAspectValue(Aspect<T> aspect) {
+        String propertyName = propertyNamingConvention.checkAndAddSuffix(aspect.getName(), property);
+        Object boundObject = getBoundObject();
+        if (boundObject != null && hasWriteMethod(propertyName)) {
+            getAccessor(propertyName).setPropertyValue(boundObject, aspect.getStaticValue());
+        } else {
+            fallbackDispatcher.setAspectValue(aspect);
+        }
+    }
+
+    @Override
+    public <T> boolean isWritable(Aspect<T> aspect) {
+        String propertyName = propertyNamingConvention.checkAndAddSuffix(aspect.getName(), property);
+        return hasWriteMethod(propertyName) || fallbackDispatcher.isWritable(aspect);
+    }
+
+    /**
+     * Returns if the {@link #getBoundObject()} has a setter method for the given property.
+     * 
+     * @param propertyToWrite property name of the bound object
+     * @return wether the bound object has a setter method for the property. False if no bound
+     *         object exists
+     */
+    private boolean hasWriteMethod(String propertyToWrite) {
+        if (getBoundObject() == null) {
+            return false;
+        } else {
+            return getAccessor(propertyToWrite).canWrite();
+        }
     }
 }

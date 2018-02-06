@@ -58,6 +58,18 @@ public class ManuelBindIntegrationTest {
         assertThat(section.label.getDescription(), is(ManuallyBoundSection.TOOL_TIP));
     }
 
+    @Test
+    public void testSetLabelFromManualBindComponen() {
+        section.createContent();
+
+        new Binder(section, pmo).setupBindings(bindingContext);
+
+        pmo.setText("12345");
+        bindingContext.updateUI();
+        assertThat(section.label.getValue(), is("12345"));
+
+    }
+
     public static class ManuallyBoundPmo implements PresentationModelObject {
         public static final String PROPERTY_TEXT = "text";
         public static final String STATIC_STRING = "StaticString";

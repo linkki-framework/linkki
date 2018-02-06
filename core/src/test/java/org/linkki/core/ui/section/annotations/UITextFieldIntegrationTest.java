@@ -54,6 +54,26 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
         assertThat(modelObject.getValue(), is(nullValue()));
     }
 
+    @Test
+    @Override
+    public void testNullInputIfRequired() {
+        TextField textField = getDynamicComponent();
+        getDefaultPmo().setRequired(true);
+        updateUi();
+        assertThat(textField.isRequired(), is(true));
+
+        textField.setValue("something");
+        assertThat(getDefaultModelObject().getValue(), is("something"));
+
+        textField.setValue(null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+    }
+
+    @Override
+    protected TestModelObjectWithString getDefaultModelObject() {
+        return (TestModelObjectWithString)super.getDefaultModelObject();
+    }
+
     @UISection
     protected static class TextFieldTestPmo extends AnnotationTestPmo {
 

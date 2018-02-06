@@ -22,26 +22,23 @@ import org.linkki.core.message.MessageList;
 /**
  * Provides field information for an arbitrary property through an unified interface.
  * <p>
- * For each aspect that can be bound to a field, a getter method exists. The aspects are:
- * <ul>
- * <li>{@linkplain #getValue() Value}</li>
- * <li>{@linkplain #isReadOnly() Read-only state}</li>
- * <li>{@linkplain #getMessages(MessageList) ErrorMessages/Warnings}</li>
- * </ul>
- * In contrast to the other aspects the value of a property can also be set.
+ * Each aspects value can be set to the model by using {@link #getAspectValue(Aspect)}, and
+ * retrieved by {@link #setAspectValue(Aspect)}. {{@link #setAspectValue(Aspect)} can only be used
+ * if {@link #isWritable(Aspect)} returns {@code true}. Additionally, validation messages can be
+ * retrieved with {@linkplain #getMessages(MessageList)}, which are not handled by aspects.
  */
 public interface PropertyDispatcher {
 
     /**
      * @return the name of the property
      */
-    public String getProperty();
+    String getProperty();
 
     /**
      * @return the model object containing the property.
      */
     @Nullable
-    public Object getBoundObject();
+    Object getBoundObject();
 
     /**
      * Retrieves the value class for the property. i.e. the return type of the getter method.
@@ -49,33 +46,7 @@ public interface PropertyDispatcher {
      * @return the value class of the property
      * @throws IllegalArgumentException if the property is not available.
      */
-    public Class<?> getValueClass();
-
-    /**
-     * Retrieves the value for the property.
-     *
-     * @return the value of the property
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    @CheckForNull
-    public Object getValue();
-
-    /**
-     * Sets the property to the argument value.
-     * 
-     * @param value the property's new value(may be <code>null</code>)
-     *
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public void setValue(@Nullable Object value);
-
-    /**
-     * Retrieves the read-only state for the property.
-     *
-     * @return whether the property is read-only
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public boolean isReadOnly();
+    Class<?> getValueClass();
 
     /**
      * Retrieves the validation messages for the property.
@@ -83,12 +54,12 @@ public interface PropertyDispatcher {
      * @param messageList the existing messages from previous model object validation
      * @return the list of messages
      */
-    public MessageList getMessages(MessageList messageList);
+    MessageList getMessages(MessageList messageList);
 
     /**
      * Invokes the property with the given name, i.e. invokes the method of that name.
      */
-    public void invoke();
+    void invoke();
 
     /**
      * Returns the value for the given {@link Aspect} according to this dispatcher.
@@ -105,4 +76,22 @@ public interface PropertyDispatcher {
     @CheckForNull
     <T> T getAspectValue(Aspect<T> aspect);
 
+    /**
+     * Sets the value of the given aspect. Note that the given aspect should always be
+     * {@link Aspect#isStatic()}.
+     * 
+     * @param aspect static aspect containing the property's new value
+     *
+     * @throws IllegalArgumentException if the property is not available
+     */
+    <T> void setAspectValue(Aspect<T> aspect);
+
+    /**
+     * Defines if the aspect is read only thus if {@link #setAspectValue(Aspect)} can be called.
+     * Most aspect values are not writable. A typical writable aspect is the value binding aspect.
+     * 
+     * @param aspect aspect of which the value is checked for readonly property
+     * @return if the value of the aspect can be set
+     */
+    <T> boolean isWritable(Aspect<T> aspect);
 }

@@ -13,10 +13,7 @@
  */
 package org.linkki.core.binding;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -35,7 +32,6 @@ import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.TestUiUtil;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.util.handler.Handler;
@@ -56,7 +52,6 @@ public class FieldBindingTest {
     private AbstractField<String> field = spy(new TextField());
     private ComboBox selectField = spy(new ComboBox());
 
-    private FieldBinding<String> binding;
     private FieldBinding<Object> selectBinding;
 
     private PropertyDispatcher propertyDispatcherValue;
@@ -77,27 +72,8 @@ public class FieldBindingTest {
         when(propertyDispatcherValue.getMessages(any(MessageList.class))).thenReturn(messageList);
         when(propertyDispatcherEnumValue.getMessages(any(MessageList.class))).thenReturn(messageList);
 
-        binding = new FieldBinding<>(label, field, propertyDispatcherValue, Handler.NOP_HANDLER, new ArrayList<>());
-
         selectBinding = new FieldBinding<Object>(label, selectField, propertyDispatcherEnumValue, Handler.NOP_HANDLER,
                 new ArrayList<>());
-    }
-
-    @Test
-    public void testValueBinding() {
-        assertEquals(null, binding.getValue());
-
-        when(propertyDispatcherValue.getValue()).thenReturn("test");
-
-        assertEquals("test", binding.getValue());
-    }
-
-    @Test
-    public void testValueBinding_field() {
-        when(propertyDispatcherValue.getValue()).thenReturn("test");
-        binding.updateFromPmo();
-
-        assertEquals("test", field.getValue());
     }
 
     @Test
@@ -138,24 +114,6 @@ public class FieldBindingTest {
         selectBinding.displayMessages(null);
 
         verify(selectField).setComponentError(null);
-    }
-
-    @Test
-    public void testFieldBindingAllowsNullValueForRequiredFields() {
-        TestModelObject testModelObject = new TestModelObject();
-        TestPmo testPmo = new TestPmo(testModelObject);
-
-        // This creates a FieldBinding for the PMO
-        TextField textField = (TextField)TestUiUtil.createFirstComponentOf(testPmo);
-
-        // Preconditions
-        assertThat(textField.isRequired(), is(true));
-        assertThat(textField.getValue(), is(TestModelObject.DEFAULT_TEXT));
-        assertThat(testModelObject.getText(), is(TestModelObject.DEFAULT_TEXT));
-
-        textField.setValue(null);
-        assertThat(textField.getValue(), is(nullValue()));
-        assertThat(testModelObject.getText(), is(nullValue()));
     }
 
     protected static class TestModelObject {

@@ -16,7 +16,6 @@ package org.linkki.core.binding.dispatcher;
 import static java.util.Objects.requireNonNull;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
@@ -39,22 +38,6 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     @Override
     public Class<?> getValueClass() {
         return wrappedDispatcher.getValueClass();
-    }
-
-    @Override
-    @CheckForNull
-    public Object getValue() {
-        return getWrappedDispatcher().getValue();
-    }
-
-    @Override
-    public void setValue(@Nullable Object value) {
-        getWrappedDispatcher().setValue(value);
-    }
-
-    @Override
-    public boolean isReadOnly() {
-        return getWrappedDispatcher().isReadOnly();
     }
 
     @Override
@@ -90,5 +73,15 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     @Override
     public <T> T getAspectValue(Aspect<T> aspect) {
         return getWrappedDispatcher().getAspectValue(aspect);
+    }
+
+    @Override
+    public <T> void setAspectValue(Aspect<T> aspect) {
+        getWrappedDispatcher().setAspectValue(aspect);
+    }
+
+    @Override
+    public <T> boolean isWritable(Aspect<T> aspect) {
+        return getWrappedDispatcher().isWritable(aspect);
     }
 }
