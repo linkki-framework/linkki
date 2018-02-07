@@ -16,6 +16,7 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.lang.annotation.Annotation;
 
+import org.linkki.core.binding.aspect.definition.ButtonInvokeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.CaptionAspectDefinition;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.ui.section.annotations.CaptionType;
@@ -28,8 +29,9 @@ public class UIButtonAspectDefinition extends CompositeAspectDefinition {
 
     public UIButtonAspectDefinition() {
         super(new UIElementEnabledAspectDefinition(),
+                new UIElementVisibleAspectDefinition(),
                 new ButtonCaptionAspectDefinition(),
-                new UIElementVisibleAspectDefinition());
+                new ButtonInvokeAspectDefinition());
     }
 
     public static class ButtonCaptionAspectDefinition extends CaptionAspectDefinition {

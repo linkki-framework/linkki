@@ -17,7 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.Nullable;
 
@@ -29,7 +28,6 @@ import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 
 public class ButtonBinding implements ElementBinding, Serializable {
@@ -37,9 +35,7 @@ public class ButtonBinding implements ElementBinding, Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Button button;
-    private final Optional<Label> label;
     private final PropertyDispatcher propertyDispatcher;
-    private final Handler updateUi;
 
     private AspectUpdaters aspects;
 
@@ -55,11 +51,8 @@ public class ButtonBinding implements ElementBinding, Serializable {
      */
     public ButtonBinding(@Nullable Label label, Button button, PropertyDispatcher propertyDispatcher,
             Handler modelChanged, List<LinkkiAspectDefinition> aspectDefinitions) {
-        this.label = Optional.ofNullable(label);
         this.button = requireNonNull(button, "button must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
-        this.updateUi = requireNonNull(modelChanged, "updateUi must not be null");
-        button.addClickListener(this::buttonClickCallback);
 
         aspects = new AspectUpdaters(aspectDefinitions, propertyDispatcher, new LabelComponentWrapper(label, button),
                 modelChanged);
@@ -73,11 +66,6 @@ public class ButtonBinding implements ElementBinding, Serializable {
     @Override
     public PropertyDispatcher getPropertyDispatcher() {
         return propertyDispatcher;
-    }
-
-    private void buttonClickCallback(@SuppressWarnings("unused") ClickEvent event) {
-        propertyDispatcher.invoke();
-        updateUi.apply();
     }
 
     @Override

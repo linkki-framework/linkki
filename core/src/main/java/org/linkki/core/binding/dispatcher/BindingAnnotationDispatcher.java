@@ -36,13 +36,12 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
 
 
     /**
-     * Creating a new {@link BindingAnnotationDispatcher} for an {@link BindingDescriptor}, passing
-     * the wrapped dispatcher that should be decorated by this {@link BindingAnnotationDispatcher}
+     * Creating a new {@link BindingAnnotationDispatcher} for an {@link BindingDescriptor}, passing the
+     * wrapped dispatcher that should be decorated by this {@link BindingAnnotationDispatcher}
      *
      * @param wrappedDispatcher The decorated dispatcher
-     * @param bindingDescriptor The descriptor for an element annotated with one of the UI
-     *            annotations like {@link UITextField} or {@link UIComboBox} or the {@link Bind}
-     *            annotation
+     * @param bindingDescriptor The descriptor for an element annotated with one of the UI annotations
+     *            like {@link UITextField} or {@link UIComboBox} or the {@link Bind} annotation
      */
     public BindingAnnotationDispatcher(PropertyDispatcher wrappedDispatcher,
             BindingDescriptor bindingDescriptor) {
@@ -65,8 +64,9 @@ public class BindingAnnotationDispatcher extends AbstractPropertyDispatcherDecor
     public <T> T getAspectValue(Aspect<T> aspect) {
         if (aspect.isStatic()) {
             T staticValue = aspect.getStaticValue();
-            if (staticValue instanceof String && getBoundObject() != null) {
-                Class<? extends Object> pmoClass = requireNonNull(getBoundObject()).getClass();
+            Object boundObject = getBoundObject();
+            if (staticValue instanceof String && boundObject != null) {
+                Class<? extends Object> pmoClass = boundObject.getClass();
                 return (T)PmoNlsService.get()
                         .getLabel(pmoClass, getProperty(), aspect.getName(), (String)staticValue);
             } else {

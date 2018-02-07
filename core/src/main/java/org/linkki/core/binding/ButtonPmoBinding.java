@@ -21,8 +21,11 @@ import java.lang.annotation.Annotation;
 import javax.annotation.Nullable;
 
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.definition.ButtonInvokeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.EnabledAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;
@@ -33,7 +36,6 @@ import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 
 public class ButtonPmoBinding implements ElementBinding, Serializable {
 
@@ -41,8 +43,6 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
 
     private final Button button;
     private final PropertyDispatcher propertyDispatcher;
-    private final Handler modelChanged;
-
     private Handler uiUpdater;
 
     /**
@@ -51,17 +51,17 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
      * @param button the {@link Button} to be bound
      * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the
      *            model object
-     * @param modelChanged a {@link Handler} that is called when this {@link Binding} desires an
+     * @param modelUpdated a {@link Handler} that is called when this {@link Binding} desires an
      *            update of the UI. Usually the {@link BindingContext#updateUI()} method.
      */
-    public ButtonPmoBinding(Button button, PropertyDispatcher propertyDispatcher, Handler modelChanged) {
+    public ButtonPmoBinding(Button button, PropertyDispatcher propertyDispatcher, Handler modelUpdated) {
         this.button = requireNonNull(button, "button must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
-        this.modelChanged = requireNonNull(modelChanged, "updateUI must not be null");
 
-        uiUpdater = new ButtonPmoAspectDefinition().createUiUpdater(propertyDispatcher,
-                                                                    new ButtonPmoButtonWrapper(button));
-        button.addClickListener(this::buttonClickCallback);
+        ButtonPmoButtonWrapper buttonWrapper = new ButtonPmoButtonWrapper(button);
+        ButtonPmoAspectDefinition aspectDefinition = new ButtonPmoAspectDefinition();
+        aspectDefinition.initModelUpdate(propertyDispatcher, buttonWrapper, modelUpdated);
+        uiUpdater = aspectDefinition.createUiUpdater(propertyDispatcher, buttonWrapper);
     }
 
     public static Button createBoundButton(BindingContext bindingContext, ButtonPmo pmo) {
@@ -83,11 +83,6 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
         return propertyDispatcher;
     }
 
-    private void buttonClickCallback(@SuppressWarnings("unused") ClickEvent event) {
-        propertyDispatcher.invoke();
-        modelChanged.apply();
-    }
-
     @Override
     public Button getBoundComponent() {
         return button;
@@ -104,7 +99,8 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
     private static class ButtonPmoAspectDefinition extends CompositeAspectDefinition {
         public ButtonPmoAspectDefinition() {
             super(new ButtonPmoEnabledAspectDefinition(),
-                    new ButtonPmoVisibleAspectDefinition());
+                    new ButtonPmoVisibleAspectDefinition(),
+                    new ButtonPmoInvokeAspectDefinition());
         }
     }
 
@@ -131,6 +127,38 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
         @Override
         public VisibleType getVisibleType() {
             return VisibleType.DYNAMIC;
+        }
+    }
+
+    /**
+     * Cannot use {@link ButtonInvokeAspectDefinition} as {@link ButtonPmo} uses an empty String as
+     * fixed property name (see
+     * {@link PropertyDispatcherFactory#createDispatcherChain(ButtonPmo, org.linkki.core.binding.dispatcher.PropertyBehaviorProvider)}),
+     * thus the invoke button has a fixed aspect name of {@link ButtonPmo#onClick()}.
+     */
+    private static class ButtonPmoInvokeAspectDefinition implements LinkkiAspectDefinition {
+
+        public static final String NAME = "onClick";
+
+        @Override
+        public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
+            return Handler.NOP_HANDLER;
+        }
+
+        @Override
+        public void initModelUpdate(PropertyDispatcher propertyDispatcher,
+                ComponentWrapper componentWrapper,
+                Handler modelUpdated) {
+            Button button = (Button)componentWrapper.getComponent();
+            button.addClickListener(e -> {
+                propertyDispatcher.setAspectValue(Aspect.newDynamic(NAME));
+                modelUpdated.apply();
+            });
+        }
+
+        @Override
+        public void initialize(Annotation annotation) {
+            // does nothing
         }
     }
 

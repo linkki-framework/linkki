@@ -18,15 +18,21 @@ import java.lang.annotation.Annotation;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
 import org.linkki.core.ui.components.ComponentWrapper;
 
 import com.vaadin.ui.Label;
 
+/**
+ * The value aspect for label components. The label is a read-only component, hence this aspect only
+ * reads the value from model and updates the UI.
+ *
+ */
 public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<String> {
 
-    public static final String NAME = "";
+    public static final String NAME = StringUtils.EMPTY;
 
     @Override
     public void initialize(Annotation annotation) {

@@ -14,7 +14,6 @@
 package org.linkki.core.binding.dispatcher;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
@@ -37,7 +36,7 @@ public interface PropertyDispatcher {
     /**
      * @return the model object containing the property.
      */
-    @Nullable
+    @CheckForNull
     Object getBoundObject();
 
     /**
@@ -57,15 +56,10 @@ public interface PropertyDispatcher {
     MessageList getMessages(MessageList messageList);
 
     /**
-     * Invokes the property with the given name, i.e. invokes the method of that name.
-     */
-    void invoke();
-
-    /**
      * Returns the value for the given {@link Aspect} according to this dispatcher.
      * <p>
-     * The given {@link Aspect} may have a {@link Aspect#getStaticValue() static value}. It is up to
-     * the decision of this dispatcher to use this value or to provide another value instead.
+     * The given {@link Aspect} may have a {@link Aspect#getStaticValue() static value}. It is up to the
+     * decision of this dispatcher to use this value or to provide another value instead.
      * <p>
      * Note: This method may return <code>null</code> if the aspect is designed to accept
      * <code>null</code> value.
@@ -87,8 +81,8 @@ public interface PropertyDispatcher {
     <T> void setAspectValue(Aspect<T> aspect);
 
     /**
-     * Defines if the aspect is read only thus if {@link #setAspectValue(Aspect)} can be called.
-     * Most aspect values are not writable. A typical writable aspect is the value binding aspect.
+     * Defines if the aspect is read only thus if {@link #setAspectValue(Aspect)} can be called. Most
+     * aspect values are not writable. A typical writable aspect is the value binding aspect.
      * 
      * @param aspect aspect of which the value is checked for readonly property
      * @return if the value of the aspect can be set

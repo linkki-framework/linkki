@@ -18,6 +18,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
@@ -59,7 +60,11 @@ public class DialogBindingManagerTest {
         MessageList messages = new MessageList(Message.newError("code", "text"));
         dialog.setValidationService(ValidationService.of(messages));
 
-        ButtonBinding binding = spy(new ButtonBinding(new Label(), new Button(), mock(PropertyDispatcher.class),
+        PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
+        Object pmo = mock(Object.class);
+        when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
+
+        ButtonBinding binding = spy(new ButtonBinding(new Label(), new Button(), propertyDispatcher,
                 Handler.NOP_HANDLER, new ArrayList<>()));
         ctx.add(binding);
 

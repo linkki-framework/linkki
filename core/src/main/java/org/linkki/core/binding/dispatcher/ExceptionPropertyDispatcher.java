@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 
@@ -47,8 +49,8 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     /**
      * {@inheritDoc}
      * <p>
-     * If there is no value class this dispatcher returns {@link Void#TYPE} because a exception is
-     * not useful in this case.
+     * If there is no value class this dispatcher returns {@link Void#TYPE} because a exception is not
+     * useful in this case.
      */
     @Override
     public Class<?> getValueClass() {
@@ -68,12 +70,6 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public void invoke() {
-        throw new IllegalArgumentException(
-                MessageFormat.format("Cannot invoke \"{0}\" on any of {1}", property, objects));
-    }
-
-    @Override
     public String toString() {
         return "ExceptionPropertyDispatcher[" + property + "]";
     }
@@ -84,6 +80,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
+    @CheckForNull
     public Object getBoundObject() {
         if (objects.size() > 0) {
             return objects.get(0);
@@ -93,13 +90,19 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
+    @CheckForNull
     public <T> T getAspectValue(Aspect<T> aspect) {
         throw new IllegalStateException(getExceptionText("find aspect \"" + aspect.getName() + "\" method for"));
     }
 
     @Override
-    public <T> void setAspectValue(Aspect<T> aspectInfo) {
-        throw new IllegalArgumentException(getExceptionText("write"));
+    public <T> void setAspectValue(Aspect<T> aspect) {
+        if (aspect.isStatic()) {
+            throw new IllegalArgumentException(getExceptionText("write"));
+        } else {
+            throw new IllegalArgumentException(
+                    MessageFormat.format("Cannot invoke \"{0}\" on any of {1}", property, objects));
+        }
     }
 
     @Override

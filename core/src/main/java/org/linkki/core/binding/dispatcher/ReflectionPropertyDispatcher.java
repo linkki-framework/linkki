@@ -16,10 +16,11 @@ package org.linkki.core.binding.dispatcher;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.function.Function;
+import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.linkki.core.binding.BindingContext;
@@ -27,6 +28,8 @@ import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
 import org.linkki.core.message.MessageList;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * {@link PropertyDispatcher} that reads properties from an arbitrary object via reflection. Falls
@@ -69,9 +72,16 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         return boundObjectSupplier.get();
     }
 
+    @Nonnull
+    @SuppressFBWarnings()
+    private Object getExistingBoundObject() {
+        return requireNonNull(getBoundObject());
+    }
+
     @Override
     public Class<?> getValueClass() {
-        if (canRead(getProperty())) {
+        Object boundObject = getBoundObject();
+        if (boundObject != null && hasReadMethod(getProperty())) {
             Class<?> valueClass = getAccessor(getProperty()).getValueClass();
             return valueClass;
         } else {
@@ -79,31 +89,92 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
     }
 
-    private PropertyAccessor getAccessor(String propertyToAccess) {
-        Object boundObject = getBoundObject();
-        if (boundObject == null) {
-            throw new IllegalStateException("Should not be called without checking canRead or canWrite!");
-        } else {
-            return PropertyAccessorCache.get(boundObject.getClass(), propertyToAccess);
+    @CheckForNull
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getAspectValue(Aspect<T> aspect) {
+        if (aspect.isStatic()) {
+            throw new IllegalStateException(String
+                    .format("Static aspect %s should not be handled by %s. It seems like the dispatcher chain is broken, check your %s",
+                            aspect, getClass().getSimpleName(), BindingContext.class.getSimpleName()));
         }
+        Object boundObject = getBoundObject();
+        String propertyAspectName = getPropertyAspectName(aspect);
+        if (boundObject != null && hasReadMethod(propertyAspectName)) {
+            return (T)getAccessor(propertyAspectName).getPropertyValue(boundObject);
+        } else {
+            return fallbackDispatcher.getAspectValue(aspect);
+        }
+    }
+
+
+    private boolean hasReadMethod(String propertyToRead) {
+        return getAccessor(propertyToRead).canRead();
     }
 
     @Override
-    public void invoke() {
+    public <T> void setAspectValue(Aspect<T> aspect) {
         Object boundObject = getBoundObject();
-        try {
-            MethodUtils.invokeExactMethod(boundObject, getProperty());
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+        if (boundObject != null) {
+            if (aspect.isStatic()) {
+                callSetter(aspect);
+            } else {
+                invoke(aspect);
+            }
         }
     }
 
-    private boolean canRead(String propertyToRead) {
-        if (getBoundObject() == null) {
-            return false;
+    private <T> void callSetter(Aspect<T> aspect) {
+        String propertyAspectName = getPropertyAspectName(aspect);
+        if (hasWriteMethod(propertyAspectName)) {
+            getAccessor(propertyAspectName).setPropertyValue(getExistingBoundObject(), aspect.getStaticValue());
         } else {
-            return getAccessor(propertyToRead).canRead();
+            fallbackDispatcher.setAspectValue(aspect);
         }
+    }
+
+    private <T> void invoke(Aspect<T> aspect) {
+        String propertyAspectName = getPropertyAspectName(aspect);
+        Method method = getExactMethod(propertyAspectName);
+        if (method != null) {
+            try {
+                method.invoke(getExistingBoundObject());
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new IllegalStateException(String.format("Error invoking method %s", propertyAspectName), e);
+            }
+        } else {
+            fallbackDispatcher.setAspectValue(aspect);
+        }
+    }
+
+    @CheckForNull
+    private Method getExactMethod(String methodName) {
+        return MethodUtils.getAccessibleMethod(getExistingBoundObject().getClass(), methodName);
+    }
+
+    @Override
+    public <T> boolean isWritable(Aspect<T> aspect) {
+        Object boundObject = getBoundObject();
+        return (boundObject != null && hasWriteMethod(getPropertyAspectName(aspect)))
+                || fallbackDispatcher.isWritable(aspect);
+    }
+
+    /**
+     * Returns if the {@link #getBoundObject()} has a setter method for the given property.
+     * 
+     * @param propertyToWrite property name of the bound object
+     * @return wether the bound object has a setter method for the property.
+     */
+    private boolean hasWriteMethod(String propertyToWrite) {
+        return getAccessor(propertyToWrite).canWrite();
+    }
+
+    private PropertyAccessor getAccessor(String propertyToAccess) {
+        return PropertyAccessorCache.get(getExistingBoundObject().getClass(), propertyToAccess);
+    }
+
+    private String getPropertyAspectName(Aspect<?> aspect) {
+        return propertyNamingConvention.getCombinedPropertyName(getProperty(), aspect.getName());
     }
 
     /**
@@ -128,62 +199,5 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     public String toString() {
         return "ReflectionPropertyDispatcher [boundObject=" + boundObjectSupplier.get() + ", fallbackDispatcher="
                 + fallbackDispatcher + "]";
-    }
-
-    private Object get(Function<String, String> methodNameProvider, Supplier<Object> fallbackProvider) {
-        String methodName = methodNameProvider.apply(property);
-        Object boundObject = getBoundObject();
-        // double check to avoid null check warning
-        if (canRead(methodName) && boundObject != null) {
-            return getAccessor(methodName).getPropertyValue(boundObject);
-        } else {
-            return fallbackProvider.get();
-        }
-    }
-
-    @CheckForNull
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getAspectValue(Aspect<T> aspect) {
-        if (aspect.isStatic()) {
-            throw new IllegalStateException(String
-                    .format("Aspect %s should not be handled by %s. It seems like the dispatcher chain is broken, check your %s",
-                            aspect, getClass().getSimpleName(), BindingContext.class.getSimpleName()));
-        }
-        return (T)get(p -> propertyNamingConvention.getCombinedPropertyName(property, aspect.getName()),
-                      () -> fallbackDispatcher.getAspectValue(aspect));
-    }
-
-
-    @Override
-    public <T> void setAspectValue(Aspect<T> aspect) {
-        String propertyName = propertyNamingConvention.getCombinedPropertyName(aspect.getName(), property);
-        Object boundObject = getBoundObject();
-        if (boundObject != null && hasWriteMethod(propertyName)) {
-            getAccessor(propertyName).setPropertyValue(boundObject, aspect.getStaticValue());
-        } else {
-            fallbackDispatcher.setAspectValue(aspect);
-        }
-    }
-
-    @Override
-    public <T> boolean isWritable(Aspect<T> aspect) {
-        String propertyName = propertyNamingConvention.getCombinedPropertyName(aspect.getName(), property);
-        return hasWriteMethod(propertyName) || fallbackDispatcher.isWritable(aspect);
-    }
-
-    /**
-     * Returns if the {@link #getBoundObject()} has a setter method for the given property.
-     * 
-     * @param propertyToWrite property name of the bound object
-     * @return wether the bound object has a setter method for the property. False if no bound object
-     *         exists
-     */
-    private boolean hasWriteMethod(String propertyToWrite) {
-        if (getBoundObject() == null) {
-            return false;
-        } else {
-            return getAccessor(propertyToWrite).canWrite();
-        }
     }
 }

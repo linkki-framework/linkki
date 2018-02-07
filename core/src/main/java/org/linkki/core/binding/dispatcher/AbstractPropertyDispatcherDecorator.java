@@ -45,11 +45,6 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
         return getWrappedDispatcher().getMessages(messageList);
     }
 
-    @Override
-    public void invoke() {
-        getWrappedDispatcher().invoke();
-    }
-
     protected PropertyDispatcher getWrappedDispatcher() {
         return wrappedDispatcher;
     }
@@ -65,6 +60,7 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
+    @CheckForNull
     public Object getBoundObject() {
         return getWrappedDispatcher().getBoundObject();
     }

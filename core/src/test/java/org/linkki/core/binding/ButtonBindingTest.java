@@ -18,6 +18,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -27,6 +28,7 @@ import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.util.handler.Handler;
+import org.mockito.Mockito;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
@@ -44,16 +46,19 @@ public class ButtonBindingTest {
 
     private void setUpDefaultBinding() {
         aspectDefinition = spy(new TestAspectDefinition());
+        Object pmo = mock(Object.class);
+        when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
+
         binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI,
                 Arrays.asList(aspectDefinition));
         context.add(binding);
     }
 
     @Test
-    public void testClickBinding() {
+    public void testUpdateFromUI_updateAspect() {
         setUpDefaultBinding();
-        button.click();
-        verify(propertyDispatcher).invoke();
+        verify(aspectDefinition).initModelUpdate(Mockito.eq(propertyDispatcher), Mockito.any(ComponentWrapper.class),
+                                                 Mockito.any(Handler.class));
     }
 
     @Test

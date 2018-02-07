@@ -17,6 +17,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
+import javax.annotation.CheckForNull;
+
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.FieldValueAspectDefinition;
 import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
@@ -52,8 +54,8 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
 
     /**
      * Checks whether the given property shows validation messages (as defined by the
-     * {@link PropertyBehavior behaviors}). If it shows messages, returns the messages returned by
-     * the wrapped dispatcher. If it hides messages, returns an empty message list.
+     * {@link PropertyBehavior behaviors}). If it shows messages, returns the messages returned by the
+     * wrapped dispatcher. If it hides messages, returns an empty message list.
      */
     @Override
     public MessageList getMessages(MessageList messageList) {
@@ -65,9 +67,8 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     /**
-     * Returns <code>true</code> if all behaviors return <code>true</code> for the given aspect
-     * (e.g. isVisible()), <code>false</code> if at least one returns <code>false</code> (logical
-     * AND).
+     * Returns <code>true</code> if all behaviors return <code>true</code> for the given aspect (e.g.
+     * isVisible()), <code>false</code> if at least one returns <code>false</code> (logical AND).
      * <p>
      * Returns <code>true</code> if there are no registered behaviors.
      */
@@ -81,12 +82,13 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     /**
      * {@inheritDoc}
      * <p>
-     * Delegates to the wrapped dispatcher except for boolean valued aspect. In case of boolean
-     * valued aspects, this dispatcher delegates to the wrapped dispatcher if all
-     * {@link PropertyBehavior}s returns true for the aspect. Otherwise this method returns
-     * <code>false</code>.
+     * Delegates to the wrapped dispatcher except for boolean valued aspect. In case of boolean valued
+     * aspects, this dispatcher delegates to the wrapped dispatcher if all {@link PropertyBehavior}s
+     * returns true for the aspect. Otherwise this method returns <code>false</code>.
      */
+    @SuppressWarnings("unchecked")
     @Override
+    @CheckForNull
     public <T> T getAspectValue(Aspect<T> aspect) {
         if (aspect.getName().equals(VisibleAspectDefinition.NAME) &&
                 !isConsensus(b -> b.isVisible(requireNonNull(getBoundObject()), getProperty()))) {

@@ -43,8 +43,8 @@ public class LabelBinding implements ElementBinding {
      * @param labelTextForLabel the label's label (for example the property name if the label is a
      *            property value)
      * @param label the label to be bound
-     * @param propertyDispatcher the dispatcher responsible to retrieve the displayed value and
-     *            possibly visibility and tooltip information
+     * @param propertyDispatcher the dispatcher responsible to retrieve the displayed value and possibly
+     *            visibility and tooltip information
      */
     public LabelBinding(@Nullable Label labelTextForLabel, Label label, PropertyDispatcher propertyDispatcher,
             List<LinkkiAspectDefinition> aspectDefinitions) {

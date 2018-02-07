@@ -28,9 +28,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.section.annotations.ModelObject;
+import org.mockito.Mockito;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 
@@ -207,18 +209,6 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
-    public void testInvoke() {
-        testPmo = spy(new TestPMO(testModelObject));
-        setupPmoDispatcher("buttonClick").invoke();
-        verify(testPmo).buttonClick();
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void testInvoke_illegalMethodName() {
-        setupPmoDispatcher("noSuchMethod").invoke();
-    }
-
-    @Test
     public void testModelObjectNullReturn() {
         testModelObject = null;
         testPmo = new TestPMO(null);
@@ -231,7 +221,7 @@ public class ReflectionPropertyDispatcherTest {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo,
                 TestModelObject.PROPERTY_ABC,
                 new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
-        dispatcher.getAspectValue(Aspect.ofStatic("visible", false));
+        dispatcher.getAspectValue(Aspect.ofStatic(VisibleAspectDefinition.NAME, false));
     }
 
     @Test
@@ -239,10 +229,32 @@ public class ReflectionPropertyDispatcherTest {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo, TestPMO.PROPERTY_XYZ,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_XYZ));
         testModelObject.setAbc("nicht bla");
-        assertThat(dispatcher.getAspectValue(Aspect.newDynamic("visible")), is(false));
+        assertThat(dispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME)), is(false));
 
         testModelObject.setAbc("bla");
-        assertThat(dispatcher.getAspectValue(Aspect.newDynamic("visible")), is(true));
+        assertThat(dispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME)), is(true));
+    }
+
+    @Test
+    public void testSetAspectValue_static() {
+        TestModelObject spyObject = spy(new TestModelObject());
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyObject,
+                TestModelObject.PROPERTY_ABC,
+                new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
+
+        dispatcher.setAspectValue(Aspect.ofStatic("", "something"));
+        verify(spyObject).setAbc(Mockito.eq("something"));
+    }
+
+    @Test
+    public void testSetAspectValue_dynamic() {
+        TestPMO spyPmo = spy(testPmo);
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyPmo,
+                TestPMO.PROPERTY_BUTTON_CLICK,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
+
+        dispatcher.setAspectValue(Aspect.newDynamic(""));
+        verify(spyPmo).buttonClick();
     }
 
     private ReflectionPropertyDispatcher setupPmoDispatcher(String property) {
@@ -265,6 +277,7 @@ public class ReflectionPropertyDispatcherTest {
 
         public static final String PROPERTY_PMO_PROP = "pmoProp";
         public static final String PROPERTY_XYZ = "xyz";
+        public static final String PROPERTY_BUTTON_CLICK = "buttonClick";
 
         private TestModelObject modelObject;
 

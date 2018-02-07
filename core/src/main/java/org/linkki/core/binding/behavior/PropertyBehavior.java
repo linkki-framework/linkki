@@ -13,6 +13,8 @@
  */
 package org.linkki.core.binding.behavior;
 
+import javax.annotation.Nullable;
+
 /**
  * Influences the behavior of properties. There are multiple aspects that can be influenced. They
  * are whether a property is
@@ -31,13 +33,13 @@ package org.linkki.core.binding.behavior;
 public interface PropertyBehavior {
 
     /**
-     * Indicates whether the property of the given object should be writable (values can be entered
-     * in the UI-Field and are written to the PMO/model).
+     * Indicates whether the property of the given object should be writable (values can be entered in
+     * the UI-Field and are written to the PMO/model).
      * 
      * @param boundObject the object the property refers to
      * @param property property of which the write access is determined by this method
-     * @return <code>true</code> if the property should be writable, <code>false</code> if writing
-     *         data is prohibited.
+     * @return <code>true</code> if the property should be writable, <code>false</code> if writing data
+     *         is prohibited.
      */
     default boolean isWritable(Object boundObject, String property) {
         return true;
@@ -48,23 +50,23 @@ public interface PropertyBehavior {
      *
      * @param boundObject the object the property refers to
      * @param property property of which the visiblity is determined by this method
-     * @return <code>true</code> if the property should be displayed, <code>false</code> if the
-     *         property should be hidden.
+     * @return <code>true</code> if the property should be displayed, <code>false</code> if the property
+     *         should be hidden.
      */
     default boolean isVisible(Object boundObject, String property) {
         return true;
     }
 
     /**
-     * Indicates whether the property of the given object should display validation messages, i.e.
-     * input errors.
+     * Indicates whether the property of the given object should display validation messages, i.e. input
+     * errors.
      *
      * @param boundObject the object the property refers to
-     * @param property property of which the validation message display behavior is determined by
-     *            this method
+     * @param property property of which the validation message display behavior is determined by this
+     *            method
      * @return <code>true</code> if messages should be displayed, else <code>false</code>.
      */
-    default boolean isShowValidationMessages(Object boundObject, String property) {
+    default boolean isShowValidationMessages(@Nullable Object boundObject, String property) {
         return true;
     }
 
