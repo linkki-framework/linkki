@@ -26,7 +26,6 @@ import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.adapters.AvailableValuesProvider;
-import org.linkki.util.Consumers;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.Property;
@@ -43,10 +42,42 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        Consumer<Collection<?>> setter = createComponentValueSetter(componentWrapper);
-        Aspect<List<?>> aspect = createAspect(propertyDispatcher.getProperty(),
-                                              propertyDispatcher.getValueClass());
-        return () -> setter.accept(propertyDispatcher.getAspectValue(aspect));
+        if (checkComponent(componentWrapper)) {
+            checkComponent(componentWrapper);
+            Consumer<Collection<?>> setter = createComponentValueSetter(componentWrapper);
+            Aspect<List<?>> aspect = createAspect(propertyDispatcher.getProperty(),
+                                                  propertyDispatcher.getValueClass());
+            return () -> setter.accept(propertyDispatcher.getAspectValue(aspect));
+        } else {
+            return Handler.NOP_HANDLER;
+        }
+    }
+
+    private boolean checkComponent(ComponentWrapper componentWrapper) {
+        if (componentWrapper.getComponent() instanceof AbstractSelect) {
+            return true;
+        } else {
+            if (ignoreNonAbstractSelect()) {
+                return false;
+            } else {
+                throw new IllegalArgumentException("the componet must be a subclass of AbstractSelect");
+            }
+        }
+    }
+
+    /**
+     * This method returns <code>true</code> if components that are no instances of
+     * {@link AbstractSelect} should be ignored. The method returns <code>false</code> to check whether
+     * the component is an instance if {@link AbstractSelect}. If it is not an
+     * {@link IllegalArgumentException} is thrown.
+     * 
+     * The default implementation returns <code>false</code> to not ignore illegal components.
+     * 
+     * @return <code>true</code> to ignore illegal components, <code>false</code> to get an exception if
+     *         the component is no {@link AbstractSelect}.
+     */
+    protected boolean ignoreNonAbstractSelect() {
+        return false;
     }
 
     public Aspect<List<?>> createAspect(String propertyName, Class<?> valueClass) {
@@ -80,18 +111,14 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
     }
 
     public Consumer<Collection<?>> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        if (componentWrapper.getComponent() instanceof AbstractSelect) {
-            AbstractSelect component = ((AbstractSelect)componentWrapper.getComponent());
-            setContainerDataSource(component);
-            return vals -> {
-                container.removeAllItems();
-                @SuppressWarnings("unchecked")
-                Collection<Object> newItems = (Collection<Object>)vals;
-                container.addAllItems(newItems);
-            };
-        } else {
-            return Consumers.nopConsumer();
-        }
+        AbstractSelect component = ((AbstractSelect)componentWrapper.getComponent());
+        setContainerDataSource(component);
+        return vals -> {
+            container.removeAllItems();
+            @SuppressWarnings("unchecked")
+            Collection<Object> newItems = (Collection<Object>)vals;
+            container.addAllItems(newItems);
+        };
     }
 
     /**

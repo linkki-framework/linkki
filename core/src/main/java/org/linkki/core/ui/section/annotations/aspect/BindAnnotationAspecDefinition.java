@@ -57,6 +57,11 @@ public class BindAnnotationAspecDefinition extends CompositeAspectDefinition {
         }
 
         @Override
+        protected boolean ignoreNonAbstractSelect() {
+            return true;
+        }
+
+        @Override
         protected AvailableValuesType getAvailableValuesType() {
             return bindAnnotation.availableValues();
         }

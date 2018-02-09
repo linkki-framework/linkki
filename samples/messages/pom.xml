@@ -16,6 +16,12 @@
 
     <name>Linkki Samples :: Messages</name>
 
+    <build>
+        <resources>
+            <resource><directory>src/main/resources</directory></resource>
+            <resource><directory>src/main/webapp</directory></resource>
+        </resources>
+    </build>
 
     <dependencies>
         <dependency>

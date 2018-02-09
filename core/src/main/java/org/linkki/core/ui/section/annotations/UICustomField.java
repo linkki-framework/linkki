@@ -76,8 +76,8 @@ public @interface UICustomField {
     VisibleType visible() default VISIBLE;
 
     /**
-     * Specifies the source of the available values, the content of the custom field if it supports
-     * a content. May be a list of selectable items.
+     * Specifies the source of the available values, the content of the custom field if it supports a
+     * content. May be a list of selectable items.
      * 
      * @see AvailableValuesType
      */
@@ -96,6 +96,11 @@ public @interface UICustomField {
         @Override
         public void initialize(Annotation annotation) {
             this.customFieldAnnotation = (UICustomField)annotation;
+        }
+
+        @Override
+        protected boolean ignoreNonAbstractSelect() {
+            return true;
         }
 
         @Override
