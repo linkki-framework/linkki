@@ -38,8 +38,6 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
 
     public static final String NAME = PropertyNamingConvention.AVAILABLE_VALUES_PROPERTY_SUFFIX;
 
-    private final LinkkiInMemoryContainer<Object> container = new LinkkiInMemoryContainer<Object>();
-
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
         if (checkComponent(componentWrapper)) {
@@ -112,7 +110,8 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
 
     public Consumer<Collection<?>> createComponentValueSetter(ComponentWrapper componentWrapper) {
         AbstractSelect component = ((AbstractSelect)componentWrapper.getComponent());
-        setContainerDataSource(component);
+        LinkkiInMemoryContainer<Object> container = new LinkkiInMemoryContainer<Object>();
+        setContainerDataSource(component, container);
         return vals -> {
             container.removeAllItems();
             @SuppressWarnings("unchecked")
@@ -129,8 +128,10 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
      * component is in read only state. Setting a container data source while the component is read-only
      * would lead into an exception. To avoid this, we first unset the property data source and reset it
      * after the container is set.
+     * 
+     * @param containter The container data source
      */
-    private void setContainerDataSource(AbstractSelect component) {
+    private void setContainerDataSource(AbstractSelect component, LinkkiInMemoryContainer<Object> container) {
         Property<?> dataSource = component.getPropertyDataSource();
         component.setPropertyDataSource(null);
         component.setContainerDataSource(container);

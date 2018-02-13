@@ -30,6 +30,12 @@ import org.linkki.util.handler.Handler;
  * is changed in the model, the UI components that are binded to this property are has to be updated
  * accordingly. Analogously, the model has to be updated if the the value is changed by an input in
  * a UI component.
+ * <p>
+ * A {@link LinkkiAspectDefinition} is instantiated for every occurrence in the pmo for example for
+ * every annotation that references an aspect definition. Therefore it is allowed to keep and reuse
+ * the annotation that is provided by {@link #initialize(Annotation)}. But, for example, in a table
+ * the same PMO might be used for multiple rows. That means it is not allowed to keep any state
+ * about the {@link PropertyDispatcher} or the {@link ComponentWrapper}.
  */
 public interface LinkkiAspectDefinition {
 
@@ -52,6 +58,9 @@ public interface LinkkiAspectDefinition {
 
     /**
      * Initialize UI component to notify for changes and updates the model accordingly.
+     * <p>
+     * Important: it is not allowed to keep the state of any parameter because this method might be
+     * called for multiple components.
      * 
      * @param propertyDispatcher dispatcher chain that may define/overwrite the value of an
      *            {@link Aspect}
