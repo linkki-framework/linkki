@@ -96,7 +96,7 @@ public class ComponentBinding implements ElementBinding {
     @Override
     public MessageList displayMessages(@Nullable MessageList messages) {
         MessageList messagesForProperty = getRelevantMessages(messages != null ? messages : new MessageList());
-        componentWrapper.setComponentError(messagesForProperty);
+        componentWrapper.setValidationMessages(messagesForProperty);
         return messagesForProperty;
     }
 

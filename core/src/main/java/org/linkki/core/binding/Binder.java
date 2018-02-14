@@ -31,6 +31,7 @@ import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.exception.LinkkiRuntimeException;
+import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.descriptor.BindAnnotationDescriptor;
 import org.linkki.core.ui.section.descriptor.BindingDescriptor;
 import org.linkki.util.BeanUtils;
@@ -79,7 +80,8 @@ public class Binder {
     public void setupBindings(BindingContext bindingContext) {
         LinkedHashMap<BindingDescriptor, Component> bindingDescriptors = readBindings();
 
-        bindingDescriptors.forEach((descriptor, component) -> bindingContext.bind(pmo, descriptor, component, null));
+        bindingDescriptors.forEach((descriptor, component) -> bindingContext
+                .bind(pmo, descriptor, new LabelComponentWrapper(component)));
     }
 
     /** Reads the descriptors and the components to use for binding from the view. */
@@ -91,8 +93,8 @@ public class Binder {
     }
 
     /**
-     * Adds descriptors and component for the view's methods annotated with {@link Bind @Bind} to
-     * the given map.
+     * Adds descriptors and component for the view's methods annotated with {@link Bind @Bind} to the
+     * given map.
      */
     private void addMethodBindings(LinkedHashMap<BindingDescriptor, Component> bindings) {
         BeanUtils.getMethods(view.getClass(), m -> m.isAnnotationPresent(Bind.class))
@@ -100,11 +102,9 @@ public class Binder {
     }
 
     /**
-     * Adds the descriptor and component (returned by the method) for the given method to the given
-     * map.
+     * Adds the descriptor and component (returned by the method) for the given method to the given map.
      * 
-     * @throws IllegalArgumentException if the method does not return a component or requires
-     *             parameters
+     * @throws IllegalArgumentException if the method does not return a component or requires parameters
      * @throws NullPointerException if the component returned by the method is {@code null}
      */
     private void addMethodBinding(Method method, LinkedHashMap<BindingDescriptor, Component> bindings) {

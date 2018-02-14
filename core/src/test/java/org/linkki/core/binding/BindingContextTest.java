@@ -225,7 +225,7 @@ public class BindingContextTest {
         // Precondition
         assertThat(field.isImmediate(), is(false));
 
-        context.bind(pmo, fieldDescriptor, field, null);
+        context.bind(pmo, fieldDescriptor, new LabelComponentWrapper(field));
         assertThat(field.isImmediate(), is(true));
     }
 

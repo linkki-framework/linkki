@@ -171,6 +171,11 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
         }
 
         @Override
+        public void setId(String id) {
+            wrappedButton.setId(id);
+        }
+
+        @Override
         public void setLabel(String labelText) {
             wrappedButton.setCaption(labelText);
         }
@@ -196,7 +201,7 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
         }
 
         @Override
-        public void setComponentError(MessageList messagesForProperty) {
+        public void setValidationMessages(MessageList messagesForProperty) {
             // do nothing
         }
     }

@@ -22,6 +22,7 @@ import org.linkki.core.binding.TableBinding;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.application.ApplicationStyles;
+import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
 import org.linkki.core.ui.section.descriptor.ElementDescriptor;
 import org.linkki.core.ui.section.descriptor.PropertyElementDescriptors;
@@ -148,7 +149,7 @@ public class PmoBasedTableFactory<T> {
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;
-            bindingContext.bind(itemPmo, elementDescriptor, component, null);
+            bindingContext.bind(itemPmo, elementDescriptor, new LabelComponentWrapper(component));
 
             // removed the following line as on the created binding for the cell
             // a updateFromPmo() is called later on by the binding manager, see FIPM-497 for details

@@ -40,7 +40,7 @@ public class BindAnnotationDescriptorTest {
         BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(Bind.class), new ArrayList<>());
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
         ElementBinding binding = descriptor.createBinding(dispatcher, Handler.NOP_HANDLER,
-                                                          new LabelComponentWrapper(null, new TextField()));
+                                                          new LabelComponentWrapper(new TextField()));
         assertThat(binding, is(instanceOf(ComponentBinding.class)));
     }
 
@@ -49,7 +49,7 @@ public class BindAnnotationDescriptorTest {
         BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(Bind.class), new ArrayList<>());
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
         ElementBinding binding = descriptor.createBinding(dispatcher, Handler.NOP_HANDLER,
-                                                          new LabelComponentWrapper(null, new Button()));
+                                                          new LabelComponentWrapper(new Button()));
         assertThat(binding, is(instanceOf(ElementBinding.class)));
     }
 
@@ -58,7 +58,7 @@ public class BindAnnotationDescriptorTest {
         BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(Bind.class), new ArrayList<>());
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
         ElementBinding binding = descriptor.createBinding(dispatcher, Handler.NOP_HANDLER,
-                                                          new LabelComponentWrapper(null, new Label()));
+                                                          new LabelComponentWrapper(new Label()));
         assertThat(binding, is(instanceOf(ElementBinding.class)));
     }
 

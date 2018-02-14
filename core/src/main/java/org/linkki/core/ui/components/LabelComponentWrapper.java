@@ -40,9 +40,23 @@ public class LabelComponentWrapper implements ComponentWrapper {
     private final Label label;
     private final Component component;
 
+    public LabelComponentWrapper(Component component) {
+        this(null, component);
+    }
+
     public LabelComponentWrapper(@Nullable Label label, Component component) {
         this.label = label;
         this.component = component;
+        // Make bound components "immediate", i.e. let them update their PMO as soon as a field is
+        // left, a checkbox is checked etc.
+        if (component instanceof AbstractComponent) {
+            ((AbstractComponent)component).setImmediate(true);
+        }
+    }
+
+    @Override
+    public void setId(String id) {
+        component.setId(id);
     }
 
     @Override
@@ -84,7 +98,7 @@ public class LabelComponentWrapper implements ComponentWrapper {
     }
 
     @Override
-    public void setComponentError(MessageList messagesForProperty) {
+    public void setValidationMessages(MessageList messagesForProperty) {
         if (component instanceof AbstractComponent) {
             AbstractComponent field = (AbstractComponent)component;
             field.setComponentError(getErrorHandler(messagesForProperty));

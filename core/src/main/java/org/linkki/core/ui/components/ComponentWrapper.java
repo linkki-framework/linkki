@@ -27,6 +27,14 @@ import org.linkki.core.message.MessageList;
 public interface ComponentWrapper {
 
     /**
+     * Specifies the ID of the component that is wrapped by this {@link ComponentWrapper}. The ID might
+     * be specified by the framework and could be used to identify the component.
+     * 
+     * @param id the ID of the component
+     */
+    void setId(String id);
+
+    /**
      * Text which describes a component. Can be either a component itself, or be a part of another
      * component.
      * 
@@ -63,5 +71,14 @@ public interface ComponentWrapper {
      */
     Object getComponent();
 
-    void setComponentError(MessageList messagesForProperty);
+    /**
+     * Specify a list of messages that should be displayed at the component. The component might get
+     * highlighted or show the messages next to the component or by using an overlay.
+     * <p>
+     * The component might ignore the messages if it is not able to show messages.
+     * 
+     * @param messagesForProperty the messages that should be bound to the component
+     */
+    void setValidationMessages(MessageList messagesForProperty);
+
 }

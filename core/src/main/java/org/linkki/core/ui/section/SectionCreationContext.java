@@ -25,6 +25,8 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
+import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.SectionID;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UISection;
@@ -132,34 +134,22 @@ public class SectionCreationContext {
         UIAnnotationReader annotationReader = new UIAnnotationReader(getPmo().getClass());
         for (PropertyElementDescriptors elementDescriptors : annotationReader.getUiElements()) {
             ElementDescriptor uiElement = elementDescriptors.getDescriptor(pmo);
-            LabelComponent lf = createLabelAndComponent(section, uiElement);
-            bindUiElement(uiElement, lf.component, lf.label);
+            bindUiElement(uiElement, createLabelAndComponent(section, uiElement));
         }
     }
 
-    private LabelComponent createLabelAndComponent(BaseSection section, ElementDescriptor uiElement) {
+    private ComponentWrapper createLabelAndComponent(BaseSection section, ElementDescriptor uiElement) {
         Component component = uiElement.newComponent();
         String labelText = uiElement.getLabelText();
         String pmoPropertyName = uiElement.getPmoPropertyName();
         Label label = new Label(labelText);
         section.add(pmoPropertyName, label, component);
-        return new LabelComponent(label, component);
+        return new LabelComponentWrapper(label, component);
     }
 
-    private void bindUiElement(ElementDescriptor elementDescriptor, Component component, Label label) {
-        component.setId(elementDescriptor.getPmoPropertyName());
-        bindingContext.bind(pmo, elementDescriptor, component, label);
-    }
-
-    private static class LabelComponent {
-
-        private final Label label;
-        private final Component component;
-
-        LabelComponent(Label label, Component component) {
-            this.label = requireNonNull(label, "label must not be null");
-            this.component = requireNonNull(component, "component must not be null");
-        }
+    private void bindUiElement(ElementDescriptor elementDescriptor, ComponentWrapper componentWrapper) {
+        componentWrapper.setId(elementDescriptor.getPmoPropertyName());
+        bindingContext.bind(pmo, elementDescriptor, componentWrapper);
     }
 
     @UISection
