@@ -34,11 +34,11 @@ public abstract class EnabledAspectDefinition extends ModelToUiAspectDefinition<
         EnabledType enabledType = getEnabledType();
         switch (enabledType) {
             case DISABLED:
-                return Aspect.ofStatic(NAME, false);
+                return Aspect.of(NAME, false);
             case DYNAMIC:
-                return Aspect.newDynamic(NAME);
+                return Aspect.of(NAME);
             case ENABLED:
-                return Aspect.ofStatic(NAME, true);
+                return Aspect.of(NAME, true);
             default:
                 throw new IllegalStateException("Unknown enabled type: " + enabledType);
         }

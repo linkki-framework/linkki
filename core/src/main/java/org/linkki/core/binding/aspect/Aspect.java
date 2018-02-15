@@ -33,16 +33,16 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
  * information) and second the name could be used to retrieve the information from the model. For
  * more information see {@link #getName()}.
  * <p>
- * In addition to the name an {@link Aspect} could have a static value. If there is no static value
- * it is called dynamic. A static value might be a value that is configured statically for example
- * in the UI field annotation. Although the value is static it might be overruled by a
- * {@link PropertyDispatcher}. Keep in mind that the existence of a static value does not mean that
- * the value is not <code>null</code>. In some cases the aspect might define a static value that is
- * the <code>null</code> value.
+ * In addition to the name an {@link Aspect} could have a value. A value might be something that is
+ * configured statically for example in the UI field annotation. Although the value is present it
+ * might be overruled by a {@link PropertyDispatcher}. Keep in mind that the existence of a value
+ * does not mean that the value is not <code>null</code>. In some cases the aspect might define a
+ * value that is the <code>null</code> value.
  */
 public class Aspect<T> {
 
     private final String name;
+
     private final Value<T> value;
 
     private Aspect(String name, Value<T> value) {
@@ -52,11 +52,11 @@ public class Aspect<T> {
 
     /**
      * Every aspect has a unique name. First this name identifies the aspect (the kind of needed
-     * information) and second the name could be used to retrieve the information from the model.
-     * For example the aspect whether a field is visible or not is called "visible". If a
-     * {@link PropertyDispatcher} want to handle the visible-Aspect in any special case it could
-     * rely on this name. An other {@link PropertyDispatcher} may want to call a method that is
-     * suffixed with the name "visible".
+     * information) and second the name could be used to retrieve the information from the model. For
+     * example the aspect whether a field is visible or not is called "visible". If a
+     * {@link PropertyDispatcher} want to handle the visible-Aspect in any special case it could rely on
+     * this name. An other {@link PropertyDispatcher} may want to call a method that is suffixed with
+     * the name "visible".
      * <p>
      * E.g. in order to get the visibility of the property "address", the aspect would have the name
      * "visible". A {@link PropertyDispatcher} would call a method called "isAddressVisible()" to
@@ -70,110 +70,111 @@ public class Aspect<T> {
 
 
     /**
-     * Returns the static value of the aspect if there is any. A static value might be a value that
-     * is derived from the UI field annotation. It is up to the dispatcher whether this static value
-     * is used or not.
+     * Returns the value of the aspect if there is any. A value might be a value that is derived from
+     * the UI field annotation. It is up to the dispatcher whether this value is used or not.
      * 
-     * @return the static value
+     * @return the value of this aspect. The value might be <code>null</code>
      * 
-     * @throws NoSuchElementException if no static value is present, if this behaviour is not needed
-     *             use {@link #isStatic()}
+     * @throws NoSuchElementException if no value is present, if this behavior is not needed use
+     *             {@link #isValuePresent()}
      */
     @CheckForNull
-    public T getStaticValue() {
-        return value.getStatic();
+    public T getValue() {
+        if (isValuePresent()) {
+            return value.get();
+        } else {
+            throw new NoSuchElementException("There is no value for the aspect " + name);
+        }
     }
 
     /**
-     * Returns the static value. If there is no static value (the aspect is dynamic) the given
-     * supplier will be applied.
+     * Returns the value or if there is no value the given supplier will be applied.
      * 
-     * @param supplier that will be called if there is no static value available
-     * @return either the static value of this aspect or the suppliers return value
+     * @param supplier that will be called if there is no value available
+     * @return either the value of this aspect or the suppliers return value
      * 
-     * @see #getStaticValue()
+     * @see #getValue()
      */
     @CheckForNull
-    public T getStaticValueOr(Supplier<T> supplier) {
+    public T getValueOr(Supplier<T> supplier) {
         return value.orElseGet(supplier);
     }
 
     /**
-     * Returns <code>true</code> if the aspect is static, otherwise <code>false</code>. The static
-     * value might be <code>null</code>.
+     * Returns <code>true</code> if the aspect has a value, otherwise <code>false</code>. The value
+     * might be <code>null</code>.
      * 
-     * @return <code>true</code> whether the aspect has a static value
+     * @return <code>true</code> whether the aspect has a value
      */
-    public boolean isStatic() {
-        return value.isStatic;
+    public boolean isValuePresent() {
+        return value.valuePresent;
     }
 
     /**
-     * Creates a new {@link Aspect} with the same name and the given static value.
+     * Creates a new {@link Aspect} with the same name and the given value.
      * 
-     * @param staticValue the new static value
-     * @return a new {@link Aspect} containing the given static value and the same name like this
+     * @param newValue the new value that should be set.
+     * @return a new {@link Aspect} containing the given value and the same name like this
      *         {@link Aspect}
      */
-    public Aspect<T> toStatic(T staticValue) {
-        return ofStatic(name, staticValue);
+    public Aspect<T> with(T newValue) {
+        return of(name, newValue);
     }
 
     /**
-     * Creates a new dynamic {@link Aspect} with the given name and no static value.
+     * Creates a new {@link Aspect} with the given name and no value.
      * 
      * @param name the name of the new aspect
-     * @return a new {@link Aspect} that has no static value
+     * @return a new {@link Aspect} that has no value
      */
-    public static <T> Aspect<T> newDynamic(String name) {
+    public static <T> Aspect<T> of(String name) {
         return new Aspect<>(name, new Value<>(false, null));
     }
 
     /**
-     * Creates a new static {@link Aspect} with the given name and value.
+     * Creates a new {@link Aspect} with the given name and value.
      * 
      * @param name the name of the new aspect
-     * @param value the static value of the aspect
-     * @return a new {@link Aspect} that has a static value
+     * @param value the value of the aspect
+     * @return a new {@link Aspect} that has a value
      */
-    public static <T> Aspect<T> ofStatic(String name, @Nullable T value) {
+    public static <T> Aspect<T> of(String name, @Nullable T value) {
         return new Aspect<>(name, new Value<>(true, value));
     }
 
     /**
-     * Wraps a static value if there is any. This is similar to {@link Optional} but the value may
-     * also be null although it is marked as being present. The existence of a value means that no
-     * dynamic value should be retrieved.
+     * Wraps a value if there is any. This is similar to {@link Optional} but the value may also be null
+     * although it is marked as being present.
      */
     private static class Value<T> {
 
-        private final boolean isStatic;
+        private final boolean valuePresent;
 
         @Nullable
-        private final T staticValue;
+        private final T value;
 
-        private Value(boolean isStatic, @Nullable T staticValue) {
-            this.isStatic = isStatic;
-            this.staticValue = staticValue;
+        private Value(boolean valuePresent, @Nullable T value) {
+            this.valuePresent = valuePresent;
+            this.value = value;
         }
 
-        public boolean isStatic() {
-            return isStatic;
+        public boolean isValuePresent() {
+            return valuePresent;
         }
 
         @CheckForNull
-        public T getStatic() {
-            if (isStatic()) {
-                return staticValue;
+        public T get() {
+            if (isValuePresent()) {
+                return value;
             } else {
-                throw new NoSuchElementException("There is no static value");
+                throw new NoSuchElementException("There is no value in this aspect");
             }
         }
 
         @CheckForNull
         public T orElseGet(Supplier<T> valueSupplier) {
-            if (isStatic()) {
-                return getStatic();
+            if (isValuePresent()) {
+                return get();
             } else {
                 return valueSupplier.get();
             }

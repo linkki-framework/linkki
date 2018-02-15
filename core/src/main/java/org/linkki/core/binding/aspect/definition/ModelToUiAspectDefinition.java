@@ -34,7 +34,7 @@ public abstract class ModelToUiAspectDefinition<VALUE_TYPE> implements LinkkiAsp
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
         Consumer<VALUE_TYPE> setter = createComponentValueSetter(componentWrapper);
         Aspect<VALUE_TYPE> aspect = createAspect();
-        return () -> setter.accept(propertyDispatcher.getAspectValue(aspect));
+        return () -> setter.accept(propertyDispatcher.pull(aspect));
     }
 
     /**

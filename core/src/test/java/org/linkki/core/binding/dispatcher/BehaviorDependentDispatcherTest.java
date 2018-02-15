@@ -45,14 +45,14 @@ public class BehaviorDependentDispatcherTest {
     @Before
     public void setUp() {
         when(behaviourProvider.getBehaviors()).thenReturn(Collections.emptyList());
-        when(wrappedDispatcher.getAspectValue(Mockito.any())).thenReturn(true);
+        when(wrappedDispatcher.pull(Mockito.any())).thenReturn(true);
         when(wrappedDispatcher.isWritable(Mockito.any())).thenReturn(true);
         behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, behaviourProvider);
     }
 
     @Test
     public void testReturnTrueWithNoBehaviors() {
-        assertThat(behaviorDispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME)), is(true));
+        assertThat(behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(true));
     }
 
     @Test(expected = NullPointerException.class)
@@ -63,7 +63,7 @@ public class BehaviorDependentDispatcherTest {
     @Test(expected = NullPointerException.class)
     public void testNullList() {
         when(behaviourProvider.getBehaviors()).thenReturn(null);
-        behaviorDispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME));
+        behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class BehaviorDependentDispatcherTest {
 
         when(behaviourProvider.getBehaviors()).thenReturn(Arrays.asList(nonVisibleBehavior));
         when(behaviorDispatcher.getBoundObject()).thenReturn(mock(Object.class));
-        assertThat(behaviorDispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME)), is(false));
+        assertThat(behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(false));
     }
 
     @Test
@@ -91,6 +91,6 @@ public class BehaviorDependentDispatcherTest {
 
         when(behaviourProvider.getBehaviors()).thenReturn(Arrays.asList(nonWritableBehavior));
         when(behaviorDispatcher.getBoundObject()).thenReturn(mock(Object.class));
-        assertThat(behaviorDispatcher.isWritable(Aspect.newDynamic(FieldValueAspectDefinition.NAME)), is(false));
+        assertThat(behaviorDispatcher.isWritable(Aspect.of(FieldValueAspectDefinition.NAME)), is(false));
     }
 }

@@ -62,33 +62,32 @@ public class StaticValueDispatcherTest {
         UIAnnotationReader uiAnnotationReader = new UIAnnotationReader(objectWithUIAnnotations.getClass());
         uiAnnotationDispatchers = uiAnnotationReader.getUiElements().stream()
                 .collect(Collectors.toMap(e -> e.getPmoPropertyName(),
-                                          e -> new StaticValueDispatcher(uiAnnotationFallbackDispatcher,
-                                                  e.getDescriptor(objectWithUIAnnotations))));
+                                          e -> new StaticValueDispatcher(uiAnnotationFallbackDispatcher)));
     }
 
     @Test
     public void testGetValue() {
-        Aspect<Object> newDynamic = Aspect.newDynamic("");
-        uiAnnotationDispatchers.get(XYZ).getAspectValue(newDynamic);
-        verify(uiAnnotationFallbackDispatcher).getAspectValue(newDynamic);
+        Aspect<Object> newDynamic = Aspect.of("");
+        uiAnnotationDispatchers.get(XYZ).pull(newDynamic);
+        verify(uiAnnotationFallbackDispatcher).pull(newDynamic);
     }
 
     @Test
-    public void testGetAspectValue_static() {
-        Aspect<ArrayList<Object>> staticAspect = Aspect.ofStatic(AvailableValuesAspectDefinition.NAME,
-                                                                 new ArrayList<>());
+    public void testPull_static() {
+        Aspect<ArrayList<Object>> staticAspect = Aspect.of(AvailableValuesAspectDefinition.NAME,
+                                                           new ArrayList<>());
         uiAnnotationDispatchers.get(STATIC_ENUM_ATTR)
-                .getAspectValue(staticAspect);
-        verify(uiAnnotationFallbackDispatcher, never()).getAspectValue(staticAspect);
+                .pull(staticAspect);
+        verify(uiAnnotationFallbackDispatcher, never()).pull(staticAspect);
     }
 
 
     @Test
-    public void testGetAspectValue_dynamic() {
-        Aspect<ArrayList<Object>> dynamicAspect = Aspect.newDynamic(AvailableValuesAspectDefinition.NAME);
+    public void testPull_dynamic() {
+        Aspect<ArrayList<Object>> dynamicAspect = Aspect.of(AvailableValuesAspectDefinition.NAME);
         uiAnnotationDispatchers.get(STATIC_ENUM_ATTR)
-                .getAspectValue(dynamicAspect);
-        verify(uiAnnotationFallbackDispatcher).getAspectValue(dynamicAspect);
+                .pull(dynamicAspect);
+        verify(uiAnnotationFallbackDispatcher).pull(dynamicAspect);
     }
 
     public class TestObjectWithBindAnnotation {

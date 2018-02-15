@@ -92,8 +92,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     @CheckForNull
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T getAspectValue(Aspect<T> aspect) {
-        if (aspect.isStatic()) {
+    public <T> T pull(Aspect<T> aspect) {
+        if (aspect.isValuePresent()) {
             throw new IllegalStateException(String
                     .format("Static aspect %s should not be handled by %s. It seems like the dispatcher chain is broken, check your %s",
                             aspect, getClass().getSimpleName(), BindingContext.class.getSimpleName()));
@@ -103,7 +103,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         if (boundObject != null && hasReadMethod(propertyAspectName)) {
             return (T)getAccessor(propertyAspectName).getPropertyValue(boundObject);
         } else {
-            return fallbackDispatcher.getAspectValue(aspect);
+            return fallbackDispatcher.pull(aspect);
         }
     }
 
@@ -113,10 +113,10 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public <T> void setAspectValue(Aspect<T> aspect) {
+    public <T> void push(Aspect<T> aspect) {
         Object boundObject = getBoundObject();
         if (boundObject != null) {
-            if (aspect.isStatic()) {
+            if (aspect.isValuePresent()) {
                 callSetter(aspect);
             } else {
                 invoke(aspect);
@@ -127,9 +127,9 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     private <T> void callSetter(Aspect<T> aspect) {
         String propertyAspectName = getPropertyAspectName(aspect);
         if (hasWriteMethod(propertyAspectName)) {
-            getAccessor(propertyAspectName).setPropertyValue(getExistingBoundObject(), aspect.getStaticValue());
+            getAccessor(propertyAspectName).setPropertyValue(getExistingBoundObject(), aspect.getValue());
         } else {
-            fallbackDispatcher.setAspectValue(aspect);
+            fallbackDispatcher.push(aspect);
         }
     }
 
@@ -143,7 +143,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
                 throw new IllegalStateException(String.format("Error invoking method %s", propertyAspectName), e);
             }
         } else {
-            fallbackDispatcher.setAspectValue(aspect);
+            fallbackDispatcher.push(aspect);
         }
     }
 

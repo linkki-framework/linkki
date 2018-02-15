@@ -37,11 +37,11 @@ public abstract class VisibleAspectDefinition extends ModelToUiAspectDefinition<
         VisibleType visibleType = getVisibleType();
         switch (visibleType) {
             case DYNAMIC:
-                return Aspect.newDynamic(NAME);
+                return Aspect.of(NAME);
             case INVISIBLE:
-                return Aspect.ofStatic(NAME, false);
+                return Aspect.of(NAME, false);
             case VISIBLE:
-                return Aspect.ofStatic(NAME, true);
+                return Aspect.of(NAME, true);
             default:
                 throw new IllegalStateException("Unknown visible type: " + visibleType);
         }

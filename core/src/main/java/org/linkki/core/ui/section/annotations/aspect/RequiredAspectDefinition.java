@@ -43,11 +43,11 @@ public abstract class RequiredAspectDefinition extends ModelToUiAspectDefinition
         RequiredType requiredType = getRequiredType();
         switch (requiredType) {
             case DYNAMIC:
-                return Aspect.newDynamic(NAME);
+                return Aspect.of(NAME);
             case NOT_REQUIRED:
-                return Aspect.ofStatic(NAME, false);
+                return Aspect.of(NAME, false);
             case REQUIRED:
-                return Aspect.ofStatic(NAME, true);
+                return Aspect.of(NAME, true);
             case REQUIRED_IF_ENABLED:
                 return enabledAspectDefinition.createAspect();
             default:

@@ -56,25 +56,26 @@ import org.linkki.util.handler.Handler;
  * <p>
  * Because there might be many different sources for an aspect value, the aspect definition always
  * has to ask the {@link PropertyDispatcher} for the correct value. For example, the read-only
- * aspect might be defined (static) for a text field to be read-write (not read-only). However there
- * could be a {@link PropertyDispatcher} that overrules this value because the UI might be in a
- * browse mode. Therefore it is always important to specify the correct name of an aspect even when
- * it contains a static value. On the other hand there might be a visible aspect binding that is not
- * specified static, that means it is derived dynamically. To give the {@link PropertyDispatcher} a
- * hint how to resolve the value, the aspect needs a name. This name might be used as suffix of a
- * method that is called by the {@link ReflectionPropertyDispatcher}. For example a dynamic visible
- * binding aspect for the property "address" might look for a method called "isAddressVisible()".
- * This leads to the specification of an {@link Aspect} which has the following properties:
+ * aspect might be defined (static) for a text field to writable. However there could be a
+ * {@link PropertyDispatcher} that overrules this value because the UI might be in a browse mode.
+ * Therefore it is always important to specify the correct name of an aspect and call
+ * {@link PropertyDispatcher#pull(Aspect)} even if it already contains a value. On the other hand
+ * there might be a visible aspect binding that has no specified value, that means it is derived
+ * dynamically. To give the {@link PropertyDispatcher} a hint how to resolve the value, the aspect
+ * needs a name. This name might be used as suffix of a method that is called by the
+ * {@link ReflectionPropertyDispatcher}. For example a dynamic visible binding aspect for the
+ * property "address" might look for a method called "isAddressVisible()". This leads to the
+ * specification of an {@link Aspect} which has the following properties:
  * <ul>
- * <li>An optional static value</li>
+ * <li>An optional value</li>
  * <li>A name that describes the kind of aspect</li>
  * </ul>
  * <p>
- * The aspect definition always creates an {@link Aspect} with a name and optional with a static
- * value. The static value might be read from the field annotation for example. But the aspect
- * definition should not use the static value directly as long as it might be changed by a property
- * dispatcher. The {@link PropertyDispatcher} is responsible to return either the static value, a
- * dynamic value by calling a method, or to return any other value depending on other context.
+ * The aspect definition always creates an {@link Aspect} with a name and optional with a value. The
+ * value might be read from the field annotation for example. But the aspect definition should not
+ * use the value directly as long as it might be changed by a property dispatcher. The
+ * {@link PropertyDispatcher} is responsible to return either the value, a dynamic value by calling
+ * a method, or to return any other value depending on other context.
  * <p>
  * To use a {@link LinkkiAspectDefinition} it is specified using the annotation
  * {@link LinkkiAspect}. The annotation {@link LinkkiAspect} is defined as meta-annotation for
@@ -88,14 +89,14 @@ import org.linkki.util.handler.Handler;
 public interface LinkkiAspectDefinition {
 
     /**
-     * Initializes the aspect by providing the annotation that was annotated with {@link LinkkiAspect}.
-     * The annotation may hold information such as a static value or anything necessary for value post
-     * processing.
+     * Initializes the aspect by providing the annotation that was annotated with
+     * {@link LinkkiAspect}. The annotation may hold information such as a static value or anything
+     * necessary for value post processing.
      * <p>
      * In contrast to the other methods this method is called directly after instantiating.
      * <p>
-     * The {@link LinkkiAspectDefinition} is instantiated for every property. That means it is valid to
-     * store the given annotation in a field.
+     * The {@link LinkkiAspectDefinition} is instantiated for every property. That means it is valid
+     * to store the given annotation in a field.
      * 
      * @param annotation the annotation that defines the UI element and is annotated with
      *            {@link LinkkiAspect}
@@ -103,16 +104,17 @@ public interface LinkkiAspectDefinition {
     void initialize(Annotation annotation);
 
     /**
-     * This method is called after {@link #initialize(Annotation)} and is meant to register a listener
-     * at the UI component (which is wrapped in the {@link ComponentWrapper}) to react on changes in the
-     * UI.
+     * This method is called after {@link #initialize(Annotation)} and is meant to register a
+     * listener at the UI component (which is wrapped in the {@link ComponentWrapper}) to react on
+     * changes in the UI.
      * <p>
      * If any changes in the UI occurred the value should be provided to
-     * {@link PropertyDispatcher#setAspectValue(Aspect)}. After the value is given to the
+     * {@link PropertyDispatcher#push(Aspect)}. After the value is given to the
      * {@link PropertyDispatcher} the {@code modelChanged} {@link Handler} has to be triggered.
      * <p>
-     * This method might be called multiple times for example if the PMO defining this aspect definition
-     * is used in a table. Hence it is not allowed to keep any state of the given parameters.
+     * This method might be called multiple times for example if the PMO defining this aspect
+     * definition is used in a table. Hence it is not allowed to keep any state of the given
+     * parameters.
      * 
      * @param propertyDispatcher the {@link PropertyDispatcher} that handles the value of an
      *            {@link Aspect}
@@ -126,22 +128,22 @@ public interface LinkkiAspectDefinition {
     }
 
     /**
-     * Creates a handler that is triggered when the UI has to be updated. When this handler is called,
-     * the value for the bound aspect should be retrieved by calling
-     * {@link PropertyDispatcher#getAspectValue(Aspect)}. The given {@link Aspect} has to have the name
-     * of the bound aspect and if there is a static value (for example defined in the UI field
-     * annotation) its value is also provided within this {@link Aspect}. It is up to the
-     * {@link PropertyDispatcher} to use the static value or to return a value from another data source
-     * though.
+     * Creates a handler that is triggered when the UI has to be updated. When this handler is
+     * called, the value for the bound aspect should be retrieved by calling
+     * {@link PropertyDispatcher#pull(Aspect)}. The given {@link Aspect} has to have the name of the
+     * bound aspect and if there is a value (for example defined in the UI field annotation) its
+     * value is also provided within this {@link Aspect}. It is up to the {@link PropertyDispatcher}
+     * to use the value or to return a value from another data source though.
      * <p>
      * Afterwards, the value that is returned by the {@link PropertyDispatcher} has to be set to the
      * {@link ComponentWrapper}.
      * <p>
-     * This method might be called multiple times for example if the PMO defining this aspect definition
-     * is used in a table. Hence it is not allowed to keep any state of the given parameters.
+     * This method might be called multiple times for example if the PMO defining this aspect
+     * definition is used in a table. Hence it is not allowed to keep any state of the given
+     * parameters.
      * 
      * @param propertyDispatcher dispatcher (chain) that retrieves the value of an {@link Aspect} by
-     *            using {@link PropertyDispatcher#getAspectValue(Aspect)}
+     *            using {@link PropertyDispatcher#pull(Aspect)}
      * @param componentWrapper UI component that may need to be updated
      */
     Handler createUiUpdater(PropertyDispatcher propertyDispatcher,

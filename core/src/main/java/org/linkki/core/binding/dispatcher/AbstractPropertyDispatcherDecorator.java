@@ -67,13 +67,13 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
 
     @CheckForNull
     @Override
-    public <T> T getAspectValue(Aspect<T> aspect) {
-        return getWrappedDispatcher().getAspectValue(aspect);
+    public <T> T pull(Aspect<T> aspect) {
+        return getWrappedDispatcher().pull(aspect);
     }
 
     @Override
-    public <T> void setAspectValue(Aspect<T> aspect) {
-        getWrappedDispatcher().setAspectValue(aspect);
+    public <T> void push(Aspect<T> aspect) {
+        getWrappedDispatcher().push(aspect);
     }
 
     @Override

@@ -46,9 +46,9 @@ public class AbstractPropertyDispatcherDecoratorTest {
 
     @Test
     public void testGetValue() {
-        Aspect<Object> aspect = Aspect.newDynamic("");
-        decorator.getAspectValue(aspect);
-        verify(wrappedDispatcher).getAspectValue(aspect);
+        Aspect<Object> aspect = Aspect.of("");
+        decorator.pull(aspect);
+        verify(wrappedDispatcher).pull(aspect);
     }
 
     @Test

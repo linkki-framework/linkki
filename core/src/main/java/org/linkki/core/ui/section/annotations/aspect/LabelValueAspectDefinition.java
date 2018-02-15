@@ -40,7 +40,7 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<String
 
     @Override
     public Aspect<String> createAspect() {
-        return Aspect.newDynamic(NAME);
+        return Aspect.of(NAME);
     }
 
     @Override

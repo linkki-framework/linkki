@@ -41,9 +41,9 @@ public class ToolTipAspectDefinition extends ModelToUiAspectDefinition<String> {
     @Override
     public Aspect<String> createAspect() {
         if (annotation.toolTipType() == ToolTipType.STATIC) {
-            return Aspect.ofStatic(NAME, annotation.text());
+            return Aspect.of(NAME, annotation.text());
         } else {
-            return Aspect.newDynamic(NAME);
+            return Aspect.of(NAME);
         }
     }
 

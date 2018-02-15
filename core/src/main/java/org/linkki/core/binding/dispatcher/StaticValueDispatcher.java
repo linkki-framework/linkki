@@ -13,46 +13,31 @@
  */
 package org.linkki.core.binding.dispatcher;
 
-import static java.util.Objects.requireNonNull;
-
 import javax.annotation.CheckForNull;
 
-import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.nls.pmo.PmoNlsService;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.descriptor.BindingDescriptor;
 
 /**
- * Provides static values for aspects such as enabled state, required state, visibility and
- * available values defined by annotations like {@link UITextField} and {@link UIComboBox}. If no
- * annotation exists for the given property, or if the type is dynamic, the wrapped dispatcher is
- * accessed for a value.
+ * This dispatcher returns the static value of an {@link Aspect} if it has a value. If no value
+ * exists for the given property the wrapped dispatcher is accessed for a value.
  */
 public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
-
-    private final BindingDescriptor bindingDescriptor;
-
 
     /**
      * Creating a new {@link StaticValueDispatcher} for an {@link BindingDescriptor}, passing the
      * wrapped dispatcher that should be decorated by this {@link StaticValueDispatcher}
      *
      * @param wrappedDispatcher The decorated dispatcher
-     * @param bindingDescriptor The descriptor for an element annotated with one of the UI annotations
-     *            like {@link UITextField} or {@link UIComboBox} or the {@link Bind} annotation
      */
-    public StaticValueDispatcher(PropertyDispatcher wrappedDispatcher,
-            BindingDescriptor bindingDescriptor) {
+    public StaticValueDispatcher(PropertyDispatcher wrappedDispatcher) {
         super(wrappedDispatcher);
-        this.bindingDescriptor = requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
     }
 
     @Override
     public String toString() {
-        return "StaticValueDispatcher [wrappedDispatcher=" + getWrappedDispatcher() + ", bindingDescriptor="
-                + bindingDescriptor + "]";
+        return "StaticValueDispatcher [wrappedDispatcher=" + getWrappedDispatcher() + "]";
     }
 
     /**
@@ -61,9 +46,9 @@ public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
     @SuppressWarnings("unchecked")
     @CheckForNull
     @Override
-    public <T> T getAspectValue(Aspect<T> aspect) {
-        if (aspect.isStatic()) {
-            T staticValue = aspect.getStaticValue();
+    public <T> T pull(Aspect<T> aspect) {
+        if (aspect.isValuePresent()) {
+            T staticValue = aspect.getValue();
             Object boundObject = getBoundObject();
             if (staticValue instanceof String && boundObject != null) {
                 Class<? extends Object> pmoClass = boundObject.getClass();
@@ -73,7 +58,7 @@ public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
                 return staticValue;
             }
         } else {
-            return super.getAspectValue(aspect);
+            return super.pull(aspect);
         }
     }
 

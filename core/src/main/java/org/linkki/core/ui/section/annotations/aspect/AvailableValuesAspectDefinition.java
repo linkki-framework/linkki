@@ -44,17 +44,17 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
         Consumer<Collection<?>> setter = createComponentValueSetter(componentWrapper);
         Aspect<List<?>> aspect = createAspect(propertyDispatcher.getProperty(),
                                               propertyDispatcher.getValueClass());
-        return () -> setter.accept(propertyDispatcher.getAspectValue(aspect));
+        return () -> setter.accept(propertyDispatcher.pull(aspect));
     }
 
     public Aspect<List<?>> createAspect(String propertyName, Class<?> valueClass) {
         AvailableValuesType type = getAvailableValuesType();
         if (type == AvailableValuesType.DYNAMIC) {
-            return Aspect.newDynamic(NAME);
+            return Aspect.of(NAME);
         } else if (type == AvailableValuesType.NO_VALUES) {
-            return Aspect.ofStatic(NAME, new ArrayList<>());
+            return Aspect.of(NAME, new ArrayList<>());
         } else {
-            return Aspect.ofStatic(NAME, getValuesDerivedFromDatatype(propertyName, valueClass));
+            return Aspect.of(NAME, getValuesDerivedFromDatatype(propertyName, valueClass));
         }
     }
 
@@ -90,14 +90,13 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
     }
 
     /**
-     * This method updates the
-     * {@link AbstractSelect#setContainerDataSource(com.vaadin.data.Container) container data
-     * source} of the given component.
+     * This method updates the {@link AbstractSelect#setContainerDataSource(com.vaadin.data.Container)
+     * container data source} of the given component.
      * <p>
      * If a property data source is already specified this property data source may specify that the
-     * component is in read only state. Setting a container data source while the component is
-     * read-only would lead into an exception. To avoid this, we first unset the property data
-     * source and reset it after the container is set.
+     * component is in read only state. Setting a container data source while the component is read-only
+     * would lead into an exception. To avoid this, we first unset the property data source and reset it
+     * after the container is set.
      * 
      * @param containter The container data source
      */

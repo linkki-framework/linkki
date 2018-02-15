@@ -57,13 +57,13 @@ public class PropertyDispatcherFactoryTest {
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         pmo.setValue(ANY_VALUE);
 
-        Object pmoProp = defaultDispatcher.getAspectValue(Aspect.newDynamic(""));
+        Object pmoProp = defaultDispatcher.pull(Aspect.of(""));
 
         assertThat(pmoProp, is(ANY_VALUE));
     }
 
     @Test
-    public void testCreateDispatcherChain_setAspectValueToPmo() {
+    public void testCreateDispatcherChain_pushToPmo() {
         setUpPmo();
         when(elementDescriptor.getModelPropertyName()).thenReturn("foo");
         when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
@@ -71,7 +71,7 @@ public class PropertyDispatcherFactoryTest {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
-        defaultDispatcher.setAspectValue(Aspect.ofStatic("", ANY_VALUE));
+        defaultDispatcher.push(Aspect.of("", ANY_VALUE));
 
         assertThat(pmo.getValue(), is(ANY_VALUE));
     }
@@ -86,13 +86,13 @@ public class PropertyDispatcherFactoryTest {
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         modelObject.setModelProp("testValue");
 
-        Object modelProp = defaultDispatcher.getAspectValue(Aspect.newDynamic(""));
+        Object modelProp = defaultDispatcher.pull(Aspect.of(""));
 
         assertThat(modelProp, is("testValue"));
     }
 
     @Test
-    public void testCreateDispatcherChain_setAspectValue() {
+    public void testCreateDispatcherChain_push() {
         setUpPmo();
         when(elementDescriptor.getModelPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
         when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
@@ -100,7 +100,7 @@ public class PropertyDispatcherFactoryTest {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
-        defaultDispatcher.setAspectValue(Aspect.ofStatic("", "testSetValue"));
+        defaultDispatcher.push(Aspect.of("", "testSetValue"));
 
         assertThat(modelObject.getModelProp(), is("testSetValue"));
     }
@@ -117,7 +117,7 @@ public class PropertyDispatcherFactoryTest {
         pmo.setModelObject(newModelObject);
         newModelObject.setModelProp("testNewValue");
 
-        Object modelProp = defaultDispatcher.getAspectValue(Aspect.newDynamic(""));
+        Object modelProp = defaultDispatcher.pull(Aspect.of(""));
 
         assertThat(modelProp, is("testNewValue"));
     }
@@ -134,7 +134,7 @@ public class PropertyDispatcherFactoryTest {
         TestModelObject newModelObject = new TestModelObject();
         pmo.setModelObject(newModelObject);
 
-        defaultDispatcher.setAspectValue(Aspect.ofStatic("", "testNewSetValue"));
+        defaultDispatcher.push(Aspect.of("", "testNewSetValue"));
         assertThat(newModelObject.getModelProp(), is("testNewSetValue"));
     }
 

@@ -20,11 +20,11 @@ import java.util.function.Supplier;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.dispatcher.BehaviorDependentDispatcher;
-import org.linkki.core.binding.dispatcher.StaticValueDispatcher;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
+import org.linkki.core.binding.dispatcher.StaticValueDispatcher;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.descriptor.BindingDescriptor;
 import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
@@ -47,7 +47,7 @@ public class PropertyDispatcherFactory {
         String pmoPropertyName = bindingDescriptor.getPmoPropertyName();
         ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo, modelObjectName, pmoPropertyName);
         ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, pmoPropertyName, modelObjectName, modelPropertyName, exceptionDispatcher);
-        StaticValueDispatcher bindingAnnotationDispatcher = new StaticValueDispatcher(reflectionDispatcher, bindingDescriptor);
+        StaticValueDispatcher bindingAnnotationDispatcher = new StaticValueDispatcher(reflectionDispatcher);
         PropertyDispatcher customDispatchers = createCustomDispatchers(pmo, bindingDescriptor, bindingAnnotationDispatcher);
         return new BehaviorDependentDispatcher(customDispatchers, behaviorProvider);
         // @formatter:on
@@ -55,8 +55,7 @@ public class PropertyDispatcherFactory {
 
     /**
      * Subclasses may override to add custom dispatchers to the chain. The dispatchers will be added
-     * <em>after</em> the standard dispatchers and <em>before</em> the behavior dependent
-     * dispatchers.
+     * <em>after</em> the standard dispatchers and <em>before</em> the behavior dependent dispatchers.
      * <p>
      * The default implementation adds no dispatchers.
      * <p>

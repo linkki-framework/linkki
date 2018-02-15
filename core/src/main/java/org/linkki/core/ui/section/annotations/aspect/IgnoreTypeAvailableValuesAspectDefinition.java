@@ -36,7 +36,7 @@ public abstract class IgnoreTypeAvailableValuesAspectDefinition extends Availabl
             Consumer<Collection<?>> setter = createComponentValueSetter(componentWrapper);
             Aspect<List<?>> aspect = createAspect(propertyDispatcher.getProperty(),
                                                   propertyDispatcher.getValueClass());
-            return () -> setter.accept(propertyDispatcher.getAspectValue(aspect));
+            return () -> setter.accept(propertyDispatcher.pull(aspect));
         } else {
             return Handler.NOP_HANDLER;
         }

@@ -91,20 +91,20 @@ public class ReflectionPropertyDispatcherTest {
     @Test
     public void testGetValueFromPmo() {
 
-        assertEquals("890", setupPmoDispatcher(XYZ).getAspectValue(Aspect.newDynamic("")));
+        assertEquals("890", setupPmoDispatcher(XYZ).pull(Aspect.of("")));
     }
 
     public void testGetValue_fromPmo() {
         testPmo.setPmoProp("abc123");
 
-        assertEquals("abc123", setupPmoDispatcher(TestPMO.PROPERTY_PMO_PROP).getAspectValue(Aspect.newDynamic("")));
+        assertEquals("abc123", setupPmoDispatcher(TestPMO.PROPERTY_PMO_PROP).pull(Aspect.of("")));
     }
 
     @Test
     public void testGetValue_fromModelObject() {
-        assertEquals("567", setupPmoDispatcher(ABC).getAspectValue(Aspect.newDynamic("")));
+        assertEquals("567", setupPmoDispatcher(ABC).pull(Aspect.of("")));
         testModelObject.setAbc("anotherValue");
-        assertEquals("anotherValue", setupPmoDispatcher(ABC).getAspectValue(Aspect.newDynamic("")));
+        assertEquals("anotherValue", setupPmoDispatcher(ABC).pull(Aspect.of("")));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class ReflectionPropertyDispatcherTest {
         testPmo.setModelObject(newTestModelObject);
         newTestModelObject.setAbc("newAbcValue");
 
-        assertEquals("newAbcValue", setupPmoDispatcher(ABC).getAspectValue(Aspect.newDynamic("")));
+        assertEquals("newAbcValue", setupPmoDispatcher(ABC).pull(Aspect.of("")));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class ReflectionPropertyDispatcherTest {
         testPmo = new TestPMO(newTestModelObject);
         testPmo.setPmoProp("newValue");
 
-        assertEquals("newValue", setupPmoDispatcher(TestPMO.PROPERTY_PMO_PROP).getAspectValue(Aspect.newDynamic("")));
+        assertEquals("newValue", setupPmoDispatcher(TestPMO.PROPERTY_PMO_PROP).pull(Aspect.of("")));
     }
 
     @Test
@@ -132,8 +132,8 @@ public class ReflectionPropertyDispatcherTest {
         testPmo.setPmoProp("newValue");
         newTestModelObject.setAbc("newAbcValue");
 
-        assertEquals("newValue", setupPmoDispatcher(TestPMO.PROPERTY_PMO_PROP).getAspectValue(Aspect.newDynamic("")));
-        assertEquals("newAbcValue", setupPmoDispatcher(ABC).getAspectValue(Aspect.newDynamic("")));
+        assertEquals("newValue", setupPmoDispatcher(TestPMO.PROPERTY_PMO_PROP).pull(Aspect.of("")));
+        assertEquals("newAbcValue", setupPmoDispatcher(ABC).pull(Aspect.of("")));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -144,17 +144,17 @@ public class ReflectionPropertyDispatcherTest {
                 "doesNotExist", exceptionDispatcher);
         ReflectionPropertyDispatcher pmoDispatcher = new ReflectionPropertyDispatcher(this::getTestPmo, "doesNotExist",
                 modelObjectDispatcher);
-        pmoDispatcher.getAspectValue(Aspect.newDynamic(""));
+        pmoDispatcher.pull(Aspect.of(""));
     }
 
     @Test(expected = NullPointerException.class)
     public void testGetValue_nullProperty() {
-        setupPmoDispatcher(null).getAspectValue(Aspect.newDynamic(""));
+        setupPmoDispatcher(null).pull(Aspect.of(""));
     }
 
     @Test
     public void testSetValue_dispatchToModelObject() {
-        assertEquals("567", setupPmoDispatcher(ABC).getAspectValue(Aspect.newDynamic("")));
+        assertEquals("567", setupPmoDispatcher(ABC).pull(Aspect.of("")));
     }
 
     @Test
@@ -213,49 +213,49 @@ public class ReflectionPropertyDispatcherTest {
         testModelObject = null;
         testPmo = new TestPMO(null);
 
-        assertEquals("890", setupModelObjectDispatcher("xyz").getAspectValue(Aspect.newDynamic("")));
+        assertEquals("890", setupModelObjectDispatcher("xyz").pull(Aspect.of("")));
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testGetAspectValue_static() {
-        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo,
-                TestModelObject.PROPERTY_ABC,
-                new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
-        dispatcher.getAspectValue(Aspect.ofStatic(VisibleAspectDefinition.NAME, false));
-    }
+        public void testPull_static() {
+            ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo,
+                    TestModelObject.PROPERTY_ABC,
+                    new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
+            dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
+        }
 
     @Test
-    public void testGetAspectValue_dynamic() {
-        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo, TestPMO.PROPERTY_XYZ,
-                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_XYZ));
-        testModelObject.setAbc("nicht bla");
-        assertThat(dispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME)), is(false));
-
-        testModelObject.setAbc("bla");
-        assertThat(dispatcher.getAspectValue(Aspect.newDynamic(VisibleAspectDefinition.NAME)), is(true));
-    }
-
-    @Test
-    public void testSetAspectValue_static() {
-        TestModelObject spyObject = spy(new TestModelObject());
-        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyObject,
-                TestModelObject.PROPERTY_ABC,
-                new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
-
-        dispatcher.setAspectValue(Aspect.ofStatic("", "something"));
-        verify(spyObject).setAbc(Mockito.eq("something"));
-    }
+        public void testPull_dynamic() {
+            ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo, TestPMO.PROPERTY_XYZ,
+                    new ExceptionPropertyDispatcher(TestPMO.PROPERTY_XYZ));
+            testModelObject.setAbc("nicht bla");
+            assertThat(dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(false));
+    
+            testModelObject.setAbc("bla");
+            assertThat(dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(true));
+        }
 
     @Test
-    public void testSetAspectValue_dynamic() {
-        TestPMO spyPmo = spy(testPmo);
-        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyPmo,
-                TestPMO.PROPERTY_BUTTON_CLICK,
-                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
+        public void testPush_static() {
+            TestModelObject spyObject = spy(new TestModelObject());
+            ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyObject,
+                    TestModelObject.PROPERTY_ABC,
+                    new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
+    
+            dispatcher.push(Aspect.of("", "something"));
+            verify(spyObject).setAbc(Mockito.eq("something"));
+        }
 
-        dispatcher.setAspectValue(Aspect.newDynamic(""));
-        verify(spyPmo).buttonClick();
-    }
+    @Test
+        public void testPush_dynamic() {
+            TestPMO spyPmo = spy(testPmo);
+            ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyPmo,
+                    TestPMO.PROPERTY_BUTTON_CLICK,
+                    new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
+    
+            dispatcher.push(Aspect.of(""));
+            verify(spyPmo).buttonClick();
+        }
 
     private ReflectionPropertyDispatcher setupPmoDispatcher(String property) {
         ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(property, testModelObject,

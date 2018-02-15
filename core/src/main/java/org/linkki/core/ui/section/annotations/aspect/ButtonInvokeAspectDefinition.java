@@ -43,7 +43,7 @@ public class ButtonInvokeAspectDefinition implements LinkkiAspectDefinition {
             Handler modelUpdated) {
         Button button = (Button)componentWrapper.getComponent();
         button.addClickListener(e -> {
-            propertyDispatcher.setAspectValue(Aspect.newDynamic(NAME));
+            propertyDispatcher.push(Aspect.of(NAME));
             modelUpdated.apply();
         });
     }

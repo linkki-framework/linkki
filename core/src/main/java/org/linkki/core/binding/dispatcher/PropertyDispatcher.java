@@ -21,10 +21,10 @@ import org.linkki.core.message.MessageList;
 /**
  * Provides field information for an arbitrary property through an unified interface.
  * <p>
- * Each aspects value can be set to the model by using {@link #getAspectValue(Aspect)}, and
- * retrieved by {@link #setAspectValue(Aspect)}. {{@link #setAspectValue(Aspect)} can only be used
- * if {@link #isWritable(Aspect)} returns {@code true}. Additionally, validation messages can be
- * retrieved with {@linkplain #getMessages(MessageList)}, which are not handled by aspects.
+ * Each aspects value can be set to the model by using {@link #pull(Aspect)}, and retrieved by
+ * {@link #push(Aspect)}. {{@link #push(Aspect)} can only be used if {@link #isWritable(Aspect)}
+ * returns {@code true}. Additionally, validation messages can be retrieved with
+ * {@linkplain #getMessages(MessageList)}, which are not handled by aspects.
  */
 public interface PropertyDispatcher {
 
@@ -56,10 +56,10 @@ public interface PropertyDispatcher {
     MessageList getMessages(MessageList messageList);
 
     /**
-     * Returns the value for the given {@link Aspect} according to this dispatcher.
+     * Pulls the value for the given {@link Aspect} from this dispatcher.
      * <p>
-     * The given {@link Aspect} may have a {@link Aspect#getStaticValue() static value}. It is up to the
-     * decision of this dispatcher to use this value or to provide another value instead.
+     * The given {@link Aspect} may have a {@link Aspect#getValue() value}. It is up to the decision of
+     * this dispatcher to use this value or to provide another value instead.
      * <p>
      * Note: This method may return <code>null</code> if the aspect is designed to accept
      * <code>null</code> value.
@@ -68,21 +68,22 @@ public interface PropertyDispatcher {
      * @return value of the given {@link Aspect} according to this dispatcher
      */
     @CheckForNull
-    <T> T getAspectValue(Aspect<T> aspect);
+    <T> T pull(Aspect<T> aspect);
 
     /**
-     * Sets the value of the given aspect. Note that the given aspect should always be
-     * {@link Aspect#isStatic()}.
+     * Push the value of the given aspect. If the {@link Aspect} contains a value this value should be
+     * set to the model. If it does not have a value an appropriate method without argument should be
+     * invoked.
      * 
-     * @param aspect static aspect containing the property's new value
+     * @param aspect an aspect with the name of the aspect and the value if a value should be stored.
      *
      * @throws IllegalArgumentException if the property is not available
      */
-    <T> void setAspectValue(Aspect<T> aspect);
+    <T> void push(Aspect<T> aspect);
 
     /**
-     * Defines if the aspect is read only thus if {@link #setAspectValue(Aspect)} can be called. Most
-     * aspect values are not writable. A typical writable aspect is the value binding aspect.
+     * Defines if the aspect is read only thus if {@link #push(Aspect)} can be called. Most aspect
+     * values are not writable. A typical writable aspect is the value binding aspect.
      * 
      * @param aspect aspect of which the value is checked for readonly property
      * @return if the value of the aspect can be set

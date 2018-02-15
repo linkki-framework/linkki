@@ -39,11 +39,11 @@ public abstract class CaptionAspectDefinition extends ModelToUiAspectDefinition<
     @Override
     public Aspect<String> createAspect() {
         if (getCaptionType() == CaptionType.DYNAMIC) {
-            return Aspect.newDynamic(NAME);
+            return Aspect.of(NAME);
         } else if (getCaptionType() == CaptionType.STATIC) {
-            return Aspect.ofStatic(NAME, getStaticCaption());
+            return Aspect.of(NAME, getStaticCaption());
         } else {
-            return Aspect.ofStatic(NAME, null);
+            return Aspect.of(NAME, null);
         }
     }
 

@@ -51,9 +51,9 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
         AbstractField<?> field = (AbstractField<?>)componentWrapper.getComponent();
         FieldBindingDataSource<Object> dataSource = new FieldBindingDataSource<Object>(
                 propertyDispatcher.getValueClass(),
-                () -> propertyDispatcher.getAspectValue(Aspect.newDynamic(NAME)),
-                v -> propertyDispatcher.setAspectValue(Aspect.ofStatic(NAME, v)),
-                () -> !propertyDispatcher.isWritable(Aspect.newDynamic(NAME)),
+                () -> propertyDispatcher.pull(Aspect.of(NAME)),
+                v -> propertyDispatcher.push(Aspect.of(NAME, v)),
+                () -> !propertyDispatcher.isWritable(Aspect.of(NAME)),
                 modelUpdated);
         field.setPropertyDataSource(dataSource);
 

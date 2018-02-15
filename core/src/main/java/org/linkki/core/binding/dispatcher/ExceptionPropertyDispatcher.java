@@ -91,13 +91,13 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     @CheckForNull
-    public <T> T getAspectValue(Aspect<T> aspect) {
+    public <T> T pull(Aspect<T> aspect) {
         throw new IllegalStateException(getExceptionText("find aspect \"" + aspect.getName() + "\" method for"));
     }
 
     @Override
-    public <T> void setAspectValue(Aspect<T> aspect) {
-        if (aspect.isStatic()) {
+    public <T> void push(Aspect<T> aspect) {
+        if (aspect.isValuePresent()) {
             throw new IllegalArgumentException(getExceptionText("write"));
         } else {
             throw new IllegalArgumentException(

@@ -89,12 +89,12 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     @SuppressWarnings("unchecked")
     @Override
     @CheckForNull
-    public <T> T getAspectValue(Aspect<T> aspect) {
+    public <T> T pull(Aspect<T> aspect) {
         if (aspect.getName().equals(VisibleAspectDefinition.NAME) &&
                 !isConsensus(b -> b.isVisible(requireNonNull(getBoundObject()), getProperty()))) {
             return (T)Boolean.FALSE;
         } else {
-            return super.getAspectValue(aspect);
+            return super.pull(aspect);
         }
     }
 
