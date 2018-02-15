@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinition;
+import org.linkki.core.ui.section.descriptor.ElementDescriptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -40,21 +41,21 @@ public class FieldDescriptorTest {
     @Test
     public void getLabelText_deriveFromLabel() {
         when(adapter.label()).thenReturn("blablub");
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "xyz", Void.class, new ArrayList<>());
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(adapter, "xyz", Void.class, new ArrayList<>());
 
         assertEquals("blablub", fieldDescriptor.getLabelText());
     }
 
     @Test
     public void getLabelText_deriveFromPropertyName() {
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test", Void.class, new ArrayList<>());
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
 
         assertEquals("Test", fieldDescriptor.getLabelText());
     }
 
     @Test
     public void getLabelText_addSuffixOnlyIfNecessary() {
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test:", Void.class, new ArrayList<>());
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(adapter, "Test:", Void.class, new ArrayList<>());
 
         assertEquals("Test:", fieldDescriptor.getLabelText());
     }
@@ -62,14 +63,14 @@ public class FieldDescriptorTest {
     @Test
     public void getPropertyName_favorModelAttribute() {
         when(adapter.modelAttribute()).thenReturn("xyz");
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test", Void.class, new ArrayList<>());
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
 
         assertEquals("xyz", fieldDescriptor.getModelPropertyName());
     }
 
     @Test
     public void getPropertyName_byMethodName() {
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(adapter, "Test", Void.class, new ArrayList<>());
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
 
         assertEquals("Test", fieldDescriptor.getModelPropertyName());
     }

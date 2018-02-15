@@ -17,8 +17,8 @@ package org.linkki.core.binding.annotations.aspect;
 import java.lang.annotation.Annotation;
 
 import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.binding.aspect.definition.EnabledAspectDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
 
 /**
  * Enabled aspect binding definition for {@link Bind} annotation

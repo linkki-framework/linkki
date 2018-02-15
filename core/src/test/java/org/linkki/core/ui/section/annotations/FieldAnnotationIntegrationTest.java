@@ -21,7 +21,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.junit.Test;
-import org.linkki.core.binding.aspect.definition.FieldValueAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 
 import com.vaadin.ui.AbstractField;
 
@@ -44,6 +44,7 @@ public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?>,
      * 
      * @see FieldValueAspectDefinition#prepareFieldToHandleNullForRequiredFields(AbstractField)
      */
+    @SuppressWarnings("javadoc")
     public abstract void testNullInputIfRequired();
 
     @Test

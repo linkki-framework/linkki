@@ -22,16 +22,16 @@ import javax.annotation.Nullable;
 
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.ButtonInvokeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.binding.aspect.definition.EnabledAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
 
@@ -49,10 +49,10 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
      * Creates a new {@link ButtonPmoBinding}.
      * 
      * @param button the {@link Button} to be bound
-     * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the
-     *            model object
-     * @param modelUpdated a {@link Handler} that is called when this {@link Binding} desires an
-     *            update of the UI. Usually the {@link BindingContext#updateUI()} method.
+     * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the model
+     *            object
+     * @param modelUpdated a {@link Handler} that is called when this {@link Binding} desires an update
+     *            of the UI. Usually the {@link BindingContext#updateUI()} method.
      */
     public ButtonPmoBinding(Button button, PropertyDispatcher propertyDispatcher, Handler modelUpdated) {
         this.button = requireNonNull(button, "button must not be null");
@@ -193,6 +193,11 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
         @Override
         public Button getComponent() {
             return wrappedButton;
+        }
+
+        @Override
+        public void setComponentError(MessageList messagesForProperty) {
+            // do nothing
         }
     }
 }

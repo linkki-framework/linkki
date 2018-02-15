@@ -36,14 +36,15 @@ import org.junit.runner.RunWith;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.FieldDescriptor;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.TestUiUtil;
-import org.linkki.core.ui.section.annotations.UIFieldDefinition;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.core.ui.section.descriptor.ElementDescriptor;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -70,9 +71,9 @@ public class BindingContextTest {
     private AbstractField<String> field2 = spy(new TextField());
 
     @SuppressWarnings("null")
-    private FieldBinding<String> binding1;
+    private ComponentBinding binding1;
     @SuppressWarnings("null")
-    private FieldBinding<String> binding2;
+    private ComponentBinding binding2;
 
     private void setUpPmo() {
         context = TestBindingContext.create();
@@ -87,13 +88,13 @@ public class BindingContextTest {
     }
 
     private void setUpBinding2() {
-        binding2 = new FieldBinding<String>(label2, field2,
+        binding2 = new ComponentBinding(new LabelComponentWrapper(label2, field2),
                 new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
                 context::updateUI, new ArrayList<>());
     }
 
     private void setUpBinding1() {
-        binding1 = new FieldBinding<String>(label1, field1,
+        binding1 = new ComponentBinding(new LabelComponentWrapper(label1, field1),
                 new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
                 context::updateUI, new ArrayList<>());
     }
@@ -214,11 +215,12 @@ public class BindingContextTest {
     public void testBind_BoundComponentsAreMadeImmediate() {
         setUpPmo();
         TextField field = new TextField();
-        UIFieldDefinition fieldDefintion = mock(UIFieldDefinition.class);
+        BindingDefinition fieldDefintion = mock(BindingDefinition.class);
         when(fieldDefintion.required()).thenReturn(RequiredType.REQUIRED);
         when(fieldDefintion.enabled()).thenReturn(EnabledType.ENABLED);
         when(fieldDefintion.visible()).thenReturn(VisibleType.VISIBLE);
-        FieldDescriptor fieldDescriptor = new FieldDescriptor(fieldDefintion, "value", Void.class, new ArrayList<>());
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(fieldDefintion, "value", Void.class,
+                new ArrayList<>());
 
         // Precondition
         assertThat(field.isImmediate(), is(false));

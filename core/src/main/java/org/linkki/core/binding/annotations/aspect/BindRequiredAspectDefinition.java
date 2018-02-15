@@ -17,18 +17,18 @@ package org.linkki.core.binding.annotations.aspect;
 import java.lang.annotation.Annotation;
 
 import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.binding.aspect.definition.EnabledAspectDefinition;
-import org.linkki.core.binding.aspect.definition.RequiredAspectDefinition;
 import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.RequiredAspectDefinition;
 
 /**
  * Required aspect binding definition for {@link Bind} annotation.
  */
 class BindRequiredAspectDefinition extends RequiredAspectDefinition {
 
-    @SuppressWarnings("null")
     private Bind bindAnnotation;
 
+    @SuppressWarnings("null")
     public BindRequiredAspectDefinition(EnabledAspectDefinition enabledTypeAspectDefinition) {
         super(enabledTypeAspectDefinition);
     }

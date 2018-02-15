@@ -15,9 +15,17 @@
 package org.linkki.core.ui.components;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
+
+import com.vaadin.server.AbstractErrorMessage.ContentMode;
+import com.vaadin.server.UserError;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -73,6 +81,27 @@ public class LabelComponentWrapper implements ComponentWrapper {
     @Override
     public Component getComponent() {
         return component;
+    }
+
+    @Override
+    public void setComponentError(MessageList messagesForProperty) {
+        if (component instanceof AbstractComponent) {
+            AbstractComponent field = (AbstractComponent)component;
+            field.setComponentError(getErrorHandler(messagesForProperty));
+        }
+    }
+
+    @CheckForNull
+    private UserError getErrorHandler(MessageList messages) {
+        return messages.getErrorLevel()
+                .map(e -> new UserError(formatMessages(messages), ContentMode.PREFORMATTED, e))
+                .orElse(null);
+    }
+
+    private String formatMessages(MessageList messages) {
+        return StreamSupport.stream(messages.spliterator(), false)
+                .map(Message::getText)
+                .collect(Collectors.joining("\n"));
     }
 
     @Override

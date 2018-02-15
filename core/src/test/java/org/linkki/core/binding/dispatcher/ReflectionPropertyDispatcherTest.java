@@ -28,10 +28,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 import org.mockito.Mockito;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;

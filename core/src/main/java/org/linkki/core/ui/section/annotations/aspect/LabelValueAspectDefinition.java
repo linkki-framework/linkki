@@ -28,7 +28,6 @@ import com.vaadin.ui.Label;
 /**
  * The value aspect for label components. The label is a read-only component, hence this aspect only
  * reads the value from model and updates the UI.
- *
  */
 public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<String> {
 
@@ -48,6 +47,4 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<String
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         return v -> ((Label)componentWrapper.getComponent()).setValue(Objects.toString(v, ""));
     }
-
-
 }

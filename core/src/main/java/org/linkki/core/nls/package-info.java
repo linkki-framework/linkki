@@ -12,7 +12,7 @@
  * the License.
  */
 /**
- * Localization defined by Linkki.
+ * Localization defined by linkki.
  */
 @org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
 package org.linkki.core.nls;

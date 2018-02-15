@@ -17,7 +17,7 @@ import org.linkki.core.message.MessageList;
 
 /**
  * @deprecated Temporary solution. Should be replaced with a regular
- *             {@link BindingAnnotationDispatcher}
+ *             {@link StaticValueDispatcher}
  */
 @Deprecated
 public class ButtonPmoDispatcher extends AbstractPropertyDispatcherDecorator {

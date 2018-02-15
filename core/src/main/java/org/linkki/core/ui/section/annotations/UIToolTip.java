@@ -26,7 +26,7 @@ import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.section.annotations.UIToolTip.ToolTipAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.ToolTipAspectDefinition;
 
 /**
  * Shows a tooltip next to a UI-Element. The annotation can be added to the method the UI-Element is
@@ -43,8 +43,7 @@ public @interface UIToolTip {
     /** Defines how the tooltip text should be retrieved */
     ToolTipType toolTipType() default ToolTipType.STATIC;
 
-
-    public static class ToolTipAspectDefinition extends ModelToUiAspectDefinition<String> {
+    class ToolTipAspectDefinition extends ModelToUiAspectDefinition<String> {
 
         public static final String NAME = PropertyNamingConvention.TOOLTIP_PROPERTY_SUFFIX;
 

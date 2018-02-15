@@ -32,8 +32,8 @@ public @interface UISection {
     SectionLayout layout() default SectionLayout.COLUMN;
 
     /**
-     * Number of columns if the {@link SectionLayout#COLUMN} layout is used. Ignored if an other
-     * layout is used.
+     * Number of columns if the {@link SectionLayout#COLUMN} layout is used. Ignored if an other layout
+     * is used.
      */
     int columns() default 1;
 

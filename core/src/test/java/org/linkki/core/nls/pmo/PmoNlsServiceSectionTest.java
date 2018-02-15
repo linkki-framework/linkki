@@ -21,10 +21,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
-import org.linkki.core.binding.aspect.definition.CaptionAspectDefinition;
 import org.linkki.core.nls.pmo.sample.SamplePmo;
 import org.linkki.core.ui.section.BaseSection;
 import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
+import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;

@@ -12,7 +12,7 @@
  * the License.
  */
 /**
- * Base for user defined aspects and behaviors to be used with the Linkki data binding framework.
+ * Binding related annotations
  */
 @org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
 package org.linkki.core.binding.annotations;

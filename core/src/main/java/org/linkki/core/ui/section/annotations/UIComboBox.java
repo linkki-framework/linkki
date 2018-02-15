@@ -24,12 +24,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
-import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
 import org.linkki.core.ui.section.annotations.UIComboBox.ComboBoxAvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.ComboboxBindingDefinition;
-import org.linkki.core.ui.section.annotations.aspect.UIFieldAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
 
 /**
  * Creates a ComboBox with the specified parameters.
@@ -37,7 +37,7 @@ import org.linkki.core.ui.section.annotations.aspect.UIFieldAspectDefinition;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiAspect(ComboBoxAvailableValuesAspectDefinition.class)
-@LinkkiAspect(UIFieldAspectDefinition.class)
+@LinkkiAspect(FieldAspectDefinition.class)
 @LinkkiBindingDefinition(ComboboxBindingDefinition.class)
 public @interface UIComboBox {
 

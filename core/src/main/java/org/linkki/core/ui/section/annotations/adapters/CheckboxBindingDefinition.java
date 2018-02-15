@@ -18,14 +18,14 @@ import static java.util.Objects.requireNonNull;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UICheckBox;
-import org.linkki.core.ui.section.annotations.UIFieldDefinition;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 
-public class CheckboxBindingDefinition implements UIFieldDefinition {
+public class CheckboxBindingDefinition implements BindingDefinition {
 
     private final UICheckBox uiCheckBox;
 

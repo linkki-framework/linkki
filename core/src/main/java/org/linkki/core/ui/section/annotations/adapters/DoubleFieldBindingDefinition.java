@@ -19,13 +19,13 @@ import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIDoubleField;
-import org.linkki.core.ui.section.annotations.UIFieldDefinition;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.Component;
 
-public class DoubleFieldBindingDefinition implements UIFieldDefinition {
+public class DoubleFieldBindingDefinition implements BindingDefinition {
 
     private final UIDoubleField uiDoubleField;
 

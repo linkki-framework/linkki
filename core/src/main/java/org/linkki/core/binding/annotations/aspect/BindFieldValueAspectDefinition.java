@@ -17,9 +17,9 @@
 package org.linkki.core.binding.annotations.aspect;
 
 import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.binding.aspect.definition.FieldValueAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.AbstractField;

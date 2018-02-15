@@ -21,13 +21,13 @@ import org.linkki.core.ui.components.LinkkiComboBox;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UIFieldDefinition;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.ui.Component;
 
-public class ComboboxBindingDefinition implements UIFieldDefinition {
+public class ComboboxBindingDefinition implements BindingDefinition {
 
     private final UIComboBox uiComboField;
 

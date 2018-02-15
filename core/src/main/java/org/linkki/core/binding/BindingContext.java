@@ -32,7 +32,8 @@ import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.section.annotations.BindingDescriptor;
+import org.linkki.core.ui.components.LabelComponentWrapper;
+import org.linkki.core.ui.section.descriptor.BindingDescriptor;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.AbstractComponent;
@@ -57,7 +58,7 @@ public class BindingContext implements UiUpdateObserver {
     private final PropertyBehaviorProvider behaviorProvider;
     private final Handler afterUpdateHandler;
 
-    private final Map<Component, ElementBinding> elementBindings = new ConcurrentHashMap<>();
+    private final Map<Object, ElementBinding> elementBindings = new ConcurrentHashMap<>();
     private final Map<Object, List<ElementBinding>> elementBindingsByPmo = Collections.synchronizedMap(new HashMap<>());
     private final Map<Component, TableBinding<?>> tableBindings = new ConcurrentHashMap<>();
     private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<>();
@@ -254,7 +255,8 @@ public class BindingContext implements UiUpdateObserver {
         }
 
         ElementBinding binding = bindingDescriptor.createBinding(createDispatcherChain(pmo, bindingDescriptor),
-                                                                 this::updateUI, component, label);
+                                                                 this::updateUI,
+                                                                 new LabelComponentWrapper(label, component));
         binding.updateFromPmo();
         add(binding);
     }

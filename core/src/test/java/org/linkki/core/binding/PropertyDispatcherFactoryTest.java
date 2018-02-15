@@ -15,6 +15,7 @@ package org.linkki.core.binding;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
@@ -23,9 +24,9 @@ import org.linkki.core.binding.BindingContextTest.TestModelObject;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.ui.section.annotations.BindingDescriptor;
-import org.linkki.core.ui.section.annotations.ElementDescriptor;
 import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.ui.section.descriptor.BindingDescriptor;
+import org.linkki.core.ui.section.descriptor.ElementDescriptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -144,7 +145,7 @@ public class PropertyDispatcherFactoryTest {
             protected PropertyDispatcher createCustomDispatchers(@SuppressWarnings("hiding") Object pmo,
                     BindingDescriptor bindingDescriptor,
                     PropertyDispatcher standardDispatcher) {
-                return null;
+                return mock(PropertyDispatcher.class);
             }
         };
 

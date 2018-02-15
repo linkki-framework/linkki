@@ -12,7 +12,7 @@
  * the License.
  */
 /**
- * Linkki data binding framework.
+ * Property behavior API
  */
 @org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
 package org.linkki.core.binding.behavior;

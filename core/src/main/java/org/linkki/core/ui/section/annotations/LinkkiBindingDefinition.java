@@ -18,11 +18,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
+
 /**
  * Marks an annotation used to mark a UI element created by Linkki, such as {@link UILabel} or
  * {@link UITextField}.
  * <p>
- * Every such annotation is accompanied by a {@link UIElementDefinition} which in turn is used by
+ * Every such annotation is accompanied by a {@link BindingDefinition} which in turn is used by
  * the {@link UIAnnotationReader} to create the actual UI element based on the annotation.
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -30,9 +32,9 @@ import java.lang.annotation.Target;
 public @interface LinkkiBindingDefinition {
 
     /**
-     * The {@link UIElementDefinition} used to implement the annotated Annotation.
+     * The {@link BindingDefinition} used to implement the annotated Annotation.
      * 
-     * @see UIElementDefinition
+     * @see BindingDefinition
      */
-    Class<? extends UIElementDefinition> value();
+    Class<? extends BindingDefinition> value();
 }

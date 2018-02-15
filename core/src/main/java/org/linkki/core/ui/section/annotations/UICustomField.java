@@ -24,10 +24,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
-import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.UICustomField.CustomFieldAvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.CustomFieldBindingDefinition;
-import org.linkki.core.ui.section.annotations.aspect.UIFieldAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.IgnoreTypeAvailableValuesAspectDefinition;
 
 import com.vaadin.ui.Field;
 
@@ -42,7 +42,7 @@ import com.vaadin.ui.Field;
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CustomFieldBindingDefinition.class)
 @LinkkiAspect(CustomFieldAvailableValuesAspectDefinition.class)
-@LinkkiAspect(UIFieldAspectDefinition.class)
+@LinkkiAspect(FieldAspectDefinition.class)
 public @interface UICustomField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -76,8 +76,8 @@ public @interface UICustomField {
     VisibleType visible() default VISIBLE;
 
     /**
-     * Specifies the source of the available values, the content of the custom field if it supports a
-     * content. May be a list of selectable items.
+     * Specifies the source of the available values, the content of the custom field if it supports
+     * a content. May be a list of selectable items.
      * 
      * @see AvailableValuesType
      */
@@ -88,7 +88,7 @@ public @interface UICustomField {
      */
     Class<? extends Field<?>> uiControl();
 
-    class CustomFieldAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
+    class CustomFieldAvailableValuesAspectDefinition extends IgnoreTypeAvailableValuesAspectDefinition {
 
         @SuppressWarnings("null")
         private UICustomField customFieldAnnotation;
@@ -96,11 +96,6 @@ public @interface UICustomField {
         @Override
         public void initialize(Annotation annotation) {
             this.customFieldAnnotation = (UICustomField)annotation;
-        }
-
-        @Override
-        protected boolean ignoreNonAbstractSelect() {
-            return true;
         }
 
         @Override

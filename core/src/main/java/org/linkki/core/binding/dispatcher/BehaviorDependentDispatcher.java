@@ -20,10 +20,10 @@ import java.util.function.Predicate;
 import javax.annotation.CheckForNull;
 
 import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.FieldValueAspectDefinition;
-import org.linkki.core.binding.aspect.definition.VisibleAspectDefinition;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 
 /**
  * {@link AbstractPropertyDispatcherDecorator DispatcherDecorator} that lets

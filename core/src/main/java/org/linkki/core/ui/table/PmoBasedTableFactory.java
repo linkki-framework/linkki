@@ -22,10 +22,10 @@ import org.linkki.core.binding.TableBinding;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.application.ApplicationStyles;
-import org.linkki.core.ui.section.annotations.ElementDescriptor;
-import org.linkki.core.ui.section.annotations.PropertyElementDescriptors;
 import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
-import org.linkki.core.ui.section.annotations.UIAnnotationReader;
+import org.linkki.core.ui.section.descriptor.ElementDescriptor;
+import org.linkki.core.ui.section.descriptor.PropertyElementDescriptors;
+import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;

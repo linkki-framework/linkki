@@ -17,13 +17,13 @@ package org.linkki.core.binding.annotations.aspect;
 import java.lang.annotation.Annotation;
 
 import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.binding.aspect.definition.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.core.ui.section.annotations.aspect.IgnoreTypeAvailableValuesAspectDefinition;
 
 /**
  * Available values aspect binding definition for {@link Bind} annotation.
  */
-class BindAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
+class BindAvailableValuesAspectDefinition extends IgnoreTypeAvailableValuesAspectDefinition {
 
     @SuppressWarnings("null")
     private Bind bindAnnotation;
@@ -31,11 +31,6 @@ class BindAvailableValuesAspectDefinition extends AvailableValuesAspectDefinitio
     @Override
     public void initialize(Annotation annotation) {
         bindAnnotation = (Bind)annotation;
-    }
-
-    @Override
-    protected boolean ignoreNonAbstractSelect() {
-        return true;
     }
 
     @Override

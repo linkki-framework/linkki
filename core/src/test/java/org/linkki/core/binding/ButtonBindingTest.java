@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mockito;
 
@@ -39,7 +40,7 @@ public class ButtonBindingTest {
     private Label label = spy(new Label());
     private Button button = spy(new Button());
 
-    private ButtonBinding binding;
+    private ElementBinding binding;
     private PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
     private BindingContext context = TestBindingContext.create();
     private TestAspectDefinition aspectDefinition;
@@ -49,7 +50,7 @@ public class ButtonBindingTest {
         Object pmo = mock(Object.class);
         when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
 
-        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI,
+        binding = new ComponentBinding(new LabelComponentWrapper(label, button), propertyDispatcher, context::updateUI,
                 Arrays.asList(aspectDefinition));
         context.add(binding);
     }

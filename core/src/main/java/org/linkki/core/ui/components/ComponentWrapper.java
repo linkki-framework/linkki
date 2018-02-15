@@ -14,7 +14,7 @@
 
 package org.linkki.core.ui.components;
 
-import com.vaadin.ui.Label;
+import org.linkki.core.message.MessageList;
 
 /**
  * This interface provides the most common API for a component in linkki. Besides the actual UI
@@ -42,8 +42,8 @@ public interface ComponentWrapper {
     void setEnabled(boolean enabled);
 
     /**
-     * Delegates to the components method. It defines if a component can be seen by users or not. If
-     * a {@link Label} is present, it has to change its visibility too.
+     * Delegates to the components method. It defines if a component can be seen by users or not. If a
+     * label is present, it has to change its visibility too.
      * 
      * @param visible if a component is visible to the user or not
      */
@@ -62,4 +62,6 @@ public interface ComponentWrapper {
      * @return the unwrapped component
      */
     Object getComponent();
+
+    void setComponentError(MessageList messagesForProperty);
 }

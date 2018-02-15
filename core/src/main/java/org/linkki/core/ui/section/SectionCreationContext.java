@@ -25,13 +25,13 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
-import org.linkki.core.ui.section.annotations.ElementDescriptor;
-import org.linkki.core.ui.section.annotations.PropertyElementDescriptors;
 import org.linkki.core.ui.section.annotations.SectionID;
 import org.linkki.core.ui.section.annotations.SectionLayout;
-import org.linkki.core.ui.section.annotations.UIAnnotationReader;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.adapters.UISectionDefinition;
+import org.linkki.core.ui.section.descriptor.ElementDescriptor;
+import org.linkki.core.ui.section.descriptor.PropertyElementDescriptors;
+import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 import org.linkki.util.BeanUtils;
 
 import com.vaadin.ui.Button;

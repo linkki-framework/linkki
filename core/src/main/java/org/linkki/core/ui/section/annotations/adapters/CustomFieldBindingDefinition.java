@@ -16,15 +16,15 @@ package org.linkki.core.ui.section.annotations.adapters;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UICustomField;
-import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.VisibleType;
 
 import com.vaadin.ui.Component;
 
-public class CustomFieldBindingDefinition implements UIFieldDefinition {
+public class CustomFieldBindingDefinition implements BindingDefinition {
 
     private final UICustomField uiCustomField;
 
@@ -66,7 +66,6 @@ public class CustomFieldBindingDefinition implements UIFieldDefinition {
         return uiCustomField.visible();
     }
 
-    @Override
     public AvailableValuesType availableValues() {
         return uiCustomField.content();
     }
