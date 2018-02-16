@@ -2796,8 +2796,7 @@ table {
     }
     .book-body .body-inner {
         position: static;
-        min-height: calc(100% - 50px)
-        
+        min-height: calc(100% - 50px);
         padding: 20px 160px 0px 160px;
     }
 }

@@ -154,14 +154,20 @@
                     pw = new PrintWriter(documentationPath);
                     pw.close();
           
-                    // Add image-path param
-                    docFile.append(':images: ' + config.images_pdf + '\n')
-              
+                    // Add jbake properties
+                    docFile.append(':images: ' + config.images_pdf + '\n\n')
+                        
+                    // Add toc
+                    docFile.append(':toc:\n:toclevels: 3\n\n')
+                    
                     // Add title
-                    docFile.append('= ' + config.title + '\n\n' + ':toc:' + '\n\n')
-          
+                    docFile.append('= ' + config.dtitle + '\n\n')
+                    
+                    // include index of content
+                    docFile.append('include::' + contentPath + '/index.adoc[]\n\n')
+                    
                     // Include in documentation
-                    sortedChapters = published_chapters.sort{ it.order }
+                    sortedChapters = published_chapters.sort{ it.uri }
                     sortedChapters.each 
                     {    chapter ->
                         
@@ -178,6 +184,7 @@
                         
                         // Include index.adoc
                         chapterName = fileName
+                        docFile.append('<<<\n\n')
                         indexInclude = 'include::' + contentPath + '/' + chapterName + '/index.adoc[]'
                         docFile.append(indexInclude + '\n\n')
                         
@@ -189,7 +196,6 @@
                         {    
                                     
                             section ->                 
-                                
                             
                             if(chapter.uri.substring(0, chapter.uri.indexOf('/')) == section.uri.substring(0, section.uri.indexOf('/')))
                             {

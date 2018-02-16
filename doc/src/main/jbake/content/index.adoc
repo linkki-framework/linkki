@@ -1,0 +1,12 @@
+:jbake-type: index
+:jbake-status: published
+:jbake-order: 00
+
+== {dtitle}
+
+ifeval::["{backend}" != "pdf"]
+image:https://img.shields.io/badge/License-Apache2.0-blue.svg[License, link=https://opensource.org/licenses/Apache-2.0, role="left"]
+image:https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/linkki-core/badge.svg[Maven Central, link=https://mvnrepository.com/artifact/org.linkki-framework/linkki-core, role="left"]
+endif::[]
+
+*linkki* is a data binding framework that makes building UI in https://vaadin.com/home[vaadin] applications easier and faster.

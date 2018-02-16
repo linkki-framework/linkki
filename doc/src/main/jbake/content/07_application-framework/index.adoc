@@ -3,7 +3,7 @@
 :jbake-status: published
 :jbake-order: 70
 
-[[validation]]
+[[application-framework]]
 == Application Framework
 
 Next to the binding abilities *linkki* provides a set of useful components that could be used to build business enterprise applications.

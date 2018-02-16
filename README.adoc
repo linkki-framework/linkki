@@ -1,10 +1,15 @@
+:readme-images: doc/src/main/jbake/assets/images/content/
+
 === linkki
 
-A data binding framework for web based user interfaces with https://vaadin.com/home[Vaadin].
+image:https://img.shields.io/badge/License-Apache2.0-blue.svg[License, link=https://opensource.org/licenses/Apache-2.0, role="left"]
+image:https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/linkki-core/badge.svg[Maven Central, link=https://mvnrepository.com/artifact/org.linkki-framework/linkki-core, role="left"]
+
+*linkki* is a data binding framework that makes building UI in https://vaadin.com/home[vaadin] applications easier and faster.
 
 ==== Features
 
-Commonly applications consist of a variety of input elements that closely mirror objects and properties of a domain model. Creating such user interfaces and implementing the synchronization with the domain model is often a repetitive task. *linkki* automates most of the data binding tasks, enabling developers to focus on the domain- and UI logic.
+Applications often consist of a variety of input elements that closely mirror objects and properties of a domain model. Creating such user interfaces and implementing the synchronization with the domain model is often a repetitive task. *linkki* automates most of the data binding tasks, enabling developers to focus on the domain and UI logic.
 
 * Fast UI development
 * Declarative UI definition (with annotations)
@@ -17,7 +22,7 @@ Commonly applications consist of a variety of input elements that closely mirror
 
 ==== Examples
 
-==== Model Binding
+===== Model Binding
 [source,java]
 
 ----
@@ -27,7 +32,7 @@ Commonly applications consist of a variety of input elements that closely mirror
     }
 ----
 
-==== Textfield/Textarea
+===== Textfield/Textarea
 [source,java]
 
 ----
@@ -37,7 +42,7 @@ Commonly applications consist of a variety of input elements that closely mirror
     }
 ----
 
-==== ComboBox
+===== ComboBox
 [source,java]
 
 ----
@@ -50,7 +55,7 @@ Commonly applications consist of a variety of input elements that closely mirror
     }
 ----
 
-==== Button
+===== Button
 [source,java]
 
 ----
@@ -75,13 +80,12 @@ Commonly applications consist of a variety of input elements that closely mirror
     }
 }
 ----
-:images: doc/src/main/jbake/assets/images/content
 
 .Report with disabled send button
-image::{images}/report_disabled.png[]
+image::{readme-images}02_getting_started/report_disabled.png[]
 
 .Report with enabled send button
-image::{images}/report_enabled.png[]
+image::{readme-images}02_getting_started/report_enabled.png[]
 
 
 NOTE: The complete example can be found at http://doc.linkki-framework.org/linkki-1.0-SNAPSHOT/02_getting-started/01_error_report.html[Getting Started - 'Error report' tutorial].
@@ -99,12 +103,6 @@ NOTE: The complete example can be found at http://doc.linkki-framework.org/linkk
   <artifactId>linkki-core</artifactId>
   <version>${linkki.version}</version>
 </dependency>
-----
-
-To compile *linkki*, first clone the project from https://github.com/linkki-framework/linkki[GitHub]. The used build tool is Apache Maven.
-[source,bash]
-----
-$> mvn clean install
 ----
 
 ==== Contribution

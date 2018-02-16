@@ -11,11 +11,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <asciidoctor.maven.plugin.version>1.5.5</asciidoctor.maven.plugin.version>
+        <asciidoctor.maven.plugin.version>1.5.6</asciidoctor.maven.plugin.version>
         <asciidoctorj.pdf.version>1.5.0-alpha.14</asciidoctorj.pdf.version>
-        <asciidoctorj.version>1.5.5</asciidoctorj.version>
+        <asciidoctorj.version>1.5.6</asciidoctorj.version>
         <jruby.version>1.7.26</jruby.version>
         <jbake.outputDirectory>${project.build.directory}/${project.build.finalName}</jbake.outputDirectory>
+        <documentation.dtitle>linkki documentation</documentation.dtitle>
+        <basedir.parent>${project.parent.basedir}</basedir.parent>
     </properties>
 
     <artifactId>linkki-core-documentation</artifactId>
@@ -52,6 +54,8 @@
                                 <site.url>http://localhost:8820/</site.url>
                                 <project.basedir>${project.basedir}</project.basedir>
                                 <jbake.outputDirectory>${jbake.outputDirectory}</jbake.outputDirectory>
+                                <dtitle>${documentation.dtitle}</dtitle>
+                                <readmepath>${basedir.parent}</readmepath>
                             </properties>
                         </configuration>
                     </execution>
@@ -84,13 +88,7 @@
                         <artifactId>asciidoctorj-pdf</artifactId>
                         <version>${asciidoctorj.pdf.version}</version>
                     </dependency>
-                    <!-- Comment this section to use the default jruby artifact provided 
-                        by the plugin -->
-                    <dependency>
-                        <groupId>org.jruby</groupId>
-                        <artifactId>jruby-complete</artifactId>
-                        <version>${jruby.version}</version>
-                    </dependency>
+                    
                     <!-- Comment this section to use the default AsciidoctorJ artifact 
                         provided by the plugin -->
                     <dependency>
@@ -128,6 +126,9 @@
                                 <idseparator>-</idseparator>
                                 <pdf-stylesdir>${project.basedir}/src/theme</pdf-stylesdir>
                                 <pdf-style>base</pdf-style>
+                                <allow-uri-read>true</allow-uri-read>
+                                <dtitle>${documentation.dtitle}</dtitle>
+                                <readmepath>${basedir.parent}</readmepath>
                             </attributes>
                         </configuration>
                     </execution>
@@ -236,7 +237,9 @@
                                     <goal>process-asciidoc</goal>
                                 </goals>
                                 <configuration>
+                                    <sourceDirectory>${basedir.parent}</sourceDirectory>
                                     <sourceDocumentName>README.adoc</sourceDocumentName>
+                                    <backend>html</backend>
                                 </configuration>
                             </execution>
                         </executions>
