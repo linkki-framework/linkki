@@ -75,13 +75,6 @@ public class ComponentBinding implements ElementBinding {
         // CSON: IllegalCatch
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @deprecated Damn Vaadin has deprecated the toString method :( Also set deprecated to avoid
-     *             warnings
-     */
-    @Deprecated
     @Override
     public String toString() {
         return "ComponentBinding [" + componentWrapper + ", propertyDispatcher=" + propertyDispatcher

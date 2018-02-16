@@ -17,6 +17,7 @@ import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,9 +25,13 @@ import java.lang.annotation.Target;
 
 import javax.annotation.Nonnull;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.nls.NlsText;
+import org.linkki.core.ui.section.annotations.UIYesNoComboBox.YesNoAvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.YesNoComboBoxBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
 
 /**
  * A combo box for boolean or Boolean values.
@@ -34,6 +39,8 @@ import org.linkki.core.ui.section.annotations.adapters.YesNoComboBoxBindingDefin
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(YesNoComboBoxBindingDefinition.class)
+@LinkkiAspect(FieldAspectDefinition.class)
+@LinkkiAspect(YesNoAvailableValuesAspectDefinition.class)
 public @interface UIYesNoComboBox {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -74,11 +81,11 @@ public @interface UIYesNoComboBox {
     String modelAttribute() default "";
 
     /**
-     * Specifies which {@link ItemCaptionProvider} should be used to convert boolean values into
-     * String captions.
+     * Specifies which {@link ItemCaptionProvider} should be used to convert boolean values into String
+     * captions.
      * <p>
-     * Default value prints the boolean values in the system locale (for example "yes"/"no" in
-     * English or "ja"/nein" in German).
+     * Default value prints the boolean values in the system locale (for example "yes"/"no" in English
+     * or "ja"/nein" in German).
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default BooleanCaptionProvider.class;
 
@@ -94,6 +101,20 @@ public @interface UIYesNoComboBox {
             return bool ? NlsText.getString("BooleanCaptionProvider.True") //$NON-NLS-1$
                     : NlsText.getString("BooleanCaptionProvider.False"); //$NON-NLS-1$
         }
+    }
+
+    class YesNoAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
+
+        @Override
+        public void initialize(Annotation annotation) {
+            // does not need to do anything
+        }
+
+        @Override
+        protected AvailableValuesType getAvailableValuesType() {
+            return AvailableValuesType.ENUM_VALUES_INCL_NULL;
+        }
+
     }
 }
 

@@ -153,17 +153,17 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public <T> boolean isWritable(Aspect<T> aspect) {
+    public <T> boolean isPushable(Aspect<T> aspect) {
         Object boundObject = getBoundObject();
         return (boundObject != null && hasWriteMethod(getPropertyAspectName(aspect)))
-                || fallbackDispatcher.isWritable(aspect);
+                || fallbackDispatcher.isPushable(aspect);
     }
 
     /**
      * Returns if the {@link #getBoundObject()} has a setter method for the given property.
      * 
      * @param propertyToWrite property name of the bound object
-     * @return wether the bound object has a setter method for the property.
+     * @return whether the bound object has a setter method for the property.
      */
     private boolean hasWriteMethod(String propertyToWrite) {
         return getAccessor(propertyToWrite).canWrite();

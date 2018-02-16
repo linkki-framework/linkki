@@ -22,7 +22,7 @@ import org.linkki.core.message.MessageList;
  * Provides field information for an arbitrary property through an unified interface.
  * <p>
  * Each aspects value can be set to the model by using {@link #pull(Aspect)}, and retrieved by
- * {@link #push(Aspect)}. {{@link #push(Aspect)} can only be used if {@link #isWritable(Aspect)}
+ * {@link #push(Aspect)}. {{@link #push(Aspect)} can only be used if {@link #isPushable(Aspect)}
  * returns {@code true}. Additionally, validation messages can be retrieved with
  * {@linkplain #getMessages(MessageList)}, which are not handled by aspects.
  */
@@ -82,11 +82,11 @@ public interface PropertyDispatcher {
     <T> void push(Aspect<T> aspect);
 
     /**
-     * Defines if the aspect is read only thus if {@link #push(Aspect)} can be called. Most aspect
-     * values are not writable. A typical writable aspect is the value binding aspect.
+     * Checks whether {@link #push(Aspect)} can be called that means the value could be stored in the
+     * model respectively an appropriate method could be called.
      * 
-     * @param aspect aspect of which the value is checked for readonly property
-     * @return if the value of the aspect can be set
+     * @param aspect The aspect which should be checked
+     * @return <code>true</code> if the aspect could be pushed
      */
-    <T> boolean isWritable(Aspect<T> aspect);
+    <T> boolean isPushable(Aspect<T> aspect);
 }

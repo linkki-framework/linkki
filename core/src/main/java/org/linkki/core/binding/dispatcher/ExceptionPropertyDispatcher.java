@@ -28,7 +28,7 @@ import org.linkki.core.message.MessageList;
 /**
  * {@link PropertyDispatcher} that throws exception for aspect except for
  * {@link #getMessages(MessageList)}, which returns an empty {@link MessageList}. In case of
- * {@link #isWritable(Aspect)}, <code>false</code> is returned.
+ * {@link #isPushable(Aspect)}, <code>false</code> is returned.
  *
  * Serves as a last resort fall-back to simplify exception creation in other dispatchers.
  */
@@ -106,7 +106,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public <T> boolean isWritable(Aspect<T> aspect) {
+    public <T> boolean isPushable(Aspect<T> aspect) {
         return false;
     }
 }

@@ -164,6 +164,8 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
 
     private static class ButtonPmoButtonWrapper implements ComponentWrapper {
 
+        private static final long serialVersionUID = 1L;
+
         private Button wrappedButton;
 
         public ButtonPmoButtonWrapper(Button button) {

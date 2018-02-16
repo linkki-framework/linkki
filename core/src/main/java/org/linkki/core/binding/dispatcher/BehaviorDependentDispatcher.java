@@ -99,12 +99,12 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     }
 
     @Override
-    public <T> boolean isWritable(Aspect<T> aspect) {
+    public <T> boolean isPushable(Aspect<T> aspect) {
         if (aspect.getName().equals(FieldValueAspectDefinition.NAME)
                 && !isConsensus(b -> b.isWritable(requireNonNull(getBoundObject()), getProperty()))) {
             return false;
         } else {
-            return super.isWritable(aspect);
+            return super.isPushable(aspect);
         }
     }
 

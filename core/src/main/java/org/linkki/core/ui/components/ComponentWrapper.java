@@ -14,6 +14,8 @@
 
 package org.linkki.core.ui.components;
 
+import java.io.Serializable;
+
 import org.linkki.core.message.MessageList;
 
 /**
@@ -24,7 +26,7 @@ import org.linkki.core.message.MessageList;
  * @see LabelComponentWrapper
  * 
  */
-public interface ComponentWrapper {
+public interface ComponentWrapper extends Serializable {
 
     /**
      * Specifies the ID of the component that is wrapped by this {@link ComponentWrapper}. The ID might

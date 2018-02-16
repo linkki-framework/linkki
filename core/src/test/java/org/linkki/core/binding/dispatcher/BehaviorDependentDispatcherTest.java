@@ -46,7 +46,7 @@ public class BehaviorDependentDispatcherTest {
     public void setUp() {
         when(behaviourProvider.getBehaviors()).thenReturn(Collections.emptyList());
         when(wrappedDispatcher.pull(Mockito.any())).thenReturn(true);
-        when(wrappedDispatcher.isWritable(Mockito.any())).thenReturn(true);
+        when(wrappedDispatcher.isPushable(Mockito.any())).thenReturn(true);
         behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, behaviourProvider);
     }
 
@@ -91,6 +91,6 @@ public class BehaviorDependentDispatcherTest {
 
         when(behaviourProvider.getBehaviors()).thenReturn(Arrays.asList(nonWritableBehavior));
         when(behaviorDispatcher.getBoundObject()).thenReturn(mock(Object.class));
-        assertThat(behaviorDispatcher.isWritable(Aspect.of(FieldValueAspectDefinition.NAME)), is(false));
+        assertThat(behaviorDispatcher.isPushable(Aspect.of(FieldValueAspectDefinition.NAME)), is(false));
     }
 }

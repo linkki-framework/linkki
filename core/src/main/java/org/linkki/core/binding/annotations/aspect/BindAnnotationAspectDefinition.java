@@ -36,6 +36,7 @@ public class BindAnnotationAspectDefinition extends CompositeAspectDefinition {
                              enabledTypeAspectDefinition,
                              new BindRequiredAspectDefinition(enabledTypeAspectDefinition),
                              new BindFieldValueAspectDefinition(),
+                             new BindReadOnlyAspectDefinition(),
                              new BindLabelValueAspectDefinition(),
                              new BindButtonInvokeAspectDefinition());
     }

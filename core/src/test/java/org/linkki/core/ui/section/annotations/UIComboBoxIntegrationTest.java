@@ -82,6 +82,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     @Test
     public void testValue() {
         LinkkiComboBox comboBox = getDynamicComponent();
+        assertThat(comboBox.getValue(), is(TestEnum.THREE));
 
         getDefaultModelObject().setValue(TestEnum.TWO);
         updateUi();
@@ -160,7 +161,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     @SuppressWarnings("null")
     protected static class ComboBoxTestModelObject {
 
-        private TestEnum value;
+        private TestEnum value = TestEnum.THREE;
 
         public TestEnum getValue() {
             return value;

@@ -77,7 +77,7 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
-    public <T> boolean isWritable(Aspect<T> aspect) {
-        return getWrappedDispatcher().isWritable(aspect);
+    public <T> boolean isPushable(Aspect<T> aspect) {
+        return getWrappedDispatcher().isPushable(aspect);
     }
 }

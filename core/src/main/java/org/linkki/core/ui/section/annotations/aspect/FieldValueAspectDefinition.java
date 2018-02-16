@@ -53,7 +53,6 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
                 propertyDispatcher.getValueClass(),
                 () -> propertyDispatcher.pull(Aspect.of(NAME)),
                 v -> propertyDispatcher.push(Aspect.of(NAME, v)),
-                () -> !propertyDispatcher.isWritable(Aspect.of(NAME)),
                 modelUpdated);
         field.setPropertyDataSource(dataSource);
 
@@ -150,16 +149,13 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
 
         private final Consumer<T> aspectValueSetter;
 
-        private final Supplier<Boolean> readOnlySupplier;
-
         private Handler uiUpdater;
 
         public FieldBindingDataSource(Class<?> valueClass, Supplier<T> valueGetter, Consumer<T> valueSetter,
-                Supplier<Boolean> readOnlySupplier, Handler uiUpdater) {
+                Handler uiUpdater) {
             this.valueClass = requireNonNull(valueClass, "valueClass must not be null");
             this.aspectValueGetter = requireNonNull(valueGetter, "valueSupplier must not be null");
             this.aspectValueSetter = requireNonNull(valueSetter, "valueConsumer must not be null");
-            this.readOnlySupplier = requireNonNull(readOnlySupplier, "readOnlySupplier must not be null");
             this.uiUpdater = requireNonNull(uiUpdater, "uiUpdater must not be null");
         }
 
@@ -199,7 +195,8 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
 
         @Override
         public boolean isReadOnly() {
-            return readOnlySupplier.get();
+            // read-only is controlled by an independent aspect
+            return false;
         }
 
         @Override

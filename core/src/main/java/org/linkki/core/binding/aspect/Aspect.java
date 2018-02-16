@@ -142,6 +142,11 @@ public class Aspect<T> {
         return new Aspect<>(name, new Value<>(true, value));
     }
 
+    @Override
+    public String toString() {
+        return "Aspect " + (name.isEmpty() ? "VALUE" : name) + " " + value;
+    }
+
     /**
      * Wraps a value if there is any. This is similar to {@link Optional} but the value may also be null
      * although it is marked as being present.
@@ -177,6 +182,15 @@ public class Aspect<T> {
                 return get();
             } else {
                 return valueSupplier.get();
+            }
+        }
+
+        @Override
+        public String toString() {
+            if (isValuePresent()) {
+                return "Value " + value;
+            } else {
+                return "no value present";
             }
         }
 

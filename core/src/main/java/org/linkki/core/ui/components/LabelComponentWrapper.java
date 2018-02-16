@@ -36,6 +36,8 @@ import com.vaadin.ui.Label;
  */
 public class LabelComponentWrapper implements ComponentWrapper {
 
+    private static final long serialVersionUID = 1L;
+
     @Nullable
     private final Label label;
     private final Component component;
@@ -120,6 +122,7 @@ public class LabelComponentWrapper implements ComponentWrapper {
 
     @Override
     public String toString() {
-        return "component=" + component + ", label=" + label;
+        return "component=" + component + ", label="
+                + Optional.ofNullable(label).map(Label::getValue).orElse("<no label>");
     }
 }

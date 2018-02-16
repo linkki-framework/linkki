@@ -37,6 +37,7 @@ public class FieldAspectDefinition extends CompositeAspectDefinition {
         return Arrays.asList(enabledAspectDefinition,
                              requiredAspectDefinition,
                              new VisibleAspectForBindingDefinition(),
-                             new FieldValueAspectDefinition());
+                             new FieldValueAspectDefinition(),
+                             new ReadOnlyAspectDefinition());
     }
 }
