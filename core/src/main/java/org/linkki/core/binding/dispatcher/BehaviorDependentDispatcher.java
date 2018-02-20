@@ -108,9 +108,4 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
         }
     }
 
-    @Override
-    public String toString() {
-        return "BehaviourDependentDispatcher[wrappedDispatcher=" + getWrappedDispatcher() + ", providedBehaviours="
-                + provider.getBehaviors() + "]";
-    }
 }

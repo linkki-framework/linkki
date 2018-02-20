@@ -197,7 +197,10 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     public String toString() {
-        return "ReflectionPropertyDispatcher [boundObject=" + boundObjectSupplier.get() + ", fallbackDispatcher="
-                + fallbackDispatcher + "]";
+        Object boundObject = getBoundObject();
+        return getClass().getSimpleName() + "["
+                + (boundObject != null ? boundObject.getClass().getSimpleName() : "<no object>") + "#" + getProperty()
+                + "]\n\t-> " + fallbackDispatcher;
     }
+
 }

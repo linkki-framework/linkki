@@ -54,9 +54,9 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
                 () -> propertyDispatcher.pull(Aspect.of(NAME)),
                 v -> propertyDispatcher.push(Aspect.of(NAME, v)),
                 modelUpdated);
-        field.setPropertyDataSource(dataSource);
 
         prepareFieldToHandleNullForRequiredFields(field);
+        field.setPropertyDataSource(dataSource);
     }
 
     /**

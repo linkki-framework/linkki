@@ -122,7 +122,7 @@ public class LabelComponentWrapper implements ComponentWrapper {
 
     @Override
     public String toString() {
-        return "component=" + component + ", label="
-                + Optional.ofNullable(label).map(Label::getValue).orElse("<no label>");
+        return Optional.ofNullable(label).map(Label::getValue).orElse("<no label>") + "("
+                + component.getClass().getSimpleName() + ")";
     }
 }

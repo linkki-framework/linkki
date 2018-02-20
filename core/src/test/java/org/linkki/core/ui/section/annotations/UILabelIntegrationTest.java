@@ -16,6 +16,8 @@ package org.linkki.core.ui.section.annotations;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.math.BigDecimal;
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -71,6 +73,19 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
         public void staticValue() {
             // model binding
         }
+
+        // just have some further labels and check that the section could be created
+
+        @UILabel(position = 3)
+        public BigDecimal getOtherTyp() {
+            return new BigDecimal("123");
+        }
+
+        @UILabel(position = 4)
+        public int getInt() {
+            return 1231234;
+        }
+
     }
 
     protected static class TestModelObjectWithString extends TestModelObject<String> {

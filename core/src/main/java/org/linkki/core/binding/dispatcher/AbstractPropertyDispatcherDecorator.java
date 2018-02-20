@@ -50,11 +50,6 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
-    public String toString() {
-        return "PropertyDispatcherDecorator[wrappedDispatcher=" + wrappedDispatcher + "]";
-    }
-
-    @Override
     public String getProperty() {
         return getWrappedDispatcher().getProperty();
     }
@@ -79,5 +74,13 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     @Override
     public <T> boolean isPushable(Aspect<T> aspect) {
         return getWrappedDispatcher().isPushable(aspect);
+    }
+
+    @Override
+    public String toString() {
+        Object boundObject = getBoundObject();
+        return getClass().getSimpleName() + "["
+                + (boundObject != null ? boundObject.getClass().getSimpleName() : "<no object>") + "#" + getProperty()
+                + "]\n\t-> " + wrappedDispatcher;
     }
 }

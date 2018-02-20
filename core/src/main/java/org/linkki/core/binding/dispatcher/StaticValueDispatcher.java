@@ -35,11 +35,6 @@ public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
         super(wrappedDispatcher);
     }
 
-    @Override
-    public String toString() {
-        return "StaticValueDispatcher [wrappedDispatcher=" + getWrappedDispatcher() + "]";
-    }
-
     /**
      * Returns the value of the {@link Aspect} if the value is static.
      */

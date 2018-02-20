@@ -34,7 +34,20 @@ public abstract class ModelToUiAspectDefinition<VALUE_TYPE> implements LinkkiAsp
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
         Consumer<VALUE_TYPE> setter = createComponentValueSetter(componentWrapper);
         Aspect<VALUE_TYPE> aspect = createAspect();
-        return () -> setter.accept(propertyDispatcher.pull(aspect));
+        return () -> {
+            try {
+                setter.accept(propertyDispatcher.pull(aspect));
+                // CSOFF: IllegalCatch
+            } catch (RuntimeException e) {
+                throw new RuntimeException(
+                        "Error while upadte UI for " +
+                                propertyDispatcher.getBoundObject() +
+                                "#" + propertyDispatcher.getProperty() +
+                                (aspect.getName().isEmpty() ? "" : " (" + aspect.getName() + ")") +
+                                " Message: " + e.getMessage());
+                // CSON: IllegalCatch
+            }
+        };
     }
 
     /**

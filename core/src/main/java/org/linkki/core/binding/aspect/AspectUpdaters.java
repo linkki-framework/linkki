@@ -45,6 +45,16 @@ public class AspectUpdaters {
      * Prompt all aspects to update the UI component.
      */
     public void updateUI() {
-        uiUpdaters.forEach(Handler::apply);
+        uiUpdaters.forEach(h -> {
+            try {
+                h.apply();
+                // CSOFF: IllegalCatch
+            } catch (RuntimeException e) {
+                throw new RuntimeException(
+                        e.getMessage() + " in " + e.getStackTrace()[0]);
+            }
+            // CSON: IllegalCatch
+
+        });
     }
 }

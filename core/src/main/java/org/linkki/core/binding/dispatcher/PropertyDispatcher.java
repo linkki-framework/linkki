@@ -89,4 +89,5 @@ public interface PropertyDispatcher {
      * @return <code>true</code> if the aspect could be pushed
      */
     <T> boolean isPushable(Aspect<T> aspect);
+
 }

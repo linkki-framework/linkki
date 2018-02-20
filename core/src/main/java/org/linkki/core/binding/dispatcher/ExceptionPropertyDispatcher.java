@@ -14,6 +14,8 @@
 package org.linkki.core.binding.dispatcher;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -58,7 +60,8 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     private String getExceptionText(String action) {
-        return MessageFormat.format("Cannot {0} property \"{1}\" in any of {2}", action, property, objects);
+        return MessageFormat.format("Cannot {0} property \"{1}\" in any of {2}", action, property,
+                                    objects.stream().map(Object::getClass).collect(toList()));
     }
 
     /**
@@ -67,11 +70,6 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     @Override
     public MessageList getMessages(MessageList messageList) {
         return new MessageList();
-    }
-
-    @Override
-    public String toString() {
-        return "ExceptionPropertyDispatcher[" + property + "]";
     }
 
     @Override
@@ -92,7 +90,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     @Override
     @CheckForNull
     public <T> T pull(Aspect<T> aspect) {
-        throw new IllegalStateException(getExceptionText("find aspect \"" + aspect.getName() + "\" method for"));
+        throw new IllegalStateException(getExceptionText("read aspect \"" + aspect.getName() + "\" method for"));
     }
 
     @Override
@@ -109,4 +107,13 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     public <T> boolean isPushable(Aspect<T> aspect) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "["
+                + objects.stream().map(Object::getClass).map(Class::getSimpleName).collect(joining(",")) + "#"
+                + getProperty()
+                + "]";
+    }
+
 }

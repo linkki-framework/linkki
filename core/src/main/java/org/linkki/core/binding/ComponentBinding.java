@@ -68,17 +68,10 @@ public class ComponentBinding implements ElementBinding {
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
             throw new RuntimeException(
-                    "Error while updating field " + getBoundComponent().getClass() + ", value property="
-                            + propertyDispatcher.getProperty(),
-                    e);
+                    "Error while updating UI (" + e.getMessage() + ") in "
+                            + toString());
         }
         // CSON: IllegalCatch
-    }
-
-    @Override
-    public String toString() {
-        return "ComponentBinding [" + componentWrapper + ", propertyDispatcher=" + propertyDispatcher
-                + "]";
     }
 
     @Override
@@ -102,6 +95,11 @@ public class ComponentBinding implements ElementBinding {
     private void addFatalError(MessageList messages, MessageList messagesForProperty) {
         messages.getMessageByCode(ValidationService.FATAL_ERROR_MESSAGE_CODE)
                 .ifPresent(messagesForProperty::add);
+    }
+
+    @Override
+    public String toString() {
+        return "ComponentBinding: " + componentWrapper + " <=> " + propertyDispatcher;
     }
 
 }

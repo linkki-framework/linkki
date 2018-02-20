@@ -94,6 +94,7 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
         public void staticValue() {
             // model binding
         }
+
     }
 
     protected static class TestModelObjectWithString extends TestModelObject<String> {
