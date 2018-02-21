@@ -39,12 +39,14 @@ public abstract class ModelToUiAspectDefinition<VALUE_TYPE> implements LinkkiAsp
                 setter.accept(propertyDispatcher.pull(aspect));
                 // CSOFF: IllegalCatch
             } catch (RuntimeException e) {
+                Object boundObject = propertyDispatcher.getBoundObject();
                 throw new RuntimeException(
-                        "Error while upadte UI for " +
-                                propertyDispatcher.getBoundObject() +
-                                "#" + propertyDispatcher.getProperty() +
-                                (aspect.getName().isEmpty() ? "" : " (" + aspect.getName() + ")") +
-                                " Message: " + e.getMessage());
+                        e.getMessage() +
+                                " while apply " +
+                                (aspect.getName().isEmpty() ? "value" : "aspect " + aspect.getName()) +
+                                " of " +
+                                (boundObject != null ? boundObject.getClass() : "<no object>") +
+                                "#" + propertyDispatcher.getProperty());
                 // CSON: IllegalCatch
             }
         };

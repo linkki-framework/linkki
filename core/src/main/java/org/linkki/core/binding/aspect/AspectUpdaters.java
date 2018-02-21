@@ -35,7 +35,18 @@ public class AspectUpdaters {
 
     public AspectUpdaters(List<LinkkiAspectDefinition> aspectDefinitions, PropertyDispatcher propertyDispatcher,
             ComponentWrapper componentWrapper, Handler modelUpdated) {
-        aspectDefinitions.forEach(d -> d.initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated));
+        aspectDefinitions.forEach(d -> {
+            try {
+                d.initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated);
+                // CSOFF: IllegalCatch
+            } catch (RuntimeException e) {
+                throw new RuntimeException(
+                        e.getMessage() + " while init model update of " + d.getClass().getSimpleName() + " for "
+                                + componentWrapper + " <=> "
+                                + propertyDispatcher);
+            }
+            // CSON: IllegalCatch
+        });
         this.uiUpdaters = aspectDefinitions.stream()
                 .map(d -> d.createUiUpdater(propertyDispatcher, componentWrapper))
                 .collect(Collectors.toList());
@@ -54,7 +65,6 @@ public class AspectUpdaters {
                         e.getMessage() + " in " + e.getStackTrace()[0]);
             }
             // CSON: IllegalCatch
-
         });
     }
 }
