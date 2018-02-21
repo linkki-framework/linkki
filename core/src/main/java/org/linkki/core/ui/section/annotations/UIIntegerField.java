@@ -23,7 +23,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.text.DecimalFormat;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.section.annotations.adapters.IntegerFieldBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
 
 /**
  * A text field for displaying formatted integers.
@@ -31,6 +33,7 @@ import org.linkki.core.ui.section.annotations.adapters.IntegerFieldBindingDefini
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(IntegerFieldBindingDefinition.class)
+@LinkkiAspect(FieldAspectDefinition.class)
 public @interface UIIntegerField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */

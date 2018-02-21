@@ -19,24 +19,31 @@ import org.linkki.core.ui.section.annotations.UITextField;
 
 public class NlsTableRowPmo {
 
+    public static final String PROPERTY_VALUE1 = "value1";
+    public static final String PROPERTY_VALUE2 = "value2";
+    public static final String PROPERTY_VALUE3 = "value3";
+    public static final String PROPERTY_DELETE = "delete";
+
+    public static final String PMO_LABEL = "not translated label";
+
     @UITableColumn(width = 100)
-    @UITextField(position = 0, label = "1")
+    @UITextField(position = 0, label = PMO_LABEL)
     public String getValue1() {
         return "1";
     }
 
     @UITableColumn(expandRatio = 2.0f)
-    @UITextField(position = 1, label = "2")
+    @UITextField(position = 1, label = PMO_LABEL)
     public String getValue2() {
         return "2";
     }
 
-    @UITextField(position = 2, label = "3")
+    @UITextField(position = 2, label = PMO_LABEL)
     public String getValue3() {
         return "3";
     }
 
-    @UIButton(position = 3)
+    @UIButton(position = 3, label = PMO_LABEL)
     public void delete() {
         // nothing to do
     }

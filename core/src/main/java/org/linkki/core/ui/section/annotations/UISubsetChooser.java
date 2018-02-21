@@ -17,6 +17,7 @@ import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,9 +25,13 @@ import java.lang.annotation.Target;
 import java.util.Collection;
 import java.util.Set;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
+import org.linkki.core.ui.section.annotations.UISubsetChooser.SubsetChooserAvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.SubsetChooserBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
 
 /**
  * Creates a subset chooser, i.e. a multi-select component with a left and a right list.
@@ -49,6 +54,8 @@ public Set&lt;T&gt; getFooAvailableValues() { ... }
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(SubsetChooserBindingDefinition.class)
+@LinkkiAspect(SubsetChooserAvailableValuesAspectDefinition.class)
+@LinkkiAspect(FieldAspectDefinition.class)
 public @interface UISubsetChooser {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -100,4 +107,17 @@ public @interface UISubsetChooser {
     /** Caption of the right column */
     String rightColumnCaption() default "";
 
+    class SubsetChooserAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
+
+        @Override
+        public void initialize(Annotation annotation) {
+            // does not need to do anything
+        }
+
+        @Override
+        protected AvailableValuesType getAvailableValuesType() {
+            return AvailableValuesType.DYNAMIC;
+        }
+
+    }
 }

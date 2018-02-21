@@ -13,40 +13,31 @@
  */
 package org.linkki.core.binding.dispatcher;
 
-import java.util.Collection;
-
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 
 /**
  * Provides field information for an arbitrary property through an unified interface.
  * <p>
- * For each aspect that can be bound to a field, a getter method exists. The aspects are:
- * <ul>
- * <li>{@linkplain #getValue() Value}</li>
- * <li>{@linkplain #isEnabled() Enabled state}</li>
- * <li>{@linkplain #isVisible() Visibility}</li>
- * <li>{@linkplain #isRequired() Mandatory state}</li>
- * <li>{@linkplain #isReadOnly() Read-only state}</li>
- * <li>{@linkplain #getAvailableValues() List of available values}</li>
- * <li>{@linkplain #getMessages(MessageList) ErrorMessages/Warnings}</li>
- * </ul>
- * In contrast to the other aspects the value of a property can also be set.
+ * Each aspects value can be set to the model by using {@link #pull(Aspect)}, and retrieved by
+ * {@link #push(Aspect)}. {{@link #push(Aspect)} can only be used if {@link #isPushable(Aspect)}
+ * returns {@code true}. Additionally, validation messages can be retrieved with
+ * {@linkplain #getMessages(MessageList)}, which are not handled by aspects.
  */
 public interface PropertyDispatcher {
 
     /**
      * @return the name of the property
      */
-    public String getProperty();
+    String getProperty();
 
     /**
      * @return the model object containing the property.
      */
-    @Nullable
-    public Object getBoundObject();
+    @CheckForNull
+    Object getBoundObject();
 
     /**
      * Retrieves the value class for the property. i.e. the return type of the getter method.
@@ -54,65 +45,7 @@ public interface PropertyDispatcher {
      * @return the value class of the property
      * @throws IllegalArgumentException if the property is not available.
      */
-    public Class<?> getValueClass();
-
-    /**
-     * Retrieves the value for the property.
-     *
-     * @return the value of the property
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    @CheckForNull
-    public Object getValue();
-
-    /**
-     * Sets the property to the argument value.
-     * 
-     * @param value the property's new value(may be <code>null</code>)
-     *
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public void setValue(@Nullable Object value);
-
-    /**
-     * Retrieves the read-only state for the property.
-     *
-     * @return whether the property is read-only
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public boolean isReadOnly();
-
-    /**
-     * Retrieves the enabled state for the property.
-     *
-     * @return whether the property is enabled
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public boolean isEnabled();
-
-    /**
-     * Retrieves the visibility for the property.
-     *
-     * @return whether the property is visible
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public boolean isVisible();
-
-    /**
-     * Retrieves the mandatory state for the property.
-     *
-     * @return whether the property is mandatory
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public boolean isRequired();
-
-    /**
-     * Retrieves the list of values for the property, e.g. all options in a dropdown control
-     *
-     * @return the list of available values
-     * @throws IllegalArgumentException if the property is not available.
-     */
-    public Collection<?> getAvailableValues();
+    Class<?> getValueClass();
 
     /**
      * Retrieves the validation messages for the property.
@@ -120,22 +53,41 @@ public interface PropertyDispatcher {
      * @param messageList the existing messages from previous model object validation
      * @return the list of messages
      */
-    public MessageList getMessages(MessageList messageList);
+    MessageList getMessages(MessageList messageList);
 
     /**
-     * Invokes the property with the given name, i.e. invokes the method of that name.
-     */
-    public void invoke();
-
-    /**
-     * @return the caption of a control, i.e. a button's text.
-     */
-    @CheckForNull
-    public String getCaption();
-
-    /**
-     * @return the tooltip of a control, i.e. a button's tooltip.
+     * Pulls the value for the given {@link Aspect} from this dispatcher.
+     * <p>
+     * The given {@link Aspect} may have a {@link Aspect#getValue() value}. It is up to the decision of
+     * this dispatcher to use this value or to provide another value instead.
+     * <p>
+     * Note: This method may return <code>null</code> if the aspect is designed to accept
+     * <code>null</code> value.
+     * 
+     * @param aspect the {@link Aspect} that is requested from this dispatcher
+     * @return value of the given {@link Aspect} according to this dispatcher
      */
     @CheckForNull
-    public String getToolTip();
+    <T> T pull(Aspect<T> aspect);
+
+    /**
+     * Push the value of the given aspect. If the {@link Aspect} contains a value this value should be
+     * set to the model. If it does not have a value an appropriate method without argument should be
+     * invoked.
+     * 
+     * @param aspect an aspect with the name of the aspect and the value if a value should be stored.
+     *
+     * @throws IllegalArgumentException if the property is not available
+     */
+    <T> void push(Aspect<T> aspect);
+
+    /**
+     * Checks whether {@link #push(Aspect)} can be called that means the value could be stored in the
+     * model respectively an appropriate method could be called.
+     * 
+     * @param aspect The aspect which should be checked
+     * @return <code>true</code> if the aspect could be pushed
+     */
+    <T> boolean isPushable(Aspect<T> aspect);
+
 }

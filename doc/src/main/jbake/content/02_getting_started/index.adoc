@@ -29,7 +29,7 @@ NOTE: Persisting the report is *not* part of this tutorial.
 
 To start this project, you need
 
- * Java 8 
+ * Java 8
  * your favourite Java IDE
  * Maven
  * a modern browser

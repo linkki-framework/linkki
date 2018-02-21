@@ -18,14 +18,14 @@ import static java.util.Objects.requireNonNull;
 import org.linkki.core.ui.components.IntegerField;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.UIFieldDefinition;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.UIIntegerField;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.Component;
 
-public class IntegerFieldBindingDefinition implements UIFieldDefinition {
+public class IntegerFieldBindingDefinition implements BindingDefinition {
 
     private final UIIntegerField uiIntegerField;
 

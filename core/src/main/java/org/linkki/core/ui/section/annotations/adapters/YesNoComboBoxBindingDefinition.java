@@ -5,17 +5,16 @@ import static java.util.Objects.requireNonNull;
 import org.linkki.core.exception.LinkkiRuntimeException;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.LinkkiComboBox;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.UIFieldDefinition;
 import org.linkki.core.ui.section.annotations.UIYesNoComboBox;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.ui.Component;
 
-public class YesNoComboBoxBindingDefinition implements UIFieldDefinition {
+public class YesNoComboBoxBindingDefinition implements BindingDefinition {
 
     private final UIYesNoComboBox uiYesNoComboBox;
 
@@ -55,11 +54,6 @@ public class YesNoComboBoxBindingDefinition implements UIFieldDefinition {
     @Override
     public VisibleType visible() {
         return uiYesNoComboBox.visible();
-    }
-
-    @Override
-    public AvailableValuesType availableValues() {
-        return AvailableValuesType.ENUM_VALUES_INCL_NULL;
     }
 
     @Override

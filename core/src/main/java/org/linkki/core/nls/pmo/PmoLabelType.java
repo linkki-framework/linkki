@@ -34,49 +34,44 @@ public enum PmoLabelType {
             return pmoClass.getSimpleName() + '_' + CAPTION_KEY;
         }
     },
+
     /**
      *
      * pattern: &lt;PmoClassName&gt;_&lt;propertyName&gt;_label
      */
     PROPERTY_LABEL {
-        private static final String LABEL_KEY = "label";
 
         @Override
         public String getKey(Class<?> pmoClass, @SuppressWarnings("null") @Nonnull String property) {
             requireNonNull(property, "parameter property for PROPERTY_LABEL can not be null ");
-            return pmoClass.getSimpleName() + '_' + property + '_' + LABEL_KEY;
+            return getPropertyKey(pmoClass, property, PmoLabelType.LABEL_KEY);
         }
     },
-    /**
-     *
-     * pattern: &lt;PmoClassName&gt;_&lt;propertyName&gt;_caption
-     */
-    BUTTON_CAPTION {
-        @Override
-        public String getKey(Class<?> pmoClass, @SuppressWarnings("null") @Nonnull String property) {
-            requireNonNull(property, "parameter property for BUTTON_CAPTION can not be null ");
-            return pmoClass.getSimpleName() + '_' + property + '_' + CAPTION_KEY;
-        }
-    },
+
     /**
      *
      * pattern: &lt;PmoClassName&gt;_&lt;propertyName&gt;_tooltip
      */
     TOOLTIP {
-        private static final String TOOLTIP_KEY = "tooltip";
 
         @Override
         public String getKey(Class<?> pmoClass, @SuppressWarnings("null") @Nonnull String property) {
             requireNonNull(property, "parameter property for TOOLTIP can not be null ");
-            return pmoClass.getSimpleName() + '_' + property + '_' + TOOLTIP_KEY;
+            return getPropertyKey(pmoClass, property, TOOLTIP_KEY);
         }
     };
 
-    private static final String CAPTION_KEY = "caption";
+    public static final String LABEL_KEY = "label";
+    public static final String CAPTION_KEY = "caption";
+    public static final String TOOLTIP_KEY = "tooltip";
 
     /**
      * @return the key to use when looking up the text for the given class' property
      */
     public abstract String getKey(Class<?> pmoClass, @Nullable String property);
+
+    public static String getPropertyKey(Class<?> pmoClass, String propertyName, String aspectName) {
+        return pmoClass.getSimpleName() + '_' + propertyName + '_' + aspectName;
+    }
 
 }

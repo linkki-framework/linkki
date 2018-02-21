@@ -75,15 +75,15 @@ public class UISubsetChooserTest {
     }
 
     /**
-     * Returns a {@code SubsetChooser} that is bound to a {@link TestPmo} using the IPM data binder.
-     * The {@code SubsetChooser} is part of a mostly mocked UI so that a rudimentary Vaadin
-     * environment is in place.
+     * Returns a {@code SubsetChooser} that is bound to a {@link AnnotationTestPmo} using the
+     * IPM data binder. The {@code SubsetChooser} is part of a mostly mocked UI so that a
+     * rudimentary Vaadin environment is in place.
      * 
-     * @return a {@code SubsetChooser} that is bound to a {@link TestPmo}
+     * @return a {@code SubsetChooser} that is bound to a {@link AnnotationTestPmo}
      */
     private SubsetChooser createSubsetChooser(Object pmo) {
         try {
-            SubsetChooser subsetChooser = (SubsetChooser)TestUi.componentBoundTo(pmo);
+            SubsetChooser subsetChooser = (SubsetChooser)TestUiUtil.createFirstComponentOf(pmo);
             // initializes the internal itemIdMapper which is needed to
             // fake selection from UI using AbstractSelect#changeVariables(...)
             subsetChooser.paintContent(mock(PaintTarget.class));

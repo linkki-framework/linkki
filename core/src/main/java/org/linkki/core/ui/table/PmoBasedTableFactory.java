@@ -22,10 +22,11 @@ import org.linkki.core.binding.TableBinding;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.application.ApplicationStyles;
-import org.linkki.core.ui.section.annotations.ElementDescriptor;
-import org.linkki.core.ui.section.annotations.ElementDescriptors;
+import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
-import org.linkki.core.ui.section.annotations.UIAnnotationReader;
+import org.linkki.core.ui.section.descriptor.ElementDescriptor;
+import org.linkki.core.ui.section.descriptor.PropertyElementDescriptors;
+import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
@@ -96,7 +97,7 @@ public class PmoBasedTableFactory<T> {
      * 
      * @param elementDesc the descriptor for the PMO's field
      */
-    private void createColumn(Table table, ElementDescriptors elementDesc) {
+    private void createColumn(Table table, PropertyElementDescriptors elementDesc) {
         FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<>(elementDesc, bindingContext);
         String propertyName = elementDesc.getPmoPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
@@ -106,7 +107,7 @@ public class PmoBasedTableFactory<T> {
         setConfiguredColumndWidthOrExpandRatio(table, elementDesc);
     }
 
-    private void setConfiguredColumndWidthOrExpandRatio(Table table, ElementDescriptors field) {
+    private void setConfiguredColumndWidthOrExpandRatio(Table table, PropertyElementDescriptors field) {
         if (!annotationReader.hasTableColumnAnnotation(field)) {
             return;
         }
@@ -128,10 +129,10 @@ public class PmoBasedTableFactory<T> {
 
         private static final long serialVersionUID = 1L;
 
-        private final ElementDescriptors elementDescriptors;
+        private final PropertyElementDescriptors elementDescriptors;
         private final BindingContext bindingContext;
 
-        public FieldColumnGenerator(ElementDescriptors elementDescriptors, BindingContext bindingContext) {
+        public FieldColumnGenerator(PropertyElementDescriptors elementDescriptors, BindingContext bindingContext) {
             this.elementDescriptors = requireNonNull(elementDescriptors, "elementDescriptors must not be null");
             this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         }
@@ -148,7 +149,7 @@ public class PmoBasedTableFactory<T> {
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;
-            bindingContext.bind(itemPmo, elementDescriptor, component, null);
+            bindingContext.bind(itemPmo, elementDescriptor, new LabelComponentWrapper(component));
 
             // removed the following line as on the created binding for the cell
             // a updateFromPmo() is called later on by the binding manager, see FIPM-497 for details

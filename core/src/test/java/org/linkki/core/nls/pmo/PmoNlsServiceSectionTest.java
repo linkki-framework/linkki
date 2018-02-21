@@ -14,40 +14,46 @@
 package org.linkki.core.nls.pmo;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
-
-import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.ButtonBinding;
-import org.linkki.core.binding.ElementBinding;
-import org.linkki.core.binding.FieldBinding;
 import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.nls.pmo.sample.SamplePmo;
 import org.linkki.core.ui.section.BaseSection;
 import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
+import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 
 public class PmoNlsServiceSectionTest {
-    private static final String LABEL = "label";
-    @SuppressWarnings("null")
-    private FieldBinding<?> textFieldBinding;
-    @SuppressWarnings("null")
-    private FieldBinding<?> textFieldBinding2;
-
-    @SuppressWarnings("null")
-    private ButtonBinding buttonBinding;
-    @SuppressWarnings("null")
-    private ButtonBinding buttonBinding2;
     @SuppressWarnings("null")
     Label sectionHeader;
+    @SuppressWarnings("null")
+    private Label textfieldLabelWithoutTranslation;
+    @SuppressWarnings("null")
+    private Label textfieldLabelWithTranslation;
+    @SuppressWarnings("null")
+    private Label buttonLabelWithTranslation;
+    @SuppressWarnings("null")
+    private Label invisibleButtonLabelWithTranslation;
+    @SuppressWarnings("null")
+    private Button buttonWithTranslatedCaption;
+
+    @SuppressWarnings("null")
+    private String textfieldLabelTranslation;
+    @SuppressWarnings("null")
+    private String buttonLabelTranslation;
+    @SuppressWarnings("null")
+    private String buttonCaptionTranslation;
+    @SuppressWarnings("null")
+    private Button buttonWithoutTranslatedCaption;
 
     @Before
     public void setUp() {
@@ -55,74 +61,49 @@ public class PmoNlsServiceSectionTest {
         BaseSection section = new DefaultPmoBasedSectionFactory().createBaseSection(new SamplePmo(), context);
         HorizontalLayout header = (HorizontalLayout)section.getComponent(0);
         sectionHeader = (Label)header.getComponent(0);
-        Collection<ElementBinding> bindings = context.getElementBindings();
-        for (Binding binding : bindings) {
-            if (binding instanceof FieldBinding) {
-                FieldBinding<?> fieldBinding = (FieldBinding<?>)binding;
-                String property = fieldBinding.getPropertyDispatcher().getProperty();
-                switch (property) {
-                    case "textField":
-                        textFieldBinding = fieldBinding;
-                        break;
-                    case "cbField":
-                        textFieldBinding2 = fieldBinding;
-                        break;
+        GridLayout sectionContent = (GridLayout)((Panel)section.getComponent(1)).getContent();
+        textfieldLabelWithTranslation = (Label)sectionContent.getComponent(0, 0);
+        textfieldLabelWithoutTranslation = (Label)sectionContent.getComponent(0, 1);
+        buttonLabelWithTranslation = (Label)sectionContent.getComponent(0, 2);
+        buttonWithTranslatedCaption = (Button)sectionContent.getComponent(1, 2);
+        invisibleButtonLabelWithTranslation = (Label)sectionContent.getComponent(0, 3);
+        buttonWithoutTranslatedCaption = (Button)sectionContent.getComponent(1, 3);
 
-                }
-            } else if (binding instanceof ButtonBinding) {
-                ButtonBinding fieldBinding = (ButtonBinding)binding;
-                String property = fieldBinding.getPropertyDispatcher().getProperty();
-                switch (property) {
-                    case "myButton":
-                        buttonBinding = (ButtonBinding)binding;
-                        break;
-                    case "myButton2":
-                        buttonBinding2 = (ButtonBinding)binding;
-                        break;
-                }
+        // test setup
+        PmoNlsService.get();
+        textfieldLabelTranslation = getLabelTranslation(SamplePmo.PROPERTY_TEXTFIELD);
+        assertThat(textfieldLabelTranslation, is(not(SamplePmo.PMO_LABEL)));
+        buttonLabelTranslation = getLabelTranslation(SamplePmo.PROPERTY_MYBUTTON);
+        assertThat(buttonLabelTranslation, is(not(SamplePmo.PMO_LABEL)));
+        buttonCaptionTranslation = getCaptionTranslation(SamplePmo.PROPERTY_MYBUTTON);
+        assertThat(buttonCaptionTranslation, is(not(SamplePmo.PMO_CAPTION)));
 
-            }
-        }
+        assertThat(getLabelTranslation(SamplePmo.PROPERTY_CBFIELD), is(SamplePmo.PMO_LABEL));
+        assertThat(getLabelTranslation(SamplePmo.PROPERTY_MYBUTTON2), is(buttonLabelTranslation));
+        assertThat(getCaptionTranslation(SamplePmo.PROPERTY_MYBUTTON2), is(SamplePmo.PMO_CAPTION));
+    }
 
+    private String getLabelTranslation(String property) {
+        return PmoNlsService.get().getLabel(SamplePmo.class, property, "label", SamplePmo.PMO_LABEL);
+    }
 
+    private String getCaptionTranslation(String property) {
+        return PmoNlsService.get().getLabel(SamplePmo.class, property, CaptionAspectDefinition.NAME,
+                                            SamplePmo.PMO_CAPTION);
     }
 
     @Test
     public void testSectionCaption() {
-        assertThat(sectionHeader.getValue(), is("Other sample caption"));
+        assertThat(sectionHeader.getValue(), is("Translated section caption"));
     }
 
     @Test
-    public void testLabels()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-
-        /// label overrides in linkki-messages.properties
-        assertThat(hackLabel(textFieldBinding).get().getValue(), is("Text Field Label"));
-        // label from PMO. No overriding
-        assertThat(hackLabel(textFieldBinding2).get().getValue(), is("CbField"));
-        // button label. Overrides in linkki-messages.properties
-        assertThat(hackLabel(buttonBinding).get().getValue(), is("Button label override"));
-        // button label. No overriding
-        assertThat(hackLabel(buttonBinding2).get().getValue(), is(""));
-        // Check button captions
-        assertThat(buttonBinding.getCaption(), is("Button caption override"));
-
-        assertThat(buttonBinding2.getCaption(), is("Button2 Caption"));
-
-
-    }
-
-
-    @SuppressWarnings({ "unchecked", "null" })
-    private Optional<Label> hackLabel(Object o)
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        Class<?> clazz = o.getClass();
-        Field label = clazz.getDeclaredField(LABEL);
-        if (label != null) {
-            label.setAccessible(true);
-            return (Optional<Label>)label.get(o);
-        }
-        return Optional.empty();
-
+    public void testLabels() {
+        assertThat(textfieldLabelWithTranslation.getValue(), is(textfieldLabelTranslation));
+        assertThat(textfieldLabelWithoutTranslation.getValue(), is(SamplePmo.PMO_LABEL));
+        assertThat(buttonLabelWithTranslation.getValue(), is(buttonLabelTranslation));
+        assertThat(invisibleButtonLabelWithTranslation.getValue(), is(""));
+        assertThat(buttonWithTranslatedCaption.getCaption(), is(buttonCaptionTranslation));
+        assertThat(buttonWithoutTranslatedCaption.getCaption(), is(SamplePmo.PMO_CAPTION));
     }
 }

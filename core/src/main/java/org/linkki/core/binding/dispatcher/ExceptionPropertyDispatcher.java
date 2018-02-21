@@ -14,22 +14,23 @@
 package org.linkki.core.binding.dispatcher;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 
 /**
- * {@link PropertyDispatcher} that throws exception on every method call except
- * {@link #isReadOnly()} which returns <code>true</code> and {@link #getMessages(MessageList)},
- * which returns an empty {@link MessageList}.
+ * {@link PropertyDispatcher} that throws exception for aspect except for
+ * {@link #getMessages(MessageList)}, which returns an empty {@link MessageList}. In case of
+ * {@link #isPushable(Aspect)}, <code>false</code> is returned.
  *
  * Serves as a last resort fall-back to simplify exception creation in other dispatchers.
  */
@@ -47,49 +48,20 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
         this.objects.addAll(Arrays.asList(objects));
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * If there is no value class this dispatcher returns {@link Void#TYPE} because a exception is not
+     * useful in this case.
+     */
     @Override
     public Class<?> getValueClass() {
-        throw new IllegalArgumentException(getExceptionText("find getter method for"));
+        return Void.TYPE;
     }
 
     private String getExceptionText(String action) {
-        return MessageFormat.format("Cannot {0} property \"{1}\" in any of {2}", action, property, objects);
-    }
-
-    @Override
-    @CheckForNull
-    public Object getValue() {
-        throw new IllegalArgumentException(getExceptionText("read"));
-    }
-
-    @Override
-    public void setValue(@Nullable Object value) {
-        throw new IllegalArgumentException(getExceptionText("write"));
-    }
-
-    @Override
-    public boolean isReadOnly() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        throw new IllegalArgumentException(getExceptionText("get enabled state for"));
-    }
-
-    @Override
-    public boolean isVisible() {
-        throw new IllegalArgumentException(getExceptionText("get visibility for"));
-    }
-
-    @Override
-    public boolean isRequired() {
-        throw new IllegalArgumentException(getExceptionText("get required state for"));
-    }
-
-    @Override
-    public Collection<?> getAvailableValues() {
-        throw new IllegalArgumentException(getExceptionText("get available values for"));
+        return MessageFormat.format("Cannot {0} property \"{1}\" in any of {2}", action, property,
+                                    objects.stream().map(Object::getClass).collect(toList()));
     }
 
     /**
@@ -101,22 +73,12 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public void invoke() {
-        throw new IllegalArgumentException(
-                MessageFormat.format("Cannot invoke \"{0}\" on any of {1}", property, objects));
-    }
-
-    @Override
-    public String toString() {
-        return "ExceptionPropertyDispatcher[" + property + "]";
-    }
-
-    @Override
     public String getProperty() {
         return property;
     }
 
     @Override
+    @CheckForNull
     public Object getBoundObject() {
         if (objects.size() > 0) {
             return objects.get(0);
@@ -127,13 +89,31 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     @CheckForNull
-    public String getCaption() {
-        throw new IllegalStateException(getExceptionText("find caption method for"));
+    public <T> T pull(Aspect<T> aspect) {
+        throw new IllegalStateException(getExceptionText("read aspect \"" + aspect.getName() + "\" method for"));
     }
 
     @Override
-    @CheckForNull
-    public String getToolTip() {
-        throw new IllegalStateException(getExceptionText("find tooltip method for"));
+    public <T> void push(Aspect<T> aspect) {
+        if (aspect.isValuePresent()) {
+            throw new IllegalArgumentException(getExceptionText("write"));
+        } else {
+            throw new IllegalArgumentException(
+                    MessageFormat.format("Cannot invoke \"{0}\" on any of {1}", property, objects));
+        }
     }
+
+    @Override
+    public <T> boolean isPushable(Aspect<T> aspect) {
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "["
+                + objects.stream().map(Object::getClass).map(Class::getSimpleName).collect(joining(",")) + "#"
+                + getProperty()
+                + "]";
+    }
+
 }

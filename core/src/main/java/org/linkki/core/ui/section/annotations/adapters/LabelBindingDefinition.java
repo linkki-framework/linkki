@@ -18,7 +18,7 @@ import static java.util.Objects.requireNonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.UIFieldDefinition;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.VisibleType;
 
@@ -26,7 +26,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-public class LabelBindingDefinition implements UIFieldDefinition {
+public class LabelBindingDefinition implements BindingDefinition {
 
     private UILabel labelAnnotation;
 

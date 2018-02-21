@@ -7,6 +7,21 @@
 
 image::https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/linkki-core/badge.svg[Maven central]
 
+=== 15. February 2018
+
+=== Binding Aspects
+
+The binding mechanism was redesigned fundamentally. Everything that could be bound to a component such as the value, the enabled state, the visible state, available values etc. are now configured by so called binding aspects. This new mechanism makes it easier to include other UI component properties into the dynamic binding mechanism. It also greatly simplify the process of implementing custom binding aspects.
+
+Due to the refactoring we could simplify and consolidate several classes. If you have created your own binding annotations or a customized property dispatcher chain there may be some need of adaption:
+
+. The interface `UIElementDefinition` is merged into `BindingDefinition`. Its implementations such as `UIFieldDefinition` are removed. If you have implemented your own field annotation that implements `UIElementDefinition` or `UIFieldDefinition`, just implement `BindingDefinition` directly instead. In addition to your `@LinkkiBindingDefinition` annotation you have to specify the bound aspects using `@LinkkiAspectDefinition` annotation. You could use the composite aspect `FieldAspectDefinition` which defines the most common aspects for `AbstractFields`. The aspect for available values is no longer retrieved via `BindingDefinition`. If you want to include this aspect just create a subclass of `AvailableValuesAspectDefinition` that suits your annotation and add it to your custom annotation using `@LinkkiAspectDefinition`.
+. The `AnnotationDispatcher` is renamed to `StaticValueDispatcher`
+. The implementations of `BindingDescriptor` are merged into `ElementDescriptor` for all field bindings. `BindAnnotationDescriptor` is used for the special case of `@Bind` annotation.
+. The subclasses of `ElementBinding` for components are united to `ComponentBinding`.
+
+We decided to not keep the deprecated implementations because the refactoring changes will have little effect on client code and keeping deprecated classes would significantly increase maintenance effort.
+
 === 15. January 2018
 
 ==== `open()` in `OkCancelDialog`
@@ -35,7 +50,7 @@ The interface `OkHandler` is no longer used by *linkki* and will be removed in v
 
 ==== Annotation @UISection optional
 
-The annotation `@UISection` is now optional. If a class without that annotation is used as a PMO, the annotation's default values (column layout with one column, no caption, not closable, id equal to the class' simple name) are used for the resulting section. 
+The annotation `@UISection` is now optional. If a class without that annotation is used as a PMO, the annotation's default values (column layout with one column, no caption, not closable, id equal to the class' simple name) are used for the resulting section.
 
 
 === 12. December 2017
@@ -43,5 +58,5 @@ The annotation `@UISection` is now optional. If a class without that annotation 
 ==== Captions for Checkboxes
 
 *linkki* versions up to 0.9.20171123 treated checkboxes like any other input field concerning labels: The label is displayed on the left, preceding the input field. But in most UI layouts, checkboxes are followed by a caption instead. To facilitate this layout, the `@UICheckBox` now has a `caption` property that must be set. The old `label` can still be used, but the default value for `noLabel` has been switched to `true`, so that `nolabel=false` has to be used where a label should be displayed.
- 
+
 If a `@UICheckBox` is used in a table column and `nolabel=false` is set, the label is displayed as the column header, while the caption remains at the right of the individual checkboxes in the table cells.

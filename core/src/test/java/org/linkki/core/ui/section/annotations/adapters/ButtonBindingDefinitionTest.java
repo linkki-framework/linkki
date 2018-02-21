@@ -23,7 +23,6 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.ui.section.annotations.CaptionType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -98,13 +97,6 @@ public class ButtonBindingDefinitionTest {
         Button button = (Button)component;
         assertThat(button.getIcon(), is(FontAwesome.AMBULANCE));
         assertThat(button.getStyleName(), is(ValoTheme.BUTTON_ICON_ONLY));
-    }
-
-    @Test
-    public void testNewComponent_showCaptionResultsInStaticCaptionType() {
-        ButtonBindingDefinition adapter = new ButtonBindingDefinition(anotherAnnotation());
-
-        assertThat(adapter.captionType(), is(CaptionType.STATIC));
     }
 
     @Test

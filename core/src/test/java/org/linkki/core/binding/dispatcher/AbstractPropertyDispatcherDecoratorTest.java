@@ -19,6 +19,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -45,50 +46,15 @@ public class AbstractPropertyDispatcherDecoratorTest {
 
     @Test
     public void testGetValue() {
-        decorator.getValue();
-        verify(wrappedDispatcher).getValue();
-    }
-
-    @Test
-    public void testSetValue() {
-        decorator.setValue("value");
-        verify(wrappedDispatcher).setValue("value");
+        Aspect<Object> aspect = Aspect.of("");
+        decorator.pull(aspect);
+        verify(wrappedDispatcher).pull(aspect);
     }
 
     @Test
     public void testGetValueClass() {
         decorator.getValueClass();
         verify(wrappedDispatcher).getValueClass();
-    }
-
-    @Test
-    public void testIsEnabled() {
-        decorator.isEnabled();
-        verify(wrappedDispatcher).isEnabled();
-    }
-
-    @Test
-    public void testIsReadOnly() {
-        decorator.isReadOnly();
-        verify(wrappedDispatcher).isReadOnly();
-    }
-
-    @Test
-    public void testIsVisible() {
-        decorator.isVisible();
-        verify(wrappedDispatcher).isVisible();
-    }
-
-    @Test
-    public void testIsRequired() {
-        decorator.isRequired();
-        verify(wrappedDispatcher).isRequired();
-    }
-
-    @Test
-    public void testGetAvailableValues() {
-        decorator.getAvailableValues();
-        verify(wrappedDispatcher).getAvailableValues();
     }
 
     @Test

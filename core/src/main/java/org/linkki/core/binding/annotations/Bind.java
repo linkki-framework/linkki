@@ -18,17 +18,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.annotations.aspect.BindAnnotationAspectDefinition;
+import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.VisibleType;
 
 /**
- * @author ortmann
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
+@LinkkiAspect(BindAnnotationAspectDefinition.class)
 public @interface Bind {
 
     /** The name of the PMO's property to which the UI element is bound. */

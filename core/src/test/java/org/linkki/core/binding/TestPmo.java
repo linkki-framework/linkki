@@ -27,7 +27,6 @@ public class TestPmo {
 
     private boolean enabled = true;
     private boolean visible = true;
-
     private boolean required = false;
 
     private List<?> availableValues = new ArrayList<Object>();

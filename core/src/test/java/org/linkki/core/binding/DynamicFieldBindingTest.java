@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.TestUi;
+import org.linkki.core.ui.section.annotations.TestUiUtil;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -52,7 +52,7 @@ public class DynamicFieldBindingTest {
         String value = "value";
         Pmo pmo = new Pmo(new Model(value, false));
 
-        Component component = TestUi.componentBoundTo(pmo);
+        Component component = TestUiUtil.createFirstComponentOf(pmo);
         assertNotNull(component);
         assertTrue(component instanceof TextField);
 
@@ -72,7 +72,7 @@ public class DynamicFieldBindingTest {
         String value = "semi-annual";
         Pmo pmo = new Pmo(new Model(value, true));
 
-        Component component = TestUi.componentBoundTo(pmo);
+        Component component = TestUiUtil.createFirstComponentOf(pmo);
         assertNotNull(component);
         assertTrue(component instanceof ComboBox);
 
@@ -90,22 +90,22 @@ public class DynamicFieldBindingTest {
 
     @Test(expected = IllegalStateException.class)
     public void testDynamicField_missingMethod_shouldThrowIllegalStateException() {
-        TestUi.componentBoundTo(new PmoWithoutMethod());
+        TestUiUtil.createFirstComponentOf(new PmoWithoutMethod());
     }
 
     @Test(expected = IllegalStateException.class)
     public void testDynamicField_illegalClass_shouldThrowIllegalStateException() {
-        TestUi.componentBoundTo(new PmoWithWrongClass());
+        TestUiUtil.createFirstComponentOf(new PmoWithWrongClass());
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testDynamicField_inconsistentPmoPropertyNames_shouldThrowIllegalArgumentException() {
-        TestUi.componentBoundTo(new PmoWith2MethodsAnnotated());
+    public void testDynamicField_inconsistentPmoPropertyNames_shouldThrowIllegalStateException() {
+        TestUiUtil.createFirstComponentOf(new PmoWith2MethodsAnnotated());
     }
 
     @Test(expected = IllegalStateException.class)
     public void testDynamicFiled_inconsistentLabelText_shouldThrowIllegalArgumentException() {
-        TestUi.componentBoundTo(new PmoWithInconsistentLabelText());
+        TestUiUtil.createFirstComponentOf(new PmoWithInconsistentLabelText());
     }
 
 
@@ -155,7 +155,8 @@ public class DynamicFieldBindingTest {
         @UITextField(position = POS, modelAttribute = "paymentMethod")
         @UIComboBox(position = POS, modelAttribute = "paymentMethod", content = AvailableValuesType.DYNAMIC)
         public void paymentMethod() {
-            /* model binding */}
+            // model binding
+        }
 
         public Class<?> getPaymentMethodComponentType() {
             if (model.isShowComboBox()) {
@@ -176,7 +177,8 @@ public class DynamicFieldBindingTest {
         @UICheckBox(position = POS, caption = "label")
         @UIButton(position = POS, label = "label", showLabel = true)
         public void method() {
-            /* model binding */ }
+            // model binding
+        }
     }
 
     @UISection

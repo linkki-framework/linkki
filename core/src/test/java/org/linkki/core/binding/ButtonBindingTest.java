@@ -16,13 +16,20 @@ package org.linkki.core.binding;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+
 import org.junit.Test;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.components.LabelComponentWrapper;
+import org.linkki.util.handler.Handler;
+import org.mockito.Mockito;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
@@ -33,72 +40,57 @@ public class ButtonBindingTest {
     private Label label = spy(new Label());
     private Button button = spy(new Button());
 
-    private ButtonBinding binding;
+    private ElementBinding binding;
     private PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
     private BindingContext context = TestBindingContext.create();
+    private TestAspectDefinition aspectDefinition;
 
     private void setUpDefaultBinding() {
-        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI, true);
+        aspectDefinition = spy(new TestAspectDefinition());
+        Object pmo = mock(Object.class);
+        when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
+
+        binding = new ComponentBinding(new LabelComponentWrapper(label, button), propertyDispatcher, context::updateUI,
+                Arrays.asList(aspectDefinition));
         context.add(binding);
     }
 
     @Test
-    public void testClickBinding() {
+    public void testUpdateFromUI_updateAspect() {
         setUpDefaultBinding();
-        button.click();
-        verify(propertyDispatcher).invoke();
+        verify(aspectDefinition).initModelUpdate(Mockito.eq(propertyDispatcher), Mockito.any(ComponentWrapper.class),
+                                                 Mockito.any(Handler.class));
     }
 
     @Test
-    public void testUpdateFromPmo_SetsButtonAndFieldVisible() {
+    public void testUpdateFromPmo_updateAspect() {
         setUpDefaultBinding();
-        when(propertyDispatcher.isVisible()).thenReturn(false);
         binding.updateFromPmo();
-        assertThat(button.isVisible(), is(false));
-        assertThat(label.isVisible(), is(false));
 
-        when(propertyDispatcher.isVisible()).thenReturn(true);
-        binding.updateFromPmo();
-        assertThat(button.isVisible(), is(true));
-        assertThat(label.isVisible(), is(true));
+        assertThat(aspectDefinition.aspectUpdated, is(true));
     }
 
-    @Test
-    public void testUpdateFromPmo_EnablesButton() {
-        setUpDefaultBinding();
-        when(propertyDispatcher.isEnabled()).thenReturn(false);
-        binding.updateFromPmo();
-        assertThat(button.isEnabled(), is(false));
+    private static class TestAspectDefinition implements LinkkiAspectDefinition {
 
-        when(propertyDispatcher.isEnabled()).thenReturn(true);
-        binding.updateFromPmo();
-        assertThat(button.isEnabled(), is(true));
-    }
+        private boolean aspectUpdated;
 
-    @Test
-    public void testUpdateFromPmo_updateCaption() {
-        setUpDefaultBinding();
+        @Override
+        public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
+            return () -> {
+                aspectUpdated = true;
+            };
+        }
 
-        binding.updateFromPmo();
+        @Override
+        public void initModelUpdate(PropertyDispatcher propertyDispatcher,
+                ComponentWrapper componentWrapper,
+                Handler modelUpdated) {
+            // does nothing
+        }
 
-        verify(propertyDispatcher).getCaption();
-    }
-
-    @Test
-    public void testUpdateFromPmo_ignoreCaption() {
-        binding = new ButtonBinding(label, button, propertyDispatcher, context::updateUI, false);
-        context.add(binding);
-
-        binding.updateFromPmo();
-
-        verify(propertyDispatcher, never()).getCaption();
-    }
-
-    @Test
-    public void testUpdateFromPmo_ButtonToolTip() {
-        setUpDefaultBinding();
-        when(propertyDispatcher.getToolTip()).thenReturn("ToolTip");
-        binding.updateFromPmo();
-        assertThat(button.getDescription(), is("ToolTip"));
+        @Override
+        public void initialize(Annotation annotation) {
+            // does nothing
+        }
     }
 }

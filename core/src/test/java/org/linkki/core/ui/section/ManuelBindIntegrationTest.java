@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.section;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -22,17 +23,21 @@ import org.junit.runner.RunWith;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.TestBindingContext;
+import org.linkki.core.binding.TestEnum;
 import org.linkki.core.binding.annotations.Bind;
+import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.ToolTipType;
 import org.linkki.core.ui.section.annotations.UIToolTip;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ManuelBindIntegrationTest {
+
     private final ManuallyBoundPmo pmo = new ManuallyBoundPmo();
     private final TestBindingContext bindingContext = TestBindingContext.create();
     private final ManuallyBoundSection section = new ManuallyBoundSection();
@@ -58,11 +63,49 @@ public class ManuelBindIntegrationTest {
         assertThat(section.label.getDescription(), is(ManuallyBoundSection.TOOL_TIP));
     }
 
+    @Test
+    public void testSetLabelFromManualBindComponen() {
+        section.createContent();
+
+        new Binder(section, pmo).setupBindings(bindingContext);
+
+        pmo.setText("12345");
+        bindingContext.updateUI();
+        assertThat(section.label.getValue(), is("12345"));
+    }
+
+    @Test
+    public void testComboValueAndStaticAvailableValues() {
+        section.createContent();
+        new Binder(section, pmo).setupBindings(bindingContext);
+
+        assertThat(section.comboBox.getValue(), is(TestEnum.THREE));
+        assertThat(section.comboBox.getItemIds(), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
+
+        pmo.combo = TestEnum.TWO;
+        bindingContext.updateUI();
+
+        assertThat(section.comboBox.getValue(), is(TestEnum.TWO));
+    }
+
+    @Test
+    public void testReadOnly() {
+        section.createContent();
+        new Binder(section, pmo).setupBindings(bindingContext);
+
+        assertThat(section.textField.isReadOnly(), is(false));
+        assertThat(section.comboBox.isReadOnly(), is(true));
+    }
+
+
     public static class ManuallyBoundPmo implements PresentationModelObject {
         public static final String PROPERTY_TEXT = "text";
         public static final String STATIC_STRING = "StaticString";
+        public static final String PROPERTY_COMBO = "combo";
 
         private String text = StringUtils.EMPTY;
+
+        private TestEnum combo = TestEnum.THREE;
 
         public String getText() {
             return text;
@@ -75,6 +118,11 @@ public class ManuelBindIntegrationTest {
         public String getTextToolTip() {
             return text;
         }
+
+        public TestEnum getCombo() {
+            return combo;
+        }
+
     }
 
     public class ManuallyBoundSection extends FormLayout {
@@ -87,6 +135,9 @@ public class ManuelBindIntegrationTest {
         @Bind(pmoProperty = ManuallyBoundPmo.PROPERTY_TEXT)
         private final TextField textField = new TextField();
 
+        @Bind(pmoProperty = ManuallyBoundPmo.PROPERTY_COMBO, availableValues = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
+        private final ComboBox comboBox = new ComboBox();
+
         @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
         @Bind(pmoProperty = ManuallyBoundPmo.PROPERTY_TEXT)
         private final Label label = new Label();
@@ -98,4 +149,5 @@ public class ManuelBindIntegrationTest {
             addComponent(label);
         }
     }
+
 }

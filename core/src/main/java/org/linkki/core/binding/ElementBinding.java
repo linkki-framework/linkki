@@ -13,7 +13,11 @@
  */
 package org.linkki.core.binding;
 
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Binds an element to a control using the property dispatchers.
@@ -22,9 +26,10 @@ public interface ElementBinding extends Binding {
 
     PropertyDispatcher getPropertyDispatcher();
 
+    @SuppressFBWarnings
     @Override
     default Object getPmo() {
-        return getPropertyDispatcher().getBoundObject();
+        return requireNonNull(getPropertyDispatcher().getBoundObject());
     }
 
 }

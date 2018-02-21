@@ -16,12 +16,20 @@ package org.linkki.core.ui.section.annotations;
 import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
+import org.linkki.core.ui.section.annotations.UIButton.ButtonAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.ButtonBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.EnabledAspectForBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefinition;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
@@ -33,6 +41,7 @@ import com.vaadin.server.FontAwesome;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(ButtonBindingDefinition.class)
+@LinkkiAspect(ButtonAspectDefinition.class)
 public @interface UIButton {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -85,9 +94,42 @@ public @interface UIButton {
     int shortcutKeyCode() default -1;
 
     /**
-     * Set a modifier for the short cut. Only useful in combination with a
-     * {@link #shortcutKeyCode()}. Use constants from {@link ModifierKey}.
+     * Set a modifier for the short cut. Only useful in combination with a {@link #shortcutKeyCode()}.
+     * Use constants from {@link ModifierKey}.
      */
     int[] shortcutModifierKeys() default {};
 
+    /**
+     * Aspect definition for {@link UIButton} annotation.
+     */
+    class ButtonAspectDefinition extends CompositeAspectDefinition {
+
+        public ButtonAspectDefinition() {
+            super(new EnabledAspectForBindingDefinition(),
+                    new VisibleAspectForBindingDefinition(),
+                    new ButtonCaptionAspectDefinition(),
+                    new ButtonInvokeAspectDefinition());
+        }
+    }
+
+    class ButtonCaptionAspectDefinition extends CaptionAspectDefinition {
+
+        @SuppressWarnings("null")
+        private UIButton buttonAnnotation;
+
+        @Override
+        public void initialize(Annotation annotation) {
+            this.buttonAnnotation = (UIButton)annotation;
+        }
+
+        @Override
+        protected String getStaticCaption() {
+            return buttonAnnotation.caption();
+        }
+
+        @Override
+        public CaptionType getCaptionType() {
+            return buttonAnnotation.captionType();
+        }
+    }
 }

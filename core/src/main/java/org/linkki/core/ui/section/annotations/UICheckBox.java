@@ -17,12 +17,17 @@ import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.ui.section.annotations.UICheckBox.CheckBoxCaptionAspect;
 import org.linkki.core.ui.section.annotations.adapters.CheckboxBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
 
 /**
  * In accordance to {@link com.vaadin.ui.CheckBox}, bound to a boolean property.
@@ -30,6 +35,8 @@ import org.linkki.core.ui.section.annotations.adapters.CheckboxBindingDefinition
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CheckboxBindingDefinition.class)
+@LinkkiAspect(CheckBoxCaptionAspect.class)
+@LinkkiAspect(FieldAspectDefinition.class)
 public @interface UICheckBox {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed. */
@@ -79,4 +86,26 @@ public @interface UICheckBox {
      * The name of a property in the class of the bound {@link ModelObject} to use model binding.
      */
     String modelAttribute() default "";
+
+    class CheckBoxCaptionAspect extends CaptionAspectDefinition {
+
+        @SuppressWarnings("null")
+        private UICheckBox checkBoxAnnotation;
+
+        @Override
+        public void initialize(Annotation annotation) {
+            this.checkBoxAnnotation = (UICheckBox)annotation;
+        }
+
+        @Override
+        protected String getStaticCaption() {
+            return checkBoxAnnotation.caption();
+        }
+
+        @Override
+        public CaptionType getCaptionType() {
+            return CaptionType.STATIC;
+        }
+
+    }
 }

@@ -12,7 +12,7 @@
  * the License.
  */
 /**
- * Common base definitions for Linkki applications.
+ * Common base definitions for linkki applications.
  */
 @org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
 package org.linkki.core.ui.application;

@@ -52,9 +52,18 @@ public class DefaultPmoNlsService implements PmoNlsService {
 
     @Override
     public String getLabel(PmoLabelType lableType, Class<?> pmoClass, @Nullable String property, String fallbackValue) {
+        return getLabel(pmoClass, lableType.getKey(pmoClass, property), fallbackValue);
+    }
+
+    @Override
+    public String getLabel(Class<?> pmoClass, String propertyName, String aspectName, String fallbackValue) {
+        return getLabel(pmoClass, PmoLabelType.getPropertyKey(pmoClass, propertyName, aspectName), fallbackValue);
+    }
+
+    private String getLabel(Class<?> pmoClass, String key, String fallbackValue) {
         return NlsService.get()
                 .getString(bundleNameGenerator.getBundleName(requireNonNull(pmoClass, "pmoClass must not be null")),
-                           lableType.getKey(pmoClass, property),
+                           key,
                            requireNonNull(fallbackValue, "fallbackValue must not be null"),
                            UiUtil.getUiLocale());
     }

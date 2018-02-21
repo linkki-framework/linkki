@@ -27,7 +27,9 @@ import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
 
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.TextField;
 
 public class UiCustomFieldTest {
 
@@ -38,7 +40,7 @@ public class UiCustomFieldTest {
     private BindingContext bindingContext = TestBindingContext.create();
 
     private OptionGroup createCustomField() {
-        return (OptionGroup)TestUi.componentBoundTo(pmo, bindingContext);
+        return (OptionGroup)TestUiUtil.createFirstComponentOf(pmo, bindingContext);
     }
 
     @Test
@@ -46,6 +48,15 @@ public class UiCustomFieldTest {
         OptionGroup optionGroup = createCustomField();
 
         assertThat(optionGroup.getItemIds(), contains(pmo.availableValues.toArray()));
+    }
+
+    @Test
+    public void testAvailableValues_NotApplicable() {
+        GridLayout section = TestUiUtil.createSectionWith(pmo);
+        TextField textField = TestUiUtil.getComponentAt(section, 1);
+
+        // the real test is that this text field could be created, just check the value to check anything
+        assertThat(textField.getValue(), is("test"));
     }
 
     @Test
@@ -146,6 +157,11 @@ public class UiCustomFieldTest {
         @UICustomField(position = 7, label = "TheLabel", enabled = EnabledType.DYNAMIC, modelAttribute = "property", visible = VisibleType.DYNAMIC, required = RequiredType.DYNAMIC, content = AvailableValuesType.DYNAMIC, uiControl = OptionGroup.class)
         public void property() {
             // data binding
+        }
+
+        @UICustomField(position = 10, uiControl = TextField.class)
+        public String getNoSelectField() {
+            return "test";
         }
 
         @ModelObject

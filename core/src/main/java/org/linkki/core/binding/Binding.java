@@ -17,8 +17,6 @@ import javax.annotation.Nullable;
 
 import org.linkki.core.message.MessageList;
 
-import com.vaadin.ui.Component;
-
 /**
  * Common interface for bindings handled by the {@link BindingContext}. A binding has a PMO and an
  * UI control and is able to update this control when the {@link BindingContext} calls
@@ -32,7 +30,7 @@ public interface Binding {
      * 
      * @return The component that updated by this binding
      */
-    Component getBoundComponent();
+    Object getBoundComponent();
 
     /**
      * Returns the presentation model object that is bound to the component by this binding.
@@ -42,8 +40,8 @@ public interface Binding {
     Object getPmo();
 
     /**
-     * Called by the {@link BindingContext} and trigger control updating. This includes the update
-     * of the value, the states (read-only, enabled, visible) and if supported the list of available
+     * Called by the {@link BindingContext} and trigger control updating. This includes the update of
+     * the value, the states (read-only, enabled, visible) and if supported the list of available
      * values.
      * 
      * This method does not update the validation message.
@@ -53,12 +51,12 @@ public interface Binding {
     void updateFromPmo();
 
     /**
-     * Retrieves those messages from the given list that are relevant for this binding and displays
-     * them directly at the bound component. An error message will mark the component property.
+     * Retrieves those messages from the given list that are relevant for this binding and displays them
+     * directly at the bound component. An error message will mark the component property.
      * 
      * @param messages a list of messages
-     * @return those messages from the given list that are displayed; an empty list if no messages
-     *         are displayed.
+     * @return those messages from the given list that are displayed; an empty list if no messages are
+     *         displayed.
      */
     MessageList displayMessages(@Nullable MessageList messages);
 

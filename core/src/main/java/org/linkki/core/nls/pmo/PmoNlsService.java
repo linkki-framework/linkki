@@ -38,6 +38,8 @@ public interface PmoNlsService {
      */
     String getLabel(PmoLabelType labelType, Class<?> pmoClass, @Nullable String property, String fallbackValue);
 
+    String getLabel(Class<?> pmoClass, String propertyName, String aspectName, String fallbackValue);
+
     /**
      * @return the {@link PmoNlsService} implementation for the current context.
      */

@@ -22,7 +22,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.section.annotations.adapters.TextAreaBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
 
 /**
  * In- and output of texts which exceed a row, in accordance to {@link com.vaadin.ui.TextArea}.
@@ -30,6 +32,7 @@ import org.linkki.core.ui.section.annotations.adapters.TextAreaBindingDefinition
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(TextAreaBindingDefinition.class)
+@LinkkiAspect(FieldAspectDefinition.class)
 public @interface UITextArea {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */

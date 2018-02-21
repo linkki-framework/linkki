@@ -15,17 +15,22 @@ package org.linkki.framework.ui.dialogs;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.ButtonBinding;
+import org.linkki.core.binding.ComponentBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;
@@ -57,8 +62,14 @@ public class DialogBindingManagerTest {
         MessageList messages = new MessageList(Message.newError("code", "text"));
         dialog.setValidationService(ValidationService.of(messages));
 
-        ButtonBinding binding = spy(new ButtonBinding(new Label(), new Button(), mock(PropertyDispatcher.class),
-                Handler.NOP_HANDLER, false));
+        PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
+        Object pmo = mock(Object.class);
+        when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
+        when(propertyDispatcher.getMessages(any())).thenReturn(new MessageList());
+
+        ComponentBinding binding = spy(new ComponentBinding(new LabelComponentWrapper(new Label(), new Button()),
+                propertyDispatcher,
+                Handler.NOP_HANDLER, new ArrayList<>()));
         ctx.add(binding);
 
         ctx.updateUI();

@@ -12,8 +12,9 @@
 					
 					<p>
 					
-					<%sortedByOverviewName = published_sections.sort{ it.uri }
-					sortedByOverviewName.each {sectionTitle ->
+					<%sectionsSortedByName = published_sections.sort{ it.uri }
+          sortedByOrder = sectionsSortedByName.sort{ it.order }
+					sortedByOrder.each {sectionTitle ->
 					if(sectionTitle.uri.substring(0, sectionTitle.uri.indexOf('/')) == content.uri.substring(0, content.uri.indexOf('/'))){
 					%>
 						<a href="../${sectionTitle.uri}"><h3>${sectionTitle.title}</h3></a>

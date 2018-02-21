@@ -13,28 +13,101 @@
  */
 package org.linkki.core.ui.section.annotations;
 
+import static java.util.Objects.requireNonNull;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.annotation.Nullable;
+
+import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
+
+import com.vaadin.ui.Component;
+
 /**
- * A common interface for all annotations describing bound UI elements.
+ * A common interface for annotations that are used to create and bind UI components in a view
+ * generated from an annotated PMO.
+ * <p>
+ * As annotations can't implement an interface, the {@link UIAnnotationReader} is used to get
+ * definition instances for the annotated methods of a (PMO) class.
+ * <p>
+ * The static methods {@link #isLinkkiBindingDefinition(Annotation)} and {@link #from(Annotation)}
+ * can be used to check annotations and create {@link BindingDefinition} instances from them.
+ * 
+ * @see UIAnnotationReader
+ * @see LinkkiBindingDefinition
  */
 public interface BindingDefinition {
 
-    /** If and how the enabled state of the UI element is bound to the PMO. */
+    Component newComponent();
+
+    /** Mandatory attribute that defines the order in which UI components are displayed */
+    int position();
+
+    /** Provides a description label next to the UI component */
+    String label();
+
+    /** Used by {@link UIButton} to enable or disable its {@link UIButton#label()} */
+    boolean showLabel();
+
+    /** If and how the enabled state of the UI component is bound to the PMO. */
     EnabledType enabled();
 
-    /** If and how the visible state of the UI element is bound to the PMO. */
+    /** If and how the visible state of the UI component is bound to the PMO. */
     VisibleType visible();
 
     /**
-     * If and how the required state of the UI element is bound to the PMO. Ignored for UI elements
-     * that cannot be required, e.g. buttons.
+     * If and how the required state of the UI component is bound to the PMO. Ignored for UI
+     * components that cannot be required, e.g. buttons.
      */
     RequiredType required();
 
     /**
-     * If and how the available values are bound to the PMO. Relevant only for UI elements that have
-     * available values (e.g. combo boxes), ignored for all other elements.
+     * Name of the model object that is to be bound if multiple model objects are included for model
+     * binding
      */
-    default AvailableValuesType availableValues() {
-        return AvailableValuesType.NO_VALUES;
+    String modelObject();
+
+    /**
+     * The name of a property in the class of the bound {@link ModelObject} to use model binding
+     */
+    String modelAttribute();
+
+    /**
+     * Returns {@code true} if the given annotation is a non-null annotation marked as
+     * {@link LinkkiBindingDefinition}.
+     */
+    public static boolean isLinkkiBindingDefinition(@Nullable Annotation annotation) {
+        if (annotation == null) {
+            return false;
+        } else {
+            return annotation.annotationType().isAnnotationPresent(LinkkiBindingDefinition.class);
+        }
+    }
+
+    /**
+     * Returns the {@link BindingDefinition} for the given annotation. Throws an exception if the
+     * annotation is {@code null} or not annotated as a {@link LinkkiBindingDefinition}. In other
+     * words, this method should only be invoked if {@link #isLinkkiBindingDefinition(Annotation)}
+     * returns {@code true} for the given annotation.
+     */
+    public static BindingDefinition from(Annotation annotation) {
+        Class<? extends Annotation> annotationClass = requireNonNull(annotation, "annotation must not be null")
+                .annotationType();
+
+        LinkkiBindingDefinition[] bindingDefinitions = annotationClass
+                .getAnnotationsByType(LinkkiBindingDefinition.class);
+        if (bindingDefinitions.length == 0) {
+            throw new IllegalArgumentException(
+                    annotation + " is not annotated as " + LinkkiBindingDefinition.class.getName());
+        }
+        Class<? extends BindingDefinition> bindingDefinitionClass = bindingDefinitions[0].value();
+
+        try {
+            return bindingDefinitionClass.getConstructor(annotationClass).newInstance(annotation);
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

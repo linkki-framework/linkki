@@ -20,7 +20,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
+import org.linkki.core.ui.section.annotations.UILabel.LabelAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.EnabledAspectForBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.LabelValueAspectDefinition;
 
 /**
  * Provides a single UI-element to display text content. It is equal to {@link com.vaadin.ui.Label}.
@@ -28,6 +34,7 @@ import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(LabelBindingDefinition.class)
+@LinkkiAspect(LabelAspectDefinition.class)
 public @interface UILabel {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -62,4 +69,15 @@ public @interface UILabel {
      * text.
      */
     boolean htmlContent() default false;
+
+    /**
+     * Aspect definition for {@link UILabel} annotation.
+     */
+    class LabelAspectDefinition extends CompositeAspectDefinition {
+        public LabelAspectDefinition() {
+            super(new EnabledAspectForBindingDefinition(),
+                    new VisibleAspectForBindingDefinition(),
+                    new LabelValueAspectDefinition());
+        }
+    }
 }

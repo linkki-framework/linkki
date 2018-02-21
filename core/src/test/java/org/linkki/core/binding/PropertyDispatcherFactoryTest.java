@@ -15,16 +15,18 @@ package org.linkki.core.binding;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.BindingContextTest.TestModelObject;
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.ui.section.annotations.BindingDescriptor;
-import org.linkki.core.ui.section.annotations.ElementDescriptor;
 import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.ui.section.descriptor.BindingDescriptor;
+import org.linkki.core.ui.section.descriptor.ElementDescriptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -55,13 +57,13 @@ public class PropertyDispatcherFactoryTest {
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         pmo.setValue(ANY_VALUE);
 
-        Object pmoProp = defaultDispatcher.getValue();
+        Object pmoProp = defaultDispatcher.pull(Aspect.of(""));
 
         assertThat(pmoProp, is(ANY_VALUE));
     }
 
     @Test
-    public void testCreateDispatcherChain_setValueToPmo() {
+    public void testCreateDispatcherChain_pushToPmo() {
         setUpPmo();
         when(elementDescriptor.getModelPropertyName()).thenReturn("foo");
         when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
@@ -69,7 +71,7 @@ public class PropertyDispatcherFactoryTest {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
-        defaultDispatcher.setValue(ANY_VALUE);
+        defaultDispatcher.push(Aspect.of("", ANY_VALUE));
 
         assertThat(pmo.getValue(), is(ANY_VALUE));
     }
@@ -84,13 +86,13 @@ public class PropertyDispatcherFactoryTest {
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         modelObject.setModelProp("testValue");
 
-        Object modelProp = defaultDispatcher.getValue();
+        Object modelProp = defaultDispatcher.pull(Aspect.of(""));
 
         assertThat(modelProp, is("testValue"));
     }
 
     @Test
-    public void testCreateDispatcherChain_setValueToModelObject() {
+    public void testCreateDispatcherChain_push() {
         setUpPmo();
         when(elementDescriptor.getModelPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
         when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
@@ -98,7 +100,7 @@ public class PropertyDispatcherFactoryTest {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, elementDescriptor, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
-        defaultDispatcher.setValue("testSetValue");
+        defaultDispatcher.push(Aspect.of("", "testSetValue"));
 
         assertThat(modelObject.getModelProp(), is("testSetValue"));
     }
@@ -115,7 +117,7 @@ public class PropertyDispatcherFactoryTest {
         pmo.setModelObject(newModelObject);
         newModelObject.setModelProp("testNewValue");
 
-        Object modelProp = defaultDispatcher.getValue();
+        Object modelProp = defaultDispatcher.pull(Aspect.of(""));
 
         assertThat(modelProp, is("testNewValue"));
     }
@@ -132,7 +134,7 @@ public class PropertyDispatcherFactoryTest {
         TestModelObject newModelObject = new TestModelObject();
         pmo.setModelObject(newModelObject);
 
-        defaultDispatcher.setValue("testNewSetValue");
+        defaultDispatcher.push(Aspect.of("", "testNewSetValue"));
         assertThat(newModelObject.getModelProp(), is("testNewSetValue"));
     }
 
@@ -143,7 +145,7 @@ public class PropertyDispatcherFactoryTest {
             protected PropertyDispatcher createCustomDispatchers(@SuppressWarnings("hiding") Object pmo,
                     BindingDescriptor bindingDescriptor,
                     PropertyDispatcher standardDispatcher) {
-                return null;
+                return mock(PropertyDispatcher.class);
             }
         };
 

@@ -40,7 +40,8 @@ public class ReadMethod extends AbstractMethod {
         if (canRead()) {
             return readValueWithExceptionHandling(boundObject);
         } else {
-            throw new IllegalStateException("Cannot read property \"" + getPropertyName() + "\".");
+            throw new IllegalStateException(
+                    "Cannot find getter method for " + getPropertyName() + " of " + boundObject.getClass().getName());
         }
     }
 
@@ -49,14 +50,10 @@ public class ReadMethod extends AbstractMethod {
             return invokeMethod(boundObject);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(
-                    "Cannot access class: " + getBoundClass() + ", property: " + getPropertyName() + " for reading.",
-                    e);
-        } catch (IllegalArgumentException e) {
+                    "Cannot access method " + getMethodWithExceptionHandling(), e);
+        } catch (IllegalArgumentException | InvocationTargetException e) {
             throw new RuntimeException(
-                    "Cannot read value from object: " + boundObject + ", property: " + getPropertyName(), e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(
-                    "Cannot invoke read method on class: " + getBoundClass() + ", property: " + getPropertyName(), e);
+                    "Cannot invoke read method " + getMethodWithExceptionHandling(), e);
         }
     }
 

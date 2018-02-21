@@ -32,10 +32,10 @@ import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.section.annotations.BindingDescriptor;
+import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.section.descriptor.BindingDescriptor;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
@@ -57,7 +57,7 @@ public class BindingContext implements UiUpdateObserver {
     private final PropertyBehaviorProvider behaviorProvider;
     private final Handler afterUpdateHandler;
 
-    private final Map<Component, ElementBinding> elementBindings = new ConcurrentHashMap<>();
+    private final Map<Object, ElementBinding> elementBindings = new ConcurrentHashMap<>();
     private final Map<Object, List<ElementBinding>> elementBindingsByPmo = Collections.synchronizedMap(new HashMap<>());
     private final Map<Component, TableBinding<?>> tableBindings = new ConcurrentHashMap<>();
     private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<>();
@@ -65,8 +65,8 @@ public class BindingContext implements UiUpdateObserver {
 
 
     /**
-     * Creates a new binding context with an empty name that defines no property behavior and uses
-     * no after update handler.
+     * Creates a new binding context with an empty name that defines no property behavior and uses no
+     * after update handler.
      * 
      */
     public BindingContext() {
@@ -74,8 +74,8 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a new binding context with the given name that defines no property behavior and uses
-     * no after update handler.
+     * Creates a new binding context with the given name that defines no property behavior and uses no
+     * after update handler.
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
@@ -85,18 +85,18 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a new binding context with the given name, using the behavior provider to decorate
-     * its bindings and notifying a handler after every UI update.
+     * Creates a new binding context with the given name, using the behavior provider to decorate its
+     * bindings and notifying a handler after every UI update.
      * <p>
-     * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event
-     * outside of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()}
-     * is used by {@link BindingManager} to trigger the validation service and to notify all
+     * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event outside
+     * of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()} is used by
+     * {@link BindingManager} to trigger the validation service and to notify all
      * {@link UiUpdateObserver}s in the manager to show the validation result.
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
-     * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are relevant to
-     *            this context
+     * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are relevant to this
+     *            context
      * @param afterUpdateHandler a handler that is applied after the UI update. Usually
      *            {@link BindingManager#afterUpdateUi()}
      */
@@ -229,32 +229,24 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a binding between the presentation model object and UI elements (i.e.
-     * {@linkplain Label} and {@linkplain Component}) as described by the given descriptor.
+     * Creates a binding between the presentation model object and UI elements (i.e. {@linkplain Label}
+     * and {@linkplain Component}) as described by the given descriptor.
      * <p>
      * If the label is {@code null} it is ignored for the binding
      * 
      * @param pmo a presentation model object
      * @param bindingDescriptor the descriptor describing the binding
-     * @param component the component to be bound
-     * @param label the label to be bound or {@code null} if no label is bound
+     * @param componentWrapper the {@link ComponentWrapper} that wraps the component that should be
+     *            bound
      */
     public void bind(Object pmo,
             BindingDescriptor bindingDescriptor,
-            Component component,
-            @Nullable Label label) {
+            ComponentWrapper componentWrapper) {
         requireNonNull(pmo, "pmo must not be null");
         requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
-        requireNonNull(component, "component must not be null");
-
-        // Make bound components "immediate", i.e. let them update their PMO as soon as a field is
-        // left, a checkbox is checked etc.
-        if (component instanceof AbstractComponent) {
-            ((AbstractComponent)component).setImmediate(true);
-        }
-
+        requireNonNull(componentWrapper, "component must not be null");
         ElementBinding binding = bindingDescriptor.createBinding(createDispatcherChain(pmo, bindingDescriptor),
-                                                                 this::updateUI, component, label);
+                                                                 this::updateUI, componentWrapper);
         binding.updateFromPmo();
         add(binding);
     }

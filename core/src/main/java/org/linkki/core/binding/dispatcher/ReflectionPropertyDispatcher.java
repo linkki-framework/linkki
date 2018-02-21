@@ -16,17 +16,20 @@ package org.linkki.core.binding.dispatcher;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.function.Function;
+import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
 import org.linkki.core.message.MessageList;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * {@link PropertyDispatcher} that reads properties from an arbitrary object via reflection. Falls
@@ -45,8 +48,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     /**
      * @param boundObjectSupplier a supplier to get the object accessed via reflection. Must not be
      *            {@code null}. The object is provided via a supplier because it may change.
-     * @param property the name of the property of the bound object that this
-     *            {@link PropertyDispatcher} will handle
+     * @param property the name of the property of the bound object that this {@link PropertyDispatcher}
+     *            will handle
      * @param fallbackDispatcher the dispatcher accessed in case a value cannot be read or written
      *            (because no getters/setters exist) from the accessed object property. Must not be
      *            {@code null}.
@@ -63,15 +66,22 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         return property;
     }
 
-    @Nullable
+    @CheckForNull
     @Override
     public Object getBoundObject() {
         return boundObjectSupplier.get();
     }
 
+    @Nonnull
+    @SuppressFBWarnings()
+    private Object getExistingBoundObject() {
+        return requireNonNull(getBoundObject());
+    }
+
     @Override
     public Class<?> getValueClass() {
-        if (canRead(getProperty())) {
+        Object boundObject = getBoundObject();
+        if (boundObject != null && hasReadMethod(getProperty())) {
             Class<?> valueClass = getAccessor(getProperty()).getValueClass();
             return valueClass;
         } else {
@@ -79,82 +89,92 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
     }
 
-    private PropertyAccessor getAccessor(String propertyToAccess) {
+    @CheckForNull
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T pull(Aspect<T> aspect) {
+        if (aspect.isValuePresent()) {
+            throw new IllegalStateException(String
+                    .format("Static aspect %s should not be handled by %s. It seems like the dispatcher chain is broken, check your %s",
+                            aspect, getClass().getSimpleName(), BindingContext.class.getSimpleName()));
+        }
         Object boundObject = getBoundObject();
-        if (boundObject == null) {
-            throw new IllegalStateException("Should not be called without checking canRead or canWrite!");
+        String propertyAspectName = getPropertyAspectName(aspect);
+        if (boundObject != null && hasReadMethod(propertyAspectName)) {
+            return (T)getAccessor(propertyAspectName).getPropertyValue(boundObject);
         } else {
-            return PropertyAccessorCache.get(boundObject.getClass(), propertyToAccess);
+            return fallbackDispatcher.pull(aspect);
         }
     }
 
-    @Override
-    @CheckForNull
-    public Object getValue() {
-        return get(propertyNamingConvention::getValueProperty, fallbackDispatcher::getValue);
+
+    private boolean hasReadMethod(String propertyToRead) {
+        return getAccessor(propertyToRead).canRead();
     }
 
     @Override
-    public void setValue(@Nullable Object value) {
-        if (!isReadOnly()) {
-            if (canWrite(getProperty())) {
-                getAccessor(getProperty()).setPropertyValue(getBoundObject(), value);
+    public <T> void push(Aspect<T> aspect) {
+        Object boundObject = getBoundObject();
+        if (boundObject != null) {
+            if (aspect.isValuePresent()) {
+                callSetter(aspect);
             } else {
-                fallbackDispatcher.setValue(value);
+                invoke(aspect);
             }
         }
     }
 
-    @Override
-    public boolean isReadOnly() {
-        return !canWrite(getProperty()) && fallbackDispatcher.isReadOnly();
+    private <T> void callSetter(Aspect<T> aspect) {
+        String propertyAspectName = getPropertyAspectName(aspect);
+        if (hasWriteMethod(propertyAspectName)) {
+            getAccessor(propertyAspectName).setPropertyValue(getExistingBoundObject(), aspect.getValue());
+        } else {
+            fallbackDispatcher.push(aspect);
+        }
+    }
+
+    private <T> void invoke(Aspect<T> aspect) {
+        String propertyAspectName = getPropertyAspectName(aspect);
+        Method method = getExactMethod(propertyAspectName);
+        if (method != null) {
+            try {
+                method.invoke(getExistingBoundObject());
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new IllegalStateException(String.format("Error invoking method %s", propertyAspectName), e);
+            }
+        } else {
+            fallbackDispatcher.push(aspect);
+        }
+    }
+
+    @CheckForNull
+    private Method getExactMethod(String methodName) {
+        return MethodUtils.getAccessibleMethod(getExistingBoundObject().getClass(), methodName);
     }
 
     @Override
-    public boolean isEnabled() {
-        return (boolean)get(propertyNamingConvention::getEnabledProperty, fallbackDispatcher::isEnabled);
-    }
-
-    @Override
-    public boolean isVisible() {
-        return (boolean)get(propertyNamingConvention::getVisibleProperty, fallbackDispatcher::isVisible);
-    }
-
-    @Override
-    public boolean isRequired() {
-        return (boolean)get(propertyNamingConvention::getRequiredProperty, fallbackDispatcher::isRequired);
-    }
-
-    @Override
-    public Collection<?> getAvailableValues() {
-        return (Collection<?>)get(propertyNamingConvention::getAvailableValuesProperty,
-                                  fallbackDispatcher::getAvailableValues);
-    }
-
-    @Override
-    public void invoke() {
+    public <T> boolean isPushable(Aspect<T> aspect) {
         Object boundObject = getBoundObject();
-        try {
-            MethodUtils.invokeExactMethod(boundObject, getProperty());
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+        return (boundObject != null && hasWriteMethod(getPropertyAspectName(aspect)))
+                || fallbackDispatcher.isPushable(aspect);
     }
 
-    private boolean canRead(String propertyToRead) {
-        if (getBoundObject() == null) {
-            return false;
-        } else {
-            return getAccessor(propertyToRead).canRead();
-        }
+    /**
+     * Returns if the {@link #getBoundObject()} has a setter method for the given property.
+     * 
+     * @param propertyToWrite property name of the bound object
+     * @return whether the bound object has a setter method for the property.
+     */
+    private boolean hasWriteMethod(String propertyToWrite) {
+        return getAccessor(propertyToWrite).canWrite();
     }
 
-    private boolean canWrite(String propertyToWrite) {
-        if (getBoundObject() == null) {
-            return false;
-        } else {
-            return getAccessor(propertyToWrite).canWrite();
-        }
+    private PropertyAccessor getAccessor(String propertyToAccess) {
+        return PropertyAccessorCache.get(getExistingBoundObject().getClass(), propertyToAccess);
+    }
+
+    private String getPropertyAspectName(Aspect<?> aspect) {
+        return propertyNamingConvention.getCombinedPropertyName(getProperty(), aspect.getName());
     }
 
     /**
@@ -177,28 +197,10 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     public String toString() {
-        return "ReflectionPropertyDispatcher [boundObject=" + boundObjectSupplier.get() + ", fallbackDispatcher="
-                + fallbackDispatcher + "]";
+        Object boundObject = getBoundObject();
+        return getClass().getSimpleName() + "["
+                + (boundObject != null ? boundObject.getClass().getSimpleName() : "<no object>") + "#" + getProperty()
+                + "]\n\t-> " + fallbackDispatcher;
     }
 
-    @Override
-    @CheckForNull
-    public String getCaption() {
-        return (String)get(propertyNamingConvention::getCaptionProperty, fallbackDispatcher::getCaption);
-    }
-
-    @Override
-    @CheckForNull
-    public String getToolTip() {
-        return (String)get(propertyNamingConvention::getToolTipProperty, fallbackDispatcher::getToolTip);
-    }
-
-    private Object get(Function<String, String> methodNameProvider, Supplier<Object> fallbackProvider) {
-        String methodName = methodNameProvider.apply(property);
-        if (canRead(methodName)) {
-            return getAccessor(methodName).getPropertyValue(getBoundObject());
-        } else {
-            return fallbackProvider.get();
-        }
-    }
 }
