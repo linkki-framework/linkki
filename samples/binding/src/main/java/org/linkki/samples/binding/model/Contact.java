@@ -15,12 +15,18 @@ package org.linkki.samples.binding.model;
 
 public class Contact {
 
+    public static final String PROPERTY_NO_OF_CHILDREN = "noOfChildren";
+    public static final String PROPERTY_NOTES_ON_CHILDREN = "notesOnChildren";
+
     private String firstname;
     private String lastname;
     private boolean favorite;
 
     private Address address;
     private Gender gender = Gender.OTHER;
+
+    private int noOfChildren;
+    private String notesOnChildren;
 
     public String getFirstname() {
         return firstname;
@@ -75,6 +81,22 @@ public class Contact {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public int getNoOfChildren() {
+        return noOfChildren;
+    }
+
+    public void setNoOfChildren(int noOfChildren) {
+        this.noOfChildren = noOfChildren;
+    }
+
+    public String getNotesOnChildren() {
+        return notesOnChildren;
+    }
+
+    public void setNotesOnChildren(String notesOnChildren) {
+        this.notesOnChildren = notesOnChildren;
     }
 
     public enum Gender {

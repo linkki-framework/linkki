@@ -24,6 +24,7 @@ import org.linkki.samples.binding.model.Address;
 import org.linkki.samples.binding.model.Contact;
 import org.linkki.samples.binding.pmo.AddressPmo;
 import org.linkki.samples.binding.pmo.ButtonsSectionPmo;
+import org.linkki.samples.binding.pmo.ChildrenSectionPmo;
 import org.linkki.samples.binding.pmo.ContactSectionPmo;
 
 import com.vaadin.ui.Panel;
@@ -35,22 +36,24 @@ public class ContactComponent extends Panel {
 
     private final PmoBasedSectionFactory sectionFactory = new DefaultPmoBasedSectionFactory();
 
-    private final BindingContext context;
+    private final BindingContext bindingContext;
 
     private final ContactSectionPmo contactPmo;
     private final AddressPmo addressPmo;
+    private ChildrenSectionPmo childrenSectionPmo;
     private final ButtonsSectionPmo buttonsSectionPmo;
 
     private final Consumer<Contact> persistAction;
 
     public ContactComponent(Consumer<Contact> persistAction, BindingContext bindingContext) {
 
-        this.context = bindingContext;
+        this.bindingContext = bindingContext;
         this.persistAction = persistAction;
 
         Contact contact = new Contact();
         this.contactPmo = new ContactSectionPmo(contact);
         this.addressPmo = new AddressPmo(contact.getAddress());
+        childrenSectionPmo = new ChildrenSectionPmo(contact);
 
         this.buttonsSectionPmo = new ButtonsSectionPmo(this::canSave, this::save, this::reset);
 
@@ -64,18 +67,19 @@ public class ContactComponent extends Panel {
 
     private void createContent() {
 
-        AbstractSection contactSection = sectionFactory.createSection(contactPmo, context);
+        AbstractSection contactSection = sectionFactory.createSection(contactPmo, bindingContext);
 
         AddressFields addressFields = new AddressFields();
         AddressComponent addressComponent = new AddressComponent(addressFields);
 
         // tag::manual-binding[]
-        new Binder(addressFields, addressPmo).setupBindings(context);
+        new Binder(addressFields, addressPmo).setupBindings(bindingContext);
         // end::manual-binding[]
 
-        AbstractSection buttonsSection = sectionFactory.createSection(buttonsSectionPmo, context);
+        AbstractSection childrenSection = sectionFactory.createSection(childrenSectionPmo, bindingContext);
+        AbstractSection buttonsSection = sectionFactory.createSection(buttonsSectionPmo, bindingContext);
 
-        setContent(new VerticalLayout(contactSection, addressComponent, buttonsSection));
+        setContent(new VerticalLayout(contactSection, addressComponent, childrenSection, buttonsSection));
     }
 
     private boolean canSave() {
@@ -102,7 +106,7 @@ public class ContactComponent extends Panel {
         contactPmo.reset(contact);
         addressPmo.reset(contact.getAddress());
 
-        context.updateUI();
+        bindingContext.updateUI();
     }
 
 }

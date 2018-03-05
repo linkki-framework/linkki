@@ -27,6 +27,7 @@ import org.linkki.core.ui.util.ComponentFactory;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 
 public class AbstractSectionTest {
@@ -38,6 +39,11 @@ public class AbstractSectionTest {
         }
 
         private static final long serialVersionUID = 1L;
+
+        @Override
+        public Component getSectionContent() {
+            return null;
+        }
 
     }
 

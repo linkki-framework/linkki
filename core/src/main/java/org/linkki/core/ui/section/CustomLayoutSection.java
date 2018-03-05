@@ -55,4 +55,9 @@ public class CustomLayoutSection extends BaseSection {
         customLayout.addComponent(component, propertyName);
     }
 
+    @Override
+    public Component getSectionContent() {
+        return customLayout;
+    }
+
 }

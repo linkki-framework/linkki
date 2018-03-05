@@ -26,7 +26,6 @@ import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -196,15 +195,16 @@ public abstract class AbstractSection extends VerticalLayout {
         if (openCloseButton != null) {
             openCloseButton.setIcon(open ? FontAwesome.ANGLE_DOWN : FontAwesome.ANGLE_RIGHT);
         }
-        setAllChildComponentsVisibilityBasedOnOpenStatus(this);
+        getSectionContent().setVisible(open);
     }
 
-    protected void setAllChildComponentsVisibilityBasedOnOpenStatus(AbstractLayout layout) {
-        for (Component c : layout) {
-            if (c != header) {
-                c.setVisible(open);
-            }
-        }
-    }
+    /**
+     * Implementations of this method have to return the sections content, which is the
+     * {@link Component} added to the section. The sections header is not part of the content and
+     * has to be excluded.
+     * 
+     * @return the content of a section.
+     */
+    protected abstract Component getSectionContent();
 
 }

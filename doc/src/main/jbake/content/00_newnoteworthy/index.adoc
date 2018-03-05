@@ -5,8 +5,6 @@
 
 == New & Noteworthy
 
-image::https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/linkki-core/badge.svg[Maven central]
-
 === 15. February 2018
 
 === Binding Aspects
@@ -15,7 +13,7 @@ The binding mechanism was redesigned fundamentally. Everything that could be bou
 
 Due to the refactoring we could simplify and consolidate several classes. If you have created your own binding annotations or a customized property dispatcher chain there may be some need of adaption:
 
-. The interface `UIElementDefinition` is merged into `BindingDefinition`. Its implementations such as `UIFieldDefinition` are removed. If you have implemented your own field annotation that implements `UIElementDefinition` or `UIFieldDefinition`, just implement `BindingDefinition` directly instead. In addition to your `@LinkkiBindingDefinition` annotation you have to specify the bound aspects using `@LinkkiAspectDefinition` annotation. You could use the composite aspect `FieldAspectDefinition` which defines the most common aspects for `AbstractFields`. The aspect for available values is no longer retrieved via `BindingDefinition`. If you want to include this aspect just create a subclass of `AvailableValuesAspectDefinition` that suits your annotation and add it to your custom annotation using `@LinkkiAspectDefinition`.
+. The interface `UIElementDefinition` is merged into `BindingDefinition`. Its implementations such as `UIFieldDefinition` are removed. If you have implemented your own field annotation that implements `UIElementDefinition` or `UIFieldDefinition`, just implement `BindingDefinition` directly instead. In addition to your `@LinkkiBindingDefinition` annotation you have to specify the bound aspects using `@LinkkiAspect` annotation. You could use the composite aspect `FieldAspectDefinition` which defines the most common aspects for `AbstractFields`. The aspect for available values is no longer retrieved via `BindingDefinition`. If you want to include this aspect just create a subclass of `AvailableValuesAspectDefinition` that suits your annotation and add it to your custom annotation using `@LinkkiAspect`.
 . The `AnnotationDispatcher` is renamed to `StaticValueDispatcher`
 . The implementations of `BindingDescriptor` are merged into `ElementDescriptor` for all field bindings. `BindAnnotationDescriptor` is used for the special case of `@Bind` annotation.
 . The subclasses of `ElementBinding` for components are united to `ComponentBinding`.

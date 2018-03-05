@@ -109,4 +109,9 @@ public class HorizontalSection extends BaseSection {
         return num;
     }
 
+    @Override
+    public Component getSectionContent() {
+        return content;
+    }
+
 }

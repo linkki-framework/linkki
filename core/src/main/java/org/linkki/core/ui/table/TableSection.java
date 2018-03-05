@@ -23,6 +23,7 @@ import org.apache.commons.lang3.Validate;
 import org.linkki.core.ui.section.AbstractSection;
 
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 
 /**
@@ -64,5 +65,10 @@ public class TableSection<T> extends AbstractSection {
     @Override
     public String toString() {
         return "TableSection based on " + (table != null ? table.getContainerDataSource() : null);
+    }
+
+    @Override
+    public Component getSectionContent() {
+        return table;
     }
 }

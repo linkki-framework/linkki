@@ -171,9 +171,11 @@ public class FormSection extends BaseSection {
     @Override
     protected void switchOpenStatus() {
         super.switchOpenStatus();
-        content.setVisible(true);
-        contentGrid.setVisible(true);
-        super.setAllChildComponentsVisibilityBasedOnOpenStatus(contentGrid);
+    }
+
+    @Override
+    public Component getSectionContent() {
+        return content;
     }
 
 }
