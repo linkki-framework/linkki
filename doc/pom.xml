@@ -149,7 +149,7 @@
                             <serverId>linkkidoc</serverId>
                             <fromDir>${jbake.outputDirectory}</fromDir>
                             <includes>**/*</includes>
-                            <url>scp://${doc.user}@doc.linkki-framework.org</url>
+                            <url>scp://${doc.user}@doc.linkki-framework.org:2004</url>
                             <toDir>/var/www/doc.linkki-framework.org/linkki-${project.version}</toDir>
                         </configuration>
                     </execution>
