@@ -72,9 +72,7 @@ public class ContainerPmoTest {
         // nothing
     }
 
-    @SuppressWarnings("unused")
-    private static class IndirectContainerPmo extends AnotherTestTablePmo<SubTestRow>
-            implements ContainerPmo<SubTestRow> {
+    private static class IndirectContainerPmo extends AnotherTestTablePmo<SubTestRow> {
 
         @Override
         public List<SubTestRow> getItems() {
