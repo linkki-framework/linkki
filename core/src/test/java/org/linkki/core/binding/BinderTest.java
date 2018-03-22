@@ -118,26 +118,6 @@ public class BinderTest {
         assertThat(view.textField.isRequired(), is(false));
     }
 
-    @Test
-    public void testSetupBindings_CanBindPrivateMethods() {
-        TestViewWithPrivateMethod testView = new TestViewWithPrivateMethod();
-        TestPmo pmo = new TestPmo();
-
-        Binder binder = new Binder(testView, pmo);
-        BindingContext ctx = bindingManager.startNewContext("");
-        binder.setupBindings(ctx);
-
-        assertThat(ctx.getElementBindings(), hasSize(1));
-
-        // Binding pmo -> view
-        pmo.setText("foo");
-        assertThat(testView.textField.getValue(), is("foo"));
-
-        // Binding view -> pmo
-        testView.textField.setValue("bar");
-        assertThat(pmo.getText(), is("bar"));
-    }
-
     @Test(expected = NullPointerException.class)
     public void testSetupBindings_ThrowsExceptionForNullField() {
         TestView testView = new TestView();
@@ -227,18 +207,6 @@ public class BinderTest {
         @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
         public IntegerField getNumberField() {
             return numberField;
-        }
-    }
-
-    protected static class TestViewWithPrivateMethod extends VerticalLayout {
-
-        private static final long serialVersionUID = 1L;
-
-        private TextField textField = new TextField();
-
-        @Bind(pmoProperty = TestPmo.PROPERTY_TEXT)
-        private TextField getTextField() {
-            return textField;
         }
     }
 

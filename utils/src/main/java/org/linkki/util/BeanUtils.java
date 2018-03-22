@@ -22,9 +22,7 @@ import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -81,21 +79,7 @@ public class BeanUtils {
      * Returns the class' methods matching the given predicate.
      */
     public static Stream<Method> getMethods(Class<?> clazz, Predicate<Method> predicate) {
-        List<Method> allMethods = collectMethods(clazz, new ArrayList<>());
-        return allMethods.stream().filter(predicate);
-    }
-
-    private static List<Method> collectMethods(Class<?> clazz, List<Method> allMethods) {
-        allMethods.addAll(Arrays.asList(clazz.getDeclaredMethods()));
-
-        Class<?> superclass = clazz.getSuperclass();
-        if (superclass != null) {
-            collectMethods(superclass, allMethods);
-        }
-        for (Class<?> interfaze : clazz.getInterfaces()) {
-            collectMethods(interfaze, allMethods);
-        }
-        return allMethods;
+        return Arrays.stream(clazz.getMethods()).filter(predicate);
     }
 
     /**

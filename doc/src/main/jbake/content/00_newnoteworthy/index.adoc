@@ -5,6 +5,12 @@
 
 == New & Noteworthy
 
+=== 22. March 2018
+
+=== No More Binding Private Methods
+
+Previously, linkki allowed some annotations to be used on non-public methods when using `Binder` to manually create bindings. This is no longer possible, as we believe that all methods used by linkki's binding should be public and not be accessed by reflection hacks. 
+
 === 15. February 2018
 
 === Binding Aspects

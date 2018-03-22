@@ -74,7 +74,7 @@ public class BeanUtilsTest {
     }
 
     public static class SuperFoo implements IFoo {
-        void superFoo() {
+        public void superFoo() {
             // do nothing
         }
     }
@@ -84,16 +84,15 @@ public class BeanUtilsTest {
             // do nothing
         }
 
-        @SuppressWarnings("unused")
-        private void bar() {
+        public void bar() {
             // do nothing
         }
 
-        protected int baz() {
+        public int baz() {
             return 0;
         }
 
-        protected int baz(int foo) {
+        public int baz(int foo) {
             return foo + 1;
         }
     }
