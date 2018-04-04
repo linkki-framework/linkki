@@ -111,9 +111,9 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "["
-                + objects.stream().map(Object::getClass).map(Class::getSimpleName).collect(joining(",")) + "#"
+                + objects.stream().map(c -> (c != null) ? c.getClass().getSimpleName() : "null").collect(joining(","))
+                + "#"
                 + getProperty()
                 + "]";
     }
-
 }
