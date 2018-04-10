@@ -72,8 +72,7 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
             return AvailableValuesProvider.booleanWrapperToValues();
         } else {
             throw new IllegalStateException(
-                    "Cannot retrieve list of available values for field " + propertyName + ", valueClass "
-                            + valueClass);
+                    "Cannot retrieve list of available values for " + valueClass.getName() + "#" + propertyName);
         }
     }
 

@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 
 /**
@@ -58,7 +59,9 @@ public class AspectAnnotationReader {
             aspectDef.initialize(uiAnnotation);
             return aspectDef;
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException("Cannot instantiate aspect definition " + aspectDefClass, e);
+            throw new LinkkiBindingException(
+                    "Cannot instantiate aspect definition " + aspectDefClass + " for " + uiAnnotation.annotationType(),
+                    e);
         }
     }
 }

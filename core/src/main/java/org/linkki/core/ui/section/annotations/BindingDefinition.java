@@ -20,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.annotation.Nullable;
 
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 
 import com.vaadin.ui.Component;
@@ -57,8 +58,8 @@ public interface BindingDefinition {
     VisibleType visible();
 
     /**
-     * If and how the required state of the UI component is bound to the PMO. Ignored for UI
-     * components that cannot be required, e.g. buttons.
+     * If and how the required state of the UI component is bound to the PMO. Ignored for UI components
+     * that cannot be required, e.g. buttons.
      */
     RequiredType required();
 
@@ -87,9 +88,9 @@ public interface BindingDefinition {
 
     /**
      * Returns the {@link BindingDefinition} for the given annotation. Throws an exception if the
-     * annotation is {@code null} or not annotated as a {@link LinkkiBindingDefinition}. In other
-     * words, this method should only be invoked if {@link #isLinkkiBindingDefinition(Annotation)}
-     * returns {@code true} for the given annotation.
+     * annotation is {@code null} or not annotated as a {@link LinkkiBindingDefinition}. In other words,
+     * this method should only be invoked if {@link #isLinkkiBindingDefinition(Annotation)} returns
+     * {@code true} for the given annotation.
      */
     public static BindingDefinition from(Annotation annotation) {
         Class<? extends Annotation> annotationClass = requireNonNull(annotation, "annotation must not be null")
@@ -107,7 +108,7 @@ public interface BindingDefinition {
             return bindingDefinitionClass.getConstructor(annotationClass).newInstance(annotation);
         } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new LinkkiBindingException("Cannot instantiate " + bindingDefinitionClass.getName(), e);
         }
     }
 }

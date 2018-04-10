@@ -40,7 +40,7 @@ public class JodaLocalDateToStringConverter implements Converter<String, LocalDa
     public LocalDate convertToModel(@Nullable String value,
             @Nullable Class<? extends LocalDate> targetType,
             @Nullable Locale locale) throws Converter.ConversionException {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(getClass().getName() + " only supports convertToPresentation");
     }
 
     @Override

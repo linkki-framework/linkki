@@ -16,6 +16,7 @@ package org.linkki.core.binding.aspect.definition;
 
 import java.util.function.Consumer;
 
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
@@ -40,13 +41,14 @@ public abstract class ModelToUiAspectDefinition<VALUE_TYPE> implements LinkkiAsp
                 // CSOFF: IllegalCatch
             } catch (RuntimeException e) {
                 Object boundObject = propertyDispatcher.getBoundObject();
-                throw new RuntimeException(
+                throw new LinkkiBindingException(
                         e.getMessage() +
                                 " while apply " +
                                 (aspect.getName().isEmpty() ? "value" : "aspect " + aspect.getName()) +
                                 " of " +
                                 (boundObject != null ? boundObject.getClass() : "<no object>") +
-                                "#" + propertyDispatcher.getProperty());
+                                "#" + propertyDispatcher.getProperty(),
+                        e);
                 // CSON: IllegalCatch
             }
         };

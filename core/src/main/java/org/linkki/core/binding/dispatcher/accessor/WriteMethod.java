@@ -18,6 +18,8 @@ import java.lang.reflect.Method;
 
 import javax.annotation.Nullable;
 
+import org.linkki.core.binding.LinkkiBindingException;
+
 /**
  * Wrapper for a {@link Method}. {@link #canWrite()} can safely be accessed even if no write method
  * exists. {@link #writeValue(Object, Object)} will access the setter via reflection.
@@ -43,7 +45,9 @@ public class WriteMethod extends AbstractMethod {
         if (canWrite()) {
             writeValueWithExceptionHandling(target, value);
         } else {
-            throw new IllegalStateException("Cannot write property \"" + getPropertyName() + "\" in object " + target);
+            throw new IllegalStateException(
+                    "Cannot write property " + target.getClass().getSimpleName() + "#" + getPropertyName() + " in "
+                            + target);
         }
     }
 
@@ -51,16 +55,16 @@ public class WriteMethod extends AbstractMethod {
         try {
             invokeMethod(boundObject, value);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(
-                    "Cannot access class: " + getBoundClass() + ", property: " + getPropertyName() + " for writing.",
+            throw new LinkkiBindingException(
+                    "Cannot access " + getBoundClass() + "#" + getPropertyName() + " for writing.",
                     e);
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException(
-                    "Cannot write value: " + value + " in object: " + boundObject + ", property: " + getPropertyName(),
+            throw new LinkkiBindingException(
+                    "Cannot write value: " + value + " in " + getBoundClass() + "#" + getPropertyName(),
                     e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException(
-                    "Cannot invoke write method on class: " + getBoundClass() + ", property: " + getPropertyName(), e);
+            throw new LinkkiBindingException(
+                    "Cannot invoke write method on " + getBoundClass() + "#" + getPropertyName(), e);
         }
     }
 

@@ -140,7 +140,10 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
             try {
                 method.invoke(getExistingBoundObject());
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                throw new IllegalStateException(String.format("Error invoking method %s", propertyAspectName), e);
+                throw new IllegalStateException(
+                        String.format("Error invoking method %s#%s",
+                                      getExistingBoundObject().getClass().getName(), propertyAspectName),
+                        e);
             }
         } else {
             fallbackDispatcher.push(aspect);

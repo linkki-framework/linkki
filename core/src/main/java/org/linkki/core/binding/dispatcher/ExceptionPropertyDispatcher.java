@@ -98,8 +98,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
         if (aspect.isValuePresent()) {
             throw new IllegalArgumentException(getExceptionText("write"));
         } else {
-            throw new IllegalArgumentException(
-                    MessageFormat.format("Cannot invoke \"{0}\" on any of {1}", property, objects));
+            throw new IllegalArgumentException(getExceptionText("invoke method for"));
         }
     }
 

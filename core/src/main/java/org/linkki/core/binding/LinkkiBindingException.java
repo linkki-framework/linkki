@@ -11,8 +11,15 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-/**
- * Exceptions defined by Linkki.
- */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
-package org.linkki.core.exception;
+
+package org.linkki.core.binding;
+
+public class LinkkiBindingException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
+
+    public LinkkiBindingException(String message, Exception cause) {
+        super(message, cause);
+    }
+
+}

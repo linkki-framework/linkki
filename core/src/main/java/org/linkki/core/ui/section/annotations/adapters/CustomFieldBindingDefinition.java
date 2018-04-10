@@ -15,6 +15,7 @@ package org.linkki.core.ui.section.annotations.adapters;
 
 import static java.util.Objects.requireNonNull;
 
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
@@ -37,7 +38,8 @@ public class CustomFieldBindingDefinition implements BindingDefinition {
         try {
             return uiCustomField.uiControl().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw new LinkkiBindingException("Cannot instantiate component " + uiCustomField.uiControl().getName()
+                    + " using default constructor.", e);
         }
     }
 

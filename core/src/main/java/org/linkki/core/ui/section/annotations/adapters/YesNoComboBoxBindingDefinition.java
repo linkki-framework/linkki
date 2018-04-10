@@ -2,7 +2,7 @@ package org.linkki.core.ui.section.annotations.adapters;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.exception.LinkkiRuntimeException;
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.LinkkiComboBox;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
@@ -70,7 +70,10 @@ public class YesNoComboBoxBindingDefinition implements BindingDefinition {
         try {
             return uiYesNoComboBox.itemCaptionProvider().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new LinkkiRuntimeException(e);
+            throw new LinkkiBindingException(
+                    "Cannot instantiate item caption provider " + uiYesNoComboBox.itemCaptionProvider().getName()
+                            + " using default constructor.",
+                    e);
         }
     }
 

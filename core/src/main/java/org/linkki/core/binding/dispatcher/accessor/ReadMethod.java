@@ -16,6 +16,8 @@ package org.linkki.core.binding.dispatcher.accessor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.linkki.core.binding.LinkkiBindingException;
+
 /**
  * Wrapper for a {@link Method}. {@link #canRead()} can safely be accessed even if no read method
  * exists. {@link #readValue(Object)} will access the getter via reflection.
@@ -41,7 +43,7 @@ public class ReadMethod extends AbstractMethod {
             return readValueWithExceptionHandling(boundObject);
         } else {
             throw new IllegalStateException(
-                    "Cannot find getter method for " + getPropertyName() + " of " + boundObject.getClass().getName());
+                    "Cannot find getter method for " + boundObject.getClass().getName() + "#" + getPropertyName());
         }
     }
 
@@ -49,10 +51,10 @@ public class ReadMethod extends AbstractMethod {
         try {
             return invokeMethod(boundObject);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(
+            throw new LinkkiBindingException(
                     "Cannot access method " + getMethodWithExceptionHandling(), e);
         } catch (IllegalArgumentException | InvocationTargetException e) {
-            throw new RuntimeException(
+            throw new LinkkiBindingException(
                     "Cannot invoke read method " + getMethodWithExceptionHandling(), e);
         }
     }

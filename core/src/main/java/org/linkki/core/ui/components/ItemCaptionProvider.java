@@ -110,7 +110,8 @@ public interface ItemCaptionProvider<T> {
                 return (String)method.invoke(value);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
-                throw new IllegalStateException("Can't get value from method " + methodName + ", value was " + value);
+                throw new IllegalStateException(
+                        "Can't get value from method " + value.getClass() + "#" + methodName + " of " + value);
             }
         }
 
@@ -144,7 +145,9 @@ public interface ItemCaptionProvider<T> {
                 return (String)method.invoke(value);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
-                throw new IllegalStateException("Can't get value from method " + methodName + ", value was " + value);
+                throw new IllegalStateException(
+                        "Can't get value from method " + value.getClass() + "#" + methodName + " of " + value);
+
             }
         }
 

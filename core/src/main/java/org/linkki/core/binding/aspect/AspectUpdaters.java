@@ -17,6 +17,7 @@ package org.linkki.core.binding.aspect;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
@@ -40,10 +41,11 @@ public class AspectUpdaters {
                 d.initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated);
                 // CSOFF: IllegalCatch
             } catch (RuntimeException e) {
-                throw new RuntimeException(
+                throw new LinkkiBindingException(
                         e.getMessage() + " while init model update of " + d.getClass().getSimpleName() + " for "
                                 + componentWrapper + " <=> "
-                                + propertyDispatcher);
+                                + propertyDispatcher,
+                        e);
             }
             // CSON: IllegalCatch
         });
@@ -61,8 +63,8 @@ public class AspectUpdaters {
                 h.apply();
                 // CSOFF: IllegalCatch
             } catch (RuntimeException e) {
-                throw new RuntimeException(
-                        e.getMessage() + " in " + e.getStackTrace()[0]);
+                throw new LinkkiBindingException(
+                        e.getMessage() + " in " + e.getStackTrace()[0], e);
             }
             // CSON: IllegalCatch
         });

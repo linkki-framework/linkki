@@ -68,7 +68,7 @@ public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
     public List<PMO> get() {
         List<? extends MO> actualModelObjects = modelObjectSupplier.get();
         if (actualModelObjects == null) {
-            throw new IllegalStateException(
+            throw new NullPointerException(
                     "modelObjectSupplier must supply a List of model objects (which may be empty)");
         }
         if (hasUnderlyingModelObjectListChanged(actualModelObjects)) {

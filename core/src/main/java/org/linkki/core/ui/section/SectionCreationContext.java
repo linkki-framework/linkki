@@ -23,6 +23,7 @@ import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.components.ComponentWrapper;
@@ -117,7 +118,8 @@ public class SectionCreationContext {
             return requireNonNull((String)m.invoke(pmo), "The method annotated with @" + SectionID.class.getSimpleName()
                     + " must not return null.");
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new LinkkiBindingException(
+                    "Cannot call method to get section ID from " + pmo.getClass().getName() + "#" + m.getName(), e);
         }
     }
 

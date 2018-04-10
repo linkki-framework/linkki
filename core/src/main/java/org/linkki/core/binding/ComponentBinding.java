@@ -67,9 +67,10 @@ public class ComponentBinding implements ElementBinding {
             aspectUpdaters.updateUI();
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
-            throw new RuntimeException(
+            throw new LinkkiBindingException(
                     "Error while updating UI (" + e.getMessage() + ") in "
-                            + toString());
+                            + toString(),
+                    e);
         }
         // CSON: IllegalCatch
     }

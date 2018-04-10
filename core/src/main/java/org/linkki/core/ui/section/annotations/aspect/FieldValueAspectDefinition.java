@@ -201,7 +201,7 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
 
         @Override
         public void setReadOnly(boolean newStatus) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("Cannot specify read-only for this data source");
         }
     }
 

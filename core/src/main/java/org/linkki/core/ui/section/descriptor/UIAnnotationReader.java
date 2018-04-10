@@ -32,12 +32,13 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
 import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.util.BeanUtils;
@@ -197,7 +198,10 @@ public class UIAnnotationReader {
                 try {
                     return method.invoke(pmo);
                 } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                    throw new RuntimeException(e);
+                    throw new LinkkiBindingException(
+                            "Cannot call method to get model object " + pmo.getClass().getName() + "#"
+                                    + method.getName(),
+                            e);
                 }
             };
         }
