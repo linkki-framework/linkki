@@ -19,7 +19,6 @@ import java.util.Locale;
 import java.util.Optional;
 
 import org.linkki.core.ui.util.UiUtil;
-import org.linkki.util.cdi.BeanInstantiator;
 
 /**
  * Native Language Support Service for the translation of texts identified by a bundle name and key.
@@ -102,7 +101,7 @@ public interface NlsService {
      * @return the {@link NlsService} implementation for the current context.
      */
     public static NlsService get() {
-        return BeanInstantiator.getCDIInstance(NlsService.class, DefaultNlsService::new);
+        return new DefaultNlsService();
     }
 
 }

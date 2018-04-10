@@ -26,7 +26,11 @@ import javax.enterprise.inject.spi.BeanManager;
 
 /**
  * Helper class to access objects managed by the CDI {@link BeanManager}.
+ * 
+ * @deprecated Deprecated since version 0.9.20180327. Please Use
+ *             org.apache.deltaspike.core.api.provider.BeanProvider instead.
  */
+@Deprecated
 public class BeanInstantiator {
 
     private final BeanManager beanManager;

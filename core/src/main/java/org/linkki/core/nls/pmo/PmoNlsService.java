@@ -15,8 +15,6 @@ package org.linkki.core.nls.pmo;
 
 import javax.annotation.Nullable;
 
-import org.linkki.util.cdi.BeanInstantiator;
-
 /**
  * Service for Native Language Support for presentation model objects.
  * <p>
@@ -44,6 +42,6 @@ public interface PmoNlsService {
      * @return the {@link PmoNlsService} implementation for the current context.
      */
     public static PmoNlsService get() {
-        return BeanInstantiator.getCDIInstance(PmoNlsService.class, DefaultPmoNlsService::new);
+        return new DefaultPmoNlsService();
     }
 }
