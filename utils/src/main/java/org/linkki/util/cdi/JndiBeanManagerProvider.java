@@ -19,7 +19,11 @@ import javax.naming.NamingException;
 
 /**
  * A provider for {@link BeanManager} that uses JNDI to obtain the BeanManager.
+ * 
+ * @deprecated since April 2018. Will be removed in the next release. Use
+ *             org.apache.deltaspike.core.api.provider.BeanProvider instead.
  */
+@Deprecated
 public class JndiBeanManagerProvider implements IpmProvider<BeanManager> {
 
     public static final String BEAN_MANAGER_JNDI_NAME = "java:comp/BeanManager";

@@ -16,7 +16,11 @@ package org.linkki.util.cdi;
 /**
  * Provider for objects that cannot be injected directly, e.g. because they are obtained using
  * static utility methods and the like.
+ * 
+ * @deprecated since April 2018. Will be removed in the next release. Use
+ *             org.apache.deltaspike.core.api.provider.BeanProvider instead.
  */
+@Deprecated
 public interface IpmProvider<T> {
 
     /**
