@@ -19,14 +19,5 @@
             <artifactId>hamcrest-junit</artifactId>
             <scope>compile</scope>
         </dependency>
-        <!-- We have to use the JBoss JEE API spec as the javax.javaee-api 
-             provided on Maven Central is incomplete and cannot be used when
-             running tests -->
-        <dependency>
-            <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-6.0</artifactId>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 </project>

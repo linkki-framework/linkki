@@ -16,8 +16,6 @@ package org.linkki.core.ui.section.annotations;
 
 import java.util.Objects;
 
-import javax.validation.UnexpectedTypeException;
-
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.ui.section.AbstractSection;
@@ -53,8 +51,7 @@ public final class TestUiUtil {
     /**
      * Creates the section defined in the given pmo.
      * <p>
-     * Note that this method only returns the {@link Layout} inside the {@link Panel} of the
-     * section.
+     * Note that this method only returns the {@link Layout} inside the {@link Panel} of the section.
      * 
      * @param pmo the PMO to which the component is bound is bound
      * @return a {@code Component} that is bound to the model object
@@ -87,7 +84,7 @@ public final class TestUiUtil {
     public static String getLabelOfComponentAt(GridLayout layout, int row) {
         Component component = layout.getComponent(0, row);
         if (!(component instanceof Label)) {
-            throw new UnexpectedTypeException("No label found on the left side of the component");
+            throw new IllegalArgumentException("No label found on the left side of the component");
         } else {
             return ((Label)component).getValue();
         }
