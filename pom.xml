@@ -38,7 +38,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <m2e.jdt.annotationpath>.settings/annotations</m2e.jdt.annotationpath>
         <git.user>${user.name}</git.user>
-        <vaadin.version>7.7.11</vaadin.version>
+        <vaadin.version>7.7.13</vaadin.version>
         <joda-time.version>2.4</joda-time.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.8</mockito.version>
