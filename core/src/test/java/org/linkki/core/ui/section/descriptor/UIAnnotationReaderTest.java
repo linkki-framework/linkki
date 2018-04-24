@@ -30,13 +30,11 @@ import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.UIToolTip;
-import org.linkki.core.ui.section.descriptor.PropertyElementDescriptors;
-import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 import org.linkki.core.ui.section.descriptor.UIAnnotationReader.ModelObjectAnnotationException;
 
 public class UIAnnotationReaderTest {
 
-    private UIAnnotationReader reader = new UIAnnotationReader(TestObject.class);
+    private UIAnnotationReader reader = new UIAnnotationReader(TestPmo.class);
 
     @Test
     public void testReadAnnotations() {
@@ -86,7 +84,7 @@ public class UIAnnotationReaderTest {
 
     @Test
     public void testHasModelObjectAnnotatedMethod_noAnnotation() {
-        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestObject(), ModelObject.DEFAULT_NAME),
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new Object(), ModelObject.DEFAULT_NAME),
                    is(false));
     }
 
@@ -95,8 +93,20 @@ public class UIAnnotationReaderTest {
         assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestPmoWithNamedModelObject(),
                                                                     ModelObject.DEFAULT_NAME),
                    is(false));
-        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new TestPmo(), "FooBar"), is(false));
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(new Object(), "FooBar"), is(false));
     }
+
+    @Test
+    public void testModelObjectAnnotatedMethod_OverrideMethodInSubclass() {
+        TestSubclassPmo testSubclassPmo = new TestSubclassPmo();
+
+        assertThat(UIAnnotationReader.hasModelObjectAnnotatedMethod(testSubclassPmo,
+                                                                    ModelObject.DEFAULT_NAME),
+                   is(true));
+        assertThat(UIAnnotationReader.getModelObjectSupplier(testSubclassPmo, ModelObject.DEFAULT_NAME).get(),
+                   is(testSubclassPmo.testSub));
+    }
+
 
     public static class TestPmoWithVoidModelObjectMethod {
 
@@ -110,25 +120,11 @@ public class UIAnnotationReaderTest {
 
         private TestObject testObject = new TestObject();
 
-        @ModelObject()
+        @ModelObject
         public TestObject getTestObject() {
             return testObject;
         }
-    }
 
-    public static class TestPmoWithNamedModelObject {
-
-        public static final String MODEL_OBJECT = "testObject";
-
-        private TestObject testObject = new TestObject();
-
-        @ModelObject(name = MODEL_OBJECT)
-        public TestObject getTestObject() {
-            return testObject;
-        }
-    }
-
-    public static class TestObject {
         @UIToolTip(text = "TestToolTip")
         @UITextField(position = 1, modelAttribute = "test")
         public void test() {
@@ -146,6 +142,38 @@ public class UIAnnotationReaderTest {
         public void test3() {
             //
         }
+    }
+
+    public static class TestPmoWithNamedModelObject {
+
+        public static final String MODEL_OBJECT = "testObject";
+
+        private TestObject testObject = new TestObject();
+
+        @ModelObject(name = MODEL_OBJECT)
+        public TestObject getTestObject() {
+            return testObject;
+        }
+    }
+
+    public static class TestSubclassPmo extends TestPmo {
+
+        private TestSub testSub = new TestSub();
+
+        @Override
+        @ModelObject
+        public TestSub getTestObject() {
+            return testSub;
+        }
+
+    }
+
+    public static class TestObject {
+        // nothing to do
+    }
+
+    public static class TestSub extends TestObject {
+        // nothing to do
     }
 
 }
