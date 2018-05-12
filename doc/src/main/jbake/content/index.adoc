@@ -15,13 +15,6 @@ endif::[]
 *linkki* is an open source web framework to build great looking business
 applications in pure Java with minimal effort.
 
-=== Demo Application and Sampler
-
-The demo application manages business partner data for a company.
-
-The *linkki* sampler gives an overview on the built-in UI
-components.
-
 === When to use
 
 *linkki* might be the perfect fit for you if you have the following
