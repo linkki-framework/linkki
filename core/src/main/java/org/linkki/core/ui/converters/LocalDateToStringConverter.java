@@ -29,8 +29,7 @@ import org.linkki.util.DateFormatRegistry;
  * Do <strong>NOT</strong> use this converter for Fields - this converter is for representation only
  * only, as it handles only one way conversion from model to label!!
  */
-public class LocalDateToStringConverter extends TemporalAccessorToStringConverter<LocalDate>
-        implements AutoDiscoveredConverter {
+public class LocalDateToStringConverter extends TemporalAccessorToStringConverter<LocalDate> {
 
     private static final long serialVersionUID = 3829844680979291395L;
 

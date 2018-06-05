@@ -20,7 +20,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,11 +29,11 @@ import javax.annotation.Nullable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.ui.converters.AutoDiscoveredConverter;
 import org.linkki.core.ui.converters.JodaLocalDateToDateConverter;
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.core.ui.converters.LocalDateToDateConverter;
 import org.linkki.core.ui.section.annotations.UIDateFieldIntegrationTest.DateFieldTestPmo;
+import org.linkki.util.Sequence;
 
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.DateField;
@@ -54,8 +53,8 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
 
         VaadinSession vaadinSession = mock(VaadinSession.class);
         LinkkiConverterFactory converterFactory = new LinkkiConverterFactory(
-                () -> Arrays.<AutoDiscoveredConverter> asList(new LocalDateToDateConverter(),
-                                                              new JodaLocalDateToDateConverter()));
+                () -> Sequence.of(new LocalDateToDateConverter(),
+                                  new JodaLocalDateToDateConverter()));
         when(vaadinSession.getConverterFactory()).thenReturn(converterFactory);
         VaadinSession.setCurrent(vaadinSession);
     }

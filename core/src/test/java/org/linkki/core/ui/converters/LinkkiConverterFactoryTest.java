@@ -19,11 +19,10 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.sql.Date;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Locale;
 
 import org.junit.Test;
+import org.linkki.util.Sequence;
 
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.StringToDateConverter;
@@ -32,7 +31,7 @@ public class LinkkiConverterFactoryTest {
 
     @Test
     public void testFindConverter_noneRegistered() {
-        LinkkiConverterFactory linkkiConverterFactory = new LinkkiConverterFactory(() -> Collections.emptyList());
+        LinkkiConverterFactory linkkiConverterFactory = new LinkkiConverterFactory(() -> Sequence.empty());
 
         assertThat(linkkiConverterFactory.findConverter(String.class, Date.class),
                    is(instanceOf(StringToDateConverter.class)));
@@ -43,9 +42,9 @@ public class LinkkiConverterFactoryTest {
     @Test
     public void testFindConverter_allRegistered() {
         LinkkiConverterFactory linkkiConverterFactory = new LinkkiConverterFactory(
-                () -> Arrays.asList(new JodaLocalDateToStringConverter(), new JodaLocalDateTimeToStringConverter(),
-                                    new JodaLocalDateToDateConverter(), new LocalDateToStringConverter(),
-                                    new LocalDateTimeToStringConverter(), new LocalDateToDateConverter()));
+                () -> Sequence.of(new JodaLocalDateToStringConverter(), new JodaLocalDateTimeToStringConverter(),
+                                  new JodaLocalDateToDateConverter(), new LocalDateToStringConverter(),
+                                  new LocalDateTimeToStringConverter(), new LocalDateToDateConverter()));
 
         assertThat(linkkiConverterFactory.findConverter(String.class, Date.class),
                    is(instanceOf(StringToDateConverter.class)));
@@ -66,14 +65,14 @@ public class LinkkiConverterFactoryTest {
     @Test
     public void testFindConverter_overrideDefault() {
         LinkkiConverterFactory linkkiConverterFactory = new LinkkiConverterFactory(
-                () -> Collections.singleton(new MyStringToDateConverter()));
+                () -> Sequence.of(new MyStringToDateConverter()));
 
         assertThat(linkkiConverterFactory.findConverter(String.class, Date.class),
                    is(instanceOf(MyStringToDateConverter.class)));
     }
 
     @SuppressWarnings("null")
-    public static class MyStringToDateConverter implements Converter<String, Date>, AutoDiscoveredConverter {
+    public static class MyStringToDateConverter implements Converter<String, Date> {
 
         private static final long serialVersionUID = 1L;
 

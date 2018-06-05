@@ -15,13 +15,12 @@ package org.linkki.core.ui.converters;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Collection;
 import java.util.function.Supplier;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
-import org.apache.deltaspike.core.api.provider.BeanProvider;
+import org.linkki.util.Sequence;
 
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.ConverterFactory;
@@ -29,24 +28,29 @@ import com.vaadin.data.util.converter.DefaultConverterFactory;
 import com.vaadin.server.VaadinSession;
 
 /**
- * Finds all {@link AutoDiscoveredConverter AutoDiscoveredConverters} via CDI and returns the first
- * matching converter, falling back to Vaadin's {@link DefaultConverterFactory}.
- * <p>
  * For this {@link ConverterFactory} to be used by Vaadin, it must be
  * {@link VaadinSession#setConverterFactory(ConverterFactory) set in the VaadinSession}. The
  * {@code org.linkki.framework.ui.application.ApplicationFrame.init(UI)} does this by default.
+ * 
+ * @see JodaConverters
  */
 public class LinkkiConverterFactory extends DefaultConverterFactory {
 
+    public static final Sequence<Converter<?, ?>> DEFAULT_JAVA_8_DATE_CONVERTERS = Sequence.of(
+                                                                                             new LocalDateTimeToStringConverter(),
+                                                                                             new LocalDateToDateConverter(),
+                                                                                             new LocalDateToStringConverter());
+
+
     private static final long serialVersionUID = 1L;
 
-    private Supplier<Collection<AutoDiscoveredConverter>> converterFinder;
+    private Supplier<Sequence<Converter<?, ?>>> converterFinder;
 
     public LinkkiConverterFactory() {
-        converterFinder = () -> BeanProvider.getContextualReferences(AutoDiscoveredConverter.class, true);
+        this(() -> DEFAULT_JAVA_8_DATE_CONVERTERS);
     }
 
-    public LinkkiConverterFactory(Supplier<Collection<AutoDiscoveredConverter>> converterFinder) {
+    public LinkkiConverterFactory(Supplier<Sequence<Converter<?, ?>>> converterFinder) {
         this.converterFinder = requireNonNull(converterFinder, "converterFinder must not be null");
     }
 
