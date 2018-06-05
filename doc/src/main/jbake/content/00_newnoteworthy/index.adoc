@@ -5,7 +5,18 @@
 
 == New & Noteworthy
 
-=== 10. April 2018
+=== ???
+
+==== *linkki* is getting independant of cdi
+
+All dependencies to and usages of CDI have been removed from linkki core and utils to better allow linkki's usage in different environments.
+ * The interface `AutoDiscoveredConverter` has been removed; Converters must now be manually registered in the `ApplicationFrame#getConverters` method
+ * The `LinkkiConverterFactory` now accepts a sequence supplier as its constructor and offers a default sequence containing the Java 8 date converters
+ * The Joda date converters can be now found in the `JodaConverters#DEFAULT_JODA_DATE_CONVERTERS`
+ * The package `org.linkki.util.cdi` and its children have been removed
+ 
+
+=== April 10th, 2018
 
 ==== NLS Service
 
@@ -21,13 +32,13 @@ linkki now always use `DefaultPmoNlsService` as `PmoNlsService` and `DefaultNlsS
                 <version>18.7.0</version>
             </dependency>
 
-=== 22. March 2018
+=== March 22th, 2018
 
 ==== No More Binding Private Methods
 
 Previously, linkki allowed some annotations to be used on non-public methods when using `Binder` to manually create bindings. This is no longer possible, as we believe that all methods used by linkki's binding should be public and not be accessed by reflection hacks. 
 
-=== 15. February 2018
+=== February 15th, 2018
 
 ==== Binding Aspects
 
@@ -42,7 +53,7 @@ Due to the refactoring we could simplify and consolidate several classes. If you
 
 We decided to not keep the deprecated implementations because the refactoring changes will have little effect on client code and keeping deprecated classes would significantly increase maintenance effort.
 
-=== 15. January 2018
+=== January 15th, 2018
 
 ==== `open()` in `OkCancelDialog`
 
@@ -50,13 +61,13 @@ With the new method `open()` in `OkCancelDialog`, a dialog can be directly opene
 
 The `open(OkCancelDialog)` method in `PmoBasedDialogFactory` is deprecated and will be removed in the future.
 
-=== 14. Januar 2018
+=== Januar 14th, 2018
 
 ==== Changed package for PropertyBehavior
 
 The class `PropertyBehavior` was moved from `org.linkki.core.binding.aspect` to `org.linkki.core.binding.behavior`.
 
-=== 10. January 2018
+=== January 10th, 2018
 
 ==== New component Headline
 
@@ -73,7 +84,7 @@ The interface `OkHandler` is no longer used by *linkki* and will be removed in v
 The annotation `@UISection` is now optional. If a class without that annotation is used as a PMO, the annotation's default values (column layout with one column, no caption, not closable, id equal to the class' simple name) are used for the resulting section.
 
 
-=== 12. December 2017
+=== December 12th, 2017
 
 ==== Captions for Checkboxes
 
