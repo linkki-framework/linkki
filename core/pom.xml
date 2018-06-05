@@ -30,15 +30,6 @@
             <artifactId>vaadin-server</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-cdi</artifactId>
-        </dependency>
-        <dependency>
-        <!-- TODO LIN-981 remove -->
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <optional>true</optional>

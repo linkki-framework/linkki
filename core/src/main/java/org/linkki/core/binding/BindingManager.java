@@ -26,12 +26,9 @@ import org.apache.commons.lang3.Validate;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.MessageList;
 
-import com.vaadin.cdi.ViewScoped;
-
 /**
  * Manages a set of {@link BindingContext}s that are effected by each other.
  */
-@ViewScoped
 public abstract class BindingManager {
 
     private final Map<String, BindingContext> contextsByName = new HashMap<>();
@@ -45,8 +42,8 @@ public abstract class BindingManager {
     }
 
     /**
-     * Creates a new {@link BindingContext} and assigns it to this manager. The class' qualified
-     * name is used as context name.
+     * Creates a new {@link BindingContext} and assigns it to this manager. The class' qualified name is
+     * used as context name.
      * 
      * @param clazz the class of which the qualified name is used to identify the
      *            {@linkplain BindingContext} in this manager
@@ -75,12 +72,12 @@ public abstract class BindingManager {
     }
 
     /**
-     * Creates a new {@link BindingContext} with the given name. Does not assign the created context
-     * to this manager.
+     * Creates a new {@link BindingContext} with the given name. Does not assign the created context to
+     * this manager.
      * <p>
-     * Note that the created {@linkplain BindingContext} should call {@link #afterUpdateUi()} (e.g.
-     * by providing this::afterUpdateUI as a handler) if it is to be added to a manager, so related
-     * binding contexts can be notified about UI updates.
+     * Note that the created {@linkplain BindingContext} should call {@link #afterUpdateUi()} (e.g. by
+     * providing this::afterUpdateUI as a handler) if it is to be added to a manager, so related binding
+     * contexts can be notified about UI updates.
      * 
      * @see DefaultBindingManager#newBindingContext(String)
      * @see BindingManager#afterUpdateUi()
@@ -135,8 +132,8 @@ public abstract class BindingManager {
     }
 
     /**
-     * Retrieves the current messages from the validation service and uses them to update the
-     * messages in all registered contexts using {@link #updateMessages(MessageList)}. The
+     * Retrieves the current messages from the validation service and uses them to update the messages
+     * in all registered contexts using {@link #updateMessages(MessageList)}. The
      * {@link UiUpdateObserver}s are then notified by {@link #notifyUiUpdateObservers()}.
      * <p>
      * Should be called by all binding contexts after they updated their UI. Will be passed as the
