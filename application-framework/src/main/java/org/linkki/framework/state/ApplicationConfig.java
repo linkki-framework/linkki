@@ -13,17 +13,51 @@
  */
 package org.linkki.framework.state;
 
+import org.linkki.framework.ui.application.ApplicationFooter;
+import org.linkki.framework.ui.application.ApplicationLayout;
+import org.linkki.framework.ui.application.ApplicationLayout.Builder;
+import org.linkki.framework.ui.application.ApplicationNavigator;
+import org.linkki.framework.ui.application.LinkkiUi;
+
+import com.vaadin.navigator.View;
+import com.vaadin.ui.UI;
+
 /**
- * Application configuration parameters.
+ * Application configuration used to {@link LinkkiUi#configure(ApplicationConfig) configure} the
+ * {@link LinkkiUi}.
  */
 public interface ApplicationConfig {
 
-    public static final boolean DEBUG = false;
+    /**
+     * The application's name, displayed for example in the {@link ApplicationFooter}.
+     */
+    String getApplicationName();
 
-    public String getApplicationName();
+    /**
+     * The application's version, displayed for example in the {@link ApplicationFooter}.
+     */
+    String getApplicationVersion();
 
-    public String getApplicationVersion();
+    /**
+     * The copyright information for the application, displayed for example in the
+     * {@link ApplicationFooter}.
+     */
+    String getCopyright();
 
-    public String getCopyright();
+    /**
+     * The configured {@link Builder} that will be used to create the {@link ApplicationLayout} for the
+     * {@link LinkkiUi}.
+     */
+    default ApplicationLayout.Builder<?> getApplicationLayoutBuilder() {
+        return new ApplicationLayout.Builder<>();
+    }
+
+    /**
+     * The {@link ApplicationNavigator} used to navigate the {@link View Views} displayed in the
+     * {@link ApplicationLayout}.
+     */
+    default ApplicationNavigator createApplicationNavigator(UI ui, ApplicationLayout applicationLayout) {
+        return new ApplicationNavigator(ui, applicationLayout);
+    }
 
 }

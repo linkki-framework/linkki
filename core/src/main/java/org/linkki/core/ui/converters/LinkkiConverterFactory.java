@@ -29,8 +29,7 @@ import com.vaadin.server.VaadinSession;
 
 /**
  * For this {@link ConverterFactory} to be used by Vaadin, it must be
- * {@link VaadinSession#setConverterFactory(ConverterFactory) set in the VaadinSession}. The
- * {@code org.linkki.framework.ui.application.ApplicationFrame.init(UI)} does this by default.
+ * {@link VaadinSession#setConverterFactory(ConverterFactory) set in the VaadinSession}.
  * 
  * @see JodaConverters
  */

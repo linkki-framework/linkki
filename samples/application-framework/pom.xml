@@ -22,10 +22,6 @@
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-application-framework</artifactId>
         </dependency>
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-        </dependency>
     </dependencies>
 
 

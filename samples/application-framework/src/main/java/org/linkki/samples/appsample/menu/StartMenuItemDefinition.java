@@ -14,21 +14,14 @@
 
 package org.linkki.samples.appsample.menu;
 
-import javax.inject.Inject;
-
-import org.linkki.framework.ui.application.ApplicationFrame;
+import org.linkki.framework.ui.application.LinkkiUi;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.appsample.view.MainView;
 
-import com.vaadin.cdi.UIScoped;
 import com.vaadin.ui.MenuBar.MenuItem;
 
-@UIScoped
 public class StartMenuItemDefinition extends ApplicationMenuItemDefinition {
-
-    @Inject
-    private ApplicationFrame applicationFrame;
 
     public StartMenuItemDefinition() {
         super("Start", 1);
@@ -36,7 +29,8 @@ public class StartMenuItemDefinition extends ApplicationMenuItemDefinition {
 
     @Override
     protected MenuItem internalCreateItem(ApplicationMenu menu) {
-        return menu.addItem("Start", e -> applicationFrame.showView(MainView.class));
+        return menu.addItem("Start",
+                            e -> LinkkiUi.getCurrentApplicationNavigator().showView(MainView.NAME));
     }
 
 }

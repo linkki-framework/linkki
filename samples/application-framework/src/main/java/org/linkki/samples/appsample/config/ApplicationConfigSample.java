@@ -14,16 +14,16 @@
 
 package org.linkki.samples.appsample.config;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import org.linkki.framework.state.ApplicationConfig;
+import org.linkki.framework.ui.application.ApplicationFooter;
+import org.linkki.framework.ui.application.ApplicationLayout;
+import org.linkki.samples.appsample.menu.StartMenuItemDefinition;
 
-@ApplicationScoped
 public class ApplicationConfigSample implements ApplicationConfig {
 
     @Override
     public String getApplicationName() {
-        return "linkki Application Sample";
+        return "Linkki :: Application Sample";
     }
 
     @Override
@@ -34,6 +34,13 @@ public class ApplicationConfigSample implements ApplicationConfig {
     @Override
     public String getCopyright() {
         return "© Faktor Zehn AG";
+    }
+
+    @Override
+    public ApplicationLayout.Builder<?> getApplicationLayoutBuilder() {
+        return ApplicationLayout.create()
+                .withFooter(new ApplicationFooter(this))
+                .withMenuItems(new StartMenuItemDefinition());
     }
 
 }

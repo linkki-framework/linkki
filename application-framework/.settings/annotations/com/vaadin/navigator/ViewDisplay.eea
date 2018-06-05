@@ -1,0 +1,4 @@
+class com/vaadin/navigator/ViewDisplay
+showView
+ (Lcom/vaadin/navigator/View;)V;
+ (L1com/vaadin/navigator/View;)V;
