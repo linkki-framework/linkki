@@ -54,13 +54,15 @@ public interface ApplicationConfig {
     String getCopyright();
 
     /**
-     * The {@link ApplicationLayout} for the {@link LinkkiUi}. Includes an {@link ApplicationHeader}
-     * created with the {@link #getHeaderDefinition()} from an {@link ApplicationMenu} including the
-     * {@link #getMenuItemDefinitions()}.
+     * The {@link ApplicationLayout} for the {@link LinkkiUi}.
+     * 
+     * @implSpec Includes an {@link ApplicationHeader} created with the {@link #getHeaderDefinition()}
+     *           from an {@link ApplicationMenu} including the {@link #getMenuItemDefinitions()} and an
+     *           {@link ApplicationFooter} created with the {@link #getFooterDefinition()}.
      */
     default ApplicationLayout createApplicationLayout() {
         return new ApplicationLayout(getHeaderDefinition().apply(new ApplicationMenu(getMenuItemDefinitions().list())),
-                new ApplicationFooter(this));
+                getFooterDefinition().apply(this));
     }
 
     /**
@@ -74,6 +76,13 @@ public interface ApplicationConfig {
      */
     default ApplicationHeaderDefinition getHeaderDefinition() {
         return ApplicationHeader::new;
+    }
+
+    /**
+     * Used to create an {@link ApplicationFooter} including this {@link ApplicationConfig}'s details.
+     */
+    default ApplicationFooterDefinition getFooterDefinition() {
+        return ApplicationFooter::new;
     }
 
     /**
@@ -98,6 +107,15 @@ public interface ApplicationConfig {
         @Override
         default ApplicationHeader apply(@SuppressWarnings("null") ApplicationMenu applicationMenu) {
             return createApplicationHeader(applicationMenu);
+        }
+    }
+
+    public static interface ApplicationFooterDefinition extends Function<ApplicationConfig, ApplicationFooter> {
+        ApplicationFooter createApplicationFooter(ApplicationConfig applicationConfig);
+
+        @Override
+        default ApplicationFooter apply(@SuppressWarnings("null") ApplicationConfig applicationConfig) {
+            return createApplicationFooter(applicationConfig);
         }
     }
 

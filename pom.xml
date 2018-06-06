@@ -83,6 +83,11 @@
                             <placement>a</placement>
                             <head>Customized Faktor-IPS generated Code</head>
                         </tag>
+                        <tag>
+                            <name>implSpec</name>
+                            <placement>a</placement>
+                            <head>Implementation Requirements:</head>
+                        </tag>
                     </tags>
                 </configuration>
             </plugin>

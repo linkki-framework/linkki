@@ -16,13 +16,13 @@ package org.linkki.core.ui.components;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.util.StreamUtil;
 
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
@@ -115,7 +115,7 @@ public class LabelComponentWrapper implements ComponentWrapper {
     }
 
     private String formatMessages(MessageList messages) {
-        return StreamSupport.stream(messages.spliterator(), false)
+        return StreamUtil.stream(messages)
                 .map(Message::getText)
                 .collect(Collectors.joining("\n"));
     }

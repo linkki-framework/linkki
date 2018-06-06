@@ -27,8 +27,8 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 /**
- * A basic {@link UI} implementation for linkki that uses an {@link ApplicationLayout} and
- * {@link ApplicationNavigator}.
+ * A base {@link UI} implementation for linkki used to configure the application. Subclass should
+ * provide the {@link ApplicationConfig} in constructor
  */
 public class LinkkiUi extends UI {
 
@@ -56,7 +56,7 @@ public class LinkkiUi extends UI {
     /**
      * Have to be called when the default constructor is used, for example in DI context.
      */
-    public final void configure(ApplicationConfig config) {
+    protected final void configure(ApplicationConfig config) {
         this.applicationConfig = config;
         this.applicationLayout = applicationConfig.createApplicationLayout();
         setNavigator(applicationConfig.createApplicationNavigator(this, applicationLayout));

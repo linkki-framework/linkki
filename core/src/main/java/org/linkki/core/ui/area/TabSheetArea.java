@@ -22,6 +22,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.PostConstruct;
 
 import org.linkki.core.ui.page.Page;
+import org.linkki.util.StreamUtil;
 
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
@@ -119,8 +120,7 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
      * @return the tab pages that are contained in the tabs of this TabSheet.
      */
     protected List<Page> getTabs() {
-        Iterable<Component> iterable = () -> tabSheet.iterator();
-        return StreamSupport.stream(iterable.spliterator(), false)
+        return StreamUtil.stream(() -> tabSheet.iterator())
                 .filter(c -> c instanceof Page)
                 .map(c -> (Page)c)
                 .collect(Collectors.toList());
