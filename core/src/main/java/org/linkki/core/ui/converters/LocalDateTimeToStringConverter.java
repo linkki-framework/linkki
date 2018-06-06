@@ -31,8 +31,7 @@ import org.linkki.util.DateFormatRegistry;
  * Do <strong>NOT</strong> use this converter for Fields - this converter is for representation only
  * only!!
  */
-public class LocalDateTimeToStringConverter extends TemporalAccessorToStringConverter<LocalDateTime>
-        implements AutoDiscoveredConverter {
+public class LocalDateTimeToStringConverter extends TemporalAccessorToStringConverter<LocalDateTime> {
 
     private static final long serialVersionUID = -4156241047177368821L;
 

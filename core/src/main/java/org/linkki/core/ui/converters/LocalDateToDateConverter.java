@@ -33,7 +33,7 @@ import com.vaadin.data.util.converter.Converter;
  * Converter used for {@link org.linkki.core.ui.section.annotations.UIDateField}s for
  * {@link LocalDate}.
  */
-public class LocalDateToDateConverter implements Converter<Date, LocalDate>, AutoDiscoveredConverter {
+public class LocalDateToDateConverter implements Converter<Date, LocalDate> {
 
 
     private static final long serialVersionUID = -2921191891769430781L;

@@ -9,16 +9,12 @@
 
     <artifactId>linkki-utils</artifactId>
     <packaging>jar</packaging>
-    <name>Linkki Utilities</name>
+    <name>linkki Utilities</name>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
