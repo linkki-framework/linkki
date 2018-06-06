@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 import org.linkki.framework.ui.LinkkiStyles;
 
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 
 /**
@@ -72,11 +73,8 @@ public class SidebarLayout extends CssLayout {
     }
 
     public void addSheet(SidebarSheet sheet) {
-        sheet.unselect();
         sheet.getButton().addClickListener(e -> select(sheet));
-
         sidebar.addComponent(sheet.getButton());
-        contentArea.addComponent(sheet.getContent());
 
         if (!selected.isPresent()) {
             select(sheet);
@@ -89,14 +87,21 @@ public class SidebarLayout extends CssLayout {
      * @param sheet a sheet contained in this layout
      */
     public void select(SidebarSheet sheet) {
+        Component content = sheet.getContent();
+        if (content.getParent() == null) {
+            contentArea.addComponent(content);
+        } else if (content.getParent() != contentArea) {
+            throw new IllegalStateException("Content of the selected sidebar sheet already has a parent!");
+        }
+
         selected.ifPresent(SidebarSheet::unselect);
         this.selected = Optional.of(sheet);
         sheet.select();
     }
 
     /**
-     * Returns the selected {@link SidebarSheet}. If the {@link SidebarLayout} is instantiated with
-     * any sheets there must always be a selected one.
+     * Returns the selected {@link SidebarSheet}. If the {@link SidebarLayout} is instantiated with any
+     * sheets there must always be a selected one.
      * 
      * @return The selected {@link SidebarSheet}
      * 
@@ -106,4 +111,17 @@ public class SidebarLayout extends CssLayout {
         return selected.get();
     }
 
+    /**
+     * For testing purposes only
+     */
+    CssLayout getContentArea() {
+        return contentArea;
+    }
+
+    /**
+     * For testing purposes only
+     */
+    CssLayout getSidebar() {
+        return sidebar;
+    }
 }

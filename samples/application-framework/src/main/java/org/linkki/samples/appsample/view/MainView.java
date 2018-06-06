@@ -33,7 +33,8 @@ public class MainView extends SidebarLayout implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
-        addSheet(new SidebarSheet(FontAwesome.STAR_HALF_FULL, createReportLayout(), "Create Report"));
+        addSheets(new SidebarSheet(FontAwesome.STAR_HALF_FULL, createReportLayout(), "Create Report"),
+                  new SidebarSheet(FontAwesome.FILE_O, new VerticalLayout(), "Empty Sheet"));
     }
 
     private VerticalLayout createReportLayout() {

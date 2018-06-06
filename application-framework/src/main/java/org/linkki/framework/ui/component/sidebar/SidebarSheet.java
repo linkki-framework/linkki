@@ -15,8 +15,11 @@ package org.linkki.framework.ui.component.sidebar;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.function.Supplier;
+
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.framework.ui.LinkkiStyles;
+import org.linkki.util.LazyReference;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.server.Resource;
@@ -33,12 +36,17 @@ import com.vaadin.ui.Component;
 public class SidebarSheet {
 
     private final Button button;
-    private final Component content;
     private final String tooltip;
+    private final LazyReference<Component> contentSupplier;
 
     public SidebarSheet(Resource icon, Component content, String tooltip) {
+        this(icon, () -> content, tooltip);
+    }
+
+    public SidebarSheet(Resource icon, Supplier<Component> contentSupplier, String tooltip) {
         this.button = new Button("", requireNonNull(icon, "icon must not be null")); // $NON-NLS-1
-        this.content = requireNonNull(content, "content must not be null");
+        this.contentSupplier = new LazyReference<Component>(
+                requireNonNull(contentSupplier, "content must not be null"));
         this.tooltip = requireNonNull(tooltip, "tooltip must not be null");
         if (StringUtils.isNotEmpty(tooltip)) {
             this.button.setDescription(tooltip);
@@ -50,18 +58,24 @@ public class SidebarSheet {
     }
 
     public Component getContent() {
-        return content;
+        return contentSupplier.getReference();
     }
 
     public String getToolTip() {
         return tooltip;
     }
 
+    /**
+     * Should only be called by {@link SidebarLayout}
+     */
     void select() {
         getContent().setVisible(true);
         getButton().addStyleName(LinkkiStyles.SIDEBAR_SELECTED);
     }
 
+    /**
+     * Should only be called by {@link SidebarLayout}
+     */
     void unselect() {
         getButton().removeStyleName(LinkkiStyles.SIDEBAR_SELECTED);
         getContent().setVisible(false);
