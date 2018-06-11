@@ -23,7 +23,6 @@ import javax.annotation.PostConstruct;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.ui.section.AbstractSection;
-import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.table.ContainerPmo;
 
@@ -53,10 +52,10 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
 
     /**
      * Creates a page without top margin and with margins on left, right and bottom. Uses the
-     * {@link DefaultPmoBasedSectionFactory} to create sections based on given PMOs.
+     * {@link PmoBasedSectionFactory} to create sections based on given PMOs.
      */
     public AbstractPage() {
-        this(new DefaultPmoBasedSectionFactory());
+        this(new PmoBasedSectionFactory());
     }
 
     /**
@@ -83,8 +82,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     }
 
     /**
-     * Creates a section based on the given PMO and adds it to the page taking 100% of the page
-     * width. If the PMO is a {@link ContainerPmo} a table section is created.
+     * Creates a section based on the given PMO and adds it to the page taking 100% of the page width.
+     * If the PMO is a {@link ContainerPmo} a table section is created.
      * 
      * @return The new section created based on the given PMO.
      */
@@ -102,8 +101,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     }
 
     /**
-     * Creates sections based on the given PMOs and adds them horizontally, each taking up equal
-     * part of the page width. If a PMO is a {@link ContainerPmo} a table section is created.
+     * Creates sections based on the given PMOs and adds them horizontally, each taking up equal part of
+     * the page width. If a PMO is a {@link ContainerPmo} a table section is created.
      * <p>
      * To add sections vertically, call {@link #addSection(Object)} for each pmo instead.
      * 
@@ -136,8 +135,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * Refreshes the content displayed on this page. Data bindings are reloaded, but no sections are
      * removed/added.
      * <p>
-     * This method should be overridden if the page contains components that do not use data binding
-     * and have to be refreshed manually.
+     * This method should be overridden if the page contains components that do not use data binding and
+     * have to be refreshed manually.
      */
     @Override
     @OverridingMethodsMustInvokeSuper

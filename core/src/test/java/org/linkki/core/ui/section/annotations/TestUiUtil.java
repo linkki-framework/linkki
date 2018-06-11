@@ -19,7 +19,6 @@ import java.util.Objects;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.ui.section.AbstractSection;
-import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.util.StreamUtil;
 
@@ -61,7 +60,7 @@ public final class TestUiUtil {
     }
 
     public static GridLayout createSectionWith(Object pmo, BindingContext bindingContext) {
-        PmoBasedSectionFactory sectionFactory = new DefaultPmoBasedSectionFactory();
+        PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         AbstractSection section = sectionFactory.createSection(pmo, bindingContext);
 
         bindingContext.updateUI();

@@ -20,7 +20,6 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.section.AbstractSection;
-import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
@@ -67,7 +66,7 @@ public class PmoBasedDialogFactory {
         this.validationService = requireNonNull(validationService, "validationService must not be null");
         this.propertyBehaviorProvider = requireNonNull(propertyBehaviorProvider,
                                                        "propertyBehaviorProvider must not be null");
-        this.pmoBasedSectionFactory = new DefaultPmoBasedSectionFactory();
+        this.pmoBasedSectionFactory = new PmoBasedSectionFactory();
     }
 
     /**

@@ -15,7 +15,7 @@ package org.linkki.samples.customlayout;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.AbstractSection;
-import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.samples.customlayout.pmo.AddressSectionPmo;
 
 import com.vaadin.annotations.Theme;
@@ -34,7 +34,7 @@ public class CustomLayoutUI extends UI {
         Page.getCurrent().setTitle("Linkki :: Custom Layout Sample");
 
         BindingContext bindingContext = new BindingContext();
-        AbstractSection section = new DefaultPmoBasedSectionFactory()
+        AbstractSection section = new PmoBasedSectionFactory()
                 .createSection(new AddressSectionPmo(),
                                bindingContext);
         setContent(section);

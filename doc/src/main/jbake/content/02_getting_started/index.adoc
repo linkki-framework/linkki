@@ -113,7 +113,7 @@ include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.jav
 
 The UI contains 'only' the section for the creation of the report.
 
-The first part is 'normal' Vaadin code. The interesting *linkki* parts start at line 9. First a `DefaultPmoBasedSectionFactory` is instantiated. The PMO is passed as parameter to the method `createSection`. As second parameter a `BindingContext` is passed -> it is explained in the later chapters. As the last step the created `section` must now be set as `content` of the UI.
+The first part is 'normal' Vaadin code. The interesting *linkki* parts start at line 9. First a `PmoBasedSectionFactory` is instantiated. The PMO is passed as parameter to the method `createSection`. As second parameter a `BindingContext` is passed -> it is explained in the later chapters. As the last step the created `section` must now be set as `content` of the UI.
 
 [source,java,linenums]
 ----

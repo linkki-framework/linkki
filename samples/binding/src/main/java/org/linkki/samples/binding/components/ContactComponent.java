@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.AbstractSection;
-import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.samples.binding.model.Address;
 import org.linkki.samples.binding.model.Contact;
@@ -34,7 +33,7 @@ public class ContactComponent extends Panel {
 
     private static final long serialVersionUID = 1L;
 
-    private final PmoBasedSectionFactory sectionFactory = new DefaultPmoBasedSectionFactory();
+    private final PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
 
     private final BindingContext bindingContext;
 

@@ -13,12 +13,10 @@
  */
 package org.linkki.samples.dynamicfield.components;
 
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import java.util.List;
+
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
-import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.samples.dynamicfield.model.CarType;
@@ -27,7 +25,9 @@ import org.linkki.samples.dynamicfield.pmo.CarTypeSectionPmo;
 import org.linkki.samples.dynamicfield.pmo.NewCarSectionPmo;
 import org.linkki.util.handler.Handler;
 
-import java.util.List;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 public class NewCarDialog extends Window {
 
@@ -51,7 +51,7 @@ public class NewCarDialog extends Window {
         VerticalLayout layout = new VerticalLayout();
 
 
-        sectionFactory = new DefaultPmoBasedSectionFactory();
+        sectionFactory = new PmoBasedSectionFactory();
 
         NewCar car = new NewCar();
 

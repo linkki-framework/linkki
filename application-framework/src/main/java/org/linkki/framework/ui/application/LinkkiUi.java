@@ -46,7 +46,7 @@ public class LinkkiUi extends UI {
      */
     @SuppressWarnings("null")
     protected LinkkiUi() {
-        // do nothing, only for subclasses that are instantiated by injection
+        super();
     }
 
     @SuppressWarnings("null")
