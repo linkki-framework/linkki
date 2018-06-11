@@ -13,13 +13,17 @@
  */
 package org.linkki.framework.state;
 
+import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationLayout;
 import org.linkki.framework.ui.application.ApplicationLayout.Builder;
 import org.linkki.framework.ui.application.ApplicationNavigator;
 import org.linkki.framework.ui.application.LinkkiUi;
 
+import com.vaadin.data.util.converter.Converter;
+import com.vaadin.data.util.converter.ConverterFactory;
 import com.vaadin.navigator.View;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 /**
@@ -58,6 +62,14 @@ public interface ApplicationConfig {
      */
     default ApplicationNavigator createApplicationNavigator(UI ui, ApplicationLayout applicationLayout) {
         return new ApplicationNavigator(ui, applicationLayout);
+    }
+
+    /**
+     * The factory used to create {@link Converter Converters} to be
+     * {@link VaadinSession#setConverterFactory(ConverterFactory) registered with the VaadinSession}.
+     */
+    default ConverterFactory getConverterFactory() {
+        return new LinkkiConverterFactory();
     }
 
 }

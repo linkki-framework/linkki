@@ -22,6 +22,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewProvider;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 /**
@@ -29,7 +30,7 @@ import com.vaadin.ui.UI;
  * {@link ApplicationNavigator}.
  *
  */
-public abstract class LinkkiUi extends UI {
+public class LinkkiUi extends UI {
 
     private static final long serialVersionUID = 1L;
 
@@ -73,6 +74,12 @@ public abstract class LinkkiUi extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
+        // init converters
+        VaadinSession vaadinSession = VaadinSession.getCurrent();
+        if (vaadinSession != null) {
+            vaadinSession.setConverterFactory(applicationConfig.getConverterFactory());
+        }
+
         Page.getCurrent().setTitle(getPageTitle());
 
         setContent(applicationLayout);

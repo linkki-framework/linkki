@@ -13,37 +13,21 @@
  */
 package org.linkki.framework.ui.application;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Date;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.ui.converters.LinkkiConverterFactory;
-import org.linkki.core.ui.converters.LocalDateToDateConverter;
 import org.linkki.framework.state.ApplicationConfig;
-import org.linkki.util.Sequence;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.data.util.converter.ConverterFactory;
-import com.vaadin.data.util.converter.StringToBigDecimalConverter;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewProvider;
 import com.vaadin.server.Page;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 
@@ -76,12 +60,6 @@ public class ApplicationLayoutTest {
 
     @SuppressWarnings("null")
     private ApplicationLayout applicationLayout;
-
-    @SuppressWarnings("null")
-    @Captor
-    private ArgumentCaptor<ConverterFactory> converterFactoryCaptor;
-
-    private VaadinSession vaadinSession = mock(VaadinSession.class);
 
     private void setUpApplicationLayout() {
         applicationLayout = ApplicationLayout.create()
@@ -152,68 +130,6 @@ public class ApplicationLayoutTest {
 
         assertThat(applicationLayout.getComponentCount(), is(2));
         assertThat(applicationLayout.getComponent(1), is(view2));
-    }
-
-    @Test
-    public void testSetsConverters_NoConverter() {
-        VaadinSession.setCurrent(vaadinSession);
-
-        applicationLayout = ApplicationLayout.create()
-                .withHeader(header)
-                .withFooter(footer)
-                .withConverters(Sequence.empty())
-                .build();
-
-        verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        assertThat(converterFactoryCaptor.getValue(), is(instanceOf(LinkkiConverterFactory.class)));
-
-        Converter<Date, LocalDate> converter = converterFactoryCaptor.getValue()
-                .createConverter(Date.class, LocalDate.class);
-        assertThat(converter, is(nullValue()));
-        Converter<String, BigDecimal> converter2 = converterFactoryCaptor.getValue()
-                .createConverter(String.class, BigDecimal.class);
-        assertThat(converter2, is(instanceOf(StringToBigDecimalConverter.class)));
-    }
-
-    @Test
-    public void testSetsConverters_DefaultConverters() {
-        VaadinSession.setCurrent(vaadinSession);
-
-        applicationLayout = ApplicationLayout.create()
-                .withHeader(header)
-                .withFooter(footer)
-                .build();
-
-        verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        assertThat(converterFactoryCaptor.getValue(), is(instanceOf(LinkkiConverterFactory.class)));
-
-        Converter<Date, LocalDate> converter = converterFactoryCaptor.getValue()
-                .createConverter(Date.class, LocalDate.class);
-        assertThat(converter, is(instanceOf(LocalDateToDateConverter.class)));
-        Converter<String, BigDecimal> converter2 = converterFactoryCaptor.getValue()
-                .createConverter(String.class, BigDecimal.class);
-        assertThat(converter2, is(instanceOf(StringToBigDecimalConverter.class)));
-    }
-
-    @Test
-    public void testSetsConverters_SomeConverters() {
-        VaadinSession.setCurrent(vaadinSession);
-
-        applicationLayout = ApplicationLayout.create()
-                .withHeader(header)
-                .withFooter(footer)
-                .withConverters(Sequence.of(new LocalDateToDateConverter()))
-                .build();
-
-        verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        assertThat(converterFactoryCaptor.getValue(), is(instanceOf(LinkkiConverterFactory.class)));
-
-        Converter<Date, LocalDate> converter = converterFactoryCaptor.getValue()
-                .createConverter(Date.class, LocalDate.class);
-        assertThat(converter, is(instanceOf(LocalDateToDateConverter.class)));
-        Converter<String, BigDecimal> converter2 = converterFactoryCaptor.getValue()
-                .createConverter(String.class, BigDecimal.class);
-        assertThat(converter2, is(instanceOf(StringToBigDecimalConverter.class)));
     }
 
 }
