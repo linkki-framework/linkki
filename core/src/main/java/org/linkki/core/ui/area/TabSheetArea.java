@@ -75,6 +75,15 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
         setMargin(new MarginInfo(true, false, false, false));
     }
 
+    /**
+     * Creates the actual UI. This cannot be done in the constructor, because clients can provide
+     * subclasses with custom pages that are not available in this super-class. In order to be able
+     * to create a UI, the initialization must be performed <em>after</em> constructors, subclass
+     * constructors and dependency injection (constructor and field injection). Hence a separate
+     * init-method. It is annotated as post-construct so the DI framework can call it automatically.
+     * 
+     * Must be called manually if no dependency injection framework is used.
+     */
     @PostConstruct
     public final void init() {
         createContent();
