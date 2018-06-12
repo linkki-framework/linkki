@@ -29,12 +29,12 @@ public class ApplicationSampleUI extends LinkkiUi {
 
     public ApplicationSampleUI() {
         super(new ApplicationConfigSample());
-        addView(MainView.NAME, new MainView());
     }
 
     @Override
-    protected void refresh(VaadinRequest request) {
-        super.refresh(request);
+    protected void init(VaadinRequest request) {
+        super.init(request);
+        addView(MainView.NAME, MainView.class);
     }
 
 }
