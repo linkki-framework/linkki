@@ -15,9 +15,9 @@
 package org.linkki.samples.appsample.config;
 
 import org.linkki.framework.state.ApplicationConfig;
-import org.linkki.framework.ui.application.ApplicationFooter;
-import org.linkki.framework.ui.application.ApplicationLayout;
+import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.appsample.menu.StartMenuItemDefinition;
+import org.linkki.util.Sequence;
 
 public class ApplicationConfigSample implements ApplicationConfig {
 
@@ -37,10 +37,8 @@ public class ApplicationConfigSample implements ApplicationConfig {
     }
 
     @Override
-    public ApplicationLayout.Builder<?> getApplicationLayoutBuilder() {
-        return ApplicationLayout.create()
-                .withFooter(new ApplicationFooter(this))
-                .withMenuItems(new StartMenuItemDefinition());
+    public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
+        return Sequence.of(new StartMenuItemDefinition());
     }
 
 }

@@ -13,11 +13,7 @@
  */
 package org.linkki.framework.ui.application;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
-
-import org.linkki.framework.ui.application.menu.ApplicationMenu;
-import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 
 import com.vaadin.navigator.Navigator.EmptyView;
 import com.vaadin.navigator.View;
@@ -31,17 +27,15 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class ApplicationLayout extends VerticalLayout implements ViewDisplay {
 
-    static final EmptyView EMPTY_VIEW = new EmptyView();
-
     private static final long serialVersionUID = 1L;
 
-    private Component mainArea = EMPTY_VIEW;
+    private Component mainArea = new EmptyView();
 
     /**
      * Creates a new {@link ApplicationLayout} with the given {@link ApplicationHeader header} and
-     * {@link ApplicationFooter footer}.
+     * (optional) {@link ApplicationFooter footer}.
      */
-    private ApplicationLayout(ApplicationHeader header, @Nullable ApplicationFooter footer) {
+    public ApplicationLayout(ApplicationHeader header, @Nullable ApplicationFooter footer) {
         setMargin(false);
         setSizeFull();
 
@@ -84,59 +78,6 @@ public class ApplicationLayout extends VerticalLayout implements ViewDisplay {
         @SuppressWarnings("unchecked")
         T view = (T)mainArea;
         return view;
-    }
-
-    public static Builder<?> create() {
-        return new Builder<>();
-    }
-
-    public static class Builder<T extends Builder<T>> {
-
-        @CheckForNull
-        private ApplicationHeader header;
-
-        @CheckForNull
-        private ApplicationFooter footer;
-
-        @CheckForNull
-        private ApplicationMenu applicationMenu;
-
-        @SuppressWarnings("unchecked")
-        private T self() {
-            return (T)this;
-        }
-
-        public T withHeader(@SuppressWarnings("hiding") ApplicationHeader header) {
-            this.header = header;
-            return self();
-        }
-
-        public T withFooter(@SuppressWarnings("hiding") ApplicationFooter footer) {
-            this.footer = footer;
-            return self();
-        }
-
-        public T withMenuItems(ApplicationMenuItemDefinition... itemDefs) {
-            withMenu(new ApplicationMenu(itemDefs));
-            return self();
-        }
-
-        public T withMenu(@SuppressWarnings("hiding") ApplicationMenu applicationMenu) {
-            this.applicationMenu = applicationMenu;
-            return self();
-        }
-
-
-        @SuppressWarnings({ "null", "synthetic-access" })
-        public ApplicationLayout build() {
-            if (header == null) {
-                if (applicationMenu == null) {
-                    applicationMenu = new ApplicationMenu();
-                }
-                header = new ApplicationHeader(applicationMenu);
-            }
-            return new ApplicationLayout(header, footer);
-        }
     }
 
 }

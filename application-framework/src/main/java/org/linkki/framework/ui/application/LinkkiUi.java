@@ -28,7 +28,6 @@ import com.vaadin.ui.UI;
 /**
  * A basic {@link UI} implementation for linkki that uses an {@link ApplicationLayout} and
  * {@link ApplicationNavigator}.
- *
  */
 public class LinkkiUi extends UI {
 
@@ -60,7 +59,7 @@ public class LinkkiUi extends UI {
      */
     public final void configure(ApplicationConfig config) {
         this.applicationConfig = config;
-        this.applicationLayout = applicationConfig.getApplicationLayoutBuilder().build();
+        this.applicationLayout = applicationConfig.createApplicationLayout();
         this.applicationNavigator = applicationConfig.createApplicationNavigator(this, applicationLayout);
     }
 

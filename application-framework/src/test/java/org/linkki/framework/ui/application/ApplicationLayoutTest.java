@@ -13,6 +13,7 @@
  */
 package org.linkki.framework.ui.application;
 
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -25,6 +26,7 @@ import org.linkki.framework.state.ApplicationConfig;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.vaadin.navigator.Navigator.EmptyView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewProvider;
 import com.vaadin.server.Page;
@@ -62,10 +64,7 @@ public class ApplicationLayoutTest {
     private ApplicationLayout applicationLayout;
 
     private void setUpApplicationLayout() {
-        applicationLayout = ApplicationLayout.create()
-                .withHeader(header)
-                .withFooter(footer)
-                .build();
+        applicationLayout = new ApplicationLayout(header, footer);
 
         when(ui.getPage()).thenReturn(page);
     }
@@ -76,7 +75,7 @@ public class ApplicationLayoutTest {
 
         Component currentView = applicationLayout.getCurrentView();
 
-        assertThat(currentView, is(ApplicationLayout.EMPTY_VIEW));
+        assertThat(currentView, is(instanceOf(EmptyView.class)));
     }
 
     @Test
@@ -94,7 +93,7 @@ public class ApplicationLayoutTest {
     public void testShowView() {
         setUpApplicationLayout();
         assertThat(applicationLayout.getComponentCount(), is(3));
-        assertThat(applicationLayout.getComponent(1), is(ApplicationLayout.EMPTY_VIEW));
+        assertThat(applicationLayout.getComponent(1), is(instanceOf(EmptyView.class)));
 
         View view = mock(View.class, withSettings().extraInterfaces(Component.class));
         applicationLayout.showView(view);
@@ -111,13 +110,11 @@ public class ApplicationLayoutTest {
 
     @Test
     public void testShowView_NoFooter() {
-        applicationLayout = ApplicationLayout.create()
-                .withHeader(header)
-                .build();
+        applicationLayout = new ApplicationLayout(header, null);
         when(ui.getPage()).thenReturn(page);
 
         assertThat(applicationLayout.getComponentCount(), is(2));
-        assertThat(applicationLayout.getComponent(1), is(ApplicationLayout.EMPTY_VIEW));
+        assertThat(applicationLayout.getComponent(1), is(instanceOf(EmptyView.class)));
 
         View view = mock(View.class, withSettings().extraInterfaces(Component.class));
         applicationLayout.showView(view);

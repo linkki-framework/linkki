@@ -13,12 +13,17 @@
  */
 package org.linkki.framework.state;
 
+import java.util.function.Function;
+
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.framework.ui.application.ApplicationFooter;
+import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationLayout;
-import org.linkki.framework.ui.application.ApplicationLayout.Builder;
 import org.linkki.framework.ui.application.ApplicationNavigator;
 import org.linkki.framework.ui.application.LinkkiUi;
+import org.linkki.framework.ui.application.menu.ApplicationMenu;
+import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.util.Sequence;
 
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.ConverterFactory;
@@ -49,11 +54,26 @@ public interface ApplicationConfig {
     String getCopyright();
 
     /**
-     * The configured {@link Builder} that will be used to create the {@link ApplicationLayout} for the
-     * {@link LinkkiUi}.
+     * The {@link ApplicationLayout} for the {@link LinkkiUi}. Includes an {@link ApplicationHeader}
+     * created with the {@link #getHeaderDefinition()} from an {@link ApplicationMenu} including the
+     * {@link #getMenuItemDefinitions()}.
      */
-    default ApplicationLayout.Builder<?> getApplicationLayoutBuilder() {
-        return new ApplicationLayout.Builder<>();
+    default ApplicationLayout createApplicationLayout() {
+        return new ApplicationLayout(getHeaderDefinition().apply(new ApplicationMenu(getMenuItemDefinitions().list())),
+                new ApplicationFooter(this));
+    }
+
+    /**
+     * The {@link ApplicationMenuItemDefinition ApplicationMenuItemDefinitions} used to create an
+     * {@link ApplicationMenu} for the {@link ApplicationHeader}.
+     */
+    Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions();
+
+    /**
+     * Used to create an {@link ApplicationHeader} including the {@link ApplicationMenu}.
+     */
+    default ApplicationHeaderDefinition getHeaderDefinition() {
+        return ApplicationHeader::new;
     }
 
     /**
@@ -70,6 +90,15 @@ public interface ApplicationConfig {
      */
     default ConverterFactory getConverterFactory() {
         return new LinkkiConverterFactory();
+    }
+
+    public static interface ApplicationHeaderDefinition extends Function<ApplicationMenu, ApplicationHeader> {
+        ApplicationHeader createApplicationHeader(ApplicationMenu applicationMenu);
+
+        @Override
+        default ApplicationHeader apply(@SuppressWarnings("null") ApplicationMenu applicationMenu) {
+            return createApplicationHeader(applicationMenu);
+        }
     }
 
 }
