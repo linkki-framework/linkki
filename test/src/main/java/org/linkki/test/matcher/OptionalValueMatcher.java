@@ -29,7 +29,7 @@ public class OptionalValueMatcher<T> extends TypeSafeMatcher<Optional<? extends 
 
     @Override
     public void describeTo(Description description) {
-        description.appendValue(expectedValue);
+        description.appendValue("Optional of " + expectedValue);
     }
 
     @Override

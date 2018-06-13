@@ -17,12 +17,12 @@ package org.linkki.samples.appsample;
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.cdi.server.VaadinCDIServlet;
+import com.vaadin.server.VaadinServlet;
 
 
 @WebServlet(urlPatterns = { "/main/*", "/VAADIN/*", "/UIDL/*", "/HEARTBEAT" }, asyncSupported = true)
 @VaadinServletConfiguration(productionMode = true, ui = ApplicationSampleUI.class)
-public class ApplicationSampleServlet extends VaadinCDIServlet {
+public class ApplicationSampleServlet extends VaadinServlet {
 
     private static final long serialVersionUID = 1L;
 

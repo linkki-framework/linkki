@@ -13,41 +13,30 @@
  */
 package org.linkki.samples.appsample;
 
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-
-import org.linkki.framework.ui.application.ApplicationFrame;
+import org.linkki.framework.ui.application.LinkkiUi;
+import org.linkki.samples.appsample.config.ApplicationConfigSample;
+import org.linkki.samples.appsample.view.MainView;
 
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
-import com.vaadin.cdi.CDIUI;
-import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.UI;
 
+// tag::application-sample-ui[]
 @Theme(value = "sample")
-@CDIUI("main")
 @PreserveOnRefresh
-public class ApplicationSampleUI extends UI {
+public class ApplicationSampleUI extends LinkkiUi {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private ApplicationFrame applicationFrame;
+    public ApplicationSampleUI() {
+        super(new ApplicationConfigSample());
+    }
 
     @Override
     protected void init(VaadinRequest request) {
-        Page.getCurrent().setTitle("Linkki :: Application Sample");
-
-        applicationFrame.init(this);
-        setContent(applicationFrame.getContent());
-
-    }
-
-    @Override
-    protected void refresh(@Nullable VaadinRequest request) {
-        super.refresh(request);
-        applicationFrame.refreshCurrentView();
+        super.init(request);
+        addView(MainView.NAME, MainView.class);
     }
 
 }
+// end::application-sample-ui[]

@@ -13,37 +13,29 @@
  */
 package org.linkki.framework.ui.application.menu;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
 
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.framework.ui.application.ApplicationHeader;
 
-import com.vaadin.cdi.UIScoped;
 import com.vaadin.ui.MenuBar;
 
 /**
  * A menu displayed on the left of the {@link ApplicationHeader}.
- * <p>
- * To add an item to this menu, simply define an injectable {@link ApplicationMenuItemDefinition}.
- * All discovered {@link ApplicationMenuItemDefinition definitions} are added to the menu sorted by
- * their {@link ApplicationMenuItemDefinition#getPosition() position}.
  */
-@UIScoped
 public class ApplicationMenu extends MenuBar {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private Instance<ApplicationMenuItemDefinition> itemDefs;
+    public ApplicationMenu(ApplicationMenuItemDefinition... itemDefs) {
+        this(Arrays.asList(itemDefs));
+    }
 
-    @PostConstruct
-    public void init() {
+    public ApplicationMenu(List<ApplicationMenuItemDefinition> itemDefs) {
         addStyleName(LinkkiStyles.APPLICATION_MENU);
         addStyleName(ApplicationStyles.BORDERLESS);
         setSizeUndefined();

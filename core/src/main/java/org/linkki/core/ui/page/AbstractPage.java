@@ -23,7 +23,6 @@ import javax.annotation.PostConstruct;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.ui.section.AbstractSection;
-import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.table.ContainerPmo;
 
@@ -53,10 +52,10 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
 
     /**
      * Creates a page without top margin and with margins on left, right and bottom. Uses the
-     * {@link DefaultPmoBasedSectionFactory} to create sections based on given PMOs.
+     * {@link PmoBasedSectionFactory} to create sections based on given PMOs.
      */
     public AbstractPage() {
-        this(new DefaultPmoBasedSectionFactory());
+        this(new PmoBasedSectionFactory());
     }
 
     /**
@@ -70,6 +69,16 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
         setMargin(new MarginInfo(false, true, true, true));
     }
 
+    /**
+     * Creates the actual UI. This cannot be done in the constructor, because clients can provide
+     * subclasses with specialized BindingManagers and/or section-factories that are not available
+     * in this super-class. In order to be able to create a UI, the initialization must be performed
+     * <em>after</em> constructors, subclass constructors and dependency injection (constructor and
+     * field injection). Hence a separate init-method. It is annotated as post-construct so the DI
+     * framework can call it automatically.
+     * 
+     * Must be called manually if no dependency injection framework is used.
+     */
     @PostConstruct
     public final void init() {
         createContent();

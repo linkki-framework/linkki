@@ -16,16 +16,12 @@ package org.linkki.core.ui.section;
 /**
  * This is the default implementation of {@link PmoBasedSectionFactory}. If you do not need any
  * specialization of {@link PmoBasedSectionFactory} you are perfectly right to use this one.
- * Example:
  * 
- * <pre>
- * &#064;Inject
- * private DefaultPmoBasedSectionFactory sectionFactory;
- * 
- * </pre>
- *
- * @author dirmeier
+ * @deprecated After removing CDI dependency there is no need for
+ *             {@link DefaultPmoBasedSectionFactory}. Just use {@link PmoBasedSectionFactory}
+ *             directly.
  */
+@Deprecated
 public class DefaultPmoBasedSectionFactory extends PmoBasedSectionFactory {
 
     public DefaultPmoBasedSectionFactory() {

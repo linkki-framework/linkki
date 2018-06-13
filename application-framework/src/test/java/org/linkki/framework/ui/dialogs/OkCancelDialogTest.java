@@ -31,6 +31,7 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.framework.ui.component.MessageRow;
+import org.linkki.util.StreamUtil;
 import org.linkki.util.validation.ValidationMarker;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
@@ -187,7 +188,7 @@ public class OkCancelDialogTest {
     }
 
     static Stream<Component> components(VerticalLayout layout) {
-        return StreamSupport.stream(layout.spliterator(), false);
+        return StreamUtil.stream(layout);
     }
 
 }

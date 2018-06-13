@@ -1,0 +1,4 @@
+class com/vaadin/ui/UI
+init
+ (Lcom/vaadin/server/VaadinRequest;)V
+ (L1com/vaadin/server/VaadinRequest;)V

@@ -12,33 +12,47 @@
  * the License.
  */
 
-package org.linkki.samples.appsample.config;
+package org.linkki.framework.ui.application;
 
+import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
-import org.linkki.samples.appsample.menu.StartMenuItemDefinition;
 import org.linkki.util.Sequence;
 
-public class ApplicationConfigSample implements ApplicationConfig {
+import com.vaadin.data.util.converter.Converter;
+import com.vaadin.data.util.converter.ConverterFactory;
+
+final class TestApplicationConfig implements ApplicationConfig {
+
+    Sequence<Converter<?, ?>> converters = Sequence.empty();
 
     @Override
-    public String getApplicationName() {
-        return "Linkki :: Application Sample";
+    public String getCopyright() {
+        return "";
     }
 
     @Override
     public String getApplicationVersion() {
-        return "1.0";
+        return "";
     }
 
     @Override
-    public String getCopyright() {
-        return "© Faktor Zehn AG";
+    public String getApplicationName() {
+        return "";
+    }
+
+    @Override
+    public ConverterFactory getConverterFactory() {
+        return new LinkkiConverterFactory(this::getConverters);
+    }
+
+    public Sequence<Converter<?, ?>> getConverters() {
+        return converters;
     }
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-        return Sequence.of(new StartMenuItemDefinition());
+        return Sequence.empty();
     }
 
 }

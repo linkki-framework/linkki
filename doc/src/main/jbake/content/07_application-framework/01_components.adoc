@@ -4,13 +4,47 @@
 :image-dir: ../../../src/main/jbake/assets/images/content/07_application-framework
 :source-dir-application: ../../../../../../samples/application-framework/src/main/java
 
+=== UI
+
+To create a Vaadin application you need to subclass `UI`. Using the *linkki application framework* you get a default implementation called `LinkkiUi` which handles the ui setup. The actual UI implementation is configured
+in your servlet using `@VaadinServletConfiguration`. To provide some views you could simply subclass `LinkkiUi` and use the `addView(...)` method or `addProvider(ViewProvider)`(for example with Vaadin's CDIViewProvider) as you need. The `LinkkiUi` uses the `ApplicationConfig` which could be implemented for your needs.
+
+You can see an example in our `ApplicationSampleUI`
+
+[source,java]
+----
+include::{source-dir-application}/org/linkki/samples/appsample/ApplicationSampleUI.java[tags=application-sample-ui]
+----
+
+
+=== Application Configuration
+
+The main aspects of the application are configured using the `ApplicationConfig`. This interface needs to be
+implemented once in every *linkki* application and provided to the `LinkkiUi`. Next to some constants like name and version it configures the following parts:
+
+  * The application layout which is the main UI component and contains the current view
+  * The application navigator which is used to navigate from one view to another
+  * Possible converters to convert values between UI and underlying model
+
+
 === Components
 
 The *linkki* application framework contains the following components.
 
-==== Application Frame
+==== Application Layout
 
-The application framework includes an `ApplicationFrame` that consists of an application header and footer. The header is designed to have multiple menu actions on the left and may have some specific items like help menu or preferences on the right side. The footer simply contains some application info.
+The application framework includes an `ApplicationLayout` that surrounds the main view with an `ApplicationHeader` and `ApplicationFooter`. The header is designed to have multiple menu actions on the left and may have some specific items like help menu or preferences on the right side.
+
+The footer simply contains some application info but could be extended to fit your needs.
+
+Between `ApplicationHeader` and `ApplicationFooter` is the main area that displays your current `View`.
+
+The `ApplicationLayout` is created using  the `ApplicationConfig`'s `createApplicationLayout()` method, which by default includes an `ApplicationHeader`(created using `getHeaderDefinition()`) with an `ApplicationMenu` containing all items provided by `getMenuItemDefinitions()` and an `ApplicationFooter` created using `getFooterDefinition()`.
+
+
+==== Application Navigator
+
+The `ApplicationNavigator` is a subclass of vaadin's `Navigator` that has some convenience methods for initialization and navigation. It is instantiated by the `ApplicationConfig`. The navigator handles the different views and instructs the `ApplicationLayout` to show the view in the main area.
 
 ==== Sidebar
 

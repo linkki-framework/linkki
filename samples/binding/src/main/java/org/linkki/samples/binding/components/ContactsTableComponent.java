@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.UiUpdateObserver;
-import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.table.TableSection;
 import org.linkki.samples.binding.model.Contact;
 import org.linkki.samples.binding.pmo.ContactRowPmo;
@@ -50,7 +50,7 @@ public class ContactsTableComponent extends Panel implements UiUpdateObserver {
 
     private void createContent(Consumer<Contact> editAction) {
 
-        DefaultPmoBasedSectionFactory sectionFactory = new DefaultPmoBasedSectionFactory();
+        PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         tableSection = sectionFactory
                 .createTableSection(new ContactTablePmo(contactStorage, editAction, contactStorage::remove), context);
 

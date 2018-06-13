@@ -43,7 +43,6 @@
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.8</mockito.version>
         <commons-lang3.version>3.4</commons-lang3.version>
-        <deltaspike.version>1.4.1</deltaspike.version>
         <doc.user>${user.name}</doc.user>
     </properties>
 
@@ -83,6 +82,11 @@
                             <name>restrainedmodifiable</name>
                             <placement>a</placement>
                             <head>Customized Faktor-IPS generated Code</head>
+                        </tag>
+                        <tag>
+                            <name>implSpec</name>
+                            <placement>a</placement>
+                            <head>Implementation Requirements:</head>
                         </tag>
                     </tags>
                 </configuration>
@@ -320,58 +324,13 @@
             </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-push</artifactId>
-                <version>${vaadin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
                 <version>${vaadin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-cdi</artifactId>
-                <version>1.0.5</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.enterprise</groupId>
-                <artifactId>cdi-api</artifactId>
-                <version>1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet.jsp</groupId>
-                <artifactId>javax.servlet.jsp-api</artifactId>
-                <version>2.3.1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>jstl</groupId>
-                <artifactId>jstl</artifactId>
-                <version>1.2</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>taglibs</groupId>
-                <artifactId>standard</artifactId>
-                <version>1.1.2</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.deltaspike.core</groupId>
-                <artifactId>deltaspike-core-api</artifactId>
-                <version>${deltaspike.version}</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.deltaspike.core</groupId>
-                <artifactId>deltaspike-core-impl</artifactId>
-                <version>${deltaspike.version}</version>
-                <scope>runtime</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -18,7 +18,7 @@ package org.linkki.samples.messages;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.core.ui.section.AbstractSection;
-import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.samples.messages.binding.RegistrationBindingManager;
 import org.linkki.samples.messages.components.MessagesPanel;
 import org.linkki.samples.messages.model.User;
@@ -61,7 +61,7 @@ public class MessageUI extends UI {
 		bindingManager = new RegistrationBindingManager(validationService, ml -> messagesPanel.updateMessages(ml));
 		// end::validation-service[]
 
-		DefaultPmoBasedSectionFactory sectionFactory = new DefaultPmoBasedSectionFactory();
+		PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
 		AbstractSection section = sectionFactory.createSection(registrationPmo,
 				bindingManager.getExistingContextOrStartNewOne(getClass()));
 

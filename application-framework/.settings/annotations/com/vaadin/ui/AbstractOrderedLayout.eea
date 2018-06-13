@@ -1,0 +1,4 @@
+class com/vaadin/ui/AbstractOrderedLayout
+getComponent
+ (I)Lcom/vaadin/ui/Component;
+ (I)L1com/vaadin/ui/Component;

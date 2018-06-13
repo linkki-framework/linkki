@@ -30,9 +30,7 @@ import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
  * {@link PropertyBehavior} instances influence the data as well as the data flow from/to the
  * wrapped dispatcher.
  * <p>
- * This decorator uses all {@link PropertyBehavior} instances provided by the container (dependency
- * injection). All instances are involved equally when deciding the behavior of a property. Boolean
- * return values are evaluated with a logical AND.
+ * Boolean return values are evaluated with a logical AND.
  * <p>
  * An example. To decide whether a property is visible, this dispatcher calls
  * {@link PropertyBehavior#isVisible(Object, String)} for all behaviors. The field is visible only

@@ -23,7 +23,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.nls.pmo.sample.SamplePmo;
 import org.linkki.core.ui.section.BaseSection;
-import org.linkki.core.ui.section.DefaultPmoBasedSectionFactory;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
 
 import com.vaadin.ui.Button;
@@ -58,7 +58,7 @@ public class PmoNlsServiceSectionTest {
     @Before
     public void setUp() {
         BindingContext context = TestBindingContext.create();
-        BaseSection section = new DefaultPmoBasedSectionFactory().createBaseSection(new SamplePmo(), context);
+        BaseSection section = new PmoBasedSectionFactory().createBaseSection(new SamplePmo(), context);
         HorizontalLayout header = (HorizontalLayout)section.getComponent(0);
         sectionHeader = (Label)header.getComponent(0);
         GridLayout sectionContent = (GridLayout)((Panel)section.getComponent(1)).getContent();

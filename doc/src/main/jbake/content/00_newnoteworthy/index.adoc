@@ -2,18 +2,33 @@
 :jbake-type: chapter
 :jbake-status: published
 :jbake-order: 0
+:source-dir-application: ../../../../../../samples/application-framework/src/main/java
 
 == New & Noteworthy
 
-=== ???
+=== June 12th, 2018
 
-==== *linkki* is getting independant of cdi
+==== *linkki* is getting independant from cdi
 
-All dependencies to and usages of CDI have been removed from linkki core and utils to better allow linkki's usage in different environments.
- * The interface `AutoDiscoveredConverter` has been removed; Converters must now be manually registered in the `ApplicationFrame#getConverters` method
- * The `LinkkiConverterFactory` now accepts a sequence supplier as its constructor and offers a default sequence containing the Java 8 date converters
- * The Joda date converters can be now found in the `JodaConverters#DEFAULT_JODA_DATE_CONVERTERS`
+All dependencies to and usages of CDI have been removed from linkki to better allow *linkki*'s usage in different environments. This refactoring makes some necessary changes:
+
+ * `LinkkiUi` was introduced to have an easy setup for a new *linkki* application. Implement your own subclass to specify your configuration.
+ * `ApplicationFrame` is separated to `ApplicationLayout` and `ApplicationNavigator`. The first only contains the UI layout of the application, the second is a subclass of vaadin's `Navigator` and enhances it with some convenience methods. Both are instantiated using the `ApplicationConfig` and are no longer injected. There are some additional methods to specify the `ApplicationHeader` or `ApplicationMenuItemDefinition`s separately.
+ * To specify the `ApplicationConfig`, implement a subclass of `LinkkiUI` and provide your configuration via
+ constructor or by calling `configure(ApplicationConfig)`.
+ * The interface `AutoDiscoveredConverter` has been removed; Converters must now be manually registered using `ApplicationConfig#getConverterFactory`. The default contains all Java 8 date type converters.
+ ** The `LinkkiConverterFactory` now accepts a sequence supplier as its constructor and offers a default sequence containing the Java 8 date converters
+ ** The Joda date converters can be now found in the `JodaConverters#DEFAULT_JODA_DATE_CONVERTERS`
  * The package `org.linkki.util.cdi` and its children have been removed
+ * The `LoginServlet` was removed from *linkki*; associated style classes have also been removed. For Faktor Zehn users, an equivalent class has been created in `f10-commons-auth-spring`, others are free to implement their own login solution.
+ * `DefaultPmoBasedSectionFactory` is deprecated and will be removed in the next version. Simply use `PmoBasedSectionFactory` instead.
+ 
+You can see an example in our `ApplicationSampleUI`
+
+[source,java]
+----
+include::{source-dir-application}/org/linkki/samples/appsample/ApplicationSampleUI.java[tags=application-sample-ui]
+----
  
 
 === April 10th, 2018

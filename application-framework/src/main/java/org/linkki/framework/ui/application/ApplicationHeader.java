@@ -13,15 +13,10 @@
  */
 package org.linkki.framework.ui.application;
 
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.Specializes;
-import javax.inject.Inject;
-
 import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.nls.NlsText;
 
-import com.vaadin.cdi.UIScoped;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.HorizontalLayout;
@@ -31,34 +26,28 @@ import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
- * A navigation header bar that is displayed on the top of an {@link ApplicationFrame}. By default,
+ * A navigation header bar that is displayed on the top of an {@link ApplicationLayout}. By default,
  * it consists of the {@link ApplicationMenu} on the left as well as a right aligned
  * {@link MenuBar}.
- * <p>
- * This header can be extended to include further functionalities. The specialized subclass must be
- * annotated with {@link Specializes} to take effect as this class is injected in the
- * {@link ApplicationFrame}.
  * <p>
  * {@link ApplicationHeader} can be styled with the CSS class
  * {@link LinkkiStyles#APPLICATION_HEADER}. The right aligned {@link MenuBar} uses the style name
  * {@link LinkkiStyles#APPLICATION_HEADER_RIGHT} additionally.
  * <p>
- * The methods
- * {@link #createRightMenuBar()},{@link #addUserMenu(String, MenuBar)},{@link #addUserMenuItems(MenuItem)}
- * and {@link #newLogoutCommand()} can be used to create a user logout menu item in the right
- * {@link MenuBar}.
+ * The methods {@link #createRightMenuBar()}, {@link #addUserMenu(String, MenuBar)},
+ * {@link #addUserMenuItems(MenuItem)} and {@link #newLogoutCommand()} can be used to create a user
+ * logout menu item in the right {@link MenuBar}.
  * 
  * @see ApplicationMenu
  */
-@UIScoped
 public class ApplicationHeader extends HorizontalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private Instance<ApplicationMenu> applicationMenu;
+    private final ApplicationMenu applicationMenu;
 
-    public ApplicationHeader() {
+    public ApplicationHeader(ApplicationMenu applicationMenu) {
+        this.applicationMenu = applicationMenu;
         addStyleName(LinkkiStyles.APPLICATION_HEADER);
         setMargin(new MarginInfo(true, false, true, false));
     }
@@ -67,8 +56,8 @@ public class ApplicationHeader extends HorizontalLayout {
      * Initialize UI components.
      * <p>
      * Avoid overriding this method if possible. By default, this method assumes that the header
-     * consists of a left floating and a right floating group of UI components. These elements are
-     * added by {@link #addLeftComponents()} and {@link #addRightComponents()} respectively.
+     * consists of a left floating and a right floating group of UI components. These elements are added
+     * by {@link #addLeftComponents()} and {@link #addRightComponents()} respectively.
      */
     protected void init() {
         addLeftComponents();
@@ -76,17 +65,16 @@ public class ApplicationHeader extends HorizontalLayout {
     }
 
     /**
-     * Adds navigation elements on the left of the header. Adds the {@link ApplicationMenu} by
-     * default.
+     * Adds navigation elements on the left of the header. Adds the {@link ApplicationMenu} by default.
      * <p>
-     * Only override this method if you do not need the {@link ApplicationMenu} or need to add
-     * elements other than {@link ApplicationMenu}. The {@link ApplicationMenu} itself is configured
-     * by a different mechanism.
+     * Only override this method if you do not need the {@link ApplicationMenu} or need to add elements
+     * other than {@link ApplicationMenu}. The {@link ApplicationMenu} itself is configured by a
+     * different mechanism.
      * 
      * @see ApplicationMenu for further information about its configuration
      */
     protected void addLeftComponents() {
-        addComponent(applicationMenu.get());
+        addComponent(applicationMenu);
     }
 
     /**

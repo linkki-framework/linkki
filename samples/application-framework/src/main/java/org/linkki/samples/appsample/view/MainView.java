@@ -18,23 +18,25 @@ import org.linkki.framework.ui.component.Headline;
 import org.linkki.framework.ui.component.sidebar.SidebarLayout;
 import org.linkki.framework.ui.component.sidebar.SidebarSheet;
 
-import com.vaadin.cdi.CDIView;
-import com.vaadin.cdi.ViewScoped;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.VerticalLayout;
 
-@CDIView("")
-@ViewScoped
 public class MainView extends SidebarLayout implements View {
+
+    public static final String NAME = "";
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public void enter(ViewChangeEvent event) {
+    public MainView() {
         addSheets(new SidebarSheet(FontAwesome.STAR_HALF_FULL, createReportLayout(), "Create Report"),
                   new SidebarSheet(FontAwesome.FILE_O, new VerticalLayout(), "Empty Sheet"));
+    }
+
+    @Override
+    public void enter(ViewChangeEvent event) {
+        // nothing to do
     }
 
     private VerticalLayout createReportLayout() {
