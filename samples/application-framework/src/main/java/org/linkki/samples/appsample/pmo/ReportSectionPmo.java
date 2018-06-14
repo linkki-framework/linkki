@@ -13,58 +13,38 @@
  */
 package org.linkki.samples.appsample.pmo;
 
-import org.linkki.core.PresentationModelObject;
+import java.util.function.Consumer;
+
 import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIButton;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.section.annotations.UITextArea;
 import org.linkki.framework.ui.dialogs.ConfirmationDialog;
 import org.linkki.samples.appsample.model.Report;
 
 import com.vaadin.server.FontAwesome;
 
 @UISection(caption = "Report")
-public class ReportSectionPmo implements PresentationModelObject {
+public class ReportSectionPmo extends ReportPmo {
 
-    private Report report;
+    private final Consumer<Report> addReport;
 
-    public ReportSectionPmo() {
-        this.report = new Report();
+    public ReportSectionPmo(Consumer<Report> addReport) {
+        this(new Report(), addReport);
     }
 
-    @ModelObject
-    public Report getReport() {
-        return report;
-    }
-
-    @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 2, columns = 50)
-    public void description() {
-        /* Use description from report (model object) directly */
-    }
-
-    @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED)
-    public void type() {
-        /*
-         * bind value to the property "type" from report and use enum constants from ReportType as
-         * available values
-         */
-    }
-
-    @UIDateField(position = 30, label = "Occurrence date", modelAttribute = "occurrenceDate")
-    public void occurenceDate() {
-        /* bind valud to pmo property */
+    public ReportSectionPmo(Report report, Consumer<Report> addReport) {
+        super(report);
+        this.addReport = addReport;
     }
 
     @UIButton(position = 40, caption = "Send", icon = FontAwesome.SEND, showIcon = true, enabled = EnabledType.DYNAMIC)
     public void send() {
-        report.save();
+        getReport().save();
         ConfirmationDialog.open("Thank you!",
                                 String.format("Report with id \"%d\" is sent to our team. Thank you for reporting!",
-                                              report.getId()));
+                                              getReport().getId()));
+        addReport.accept(getReport());
+        newReport();
     }
 
     /**
@@ -73,8 +53,8 @@ public class ReportSectionPmo implements PresentationModelObject {
      * @return {@code true} if button is enabled otherwise {@code false}
      */
     public boolean isSendEnabled() {
-        String description = report.getDescription();
+        String description = getReport().getDescription();
         return description != null && !description.isEmpty()
-                && report.getType() != null;
+                && getReport().getType() != null;
     }
 }

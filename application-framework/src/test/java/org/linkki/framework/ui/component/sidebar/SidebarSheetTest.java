@@ -25,6 +25,8 @@ import com.vaadin.ui.HorizontalLayout;
 
 public class SidebarSheetTest {
 
+    private boolean triggered = false;
+
     @Test
     public void testUnselect_checkVisibilitySetToFalse() {
         HorizontalLayout content = new HorizontalLayout();
@@ -45,8 +47,20 @@ public class SidebarSheetTest {
         assertThat(content.isVisible(), is(true));
     }
 
+    @Test
+    public void testSelect_CheckObserver() {
+        HorizontalLayout content = new HorizontalLayout();
+
+        SidebarSheet sidebarSheet = new SidebarSheet(FontAwesome.STAR_HALF_FULL, "Test SidebarSheet", content,
+                () -> triggered = true);
+
+        sidebarSheet.select();
+
+        assertThat(triggered, is(true));
+    }
+
     private static SidebarSheet createSideBarSheet(Component content) {
-        return new SidebarSheet(FontAwesome.STAR_HALF_FULL, content, "Test SidebarSheet");
+        return new SidebarSheet(FontAwesome.STAR_HALF_FULL, "Test SidebarSheet", content);
     }
 
 }

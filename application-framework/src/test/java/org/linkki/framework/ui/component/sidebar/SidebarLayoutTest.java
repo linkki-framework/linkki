@@ -42,7 +42,7 @@ public class SidebarLayoutTest {
         SidebarLayout sidebarLayout = new SidebarLayout();
 
         VerticalLayout content = new VerticalLayout();
-        SidebarSheet sidebarSheet = spy(new SidebarSheet(ANY_ICON, content, ANY_STRING));
+        SidebarSheet sidebarSheet = spy(new SidebarSheet(ANY_ICON, ANY_STRING, content));
 
         sidebarLayout.select(sidebarSheet);
 
@@ -55,8 +55,8 @@ public class SidebarLayoutTest {
     public void testSelect_oldSheetIsUnselected() {
         SidebarLayout sidebarLayout = new SidebarLayout();
 
-        SidebarSheet oldSheet = spy(new SidebarSheet(ANY_ICON, createNewContent(), ANY_STRING));
-        SidebarSheet newSheet = spy(new SidebarSheet(ANY_ICON, createNewContent(), ANY_STRING));
+        SidebarSheet oldSheet = spy(new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent()));
+        SidebarSheet newSheet = spy(new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent()));
 
         sidebarLayout.select(oldSheet);
         assertThat(sidebarLayout.getSelected(), is(oldSheet));
@@ -71,8 +71,8 @@ public class SidebarLayoutTest {
     @Test
     public void testAddSheet_firstSheetGetsSelected() {
         SidebarLayout sidebarLayout = new SidebarLayout();
-        SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, createNewContent(), ANY_STRING);
-        SidebarSheet sheet2 = new SidebarSheet(ANY_ICON, createNewContent(), ANY_STRING);
+        SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
+        SidebarSheet sheet2 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
 
         sidebarLayout.addSheets(sheet1, sheet2);
 
@@ -84,9 +84,9 @@ public class SidebarLayoutTest {
         Handler somethingCalledInConstructor = mock(Handler.class);
 
         SidebarLayout sidebarLayout = new SidebarLayout();
-        SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, createNewContent(), ANY_STRING);
-        SidebarSheet sheet2 = new SidebarSheet(ANY_ICON, () -> new TestLayout(somethingCalledInConstructor),
-                ANY_STRING);
+        SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
+        SidebarSheet sheet2 = new SidebarSheet(ANY_ICON, ANY_STRING,
+                () -> new TestLayout(somethingCalledInConstructor));
         sidebarLayout.addSheets(sheet1, sheet2);
 
         assertThat(sidebarLayout.getSidebar().getComponentCount(), is(2));
@@ -99,9 +99,9 @@ public class SidebarLayoutTest {
         Handler somethingCalledInConstructor = mock(Handler.class);
 
         SidebarLayout sidebarLayout = new SidebarLayout();
-        SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, createNewContent(), ANY_STRING);
-        SidebarSheet sheet2 = new SidebarSheet(ANY_ICON, () -> new TestLayout(somethingCalledInConstructor),
-                ANY_STRING);
+        SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
+        SidebarSheet sheet2 = new SidebarSheet(ANY_ICON, ANY_STRING,
+                () -> new TestLayout(somethingCalledInConstructor));
 
         sidebarLayout.addSheets(sheet1, sheet2);
 

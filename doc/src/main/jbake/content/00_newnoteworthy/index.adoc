@@ -6,6 +6,16 @@
 
 == New & Noteworthy
 
+=== June 14th, 2018
+
+==== SidebarSheet
+
+The SidebarSheet was slightly refactored. It now offers lazy initialization, which means its content is not created until the sheet is selected for the first time. Additionally it is possible to add an `UiUpdateObserver` that is triggered every time the sheet is selected.
+
+The old constructor is deprecated and will be replaced. The new constructors offers a more consistent API. 
+
+There is a new documentation chapter explaining the <<sidebarlayout,sidebar layout>>.
+
 === June 12th, 2018
 
 ==== *linkki* is getting independant from cdi

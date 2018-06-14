@@ -14,35 +14,41 @@
 
 package org.linkki.samples.appsample.view;
 
-import java.util.function.Consumer;
+import java.util.List;
 
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.binding.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.page.AbstractPage;
+import org.linkki.framework.ui.component.Headline;
 import org.linkki.samples.appsample.model.Report;
-import org.linkki.samples.appsample.pmo.ReportSectionPmo;
+import org.linkki.samples.appsample.pmo.ReportTablePmo;
 
-public class ReportPage extends AbstractPage {
+public class ReportListPage extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
-    private final Consumer<Report> addReport;
-
     private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
 
-    public ReportPage(Consumer<Report> addReport) {
-        this.addReport = addReport;
+    private final List<Report> reports;
+
+    public ReportListPage(List<Report> reports) {
+        this.reports = reports;
     }
 
     @Override
     public void createContent() {
-        addSection(new ReportSectionPmo(addReport));
+        addComponent(new Headline("Report List"));
+        addSection(new ReportTablePmo(reports));
     }
 
     @Override
     protected BindingManager getBindingManager() {
         return bindingManager;
+    }
+
+    public void update() {
+        getBindingContext().updateUI();
     }
 
 }

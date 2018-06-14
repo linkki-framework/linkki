@@ -46,8 +46,23 @@ The `ApplicationLayout` is created using  the `ApplicationConfig`'s `createAppli
 
 The `ApplicationNavigator` is a subclass of vaadin's `Navigator` that has some convenience methods for initialization and navigation. It is instantiated by the `ApplicationConfig`. The navigator handles the different views and instructs the `ApplicationLayout` to show the view in the main area.
 
-==== Sidebar
+[[sidebarlayout]]
+==== Sidebar Layout
 
+The `SidebarLayout` is a UI component that gives access to several different views.
+
+image::{image-dir}/sidebar-layout.png[]
+
+On the left there is a horizontal bar containing icons (buttons) for every sheet. The tooltip of the button displays the name of the corresponding sheet. The content of the selected sheet is displayed to the right of the bar.
+
+In order to create a sidebar instantiate the `SidebarLayout` and add `SidebarSheets`. Every sheet requires an icon, a name and a content. It is also possible to provide a `Supplier<Component>` that is called when the sheet is selected for the first time (lazy initialization). This approach is useful if the creation of the content is more complex and/or if the sheet might be rarely visible.
+
+Additionally you can supply a `UiUpdateOberser` that is triggered every time the sheet is selected. Use this observer to update your binding context in case of changes to the underlying model while the sheet was invisible. Our sample application contains a sidebar layout with two sheets that highlights the utility of that approach. The second sheet displays a list of reports which are created on the first sheet. Thus the second sheet needs to be updated every time it is selected because the underlying data might have changed in the meantime.
+
+[source,java]
+----
+include::{source-dir-application}/org/linkki/samples/appsample/view/MainView.java[tags=sidebar-addSheet]
+----
 
 ==== Headline
 

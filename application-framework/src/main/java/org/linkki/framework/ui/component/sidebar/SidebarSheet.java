@@ -15,9 +15,11 @@ package org.linkki.framework.ui.component.sidebar;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.UiUpdateObserver;
 import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.util.LazyReference;
 import org.linkki.util.handler.Handler;
@@ -32,25 +34,96 @@ import com.vaadin.ui.Component;
  * This consists of a {@link Component} that is shown in the content area and metadata including an
  * {@link Resource button} for the side bar and a tooltip. Additionally, a {@link Handler} must be
  * given that is called when the sheet is added.
+ * <p>
+ * It is possible to provide an {@link UiUpdateObserver} to the constructor to get an event when
+ * this sheet is selected.
  */
 public class SidebarSheet {
 
     private final Button button;
-    private final String tooltip;
+
+    private final String name;
+
     private final LazyReference<Component> contentSupplier;
 
+    private final Optional<UiUpdateObserver> uiUpdateObserver;
+
+    /**
+     * @deprecated Since June 14th, 2018. Use {@link #SidebarSheet(Resource, String, Component)}
+     *             instead. This constructor will be removed in the next release.
+     */
+    @Deprecated
     public SidebarSheet(Resource icon, Component content, String tooltip) {
-        this(icon, () -> content, tooltip);
+        this(icon, tooltip, content);
     }
 
-    public SidebarSheet(Resource icon, Supplier<Component> contentSupplier, String tooltip) {
+    /**
+     * Simply creates a {@link SidebarSheet} with the given icon, name and content. The name will be
+     * displayed as tooltip information.
+     * 
+     * @param icon The icon for the sidebar button
+     * @param name The name of the sidebar sheet that is displayed as tooltip
+     * @param content The content of the sidebar sheet that is displayed if this sheed is selected
+     */
+    public SidebarSheet(Resource icon, String name, Component content) {
+        this(icon, name, () -> content);
+    }
+
+    /**
+     * Simply creates a {@link SidebarSheet} with the given icon, name and content. The name will be
+     * displayed as tooltip information.
+     * 
+     * @param icon The icon for the sidebar button
+     * @param name The name of the sidebar sheet that is displayed as tooltip
+     * @param content The content of the sidebar sheet that is displayed if this sheed is selected
+     * @param uiUpdateObserver An {@link UiUpdateObserver} that is triggered when this sidebar sheet is
+     *            selected
+     */
+    public SidebarSheet(Resource icon, String name, Component content, UiUpdateObserver uiUpdateObserver) {
+        this(icon, name, () -> content, uiUpdateObserver);
+    }
+
+    /**
+     * Simply creates a {@link SidebarSheet} with the given icon, name and content. The name will be
+     * displayed as tooltip information.
+     * <p>
+     * The content is provided by a {@link Supplier} that is called when the sheet is selected for the
+     * first time.
+     * 
+     * 
+     * @param icon The icon for the sidebar button
+     * @param name The name of the sidebar sheet that is displayed as tooltip
+     * @param contentSupplier The supplier for the content of the sidebar sheet that is displayed if
+     *            this sheed is selected
+     */
+    public SidebarSheet(Resource icon, String name, Supplier<Component> contentSupplier) {
+        this(icon, name, contentSupplier, null);
+    }
+
+    /**
+     * Simply creates a {@link SidebarSheet} with the given icon, name and content. The name will be
+     * displayed as tooltip information.
+     * <p>
+     * The content is provided by a {@link Supplier} that is called when the sheet is selected for the
+     * first time.
+     * 
+     * 
+     * @param icon The icon for the sidebar button
+     * @param name The name of the sidebar sheet that is displayed as tooltip
+     * @param contentSupplier The supplier for the content of the sidebar sheet that is displayed if
+     *            this sheed is selected
+     * @param uiUpdateObserver An {@link UiUpdateObserver} that is triggered when this sidebar sheet is
+     *            selected
+     */
+    public SidebarSheet(Resource icon, String name, Supplier<Component> contentSupplier,
+            UiUpdateObserver uiUpdateObserver) {
         this.button = new Button("", requireNonNull(icon, "icon must not be null")); // $NON-NLS-1
-        this.contentSupplier = new LazyReference<Component>(
-                requireNonNull(contentSupplier, "content must not be null"));
-        this.tooltip = requireNonNull(tooltip, "tooltip must not be null");
-        if (StringUtils.isNotEmpty(tooltip)) {
-            this.button.setDescription(tooltip);
+        this.contentSupplier = new LazyReference<>(requireNonNull(contentSupplier, "content must not be null"));
+        this.name = requireNonNull(name, "tooltip must not be null");
+        if (StringUtils.isNotEmpty(name)) {
+            this.button.setDescription(name);
         }
+        this.uiUpdateObserver = Optional.ofNullable(uiUpdateObserver);
     }
 
     public Button getButton() {
@@ -61,23 +134,25 @@ public class SidebarSheet {
         return contentSupplier.getReference();
     }
 
-    public String getToolTip() {
-        return tooltip;
+    public String getName() {
+        return name;
     }
 
     /**
      * Should only be called by {@link SidebarLayout}
      */
-    void select() {
+    protected void select() {
         getContent().setVisible(true);
         getButton().addStyleName(LinkkiStyles.SIDEBAR_SELECTED);
+        uiUpdateObserver.ifPresent(UiUpdateObserver::uiUpdated);
     }
 
     /**
      * Should only be called by {@link SidebarLayout}
      */
-    void unselect() {
+    protected void unselect() {
         getButton().removeStyleName(LinkkiStyles.SIDEBAR_SELECTED);
         getContent().setVisible(false);
     }
+
 }

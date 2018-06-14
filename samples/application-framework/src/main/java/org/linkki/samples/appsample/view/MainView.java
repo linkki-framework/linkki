@@ -14,9 +14,13 @@
 
 package org.linkki.samples.appsample.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.linkki.framework.ui.component.Headline;
 import org.linkki.framework.ui.component.sidebar.SidebarLayout;
 import org.linkki.framework.ui.component.sidebar.SidebarSheet;
+import org.linkki.samples.appsample.model.Report;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -29,9 +33,15 @@ public class MainView extends SidebarLayout implements View {
 
     private static final long serialVersionUID = 1L;
 
+    private final List<Report> reports = new ArrayList<>();
+
+    private ReportListPage listPage;
+
     public MainView() {
-        addSheets(new SidebarSheet(FontAwesome.STAR_HALF_FULL, createReportLayout(), "Create Report"),
-                  new SidebarSheet(FontAwesome.FILE_O, new VerticalLayout(), "Empty Sheet"));
+        // tag::sidebar-addSheet[]
+        addSheets(new SidebarSheet(FontAwesome.STAR_HALF_FULL, "Create Report", createReportLayout()),
+                  new SidebarSheet(FontAwesome.FILE_O, "Report List", this::createReportListLayout, this::update));
+        // end::sidebar-addSheet[]
     }
 
     @Override
@@ -44,10 +54,23 @@ public class MainView extends SidebarLayout implements View {
         // tag::addHeadline-call[]
         layout.addComponent(new Headline("Create Report"));
         // end::addHeadline-call[]
-        ReportPage page = new ReportPage();
+        ReportPage page = new ReportPage(reports::add);
         page.createContent();
         layout.addComponent(page);
         return layout;
+    }
+
+    private VerticalLayout createReportListLayout() {
+        VerticalLayout layout = new VerticalLayout();
+        layout.addComponent(new Headline("Report List"));
+        listPage = new ReportListPage(reports);
+        listPage.createContent();
+        layout.addComponent(listPage);
+        return layout;
+    }
+
+    private void update() {
+        listPage.update();
     }
 
 }

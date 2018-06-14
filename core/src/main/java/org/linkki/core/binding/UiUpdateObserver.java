@@ -32,14 +32,14 @@ public interface UiUpdateObserver {
 
     /**
      * Returns a composed {@code UiUpdateObserver} that performs, in sequence, this observer's
-     * {@link #uiUpdated()} method followed by the {@code after} observer's {@link #uiUpdated()}
-     * method. If performing either update throws an exception, it is relayed to the caller of the
-     * composed observer. If performing this update throws an exception, the {@code after} observer
-     * will not be notified.
+     * {@link #uiUpdated()} method followed by the {@code after} observer's {@link #uiUpdated()} method.
+     * If performing either update throws an exception, it is relayed to the caller of the composed
+     * observer. If performing this update throws an exception, the {@code after} observer will not be
+     * notified.
      *
      * @param after the observer to notify after this observer
-     * @return a composed {@code UiUpdateObserver} that notifies in sequence this observer followed
-     *         by the {@code after} observer
+     * @return a composed {@code UiUpdateObserver} that notifies in sequence this observer followed by
+     *         the {@code after} observer
      * @throws NullPointerException if {@code after} is null
      */
     default UiUpdateObserver andThen(UiUpdateObserver after) {
