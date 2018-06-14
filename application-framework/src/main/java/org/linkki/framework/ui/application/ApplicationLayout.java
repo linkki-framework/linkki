@@ -66,7 +66,6 @@ public class ApplicationLayout extends VerticalLayout implements ViewDisplay {
     private void setMainArea(Component newMainArea) {
         removeComponent(mainArea);
         mainArea = newMainArea;
-        newMainArea.setSizeFull();
         addComponent(newMainArea, 1);
         setExpandRatio(newMainArea, 1);
     }
