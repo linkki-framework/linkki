@@ -13,9 +13,11 @@
  */
 package org.linkki.framework.ui.component.sidebar;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.linkki.framework.ui.LinkkiStyles;
@@ -42,7 +44,9 @@ public class SidebarLayout extends CssLayout {
 
     private final CssLayout contentArea;
 
-    private Optional<SidebarSheet> selected = Optional.empty();
+    private final List<SidebarSheet> sidebarSheets = new ArrayList<>();
+
+    private SidebarSheet selected;
 
     public SidebarLayout() {
         this.sidebar = new CssLayout();
@@ -73,10 +77,11 @@ public class SidebarLayout extends CssLayout {
     }
 
     public void addSheet(SidebarSheet sheet) {
+        sidebarSheets.add(sheet);
         sheet.getButton().addClickListener(e -> select(sheet));
         sidebar.addComponent(sheet.getButton());
 
-        if (!selected.isPresent()) {
+        if (selected == null) {
             select(sheet);
         }
     }
@@ -87,6 +92,12 @@ public class SidebarLayout extends CssLayout {
      * @param sheet a sheet contained in this layout
      */
     public void select(SidebarSheet sheet) {
+        if (!sidebarSheets.contains(sheet)) {
+            throw new IllegalArgumentException("The sheet " + sheet + " is not part of this SidebarLayout");
+        }
+        if (selected == sheet) {
+            return;
+        }
         Component content = sheet.getContent();
         if (content.getParent() == null) {
             contentArea.addComponent(content);
@@ -94,8 +105,10 @@ public class SidebarLayout extends CssLayout {
             throw new IllegalStateException("Content of the selected sidebar sheet already has a parent!");
         }
 
-        selected.ifPresent(SidebarSheet::unselect);
-        this.selected = Optional.of(sheet);
+        if (selected != null) {
+            selected.unselect();
+        }
+        this.selected = sheet;
         sheet.select();
     }
 
@@ -108,20 +121,29 @@ public class SidebarLayout extends CssLayout {
      * @throws NoSuchElementException if there is no {@link SidebarSheet} at all.
      */
     public SidebarSheet getSelected() {
-        return selected.get();
+        return selected;
+    }
+
+    /**
+     * Return all registered {@link SidebarSheet}.
+     * 
+     * @return The list of available {@link SidebarSheet}s in the order they were added
+     */
+    public List<SidebarSheet> getSidebarSheets() {
+        return Collections.unmodifiableList(sidebarSheets);
     }
 
     /**
      * For testing purposes only
      */
-    CssLayout getContentArea() {
+    /* private */ CssLayout getContentArea() {
         return contentArea;
     }
 
     /**
      * For testing purposes only
      */
-    CssLayout getSidebar() {
+    /* private */ CssLayout getSidebar() {
         return sidebar;
     }
 }

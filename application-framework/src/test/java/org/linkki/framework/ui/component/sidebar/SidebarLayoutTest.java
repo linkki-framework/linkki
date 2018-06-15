@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -40,9 +41,9 @@ public class SidebarLayoutTest {
     @Test
     public void testSelect_newSheetIsSelected() {
         SidebarLayout sidebarLayout = new SidebarLayout();
-
         VerticalLayout content = new VerticalLayout();
         SidebarSheet sidebarSheet = spy(new SidebarSheet(ANY_ICON, ANY_STRING, content));
+        sidebarLayout.addSheet(sidebarSheet);
 
         sidebarLayout.select(sidebarSheet);
 
@@ -54,15 +55,20 @@ public class SidebarLayoutTest {
     @Test
     public void testSelect_oldSheetIsUnselected() {
         SidebarLayout sidebarLayout = new SidebarLayout();
-
         SidebarSheet oldSheet = spy(new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent()));
         SidebarSheet newSheet = spy(new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent()));
+        sidebarLayout.addSheets(oldSheet, newSheet);
+
+        verify(oldSheet).select();
+        reset(oldSheet);
 
         sidebarLayout.select(oldSheet);
+
         assertThat(sidebarLayout.getSelected(), is(oldSheet));
-        verify(oldSheet).select();
+        verifyNoMoreInteractions(oldSheet);
 
         sidebarLayout.select(newSheet);
+
         assertThat(sidebarLayout.getSelected(), is(newSheet));
         verify(oldSheet).unselect();
         verify(newSheet).select();
@@ -132,5 +138,13 @@ public class SidebarLayoutTest {
             super();
             doSomethingComplicated.apply();
         }
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSelect_NotRegistered() {
+        SidebarLayout sidebarLayout = new SidebarLayout();
+        SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
+
+        sidebarLayout.select(sheet1);
     }
 }
