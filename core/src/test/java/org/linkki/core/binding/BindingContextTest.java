@@ -33,23 +33,26 @@ import javax.annotation.Nullable;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.linkki.core.binding.ButtonPmoBindingTest.TestButtonPmo;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.LabelComponentWrapper;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.TestUiUtil;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.section.descriptor.ElementDescriptor;
+import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.vaadin.ui.AbstractField;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -227,6 +230,18 @@ public class BindingContextTest {
 
         context.bind(pmo, fieldDescriptor, new LabelComponentWrapper(field));
         assertThat(field.isImmediate(), is(true));
+    }
+
+    @Test
+    public void testBind_ButtonPmoBindningToCheckUpdateFromPmo() {
+        context = TestBindingContext.create();
+        TestButtonPmo buttonPmo = new TestButtonPmo();
+        Button button = ComponentFactory.newButton(buttonPmo.getButtonIcon(), buttonPmo.getStyleNames());
+        buttonPmo.enabled = false;
+
+        context.bind(buttonPmo, button);
+
+        assertThat(button.isEnabled(), is(false));
     }
 
     @Test

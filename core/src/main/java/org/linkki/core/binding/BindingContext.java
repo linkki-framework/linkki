@@ -264,6 +264,7 @@ public class BindingContext implements UiUpdateObserver {
 
         ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, createDispatcherChain(pmo),
                 this::updateUI);
+        buttonPmoBinding.updateFromPmo();
         add(buttonPmoBinding);
         return buttonPmoBinding;
     }
