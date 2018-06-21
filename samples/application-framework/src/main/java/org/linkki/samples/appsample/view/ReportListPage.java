@@ -16,12 +16,15 @@ package org.linkki.samples.appsample.view;
 
 import java.util.List;
 
+import org.linkki.core.binding.Binder;
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.binding.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.page.AbstractPage;
 import org.linkki.framework.ui.component.Headline;
 import org.linkki.samples.appsample.model.Report;
+import org.linkki.samples.appsample.pmo.HeadlinePmo;
 import org.linkki.samples.appsample.pmo.ReportTablePmo;
 
 public class ReportListPage extends AbstractPage {
@@ -38,7 +41,12 @@ public class ReportListPage extends AbstractPage {
 
     @Override
     public void createContent() {
-        addComponent(new Headline("Report List"));
+        Headline headline = new Headline();
+        addComponent(headline);
+        // tag::bind-headline[]
+        new Binder(headline, new HeadlinePmo(reports)).setupBindings(getBindingContext());
+        // end::bind-headline[]
+
         addSection(new ReportTablePmo(reports));
     }
 
@@ -49,6 +57,11 @@ public class ReportListPage extends AbstractPage {
 
     public void update() {
         getBindingContext().updateUI();
+    }
+
+    @Override
+    public BindingContext getBindingContext() {
+        return super.getBindingContext();
     }
 
 }

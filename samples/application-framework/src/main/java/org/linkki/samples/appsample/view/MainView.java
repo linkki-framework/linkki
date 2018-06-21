@@ -33,7 +33,7 @@ public class MainView extends SidebarLayout implements View {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<Report> reports = new ArrayList<>();
+    private static final List<Report> reports = new ArrayList<>();
 
     private ReportListPage listPage;
 
@@ -61,12 +61,9 @@ public class MainView extends SidebarLayout implements View {
     }
 
     private VerticalLayout createReportListLayout() {
-        VerticalLayout layout = new VerticalLayout();
-        layout.addComponent(new Headline("Report List"));
         listPage = new ReportListPage(reports);
         listPage.createContent();
-        layout.addComponent(listPage);
-        return layout;
+        return listPage;
     }
 
     private void update() {

@@ -6,6 +6,14 @@
 
 == New & Noteworthy
 
+=== June 27th, 2018
+
+==== Headline
+
+`Headline` now extends `HorizontalLayout` instead of `CustomComponent`. Hence `Headline#getHeaderLayout()` isn't needed anymore and was dropped. The method `#getPolicyInfoLabel()` was dropped too. If you have overridden this method to modify the shown title, use the new constructor `Headline(label)` instead. The Headline's label is now annotated with `@Bind`, binding the field to a pmo property which's name is accessible at `Headline#HEADER_TITLE`.
+Finally, the method `setHeadline(String)` is deprecated, use `setTitle(String)` instead.
+
+
 === June 14th, 2018
 
 ==== SidebarSheet
