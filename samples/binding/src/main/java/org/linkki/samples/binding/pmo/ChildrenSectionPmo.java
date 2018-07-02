@@ -21,8 +21,10 @@ import org.linkki.core.ui.section.annotations.UITextArea;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.samples.binding.model.Contact;
 
+// tag::sectionCaption[]
 @UISection(caption = "Children", closeable = true)
 public class ChildrenSectionPmo {
+    // end::sectionCaption[]
 
     private Contact contact;
 
