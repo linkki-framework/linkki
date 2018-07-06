@@ -27,7 +27,7 @@ final class TestApplicationConfig implements ApplicationConfig {
     Sequence<Converter<?, ?>> converters = Sequence.empty();
 
     @Override
-    public String getCopyright() {
+    public String getApplicationName() {
         return "";
     }
 
@@ -37,7 +37,12 @@ final class TestApplicationConfig implements ApplicationConfig {
     }
 
     @Override
-    public String getApplicationName() {
+    public String getApplicationDescription() {
+        return "";
+    }
+
+    @Override
+    public String getCopyright() {
         return "";
     }
 

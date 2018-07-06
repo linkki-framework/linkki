@@ -14,26 +14,33 @@
 
 package org.linkki.samples.appsample.config;
 
+import java.time.LocalDate;
+
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.appsample.menu.StartMenuItemDefinition;
 import org.linkki.util.Sequence;
 
-public class ApplicationConfigSample implements ApplicationConfig {
+public class SampleApplicationConfig implements ApplicationConfig {
 
     @Override
     public String getApplicationName() {
-        return "Linkki :: Application Sample";
+        return "linkki Samples :: Application Framework";
     }
 
     @Override
     public String getApplicationVersion() {
-        return "1.0";
+        return "Development Version";
+    }
+
+    @Override
+    public String getApplicationDescription() {
+        return "linkki is an open source web framework to build great looking business applications in pure Java with minimal effort.";
     }
 
     @Override
     public String getCopyright() {
-        return "© Faktor Zehn AG";
+        return "© Copyright 2017-" + LocalDate.now().getYear() + " Faktor Zehn AG";
     }
 
     @Override

@@ -45,7 +45,8 @@ public class ApplicationFooter extends HorizontalLayout {
      * @return The text that is displayed in the footer.
      */
     protected String buildText(ApplicationConfig applicationConfig) {
-        return applicationConfig.getApplicationName() + ", " + applicationConfig.getApplicationVersion() + ", " + applicationConfig.getCopyright();
+        return applicationConfig.getApplicationName() + ", " + applicationConfig.getApplicationVersion() + ", "
+                + applicationConfig.getCopyright();
     }
 
 }

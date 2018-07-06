@@ -41,11 +41,11 @@ All dependencies to and usages of CDI have been removed from linkki to better al
  * The `LoginServlet` was removed from *linkki*; associated style classes have also been removed. For Faktor Zehn users, an equivalent class has been created in `f10-commons-auth-spring`, others are free to implement their own login solution.
  * `DefaultPmoBasedSectionFactory` is deprecated and will be removed in the next version. Simply use `PmoBasedSectionFactory` instead.
  
-You can see an example in our `ApplicationSampleUI`
+You can see an example in our `SampleApplicationUI`
 
 [source,java]
 ----
-include::{source-dir-application}/org/linkki/samples/appsample/ApplicationSampleUI.java[tags=application-sample-ui]
+include::{source-dir-application}/org/linkki/samples/appsample/SampleApplicationUI.java[tags=application-sample-ui]
 ----
  
 

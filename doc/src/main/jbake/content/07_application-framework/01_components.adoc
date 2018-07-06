@@ -9,11 +9,11 @@
 To create a Vaadin application you need to subclass `UI`. Using the *linkki application framework* you get a default implementation called `LinkkiUi` which handles the ui setup. The actual UI implementation is configured
 in your servlet using `@VaadinServletConfiguration`. To provide some views you could simply subclass `LinkkiUi` and use the `addView(...)` method or `addProvider(ViewProvider)`(for example with Vaadin's CDIViewProvider) as you need. The `LinkkiUi` uses the `ApplicationConfig` which could be implemented for your needs.
 
-You can see an example in our `ApplicationSampleUI`
+You can see an example in our `SampleApplicationUI`
 
 [source,java]
 ----
-include::{source-dir-application}/org/linkki/samples/appsample/ApplicationSampleUI.java[tags=application-sample-ui]
+include::{source-dir-application}/org/linkki/samples/appsample/SampleApplicationUI.java[tags=application-sample-ui]
 ----
 
 

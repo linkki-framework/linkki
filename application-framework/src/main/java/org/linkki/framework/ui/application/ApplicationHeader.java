@@ -13,9 +13,12 @@
  */
 package org.linkki.framework.ui.application;
 
+import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
+import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.framework.ui.nls.NlsText;
+import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -33,10 +36,14 @@ import com.vaadin.ui.themes.ValoTheme;
  * {@link ApplicationHeader} can be styled with the CSS class
  * {@link LinkkiStyles#APPLICATION_HEADER}. The right aligned {@link MenuBar} uses the style name
  * {@link LinkkiStyles#APPLICATION_HEADER_RIGHT} additionally.
- * <p>
- * The methods {@link #createRightMenuBar()}, {@link #addUserMenu(String, MenuBar)},
- * {@link #addUserMenuItems(MenuItem)} and {@link #newLogoutCommand()} can be used to create a user
- * logout menu item in the right {@link MenuBar}.
+ * 
+ * @implNote The methods {@link #createRightMenuBar()}, {@link #addHelpMenu(MenuBar)} and
+ *           {@link #addHelpMenuItems(MenuItem)} can be used to create an
+ *           {@link ApplicationInfoDialog} menu item in the right {@link MenuBar}.
+ *           <p>
+ *           The methods {@link #createRightMenuBar()}, {@link #addUserMenu(String, MenuBar)},
+ *           {@link #addUserMenuItems(MenuItem)} and {@link #newLogoutCommand()} can be used to
+ *           create a user logout menu item in the right {@link MenuBar}.
  * 
  * @see ApplicationMenu
  */
@@ -54,10 +61,11 @@ public class ApplicationHeader extends HorizontalLayout {
 
     /**
      * Initialize UI components.
-     * <p>
-     * Avoid overriding this method if possible. By default, this method assumes that the header
-     * consists of a left floating and a right floating group of UI components. These elements are added
-     * by {@link #addLeftComponents()} and {@link #addRightComponents()} respectively.
+     * 
+     * @implSpec Avoid overriding this method if possible. By default, this method assumes that the
+     *           header consists of a left floating and a right floating group of UI components.
+     *           These elements are added by {@link #addLeftComponents()} and
+     *           {@link #addRightComponents()} respectively.
      */
     protected void init() {
         addLeftComponents();
@@ -65,13 +73,14 @@ public class ApplicationHeader extends HorizontalLayout {
     }
 
     /**
-     * Adds navigation elements on the left of the header. Adds the {@link ApplicationMenu} by default.
-     * <p>
-     * Only override this method if you do not need the {@link ApplicationMenu} or need to add elements
-     * other than {@link ApplicationMenu}. The {@link ApplicationMenu} itself is configured by a
-     * different mechanism.
+     * Adds navigation elements on the left of the header. Adds the {@link ApplicationMenu} by
+     * default.
      * 
-     * @see ApplicationMenu for further information about its configuration
+     * @implSpec Only override this method if you do not need the {@link ApplicationMenu} or need to
+     *           add elements other than {@link ApplicationMenu}. The {@link ApplicationMenu} itself
+     *           is passed to this {@link ApplicationHeader}'s constructor.
+     * 
+     * @see ApplicationMenu for further information about its configuration.
      */
     protected void addLeftComponents() {
         addComponent(applicationMenu);
@@ -80,8 +89,8 @@ public class ApplicationHeader extends HorizontalLayout {
     /**
      * Adds right aligned navigation elements in the header. Adds a {@link MenuBar} and calls
      * {@link #createRightMenuBar()} to add items by default.
-     * <p>
-     * Override {@link #createRightMenuBar()} to add elements to the {@link MenuBar}.
+     * 
+     * @implSpec Override {@link #createRightMenuBar()} to add elements to the {@link MenuBar}.
      */
     protected void addRightComponents() {
         MenuBar rightMenuBar = createRightMenuBar();
@@ -92,8 +101,9 @@ public class ApplicationHeader extends HorizontalLayout {
     /**
      * Creates a right aligned {@link MenuBar} that is added to the {@link ApplicationHeader} by
      * {@link #addRightComponents()}.
-     * <p>
-     * The created {@link MenuBar} contains no {@link MenuItem} by default.
+     * 
+     * @implNote The created {@link MenuBar} contains a {@link #addHelpMenu(MenuBar) help menu item}
+     *           by default.
      */
     protected MenuBar createRightMenuBar() {
         MenuBar rightMenuBar = new MenuBar();
@@ -103,13 +113,62 @@ public class ApplicationHeader extends HorizontalLayout {
         rightMenuBar.addStyleName(ValoTheme.MENUBAR_BORDERLESS);
         rightMenuBar.addStyleName(ValoTheme.MENUBAR_SMALL);
 
+        addHelpMenu(rightMenuBar);
+
         return rightMenuBar;
     }
 
     /**
+     * Creates a help menu item in the given parent.
+     * 
+     * @implSpec Override {@link #addHelpMenuItems(MenuItem)} to add sub menu items to the created
+     *           {@link #addHelpMenu(MenuBar) help menu item}.
+     */
+    protected MenuItem addHelpMenu(MenuBar parent) {
+        MenuItem helpMenu = parent.addItem("", FontAwesome.QUESTION_CIRCLE, null); // $NON-NLS-1$
+        addHelpMenuItems(helpMenu);
+        return helpMenu;
+    }
+
+    /**
+     * Adds by default the {@link ApplicationInfoDialog about sub menu item} created by
+     * {@link #addApplicationInfoMenuItem(MenuItem)} to the given <code>helpMenu</code> that is
+     * created in {@link #addHelpMenu(MenuBar)}.
+     * 
+     * @implSpec Override to add more sub menu items.
+     *           <p>
+     *           Extend {@link ApplicationInfoPmo} and override
+     *           {@link #createApplicationInfoPmo(ApplicationConfig)} to customize the created
+     *           {@link ApplicationInfoDialog}.
+     */
+    protected void addHelpMenuItems(MenuItem helpMenu) {
+        addApplicationInfoMenuItem(helpMenu);
+    }
+
+    /**
+     * Adds an {@link ApplicationInfoDialog about sub menu item} to the given <code>helpMenu</code>
+     * that is created in {@link #addHelpMenu(MenuBar)}.
+     */
+    protected void addApplicationInfoMenuItem(MenuItem helpMenu) {
+        helpMenu.addItem(NlsText.getString("ApplicationHeader.Info"), FontAwesome.INFO_CIRCLE, //$NON-NLS-1$
+                         i -> new ApplicationInfoDialog(
+                                 createApplicationInfoPmo(LinkkiUi.getCurrentApplicationConfig())).open());
+    }
+
+    /**
+     * Creates the {@link ApplicationInfoPmo}.
+     * 
+     * @see ApplicationInfoPmo for further information about its configuration.
+     */
+    protected ApplicationInfoPmo createApplicationInfoPmo(ApplicationConfig config) {
+        return new ApplicationInfoPmo(config);
+    }
+
+    /**
      * Creates a user menu item in the given parent.
-     * <p>
-     * Override {@link #addUserMenuItems(MenuItem)} to add sub menu items to the created user menu.
+     * 
+     * @implSpec Override {@link #addUserMenuItems(MenuItem)} to add sub menu items to the created
+     *           user menu.
      */
     protected MenuItem addUserMenu(String username, MenuBar parent) {
         MenuItem userMenu = parent.addItem(username, FontAwesome.USER, null); // $NON-NLS-1$

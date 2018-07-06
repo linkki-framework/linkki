@@ -126,6 +126,10 @@ public class LinkkiUi extends UI {
         getNavigator().refreshCurrentView();
     }
 
+    public ApplicationConfig getApplicationConfig() {
+        return applicationConfig;
+    }
+
     public ApplicationLayout getApplicationLayout() {
         return (ApplicationLayout)getContent();
     }
@@ -137,6 +141,15 @@ public class LinkkiUi extends UI {
      */
     public static LinkkiUi getCurrent() {
         return (LinkkiUi)UI.getCurrent();
+    }
+
+    /**
+     * Returns the application's configuration of the current UI.
+     * 
+     * @return the application configuration of {@link #getCurrent()}
+     */
+    public static ApplicationConfig getCurrentApplicationConfig() {
+        return getCurrent().getApplicationConfig();
     }
 
     /**

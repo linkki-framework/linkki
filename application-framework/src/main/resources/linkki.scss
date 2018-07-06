@@ -199,6 +199,10 @@ $linkki-sidebar-width: 56px !default;
     padding: 1em 8px;
     font-size: 90%;
   }
+
+  .linkki-application-info-dialog #description {
+    line-height: 1.5;
+  }
   
   /* 
   * Messages panels

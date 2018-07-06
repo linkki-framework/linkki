@@ -23,6 +23,7 @@ import org.linkki.framework.ui.application.ApplicationNavigator;
 import org.linkki.framework.ui.application.LinkkiUi;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.util.Sequence;
 
 import com.vaadin.data.util.converter.Converter;
@@ -38,27 +39,35 @@ import com.vaadin.ui.UI;
 public interface ApplicationConfig {
 
     /**
-     * The application's name, displayed for example in the {@link ApplicationFooter}.
+     * The application's name, displayed for example in the {@link ApplicationFooter} and/or the
+     * {@link ApplicationInfoDialog}.
      */
     String getApplicationName();
 
     /**
-     * The application's version, displayed for example in the {@link ApplicationFooter}.
+     * The application's version, displayed for example in the {@link ApplicationFooter} and/or
+     * {@link ApplicationInfoDialog}.
      */
     String getApplicationVersion();
 
     /**
-     * The copyright information for the application, displayed for example in the
-     * {@link ApplicationFooter}.
+     * The application's description, displayed for example in the {@link ApplicationInfoDialog}.
+     */
+    String getApplicationDescription();
+
+    /**
+     * The copyright statement displayed for example in the {@link ApplicationFooter} and/or the
+     * {@link ApplicationInfoDialog}.
      */
     String getCopyright();
 
     /**
      * The {@link ApplicationLayout} for the {@link LinkkiUi}.
      * 
-     * @implSpec Includes an {@link ApplicationHeader} created with the {@link #getHeaderDefinition()}
-     *           from an {@link ApplicationMenu} including the {@link #getMenuItemDefinitions()} and an
-     *           {@link ApplicationFooter} created with the {@link #getFooterDefinition()}.
+     * @implSpec Includes an {@link ApplicationHeader} created with the
+     *           {@link #getHeaderDefinition()} from an {@link ApplicationMenu} including the
+     *           {@link #getMenuItemDefinitions()} and an {@link ApplicationFooter} created with the
+     *           {@link #getFooterDefinition()}.
      */
     default ApplicationLayout createApplicationLayout() {
         return new ApplicationLayout(getHeaderDefinition().apply(new ApplicationMenu(getMenuItemDefinitions().list())),
@@ -79,7 +88,8 @@ public interface ApplicationConfig {
     }
 
     /**
-     * Used to create an {@link ApplicationFooter} including this {@link ApplicationConfig}'s details.
+     * Used to create an {@link ApplicationFooter} including this {@link ApplicationConfig}'s
+     * details.
      */
     default ApplicationFooterDefinition getFooterDefinition() {
         return ApplicationFooter::new;
@@ -95,7 +105,8 @@ public interface ApplicationConfig {
 
     /**
      * The factory used to create {@link Converter Converters} to be
-     * {@link VaadinSession#setConverterFactory(ConverterFactory) registered with the VaadinSession}.
+     * {@link VaadinSession#setConverterFactory(ConverterFactory) registered with the
+     * VaadinSession}.
      */
     default ConverterFactory getConverterFactory() {
         return new LinkkiConverterFactory();

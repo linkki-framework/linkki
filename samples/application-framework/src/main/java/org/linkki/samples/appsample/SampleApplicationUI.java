@@ -14,7 +14,7 @@
 package org.linkki.samples.appsample;
 
 import org.linkki.framework.ui.application.LinkkiUi;
-import org.linkki.samples.appsample.config.ApplicationConfigSample;
+import org.linkki.samples.appsample.config.SampleApplicationConfig;
 import org.linkki.samples.appsample.view.MainView;
 
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -24,12 +24,12 @@ import com.vaadin.server.VaadinRequest;
 // tag::application-sample-ui[]
 @Theme(value = "sample")
 @PreserveOnRefresh
-public class ApplicationSampleUI extends LinkkiUi {
+public class SampleApplicationUI extends LinkkiUi {
 
     private static final long serialVersionUID = 1L;
 
-    public ApplicationSampleUI() {
-        super(new ApplicationConfigSample());
+    public SampleApplicationUI() {
+        super(new SampleApplicationConfig());
     }
 
     @Override
