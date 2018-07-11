@@ -1,0 +1,4 @@
+class com/vaadin/server/AbstractClientConnector
+setErrorHandler
+ (Lcom/vaadin/server/ErrorHandler;)V
+ (L1com/vaadin/server/ErrorHandler;)V

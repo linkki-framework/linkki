@@ -1,0 +1,4 @@
+class java/time/format/DateTimeFormatter
+ofPattern
+ (Ljava/lang/String;)Ljava/time/format/DateTimeFormatter;
+ (Ljava/lang/String;)L1java/time/format/DateTimeFormatter;

@@ -34,7 +34,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 /**
- * Application configuration used to {@link LinkkiUi#configure(ApplicationConfig) configure} the
+ * Application configuration used to {@link LinkkiUi#LinkkiUi(ApplicationConfig) configure} the
  * {@link LinkkiUi}.
  */
 public interface ApplicationConfig {

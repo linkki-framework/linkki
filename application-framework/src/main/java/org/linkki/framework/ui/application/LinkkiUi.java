@@ -17,6 +17,8 @@ package org.linkki.framework.ui.application;
 import javax.annotation.Nullable;
 
 import org.linkki.framework.state.ApplicationConfig;
+import org.linkki.framework.ui.dialogs.DefaultErrorDialog;
+import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -68,16 +70,22 @@ public class LinkkiUi extends UI {
     }
 
     @Override
-    protected void init(VaadinRequest request) {
+    protected void init(@Nullable VaadinRequest request) {
+        setErrorHandler(createErrorHandler());
         // init converters
         VaadinSession vaadinSession = VaadinSession.getCurrent();
         if (vaadinSession != null) {
             vaadinSession.setConverterFactory(applicationConfig.getConverterFactory());
+            vaadinSession.setErrorHandler(getErrorHandler());
         }
 
         Page.getCurrent().setTitle(getPageTitle());
 
         setContent(applicationLayout);
+    }
+
+    private DialogErrorHandler createErrorHandler() {
+        return new DialogErrorHandler(getNavigator(), DefaultErrorDialog::new);
     }
 
     /**
@@ -169,5 +177,4 @@ public class LinkkiUi extends UI {
     public static ApplicationLayout getCurrentApplicationLayout() {
         return getCurrent().getApplicationLayout();
     }
-
 }

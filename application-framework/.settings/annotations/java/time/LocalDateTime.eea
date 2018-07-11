@@ -1,0 +1,4 @@
+class java/time/LocalDateTime
+now
+ ()Ljava/time/LocalDateTime;
+ ()L1java/time/LocalDateTime;
