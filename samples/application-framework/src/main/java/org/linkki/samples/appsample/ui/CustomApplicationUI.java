@@ -11,10 +11,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.samples.appsample;
+package org.linkki.samples.appsample.ui;
 
 import org.linkki.framework.ui.application.LinkkiUi;
-import org.linkki.samples.appsample.config.SampleApplicationConfig;
+import org.linkki.samples.appsample.state.CustomApplicationConfig;
 import org.linkki.samples.appsample.view.MainView;
 
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -24,12 +24,12 @@ import com.vaadin.server.VaadinRequest;
 // tag::application-sample-ui[]
 @Theme(value = "sample")
 @PreserveOnRefresh
-public class SampleApplicationUI extends LinkkiUi {
+public class CustomApplicationUI extends LinkkiUi {
 
     private static final long serialVersionUID = 1L;
 
-    public SampleApplicationUI() {
-        super(new SampleApplicationConfig());
+    public CustomApplicationUI() {
+        super(new CustomApplicationConfig());
     }
 
     @Override

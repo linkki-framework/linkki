@@ -3135,7 +3135,7 @@ table {
         max-width: 50%;
         width: 50%;
         display: inline-block;
-        float: left
+        float: left;
     }
     .navigation.navigation-unique {
         max-width: 100%;

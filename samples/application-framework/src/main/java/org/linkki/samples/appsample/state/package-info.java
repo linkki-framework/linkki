@@ -11,19 +11,5 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
-package org.linkki.samples.appsample;
-
-import javax.servlet.annotation.WebServlet;
-
-import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.server.VaadinServlet;
-
-
-@WebServlet(urlPatterns = { "/main/*", "/VAADIN/*", "/UIDL/*", "/HEARTBEAT" }, asyncSupported = true)
-@VaadinServletConfiguration(productionMode = true, ui = SampleApplicationUI.class)
-public class SampleApplicationServlet extends VaadinServlet {
-
-    private static final long serialVersionUID = 1L;
-
-}
+@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+package org.linkki.samples.appsample.state;

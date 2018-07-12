@@ -45,9 +45,9 @@ You can see an example in our `SampleApplicationUI`
 
 [source,java]
 ----
-include::{source-dir-application}/org/linkki/samples/appsample/SampleApplicationUI.java[tags=application-sample-ui]
+include::{source-dir-application}/org/linkki/samples/appsample/ui/SampleApplicationUI.java[tags=application-sample-ui]
 ----
- 
+
 
 === April 10th, 2018
 

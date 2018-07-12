@@ -11,16 +11,22 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.samples.appsample.config;
+package org.linkki.samples.appsample.state;
 
 import java.time.LocalDate;
 
 import org.linkki.framework.state.ApplicationConfig;
+import org.linkki.framework.ui.application.ApplicationFooter;
+import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.appsample.menu.StartMenuItemDefinition;
 import org.linkki.samples.appsample.nls.NlsText;
 import org.linkki.util.Sequence;
 
+/**
+ * An {@link ApplicationConfig} using the default {@link ApplicationHeader application header} and
+ * {@link ApplicationFooter application footer}.
+ */
 public class SampleApplicationConfig implements ApplicationConfig {
 
     @Override
@@ -40,7 +46,7 @@ public class SampleApplicationConfig implements ApplicationConfig {
 
     @Override
     public String getCopyright() {
-        return "© Copyright 2017-" + LocalDate.now().getYear() + " Faktor Zehn AG";
+        return "Copyright © 2017 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH";
     }
 
     @Override

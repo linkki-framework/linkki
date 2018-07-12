@@ -40,19 +40,19 @@ import com.vaadin.ui.UI;
 public interface ApplicationConfig {
 
     /**
-     * The application's name, displayed for example in the {@link ApplicationFooter} and/or the
+     * The application name, displayed for example in the {@link ApplicationFooter} and/or the
      * {@link ApplicationInfoDialog}.
      */
     String getApplicationName();
 
     /**
-     * The application's version, displayed for example in the {@link ApplicationFooter} and/or
+     * The application version, displayed for example in the {@link ApplicationFooter} and/or
      * {@link ApplicationInfoDialog}.
      */
     String getApplicationVersion();
 
     /**
-     * The application's description, displayed for example in the {@link ApplicationInfoDialog}.
+     * The application description, displayed for example in the {@link ApplicationInfoDialog}.
      */
     String getApplicationDescription();
 
