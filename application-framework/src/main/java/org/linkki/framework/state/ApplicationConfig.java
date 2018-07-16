@@ -13,6 +13,7 @@
  */
 package org.linkki.framework.state;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
@@ -71,7 +72,7 @@ public interface ApplicationConfig {
      */
     default ApplicationLayout createApplicationLayout() {
         return new ApplicationLayout(getHeaderDefinition().apply(new ApplicationMenu(getMenuItemDefinitions().list())),
-                getFooterDefinition().apply(this));
+                getFooterDefinition().map(fd -> fd.apply(this)).orElse(null));
     }
 
     /**
@@ -91,8 +92,8 @@ public interface ApplicationConfig {
      * Used to create an {@link ApplicationFooter} including this {@link ApplicationConfig}'s
      * details.
      */
-    default ApplicationFooterDefinition getFooterDefinition() {
-        return ApplicationFooter::new;
+    default Optional<ApplicationFooterDefinition> getFooterDefinition() {
+        return Optional.of(ApplicationFooter::new);
     }
 
     /**
