@@ -11,7 +11,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.linkki.samples.appsample.config;
 
 import java.time.LocalDate;
@@ -19,23 +18,24 @@ import java.time.LocalDate;
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.appsample.menu.StartMenuItemDefinition;
+import org.linkki.samples.appsample.nls.NlsText;
 import org.linkki.util.Sequence;
 
 public class SampleApplicationConfig implements ApplicationConfig {
 
     @Override
     public String getApplicationName() {
-        return "linkki Samples :: Application Framework";
+        return NlsText.getString("SampleApplicationConfig.Name");
     }
 
     @Override
     public String getApplicationVersion() {
-        return "Development Version";
+        return NlsText.getString("SampleApplicationConfig.Version");
     }
 
     @Override
     public String getApplicationDescription() {
-        return "linkki is an open source web framework to build great looking business applications in pure Java with minimal effort.";
+        return NlsText.getString("SampleApplicationConfig.Description");
     }
 
     @Override
