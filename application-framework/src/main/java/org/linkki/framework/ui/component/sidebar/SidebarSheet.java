@@ -31,7 +31,7 @@ import com.vaadin.ui.Component;
 /**
  * Wrapper class for a component that is displayed in a {@link SidebarLayout}.
  * <p>
- * This consists of a {@link Component} that is shown in the content area and metadata including an
+ * This consists of a {@link Component} that is shown in the content area and metadata including a
  * {@link Resource button} for the side bar and a tooltip. Additionally, a {@link Handler} must be
  * given that is called when the sheet is added.
  * <p>
@@ -111,7 +111,7 @@ public class SidebarSheet {
      * @param icon The icon for the sidebar button
      * @param name The name of the sidebar sheet that is displayed as tooltip
      * @param contentSupplier The supplier for the content of the sidebar sheet that is displayed if
-     *            this sheed is selected
+     *            this sheet is selected
      * @param uiUpdateObserver An {@link UiUpdateObserver} that is triggered when this sidebar sheet is
      *            selected
      */
