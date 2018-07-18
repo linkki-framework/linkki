@@ -1752,8 +1752,8 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 90%;
 }
 
-.sample .linkki-application-info-dialog .v-label {
-	line-height: 1.4;
+.sample .linkki-application-info-dialog .v-label, .sample .v-Notification-caption {
+	line-height: 1.4 !important;
 }
 
 .sample .v-panel-content-linkki-message-list {

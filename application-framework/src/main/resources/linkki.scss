@@ -200,8 +200,8 @@ $linkki-sidebar-width: 56px !default;
     font-size: 90%;
   }
 
-  .linkki-application-info-dialog .v-label {
-    line-height: 1.4;
+  .linkki-application-info-dialog .v-label, .v-Notification-caption {
+    line-height: 1.4 !important;
   }
   
   /* 
