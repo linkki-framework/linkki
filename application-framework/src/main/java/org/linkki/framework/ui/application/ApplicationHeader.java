@@ -160,8 +160,8 @@ public class ApplicationHeader extends HorizontalLayout {
      * 
      * @see ApplicationInfoPmo for further information about its configuration.
      */
-    protected ApplicationInfoPmo createApplicationInfoPmo(ApplicationConfig config) {
-        return new ApplicationInfoPmo(config);
+    protected ApplicationInfoPmo createApplicationInfoPmo(ApplicationConfig applicationConfig) {
+        return new ApplicationInfoPmo(applicationConfig);
     }
 
     /**

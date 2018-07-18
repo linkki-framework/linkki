@@ -6,13 +6,31 @@
 
 == New & Noteworthy
 
+=== July 18th, 2018
+
+==== HelpMenu
+
+The right `MenuBar` of the `ApplicationHeader` is now equipped with a `HelpMenu` which provides an `ApplicationInfoDialog` by default. It is customizable implementing `ApplicationConfig` and extending `ApplicationHeader` and `ApplicationInfoPmo`.
+
+==== Footer
+
+The `ApplicationFooter` is now defined in `ApplicationConfig` as optional. In order to hide it, override `ApplicationConfig#getFooterDefinition()`.
+
+==== Customized sample application
+
+A custom sample application is implemented with:
+
+* no `StartMenuItemDefinition`,
+* customized `ApplicationInfoDialog`,
+* hidden `ApplicationFooter`,
+* another help `MenuItem`.
+
 === June 27th, 2018
 
 ==== Headline
 
 `Headline` now extends `HorizontalLayout` instead of `CustomComponent`. Hence `Headline#getHeaderLayout()` isn't needed anymore and was dropped. The method `#getPolicyInfoLabel()` was dropped too. If you have overridden this method to modify the shown title, use the new constructor `Headline(label)` instead. The Headline's label is now annotated with `@Bind`, binding the field to a pmo property which's name is accessible at `Headline#HEADER_TITLE`.
 Finally, the method `setHeadline(String)` is deprecated, use `setTitle(String)` instead.
-
 
 === June 14th, 2018
 
@@ -26,7 +44,7 @@ There is a new documentation chapter explaining the <<sidebarlayout,sidebar layo
 
 === June 12th, 2018
 
-==== *linkki* is getting independant from cdi
+==== *linkki* is getting independent of cdi
 
 All dependencies to and usages of CDI have been removed from linkki to better allow *linkki*'s usage in different environments. This refactoring makes some necessary changes:
 
