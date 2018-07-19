@@ -17,10 +17,17 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import org.linkki.core.ui.table.HierarchicalRowPmo;
+
+import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.AbstractInMemoryContainer;
@@ -29,9 +36,12 @@ import com.vaadin.data.util.AbstractInMemoryContainer;
  * An in-memory container which doesn't do any reflection magic. This container simply stores the
  * Objects.
  */
-public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Object, Item> {
+public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Object, Item>
+        implements Container.Hierarchical {
 
     private static final long serialVersionUID = -1708252890035638419L;
+
+    private Map<T, T> parents = new HashMap<>();
 
     @Override
     public Collection<?> getContainerPropertyIds() {
@@ -42,6 +52,7 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
         requireNonNull(items, "items must not be null");
 
         getAllItemIds().clear();
+        parents.clear();
         getAllItemIds().addAll(items);
 
         fireItemSetChange();
@@ -57,6 +68,7 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
     @Override
     public boolean removeAllItems() {
         getAllItemIds().clear();
+        parents.clear();
         return true;
     }
 
@@ -85,6 +97,64 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
     @CheckForNull
     public Class<?> getType(@Nullable Object propertyId) {
         throw new UnsupportedOperationException("getType is not supported");
+    }
+
+    // methods from Hierarchical start here
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Collection<?> getChildren(@SuppressWarnings("null") Object itemId) {
+        List<T> childRows = getHierarchicalItem(itemId)
+                .map(t -> (List<T>)t.getChildRows())
+                .orElseGet(Collections::emptyList);
+        childRows.forEach(child -> parents.put(child, (T)itemId));
+        return childRows;
+    }
+
+    private Optional<HierarchicalRowPmo<?>> getHierarchicalItem(Object itemId) {
+        return Optional.ofNullable(itemId)
+                .filter(HierarchicalRowPmo.class::isInstance)
+                .map(HierarchicalRowPmo.class::cast);
+    }
+
+    @CheckForNull
+    @Override
+    public Object getParent(@SuppressWarnings("null") Object itemId) {
+        return parents.get(itemId);
+    }
+
+    @Override
+    public Collection<?> rootItemIds() {
+        return getItemIds();
+    }
+
+    @Override
+    public boolean areChildrenAllowed(@SuppressWarnings("null") Object itemId) {
+        return hasChildren(itemId);
+    }
+
+    @Override
+    public boolean isRoot(@SuppressWarnings("null") Object itemId) {
+        return containsId(itemId);
+    }
+
+    @Override
+    public boolean hasChildren(@SuppressWarnings("null") Object itemId) {
+        return getHierarchicalItem(itemId)
+                .map(HierarchicalRowPmo::hasChildRows)
+                .orElse(false);
+    }
+
+    @Override
+    public boolean setParent(@SuppressWarnings("null") Object itemId, @Nullable Object newParentId)
+            throws UnsupportedOperationException {
+        return false;
+    }
+
+    @Override
+    public boolean setChildrenAllowed(@SuppressWarnings("null") Object itemId, boolean areChildrenAllowed)
+            throws UnsupportedOperationException {
+        return false;
     }
 
 }

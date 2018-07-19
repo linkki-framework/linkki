@@ -6,6 +6,12 @@
 
 == New & Noteworthy
 
+=== July 23rd, 2018
+
+==== Hierarchical Tables
+
+The tables created for a `ContainerPmo` can now contain hierarchical data that is displayed in a `TreeTable`. See <<ui-hierarchical-table,HierarchicalRowPmo>> for details. 
+
 === July 18th, 2018
 
 ==== HelpMenu
@@ -44,7 +50,7 @@ There is a new documentation chapter explaining the <<sidebarlayout,sidebar layo
 
 === June 12th, 2018
 
-==== *linkki* is getting independent of cdi
+==== *linkki* is getting independent from cdi
 
 All dependencies to and usages of CDI have been removed from linkki to better allow *linkki*'s usage in different environments. This refactoring makes some necessary changes:
 

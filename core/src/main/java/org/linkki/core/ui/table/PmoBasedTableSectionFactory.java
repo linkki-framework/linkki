@@ -48,14 +48,13 @@ public class PmoBasedTableSectionFactory<T> {
     }
 
     /**
-     * Creates a new section showing a table, table structure and content is defined by the
-     * factory's {@link ContainerPmo}.
+     * Creates a new section showing a table, table structure and content is defined by the factory's
+     * {@link ContainerPmo}.
      */
     public TableSection<T> createSection() {
         Table table = createTable();
         Optional<ButtonPmo> addItemPmo = containerPmo.getAddItemButtonPmo();
-        TableSection<T> section = createEmptySection(addItemPmo);
-        section.setTable(table);
+        TableSection<T> section = createTableSection(table, addItemPmo);
         return section;
     }
 
@@ -64,15 +63,13 @@ public class PmoBasedTableSectionFactory<T> {
         return tableFactory.createTable();
     }
 
-    private TableSection<T> createEmptySection(Optional<ButtonPmo> addItemButtonPmo) {
+    private TableSection<T> createTableSection(Table table, Optional<ButtonPmo> addItemButtonPmo) {
         UISection sectionDefinition = UISectionDefinition.from(containerPmo);
 
         String caption = pmoNlsService.getLabel(PmoLabelType.SECTION_CAPTION, containerPmo.getClass(), null,
                                                 sectionDefinition.caption());
 
-        return new TableSection<>(caption,
-                sectionDefinition.closeable(),
-                createAddItemButton(addItemButtonPmo));
+        return new TableSection<>(caption, sectionDefinition.closeable(), createAddItemButton(addItemButtonPmo), table);
     }
 
     private Optional<Button> createAddItemButton(Optional<ButtonPmo> buttonPmo) {

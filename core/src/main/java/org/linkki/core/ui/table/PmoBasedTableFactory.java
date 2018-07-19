@@ -31,6 +31,7 @@ import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
+import com.vaadin.ui.TreeTable;
 
 /**
  * A factory to create a table based on a {@link ContainerPmo}.
@@ -45,6 +46,8 @@ public class PmoBasedTableFactory<T> {
 
     private final BindingContext bindingContext;
 
+    private final Class<? extends T> rowPmoClass;
+
     /**
      * Creates a new factory.
      * 
@@ -54,7 +57,8 @@ public class PmoBasedTableFactory<T> {
     public PmoBasedTableFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
         this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
         this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
-        this.annotationReader = new UIAnnotationReader(containerPmo.getItemPmoClass());
+        this.rowPmoClass = containerPmo.getItemPmoClass();
+        this.annotationReader = new UIAnnotationReader(rowPmoClass);
         pmoNlsService = PmoNlsService.get();
     }
 
@@ -78,7 +82,7 @@ public class PmoBasedTableFactory<T> {
     }
 
     private Table createTableComponent() {
-        Table table = new Table();
+        Table table = getContainerPmo().isHierarchical() ? new TreeTable() : new Table();
         table.addStyleName(ApplicationStyles.TABLE);
         table.setHeightUndefined();
         table.setWidth("100%");
@@ -102,8 +106,8 @@ public class PmoBasedTableFactory<T> {
         String propertyName = elementDesc.getPmoPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
         table.setColumnHeader(propertyName,
-                              pmoNlsService.getLabel(PmoLabelType.PROPERTY_LABEL, containerPmo.getItemPmoClass(),
-                                                     propertyName, elementDesc.getLabelText()));
+                              pmoNlsService.getLabel(PmoLabelType.PROPERTY_LABEL, rowPmoClass, propertyName,
+                                                     elementDesc.getLabelText()));
         setConfiguredColumndWidthOrExpandRatio(table, elementDesc);
     }
 

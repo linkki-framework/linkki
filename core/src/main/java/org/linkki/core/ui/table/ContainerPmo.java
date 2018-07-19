@@ -22,14 +22,22 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.ui.section.annotations.UITableColumn;
 
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TreeTable;
 
 /**
- * A container PMOs that has itself the role of a PMO for table controls (and maybe for other
+ * A container of PMOs that has itself the role of a PMO for table controls (and maybe for other
  * controls displaying a set of objects).
- *
- * @author ortmann
+ * 
+ * @param <T> a PMO class annotated with linkki {@code @UI~} annotations and optionally
+ *            {@link UITableColumn @UITableColumn}. May implement {@link HierarchicalRowPmo} to
+ *            create a hierarchical {@link TreeTable}.
+ * 
+ * @implSpec if you want to create a {@link TreeTable}, either your PMO class must implement
+ *           {@link HierarchicalRowPmo} or you must override {@link #isHierarchical()} to return
+ *           {@code true} and have only the no-leave-nodes implement {@link HierarchicalRowPmo}
  */
 public interface ContainerPmo<T> {
 
@@ -38,8 +46,8 @@ public interface ContainerPmo<T> {
 
     /**
      * Returns the class of the items / rows in the container.
-     * <p>
-     * The default implementation reads the generic type T from the class definition.
+     * 
+     * @implNote The default implementation reads the generic type T from the class definition.
      */
     @SuppressWarnings("unchecked")
     default Class<? extends T> getItemPmoClass() {
@@ -55,17 +63,18 @@ public interface ContainerPmo<T> {
 
     /**
      * Returns the items / rows in the container.
-     * <p>
-     * !!! Important Note !!!
-     * <p>
-     * The container MUST return a list with identical items if the rows to be displayed haven't
-     * changed. This is not given if you create a new list with new item PMOs on each call of the
-     * <code>getItems()</code> method. If you don't adhere to this rule, the contents of the table will
-     * be replaces each time you leave a cell after you have changed a value. This results in poor
-     * performance and the focus gets lost each time you leave a cell (after changing the value).
-     * <p>
-     * If you create the item PMOs based on a list of model objects, the easiest way is to use the
-     * {@link SimpleItemSupplier}.
+     * 
+     * @implSpec !!! Important Note !!!
+     *           <p>
+     *           The container MUST return a list with identical items if the rows to be displayed
+     *           haven't changed. This is not given if you create a new list with new item PMOs on each
+     *           call of the {@link #getItems()} method. If you don't adhere to this rule, the contents
+     *           of the table will be replaces each time you leave a cell after you have changed a
+     *           value. This results in poor performance and the focus gets lost each time you leave a
+     *           cell (after changing the value).
+     *           <p>
+     *           If you create the item PMOs based on a list of model objects, the easiest way is to use
+     *           the {@link SimpleItemSupplier}.
      */
     List<T> getItems();
 
@@ -89,12 +98,26 @@ public interface ContainerPmo<T> {
     /**
      * Returns the current page length.
      * 
-     * Default is 15 to deactivate the paging mechanism. Return 0 to deactivate table paging.
+     * @implNote Default is 15 to activate the paging mechanism.
+     * @implSpec Return 0 to deactivate table paging.
      * 
      * @see Table#setPageLength(int)
      */
     default int getPageLength() {
         return DEFAULT_PAGE_LENGTH;
+    }
+
+    /**
+     * Returns whether the data contained in this container is hierarchical, which results in the
+     * {@link Table} created from this {@link ContainerPmo} being a {@link TreeTable}.
+     * 
+     * @implNote The default implementation checks whether the generic PMO class implements
+     *           {@link HierarchicalRowPmo}.
+     * 
+     * @return whether the data contained in this container is hierarchical
+     */
+    default boolean isHierarchical() {
+        return HierarchicalRowPmo.class.isAssignableFrom(getItemPmoClass());
     }
 
 }

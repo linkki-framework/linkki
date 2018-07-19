@@ -4,7 +4,9 @@
 
 :source-dir-binding: ../../../../../../samples/binding/src/main/java
 :source-dir-dynamic: ../../../../../../samples/dynamic-fields/src/main/java
+:source-dir-treetable: ../../../../../../samples/tree-table/src/main/java
 
+:images-folder-name: 05_ui_components
 
 [[ui-tables]]
 === Tables
@@ -74,6 +76,18 @@ Most commonly, the row PMO objects are converted from a list of model objects. I
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/SimpleContactTablePmo.java[tags=simpleContactTablePmo]
 ----
 
+[[ui-hierarchical-table]]
+==== HierarchicalRowPmo
+
+If your data is hierarchical (a tree-like structure with parent-child-relationships between rows, for example when summarizing values over certain categories), the row PMO for the <<ui-container-pmo,ContainerPmo>> should implement org.linkki.core.ui.table.HierarchicalRowPmo<ROW>; If you do, the resulting table will be a `TreeTable` which allows hiding and showing the child-rows of a row.
+
+image::{images}{images-folder-name}/treetable.png[A hierarchical table,align="center"]
+
+[source, java]
+----
+include::{source-dir-treetable}/org/linkki/samples/treetable/fixed/pmo/PersonRowPmo.java[tags=hierarchical-row-pmo]
+----
+
 [[ui-table-footer]]
 ==== TableFooterPmo
 
@@ -87,4 +101,4 @@ include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarTablePmo.ja
 
 [[button-pmo]]
 ==== ButtonPmo
-Currently the <<ui-container-pmo, `ContainerPmo`>> provides a method `getAddItemButtonPmo()`, by which a plus button can be added besides the name of the table. This part ofthe API is being refactored in the issue LIN-128.
+Currently the <<ui-container-pmo, `ContainerPmo`>> provides a method `getAddItemButtonPmo()`, by which a plus button can be added besides the name of the table. This part of the API is being refactored in the issue LIN-128.

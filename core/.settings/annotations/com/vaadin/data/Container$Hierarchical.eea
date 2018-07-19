@@ -1,0 +1,25 @@
+class com/vaadin/data/Container$Hierarchical
+areChildrenAllowed
+ (Ljava/lang/Object;)Z
+ (L1java/lang/Object;)Z
+getChildren
+ (Ljava/lang/Object;)Ljava/util/Collection<*>;
+ (L1java/lang/Object;)Ljava/util/Collection<*>;
+getParent
+ (Ljava/lang/Object;)Ljava/lang/Object;
+ (L1java/lang/Object;)Ljava/lang/Object;
+hasChildren
+ (Ljava/lang/Object;)Z
+ (L1java/lang/Object;)Z
+isRoot
+ (Ljava/lang/Object;)Z
+ (L1java/lang/Object;)Z
+removeItem
+ (Ljava/lang/Object;)Z
+ (L1java/lang/Object;)Z
+setChildrenAllowed
+ (Ljava/lang/Object;Z)Z
+ (L1java/lang/Object;Z)Z
+setParent
+ (Ljava/lang/Object;Ljava/lang/Object;)Z
+ (L1java/lang/Object;L1java/lang/Object;)Z

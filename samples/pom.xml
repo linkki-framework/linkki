@@ -35,6 +35,7 @@
         <module>messages</module>
         <module>custom-layout</module>
         <module>application-framework</module>
+        <module>tree-table</module>
     </modules>
 
 

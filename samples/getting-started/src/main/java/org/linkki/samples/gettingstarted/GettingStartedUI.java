@@ -35,7 +35,7 @@ public class GettingStartedUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
 
-        Page.getCurrent().setTitle("Linkki :: Getting Started");
+        Page.getCurrent().setTitle("linkki :: Getting Started");
 
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         AbstractSection section = sectionFactory.createSection(new ReportSectionPmo(new Report()),
