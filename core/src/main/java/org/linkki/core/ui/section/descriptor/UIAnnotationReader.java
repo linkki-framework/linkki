@@ -164,14 +164,15 @@ public class UIAnnotationReader {
                 });
     }
 
-    public TableColumnDescriptor getTableColumnDescriptor(PropertyElementDescriptors d) {
-        return columnDescriptors.get(d);
+    public Optional<TableColumnDescriptor> getTableColumnDescriptor(PropertyElementDescriptors d) {
+        return Optional.ofNullable(columnDescriptors.get(d));
     }
 
     /**
      * Reads the given presentation model object's class to find a method annotated with
      * {@link ModelObject @ModelObject} and the annotation's {@link ModelObject#name()} matching the
-     * given model object name. Returns a supplier that supplies a model object by invoking that method.
+     * given model object name. Returns a supplier that supplies a model object by invoking that
+     * method.
      *
      * @param pmo a presentation model object
      * @param modelObjectName the name of the model object as provided by a method annotated with
@@ -179,8 +180,8 @@ public class UIAnnotationReader {
      *
      * @return a supplier that supplies a model object by invoking the annotated method
      *
-     * @throws ModelObjectAnnotationException if no matching method is found or the method has no return
-     *             value
+     * @throws ModelObjectAnnotationException if no matching method is found or the method has no
+     *             return value
      */
     public static Supplier<?> getModelObjectSupplier(Object pmo, String modelObjectName) {
         requireNonNull(pmo, "pmo must not be null");
@@ -219,8 +220,8 @@ public class UIAnnotationReader {
      * @param pmo an object used for a presentation model
      * @param modelObjectName the name of the model object
      *
-     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using the
-     *         given name
+     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using
+     *         the given name
      */
     public static boolean hasModelObjectAnnotatedMethod(Object pmo, @Nullable String modelObjectName) {
         return BeanUtils.getMethod(requireNonNull(pmo, "pmo must not be null").getClass(),

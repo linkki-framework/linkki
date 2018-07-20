@@ -34,13 +34,13 @@ public class TestRowPmo {
         this.parent = parent;
     }
 
-    @UITableColumn(width = 100)
+    @UITableColumn(width = 100, collapsible = true)
     @UITextField(position = 0, label = "1")
     public String getValue1() {
         return "1";
     }
 
-    @UITableColumn(expandRatio = 2.0f)
+    @UITableColumn(expandRatio = 2.0f, collapsible = true, collapsed = true)
     @UITextField(position = 1, label = "2")
     public String getValue2() {
         return "2";

@@ -15,6 +15,8 @@ package org.linkki.core.ui.table;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Optional;
+
 import javax.annotation.Nullable;
 
 import org.linkki.core.binding.BindingContext;
@@ -24,6 +26,7 @@ import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
+import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.descriptor.ElementDescriptor;
 import org.linkki.core.ui.section.descriptor.PropertyElementDescriptors;
 import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
@@ -70,6 +73,10 @@ public class PmoBasedTableFactory<T> {
         TableBinding<T> tableBinding = bindTable(table);
         createColumns(tableBinding);
         tableBinding.init();
+        annotationReader.getUiElements().forEach(e -> {
+            setCollapsible(table, e);
+            setCollapsed(table, e);
+        });
         table.setPageLength(containerPmo.getPageLength());
         return table;
     }
@@ -110,20 +117,40 @@ public class PmoBasedTableFactory<T> {
         table.setColumnHeader(propertyName,
                               pmoNlsService.getLabel(PmoLabelType.PROPERTY_LABEL, rowPmoClass, propertyName,
                                                      elementDesc.getLabelText()));
-        setConfiguredColumndWidthOrExpandRatio(table, elementDesc);
+        setConfiguredColumnWidthOrExpandRatio(table, elementDesc);
     }
 
-    private void setConfiguredColumndWidthOrExpandRatio(Table table, PropertyElementDescriptors field) {
-        if (!annotationReader.hasTableColumnAnnotation(field)) {
-            return;
+    private void setCollapsible(Table table, PropertyElementDescriptors elementDesc) {
+        Optional<TableColumnDescriptor> column = annotationReader.getTableColumnDescriptor(elementDesc);
+        boolean collapsible = column.map(TableColumnDescriptor::isCollapsible)
+                .orElse(UITableColumn.UNDEFINED_COLLAPSIBLE);
+        if (collapsible) {
+            table.setColumnCollapsingAllowed(true);
         }
-        TableColumnDescriptor column = annotationReader.getTableColumnDescriptor(field);
-        column.checkValidConfiguration();
-        if (column.isCustomWidthDefined()) {
-            table.setColumnWidth(field.getPmoPropertyName(), column.getWidth());
-        } else if (column.isCustomExpandRatioDefined()) {
-            table.setColumnExpandRatio(field.getPmoPropertyName(), column.getExpandRatio());
-        }
+        table.setColumnCollapsible(elementDesc.getPmoPropertyName(), collapsible);
+    }
+
+    private void setCollapsed(Table table, PropertyElementDescriptors elementDesc) {
+        Optional<TableColumnDescriptor> column = annotationReader.getTableColumnDescriptor(elementDesc);
+        column.ifPresent(c -> {
+            if (c.isCollapsible()) {
+                table.setColumnCollapsed(elementDesc.getPmoPropertyName(), c.isCollapsed());
+            } else if (c.isCollapsed()) {
+                throw new IllegalStateException("The column cannot be collapsed, because it is not collapsible!");
+            }
+        });
+    }
+
+    private void setConfiguredColumnWidthOrExpandRatio(Table table, PropertyElementDescriptors elementDesc) {
+        Optional<TableColumnDescriptor> column = annotationReader.getTableColumnDescriptor(elementDesc);
+        column.ifPresent(c -> {
+            c.checkValidConfiguration();
+            if (c.isCustomWidthDefined()) {
+                table.setColumnWidth(elementDesc.getPmoPropertyName(), c.getWidth());
+            } else if (c.isCustomExpandRatioDefined()) {
+                table.setColumnExpandRatio(elementDesc.getPmoPropertyName(), c.getExpandRatio());
+            }
+        });
     }
 
     private TableBinding<T> bindTable(Table table) {

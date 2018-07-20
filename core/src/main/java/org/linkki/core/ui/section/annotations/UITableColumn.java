@@ -23,11 +23,12 @@ import com.vaadin.ui.Table;
 /**
  * Annotation that allows to customize the column for a PMO's field/method that is rendered in a
  * table column.
- * <p>
- * Note that this annotation is <em>not</em> required for a field/method to be rendered in a column.
- * All fields/methods with one of the {@code @UI...} annotations ({@link UITextField @UITextField},
- * {@link UICheckBox @UICheckBox} etc.) are rendered automatically. This annotation allows optional
- * customization and can be omitted if no customization is needed.
+ * 
+ * @implNote This annotation is <em>not</em> required for a field/method to be rendered in a column.
+ *           All fields/methods with one of the {@code @UI...} annotations
+ *           ({@link UITextField @UITextField}, {@link UICheckBox @UICheckBox} etc.) are rendered
+ *           automatically. This annotation allows optional customization and can be omitted if no
+ *           customization is needed.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -35,25 +36,47 @@ public @interface UITableColumn {
 
     static final int UNDEFINED_WIDTH = -1;
     static final float UNDEFINED_EXPAND_RATIO = -1.0f;
+    static final boolean UNDEFINED_COLLAPSIBLE = false;
+    static final boolean UNDEFINED_COLLAPSED = false;
 
     /**
-     * Configures the width in pixels for the column. The default value of -1 means that the column can
-     * be sized freely by the layout.
-     * <p>
-     * This attribute is mutually exclusive with {@link #expandRatio()}.
+     * Configures the width in pixels for the column.
+     * 
+     * @implSpec The default value of -1 means that the column can be sized freely by the layout.
+     * 
+     * @implNote This attribute is mutually exclusive with {@link #expandRatio()}.
      * 
      * @see Table#setColumnWidth(Object, int)
      */
     int width() default UNDEFINED_WIDTH;
 
     /**
-     * Configures the expand ratio for the column. The expand ratio defines what part of excess
-     * available space the layout allots to this column.
-     * <p>
-     * This attribute is mutually exclusive with {@link #width()}.
+     * Configures the expand ratio for the column.
+     * 
+     * @implSpec The expand ratio defines what part of excess available space the layout allots to
+     *           this column.
+     * 
+     * @implNote This attribute is mutually exclusive with {@link #width()}.
      * 
      * @see Table#setColumnExpandRatio(Object, float)
      */
     float expandRatio() default UNDEFINED_EXPAND_RATIO;
+
+    /**
+     * Configures if a column is collapsible.
+     * 
+     * @implSpec Table columns are by default not collapsible.
+     */
+    boolean collapsible() default UNDEFINED_COLLAPSIBLE;
+
+    /**
+     * Configures if a column is collapsed.
+     * 
+     * @implSpec Table columns are by default not collapsed.
+     * 
+     * @implNote In order for a column to be set as collapsed, it has to be also explicitly set as
+     *           collapsible.
+     */
+    boolean collapsed() default UNDEFINED_COLLAPSED;
 
 }

@@ -27,19 +27,19 @@ public abstract class AbstractPersonRowPmo {
     @UILabel(position = 50, label = "Last Name")
     public abstract String getLastName();
 
-    @UITableColumn(expandRatio = 0.075F)
+    @UITableColumn(expandRatio = 0.075F, collapsible = true)
     @UILabel(position = 60, label = "First Name")
     public abstract String getFirstName();
 
-    @UITableColumn(expandRatio = 0.1F)
+    @UITableColumn(expandRatio = 0.1F, collapsible = true)
     @UILabel(position = 70, label = "Company")
     public abstract String getCompany();
 
-    @UITableColumn(expandRatio = 0.075F)
+    @UITableColumn(expandRatio = 0.075F, collapsible = true)
     @UILabel(position = 80, label = "Phone")
     public abstract String getPhone1();
 
-    @UITableColumn(expandRatio = 0.075F)
+    @UITableColumn(expandRatio = 0.075F, collapsible = true, collapsed = true)
     @UILabel(position = 90, label = "2nd Phone")
     public abstract String getPhone2();
 
@@ -47,7 +47,7 @@ public abstract class AbstractPersonRowPmo {
     @UILabel(position = 100, label = "Email")
     public abstract String getEmail();
 
-    @UITableColumn(expandRatio = 0.2F)
+    @UITableColumn(expandRatio = 0.2F, collapsible = true)
     @UILabel(position = 110, label = "Website")
     public abstract String getWeb();
 

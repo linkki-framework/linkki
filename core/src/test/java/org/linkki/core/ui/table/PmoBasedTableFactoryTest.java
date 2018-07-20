@@ -55,6 +55,22 @@ public class PmoBasedTableFactoryTest {
     }
 
     @Test
+    public void testCreateTable_CollapsibleAndCollapsedIsReadFromAnnotation() {
+        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(new TestTablePmo(), ctx);
+        Table table = factory.createTable();
+        assertThat(table, is(notNullValue()));
+
+        assertThat(table.isColumnCollapsible("value1"), is(true));
+        assertThat(table.isColumnCollapsed("value1"), is(UITableColumn.UNDEFINED_COLLAPSED));
+
+        assertThat(table.isColumnCollapsible("value2"), is(true));
+        assertThat(table.isColumnCollapsed("value2"), is(true));
+
+        assertThat(table.isColumnCollapsible("value3"), is(UITableColumn.UNDEFINED_COLLAPSIBLE));
+        assertThat(table.isColumnCollapsed("value3"), is(UITableColumn.UNDEFINED_COLLAPSED));
+    }
+
+    @Test
     public void testCreateTable_InitialPageLengthIsSetOnTable() {
         TestTablePmo containerPmo = new TestTablePmo();
         PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx);

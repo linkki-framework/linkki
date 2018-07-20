@@ -25,6 +25,10 @@ While implementing the hierarchical tables, we refactored the `BindingContext` a
 
 The `LinkkiInMemoryContainer` now implements `Container.Hierarchical` to support hierarchical data, and it no longer wraps its items in a `LinkkiItemWrapper`. It's methods `removeAllItems` and `addAllItems` that previously were always used in unison have been deprecated and replaced by a single `setItems`-Method. 
 
+==== Collapsible Table Columns
+
+Table columns can now be set as collapsible and collapsed, using the new corresponding properties in the `UITableColumn` annotation.
+
 === July 18th, 2018
 
 ==== HelpMenu
