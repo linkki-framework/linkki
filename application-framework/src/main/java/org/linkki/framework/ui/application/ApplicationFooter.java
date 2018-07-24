@@ -19,8 +19,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
 /**
- * The footer of the application displaying information about the application, version and
- * copyright.
+ * The application footer displaying information about the application version and copyright.
  */
 public class ApplicationFooter extends HorizontalLayout {
 
@@ -41,7 +40,7 @@ public class ApplicationFooter extends HorizontalLayout {
     /**
      * Returns the text for the footer. May be overwritten by subclasses.
      * 
-     * @param applicationConfig The current application configuration
+     * @param applicationConfig the current application configuration
      * @return The text that is displayed in the footer.
      */
     protected String buildText(ApplicationConfig applicationConfig) {

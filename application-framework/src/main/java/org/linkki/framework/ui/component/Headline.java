@@ -17,24 +17,24 @@ import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * A component that renders a header with a title.
- * <p>
- * The {@link Headline}'s title can be bound to a pmoProperty {@link #HEADER_TITLE}:
- * <p>
- * The PMO must provide the corresponding getter method:
  * 
- * <pre>
- * public String getHeaderTitle() {
- *     return "Any Title";
- * }
- * </pre>
+ * @implNote The {@link Headline}'s title can be bound to a pmoProperty {@link #HEADER_TITLE}:
+ *           <p>
+ *           The PMO must provide the corresponding getter method:
  * 
- * To bind the PMO with the Headline use:
+ *           <pre>
+ *           public String getHeaderTitle() {
+ *               return "Any Title";
+ *           }
+ *           </pre>
  * 
- * <pre>
- * new Binder(headline, new HeadlinePmo()).setupBindings(getBindingContext());
- * </pre>
- * <p>
- * This class is intended to be subclassed to add additional components.
+ *           To bind the PMO with the Headline use:
+ * 
+ *           <pre>
+ *           new Binder(headline, new HeadlinePmo()).setupBindings(getBindingContext());
+ *           </pre>
+ *           <p>
+ *           This class is intended to be subclassed to add additional components.
  */
 public class Headline extends HorizontalLayout {
 
@@ -73,7 +73,9 @@ public class Headline extends HorizontalLayout {
     }
 
     /**
-     * Initializes the layout. Override this method to add additional components to the headline.
+     * Initializes the layout.
+     * 
+     * @implNote Override this method to add additional components to the headline.
      */
     protected void initHeaderLayout() {
         addStyleName(LinkkiStyles.HEADLINE);

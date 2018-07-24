@@ -21,7 +21,6 @@ import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 
-// tag::application-sample-ui[]
 @Theme(value = "sample")
 @PreserveOnRefresh
 public class CustomApplicationUI extends LinkkiUi {
@@ -39,4 +38,3 @@ public class CustomApplicationUI extends LinkkiUi {
     }
 
 }
-// end::application-sample-ui[]

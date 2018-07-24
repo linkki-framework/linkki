@@ -27,7 +27,7 @@ import com.vaadin.ui.VerticalLayout;
 /**
  * A dialog to present application information to the user.
  * 
- * @implSpec Extend {@link ApplicationInfoPmo} and override
+ * @implNote Extend {@link ApplicationInfoPmo} and override
  *           {@link ApplicationHeader#createApplicationInfoPmo(ApplicationConfig applicationConfig)}
  *           to customize the dialog.
  */

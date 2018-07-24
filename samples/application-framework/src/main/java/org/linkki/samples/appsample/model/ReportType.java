@@ -25,7 +25,7 @@ public enum ReportType {
     /**
      * This method is called from linkki to display a caption for the enum value.
      * 
-     * @return the representation for the enum value
+     * @return the representation for the enum value.
      */
     // tag::report-type[]
     public String getName() {

@@ -46,7 +46,7 @@ public class SampleApplicationConfig implements ApplicationConfig {
 
     @Override
     public String getCopyright() {
-        return "Copyright © 2017 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH";
+        return "Copyright © 2015 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; //$NON-NLS-1$
     }
 
     @Override

@@ -61,13 +61,13 @@ public class ApplicationNavigator extends Navigator {
     /**
      * Attempts to show a view of the given name.
      * <p>
-     * Note that navigation to a view might not be performed if there is a
-     * {@link com.vaadin.navigator.ViewChangeListener ViewChangeListener} that prohibits the navigation.
-     * Thus there is no guarantee that a view of the given name is displayed after this method returns.
+     * Navigation to a view might not be performed if there is a
+     * {@link com.vaadin.navigator.ViewChangeListener ViewChangeListener} that prohibits the
+     * navigation. Thus there is no guarantee that a view of the given name is displayed after this
+     * method returns.
      * 
-     * @param newViewName The name of the view, may be derived from view class using an convention
+     * @param newViewName the name of the view, may be derived from view class using a convention
      *            utility
-     * 
      */
     public <T extends View> void showView(String newViewName) {
         showView(newViewName, StringUtils.EMPTY);
@@ -77,9 +77,10 @@ public class ApplicationNavigator extends Navigator {
      * Attempts to show a view of the given class, appending pathAndParameters to the URL to provide
      * information to the called view.
      * <p>
-     * Note that navigation to a view might not be performed if there is a
-     * {@link com.vaadin.navigator.ViewChangeListener ViewChangeListener} that prohibits the navigation.
-     * Thus there is no guarantee that a view of the given class is displayed after this method returns.
+     * Navigation to a view might not be performed if there is a
+     * {@link com.vaadin.navigator.ViewChangeListener ViewChangeListener} that prohibits the
+     * navigation. Thus there is no guarantee that a view of the given class is displayed after this
+     * method returns.
      * <p>
      * If you use any extension framework like vaadin-cdi or vaadin-spring there might be a helpful
      * convention class to get the view name from your view class, for example:
@@ -88,10 +89,11 @@ public class ApplicationNavigator extends Navigator {
      * Conventions.deriveMappingForView(viewClass)
      * </pre>
      * 
-     * @param newViewName The name of the view, may be derived from the view class using a convention
-     *            utility
-     * @param pathAndParameters a string containing a URL-like path as well as URL parameters. Must not
-     *            start with &quot;/&quot;. Example: &quot;part1/part2/arg1=23&amp;arg2=42&quot;.
+     * @param newViewName the name of the view, may be derived from the view class using a
+     *            convention utility
+     * @param pathAndParameters A string containing a URL-like path as well as URL parameters. Must
+     *            not start with &quot;/&quot;. Example:
+     *            &quot;part1/part2/arg1=23&amp;arg2=42&quot;.
      */
     public <T extends View> void showView(String newViewName, String pathAndParameters) {
         String newFragment = newViewName + "/" + pathAndParameters;

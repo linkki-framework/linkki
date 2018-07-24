@@ -76,8 +76,8 @@ public class SidebarSheet {
      * @param icon The icon for the sidebar button
      * @param name The name of the sidebar sheet that is displayed as tooltip
      * @param content The content of the sidebar sheet that is displayed if this sheed is selected
-     * @param uiUpdateObserver An {@link UiUpdateObserver} that is triggered when this sidebar sheet is
-     *            selected
+     * @param uiUpdateObserver An {@link UiUpdateObserver} that is triggered when this sidebar sheet
+     *            is selected
      */
     public SidebarSheet(Resource icon, String name, Component content, UiUpdateObserver uiUpdateObserver) {
         this(icon, name, () -> content, uiUpdateObserver);
@@ -86,10 +86,9 @@ public class SidebarSheet {
     /**
      * Simply creates a {@link SidebarSheet} with the given icon, name and content. The name will be
      * displayed as tooltip information.
-     * <p>
-     * The content is provided by a {@link Supplier} that is called when the sheet is selected for the
-     * first time.
      * 
+     * @implNote The content is provided by a {@link Supplier} that is called when the sheet is
+     *           selected for the first time.
      * 
      * @param icon The icon for the sidebar button
      * @param name The name of the sidebar sheet that is displayed as tooltip
@@ -103,17 +102,16 @@ public class SidebarSheet {
     /**
      * Simply creates a {@link SidebarSheet} with the given icon, name and content. The name will be
      * displayed as tooltip information.
-     * <p>
-     * The content is provided by a {@link Supplier} that is called when the sheet is selected for the
-     * first time.
      * 
+     * @implNote The content is provided by a {@link Supplier} that is called when the sheet is
+     *           selected for the first time.
      * 
      * @param icon The icon for the sidebar button
      * @param name The name of the sidebar sheet that is displayed as tooltip
      * @param contentSupplier The supplier for the content of the sidebar sheet that is displayed if
      *            this sheet is selected
-     * @param uiUpdateObserver An {@link UiUpdateObserver} that is triggered when this sidebar sheet is
-     *            selected
+     * @param uiUpdateObserver An {@link UiUpdateObserver} that is triggered when this sidebar sheet
+     *            is selected
      */
     public SidebarSheet(Resource icon, String name, Supplier<Component> contentSupplier,
             UiUpdateObserver uiUpdateObserver) {
@@ -139,7 +137,7 @@ public class SidebarSheet {
     }
 
     /**
-     * Should only be called by {@link SidebarLayout}
+     * Should only be called by {@link SidebarLayout}.
      */
     protected void select() {
         getContent().setVisible(true);
@@ -148,7 +146,7 @@ public class SidebarSheet {
     }
 
     /**
-     * Should only be called by {@link SidebarLayout}
+     * Should only be called by {@link SidebarLayout}.
      */
     protected void unselect() {
         getButton().removeStyleName(LinkkiStyles.SIDEBAR_SELECTED);

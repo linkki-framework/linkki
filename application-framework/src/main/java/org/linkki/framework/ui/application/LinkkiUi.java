@@ -29,8 +29,8 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 /**
- * A base {@link UI} implementation for linkki used to configure the application. Subclass should
- * provide the {@link ApplicationConfig} in constructor
+ * A base {@link UI} implementation for linkki used to configure the application. Subclasses should
+ * provide the {@link ApplicationConfig} in their constructor.
  */
 public class LinkkiUi extends UI {
 
@@ -90,13 +90,13 @@ public class LinkkiUi extends UI {
 
     /**
      * Add a view to the configured navigator.
-     * <p>
-     * This method must be called after the navigator is configured either by
-     * {@link #LinkkiUi(ApplicationConfig)} constructor or by calling
-     * {@link #configure(ApplicationConfig)}.
      * 
-     * @param viewName The name of the view that represents the view in the URL
-     * @param viewClass The type of the {@link View}, will be instantiated by default constructor
+     * @implNote This method must be called after the navigator is configured either by
+     *           {@link #LinkkiUi(ApplicationConfig)} constructor or by calling
+     *           {@link #configure(ApplicationConfig)}.
+     * 
+     * @param viewName the name of the view that represents the view in the URL
+     * @param viewClass the type of the {@link View}, will be instantiated by default constructor
      * 
      * @see Navigator#addView(String, View)
      */
@@ -106,12 +106,12 @@ public class LinkkiUi extends UI {
 
     /**
      * Add a view provider to the configured navigator.
-     * <p>
-     * This method must be called after the navigator is configured either by
-     * {@link #LinkkiUi(ApplicationConfig)} constructor or by calling
-     * {@link #configure(ApplicationConfig)}.
      * 
-     * @param provider The view provider that should be configured
+     * @implNote This method must be called after the navigator is configured either by
+     *           {@link #LinkkiUi(ApplicationConfig)} constructor or by calling
+     *           {@link #configure(ApplicationConfig)}.
+     * 
+     * @param provider the view provider that should be configured
      * 
      * @see Navigator#addProvider(ViewProvider)
      */
@@ -120,9 +120,9 @@ public class LinkkiUi extends UI {
     }
 
     /**
-     * The page title for @see {@link Page#setTitle(String)}
+     * The page title for @see {@link Page#setTitle(String)}.
      * 
-     * @return The page title that should be displayed on top of the page
+     * @return The page title that should be displayed on top of the page.
      */
     protected String getPageTitle() {
         return applicationConfig.getApplicationName();
@@ -143,7 +143,7 @@ public class LinkkiUi extends UI {
     }
 
     /**
-     * Returns the currently active {@link LinkkiUi}
+     * Returns the currently active {@link LinkkiUi}.
      * 
      * @return {@link UI#getCurrent()}
      */
@@ -154,7 +154,7 @@ public class LinkkiUi extends UI {
     /**
      * Returns the application's configuration of the current UI.
      * 
-     * @return the application configuration of {@link #getCurrent()}
+     * @return the application configuration of {@link #getCurrent()}.
      */
     public static ApplicationConfig getCurrentApplicationConfig() {
         return getCurrent().getApplicationConfig();
@@ -163,16 +163,16 @@ public class LinkkiUi extends UI {
     /**
      * Returns the navigator of the current UI.
      * 
-     * @return Navigator of {@link #getCurrent()}
+     * @return Navigator of {@link #getCurrent()}.
      */
     public static ApplicationNavigator getCurrentApplicationNavigator() {
         return getCurrent().getNavigator();
     }
 
     /**
-     * Returns the navigator of the current {@link ApplicationLayout}
+     * Returns the navigator of the current {@link ApplicationLayout}.
      * 
-     * @return The application layout of {@link #getCurrent()}
+     * @return The application layout of {@link #getCurrent()}.
      */
     public static ApplicationLayout getCurrentApplicationLayout() {
         return getCurrent().getApplicationLayout();

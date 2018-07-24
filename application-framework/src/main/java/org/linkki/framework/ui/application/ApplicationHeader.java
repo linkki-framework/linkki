@@ -32,10 +32,10 @@ import com.vaadin.ui.themes.ValoTheme;
  * A navigation header bar that is displayed on the top of an {@link ApplicationLayout}. By default,
  * it consists of the {@link ApplicationMenu} on the left as well as a right aligned
  * {@link MenuBar}.
- * <p>
- * {@link ApplicationHeader} can be styled with the CSS class
- * {@link LinkkiStyles#APPLICATION_HEADER}. The right aligned {@link MenuBar} uses the style name
- * {@link LinkkiStyles#APPLICATION_HEADER_RIGHT} additionally.
+ * 
+ * @implSpec {@link ApplicationHeader} can be styled with the CSS class
+ *           {@link LinkkiStyles#APPLICATION_HEADER}. The right aligned {@link MenuBar} uses the
+ *           style name {@link LinkkiStyles#APPLICATION_HEADER_RIGHT} additionally.
  * 
  * @implNote The methods {@link #createRightMenuBar()}, {@link #addHelpMenu(MenuBar)} and
  *           {@link #addHelpMenuItems(MenuItem)} can be used to create an
@@ -62,9 +62,10 @@ public class ApplicationHeader extends HorizontalLayout {
     /**
      * Initialize UI components.
      * 
-     * @implSpec Avoid overriding this method if possible. By default, this method assumes that the
+     * @implNote Avoid overriding this method if possible. By default, this method assumes that the
      *           header consists of a left floating and a right floating group of UI components.
-     *           These elements are added by {@link #addLeftComponents()} and
+     * 
+     * @implSpec These elements are added by {@link #addLeftComponents()} and
      *           {@link #addRightComponents()} respectively.
      */
     protected void init() {
@@ -76,7 +77,7 @@ public class ApplicationHeader extends HorizontalLayout {
      * Adds navigation elements on the left of the header. Adds the {@link ApplicationMenu} by
      * default.
      * 
-     * @implSpec Only override this method if you do not need the {@link ApplicationMenu} or need to
+     * @implNote Only override this method if you do not need the {@link ApplicationMenu} or need to
      *           add elements other than {@link ApplicationMenu}. The {@link ApplicationMenu} itself
      *           is passed to this {@link ApplicationHeader}'s constructor.
      * 
@@ -90,7 +91,7 @@ public class ApplicationHeader extends HorizontalLayout {
      * Adds right aligned navigation elements in the header. Adds a {@link MenuBar} and calls
      * {@link #createRightMenuBar()} to add items by default.
      * 
-     * @implSpec Override {@link #createRightMenuBar()} to add elements to the {@link MenuBar}.
+     * @implNote Override {@link #createRightMenuBar()} to add elements to the {@link MenuBar}.
      */
     protected void addRightComponents() {
         MenuBar rightMenuBar = createRightMenuBar();
@@ -102,7 +103,7 @@ public class ApplicationHeader extends HorizontalLayout {
      * Creates a right aligned {@link MenuBar} that is added to the {@link ApplicationHeader} by
      * {@link #addRightComponents()}.
      * 
-     * @implNote The created {@link MenuBar} contains a {@link #addHelpMenu(MenuBar) help menu item}
+     * @implSpec The created {@link MenuBar} contains a {@link #addHelpMenu(MenuBar) help menu item}
      *           by default.
      */
     protected MenuBar createRightMenuBar() {
@@ -121,7 +122,7 @@ public class ApplicationHeader extends HorizontalLayout {
     /**
      * Creates a help menu item in the given parent.
      * 
-     * @implSpec Override {@link #addHelpMenuItems(MenuItem)} to add sub menu items to the created
+     * @implNote Override {@link #addHelpMenuItems(MenuItem)} to add sub menu items to the created
      *           {@link #addHelpMenu(MenuBar) help menu item}.
      */
     protected MenuItem addHelpMenu(MenuBar parent) {
@@ -135,7 +136,7 @@ public class ApplicationHeader extends HorizontalLayout {
      * {@link #addApplicationInfoMenuItem(MenuItem)} to the given <code>helpMenu</code> that is
      * created in {@link #addHelpMenu(MenuBar)}.
      * 
-     * @implSpec Override to add more sub menu items.
+     * @implNote Override to add more sub menu items.
      *           <p>
      *           Extend {@link ApplicationInfoPmo} and override
      *           {@link #createApplicationInfoPmo(ApplicationConfig)} to customize the created
@@ -167,7 +168,7 @@ public class ApplicationHeader extends HorizontalLayout {
     /**
      * Creates a user menu item in the given parent.
      * 
-     * @implSpec Override {@link #addUserMenuItems(MenuItem)} to add sub menu items to the created
+     * @implNote Override {@link #addUserMenuItems(MenuItem)} to add sub menu items to the created
      *           user menu.
      */
     protected MenuItem addUserMenu(String username, MenuBar parent) {

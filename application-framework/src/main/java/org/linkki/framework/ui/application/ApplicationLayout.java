@@ -71,7 +71,7 @@ public class ApplicationLayout extends VerticalLayout implements ViewDisplay {
     }
 
     /**
-     * Returns the view that is currently displayed if there is any.
+     * Returns the view that is currently displayed, if there is any.
      */
     protected <T extends View & Component> T getCurrentView() {
         @SuppressWarnings("unchecked")

@@ -27,14 +27,15 @@ import com.vaadin.ui.CssLayout;
 
 /**
  * Component consisting of a sidebar and a content area.
- * <p>
- * Elements must be added with one of the {@code addSheets} methods or
- * {@link #addSheet(SidebarSheet)} method. The first added sheet is selected by default, but another
- * can be chosen via {@link #select(SidebarSheet)}.
- * <p>
- * The {@link SidebarLayout} can be styled with the {@link LinkkiStyles#SIDEBAR_LAYOUT},
- * {@link LinkkiStyles#SIDEBAR} and {@link LinkkiStyles#SIDEBAR_CONTENT} style classes. Selected
- * buttons in the sidebar are additionally styled with {@link LinkkiStyles#SIDEBAR_SELECTED}.
+ * 
+ * @implSpec Elements must be added with one of the {@code addSheets} methods or
+ *           {@link #addSheet(SidebarSheet)} method. The first added sheet is selected by default,
+ *           but another can be chosen via {@link #select(SidebarSheet)}.
+ *           <p>
+ *           The {@link SidebarLayout} can be styled with the {@link LinkkiStyles#SIDEBAR_LAYOUT},
+ *           {@link LinkkiStyles#SIDEBAR} and {@link LinkkiStyles#SIDEBAR_CONTENT} style classes.
+ *           Selected buttons in the sidebar are additionally styled with
+ *           {@link LinkkiStyles#SIDEBAR_SELECTED}.
  */
 public class SidebarLayout extends CssLayout {
 
@@ -89,7 +90,7 @@ public class SidebarLayout extends CssLayout {
     /**
      * Selects the given sheet.
      * 
-     * @param sheet a sheet contained in this layout
+     * @param sheet A sheet contained in this layout
      */
     public void select(SidebarSheet sheet) {
         if (!sidebarSheets.contains(sheet)) {
@@ -113,10 +114,10 @@ public class SidebarLayout extends CssLayout {
     }
 
     /**
-     * Returns the selected {@link SidebarSheet}. If the {@link SidebarLayout} is instantiated with any
-     * sheets there must always be a selected one.
+     * Returns the selected {@link SidebarSheet}. If the {@link SidebarLayout} is instantiated with
+     * any sheets there must always be a selected one.
      * 
-     * @return The selected {@link SidebarSheet}
+     * @return The selected {@link SidebarSheet}.
      * 
      * @throws NoSuchElementException if there is no {@link SidebarSheet} at all.
      */
@@ -134,14 +135,14 @@ public class SidebarLayout extends CssLayout {
     }
 
     /**
-     * For testing purposes only
+     * For testing purposes only.
      */
     /* private */ CssLayout getContentArea() {
         return contentArea;
     }
 
     /**
-     * For testing purposes only
+     * For testing purposes only.
      */
     /* private */ CssLayout getSidebar() {
         return sidebar;

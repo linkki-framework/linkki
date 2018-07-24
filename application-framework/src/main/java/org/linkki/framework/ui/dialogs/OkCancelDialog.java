@@ -47,21 +47,24 @@ import com.vaadin.ui.themes.ValoTheme;
 /**
  * A modal dialog with a header/title, an OK button and an optional cancel button at the bottom. To
  * add a component as dialog content use {@link #addContent(Component)}.
- * <p>
- * To create a dialog with fixed dimensions, use the method {@link #setSize(String, String)}. This
- * is useful if:
- * <ul>
- * <li>there are different options that may change the layout</li>
- * <li>you do not want that the dialog dynamically increase height for validation messages</li>
- * </ul>
- * For more information on sizing and layout behavior see {@link #setSize(String, String)}.
- * <p>
- * To validate the data in the dialog or give the user warning or information messages, set a
- * validation service via ({@link #setValidationService(ValidationService)}). The first message with
- * the highest {@link com.vaadin.server.ErrorMessage.ErrorLevel ErrorLevel} reported during the
- * validation via the {@link ValidationService#getValidationMessages()} is displayed at the bottom
- * of the dialog, between its content and the OK and cancel buttons. (see
- * {@link MessageList#getFirstMessage(ErrorMessage.ErrorLevel)})
+ * 
+ * @implNote To create a dialog with fixed dimensions, use the method
+ *           {@link #setSize(String, String)}. This is useful if:
+ *           <ul>
+ *           <li>there are different options that may change the layout</li>
+ *           <li>you do not want that the dialog dynamically increase height for validation
+ *           messages</li>
+ *           </ul>
+ *           For more information on sizing and layout behavior see
+ *           {@link #setSize(String, String)}.
+ *           <p>
+ *           To validate the data in the dialog or give the user warning or information messages,
+ *           set a validation service via ({@link #setValidationService(ValidationService)}). The
+ *           first message with the highest {@link com.vaadin.server.ErrorMessage.ErrorLevel
+ *           ErrorLevel} reported during the validation via the
+ *           {@link ValidationService#getValidationMessages()} is displayed at the bottom of the
+ *           dialog, between its content and the OK and cancel buttons. (see
+ *           {@link MessageList#getFirstMessage(ErrorMessage.ErrorLevel)})
  */
 public class OkCancelDialog extends Window {
 
@@ -116,8 +119,8 @@ public class OkCancelDialog extends Window {
     /**
      * Creates a new dialog with the given caption that displays both the OK and Cancel button.
      * 
-     * @param caption the dialog's caption
-     * @param okHandler okHandler the handler that handles clicks on the OK button
+     * @param caption The dialog's caption
+     * @param okHandler The handler that handles clicks on the OK button
      */
     public OkCancelDialog(String caption, Handler okHandler) {
         this(caption, okHandler, ButtonOption.OK_CANCEL);
@@ -126,9 +129,9 @@ public class OkCancelDialog extends Window {
     /**
      * Creates a new dialog with the given caption.
      * 
-     * @param caption the dialog's caption
-     * @param okHandler the handler that handles clicks on the OK button
-     * @param buttonOption whether to show both buttons (OK and Cancel) or only the OK button
+     * @param caption The dialog's caption
+     * @param okHandler The handler that handles clicks on the OK button
+     * @param buttonOption Whether to show both buttons (OK and Cancel) or only the OK button
      */
     public OkCancelDialog(String caption, Handler okHandler, ButtonOption buttonOption) {
         this(caption, null, okHandler, buttonOption);
@@ -303,10 +306,11 @@ public class OkCancelDialog extends Window {
      * Retrieves the message list from the validation service and filters it according to its
      * {@link #getValidationDisplayState()}. The filtered messages are returned. If needed, a
      * message from the list is displayed and the OK button is disabled.
-     * <p>
-     * A previously displayed message is removed if the message list does not contain any messages.
-     * If the message list contains a message, the first message with the highest errorLevel is
-     * displayed. If the message list contains an error message the OK button is disabled.
+     * 
+     * @implSpec A previously displayed message is removed if the message list does not contain any
+     *           messages. If the message list contains a message, the first message with the
+     *           highest errorLevel is displayed. If the message list contains an error message the
+     *           OK button is disabled.
      */
     public MessageList validate() {
         MessageList messages = validationDisplayState.filter(getValidationService().getValidationMessages());

@@ -48,7 +48,7 @@ public class PmoBasedDialogFactory {
     /**
      * Creates a new dialog factory with no special property behavior.
      * 
-     * @param validationService A service validating the data in the dialog.
+     * @param validationService a service validating the data in the dialog
      */
     public PmoBasedDialogFactory(ValidationService validationService) {
         this(validationService, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
@@ -57,9 +57,9 @@ public class PmoBasedDialogFactory {
     /**
      * Creates a new dialog factory.
      * 
-     * @param validationService A service validating the data in the dialog.
-     * @param propertyBehaviorProvider A provider providing special property behavior like read-only
-     *            modus if an objects can't be edited.
+     * @param validationService a service validating the data in the dialog
+     * @param propertyBehaviorProvider a provider providing special property behavior like read-only
+     *            modus if an objects can't be edited
      */
     public PmoBasedDialogFactory(ValidationService validationService,
             PropertyBehaviorProvider propertyBehaviorProvider) {
@@ -74,9 +74,9 @@ public class PmoBasedDialogFactory {
      * 
      * @deprecated use {@link #newOkCancelDialog(String, Handler, Object...)} instead.
      * 
-     * @param title The dialog title.
-     * @param pmo The presentation model object providing the data and the layout information.
-     * @param okHandler The called when OK is clicked.
+     * @param title the dialog title
+     * @param pmo the presentation model object providing the data and the layout information
+     * @param okHandler the called when OK is clicked
      * @return A dialog with the content defined by the given PMO.
      */
     @Deprecated
@@ -87,9 +87,9 @@ public class PmoBasedDialogFactory {
     /**
      * Creates a new {@link OkCancelDialog}.
      * 
-     * @param title The dialog title.
-     * @param okHandler The called when OK is clicked.
-     * @param pmos The presentation model objects providing the data and the layout information.
+     * @param title the dialog title
+     * @param okHandler the called when OK is clicked
+     * @param pmos the presentation model objects providing the data and the layout information
      * @return A dialog with the content defined by the given PMO.
      */
     public OkCancelDialog newOkCancelDialog(String title, Handler okHandler, Object... pmos) {
@@ -119,9 +119,9 @@ public class PmoBasedDialogFactory {
     /**
      * Creates a new {@link OkCancelDialog} and opens it.
      * 
-     * @param title The dialog title.
-     * @param pmo The presentation model object providing the data and the layout information.
-     * @param okHandler The called when OK is clicked.
+     * @param title the dialog title
+     * @param pmo the presentation model object providing the data and the layout information
+     * @param okHandler the called when OK is clicked
      * @return A dialog with the content defined by the given PMO.
      */
     public OkCancelDialog openOkCancelDialog(String title, Object pmo, Handler okHandler) {

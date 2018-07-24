@@ -30,9 +30,9 @@ public class ConfirmationDialog extends OkCancelDialog {
     /**
      * Creates a new dialog.
      * 
-     * @param caption The caption.
-     * @param content A component containing the question to ask.
-     * @param okHandler A function that is executed when the OK button was pressed.
+     * @param caption the caption
+     * @param content a component containing the question to ask
+     * @param okHandler a function that is executed when the OK button was pressed
      */
     public ConfirmationDialog(String caption, Component content, Handler okHandler) {
         super(caption, content, okHandler, ButtonOption.OK_ONLY);
@@ -51,8 +51,8 @@ public class ConfirmationDialog extends OkCancelDialog {
     /**
      * Opens the dialog.
      * 
-     * @param caption The caption.
-     * @param infoText The information text for the user.
+     * @param caption the caption
+     * @param infoText the information text for the user
      */
     public static ConfirmationDialog open(String caption, String infoText) {
         return open(caption, infoText, Handler.NOP_HANDLER);
@@ -61,9 +61,9 @@ public class ConfirmationDialog extends OkCancelDialog {
     /**
      * Opens the dialog.
      * 
-     * @param caption The caption.
-     * @param infoText The information text for the user.
-     * @param okHandler A function that is executed when the OK button was pressed.
+     * @param caption the caption
+     * @param infoText the information text for the user
+     * @param okHandler a function that is executed when the OK button was pressed
      */
     public static ConfirmationDialog open(String caption,
             String infoText,
@@ -78,8 +78,8 @@ public class ConfirmationDialog extends OkCancelDialog {
     /**
      * Opens the dialog.
      * 
-     * @param caption The caption.
-     * @param content A component that is rendered as content
+     * @param caption the caption
+     * @param content a component that is rendered as content
      */
     public static ConfirmationDialog open(String caption, Component content) {
         return open(caption, content, Handler.NOP_HANDLER);
@@ -88,9 +88,9 @@ public class ConfirmationDialog extends OkCancelDialog {
     /**
      * Opens the dialog.
      * 
-     * @param caption The caption.
-     * @param content A component that is rendered as content
-     * @param okHandler A function that is executed when the OK button was pressed.
+     * @param caption the caption
+     * @param content a component that is rendered as content
+     * @param okHandler a function that is executed when the OK button was pressed
      */
     public static ConfirmationDialog open(String caption,
             Component content,

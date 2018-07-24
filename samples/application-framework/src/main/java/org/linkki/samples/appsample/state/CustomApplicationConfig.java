@@ -47,7 +47,7 @@ public class CustomApplicationConfig implements ApplicationConfig {
 
     @Override
     public String getCopyright() {
-        return "© " + LocalDate.now().getYear() + " Faktor Zehn GmbH - ConVista Consulting";
+        return "© " + LocalDate.now().getYear() + " Faktor Zehn GmbH - ConVista Consulting"; //$NON-NLS-1$
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CustomApplicationConfig implements ApplicationConfig {
     }
 
     public String getLicense(Locale locale) {
-        String licenseNoticeEN = "Copyright " + LocalDate.now().getYear() + " Faktor Zehn GmbH\r\n\r\n"
+        String licenseNoticeEN = "Copyright Faktor Zehn GmbH\r\n\r\n"
                 + "Licensed under the Apache License, Version 2.0 (the \"License\");\r\n"
                 + "you may not use this file except in compliance with the License.\r\n"
                 + "You may obtain a copy of the License at\r\n\r\n"
@@ -77,7 +77,7 @@ public class CustomApplicationConfig implements ApplicationConfig {
                 + "or implied. See the License for the specific language governing\r\n"
                 + "permissions and limitations under the License.";
 
-        String licenseNoticeDE = "Copyright " + LocalDate.now().getYear() + " Faktor Zehn GmbH\r\n\r\n"
+        String licenseNoticeDE = "Copyright Faktor Zehn GmbH\r\n\r\n"
                 + "Lizenziert gemäß Apache Licence Version 2.0 (die „Lizenz“);\r\n"
                 + "Nutzung dieser Datei nur in Übereinstimmung mit der Lizenz erlaubt.\r\n"
                 + "Eine Kopie der Lizenz erhalten Sie auf\r\n\r\n"

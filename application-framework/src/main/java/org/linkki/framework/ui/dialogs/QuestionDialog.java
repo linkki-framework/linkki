@@ -31,9 +31,9 @@ public class QuestionDialog extends OkCancelDialog {
     /**
      * Creates a new dialog.
      * 
-     * @param caption The caption.
-     * @param content A component containing the question to ask.
-     * @param okHandler A function that is executed when the OK button was pressed.
+     * @param caption the caption
+     * @param content a component containing the question to ask
+     * @param okHandler a function that is executed when the OK button was pressed
      */
     public QuestionDialog(String caption, Component content, Handler okHandler) {
         super(caption, content, okHandler, ButtonOption.OK_CANCEL);
@@ -42,9 +42,9 @@ public class QuestionDialog extends OkCancelDialog {
     /**
      * Opens the dialog.
      * 
-     * @param caption The caption.
-     * @param question The question to ask the user.
-     * @param okHandler A function that is executed when the OK button was pressed.
+     * @param caption the caption
+     * @param question the question to ask the user
+     * @param okHandler a function that is executed when the OK button was pressed
      */
     public static QuestionDialog open(String caption, String question, Handler okHandler) {
         Label questionLabel = new Label();
@@ -57,9 +57,9 @@ public class QuestionDialog extends OkCancelDialog {
     /**
      * Opens the dialog.
      * 
-     * @param caption The caption.
-     * @param content A component containing the question to ask.
-     * @param okHandler A function that is executed when the OK button was pressed.
+     * @param caption he caption
+     * @param content a component containing the question to ask
+     * @param okHandler a function that is executed when the OK button was pressed
      */
     public static QuestionDialog open(String caption,
             Component content,
