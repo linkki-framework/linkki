@@ -81,10 +81,9 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
         LinkkiInMemoryContainer<Object> container = new LinkkiInMemoryContainer<Object>();
         setContainerDataSource(component, container);
         return vals -> {
-            container.removeAllItems();
             @SuppressWarnings("unchecked")
             Collection<Object> newItems = (Collection<Object>)vals;
-            container.addAllItems(newItems);
+            container.setItems(newItems);
         };
     }
 

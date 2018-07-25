@@ -1,0 +1,4 @@
+class com/vaadin/data/util/AbstractInMemoryContainer
+getAllItemIds
+ ()Ljava/util/List<TITEMIDTYPE;>;
+ ()L1java/util/List<TITEMIDTYPE;>;

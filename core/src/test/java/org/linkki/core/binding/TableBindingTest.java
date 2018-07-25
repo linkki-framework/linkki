@@ -66,12 +66,12 @@ public class TableBindingTest {
         columnNames.forEach(c -> table.addGeneratedColumn(c, (source, itemId, columnId) -> new Label()));
 
         tableBinding = new TableBinding<TestRowPmo>(bindingContext, table, containerPmo);
-        tableBinding.addItemSetChangeListener(listener);
+        tableBinding.getTableContainer().addItemSetChangeListener(listener);
     }
 
     @Test
     public void testDataSourceSet() {
-        assertEquals(tableBinding, table.getContainerDataSource());
+        assertEquals(tableBinding.getTableContainer(), table.getContainerDataSource());
     }
 
     @Test

@@ -15,7 +15,6 @@ package org.linkki.core.container;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
 import java.util.Collections;
@@ -27,46 +26,52 @@ import org.junit.Test;
 public class LinkkiInMemoryContainerTest {
 
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testBackupListShouldBeClearedOnRemoveAllItems() {
 
         LinkkiInMemoryContainer<TestItem> container = new LinkkiInMemoryContainer<>();
-        container.addAllItems(Collections.singletonList(new TestItem()));
+        container.setItems(Collections.singletonList(new TestItem()));
 
-        assertThat(container.getBackupList(), hasSize(1));
+        assertThat(container.getItemIds(), hasSize(1));
 
         container.removeAllItems();
-        assertThat(container.getBackupList(), hasSize(0));
+        assertThat(container.getItemIds(), hasSize(0));
     }
 
 
     @Test
     public void testEqualsOfWrapperShouldOnlyCheckReference() {
 
-        TestItem testItem = new TestItem();
-        testItem.meaningOfLife = 42;
+        TestItem testItem = new TestItem(42);
 
         LinkkiInMemoryContainer<TestItem> container = new LinkkiInMemoryContainer<>();
-        container.addAllItems(Collections.singletonList(testItem));
+        container.setItems(Collections.singletonList(testItem));
 
-        TestItem equalItem = new TestItem();
-        equalItem.meaningOfLife = 42;
+        TestItem equalItem = new TestItem(42);
 
         // items are equal if TestItem#equals is used
         assertThat(testItem, is(equalItem));
 
-        // wrapped items are not equal because not the same 'testItem' reference
-        assertThat(container.getBackupList().get(0),
-                   is(not(new LinkkiInMemoryContainer.LinkkiItemWrapper<>(equalItem))));
+        // wrapped items are equal because the 'testItem's are equal
+        assertThat(container.getItemIds().get(0), is(equalItem));
 
         // wrapped items are equal because same reference of 'testItem'
-        assertThat(container.getBackupList().get(0), is(new LinkkiInMemoryContainer.LinkkiItemWrapper<>(testItem)));
+        assertThat(container.getItemIds().get(0), is(testItem));
     }
 
 
     private static class TestItem {
 
         private int meaningOfLife;
+
+        public TestItem() {
+
+        }
+
+        public TestItem(int meaningOfLife) {
+            this.meaningOfLife = meaningOfLife;
+        }
 
         @Override
         public boolean equals(@Nullable Object o) {

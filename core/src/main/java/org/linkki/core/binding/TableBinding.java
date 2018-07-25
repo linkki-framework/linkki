@@ -15,7 +15,6 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,13 +32,14 @@ import com.vaadin.ui.Table;
  *
  * @see ContainerPmo
  */
-public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Binding {
-
-    private static final long serialVersionUID = 1L;
+public class TableBinding<T> implements Binding {
 
     private final BindingContext bindingContext;
 
     private final Table table;
+
+    private final LinkkiInMemoryContainer<T> tableContainer = new LinkkiInMemoryContainer<>();
+
     private final ContainerPmo<T> containerPmo;
 
     public TableBinding(BindingContext bindingContext,
@@ -48,9 +48,13 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
         this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         this.table = requireNonNull(table, "table must not be null");
         this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
-        table.setContainerDataSource(this);
-        addAllItems(containerPmo.getItems());
+        table.setContainerDataSource(getTableContainer());
+        getTableContainer().setItems(containerPmo.getItems());
         updateFooter();
+    }
+
+    public LinkkiInMemoryContainer<T> getTableContainer() {
+        return tableContainer;
     }
 
     /**
@@ -62,12 +66,11 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
     @Override
     public void updateFromPmo() {
 
-        List<T> pmoItems = containerPmo.getItems();
-        List<LinkkiItemWrapper<T>> actualItems = asLinkkiItemWrapper(pmoItems, new ArrayList<>(pmoItems.size()));
+        List<T> actualItems = containerPmo.getItems();
 
         if (hasItemListChanged(actualItems)) {
             removeBindingsForOldItems();
-            addAllItems(actualItems);
+            getTableContainer().setItems(actualItems);
         }
         // Update the footer even if the same rows are displayed. Selecting a displayed row might
         // change the footer, e.g. when the footer sums up the selected rows
@@ -87,15 +90,13 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
     }
 
     private void removeBindingsForOldItems() {
-        getBackupList().stream()
-                .map(LinkkiItemWrapper<T>::getItem)
+        getTableContainer().getItemIds().stream()
                 .filter(i -> i != null)
                 .forEach(bindingContext::removeBindingsForPmo);
-        removeAllItems();
     }
 
-    private boolean hasItemListChanged(List<LinkkiItemWrapper<T>> actualItems) {
-        return !getBackupList().equals(actualItems);
+    private boolean hasItemListChanged(List<T> actualItems) {
+        return !getTableContainer().getItemIds().equals(actualItems);
     }
 
     @Override
@@ -114,14 +115,13 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
     }
 
     /**
-     * Creates a new {@link TableBinding} and add the new binding to the given
-     * {@link BindingContext}.
+     * Creates a new {@link TableBinding} and add the new binding to the given {@link BindingContext}.
      *
      * @param bindingContext The binding context used to bind the given {@link ContainerPmo} to the
      *            given {@link Table}
      * @param table The table that should be updated by this binding
-     * @param containerPmo The {@link ContainerPmo} that holds the item that should be displayed in
-     *            the table
+     * @param containerPmo The {@link ContainerPmo} that holds the item that should be displayed in the
+     *            table
      * @return The newly created {@link TableBinding}
      */
     public static <T> TableBinding<T> create(BindingContext bindingContext,
