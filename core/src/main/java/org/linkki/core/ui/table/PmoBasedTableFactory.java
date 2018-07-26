@@ -149,7 +149,9 @@ public class PmoBasedTableFactory<T> {
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;
-            bindingContext.bind(itemPmo, elementDescriptor, new LabelComponentWrapper(component));
+            component.addAttachListener($ -> bindingContext.bind(itemPmo, elementDescriptor,
+                                                                 new LabelComponentWrapper(component)));
+            component.addDetachListener($ -> bindingContext.removeBindingsForComponent(component));
 
             // removed the following line as on the created binding for the cell
             // a updateFromPmo() is called later on by the binding manager, see FIPM-497 for details

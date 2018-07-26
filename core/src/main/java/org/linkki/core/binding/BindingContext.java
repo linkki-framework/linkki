@@ -14,15 +14,12 @@
 package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
@@ -58,9 +55,7 @@ public class BindingContext implements UiUpdateObserver {
     private final Handler afterUpdateHandler;
 
     private final Map<Object, ElementBinding> elementBindings = new ConcurrentHashMap<>();
-    private final Map<Object, List<ElementBinding>> elementBindingsByPmo = Collections.synchronizedMap(new HashMap<>());
     private final Map<Component, TableBinding<?>> tableBindings = new ConcurrentHashMap<>();
-    private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<>();
     private final PropertyDispatcherFactory dispatcherFactory = new PropertyDispatcherFactory();
 
 
@@ -121,9 +116,6 @@ public class BindingContext implements UiUpdateObserver {
         requireNonNull(binding, "binding must not be null");
 
         elementBindings.put(binding.getBoundComponent(), binding);
-        elementBindingsByPmo.computeIfAbsent(binding.getPmo(), (pmo) -> Collections.synchronizedList(new ArrayList<>()))
-                .add(binding);
-        propertyDispatchers.add(binding.getPropertyDispatcher());
         return this;
     }
 
@@ -158,12 +150,10 @@ public class BindingContext implements UiUpdateObserver {
     public void removeBindingsForPmo(Object pmo) {
         requireNonNull(pmo, "pmo must not be null");
 
-        Collection<ElementBinding> toRemove = elementBindingsByPmo.get(pmo);
-        if (toRemove != null) {
-            toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
-            elementBindings.values().removeAll(toRemove);
-            elementBindingsByPmo.remove(pmo);
-        }
+        List<ElementBinding> bindingsForPmo = elementBindings.values().stream()
+                .filter(binding -> binding.getPmo() == pmo)
+                .collect(toList());
+        elementBindings.values().removeAll(bindingsForPmo);
     }
 
     /**
