@@ -17,72 +17,38 @@ package org.linkki.samples.treetable.fixed.pmo;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 
-abstract class AbstractPersonRowPmo {
-
-    @UITableColumn(expandRatio = 0F)
-    @UILabel(position = 10, label = "Province")
-    public String getProvince() {
-        return "";
-    }
-
-    @UITableColumn(expandRatio = 0.1F)
-    @UILabel(position = 20, label = "City")
-    public String getCity() {
-        return "";
-    }
-
-    @UITableColumn(expandRatio = 0F)
-    @UILabel(position = 30, label = "Zip Code")
-    public String getZipCode() {
-        return "";
-    }
+public abstract class AbstractPersonRowPmo {
 
     @UITableColumn(expandRatio = 0.15F)
-    @UILabel(position = 40, label = "Address")
-    public String getAddress() {
-        return "";
-    }
+    @UILabel(position = 40, label = "Address", htmlContent = true)
+    public abstract String getAddress();
 
     @UITableColumn(expandRatio = 0.075F)
     @UILabel(position = 50, label = "Last Name")
-    public String getLastName() {
-        return "";
-    }
+    public abstract String getLastName();
 
     @UITableColumn(expandRatio = 0.075F)
     @UILabel(position = 60, label = "First Name")
-    public String getFirstName() {
-        return "";
-    }
+    public abstract String getFirstName();
 
     @UITableColumn(expandRatio = 0.1F)
     @UILabel(position = 70, label = "Company")
-    public String getCompany() {
-        return "";
-    }
+    public abstract String getCompany();
 
     @UITableColumn(expandRatio = 0.075F)
     @UILabel(position = 80, label = "Phone")
-    public String getPhone1() {
-        return "";
-    }
+    public abstract String getPhone1();
 
     @UITableColumn(expandRatio = 0.075F)
     @UILabel(position = 90, label = "2nd Phone")
-    public String getPhone2() {
-        return "";
-    }
+    public abstract String getPhone2();
 
     @UITableColumn(expandRatio = 0.15F)
     @UILabel(position = 100, label = "Email")
-    public String getEmail() {
-        return "";
-    }
+    public abstract String getEmail();
 
     @UITableColumn(expandRatio = 0.2F)
     @UILabel(position = 110, label = "Website")
-    public String getWeb() {
-        return "";
-    }
+    public abstract String getWeb();
 
 }

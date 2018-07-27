@@ -14,9 +14,11 @@
 
 package org.linkki.samples.treetable.dynamic.pmo;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.linkki.core.ui.table.SimpleTablePmo;
+import org.linkki.core.ui.table.TableFooterPmo;
 import org.linkki.samples.treetable.dynamic.model.League;
 import org.linkki.samples.treetable.dynamic.model.Player;
 
@@ -42,6 +44,32 @@ public class LeagueTablePmo extends SimpleTablePmo<String, PlayerTableRowPmo> {
     @Override
     public boolean isHierarchical() {
         return true;
+    }
+
+    @Override
+    public int getPageLength() {
+        return 18;
+    }
+
+    @Override
+    public Optional<TableFooterPmo> getFooterPmo() {
+        return Optional.of(id -> {
+            switch (id) {
+                case "team":
+                    return league
+                            .getPlayers().stream()
+                            .map(Player::getTeam)
+                            .distinct().count() + " Teams";
+                case "age":
+                    return String.format("Ø %.2f", league
+                            .getPlayers().stream()
+                            .map(Player::getDateOfBirth)
+                            .collect(Collectors.averagingInt(d -> PlayerTableRowPmo.getAge(d))));
+
+                default:
+                    return "";
+            }
+        });
     }
 
 }

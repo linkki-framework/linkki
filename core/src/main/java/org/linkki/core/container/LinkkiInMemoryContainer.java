@@ -17,10 +17,10 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.WeakHashMap;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -41,7 +41,10 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
 
     private static final long serialVersionUID = -1708252890035638419L;
 
-    private Map<T, T> parents = new HashMap<>();
+    // Use a weak reference to remove mappings of children that have been removed because they are no
+    // longer referenced by their former parent. Their bindings are removed automatically when the
+    // corresponding Components are detached after their parent's binding was updated.
+    private Map<T, T> parents = new WeakHashMap<>();
 
     @Override
     public Collection<?> getContainerPropertyIds() {

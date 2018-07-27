@@ -45,7 +45,7 @@ public class PersonTablePmo implements ContainerPmo<AbstractPersonRowPmo> {
 
     private @Nonnull List<CityRowPmo> byCityRows(Entry<String, Map<String, List<Person>>> byProvince) {
         return byProvince.getValue().entrySet().stream()
-                .map(byCity -> new CityRowPmo(byProvince.getKey(), byCity.getKey(), personRows(byCity)))
+                .map(byCity -> new CityRowPmo(byCity.getKey(), personRows(byCity)))
                 .collect(Collectors.toList());
     }
 

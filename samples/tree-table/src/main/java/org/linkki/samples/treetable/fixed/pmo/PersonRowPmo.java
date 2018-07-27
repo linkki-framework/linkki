@@ -28,23 +28,8 @@ public class PersonRowPmo extends AbstractPersonRowPmo {
     // end::hierarchical-row-pmo[]
 
     @Override
-    public String getProvince() {
-        return person.getProvince();
-    }
-
-    @Override
-    public String getCity() {
-        return person.getCity();
-    }
-
-    @Override
-    public String getZipCode() {
-        return person.getZipCode();
-    }
-
-    @Override
     public String getAddress() {
-        return person.getAddress();
+        return person.getAddress() + "<br/>" + person.getCity() + " " + person.getZipCode();
     }
 
     @Override

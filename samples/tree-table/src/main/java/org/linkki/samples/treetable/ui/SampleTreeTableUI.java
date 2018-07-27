@@ -35,6 +35,9 @@ public class SampleTreeTableUI extends UI {
         PmoBasedSectionFactory pmoBasedSectionFactory = new PmoBasedSectionFactory();
 
         TabSheetArea tabSheetArea = new SingleSectionTabSheetArea(pmoBasedSectionFactory, area -> {
+            // for a smaller, easy to debug, sample, copy the package
+            // linkki-core/src/test/java/org.linkki.core.ui.table.hierarchy and add
+            // area.addTab(new CodeTablePmo(), "codes");
             area.addTab(new PersonTablePmo(personRepository::getPersons), "static");
             area.addTab(new LeagueTablePmo(league), "dynamic");
         });

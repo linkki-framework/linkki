@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.linkki.core.ui.table.HierarchicalRowPmo;
 
-public class SummarizingPersonRowPmo extends AbstractPersonRowPmo
+public abstract class SummarizingPersonRowPmo extends AbstractPersonRowPmo
         implements HierarchicalRowPmo<AbstractPersonRowPmo> {
 
     private final List<? extends AbstractPersonRowPmo> childRows;
@@ -30,6 +30,41 @@ public class SummarizingPersonRowPmo extends AbstractPersonRowPmo
     @Override
     public List<? extends AbstractPersonRowPmo> getChildRows() {
         return childRows;
+    }
+
+    @Override
+    public String getLastName() {
+        return "";
+    }
+
+    @Override
+    public String getFirstName() {
+        return "";
+    }
+
+    @Override
+    public String getCompany() {
+        return "";
+    }
+
+    @Override
+    public String getPhone1() {
+        return "";
+    }
+
+    @Override
+    public String getPhone2() {
+        return "";
+    }
+
+    @Override
+    public String getEmail() {
+        return "";
+    }
+
+    @Override
+    public String getWeb() {
+        return "";
     }
 
 }

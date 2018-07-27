@@ -12,22 +12,36 @@
  * the License.
  */
 
-package org.linkki.samples.treetable.fixed.pmo;
+package org.linkki.core.ui.table.hierarchy;
 
-import java.util.List;
+import org.linkki.core.ui.section.annotations.ModelObject;
 
-public class CityRowPmo extends SummarizingPersonRowPmo {
+public class NumberRowPmo extends AbstractCodeRow {
 
-    private String city;
+    private final Code code;
 
-    public CityRowPmo(String city, List<PersonRowPmo> personRows) {
-        super(personRows);
-        this.city = city;
+    public NumberRowPmo(Code code) {
+        this.code = code;
+    }
+
+    @ModelObject
+    public Code getCode() {
+        return code;
     }
 
     @Override
-    public String getAddress() {
-        return city + " (" + getChildRows().size() + ")";
+    public String getUpperCaseLetter() {
+        return code.getUpperCaseLetter();
+    }
+
+    @Override
+    public String getLowerCaseLetter() {
+        return code.getLowerCaseLetter();
+    }
+
+    @Override
+    public int getNumber() {
+        return code.getNumber();
     }
 
 }

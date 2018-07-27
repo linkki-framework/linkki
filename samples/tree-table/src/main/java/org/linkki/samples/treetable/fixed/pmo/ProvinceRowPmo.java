@@ -16,7 +16,7 @@ package org.linkki.samples.treetable.fixed.pmo;
 
 import java.util.List;
 
-class ProvinceRowPmo extends SummarizingPersonRowPmo {
+public class ProvinceRowPmo extends SummarizingPersonRowPmo {
 
     private String province;
 
@@ -26,7 +26,7 @@ class ProvinceRowPmo extends SummarizingPersonRowPmo {
     }
 
     @Override
-    public String getProvince() {
+    public String getAddress() {
         return province + " (" + getChildRows().size() + ")";
     }
 
