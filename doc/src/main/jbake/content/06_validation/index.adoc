@@ -3,10 +3,10 @@
 :jbake-status: published
 :jbake-order: 60
 
+:image-dir: {images}06_validation
+
 [[validation]]
 == Validation
-:image-dir: {images}06_validation
-:source-dir-messages: ../../../../../../samples/messages/src/main/java
 
 *linkki* comes with built-in support for basic validation. Every <<binding-basics,BindingManager>> contains a <<validation-service,ValidationService>> that it calls after every update to validate the bound model. The validation messages returned by that service are then matched with the bound components via the names of their properties. If a message matches, the according UI component is marked automatically.
 

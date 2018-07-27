@@ -1,6 +1,7 @@
 :jbake-title: Creating a new aspect
 :jbake-type: section
 :jbake-status: published
+
 :image-dir: {images}08_Aspects
 :source-dir: ../../../java
 
