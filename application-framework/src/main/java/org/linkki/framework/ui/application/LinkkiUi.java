@@ -23,6 +23,7 @@ import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewProvider;
+import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
@@ -84,7 +85,7 @@ public class LinkkiUi extends UI {
         setContent(applicationLayout);
     }
 
-    private DialogErrorHandler createErrorHandler() {
+    protected ErrorHandler createErrorHandler() {
         return new DialogErrorHandler(getNavigator(), DefaultErrorDialog::new);
     }
 

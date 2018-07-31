@@ -6,6 +6,7 @@
 
 package org.linkki.framework.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.function.BiFunction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,9 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.navigator.View;
 import com.vaadin.server.ErrorEvent;
 import com.vaadin.server.ErrorHandler;
+import com.vaadin.ui.UI;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * An {@link ErrorHandler} that shows a {@link ConfirmationDialog} with some exception details when
@@ -73,7 +77,12 @@ public class DialogErrorHandler implements ErrorHandler {
         dialogCreator.apply(errorEvent, this::navigateToStartView).open();
     }
 
+    // findbugs reports that it should not be necessary to copy the list. but it is
+    @SuppressFBWarnings
     private void navigateToStartView() {
+        UI ui = UI.getCurrent();
+        // need to copy to new array list to avoid concurrent modification
+        new ArrayList<>(ui.getWindows()).forEach(ui::removeWindow);
         applicationNavigator.showView(startView);
     }
 }
