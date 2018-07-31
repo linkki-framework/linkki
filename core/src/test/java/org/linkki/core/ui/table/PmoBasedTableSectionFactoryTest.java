@@ -67,7 +67,10 @@ public class PmoBasedTableSectionFactoryTest {
 
             @Override
             protected boolean matchesSafely(@SuppressWarnings("null") BindingContext bindingContext) {
-                return bindingContext.getTableBindings().stream().map(TableBinding::getTableContainer)
+                return bindingContext.getBindings().stream()
+                        .filter(TableBinding.class::isInstance)
+                        .map(TableBinding.class::cast)
+                        .map(TableBinding::getTableContainer)
                         .anyMatch(Predicate.isEqual(container));
             }
         };

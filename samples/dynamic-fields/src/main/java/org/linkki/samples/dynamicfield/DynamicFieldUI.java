@@ -51,7 +51,7 @@ public class DynamicFieldUI extends UI {
 
         TableSection<CarRowPmo> table = new PmoBasedSectionFactory()
                 .createTableSection(new CarTablePmo(carStorage,
-                        () -> new NewCarDialog(carStorage, bindingContext::updateUI)),
+                        () -> new NewCarDialog(carStorage, bindingContext::modelChanged)),
                                     bindingContext);
         setContent(table);
     }

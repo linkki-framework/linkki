@@ -44,4 +44,9 @@ public class NumberRowPmo extends AbstractCodeRow {
         return code.getNumber();
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + " \"" + getUpperCaseLetter() + getLowerCaseLetter() + getNumber() + "\"";
+    }
+
 }

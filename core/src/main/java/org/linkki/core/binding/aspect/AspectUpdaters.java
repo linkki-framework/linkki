@@ -35,10 +35,10 @@ public class AspectUpdaters {
     private final List<Handler> uiUpdaters;
 
     public AspectUpdaters(List<LinkkiAspectDefinition> aspectDefinitions, PropertyDispatcher propertyDispatcher,
-            ComponentWrapper componentWrapper, Handler modelUpdated) {
+            ComponentWrapper componentWrapper, Handler modelChanged) {
         aspectDefinitions.forEach(d -> {
             try {
-                d.initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated);
+                d.initModelUpdate(propertyDispatcher, componentWrapper, modelChanged);
                 // CSOFF: IllegalCatch
             } catch (RuntimeException e) {
                 throw new LinkkiBindingException(

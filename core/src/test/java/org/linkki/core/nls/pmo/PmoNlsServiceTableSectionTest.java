@@ -21,7 +21,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.nls.pmo.sample.NlsTablePmo;
 import org.linkki.core.nls.pmo.sample.NlsTableRowPmo;
@@ -30,19 +29,15 @@ import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
 import org.linkki.core.ui.table.PmoBasedTableSectionFactory;
 import org.linkki.core.ui.table.TableSection;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 
-@RunWith(MockitoJUnitRunner.class)
 public class PmoNlsServiceTableSectionTest {
 
-    @SuppressWarnings("null")
-    @Mock
-    private BindingContext ctx;
+    private BindingContext ctx = new BindingContext();
+
     @SuppressWarnings("null")
     private String translatedLabel;
     @SuppressWarnings("null")

@@ -46,7 +46,7 @@ public class UIYesNoComboBoxIntegrationTest extends FieldAnnotationIntegrationTe
         comboBox.setValue(false);
 
         getDefaultModelObject().value = true;
-        updateUi();
+        modelChanged();
         assertThat(comboBox.getValue(), is(true));
     }
 
@@ -69,7 +69,7 @@ public class UIYesNoComboBoxIntegrationTest extends FieldAnnotationIntegrationTe
         assertThat(comboBox.getValue(), is(nullValue()));
 
         getDefaultModelObject().setValue(true);
-        updateUi();
+        modelChanged();
         assertThat(comboBox.getValue(), is(true));
 
         comboBox.setValue(false);
@@ -81,7 +81,7 @@ public class UIYesNoComboBoxIntegrationTest extends FieldAnnotationIntegrationTe
     public void testNullInputIfRequired() {
         LinkkiComboBox comboBox = getDynamicComponent();
         getDefaultPmo().setRequired(true);
-        updateUi();
+        modelChanged();
         assertThat(comboBox.isRequired(), is(true));
 
         comboBox.setValue(true);

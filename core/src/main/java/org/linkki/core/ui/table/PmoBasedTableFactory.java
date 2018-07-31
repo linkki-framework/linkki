@@ -67,8 +67,9 @@ public class PmoBasedTableFactory<T> {
      */
     public Table createTable() {
         Table table = createTableComponent();
-        createColumns(table);
-        bindTable(table);
+        TableBinding<T> tableBinding = bindTable(table);
+        createColumns(tableBinding);
+        tableBinding.init();
         table.setPageLength(containerPmo.getPageLength());
         return table;
     }
@@ -90,9 +91,9 @@ public class PmoBasedTableFactory<T> {
         return table;
     }
 
-    private void createColumns(Table table) {
+    private void createColumns(TableBinding<T> tableBinding) {
         annotationReader.getUiElements()
-                .forEach(e -> createColumn(table, e));
+                .forEach(e -> createColumn(tableBinding, e));
     }
 
     /**
@@ -101,8 +102,9 @@ public class PmoBasedTableFactory<T> {
      * 
      * @param elementDesc the descriptor for the PMO's field
      */
-    private void createColumn(Table table, PropertyElementDescriptors elementDesc) {
-        FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<>(elementDesc, bindingContext);
+    private void createColumn(TableBinding<T> tableBinding, PropertyElementDescriptors elementDesc) {
+        Table table = tableBinding.getBoundComponent();
+        FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<>(elementDesc, tableBinding);
         String propertyName = elementDesc.getPmoPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
         table.setColumnHeader(propertyName,
@@ -124,8 +126,8 @@ public class PmoBasedTableFactory<T> {
         }
     }
 
-    private void bindTable(Table table) {
-        TableBinding.create(bindingContext, table, getContainerPmo());
+    private TableBinding<T> bindTable(Table table) {
+        return TableBinding.create(bindingContext, table, getContainerPmo());
     }
 
     /** Column generator that generates a column for a field of a PMO. */
@@ -134,11 +136,11 @@ public class PmoBasedTableFactory<T> {
         private static final long serialVersionUID = 1L;
 
         private final PropertyElementDescriptors elementDescriptors;
-        private final BindingContext bindingContext;
+        private final TableBinding<T> tableBinding;
 
-        public FieldColumnGenerator(PropertyElementDescriptors elementDescriptors, BindingContext bindingContext) {
+        public FieldColumnGenerator(PropertyElementDescriptors elementDescriptors, TableBinding<T> tableBinding) {
             this.elementDescriptors = requireNonNull(elementDescriptors, "elementDescriptors must not be null");
-            this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
+            this.tableBinding = requireNonNull(tableBinding, "tableBinding must not be null");
         }
 
         @Override
@@ -153,9 +155,9 @@ public class PmoBasedTableFactory<T> {
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;
-            component.addAttachListener($ -> bindingContext.bind(itemPmo, elementDescriptor,
-                                                                 new LabelComponentWrapper(component)));
-            component.addDetachListener($ -> bindingContext.removeBindingsForComponent(component));
+            component.addAttachListener($ -> tableBinding.bind(itemPmo, elementDescriptor,
+                                                               new LabelComponentWrapper(component)));
+            component.addDetachListener($ -> tableBinding.removeBindingsForComponent(component));
 
             // removed the following line as on the created binding for the cell
             // a updateFromPmo() is called later on by the binding manager, see FIPM-497 for details

@@ -32,4 +32,9 @@ public abstract class AbstractCodeRow {
     @UIIntegerField(position = 30, label = "Number")
     public abstract int getNumber();
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();// + "@" + Integer.toHexString(hashCode());
+    }
+
 }

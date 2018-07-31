@@ -56,7 +56,7 @@ public class ReportListPage extends AbstractPage {
     }
 
     public void update() {
-        getBindingContext().updateUI();
+        getBindingContext().modelChanged();
     }
 
     @Override

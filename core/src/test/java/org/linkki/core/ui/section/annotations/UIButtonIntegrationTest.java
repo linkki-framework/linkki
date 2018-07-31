@@ -54,14 +54,14 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
         assertThat(button.getCaption(), is("dynamic"));
 
         getDefaultPmo().setCaption("different caption");
-        updateUi();
+        modelChanged();
         assertThat(button.getCaption(), is("different caption"));
     }
 
     @Test
     public void testButtonClick() {
         getDefaultPmo().setEnabled(true);
-        updateUi();
+        modelChanged();
         Button button = getDynamicComponent();
 
         button.click();

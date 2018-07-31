@@ -50,7 +50,7 @@ public class ButtonBindingTest {
         Object pmo = mock(Object.class);
         when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
 
-        binding = new ComponentBinding(new LabelComponentWrapper(label, button), propertyDispatcher, context::updateUI,
+        binding = new ComponentBinding(new LabelComponentWrapper(label, button), propertyDispatcher, context::modelChanged,
                 Arrays.asList(aspectDefinition));
         context.add(binding);
     }

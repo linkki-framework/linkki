@@ -19,7 +19,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,7 +28,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
@@ -39,7 +37,6 @@ import org.linkki.core.ui.table.hierarchy.CodeTablePmo;
 import org.linkki.core.ui.table.hierarchy.LowerCaseRowPmo;
 import org.linkki.core.ui.table.hierarchy.NumberRowPmo;
 import org.linkki.core.ui.table.hierarchy.UpperCaseRowPmo;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -50,8 +47,7 @@ import com.vaadin.ui.TreeTable;
 @SuppressWarnings("null")
 public class HierarchicalTableBindingTest {
 
-    @Mock
-    private BindingContext bindingContext;
+    private BindingContext bindingContext = new BindingContext();
 
     private CodeTablePmo containerPmo;
 
@@ -66,12 +62,12 @@ public class HierarchicalTableBindingTest {
     @Before
     public void setUp() {
         containerPmo = new CodeTablePmo();
-        @SuppressWarnings("rawtypes")
-        ArgumentCaptor<TableBinding> tableBindingCaptor = ArgumentCaptor.forClass(TableBinding.class);
-        when(bindingContext.add(tableBindingCaptor.capture())).thenReturn(bindingContext);
 
         table = (TreeTable)new PmoBasedTableFactory<>(containerPmo, bindingContext).createTable();
-        tableBinding = tableBindingCaptor.getValue();
+        tableBinding = (TableBinding<TestRowPmo>)bindingContext.getBindings().stream()
+                .filter(TableBinding.class::isInstance)
+                .findFirst()
+                .get();
         tableBinding.getTableContainer().addItemSetChangeListener(listener);
     }
 
@@ -114,11 +110,10 @@ public class HierarchicalTableBindingTest {
 
         tableBinding.updateFromPmo();
 
-        @SuppressWarnings("unchecked")
-        Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();
-        assertThat(itemIds, contains(rowA, rowAa, rowAa1, rowAa2, rowAb, rowB));
-        assertThat(itemIds, contains(pmosFor("A", "a", 42, 2, "b", "B")));
-        verifyNoMoreInteractions(listener);
+        // sort order of numberRows is by number and so Aa1(now Aa42) and Aa2 must switch places
+        // we don't use pmosFor(...) here because we want to make sure it's the same PMOs
+        assertThat(table.getItemIds(), contains(rowA, rowAa, rowAa2, rowAa1, rowAb, rowB));
+        verify(listener).containerItemSetChange(any());
     }
 
     @Test
@@ -155,14 +150,10 @@ public class HierarchicalTableBindingTest {
 
         @SuppressWarnings("unchecked")
         Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();
-        assertThat(itemIds, contains(pmosFor("A", "a", 23, 2, "b", "B", "a", "b")));
-        // actually, I'd expect
-        // assertThat(itemIds, contains(pmosFor("A", "a", 2, "b", "B", "a", "b", "c")));
-        // verify(listener).containerItemSetChange(any());
-        // but until LIN-1048 is implemented, "A" and "B" are considered unchanged
+        assertThat(itemIds, contains(pmosFor("A", "a", 2, "b", "B", "a", "b", "c")));
+        verify(listener).containerItemSetChange(any());
     }
 
-    @Ignore("should be fixed with LIN-1048")
     @Test
     public void testUpdateFromPmo_ItemValueChangedAffectingIntermediateRows() {
         UpperCaseRowPmo rowA = rootRow(0);
@@ -254,15 +245,7 @@ public class HierarchicalTableBindingTest {
         @Override
         protected void describeMismatchSafely(AbstractCodeRow item, Description mismatchDescription) {
             mismatchDescription.appendText("was a ");
-            mismatchDescription.appendValue(item.getClass().getSimpleName());
-            mismatchDescription.appendText(" for ");
-            mismatchDescription.appendValue(item.getUpperCaseLetter());
-            if (item instanceof LowerCaseRowPmo || item instanceof NumberRowPmo) {
-                mismatchDescription.appendValue(item.getLowerCaseLetter());
-            }
-            if (item instanceof NumberRowPmo) {
-                mismatchDescription.appendValue(item.getNumber());
-            }
+            mismatchDescription.appendText(item.toString());
         }
     }
 

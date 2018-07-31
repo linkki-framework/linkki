@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -43,8 +44,7 @@ import com.vaadin.ui.Table;
 @SuppressWarnings("null")
 public class TableBindingTest {
 
-    @Mock
-    private BindingContext bindingContext;
+    private BindingContext bindingContext = spy(new BindingContext());
 
     private TestTablePmo containerPmo;
 
@@ -65,7 +65,8 @@ public class TableBindingTest {
 
         columnNames.forEach(c -> table.addGeneratedColumn(c, (source, itemId, columnId) -> new Label()));
 
-        tableBinding = new TableBinding<TestRowPmo>(bindingContext, table, containerPmo);
+        tableBinding = TableBinding.create(bindingContext, table, containerPmo);
+        tableBinding.init();
         tableBinding.getTableContainer().addItemSetChangeListener(listener);
     }
 
@@ -97,15 +98,21 @@ public class TableBindingTest {
 
     @Test
     public void testUpdateFromPmo_RemovedItemsAreCleanedUp() {
-        TestRowPmo removed = containerPmo.getItems().remove(0);
+        containerPmo.getItems().remove(0);
 
         tableBinding.updateFromPmo();
 
         assertEquals(containerPmo.getItems(), table.getItemIds());
         verify(listener).containerItemSetChange(any());
         verifyNoMoreInteractions(listener);
-        verify(bindingContext).removeBindingsForPmo(removed);
-        verifyNoMoreInteractions(bindingContext);
+    }
+
+    @Test
+    public void testModelChanged_IsForwardedToParent() {
+
+        tableBinding.modelChanged();
+
+        verify(bindingContext).modelChanged();
     }
 
     @Test
@@ -133,7 +140,8 @@ public class TableBindingTest {
         TableFooterPmo footerPmo = mock(TableFooterPmo.class);
         containerPmo.setFooterPmo(footerPmo);
 
-        tableBinding = new TableBinding<TestRowPmo>(bindingContext, table, containerPmo);
+        tableBinding = TableBinding.create(bindingContext, table, containerPmo);
+        tableBinding.init();
 
         assertTrue(table.isFooterVisible());
     }

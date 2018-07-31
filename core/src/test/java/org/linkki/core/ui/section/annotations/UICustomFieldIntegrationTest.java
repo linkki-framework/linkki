@@ -40,7 +40,7 @@ public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest
         List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
         availableValues.remove(TestEnum.ONE);
         getDefaultPmo().setValueAvailableValues(availableValues);
-        updateUi();
+        modelChanged();
         assertThat(getDynamicComponent().getItemIds(), contains(TestEnum.TWO, TestEnum.THREE));
     }
 
@@ -49,7 +49,7 @@ public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest
     public void testNullInputIfRequired() {
         LinkkiComboBox component = getDynamicComponent();
         getDefaultPmo().setRequired(true);
-        updateUi();
+        modelChanged();
         assertThat(component.isRequired(), is(true));
 
         component.setValue(TestEnum.ONE);

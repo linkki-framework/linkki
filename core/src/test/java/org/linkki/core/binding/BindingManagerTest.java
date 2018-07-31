@@ -20,18 +20,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import javax.annotation.Nullable;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.util.handler.Handler;
-import org.mockito.runners.MockitoJUnitRunner;
 
-@SuppressWarnings("null")
-@RunWith(MockitoJUnitRunner.class)
 public class BindingManagerTest {
+
+
+    @SuppressWarnings("null")
     private ValidationService validationService;
 
     @Test
@@ -82,6 +83,7 @@ public class BindingManagerTest {
 
     private static class TestBindingContext extends BindingContext {
 
+        @Nullable
         private MessageList messages;
 
         public TestBindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
@@ -90,9 +92,10 @@ public class BindingManagerTest {
         }
 
         @Override
-        public void updateMessages(MessageList newMessages) {
-            this.messages = newMessages;
+        public MessageList displayMessages(MessageList newMessages) {
+            return this.messages = newMessages;
         }
+
     }
 
     private static class TestBindingManager extends BindingManager {

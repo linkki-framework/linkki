@@ -71,8 +71,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
 
     /**
      * Creates the actual UI. This cannot be done in the constructor, because clients can provide
-     * subclasses with specialized BindingManagers and/or section-factories that are not available
-     * in this super-class. In order to be able to create a UI, the initialization must be performed
+     * subclasses with specialized BindingManagers and/or section-factories that are not available in
+     * this super-class. In order to be able to create a UI, the initialization must be performed
      * <em>after</em> constructors, subclass constructors and dependency injection (constructor and
      * field injection). Hence a separate init-method. It is annotated as post-construct so the DI
      * framework can call it automatically.
@@ -92,8 +92,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     }
 
     /**
-     * Creates a section based on the given PMO and adds it to the page taking 100% of the page
-     * width. If the PMO is a {@link ContainerPmo} a table section is created.
+     * Creates a section based on the given PMO and adds it to the page taking 100% of the page width.
+     * If the PMO is a {@link ContainerPmo} a table section is created.
      * 
      * @return The new section created based on the given PMO.
      */
@@ -111,8 +111,8 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     }
 
     /**
-     * Creates sections based on the given PMOs and adds them horizontally, each taking up equal
-     * part of the page width. If a PMO is a {@link ContainerPmo} a table section is created.
+     * Creates sections based on the given PMOs and adds them horizontally, each taking up equal part of
+     * the page width. If a PMO is a {@link ContainerPmo} a table section is created.
      * <p>
      * To add sections vertically, call {@link #addSection(Object)} for each pmo instead.
      * 
@@ -145,13 +145,13 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * Refreshes the content displayed on this page. Data bindings are reloaded, but no sections are
      * removed/added.
      * <p>
-     * This method should be overridden if the page contains components that do not use data binding
-     * and have to be refreshed manually.
+     * This method should be overridden if the page contains components that do not use data binding and
+     * have to be refreshed manually.
      */
     @Override
     @OverridingMethodsMustInvokeSuper
     public void reloadBindings() {
-        getBindingContext().updateUI();
+        getBindingContext().uiUpdated();
     }
 
     /**

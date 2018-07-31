@@ -111,7 +111,7 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
     public void testNullInputIfRequired() {
         DoubleField doubleField = getDynamicComponent();
         getDefaultPmo().setRequired(true);
-        updateUi();
+        modelChanged();
         assertThat(doubleField.isRequired(), is(true));
 
         doubleField.setValue(formatter.format(1.0));

@@ -45,6 +45,7 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
     // longer referenced by their former parent. Their bindings are removed automatically when the
     // corresponding Components are detached after their parent's binding was updated.
     private Map<T, T> parents = new WeakHashMap<>();
+    private Map<T, List<T>> children = new WeakHashMap<>();
 
     @Override
     public Collection<?> getContainerPropertyIds() {
@@ -55,7 +56,6 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
         requireNonNull(items, "items must not be null");
 
         getAllItemIds().clear();
-        parents.clear();
         getAllItemIds().addAll(items);
 
         fireItemSetChange();
@@ -106,11 +106,24 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
 
     @Override
     @SuppressWarnings("unchecked")
-    public Collection<?> getChildren(@SuppressWarnings("null") Object itemId) {
-        List<T> childRows = getHierarchicalItem(itemId)
+    public Collection<T> getChildren(@SuppressWarnings("null") Object itemId) {
+        return children.computeIfAbsent((T)itemId, this::getChildrenTypesafe);
+    }
+
+    public Collection<T> getExistingChildren(T parent) {
+        return children.getOrDefault(parent, Collections.emptyList());
+    }
+
+    public boolean removeExistingChildren(T item) {
+        return children.remove(item) != null;
+    }
+
+    private List<T> getChildrenTypesafe(T parent) {
+        @SuppressWarnings("unchecked")
+        List<T> childRows = getHierarchicalItem(parent)
                 .map(t -> (List<T>)t.getChildRows())
                 .orElseGet(Collections::emptyList);
-        childRows.forEach(child -> parents.put(child, (T)itemId));
+        childRows.forEach(child -> parents.put(child, parent));
         return childRows;
     }
 
@@ -122,7 +135,7 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
 
     @CheckForNull
     @Override
-    public Object getParent(@SuppressWarnings("null") Object itemId) {
+    public T getParent(@SuppressWarnings("null") Object itemId) {
         return parents.get(itemId);
     }
 

@@ -45,7 +45,7 @@ public class ComponentBinding implements ElementBinding {
      *            object
      * @param modelChanged a {@link Handler} that is called when this {@link Binding} desires an update
      *            of the UI because the model has changed. Usually declared in
-     *            {@link BindingContext#updateUI()}.
+     *            {@link BindingContext#modelChanged()}.
      */
     public ComponentBinding(ComponentWrapper componentWrapper, PropertyDispatcher propertyDispatcher,
             Handler modelChanged, List<LinkkiAspectDefinition> aspectDefinitions) {

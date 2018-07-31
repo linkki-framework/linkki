@@ -57,4 +57,9 @@ public class LowerCaseRowPmo extends AbstractCodeRow implements HierarchicalRowP
         return true;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + " \"" + getUpperCaseLetter() + getLowerCaseLetter() + "\"";
+    }
+
 }
