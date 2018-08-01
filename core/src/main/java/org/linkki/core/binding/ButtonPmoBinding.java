@@ -18,8 +18,6 @@ import static java.util.Objects.requireNonNull;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 
-import javax.annotation.Nullable;
-
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
@@ -92,7 +90,7 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
      * We do not support messages on buttons at the moment.
      */
     @Override
-    public MessageList displayMessages(@Nullable MessageList messages) {
+    public MessageList displayMessages(MessageList messages) {
         return new MessageList();
     }
 

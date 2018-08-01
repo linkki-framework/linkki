@@ -3,8 +3,6 @@
 :jbake-status: published
 :jbake-order: 00
 
-:images-index: ../../../src/main/jbake/assets/images/content/
-
 == {dtitle}
 
 ifeval::["{backend}" != "pdf"]

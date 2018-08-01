@@ -52,7 +52,12 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
         return Collections.emptyList();
     }
 
-    public void setItems(Collection<T> items) {
+    /**
+     * Replaces this container's contents with the given items.
+     * 
+     * @param items a collection of items
+     */
+    public void setItems(Collection<? extends T> items) {
         requireNonNull(items, "items must not be null");
 
         getAllItemIds().clear();

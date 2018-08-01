@@ -1,7 +1,7 @@
 :jbake-title: Creating a new aspect
 :jbake-type: section
 :jbake-status: published
-:image-dir: ../../../src/main/jbake/assets/images/content/08_Aspects
+:image-dir: {images}08_Aspects
 :source-dir: ../../../java
 
 === Creating a new aspect

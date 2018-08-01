@@ -17,8 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import org.linkki.core.binding.aspect.AspectUpdaters;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -81,8 +79,8 @@ public class ComponentBinding implements ElementBinding {
     }
 
     @Override
-    public MessageList displayMessages(@Nullable MessageList messages) {
-        MessageList messagesForProperty = getRelevantMessages(messages != null ? messages : new MessageList());
+    public MessageList displayMessages(MessageList messages) {
+        MessageList messagesForProperty = getRelevantMessages(messages);
         componentWrapper.setValidationMessages(messagesForProperty);
         return messagesForProperty;
     }

@@ -1,7 +1,7 @@
 :jbake-title: Defining resource bundles
 :jbake-type: section
 :jbake-status: published
-:image-dir: ../../../src/main/jbake/assets/images/content/09_nls
+:image-dir: {images}09_nls
 :source-dir-binding-sample: ../../../../../../samples/binding/src/main
 
 === Location of resource bundles

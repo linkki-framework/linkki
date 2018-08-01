@@ -16,7 +16,6 @@ package org.linkki.samples.treetable.fixed.pmo;
 
 import org.linkki.samples.treetable.fixed.model.Person;
 
-// tag::hierarchical-row-pmo[]
 public class PersonRowPmo extends AbstractPersonRowPmo {
 
     private final Person person;
@@ -24,8 +23,6 @@ public class PersonRowPmo extends AbstractPersonRowPmo {
     public PersonRowPmo(Person person) {
         this.person = person;
     }
-
-    // end::hierarchical-row-pmo[]
 
     @Override
     public String getAddress() {

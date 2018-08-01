@@ -36,7 +36,7 @@ NOTE: If both properties are set, `width` has a higher priority than `expandRati
 [[ui-container-pmo]]
 ==== ContainerPmo
 
-A `ContainerPmo` is a class that implements the interface `ContainerPmo<T>` and is annotated with `@UISection`. The main function of a `ContainerPmo` is providing the PMOs to be rendered in the table. 
+A `ContainerPmo` is a class that implements the interface `ContainerPmo<T>` and is annotated with `@UISection`. The main function of a `ContainerPmo` is providing the PMOs to be rendered in the table.
 
 The method `List<T> getItems()` is called by the `TableBinding` to add the elements to the table. It should always return the same instance of `List<T>`. The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
 
@@ -79,14 +79,25 @@ include::{source-dir-binding}/org/linkki/samples/binding/pmo/SimpleContactTableP
 [[ui-hierarchical-table]]
 ==== HierarchicalRowPmo
 
-If your data is hierarchical (a tree-like structure with parent-child-relationships between rows, for example when summarizing values over certain categories), the row PMO for the <<ui-container-pmo,ContainerPmo>> should implement org.linkki.core.ui.table.HierarchicalRowPmo<ROW>; If you do, the resulting table will be a `TreeTable` which allows hiding and showing the child-rows of a row.
+Sometimes, the data in a table should be grouped for presentation, for example when summarizing values over certain categories. In that case, the data represents a tree-like structure with parent-child-relationships between rows. The resulting table will be a Vaadin `TreeTable` which allows collapsing and showing the child-rows of a row.
 
+.Hierarchical table
 image::{images}{images-folder-name}/treetable.png[A hierarchical table,align="center"]
+
+This can be realized by using `org.linkki.core.ui.table.HierarchicalRowPmo<PMO>`, row PMOs that contain further rows as children. It is possible to use multiple subclasses for row PMOs, using `HierarchicalRowPmo` only for collapsible rows. To indicate that the table contains hierarchical rows, the <<ui-container-pmo,ContainerPmo>> should return `true` in the method `isHierarchical()`. By default, this method returns `true` if `getItemPmoClass()` returns a class that implements `HierarchicalRowPmo`, which means that all rows are collapsible.
 
 [source, java]
 ----
-include::{source-dir-treetable}/org/linkki/samples/treetable/fixed/pmo/PersonRowPmo.java[tags=hierarchical-row-pmo]
+include::{source-dir-treetable}/org/linkki/samples/treetable/fixed/pmo/SummarizingPersonRowPmo.java[tags=hierarchical-row-pmo]
 ----
+
+If the order of the rows might change due to user input, you should use a <<ui-simple-item-supplier,`SimpleItemSupplier`>> as with the <<ui-container-pmo,`ContainerPmo`>> to avoid recreating the PMOs for unchanged rows.
+
+[source, java]
+----
+include::{source-dir-treetable}/org/linkki/samples/treetable/dynamic/pmo/CategoryRowPmo.java[tags=hierarchical-row-pmo-with-simple-item-supplier]
+----
+
 
 [[ui-table-footer]]
 ==== TableFooterPmo

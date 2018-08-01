@@ -162,10 +162,6 @@ public class BindingContext implements UiUpdateObserver {
 
         // Notify handler that the UI was updated for this context and the messages in all
         // contexts should now be updated
-        afterUpdateUi();
-    }
-
-    private void afterUpdateUi() {
         afterUpdateHandler.apply();
     }
 
@@ -183,7 +179,7 @@ public class BindingContext implements UiUpdateObserver {
         updateFromPmo();
     }
 
-    public void updateFromPmo() {
+    void updateFromPmo() {
         bindings.values().forEach(binding -> binding.updateFromPmo());
     }
 
