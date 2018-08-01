@@ -23,7 +23,9 @@ While implementing the hierarchical tables, we refactored the `BindingContext` a
 | `updateUI` | `modelChanged` | should be called when the context's after update handler should also be notified
 |===
 
-The `LinkkiInMemoryContainer` now implements `Container.Hierarchical` to support hierarchical data, and it no longer wraps its items in a `LinkkiItemWrapper`. It's methods `removeAllItems` and `addAllItems` that previously were always used in unison have been deprecated and replaced by a single `setItems`-Method. 
+`AbstractPage` now calls `uiUpdated()` in `reloadBindings()` instead of `modelChanged()`. As stated in JavaDoc, `reloadBindings()` should only refresh the UI, which is not a model update. Thus, `modelChanged()` is not the correct method to call. In practice, `reloadBindings()` is mainly used to react to tab changes in `TabSheetAreas` which should not trigger `UiUpdateObservers`. This correction of behavior may result in components not being initially updated if it is registered as a `UiUpdateObserver` and relies on being notified initially.
+
+The `LinkkiInMemoryContainer` now implements `Container.Hierarchical` to support hierarchical data, and it no longer wraps its items in a `LinkkiItemWrapper`. It's methods `removeAllItems` and `addAllItems` that previously were always used in unison have been deprecated and replaced by a single `setItems`-Method.
 
 ==== Collapsible Table Columns
 
@@ -61,7 +63,7 @@ Finally, the method `setHeadline(String)` is deprecated, use `setTitle(String)` 
 
 The SidebarSheet was slightly refactored. It now offers lazy initialization, which means its content is not created until the sheet is selected for the first time. Additionally it is possible to add an `UiUpdateObserver` that is triggered every time the sheet is selected.
 
-The old constructor is deprecated and will be replaced. The new constructors offers a more consistent API. 
+The old constructor is deprecated and will be replaced. The new constructors offers a more consistent API.
 
 There is a new documentation chapter explaining the <<sidebarlayout,sidebar layout>>.
 
@@ -81,7 +83,7 @@ All dependencies to and usages of CDI have been removed from linkki to better al
  * The package `org.linkki.util.cdi` and its children have been removed
  * The `LoginServlet` was removed from *linkki*; associated style classes have also been removed. For Faktor Zehn users, an equivalent class has been created in `f10-commons-auth-spring`, others are free to implement their own login solution.
  * `DefaultPmoBasedSectionFactory` is deprecated and will be removed in the next version. Simply use `PmoBasedSectionFactory` instead.
- 
+
 You can see an example in our `SampleApplicationUI`
 
 [source,java]
@@ -95,7 +97,7 @@ include::{source-dir-application}/org/linkki/samples/appsample/ui/SampleApplicat
 ==== NLS Service
 
 linkki now always use `DefaultPmoNlsService` as `PmoNlsService` and `DefaultNlsService` as `NlsService`. That means custom implementations of these interfaces are not automatically used by linkki anymore. If an individual implementation of these classes were/have to be used, please contact the linkki development team.
- 
+
 ==== BeanInstantiator
 
 `org.linkki.util.cdi.BeanInstantiator` is deprecated and will be removed the next release. Instead, use `org.apache.deltaspike.core.api.provider.BeanProvider`. Test cases which need the CDI environment provided by `BeanInstantiator` can extend `TestWithBeanProvider` from `f10-commons-cdi-test`:
@@ -110,7 +112,7 @@ linkki now always use `DefaultPmoNlsService` as `PmoNlsService` and `DefaultNlsS
 
 ==== No More Binding Private Methods
 
-Previously, linkki allowed some annotations to be used on non-public methods when using `Binder` to manually create bindings. This is no longer possible, as we believe that all methods used by linkki's binding should be public and not be accessed by reflection hacks. 
+Previously, linkki allowed some annotations to be used on non-public methods when using `Binder` to manually create bindings. This is no longer possible, as we believe that all methods used by linkki's binding should be public and not be accessed by reflection hacks.
 
 === February 15th, 2018
 
