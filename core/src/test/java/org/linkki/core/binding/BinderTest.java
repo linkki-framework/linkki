@@ -55,7 +55,7 @@ public class BinderTest {
         Binder binder = new Binder(view, pmo);
         BindingContext bindingContext = bindingManager.startNewContext("");
         binder.setupBindings(bindingContext);
-        assertThat(bindingContext.getElementBindings(), hasSize(4));
+        assertThat(bindingContext.getBindings(), hasSize(4));
 
         // Binding pmo -> view
         assertThat(view.textField.getDescription(), is(TestPmo.TEST_TOOLTIP));
@@ -68,7 +68,7 @@ public class BinderTest {
         pmo.setToolTip("test tool tip");
         pmo.setSomeothertextValues("c");
 
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
 
         assertThat(view.numberField.getValue(), is("13"));
         assertThat(view.textField.getValue(), is("foo"));
@@ -102,19 +102,19 @@ public class BinderTest {
         assertThat(view.listSelect.isRequired(), is(true));
 
         pmo.setNumberEnabled(false);
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
         assertThat(view.numberField.isEnabled(), is(false));
         assertThat(view.numberField.isRequired(), is(false));
         pmo.setNumberEnabled(true);
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
         assertThat(view.numberField.isEnabled(), is(true));
         assertThat(view.numberField.isRequired(), is(true));
 
         pmo.setTextRequired(true);
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
         assertThat(view.textField.isRequired(), is(true));
         pmo.setTextRequired(false);
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
         assertThat(view.textField.isRequired(), is(false));
     }
 

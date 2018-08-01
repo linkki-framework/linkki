@@ -160,7 +160,7 @@ public abstract class BindingManager {
     @OverridingMethodsMustInvokeSuper
     protected void updateMessages(MessageList messages) {
         requireNonNull(messages, "messages must not be null");
-        contextsByName.values().forEach(bc -> bc.updateMessages(messages));
+        contextsByName.values().forEach(bc -> bc.displayMessages(messages));
     }
 
     /**

@@ -67,7 +67,7 @@ public class UiCustomFieldTest {
 
         TestValue newValue = new TestValue("newValue");
         modelObject.property = newValue;
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
 
         assertThat(optionGroup.getValue(), is(newValue));
     }
@@ -90,7 +90,7 @@ public class UiCustomFieldTest {
         assertThat(optionGroup.isEnabled(), is(false));
 
         pmo.enabled = true;
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
 
         assertThat(optionGroup.isEnabled(), is(true));
     }
@@ -103,7 +103,7 @@ public class UiCustomFieldTest {
         assertThat(optionGroup.isVisible(), is(false));
 
         pmo.visible = true;
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
 
         assertThat(optionGroup.isVisible(), is(true));
     }
@@ -116,7 +116,7 @@ public class UiCustomFieldTest {
         assertThat(optionGroup.isRequired(), is(false));
 
         pmo.required = true;
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
 
         assertThat(optionGroup.isRequired(), is(true));
     }

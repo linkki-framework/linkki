@@ -59,7 +59,7 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
     public void testNullInputIfRequired() {
         TextField textField = getDynamicComponent();
         getDefaultPmo().setRequired(true);
-        updateUi();
+        modelChanged();
         assertThat(textField.isRequired(), is(true));
 
         textField.setValue("something");

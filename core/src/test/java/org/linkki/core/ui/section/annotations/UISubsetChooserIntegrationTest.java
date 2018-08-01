@@ -53,7 +53,7 @@ public class UISubsetChooserIntegrationTest
         List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
         availableValues.remove(TestEnum.ONE);
         getDefaultPmo().setValueAvailableValues(availableValues);
-        updateUi();
+        modelChanged();
         assertThat(getDynamicComponent().getItemIds(), contains(TestEnum.TWO, TestEnum.THREE));
     }
 
@@ -62,7 +62,7 @@ public class UISubsetChooserIntegrationTest
         SubsetChooser subsetChooser = getDynamicComponent();
 
         getDefaultModelObject().setValue(new LinkedHashSet<>(Arrays.asList(TestEnum.ONE, TestEnum.THREE)));
-        updateUi();
+        modelChanged();
         assertThat((Collection<?>)subsetChooser.getValue(), contains(TestEnum.ONE, TestEnum.THREE));
 
         subsetChooser.setValue(new LinkedHashSet<>(Arrays.asList(TestEnum.TWO)));
@@ -74,7 +74,7 @@ public class UISubsetChooserIntegrationTest
     public void testNullInputIfRequired() {
         SubsetChooser subsetChooser = getDynamicComponent();
         getDefaultPmo().setRequired(true);
-        updateUi();
+        modelChanged();
         assertThat(subsetChooser.isRequired(), is(true));
 
         subsetChooser.setValue(new LinkedHashSet<>(Arrays.asList(TestEnum.ONE)));

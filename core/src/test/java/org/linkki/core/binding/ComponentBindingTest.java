@@ -112,11 +112,9 @@ public class ComponentBindingTest {
         verify(selectField).setComponentError(null);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testDisplayMessages_noMessageList() {
         selectBinding.displayMessages(null);
-
-        verify(selectField).setComponentError(null);
     }
 
     protected static class TestModelObject {

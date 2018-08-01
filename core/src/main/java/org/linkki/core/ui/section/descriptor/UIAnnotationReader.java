@@ -135,7 +135,7 @@ public class UIAnnotationReader {
     }
 
     /**
-     * Returns all descriptors that are found by this reader. The descriptors are orderd by their
+     * Returns all descriptors that are found by this reader. The descriptors are ordered by their
      * position.
      * 
      * @return all descriptors orders by the position.

@@ -20,20 +20,14 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.vaadin.ui.Table;
 
-@RunWith(MockitoJUnitRunner.class)
 public class PmoBasedTableFactoryTest {
 
-    @SuppressWarnings("null")
-    @Mock
-    private BindingContext ctx;
+    private BindingContext ctx = new BindingContext();
 
     @Test
     public void testCreateTable_FieldLabelsAreUsedAsColumnHeaders() {

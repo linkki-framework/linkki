@@ -1,7 +1,7 @@
 :jbake-title: Components
 :jbake-type: section
 :jbake-status: published
-:image-dir: ../../../src/main/jbake/assets/images/content/07_application-framework
+:image-dir: {images}07_application-framework
 :source-dir-application: ../../../../../../samples/application-framework/src/main/java
 
 === UI

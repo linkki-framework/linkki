@@ -16,7 +16,6 @@ package org.linkki.core.ui.area;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.PostConstruct;
@@ -60,10 +59,10 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
      * {@link #setSizeUndefined()} in their constructor and added {@link Page}s do not set a defined
      * height, e.g. by using {@link #setHeight(String)} or {@link #setSizeFull()}.
      * 
-     * @param preserveHeader Determines the scroll behavior. If <code>true</code> only the contents
-     *            of each tab are scrolled. The tab headers themselves always remain visible. If
-     *            <code>false</code> everything is scrolled, including the tab headers. This means
-     *            tab headers can be scrolled out of view with this setting.
+     * @param preserveHeader Determines the scroll behavior. If <code>true</code> only the contents of
+     *            each tab are scrolled. The tab headers themselves always remain visible. If
+     *            <code>false</code> everything is scrolled, including the tab headers. This means tab
+     *            headers can be scrolled out of view with this setting.
      */
     public TabSheetArea(boolean preserveHeader) {
         super();
@@ -78,8 +77,8 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
 
     /**
      * Creates the actual UI. This cannot be done in the constructor, because clients can provide
-     * subclasses with custom pages that are not available in this super-class. In order to be able
-     * to create a UI, the initialization must be performed <em>after</em> constructors, subclass
+     * subclasses with custom pages that are not available in this super-class. In order to be able to
+     * create a UI, the initialization must be performed <em>after</em> constructors, subclass
      * constructors and dependency injection (constructor and field injection). Hence a separate
      * init-method. It is annotated as post-construct so the DI framework can call it automatically.
      * 

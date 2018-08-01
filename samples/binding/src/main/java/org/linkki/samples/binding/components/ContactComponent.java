@@ -105,7 +105,7 @@ public class ContactComponent extends Panel {
         contactPmo.reset(contact);
         addressPmo.reset(contact.getAddress());
 
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
     }
 
 }

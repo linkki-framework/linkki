@@ -112,7 +112,7 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
     public void testNullInputIfRequired() {
         TextField textField = getDynamicComponent();
         getDefaultPmo().setRequired(true);
-        updateUi();
+        modelChanged();
         assertThat(textField.isRequired(), is(true));
 
         textField.setValue(formatter.format(1));

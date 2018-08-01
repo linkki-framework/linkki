@@ -16,13 +16,15 @@ package org.linkki.core.ui.table;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * A supplier for item PMOs based on a list of underlying model objects. The PMOs are created from
@@ -32,23 +34,19 @@ import javax.annotation.Nullable;
  * You can use this supplier as follows:
  * <p>
  * In your ContainerPMO write a method that returns the list of model objects, e.g.
- * <code>List&lt;Foo&gt; getFoos();</code>. Assuming you can create a fooItem based on a foo object
+ * <code>List&lt;Foo&gt; getFoos()</code>. Assuming you can create a fooItem based on a foo object
  * just with <code>new FooItem(foo)</code>, you can create the supplier as follows:
  * 
  * <pre>
- * private SimpleItemSupplier&lt;FooItem, Foo&gt; itemSupplier = new SimpleItemSupplier&lt;&gt;(this::getFoos,
- *         foo -&gt; new FooItem(foo));
+ * private SimpleItemSupplier&lt;FooItem, Foo&gt; itemSupplier = new SimpleItemSupplier&lt;&gt;(this::getFoos, FooItem::new);
  * </pre>
- *
- * @author ortmann
  */
 public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
 
-    private List<PMO> items = new ArrayList<>(0);
-    @Nullable
-    private List<? extends MO> modelObjectsCopy;
+    private List<PMO> items = Collections.emptyList();
+    private List<MO> modelObjectsCopy = Collections.emptyList();
+    private final Map<MO, PMO> itemMap = new HashMap<>();
 
-    @Nonnull
     private final Supplier<? extends List<? extends MO>> modelObjectSupplier;
     private final Function<MO, PMO> mo2pmoMapping;
 
@@ -72,8 +70,16 @@ public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
                     "modelObjectSupplier must supply a List of model objects (which may be empty)");
         }
         if (hasUnderlyingModelObjectListChanged(actualModelObjects)) {
+            HashSet<? extends MO> actualModelObjectsSet = new HashSet<>(actualModelObjects);
+            for (Iterator<MO> iterator = itemMap.keySet().iterator(); iterator.hasNext();) {
+                if (!actualModelObjectsSet.contains(iterator.next())) {
+                    iterator.remove();
+                }
+            }
+            items = new LinkedList<>();
+            actualModelObjects.forEach(mo -> items.add(itemMap.computeIfAbsent(mo, mo2pmoMapping)));
+
             modelObjectsCopy = new ArrayList<>(actualModelObjects);
-            items = actualModelObjects.stream().map(mo2pmoMapping).collect(Collectors.toList());
         }
         return items;
     }

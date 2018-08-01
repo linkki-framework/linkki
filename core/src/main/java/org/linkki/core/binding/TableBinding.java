@@ -15,42 +15,58 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Nullable;
-
+import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.container.LinkkiInMemoryContainer;
-import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.table.ContainerPmo;
+import org.linkki.core.ui.table.HierarchicalRowPmo;
 import org.linkki.core.ui.table.TableFooterPmo;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TreeTable;
 
 /**
  * A binding for a Vaadin table to a container PMO and the items provided by it.
  *
  * @see ContainerPmo
  */
-public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Binding {
+public class TableBinding<T> extends BindingContext implements Binding {
 
-    private static final long serialVersionUID = 1L;
-
-    private final BindingContext bindingContext;
+    private final Handler modelChanged;
 
     private final Table table;
+
+    private final LinkkiInMemoryContainer<T> tableContainer = new LinkkiInMemoryContainer<>();
+
     private final ContainerPmo<T> containerPmo;
 
-    public TableBinding(BindingContext bindingContext,
+
+    TableBinding(Handler modelChanged, PropertyBehaviorProvider behaviorProvider,
             Table table,
             ContainerPmo<T> containerPmo) {
-        this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
+        super(containerPmo.getClass().getName(), behaviorProvider, Handler.NOP_HANDLER);
+        this.modelChanged = requireNonNull(modelChanged, "modelChanged must not be null");
         this.table = requireNonNull(table, "table must not be null");
         this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
-        table.setContainerDataSource(this);
-        addAllItems(containerPmo.getItems());
+    }
+
+    public void init() {
+        table.setContainerDataSource(getTableContainer());
+        getTableContainer().setItems(containerPmo.getItems());
         updateFooter();
+    }
+
+    public LinkkiInMemoryContainer<T> getTableContainer() {
+        return tableContainer;
+    }
+
+    @Override
+    public void modelChanged() {
+        modelChanged.apply();
     }
 
     /**
@@ -61,41 +77,71 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
      */
     @Override
     public void updateFromPmo() {
+        List<T> actualItems = containerPmo.getItems();
 
-        List<T> pmoItems = containerPmo.getItems();
-        List<LinkkiItemWrapper<T>> actualItems = asLinkkiItemWrapper(pmoItems, new ArrayList<>(pmoItems.size()));
+        boolean hasChildChanged = hasItemChanged(actualItems);
 
-        if (hasItemListChanged(actualItems)) {
-            removeBindingsForOldItems();
-            addAllItems(actualItems);
+        if (hasChildChanged || hasItemListChanged(actualItems)) {
+            getTableContainer().setItems(actualItems);
         }
+
         // Update the footer even if the same rows are displayed. Selecting a displayed row might
         // change the footer, e.g. when the footer sums up the selected rows
         updateFooter();
-        table.setPageLength(getContainerPmo().getPageLength());
+        table.setPageLength(getPmo().getPageLength());
+
+        super.updateFromPmo();
     }
+
+    private boolean hasItemListChanged(List<T> actualItems) {
+        return !getTableContainer().getItemIds().equals(actualItems);
+    }
+
+    private boolean hasItemChanged(List<? extends T> items) {
+        return items.stream()
+                .map(this::hasItemChanged)
+                .reduce(false, (anyChanged, thisChanged) -> anyChanged || thisChanged);
+    }
+
+    private boolean hasItemChanged(T item) {
+        if (item instanceof HierarchicalRowPmo<?>) {
+            boolean collapsed = ((TreeTable)table).isCollapsed(item);
+            if (collapsed) {
+                return getTableContainer().removeExistingChildren(item);
+            } else {
+                Collection<T> existingChildren = getTableContainer().getExistingChildren(item);
+                List<? extends T> actualItems = getActualChildren(item);
+                boolean itemInsideChildrenHasChanged = hasItemChanged(actualItems);
+                boolean childrenHaveChanged = !actualItems.equals(existingChildren);
+                if (itemInsideChildrenHasChanged || childrenHaveChanged) {
+                    return getTableContainer().removeExistingChildren(item);
+                }
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private List<? extends T> getActualChildren(T item) {
+        @SuppressWarnings("unchecked")
+        HierarchicalRowPmo<? extends T> hierarchicalRowPmo = (HierarchicalRowPmo<? extends T>)item;
+        List<? extends T> actualItems = hierarchicalRowPmo.getChildRows();
+        return actualItems;
+    }
+
 
     private void updateFooter() {
         Optional<TableFooterPmo> footerPmo = containerPmo.getFooterPmo();
         table.setFooterVisible(footerPmo.isPresent());
         if (footerPmo.isPresent()) {
             for (Object column : table.getVisibleColumns()) {
-                String text = footerPmo.get().getFooterText((String)column);
-                table.setColumnFooter(column, text);
+                if (column instanceof String) {
+                    String text = footerPmo.get().getFooterText((String)column);
+                    table.setColumnFooter(column, text);
+                }
             }
         }
-    }
-
-    private void removeBindingsForOldItems() {
-        getBackupList().stream()
-                .map(LinkkiItemWrapper<T>::getItem)
-                .filter(i -> i != null)
-                .forEach(bindingContext::removeBindingsForPmo);
-        removeAllItems();
-    }
-
-    private boolean hasItemListChanged(List<LinkkiItemWrapper<T>> actualItems) {
-        return !getBackupList().equals(actualItems);
     }
 
     @Override
@@ -103,46 +149,34 @@ public class TableBinding<T> extends LinkkiInMemoryContainer<T> implements Bindi
         return table;
     }
 
-    public ContainerPmo<T> getContainerPmo() {
+    @Override
+    public ContainerPmo<T> getPmo() {
         return containerPmo;
     }
 
     @Override
     public String toString() {
-        return "TableBinding [bindingContext=" + bindingContext + ", table=" + table + ", containerPmo="
-                + getContainerPmo() + "]";
+        return "TableBinding [table=" + table + ", containerPmo="
+                + getPmo() + "]";
     }
 
     /**
-     * Creates a new {@link TableBinding} and add the new binding to the given
-     * {@link BindingContext}.
+     * Creates a new {@link TableBinding} and add the new binding to the given {@link BindingContext}.
      *
-     * @param bindingContext The binding context used to bind the given {@link ContainerPmo} to the
-     *            given {@link Table}
+     * @param parentBindingContext The binding context used to bind the given {@link ContainerPmo} to
+     *            the given {@link Table}
      * @param table The table that should be updated by this binding
-     * @param containerPmo The {@link ContainerPmo} that holds the item that should be displayed in
-     *            the table
+     * @param containerPmo The {@link ContainerPmo} that holds the item that should be displayed in the
+     *            table
      * @return The newly created {@link TableBinding}
      */
-    public static <T> TableBinding<T> create(BindingContext bindingContext,
+    public static <T> TableBinding<T> create(BindingContext parentBindingContext,
             Table table,
             ContainerPmo<T> containerPmo) {
-        TableBinding<T> tableBinding = new TableBinding<T>(bindingContext, table, containerPmo);
-        bindingContext.add(tableBinding);
+        TableBinding<T> tableBinding = new TableBinding<T>(parentBindingContext::modelChanged,
+                parentBindingContext.getBehaviorProvider(), table, containerPmo);
+        parentBindingContext.add(tableBinding);
         return tableBinding;
-    }
-
-    @Override
-    public Object getPmo() {
-        return containerPmo;
-    }
-
-    /**
-     * We do not support messages on tables at the moment.
-     */
-    @Override
-    public MessageList displayMessages(@Nullable MessageList messages) {
-        return new MessageList();
     }
 
 }

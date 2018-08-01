@@ -58,8 +58,8 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
         defaultSection = TestUiUtil.createSectionWith(defaultPmo, bindingContext);
     }
 
-    protected void updateUi() {
-        bindingContext.updateUI();
+    protected void modelChanged() {
+        bindingContext.modelChanged();
     }
 
     @Test
@@ -118,12 +118,12 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
         assertThat(componentValueGetter.apply(getStaticComponent()), is(testValue));
 
         setter.accept(defaultPmo, testValue);
-        updateUi();
+        modelChanged();
 
         C dynamicComponent = getDynamicComponent();
         assertThat(componentValueGetter.apply(dynamicComponent), is(testValue));
         setter.accept(defaultPmo, defaultValue);
-        updateUi();
+        modelChanged();
         assertThat(componentValueGetter.apply(dynamicComponent), is(defaultValue));
     }
 

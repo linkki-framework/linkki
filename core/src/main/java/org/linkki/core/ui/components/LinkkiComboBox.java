@@ -68,13 +68,13 @@ public class LinkkiComboBox extends ComboBox {
     }
 
     /**
-     * Returns {@link com.vaadin.ui.AbstractSelect.ItemCaptionMode#ITEM} as the closest
-     * approximation of the behavior this class implements, namely the usage of the
-     * {@link #getItemCaptionProvider() item caption provider} to get captions for items.
+     * Returns {@link com.vaadin.ui.AbstractSelect.ItemCaptionMode#ITEM} as the closest approximation of
+     * the behavior this class implements, namely the usage of the {@link #getItemCaptionProvider() item
+     * caption provider} to get captions for items.
      */
     @Override
     public ItemCaptionMode getItemCaptionMode() {
-        return ItemCaptionMode.ITEM;
+        return ItemCaptionMode.ID;
     }
 
     /** Sets the function to use as the item caption provider. */
@@ -88,8 +88,8 @@ public class LinkkiComboBox extends ComboBox {
     }
 
     /**
-     * Returns the caption of the given item using this object's {@link #getItemCaptionProvider()
-     * item caption provider}.
+     * Returns the caption of the given item using this object's {@link #getItemCaptionProvider() item
+     * caption provider}.
      * 
      * @param itemId an item
      * @return the item's caption

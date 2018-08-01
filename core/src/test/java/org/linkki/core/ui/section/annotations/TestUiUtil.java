@@ -63,7 +63,7 @@ public final class TestUiUtil {
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         AbstractSection section = sectionFactory.createSection(pmo, bindingContext);
 
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
 
         Panel panel = (Panel)section.getComponent(1);
         return (GridLayout)panel.getContent();

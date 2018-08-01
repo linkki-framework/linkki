@@ -6,6 +6,25 @@
 
 == New & Noteworthy
 
+=== August 1st, 2018
+
+==== Hierarchical Tables
+
+The tables created for a `ContainerPmo` can now contain hierarchical data that is displayed in a `TreeTable`. See <<ui-hierarchical-table,HierarchicalRowPmo>> for details.
+
+===== API Changes
+
+While implementing the hierarchical tables, we refactored the `BindingContext` and `TableBinding`. The `TableBinding` is now itself a `BindingContext`. The `BindingContext` does no longer distinguish between `ElementBindings` and `TableBindings` so the relevant methods `add(elementBinding)`/`add(TableBinding)` and `getElementBindings()`/`getTableBindings()` have been united to `add(Binding)` and `getBindings()`. Some methods on `BindingContext` have been deprecated and reintroduced with new names and improved documentation:
+
+[options="header"]
+|===
+| Old | New | Notes
+| `updateMessages`| `displayMessages` | now returns a filtered `MessageList` like `Binding#displayMessages`
+| `updateUI` | `modelChanged` | should be called when the context's after update handler should also be notified
+|===
+
+The `LinkkiInMemoryContainer` now implements `Container.Hierarchical` to support hierarchical data, and it no longer wraps its items in a `LinkkiItemWrapper`. It's methods `removeAllItems` and `addAllItems` that previously were always used in unison have been deprecated and replaced by a single `setItems`-Method. 
+
 === July 18th, 2018
 
 ==== HelpMenu
@@ -44,7 +63,7 @@ There is a new documentation chapter explaining the <<sidebarlayout,sidebar layo
 
 === June 12th, 2018
 
-==== *linkki* is getting independent of cdi
+==== *linkki* is getting independent from cdi
 
 All dependencies to and usages of CDI have been removed from linkki to better allow *linkki*'s usage in different environments. This refactoring makes some necessary changes:
 

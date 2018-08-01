@@ -17,8 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import org.linkki.core.binding.aspect.AspectUpdaters;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -45,7 +43,7 @@ public class ComponentBinding implements ElementBinding {
      *            object
      * @param modelChanged a {@link Handler} that is called when this {@link Binding} desires an update
      *            of the UI because the model has changed. Usually declared in
-     *            {@link BindingContext#updateUI()}.
+     *            {@link BindingContext#modelChanged()}.
      */
     public ComponentBinding(ComponentWrapper componentWrapper, PropertyDispatcher propertyDispatcher,
             Handler modelChanged, List<LinkkiAspectDefinition> aspectDefinitions) {
@@ -81,8 +79,8 @@ public class ComponentBinding implements ElementBinding {
     }
 
     @Override
-    public MessageList displayMessages(@Nullable MessageList messages) {
-        MessageList messagesForProperty = getRelevantMessages(messages != null ? messages : new MessageList());
+    public MessageList displayMessages(MessageList messages) {
+        MessageList messagesForProperty = getRelevantMessages(messages);
         componentWrapper.setValidationMessages(messagesForProperty);
         return messagesForProperty;
     }

@@ -111,8 +111,8 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     /**
-     * The spacer consists of a layout and a label. The layout is needed to force vaadin to
-     * correctly calculate the height when the content below is set to height: 100%
+     * The spacer consists of a layout and a label. The layout is needed to force vaadin to correctly
+     * calculate the height when the content below is set to height: 100%
      */
     private void createSpacer() {
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -135,9 +135,8 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     /**
-     * Adds a new button to the header for the given button PMO. The new button is added before the
-     * close button. If the section does not have a close button it is added at the end of the
-     * header.
+     * Adds a new button to the header using the given button PMO. The new button is added before the
+     * close button. If the section does not have a close button it is added at the end of the header.
      */
     public void addHeaderButton(Button button) {
         addBeforeCloseButton(button);
@@ -181,7 +180,7 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     /**
-     * Closed the section.
+     * Closes the section.
      */
     public void close() {
         if (isClosed()) {
@@ -199,11 +198,11 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     /**
-     * Implementations of this method have to return the sections content, which is the
-     * {@link Component} added to the section. The sections header is not part of the content and
-     * has to be excluded.
+     * @implSpec Implementations of this method have to return the section's content, which is the
+     *           {@link Component} added to the section. The section's header is not part of the content
+     *           and has to be excluded.
      * 
-     * @return the content of a section.
+     * @return the content of this section
      */
     protected abstract Component getSectionContent();
 

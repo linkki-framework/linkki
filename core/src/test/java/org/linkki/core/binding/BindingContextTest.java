@@ -26,7 +26,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -41,7 +40,6 @@ import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.TestUiUtil;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
@@ -93,13 +91,13 @@ public class BindingContextTest {
     private void setUpBinding2() {
         binding2 = new ComponentBinding(new LabelComponentWrapper(label2, field2),
                 new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
-                context::updateUI, new ArrayList<>());
+                context::modelChanged, new ArrayList<>());
     }
 
     private void setUpBinding1() {
         binding1 = new ComponentBinding(new LabelComponentWrapper(label1, field1),
                 new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
-                context::updateUI, new ArrayList<>());
+                context::modelChanged, new ArrayList<>());
     }
 
     private TestPmo getPmo() {
@@ -110,13 +108,13 @@ public class BindingContextTest {
     public void testAdd() {
         setUpPmo();
         setUpBinding1();
-        assertEquals(0, context.getElementBindings().size());
+        assertEquals(0, context.getBindings().size());
         context.add(binding1);
-        assertEquals(1, context.getElementBindings().size());
+        assertEquals(1, context.getBindings().size());
     }
 
     @Test
-    public void testUpdateUIBindings() {
+    public void testModelChangedBindings() {
         Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
         setUpBinding1();
 
@@ -130,7 +128,7 @@ public class BindingContextTest {
     }
 
     @Test
-    public void testUpdateUIBindings_noBindingInContext() {
+    public void testModelChangedBindings_noBindingInContext() {
         Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
         setUpBinding1();
 
@@ -144,19 +142,19 @@ public class BindingContextTest {
     }
 
     @Test
-    public void testUpdateUIBindingsAndValidate_noBindingInContext() {
+    public void testModelChangedBindingsAndValidate_noBindingInContext() {
         Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
         setUpBinding1();
 
         binding1 = spy(binding1);
 
-        context.updateUI();
+        context.modelChanged();
 
         verify(afterUpdateUi).apply();
     }
 
     @Test
-    public void testUpdateUIBindingsAndValidate() {
+    public void testModelChangedBindingsAndValidate() {
         Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
 
         setUpBinding1();
@@ -164,7 +162,7 @@ public class BindingContextTest {
 
         context.add(binding1);
 
-        context.updateUI();
+        context.modelChanged();
         verify(binding1).updateFromPmo();
         verify(afterUpdateUi).apply();
     }
@@ -185,20 +183,6 @@ public class BindingContextTest {
     }
 
     @Test
-    public void testRemoveBindingsForPmo() {
-        setUpPmo();
-        setUpBinding1();
-        setUpBinding2();
-        context.add(binding1);
-        context.add(binding2);
-
-        assertThat(context.getElementBindings(), hasSize(2));
-
-        context.removeBindingsForPmo(pmo);
-        assertThat(context.getElementBindings(), is(empty()));
-    }
-
-    @Test
     public void testRemoveBindingsForComponent() {
         setUpPmo();
         setUpBinding1();
@@ -206,12 +190,12 @@ public class BindingContextTest {
         context.add(binding1);
         context.add(binding2);
 
-        assertThat(context.getElementBindings(), hasSize(2));
+        assertThat(context.getBindings(), hasSize(2));
 
         VerticalLayout layout = new VerticalLayout(field1, field2);
 
         context.removeBindingsForComponent(layout);
-        assertThat(context.getElementBindings(), is(empty()));
+        assertThat(context.getBindings(), is(empty()));
     }
 
     @Test
@@ -242,23 +226,6 @@ public class BindingContextTest {
         context.bind(buttonPmo, button);
 
         assertThat(button.isEnabled(), is(false));
-    }
-
-    @Test
-    public void testRemoveBinding() {
-
-        context = TestBindingContext.create();
-
-        List<TestModelObject> pmos = new ArrayList<>(100);
-        for (int i = 0; i < 100; i++) {
-
-            TestModelObject testPmo = new TestModelObject();
-            pmos.add(testPmo);
-
-            TestUiUtil.createFirstComponentOf(testPmo, context);
-        }
-
-        pmos.forEach(context::removeBindingsForPmo);
     }
 
     @UISection

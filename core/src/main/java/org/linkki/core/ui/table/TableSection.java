@@ -17,13 +17,10 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.Validate;
 import org.linkki.core.ui.section.AbstractSection;
 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 
 /**
@@ -34,20 +31,11 @@ public class TableSection<T> extends AbstractSection {
 
     private static final long serialVersionUID = 1L;
 
-    @Nullable
-    private Table table;
+    private final Table table;
 
     /* package private, used by the PmoBaseTableFactory */
-    TableSection(String caption, boolean closeable, Optional<Button> addItemButton) {
+    TableSection(String caption, boolean closeable, Optional<Button> addItemButton, Table table) {
         super(caption, closeable, addItemButton);
-    }
-
-    /**
-     * Sets the table shown in the section.
-     */
-    /* package private, used by the PmoBaseTableFactory */
-    void setTable(Table table) {
-        Validate.isTrue(this.table == null, "Table already set.");
         this.table = requireNonNull(table, "table must not be null");
         addComponent(table);
         setExpandRatio(table, 1f);
@@ -64,11 +52,11 @@ public class TableSection<T> extends AbstractSection {
 
     @Override
     public String toString() {
-        return "TableSection based on " + (table != null ? table.getContainerDataSource() : null);
+        return "TableSection based on " + table.getContainerDataSource();
     }
 
     @Override
-    public Component getSectionContent() {
+    public Table getSectionContent() {
         return table;
     }
 }

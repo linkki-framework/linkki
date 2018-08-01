@@ -15,17 +15,10 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.annotation.Nullable;
 
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.behavior.PropertyBehavior;
@@ -57,10 +50,7 @@ public class BindingContext implements UiUpdateObserver {
     private final PropertyBehaviorProvider behaviorProvider;
     private final Handler afterUpdateHandler;
 
-    private final Map<Object, ElementBinding> elementBindings = new ConcurrentHashMap<>();
-    private final Map<Object, List<ElementBinding>> elementBindingsByPmo = Collections.synchronizedMap(new HashMap<>());
-    private final Map<Component, TableBinding<?>> tableBindings = new ConcurrentHashMap<>();
-    private final Set<PropertyDispatcher> propertyDispatchers = new HashSet<>();
+    private final Map<Object, Binding> bindings = new ConcurrentHashMap<>();
     private final PropertyDispatcherFactory dispatcherFactory = new PropertyDispatcherFactory();
 
 
@@ -115,55 +105,20 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Adds an element binding to the context.
+     * Adds a binding to the context.
      */
-    public BindingContext add(ElementBinding binding) {
+    public BindingContext add(Binding binding) {
         requireNonNull(binding, "binding must not be null");
 
-        elementBindings.put(binding.getBoundComponent(), binding);
-        elementBindingsByPmo.computeIfAbsent(binding.getPmo(), (pmo) -> Collections.synchronizedList(new ArrayList<>()))
-                .add(binding);
-        propertyDispatchers.add(binding.getPropertyDispatcher());
+        bindings.put(binding.getBoundComponent(), binding);
         return this;
     }
 
     /**
-     * Adds a table binding to the context.
+     * Returns all bindings in the context.
      */
-
-    public BindingContext add(TableBinding<?> tableBinding) {
-        requireNonNull(tableBinding, "tableBinding must not be null");
-
-        tableBindings.put(tableBinding.getBoundComponent(), tableBinding);
-        return this;
-    }
-
-    /**
-     * Returns all element bindings in the context.
-     */
-    public Collection<ElementBinding> getElementBindings() {
-        return Collections.unmodifiableCollection(elementBindings.values());
-    }
-
-    /**
-     * Returns all table bindings in the context.
-     */
-    public Collection<TableBinding<?>> getTableBindings() {
-        return Collections.unmodifiableCollection(tableBindings.values());
-    }
-
-    /**
-     * Removes all bindings in this context that refer to the given PMO.
-     */
-    public void removeBindingsForPmo(Object pmo) {
-        requireNonNull(pmo, "pmo must not be null");
-
-        Collection<ElementBinding> toRemove = elementBindingsByPmo.get(pmo);
-        if (toRemove != null) {
-            toRemove.stream().map(b -> b.getPropertyDispatcher()).forEach(propertyDispatchers::remove);
-            elementBindings.values().removeAll(toRemove);
-            elementBindingsByPmo.remove(pmo);
-        }
+    public Collection<Binding> getBindings() {
+        return Collections.unmodifiableCollection(bindings.values());
     }
 
     /**
@@ -172,8 +127,7 @@ public class BindingContext implements UiUpdateObserver {
      * too.
      */
     public void removeBindingsForComponent(Component c) {
-        elementBindings.remove(c);
-        tableBindings.remove(c);
+        bindings.remove(c);
         if (c instanceof ComponentContainer) {
             ComponentContainer container = (ComponentContainer)c;
             container.iterator().forEachRemaining(this::removeBindingsForComponent);
@@ -183,25 +137,65 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Updates the UI with the data retrieved via bindings registered in this context. Executes
      * afterUpdateHandler that is set in the constructor.
+     * 
+     * @deprecated This method is deprecated since August 1st, 2018 and may be removed in future
+     *             versions. Use {@link #modelChanged()} or {@link #uiUpdated()} instead.
      */
+    @Deprecated
     public void updateUI() {
-        updateBindings();
+        modelChanged();
+    }
+
+    /**
+     * Updates the UI with the data retrieved via bindings registered in this context. Executes
+     * afterUpdateHandler that is set in the constructor.
+     * <p>
+     * This method should be called when the UI should be updated after a model change to update all
+     * {@link Binding Bindings} of this {@link BindingContext} and notify the
+     * after-update-handler(provided in the constructor) that the model has changed. This may trigger
+     * other {@link UiUpdateObserver observers}.
+     * 
+     * @see #uiUpdated()
+     */
+    public void modelChanged() {
+        updateFromPmo();
 
         // Notify handler that the UI was updated for this context and the messages in all
         // contexts should now be updated
         afterUpdateHandler.apply();
     }
 
+    /**
+     * Triggers the update of all registered bindings. This method is called by {@link BindingManager}
+     * if this {@link BindingContext} is registered as {@link UiUpdateObserver}.
+     * <p>
+     * Call this method if it is necessary to update the UI after any changes that only affect bindings
+     * in this context. This will not trigger other {@link UiUpdateObserver}.
+     * 
+     * @see #modelChanged()
+     */
     @Override
     public void uiUpdated() {
-        updateBindings();
+        updateFromPmo();
     }
 
-    private void updateBindings() {
-        // table bindings have to be updated first, as their update removes bindings
-        // and creates new bindings if the table content has changed
-        tableBindings.values().forEach(binding -> binding.updateFromPmo());
-        elementBindings.values().forEach(binding -> binding.updateFromPmo());
+    void updateFromPmo() {
+        bindings.values().forEach(binding -> binding.updateFromPmo());
+    }
+
+    /**
+     * Updates all bindings with the given message list.
+     * <p>
+     * This method is used by a {@link BindingManager} to push validation results to all registered
+     * {@linkplain BindingContext}s.
+     * 
+     * @see BindingManager#updateMessages(MessageList)
+     * @deprecated This method is deprecated since August 1st, 2018 and may be removed in future
+     *             versions. Use {@link #displayMessages(MessageList)} instead.
+     */
+    @Deprecated
+    public final void updateMessages(MessageList messages) {
+        displayMessages(messages);
     }
 
     /**
@@ -212,10 +206,12 @@ public class BindingContext implements UiUpdateObserver {
      * 
      * @see BindingManager#updateMessages(MessageList)
      */
-    public void updateMessages(@Nullable MessageList messages) {
-        // TODO merken welches binding welche messages anzeigt
-        elementBindings.values().forEach(binding -> binding.displayMessages(messages));
-        tableBindings.values().forEach(binding -> binding.displayMessages(messages));
+    public MessageList displayMessages(MessageList messages) {
+        return bindings.values().stream()
+                .map(binding -> binding.displayMessages(messages))
+                .flatMap(MessageList::stream)
+                .distinct()
+                .collect(MessageList.collector());
     }
 
 
@@ -246,7 +242,7 @@ public class BindingContext implements UiUpdateObserver {
         requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
         requireNonNull(componentWrapper, "component must not be null");
         ElementBinding binding = bindingDescriptor.createBinding(createDispatcherChain(pmo, bindingDescriptor),
-                                                                 this::updateUI, componentWrapper);
+                                                                 this::modelChanged, componentWrapper);
         binding.updateFromPmo();
         add(binding);
     }
@@ -263,7 +259,7 @@ public class BindingContext implements UiUpdateObserver {
         requireNonNull(button, "button must not be null");
 
         ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, createDispatcherChain(pmo),
-                this::updateUI);
+                this::modelChanged);
         buttonPmoBinding.updateFromPmo();
         add(buttonPmoBinding);
         return buttonPmoBinding;
@@ -282,4 +278,5 @@ public class BindingContext implements UiUpdateObserver {
 
         return dispatcherFactory.createDispatcherChain(buttonPmo, getBehaviorProvider());
     }
+
 }

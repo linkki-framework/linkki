@@ -155,7 +155,7 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
     public void testNullInputIfRequired() {
         DateField dateField = getDynamicComponent();
         getDefaultPmo().setRequired(true);
-        updateUi();
+        modelChanged();
         assertThat(dateField.isRequired(), is(true));
 
         Calendar cal = Calendar.getInstance();
@@ -176,7 +176,7 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
         DateField dynamicField = TestUiUtil.getComponentById(createSection(pmo),
                                                              ComponentAnnotationIntegrationTest.PROPERTY_VALUE);
         pmo.setRequired(true);
-        updateUi();
+        modelChanged();
         assertThat(dynamicField.isRequired(), is(true));
 
         dynamicField.setConvertedValue(LocalDate.of(2018, 1, 1));

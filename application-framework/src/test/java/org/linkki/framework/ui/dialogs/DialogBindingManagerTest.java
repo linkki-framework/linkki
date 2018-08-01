@@ -72,7 +72,7 @@ public class DialogBindingManagerTest {
                 Handler.NOP_HANDLER, new ArrayList<>()));
         ctx.add(binding);
 
-        ctx.updateUI();
+        ctx.modelChanged();
 
         verify(binding).displayMessages(messages);
     }

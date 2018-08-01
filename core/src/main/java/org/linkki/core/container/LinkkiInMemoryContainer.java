@@ -15,45 +15,90 @@ package org.linkki.core.container;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.WeakHashMap;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNullableByDefault;
 
+import org.linkki.core.ui.table.HierarchicalRowPmo;
+
+import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.AbstractInMemoryContainer;
 
 /**
- * A in-memory container which doesn't do any reflection magic. This container simply stores the
+ * An in-memory container which doesn't do any reflection magic. This container simply stores the
  * Objects.
  */
-public class LinkkiInMemoryContainer<T>
-        extends AbstractInMemoryContainer<Object, Object, LinkkiInMemoryContainer.LinkkiItemWrapper<T>> {
+public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Object, Item>
+        implements Container.Hierarchical {
 
     private static final long serialVersionUID = -1708252890035638419L;
 
-    private List<LinkkiItemWrapper<T>> backupList = new ArrayList<>();
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkkiItemWrapper<T> getUnfilteredItem(@Nullable Object itemId) {
-        return new LinkkiItemWrapper<>((T)itemId);
-    }
+    // Use a weak reference to remove mappings of children that have been removed because they are no
+    // longer referenced by their former parent. Their bindings are removed automatically when the
+    // corresponding Components are detached after their parent's binding was updated.
+    private Map<T, T> parents = new WeakHashMap<>();
+    private Map<T, List<T>> children = new WeakHashMap<>();
 
     @Override
     public Collection<?> getContainerPropertyIds() {
         return Collections.emptyList();
     }
 
+    /**
+     * Replaces this container's contents with the given items.
+     * 
+     * @param items a collection of items
+     */
+    public void setItems(Collection<? extends T> items) {
+        requireNonNull(items, "items must not be null");
+
+        getAllItemIds().clear();
+        getAllItemIds().addAll(items);
+
+        fireItemSetChange();
+    }
+
+    /**
+     * @deprecated Since July 26, 2018. Use {@link #setItems(Collection)} with empty list instead. If
+     *             {@link #removeAllItems()} was only used in combination with
+     *             {@link #addAllItems(Collection)} simply call {@link #setItems(Collection)} with the
+     *             new collection.
+     */
+    @Deprecated
+    @Override
+    public boolean removeAllItems() {
+        getAllItemIds().clear();
+        parents.clear();
+        return true;
+    }
+
+    /**
+     * @deprecated Since July 26, 2018. Adding new items to a list of existing items is no longer
+     *             supported. Call {@link #setItems(Collection)} to specify the new list of items.
+     */
+    @Deprecated
+    public void addAllItems(Collection<T> items) {
+        getAllItemIds().addAll(items);
+        fireItemSetChange();
+    }
+
+    @Override
+    protected Item getUnfilteredItem(@Nullable Object itemId) {
+        throw new UnsupportedOperationException("getUnfilteredItem is not supported");
+    }
+
     @Override
     @CheckForNull
     public Property<T> getContainerProperty(@Nullable Object itemId, @Nullable Object propertyId) {
-        return null;
+        throw new UnsupportedOperationException("getContainerProperty is not supported");
     }
 
     @Override
@@ -62,121 +107,75 @@ public class LinkkiInMemoryContainer<T>
         throw new UnsupportedOperationException("getType is not supported");
     }
 
+    // methods from Hierarchical start here
+
     @Override
-    public boolean removeAllItems() throws UnsupportedOperationException {
-        getAllItemIds().clear();
-        backupList.clear();
-        return true;
+    @SuppressWarnings("unchecked")
+    public Collection<T> getChildren(@SuppressWarnings("null") Object itemId) {
+        return children.computeIfAbsent((T)itemId, this::getChildrenTypesafe);
     }
 
-    public void addAllItems(Collection<T> items) {
-        addAllItems(asLinkkiItemWrapper(items, new ArrayList<>(items.size())));
+    public Collection<T> getExistingChildren(T parent) {
+        return children.getOrDefault(parent, Collections.emptyList());
     }
 
-    protected void addAllItems(List<LinkkiItemWrapper<T>> items) {
-
-        requireNonNull(items, "items must not be null");
-
-        List<Object> allItemIds = getAllItemIds();
-
-        for (LinkkiItemWrapper<T> item : items) {
-            backupList.add(item);
-            allItemIds.add(item.getItem());
-        }
-
-        fireItemSetChange();
+    public boolean removeExistingChildren(T item) {
+        return children.remove(item) != null;
     }
 
-    protected List<LinkkiItemWrapper<T>> asLinkkiItemWrapper(Collection<T> items,
-            List<LinkkiItemWrapper<T>> target) {
-        requireNonNull(items, "items must not be null");
-        requireNonNull(target, "target must not be null");
-
-        for (T item : items) {
-            target.add(new LinkkiItemWrapper<T>(item));
-        }
-
-        return target;
+    private List<T> getChildrenTypesafe(T parent) {
+        @SuppressWarnings("unchecked")
+        List<T> childRows = getHierarchicalItem(parent)
+                .map(t -> (List<T>)t.getChildRows())
+                .orElseGet(Collections::emptyList);
+        childRows.forEach(child -> parents.put(child, parent));
+        return childRows;
     }
 
-    protected List<LinkkiItemWrapper<T>> getBackupList() {
-        return backupList;
+    private Optional<HierarchicalRowPmo<?>> getHierarchicalItem(Object itemId) {
+        return Optional.ofNullable(itemId)
+                .filter(HierarchicalRowPmo.class::isInstance)
+                .map(HierarchicalRowPmo.class::cast);
     }
 
-    /**
-     * A simple Wrapper class for the Object in {@link LinkkiInMemoryContainer}. This class needs to
-     * be public to ensure that it can be accessed from all JVM versions.
-     * <p>
-     * This wrapper is needed to 'override' the {@link #equals(Object)} and {@link #hashCode()} of
-     * the containing objects for our 'need to reload the container' check.
-     */
-    @ParametersAreNullableByDefault
-    public static class LinkkiItemWrapper<T> implements Item {
+    @CheckForNull
+    @Override
+    public T getParent(@SuppressWarnings("null") Object itemId) {
+        return parents.get(itemId);
+    }
 
-        private static final long serialVersionUID = -8239631444860890275L;
+    @Override
+    public Collection<?> rootItemIds() {
+        return getItemIds();
+    }
 
-        @Nullable
-        private final T item;
+    @Override
+    public boolean areChildrenAllowed(@SuppressWarnings("null") Object itemId) {
+        return hasChildren(itemId);
+    }
 
-        public LinkkiItemWrapper(@Nullable T item) {
-            this.item = item;
-        }
+    @Override
+    public boolean isRoot(@SuppressWarnings("null") Object itemId) {
+        return containsId(itemId);
+    }
 
-        @Override
-        @CheckForNull
-        public Property<T> getItemProperty(@Nullable Object id) {
-            // probably we should throw an UnsupportedOperationException
-            // this method shall never be called but without an exception we'll never
-            // notice it...
-            return null;
-        }
+    @Override
+    public boolean hasChildren(@SuppressWarnings("null") Object itemId) {
+        return getHierarchicalItem(itemId)
+                .map(HierarchicalRowPmo::hasChildRows)
+                .orElse(false);
+    }
 
-        @Override
-        public Collection<?> getItemPropertyIds() {
-            return Collections.emptyList();
-        }
+    @Override
+    public boolean setParent(@SuppressWarnings("null") Object itemId, @Nullable Object newParentId)
+            throws UnsupportedOperationException {
+        return false;
+    }
 
-        @Override
-        public boolean addItemProperty(@Nullable Object id, @SuppressWarnings("rawtypes") @Nullable Property property)
-                throws UnsupportedOperationException {
-            throw new UnsupportedOperationException("addItemProperty is not supported");
-        }
-
-        @Override
-        public boolean removeItemProperty(@Nullable Object id) throws UnsupportedOperationException {
-            throw new UnsupportedOperationException("removeItemProperty is not supported");
-        }
-
-        @CheckForNull
-        public T getItem() {
-            return item;
-        }
-
-        @SuppressWarnings("null")
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            LinkkiItemWrapper<?> that = (LinkkiItemWrapper<?>)o;
-
-            // only reference check because we only want to reload
-            // the container if references has changed!
-            return item == that.item;
-        }
-
-        @Override
-        public int hashCode() {
-            if (item != null) {
-                return item.hashCode();
-            } else {
-                return 0;
-            }
-        }
+    @Override
+    public boolean setChildrenAllowed(@SuppressWarnings("null") Object itemId, boolean areChildrenAllowed)
+            throws UnsupportedOperationException {
+        return false;
     }
 
 }

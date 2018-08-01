@@ -59,7 +59,7 @@ public class ManuelBindIntegrationTest {
 
         assertThat(section.label.getDescription(), is(StringUtils.EMPTY));
         pmo.setText(ManuallyBoundSection.TOOL_TIP);
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
         assertThat(section.label.getDescription(), is(ManuallyBoundSection.TOOL_TIP));
     }
 
@@ -70,7 +70,7 @@ public class ManuelBindIntegrationTest {
         new Binder(section, pmo).setupBindings(bindingContext);
 
         pmo.setText("12345");
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
         assertThat(section.label.getValue(), is("12345"));
     }
 
@@ -83,7 +83,7 @@ public class ManuelBindIntegrationTest {
         assertThat(section.comboBox.getItemIds(), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
 
         pmo.combo = TestEnum.TWO;
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
 
         assertThat(section.comboBox.getValue(), is(TestEnum.TWO));
     }

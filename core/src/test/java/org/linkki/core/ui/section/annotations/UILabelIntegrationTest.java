@@ -45,7 +45,7 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
         assertThat(label.getValue(), is(""));
 
         ((TestModelObjectWithString)getDefaultModelObject()).setValue("fdsa");
-        updateUi();
+        modelChanged();
         assertThat(label.getValue(), is("fdsa"));
     }
 

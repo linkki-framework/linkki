@@ -109,7 +109,7 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
     public void testNullInputIfRequired() {
         CheckBox checkBox = getDynamicComponent();
         getDefaultPmo().setRequired(true);
-        updateUi();
+        modelChanged();
         assertThat(checkBox.isRequired(), is(true));
 
         checkBox.setValue(false);

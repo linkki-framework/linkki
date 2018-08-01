@@ -15,6 +15,8 @@ package org.linkki.core.ui.table;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -25,6 +27,9 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.ModelObject;
 
@@ -36,8 +41,8 @@ public class SimpleItemSupplierTest {
             mo -> new SimplePmo(mo));
 
     /**
-     * The purpose of this test is not really that the itemSupplier has the specified value but that
-     * the item supplier could be created using a Supplier without <code>? extends</code>
+     * The purpose of this test is not really that the itemSupplier has the specified value but that the
+     * item supplier could be created using a Supplier without <code>? extends</code>
      */
     @Test
     public void testCreateItemSupplierWithoutUnknownType() {
@@ -60,12 +65,25 @@ public class SimpleItemSupplierTest {
 
         modelObjects.add(42);
         assertThat(itemSupplier.get(), hasSize(1));
-        assertThat(itemSupplier.get().get(0).getModelObject(), is(42));
+        SimplePmo pmo = itemSupplier.get().get(0);
+        assertThat(pmo.getModelObject(), is(42));
 
         modelObjects.add(43);
         assertThat(itemSupplier.get(), hasSize(2));
-        assertThat(itemSupplier.get().get(0).getModelObject(), is(42));
+        assertThat(itemSupplier.get().get(0), is(pmo));
         assertThat(itemSupplier.get().get(1).getModelObject(), is(43));
+    }
+
+    @Test
+    public void testGet_shouldReturnNewList_ifUnderlyingListHasCangedOrder() {
+        modelObjects.add(0);
+        modelObjects.add(1);
+        assertThat(itemSupplier.get(), hasSize(2));
+        assertThat(itemSupplier, hasPmosForModelobjects(0, 1));
+
+        modelObjects.set(0, 99);
+        assertThat(itemSupplier.get(), hasSize(2));
+        assertThat(itemSupplier, hasPmosForModelobjects(99, 1));
     }
 
     @Test
@@ -78,6 +96,33 @@ public class SimpleItemSupplierTest {
 
     private List<Integer> getModelObjects() {
         return modelObjects;
+    }
+
+    @SuppressWarnings("null")
+    private Matcher<SimpleItemSupplier<SimplePmo, Integer>> hasPmosForModelobjects(Object... expectedModelObjects) {
+        return new TypeSafeMatcher<SimpleItemSupplier<SimplePmo, Integer>>() {
+
+            private Matcher<Iterable<? extends SimplePmo>> pmosMatcher = contains(Arrays.stream(expectedModelObjects)
+                    .map(ModelObjectValueMatcher::new).toArray(ModelObjectValueMatcher[]::new));
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("a " + SimpleItemSupplier.class.getSimpleName() + " that supplies ");
+                pmosMatcher.describeTo(description);
+            }
+
+            @Override
+            protected void describeMismatchSafely(SimpleItemSupplier<SimplePmo, Integer> item,
+                    Description mismatchDescription) {
+                mismatchDescription.appendText("a " + SimpleItemSupplier.class.getSimpleName() + " where ");
+                pmosMatcher.describeMismatch(item.get(), mismatchDescription);
+            }
+
+            @Override
+            protected boolean matchesSafely(SimpleItemSupplier<SimplePmo, Integer> item) {
+                return pmosMatcher.matches(item.get());
+            }
+        };
     }
 
     class SimplePmo {
@@ -93,6 +138,34 @@ public class SimpleItemSupplierTest {
             return mo;
         }
 
+    }
+
+    @SuppressWarnings("null")
+    private static final class ModelObjectValueMatcher extends TypeSafeMatcher<SimplePmo> {
+
+        private Matcher<Object> equalsMatcher;
+
+        private ModelObjectValueMatcher(Object mo) {
+            equalsMatcher = equalTo(mo);
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("a " + SimplePmo.class.getSimpleName() + " for ");
+            equalsMatcher.describeTo(description);
+        }
+
+        @Override
+        protected void describeMismatchSafely(SimplePmo item, Description mismatchDescription) {
+            mismatchDescription
+                    .appendText("a " + SimplePmo.class.getSimpleName() + " which's model object ");
+            equalsMatcher.describeMismatch(item.getModelObject(), mismatchDescription);
+        }
+
+        @Override
+        protected boolean matchesSafely(SimplePmo item) {
+            return equalsMatcher.matches(item.getModelObject());
+        }
     }
 
 }

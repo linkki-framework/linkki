@@ -1,0 +1,97 @@
+package org.linkki.samples.treetable.ui;
+
+import java.util.function.Consumer;
+
+import org.linkki.core.binding.BindingManager;
+import org.linkki.core.binding.DefaultBindingManager;
+import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.ui.area.TabSheetArea;
+import org.linkki.core.ui.page.AbstractPage;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.samples.treetable.dynamic.model.Bundesliga;
+import org.linkki.samples.treetable.dynamic.model.League;
+import org.linkki.samples.treetable.dynamic.pmo.LeagueTablePmo;
+import org.linkki.samples.treetable.fixed.model.PersonRepository;
+import org.linkki.samples.treetable.fixed.pmo.PersonTablePmo;
+
+import com.vaadin.annotations.Theme;
+import com.vaadin.server.Page;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.TabSheet.Tab;
+import com.vaadin.ui.UI;
+
+@Theme(value = "valo")
+public class SampleTreeTableUI extends UI {
+
+    private static final long serialVersionUID = 1L;
+    private final PersonRepository personRepository = new PersonRepository();
+    private final League league = new Bundesliga();
+
+    @Override
+    protected void init(VaadinRequest request) {
+
+        Page.getCurrent().setTitle("linkki :: TreeTable Sample");
+
+        PmoBasedSectionFactory pmoBasedSectionFactory = new PmoBasedSectionFactory();
+
+        TabSheetArea tabSheetArea = new SingleSectionTabSheetArea(pmoBasedSectionFactory, area -> {
+            // for a smaller, easy to debug, sample, copy the package
+            // linkki-core/src/test/java/org.linkki.core.ui.table.hierarchy and add
+            // area.addTab(new CodeTablePmo(), "codes");
+            area.addTab(new PersonTablePmo(personRepository::getPersons), "static");
+            area.addTab(new LeagueTablePmo(league), "dynamic");
+        });
+        tabSheetArea.createContent();
+
+        setContent(tabSheetArea);
+    }
+
+    private static final class SingleSectionTabSheetArea extends TabSheetArea {
+        private final PmoBasedSectionFactory pmoBasedSectionFactory;
+        private static final long serialVersionUID = 1L;
+        private Consumer<SingleSectionTabSheetArea> contentCreator;
+
+        private SingleSectionTabSheetArea(PmoBasedSectionFactory pmoBasedSectionFactory,
+                Consumer<SingleSectionTabSheetArea> contentCreator) {
+            this.pmoBasedSectionFactory = pmoBasedSectionFactory;
+            this.contentCreator = contentCreator;
+        }
+
+        @Override
+        public void updateContent() {
+            reloadBindings();
+        }
+
+        @Override
+        public void createContent() {
+            contentCreator.accept(this);
+        }
+
+        public Tab addTab(Object pmo, String caption) {
+            SingleSectionPage tabPage = new SingleSectionPage(pmoBasedSectionFactory, pmo);
+            tabPage.createContent();
+            return super.addTab(tabPage, caption);
+        }
+    }
+
+    private static final class SingleSectionPage extends AbstractPage {
+        private static final long serialVersionUID = 1L;
+        BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
+        private Object pmo;
+
+        private SingleSectionPage(PmoBasedSectionFactory sectionFactory, Object pmo) {
+            super(sectionFactory);
+            this.pmo = pmo;
+        }
+
+        @Override
+        public void createContent() {
+            addSection(pmo);
+        }
+
+        @Override
+        protected BindingManager getBindingManager() {
+            return bindingManager;
+        }
+    }
+}

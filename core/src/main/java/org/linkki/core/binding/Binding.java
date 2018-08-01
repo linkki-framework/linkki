@@ -13,8 +13,6 @@
  */
 package org.linkki.core.binding;
 
-import javax.annotation.Nullable;
-
 import org.linkki.core.message.MessageList;
 
 /**
@@ -58,6 +56,6 @@ public interface Binding {
      * @return those messages from the given list that are displayed; an empty list if no messages are
      *         displayed.
      */
-    MessageList displayMessages(@Nullable MessageList messages);
+    MessageList displayMessages(MessageList messages);
 
 }

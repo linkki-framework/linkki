@@ -51,7 +51,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         availableValues.add(null);
         assertThat(availableValues.contains(null), is(true));
         getDefaultPmo().setValueAvailableValues(availableValues);
-        updateUi();
+        modelChanged();
         assertThat(comboBox.getItemIds(),
                    contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE, comboBox.getNullSelectionItemId()));
     }
@@ -69,7 +69,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
         availableValues.remove(TestEnum.ONE);
         getDefaultPmo().setValueAvailableValues(availableValues);
-        updateUi();
+        modelChanged();
         assertThat(getDynamicComponent().getItemIds(), contains(TestEnum.TWO, TestEnum.THREE));
     }
 
@@ -85,7 +85,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         assertThat(comboBox.getValue(), is(TestEnum.THREE));
 
         getDefaultModelObject().setValue(TestEnum.TWO);
-        updateUi();
+        modelChanged();
         assertThat(comboBox.getValue(), is(TestEnum.TWO));
 
         comboBox.setValue(TestEnum.ONE);
@@ -98,7 +98,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         assertThat(getDynamicComponent().getValue(), is(TestEnum.THREE));
 
         getDefaultPmo().setValueAvailableValues(Arrays.asList(TestEnum.THREE));
-        updateUi();
+        modelChanged();
         assertThat(getDynamicComponent().getValue(), is(TestEnum.THREE));
     }
 
@@ -107,7 +107,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     public void testNullInputIfRequired() {
         LinkkiComboBox comboBox = getDynamicComponent();
         getDefaultPmo().setRequired(true);
-        updateUi();
+        modelChanged();
         assertThat(comboBox.isRequired(), is(true));
 
         comboBox.setValue(TestEnum.ONE);

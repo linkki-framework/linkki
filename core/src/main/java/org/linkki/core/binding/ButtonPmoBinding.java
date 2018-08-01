@@ -18,8 +18,6 @@ import static java.util.Objects.requireNonNull;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 
-import javax.annotation.Nullable;
-
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
@@ -51,16 +49,16 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
      * @param button the {@link Button} to be bound
      * @param propertyDispatcher the {@link PropertyDispatcher} handling the bound property in the model
      *            object
-     * @param modelUpdated a {@link Handler} that is called when this {@link Binding} desires an update
-     *            of the UI. Usually the {@link BindingContext#updateUI()} method.
+     * @param modelChanged a {@link Handler} that is called when this {@link Binding} desires an update
+     *            of the UI. Usually the {@link BindingContext#modelChanged()} method.
      */
-    public ButtonPmoBinding(Button button, PropertyDispatcher propertyDispatcher, Handler modelUpdated) {
+    public ButtonPmoBinding(Button button, PropertyDispatcher propertyDispatcher, Handler modelChanged) {
         this.button = requireNonNull(button, "button must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
 
         ButtonPmoButtonWrapper buttonWrapper = new ButtonPmoButtonWrapper(button);
         ButtonPmoAspectDefinition aspectDefinition = new ButtonPmoAspectDefinition();
-        aspectDefinition.initModelUpdate(propertyDispatcher, buttonWrapper, modelUpdated);
+        aspectDefinition.initModelUpdate(propertyDispatcher, buttonWrapper, modelChanged);
         uiUpdater = aspectDefinition.createUiUpdater(propertyDispatcher, buttonWrapper);
     }
 
@@ -92,7 +90,7 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
      * We do not support messages on buttons at the moment.
      */
     @Override
-    public MessageList displayMessages(@Nullable MessageList messages) {
+    public MessageList displayMessages(MessageList messages) {
         return new MessageList();
     }
 

@@ -111,7 +111,7 @@ public class PmoBasedDialogFactory {
             }
             dialog.addContent(content, expRatio);
         }
-        bindingContext.updateUI();
+        bindingContext.modelChanged();
 
         return dialog;
     }

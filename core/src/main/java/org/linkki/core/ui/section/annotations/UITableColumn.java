@@ -25,8 +25,8 @@ import com.vaadin.ui.Table;
  * table column.
  * <p>
  * Note that this annotation is <em>not</em> required for a field/method to be rendered in a column.
- * All fields/methods with one of the {@code @UI...} annotations ({@code @UITextField},
- * {@code @UICheckBox} etc.) are rendered automatically. This annotation allows optional
+ * All fields/methods with one of the {@code @UI...} annotations ({@link UITextField @UITextField},
+ * {@link UICheckBox @UICheckBox} etc.) are rendered automatically. This annotation allows optional
  * customization and can be omitted if no customization is needed.
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -37,8 +37,8 @@ public @interface UITableColumn {
     static final float UNDEFINED_EXPAND_RATIO = -1.0f;
 
     /**
-     * Configures the width in pixels for the column. The default value of -1 means that the column
-     * can be sized freely by the layout.
+     * Configures the width in pixels for the column. The default value of -1 means that the column can
+     * be sized freely by the layout.
      * <p>
      * This attribute is mutually exclusive with {@link #expandRatio()}.
      * 

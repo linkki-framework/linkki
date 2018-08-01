@@ -13,7 +13,6 @@
  */
 package org.linkki.core.ui.table;
 
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -21,11 +20,16 @@ import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
 import org.linkki.core.binding.TestBindingContext;
+import org.linkki.core.container.LinkkiInMemoryContainer;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -47,9 +51,29 @@ public class PmoBasedTableSectionFactoryTest {
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
         assertThat(tableSection.getComponent(1), is(instanceOf(Table.class)));
         Table table = (Table)tableSection.getComponent(1);
-        assertThat(table.getContainerDataSource(), is(instanceOf(TableBinding.class)));
-        TableBinding<?> tableBinding = (TableBinding<?>)table.getContainerDataSource();
-        assertThat(bindingContext.getTableBindings(), hasItem(tableBinding));
+        assertThat(table.getContainerDataSource(), is(instanceOf(LinkkiInMemoryContainer.class)));
+        LinkkiInMemoryContainer<?> container = (LinkkiInMemoryContainer<?>)table.getContainerDataSource();
+        assertThat(bindingContext, hasTableBindingWith(container));
+    }
+
+    private Matcher<BindingContext> hasTableBindingWith(LinkkiInMemoryContainer<?> container) {
+        return new TypeSafeMatcher<BindingContext>() {
+
+            @Override
+            public void describeTo(@SuppressWarnings("null") Description description) {
+                description.appendText("a BindingContext containing a TableBinding using the table container ");
+                description.appendValue(container);
+            }
+
+            @Override
+            protected boolean matchesSafely(@SuppressWarnings("null") BindingContext bindingContext) {
+                return bindingContext.getBindings().stream()
+                        .filter(TableBinding.class::isInstance)
+                        .map(TableBinding.class::cast)
+                        .map(TableBinding::getTableContainer)
+                        .anyMatch(Predicate.isEqual(container));
+            }
+        };
     }
 
     @Test
@@ -84,9 +108,9 @@ public class PmoBasedTableSectionFactoryTest {
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
         assertThat(tableSection.getComponent(1), is(instanceOf(Table.class)));
         Table table = (Table)tableSection.getComponent(1);
-        assertThat(table.getContainerDataSource(), is(instanceOf(TableBinding.class)));
-        TableBinding<?> tableBinding = (TableBinding<?>)table.getContainerDataSource();
-        assertThat(bindingContext.getTableBindings(), hasItem(tableBinding));
+        assertThat(table.getContainerDataSource(), is(instanceOf(LinkkiInMemoryContainer.class)));
+        LinkkiInMemoryContainer<?> container = (LinkkiInMemoryContainer<?>)table.getContainerDataSource();
+        assertThat(bindingContext, hasTableBindingWith(container));
     }
 
     public static class NoAnnotationTablePmo implements ContainerPmo<TestRowPmo> {
