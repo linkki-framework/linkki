@@ -30,6 +30,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class AbstractSectionTest {
 
     static class TestSection extends AbstractSection {
@@ -40,6 +42,8 @@ public class AbstractSectionTest {
 
         private static final long serialVersionUID = 1L;
 
+        @SuppressWarnings("null")
+        @SuppressFBWarnings("NP_NONNULL_RETURN_VIOLATION")
         @Override
         public Component getSectionContent() {
             return null;

@@ -36,8 +36,40 @@ public @interface UITableColumn {
 
     static final int UNDEFINED_WIDTH = -1;
     static final float UNDEFINED_EXPAND_RATIO = -1.0f;
-    static final boolean UNDEFINED_COLLAPSIBLE = false;
-    static final boolean UNDEFINED_COLLAPSED = false;
+
+    /**
+     * Defines whether a column can be collapsed and whether it initially is.
+     */
+    public enum CollapseMode {
+        /**
+         * The column is always shown.
+         */
+        NOT_COLLAPSIBLE(false, false),
+        /**
+         * The column is collapsible and is initially visible.
+         */
+        COLLAPSIBLE(true, false),
+        /**
+         * The column is collapsible and is initially collapsed.
+         */
+        INITIALLY_COLLAPSED(true, true);
+
+        private final boolean collapsible;
+        private final boolean initiallyCollapsed;
+
+        private CollapseMode(boolean collapsible, boolean initiallyCollapsed) {
+            this.collapsible = collapsible;
+            this.initiallyCollapsed = initiallyCollapsed;
+        }
+
+        public boolean isCollapsible() {
+            return collapsible;
+        }
+
+        public boolean isInitiallyCollapsed() {
+            return initiallyCollapsed;
+        }
+    }
 
     /**
      * Configures the width in pixels for the column.
@@ -63,20 +95,10 @@ public @interface UITableColumn {
     float expandRatio() default UNDEFINED_EXPAND_RATIO;
 
     /**
-     * Configures if a column is collapsible.
+     * Configures whether a column can be collapsed and whether it initially is.
      * 
-     * @implSpec Table columns are by default not collapsible.
+     * @implNote Table columns are by default not collapsible.
      */
-    boolean collapsible() default UNDEFINED_COLLAPSIBLE;
-
-    /**
-     * Configures if a column is collapsed.
-     * 
-     * @implSpec Table columns are by default not collapsed.
-     * 
-     * @implNote In order for a column to be set as collapsed, it has to be also explicitly set as
-     *           collapsible.
-     */
-    boolean collapsed() default UNDEFINED_COLLAPSED;
+    CollapseMode collapsible() default CollapseMode.NOT_COLLAPSIBLE;
 
 }

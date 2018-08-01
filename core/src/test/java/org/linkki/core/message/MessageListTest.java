@@ -35,14 +35,20 @@ import com.vaadin.server.ErrorMessage.ErrorLevel;
 
 public class MessageListTest {
 
+    @SuppressWarnings("null")
     private Message msg1;
+    @SuppressWarnings("null")
     private Message msg2;
+    @SuppressWarnings("null")
     private Message msg3;
 
+    @SuppressWarnings("null")
     private MessageList msgList1;
-    private MessageList msgList2;
+    @SuppressWarnings("null")
     private ObjectProperty invalidObjectProperty1;
+    @SuppressWarnings("null")
     private ObjectProperty invalidObjectProperty2;
+    @SuppressWarnings("null")
     private ObjectProperty invalidObjectProperty3;
 
     @Before
@@ -60,8 +66,6 @@ public class MessageListTest {
         msgList1 = new MessageList(msg1);
         msgList1.add(msg2);
         msgList1.add(msg3);
-
-        msgList2 = new MessageList();
     }
 
 
@@ -121,6 +125,7 @@ public class MessageListTest {
         assertThat(messagesByMarker.getMessage(0), is(messages.getMessage(1)));
     }
 
+    @SuppressWarnings({ "null", "unchecked", "rawtypes" })
     @Test(expected = NullPointerException.class)
     public void testGetMessagesByMarker_predicateNull_shouldThrowNullPointerException() {
         new MessageList().getMessagesByMarker((Predicate)null);
@@ -149,6 +154,7 @@ public class MessageListTest {
 
     }
 
+    @SuppressWarnings({ "unused", "null" })
     @Test(expected = NullPointerException.class)
     public void testNewMessageList_null_shouldThrowNullPointerException() {
         new MessageList((Message[])null);
@@ -199,6 +205,7 @@ public class MessageListTest {
 
     @Test(expected = NullPointerException.class)
     public void testGetMessagesFor_objectNull_shouldThrowNullPointerException() {
+        @SuppressWarnings("null")
         MessageList messages = new MessageList(Message.newError("code", "msg"),
                 Message.newWarning("code", "msg"))
                         .getMessagesFor(null);

@@ -19,6 +19,7 @@ import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.section.annotations.UITableColumn;
+import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 import org.linkki.core.ui.section.annotations.UITextArea;
 import org.linkki.samples.appsample.model.Report;
 
@@ -42,8 +43,8 @@ public class ReportPmo {
     @UIComboBox(position = 10, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED)
     public void type() {
         /*
-         * bind value to the property "type" from report and use enum constants from ReportType as
-         * available values
+         * bind value to the property "type" from report and use enum constants from ReportType as available
+         * values
          */
     }
 
@@ -52,7 +53,7 @@ public class ReportPmo {
         /* bind value to pmo property */
     }
 
-    @UITableColumn(collapsible = true)
+    @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE)
     @UITextArea(position = 30, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 2, columns = 50)
     public void description() {
         /* Use description from report (model object) directly */

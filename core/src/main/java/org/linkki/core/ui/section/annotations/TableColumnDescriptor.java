@@ -17,6 +17,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.Method;
 
+import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
+
 /**
  * Holds all information about a table column.
  */
@@ -60,12 +62,8 @@ public class TableColumnDescriptor {
         }
     }
 
-    public boolean isCollapsible() {
+    public CollapseMode getCollapseMode() {
         return columnAnnotation.collapsible();
-    }
-
-    public boolean isCollapsed() {
-        return columnAnnotation.collapsed();
     }
 
 }

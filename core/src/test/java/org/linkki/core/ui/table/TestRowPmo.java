@@ -16,6 +16,7 @@ package org.linkki.core.ui.table;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UITableColumn;
+import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 import org.linkki.core.ui.section.annotations.UITextField;
 
 public class TestRowPmo {
@@ -34,13 +35,13 @@ public class TestRowPmo {
         this.parent = parent;
     }
 
-    @UITableColumn(width = 100, collapsible = true)
+    @UITableColumn(width = 100, collapsible = CollapseMode.COLLAPSIBLE)
     @UITextField(position = 0, label = "1")
     public String getValue1() {
         return "1";
     }
 
-    @UITableColumn(expandRatio = 2.0f, collapsible = true, collapsed = true)
+    @UITableColumn(expandRatio = 2.0f, collapsible = CollapseMode.INITIALLY_COLLAPSED)
     @UITextField(position = 1, label = "2")
     public String getValue2() {
         return "2";

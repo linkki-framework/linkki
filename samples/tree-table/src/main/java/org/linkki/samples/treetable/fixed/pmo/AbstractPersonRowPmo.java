@@ -16,6 +16,7 @@ package org.linkki.samples.treetable.fixed.pmo;
 
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UITableColumn;
+import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 
 public abstract class AbstractPersonRowPmo {
 
@@ -27,19 +28,19 @@ public abstract class AbstractPersonRowPmo {
     @UILabel(position = 50, label = "Last Name")
     public abstract String getLastName();
 
-    @UITableColumn(expandRatio = 0.075F, collapsible = true)
+    @UITableColumn(expandRatio = 0.075F, collapsible = CollapseMode.COLLAPSIBLE)
     @UILabel(position = 60, label = "First Name")
     public abstract String getFirstName();
 
-    @UITableColumn(expandRatio = 0.1F, collapsible = true)
+    @UITableColumn(expandRatio = 0.1F, collapsible = CollapseMode.COLLAPSIBLE)
     @UILabel(position = 70, label = "Company")
     public abstract String getCompany();
 
-    @UITableColumn(expandRatio = 0.075F, collapsible = true)
+    @UITableColumn(expandRatio = 0.075F, collapsible = CollapseMode.COLLAPSIBLE)
     @UILabel(position = 80, label = "Phone")
     public abstract String getPhone1();
 
-    @UITableColumn(expandRatio = 0.075F, collapsible = true, collapsed = true)
+    @UITableColumn(expandRatio = 0.075F, collapsible = CollapseMode.INITIALLY_COLLAPSED)
     @UILabel(position = 90, label = "2nd Phone")
     public abstract String getPhone2();
 
@@ -47,7 +48,7 @@ public abstract class AbstractPersonRowPmo {
     @UILabel(position = 100, label = "Email")
     public abstract String getEmail();
 
-    @UITableColumn(expandRatio = 0.2F, collapsible = true)
+    @UITableColumn(expandRatio = 0.2F, collapsible = CollapseMode.COLLAPSIBLE)
     @UILabel(position = 110, label = "Website")
     public abstract String getWeb();
 

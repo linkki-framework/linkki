@@ -31,6 +31,7 @@ public class AvailableValuesProviderTest {
         assertThat(AvailableValuesProvider.booleanWrapperToValues().size(), is(3));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testEnumToValues() {
         assertThat(AvailableValuesProvider.enumToValues(TestEnum.class, false).size(), is(3));
