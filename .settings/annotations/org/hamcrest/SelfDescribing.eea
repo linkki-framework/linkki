@@ -1,0 +1,4 @@
+class org/hamcrest/SelfDescribing
+describeTo
+ (Lorg/hamcrest/Description;)V
+ (L1org/hamcrest/Description;)V

@@ -17,7 +17,7 @@ import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
 
 /**
- * {@link Collector} collecting {@link Message NlsText} into a {@link MessageList}.
+ * {@link Collector} collecting {@link Message Messages} into a {@link MessageList}.
  */
 public final class MessageListCollector {
 
@@ -26,11 +26,10 @@ public final class MessageListCollector {
     }
 
     /**
-     * Returns a {@code Collector} that accumulates the input messages into a new
-     * {@code MessageList}.
+     * Returns a {@code Collector} that accumulates the input messages into a new {@code MessageList}.
      * 
-     * @return a {@code Collector} which collects all the input messages into a {@code MessageList},
-     *         in encounter order
+     * @return a {@code Collector} which collects all the input messages into a {@code MessageList}, in
+     *         encounter order
      */
     public static Collector<Message, ?, MessageList> toMessageList() {
         return Collector.of(MessageList::new, MessageList::add, addAll());

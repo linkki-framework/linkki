@@ -1,0 +1,4 @@
+class org/hamcrest/text/IsEmptyString
+emptyString
+ ()Lorg/hamcrest/Matcher<Ljava/lang/String;>;
+ ()Lorg/hamcrest/Matcher<L1java/lang/String;>;

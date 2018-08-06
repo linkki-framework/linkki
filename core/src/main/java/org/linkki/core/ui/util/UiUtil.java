@@ -16,7 +16,6 @@ package org.linkki.core.ui.util;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
-import java.util.Optional;
 
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.AbstractSelect;
@@ -57,7 +56,13 @@ public class UiUtil {
     /** Returns the locale for the current UI. */
     public static Locale getUiLocale() {
         UI ui = UI.getCurrent();
-        return Optional.ofNullable(ui).map(UI::getLocale).orElse(Locale.GERMAN);
+        if (ui != null) {
+            Locale locale = ui.getLocale();
+            if (locale != null) {
+                return locale;
+            }
+        }
+        return Locale.GERMAN;
     }
 
     public static interface TextProvider<T> {

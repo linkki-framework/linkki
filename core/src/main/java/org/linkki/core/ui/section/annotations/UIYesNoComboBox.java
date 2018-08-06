@@ -23,8 +23,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.annotation.Nonnull;
-
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.nls.NlsText;
@@ -92,7 +91,7 @@ public @interface UIYesNoComboBox {
     public class BooleanCaptionProvider implements ItemCaptionProvider<Object> {
 
         @Override
-        @Nonnull
+        @NonNull
         public String getCaption(Object o) {
             return (o instanceof Boolean) ? booleanToCaption((Boolean)o) : ""; //$NON-NLS-1$
         }

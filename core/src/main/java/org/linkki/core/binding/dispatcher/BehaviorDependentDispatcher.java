@@ -17,8 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
-import javax.annotation.CheckForNull;
-
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.message.MessageList;
@@ -87,7 +85,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      */
     @SuppressWarnings("unchecked")
     @Override
-    @CheckForNull
+
     public <T> T pull(Aspect<T> aspect) {
         if (aspect.getName().equals(VisibleAspectDefinition.NAME) &&
                 !isConsensus(b -> b.isVisible(requireNonNull(getBoundObject()), getProperty()))) {

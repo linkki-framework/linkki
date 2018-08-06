@@ -1,0 +1,16 @@
+class com/vaadin/ui/AbstractComponent
+getCaption
+ ()Ljava/lang/String;
+ ()L1java/lang/String;
+getDescription
+ ()Ljava/lang/String;
+ ()L1java/lang/String;
+getId
+ ()Ljava/lang/String;
+ ()L0java/lang/String;
+getLocale
+ ()Ljava/util/Locale;
+ ()L0java/util/Locale;
+getStyleName
+ ()Ljava/lang/String;
+ ()L1java/lang/String;

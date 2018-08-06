@@ -19,8 +19,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import javax.annotation.Nonnull;
-
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.annotations.ReadOnlyType;
@@ -35,7 +34,7 @@ import com.vaadin.ui.TextArea;
 public class BindReadOnlyAnnotationAspectDefinitionTest {
 
     @SuppressWarnings("null")
-    private @Nonnull BehaviorDependentDispatcher dispatcher;
+    private @NonNull BehaviorDependentDispatcher dispatcher;
 
     @Before
     public void setUp() {

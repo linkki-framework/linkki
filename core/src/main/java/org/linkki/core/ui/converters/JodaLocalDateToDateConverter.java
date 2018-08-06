@@ -16,9 +16,7 @@ package org.linkki.core.ui.converters;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.joda.time.LocalDate;
 
 import com.vaadin.data.util.converter.Converter;
@@ -32,7 +30,7 @@ public class JodaLocalDateToDateConverter implements Converter<Date, LocalDate> 
     private static final long serialVersionUID = 1L;
 
     @Override
-    @CheckForNull
+    @Nullable
     public LocalDate convertToModel(@Nullable Date value,
             @Nullable Class<? extends LocalDate> targetType,
             @Nullable Locale locale) throws ConversionException {
@@ -44,8 +42,8 @@ public class JodaLocalDateToDateConverter implements Converter<Date, LocalDate> 
     }
 
     /**
-     * Converts a LocalDate with two year digits to a LocalDate with four year digits. Calculates
-     * the pivot year as 80 before today, e.g. for 2016 the pivot year is 1936.
+     * Converts a LocalDate with two year digits to a LocalDate with four year digits. Calculates the
+     * pivot year as 80 before today, e.g. for 2016 the pivot year is 1936.
      * <ul>
      * <li>All year numbers between 36 and 99 will be converted to 1936 through 1999.</li>
      * <li>All year numbers between 0 and 35 will be converted to 2000 through 2035.</li>
@@ -70,7 +68,7 @@ public class JodaLocalDateToDateConverter implements Converter<Date, LocalDate> 
     }
 
     @Override
-    @CheckForNull
+    @Nullable
     public Date convertToPresentation(@Nullable LocalDate value,
             @Nullable Class<? extends Date> targetType,
             @Nullable Locale locale) throws ConversionException {

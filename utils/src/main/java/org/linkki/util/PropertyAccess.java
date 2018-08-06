@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.CheckForNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Gives fast access to a class' properties.
@@ -58,7 +58,7 @@ public class PropertyAccess {
     /**
      * Returns the object's value for the given property.
      */
-    @CheckForNull
+    @Nullable
     public Object getValue(Object object, String propertyName) {
         PropertyDescriptor descriptor = getPropertyDescriptor(propertyName);
         try {

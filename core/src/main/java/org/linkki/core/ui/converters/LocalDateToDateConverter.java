@@ -24,8 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.Nullable;
 
 import com.vaadin.data.util.converter.Converter;
 
@@ -39,7 +38,7 @@ public class LocalDateToDateConverter implements Converter<Date, LocalDate> {
     private static final long serialVersionUID = -2921191891769430781L;
 
     @Override
-    @CheckForNull
+    @Nullable
     public LocalDate convertToModel(@Nullable Date value,
             @Nullable Class<? extends LocalDate> targetType,
             @Nullable Locale locale)
@@ -78,7 +77,7 @@ public class LocalDateToDateConverter implements Converter<Date, LocalDate> {
     }
 
     @Override
-    @CheckForNull
+    @Nullable
     public Date convertToPresentation(@Nullable LocalDate value,
             @Nullable Class<? extends Date> targetType,
             @Nullable Locale locale)

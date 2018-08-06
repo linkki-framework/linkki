@@ -17,9 +17,7 @@ package org.linkki.core.ui.components;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.util.StreamUtil;
@@ -107,7 +105,7 @@ public class LabelComponentWrapper implements ComponentWrapper {
         }
     }
 
-    @CheckForNull
+    @Nullable
     private UserError getErrorHandler(MessageList messages) {
         return messages.getErrorLevel()
                 .map(e -> new UserError(formatMessages(messages), ContentMode.PREFORMATTED, e))

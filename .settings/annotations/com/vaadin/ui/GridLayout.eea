@@ -1,0 +1,4 @@
+class com/vaadin/ui/GridLayout
+getComponent
+ (II)Lcom/vaadin/ui/Component;
+ (II)L0com/vaadin/ui/Component;

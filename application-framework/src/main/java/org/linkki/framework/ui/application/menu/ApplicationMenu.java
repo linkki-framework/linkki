@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.framework.ui.application.ApplicationHeader;
@@ -31,7 +32,7 @@ public class ApplicationMenu extends MenuBar {
 
     private static final long serialVersionUID = 1L;
 
-    public ApplicationMenu(ApplicationMenuItemDefinition... itemDefs) {
+    public ApplicationMenu(@NonNull ApplicationMenuItemDefinition... itemDefs) {
         this(Arrays.asList(itemDefs));
     }
 

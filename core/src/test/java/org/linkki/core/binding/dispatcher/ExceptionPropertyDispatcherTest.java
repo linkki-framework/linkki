@@ -59,6 +59,7 @@ public class ExceptionPropertyDispatcherTest {
         fail();
     }
 
+    @SuppressWarnings("null")
     @Test
     public void testGetBoundObject() {
         assertThat(dispatcher.getBoundObject(), is(OBJ1));

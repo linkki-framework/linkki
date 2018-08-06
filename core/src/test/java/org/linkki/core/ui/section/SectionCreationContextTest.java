@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.annotations.SectionID;
@@ -53,7 +54,14 @@ public class SectionCreationContextTest {
     public void testSetComponentId() {
         BaseSection section = createContext(new SCCPmoWithID()).createSection();
         assertThat(section.getComponentCount(), is(2));
-        Component textField = ((GridLayout)((Panel)section.getComponent(1)).getContent()).getComponent(1, 0);
+        @NonNull
+        Panel panel = (Panel)section.getComponent(1);
+        @SuppressWarnings("null")
+        @NonNull
+        GridLayout gridLayout = (GridLayout)panel.getContent();
+        @SuppressWarnings("null")
+        @NonNull
+        Component textField = gridLayout.getComponent(1, 0);
         assertThat(textField.getId(), is("testProperty"));
     }
 
@@ -69,6 +77,7 @@ public class SectionCreationContextTest {
         assertThat(section, is(instanceOf(HorizontalSection.class)));
     }
 
+    @SuppressWarnings("null")
     @Test
     public void testSectionWithoutAnnotation_usesDefaultValues() {
         BaseSection section = createContext(new SectionWithoutAnnotation()).createSection();

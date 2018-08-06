@@ -27,6 +27,8 @@ import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.AbstractField;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Aspect definition for read-only state.
  */
@@ -34,6 +36,7 @@ public class BindReadOnlyAnnotationAspectDefinition implements LinkkiAspectDefin
 
     public static final String NAME = "readOnly";
 
+    @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     @SuppressWarnings("null")
     private ReadOnlyType value;
 

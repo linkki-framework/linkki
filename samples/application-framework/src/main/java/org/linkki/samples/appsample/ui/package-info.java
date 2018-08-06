@@ -11,5 +11,5 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.samples.appsample.ui;

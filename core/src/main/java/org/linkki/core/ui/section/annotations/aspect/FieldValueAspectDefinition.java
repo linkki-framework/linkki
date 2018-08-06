@@ -21,10 +21,8 @@ import java.lang.reflect.Method;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.ClassUtils;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -49,7 +47,7 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
             ComponentWrapper componentWrapper,
             Handler modelUpdated) {
         AbstractField<?> field = (AbstractField<?>)componentWrapper.getComponent();
-        FieldBindingDataSource<Object> dataSource = new FieldBindingDataSource<Object>(
+        FieldBindingDataSource<?> dataSource = new FieldBindingDataSource<>(
                 propertyDispatcher.getValueClass(),
                 () -> propertyDispatcher.pull(Aspect.of(NAME)),
                 v -> propertyDispatcher.push(Aspect.of(NAME, v)),
@@ -139,19 +137,20 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
      * Overrides behavior of {@link AbstractProperty} so it uses the given handler to set/get values in
      * a property.
      */
-    private static final class FieldBindingDataSource<T> extends AbstractProperty<T> {
+    private static final class FieldBindingDataSource<@Nullable T> extends AbstractProperty<T> {
 
         private static final long serialVersionUID = 1L;
 
         private final Class<?> valueClass;
 
-        private final Supplier<T> aspectValueGetter;
+        private final Supplier<@Nullable T> aspectValueGetter;
 
-        private final Consumer<T> aspectValueSetter;
+        private final Consumer<@Nullable T> aspectValueSetter;
 
         private Handler uiUpdater;
 
-        public FieldBindingDataSource(Class<?> valueClass, Supplier<T> valueGetter, Consumer<T> valueSetter,
+        public FieldBindingDataSource(Class<?> valueClass, Supplier<@Nullable T> valueGetter,
+                Consumer<@Nullable T> valueSetter,
                 Handler uiUpdater) {
             this.valueClass = requireNonNull(valueClass, "valueClass must not be null");
             this.aspectValueGetter = requireNonNull(valueGetter, "valueSupplier must not be null");
@@ -160,7 +159,7 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
         }
 
         @Override
-        @CheckForNull
+        @Nullable
         public T getValue() {
             return aspectValueGetter.get();
         }

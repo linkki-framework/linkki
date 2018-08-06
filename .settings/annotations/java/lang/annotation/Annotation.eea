@@ -1,0 +1,4 @@
+class java/lang/annotation/Annotation
+annotationType
+ ()Ljava/lang/Class<+Ljava/lang/annotation/Annotation;>;
+ ()L1java/lang/Class<+L1java/lang/annotation/Annotation;>;

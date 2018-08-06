@@ -17,9 +17,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UITextFieldIntegrationTest.TextFieldTestPmo;
@@ -104,7 +102,7 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
         private String value = null;
 
         @SuppressWarnings("null")
-        @CheckForNull
+        @Nullable
         @Override
         public String getValue() {
             return value;

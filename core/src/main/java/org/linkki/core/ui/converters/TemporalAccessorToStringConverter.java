@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.Nullable;
 
 import com.vaadin.data.util.converter.Converter;
 
@@ -47,6 +47,7 @@ public abstract class TemporalAccessorToStringConverter<T extends TemporalAccess
                 "this converter shall only be used to convert " + getModelType().getName() + " for presentation");
     }
 
+    @Nullable
     @Override
     public String convertToPresentation(@Nullable T value,
             @Nullable Class<? extends String> targetType,

@@ -23,9 +23,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.components.IntegerField;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
@@ -43,7 +41,6 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
 
     private NumberFormat formatter;
 
-    @SuppressWarnings("null")
     public UIIntegerFieldIntegrationTest() {
         super(TestModelObjectWithObjectInteger::new, IntegerFieldTestPmo::new);
         Locale.setDefault(UiUtil.getUiLocale());
@@ -82,6 +79,7 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         textField.setValue(null);
     }
 
+    @SuppressWarnings("null")
     @Test
     public void testSetValueWithObjectIntegerInModelObject() {
         TestModelObjectWithObjectInteger modelObject = new TestModelObjectWithObjectInteger();
@@ -173,7 +171,7 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         private Integer value = null;
 
         @SuppressWarnings("null")
-        @CheckForNull
+        @Nullable
         @Override
         public Integer getValue() {
             return value;

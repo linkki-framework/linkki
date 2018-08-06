@@ -1,0 +1,4 @@
+class com/vaadin/ui/HasComponents
+iterator
+ ()Ljava/util/Iterator<Lcom/vaadin/ui/Component;>;
+ ()L1java/util/Iterator<L1com/vaadin/ui/Component;>;

@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.framework.ui.LinkkiStyles;
 
 import com.vaadin.ui.Component;
@@ -45,8 +47,8 @@ public class SidebarLayout extends CssLayout {
 
     private final CssLayout contentArea;
 
-    private final List<SidebarSheet> sidebarSheets = new ArrayList<>();
-
+    private final List<@NonNull SidebarSheet> sidebarSheets = new ArrayList<>();
+    @Nullable
     private SidebarSheet selected;
 
     public SidebarLayout() {
@@ -65,15 +67,15 @@ public class SidebarLayout extends CssLayout {
         addComponent(contentArea);
     }
 
-    public void addSheets(Stream<SidebarSheet> sheets) {
+    public void addSheets(Stream<@NonNull SidebarSheet> sheets) {
         sheets.forEach(this::addSheet);
     }
 
-    public void addSheets(Iterable<SidebarSheet> sheets) {
+    public void addSheets(Iterable<@NonNull SidebarSheet> sheets) {
         sheets.forEach(this::addSheet);
     }
 
-    public void addSheets(SidebarSheet... sheets) {
+    public void addSheets(@NonNull SidebarSheet... sheets) {
         addSheets(Arrays.stream(sheets));
     }
 
@@ -114,15 +116,19 @@ public class SidebarLayout extends CssLayout {
     }
 
     /**
-     * Returns the selected {@link SidebarSheet}. If the {@link SidebarLayout} is instantiated with
-     * any sheets there must always be a selected one.
+     * Returns the selected {@link SidebarSheet}. If the {@link SidebarLayout} is instantiated with any
+     * sheets there must always be a selected one.
      * 
      * @return The selected {@link SidebarSheet}.
      * 
      * @throws NoSuchElementException if there is no {@link SidebarSheet} at all.
      */
     public SidebarSheet getSelected() {
-        return selected;
+        if (selected != null) {
+            return selected;
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     /**

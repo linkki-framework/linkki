@@ -1,0 +1,4 @@
+class com/vaadin/ui/AbstractSingleComponentContainer
+getContent
+ ()Lcom/vaadin/ui/Component;
+ ()L0com/vaadin/ui/Component;

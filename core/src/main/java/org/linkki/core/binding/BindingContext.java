@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.behavior.PropertyBehavior;
@@ -55,7 +56,7 @@ public class BindingContext implements UiUpdateObserver {
     private final PropertyBehaviorProvider behaviorProvider;
     private final Handler afterUpdateHandler;
 
-    private final Map<Object, Binding> bindings = new ConcurrentHashMap<>();
+    private final Map<@NonNull Object, @NonNull Binding> bindings = new ConcurrentHashMap<>();
     private final PropertyDispatcherFactory dispatcherFactory = new PropertyDispatcherFactory();
 
 
@@ -122,7 +123,7 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Returns all bindings in the context.
      */
-    public Collection<Binding> getBindings() {
+    public Collection<@NonNull Binding> getBindings() {
         return Collections.unmodifiableCollection(bindings.values());
     }
 
@@ -161,6 +162,7 @@ public class BindingContext implements UiUpdateObserver {
      * getter method.
      */
     public void removeBindingsForPmo(Object pmo) {
+        @SuppressWarnings("null")
         Set<Object> keysToRemove = bindings.entrySet().stream().filter(e -> e.getValue().getPmo() == pmo)
                 .map(Entry::getKey).collect(Collectors.toSet());
         keysToRemove.forEach(key -> {

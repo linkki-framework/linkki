@@ -16,6 +16,7 @@ package org.linkki.core.message;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.util.validation.ValidationMarker;
 
@@ -34,7 +35,7 @@ public class MessageTest {
         assertThat(createMessage(notMandatoryMarker, mandatoryMarker).isMandatoryFieldMessage(), is(true));
     }
 
-    private Message createMessage(ValidationMarker... markers) {
+    private Message createMessage(@NonNull ValidationMarker... markers) {
         return Message.builder("", ErrorLevel.ERROR).markers(markers).create();
     }
 

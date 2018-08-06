@@ -1,0 +1,13 @@
+class java/time/LocalDate
+from
+ (Ljava/time/temporal/TemporalAccessor;)Ljava/time/LocalDate;
+ (L1java/time/temporal/TemporalAccessor;)L1java/time/LocalDate;
+now
+ ()Ljava/time/LocalDate;
+ ()L1java/time/LocalDate;
+parse
+ (Ljava/lang/CharSequence;Ljava/time/format/DateTimeFormatter;)Ljava/time/LocalDate;
+ (Ljava/lang/CharSequence;Ljava/time/format/DateTimeFormatter;)L1java/time/LocalDate;
+plusDays
+ (J)Ljava/time/LocalDate;
+ (J)L1java/time/LocalDate;

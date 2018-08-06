@@ -17,6 +17,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
@@ -55,12 +56,14 @@ public class PmoNlsServiceSectionTest {
     @SuppressWarnings("null")
     private Button buttonWithoutTranslatedCaption;
 
+    @SuppressWarnings("null")
     @Before
     public void setUp() {
         BindingContext context = TestBindingContext.create();
         BaseSection section = new PmoBasedSectionFactory().createBaseSection(new SamplePmo(), context);
         HorizontalLayout header = (HorizontalLayout)section.getComponent(0);
         sectionHeader = (Label)header.getComponent(0);
+        @NonNull
         GridLayout sectionContent = (GridLayout)((Panel)section.getComponent(1)).getContent();
         textfieldLabelWithTranslation = (Label)sectionContent.getComponent(0, 0);
         textfieldLabelWithoutTranslation = (Label)sectionContent.getComponent(0, 1);

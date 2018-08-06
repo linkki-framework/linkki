@@ -15,8 +15,7 @@ package org.linkki.core.nls.pmo;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.nls.NlsService;
 import org.linkki.core.ui.util.UiUtil;
 

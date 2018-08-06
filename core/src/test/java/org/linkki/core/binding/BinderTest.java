@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.annotations.Bind;
@@ -228,9 +229,10 @@ public class BinderTest {
     }
 
     /**
-     * If the given model attribute is invalid, but a valid pmo property is provided, then the
-     * binding falls back to the pmo property.
+     * If the given model attribute is invalid, but a valid pmo property is provided, then the binding
+     * falls back to the pmo property.
      */
+    @SuppressWarnings("null")
     @Test
     public void testSetUpBindings_modelBinding_invalidModelAttribute() {
         ModelBindingView view = new ModelBindingView();
@@ -447,7 +449,7 @@ public class BinderTest {
             return someotherValues;
         }
 
-        public void setSomeothertextValues(String... textValues) {
+        public void setSomeothertextValues(@NonNull String... textValues) {
             this.someotherValues = Arrays.asList(textValues);
         }
 

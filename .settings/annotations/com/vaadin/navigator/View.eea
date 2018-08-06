@@ -1,0 +1,4 @@
+class com/vaadin/navigator/View
+enter
+ (Lcom/vaadin/navigator/ViewChangeListener$ViewChangeEvent;)V
+ (L1com/vaadin/navigator/ViewChangeListener$ViewChangeEvent;)V

@@ -1,0 +1,4 @@
+class java/lang/String
+substring
+ (I)Ljava/lang/String;
+ (I)L1java/lang/String;

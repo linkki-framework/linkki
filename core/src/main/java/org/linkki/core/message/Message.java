@@ -23,10 +23,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.SystemUtils;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.validation.ValidationMarker;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
@@ -68,12 +67,12 @@ public class Message implements Serializable {
     /**
      * The objects and their properties that are addressed in the message
      */
-    private final List<ObjectProperty> invalidProperties;
+    private final List<@NonNull ObjectProperty> invalidProperties;
 
     /**
      * A set of {@link ValidationMarker} containing additional information.
      */
-    private final Set<ValidationMarker> markers;
+    private final Set<@NonNull ValidationMarker> markers;
 
 
     /**
@@ -139,7 +138,7 @@ public class Message implements Serializable {
     /**
      * Returns the message code.
      */
-    @CheckForNull
+    @Nullable
     public String getCode() {
         return code;
     }
@@ -272,15 +271,14 @@ public class Message implements Serializable {
     }
 
     /**
-     * A builder for the {@link Message} class. This builder has been designed due to heavy
-     * constructor overloading with many parameters. It helps instantiating global variables of
-     * {@link Message}.
+     * A builder for the {@link Message} class. This builder has been designed due to heavy constructor
+     * overloading with many parameters. It helps instantiating global variables of {@link Message}.
      * <p>
      * To use the builder simply create an instance by calling the
-     * {@link Message#builder(String, ErrorLevel)}. Afterwards add needed information to the builder
-     * for example call {@link #invalidObjectWithProperties(Object object, String... properties)} to
-     * provide some invalid object properties. When the builder has every information that is needed
-     * to create a proper message call {@link #create()}.
+     * {@link Message#builder(String, ErrorLevel)}. Afterwards add needed information to the builder for
+     * example call {@link #invalidObjectWithProperties(Object object, String... properties)} to provide
+     * some invalid object properties. When the builder has every information that is needed to create a
+     * proper message call {@link #create()}.
      */
     @SuppressWarnings("hiding")
     public static class Builder {
@@ -344,7 +342,7 @@ public class Message implements Serializable {
          *
          * @return this builder instance to directly add further properties
          */
-        public Builder invalidObjects(List<ObjectProperty> invalidObjectProperties) {
+        public Builder invalidObjects(List<@NonNull ObjectProperty> invalidObjectProperties) {
             this.invalidObjectProperties.addAll(invalidObjectProperties);
             return this;
         }
@@ -356,20 +354,20 @@ public class Message implements Serializable {
          *
          * @return this builder instance to directly add further properties
          */
-        public Builder invalidObjects(ObjectProperty... invalidObjectProperties) {
+        public Builder invalidObjects(@NonNull ObjectProperty... invalidObjectProperties) {
             return invalidObjects(Arrays.asList(invalidObjectProperties));
         }
 
         /**
-         * Add some object properties the message refers to by creating instances of
-         * {@link ObjectProperty} for every given property and the given object.
+         * Add some object properties the message refers to by creating instances of {@link ObjectProperty}
+         * for every given property and the given object.
          * 
          * @param object The object the message refers to
          * @param properties Some properties the message refers to
          *
          * @return this builder instance to directly add further properties
          */
-        public Builder invalidObjectWithProperties(Object object, String... properties) {
+        public Builder invalidObjectWithProperties(Object object, @NonNull String... properties) {
             if (properties.length == 0) {
                 return invalidObject(new ObjectProperty(object));
             }
@@ -400,7 +398,7 @@ public class Message implements Serializable {
          *
          * @return this builder instance to directly add further properties
          */
-        public Builder markers(ValidationMarker... markers) {
+        public Builder markers(@NonNull ValidationMarker... markers) {
             return markers(Arrays.asList(markers));
         }
 

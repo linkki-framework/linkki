@@ -15,6 +15,7 @@ package org.linkki.core.ui.section;
 
 import static java.util.Objects.requireNonNull;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -66,7 +67,7 @@ public class PmoBasedSectionFactory {
      * Creates a new section containing a table based on the given annotated {@link ContainerPmo} and
      * binds the table via the given binding context to the PMO.
      */
-    public <T> TableSection<T> createTableSection(ContainerPmo<T> pmo,
+    public <@NonNull T> TableSection<T> createTableSection(ContainerPmo<T> pmo,
             BindingContext bindingContext) {
 
         PmoBasedTableSectionFactory<T> factory = new PmoBasedTableSectionFactory<>(

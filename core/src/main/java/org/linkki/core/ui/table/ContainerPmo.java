@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.annotations.UITableColumn;
@@ -40,7 +41,7 @@ import com.vaadin.ui.TreeTable;
  *           {@link HierarchicalRowPmo} or you must override {@link #isHierarchical()} to return
  *           {@code true} and have only the no-leave-nodes implement {@link HierarchicalRowPmo}
  */
-public interface ContainerPmo<T> {
+public interface ContainerPmo<@NonNull T> {
 
     /** Default page length to use when no other page length is set. */
     public static final int DEFAULT_PAGE_LENGTH = 15;
@@ -50,12 +51,12 @@ public interface ContainerPmo<T> {
      * 
      * @implNote The default implementation reads the generic type T from the class definition.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "null" })
     default Class<? extends T> getItemPmoClass() {
-        Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(getClass(),
-                                                                              ContainerPmo.class);
+        Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(getClass(), ContainerPmo.class);
         for (Entry<TypeVariable<?>, Type> typeArgument : typeArguments.entrySet()) {
-            if (typeArgument.getKey().getGenericDeclaration().equals(ContainerPmo.class)) {
+            TypeVariable<?> key = typeArgument.getKey();
+            if (key.getGenericDeclaration().equals(ContainerPmo.class)) {
                 return (Class<T>)typeArgument.getValue();
             }
         }

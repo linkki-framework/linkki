@@ -13,7 +13,7 @@
  */
 package org.linkki.framework.ui.application;
 
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.Nullable;
 
 import com.vaadin.navigator.Navigator.EmptyView;
 import com.vaadin.navigator.View;

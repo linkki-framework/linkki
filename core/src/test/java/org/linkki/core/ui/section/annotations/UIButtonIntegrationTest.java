@@ -17,9 +17,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.UIButtonIntegrationTest.ButtonTestPmo;
 
@@ -112,7 +110,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
         private String value = null;
 
         @SuppressWarnings("null")
-        @CheckForNull
+        @Nullable
         @Override
         public String getValue() {
             return value;

@@ -16,5 +16,5 @@
  * {@link org.linkki.core.ui.section.annotations.BindingDefinition BindingDefinitions} created for
  * the annotated elements.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.ui.section.annotations;

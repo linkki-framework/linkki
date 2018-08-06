@@ -20,12 +20,15 @@ import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.LinkkiBindingDefinition;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Aspect definition for {@link EnabledType} of annotations annotated with
  * {@link LinkkiBindingDefinition}.
  */
 public class EnabledAspectForBindingDefinition extends EnabledAspectDefinition {
 
+    @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     @SuppressWarnings("null")
     private BindingDefinition bindingtDefinition;
 

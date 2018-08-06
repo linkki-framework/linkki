@@ -16,14 +16,13 @@ package org.linkki.core.message;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * When creating a message the text might be created by replacing parameters (or placeholders) with
  * concrete values, e.g. "The sum insured must be at least {minSumInsured}." where {minSumInsured}
  * is replaced with the current minimum e.g. 200 Euro. If you need to represent the user a different
- * text, you need the actual value for the parameter. To archieve this the message holds the
+ * text, you need the actual value for the parameter. To achieve this the message holds the
  * parameters along with their actual value.
  * <p>
  * The following are scenarios where you might need to present a different text for a message:
@@ -64,7 +63,7 @@ public class MsgReplacementParameter implements Serializable {
     /**
      * Returns the parameter's value.
      */
-    @CheckForNull
+    @Nullable
     public Object getValue() {
         return value;
     }

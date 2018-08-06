@@ -15,7 +15,7 @@ package org.linkki.core.ui.components;
 
 import java.text.NumberFormat;
 
-import javax.annotation.CheckForNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 class IntegerFieldConverter extends AbstractNumberFieldConverter<Integer> {
 
@@ -31,7 +31,7 @@ class IntegerFieldConverter extends AbstractNumberFieldConverter<Integer> {
     }
 
     @Override
-    @CheckForNull
+    @Nullable
     protected Integer getNullValue() {
         return null;
     }

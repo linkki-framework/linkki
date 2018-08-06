@@ -14,8 +14,9 @@
 
 package org.linkki.framework.ui.application;
 
-import javax.annotation.Nullable;
+import static java.util.Objects.requireNonNull;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.dialogs.DefaultErrorDialog;
 import org.linkki.framework.ui.dialogs.DialogErrorHandler;
@@ -27,7 +28,10 @@ import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A base {@link UI} implementation for linkki used to configure the application. Subclasses should
@@ -45,33 +49,39 @@ public class LinkkiUi extends UI {
      * Default constructor for dependency injection. Make sure to call
      * {@link #configure(ApplicationConfig)} before the UI is initialized.
      */
+    // applicationConfig/Layout will be non-null once configure was called
     @SuppressWarnings("null")
+    @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     protected LinkkiUi() {
         super();
     }
 
+    // applicationConfig/Layout are set to non-null values in configure
     @SuppressWarnings("null")
+    @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     public LinkkiUi(ApplicationConfig applicationConfig) {
-        this.applicationConfig = applicationConfig;
         configure(applicationConfig);
     }
 
     /**
-     * Have to be called when the default constructor is used, for example in DI context.
+     * This method has to be called after the default constructor is used, for example in a DI context.
      */
     protected final void configure(ApplicationConfig config) {
-        this.applicationConfig = config;
+        this.applicationConfig = requireNonNull(config, "config must not be null");
         this.applicationLayout = applicationConfig.createApplicationLayout();
-        setNavigator(applicationConfig.createApplicationNavigator(this, applicationLayout));
+        setNavigator(config.createApplicationNavigator(this, applicationLayout));
     }
 
+    @SuppressWarnings("null")
     @Override
     public ApplicationNavigator getNavigator() {
         return (ApplicationNavigator)super.getNavigator();
     }
 
     @Override
-    protected void init(@Nullable VaadinRequest request) {
+    protected void init(VaadinRequest request) {
+        requireNonNull(applicationConfig,
+                       "configure must be called before any other methods to set applicationConfig and applicationLayout");
         setErrorHandler(createErrorHandler());
         // init converters
         VaadinSession vaadinSession = VaadinSession.getCurrent();
@@ -126,7 +136,7 @@ public class LinkkiUi extends UI {
      * @return The page title that should be displayed on top of the page.
      */
     protected String getPageTitle() {
-        return applicationConfig.getApplicationName();
+        return getApplicationConfig().getApplicationName();
     }
 
     @Override
@@ -140,7 +150,19 @@ public class LinkkiUi extends UI {
     }
 
     public ApplicationLayout getApplicationLayout() {
-        return (ApplicationLayout)getContent();
+        return applicationLayout;
+    }
+
+    @SuppressWarnings("null")
+    @Override
+    public void setContent(@Nullable Component content) {
+        // if applicationLayout == null, configure was not yet called and this is just the call from the
+        // super constructor; Otherwise only an ApplicationLayout is accepted
+        if (applicationLayout != null && !(content instanceof ApplicationLayout)) {
+            throw new IllegalArgumentException("content must be an " + ApplicationLayout.class.getSimpleName());
+        }
+        applicationLayout = (ApplicationLayout)content;
+        super.setContent(content);
     }
 
     /**
@@ -148,6 +170,7 @@ public class LinkkiUi extends UI {
      * 
      * @return {@link UI#getCurrent()}
      */
+    @SuppressWarnings("null")
     public static LinkkiUi getCurrent() {
         return (LinkkiUi)UI.getCurrent();
     }

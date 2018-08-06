@@ -1,4 +1,0 @@
-class com/vaadin/ui/Table$ColumnGenerator
-generateCell
- (Lcom/vaadin/ui/Table;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
- (Lcom/vaadin/ui/Table;L1java/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;

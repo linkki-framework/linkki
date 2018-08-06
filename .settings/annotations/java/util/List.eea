@@ -1,0 +1,7 @@
+class java/util/List
+get
+ (I)TE;
+ (I)TE;
+iterator
+ ()Ljava/util/Iterator<TE;>;
+ ()L1java/util/Iterator<TE;>;

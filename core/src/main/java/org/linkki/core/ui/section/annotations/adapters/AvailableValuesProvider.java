@@ -18,6 +18,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * Provides default methods to convert a value class to a list of available values for different
  * data types.
@@ -28,10 +30,11 @@ public class AvailableValuesProvider {
         // prevents calls
     }
 
-    public static <T extends Enum<T>> List<T> enumToValues(Class<T> valueClass, boolean inclNull) {
-        List<T> values = Arrays.asList(valueClass.getEnumConstants());
+    public static <T extends Enum<T>> List<@Nullable T> enumToValues(Class<T> valueClass, boolean inclNull) {
+        @SuppressWarnings("null")
+        List<@Nullable T> values = Arrays.asList(valueClass.getEnumConstants());
         if (inclNull) {
-            ArrayList<T> result = new ArrayList<>();
+            ArrayList<@Nullable T> result = new ArrayList<>();
             result.add(null);
             result.addAll(values);
             return Collections.unmodifiableList(result);
@@ -40,7 +43,7 @@ public class AvailableValuesProvider {
         }
     }
 
-    public static List<Boolean> booleanWrapperToValues() {
+    public static List<@Nullable Boolean> booleanWrapperToValues() {
         return Arrays.asList(null, Boolean.TRUE, Boolean.FALSE);
     }
 

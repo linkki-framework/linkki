@@ -14,5 +14,5 @@
 /**
  * Common base definitions for linkki applications.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.ui.application;

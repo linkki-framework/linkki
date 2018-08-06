@@ -14,5 +14,5 @@
 /**
  * Presentation model object localization defined by Linkki.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.nls.pmo;

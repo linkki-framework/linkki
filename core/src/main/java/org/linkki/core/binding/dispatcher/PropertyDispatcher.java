@@ -13,8 +13,7 @@
  */
 package org.linkki.core.binding.dispatcher;
 
-import javax.annotation.CheckForNull;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 
@@ -36,7 +35,7 @@ public interface PropertyDispatcher {
     /**
      * @return the model object containing the property.
      */
-    @CheckForNull
+    @Nullable
     Object getBoundObject();
 
     /**
@@ -67,7 +66,6 @@ public interface PropertyDispatcher {
      * @param aspect the {@link Aspect} that is requested from this dispatcher
      * @return value of the given {@link Aspect} according to this dispatcher
      */
-    @CheckForNull
     <T> T pull(Aspect<T> aspect);
 
     /**

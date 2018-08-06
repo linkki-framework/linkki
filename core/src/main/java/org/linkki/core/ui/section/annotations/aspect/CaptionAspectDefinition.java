@@ -16,6 +16,7 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.util.function.Consumer;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
@@ -32,12 +33,12 @@ import com.vaadin.ui.Component;
  * determine the {@link #getStaticCaption() static caption} and the {@link #getCaptionType() caption
  * type}. This annotation can be stored in {@link #initialize(java.lang.annotation.Annotation)}.
  */
-public abstract class CaptionAspectDefinition extends ModelToUiAspectDefinition<String> {
+public abstract class CaptionAspectDefinition extends ModelToUiAspectDefinition<@Nullable String> {
 
     public static final String NAME = PropertyNamingConvention.CAPTION_PROPERTY_SUFFIX;
 
     @Override
-    public Aspect<String> createAspect() {
+    public Aspect<@Nullable String> createAspect() {
         if (getCaptionType() == CaptionType.DYNAMIC) {
             return Aspect.of(NAME);
         } else if (getCaptionType() == CaptionType.STATIC) {

@@ -13,6 +13,10 @@
  */
 package org.linkki.samples.dynamicfield.pmo;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
+
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
@@ -20,10 +24,6 @@ import org.linkki.core.ui.table.SimpleItemSupplier;
 import org.linkki.core.ui.table.TableFooterPmo;
 import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.util.handler.Handler;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
 
 @UISection(caption = "Cars")
 public class CarTablePmo implements ContainerPmo<CarRowPmo>, Serializable {

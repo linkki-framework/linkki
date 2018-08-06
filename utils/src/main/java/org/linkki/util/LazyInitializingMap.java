@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-import javax.annotation.CheckForNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Key-value store that initializes its values lazily. Values will be initialized using the
@@ -36,8 +36,8 @@ public class LazyInitializingMap<K, V> {
 
     /**
      *
-     * @param initializer the initializer function for lazily creating values. This function throws
-     *            a {@link NullPointerException} when given <code>null</code>. Returns non-
+     * @param initializer the initializer function for lazily creating values. This function throws a
+     *            {@link NullPointerException} when given <code>null</code>. Returns non-
      *            <code>null</code> values otherwise.
      */
     public LazyInitializingMap(Function<K, V> initializer) {
@@ -45,8 +45,8 @@ public class LazyInitializingMap<K, V> {
     }
 
     /**
-     * Returns the value the given key maps to. Creates a new value if none is present using this
-     * map's initializer. Never returns <code>null</code>.
+     * Returns the value the given key maps to. Creates a new value if none is present using this map's
+     * initializer. Never returns <code>null</code>.
      * <p>
      * Use as replacement for the usual "get or initialize and get" code:
      *
@@ -61,7 +61,7 @@ public class LazyInitializingMap<K, V> {
      *             function violates its contract and returns <code>null</code>.
      */
     public V get(K key) {
-
+        @Nullable
         V value = internalMap.computeIfAbsent(key, initializer);
         if (value == null) {
             throw new NullPointerException("Initializer must not create a null value");
@@ -70,10 +70,10 @@ public class LazyInitializingMap<K, V> {
     }
 
     /**
-     * Returns the value the given key maps to. Returns <code>null</code> if the key does not map to
-     * a value.
+     * Returns the value the given key maps to. Returns <code>null</code> if the key does not map to a
+     * value.
      */
-    @CheckForNull
+    @Nullable
     public V getIfPresent(K key) {
         return internalMap.get(key);
     }
@@ -86,12 +86,12 @@ public class LazyInitializingMap<K, V> {
     }
 
     /**
-     * Removes the key from the map. Returns the removed value or <code>null</code> if the key does
-     * not map to a value.
+     * Removes the key from the map. Returns the removed value or <code>null</code> if the key does not
+     * map to a value.
      * 
      * @see Map#remove(Object)
      */
-    @CheckForNull
+    @Nullable
     public V remove(K key) {
         return internalMap.remove(key);
     }

@@ -25,8 +25,8 @@ import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.ui.section.annotations.UILabel.LabelAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.EnabledAspectForBindingDefinition;
-import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelValueAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefinition;
 
 /**
  * Provides a single UI-element to display text content. It is equal to {@link com.vaadin.ui.Label}.

@@ -1,0 +1,7 @@
+class java/util/Collection
+iterator
+ ()Ljava/util/Iterator<TE;>;
+ ()L1java/util/Iterator<TE;>;
+stream
+ ()Ljava/util/stream/Stream<TE;>;
+ ()L1java/util/stream/Stream<TE;>;

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.ui.section.annotations.UIButton;
@@ -110,8 +111,11 @@ public class ButtonBindingDefinitionTest {
         Button buttonSpy = spy(button);
         buttonSpy.setClickShortcut(KeyCode.ENTER);
         verify(buttonSpy).removeShortcutListener(clickShortcutCaptor.capture());
-        assertThat(clickShortcutCaptor.getValue().getKeyCode(), is(KeyCode.E));
-        assertThat(clickShortcutCaptor.getValue().getModifiers(), is(new int[] { ModifierKey.ALT }));
+        @SuppressWarnings("null")
+        @NonNull
+        ClickShortcut value = clickShortcutCaptor.getValue();
+        assertThat(value.getKeyCode(), is(KeyCode.E));
+        assertThat(value.getModifiers(), is(new int[] { ModifierKey.ALT }));
     }
 
 }

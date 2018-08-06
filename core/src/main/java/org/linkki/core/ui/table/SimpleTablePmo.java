@@ -9,7 +9,7 @@ package org.linkki.core.ui.table;
 import java.util.List;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
+import org.eclipse.jdt.annotation.NonNull;
 
 /**
  * Base class for table (section) PMOs based on a given list of model objects.
@@ -36,20 +36,19 @@ import javax.annotation.Nonnull;
  * @param <MO> The model object class
  * @param <ROW> The row PMO class.
  */
-public abstract class SimpleTablePmo<MO, ROW> implements ContainerPmo<ROW> {
+public abstract class SimpleTablePmo<@NonNull MO, @NonNull ROW> implements ContainerPmo<ROW> {
 
-    @Nonnull
     private final SimpleItemSupplier<ROW, ? extends MO> rowSupplier;
 
     /**
-     * Creates a table (section) PMO showing the given model objects. Use only if you have either a
-     * list that never changes or if you are sure that you have a reference to the original list (if
-     * it is updated). Prefer {@link #SimpleTablePmo(Supplier)} if the list reference may change or
-     * the list is a copy of the model object.
+     * Creates a table (section) PMO showing the given model objects. Use only if you have either a list
+     * that never changes or if you are sure that you have a reference to the original list (if it is
+     * updated). Prefer {@link #SimpleTablePmo(Supplier)} if the list reference may change or the list
+     * is a copy of the model object.
      * 
      * @see #SimpleTablePmo(Supplier)
      */
-    protected SimpleTablePmo(@Nonnull List<? extends MO> modelObjects) {
+    protected SimpleTablePmo(List<? extends MO> modelObjects) {
         this(() -> modelObjects);
     }
 
@@ -57,16 +56,15 @@ public abstract class SimpleTablePmo<MO, ROW> implements ContainerPmo<ROW> {
      * Creates a table (section) PMO showing the model objects supplied by the given supplier. The
      * supplier is called every time the table gets updated.
      */
-    protected SimpleTablePmo(@Nonnull Supplier<List<? extends MO>> modelObjectsSupplier) {
+    protected SimpleTablePmo(Supplier<@NonNull List<? extends MO>> modelObjectsSupplier) {
         super();
-        this.rowSupplier = new SimpleItemSupplier<>(modelObjectsSupplier, (mo) -> createRow(mo));
+        this.rowSupplier = new SimpleItemSupplier<>(modelObjectsSupplier, mo -> createRow(mo));
     }
 
     /**
      * Creates a row PMO for the given model object.
      */
-    @Nonnull
-    protected abstract ROW createRow(@Nonnull MO modelObject);
+    protected abstract ROW createRow(MO modelObject);
 
     @Override
     public List<ROW> getItems() {
@@ -74,8 +72,7 @@ public abstract class SimpleTablePmo<MO, ROW> implements ContainerPmo<ROW> {
     }
 
     /**
-     * The <code>SimpleTablePmoReturns</code> returns 0 as page length so that all rows are
-     * displayed.
+     * The <code>SimpleTablePmoReturns</code> returns 0 as page length so that all rows are displayed.
      */
     @Override
     public int getPageLength() {

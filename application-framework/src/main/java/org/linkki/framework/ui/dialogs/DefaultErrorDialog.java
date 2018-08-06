@@ -18,9 +18,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
 

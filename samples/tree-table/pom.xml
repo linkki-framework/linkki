@@ -36,9 +36,10 @@
 
         <!-- otherwise we get warnings in eclipse that annotations can not be resolved -->
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
+            <groupId>org.eclipse.jdt</groupId>
+            <artifactId>org.eclipse.jdt.annotation</artifactId>
             <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

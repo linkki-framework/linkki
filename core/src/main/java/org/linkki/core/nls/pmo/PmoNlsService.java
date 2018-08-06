@@ -13,7 +13,7 @@
  */
 package org.linkki.core.nls.pmo;
 
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Service for Native Language Support for presentation model objects.

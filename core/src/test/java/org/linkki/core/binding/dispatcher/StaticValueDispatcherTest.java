@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,7 +51,7 @@ public class StaticValueDispatcherTest {
 
     @Mock
     private PropertyDispatcher uiAnnotationFallbackDispatcher;
-    private Map<String, StaticValueDispatcher> uiAnnotationDispatchers;
+    private Map<String, @NonNull StaticValueDispatcher> uiAnnotationDispatchers;
     private TestObjectWithUIAnnotations objectWithUIAnnotations;
 
     @Mock
@@ -68,7 +69,7 @@ public class StaticValueDispatcherTest {
     @Test
     public void testGetValue() {
         Aspect<Object> newDynamic = Aspect.of("");
-        uiAnnotationDispatchers.get(XYZ).pull(newDynamic);
+        pull(XYZ, newDynamic);
         verify(uiAnnotationFallbackDispatcher).pull(newDynamic);
     }
 
@@ -76,8 +77,7 @@ public class StaticValueDispatcherTest {
     public void testPull_static() {
         Aspect<ArrayList<Object>> staticAspect = Aspect.of(AvailableValuesAspectDefinition.NAME,
                                                            new ArrayList<>());
-        uiAnnotationDispatchers.get(STATIC_ENUM_ATTR)
-                .pull(staticAspect);
+        pull(STATIC_ENUM_ATTR, staticAspect);
         verify(uiAnnotationFallbackDispatcher, never()).pull(staticAspect);
     }
 
@@ -85,9 +85,14 @@ public class StaticValueDispatcherTest {
     @Test
     public void testPull_dynamic() {
         Aspect<ArrayList<Object>> dynamicAspect = Aspect.of(AvailableValuesAspectDefinition.NAME);
-        uiAnnotationDispatchers.get(STATIC_ENUM_ATTR)
-                .pull(dynamicAspect);
+        pull(STATIC_ENUM_ATTR, dynamicAspect);
         verify(uiAnnotationFallbackDispatcher).pull(dynamicAspect);
+    }
+
+    private void pull(String property, Aspect<?> aspect) {
+        @NonNull
+        StaticValueDispatcher staticValueDispatcher = uiAnnotationDispatchers.get(property);
+        staticValueDispatcher.pull(aspect);
     }
 
     public class TestObjectWithBindAnnotation {

@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 
@@ -36,7 +35,7 @@ import org.linkki.core.message.MessageList;
  */
 public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
 
-    private final List<Object> objects = new ArrayList<>();
+    private final List<@Nullable Object> objects = new ArrayList<>();
     private String property;
 
     /**
@@ -51,7 +50,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     /**
      * {@inheritDoc}
      * <p>
-     * If there is no value class this dispatcher returns {@link Void#TYPE} because a exception is not
+     * If there is no value class this dispatcher returns {@link Void#TYPE} because an exception is not
      * useful in this case.
      */
     @Override
@@ -61,7 +60,8 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
 
     private String getExceptionText(String action) {
         return MessageFormat.format("Cannot {0} property \"{1}\" in any of {2}", action, property,
-                                    objects.stream().map(Object::getClass).collect(toList()));
+                                    objects.stream().map(t -> t == null ? null : t.getClass().toGenericString())
+                                            .collect(toList()));
     }
 
     /**
@@ -78,7 +78,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    @CheckForNull
+    @Nullable
     public Object getBoundObject() {
         if (objects.size() > 0) {
             return objects.get(0);
@@ -88,7 +88,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    @CheckForNull
+
     public <T> T pull(Aspect<T> aspect) {
         throw new IllegalStateException(getExceptionText("read aspect \"" + aspect.getName() + "\" method for"));
     }
@@ -110,7 +110,8 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "["
-                + objects.stream().map(c -> (c != null) ? c.getClass().getSimpleName() : "null").collect(joining(","))
+                + objects.stream().map((Object c) -> (c != null) ? c.getClass().getSimpleName() : "null")
+                        .collect(joining(","))
                 + "#"
                 + getProperty()
                 + "]";

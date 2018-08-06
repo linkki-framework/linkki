@@ -14,5 +14,5 @@
 /**
  * Aspects that are used for {@link org.linkki.core.binding.annotations.Bind} annotation.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.binding.annotations.aspect;

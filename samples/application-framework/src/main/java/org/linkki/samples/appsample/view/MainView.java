@@ -17,6 +17,7 @@ package org.linkki.samples.appsample.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.framework.ui.component.Headline;
 import org.linkki.framework.ui.component.sidebar.SidebarLayout;
 import org.linkki.framework.ui.component.sidebar.SidebarSheet;
@@ -35,6 +36,7 @@ public class MainView extends SidebarLayout implements View {
 
     private static final List<Report> reports = new ArrayList<>();
 
+    @Nullable
     private ReportListPage listPage;
 
     public MainView() {
@@ -45,7 +47,7 @@ public class MainView extends SidebarLayout implements View {
     }
 
     @Override
-    public void enter(ViewChangeEvent event) {
+    public void enter(@SuppressWarnings("null") ViewChangeEvent event) {
         // nothing to do
     }
 
@@ -61,13 +63,16 @@ public class MainView extends SidebarLayout implements View {
     }
 
     private VerticalLayout createReportListLayout() {
-        listPage = new ReportListPage(reports);
-        listPage.createContent();
-        return listPage;
+        ReportListPage reportListPage = new ReportListPage(reports);
+        reportListPage.createContent();
+        listPage = reportListPage;
+        return reportListPage;
     }
 
     private void update() {
-        listPage.update();
+        if (listPage != null) {
+            listPage.update();
+        }
     }
 
 }

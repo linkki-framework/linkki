@@ -19,14 +19,12 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.annotation.Nullable;
 
 import com.vaadin.data.util.converter.Converter;
 
-public abstract class AbstractNumberFieldConverter<T extends Number> implements Converter<String, T> {
+public abstract class AbstractNumberFieldConverter<T extends Number> implements Converter<@Nullable String, T> {
 
     private static final long serialVersionUID = -872944068146887949L;
 
@@ -37,9 +35,9 @@ public abstract class AbstractNumberFieldConverter<T extends Number> implements 
     }
 
     @Override
-    @CheckForNull
+    @Nullable
     public final T convertToModel(@Nullable String value,
-            @Nullable Class<? extends T> targetType,
+            @SuppressWarnings("null") Class<? extends T> targetType,
             @Nullable Locale locale)
             throws ConversionException {
         if (StringUtils.isEmpty(value)) {
@@ -52,14 +50,15 @@ public abstract class AbstractNumberFieldConverter<T extends Number> implements 
         }
     }
 
-    @CheckForNull
+    @Nullable
     protected abstract T getNullValue();
 
     protected abstract T convertToModel(Number value);
 
+    @Nullable
     @Override
     public String convertToPresentation(@Nullable T value,
-            @Nullable Class<? extends String> targetType,
+            @SuppressWarnings("null") Class<? extends String> targetType,
             @Nullable Locale locale)
             throws ConversionException {
 
@@ -70,8 +69,9 @@ public abstract class AbstractNumberFieldConverter<T extends Number> implements 
         }
     }
 
+    @SuppressWarnings("null")
     @Override
-    public final Class<String> getPresentationType() {
+    public final Class<@Nullable String> getPresentationType() {
         return String.class;
     }
 }

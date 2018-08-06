@@ -29,9 +29,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,7 +57,6 @@ import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -80,8 +77,8 @@ public class BindingContextTest {
     private Label label2;
     private TestPmo pmo = new TestPmo();
     private TestModelObject modelObject = new TestModelObject();
-    private AbstractField<String> field1 = spy(new TextField());
-    private AbstractField<String> field2 = spy(new TextField());
+    private TextField field1 = spy(new TextField());
+    private TextField field2 = spy(new TextField());
 
     @SuppressWarnings("null")
     private ComponentBinding binding1;
@@ -336,7 +333,7 @@ public class BindingContextTest {
         private String modelProp;
 
         @UITextField(position = 1)
-        @CheckForNull
+        @Nullable
         public String getModelProp() {
             return modelProp;
         }

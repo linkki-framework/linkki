@@ -14,5 +14,5 @@
 /**
  * Descriptors used to collect binding related annotations
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.ui.section.descriptor;

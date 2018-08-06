@@ -27,7 +27,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import javax.annotation.CheckForNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 public class BeanUtils {
 
@@ -128,12 +128,12 @@ public class BeanUtils {
      * 
      * @see Class#getDeclaredField(String)
      */
-    @CheckForNull
+    @Nullable
     public static Object getValueFromField(Object object, String name) {
         Field field = getField(object.getClass(), name);
         return AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
-            @CheckForNull
+            @Nullable
             public Object run() {
                 boolean accessible = field.isAccessible();
                 if (!accessible) {

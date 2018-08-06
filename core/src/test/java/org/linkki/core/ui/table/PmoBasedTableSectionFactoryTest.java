@@ -60,13 +60,13 @@ public class PmoBasedTableSectionFactoryTest {
         return new TypeSafeMatcher<BindingContext>() {
 
             @Override
-            public void describeTo(@SuppressWarnings("null") Description description) {
+            public void describeTo(Description description) {
                 description.appendText("a BindingContext containing a TableBinding using the table container ");
                 description.appendValue(container);
             }
 
             @Override
-            protected boolean matchesSafely(@SuppressWarnings("null") BindingContext bindingContext) {
+            protected boolean matchesSafely(BindingContext bindingContext) {
                 return bindingContext.getBindings().stream()
                         .filter(TableBinding.class::isInstance)
                         .map(TableBinding.class::cast)

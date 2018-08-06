@@ -19,9 +19,7 @@ import static org.junit.Assert.assertThat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -86,10 +84,10 @@ public class JodaLocalDateToDateConverterTest {
 
     }
 
+    @SuppressWarnings("null")
     @Test
     public void testConvertToModel() throws Exception {
-        LocalDate converted = convert(date, pattern);
-        assertThat(converted, is(localDate));
+        assertThat(convert(date, pattern), is(localDate));
     }
 
     @Test
@@ -99,18 +97,18 @@ public class JodaLocalDateToDateConverterTest {
         assertThat(converted, is(convertToDate(getDateToConvert(date, pattern), pattern)));
     }
 
-    @CheckForNull
+    @Nullable
     private static LocalDate convert(String toConvert, String pattern) throws Exception {
         // we do not need type and locale
         return new JodaLocalDateToDateConverter().convertToModel(convertToDate(toConvert, pattern), null, null);
     }
 
-    @CheckForNull
+    @Nullable
     private static Date convert(LocalDate toConvert) {
         return new JodaLocalDateToDateConverter().convertToPresentation(toConvert, null, null);
     }
 
-    @CheckForNull
+    @Nullable
     private static Date convertToDate(@Nullable String date, String pattern) throws Exception {
         if (date == null) {
             return null;
@@ -123,7 +121,7 @@ public class JodaLocalDateToDateConverterTest {
      * we fake the java heuristic for 2 digit years in dates currently it works like a charm but who
      * knows - sometime it will be broken
      */
-    @CheckForNull
+    @Nullable
     private static String getDateToConvert(@Nullable String date, String pattern) throws Exception {
 
         if (date == null || !date.startsWith("00")) {

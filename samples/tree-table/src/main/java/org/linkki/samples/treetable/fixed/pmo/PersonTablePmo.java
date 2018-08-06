@@ -23,8 +23,7 @@ import java.util.TreeMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.samples.treetable.fixed.model.Person;
@@ -43,13 +42,13 @@ public class PersonTablePmo implements ContainerPmo<AbstractPersonRowPmo> {
                 .collect(Collectors.toList());
     }
 
-    private @Nonnull List<CityRowPmo> byCityRows(Entry<String, Map<String, List<Person>>> byProvince) {
+    private @NonNull List<CityRowPmo> byCityRows(Entry<String, Map<String, List<Person>>> byProvince) {
         return byProvince.getValue().entrySet().stream()
                 .map(byCity -> new CityRowPmo(byCity.getKey(), personRows(byCity)))
                 .collect(Collectors.toList());
     }
 
-    private @Nonnull List<PersonRowPmo> personRows(Entry<String, List<Person>> byCity) {
+    private @NonNull List<PersonRowPmo> personRows(Entry<String, List<Person>> byCity) {
         return byCity.getValue().stream()
                 .map(p -> new PersonRowPmo(p))
                 .collect(Collectors.toList());

@@ -18,9 +18,7 @@ import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.UILabelIntegrationTest.LabelTestPmo;
 
@@ -31,7 +29,6 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
 
     private static final String STYLES = "blabla";
 
-    @SuppressWarnings("null")
     public UILabelIntegrationTest() {
         super(TestModelObjectWithString::new, LabelTestPmo::new);
     }
@@ -94,7 +91,7 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
         private String value = null;
 
         @SuppressWarnings("null")
-        @CheckForNull
+        @Nullable
         @Override
         public String getValue() {
             return value;

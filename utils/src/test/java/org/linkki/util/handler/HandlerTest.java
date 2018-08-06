@@ -19,7 +19,6 @@ import static org.junit.Assert.assertThat;
 import java.util.Stack;
 
 import org.junit.Test;
-import org.linkki.util.handler.Handler;
 
 public class HandlerTest {
 

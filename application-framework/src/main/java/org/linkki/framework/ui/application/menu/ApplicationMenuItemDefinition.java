@@ -15,8 +15,7 @@ package org.linkki.framework.ui.application.menu;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.Nonnull;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.framework.ui.application.ApplicationHeader;
 
@@ -55,7 +54,7 @@ public abstract class ApplicationMenuItemDefinition implements Comparable<Applic
     protected abstract MenuItem internalCreateItem(ApplicationMenu menu);
 
     @Override
-    public int compareTo(@SuppressWarnings("null") @Nonnull ApplicationMenuItemDefinition other) {
+    public int compareTo(ApplicationMenuItemDefinition other) {
         requireNonNull(other, "other must not be null");
         int positionCompare = this.position - other.position;
         if (positionCompare == 0) {
@@ -74,9 +73,8 @@ public abstract class ApplicationMenuItemDefinition implements Comparable<Applic
         return result;
     }
 
-    @SuppressWarnings({ "null", "unused" })
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj) {
             return true;
         }

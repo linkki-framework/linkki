@@ -17,9 +17,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import javax.annotation.CheckForNull;
-
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.annotation.Nullable;
 
 import com.vaadin.ui.AbstractSelect;
 
@@ -98,12 +97,12 @@ public interface ItemCaptionProvider<T> {
             return name != null ? name : StringUtils.EMPTY;
         }
 
-        @CheckForNull
+        @Nullable
         private String getName(Object value) {
             return getPropertyValue(value, "getName");
         }
 
-        @CheckForNull
+        @Nullable
         private String getPropertyValue(Object value, String methodName) {
             try {
                 Method method = value.getClass().getMethod(methodName);
@@ -128,17 +127,17 @@ public interface ItemCaptionProvider<T> {
             return getName(o) + " [" + getId(o) + "]";
         }
 
-        @CheckForNull
+        @Nullable
         private String getId(Object value) {
             return getPropertyValue(value, "getId");
         }
 
-        @CheckForNull
+        @Nullable
         private String getName(Object value) {
             return getPropertyValue(value, "getName");
         }
 
-        @CheckForNull
+        @Nullable
         private String getPropertyValue(Object value, String methodName) {
             try {
                 Method method = value.getClass().getMethod(methodName);

@@ -16,7 +16,7 @@ package org.linkki.util;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.Nullable;
 
 public class StreamUtil {
 

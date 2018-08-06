@@ -19,10 +19,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
@@ -66,13 +65,13 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         return property;
     }
 
-    @CheckForNull
+    @Nullable
     @Override
     public Object getBoundObject() {
         return boundObjectSupplier.get();
     }
 
-    @Nonnull
+    @NonNull
     @SuppressFBWarnings()
     private Object getExistingBoundObject() {
         return requireNonNull(getBoundObject());
@@ -89,7 +88,6 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
     }
 
-    @CheckForNull
     @Override
     @SuppressWarnings("unchecked")
     public <T> T pull(Aspect<T> aspect) {
@@ -150,7 +148,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
     }
 
-    @CheckForNull
+    @Nullable
     private Method getExactMethod(String methodName) {
         return MethodUtils.getAccessibleMethod(getExistingBoundObject().getClass(), methodName);
     }

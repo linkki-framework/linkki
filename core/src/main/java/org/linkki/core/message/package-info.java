@@ -12,7 +12,7 @@
  * the License.
  */
 /**
- * NlsText to be dispayed by Linkki.
+ * Validation messages to be displayed by linkki.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.message;

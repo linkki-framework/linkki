@@ -14,5 +14,5 @@
 /**
  * {@link com.vaadin.ui.Component Components} used by Linkki.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.ui.components;

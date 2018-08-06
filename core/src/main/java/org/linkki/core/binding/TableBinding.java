@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.ui.table.ContainerPmo;
@@ -34,7 +35,7 @@ import com.vaadin.ui.TreeTable;
  *
  * @see ContainerPmo
  */
-public class TableBinding<T> extends BindingContext implements Binding {
+public class TableBinding<@NonNull T> extends BindingContext implements Binding {
 
     private final Handler modelChanged;
 
@@ -170,7 +171,7 @@ public class TableBinding<T> extends BindingContext implements Binding {
      *            table
      * @return The newly created {@link TableBinding}
      */
-    public static <T> TableBinding<T> create(BindingContext parentBindingContext,
+    public static <@NonNull T> TableBinding<T> create(BindingContext parentBindingContext,
             Table table,
             ContainerPmo<T> containerPmo) {
         TableBinding<T> tableBinding = new TableBinding<T>(parentBindingContext::modelChanged,

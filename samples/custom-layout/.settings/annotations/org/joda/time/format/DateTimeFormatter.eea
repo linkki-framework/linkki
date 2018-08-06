@@ -1,4 +1,0 @@
-class org/joda/time/format/DateTimeFormatter
-print
- (Lorg/joda/time/ReadablePartial;)Ljava/lang/String;
- (Lorg/joda/time/ReadablePartial;)L1java/lang/String;

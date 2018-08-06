@@ -1,0 +1,25 @@
+class java/util/stream/Stream
+collect
+ <R:Ljava/lang/Object;A:Ljava/lang/Object;>(Ljava/util/stream/Collector<-TT;TA;TR;>;)TR;
+ <R:Ljava/lang/Object;A:Ljava/lang/Object;>(L1java/util/stream/Collector<-TT;TA;TR;>;)T1R;
+empty
+ <T:Ljava/lang/Object;>()Ljava/util/stream/Stream<TT;>;
+ <T:Ljava/lang/Object;>()L1java/util/stream/Stream<TT;>;
+filter
+ (Ljava/util/function/Predicate<-TT;>;)Ljava/util/stream/Stream<TT;>;
+ (L1java/util/function/Predicate<-TT;>;)L1java/util/stream/Stream<TT;>;
+findFirst
+ ()Ljava/util/Optional<TT;>;
+ ()L1java/util/Optional<TT;>;
+map
+ <R:Ljava/lang/Object;>(Ljava/util/function/Function<-TT;+TR;>;)Ljava/util/stream/Stream<TR;>;
+ <R:Ljava/lang/Object;>(Ljava/util/function/Function<-TT;+TR;>;)L1java/util/stream/Stream<TR;>;
+max
+ (Ljava/util/Comparator<-TT;>;)Ljava/util/Optional<TT;>;
+ (Ljava/util/Comparator<-TT;>;)L1java/util/Optional<TT;>;
+reduce
+ (Ljava/util/function/BinaryOperator<TT;>;)Ljava/util/Optional<TT;>;
+ (Ljava/util/function/BinaryOperator<TT;>;)L1java/util/Optional<TT;>;
+toArray
+ <A:Ljava/lang/Object;>(Ljava/util/function/IntFunction<[TA;>;)[TA;
+ <A:Ljava/lang/Object;>(Ljava/util/function/IntFunction<[TA;>;)[1TA;

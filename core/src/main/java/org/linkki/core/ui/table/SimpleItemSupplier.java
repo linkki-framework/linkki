@@ -26,6 +26,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.eclipse.jdt.annotation.NonNull;
+
+
 /**
  * A supplier for item PMOs based on a list of underlying model objects. The PMOs are created from
  * the model objects via a mapping function. The simple item supplier recreates the list of item
@@ -41,13 +44,13 @@ import java.util.function.Supplier;
  * private SimpleItemSupplier&lt;FooItem, Foo&gt; itemSupplier = new SimpleItemSupplier&lt;&gt;(this::getFoos, FooItem::new);
  * </pre>
  */
-public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
+public class SimpleItemSupplier<@NonNull PMO, @NonNull MO> implements Supplier<List<PMO>> {
 
     private List<PMO> items = Collections.emptyList();
     private List<MO> modelObjectsCopy = Collections.emptyList();
     private final Map<MO, PMO> itemMap = new HashMap<>();
 
-    private final Supplier<? extends List<? extends MO>> modelObjectSupplier;
+    private final Supplier<@NonNull ? extends List<? extends MO>> modelObjectSupplier;
     private final Function<MO, PMO> mo2pmoMapping;
 
     /**
@@ -56,7 +59,7 @@ public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
      * @param modelObjectSupplier Supplies the underlying model objects.
      * @param mo2pmoMapping A function to create an item PMO based on a model object.
      */
-    public SimpleItemSupplier(Supplier<? extends List<? extends MO>> modelObjectSupplier,
+    public SimpleItemSupplier(Supplier<@NonNull ? extends List<? extends MO>> modelObjectSupplier,
             Function<MO, PMO> mo2pmoMapping) {
         this.modelObjectSupplier = requireNonNull(modelObjectSupplier, "modelObjectSupplier must not be null");
         this.mo2pmoMapping = requireNonNull(mo2pmoMapping, "mo2pmoMapping must not be null");
@@ -65,10 +68,8 @@ public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
     @Override
     public List<PMO> get() {
         List<? extends MO> actualModelObjects = modelObjectSupplier.get();
-        if (actualModelObjects == null) {
-            throw new NullPointerException(
-                    "modelObjectSupplier must supply a List of model objects (which may be empty)");
-        }
+        requireNonNull(actualModelObjects,
+                       "modelObjectSupplier must supply a List of model objects (which may be empty)");
         if (hasUnderlyingModelObjectListChanged(actualModelObjects)) {
             HashSet<? extends MO> actualModelObjectsSet = new HashSet<>(actualModelObjects);
             for (Iterator<MO> iterator = itemMap.keySet().iterator(); iterator.hasNext();) {
@@ -77,11 +78,16 @@ public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
                 }
             }
             items = new LinkedList<>();
-            actualModelObjects.forEach(mo -> items.add(itemMap.computeIfAbsent(mo, mo2pmoMapping)));
+            actualModelObjects.forEach(mo -> items.add(applymo2pmoMapping(mo)));
 
             modelObjectsCopy = new ArrayList<>(actualModelObjects);
         }
         return items;
+    }
+
+    private PMO applymo2pmoMapping(MO mo) {
+        PMO computeIfAbsent = itemMap.computeIfAbsent(mo, mo2pmoMapping);
+        return computeIfAbsent;
     }
 
     private boolean hasUnderlyingModelObjectListChanged(List<? extends MO> modelObjects) {

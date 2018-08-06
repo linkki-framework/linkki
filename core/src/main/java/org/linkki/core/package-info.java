@@ -14,5 +14,5 @@
 /**
  * Base classes for presentation model objects.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core;

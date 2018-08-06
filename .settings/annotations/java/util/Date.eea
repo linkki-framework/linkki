@@ -1,0 +1,4 @@
+class java/util/Date
+toInstant
+ ()Ljava/time/Instant;
+ ()L1java/time/Instant;

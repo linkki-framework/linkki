@@ -24,6 +24,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
@@ -101,8 +102,10 @@ public class ComponentBindingTest {
 
         ArgumentCaptor<UserError> captor = ArgumentCaptor.forClass(UserError.class);
         verify(selectField).setComponentError(captor.capture());
-        assertEquals(captor.getValue().getMessage(), "text");
-        assertEquals(captor.getValue().getErrorLevel(), ErrorLevel.ERROR);
+        @NonNull
+        UserError userError = captor.getValue();
+        assertEquals(userError.getMessage(), "text");
+        assertEquals(userError.getErrorLevel(), ErrorLevel.ERROR);
     }
 
     @Test

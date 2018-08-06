@@ -1,0 +1,7 @@
+class com/vaadin/ui/themes/ValoTheme
+BUTTON_BORDERLESS
+ Ljava/lang/String;
+ L1java/lang/String;
+BUTTON_ICON_ONLY
+ Ljava/lang/String;
+ L1java/lang/String;

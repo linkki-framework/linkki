@@ -16,9 +16,9 @@ package org.linkki.core.ui.section.annotations.adapters;
 import static java.util.Objects.requireNonNull;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.VisibleType;
 

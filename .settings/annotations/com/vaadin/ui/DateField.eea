@@ -1,0 +1,4 @@
+class com/vaadin/ui/DateField
+getDateFormat
+ ()Ljava/lang/String;
+ ()L1java/lang/String;

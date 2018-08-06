@@ -18,7 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.Nullable;
 
 public class LazyReference<T> {
 

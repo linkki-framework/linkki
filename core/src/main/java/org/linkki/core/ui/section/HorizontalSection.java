@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.section;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import org.linkki.core.ui.application.ApplicationStyles;
@@ -92,7 +93,8 @@ public class HorizontalSection extends BaseSection {
 
     private void updateExpandRatio() {
         float ratio = 1f / getNumOfComponentsWith100PctWidth();
-        for (Component c : content) {
+        for (Iterator<Component> it = content.iterator(); it.hasNext();) {
+            Component c = it.next();
             if (UiUtil.isWidth100Pct(c)) {
                 content.setExpandRatio(c, ratio);
             }
@@ -101,8 +103,8 @@ public class HorizontalSection extends BaseSection {
 
     private int getNumOfComponentsWith100PctWidth() {
         int num = 0;
-        for (Component c : content) {
-            if (UiUtil.isWidth100Pct(c)) {
+        for (Iterator<Component> it = content.iterator(); it.hasNext();) {
+            if (UiUtil.isWidth100Pct(it.next())) {
                 num++;
             }
         }

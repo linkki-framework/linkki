@@ -1,0 +1,4 @@
+class org/hamcrest/core/CombinableMatcher$CombinableBothMatcher
+and
+ (Lorg/hamcrest/Matcher<-TX;>;)Lorg/hamcrest/core/CombinableMatcher<TX;>;
+ (Lorg/hamcrest/Matcher<-TX;>;)L1org/hamcrest/core/CombinableMatcher<TX;>;

@@ -1,0 +1,4 @@
+class org/junit/Assert
+assertThat
+ <T:Ljava/lang/Object;>(TT;Lorg/hamcrest/Matcher<-TT;>;)V
+ <T:Ljava/lang/Object;>(TT;Lorg/hamcrest/Matcher<-TT;>;)V

@@ -24,8 +24,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.table.HierarchicalRowPmo;
 
@@ -330,7 +330,7 @@ public class LinkkiInMemoryContainerTest {
 
         private final List<HierarchicalTestItem> children;
 
-        public HierarchicalTestItem(int meaningOfLife, HierarchicalTestItem... children) {
+        public HierarchicalTestItem(int meaningOfLife, @NonNull HierarchicalTestItem... children) {
             super(meaningOfLife);
             this.children = Arrays.asList(children);
         }

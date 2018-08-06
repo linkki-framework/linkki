@@ -13,8 +13,7 @@
  */
 package org.linkki.framework.ui.dialogs;
 
-import javax.annotation.Nonnull;
-
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.util.handler.Handler;
 
 /**
@@ -45,7 +44,7 @@ public interface OkHandler extends Handler {
      * {@code onOk()} method of the given handler.
      */
     @Override
-    default OkHandler andThen(@Nonnull Handler after) {
+    default OkHandler andThen(@NonNull Handler after) {
         return () -> {
             apply();
             after.apply();

@@ -14,5 +14,5 @@
 /**
  * {@link com.vaadin.data.util.converter.Converter Converters} used by Linkki.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.ui.converters;

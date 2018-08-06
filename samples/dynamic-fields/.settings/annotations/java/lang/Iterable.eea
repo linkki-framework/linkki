@@ -1,4 +1,0 @@
-class java/lang/Iterable
-spliterator
- ()Ljava/util/Spliterator<TT;>;
- ()L1java/util/Spliterator<TT;>;

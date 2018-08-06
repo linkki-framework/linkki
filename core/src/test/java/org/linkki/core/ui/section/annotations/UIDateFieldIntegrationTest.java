@@ -23,9 +23,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -220,7 +218,7 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
         private Date value = null;
 
         @SuppressWarnings("null")
-        @CheckForNull
+        @Nullable
         @Override
         public Date getValue() {
             return value;
@@ -237,12 +235,12 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
         @Nullable
         private LocalDate value = null;
 
-        @CheckForNull
+        @Nullable
         public LocalDate getStaticValue() {
             return getValue();
         }
 
-        @CheckForNull
+        @Nullable
         public LocalDate getValue() {
             return value;
         }
@@ -254,20 +252,17 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
 
     protected static class TestModelObjectWithJodaLocalDate {
 
-        @Nullable
-        private org.joda.time.LocalDate value = null;
+        private org.joda.time.@Nullable LocalDate value = null;
 
-        @CheckForNull
-        public org.joda.time.LocalDate getStaticValue() {
+        public org.joda.time.@Nullable LocalDate getStaticValue() {
             return getValue();
         }
 
-        @CheckForNull
-        public org.joda.time.LocalDate getValue() {
+        public org.joda.time.@Nullable LocalDate getValue() {
             return value;
         }
 
-        public void setValue(@Nullable org.joda.time.LocalDate value) {
+        public void setValue(org.joda.time.@Nullable LocalDate value) {
             this.value = value;
         }
     }

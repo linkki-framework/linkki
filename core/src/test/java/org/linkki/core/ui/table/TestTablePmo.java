@@ -17,17 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.ui.section.annotations.UISection;
 
 @UISection(caption = TestTablePmo.CAPTION)
-public class TestTablePmo implements ContainerPmo<TestRowPmo> {
+public class TestTablePmo implements ContainerPmo<@NonNull TestRowPmo> {
 
     public static final String CAPTION = "container";
 
-    private final List<TestRowPmo> pmos = new ArrayList<>();
+    private final List<@NonNull TestRowPmo> pmos = new ArrayList<>();
 
     private int pageLength = ContainerPmo.DEFAULT_PAGE_LENGTH;
 

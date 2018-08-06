@@ -26,7 +26,6 @@ import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.LabelComponentWrapper;
-import org.linkki.core.ui.section.descriptor.BindAnnotationDescriptor;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;

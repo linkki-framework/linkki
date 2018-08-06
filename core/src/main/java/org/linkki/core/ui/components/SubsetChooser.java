@@ -15,10 +15,8 @@ package org.linkki.core.ui.components;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
 
 import com.vaadin.ui.TwinColSelect;
@@ -99,7 +97,7 @@ public class SubsetChooser extends TwinColSelect {
      * @return the item's caption
      */
     @Override
-    @CheckForNull
+    @Nullable
     public String getItemCaption(@Nullable Object itemId) {
         if (itemId == null) {
             return StringUtils.EMPTY;

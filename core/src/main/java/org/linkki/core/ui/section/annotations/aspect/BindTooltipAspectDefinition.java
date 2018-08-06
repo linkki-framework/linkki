@@ -17,16 +17,20 @@ package org.linkki.core.ui.section.annotations.aspect;
 import java.lang.annotation.Annotation;
 import java.util.function.Consumer;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindTooltip;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 
-public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<String> {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<@NonNull String> {
 
     public static final String NAME = "tooltip";
 
+    @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     @SuppressWarnings("null")
     private BindTooltip annotation;
 
@@ -36,7 +40,7 @@ public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<Strin
     }
 
     @Override
-    public Aspect<String> createAspect() {
+    public Aspect<@NonNull String> createAspect() {
         if (annotation.tooltipType() == TooltipType.STATIC) {
             return Aspect.of(NAME, annotation.value());
         } else {

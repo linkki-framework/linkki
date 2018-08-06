@@ -25,7 +25,6 @@ import static org.junit.Assert.assertThat;
 import java.util.Locale;
 
 import org.junit.Test;
-import org.linkki.util.DateFormatRegistry;
 
 public class DateFormatRegistryTest {
 

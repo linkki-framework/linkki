@@ -14,5 +14,5 @@
 /**
  * Property behavior API
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.binding.behavior;

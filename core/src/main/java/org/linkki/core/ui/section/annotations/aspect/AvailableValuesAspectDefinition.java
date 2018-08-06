@@ -16,9 +16,11 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -41,7 +43,7 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        Consumer<Collection<?>> setter = createComponentValueSetter(componentWrapper);
+        Consumer<@Nullable Collection<?>> setter = createComponentValueSetter(componentWrapper);
         Aspect<List<?>> aspect = createAspect(propertyDispatcher.getProperty(),
                                               propertyDispatcher.getValueClass());
         return () -> setter.accept(propertyDispatcher.pull(aspect));
@@ -76,14 +78,18 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
         }
     }
 
-    public Consumer<Collection<?>> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    public Consumer<@Nullable Collection<?>> createComponentValueSetter(ComponentWrapper componentWrapper) {
         AbstractSelect component = ((AbstractSelect)componentWrapper.getComponent());
         LinkkiInMemoryContainer<Object> container = new LinkkiInMemoryContainer<Object>();
         setContainerDataSource(component, container);
         return vals -> {
-            @SuppressWarnings("unchecked")
-            Collection<Object> newItems = (Collection<Object>)vals;
-            container.setItems(newItems);
+            if (vals != null) {
+                @SuppressWarnings("unchecked")
+                Collection<Object> newItems = (Collection<Object>)vals;
+                container.setItems(newItems);
+            } else {
+                container.setItems(Collections.emptyList());
+            }
         };
     }
 

@@ -13,8 +13,6 @@
  */
 package org.linkki.core.binding.dispatcher;
 
-import javax.annotation.CheckForNull;
-
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.section.descriptor.BindingDescriptor;
@@ -39,14 +37,13 @@ public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
      * Returns the value of the {@link Aspect} if the value is static.
      */
     @SuppressWarnings("unchecked")
-    @CheckForNull
     @Override
     public <T> T pull(Aspect<T> aspect) {
         if (aspect.isValuePresent()) {
             T staticValue = aspect.getValue();
             Object boundObject = getBoundObject();
             if (staticValue instanceof String && boundObject != null) {
-                Class<? extends Object> pmoClass = boundObject.getClass();
+                Class<?> pmoClass = boundObject.getClass();
                 return (T)PmoNlsService.get()
                         .getLabel(pmoClass, getProperty(), aspect.getName(), (String)staticValue);
             } else {
@@ -56,6 +53,5 @@ public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
             return super.pull(aspect);
         }
     }
-
 
 }

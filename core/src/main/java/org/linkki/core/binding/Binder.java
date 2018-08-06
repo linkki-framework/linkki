@@ -23,10 +23,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
@@ -119,8 +118,7 @@ public class Binder {
                 throw new NullPointerException("Cannot create binding for method " + method + " as it returned null");
             }
 
-            @SuppressWarnings("null")
-            @Nonnull
+            @NonNull
             Bind bindAnnotation = method.getAnnotation(Bind.class);
 
             List<LinkkiAspectDefinition> aspectDefinitions = Arrays.asList(method.getAnnotations()).stream()
@@ -165,7 +163,7 @@ public class Binder {
                                                  () -> "Cannot create binding for field " + field + " as it is null");
 
             @SuppressWarnings("null")
-            @Nonnull
+            @NonNull
             Bind bindAnnotation = field.getAnnotation(Bind.class);
 
             List<LinkkiAspectDefinition> aspectDefinitions = Arrays.asList(field.getAnnotations()).stream()

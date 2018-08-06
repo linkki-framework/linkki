@@ -18,6 +18,7 @@ import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.util.handler.Handler;
@@ -37,7 +38,7 @@ public class CompositeAspectDefinition implements LinkkiAspectDefinition {
     /**
      * Creates a new {@link CompositeAspectDefinition} consisting of given aspect definitions.
      */
-    public CompositeAspectDefinition(LinkkiAspectDefinition... aspectDefinitions) {
+    public CompositeAspectDefinition(@NonNull LinkkiAspectDefinition... aspectDefinitions) {
         this(Arrays.asList(aspectDefinitions));
     }
 

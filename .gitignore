@@ -3,3 +3,6 @@
 */.fbExcludeFilterFile
 /bin/
 target
+.idea
+*/.idea
+*/*.iml

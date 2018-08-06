@@ -21,12 +21,10 @@ import org.linkki.core.ui.section.annotations.BindTooltip;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.ToolTipType;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.core.ui.section.annotations.UIToolTip;
 import org.linkki.samples.binding.model.Contact;
 
 // tag::contactPmo-class[]
@@ -56,12 +54,12 @@ public class ContactSectionPmo implements PresentationModelObject {
         return "First name";
     }
 
-    @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
+    @BindTooltip(tooltipType = TooltipType.DYNAMIC)
     @UITextField(position = 20, label = "Lastname", required = RequiredType.REQUIRED, modelAttribute = "lastname")
     public void lastname() {
         /* model binding only */ }
 
-    public String getLastnameToolTip() {
+    public String getLastnameTooltip() {
         return "Last name";
     }
 

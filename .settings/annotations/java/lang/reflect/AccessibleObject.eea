@@ -1,0 +1,4 @@
+class java/lang/reflect/AccessibleObject
+getAnnotations
+ ()[Ljava/lang/annotation/Annotation;
+ ()[1L1java/lang/annotation/Annotation;

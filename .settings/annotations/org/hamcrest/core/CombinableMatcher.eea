@@ -1,0 +1,4 @@
+class org/hamcrest/core/CombinableMatcher
+both
+ <LHS:Ljava/lang/Object;>(Lorg/hamcrest/Matcher<-TLHS;>;)Lorg/hamcrest/core/CombinableMatcher$CombinableBothMatcher<TLHS;>;
+ <LHS:Ljava/lang/Object;>(Lorg/hamcrest/Matcher<-TLHS;>;)L1org/hamcrest/core/CombinableMatcher$CombinableBothMatcher<TLHS;>;

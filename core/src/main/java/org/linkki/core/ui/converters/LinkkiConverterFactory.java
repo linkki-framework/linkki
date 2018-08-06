@@ -17,9 +17,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Supplier;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.Sequence;
 
 import com.vaadin.data.util.converter.Converter;
@@ -36,14 +35,14 @@ import com.vaadin.server.VaadinSession;
 public class LinkkiConverterFactory extends DefaultConverterFactory {
 
     public static final Sequence<Converter<?, ?>> DEFAULT_JAVA_8_DATE_CONVERTERS = Sequence.of(
-                                                                                             new LocalDateTimeToStringConverter(),
-                                                                                             new LocalDateToDateConverter(),
-                                                                                             new LocalDateToStringConverter());
+                                                                                               new LocalDateTimeToStringConverter(),
+                                                                                               new LocalDateToDateConverter(),
+                                                                                               new LocalDateToStringConverter());
 
 
     private static final long serialVersionUID = 1L;
 
-    private Supplier<Sequence<Converter<?, ?>>> converterFinder;
+    private Supplier<@NonNull Sequence<@NonNull Converter<?, ?>>> converterFinder;
 
     public LinkkiConverterFactory() {
         this(() -> DEFAULT_JAVA_8_DATE_CONVERTERS);
@@ -54,11 +53,12 @@ public class LinkkiConverterFactory extends DefaultConverterFactory {
     }
 
     @Override
-    @CheckForNull
+    @Nullable
     protected <PRESENTATION, MODEL> Converter<PRESENTATION, MODEL> findConverter(
             @Nullable Class<PRESENTATION> presentationType,
             @Nullable Class<MODEL> modelType) {
         @SuppressWarnings("unchecked")
+        @Nullable
         Converter<PRESENTATION, MODEL> converter = converterFinder.get().stream()
                 .filter(Converter.class::isInstance)
                 .map(Converter.class::cast)

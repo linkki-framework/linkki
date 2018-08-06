@@ -18,9 +18,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UICheckBoxIntegrationTest.TestCheckboxPmo;
@@ -171,7 +169,7 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
 
         @Override
         @SuppressWarnings("null")
-        @CheckForNull
+        @Nullable
         public Boolean getValue() {
             return value;
         }

@@ -17,7 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Allows reading and writing a value from/to an object's property. Also provides the value class of

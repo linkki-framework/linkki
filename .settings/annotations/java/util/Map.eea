@@ -1,0 +1,13 @@
+class java/util/Map
+computeIfAbsent
+ (TK;Ljava/util/function/Function<-TK;+TV;>;)TV;
+ (TK;Ljava/util/function/Function<-TK;+TV;>;)TV;
+get
+ (Ljava/lang/Object;)TV;
+ (Ljava/lang/Object;)T0V;
+getOrDefault
+ (Ljava/lang/Object;TV;)TV;
+ (Ljava/lang/Object;T1V;)T1V;
+remove
+ (Ljava/lang/Object;)TV;
+ (Ljava/lang/Object;)T0V;

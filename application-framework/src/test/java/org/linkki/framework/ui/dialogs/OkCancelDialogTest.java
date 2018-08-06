@@ -20,8 +20,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -121,7 +121,6 @@ public class OkCancelDialogTest {
     private Matcher<OkCancelDialog> displayingMessage() {
         return new TypeSafeMatcher<OkCancelDialog>() {
 
-            @SuppressWarnings("null")
             @Override
             public void describeTo(Description description) {
                 description.appendText("an OkCancelDialog displaying a message");
@@ -139,7 +138,6 @@ public class OkCancelDialogTest {
     private Matcher<OkCancelDialog> displayingMessage(String text) {
         return new TypeSafeMatcher<OkCancelDialog>() {
 
-            @SuppressWarnings("null")
             @Override
             public void describeTo(Description description) {
                 description.appendText("an OkCancelDialog displaying a message with the text '");
@@ -147,9 +145,10 @@ public class OkCancelDialogTest {
                 description.appendText("'");
             }
 
-            @SuppressWarnings("null")
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
+                @SuppressWarnings("null")
+                @NonNull
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
                 VerticalLayout nestedLayout = (VerticalLayout)layout.getComponent(0);
 
@@ -168,13 +167,11 @@ public class OkCancelDialogTest {
     private Matcher<OkCancelDialog> showingEnabledOkButton() {
         return new TypeSafeMatcher<OkCancelDialog>() {
 
-            @SuppressWarnings("null")
             @Override
             public void describeTo(Description description) {
                 description.appendText("an OkCancelDialog whose OK button is enabled");
             }
 
-            @SuppressWarnings("null")
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
                 return getOkButton(dialog).isEnabled();
@@ -183,10 +180,13 @@ public class OkCancelDialogTest {
     }
 
     Button getOkButton(OkCancelDialog dialog) {
+        @SuppressWarnings("null")
+        @NonNull
         VerticalLayout layout = (VerticalLayout)dialog.getContent();
         return (Button)((HorizontalLayout)layout.getComponent(layout.getComponentCount() - 1)).getComponent(0);
     }
 
+    @SuppressWarnings("null")
     static Stream<Component> components(VerticalLayout layout) {
         return StreamUtil.stream(layout);
     }

@@ -17,8 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
@@ -176,7 +175,7 @@ public class OkCancelDialog extends Window {
      * {@link #addContent(Component)}.
      */
     // mainArea is null when setContent is called from the superclass constructor. For all other
-    // purposes, we consider it @Nonnull
+    // purposes, we consider it @NonNull
     @SuppressWarnings({ "null", "unused" })
     @Override
     public void setContent(@Nullable Component content) {

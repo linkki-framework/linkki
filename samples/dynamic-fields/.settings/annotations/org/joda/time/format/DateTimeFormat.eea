@@ -1,4 +1,0 @@
-class org/joda/time/format/DateTimeFormat
-forPattern
- (Ljava/lang/String;)Lorg/joda/time/format/DateTimeFormatter;
- (L1java/lang/String;)L1org/joda/time/format/DateTimeFormatter;

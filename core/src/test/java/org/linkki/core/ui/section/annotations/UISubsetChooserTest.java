@@ -24,6 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.components.SubsetChooser;
@@ -75,9 +76,9 @@ public class UISubsetChooserTest {
     }
 
     /**
-     * Returns a {@code SubsetChooser} that is bound to a {@link AnnotationTestPmo} using the
-     * IPM data binder. The {@code SubsetChooser} is part of a mostly mocked UI so that a
-     * rudimentary Vaadin environment is in place.
+     * Returns a {@code SubsetChooser} that is bound to a {@link AnnotationTestPmo} using the IPM data
+     * binder. The {@code SubsetChooser} is part of a mostly mocked UI so that a rudimentary Vaadin
+     * environment is in place.
      * 
      * @return a {@code SubsetChooser} that is bound to a {@link AnnotationTestPmo}
      */
@@ -133,9 +134,10 @@ public class UISubsetChooserTest {
         variables.put("selected", new String[] {});
         subsetChooser.changeVariables(null, variables);
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked", "null" })
+        @NonNull
         Set<TestEnum> selectedValuesResultEmpty = (Set<TestEnum>)subsetChooser.getValue();
-        assertThat(selectedValuesResultEmpty, empty());
+        assertThat(selectedValuesResultEmpty, is(empty()));
     }
 
     @Test

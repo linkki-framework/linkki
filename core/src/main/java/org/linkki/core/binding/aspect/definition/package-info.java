@@ -14,5 +14,5 @@
 /**
  * Definitions of aspects
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.binding.aspect.definition;

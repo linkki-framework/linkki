@@ -20,6 +20,8 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import org.eclipse.jdt.annotation.NonNull;
+
 /**
  * Base class for method wrappers. Allows the wrapped {@link Method java.lang.reflect.Method} to be
  * <code>null</code>.
@@ -58,7 +60,7 @@ public abstract class AbstractMethod {
         return propertyName;
     }
 
-    protected Supplier<IllegalArgumentException> noMethodFound(String accessMethodName) {
+    protected Supplier<@NonNull IllegalArgumentException> noMethodFound(String accessMethodName) {
         return illegalArgumentException("Found no " + accessMethodName + "for " + getBoundClass() + "#"
                 + getPropertyName());
     }

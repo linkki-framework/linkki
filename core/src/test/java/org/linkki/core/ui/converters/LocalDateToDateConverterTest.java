@@ -21,9 +21,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -91,34 +89,29 @@ public class LocalDateToDateConverterTest {
 
     }
 
-
+    @SuppressWarnings("null")
     @Test
     public void testConvertToModel() throws Exception {
-        LocalDate converted = convert(date, pattern);
-        assertThat(converted, is(localDate));
+        assertThat(convert(date, pattern), is(localDate));
     }
 
     @Test
     public void testConvertToPresentation() throws Exception {
-        Date converted = convert(localDate);
-
-        assertThat(converted, is(convertToDate(getDateToConvert(date, pattern), pattern)));
+        assertThat(convert(localDate), is(convertToDate(getDateToConvert(date, pattern), pattern)));
     }
 
-
-    @CheckForNull
+    @Nullable
     private static LocalDate convert(String toConvert, String pattern) throws Exception {
         // we do not need type and locale
-
         return new LocalDateToDateConverter().convertToModel(convertToDate(toConvert, pattern), null, null);
     }
 
-    @CheckForNull
+    @Nullable
     private static Date convert(LocalDate toConvert) {
         return new LocalDateToDateConverter().convertToPresentation(toConvert, null, null);
     }
 
-    @CheckForNull
+    @Nullable
     private static Date convertToDate(@Nullable String date, String pattern) throws Exception {
         if (date == null) {
             return null;
@@ -131,7 +124,7 @@ public class LocalDateToDateConverterTest {
      * we fake the java heuristic for 2 digit years in dates currently it works like a charm but who
      * knows - sometime it will be broken
      */
-    @CheckForNull
+    @Nullable
     private static String getDateToConvert(@Nullable String date, String pattern) throws Exception {
 
         if (date == null || !date.startsWith("00")) {

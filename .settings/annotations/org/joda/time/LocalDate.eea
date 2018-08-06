@@ -1,0 +1,13 @@
+class org/joda/time/LocalDate
+fromDateFields
+ (Ljava/util/Date;)Lorg/joda/time/LocalDate;
+ (Ljava/util/Date;)L1org/joda/time/LocalDate;
+now
+ ()Lorg/joda/time/LocalDate;
+ ()L1org/joda/time/LocalDate;
+plusDays
+ (I)Lorg/joda/time/LocalDate;
+ (I)L1org/joda/time/LocalDate;
+plusYears
+ (I)Lorg/joda/time/LocalDate;
+ (I)L1org/joda/time/LocalDate;

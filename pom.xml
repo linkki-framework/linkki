@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework</groupId>
@@ -36,7 +37,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <m2e.jdt.annotationpath>.settings/annotations</m2e.jdt.annotationpath>
+        <m2e.jdt.annotationpath>/linkki/.settings/annotations</m2e.jdt.annotationpath>
         <git.user>${user.name}</git.user>
         <vaadin.version>7.7.13</vaadin.version>
         <joda-time.version>2.4</joda-time.version>
@@ -62,8 +63,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <!-- at the moment we do not check missing javadoc like
-                        missing @param or @return -->
+                    <!-- at the moment we do not check missing javadoc like missing @param or @return -->
                     <additionalparam>-Xdoclint:accessibility
                         -Xdoclint:html
                         -Xdoclint:reference
@@ -101,8 +101,8 @@
                     </tags>
                 </configuration>
             </plugin>
-            <!-- CheckStyle: in order to get the config in the correct version
-                you need to add an extension to the org.faktorips.build.config module -->
+            <!-- CheckStyle: in order to get the config in the correct version you need to add an extension to the org.faktorips.build.config 
+                module -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -110,7 +110,7 @@
                     <dependency>
                         <groupId>org.linkki-framework</groupId>
                         <artifactId>linkki-codeanalysis</artifactId>
-                        <version>0.9.20180420</version>
+                        <version>1.0-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -130,11 +130,11 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- FindBugs: in order to get the config in the correct version
-                you need to add an extension to the org.faktorips.build.config module -->
+            <!-- FindBugs: in order to get the config in the correct version you need to add an extension to the org.faktorips.build.config 
+                module -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
                 <dependencies>
                     <dependency>
                         <groupId>org.linkki-framework</groupId>
@@ -145,14 +145,14 @@
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                     <threshold>Low</threshold>
-                    <excludeFilterFile>config/findbugs/exclusion-filter.xml</excludeFilterFile>
+                    <excludeFilterFile>config/spotbugs/exclusion-filter.xml</excludeFilterFile>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>checkstyle</id>
+                        <id>spotbugs</id>
                         <phase>verify</phase>
                         <goals>
-                            <goal>findbugs</goal>
+                            <goal>spotbugs</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -193,17 +193,23 @@
 
         <pluginManagement>
             <plugins>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>2.16</version>
+                    <version>3.0.0</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>8.12</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
 
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>3.1.7</version>
                 </plugin>
 
                 <plugin>
@@ -248,8 +254,8 @@
                     <version>2.5</version>
                 </plugin>
 
-                <!--This plugin's configuration is used to store Eclipse
-                    m2e settings only. It has no influence on the Maven build itself. -->
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
+                    build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -311,9 +317,9 @@
                 <optional>true</optional>
             </dependency>
             <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-                <version>3.0.0</version>
+                <groupId>org.eclipse.jdt</groupId>
+                <artifactId>org.eclipse.jdt.annotation</artifactId>
+                <version>2.2.0</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -370,8 +376,8 @@
             <artifactId>hamcrest-junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
+            <groupId>org.eclipse.jdt</groupId>
+            <artifactId>org.eclipse.jdt.annotation</artifactId>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>

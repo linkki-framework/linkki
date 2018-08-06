@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -215,7 +216,7 @@ public class BindingContextIntegrationTest {
             /**/
         };
 
-        protected TestTableSectionPmo(String... modelObjects) {
+        protected TestTableSectionPmo(@NonNull String... modelObjects) {
             super(Arrays.asList(modelObjects));
         }
 

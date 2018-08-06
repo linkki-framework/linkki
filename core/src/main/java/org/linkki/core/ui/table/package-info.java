@@ -14,5 +14,5 @@
 /**
  * Adaptation of a {@link com.vaadin.ui.Table} for linkki.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.ui.table;

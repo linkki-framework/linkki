@@ -20,9 +20,7 @@ import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
@@ -196,12 +194,12 @@ public class UiCustomFieldTest {
             this.value = value;
         }
 
-        @CheckForNull
+        @Nullable
         public String getId() {
             return value;
         }
 
-        @CheckForNull
+        @Nullable
         public String getName() {
             return value;
         }

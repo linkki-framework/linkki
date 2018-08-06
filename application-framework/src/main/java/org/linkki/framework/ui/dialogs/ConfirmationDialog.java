@@ -13,8 +13,8 @@
  */
 package org.linkki.framework.ui.dialogs;
 
-import javax.annotation.Nullable;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.shared.ui.label.ContentMode;

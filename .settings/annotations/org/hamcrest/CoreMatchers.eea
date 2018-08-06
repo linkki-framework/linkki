@@ -1,0 +1,4 @@
+class org/hamcrest/CoreMatchers
+equalTo
+ <T:Ljava/lang/Object;>(TT;)Lorg/hamcrest/Matcher<TT;>;
+ <T:Ljava/lang/Object;>(TT;)L1org/hamcrest/Matcher<TT;>;

@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.UiUpdateObserver;
 import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.util.LazyReference;
@@ -76,8 +77,8 @@ public class SidebarSheet {
      * @param icon The icon for the sidebar button
      * @param name The name of the sidebar sheet that is displayed as tooltip
      * @param content The content of the sidebar sheet that is displayed if this sheed is selected
-     * @param uiUpdateObserver An {@link UiUpdateObserver} that is triggered when this sidebar sheet
-     *            is selected
+     * @param uiUpdateObserver An {@link UiUpdateObserver} that is triggered when this sidebar sheet is
+     *            selected
      */
     public SidebarSheet(Resource icon, String name, Component content, UiUpdateObserver uiUpdateObserver) {
         this(icon, name, () -> content, uiUpdateObserver);
@@ -87,8 +88,8 @@ public class SidebarSheet {
      * Simply creates a {@link SidebarSheet} with the given icon, name and content. The name will be
      * displayed as tooltip information.
      * 
-     * @implNote The content is provided by a {@link Supplier} that is called when the sheet is
-     *           selected for the first time.
+     * @implNote The content is provided by a {@link Supplier} that is called when the sheet is selected
+     *           for the first time.
      * 
      * @param icon The icon for the sidebar button
      * @param name The name of the sidebar sheet that is displayed as tooltip
@@ -103,18 +104,18 @@ public class SidebarSheet {
      * Simply creates a {@link SidebarSheet} with the given icon, name and content. The name will be
      * displayed as tooltip information.
      * 
-     * @implNote The content is provided by a {@link Supplier} that is called when the sheet is
-     *           selected for the first time.
+     * @implNote The content is provided by a {@link Supplier} that is called when the sheet is selected
+     *           for the first time.
      * 
-     * @param icon The icon for the sidebar button
-     * @param name The name of the sidebar sheet that is displayed as tooltip
-     * @param contentSupplier The supplier for the content of the sidebar sheet that is displayed if
+     * @param icon the icon for the sidebar button
+     * @param name the name of the sidebar sheet that is displayed as tooltip
+     * @param contentSupplier the supplier for the content of the sidebar sheet that is displayed if
      *            this sheet is selected
-     * @param uiUpdateObserver An {@link UiUpdateObserver} that is triggered when this sidebar sheet
-     *            is selected
+     * @param uiUpdateObserver A {@link UiUpdateObserver} that is triggered when this sidebar sheet is
+     *            selected. May be {@code null}.
      */
     public SidebarSheet(Resource icon, String name, Supplier<Component> contentSupplier,
-            UiUpdateObserver uiUpdateObserver) {
+            @Nullable UiUpdateObserver uiUpdateObserver) {
         this.button = new Button("", requireNonNull(icon, "icon must not be null")); // $NON-NLS-1
         this.contentSupplier = new LazyReference<>(requireNonNull(contentSupplier, "content must not be null"));
         this.name = requireNonNull(name, "tooltip must not be null");

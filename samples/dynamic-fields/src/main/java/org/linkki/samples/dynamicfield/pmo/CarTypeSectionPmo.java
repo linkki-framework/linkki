@@ -13,14 +13,14 @@
  */
 package org.linkki.samples.dynamicfield.pmo;
 
+import java.io.Serializable;
+
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.samples.dynamicfield.model.NewCar;
-
-import java.io.Serializable;
 
 @UISection
 public class CarTypeSectionPmo implements PresentationModelObject, Serializable {

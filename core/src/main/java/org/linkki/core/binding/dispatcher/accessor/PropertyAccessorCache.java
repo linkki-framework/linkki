@@ -15,9 +15,7 @@ package org.linkki.core.binding.dispatcher.accessor;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNullableByDefault;
-
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.util.LazyInitializingMap;
 
 /**
@@ -41,12 +39,11 @@ public final class PropertyAccessorCache {
         return ACCESSOR_CACHE.get(new CacheKey(clazz, property));
     }
 
-    @ParametersAreNullableByDefault
     private static final class CacheKey {
         private final Class<?> clazz;
         private final String property;
 
-        public CacheKey(@Nonnull Class<?> clazz, @Nonnull String property) {
+        public CacheKey(@NonNull Class<?> clazz, @NonNull String property) {
             super();
             this.clazz = requireNonNull(clazz, "clazz must not be null");
             this.property = requireNonNull(property, "property must not be null");
@@ -61,7 +58,7 @@ public final class PropertyAccessorCache {
             return result;
         }
 
-        @SuppressWarnings({ "null", "unused" })
+        @SuppressWarnings("null")
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {

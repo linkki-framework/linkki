@@ -16,13 +16,14 @@ package org.linkki.samples.appsample.pmo;
 
 import java.util.List;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ui.table.SimpleTablePmo;
 import org.linkki.samples.appsample.model.Report;
 
-public class ReportTablePmo extends SimpleTablePmo<Report, ReportPmo> {
+public class ReportTablePmo extends SimpleTablePmo<@NonNull Report, @NonNull ReportPmo> {
 
 
-    public ReportTablePmo(List<Report> reports) {
+    public ReportTablePmo(@NonNull List<@NonNull Report> reports) {
         super(reports);
     }
 

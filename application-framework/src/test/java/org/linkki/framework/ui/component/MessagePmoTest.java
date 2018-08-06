@@ -17,6 +17,7 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -30,15 +31,19 @@ import com.vaadin.server.FontAwesome;
 public class MessagePmoTest {
 
 
+    @SuppressWarnings("null")
     @Parameterized.Parameter(value = 0)
     public ErrorLevel errorLevel;
 
+    @Nullable
     @Parameterized.Parameter(value = 1)
     public ObjectProperty objectProperty;
 
+    @SuppressWarnings("null")
     @Parameterized.Parameter(value = 2)
     public FontAwesome icon;
 
+    @SuppressWarnings("null")
     @Parameterized.Parameter(value = 3)
     public String tooltip;
 

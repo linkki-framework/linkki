@@ -1,0 +1,4 @@
+class java/lang/reflect/TypeVariable
+getGenericDeclaration
+ ()TD;
+ ()T1D;

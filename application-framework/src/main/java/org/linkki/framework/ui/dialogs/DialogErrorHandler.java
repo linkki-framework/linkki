@@ -68,13 +68,14 @@ public class DialogErrorHandler implements ErrorHandler {
     }
 
     @Override
-    public void error(@SuppressWarnings("null") ErrorEvent event) {
+    public void error(ErrorEvent event) {
         LOGGER.log(Level.SEVERE, "Unhandled exception", event.getThrowable());
         showErrorDialog(event);
     }
 
     private void showErrorDialog(ErrorEvent errorEvent) {
-        dialogCreator.apply(errorEvent, this::navigateToStartView).open();
+        ConfirmationDialog dialog = dialogCreator.apply(errorEvent, this::navigateToStartView);
+        dialog.open();
     }
 
     // findbugs reports that it should not be necessary to copy the list. but it is

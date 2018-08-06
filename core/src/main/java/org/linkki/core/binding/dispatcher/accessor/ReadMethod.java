@@ -59,6 +59,7 @@ public class ReadMethod extends AbstractMethod {
         }
     }
 
+    @SuppressWarnings("null")
     private Object invokeMethod(Object boundObject) throws IllegalAccessException, InvocationTargetException {
         return getMethodWithExceptionHandling().invoke(boundObject);
     }

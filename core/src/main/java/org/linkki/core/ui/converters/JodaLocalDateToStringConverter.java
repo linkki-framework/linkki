@@ -15,8 +15,7 @@ package org.linkki.core.ui.converters;
 
 import java.util.Locale;
 
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -36,6 +35,7 @@ public class JodaLocalDateToStringConverter implements Converter<String, LocalDa
 
     private static final long serialVersionUID = 1L;
 
+    @Nullable
     @Override
     public LocalDate convertToModel(@Nullable String value,
             @Nullable Class<? extends LocalDate> targetType,
@@ -43,6 +43,7 @@ public class JodaLocalDateToStringConverter implements Converter<String, LocalDa
         throw new UnsupportedOperationException(getClass().getName() + " only supports convertToPresentation");
     }
 
+    @Nullable
     @Override
     public String convertToPresentation(@Nullable LocalDate value,
             @Nullable Class<? extends String> targetType,

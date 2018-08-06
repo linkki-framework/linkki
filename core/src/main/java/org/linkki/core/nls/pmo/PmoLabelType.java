@@ -15,8 +15,8 @@ package org.linkki.core.nls.pmo;
 
 import static java.util.Objects.requireNonNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Defines label types and their Resource Bundle Key patterns
@@ -42,7 +42,7 @@ public enum PmoLabelType {
     PROPERTY_LABEL {
 
         @Override
-        public String getKey(Class<?> pmoClass, @SuppressWarnings("null") @Nonnull String property) {
+        public String getKey(Class<?> pmoClass, @SuppressWarnings("null") @NonNull String property) {
             requireNonNull(property, "parameter property for PROPERTY_LABEL can not be null ");
             return getPropertyKey(pmoClass, property, PmoLabelType.LABEL_KEY);
         }
@@ -55,7 +55,7 @@ public enum PmoLabelType {
     TOOLTIP {
 
         @Override
-        public String getKey(Class<?> pmoClass, @SuppressWarnings("null") @Nonnull String property) {
+        public String getKey(Class<?> pmoClass, @SuppressWarnings("null") @NonNull String property) {
             requireNonNull(property, "parameter property for TOOLTIP can not be null ");
             return getPropertyKey(pmoClass, property, TOOLTIP_KEY);
         }

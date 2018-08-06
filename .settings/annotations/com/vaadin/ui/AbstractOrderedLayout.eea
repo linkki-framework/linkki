@@ -1,0 +1,7 @@
+class com/vaadin/ui/AbstractOrderedLayout
+getComponent
+ (I)Lcom/vaadin/ui/Component;
+ (I)L1com/vaadin/ui/Component;
+iterator
+ ()Ljava/util/Iterator<Lcom/vaadin/ui/Component;>;
+ ()L1java/util/Iterator<L1com/vaadin/ui/Component;>;

@@ -31,6 +31,8 @@ import java.util.stream.Stream;
 
 import javax.annotation.CheckReturnValue;
 
+import org.eclipse.jdt.annotation.NonNull;
+
 /**
  * This sequence is a wrapper for a list to create immutable lists easily. It could be instantiated
  * using the static of-methods or the {@link #empty()} method.
@@ -143,7 +145,7 @@ public class Sequence<T> implements Iterable<T> {
      *         elements or this {@link Sequence} if the condition is {@code false}
      */
     @CheckReturnValue
-    public final Sequence<T> withIf(boolean condition, Supplier<T> supplier) {
+    public final Sequence<T> withIf(boolean condition, Supplier<@NonNull T> supplier) {
         if (condition) {
             return with(supplier.get());
         } else {

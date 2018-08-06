@@ -23,11 +23,13 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.TestBindingContext;
 
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 
 public abstract class ComponentAnnotationIntegrationTest<C extends AbstractComponent, P extends AnnotationTestPmo> {
@@ -38,7 +40,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     private Object defaultModelObject;
     private P defaultPmo;
     private TestBindingContext bindingContext;
-    private Function<Object, ? extends P> pmoCreator;
+    private Function<Object, ? extends @NonNull P> pmoCreator;
     private Supplier<Object> modelObjectSupplier;
     private GridLayout defaultSection;
 
@@ -64,8 +66,14 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
 
     @Test
     public void testPosition() {
-        assertThat(getDefaultSection().getComponent(1, 0).getId(), is(getDynamicComponent().getId()));
-        assertThat(getDefaultSection().getComponent(1, 1).getId(), is(getStaticComponent().getId()));
+        @SuppressWarnings("null")
+        @NonNull
+        Component component1 = getDefaultSection().getComponent(1, 0);
+        assertThat(component1.getId(), is(getDynamicComponent().getId()));
+        @SuppressWarnings("null")
+        @NonNull
+        Component component2 = getDefaultSection().getComponent(1, 1);
+        assertThat(component2.getId(), is(getStaticComponent().getId()));
     }
 
     @Test
@@ -85,8 +93,8 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     }
 
     /**
-     * Tests a dynamic boolean binding. Assumes that the {@link #getStaticComponent() static
-     * component} is annotated with the non default boolean value.
+     * Tests a dynamic boolean binding. Assumes that the {@link #getStaticComponent() static component}
+     * is annotated with the non default boolean value.
      * 
      * @param predicate value of the boolean property
      * @param setter setter for the property in pmo
@@ -102,8 +110,8 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
      * Tests that
      * <ul>
      * <li>the {@link #getStaticComponent()} has the <code>testValue</code></li>
-     * <li>the {@link #getDynamicComponent()} has the <code>testValue</code> initially and changes
-     * its value to <code>defaultValue</code> after using the <code>setter</code>
+     * <li>the {@link #getDynamicComponent()} has the <code>testValue</code> initially and changes its
+     * value to <code>defaultValue</code> after using the <code>setter</code>
      * </ul>
      * 
      * @param componentValueGetter getter of the property in component
@@ -160,6 +168,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
         return getComponentById(PROPERTY_STATIC_VALUE);
     }
 
+    @SuppressWarnings("null")
     protected P newPmo(Object modelObject) {
         return pmoCreator.apply(modelObject);
     }

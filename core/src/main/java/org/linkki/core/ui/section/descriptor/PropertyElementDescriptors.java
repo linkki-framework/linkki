@@ -18,9 +18,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
@@ -43,12 +46,10 @@ public class PropertyElementDescriptors {
 
     private static final PropertyNamingConvention PROPERTY_NAMING_CONVENTION = new PropertyNamingConvention();
 
-    private final Map<Class<? extends Annotation>, ElementDescriptor> descriptors;
+    private final Map<@NonNull Class<? extends Annotation>, @NonNull ElementDescriptor> descriptors;
     private final String pmoPropertyName;
-
     private int position;
-    private String labelText;
-
+    private String labelText = StringUtils.EMPTY;
     private final List<LinkkiAspectDefinition> additionalAspects = new ArrayList<>();
 
     // position and labelText are null at initilization but
@@ -57,7 +58,6 @@ public class PropertyElementDescriptors {
     // since this constructor is package-private it can not be called from
     // a user of the framework so it's ok...
     // to make eclipse happy we suppress the null warning :/
-    @SuppressWarnings("null")
     PropertyElementDescriptors(String pmoPropertyName) {
         this.pmoPropertyName = pmoPropertyName;
         this.descriptors = new HashMap<>(2);
@@ -76,6 +76,7 @@ public class PropertyElementDescriptors {
     }
 
     public ElementDescriptor getDescriptor(Object pmo) {
+        @NonNull
         ElementDescriptor descriptor;
         if (descriptors.size() == 1) {
             descriptor = descriptors.values()
@@ -83,11 +84,13 @@ public class PropertyElementDescriptors {
                     .next();
         } else {
             Class<? extends Annotation> initialAnnotation = getInitialAnnotationClassFromPmo(pmo);
-            descriptor = descriptors.get(initialAnnotation);
-            if (descriptor == null) {
+            @Nullable
+            ElementDescriptor descriptorFromAnnotation = descriptors.get(initialAnnotation);
+            if (descriptorFromAnnotation == null) {
                 throw new IllegalStateException(String.format("No descriptor found for annotation @%s for property %s",
                                                               initialAnnotation.getSimpleName(), pmoPropertyName));
             }
+            descriptor = descriptorFromAnnotation;
         }
         descriptor.addAspectDefinitions(additionalAspects);
         return descriptor;
@@ -110,15 +113,14 @@ public class PropertyElementDescriptors {
 
     /**
      * A property can only have two different descriptors if the have the same position and a method
-     * with {@link PropertyNamingConvention#getComponentTypeProperty(String)} exists for the
-     * property.
+     * with {@link PropertyNamingConvention#getComponentTypeProperty(String)} exists for the property.
      */
     private void validateDynamicFieldDescriptor(ElementDescriptor descriptor, Class<?> pmoClass) {
         Validate.validState(descriptor.getPosition() == position, String
                 .format("UIElement annotations for property '%s' do not all have the same position",
                         pmoPropertyName));
 
-        Validate.validState(labelText.equals(descriptor.getLabelText()),
+        Validate.validState(Objects.equals(labelText, descriptor.getLabelText()),
                             "Labels for property %s in pmo class %s don't match. Values are: '%s' and '%s'",
                             pmoPropertyName, pmoClass.getName(), labelText, descriptor.getLabelText());
 

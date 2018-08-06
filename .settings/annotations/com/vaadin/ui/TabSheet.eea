@@ -1,0 +1,4 @@
+class com/vaadin/ui/TabSheet
+addTab
+ (Lcom/vaadin/ui/Component;Ljava/lang/String;)Lcom/vaadin/ui/TabSheet$Tab;
+ (Lcom/vaadin/ui/Component;Ljava/lang/String;)L1com/vaadin/ui/TabSheet$Tab;

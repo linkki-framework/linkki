@@ -14,5 +14,5 @@
 /**
  * {@link org.linkki.core.ui.page.Page} and default implementation.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.ui.page;

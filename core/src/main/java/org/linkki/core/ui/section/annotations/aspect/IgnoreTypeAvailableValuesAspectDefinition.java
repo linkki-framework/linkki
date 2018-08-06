@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
@@ -33,7 +34,7 @@ public abstract class IgnoreTypeAvailableValuesAspectDefinition extends Availabl
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
         if (componentWrapper.getComponent() instanceof AbstractSelect) {
-            Consumer<Collection<?>> setter = createComponentValueSetter(componentWrapper);
+            Consumer<@Nullable Collection<?>> setter = createComponentValueSetter(componentWrapper);
             Aspect<List<?>> aspect = createAspect(propertyDispatcher.getProperty(),
                                                   propertyDispatcher.getValueClass());
             return () -> setter.accept(propertyDispatcher.pull(aspect));

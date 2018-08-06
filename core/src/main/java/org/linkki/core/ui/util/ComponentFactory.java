@@ -19,9 +19,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Locale;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.components.IntegerField;
@@ -292,7 +290,7 @@ public class ComponentFactory {
 
         @SuppressFBWarnings("NP_BOOLEAN_RETURN_NULL")
         @Override
-        @CheckForNull
+        @Nullable
         public Boolean convertToModel(@Nullable String value,
                 @Nullable Class<? extends Boolean> targetType,
                 @Nullable Locale locale)
@@ -310,7 +308,7 @@ public class ComponentFactory {
         }
 
         @Override
-        @CheckForNull
+        @Nullable
         public String convertToPresentation(@Nullable Boolean value,
                 @Nullable Class<? extends String> targetType,
                 @Nullable Locale locale)

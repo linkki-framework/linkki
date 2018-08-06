@@ -16,6 +16,7 @@ package org.linkki.framework.state;
 import java.util.Optional;
 import java.util.function.Function;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
@@ -65,14 +66,15 @@ public interface ApplicationConfig {
     /**
      * The {@link ApplicationLayout} for the {@link LinkkiUi}.
      * 
-     * @implSpec Includes an {@link ApplicationHeader} created with the
-     *           {@link #getHeaderDefinition()} from an {@link ApplicationMenu} including the
-     *           {@link #getMenuItemDefinitions()} and an {@link ApplicationFooter} created with the
-     *           {@link #getFooterDefinition()}.
+     * @implSpec Includes an {@link ApplicationHeader} created with the {@link #getHeaderDefinition()}
+     *           from an {@link ApplicationMenu} including the {@link #getMenuItemDefinitions()} and an
+     *           {@link ApplicationFooter} created with the {@link #getFooterDefinition()}.
      */
     default ApplicationLayout createApplicationLayout() {
+        @SuppressWarnings("null")
+        ApplicationFooter footer = getFooterDefinition().map(fd -> fd.apply(this)).orElse(null);
         return new ApplicationLayout(getHeaderDefinition().apply(new ApplicationMenu(getMenuItemDefinitions().list())),
-                getFooterDefinition().map(fd -> fd.apply(this)).orElse(null));
+                footer);
     }
 
     /**
@@ -92,7 +94,7 @@ public interface ApplicationConfig {
      * Optionally returns an {@link ApplicationFooterDefinition} that creates an
      * {@link ApplicationFooter}. Per default, no footer is created.
      */
-    default Optional<ApplicationFooterDefinition> getFooterDefinition() {
+    default Optional<@Nullable ApplicationFooterDefinition> getFooterDefinition() {
         return Optional.empty();
     }
 
@@ -106,8 +108,7 @@ public interface ApplicationConfig {
 
     /**
      * The factory used to create {@link Converter Converters} to be
-     * {@link VaadinSession#setConverterFactory(ConverterFactory) registered with the
-     * VaadinSession}.
+     * {@link VaadinSession#setConverterFactory(ConverterFactory) registered with the VaadinSession}.
      */
     default ConverterFactory getConverterFactory() {
         return new LinkkiConverterFactory();
@@ -118,7 +119,7 @@ public interface ApplicationConfig {
         ApplicationHeader createApplicationHeader(ApplicationMenu applicationMenu);
 
         @Override
-        default ApplicationHeader apply(@SuppressWarnings("null") ApplicationMenu applicationMenu) {
+        default ApplicationHeader apply(ApplicationMenu applicationMenu) {
             return createApplicationHeader(applicationMenu);
         }
     }
@@ -128,7 +129,7 @@ public interface ApplicationConfig {
         ApplicationFooter createApplicationFooter(ApplicationConfig applicationConfig);
 
         @Override
-        default ApplicationFooter apply(@SuppressWarnings("null") ApplicationConfig applicationConfig) {
+        default ApplicationFooter apply(ApplicationConfig applicationConfig) {
             return createApplicationFooter(applicationConfig);
         }
     }

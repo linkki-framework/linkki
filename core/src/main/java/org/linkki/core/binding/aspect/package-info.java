@@ -1,5 +1,5 @@
 /**
  * Binding aspects to be used with the linkki data binding framework.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.binding.aspect;

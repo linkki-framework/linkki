@@ -15,6 +15,7 @@ package org.linkki.framework.ui.dialogs;
 
 import static java.util.Objects.requireNonNull;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
@@ -92,7 +93,7 @@ public class PmoBasedDialogFactory {
      * @param pmos the presentation model objects providing the data and the layout information
      * @return A dialog with the content defined by the given PMO.
      */
-    public OkCancelDialog newOkCancelDialog(String title, Handler okHandler, Object... pmos) {
+    public OkCancelDialog newOkCancelDialog(String title, Handler okHandler, @NonNull Object... pmos) {
         OkCancelDialog dialog = new OkCancelDialog(title, okHandler, ButtonOption.OK_CANCEL);
         DialogBindingManager bindingManager = new DialogBindingManager(dialog, validationService,
                 propertyBehaviorProvider);

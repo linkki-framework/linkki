@@ -1,0 +1,4 @@
+class com/vaadin/ui/Label
+getValue
+ ()Ljava/lang/String;
+ ()L1java/lang/String;

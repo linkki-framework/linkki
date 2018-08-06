@@ -1,0 +1,16 @@
+class org/hamcrest/Matchers
+empty
+ <E:Ljava/lang/Object;>()Lorg/hamcrest/Matcher<Ljava/util/Collection<+TE;>;>;
+ <E:Ljava/lang/Object;>()L1org/hamcrest/Matcher<L1java/util/Collection<+TE;>;>;
+emptyString
+ ()Lorg/hamcrest/Matcher<Ljava/lang/String;>;
+ ()L1org/hamcrest/Matcher<L1java/lang/String;>;
+is
+ <T:Ljava/lang/Object;>(TT;)Lorg/hamcrest/Matcher<TT;>;
+ <T:Ljava/lang/Object;>(T0T;)L1org/hamcrest/Matcher<TT;>;
+not
+ <T:Ljava/lang/Object;>(Lorg/hamcrest/Matcher<TT;>;)Lorg/hamcrest/Matcher<TT;>;
+ <T:Ljava/lang/Object;>(Lorg/hamcrest/Matcher<TT;>;)L1org/hamcrest/Matcher<TT;>;
+nullValue
+ ()Lorg/hamcrest/Matcher<Ljava/lang/Object;>;
+ ()L1org/hamcrest/Matcher<L0java/lang/Object;>;

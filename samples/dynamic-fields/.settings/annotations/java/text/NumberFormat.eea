@@ -1,4 +1,0 @@
-class java/text/NumberFormat
-parse
- (Ljava/lang/String;)Ljava/lang/Number;
- (Ljava/lang/String;)L1java/lang/Number;

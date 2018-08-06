@@ -27,22 +27,22 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.validation.ValidationMarker;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 
 /**
- * A list of {@link Message NlsText}.
+ * A list of {@link Message Messages}.
  */
-public class MessageList implements Serializable, Iterable<Message> {
+public class MessageList implements Serializable, Iterable<@NonNull Message> {
 
     private static final long serialVersionUID = 1557794794967025627L;
 
-    private final List<Message> messages;
+    private final List<@NonNull Message> messages;
 
 
     /**
@@ -53,7 +53,7 @@ public class MessageList implements Serializable, Iterable<Message> {
      * 
      * @throws NullPointerException if {@code messages} or any {@link Message message} is {@code null}
      */
-    public MessageList(Message... messages) {
+    public MessageList(@NonNull Message... messages) {
         Objects.requireNonNull(messages, "messages must not be null");
 
         this.messages = new ArrayList<>(messages.length);
@@ -188,7 +188,7 @@ public class MessageList implements Serializable, Iterable<Message> {
      * If this {@link MessageList} does not contain any message, an empty String ("") will be returned.
      *
      * @return the text of all {@link Message messages} in this list, separated by the system's default
-     *         line ending or an emtpy String
+     *         line ending or an empty String
      */
     public String getText() {
         return messages.stream()
@@ -324,7 +324,6 @@ public class MessageList implements Serializable, Iterable<Message> {
      *
      * @throws NullPointerException if markerPredicate is <code>null</code>
      */
-    @SuppressWarnings("null")
     public MessageList getMessagesByMarker(Predicate<ValidationMarker> markerPredicate) {
         Objects.requireNonNull(markerPredicate, "markerPredicate must not be null");
 
@@ -375,7 +374,7 @@ public class MessageList implements Serializable, Iterable<Message> {
     }
 
     @Override
-    @SuppressWarnings({ "null", "unused" })
+    @SuppressWarnings({ "null" })
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

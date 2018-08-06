@@ -37,6 +37,7 @@ import org.linkki.core.binding.aspect.LinkkiAspect;
 public @interface UIToolTip {
 
     /** The displayed text for {@link org.linkki.core.ui.section.annotations.ToolTipType#STATIC} */
+    @SuppressWarnings("javadoc")
     String text() default StringUtils.EMPTY;
 
     /**

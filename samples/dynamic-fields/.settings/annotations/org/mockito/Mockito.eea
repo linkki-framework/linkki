@@ -1,7 +1,0 @@
-class org/mockito/Mockito
-mock
- <T:Ljava/lang/Object;>(Ljava/lang/Class<TT;>;)TT;
- <T:Ljava/lang/Object;>(Ljava/lang/Class<TT;>;)T1T;
-spy
- <T:Ljava/lang/Object;>(TT;)TT;
- <T:Ljava/lang/Object;>(T1T;)T1T;

@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
@@ -69,6 +70,7 @@ public class LinkkiUiTest {
         linkkiUi.init(request);
     }
 
+    @SuppressWarnings("null")
     @Test
     public void testInit() {
         initUi();
@@ -82,15 +84,18 @@ public class LinkkiUiTest {
         initUi();
 
         verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        assertThat(converterFactoryCaptor.getValue(), is(instanceOf(LinkkiConverterFactory.class)));
+        @SuppressWarnings("null")
+        @NonNull
+        ConverterFactory converterFactory = converterFactoryCaptor.getValue();
+        assertThat(converterFactory, is(instanceOf(LinkkiConverterFactory.class)));
 
-        Converter<Date, LocalDate> converter = converterFactoryCaptor.getValue()
+        Converter<Date, LocalDate> converter = converterFactory
                 .createConverter(Date.class, LocalDate.class);
         assertThat(converter, is(nullValue()));
-        Converter<String, BigDecimal> converter2 = converterFactoryCaptor.getValue()
+        Converter<String, BigDecimal> converter2 = converterFactory
                 .createConverter(String.class, BigDecimal.class);
         assertThat(converter2, is(instanceOf(StringToBigDecimalConverter.class)));
-        Converter<String, LocalDate> converter3 = converterFactoryCaptor.getValue()
+        Converter<String, LocalDate> converter3 = converterFactory
                 .createConverter(String.class, LocalDate.class);
         assertThat(converter3, is(nullValue()));
     }
@@ -101,15 +106,18 @@ public class LinkkiUiTest {
         initUi();
 
         verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        assertThat(converterFactoryCaptor.getValue(), is(instanceOf(LinkkiConverterFactory.class)));
+        @SuppressWarnings("null")
+        @NonNull
+        ConverterFactory converterFactory = converterFactoryCaptor.getValue();
+        assertThat(converterFactory, is(instanceOf(LinkkiConverterFactory.class)));
 
-        Converter<Date, LocalDate> converter = converterFactoryCaptor.getValue()
+        Converter<Date, LocalDate> converter = converterFactory
                 .createConverter(Date.class, LocalDate.class);
         assertThat(converter, is(instanceOf(LocalDateToDateConverter.class)));
-        Converter<String, BigDecimal> converter2 = converterFactoryCaptor.getValue()
+        Converter<String, BigDecimal> converter2 = converterFactory
                 .createConverter(String.class, BigDecimal.class);
         assertThat(converter2, is(instanceOf(StringToBigDecimalConverter.class)));
-        Converter<String, LocalDate> converter3 = converterFactoryCaptor.getValue()
+        Converter<String, LocalDate> converter3 = converterFactory
                 .createConverter(String.class, LocalDate.class);
         assertThat(converter3, is(instanceOf(LocalDateToStringConverter.class)));
     }
@@ -120,15 +128,18 @@ public class LinkkiUiTest {
         initUi();
 
         verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        assertThat(converterFactoryCaptor.getValue(), is(instanceOf(LinkkiConverterFactory.class)));
+        @SuppressWarnings("null")
+        @NonNull
+        ConverterFactory converterFactory = converterFactoryCaptor.getValue();
+        assertThat(converterFactory, is(instanceOf(LinkkiConverterFactory.class)));
 
-        Converter<Date, LocalDate> converter = converterFactoryCaptor.getValue()
+        Converter<Date, LocalDate> converter = converterFactory
                 .createConverter(Date.class, LocalDate.class);
         assertThat(converter, is(instanceOf(LocalDateToDateConverter.class)));
-        Converter<String, BigDecimal> converter2 = converterFactoryCaptor.getValue()
+        Converter<String, BigDecimal> converter2 = converterFactory
                 .createConverter(String.class, BigDecimal.class);
         assertThat(converter2, is(instanceOf(StringToBigDecimalConverter.class)));
-        Converter<String, LocalDate> converter3 = converterFactoryCaptor.getValue()
+        Converter<String, LocalDate> converter3 = converterFactory
                 .createConverter(String.class, LocalDate.class);
         assertThat(converter3, is(nullValue()));
     }

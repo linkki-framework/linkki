@@ -20,6 +20,7 @@ import java.util.Arrays;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.PostConstruct;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.ui.section.AbstractSection;
@@ -118,7 +119,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * 
      * @throws NullPointerException if one of the given PMOs is <code>null</code>.
      */
-    protected void addSections(Object... pmos) {
+    protected void addSections(@NonNull Object... pmos) {
         add(Arrays.stream(pmos)
                 .map(pmo -> sectionFactory.createSection(pmo, getBindingContext()))
                 .toArray(AbstractSection[]::new));

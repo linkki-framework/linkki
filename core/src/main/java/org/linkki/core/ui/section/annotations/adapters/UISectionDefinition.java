@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.section.annotations.adapters;
 
+
 import org.linkki.core.ui.section.annotations.UISection;
 
 public enum UISectionDefinition {

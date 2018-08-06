@@ -1,0 +1,4 @@
+class com/vaadin/ui/AbstractField
+getConverter
+ ()Lcom/vaadin/data/util/converter/Converter<TT;Ljava/lang/Object;>;
+ ()L0com/vaadin/data/util/converter/Converter<TT;Ljava/lang/Object;>;

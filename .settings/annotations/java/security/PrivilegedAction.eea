@@ -1,0 +1,4 @@
+class java/security/PrivilegedAction
+run
+ ()TT;
+ ()T0T;

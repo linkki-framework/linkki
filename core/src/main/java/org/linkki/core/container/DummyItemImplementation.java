@@ -16,7 +16,7 @@ package org.linkki.core.container;
 
 import java.util.Collection;
 
-import javax.annotation.CheckForNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -30,7 +30,7 @@ public class DummyItemImplementation implements Item {
     private static final long serialVersionUID = -8329741338143404383L;
 
     @Override
-    @CheckForNull
+    @Nullable
     public Property<?> getItemProperty(Object id) {
         throw new UnsupportedOperationException("Not supported in the dummy implementation!");
     }
@@ -41,7 +41,8 @@ public class DummyItemImplementation implements Item {
     }
 
     @Override
-    public boolean addItemProperty(Object id, Property property) throws UnsupportedOperationException {
+    public boolean addItemProperty(Object id, @SuppressWarnings("rawtypes") Property property)
+            throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Not supported in the dummy implementation!");
     }
 

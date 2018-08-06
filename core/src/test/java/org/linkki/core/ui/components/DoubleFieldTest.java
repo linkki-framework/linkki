@@ -19,6 +19,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Locale;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 
 import com.vaadin.data.util.converter.Converter;
@@ -28,15 +29,22 @@ public class DoubleFieldTest {
     @Test
     public void testConstructor1() {
         DoubleField field = new DoubleField(Locale.GERMAN);
-        assertThat(field.getConverter(), instanceOf(DoubleFieldConverter.class));
-        assertThat(field.getConverter().getModelType(), is(Double.class));
+        Converter<String, Object> converter = getConverter(field);
+        assertThat(converter, instanceOf(DoubleFieldConverter.class));
+        assertThat(converter.getModelType(), is(Double.class));
+    }
+
+    private Converter<String, Object> getConverter(DoubleField field) {
+        @SuppressWarnings("null")
+        @NonNull
+        Converter<String, Object> converter = field.getConverter();
+        return converter;
     }
 
     @Test
     public void testConstructor2() {
         DoubleField field = new DoubleField("0.00", Locale.GERMAN);
-        Converter<String, Object> converter = field.getConverter();
-        assertThat(converter.convertToPresentation(0.2, String.class, null), is("0,20"));
+        assertThat(getConverter(field).convertToPresentation(0.2, String.class, null), is("0,20"));
     }
 
 }

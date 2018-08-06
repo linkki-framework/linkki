@@ -17,6 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
@@ -31,7 +32,7 @@ import com.vaadin.ui.Table;
 /**
  * A factory to create sections showing a single table based on a PMO.
  */
-public class PmoBasedTableSectionFactory<T> {
+public class PmoBasedTableSectionFactory<@NonNull T> {
 
     private PmoNlsService pmoNlsService;
 

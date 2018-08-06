@@ -1,0 +1,4 @@
+class org/apache/commons/lang3/reflect/TypeUtils
+getTypeArguments
+ (Ljava/lang/reflect/Type;Ljava/lang/Class<*>;)Ljava/util/Map<Ljava/lang/reflect/TypeVariable<*>;Ljava/lang/reflect/Type;>;
+ (Ljava/lang/reflect/Type;L1java/lang/Class<*1>;)L1java/util/Map<L1java/lang/reflect/TypeVariable<*>;L1java/lang/reflect/Type;>;

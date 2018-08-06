@@ -17,9 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
 
 import com.vaadin.ui.ComboBox;
@@ -95,7 +93,7 @@ public class LinkkiComboBox extends ComboBox {
      * @return the item's caption
      */
     @Override
-    @CheckForNull
+    @Nullable
     public String getItemCaption(@Nullable Object itemId) {
         if (Objects.equals(itemId, getNullSelectionItemId())) {
             return itemCaptionProvider.getNullCaption();

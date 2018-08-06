@@ -48,11 +48,11 @@ public class PropertyAccessDescriptor {
     }
 
     Optional<Method> getReflectionWriteMethod() {
-        return propertyDescriptor.map(pd -> pd.getWriteMethod());
+        return propertyDescriptor.flatMap(pd -> Optional.ofNullable(pd.getWriteMethod()));
     }
 
     Optional<Method> getReflectionReadMethod() {
-        return propertyDescriptor.map(pd -> pd.getReadMethod());
+        return propertyDescriptor.flatMap(pd -> Optional.ofNullable(pd.getReadMethod()));
     }
 
     private Optional<PropertyDescriptor> findDescriptor() {

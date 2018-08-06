@@ -23,9 +23,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
@@ -43,7 +41,6 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
 
     private NumberFormat formatter;
 
-    @SuppressWarnings("null")
     public UIDoubleFieldIntegrationTest() {
         super(TestModelObjectWithObjectDouble::new, DoubleFieldTestPmo::new);
         Locale.setDefault(UiUtil.getUiLocale());
@@ -81,6 +78,7 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         textField.setValue(null);
     }
 
+    @SuppressWarnings("null")
     @Test
     public void testSetValueWithObjectDoubleInModelObject() {
         TestModelObjectWithObjectDouble modelObject = new TestModelObjectWithObjectDouble();
@@ -172,7 +170,7 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         private Double value = null;
 
         @SuppressWarnings("null")
-        @CheckForNull
+        @Nullable
         @Override
         public Double getValue() {
             return value;

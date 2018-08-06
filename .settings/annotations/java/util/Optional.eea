@@ -1,0 +1,25 @@
+class java/util/Optional
+empty
+ <T:Ljava/lang/Object;>()Ljava/util/Optional<TT;>;
+ <T:Ljava/lang/Object;>()L1java/util/Optional<TT;>;
+flatMap
+ <U:Ljava/lang/Object;>(Ljava/util/function/Function<-TT;Ljava/util/Optional<TU;>;>;)Ljava/util/Optional<TU;>;
+ <U:Ljava/lang/Object;>(Ljava/util/function/Function<-TT;Ljava/util/Optional<TU;>;>;)L1java/util/Optional<TU;>;
+get
+ ()TT;
+ ()TT;
+map
+ <U:Ljava/lang/Object;>(Ljava/util/function/Function<-TT;+TU;>;)Ljava/util/Optional<TU;>;
+ <U:Ljava/lang/Object;>(Ljava/util/function/Function<-T1T;+TU;>;)L1java/util/Optional<TU;>;
+of
+ <T:Ljava/lang/Object;>(TT;)Ljava/util/Optional<TT;>;
+ <T:Ljava/lang/Object;>(TT;)L1java/util/Optional<TT;>;
+ofNullable
+ <T:Ljava/lang/Object;>(TT;)Ljava/util/Optional<TT;>;
+ <T:Ljava/lang/Object;>(T0T;)L1java/util/Optional<TT;>;
+orElse
+ (TT;)TT;
+ (TT;)TT;
+orElseGet
+ (Ljava/util/function/Supplier<+TT;>;)TT;
+ (Ljava/util/function/Supplier<+T0T;>;)TT;

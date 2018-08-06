@@ -13,9 +13,7 @@
  */
 package org.linkki.core.ui.section.annotations;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 
 import com.vaadin.data.Buffered;
@@ -41,7 +39,7 @@ public class UiIntegerFieldTest {
         @Nullable
         private Integer value = null;
 
-        @CheckForNull
+        @Nullable
         public Integer getIntegerValue() {
             return value;
         }

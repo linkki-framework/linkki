@@ -14,5 +14,5 @@
 /**
  * Aspect definition that can be used for UI annotations
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.ui.section.annotations.aspect;

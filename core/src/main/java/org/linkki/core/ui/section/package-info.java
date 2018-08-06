@@ -14,5 +14,5 @@
 /**
  * {@link org.linkki.core.ui.section.AbstractSection Sections} used to structure UI.
  */
-@org.linkki.findbugs.annotations.ParametersAndReturnValuesAreNonnullByDefault
+@org.eclipse.jdt.annotation.NonNullByDefault
 package org.linkki.core.ui.section;

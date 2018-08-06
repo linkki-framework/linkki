@@ -22,9 +22,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.table.HierarchicalRowPmo;
 
 import com.vaadin.data.Container;
@@ -37,7 +36,7 @@ import com.vaadin.event.ItemClickEvent.ItemClickListener;
  * An in-memory container which doesn't do any reflection magic. This container simply stores the
  * Objects.
  */
-public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Object, Item>
+public class LinkkiInMemoryContainer<@NonNull T> extends AbstractInMemoryContainer<T, Object, Item>
         implements Container.Hierarchical {
 
     private static final long serialVersionUID = -1708252890035638419L;
@@ -68,10 +67,10 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
     }
 
     /**
-     * @deprecated Since July 26, 2018. Use {@link #setItems(Collection)} with empty list instead.
-     *             If {@link #removeAllItems()} was only used in combination with
-     *             {@link #addAllItems(Collection)} simply call {@link #setItems(Collection)} with
-     *             the new collection.
+     * @deprecated Since July 26, 2018. Use {@link #setItems(Collection)} with empty list instead. If
+     *             {@link #removeAllItems()} was only used in combination with
+     *             {@link #addAllItems(Collection)} simply call {@link #setItems(Collection)} with the
+     *             new collection.
      */
     @Deprecated
     @Override
@@ -94,9 +93,9 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
     /**
      * Returns a {@link DummyItemImplementation}.
      * <p>
-     * Note that this method should not be needed. The <code>itemId</code> should be already a row
-     * PMO. However, this method cannot return <code>null</code> or throw an exception as otherwise
-     * it would not be possible to add any {@link ItemClickListener} to the table.
+     * Note that this method should not be needed. The <code>itemId</code> should be already a row PMO.
+     * However, this method cannot return <code>null</code> or throw an exception as otherwise it would
+     * not be possible to add any {@link ItemClickListener} to the table.
      */
     @Override
     protected Item getUnfilteredItem(@Nullable Object itemId) {
@@ -104,13 +103,13 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
     }
 
     @Override
-    @CheckForNull
+    @Nullable
     public Property<T> getContainerProperty(@Nullable Object itemId, @Nullable Object propertyId) {
         throw new UnsupportedOperationException("getContainerProperty is not supported");
     }
 
     @Override
-    @CheckForNull
+    @Nullable
     public Class<?> getType(@Nullable Object propertyId) {
         throw new UnsupportedOperationException("getType is not supported");
     }
@@ -118,8 +117,8 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
     // methods from Hierarchical start here
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Collection<T> getChildren(@SuppressWarnings("null") Object itemId) {
+    @SuppressWarnings({ "unchecked" })
+    public Collection<T> getChildren(Object itemId) {
         return children.computeIfAbsent((T)itemId, this::getChildrenTypesafe);
     }
 
@@ -146,9 +145,9 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
                 .map(HierarchicalRowPmo.class::cast);
     }
 
-    @CheckForNull
+    @Nullable
     @Override
-    public T getParent(@SuppressWarnings("null") Object itemId) {
+    public T getParent(Object itemId) {
         return parents.get(itemId);
     }
 
@@ -158,30 +157,30 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
     }
 
     @Override
-    public boolean areChildrenAllowed(@SuppressWarnings("null") Object itemId) {
+    public boolean areChildrenAllowed(Object itemId) {
         return hasChildren(itemId);
     }
 
     @Override
-    public boolean isRoot(@SuppressWarnings("null") Object itemId) {
+    public boolean isRoot(Object itemId) {
         return containsId(itemId);
     }
 
     @Override
-    public boolean hasChildren(@SuppressWarnings("null") Object itemId) {
+    public boolean hasChildren(Object itemId) {
         return getHierarchicalItem(itemId)
                 .map(HierarchicalRowPmo::hasChildRows)
                 .orElse(false);
     }
 
     @Override
-    public boolean setParent(@SuppressWarnings("null") Object itemId, @Nullable Object newParentId)
+    public boolean setParent(Object itemId, @Nullable Object newParentId)
             throws UnsupportedOperationException {
         return false;
     }
 
     @Override
-    public boolean setChildrenAllowed(@SuppressWarnings("null") Object itemId, boolean areChildrenAllowed)
+    public boolean setChildrenAllowed(Object itemId, boolean areChildrenAllowed)
             throws UnsupportedOperationException {
         return false;
     }

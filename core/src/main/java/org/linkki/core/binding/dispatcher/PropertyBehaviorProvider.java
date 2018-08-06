@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 
 @FunctionalInterface
@@ -38,7 +39,7 @@ public interface PropertyBehaviorProvider {
      * 
      * @return a new {@link PropertyBehaviorProvider} that returns the given behaviors
      */
-    public static PropertyBehaviorProvider with(PropertyBehavior... behaviors) {
+    public static PropertyBehaviorProvider with(@NonNull PropertyBehavior... behaviors) {
         List<PropertyBehavior> behaviorsList = Arrays.asList(behaviors);
         return () -> behaviorsList;
     }

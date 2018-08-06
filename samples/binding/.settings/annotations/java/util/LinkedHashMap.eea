@@ -1,4 +1,0 @@
-class java/util/LinkedHashMap
-forEach
- (Ljava/util/function/BiConsumer<-TK;-TV;>;)V
- (L1java/util/function/BiConsumer<-TK;-TV;>;)V

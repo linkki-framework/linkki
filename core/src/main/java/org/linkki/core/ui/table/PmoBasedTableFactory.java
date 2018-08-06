@@ -17,8 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
-import javax.annotation.Nullable;
-
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
 import org.linkki.core.nls.pmo.PmoLabelType;
@@ -39,7 +38,7 @@ import com.vaadin.ui.TreeTable;
 /**
  * A factory to create a table based on a {@link ContainerPmo}.
  */
-public class PmoBasedTableFactory<T> {
+public class PmoBasedTableFactory<@NonNull T> {
 
     private PmoNlsService pmoNlsService;
 
@@ -151,7 +150,7 @@ public class PmoBasedTableFactory<T> {
     }
 
     /** Column generator that generates a column for a field of a PMO. */
-    private static class FieldColumnGenerator<T> implements ColumnGenerator {
+    private static class FieldColumnGenerator<@NonNull T> implements ColumnGenerator {
 
         private static final long serialVersionUID = 1L;
 
@@ -164,9 +163,9 @@ public class PmoBasedTableFactory<T> {
         }
 
         @Override
-        public Object generateCell(@Nullable Table source,
-                @SuppressWarnings("null") Object itemId,
-                @Nullable Object columnId) {
+        public Object generateCell(Table source,
+                Object itemId,
+                Object columnId) {
             requireNonNull(itemId, "itemId must not be null");
             ElementDescriptor elementDescriptor = elementDescriptors.getDescriptor(itemId);
             Component component = elementDescriptor.newComponent();

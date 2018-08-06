@@ -1,0 +1,28 @@
+class java/lang/Class
+asSubclass
+ <U:Ljava/lang/Object;>(Ljava/lang/Class<TU;>;)Ljava/lang/Class<+TU;>;
+ <U:Ljava/lang/Object;>(Ljava/lang/Class<TU;>;)L1java/lang/Class<+TU;>;
+getAnnotation
+ <A::Ljava/lang/annotation/Annotation;>(Ljava/lang/Class<TA;>;)TA;
+ <A::Ljava/lang/annotation/Annotation;>(Ljava/lang/Class<TA;>;)T0A;
+getConstructor
+ ([Ljava/lang/Class<*>;)Ljava/lang/reflect/Constructor<TT;>;
+ ([Ljava/lang/Class<*>;)L1java/lang/reflect/Constructor<TT;>;
+getDeclaredField
+ (Ljava/lang/String;)Ljava/lang/reflect/Field;
+ (Ljava/lang/String;)L1java/lang/reflect/Field;
+getMethod
+ (Ljava/lang/String;[Ljava/lang/Class<*>;)Ljava/lang/reflect/Method;
+ (Ljava/lang/String;[Ljava/lang/Class<*>;)L1java/lang/reflect/Method;
+getMethods
+ ()[Ljava/lang/reflect/Method;
+ ()[1L1java/lang/reflect/Method;
+getName
+ ()Ljava/lang/String;
+ ()L1java/lang/String;
+getSimpleName
+ ()Ljava/lang/String;
+ ()L1java/lang/String;
+newInstance
+ ()TT;
+ ()T1T;

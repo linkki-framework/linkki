@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.annotation.NonNull;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
@@ -107,7 +108,7 @@ public class TestLinks {
 		return new TypeSafeMatcher<Path>() {
 
 			@Override
-			public void describeTo(Description description) {
+			public void describeTo(@NonNull Description description) {
 				description.appendText("an existing file");
 			}
 

@@ -29,9 +29,9 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
@@ -52,15 +52,14 @@ import org.linkki.util.BeanUtils;
 public class UIAnnotationReader {
 
     private final Class<?> annotatedClass;
-    private final Map<String, PropertyElementDescriptors> descriptorsByProperty = new HashMap<>();
-    private final Map<PropertyElementDescriptors, TableColumnDescriptor> columnDescriptors = new HashMap<>();
+    private final Map<@NonNull String, @NonNull PropertyElementDescriptors> descriptorsByProperty = new HashMap<>();
+    private final Map<@NonNull PropertyElementDescriptors, @NonNull TableColumnDescriptor> columnDescriptors = new HashMap<>();
 
     public UIAnnotationReader(Class<?> annotatedClass) {
         this.annotatedClass = requireNonNull(annotatedClass, "annotatedClass must not be null");
         initDescriptorMaps();
     }
 
-    @SuppressWarnings("null")
     private void initDescriptorMaps() {
         Method[] methods = annotatedClass.getMethods();
         for (Method method : methods) {
@@ -72,6 +71,7 @@ public class UIAnnotationReader {
 
         List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader.createAspectDefinitionsFrom(annotation);
         String pmoPropertyName = getPmoPropertyName(method);
+        @NonNull
         PropertyElementDescriptors elementDescriptors = descriptorsByProperty.computeIfAbsent(pmoPropertyName,
                                                                                               PropertyElementDescriptors::new);
 
@@ -171,8 +171,7 @@ public class UIAnnotationReader {
     /**
      * Reads the given presentation model object's class to find a method annotated with
      * {@link ModelObject @ModelObject} and the annotation's {@link ModelObject#name()} matching the
-     * given model object name. Returns a supplier that supplies a model object by invoking that
-     * method.
+     * given model object name. Returns a supplier that supplies a model object by invoking that method.
      *
      * @param pmo a presentation model object
      * @param modelObjectName the name of the model object as provided by a method annotated with
@@ -180,8 +179,8 @@ public class UIAnnotationReader {
      *
      * @return a supplier that supplies a model object by invoking the annotated method
      *
-     * @throws ModelObjectAnnotationException if no matching method is found or the method has no
-     *             return value
+     * @throws ModelObjectAnnotationException if no matching method is found or the method has no return
+     *             value
      */
     public static Supplier<?> getModelObjectSupplier(Object pmo, String modelObjectName) {
         requireNonNull(pmo, "pmo must not be null");
@@ -220,8 +219,8 @@ public class UIAnnotationReader {
      * @param pmo an object used for a presentation model
      * @param modelObjectName the name of the model object
      *
-     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using
-     *         the given name
+     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using the
+     *         given name
      */
     public static boolean hasModelObjectAnnotatedMethod(Object pmo, @Nullable String modelObjectName) {
         return BeanUtils.getMethod(requireNonNull(pmo, "pmo must not be null").getClass(),

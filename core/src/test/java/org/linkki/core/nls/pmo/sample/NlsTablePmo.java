@@ -16,11 +16,12 @@ package org.linkki.core.nls.pmo.sample;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
 
 @UISection(caption = NlsTablePmo.TABLE_CAPTION)
-public class NlsTablePmo implements ContainerPmo<NlsTableRowPmo> {
+public class NlsTablePmo implements ContainerPmo<@NonNull NlsTableRowPmo> {
 
     public static final String TABLE_CAPTION = "table caption";
 

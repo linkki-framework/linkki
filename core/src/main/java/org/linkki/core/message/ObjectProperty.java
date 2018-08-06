@@ -16,8 +16,7 @@ package org.linkki.core.message;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.Nullable;
 
 
 /**
@@ -85,7 +84,7 @@ public class ObjectProperty implements Serializable {
      * should be available as bean property in the given object.
      * 
      */
-    @CheckForNull
+    @Nullable
     public String getProperty() {
         return property;
     }
