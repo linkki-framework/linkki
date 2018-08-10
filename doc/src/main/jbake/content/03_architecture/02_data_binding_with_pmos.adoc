@@ -3,9 +3,15 @@
 :jbake-status: published
 
 :source-dir: ../../../java
+:images-folder-name: 03_architecture
 
 [[databinding]]
 === Data Binding with PMOs
+
+*linkki* enables a declarative definition of UIs, by generating them automatically from annotations. Additionally, content (data) of an UI element and its properties (for instance visibility, editability, ...) can be bound to so called Presentation Model Objects (PMOs). With this, a bi-directional update mechanism is provided, the so called data binding. If a value is changed on the UI by a user, for instance, the corresponding value in the domain model is updated, as well as dependent properties and other UI elements.
+
+.Bidirectional data binding
+image::{images}{images-folder-name}/data_binding.png[]
 
 A Presentation Model Object encapsulates the UI state independently of the concrete UI implementation. The UI interacts exclusively via Data Binding with this PMO. The PMO isn't required to hold all data, it can delegate to existing model objects (see <<domain-model-binding,Data on Multiple Layers>>). This data is then converted into a format suitable for presentation.
 
@@ -26,4 +32,3 @@ There are some optional interfaces that PMO classes may implement:
 * `org.linkki.core.PresentationModelObject` offers a method for the creation of a button PMO. This button is displayed in the section header if the PMO is used with <<pmo-uisection, create UI with @UISection>>.
 * `org.linkki.core.ButtonPmo` is a PMO for buttons, see <<ui-button,Buttons>>
 * `org.linkki.core.ui.table.ContainerPmo` is a PMO for tables, of which each row is represented by regular PMOs. See <<ui-container-pmo,Container Components>>
-

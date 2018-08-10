@@ -1,0 +1,15 @@
+:jbake-title: Maven Set Up
+:jbake-type: section
+:jbake-status: published
+
+=== Maven Dependency
+
+To use the application framework you need to add the following additional dependency. The version should be the same as for *linkki* core.
+
+[source,xml]
+----
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-application-framework</artifactId>
+        </dependency>
+----
