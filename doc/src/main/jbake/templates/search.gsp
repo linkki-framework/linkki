@@ -159,7 +159,8 @@
                     pw.close();
           
                     // Add jbake properties
-                    docFile.append(':images: ' + config.images_pdf + '\n\n')
+                    docFile.append(':images: ' + config.images_pdf + '\n')
+                    docFile.append(':images-index: ' + config.images_pdf + '\n\n')
                         
                     // Add toc
                     docFile.append(':toc:\n:toclevels: 3\n\n')
