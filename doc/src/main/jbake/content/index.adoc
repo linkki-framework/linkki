@@ -42,7 +42,7 @@ The only assumption about the business layer is that you use a domain
  UI in Java. The layouts and widgetsets are provided by Vaadin. It also
  handles the whole communication between the browser and the server.
 
- However, the code has only very few direct dependencies to Vaadin API when
+However, the code has only very few direct dependencies to Vaadin API when
  using *linkki*. Most of the interaction with Vaadin is encapsulated by *linkki*.
 
 ==== Sections
