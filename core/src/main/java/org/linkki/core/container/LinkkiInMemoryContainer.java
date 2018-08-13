@@ -31,6 +31,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.AbstractInMemoryContainer;
+import com.vaadin.event.ItemClickEvent.ItemClickListener;
 
 /**
  * An in-memory container which doesn't do any reflection magic. This container simply stores the
@@ -41,9 +42,9 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
 
     private static final long serialVersionUID = -1708252890035638419L;
 
-    // Use a weak reference to remove mappings of children that have been removed because they are no
-    // longer referenced by their former parent. Their bindings are removed automatically when the
-    // corresponding Components are detached after their parent's binding was updated.
+    // Use a weak reference to remove mappings of children that have been removed because they are
+    // no longer referenced by their former parent. Their bindings are removed automatically when
+    // the corresponding Components are detached after their parent's binding was updated.
     private Map<T, T> parents = new WeakHashMap<>();
     private Map<T, List<T>> children = new WeakHashMap<>();
 
@@ -67,10 +68,10 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
     }
 
     /**
-     * @deprecated Since July 26, 2018. Use {@link #setItems(Collection)} with empty list instead. If
-     *             {@link #removeAllItems()} was only used in combination with
-     *             {@link #addAllItems(Collection)} simply call {@link #setItems(Collection)} with the
-     *             new collection.
+     * @deprecated Since July 26, 2018. Use {@link #setItems(Collection)} with empty list instead.
+     *             If {@link #removeAllItems()} was only used in combination with
+     *             {@link #addAllItems(Collection)} simply call {@link #setItems(Collection)} with
+     *             the new collection.
      */
     @Deprecated
     @Override
@@ -90,9 +91,16 @@ public class LinkkiInMemoryContainer<T> extends AbstractInMemoryContainer<T, Obj
         fireItemSetChange();
     }
 
+    /**
+     * Returns a {@link DummyItemImplementation}.
+     * <p>
+     * Note that this method should not be needed. The <code>itemId</code> should be already a row
+     * PMO. However, this method cannot return <code>null</code> or throw an exception as otherwise
+     * it would not be possible to add any {@link ItemClickListener} to the table.
+     */
     @Override
     protected Item getUnfilteredItem(@Nullable Object itemId) {
-        throw new UnsupportedOperationException("getUnfilteredItem is not supported");
+        return new DummyItemImplementation();
     }
 
     @Override
