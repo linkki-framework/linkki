@@ -89,11 +89,11 @@ public interface ApplicationConfig {
     }
 
     /**
-     * Used to create an {@link ApplicationFooter} including this {@link ApplicationConfig}'s
-     * details.
+     * Optionally returns an {@link ApplicationFooterDefinition} that creates an
+     * {@link ApplicationFooter}. Per default, no footer is created.
      */
     default Optional<ApplicationFooterDefinition> getFooterDefinition() {
-        return Optional.of(ApplicationFooter::new);
+        return Optional.empty();
     }
 
     /**
@@ -113,6 +113,7 @@ public interface ApplicationConfig {
         return new LinkkiConverterFactory();
     }
 
+    @FunctionalInterface
     public static interface ApplicationHeaderDefinition extends Function<ApplicationMenu, ApplicationHeader> {
         ApplicationHeader createApplicationHeader(ApplicationMenu applicationMenu);
 
@@ -122,6 +123,7 @@ public interface ApplicationConfig {
         }
     }
 
+    @FunctionalInterface
     public static interface ApplicationFooterDefinition extends Function<ApplicationConfig, ApplicationFooter> {
         ApplicationFooter createApplicationFooter(ApplicationConfig applicationConfig);
 

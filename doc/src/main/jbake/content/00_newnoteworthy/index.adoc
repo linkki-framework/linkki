@@ -6,6 +6,12 @@
 
 == New & Noteworthy
 
+=== August 16th, 2018
+
+==== ApplicationFooter now hidden by default
+
+As the application information displayed in the `ApplicationFooter` is included in the newly introduced `ApplicationInfoDialog`, the footer is now hidden by default.
+
 === August 1st, 2018
 
 ==== Hierarchical Tables
@@ -33,22 +39,13 @@ Table columns can now be set as collapsible and collapsed, using the new corresp
 
 === July 18th, 2018
 
-==== HelpMenu
+==== Help menu in `ApplicationHeader`
 
-The right `MenuBar` of the `ApplicationHeader` is now equipped with a `HelpMenu` which provides an `ApplicationInfoDialog` by default. It is customizable implementing `ApplicationConfig` and extending `ApplicationHeader` and `ApplicationInfoPmo`.
+The right `MenuBar` of the `ApplicationHeader` is now equipped with a help menu which provides an `ApplicationInfoDialog` by default. It is customizable implementing `ApplicationConfig` and extending `ApplicationHeader` and `ApplicationInfoPmo`.
 
 ==== Footer
 
-The `ApplicationFooter` is now defined in `ApplicationConfig` as optional. In order to hide it, override `ApplicationConfig#getFooterDefinition()`.
-
-==== Customized sample application
-
-A custom sample application is implemented with:
-
-* no `StartMenuItemDefinition`,
-* customized `ApplicationInfoDialog`,
-* hidden `ApplicationFooter`,
-* another help `MenuItem`.
+The `ApplicationFooter` is now defined in `ApplicationConfig` as optional. In order to hide it, override `ApplicationConfig#getFooterDefinition()` with `Optional.empty()`.
 
 === June 27th, 2018
 

@@ -62,7 +62,7 @@ public class CustomApplicationConfig implements ApplicationConfig {
 
     @Override
     public Optional<ApplicationFooterDefinition> getFooterDefinition() {
-        return Optional.empty();
+        return Optional.of(ApplicationFooter::new);
     }
 
     public String getLicense(Locale locale) {

@@ -34,13 +34,15 @@ The *linkki* application framework contains the following components.
 
 ==== Application Layout
 
-The application framework includes an `ApplicationLayout` that surrounds the main view with an `ApplicationHeader` and `ApplicationFooter`. The header is designed to have multiple menu actions on the left and may have some specific items like help menu or preferences on the right side.
+The application framework includes an `ApplicationLayout` that surrounds the main view with an `ApplicationHeader` and an optional `ApplicationFooter`.
 
-The footer simply contains some application info but could be extended to fit your needs.
+The header is designed to have multiple menu actions on the left and may have some specific items like help menu or preferences on the right side.
+
+The footer is hidden by default and can simply contain some application info or be extended to fit your needs.
 
 Between `ApplicationHeader` and `ApplicationFooter` is the main area that displays your current `View`.
 
-The `ApplicationLayout` is created using  the `ApplicationConfig`'s `createApplicationLayout()` method, which by default includes an `ApplicationHeader`(created using `getHeaderDefinition()`) with an `ApplicationMenu` containing all items provided by `getMenuItemDefinitions()` and an `ApplicationFooter` created using `getFooterDefinition()`.
+The `ApplicationLayout` is created using  the `ApplicationConfig`'s `createApplicationLayout()` method, which by default includes an `ApplicationHeader`(created using `getHeaderDefinition()`) with an `ApplicationMenu` containing all items provided by `getMenuItemDefinitions()`. The per default hidden `ApplicationFooter` can be created using `getFooterDefinition()`.
 
 
 ==== Application Navigator
