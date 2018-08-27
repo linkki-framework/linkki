@@ -43,6 +43,10 @@ public class ContactRowPmo {
         return contact.isFavorite();
     }
 
+    public void setFavorite(boolean favorite) {
+        contact.setFavorite(favorite);
+    }
+
     @UITableColumn(expandRatio = 0.05F)
     // tag::contactRowPmo-labelHtmlContent[]
     @UILabel(position = 5, label = "", htmlContent = true)

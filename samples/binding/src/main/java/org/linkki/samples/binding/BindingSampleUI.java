@@ -15,10 +15,13 @@ package org.linkki.samples.binding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.binding.DefaultBindingManager;
+import org.linkki.core.binding.behavior.PropertyBehavior;
+import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.samples.binding.components.ContactComponent;
 import org.linkki.samples.binding.components.ContactsTableComponent;
@@ -36,19 +39,31 @@ public class BindingSampleUI extends UI {
 
     private static final long serialVersionUID = 42L;
 
+    // can be switched with URL parameters:
+    // http://localhost:8080/linkki-binding-sample-1.0-SNAPSHOT/?editMode=READ_ONLY
+    private EditMode editMode = EditMode.EDIT;
+
+    private static final List<Contact> PERSON_STORAGE = new ArrayList<>();
+
     @Override
     protected void init(VaadinRequest request) {
 
+        editMode = Optional.ofNullable(request
+                .getParameter("editMode"))
+                .flatMap(EditMode::read)
+                .orElse(EditMode.EDIT);
+
         Page.getCurrent().setTitle("linkki Sample :: Bindings");
 
-        List<Contact> personStorage = new ArrayList<>();
-
-        BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
+        // tag::PropertyBehavior[]
+        BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE,
+                PropertyBehaviorProvider.with(PropertyBehavior.readOnly(editMode::isReadOnly)));
+        // end::PropertyBehavior[]
         BindingContext context = bindingManager.startNewContext("binding-sample");
 
-        ContactComponent contactComponent = new ContactComponent(p -> save(p, personStorage), context);
+        ContactComponent contactComponent = new ContactComponent(p -> save(p, PERSON_STORAGE), context);
 
-        ContactsTableComponent contactsTable = new ContactsTableComponent(personStorage, contactComponent::editContact,
+        ContactsTableComponent contactsTable = new ContactsTableComponent(PERSON_STORAGE, contactComponent::editContact,
                 context);
         bindingManager.addUiUpdateObserver(contactsTable);
 
@@ -61,6 +76,29 @@ public class BindingSampleUI extends UI {
     private static void save(Contact contact, List<Contact> personStorage) {
         if (!personStorage.contains(contact)) {
             personStorage.add(contact);
+        }
+    }
+
+    public enum EditMode {
+        EDIT(false),
+        READ_ONLY(true);
+
+        private final boolean readOnly;
+
+        public boolean isReadOnly() {
+            return readOnly;
+        }
+
+        private EditMode(boolean readOnly) {
+            this.readOnly = readOnly;
+        }
+
+        public static Optional<EditMode> read(String s) {
+            try {
+                return Optional.of(valueOf(s));
+            } catch (Exception e) {
+                return Optional.empty();
+            }
         }
     }
 

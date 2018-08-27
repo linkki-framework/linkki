@@ -6,6 +6,20 @@
 
 == New & Noteworthy
 
+=== August 27th, 2018
+
+==== Default PropertyBehaviors
+
+Often, a property behavior only needs to control one of the states (writable, visible, shows messages). Thus, the interface `PropertyBehavior` (see <<property-behavior, PropertyBehaviors>>) now offers static methods to create instances that override just one of its methods, for example `PropertyBehavior#visible`.
+
+There are two methods for each of the states that can be controlled by a behavior: 
+ * One static method creates the behavior by taking a `BiPredicate<Object, String>` that is called for every bound object and property.
+ * The other one takes a `BooleanProvider` that decides the state regardless of the property and bound object.
+ 
+As a read-only state is often used as the negation of the writable state, additional static methods are offered for easy creation of read-only property behaviors.
+
+The `PropertyBehaviorProvider` interface also received a static method to create an instance from a variable argument array of `PropertyBehaviors`.
+
 === August 16th, 2018
 
 ==== ApplicationFooter now hidden by default

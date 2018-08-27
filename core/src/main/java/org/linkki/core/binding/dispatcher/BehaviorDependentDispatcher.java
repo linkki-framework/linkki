@@ -57,7 +57,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      */
     @Override
     public MessageList getMessages(MessageList messageList) {
-        if (isConsensus(b -> b.isShowValidationMessages(getBoundObject(), getProperty()))) {
+        if (isConsensus(b -> b.isShowValidationMessages(requireNonNull(getBoundObject()), getProperty()))) {
             return super.getMessages(messageList);
         } else {
             return new MessageList();
@@ -81,8 +81,9 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      * {@inheritDoc}
      * <p>
      * Delegates to the wrapped dispatcher except for boolean valued aspect. In case of boolean valued
-     * aspects, this dispatcher delegates to the wrapped dispatcher if all {@link PropertyBehavior}s
-     * returns true for the aspect. Otherwise this method returns <code>false</code>.
+     * aspects, this dispatcher only delegates to the wrapped dispatcher if all {@link PropertyBehavior
+     * PropertyBehaviors} return <code>true</code> for the aspect. Otherwise this method returns
+     * <code>false</code>.
      */
     @SuppressWarnings("unchecked")
     @Override

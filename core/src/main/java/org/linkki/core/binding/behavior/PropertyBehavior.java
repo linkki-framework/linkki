@@ -13,7 +13,10 @@
  */
 package org.linkki.core.binding.behavior;
 
-import javax.annotation.Nullable;
+import static org.linkki.util.BooleanSuppliers.negate;
+
+import java.util.function.BiPredicate;
+import java.util.function.BooleanSupplier;
 
 /**
  * Influences the behavior of properties. There are multiple aspects that can be influenced. They
@@ -49,7 +52,7 @@ public interface PropertyBehavior {
      * Indicates whether the property of the given object should be visible.
      *
      * @param boundObject the object the property refers to
-     * @param property property of which the visiblity is determined by this method
+     * @param property property of which the visibility is determined by this method
      * @return <code>true</code> if the property should be displayed, <code>false</code> if the property
      *         should be hidden.
      */
@@ -66,8 +69,211 @@ public interface PropertyBehavior {
      *            method
      * @return <code>true</code> if messages should be displayed, else <code>false</code>.
      */
-    default boolean isShowValidationMessages(@Nullable Object boundObject, String property) {
+    default boolean isShowValidationMessages(Object boundObject, String property) {
         return true;
+    }
+
+    /**
+     * Creates a new {@link PropertyBehavior} that implements {@link #isWritable(Object, String)}.
+     * <p>
+     * The writable state of the behavior is determined by the given supplier independent of the bound
+     * object and property passed to {@link #isWritable(Object, String)}.
+     * 
+     * @param writableStateSupplier a supplier for the current writable state
+     * @return a new {@link PropertyBehavior} that implements {@link #isWritable(Object, String)} with a
+     *         redirection to the given supplier
+     * 
+     * @see PropertyBehavior#writable(BiPredicate)
+     * @see PropertyBehavior#readOnly(BooleanSupplier)
+     * @see PropertyBehavior#readOnly()
+     */
+    public static PropertyBehavior writable(BooleanSupplier writableStateSupplier) {
+        return new PropertyBehavior() {
+            @Override
+            public boolean isWritable(Object boundObject, String property) {
+                return writableStateSupplier.getAsBoolean();
+            }
+        };
+    }
+
+    /**
+     * Creates a new {@link PropertyBehavior} that implements {@link #isWritable(Object, String)}.
+     * <p>
+     * The writable state of the behavior is determined by the given predicate, passing it the bound
+     * object and property parameters of {@link #isWritable(Object, String)}.
+     * 
+     * @param writablePredicate a method deciding for a given bound object/property pair whether the
+     *            property should be writable
+     * @return a new {@link PropertyBehavior} that implements {@link #isWritable(Object, String)} with a
+     *         redirection to the given predicate
+     * 
+     * @see PropertyBehavior#writable(BooleanSupplier)
+     * @see PropertyBehavior#readOnly(BiPredicate)
+     * @see PropertyBehavior#readOnly()
+     */
+    public static PropertyBehavior writable(BiPredicate<Object, String> writablePredicate) {
+        return new PropertyBehavior() {
+            @Override
+            public boolean isWritable(Object boundObject, String property) {
+                return writablePredicate.test(boundObject, property);
+            }
+        };
+    }
+
+
+    /**
+     * Creates a new {@link PropertyBehavior} that implements {@link #isWritable(Object, String)}.
+     * <p>
+     * The property is always read-only, meaning it is not writable.
+     * 
+     * @return a new {@link PropertyBehavior} that implements {@link #isWritable(Object, String)} so
+     *         that it always returns <code>false</code>
+     * 
+     * @see PropertyBehavior#readOnly(BiPredicate)
+     * @see PropertyBehavior#readOnly(BooleanSupplier)
+     * @see PropertyBehavior#writable(BooleanSupplier)
+     */
+    public static PropertyBehavior readOnly() {
+        return writable(() -> false);
+    }
+
+
+    /**
+     * Creates a new {@link PropertyBehavior} that implements {@link #isWritable(Object, String)}.
+     * <p>
+     * The writable state of the behavior is determined by the given supplier independent of the bound
+     * object and property passed to {@link #isWritable(Object, String)}, negating its return value to
+     * better fit the read-only semantic.
+     * <p>
+     * A property is considered to be read-only exactly if it's not writable.
+     * 
+     * @param readOnlyStateSupplier a supplier for the current read-only state
+     * @return a new {@link PropertyBehavior} that implements {@link #isWritable(Object, String)} with a
+     *         redirection to the negation of given supplier
+     * 
+     * @see PropertyBehavior#readOnly(BiPredicate)
+     * @see PropertyBehavior#readOnly()
+     * @see PropertyBehavior#writable(BooleanSupplier)
+     */
+    public static PropertyBehavior readOnly(BooleanSupplier readOnlyStateSupplier) {
+        return writable(negate(readOnlyStateSupplier));
+    }
+
+
+    /**
+     * Creates a new {@link PropertyBehavior} that implements {@link #isWritable(Object, String)}.
+     * <p>
+     * The writable state of the behavior is determined by the given predicate, passing it the bound
+     * object and property passed to {@link #isWritable(Object, String)}, negating its return value to
+     * better fit the read-only semantic.
+     * <p>
+     * A property is considered to be read-only exactly if it's not writable.
+     * 
+     * @param readOnlyPredicate a method deciding for a given bound object/property pair whether the
+     *            property should be read-only
+     * @return a new {@link PropertyBehavior} that implements {@link #isWritable(Object, String)} with a
+     *         redirection to the negation of given predicate
+     * 
+     * @see PropertyBehavior#readOnly(BooleanSupplier)
+     * @see PropertyBehavior#readOnly()
+     * @see PropertyBehavior#writable(BiPredicate)
+     */
+    public static PropertyBehavior readOnly(BiPredicate<Object, String> readOnlyPredicate) {
+        return writable(readOnlyPredicate.negate());
+    }
+
+
+    /**
+     * Creates a new {@link PropertyBehavior} that implements {@link #isVisible(Object, String)}.
+     * <p>
+     * The visible state of the behavior is determined by the given supplier independent of the bound
+     * object and property passed to {@link #isVisible(Object, String)}.
+     * 
+     * @param visibleStateSupplier a supplier for the current visible state
+     * @return a new {@link PropertyBehavior} that implements {@link #isVisible(Object, String)} with a
+     *         redirection to the given supplier
+     * 
+     * @see PropertyBehavior#visible(BiPredicate)
+     */
+    public static PropertyBehavior visible(BooleanSupplier visibleStateSupplier) {
+        return new PropertyBehavior() {
+            @Override
+            public boolean isVisible(Object boundObject, String property) {
+                return visibleStateSupplier.getAsBoolean();
+            }
+        };
+    }
+
+
+    /**
+     * Creates a new {@link PropertyBehavior} that implements {@link #isVisible(Object, String)}.
+     * <p>
+     * The visible state of the behavior is determined by the given predicate, passing it the bound
+     * object and property passed to {@link #isVisible(Object, String)}.
+     * 
+     * @param visiblePredicate a method deciding for a given bound object/property pair whether the
+     *            property should be visible
+     * @return a new {@link PropertyBehavior} that implements {@link #isVisible(Object, String)} with a
+     *         redirection to the given predicate
+     * 
+     * @see PropertyBehavior#visible(BooleanSupplier)
+     */
+    public static PropertyBehavior visible(BiPredicate<Object, String> visiblePredicate) {
+        return new PropertyBehavior() {
+            @Override
+            public boolean isVisible(Object boundObject, String property) {
+                return visiblePredicate.test(boundObject, property);
+            }
+        };
+    }
+
+
+    /**
+     * Creates a new {@link PropertyBehavior} that implements
+     * {@link #isShowValidationMessages(Object, String)}.
+     * <p>
+     * The visible state of the behavior is determined by the given supplier independent of the bound
+     * object and property passed to {@link #isShowValidationMessages(Object, String)}.
+     * 
+     * @param showValidationMessagesStateSupplier a supplier for the current validation-message state
+     * @return a new {@link PropertyBehavior} that implements
+     *         {@link #isShowValidationMessages(Object, String)} with a redirection to the given
+     *         supplier
+     * 
+     * @see PropertyBehavior#showValidationMessages(BiPredicate)
+     */
+    public static PropertyBehavior showValidationMessages(BooleanSupplier showValidationMessagesStateSupplier) {
+        return new PropertyBehavior() {
+            @Override
+            public boolean isShowValidationMessages(Object boundObject, String property) {
+                return showValidationMessagesStateSupplier.getAsBoolean();
+            }
+        };
+    }
+
+
+    /**
+     * Creates a new {@link PropertyBehavior} that implements
+     * {@link #isShowValidationMessages(Object, String)}.
+     * <p>
+     * The visible state of the behavior is determined by the given predicate, passing it the bound
+     * object and property passed to {@link #isShowValidationMessages(Object, String)}.
+     * 
+     * @param showValidationMessagesPredicate a method deciding for a given bound object/property pair
+     *            whether messages for the property should be shown
+     * @return a new {@link PropertyBehavior} that implements
+     *         {@link #isShowValidationMessages(Object, String)} with a redirection to the given
+     *         predicate
+     * 
+     * @see PropertyBehavior#showValidationMessages(BooleanSupplier)
+     */
+    public static PropertyBehavior showValidationMessages(BiPredicate<Object, String> showValidationMessagesPredicate) {
+        return new PropertyBehavior() {
+            @Override
+            public boolean isShowValidationMessages(Object boundObject, String property) {
+                return showValidationMessagesPredicate.test(boundObject, property);
+            }
+        };
     }
 
 }

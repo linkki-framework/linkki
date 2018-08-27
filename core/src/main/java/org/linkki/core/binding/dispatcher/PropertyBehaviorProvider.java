@@ -13,8 +13,10 @@
  */
 package org.linkki.core.binding.dispatcher;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.linkki.core.binding.behavior.PropertyBehavior;
 
@@ -30,4 +32,14 @@ public interface PropertyBehaviorProvider {
      * Returns all behaviors relevant for the given context.
      */
     Collection<PropertyBehavior> getBehaviors();
+
+    /**
+     * Creates a new {@link PropertyBehaviorProvider} that returns the given behaviors.
+     * 
+     * @return a new {@link PropertyBehaviorProvider} that returns the given behaviors
+     */
+    public static PropertyBehaviorProvider with(PropertyBehavior... behaviors) {
+        List<PropertyBehavior> behaviorsList = Arrays.asList(behaviors);
+        return () -> behaviorsList;
+    }
 }

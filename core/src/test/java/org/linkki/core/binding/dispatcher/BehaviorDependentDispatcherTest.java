@@ -15,6 +15,7 @@ package org.linkki.core.binding.dispatcher;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,28 +27,33 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.behavior.PropertyBehavior;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
+import org.linkki.core.message.ObjectProperty;
 import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.vaadin.server.ErrorMessage.ErrorLevel;
+
 @SuppressWarnings("null")
 @RunWith(MockitoJUnitRunner.class)
 public class BehaviorDependentDispatcherTest {
 
     @Mock
-    private PropertyBehaviorProvider behaviourProvider;
+    private PropertyBehaviorProvider behaviorProvider;
     @Mock
     private PropertyDispatcher wrappedDispatcher;
     private BehaviorDependentDispatcher behaviorDispatcher;
 
     @Before
     public void setUp() {
-        when(behaviourProvider.getBehaviors()).thenReturn(Collections.emptyList());
+        when(behaviorProvider.getBehaviors()).thenReturn(Collections.emptyList());
         when(wrappedDispatcher.pull(Mockito.any())).thenReturn(true);
         when(wrappedDispatcher.isPushable(Mockito.any())).thenReturn(true);
-        behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, behaviourProvider);
+        behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, behaviorProvider);
     }
 
     @Test
@@ -62,35 +68,51 @@ public class BehaviorDependentDispatcherTest {
 
     @Test(expected = NullPointerException.class)
     public void testNullList() {
-        when(behaviourProvider.getBehaviors()).thenReturn(null);
+        when(behaviorProvider.getBehaviors()).thenReturn(null);
         behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullBoundObject_visible() {
+        when(behaviorProvider.getBehaviors()).thenReturn(Arrays.asList(PropertyBehavior.visible(() -> false)));
+        behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullBoundObject_writable() {
+        when(behaviorProvider.getBehaviors()).thenReturn(Arrays.asList(PropertyBehavior.writable(() -> false)));
+        behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullBoundObject_messages() {
+        when(behaviorProvider.getBehaviors())
+                .thenReturn(Arrays.asList(PropertyBehavior.showValidationMessages(() -> false)));
+        behaviorDispatcher.getMessages(new MessageList());
     }
 
     @Test
     public void testNonConsensus_visible() {
-        PropertyBehavior nonVisibleBehavior = new PropertyBehavior() {
-            @Override
-            public boolean isVisible(Object boundObject, String property) {
-                return false;
-            }
-        };
-
-        when(behaviourProvider.getBehaviors()).thenReturn(Arrays.asList(nonVisibleBehavior));
+        when(behaviorProvider.getBehaviors()).thenReturn(Arrays.asList(PropertyBehavior.visible(() -> false)));
         when(behaviorDispatcher.getBoundObject()).thenReturn(mock(Object.class));
         assertThat(behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(false));
     }
 
     @Test
     public void testNonConsensus_writable() {
-        PropertyBehavior nonWritableBehavior = new PropertyBehavior() {
-            @Override
-            public boolean isWritable(Object boundObject, String property) {
-                return false;
-            }
-        };
-
-        when(behaviourProvider.getBehaviors()).thenReturn(Arrays.asList(nonWritableBehavior));
+        when(behaviorProvider.getBehaviors()).thenReturn(Arrays.asList(PropertyBehavior.writable(() -> false)));
         when(behaviorDispatcher.getBoundObject()).thenReturn(mock(Object.class));
         assertThat(behaviorDispatcher.isPushable(Aspect.of(FieldValueAspectDefinition.NAME)), is(false));
+    }
+
+    @Test
+    public void testNonConsensus_messages() {
+        when(behaviorProvider.getBehaviors())
+                .thenReturn(Arrays.asList(PropertyBehavior.showValidationMessages(() -> false)));
+        Object boundObject = mock(Object.class);
+        when(behaviorDispatcher.getBoundObject()).thenReturn(boundObject);
+        MessageList messageList = new MessageList(Message.builder("Foo", ErrorLevel.ERROR)
+                .invalidObject(new ObjectProperty(boundObject, "prop")).code("4711").create());
+        assertThat(behaviorDispatcher.getMessages(messageList), is(emptyMessageList()));
     }
 }

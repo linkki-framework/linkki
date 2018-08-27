@@ -3,7 +3,8 @@
 :jbake-status: published
 
 :images-folder-name: 03_architecture
-:source-dir: ../../../java
+:base-dir: ../../../../../../samples/binding
+:source-dir: {base-dir}/src/main/java
 
 [[cross-sectional-binding]]
 === Cross-Sectional Data Binding
@@ -44,10 +45,10 @@ A `BehaviorDependentDispatcher` can control the behavior of properties through `
 .Veto of a PropertyBehaviors
 image::{images}{images-folder-name}/property_behavior_veto.png[]
 
-For custom behaviors the interface `PropertyBehavior` can be implemented. That way, an entire page can be set into the editing or read-only mode:
+For custom behaviors the interface `PropertyBehavior` can be implemented. It also offers static constructor methods to delegate one of the controlled properties to another function:
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/doc/ReadOnlyBehavior.java[tags=class]
+include::{source-dir}/org/linkki/samples/binding/BindingSampleUI.java[tags=PropertyBehavior]
 ----
  
