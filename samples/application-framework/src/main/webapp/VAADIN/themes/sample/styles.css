@@ -1829,6 +1829,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .sample .linkki-section-caption {
 	width: 100%;
+	vertical-align: middle;
 	overflow: hidden;
 	padding-top: 20px;
 	padding-bottom: 10px;
@@ -1845,6 +1846,28 @@ div.v-layout.v-horizontal.v-widget {
 
 .sample .linkki-section-caption .v-slot-linkki-section-caption-line .v-label {
 	width: 100%;
+}
+
+.sample .v-button.linkki-button-text {
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	background: transparent;
+	color: inherit;
+	height: unset;
+}
+
+.sample .v-button.linkki-button-text:hover:after {
+	background: transparent;
+}
+
+.sample .v-button.linkki-button-text:active {
+	opacity: 0.7;
+	filter: alpha(opacity=70) ;
+}
+
+.sample .v-button.linkki-button-text:active:after {
+	background: transparent;
 }
 
 .sample.v-app, .sample.v-app-loading {

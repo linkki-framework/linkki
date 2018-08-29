@@ -6,6 +6,12 @@
 
 == New & Noteworthy
 
+=== August 29th, 2018
+
+==== Unified Header Height
+
+The height of section headers with and without buttons is now set to the same.
+
 === August 27th, 2018
 
 ==== Default PropertyBehaviors

@@ -15,8 +15,11 @@
 
     <name>Linkki Samples :: Binding</name>
 
-
-    <dependencies>
+	<dependencies>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_3.0_spec</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.vaadin</groupId>

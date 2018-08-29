@@ -23,10 +23,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.util.ComponentFactory;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
+import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -80,79 +81,94 @@ public abstract class AbstractSection extends VerticalLayout {
         requireNonNull(caption, "caption must not be null");
         this.editButton = requireNonNull(editButton, "editButton must not be null");
         if (StringUtils.isNotEmpty(caption) || editButton.isPresent()) {
-            createHeader(caption, closeable);
+            this.openCloseButton = closeable ? createOpenCloseButton(this::switchOpenStatus) : null;
+            this.header = createHeader(caption, editButton, Optional.ofNullable(openCloseButton));
+            addComponent(header);
         } else {
-            createSpacer();
+            addComponent(createSpacer());
         }
     }
 
-    private void createHeader(String caption, boolean closeable) {
-        HorizontalLayout newHeader = new HorizontalLayout();
-        this.header = newHeader;
-        newHeader.setSpacing(true);
-        addComponent(newHeader);
-        newHeader.addStyleName(ApplicationStyles.SECTION_CAPTION);
+    private static HorizontalLayout createHeader(String caption,
+            Optional<Button> editButton,
+            Optional<Button> openCloseButton) {
+        HorizontalLayout headerLayout = new HorizontalLayout();
+        headerLayout.addStyleName(ApplicationStyles.SECTION_CAPTION);
+        headerLayout.setSpacing(true);
 
-        Label l = new Label(caption);
-        l.addStyleName(ApplicationStyles.SECTION_CAPTION_TEXT);
-        newHeader.addComponent(l);
-        newHeader.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
-
-        editButton.ifPresent(b -> newHeader.addComponent(b));
-
-        if (closeable) {
-            createOpenCloseButton();
+        if (StringUtils.isNotEmpty(caption)) {
+            Label captionLabel = new Label(caption);
+            captionLabel.addStyleName(ApplicationStyles.SECTION_CAPTION_TEXT);
+            headerLayout.addComponent(captionLabel);
         }
+
+        editButton.ifPresent(b -> addHeaderButton(headerLayout, b));
+        openCloseButton.ifPresent(b -> addHeaderButton(headerLayout, b));
 
         Label line = new Label("<hr/>", ContentMode.HTML);
         line.addStyleName(ApplicationStyles.SECTION_CAPTION_LINE);
-        newHeader.addComponent(line);
-        newHeader.setComponentAlignment(line, Alignment.MIDDLE_LEFT);
+        headerLayout.addComponent(line);
+
+        return headerLayout;
+    }
+
+    private static Button createOpenCloseButton(Handler toggleCloseOpen) {
+        ButtonPmo buttonPmo = ButtonPmo.Builder.action(toggleCloseOpen).icon(FontAwesome.ANGLE_DOWN).get();
+        Button button = ComponentFactory.newButton(buttonPmo.getButtonIcon(), buttonPmo.getStyleNames());
+        button.addStyleName(ApplicationStyles.BUTTON_TEXT);
+        button.addClickListener(e -> buttonPmo.onClick());
+        return button;
+    }
+
+    /*
+     * Cannot delegate to addHeaderButton with index as they do not call each other in
+     * AbstractOrderedLayout
+     */
+    private static void addHeaderButton(AbstractOrderedLayout header, Button button) {
+        button.addStyleName(ApplicationStyles.BUTTON_TEXT);
+        header.addComponent(button);
+    }
+
+    private static void addHeaderButton(AbstractOrderedLayout header, Button button, int index) {
+        button.addStyleName(ApplicationStyles.BUTTON_TEXT);
+        header.addComponent(button, index);
     }
 
     /**
-     * The spacer consists of a layout and a label. The layout is needed to force vaadin to correctly
-     * calculate the height when the content below is set to height: 100%
+     * The spacer consists of a layout and a label. The layout is needed to force vaadin to
+     * correctly calculate the height when the content below is set to height: 100%
      */
-    private void createSpacer() {
+    private static Component createSpacer() {
         VerticalLayout verticalLayout = new VerticalLayout();
         Label spacer = new Label();
         verticalLayout.addComponent(spacer);
-        addComponent(verticalLayout);
+        return verticalLayout;
     }
 
     public boolean isEditButtonAvailable() {
         return editButton.isPresent();
     }
 
-    private void createOpenCloseButton() {
-        ButtonPmo buttonPmo = ButtonPmo.Builder.action(this::switchOpenStatus).icon(FontAwesome.ANGLE_DOWN).get();
-        openCloseButton = ComponentFactory.newButton(buttonPmo.getButtonIcon(), buttonPmo.getStyleNames());
-        openCloseButton.addClickListener(e -> buttonPmo.onClick());
-        if (header != null) {
-            header.addComponent(openCloseButton);
-        }
-    }
-
     /**
-     * Adds a new button to the header using the given button PMO. The new button is added before the
-     * close button. If the section does not have a close button it is added at the end of the header.
+     * Adds a new button to the header using the given button PMO. The new button is added before
+     * the close button. If the section does not have a close button it is added at the end of the
+     * header.
      */
     public void addHeaderButton(Button button) {
         addBeforeCloseButton(button);
     }
 
+    @SuppressWarnings("null")
     private void addBeforeCloseButton(Button headerButton) {
         if (openCloseButton != null) {
             if (header != null) {
-                header.addComponent(headerButton, header.getComponentIndex(openCloseButton));
+                addHeaderButton(header, headerButton, header.getComponentIndex(openCloseButton));
             }
         } else {
             if (header != null) {
-                header.addComponent(headerButton, header.getComponentCount() - 1);
+                addHeaderButton(header, headerButton, header.getComponentCount() - 1);
             }
         }
-
     }
 
     /**
@@ -199,8 +215,8 @@ public abstract class AbstractSection extends VerticalLayout {
 
     /**
      * @implSpec Implementations of this method have to return the section's content, which is the
-     *           {@link Component} added to the section. The section's header is not part of the content
-     *           and has to be excluded.
+     *           {@link Component} added to the section. The section's header is not part of the
+     *           content and has to be excluded.
      * 
      * @return the content of this section
      */

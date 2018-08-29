@@ -70,6 +70,9 @@ public class ApplicationStyles {
 
     public static final String MESSAGE_ROW = "linkki-message-row";
 
+    /** A button that is styled as a text, without additional height. **/
+    public static final String BUTTON_TEXT = "linkki-button-text";
+
     private ApplicationStyles() {
         // prevent initialization
     }

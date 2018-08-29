@@ -294,8 +294,9 @@ $linkki-sidebar-width: 56px !default;
   */
   
   .linkki-section-caption {
-    /* Width of the horizontal layout */
     width: 100%;
+    vertical-align: middle;
+    /* Trick to make the line take up the rest of the space */
     overflow: hidden;
   
     /* Space before section caption and below caption */
@@ -310,7 +311,7 @@ $linkki-sidebar-width: 56px !default;
         }
     }
   
-    /* Puts a grey line as a separator between the different sections */
+    /* Puts a line as a separator between the different sections */
     .v-slot-linkki-section-caption-line {
         width: 100%;
   
@@ -319,4 +320,9 @@ $linkki-sidebar-width: 56px !default;
         }
     }
   } //end-linkki-section-caption
+
+  .v-button.linkki-button-text {
+    @include valo-button-borderless-style;
+    height: unset;
+  }
 }
