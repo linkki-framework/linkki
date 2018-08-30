@@ -213,4 +213,32 @@ public class MessageListTest {
         assertThat(messages, emptyMessageList());
     }
 
+    @Test
+    public void testGetMessagesFor_nullProperty_shouldFindMessagesWithEmptyProperty() {
+        Object o = new Object();
+        Message m = Message.builder("1", ErrorLevel.ERROR).code("1").invalidObject(new ObjectProperty(o)).create();
+        MessageList messages = new MessageList(m);
+
+        assertThat(messages.getMessagesFor(o), hasSize(1));
+        assertThat(messages.getMessagesFor(o).getMessage(0), is(m));
+        assertThat(messages.getMessagesFor(o, null), hasSize(1));
+        assertThat(messages.getMessagesFor(o, null).getMessage(0), is(m));
+        assertThat(messages.getMessagesFor(o, ""), hasSize(1));
+        assertThat(messages.getMessagesFor(o, "").getMessage(0), is(m));
+    }
+
+    @Test
+    public void testGetMessagesFor_EmptyProperty_shouldFindMessagesWithEmptyProperty() {
+        Object o = new Object();
+        Message m = Message.builder("1", ErrorLevel.ERROR).code("1").invalidObject(new ObjectProperty(o, "")).create();
+        MessageList messages = new MessageList(m);
+
+        assertThat(messages.getMessagesFor(o), hasSize(1));
+        assertThat(messages.getMessagesFor(o).getMessage(0), is(m));
+        assertThat(messages.getMessagesFor(o, null), hasSize(1));
+        assertThat(messages.getMessagesFor(o, null).getMessage(0), is(m));
+        assertThat(messages.getMessagesFor(o, ""), hasSize(1));
+        assertThat(messages.getMessagesFor(o, "").getMessage(0), is(m));
+    }
+
 }
