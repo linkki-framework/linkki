@@ -87,8 +87,8 @@ public interface ItemCaptionProvider<T> {
     }
 
     /**
-     * A caption provider that returns a string in the format "name [id]" and invokes methods
-     * {@code getName} and {@code getId} to obtain these values.
+     * A caption provider that returns a string in the format "name" and invokes the method
+     * {@code getName} to obtain these values.
      */
     public class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
 
