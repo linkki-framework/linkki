@@ -20,6 +20,8 @@ import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.binding.DefaultBindingManager;
+import org.linkki.core.binding.behavior.PropertyBehavior;
+import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.page.AbstractPage;
 import org.linkki.framework.ui.component.Headline;
@@ -31,8 +33,8 @@ public class ReportListPage extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
-    private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
-
+    private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE,
+            PropertyBehaviorProvider.with(PropertyBehavior.readOnly(() -> true)));
     private final List<Report> reports;
 
     public ReportListPage(List<Report> reports) {

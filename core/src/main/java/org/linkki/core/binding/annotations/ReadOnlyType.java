@@ -12,23 +12,23 @@
  * the License.
  */
 
-package org.linkki.samples.appsample.pmo;
+package org.linkki.core.binding.annotations;
 
-import java.util.List;
+/** The type how the read-only state of an UI component is bound. */
+public enum ReadOnlyType {
 
-import org.linkki.core.ui.table.SimpleTablePmo;
-import org.linkki.samples.appsample.model.Report;
+    /**
+     * Always displays as read-only.
+     */
+    ALWAYS,
 
-public class ReportTablePmo extends SimpleTablePmo<Report, ReportPmo> {
+    /**
+     * Behavior as it would be without this annotation.
+     */
+    DERIVED,
 
-
-    public ReportTablePmo(List<Report> reports) {
-        super(reports);
-    }
-
-    @Override
-    protected ReportPmo createRow(Report report) {
-        return new ReportPmo(report);
-    }
-
+    /**
+     * Looks for a method "is[PropertyName]ReadOnly()" to determine if it is read-only.
+     */
+    DYNAMIC;
 }

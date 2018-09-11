@@ -1,0 +1,52 @@
+:jbake-title: Additional Binding
+:jbake-type: section
+:jbake-status: published
+
+=== Additional Binding
+
+[[tooltips]]
+==== Tooltips
+
+For displaying tooltips on UI elements *linkki* provides the annotation `@UIToolTip`. This annotation can be added in the PMO binding to the method to which the UI element is bound. In the case of binding using the `@Bind` annotation, `@UIToolTip` must be written directly in the field annotated with `@Bind`.
+
+The `@UIToolTip` annotation has two properties:
+
+* <<tooltip-text, `text: String`>>
+* <<tooltip-type, `toolTipType: ToolTipType`>>
+
+[[tooltip-text]]
+===== Text
+This is the text displayed on <<tooltip-type, `ToolTipType.STATIC`>>. Its default value is an empty string (`""`).
+
+[[tooltip-type]]
+
+===== ToolTipType
+The following configuration options are available for `ToolTipType`:
+
+[cols="1,9"]
+.ToolTipType
+|===
+|`STATIC`   |the text of the tooltip is read from the attribute `text` (*default*)
+|`DYNAMIC`  |the text of the tooltip is determined by the return value of the method `String get<PropertyName>ToolTip()`. The value of `text` is ignored.
+|===
+
+TIP: Tooltips can only be added to <<ui-field, fields>> and <<ui-button, buttons>>.
+
+[[bind-read-only]]
+==== Bind read-only state
+
+To change a components read-only behavior, linkki provides the annotation `@BindReadOnly`. This annotation can be used in combination with  @Bind or UI-annotations.
+
+IMPORTANT: The `@BindReadOnly` annotation must be placed after `@Bind` or `@UI-annotations` as the read-only state might have already be affected by these annotations.
+
+TIP: This annotation should be used only in exceptional cases, since most of the behavior is better controlled by <<cross-sectional-binding, PropertyBehavior>>.
+
+The `@BindReadOnly` Annotation has only one Property, `ReadOnlyType`. Per Default, `ReadOnlyType#ALWAYS` is selected. Following `ReadOnlyType` are available:
+
+[cols="1,9"]
+.ReadOnlyType
+|===
+|`ALWAYS`   |the component is always read-only (*default*)
+|`DYNAMIC`  |the read-only behavior of the component is determined by the return value of the method `is<PropertyName>ReadOnly()`
+|`DERIVED`  |behavior as it would be without this annotation
+|===

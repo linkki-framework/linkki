@@ -6,6 +6,15 @@
 
 == New & Noteworthy
 
+=== September 10th, 2018
+=== BindReadOnly
+
+A new annotation <<bind-read-only, @BindReadOnly>> is introduced to provide read-only behavior to components.
+
+IMPORTANT: The `@BindReadOnly` annotation must be placed after `@Bind` or `@UI-annotations` as the read-only state might have already be affected by these annotations.
+
+TIP: This annotation should be used only in exceptional cases, since most of the behavior is better controlled by <<cross-sectional-binding, PropertyBehavior>>.
+
 === August 29th, 2018
 
 ==== Unified Header Height
@@ -18,10 +27,10 @@ The height of section headers with and without buttons is now set to the same.
 
 Often, a property behavior only needs to control one of the states (writable, visible, shows messages). Thus, the interface `PropertyBehavior` (see <<property-behavior, PropertyBehaviors>>) now offers static methods to create instances that override just one of its methods, for example `PropertyBehavior#visible`.
 
-There are two methods for each of the states that can be controlled by a behavior: 
+There are two methods for each of the states that can be controlled by a behavior:
  * One static method creates the behavior by taking a `BiPredicate<Object, String>` that is called for every bound object and property.
  * The other one takes a `BooleanProvider` that decides the state regardless of the property and bound object.
- 
+
 As a read-only state is often used as the negation of the writable state, additional static methods are offered for easy creation of read-only property behaviors.
 
 The `PropertyBehaviorProvider` interface also received a static method to create an instance from a variable argument array of `PropertyBehaviors`.

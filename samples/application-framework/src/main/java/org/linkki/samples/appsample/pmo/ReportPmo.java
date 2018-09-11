@@ -14,6 +14,8 @@
 
 package org.linkki.samples.appsample.pmo;
 
+import org.linkki.core.binding.annotations.ReadOnlyType;
+import org.linkki.core.binding.aspect.BindReadOnly;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -22,6 +24,7 @@ import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 import org.linkki.core.ui.section.annotations.UITextArea;
 import org.linkki.samples.appsample.model.Report;
+import org.linkki.samples.appsample.model.ReportType;
 
 public class ReportPmo {
 
@@ -41,6 +44,7 @@ public class ReportPmo {
     }
 
     @UIComboBox(position = 10, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED)
+    @BindReadOnly(ReadOnlyType.DERIVED)
     public void type() {
         /*
          * bind value to the property "type" from report and use enum constants from ReportType as available
@@ -49,6 +53,7 @@ public class ReportPmo {
     }
 
     @UIDateField(position = 20, label = "Occurrence date", modelAttribute = "occurrenceDate")
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     public void occurenceDate() {
         /* bind value to pmo property */
     }
@@ -59,5 +64,8 @@ public class ReportPmo {
         /* Use description from report (model object) directly */
     }
 
+    public boolean isOccurenceDateReadOnly() {
+        return report.getType() != ReportType.BUG;
+    }
 
 }
