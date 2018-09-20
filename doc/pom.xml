@@ -21,7 +21,6 @@
     </properties>
 
     <artifactId>linkki-core-documentation</artifactId>
-    <packaging>pom</packaging>
 
     <name>Linkki Core Documentation</name>
 

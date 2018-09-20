@@ -4,6 +4,8 @@ import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @UISection
 public class PersonSectionPmo {
 
@@ -20,6 +22,7 @@ public class PersonSectionPmo {
     }
     // end::modelobject[]
 
+    @SuppressFBWarnings("NM_CONFUSING")
     // tag::pojo-binding[]
     @UITextField(position = 10, label = "First Name")
     public String getFirstName() {

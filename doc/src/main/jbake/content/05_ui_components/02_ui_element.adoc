@@ -45,12 +45,12 @@ All UI elements have the following properties in common:
 * <<label, `label: String`>>
 * <<label, `noLabel: boolean`>>/<<label, `showLabel: boolean`>>
 * <<enabled, `enabled: boolean`>> (not configurable for all elements)
-* <<visble, `visible: boolean`>>
+* <<visible, `visible: boolean`>>
 * <<required, `required: boolean`>> (not configurable for all elements)
 
 <<ui-field,Fields>> have additional properties that are required for the <<domain-model-binding, domain model binding>>:
 
-* <<model-object, `modelObject: String`>>
+* <<model-attribute, `modelObject: String`>>
 * <<model-attribute, `modelAttribute: String`>>
 
 CAUTION: <<position, `position`>> musst be specified. All other properties have default values.
@@ -114,7 +114,6 @@ NOTE: <<ui-label, UILabels>> und <<ui-button, UIButtons>> do not offer these opt
 
 WARNING: Fields marked as `required` are only visually highlighted. *No* validation is performed.
 
-[[model-object]]
 [[model-attribute]]
 ===== ModelObject and -Attribute
 A <<ui-field, field can be bound to an attribute of an existing model object using <<domain-model-binding, domain model binding>>. For this the properties `modelAttribute` and possibly `modelObject` are required. The function is described in the section <<modell-attribut-namen, names of model attributes>>.

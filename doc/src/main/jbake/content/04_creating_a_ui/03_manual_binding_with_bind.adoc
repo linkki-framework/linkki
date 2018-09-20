@@ -3,6 +3,9 @@
 :jbake-status: published
 
 :source-dir: ../../../../../../samples/binding/src/main/java
+:github: https://github.com/linkki-framework/linkki
+:github-tree: {github}/tree/master
+:github-blob: {github}/blob/master
 
 [[manual-binding]]
 === Manual Binding With `@Bind`
@@ -15,7 +18,7 @@ To activate the manual binding the component must be marked with the `@Bind` ann
 * `com.vaadin.ui.Label`
 * `com.vaadin.ui.Button`
 
-Then, the data binding can be created via the <<missing-link, `Binder`>>.
+Then, the data binding can be created via the {github-blob}/core/src/main/java/org/linkki/core/binding/Binding.java[`Binder`].
 
 
 .@Bind on Fields
@@ -38,7 +41,7 @@ TIP: When the data binding of a Vaadin component of a third party library should
 include::{source-dir}/org/linkki/samples/binding/components/ContactComponent.java[tags=manual-binding]
 ----
 
-<<missing-link, Here>> is a sample project with the different binding options.
+You can find a sample project with the different binding options on {github-tree}/samples/binding[GitHub].
 
 [TIP]
 ====
@@ -47,7 +50,7 @@ Binding summary:
 * `@UISection` -> simple and quick template with limited configuration options
 * manual binding -> full control
 
-*linkki* uses certain <<missing-link, naming conventions>>. That way sources of errors and refactoring complexity are reduced.
+*linkki* uses certain naming conventions. That way sources of errors and refactoring complexity are reduced.
 
 The values used in the annotations for `pmoProperty` and `modelAttribute` should be defined as constants in the corresponding classes.
 ====

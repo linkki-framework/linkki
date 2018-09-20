@@ -2,11 +2,13 @@
 :jbake-type: section
 :jbake-status: published
 :source-dir: ../../../../../../samples/binding/src/main/java
+:github: https://github.com/linkki-framework/linkki
+:github-blob: {github}/blob/master
 
 [[pmo-uisection]]
 === PresentationModelObject with `@UISection`
 
-When a class is annotated with `@UISection`, *linkki* takes control over the creation and arrangement of the defined components. Using annotations for the <<ui-element, UI elements>>, certain aspects can be defined or controlled. The sections are created via <<missing-link, `SectionFactories`>>.
+When a class is annotated with `@UISection`, *linkki* takes control over the creation and arrangement of the defined components. Using annotations for the <<ui-element, UI elements>>, certain aspects can be defined or controlled. The sections are created via a {github-blob}/core/src/main/java/org/linkki/core/ui/section/PmoBasedSectionFactory.java[`PmoBasedSectionFactory`].
 
 The <<ui-element, `UI elements`>> are bound either to the 'properties' of a `ModelObject` or a PMO. A detailed description can be found in the chapter <<domain-model-binding, `Data on Multiple Layers`>>.
 
