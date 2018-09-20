@@ -34,4 +34,12 @@ public class ConfirmationDialogTest {
         verify(handler).apply();
     }
 
+    @Test
+    public void testCancelCallsOk_withoutContent() {
+        Handler handler = mock(Handler.class);
+        ConfirmationDialog dialog = new ConfirmationDialog("", null, handler);
+        dialog.cancel();
+        verify(handler).apply();
+    }
+
 }

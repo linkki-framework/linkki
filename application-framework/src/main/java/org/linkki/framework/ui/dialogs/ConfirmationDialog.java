@@ -13,6 +13,8 @@
  */
 package org.linkki.framework.ui.dialogs;
 
+import javax.annotation.Nullable;
+
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.shared.ui.label.ContentMode;
@@ -34,14 +36,13 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @param content a component containing the question to ask
      * @param okHandler a function that is executed when the OK button was pressed
      */
-    public ConfirmationDialog(String caption, Component content, Handler okHandler) {
+    public ConfirmationDialog(String caption, @Nullable Component content, Handler okHandler) {
         super(caption, content, okHandler, ButtonOption.OK_ONLY);
     }
 
     /**
-     * Calls the {@link #ok()} method as a confirmation dialog does only allow confirmation. The
-     * cancel method is called if the user closes the dialog using the close button instead of the
-     * OK button.
+     * Calls the {@link #ok()} method as a confirmation dialog does only allow confirmation. The cancel
+     * method is called if the user closes the dialog using the close button instead of the OK button.
      */
     @Override
     protected void cancel() {
