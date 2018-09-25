@@ -55,8 +55,8 @@ public class BindingContext implements UiUpdateObserver {
 
 
     /**
-     * Creates a new binding context with an empty name that defines no property behavior and uses no
-     * after update handler.
+     * Creates a new binding context with an empty name that defines no property behavior and uses
+     * no after update handler.
      * 
      */
     public BindingContext() {
@@ -64,8 +64,8 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a new binding context with the given name that defines no property behavior and uses no
-     * after update handler.
+     * Creates a new binding context with the given name that defines no property behavior and uses
+     * no after update handler.
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
@@ -75,18 +75,18 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a new binding context with the given name, using the behavior provider to decorate its
-     * bindings and notifying a handler after every UI update.
+     * Creates a new binding context with the given name, using the behavior provider to decorate
+     * its bindings and notifying a handler after every UI update.
      * <p>
-     * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event outside
-     * of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()} is used by
-     * {@link BindingManager} to trigger the validation service and to notify all
+     * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event
+     * outside of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()}
+     * is used by {@link BindingManager} to trigger the validation service and to notify all
      * {@link UiUpdateObserver}s in the manager to show the validation result.
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
-     * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are relevant to this
-     *            context
+     * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are relevant to
+     *            this context
      * @param afterUpdateHandler a handler that is applied after the UI update. Usually
      *            {@link BindingManager#afterUpdateUi()}
      */
@@ -143,21 +143,8 @@ public class BindingContext implements UiUpdateObserver {
      */
     @Deprecated
     public void updateUI() {
-        modelChanged();
-    }
+        /* inline this code into modelChanged() once updateUI() is removed */
 
-    /**
-     * Updates the UI with the data retrieved via bindings registered in this context. Executes
-     * afterUpdateHandler that is set in the constructor.
-     * <p>
-     * This method should be called when the UI should be updated after a model change to update all
-     * {@link Binding Bindings} of this {@link BindingContext} and notify the
-     * after-update-handler(provided in the constructor) that the model has changed. This may trigger
-     * other {@link UiUpdateObserver observers}.
-     * 
-     * @see #uiUpdated()
-     */
-    public void modelChanged() {
         updateFromPmo();
 
         // Notify handler that the UI was updated for this context and the messages in all
@@ -166,11 +153,27 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Triggers the update of all registered bindings. This method is called by {@link BindingManager}
-     * if this {@link BindingContext} is registered as {@link UiUpdateObserver}.
+     * Updates the UI with the data retrieved via bindings registered in this context. Executes
+     * afterUpdateHandler that is set in the constructor.
      * <p>
-     * Call this method if it is necessary to update the UI after any changes that only affect bindings
-     * in this context. This will not trigger other {@link UiUpdateObserver}.
+     * This method should be called when the UI should be updated after a model change to update all
+     * {@link Binding Bindings} of this {@link BindingContext} and notify the
+     * after-update-handler(provided in the constructor) that the model has changed. This may
+     * trigger other {@link UiUpdateObserver observers}.
+     * 
+     * @see #uiUpdated()
+     */
+    public void modelChanged() {
+        updateUI();
+    }
+
+    /**
+     * Triggers the update of all registered bindings. This method is called by
+     * {@link BindingManager} if this {@link BindingContext} is registered as
+     * {@link UiUpdateObserver}.
+     * <p>
+     * Call this method if it is necessary to update the UI after any changes that only affect
+     * bindings in this context. This will not trigger other {@link UiUpdateObserver}.
      * 
      * @see #modelChanged()
      */
@@ -225,8 +228,8 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a binding between the presentation model object and UI elements (i.e. {@linkplain Label}
-     * and {@linkplain Component}) as described by the given descriptor.
+     * Creates a binding between the presentation model object and UI elements (i.e.
+     * {@linkplain Label} and {@linkplain Component}) as described by the given descriptor.
      * <p>
      * If the label is {@code null} it is ignored for the binding
      * 
