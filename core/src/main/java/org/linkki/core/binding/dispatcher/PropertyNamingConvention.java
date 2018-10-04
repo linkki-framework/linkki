@@ -31,6 +31,7 @@ public class PropertyNamingConvention {
     public static final String AVAILABLE_VALUES_PROPERTY_SUFFIX = "availableValues";
     public static final String CAPTION_PROPERTY_SUFFIX = "caption";
     public static final String TOOLTIP_PROPERTY_SUFFIX = "toolTip";
+    public static final String BIND_TOOLTIP_PROPERTY_SUFFIX = "tooltip";
     public static final String COMPONENT_PROPERTY_SUFFIX = "componentType";
 
     /**
@@ -99,9 +100,22 @@ public class PropertyNamingConvention {
      * @return the capitalized property with the suffix {@link #TOOLTIP_PROPERTY_SUFFIX} . e.g.
      *         "premium" results in "premiumToolTip".
      * @throws NullPointerException if the given property is <code>null</code>
+     * 
+     * @deprecated Since October 4th, 2018. Use {@link #getBindTooltipProperty(String)} instead. This
+     *             method will be removed in the next release.
      */
+    @Deprecated
     public String getToolTipProperty(String property) {
         return getCombinedPropertyName(property, TOOLTIP_PROPERTY_SUFFIX);
+    }
+
+    /**
+     * @return the capitalized property with the suffix {@link #BIND_TOOLTIP_PROPERTY_SUFFIX} . e.g.
+     *         "premium" results in "premiumTooltip".
+     * @throws NullPointerException if the given property is <code>null</code>
+     */
+    public String getBindTooltipProperty(String property) {
+        return getCombinedPropertyName(property, BIND_TOOLTIP_PROPERTY_SUFFIX);
     }
 
     /**

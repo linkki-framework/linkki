@@ -26,8 +26,8 @@ import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
-import org.linkki.core.ui.section.annotations.ToolTipType;
-import org.linkki.core.ui.section.annotations.UIToolTip;
+import org.linkki.core.ui.section.annotations.BindTooltip;
+import org.linkki.core.ui.section.annotations.BindTooltipType;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.vaadin.ui.ComboBox;
@@ -43,16 +43,16 @@ public class ManuelBindIntegrationTest {
     private final ManuallyBoundSection section = new ManuallyBoundSection();
 
     @Test
-    public void testGetStaticToolTipFromManualyBindComponent() {
+    public void testGetStaticTooltipFromManualyBindComponent() {
         section.createContent();
 
         new Binder(section, pmo).setupBindings(bindingContext);
 
-        assertThat(section.textField.getDescription(), is("ToolTip"));
+        assertThat(section.textField.getDescription(), is("Tooltip"));
     }
 
     @Test
-    public void testGetDynamicToolTipFromManualyBindComponent() {
+    public void testGetDynamicTooltipFromManualyBindComponent() {
         section.createContent();
 
         new Binder(section, pmo).setupBindings(bindingContext);
@@ -115,7 +115,7 @@ public class ManuelBindIntegrationTest {
             this.text = text;
         }
 
-        public String getTextToolTip() {
+        public String getTextTooltip() {
             return text;
         }
 
@@ -127,18 +127,18 @@ public class ManuelBindIntegrationTest {
 
     public class ManuallyBoundSection extends FormLayout {
 
-        public static final String TOOL_TIP = "ToolTip";
+        public static final String TOOL_TIP = "Tooltip";
 
         private static final long serialVersionUID = 1L;
 
-        @UIToolTip(text = TOOL_TIP)
+        @BindTooltip(text = TOOL_TIP)
         @Bind(pmoProperty = ManuallyBoundPmo.PROPERTY_TEXT)
         private final TextField textField = new TextField();
 
         @Bind(pmoProperty = ManuallyBoundPmo.PROPERTY_COMBO, availableValues = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
         private final ComboBox comboBox = new ComboBox();
 
-        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
+        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
         @Bind(pmoProperty = ManuallyBoundPmo.PROPERTY_TEXT)
         private final Label label = new Label();
 

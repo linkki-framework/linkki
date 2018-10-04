@@ -104,14 +104,14 @@ public class UIYesNoComboBoxIntegrationTest extends FieldAnnotationIntegrationTe
         }
 
         @Override
-        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
+        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
         @UIYesNoComboBox(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
         public void value() {
             // model binding
         }
 
         @Override
-        @UIToolTip(text = TEST_TOOLTIP)
+        @BindTooltip(text = TEST_TOOLTIP)
         @UIYesNoComboBox(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding

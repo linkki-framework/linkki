@@ -15,13 +15,8 @@ package org.linkki.core.ui.section.annotations;
 
 /**
  * Provides options to define how the value of tooltip is retrieved.
- * <p>
- * 
- * @deprecated Since October 4th, 2018. Use {@link BindTooltipType} instead. This annotation will be
- *             removed in the next release.
  */
-@Deprecated
-public enum ToolTipType {
+public enum BindTooltipType {
 
     STATIC,
 

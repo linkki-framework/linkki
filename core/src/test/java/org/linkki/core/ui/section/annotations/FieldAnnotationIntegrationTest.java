@@ -55,7 +55,7 @@ public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?>,
 
     @Test
     public void testDynamicToolTip() {
-        testBinding(F::getDescription, AnnotationTestPmo::setToolTip, AnnotationTestPmo.DEFAULT_TOOLTIP,
+        testBinding(F::getDescription, AnnotationTestPmo::setTooltip, AnnotationTestPmo.DEFAULT_TOOLTIP,
                     AnnotationTestPmo.TEST_TOOLTIP);
     }
 }

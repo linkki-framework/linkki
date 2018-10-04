@@ -17,12 +17,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.core.ui.section.annotations.BindTooltip;
+import org.linkki.core.ui.section.annotations.BindTooltipType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.ui.section.annotations.ToolTipType;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.ui.section.annotations.UIToolTip;
 import org.linkki.samples.binding.model.Contact;
 
 // tag::contactPmo-class[]
@@ -42,13 +46,23 @@ public class ContactSectionPmo implements PresentationModelObject {
         return contact;
     }
 
+    @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
     @UITextField(position = 10, label = "Firstname", required = RequiredType.REQUIRED, modelAttribute = "firstname")
     public void firstname() {
         /* model binding only */ }
 
+    public String getFirstnameTooltip() {
+        return "First name";
+    }
+
+    @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
     @UITextField(position = 20, label = "Lastname", required = RequiredType.REQUIRED, modelAttribute = "lastname")
     public void lastname() {
         /* model binding only */ }
+
+    public String getLastnameToolTip() {
+        return "Last name";
+    }
 
     @UIComboBox(position = 30, label = "Gender", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = ToStringCaptionProvider.class)
     public void gender() {

@@ -78,7 +78,7 @@ public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest
         }
 
         @Override
-        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
+        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
         @UICustomField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, uiControl = LinkkiComboBox.class)
         public void value() {
             // model binding
@@ -93,7 +93,7 @@ public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest
         }
 
         @Override
-        @UIToolTip(text = TEST_TOOLTIP)
+        @BindTooltip(text = TEST_TOOLTIP)
         @UICustomField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, uiControl = LinkkiComboBox.class)
         public void staticValue() {
             // model binding

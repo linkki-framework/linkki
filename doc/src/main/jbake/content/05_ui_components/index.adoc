@@ -10,5 +10,5 @@ As already described in the section <<pmo-uisection, how to create a section>>, 
 
 *linkki* offers ready-to-use annotations for the most common UI components, which generate standard Vaadin elements or custom subclasses depending on the data type. These are prefixed with "@UI...".
 
-These UI components can be divided in two groups: <<ui-field, fields>> and <<ui-button, buttons>>. Using the annotation <<tooltips, `@UITooltip`>>, tooltips can be bound to these components. Additionally *linkki* allows for the creation of <<ui-container-pmo, tables>>.
+These UI components can be divided in two groups: <<ui-field, fields>> and <<ui-button, buttons>>. Using the annotation <<tooltips, `@BindTooltip`>>, tooltips can be bound to these components. Additionally *linkki* allows for the creation of <<ui-container-pmo, tables>>.
 

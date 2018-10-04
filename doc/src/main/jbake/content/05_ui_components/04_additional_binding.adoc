@@ -7,27 +7,27 @@
 [[tooltips]]
 ==== Tooltips
 
-For displaying tooltips on UI elements *linkki* provides the annotation `@UIToolTip`. This annotation can be added in the PMO binding to the method to which the UI element is bound. In the case of binding using the `@Bind` annotation, `@UIToolTip` must be written directly in the field annotated with `@Bind`.
+For displaying tooltips on UI elements *linkki* provides the annotation `@BindTooltip`. This annotation can be added in the PMO binding to the method to which the UI element is bound. In the case of binding using the `@Bind` annotation, `@BindTooltip` must be written directly in the field annotated with `@Bind`.
 
-The `@UIToolTip` annotation has two properties:
+The `@BindTooltip` annotation has two properties:
 
 * <<tooltip-text, `text: String`>>
-* <<tooltip-type, `toolTipType: ToolTipType`>>
+* <<tooltip-type, `tooltipType: TooltipType`>>
 
 [[tooltip-text]]
 ===== Text
-This is the text displayed on <<tooltip-type, `ToolTipType.STATIC`>>. Its default value is an empty string (`""`).
+This is the text displayed on <<tooltip-type, `TooltipType.STATIC`>>. Its default value is an empty string (`""`).
 
 [[tooltip-type]]
 
-===== ToolTipType
-The following configuration options are available for `ToolTipType`:
+===== TooltipType
+The following configuration options are available for `TooltipType`:
 
 [cols="1,9"]
-.ToolTipType
+.TooltipType
 |===
 |`STATIC`   |the text of the tooltip is read from the attribute `text` (*default*)
-|`DYNAMIC`  |the text of the tooltip is determined by the return value of the method `String get<PropertyName>ToolTip()`. The value of `text` is ignored.
+|`DYNAMIC`  |the text of the tooltip is determined by the return value of the method `String get<PropertyName>Tooltip()`. The value of `text` is ignored.
 |===
 
 TIP: Tooltips can only be added to <<ui-field, fields>> and <<ui-button, buttons>>.

@@ -31,10 +31,10 @@ An aspect definition defines how an aspect is created. To define your own defini
 * `initModelUpdate(PropertyDispatcher, ComponentWrapper, Handler)`: Method that registers a listener to the wrapped UI component which react to changes in the UI. This method is only mandatory if the defined aspect needs to write into the model.
 * `createUiUpdater(PropertyDispatcher, ComponentWrapper)`: Creates a `Handler` that is triggered when the UI has to be updated.
 
-An tooltip aspect definition that uses the newly defined annotation `@UIToolTip` would look as follows:
+An tooltip aspect definition that uses the newly defined annotation `@BindToolTip` would look as follows:
 
 ```java
-include::{source-dir}/org/linkki/doc/ToolTipAspectDefinition.java[tags=ToolTipAspectDefinition]
+include::{source-dir}/org/linkki/doc/BindTooltipAspectDefinition.java[tags=BindTooltipAspectDefinition]
 ```
 
 * `initModelUpdate` is not needed in this example because tooltip won't change in the model upon UI change. 
@@ -44,7 +44,7 @@ include::{source-dir}/org/linkki/doc/ToolTipAspectDefinition.java[tags=ToolTipAs
 
 ==== @LinkkiAspect Annotation
 
-Lastly, `UIToolTip` has to be annotated with `@LinkkiAspect(ToolTipAspectDefinition.class)` to bring the `UIToolTip` annotation and `ToolTipAspectDefinition` together.
+Lastly, `BindTooltip` has to be annotated with `@LinkkiAspect(BindTooltipAspectDefinition.class)` to bring the `BindTooltip` annotation and `BindTooltipAspectDefinition` together.
 
 ```java
 include::{source-dir}/org/linkki/doc/UIToolTip.java[tags=UIToolTipLinkkiAspect]

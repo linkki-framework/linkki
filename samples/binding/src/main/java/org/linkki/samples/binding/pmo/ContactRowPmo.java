@@ -15,11 +15,11 @@ package org.linkki.samples.binding.pmo;
 
 import java.util.function.Consumer;
 
+import org.linkki.core.ui.section.annotations.BindTooltip;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UIToolTip;
 import org.linkki.samples.binding.model.Contact;
 
 import com.vaadin.server.FontAwesome;
@@ -81,7 +81,7 @@ public class ContactRowPmo {
 
     // tag::contactRowPmo-buttonBinding[]
     @UITableColumn(expandRatio = 0.1F)
-    @UIToolTip(text = "Edit")
+    @BindTooltip(text = "Edit")
     @UIButton(position = 30, icon = FontAwesome.EDIT, showIcon = true)
     public void edit() {
         editAction.accept(contact);
@@ -89,7 +89,7 @@ public class ContactRowPmo {
     // end::contactRowPmo-buttonBinding[]
 
     @UITableColumn(expandRatio = 0.1F)
-    @UIToolTip(text = "Delete")
+    @BindTooltip(text = "Delete")
     @UIButton(position = 40, icon = FontAwesome.TRASH, showIcon = true)
     public void delete() {
         deleteAction.accept(contact);

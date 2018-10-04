@@ -34,7 +34,7 @@ public class MessageRow extends FormLayout {
         label.setContentMode(ContentMode.HTML);
         label.setValue(getText());
         label.addStyleName(messagePmo.getStyle());
-        label.setDescription(this.messagePmo.getToolTip());
+        label.setDescription(this.messagePmo.getTooltip());
         addComponent(label);
         addStyleName(ApplicationStyles.MESSAGE_ROW);
     }

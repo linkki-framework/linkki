@@ -6,6 +6,16 @@
 
 == New & Noteworthy
 
+=== October 4th,2018
+The annotation `@UIToolTip` has been deprecated and reintroduced as `@BindTooltip`. 
+
+The changes in Detail:
+* `@BindTooltip` uses "tooltip" as a property (previously "toolTip")
+* `@BindTooltip` uses `BindTooltipType` as a type (previously `ToolTipType`)
+* `@BindTooltip` with a dynamic tooltip requires the corresponding method to be named `getXYZTooltip()` (lower case "t" here as well, instead of `getXYZToolTip()`)
+
+Migrating existing code to `@BindTooltip` is recommended.
+
 === September 10th, 2018
 === BindReadOnly
 

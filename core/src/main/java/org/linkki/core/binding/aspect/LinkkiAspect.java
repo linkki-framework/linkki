@@ -34,12 +34,12 @@ import org.linkki.core.ui.section.SectionCreationContext;
  * <pre>
  * &#64;Retention(RetentionPolicy.RUNTIME)
  * &#64;Target(value = { ElementType.FIELD, ElementType.METHOD })
- * &#64;LinkkiAspect(ToolTipAspectDefinition.class)
- * public @interface UIToolTip {
+ * &#64;LinkkiAspect(BindTooltipAspectDefinition.class)
+ * public @interface BindTooltip {
  * 
  *     String text() default StringUtils.EMPTY;
  * 
- *     ToolTipType toolTipType() default ToolTipType.STATIC;
+ *     ToolTipType toolTipType() default TooltipType.STATIC;
  * }
  * </pre>
  * 

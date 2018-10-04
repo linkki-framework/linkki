@@ -65,7 +65,7 @@ public class MessagePmoTest {
 
         assertThat(message.getIcon(), is(icon));
         assertThat(message.getStyle(), endsWith(errorLevel.name().toLowerCase()));
-        assertThat(message.getToolTip(), is(tooltip));
+        assertThat(message.getTooltip(), is(tooltip));
     }
 
 }

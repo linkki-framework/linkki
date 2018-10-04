@@ -25,20 +25,20 @@ public abstract class AnnotationTestPmo {
 
     protected static final String TEST_CAPTION = "testCaption";
     protected static final String TEST_LABEL = "testLabel";
-    protected static final String TEST_TOOLTIP = "testToolTip";
-    protected static final String DEFAULT_TOOLTIP = "defaultToolTip";
+    protected static final String TEST_TOOLTIP = "testTooltip";
+    protected static final String DEFAULT_TOOLTIP = "defaultTooltip";
 
     private final Object modelObject;
     private boolean enabled;
     private boolean required;
     private boolean visible;
-    private String toolTip = DEFAULT_TOOLTIP;
+    private String tooltip = DEFAULT_TOOLTIP;
 
     /**
      * Creates a new {@link AnnotationTestPmo}.
      * 
-     * @param modelObject Object that should have getter and setter for the property
-     *            <code>value</code>. It should also have a getter for <code>staticValue</code>.
+     * @param modelObject Object that should have getter and setter for the property <code>value</code>.
+     *            It should also have a getter for <code>staticValue</code>.
      *            {@link org.linkki.core.ui.section.annotations.ComponentAnnotationIntegrationTest.TestModelObject}
      *            can be used as a base class.
      */
@@ -72,8 +72,8 @@ public abstract class AnnotationTestPmo {
         return visible;
     }
 
-    public String getValueToolTip() {
-        return toolTip;
+    public String getValueTooltip() {
+        return tooltip;
     }
 
     /**
@@ -106,7 +106,7 @@ public abstract class AnnotationTestPmo {
         this.visible = visible;
     }
 
-    public void setToolTip(String toolTip) {
-        this.toolTip = toolTip;
+    public void setTooltip(String tooltip) {
+        this.tooltip = tooltip;
     }
 }

@@ -52,7 +52,7 @@ public class MessagePmo {
         return message.getText();
     }
 
-    public String getToolTip() {
+    public String getTooltip() {
         String text = message.getInvalidObjectProperties().stream()
                 .map(this::getPropertyDesc)
                 .collect(Collectors.joining(", "));

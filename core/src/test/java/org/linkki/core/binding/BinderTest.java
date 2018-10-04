@@ -29,10 +29,10 @@ import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.components.IntegerField;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.core.ui.section.annotations.BindTooltip;
+import org.linkki.core.ui.section.annotations.BindTooltipType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.ToolTipType;
-import org.linkki.core.ui.section.annotations.UIToolTip;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ListSelect;
@@ -65,7 +65,7 @@ public class BinderTest {
 
         pmo.setNumber(13);
         pmo.setText("foo");
-        pmo.setToolTip("test tool tip");
+        pmo.setTooltip("test tool tip");
         pmo.setSomeothertextValues("c");
 
         bindingContext.modelChanged();
@@ -177,11 +177,11 @@ public class BinderTest {
 
         @SuppressWarnings("null")
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT, required = RequiredType.DYNAMIC)
-        @UIToolTip(text = TestPmo.TEST_TOOLTIP)
+        @BindTooltip(text = TestPmo.TEST_TOOLTIP)
         private TextField textField;
 
         @Bind(pmoProperty = TestPmo.METHOD_ON_CLICK)
-        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
+        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
         private Button button = new Button();
 
         @Bind(pmoProperty = TestPmo.PROPERTY_SOMEOTHERTEXT, availableValues = AvailableValuesType.DYNAMIC, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED)
@@ -204,7 +204,7 @@ public class BinderTest {
         }
 
         @Bind(pmoProperty = TestPmo.PROPERTY_NUMBER, enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED_IF_ENABLED)
-        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
+        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
         public IntegerField getNumberField() {
             return numberField;
         }
@@ -253,7 +253,7 @@ public class BinderTest {
         private String someothertext = "";
         private int number = 0;
         private int clickCount = 0;
-        private String toolTip = "";
+        private String tooltip = "";
 
         private List<String> someotherValues = Arrays.asList("a", "b");
         private boolean numberEnabled;
@@ -296,8 +296,8 @@ public class BinderTest {
             this.number = number;
         }
 
-        public String getNumberToolTip() {
-            return toolTip;
+        public String getNumberTooltip() {
+            return tooltip;
         }
 
         public boolean isNumberEnabled() {
@@ -320,16 +320,16 @@ public class BinderTest {
             clickCount++;
         }
 
-        public String getOnClickToolTip() {
-            return toolTip;
+        public String getOnClickTooltip() {
+            return tooltip;
         }
 
         public int getClickCount() {
             return clickCount;
         }
 
-        public void setToolTip(String toolTip) {
-            this.toolTip = toolTip;
+        public void setTooltip(String tooltip) {
+            this.tooltip = tooltip;
         }
     }
 

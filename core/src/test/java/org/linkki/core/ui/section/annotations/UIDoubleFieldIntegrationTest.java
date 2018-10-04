@@ -134,14 +134,14 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         }
 
         @Override
-        @UIToolTip(toolTipType = ToolTipType.DYNAMIC)
+        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
         @UIDoubleField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, format = FANCY_FORMAT, maxLength = MAX_LENGTH)
         public void value() {
             // model binding
         }
 
         @Override
-        @UIToolTip(text = TEST_TOOLTIP)
+        @BindTooltip(text = TEST_TOOLTIP)
         @UIDoubleField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding

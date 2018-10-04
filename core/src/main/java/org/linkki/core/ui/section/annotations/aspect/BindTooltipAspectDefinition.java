@@ -21,29 +21,24 @@ import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.section.annotations.BindTooltip;
+import org.linkki.core.ui.section.annotations.BindTooltipType;
 
-/**
- * @deprecated Since October 4th, 2018. {@link BindTooltipAspectDefinition} is used instead. This
- *             aspect definition will be removed in the next release.
- */
-@Deprecated
-@SuppressWarnings("deprecation")
-public class ToolTipAspectDefinition extends ModelToUiAspectDefinition<String> {
+public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<String> {
 
-    public static final String NAME = PropertyNamingConvention.TOOLTIP_PROPERTY_SUFFIX;
+    public static final String NAME = PropertyNamingConvention.BIND_TOOLTIP_PROPERTY_SUFFIX;
 
     @SuppressWarnings("null")
-    private org.linkki.core.ui.section.annotations.UIToolTip annotation;
-
+    private BindTooltip annotation;
 
     @Override
-    public void initialize(Annotation toolTipAnnotation) {
-        this.annotation = (org.linkki.core.ui.section.annotations.UIToolTip)toolTipAnnotation;
+    public void initialize(Annotation tooltipAnnotation) {
+        this.annotation = (BindTooltip)tooltipAnnotation;
     }
 
     @Override
     public Aspect<String> createAspect() {
-        if (annotation.toolTipType() == org.linkki.core.ui.section.annotations.ToolTipType.STATIC) {
+        if (annotation.tooltipType() == BindTooltipType.STATIC) {
             return Aspect.of(NAME, annotation.text());
         } else {
             return Aspect.of(NAME);

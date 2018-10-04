@@ -23,13 +23,13 @@ import java.util.LinkedHashSet;
 import java.util.function.Supplier;
 
 import org.junit.Test;
+import org.linkki.core.ui.section.annotations.BindTooltip;
+import org.linkki.core.ui.section.annotations.BindTooltipType;
 import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.ToolTipType;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.core.ui.section.annotations.UIToolTip;
 import org.linkki.core.ui.section.descriptor.UIAnnotationReader.ModelObjectAnnotationException;
 
 public class UIAnnotationReaderTest {
@@ -125,7 +125,7 @@ public class UIAnnotationReaderTest {
             return testObject;
         }
 
-        @UIToolTip(text = "TestToolTip")
+        @BindTooltip(text = "TestToolTip")
         @UITextField(position = 1, modelAttribute = "test")
         public void test() {
             //
@@ -136,7 +136,7 @@ public class UIAnnotationReaderTest {
             //
         }
 
-        @UIToolTip(text = "", toolTipType = ToolTipType.DYNAMIC)
+        @BindTooltip(text = "", tooltipType = BindTooltipType.DYNAMIC)
         @UITableColumn
         @UIDateField(position = 3, modelAttribute = "test3")
         public void test3() {
