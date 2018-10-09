@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.validation.ValidationService;
@@ -32,29 +33,36 @@ import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.BindTooltip;
 import org.linkki.core.ui.section.annotations.BindTooltipType;
 import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 
 public class BinderTest {
 
-    private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
+    @SuppressWarnings("null")
+    private BindingContext bindingContext;
+
+    @Before
+    public void setUp() {
+        BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
+        bindingContext = bindingManager.startNewContext("");
+    }
 
     @Test
     public void testSetupBindings() {
         TestView view = new TestView();
-        view.initFields();
         TestPmo pmo = new TestPmo();
+        view.initFields();
+
+        Binder binder = new Binder(view, pmo);
+        binder.setupBindings(bindingContext);
 
         // Precondition
         assertThat(pmo.getClickCount(), is(0));
 
-        Binder binder = new Binder(view, pmo);
-        BindingContext bindingContext = bindingManager.startNewContext("");
-        binder.setupBindings(bindingContext);
         assertThat(bindingContext.getBindings(), hasSize(4));
 
         // Binding pmo -> view
@@ -89,13 +97,12 @@ public class BinderTest {
     }
 
     @Test
-    public void testEnabledAndRequiredTypeBinding() {
+    public void testEnabledTypeBinding() {
         TestView view = new TestView();
-        view.initFields();
         TestPmo pmo = new TestPmo();
+        view.initFields();
 
         Binder binder = new Binder(view, pmo);
-        BindingContext bindingContext = bindingManager.startNewContext("");
         binder.setupBindings(bindingContext);
 
         assertThat(view.listSelect.isEnabled(), is(false));
@@ -120,60 +127,166 @@ public class BinderTest {
 
     @Test(expected = NullPointerException.class)
     public void testSetupBindings_ThrowsExceptionForNullField() {
-        TestView testView = new TestView();
-        testView.initNumberField();
-        TestPmo pmo = new TestPmo();
+        TestView view = new TestView();
 
-        // Precondition
-        assertThat(testView.textField, is(nullValue()));
+        // precondition as textField is binded with the field
+        assertThat(view.textField, is(nullValue()));
 
-        Binder binder = new Binder(testView, pmo);
-        BindingContext ctx = bindingManager.startNewContext("");
-        binder.setupBindings(ctx);
+        Binder binder = new Binder(view, new TestPmo());
+        binder.setupBindings(bindingContext);
     }
 
     @Test(expected = NullPointerException.class)
     public void testSetupBindings_ThrowsExceptionForMethodReturningNull() {
-        TestView testView = new TestView();
-        testView.initTextField();
-        TestPmo pmo = new TestPmo();
+        TestView view = new TestView();
 
-        // Precondition
-        assertThat(testView.getNumberField(), is(nullValue()));
+        // precondition as numberField is binded with the getter method
+        assertThat(view.getNumberField(), is(nullValue()));
 
-        Binder binder = new Binder(testView, pmo);
-        BindingContext ctx = bindingManager.startNewContext("");
-        binder.setupBindings(ctx);
+        Binder binder = new Binder(view, new TestPmo());
+        binder.setupBindings(bindingContext);
     }
 
     @Test(expected = IllegalStateException.class)
     public void testSetupBindings_ThrowsExceptionForAnnotatedNonComponentField() {
-        TestViewWithIllegalFieldAnnotation view = new TestViewWithIllegalFieldAnnotation();
-        TestPmo pmo = new TestPmo();
+        IllegalFieldAnnotationView view = new IllegalFieldAnnotationView();
 
-        Binder binder = new Binder(view, pmo);
-        binder.setupBindings(bindingManager.startNewContext(""));
+        Binder binder = new Binder(view, new TestPmo());
+        binder.setupBindings(bindingContext);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithParameters() {
-        TestViewWithIllegalMethodParamters view = new TestViewWithIllegalMethodParamters();
-        TestPmo pmo = new TestPmo();
+        IllegalMethodParamtersView view = new IllegalMethodParamtersView();
 
-        Binder binder = new Binder(view, pmo);
-        binder.setupBindings(bindingManager.startNewContext(""));
+        Binder binder = new Binder(view, new TestPmo());
+        binder.setupBindings(bindingContext);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithNonComponentReturnType() {
-        TestViewWithIllegalMethodReturnType view = new TestViewWithIllegalMethodReturnType();
+        IllegalMethodReturnTypeView view = new IllegalMethodReturnTypeView();
+
+        Binder binder = new Binder(view, new TestPmo());
+        binder.setupBindings(bindingContext);
+    }
+
+    @Test
+    public void testSetUpBindings_modelBinding() {
+        ModelBindingView view = new ModelBindingView();
+        TestPmo pmo = new TestPmo();
+        pmo.getTestModelObject().setModelProperty("1");
+        pmo.setModelPropertyEnabled(false);
+
+        Binder binder = new Binder(view, pmo);
+        binder.setupBindings(bindingContext);
+
+        assertThat(view.pmoPropertyIsModelAttribute.getValue(), is("1"));
+        assertThat(view.pmoPropertyIsModelAttribute.isEnabled(), is(false));
+
+        pmo.getTestModelObject().setModelProperty("11");
+        pmo.setModelPropertyEnabled(true);
+        bindingContext.modelChanged();
+        assertThat(view.pmoPropertyIsModelAttribute.getValue(), is("11"));
+        assertThat(view.pmoPropertyIsModelAttribute.isEnabled(), is(true));
+    }
+
+    /**
+     * If both pmo property and model attribute are valid, the pmo property is used.
+     */
+    @Test
+    public void testSetUpBindings_modelBinding_validPmoPropertyAndModelAttribute() {
+        ModelBindingView view = new ModelBindingView();
+        TestPmo pmo = new TestPmo();
+        pmo.getTestModelObject().setModelProperty("not text");
+        pmo.text = "text";
+
+        Binder binder = new Binder(view, pmo);
+        binder.setupBindings(bindingContext);
+
+        assertThat(view.validPmoPropertyAndModelAttribute.getValue(), is("text"));
+
+        pmo.text = "changed text";
+        bindingContext.modelChanged();
+        assertThat(view.validPmoPropertyAndModelAttribute.getValue(), is("changed text"));
+    }
+
+    @Test
+    public void testSetUpBindings_modelBinding_invalidPmoProperty() {
+        ModelBindingView view = new ModelBindingView();
+        TestPmo pmo = new TestPmo();
+        pmo.getTestModelObject().setModelProperty("1");
+
+        Binder binder = new Binder(view, pmo);
+        binder.setupBindings(bindingContext);
+
+        assertThat(view.invalidPmoProperty.getValue(), is("1"));
+
+        pmo.getTestModelObject().setModelProperty("11");
+        bindingContext.modelChanged();
+        assertThat(view.invalidPmoProperty.getValue(), is("11"));
+    }
+
+    /**
+     * If the given model attribute is invalid, but a valid pmo property is provided, then the
+     * binding falls back to the pmo property.
+     */
+    @Test
+    public void testSetUpBindings_modelBinding_invalidModelAttribute() {
+        ModelBindingView view = new ModelBindingView();
         TestPmo pmo = new TestPmo();
 
         Binder binder = new Binder(view, pmo);
-        binder.setupBindings(bindingManager.startNewContext(""));
+        binder.setupBindings(bindingContext);
+
+        assertThat(view.invalidModelAttribute.getValue(), is(pmo.text));
+
+        pmo.text = "changed text";
+        bindingContext.modelChanged();
+        assertThat(view.invalidModelAttribute.getValue(), is("changed text"));
     }
 
-    protected static class TestView {
+    @Test
+    public void testSetUpBindings_modelBinding_alternativeModelAttribute() {
+        ModelBindingView view = new ModelBindingView();
+        TestPmo pmo = new TestPmo();
+        pmo.getTestModelObject2().setModelProperty("2");
+
+        Binder binder = new Binder(view, pmo);
+        binder.setupBindings(bindingContext);
+
+        assertThat(view.alternativeModelObject.getValue(), is("2"));
+
+        pmo.getTestModelObject().setModelProperty("22");
+        bindingContext.modelChanged();
+        assertThat(view.alternativeModelObject.getValue(), is("2"));
+
+        pmo.getTestModelObject2().setModelProperty("22");
+        bindingContext.modelChanged();
+        assertThat(view.alternativeModelObject.getValue(), is("22"));
+    }
+
+    @Test
+    public void testSetUpBindings_modelBinding_pmoPropertyModelAttributeCombined() {
+        ModelBindingView view = new ModelBindingView();
+        TestPmo pmo = new TestPmo();
+        pmo.getTestModelObject().setModelProperty("1");
+        pmo.setRequiredOnlyPropertyRequired(true);
+
+        Binder binder = new Binder(view, pmo);
+        binder.setupBindings(bindingContext);
+
+        assertThat(view.pmoPropertyModelAttributeCombined.getValue(), is("1"));
+        assertThat(view.pmoPropertyModelAttributeCombined.isRequired(), is(true));
+
+        pmo.getTestModelObject().setModelProperty("11");
+        pmo.setRequiredOnlyPropertyRequired(false);
+        bindingContext.modelChanged();
+        assertThat(view.pmoPropertyModelAttributeCombined.getValue(), is("11"));
+        assertThat(view.pmoPropertyModelAttributeCombined.isRequired(), is(false));
+    }
+
+    protected class TestView {
 
         @SuppressWarnings("null")
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT, required = RequiredType.DYNAMIC)
@@ -210,44 +323,81 @@ public class BinderTest {
         }
     }
 
-    protected static class TestViewWithIllegalFieldAnnotation extends VerticalLayout {
+    protected class ModelBindingView {
 
-        private static final long serialVersionUID = 1L;
+        @Bind(pmoProperty = TestModelObject.MODEL_PROPERTY, enabled = EnabledType.DYNAMIC)
+        private final TextField pmoPropertyIsModelAttribute = new TextField();
+
+        @Bind(pmoProperty = TestPmo.PROPERTY_TEXT, modelAttribute = TestModelObject.MODEL_PROPERTY)
+        private final TextField validPmoPropertyAndModelAttribute = new TextField();
+
+        @Bind(pmoProperty = "nonExistingProperty", modelAttribute = TestModelObject.MODEL_PROPERTY)
+        private final TextField invalidPmoProperty = new TextField();
+
+        @Bind(pmoProperty = TestPmo.PROPERTY_TEXT, modelAttribute = "nonExistingProperty")
+        private final TextField invalidModelAttribute = new TextField();
+
+        @Bind(pmoProperty = TestModelObject.MODEL_PROPERTY, modelObject = TestPmo.MODEL_OBJECT2)
+        private final TextField alternativeModelObject = new TextField();
+
+        @Bind(pmoProperty = TestPmo.PROPERTY_REQUIRED_ONLY_PROPERTY, //
+                modelAttribute = TestModelObject.MODEL_PROPERTY, //
+                required = RequiredType.DYNAMIC)
+        private final TextField pmoPropertyModelAttributeCombined = new TextField();
+    }
+
+    protected class IllegalFieldAnnotationView {
 
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT)
         public Object illegalField = new Object();
 
     }
 
-    protected static class TestViewWithIllegalMethodParamters extends VerticalLayout {
-
-        private static final long serialVersionUID = 1L;
+    protected class IllegalMethodParamtersView {
 
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT)
         public TextField illegalParamterMethod(String illegalParamter) {
             return new TextField(illegalParamter);
         }
-
     }
 
-    protected static class TestViewWithIllegalMethodReturnType extends VerticalLayout {
-
-        private static final long serialVersionUID = 1L;
+    protected class IllegalMethodReturnTypeView {
 
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT)
         public Object illegalReturnTypeMethod() {
             return new Object();
         }
-
     }
 
-    public static class TestPmo {
+    public class TestModelObject {
+
+        public static final String MODEL_PROPERTY = "modelProperty";
+
+        private String modelProperty = "1";
+
+        public String getModelProperty() {
+            return modelProperty;
+        }
+
+        public void setModelProperty(String modelProperty) {
+            this.modelProperty = modelProperty;
+        }
+    }
+
+    public class TestPmo {
+
+        public static final String MODEL_OBJECT2 = "modelObject2";
 
         public static final String PROPERTY_TEXT = "text";
         public static final String PROPERTY_SOMEOTHERTEXT = "someothertext";
         public static final String PROPERTY_NUMBER = "number";
+        public static final String PROPERTY_REQUIRED_ONLY_PROPERTY = "requiredOnlyProperty";
+
         public static final String METHOD_ON_CLICK = "onClick";
         public static final String TEST_TOOLTIP = "test";
+
+        private TestModelObject modelObject = new TestModelObject();
+        private TestModelObject modelObject2 = new TestModelObject();
 
         private String text = "";
         private String someothertext = "";
@@ -259,6 +409,19 @@ public class BinderTest {
         private boolean numberEnabled;
         private boolean numberRequired;
         private boolean textFieldRequired;
+
+        private boolean modelPropertyEnabled;
+        private boolean requiredOnlyPropertyRequired;
+
+        @ModelObject
+        public TestModelObject getTestModelObject() {
+            return modelObject;
+        }
+
+        @ModelObject(name = MODEL_OBJECT2)
+        public TestModelObject getTestModelObject2() {
+            return modelObject2;
+        }
 
         public String getText() {
             return text;
@@ -331,6 +494,21 @@ public class BinderTest {
         public void setTooltip(String tooltip) {
             this.tooltip = tooltip;
         }
-    }
 
+        public boolean isRequiredOnlyPropertyRequired() {
+            return requiredOnlyPropertyRequired;
+        }
+
+        public void setRequiredOnlyPropertyRequired(boolean required) {
+            this.requiredOnlyPropertyRequired = required;
+        }
+
+        public boolean isModelPropertyEnabled() {
+            return modelPropertyEnabled;
+        }
+
+        public void setModelPropertyEnabled(boolean enabled) {
+            this.modelPropertyEnabled = enabled;
+        }
+    }
 }

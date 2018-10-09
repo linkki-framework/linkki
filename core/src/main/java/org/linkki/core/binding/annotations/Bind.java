@@ -22,6 +22,7 @@ import org.linkki.core.binding.annotations.aspect.BindAnnotationAspectDefinition
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.VisibleType;
 
@@ -33,8 +34,31 @@ import org.linkki.core.ui.section.annotations.VisibleType;
 @LinkkiAspect(BindAnnotationAspectDefinition.class)
 public @interface Bind {
 
-    /** The name of the PMO's property to which the UI element is bound. */
+    /**
+     * The name of the PMO's property to which the UI element is bound. If the property does not
+     * exist in the PMO, the given value is used as the attribute name of the bounded
+     * {@link #modelObject()}.
+     * <p>
+     * Note that for each aspect, the {@link #pmoProperty()} is evaluated before
+     * {@link #modelAttribute()}. That means if an aspect method can be found with the defined
+     * {@link #pmoProperty()} in the PMO, that method is used. If no method can be found in the PMO,
+     * the {@link #modelAttribute()} is then used to find the method in the {@link #modelObject()}.
+     * If no {@link #modelAttribute()} is defined, {@link #pmoProperty()} is used to find the method
+     * in the {@link #modelObject()}.
+     */
     String pmoProperty();
+
+    /**
+     * The name of the {@link ModelObject} this component is bound to, by default
+     * {@link ModelObject#DEFAULT_NAME}.
+     */
+    String modelObject() default ModelObject.DEFAULT_NAME;
+
+    /**
+     * Name of the {@linkplain #modelObject() model object's} attribute that is bound to this
+     * component. If none is specified, {@link #pmoProperty()} is used.
+     */
+    String modelAttribute() default "";
 
     /** If and how the enabled state of the UI element is bound to the PMO. */
     EnabledType enabled() default EnabledType.ENABLED;

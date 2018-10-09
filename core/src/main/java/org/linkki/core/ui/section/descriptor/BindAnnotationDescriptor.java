@@ -15,13 +15,13 @@ package org.linkki.core.ui.section.descriptor;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.ComponentBinding;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.util.handler.Handler;
 
 public class BindAnnotationDescriptor extends BindingDescriptor {
@@ -35,15 +35,15 @@ public class BindAnnotationDescriptor extends BindingDescriptor {
 
     @Override
     public String getModelPropertyName() {
-        // We currently do not support a model property name in the binding annotation
-        return getPmoPropertyName();
+        if (StringUtils.isEmpty(annotation.modelAttribute())) {
+            return getPmoPropertyName();
+        }
+        return annotation.modelAttribute();
     }
 
     @Override
     public String getModelObjectName() {
-        // We currently do not support multiple model objects for PMOs that are bound to a view
-        // annotated with @Bind
-        return ModelObject.DEFAULT_NAME;
+        return annotation.modelObject();
     }
 
     @Override

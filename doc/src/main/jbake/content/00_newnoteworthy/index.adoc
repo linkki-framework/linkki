@@ -6,8 +6,12 @@
 
 == New & Noteworthy
 
+=== October 10th, 2018
+
+`modelObject` and `modelAttribute` are added to <<manual-binding, @Bind>> as parameters. These attributes can be used together with the annotation `@ModelObject` to bind the annotated PMO property directly to a model attribute. In addition, the quality of error messages is improved.
+
 === October 4th,2018
-The annotation `@UIToolTip` has been deprecated and reintroduced as `@BindTooltip`. 
+The annotation `@UIToolTip` has been deprecated and reintroduced as `@BindTooltip`.
 
 The changes in Detail:
 * `@BindTooltip` uses "tooltip" as a property (previously "toolTip")
