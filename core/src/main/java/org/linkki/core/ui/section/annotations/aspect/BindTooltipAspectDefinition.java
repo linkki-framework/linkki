@@ -19,14 +19,13 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindTooltip;
 import org.linkki.core.ui.section.annotations.BindTooltipType;
 
 public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<String> {
 
-    public static final String NAME = PropertyNamingConvention.BIND_TOOLTIP_PROPERTY_SUFFIX;
+    public static final String NAME = "Tooltip";
 
     @SuppressWarnings("null")
     private BindTooltip annotation;
