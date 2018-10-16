@@ -18,7 +18,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 /**
@@ -76,8 +83,8 @@ public class Sequence<T> implements Iterable<T> {
     }
 
     /**
-     * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is
-     * not affected.
+     * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is not
+     * affected.
      * 
      * @param newElements the new elements that should be concatenated
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
@@ -90,8 +97,8 @@ public class Sequence<T> implements Iterable<T> {
     }
 
     /**
-     * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is
-     * not affected.
+     * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is not
+     * affected.
      * 
      * @param newElements the new elements that should be concatenated
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
@@ -123,6 +130,47 @@ public class Sequence<T> implements Iterable<T> {
      */
     public Stream<T> stream() {
         return list.stream();
+    }
+
+    /**
+     * Creates a {@link Collector} that collects a {@link Stream}'s elements into a {@link Sequence}.
+     */
+    public static <T> Collector<T, ?, Sequence<T>> collect() {
+        return new SequenceCollector<T>();
+    }
+
+    private static final class SequenceCollector<T> implements Collector<T, List<T>, Sequence<T>> {
+
+        SequenceCollector() {
+        }
+
+        @Override
+        public Supplier<List<T>> supplier() {
+            return LinkedList::new;
+        }
+
+        @Override
+        public BiConsumer<List<T>, T> accumulator() {
+            return List::add;
+        }
+
+        @Override
+        public BinaryOperator<List<T>> combiner() {
+            return (l1, l2) -> {
+                l1.addAll(l2);
+                return l1;
+            };
+        }
+
+        @Override
+        public Function<List<T>, Sequence<T>> finisher() {
+            return Sequence::of;
+        }
+
+        @Override
+        public Set<Characteristics> characteristics() {
+            return Collections.emptySet();
+        }
     }
 
 }
