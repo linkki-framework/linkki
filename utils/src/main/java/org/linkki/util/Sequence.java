@@ -26,7 +26,10 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.annotation.CheckReturnValue;
 
 /**
  * This sequence is a wrapper for a list to create immutable lists easily. It could be instantiated
@@ -90,6 +93,7 @@ public class Sequence<T> implements Iterable<T> {
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
      *         elements
      */
+    @CheckReturnValue
     public Sequence<T> with(Collection<T> newElements) {
         ArrayList<T> collection = new ArrayList<>(list);
         collection.addAll(newElements);
@@ -104,9 +108,47 @@ public class Sequence<T> implements Iterable<T> {
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
      *         elements
      */
+    @CheckReturnValue
     @SafeVarargs
     public final Sequence<T> with(T... newElements) {
         return with(Arrays.asList(newElements));
+    }
+
+
+    /**
+     * Returns a new {@link Sequence} concatenated with the elements produced by the given
+     * {@link Supplier Suppliers} if the condition ist {@code true}. This {@link Sequence} is not
+     * affected.
+     * 
+     * @param suppliers the suppliers for new elements that should be concatenated
+     * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
+     *         elements or this {@link Sequence} if the condition is {@code false}
+     */
+    @SafeVarargs
+    @CheckReturnValue
+    public final Sequence<T> withIf(boolean condition, Supplier<T>... suppliers) {
+        if (condition) {
+            return with(Arrays.stream(suppliers).map(Supplier::get).collect(Collectors.toList()));
+        } else {
+            return this;
+        }
+    }
+
+    /**
+     * Returns a new {@link Sequence} concatenated with the element produced by the given
+     * {@link Supplier} if the condition ist {@code true}. This {@link Sequence} is not affected.
+     * 
+     * @param supplier the supplier for a new element that should be concatenated
+     * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
+     *         elements or this {@link Sequence} if the condition is {@code false}
+     */
+    @CheckReturnValue
+    public final Sequence<T> withIf(boolean condition, Supplier<T> supplier) {
+        if (condition) {
+            return with(supplier.get());
+        } else {
+            return this;
+        }
     }
 
     /**
