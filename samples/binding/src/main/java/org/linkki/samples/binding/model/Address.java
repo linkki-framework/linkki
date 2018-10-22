@@ -15,6 +15,11 @@ package org.linkki.samples.binding.model;
 
 public class Address {
 
+    public static final String PROPERTY_STREET = "street";
+    public static final String PROPERTY_ZIP = "zip";
+    public static final String PROPERTY_CITY = "city";
+    public static final String PROPERTY_COUNTRY = "country";
+
     private String street;
     private String zip;
     private String city;

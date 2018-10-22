@@ -15,6 +15,7 @@ package org.linkki.samples.binding.components;
 
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.samples.binding.model.Address;
 import org.linkki.samples.binding.model.Country;
 
 import com.vaadin.ui.ComboBox;
@@ -23,16 +24,16 @@ import com.vaadin.ui.TextField;
 // tag::addressFields-class[]
 public class AddressFields {
 
-    @Bind(pmoProperty = "street")
+    @Bind(pmoProperty = "street", modelAttribute = Address.PROPERTY_STREET)
     private final TextField streetTxt;
 
-    @Bind(pmoProperty = "zip")
+    @Bind(pmoProperty = "zip", modelAttribute = Address.PROPERTY_ZIP)
     private final TextField zipTxt;
 
-    @Bind(pmoProperty = "city")
+    @Bind(pmoProperty = "city", modelAttribute = Address.PROPERTY_CITY)
     private final TextField cityTxt;
 
-    @Bind(pmoProperty = "country", availableValues = AvailableValuesType.DYNAMIC)
+    @Bind(pmoProperty = "country", availableValues = AvailableValuesType.DYNAMIC, modelAttribute = Address.PROPERTY_COUNTRY)
     private final ComboBox countryCb;
 
     // end::addressFields-class[]

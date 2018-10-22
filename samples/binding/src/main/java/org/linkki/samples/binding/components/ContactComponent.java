@@ -86,8 +86,7 @@ public class ContactComponent extends Panel {
     }
 
     private void save() {
-
-        Address address = addressPmo.getAddress();
+        Address address = addressPmo.getAddressInEdit();
         Contact contact = contactPmo.getContact();
         contact.setAddress(address);
 

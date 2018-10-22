@@ -15,53 +15,22 @@ package org.linkki.samples.binding.pmo;
 
 import java.util.List;
 
+import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.samples.binding.model.Address;
 import org.linkki.samples.binding.model.Country;
 import org.linkki.samples.binding.service.CountryService;
 
 public class AddressPmo {
 
-    private Address address;
-
-    private String street;
-    private String zip;
-    private String city;
-    private Country country;
+    private Address addressInEdit;
 
     public AddressPmo(Address address) {
         reset(address);
     }
 
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
+    @ModelObject
+    public Address getAddressInEdit() {
+        return addressInEdit;
     }
 
     public List<Country> getCountryAvailableValues() {
@@ -69,35 +38,15 @@ public class AddressPmo {
     }
 
     public void reset(Address newAddress) {
-        this.address = newAddress;
-
         if (newAddress != null) {
-            this.street = newAddress.getStreet();
-            this.zip = newAddress.getZip();
-            this.city = newAddress.getCity();
-            this.country = newAddress.getCountry();
+            this.addressInEdit = new Address(newAddress.getStreet(), newAddress.getZip(), newAddress.getCity(),
+                    newAddress.getCountry());
         } else {
-            this.street = null;
-            this.zip = null;
-            this.city = null;
-            this.country = null;
+            this.addressInEdit = new Address(null, null, null, null);
         }
     }
 
     public boolean isInputValid() {
         return true;
-    }
-
-    public Address getAddress() {
-        if (address == null) {
-            address = new Address(street, zip, city, country);
-        } else {
-            address.setStreet(street);
-            address.setZip(zip);
-            address.setCountry(country);
-            address.setCity(city);
-        }
-
-        return address;
     }
 }
