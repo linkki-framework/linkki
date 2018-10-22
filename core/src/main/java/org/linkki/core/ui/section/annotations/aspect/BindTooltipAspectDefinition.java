@@ -38,7 +38,7 @@ public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<Strin
     @Override
     public Aspect<String> createAspect() {
         if (annotation.tooltipType() == BindTooltipType.STATIC) {
-            return Aspect.of(NAME, annotation.text());
+            return Aspect.of(NAME, annotation.value());
         } else {
             return Aspect.of(NAME);
         }

@@ -89,7 +89,7 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
         }
 
         @Override
-        @BindTooltip(text = TEST_TOOLTIP)
+        @BindTooltip(TEST_TOOLTIP)
         @UITextField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding

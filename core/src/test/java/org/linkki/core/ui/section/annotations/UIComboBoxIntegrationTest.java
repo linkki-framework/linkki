@@ -151,7 +151,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         }
 
         @Override
-        @BindTooltip(text = TEST_TOOLTIP)
+        @BindTooltip(TEST_TOOLTIP)
         @UIComboBox(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
         public void staticValue() {
             // model binding

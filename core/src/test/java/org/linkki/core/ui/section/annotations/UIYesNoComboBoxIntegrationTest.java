@@ -111,7 +111,7 @@ public class UIYesNoComboBoxIntegrationTest extends FieldAnnotationIntegrationTe
         }
 
         @Override
-        @BindTooltip(text = TEST_TOOLTIP)
+        @BindTooltip(TEST_TOOLTIP)
         @UIYesNoComboBox(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding

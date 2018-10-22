@@ -142,7 +142,7 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         }
 
         @Override
-        @BindTooltip(text = TEST_TOOLTIP)
+        @BindTooltip(TEST_TOOLTIP)
         @UIIntegerField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding

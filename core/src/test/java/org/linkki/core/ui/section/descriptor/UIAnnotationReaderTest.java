@@ -125,7 +125,7 @@ public class UIAnnotationReaderTest {
             return testObject;
         }
 
-        @BindTooltip(text = "TestToolTip")
+        @BindTooltip("TestToolTip")
         @UITextField(position = 1, modelAttribute = "test")
         public void test() {
             //
@@ -136,7 +136,7 @@ public class UIAnnotationReaderTest {
             //
         }
 
-        @BindTooltip(text = "", tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
         @UITableColumn
         @UIDateField(position = 3, modelAttribute = "test3")
         public void test3() {

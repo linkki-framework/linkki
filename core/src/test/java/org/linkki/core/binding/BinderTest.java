@@ -290,7 +290,7 @@ public class BinderTest {
 
         @SuppressWarnings("null")
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT, required = RequiredType.DYNAMIC)
-        @BindTooltip(text = TestPmo.TEST_TOOLTIP)
+        @BindTooltip(TestPmo.TEST_TOOLTIP)
         private TextField textField;
 
         @Bind(pmoProperty = TestPmo.METHOD_ON_CLICK)

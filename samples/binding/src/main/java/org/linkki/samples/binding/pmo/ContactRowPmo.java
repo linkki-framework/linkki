@@ -81,7 +81,7 @@ public class ContactRowPmo {
 
     // tag::contactRowPmo-buttonBinding[]
     @UITableColumn(expandRatio = 0.1F)
-    @BindTooltip(text = "Edit")
+    @BindTooltip("Edit")
     @UIButton(position = 30, icon = FontAwesome.EDIT, showIcon = true)
     public void edit() {
         editAction.accept(contact);
@@ -89,7 +89,7 @@ public class ContactRowPmo {
     // end::contactRowPmo-buttonBinding[]
 
     @UITableColumn(expandRatio = 0.1F)
-    @BindTooltip(text = "Delete")
+    @BindTooltip("Delete")
     @UIButton(position = 40, icon = FontAwesome.TRASH, showIcon = true)
     public void delete() {
         deleteAction.accept(contact);

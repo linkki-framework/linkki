@@ -93,7 +93,7 @@ public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest
         }
 
         @Override
-        @BindTooltip(text = TEST_TOOLTIP)
+        @BindTooltip(TEST_TOOLTIP)
         @UICustomField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, uiControl = LinkkiComboBox.class)
         public void staticValue() {
             // model binding

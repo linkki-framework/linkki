@@ -32,7 +32,7 @@ import org.linkki.core.ui.section.annotations.aspect.BindTooltipAspectDefinition
 public @interface BindTooltip {
 
     /** The displayed text for {@link BindTooltipType#STATIC} */
-    String text() default StringUtils.EMPTY;
+    String value() default StringUtils.EMPTY;
 
     /** Defines how the tooltip text should be retrieved */
     BindTooltipType tooltipType() default BindTooltipType.STATIC;
