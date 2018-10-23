@@ -13,4 +13,4 @@ toList
  <T:Ljava/lang/Object;>()L1java/util/stream/Collector<TT;*Ljava/util/List<TT;>;>;
 toSet
  <T:Ljava/lang/Object;>()Ljava/util/stream/Collector<TT;*Ljava/util/Set<TT;>;>;
- <T:Ljava/lang/Object;>()L1java/util/stream/Collector<TT;*Ljava/util/Set<TT;>;>;
+ <T:Ljava/lang/Object;>()L1java/util/stream/Collector<TT;*L1java/util/Set<TT;>;>;

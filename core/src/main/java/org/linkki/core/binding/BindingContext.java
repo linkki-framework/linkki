@@ -18,20 +18,25 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.descriptor.BindingDescriptor;
+import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Label;
 
 /**
@@ -55,8 +60,8 @@ public class BindingContext implements UiUpdateObserver {
 
 
     /**
-     * Creates a new binding context with an empty name that defines no property behavior and uses
-     * no after update handler.
+     * Creates a new binding context with an empty name that defines no property behavior and uses no
+     * after update handler.
      * 
      */
     public BindingContext() {
@@ -64,8 +69,8 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a new binding context with the given name that defines no property behavior and uses
-     * no after update handler.
+     * Creates a new binding context with the given name that defines no property behavior and uses no
+     * after update handler.
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
@@ -75,18 +80,18 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a new binding context with the given name, using the behavior provider to decorate
-     * its bindings and notifying a handler after every UI update.
+     * Creates a new binding context with the given name, using the behavior provider to decorate its
+     * bindings and notifying a handler after every UI update.
      * <p>
-     * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event
-     * outside of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()}
-     * is used by {@link BindingManager} to trigger the validation service and to notify all
+     * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event outside
+     * of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()} is used by
+     * {@link BindingManager} to trigger the validation service and to notify all
      * {@link UiUpdateObserver}s in the manager to show the validation result.
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
-     * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are relevant to
-     *            this context
+     * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are relevant to this
+     *            context
      * @param afterUpdateHandler a handler that is applied after the UI update. Usually
      *            {@link BindingManager#afterUpdateUi()}
      */
@@ -123,14 +128,43 @@ public class BindingContext implements UiUpdateObserver {
 
     /**
      * Removes all bindings in this context that refer to the given component. If the component is a
-     * container component, all bindings for the components children and their children are removed,
-     * too.
+     * container component, all bindings for the components children and their children are removed as
+     * well.
      */
     public void removeBindingsForComponent(Component c) {
-        bindings.remove(c);
-        if (c instanceof ComponentContainer) {
-            ComponentContainer container = (ComponentContainer)c;
-            container.iterator().forEachRemaining(this::removeBindingsForComponent);
+        Binding removedBinding = bindings.remove(c);
+        if (c instanceof HasComponents) {
+            ((HasComponents)c).iterator().forEachRemaining(this::removeBindingsForComponent);
+        }
+
+        if (removedBinding instanceof BindingContext) {
+            ((BindingContext)removedBinding).bindings.clear();
+        }
+    }
+
+    /**
+     * Removes all bindings in this context that refer to the given presentation model object. If the
+     * presentation model is bound to a component and that component is a container component, all
+     * bindings for the components children and their children are removed as well.
+     * <p>
+     * If the PMO includes other PMOs (like {@link PresentationModelObject#getEditButtonPmo()} or
+     * {@link ContainerPmo}), all bindings for those PMOs are removed as well.
+     */
+    public void removeBindingsForPmo(Object pmo) {
+        Set<Object> keysToRemove = bindings.entrySet().stream().filter(e -> e.getValue().getPmo() == pmo)
+                .map(Entry::getKey).collect(Collectors.toSet());
+        keysToRemove.forEach(key -> {
+            if (key instanceof Component) {
+                removeBindingsForComponent((Component)key);
+            } else {
+                bindings.remove(key);
+            }
+        });
+        if (pmo instanceof PresentationModelObject) {
+            ((PresentationModelObject)pmo).getEditButtonPmo().ifPresent(this::removeBindingsForPmo);
+        }
+        if (pmo instanceof ContainerPmo) {
+            ((ContainerPmo<?>)pmo).getAddItemButtonPmo().ifPresent(this::removeBindingsForPmo);
         }
     }
 
@@ -158,8 +192,8 @@ public class BindingContext implements UiUpdateObserver {
      * <p>
      * This method should be called when the UI should be updated after a model change to update all
      * {@link Binding Bindings} of this {@link BindingContext} and notify the
-     * after-update-handler(provided in the constructor) that the model has changed. This may
-     * trigger other {@link UiUpdateObserver observers}.
+     * after-update-handler(provided in the constructor) that the model has changed. This may trigger
+     * other {@link UiUpdateObserver observers}.
      * 
      * @see #uiUpdated()
      */
@@ -168,12 +202,11 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Triggers the update of all registered bindings. This method is called by
-     * {@link BindingManager} if this {@link BindingContext} is registered as
-     * {@link UiUpdateObserver}.
+     * Triggers the update of all registered bindings. This method is called by {@link BindingManager}
+     * if this {@link BindingContext} is registered as {@link UiUpdateObserver}.
      * <p>
-     * Call this method if it is necessary to update the UI after any changes that only affect
-     * bindings in this context. This will not trigger other {@link UiUpdateObserver}.
+     * Call this method if it is necessary to update the UI after any changes that only affect bindings
+     * in this context. This will not trigger other {@link UiUpdateObserver}.
      * 
      * @see #modelChanged()
      */
@@ -228,8 +261,8 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a binding between the presentation model object and UI elements (i.e.
-     * {@linkplain Label} and {@linkplain Component}) as described by the given descriptor.
+     * Creates a binding between the presentation model object and UI elements (i.e. {@linkplain Label}
+     * and {@linkplain Component}) as described by the given descriptor.
      * <p>
      * If the label is {@code null} it is ignored for the binding
      * 

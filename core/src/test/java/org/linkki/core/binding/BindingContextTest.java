@@ -15,6 +15,7 @@ package org.linkki.core.binding;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -26,17 +27,23 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.linkki.core.ButtonPmo;
+import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.ButtonPmoBindingTest.TestButtonPmo;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.LabelComponentWrapper;
+import org.linkki.core.ui.section.BaseSection;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -44,6 +51,9 @@ import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.section.descriptor.ElementDescriptor;
+import org.linkki.core.ui.table.PmoBasedTableFactory;
+import org.linkki.core.ui.table.TestRowPmo;
+import org.linkki.core.ui.table.TestTablePmo;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
@@ -52,7 +62,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -81,6 +93,11 @@ public class BindingContextTest {
         pmo.setModelObject(modelObject);
     }
 
+    @After
+    public void cleanUpUi() {
+        UI.setCurrent(null);
+    }
+
     private Handler setUpPmoWithAfterUpdateUiHandler() {
         Handler afterUpdateUi = mock(Handler.class);
         context = TestBindingContext.create(afterUpdateUi);
@@ -88,14 +105,14 @@ public class BindingContextTest {
         return afterUpdateUi;
     }
 
-    private void setUpBinding2() {
-        binding2 = new ComponentBinding(new LabelComponentWrapper(label2, field2),
+    private void setUpBinding1() {
+        binding1 = new ComponentBinding(new LabelComponentWrapper(label1, field1),
                 new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
                 context::modelChanged, new ArrayList<>());
     }
 
-    private void setUpBinding1() {
-        binding1 = new ComponentBinding(new LabelComponentWrapper(label1, field1),
+    private void setUpBinding2() {
+        binding2 = new ComponentBinding(new LabelComponentWrapper(label2, field2),
                 new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
                 context::modelChanged, new ArrayList<>());
     }
@@ -199,6 +216,88 @@ public class BindingContextTest {
     }
 
     @Test
+    public void testRemoveBindingsForComponent_Container() {
+        context = TestBindingContext.create();
+        TestTablePmo tablePmo = new TestTablePmo();
+        tablePmo.addItem();
+        Table table = new PmoBasedTableFactory<>(tablePmo, context).createTable();
+        UI ui = MockUi.mockUi();
+        table.setParent(ui);
+        table.attach();
+
+        assertThat(context.getBindings(), hasSize(1));
+        Binding binding = context.getBindings().iterator().next();
+        assertThat(binding, is(instanceOf(TableBinding.class)));
+        @SuppressWarnings("unchecked")
+        TableBinding<TestRowPmo> tableBinding = (TableBinding<TestRowPmo>)binding;
+        assertThat(tableBinding.getBindings(), hasSize(3));
+
+        context.removeBindingsForComponent(table);
+        assertThat(context.getBindings(), is(empty()));
+        assertThat(tableBinding.getBindings(), is(empty()));
+    }
+
+    @Test
+    public void testRemoveBindingsForComponent_Button() {
+        context = TestBindingContext.create();
+        TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
+        BaseSection section = new PmoBasedSectionFactory().createBaseSection(testPmoWithButton, context);
+
+        assertThat(context.getBindings(), hasSize(1));
+
+        context.removeBindingsForComponent(section);
+        assertThat(context.getBindings(), is(empty()));
+    }
+
+    @Test
+    public void testRemoveBindingsForPmo() {
+        setUpPmo();
+        setUpBinding1();
+        setUpBinding2();
+        context.add(binding1);
+        context.add(binding2);
+
+        assertThat(context.getBindings(), hasSize(2));
+
+        context.removeBindingsForPmo(pmo);
+        assertThat(context.getBindings(), is(empty()));
+    }
+
+    @Test
+    public void testRemoveBindingsForPmo_Container() {
+        context = TestBindingContext.create();
+        TestTablePmo tablePmo = new TestTablePmo();
+        tablePmo.addItem();
+        Table table = new PmoBasedTableFactory<>(tablePmo, context).createTable();
+        UI ui = MockUi.mockUi();
+        table.setParent(ui);
+        table.attach();
+
+        assertThat(context.getBindings(), hasSize(1));
+        Binding binding = context.getBindings().iterator().next();
+        assertThat(binding, is(instanceOf(TableBinding.class)));
+        @SuppressWarnings("unchecked")
+        TableBinding<TestRowPmo> tableBinding = (TableBinding<TestRowPmo>)binding;
+        assertThat(tableBinding.getBindings(), hasSize(3));
+
+        context.removeBindingsForPmo(tablePmo);
+        assertThat(context.getBindings(), is(empty()));
+        assertThat(tableBinding.getBindings(), is(empty()));
+    }
+
+    @Test
+    public void testRemoveBindingsForPmo_Button() {
+        context = TestBindingContext.create();
+        TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
+        new PmoBasedSectionFactory().createBaseSection(testPmoWithButton, context);
+
+        assertThat(context.getBindings(), hasSize(1));
+
+        context.removeBindingsForPmo(testPmoWithButton);
+        assertThat(context.getBindings(), is(empty()));
+    }
+
+    @Test
     public void testBind_BoundComponentsAreMadeImmediate() {
         setUpPmo();
         TextField field = new TextField();
@@ -246,5 +345,17 @@ public class BindingContextTest {
             this.modelProp = modelProp;
         }
 
+    }
+
+    public static class TestPmoWithButton implements PresentationModelObject {
+
+        private final ButtonPmo buttonPmo = () -> {
+            /* nothing to do */
+        };
+
+        @Override
+        public Optional<ButtonPmo> getEditButtonPmo() {
+            return Optional.of(buttonPmo);
+        }
     }
 }
