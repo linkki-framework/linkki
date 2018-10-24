@@ -25,7 +25,7 @@ import org.linkki.core.ui.section.annotations.BindTooltipType;
 
 public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<String> {
 
-    public static final String NAME = "Tooltip";
+    public static final String NAME = "tooltip";
 
     @SuppressWarnings("null")
     private BindTooltip annotation;
