@@ -13,7 +13,7 @@ import org.linkki.util.handler.Handler;
 //tag::BindTooltipAspectDefinition[]
 public class BindTooltipAspectDefinition implements LinkkiAspectDefinition {
 
-    public static final String NAME = "toolTip";
+    public static final String NAME = "Tooltip";
 
     private BindTooltip annotation;
 
@@ -31,7 +31,7 @@ public class BindTooltipAspectDefinition implements LinkkiAspectDefinition {
 
     public Aspect<String> createAspect() {
         if (annotation.tooltipType() == BindTooltipType.STATIC) {
-            return Aspect.of(NAME, annotation.text());
+            return Aspect.of(NAME, annotation.value());
         } else {
             return Aspect.of(NAME);
         }

@@ -16,12 +16,14 @@ TIP: This aspect is already included in linkki. It is only used as an example du
 We first create a new annotation that later links the annotated component to an aspect definition:
 
 ```java
-include::{source-dir}/org/linkki/doc/UIToolTip.java[tags=UIToolTip]
+include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltip]
 ```
 
 * The annotation must have the retention policy `RetentionPolicy#RUNTIME` to be able to be discovered by linkki at runtime.
 * The attribute `toolTipType` determines whether the tooltip is static text or is provided by a method dynamically.
-* If the `toolTipType` is `ToolTipType#STATIC`, the attribute `text` allows the user to define the content of the tooltip.
+* If the `toolTipType` is `ToolTipType#STATIC`, the attribute `value` allows the user to define the content of the tooltip.
+
+TIP: Using the name `value` for an annotation's attribute allows users to omit the attribute name if it is the only attribute: `@BindTooltip("My tooltip")` instead of `@BindTooltip(value="My tooltip")`
 
 ==== AspectDefinition
 
@@ -31,24 +33,24 @@ An aspect definition defines how an aspect is created. To define your own defini
 * `initModelUpdate(PropertyDispatcher, ComponentWrapper, Handler)`: Method that registers a listener to the wrapped UI component which react to changes in the UI. This method is only mandatory if the defined aspect needs to write into the model.
 * `createUiUpdater(PropertyDispatcher, ComponentWrapper)`: Creates a `Handler` that is triggered when the UI has to be updated.
 
-An tooltip aspect definition that uses the newly defined annotation `@BindToolTip` would look as follows:
+An aspect definition that uses the newly defined annotation `@BindToolTip` would look as follows:
 
 ```java
 include::{source-dir}/org/linkki/doc/BindTooltipAspectDefinition.java[tags=BindTooltipAspectDefinition]
 ```
 
-* `initModelUpdate` is not needed in this example because tooltip won't change in the model upon UI change. 
-* In the method `createUiUpdater`,  the `propertyDispatcher` is asked for the tooltip value which is then set in the component using `ComponentWrapper#setTooltip`. The `propertyDispatcher`needs an aspect to know which value it should retrieved, and how. This aspect is created in the method `createAspect()`.
+* `initModelUpdate` is not needed in this example because the tooltip won't change in the model upon UI change. 
+* In the method `createUiUpdater`,  the `propertyDispatcher` is asked for the tooltip value which is then set in the component using `ComponentWrapper#setTooltip`. The `propertyDispatcher` needs an aspect to know which value it should retrieve, and how. This aspect is created in the method `createAspect()`.
 * `createAspect()` creates the aspect depending on the values given in the annotation. 
-* The `UIToolTip`-annotation is stored by the `initialize(Annotation)` method to be used in `createAspect()`.
+* The `BindToolTip`-annotation is stored by the `initialize(Annotation)` method to be used in `createAspect()`.
 
 ==== @LinkkiAspect Annotation
 
 Lastly, `BindTooltip` has to be annotated with `@LinkkiAspect(BindTooltipAspectDefinition.class)` to bring the `BindTooltip` annotation and `BindTooltipAspectDefinition` together.
 
 ```java
-include::{source-dir}/org/linkki/doc/UIToolTip.java[tags=UIToolTipLinkkiAspect]
+include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspect]
 ```
 
 ==== Summary
-Congratulations! You have implemented a new tooltip aspect that can be used with any other linkki UI annotation. With this aspect, you can add a static or dynamic tooltip to UI element that is bound by linkki.
+Congratulations! You have implemented a new tooltip aspect that can be used with any other linkki UI annotation. With this aspect, you can add a static or dynamic tooltip to a UI element that is bound by linkki.

@@ -34,7 +34,7 @@ public @interface BindTooltip {
     
     BindTooltipType tooltipType() default BindTooltipType.STATIC;
 
-    String text() default StringUtils.EMPTY;
+    String value() default StringUtils.EMPTY;
 
 }
 // end::BindTooltip[]
