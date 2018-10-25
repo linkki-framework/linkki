@@ -21,7 +21,7 @@ public enum BindTooltipType {
     STATIC,
 
     /**
-     * Tooltip is bound to the property using the method get&lt;PropertyName&gt;ToolTip().
+     * Tooltip is bound to the property using the method get&lt;PropertyName&gt;Tooltip().
      */
     DYNAMIC;
 }

@@ -125,7 +125,7 @@ public class UIAnnotationReaderTest {
             return testObject;
         }
 
-        @BindTooltip("TestToolTip")
+        @BindTooltip("TestTooltip")
         @UITextField(position = 1, modelAttribute = "test")
         public void test() {
             //

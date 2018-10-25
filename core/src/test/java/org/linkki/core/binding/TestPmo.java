@@ -53,7 +53,7 @@ public class TestPmo {
         return visible;
     }
 
-    public String getValueToolTip() {
+    public String getValueTooltip() {
         return "abc";
     }
 
@@ -94,7 +94,7 @@ public class TestPmo {
         return enumValue;
     }
 
-    public String getEnumValueToolTip() {
+    public String getEnumValueTooltip() {
         return "xyz";
     }
 

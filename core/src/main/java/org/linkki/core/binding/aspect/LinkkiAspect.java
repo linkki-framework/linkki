@@ -39,7 +39,7 @@ import org.linkki.core.ui.section.SectionCreationContext;
  * 
  *     String text() default StringUtils.EMPTY;
  * 
- *     ToolTipType toolTipType() default TooltipType.STATIC;
+ *     BindTooltipType tooltipType() default BindTooltipType.STATIC;
  * }
  * </pre>
  * 

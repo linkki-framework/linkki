@@ -217,45 +217,45 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test(expected = IllegalStateException.class)
-        public void testPull_static() {
-            ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo,
-                    TestModelObject.PROPERTY_ABC,
-                    new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
-            dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
-        }
+    public void testPull_static() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo,
+                TestModelObject.PROPERTY_ABC,
+                new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
+        dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
+    }
 
     @Test
-        public void testPull_dynamic() {
-            ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo, TestPMO.PROPERTY_XYZ,
-                    new ExceptionPropertyDispatcher(TestPMO.PROPERTY_XYZ));
-            testModelObject.setAbc("nicht bla");
-            assertThat(dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(false));
-    
-            testModelObject.setAbc("bla");
-            assertThat(dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(true));
-        }
+    public void testPull_dynamic() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo, TestPMO.PROPERTY_XYZ,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_XYZ));
+        testModelObject.setAbc("nicht bla");
+        assertThat(dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(false));
+
+        testModelObject.setAbc("bla");
+        assertThat(dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(true));
+    }
 
     @Test
-        public void testPush_static() {
-            TestModelObject spyObject = spy(new TestModelObject());
-            ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyObject,
-                    TestModelObject.PROPERTY_ABC,
-                    new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
-    
-            dispatcher.push(Aspect.of("", "something"));
-            verify(spyObject).setAbc(Mockito.eq("something"));
-        }
+    public void testPush_static() {
+        TestModelObject spyObject = spy(new TestModelObject());
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyObject,
+                TestModelObject.PROPERTY_ABC,
+                new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
+
+        dispatcher.push(Aspect.of("", "something"));
+        verify(spyObject).setAbc(Mockito.eq("something"));
+    }
 
     @Test
-        public void testPush_dynamic() {
-            TestPMO spyPmo = spy(testPmo);
-            ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyPmo,
-                    TestPMO.PROPERTY_BUTTON_CLICK,
-                    new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
-    
-            dispatcher.push(Aspect.of(""));
-            verify(spyPmo).buttonClick();
-        }
+    public void testPush_dynamic() {
+        TestPMO spyPmo = spy(testPmo);
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyPmo,
+                TestPMO.PROPERTY_BUTTON_CLICK,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
+
+        dispatcher.push(Aspect.of(""));
+        verify(spyPmo).buttonClick();
+    }
 
     private ReflectionPropertyDispatcher setupPmoDispatcher(String property) {
         ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(property, testModelObject,
@@ -385,10 +385,6 @@ public class ReflectionPropertyDispatcherTest {
 
         public boolean isAbcVisible() {
             return true;
-        }
-
-        public String getAbcToolTip() {
-            return "Hodor";
         }
 
         public String getAbcCaption() {
