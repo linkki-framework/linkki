@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 
 import org.junit.Test;
 import org.linkki.core.ui.components.DoubleField;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UIDoubleFieldIntegrationTest.DoubleFieldTestPmo;
 import org.linkki.core.ui.util.UiUtil;
 
@@ -134,7 +135,7 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         }
 
         @Override
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UIDoubleField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, format = FANCY_FORMAT, maxLength = MAX_LENGTH)
         public void value() {
             // model binding

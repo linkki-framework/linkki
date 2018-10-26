@@ -21,6 +21,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.junit.Test;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UITextFieldIntegrationTest.TextFieldTestPmo;
 
 import com.vaadin.ui.TextField;
@@ -82,7 +83,7 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
         }
 
         @Override
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UITextField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, columns = COLUMNS, maxLength = MAX_LENGTH)
         public void value() {
             // model binding

@@ -18,7 +18,7 @@ import org.linkki.core.PresentationModelObject;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.BindTooltip;
-import org.linkki.core.ui.section.annotations.BindTooltipType;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.ToolTipType;
@@ -46,7 +46,7 @@ public class ContactSectionPmo implements PresentationModelObject {
         return contact;
     }
 
-    @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+    @BindTooltip(tooltipType = TooltipType.DYNAMIC)
     @UITextField(position = 10, label = "Firstname", required = RequiredType.REQUIRED, modelAttribute = "firstname")
     public void firstname() {
         /* model binding only */ }

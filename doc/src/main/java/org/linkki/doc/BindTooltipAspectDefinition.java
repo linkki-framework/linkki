@@ -7,7 +7,7 @@ import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.section.annotations.BindTooltipType;
+import org.linkki.doc.BindTooltip.TooltipType;
 import org.linkki.util.handler.Handler;
 
 //tag::BindTooltipAspectDefinition[]
@@ -18,8 +18,8 @@ public class BindTooltipAspectDefinition implements LinkkiAspectDefinition {
     private BindTooltip annotation;
 
     @Override
-    public void initialize(Annotation toolTipAnnotation) {
-        this.annotation = (BindTooltip)toolTipAnnotation;
+    public void initialize(Annotation tooltipAnnotation) {
+        this.annotation = (BindTooltip)tooltipAnnotation;
     }
 
     @Override
@@ -30,12 +30,11 @@ public class BindTooltipAspectDefinition implements LinkkiAspectDefinition {
     }
 
     public Aspect<String> createAspect() {
-        if (annotation.tooltipType() == BindTooltipType.STATIC) {
+        if (annotation.tooltipType() == TooltipType.STATIC) {
             return Aspect.of(NAME, annotation.value());
         } else {
             return Aspect.of(NAME);
         }
     }
-
 }
 // end::BindTooltipAspectDefinition[]

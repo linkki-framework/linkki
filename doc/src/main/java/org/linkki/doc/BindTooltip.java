@@ -20,7 +20,6 @@ import java.lang.annotation.Target;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.aspect.LinkkiAspect;
-import org.linkki.core.ui.section.annotations.BindTooltipType;
 
 // tag::BindTooltip[]
 @Retention(RetentionPolicy.RUNTIME)
@@ -32,9 +31,19 @@ import org.linkki.core.ui.section.annotations.BindTooltipType;
 // tag::BindTooltip[]
 public @interface BindTooltip {
     
-    BindTooltipType tooltipType() default BindTooltipType.STATIC;
+    TooltipType tooltipType() default TooltipType.STATIC;
 
     String value() default StringUtils.EMPTY;
 
+
+    public enum TooltipType {
+
+        STATIC,
+
+        /**
+         * Tooltip is bound to the property using the method get&lt;PropertyName&gt;Tooltip().
+         */
+        DYNAMIC;
+    }
 }
 // end::BindTooltip[]

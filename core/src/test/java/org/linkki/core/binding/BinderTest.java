@@ -31,7 +31,7 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.components.IntegerField;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.BindTooltip;
-import org.linkki.core.ui.section.annotations.BindTooltipType;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -294,7 +294,7 @@ public class BinderTest {
         private TextField textField;
 
         @Bind(pmoProperty = TestPmo.METHOD_ON_CLICK)
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         private Button button = new Button();
 
         @Bind(pmoProperty = TestPmo.PROPERTY_SOMEOTHERTEXT, availableValues = AvailableValuesType.DYNAMIC, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED)
@@ -317,7 +317,7 @@ public class BinderTest {
         }
 
         @Bind(pmoProperty = TestPmo.PROPERTY_NUMBER, enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED_IF_ENABLED)
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         public IntegerField getNumberField() {
             return numberField;
         }

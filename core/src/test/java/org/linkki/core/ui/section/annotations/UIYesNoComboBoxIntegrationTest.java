@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.components.LinkkiComboBox;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UIYesNoComboBoxIntegrationTest.ComboBoxTestPmo;
 
 import com.vaadin.ui.ComboBox;
@@ -104,7 +105,7 @@ public class UIYesNoComboBoxIntegrationTest extends FieldAnnotationIntegrationTe
         }
 
         @Override
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UIYesNoComboBox(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
         public void value() {
             // model binding

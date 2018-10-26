@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.linkki.core.ui.converters.JodaLocalDateToDateConverter;
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.core.ui.converters.LocalDateToDateConverter;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UIDateFieldIntegrationTest.DateFieldTestPmo;
 import org.linkki.util.Sequence;
 
@@ -199,7 +200,7 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
         }
 
         @Override
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UIDateField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, dateFormat = FANCY_FORMAT)
         public void value() {
             // model binding

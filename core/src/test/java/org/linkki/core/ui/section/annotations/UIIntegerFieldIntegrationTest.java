@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 
 import org.junit.Test;
 import org.linkki.core.ui.components.IntegerField;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UIIntegerFieldIntegrationTest.IntegerFieldTestPmo;
 import org.linkki.core.ui.util.UiUtil;
 
@@ -135,7 +136,7 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         }
 
         @Override
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UIIntegerField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, format = FANCY_FORMAT, maxLength = MAX_LENGTH)
         public void value() {
             // model binding

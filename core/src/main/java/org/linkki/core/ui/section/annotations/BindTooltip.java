@@ -31,9 +31,22 @@ import org.linkki.core.ui.section.annotations.aspect.BindTooltipAspectDefinition
 @LinkkiAspect(BindTooltipAspectDefinition.class)
 public @interface BindTooltip {
 
-    /** The displayed text for {@link BindTooltipType#STATIC} */
-    String value() default StringUtils.EMPTY;
+    /** The displayed text for {@link TooltipType#STATIC} */
+    String value()
+
+    default StringUtils.EMPTY;
 
     /** Defines how the tooltip text should be retrieved */
-    BindTooltipType tooltipType() default BindTooltipType.STATIC;
+    TooltipType tooltipType() default TooltipType.STATIC;
+
+
+    public enum TooltipType {
+
+        STATIC,
+
+        /**
+         * Tooltip is bound to the property using the method get&lt;PropertyName&gt;Tooltip().
+         */
+        DYNAMIC;
+    }
 }

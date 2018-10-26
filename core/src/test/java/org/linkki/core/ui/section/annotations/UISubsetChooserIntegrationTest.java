@@ -29,6 +29,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.components.SubsetChooser;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UISubsetChooserIntegrationTest.SubsetChooserBoxTestPmo;
 
 public class UISubsetChooserIntegrationTest
@@ -103,7 +104,7 @@ public class UISubsetChooserIntegrationTest
         }
 
         @Override
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UISubsetChooser(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, leftColumnCaption = "leftC", rightColumnCaption = "rightC")
         public void value() {
             // model binding

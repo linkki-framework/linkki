@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.components.LinkkiComboBox;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UIComboBoxIntegrationTest.ComboBoxTestPmo;
 
 import com.vaadin.ui.ComboBox;
@@ -136,7 +137,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         }
 
         @Override
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UIComboBox(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
         public void value() {
             // model binding

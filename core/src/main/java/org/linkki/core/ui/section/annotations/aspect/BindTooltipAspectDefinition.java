@@ -21,7 +21,7 @@ import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindTooltip;
-import org.linkki.core.ui.section.annotations.BindTooltipType;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 
 public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<String> {
 
@@ -37,7 +37,7 @@ public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<Strin
 
     @Override
     public Aspect<String> createAspect() {
-        if (annotation.tooltipType() == BindTooltipType.STATIC) {
+        if (annotation.tooltipType() == TooltipType.STATIC) {
             return Aspect.of(NAME, annotation.value());
         } else {
             return Aspect.of(NAME);
@@ -48,4 +48,5 @@ public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<Strin
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         return componentWrapper::setTooltip;
     }
+
 }

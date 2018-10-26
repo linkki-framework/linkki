@@ -22,6 +22,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.junit.Test;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UICheckBoxIntegrationTest.TestCheckboxPmo;
 
 import com.vaadin.ui.CheckBox;
@@ -132,7 +133,7 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
         }
 
         @Override
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UICheckBox(position = 1, caption = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
         public void value() {
             // model binding

@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.BindTooltip;
-import org.linkki.core.ui.section.annotations.BindTooltipType;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UIDateField;
@@ -136,7 +136,7 @@ public class UIAnnotationReaderTest {
             //
         }
 
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UITableColumn
         @UIDateField(position = 3, modelAttribute = "test3")
         public void test3() {

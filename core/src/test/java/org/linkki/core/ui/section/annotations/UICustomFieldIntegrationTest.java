@@ -25,6 +25,7 @@ import java.util.List;
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.ui.components.LinkkiComboBox;
+import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UICustomFieldIntegrationTest.ComboBoxTestPmo;
 
 public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest<LinkkiComboBox, ComboBoxTestPmo> {
@@ -78,7 +79,7 @@ public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest
         }
 
         @Override
-        @BindTooltip(tooltipType = BindTooltipType.DYNAMIC)
+        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UICustomField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, uiControl = LinkkiComboBox.class)
         public void value() {
             // model binding
