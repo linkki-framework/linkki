@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 
 import com.vaadin.ui.Table;
@@ -79,7 +80,7 @@ public interface ContainerPmo<T> {
     List<T> getItems();
 
     /**
-     * Returns s {@link TableFooterPmo} that provides the data for the table footer.
+     * Returns a {@link TableFooterPmo} that provides the data for the table footer.
      * 
      * @return The PMO that provides the data for the footer or an empty optional if no footer should be
      *         shown (default).
@@ -89,7 +90,11 @@ public interface ContainerPmo<T> {
     }
 
     /**
-     * Returns a {@link ButtonPmo} for the add button in the table section
+     * Returns a {@link ButtonPmo} for the add button in the table section.
+     * 
+     * @implSpec If you plan to {@link BindingContext#removeBindingsForPmo(Object) remove bindings from
+     *           a binding context} later, make sure to not create a new instance on every call to this
+     *           method.
      */
     default Optional<ButtonPmo> getAddItemButtonPmo() {
         return Optional.empty();

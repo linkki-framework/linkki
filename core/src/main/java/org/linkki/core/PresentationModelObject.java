@@ -15,15 +15,21 @@ package org.linkki.core;
 
 import java.util.Optional;
 
+import org.linkki.core.binding.BindingContext;
+
 /**
  * Common interface for presentation model objects.
  */
 public interface PresentationModelObject {
 
     /**
-     * Returns the {@code ButtonPmo} for the button that edits the PMO if the PMO allows editing.
-     * The default implementation returns {@code Optional.empty()} indicating that the PMO does not
-     * allow editing.
+     * Returns the {@code ButtonPmo} for the button that edits the PMO if the PMO allows editing. The
+     * default implementation returns {@code Optional.empty()} indicating that the PMO does not allow
+     * editing.
+     * 
+     * @implSpec If you plan to {@link BindingContext#removeBindingsForPmo(Object) remove bindings from
+     *           a binding context} later, make sure to not create a new instance on every call to this
+     *           method.
      * 
      * @return the {@code ButtonPmo} for the button that edits the PMO if the PMO allows editing
      */

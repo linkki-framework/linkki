@@ -22,6 +22,8 @@ import java.util.Collection;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.Validate;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.server.FontAwesome;
@@ -60,14 +62,44 @@ public interface ButtonPmo {
         return true;
     }
 
+    /**
+     * Creates a new {@link ButtonPmo} for an edit button and returns it.
+     * 
+     * @param onClickAction the action that is applied when the button is clicked
+     * 
+     * @implSpec If used directly in getter methods, like in {@link ContainerPmo#getAddItemButtonPmo()},
+     *           this component's context can't be removed by
+     *           {@link BindingContext#removeBindingsForPmo(Object)}. This can be avoided by always
+     *           returning the same instance of {@link ButtonPmo}.
+     */
     public static ButtonPmo newEditButton(Handler onClickAction) {
         return onClickAction::apply;
     }
 
+    /**
+     * Creates a new {@link ButtonPmo} for an add button and returns it.
+     * 
+     * @param onClickAction the action that is applied when the button is clicked
+     * 
+     * @implSpec If used directly in getter methods, like in {@link ContainerPmo#getAddItemButtonPmo()},
+     *           this component's context can't be removed by
+     *           {@link BindingContext#removeBindingsForPmo(Object)}. This can be avoided by always
+     *           returning the same instance of {@link ButtonPmo}.
+     */
     public static ButtonPmo newAddButton(Handler onClickAction) {
         return Builder.action(onClickAction).icon(FontAwesome.PLUS).get();
     }
 
+    /**
+     * Creates a new {@link ButtonPmo} for a delete button and returns it.
+     * 
+     * @param onClickAction the action that is applied when the button is clicked
+     * 
+     * @implSpec If used directly in getter methods, like in {@link ContainerPmo#getAddItemButtonPmo()},
+     *           this component's context can't be removed by
+     *           {@link BindingContext#removeBindingsForPmo(Object)}. This can be avoided by always
+     *           returning the same instance of {@link ButtonPmo}.
+     */
     public static ButtonPmo newDeleteButton(Handler onClickAction) {
         return Builder.action(onClickAction).icon(FontAwesome.TRASH_O).get();
     }

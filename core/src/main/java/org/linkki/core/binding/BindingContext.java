@@ -143,12 +143,22 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Removes all bindings in this context that refer to the given presentation model object. If the
-     * presentation model is bound to a component and that component is a container component, all
-     * bindings for the components children and their children are removed as well.
+     * Removes all bindings in this context that refer to the given presentation model object. If
+     * the presentation model is bound to a component and that component is a container component,
+     * all bindings for the components children and their children are removed as well.
      * <p>
-     * If the PMO includes other PMOs (like {@link PresentationModelObject#getEditButtonPmo()} or
-     * {@link ContainerPmo}), all bindings for those PMOs are removed as well.
+     * If the PMO includes other PMOs (like {@link ContainerPmo}), all bindings for those PMOs are
+     * removed as well. This does not work for getter methods that return a new instance for each
+     * call, like mostly done for {@link ButtonPmo ButtonPmos}:
+     * 
+     * <code>
+     * ContainerPmo.getAddItemButtonPmo() {
+     *      return Optional.of(ButtonPmo.newAddButton(..));
+     *  }
+     * </code>
+     * 
+     * In order to be properly removed, the same instance has to be returned on each call of the
+     * getter method.
      */
     public void removeBindingsForPmo(Object pmo) {
         Set<Object> keysToRemove = bindings.entrySet().stream().filter(e -> e.getValue().getPmo() == pmo)
@@ -261,8 +271,8 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a binding between the presentation model object and UI elements (i.e. {@linkplain Label}
-     * and {@linkplain Component}) as described by the given descriptor.
+     * Creates a binding between the presentation model object and UI elements (i.e.
+     * {@linkplain Label} and {@linkplain Component}) as described by the given descriptor.
      * <p>
      * If the label is {@code null} it is ignored for the binding
      * 
