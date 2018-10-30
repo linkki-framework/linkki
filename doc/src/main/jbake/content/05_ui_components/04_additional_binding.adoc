@@ -1,6 +1,7 @@
 :jbake-title: Additional Binding
 :jbake-type: section
 :jbake-status: published
+:source-dir: ../../../../../../samples/binding/src/main/java
 
 === Additional Binding
 
@@ -11,11 +12,11 @@ For displaying tooltips on UI elements *linkki* provides the annotation `@BindTo
 
 The `@BindTooltip` annotation has two properties:
 
-* <<tooltip-text, `text: String`>>
+* <<tooltip-text, `value: String`>>
 * <<tooltip-type, `tooltipType: TooltipType`>>
 
 [[tooltip-text]]
-===== Text
+===== Value
 This is the text displayed on <<tooltip-type, `TooltipType.STATIC`>>. Its default value is an empty string (`""`).
 
 [[tooltip-type]]
@@ -26,11 +27,16 @@ The following configuration options are available for `TooltipType`:
 [cols="1,9"]
 .TooltipType
 |===
-|`STATIC`   |the text of the tooltip is read from the attribute `text` (*default*)
-|`DYNAMIC`  |the text of the tooltip is determined by the return value of the method `String get<PropertyName>Tooltip()`. The value of `text` is ignored.
+|`STATIC`   |the text of the tooltip is read from the attribute `value` (*default*)
+|`DYNAMIC`  |the text of the tooltip is determined by the return value of the method `String get<PropertyName>Tooltip()`. The `value` is ignored.
 |===
 
 TIP: Tooltips can only be added to <<ui-field, fields>> and <<ui-button, buttons>>.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
+----
 
 [[bind-read-only]]
 ==== Bind read-only state

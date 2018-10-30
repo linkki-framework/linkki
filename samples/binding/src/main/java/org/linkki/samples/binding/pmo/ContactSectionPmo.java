@@ -49,7 +49,8 @@ public class ContactSectionPmo implements PresentationModelObject {
     @BindTooltip(tooltipType = TooltipType.DYNAMIC)
     @UITextField(position = 10, label = "Firstname", required = RequiredType.REQUIRED, modelAttribute = "firstname")
     public void firstname() {
-        /* model binding only */ }
+        /* model binding only */
+    }
 
     public String getFirstnameTooltip() {
         return "First name";
