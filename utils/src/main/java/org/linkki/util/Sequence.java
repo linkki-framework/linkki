@@ -103,6 +103,14 @@ public class Sequence<T> implements Iterable<T> {
     }
 
     /**
+     * Returns a new {@link Sequence} concatenated with the given sequence of elements.
+     */
+    @CheckReturnValue
+    public final Sequence<T> with(Sequence<T> sequence) {
+        return with(sequence.list());
+    }
+
+    /**
      * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is not
      * affected.
      * 
