@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework</groupId>
     <artifactId>linkki</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.9.20181103</version>
     <packaging>pom</packaging>
 
     <name>linkki</name>
@@ -110,7 +109,7 @@
                     <dependency>
                         <groupId>org.linkki-framework</groupId>
                         <artifactId>linkki-codeanalysis</artifactId>
-                        <version>1.0-SNAPSHOT</version>
+                        <version>0.9.20181103</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -139,7 +138,7 @@
                     <dependency>
                         <groupId>org.linkki-framework</groupId>
                         <artifactId>linkki-codeanalysis</artifactId>
-                        <version>1.0-SNAPSHOT</version>
+                        <version>0.9.20181103</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -391,7 +390,7 @@
         <connection>scm:git:https://github.com/linkki-framework/linkki.git</connection>
         <developerConnection>scm:git:ssh://${git.user}@projekte.faktorzehn.de/projekte/linkki.git</developerConnection>
         <url>https://github.com/linkki-framework/linkki/tree/master</url>
-        <tag>HEAD</tag>
+        <tag>linkki-0.9.20181103</tag>
     </scm>
 
     <distributionManagement>
