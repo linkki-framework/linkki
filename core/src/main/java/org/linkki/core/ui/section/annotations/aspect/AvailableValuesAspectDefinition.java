@@ -106,6 +106,7 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
      */
     private void setContainerDataSource(AbstractSelect component, LinkkiInMemoryContainer<Object> container) {
         Property<?> dataSource = component.getPropertyDataSource();
+        component.setReadOnly(false);
         component.setPropertyDataSource(null);
         component.setContainerDataSource(container);
         component.setPropertyDataSource(dataSource);

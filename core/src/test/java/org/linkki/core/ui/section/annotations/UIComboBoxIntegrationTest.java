@@ -119,6 +119,23 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
+    @Test
+    public void testInitReadOnlyField() {
+        LinkkiComboBox comboBox = getDynamicComponent();
+        comboBox.setReadOnly(true);
+        bind(getDefaultPmo(), "value", comboBox);
+
+        getDefaultPmo().setRequired(true);
+        modelChanged();
+        assertThat(comboBox.isRequired(), is(true));
+
+        comboBox.setValue(TestEnum.ONE);
+        assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
+
+        comboBox.setValue(null);
+        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+    }
+
     @Override
     protected ComboBoxTestModelObject getDefaultModelObject() {
         return (ComboBoxTestModelObject)super.getDefaultModelObject();
