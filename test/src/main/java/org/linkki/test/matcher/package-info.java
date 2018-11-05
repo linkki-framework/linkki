@@ -11,21 +11,8 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.util.validation;
-
-import org.eclipse.jdt.annotation.NonNull;
-
-/** Interface for validation message markers. */
-@FunctionalInterface
-public interface ValidationMarker {
-
-    /**
-     * Marks a mandatory field and returns {@code true} for {@code isRequiredInformationMissing()}.
-     */
-    static @NonNull ValidationMarker REQUIRED = () -> true;
-
-    /** Returns {@code true} if the marker marks a validation for a mandatory field. */
-    boolean isRequiredInformationMissing();
-
-
-}
+/**
+ * Matchers to be used in linkki tests.
+ */
+@org.eclipse.jdt.annotation.NonNullByDefault
+package org.linkki.test.matcher;

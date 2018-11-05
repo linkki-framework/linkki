@@ -24,8 +24,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.adapters.CheckboxBindingDefinition;
 import org.linkki.core.ui.section.annotations.adapters.ComboboxBindingDefinition;
@@ -50,9 +48,9 @@ public class BindingDefinitionTest {
     @UITextArea(position = 0)
     @UITextField(position = 0)
     @UILabel(position = 0)
-    @OverridingMethodsMustInvokeSuper
     @UIFooBar
     @UICustom
+    @FooBar
     public void annotatedMethod() {
         // Nothing to do
     }
@@ -69,7 +67,7 @@ public class BindingDefinitionTest {
     @Test
     public void testIsLinkkiBindingDefinition() {
         assertThat(BindingDefinition.isLinkkiBindingDefinition(null), is(false));
-        assertThat(BindingDefinition.isLinkkiBindingDefinition(annotation(OverridingMethodsMustInvokeSuper.class)),
+        assertThat(BindingDefinition.isLinkkiBindingDefinition(annotation(FooBar.class)),
                    is(false));
 
         assertThat(BindingDefinition.isLinkkiBindingDefinition(annotation(UICheckBox.class)), is(true));
@@ -106,7 +104,7 @@ public class BindingDefinitionTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testFrom_ThrowsExceptionForNonLinkkiElementAnnotation() {
-        BindingDefinition.from(annotation(OverridingMethodsMustInvokeSuper.class));
+        BindingDefinition.from(annotation(FooBar.class));
     }
 
     @Test(expected = RuntimeException.class)
@@ -131,6 +129,12 @@ interface UIFooBarBindingDefinition extends BindingDefinition {
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(UITestBindingDefinition.class)
 @interface UICustom {
+    // dummy
+}
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+@interface FooBar {
     // dummy
 }
 

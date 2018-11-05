@@ -17,7 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
 
-import javax.annotation.OverridingMethodsMustInvokeSuper;
+import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 import javax.annotation.PostConstruct;
 
 import org.eclipse.jdt.annotation.NonNull;
@@ -150,7 +150,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * have to be refreshed manually.
      */
     @Override
-    @OverridingMethodsMustInvokeSuper
+    @OverrideMustInvoke
     public void reloadBindings() {
         getBindingContext().uiUpdated();
     }

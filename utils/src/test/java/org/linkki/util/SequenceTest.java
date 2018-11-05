@@ -28,17 +28,15 @@ public class SequenceTest {
     private static final String DUMMY_ARG = "dummy";
     private static final String FAKE_ARG = "fake";
 
-    private Sequence<String> sequence;
-
     @Test
     public void testEmpty() {
-        sequence = Sequence.empty();
+        Sequence<Object> sequence = Sequence.empty();
         assertThat(sequence.list(), is(Collections.emptyList()));
     }
 
     @Test
     public void testWith_VarArgs() {
-        sequence = Sequence.of(DUMMY_ARG);
+        Sequence<String> sequence = Sequence.of(DUMMY_ARG);
 
         assertThat(sequence.list().size(), is(1));
         assertThat(sequence.list(), hasItem(not(FAKE_ARG)));
@@ -51,7 +49,7 @@ public class SequenceTest {
 
     @Test
     public void testWith_Sequence() {
-        sequence = Sequence.of(DUMMY_ARG);
+        Sequence<String> sequence = Sequence.of(DUMMY_ARG);
 
         assertThat(sequence.list().size(), is(1));
         assertThat(sequence.list(), hasItem(not(FAKE_ARG)));

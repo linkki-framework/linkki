@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Locale;
 
-import javax.annotation.Nullable;
+import org.eclipse.jdt.annotation.Nullable;
 
 import org.junit.Test;
 

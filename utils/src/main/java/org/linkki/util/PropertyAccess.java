@@ -30,7 +30,7 @@ public class PropertyAccess {
 
     private Class<?> clazz;
 
-    private Map<String, PropertyDescriptor> propertiesByName = new HashMap<>();
+    private Map<String, @Nullable PropertyDescriptor> propertiesByName = new HashMap<>();
 
     public PropertyAccess(Class<?> clazz) {
         this.clazz = requireNonNull(clazz, "clazz must not be null");
@@ -44,8 +44,7 @@ public class PropertyAccess {
     /**
      * Returns the class' property descriptor for the given property name.
      *
-     * @throws IllegalArgumentException if the class hasn't got a property with the given property
-     *             name.
+     * @throws IllegalArgumentException if the class hasn't got a property with the given property name.
      */
     public PropertyDescriptor getPropertyDescriptor(String propertyName) {
         PropertyDescriptor descriptor = propertiesByName.get(propertyName);

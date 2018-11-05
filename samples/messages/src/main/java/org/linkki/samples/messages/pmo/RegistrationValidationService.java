@@ -20,6 +20,7 @@ import java.util.Objects;
 
 import com.vaadin.server.ErrorMessage;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
@@ -121,6 +122,7 @@ public class RegistrationValidationService implements ValidationService {
         }
     }
 
+    @NonNull
     private ObjectProperty objectProperty(Object object, String property) {
         return new ObjectProperty(object, property);
     }

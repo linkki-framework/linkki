@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.annotation.OverridingMethodsMustInvokeSuper;
+import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
 import org.apache.commons.lang3.Validate;
 import org.linkki.core.binding.validation.ValidationService;
@@ -157,7 +157,7 @@ public abstract class BindingManager {
      * Uses the given messages to update all registered binding contexts. Can be overridden in
      * subclasses to notify further observers about the new messages.
      */
-    @OverridingMethodsMustInvokeSuper
+    @OverrideMustInvoke
     protected void updateMessages(MessageList messages) {
         requireNonNull(messages, "messages must not be null");
         contextsByName.values().forEach(bc -> bc.displayMessages(messages));

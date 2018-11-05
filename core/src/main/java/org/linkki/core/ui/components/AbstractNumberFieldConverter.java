@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 import com.vaadin.data.util.converter.Converter;
@@ -55,10 +56,11 @@ public abstract class AbstractNumberFieldConverter<T extends Number> implements 
 
     protected abstract T convertToModel(Number value);
 
-    @Nullable
+    @SuppressWarnings("null")
+    @NonNull
     @Override
     public String convertToPresentation(@Nullable T value,
-            @SuppressWarnings("null") Class<? extends String> targetType,
+            Class<? extends String> targetType,
             @Nullable Locale locale)
             throws ConversionException {
 
