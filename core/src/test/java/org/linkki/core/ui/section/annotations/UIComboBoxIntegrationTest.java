@@ -123,17 +123,18 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     public void testInitReadOnlyField() {
         LinkkiComboBox comboBox = getDynamicComponent();
         comboBox.setReadOnly(true);
-        bind(getDefaultPmo(), "value", comboBox);
+        bind(getDefaultPmo(), "staticValue", comboBox);
+        assertThat(comboBox.isReadOnly(), is(true));
 
         getDefaultPmo().setRequired(true);
         modelChanged();
         assertThat(comboBox.isRequired(), is(true));
+        assertThat(comboBox.isReadOnly(), is(true));
 
-        comboBox.setValue(TestEnum.ONE);
-        assertThat(getDefaultModelObject().getValue(), is(TestEnum.ONE));
-
-        comboBox.setValue(null);
-        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+        getBindingContext().removeBindingsForComponent(comboBox);
+        assertThat(comboBox.isReadOnly(), is(true));
+        bind(getDefaultPmo(), "staticValue", comboBox);
+        assertThat(comboBox.isReadOnly(), is(true));
     }
 
     @Override

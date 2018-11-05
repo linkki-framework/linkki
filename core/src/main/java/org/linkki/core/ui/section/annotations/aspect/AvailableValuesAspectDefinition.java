@@ -99,17 +99,19 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
      * <p>
      * If a property data source is already specified this property data source may specify that the
      * component is in read only state. Setting a container data source while the component is read-only
-     * would lead into an exception. To avoid this, we first unset the property data source and reset it
-     * after the container is set.
+     * would lead into an exception. To avoid this, we first set the property data source to
+     * <code>null</code> and re-set it after the container is set.
      * 
-     * @param containter The container data source
+     * @param container the container data source
      */
     private void setContainerDataSource(AbstractSelect component, LinkkiInMemoryContainer<Object> container) {
         Property<?> dataSource = component.getPropertyDataSource();
+        boolean readOnly = component.isReadOnly();
         component.setReadOnly(false);
         component.setPropertyDataSource(null);
         component.setContainerDataSource(container);
         component.setPropertyDataSource(dataSource);
+        component.setReadOnly(readOnly);
     }
 
     /**

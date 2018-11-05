@@ -63,6 +63,10 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
         defaultSection = TestUiUtil.createSectionWith(defaultPmo, bindingContext);
     }
 
+    TestBindingContext getBindingContext() {
+        return bindingContext;
+    }
+
     protected void bind(Object pmo, String propertyName, Component component) {
         UIAnnotationReader uiAnnotationReader = new UIAnnotationReader(pmo.getClass());
         ElementDescriptor elementDescriptor = uiAnnotationReader.getUiElements().stream()
