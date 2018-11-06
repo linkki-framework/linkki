@@ -35,12 +35,12 @@
         </dependency>
 
         <!-- otherwise we get warnings in eclipse that annotations can not be resolved -->
+        <!-- tag::eclipse-annotations[] -->
         <dependency>
             <groupId>org.eclipse.jdt</groupId>
             <artifactId>org.eclipse.jdt.annotation</artifactId>
-            <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
+        <!-- end::eclipse-annotations[] -->
     </dependencies>
 
     <build>

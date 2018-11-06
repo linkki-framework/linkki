@@ -1,0 +1,38 @@
+:jbake-title: Project Setup
+:jbake-type: section
+:jbake-status: published
+
+:base-dir: ../../../../../../samples/getting-started
+:tree-sample-dir: ../../../../../../samples/tree-table
+
+[[project-setup]]
+=== Project Setup
+
+==== Prerequisites
+
+To start this project, you need
+
+ * Java 8
+ * your favourite Java IDE
+ * Maven
+ * a modern browser
+ 
+==== Maven
+
+Apart from *linkki* we require Vaadin as dependency:
+
+[source,xml]
+----
+include::{base-dir}/pom.xml[]
+----
+
+In the above example, we are creating a web application that is packaged as `war`, as it is needed for the <<linkki-example, linkki example>>.
+
+==== Null analysis
+
+linkki uses https://mvnrepository.com/artifact/org.eclipse.jdt/org.eclipse.jdt.annotation[Eclipse JDT Annotations] for null analysis.  If linkki classes are extended (like `ContainerPmo` for tables), this dependency has to be added in order to compile correctly:
+
+[source,xml]
+----
+include::{tree-sample-dir}/pom.xml[tags=eclipse-annotations]
+----

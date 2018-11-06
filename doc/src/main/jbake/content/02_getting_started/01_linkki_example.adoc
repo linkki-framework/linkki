@@ -1,0 +1,124 @@
+:jbake-title: linkki example
+:jbake-type: section
+:jbake-status: published
+
+:base-dir: ../../../../../../samples/getting-started
+:source-dir: {base-dir}/src/main/java
+:images-folder-name: 02_getting_started
+
+[[linkki-example]]
+=== linkki example
+
+=== Goal
+
+The goal is to create a simple user interface for reporting errors. The report should have a description and a type. The following types should be available:
+
+* Bug
+* Improvement
+* Question
+
+The report can only be submited if a description has been entered and a type was selected.
+
+image::{images}{images-folder-name}/report_enabled.png[]
+
+NOTE: Persisting the report is *not* part of this tutorial.
+
+=== Prerequisites
+
+To start this project, follow the steps described in <<project-setup, project setup>>.
+
+=== Step 1: Model
+First we implement the 'DomainModel'. The model consists of two classes, <<report, `Report`>> and <<report-type, `ReportType`>>. These classes do _not_ receive UI specific annotations.
+
+[[report]]
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/model/Report.java[tags=report]
+
+    // getters and setters
+}
+----
+
+[[report-type]]
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/model/ReportType.java[tags=report-type]
+----
+NOTE: `ReportType` implements the method `getName()`. This method is called by *linkki* to display the 'caption' for the enum values.
+
+=== Step 2: PresentationObjectModel (PMO)
+
+Our UI shall receive a text area for the entry of a description. For the selection of the report type a ComboBox with the enum constants of the `ReportType` shall be displayed. To submit the report we also require a `Send` button. It shall only be active if a description has been entered and a type was selected.
+
+Now we create a new class in the package `org.linkki.samples.gettingstarted.pmo`, naming it `ReportSectionPmo`. Of importance is the `@UISection` annotation on the class.
+
+The class has an instance variable, the <<report, `Report`>>, which must be passed to the constructor.
+
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java[tags=report-pmo]
+
+    ...
+----
+
+For the model binding to work, a method must be created and annotated with `@ModelObject`.
+
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java[tags=model-binding]
+----
+
+Now the TextArea and the ComboBox are defined. Again, for each a method must be created, annotated with `@UITextArea` and `@UIComboBox`, respectively.
+
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java[tags=textfield]
+
+include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java[tags=combobox]
+----
+
+NOTE: If the methods have the same name as the fields in the domain model, the property `modelAttribute` can be omitted.
+
+IMPORTANT: The annotations must always be added to the methods, not the fields of the class.
+
+The last step is the definition of the button. As a special feature, the button shall be activated or not depending on values in the model. This is determined via the property `enabled = EnabledType.DYNAMIC`.
+
+By setting `EnabledType.DYNAMIC`, *linkki* searches for a method `boolean isSendEnabled()`. It is called automatically during the update of the UI. Its return value determines the activation state of the button.
+
+IMPORTANT: The method name _must_ conform to the convention is[NameOfThePropertyBelongingToTheAnnotatedMethod]Enabled(). The method must be public and return a boolean value.
+
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java[tags=button]
+----
+
+=== Step 3: Vaadin UI
+
+The UI contains 'only' the section for the creation of the report.
+
+The first part is 'normal' Vaadin code. The interesting *linkki* parts start at line 9. First a `PmoBasedSectionFactory` is instantiated. The PMO is passed as parameter to the method `createSection`. As second parameter a `BindingContext` is passed -> it is explained in the later chapters. As the last step the created `section` must now be set as `content` of the UI.
+
+[source,java,linenums]
+----
+include::{source-dir}/org/linkki/samples/gettingstarted/GettingStartedUI.java[tags=ui-class]
+----
+
+=== Step 4: web.xml
+
+The application must be made known to the application server. It expects a `web.xml`, in which our UI is started with the `VaadinServlet`.
+
+[source,xml]
+----
+include::{source-dir}/../webapp/WEB-INF/web.xml[]
+----
+
+=== Starting the Application
+
+The application can be started from the command line via
+
+[source,bash]
+----
+$> mvn clean install tomee:run
+----
+
+and is then reachable at http://localhost:8080/linkki-getting-started.
