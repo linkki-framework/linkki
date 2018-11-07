@@ -6,6 +6,9 @@
 
 == New & Noteworthy
 
+=== November 7th, 2018
+Moved the class `BindReadOnly` from package `org.linkki.core.binding.aspect` to `org.linkki.core.ui.section.annotations`.
+
 === October 10th, 2018
 
 `modelObject` and `modelAttribute` are added to <<manual-binding, @Bind>> as parameters. These attributes can be used together with the annotation `@ModelObject` to bind the annotated PMO property directly to a model attribute. In addition, the quality of error messages is improved.
@@ -14,6 +17,7 @@
 The annotation `@UIToolTip` has been deprecated and reintroduced as `@BindTooltip`.
 
 The changes in Detail:
+
 * `@BindTooltip` uses "tooltip" as a property (previously "toolTip")
 * `@BindTooltip` uses `BindTooltipType` as a type (previously `ToolTipType`)
 * `@BindTooltip` with a dynamic tooltip requires the corresponding method to be named `getXYZTooltip()` (lower case "t" here as well, instead of `getXYZToolTip()`)

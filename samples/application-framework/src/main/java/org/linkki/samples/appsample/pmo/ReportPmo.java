@@ -14,8 +14,8 @@
 
 package org.linkki.samples.appsample.pmo;
 
-import org.linkki.core.binding.annotations.ReadOnlyType;
-import org.linkki.core.binding.aspect.BindReadOnly;
+import org.linkki.core.ui.section.annotations.BindReadOnly;
+import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIComboBox;

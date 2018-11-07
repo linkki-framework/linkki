@@ -22,10 +22,10 @@ import static org.mockito.Mockito.when;
 import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.binding.annotations.ReadOnlyType;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.BehaviorDependentDispatcher;
 import org.linkki.core.ui.components.LabelComponentWrapper;
+import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;
 import org.mockito.Mockito;
 
 import com.vaadin.ui.Field;

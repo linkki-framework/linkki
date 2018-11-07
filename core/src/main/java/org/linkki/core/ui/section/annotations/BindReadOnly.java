@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.linkki.core.binding.aspect;
+package org.linkki.core.ui.section.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -20,7 +20,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.binding.annotations.ReadOnlyType;
+import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.section.annotations.aspect.BindReadOnlyAnnotationAspectDefinition;
 
 /**
@@ -38,4 +38,24 @@ public @interface BindReadOnly {
      * @return the read only type
      */
     ReadOnlyType value() default ReadOnlyType.ALWAYS;
+
+
+    /** The type how the read-only state of an UI component is bound. */
+    public enum ReadOnlyType {
+
+        /**
+         * Always displays as read-only.
+         */
+        ALWAYS,
+
+        /**
+         * Behavior as it would be without this annotation.
+         */
+        DERIVED,
+
+        /**
+         * Looks for a method "is[PropertyName]ReadOnly()" to determine if it is read-only.
+         */
+        DYNAMIC;
+    }
 }

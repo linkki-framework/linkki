@@ -17,12 +17,12 @@ package org.linkki.core.ui.section.annotations.aspect;
 import java.lang.annotation.Annotation;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.linkki.core.binding.annotations.ReadOnlyType;
 import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.BindReadOnly;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.section.annotations.BindReadOnly;
+import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.AbstractField;
