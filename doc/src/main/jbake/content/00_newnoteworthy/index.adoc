@@ -3,8 +3,38 @@
 :jbake-status: published
 :jbake-order: 0
 :source-dir-application: ../../../../../../samples/application-framework/src/main/java
+:images-folder-name: 01_newnoteworthy
 
 == New & Noteworthy
+
+=== November 22th, 2018
+
+From now on linkki uses eclipse null annotations from the `org.eclipse.jdt` package. To use it, you have to add this dependency to your pom:
+
+            <dependency>
+                <groupId>org.eclipse.jdt</groupId>
+                <artifactId>org.eclipse.jdt.annotation</artifactId>
+                <version>2.2.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+Also you have to make sure that the right annotations are used in your project configuration:
+
+. Enabled annotation-based null analysis in the project configuration
+. Configure the default annotations for null specifications with the following  annotations as primary annotation:
+ * *'Nullable' annotations*: `org.eclipse.jdt.annotation.Nullable`
+ * *'NonNull' annotations*: `org.eclipse.jdt.annotation.NonNull`
+ * *'NonNullByDefault' annotations*: `org.eclipse.jdt.annotation.NonNullByDefault`
+
+.1 Project configuration page for null analysis
+image::{images}{images-folder-name}/7Nov18_PropertiesNullHandling.png[]
+
+.2 Configuration for "Annotations for Null Specifications"
+image::{images}{images-folder-name}/7Nov18_PropertiesNullHandling_Configure.png[]
+
+For more information about the null analysis in eclipse refer to the https://wiki.eclipse.org/JDT_Core/Null_Analysis[eclipse JDT documentation].
+
+WARNING: There is a bug in Eclipse where you get warnings in your projects if your project configuration is not correct, for example if you write `javax.annotation.NonNull` instead of `javax.annotation.Nonnull` (link:https://bugs.eclipse.org/bugs/show_bug.cgi?id=479389[Eclipse bug]). Check for correct spelling in the configuration if you get the warning "The type ... cannot be resolved. It is indirectly referenced from required .class files".
 
 === November 7th, 2018
 Moved the class `BindReadOnly` from package `org.linkki.core.binding.aspect` to `org.linkki.core.ui.section.annotations`.
