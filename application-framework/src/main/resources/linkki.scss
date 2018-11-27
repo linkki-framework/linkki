@@ -108,11 +108,8 @@ $linkki-sidebar-width: 56px !default;
   .linkki-application-header {
     color: linkki-foreground-color($linkki-color-primary);
     background-color: $linkki-color-primary;
-    width: 100% !important;
   
     .v-slot-linkki-application-header-right {
-        position: absolute;
-        right: 0;
         padding-right: 10px;
     }
     

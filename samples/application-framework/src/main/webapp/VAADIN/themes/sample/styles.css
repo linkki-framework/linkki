@@ -1676,12 +1676,9 @@ div.v-layout.v-horizontal.v-widget {
 .sample .linkki-application-header {
 	color: white;
 	background-color: #005596;
-	width: 100% !important;
 }
 
 .sample .linkki-application-header .v-slot-linkki-application-header-right {
-	position: absolute;
-	right: 0;
 	padding-right: 10px;
 }
 

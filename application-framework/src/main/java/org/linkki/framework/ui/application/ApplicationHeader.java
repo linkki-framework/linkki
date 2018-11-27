@@ -22,6 +22,7 @@ import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
@@ -56,6 +57,7 @@ public class ApplicationHeader extends HorizontalLayout {
     public ApplicationHeader(ApplicationMenu applicationMenu) {
         this.applicationMenu = applicationMenu;
         addStyleName(LinkkiStyles.APPLICATION_HEADER);
+        setWidth("100%");
         setMargin(new MarginInfo(true, false, true, false));
     }
 
@@ -92,11 +94,38 @@ public class ApplicationHeader extends HorizontalLayout {
      * {@link #createRightMenuBar()} to add items by default.
      * 
      * @implNote Override {@link #createRightMenuBar()} to add elements to the {@link MenuBar}.
+     * 
+     * @deprecated since November 29th, 2018 as the added components are not automatically right
+     *             aligned. Use {@link #addRightComponents(HorizontalLayout)} instead.
      */
+    @Deprecated
     protected void addRightComponents() {
-        MenuBar rightMenuBar = createRightMenuBar();
-        addComponent(rightMenuBar);
-        setExpandRatio(rightMenuBar, 1);
+        HorizontalLayout wrapper = new HorizontalLayout();
+        wrapper.setStyleName(LinkkiStyles.APPLICATION_HEADER_RIGHT);
+        wrapper.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
+        wrapper.setSizeFull();
+        wrapper.setSpacing(true);
+
+        addRightComponents(wrapper);
+
+        addComponent(wrapper);
+        setExpandRatio(wrapper, 1f);
+
+        if (wrapper.getComponentCount() > 0) {
+            wrapper.setExpandRatio(wrapper.getComponent(0), 1f);
+        }
+    }
+
+    /**
+     * Adds right aligned navigation elements in the header. Adds a {@link MenuBar} and calls
+     * {@link #createRightMenuBar()} to add items by default.
+     * 
+     * @param parent a right aligned layout to which the components should be added
+     * 
+     * @implNote Override {@link #createRightMenuBar()} to add elements to the {@link MenuBar}.
+     */
+    protected void addRightComponents(HorizontalLayout parent) {
+        parent.addComponent(createRightMenuBar());
     }
 
     /**
@@ -109,8 +138,6 @@ public class ApplicationHeader extends HorizontalLayout {
     protected MenuBar createRightMenuBar() {
         MenuBar rightMenuBar = new MenuBar();
 
-        rightMenuBar.setStyleName(LinkkiStyles.APPLICATION_HEADER_RIGHT);
-        rightMenuBar.setSizeUndefined();
         rightMenuBar.addStyleName(ValoTheme.MENUBAR_BORDERLESS);
         rightMenuBar.addStyleName(ValoTheme.MENUBAR_SMALL);
 
