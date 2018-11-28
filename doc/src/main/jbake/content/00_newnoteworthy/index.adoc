@@ -7,6 +7,12 @@
 
 == New & Noteworthy
 
+=== November 29th, 2018
+
+The `addRightComponents()` method in `ApplicationHeader` is deprecated as components added in this method were not automatically aligned to right. Use `addRightComponents(HorizontalLayout)` instead of which the method argument is a right aligned layout.
+
+The CSS style `LinkkiStyles#APLICATION_HEADER` and `LinkkiStyles#APPLICATION_HEADER_RIGHT` have been modified as the previously included style are not needed anymore.
+
 === November 22th, 2018
 
 From now on linkki uses eclipse null annotations from the `org.eclipse.jdt` package. To use it, you have to add this dependency to your pom:
