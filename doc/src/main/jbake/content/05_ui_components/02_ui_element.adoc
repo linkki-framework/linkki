@@ -116,7 +116,7 @@ WARNING: Fields marked as `required` are only visually highlighted. *No* validat
 
 [[model-attribute]]
 ===== ModelObject and -Attribute
-A <<ui-field, field can be bound to an attribute of an existing model object using <<domain-model-binding, domain model binding>>. For this the properties `modelAttribute` and possibly `modelObject` are required. The function is described in the section <<modell-attribut-namen, names of model attributes>>.
+A <<ui-field, field>> can be bound to an attribute of an existing model object using <<domain-model-binding, domain model binding>>. For this the properties `modelAttribute` and possibly `modelObject` are required. The function is described in the section <<modell-attribut-namen, names of model attributes>>.
 
 [[ui-label]]
 ==== UILabel

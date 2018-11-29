@@ -5,25 +5,21 @@ import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 
 @UISection
-public class PersonSectionPmo {
-
-    private final Person person;
-
-    public PersonSectionPmo(Person person) {
-        this.person = person;
-    }
+public class PersonSectionPmo_fieldModelObject {
 
     // tag::modelobject[]
     @ModelObject
-    public Person getPerson() {
-        return person;
-    }
+    private final Person person;
     // end::modelobject[]
+
+    public PersonSectionPmo_fieldModelObject(Person person) {
+        this.person = person;
+    }
 
     // tag::pojo-binding[]
     @UITextField(position = 10, label = "First Name")
     public String getFirstName() {
-        return getPerson().getFirstname();
+        return person.getFirstname();
     }
     // end::pojo-binding[]
 
