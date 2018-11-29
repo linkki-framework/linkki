@@ -29,10 +29,8 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.ButtonPmoBindingTest.TestButtonPmo;
@@ -45,8 +43,6 @@ import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.section.descriptor.ElementDescriptor;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
@@ -54,153 +50,114 @@ import org.linkki.core.ui.table.TestRowPmo;
 import org.linkki.core.ui.table.TestTablePmo;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@RunWith(MockitoJUnitRunner.class)
 public class BindingContextTest {
 
-    @SuppressWarnings("null")
-    private TestBindingContext context;
-
-    @SuppressWarnings("null")
-    @Mock
-    private Label label1;
-    @SuppressWarnings("null")
-    private Label label2;
-    private TestPmo pmo = new TestPmo();
-    private TestModelObject modelObject = new TestModelObject();
     private TextField field1 = spy(new TextField());
     private TextField field2 = spy(new TextField());
-
-    @SuppressWarnings("null")
-    private ComponentBinding binding1;
-    @SuppressWarnings("null")
-    private ComponentBinding binding2;
-
-    private void setUpPmo() {
-        context = TestBindingContext.create();
-        pmo.setModelObject(modelObject);
-    }
 
     @After
     public void cleanUpUi() {
         UI.setCurrent(null);
     }
 
-    private Handler setUpPmoWithAfterUpdateUiHandler() {
-        Handler afterUpdateUi = mock(Handler.class);
-        context = TestBindingContext.create(afterUpdateUi);
-        pmo.setModelObject(modelObject);
-        return afterUpdateUi;
+    private ComponentBinding createBinding(TestBindingContext context) {
+        return createBinding(context, new TestPmo(), new TextField());
     }
 
-    private void setUpBinding1() {
-        binding1 = new ComponentBinding(new LabelComponentWrapper(label1, field1),
-                new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
+    private ComponentBinding createBinding(TestBindingContext context, TestPmo pmo, Component component) {
+        return new ComponentBinding(new LabelComponentWrapper(component),
+                new ReflectionPropertyDispatcher(() -> pmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
                 context::modelChanged, new ArrayList<>());
-    }
-
-    private void setUpBinding2() {
-        binding2 = new ComponentBinding(new LabelComponentWrapper(label2, field2),
-                new ReflectionPropertyDispatcher(this::getPmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
-                context::modelChanged, new ArrayList<>());
-    }
-
-    private TestPmo getPmo() {
-        return pmo;
     }
 
     @Test
     public void testAdd() {
-        setUpPmo();
-        setUpBinding1();
+        TestBindingContext context = TestBindingContext.create();
+        ComponentBinding binding = createBinding(context);
+
         assertEquals(0, context.getBindings().size());
-        context.add(binding1);
+        context.add(binding);
         assertEquals(1, context.getBindings().size());
     }
 
     @Test
     public void testModelChangedBindings() {
-        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
-        setUpBinding1();
+        Handler afterUpdateUi = mock(Handler.class);
+        TestBindingContext context = TestBindingContext.create(afterUpdateUi);
+        ComponentBinding binding = spy(createBinding(context));
 
-        binding1 = spy(binding1);
-
-        context.add(binding1);
+        context.add(binding);
 
         context.uiUpdated();
-        verify(binding1).updateFromPmo();
+        verify(binding).updateFromPmo();
         verify(afterUpdateUi, never()).apply();
     }
 
     @Test
     public void testModelChangedBindings_noBindingInContext() {
-        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
-        setUpBinding1();
+        Handler afterUpdateUi = mock(Handler.class);
 
-        binding1 = spy(binding1);
+        TestBindingContext context = TestBindingContext.create(afterUpdateUi);
+        ComponentBinding binding = spy(createBinding(context));
 
         context.uiUpdated();
 
-        verify(binding1, never()).updateFromPmo();
-        verify(binding1, never()).displayMessages(any(MessageList.class));
+        verify(binding, never()).updateFromPmo();
+        verify(binding, never()).displayMessages(any(MessageList.class));
         verify(afterUpdateUi, never()).apply();
     }
 
     @Test
     public void testModelChangedBindingsAndValidate_noBindingInContext() {
-        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
-        setUpBinding1();
+        Handler afterUpdateUi = mock(Handler.class);
 
-        binding1 = spy(binding1);
-
+        TestBindingContext context = TestBindingContext.create(afterUpdateUi);
         context.modelChanged();
-
         verify(afterUpdateUi).apply();
     }
 
     @Test
     public void testModelChangedBindingsAndValidate() {
-        Handler afterUpdateUi = setUpPmoWithAfterUpdateUiHandler();
+        Handler afterUpdateUi = mock(Handler.class);
 
-        setUpBinding1();
-        binding1 = spy(binding1);
+        TestBindingContext context = TestBindingContext.create(afterUpdateUi);
+        ComponentBinding binding = spy(createBinding(context));
 
-        context.add(binding1);
+        context.add(binding);
 
         context.modelChanged();
-        verify(binding1).updateFromPmo();
+        verify(binding).updateFromPmo();
         verify(afterUpdateUi).apply();
     }
 
     @Test
     public void testChangeBoundObject() {
-        setUpPmo();
-        setUpBinding1();
-        binding1 = spy(binding1);
+        TestBindingContext context = TestBindingContext.create();
+        ComponentBinding binding = spy(createBinding(context));
 
         context.uiUpdated();
-        verify(binding1, never()).updateFromPmo();
+        verify(binding, never()).updateFromPmo();
 
-        context.add(binding1);
+        context.add(binding);
 
         context.uiUpdated();
-        verify(binding1).updateFromPmo();
+        verify(binding).updateFromPmo();
     }
 
     @Test
     public void testRemoveBindingsForComponent() {
-        setUpPmo();
-        setUpBinding1();
-        setUpBinding2();
+        TestBindingContext context = TestBindingContext.create();
+        TestPmo testPmo = new TestPmo();
+        ComponentBinding binding1 = createBinding(context, testPmo, field1);
+        ComponentBinding binding2 = createBinding(context, testPmo, field2);
         context.add(binding1);
         context.add(binding2);
 
@@ -214,7 +171,7 @@ public class BindingContextTest {
 
     @Test
     public void testRemoveBindingsForComponent_Container() {
-        context = TestBindingContext.create();
+        TestBindingContext context = TestBindingContext.create();
         TestTablePmo tablePmo = new TestTablePmo();
         tablePmo.addItem();
         Table table = new PmoBasedTableFactory<>(tablePmo, context).createTable();
@@ -236,7 +193,7 @@ public class BindingContextTest {
 
     @Test
     public void testRemoveBindingsForComponent_Button() {
-        context = TestBindingContext.create();
+        TestBindingContext context = TestBindingContext.create();
         TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
         BaseSection section = new PmoBasedSectionFactory().createBaseSection(testPmoWithButton, context);
 
@@ -248,9 +205,11 @@ public class BindingContextTest {
 
     @Test
     public void testRemoveBindingsForPmo() {
-        setUpPmo();
-        setUpBinding1();
-        setUpBinding2();
+        TestBindingContext context = TestBindingContext.create();
+
+        TestPmo pmo = new TestPmo();
+        Binding binding1 = createBinding(context, pmo, field1);
+        Binding binding2 = createBinding(context, pmo, field2);
         context.add(binding1);
         context.add(binding2);
 
@@ -262,7 +221,7 @@ public class BindingContextTest {
 
     @Test
     public void testRemoveBindingsForPmo_Container() {
-        context = TestBindingContext.create();
+        TestBindingContext context = TestBindingContext.create();
         TestTablePmo tablePmo = new TestTablePmo();
         tablePmo.addItem();
         Table table = new PmoBasedTableFactory<>(tablePmo, context).createTable();
@@ -284,7 +243,7 @@ public class BindingContextTest {
 
     @Test
     public void testRemoveBindingsForPmo_Button() {
-        context = TestBindingContext.create();
+        TestBindingContext context = TestBindingContext.create();
         TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
         new PmoBasedSectionFactory().createBaseSection(testPmoWithButton, context);
 
@@ -296,7 +255,6 @@ public class BindingContextTest {
 
     @Test
     public void testBind_BoundComponentsAreMadeImmediate() {
-        setUpPmo();
         TextField field = new TextField();
         BindingDefinition fieldDefintion = mock(BindingDefinition.class);
         when(fieldDefintion.required()).thenReturn(RequiredType.REQUIRED);
@@ -308,13 +266,14 @@ public class BindingContextTest {
         // Precondition
         assertThat(field.isImmediate(), is(false));
 
-        context.bind(pmo, fieldDescriptor, new LabelComponentWrapper(field));
+        TestBindingContext context = TestBindingContext.create();
+        context.bind(new TestPmo(), fieldDescriptor, new LabelComponentWrapper(field));
         assertThat(field.isImmediate(), is(true));
     }
 
     @Test
     public void testBind_ButtonPmoBindningToCheckUpdateFromPmo() {
-        context = TestBindingContext.create();
+        TestBindingContext context = TestBindingContext.create();
         TestButtonPmo buttonPmo = new TestButtonPmo();
         Button button = ComponentFactory.newButton(buttonPmo.getButtonIcon(), buttonPmo.getStyleNames());
         buttonPmo.enabled = false;
@@ -322,26 +281,6 @@ public class BindingContextTest {
         context.bind(buttonPmo, button);
 
         assertThat(button.isEnabled(), is(false));
-    }
-
-    @UISection
-    public static class TestModelObject {
-
-        public static final String PROPERTY_MODEL_PROP = "modelProp";
-
-        @Nullable
-        private String modelProp;
-
-        @UITextField(position = 1)
-        @Nullable
-        public String getModelProp() {
-            return modelProp;
-        }
-
-        public void setModelProp(String modelProp) {
-            this.modelProp = modelProp;
-        }
-
     }
 
     public static class TestPmoWithButton implements PresentationModelObject {

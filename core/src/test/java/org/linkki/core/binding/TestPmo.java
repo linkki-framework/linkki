@@ -33,6 +33,14 @@ public class TestPmo {
 
     private TestEnum enumValue;
 
+    public TestPmo() {
+        this(null);
+    }
+
+    public TestPmo(Object modelObject) {
+        this.modelObject = modelObject;
+    }
+
     public String getValue() {
         return value;
     }
