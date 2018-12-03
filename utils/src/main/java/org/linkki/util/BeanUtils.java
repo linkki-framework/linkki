@@ -62,9 +62,9 @@ public class BeanUtils {
     }
 
     /**
-     * Returns an optional containing the class' method matching the given predicate (empty optional if
-     * none matches). If you expect more than one match, {@link #getMethods(Class, Predicate)} might be
-     * what you're looking for.
+     * Returns an optional containing the class' method matching the given predicate (empty optional
+     * if none matches). If you expect more than one match, {@link #getMethods(Class, Predicate)}
+     * might be what you're looking for.
      * 
      * @throws IllegalStateException If more than one method matches the predicate.
      */

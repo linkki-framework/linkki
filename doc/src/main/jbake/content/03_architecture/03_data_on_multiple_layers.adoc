@@ -18,7 +18,12 @@ The rightmost layer is some kind of a persistence layer, for example a database.
 
 Very often the presentation model and the domain model have similar structure and properties. In that case the "model binding" can be used. "Model Binding", short-hand for Domain Model Binding, is a *linkki* feature for reducing delegate code in PMO classes. It is aimed at the "simple" case of UI binding, in which properties from the domain model are directly presented in the UI, meaning that no special formatting or conversion needs to take place before the value can be shown.
 
-To use this feature, the UI needs to be created via <<pmo-uisection,`@UISection`>>, and the getter method for the model object in the PMO needs to be marked with the `@ModelObject` annotation.
+To use this feature, the UI needs to be created via <<pmo-uisection,`@UISection`>>, and the instance field or the getter method for the model object in the PMO needs to be marked with the `@ModelObject` annotation:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/PersonSectionPmo_fieldModelObject.java[tags=modelobject]
+----
 
 [source,java]
 ----

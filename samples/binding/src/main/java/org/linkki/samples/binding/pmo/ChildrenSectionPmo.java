@@ -26,15 +26,11 @@ import org.linkki.samples.binding.model.Contact;
 public class ChildrenSectionPmo {
     // end::sectionCaption[]
 
+    @ModelObject
     private Contact contact;
 
     public ChildrenSectionPmo(Contact contact) {
         this.contact = contact;
-    }
-
-    @ModelObject
-    public Contact getContact() {
-        return contact;
     }
 
     @UIIntegerField(position = 10, label = "Number of children", modelAttribute = Contact.PROPERTY_NO_OF_CHILDREN)
@@ -48,6 +44,6 @@ public class ChildrenSectionPmo {
     }
 
     public boolean isNotesVisible() {
-        return getContact().getNoOfChildren() > 0;
+        return contact.getNoOfChildren() > 0;
     }
 }

@@ -9,9 +9,15 @@
 
 === November 29th, 2018
 
+==== ApplicationHeader#addRightComponents() deprecated
+
 The `addRightComponents()` method in `ApplicationHeader` is deprecated as components added in this method were not automatically aligned to right. Use `addRightComponents(HorizontalLayout)` instead of which the method argument is a right aligned layout.
 
 The CSS style `LinkkiStyles#APLICATION_HEADER` and `LinkkiStyles#APPLICATION_HEADER_RIGHT` have been modified as the previously included style are not needed anymore.
+
+==== @ModelObject can be applied to instance variables
+
+The annotation `@ModelObject` can now be added to an instance variable. It is not necessary to create a getter for the model object any more. For more information refer to the <<domain-model-binding, documentation>>.
 
 === November 22th, 2018
 

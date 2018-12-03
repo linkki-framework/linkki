@@ -20,7 +20,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.BindingContextTest.TestModelObject;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -35,21 +34,15 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class PropertyDispatcherFactoryTest {
 
     private static final String ANY_VALUE = "ukztu7kxju76r";
-    private TestPmo pmo = new TestPmo();
     private TestModelObject modelObject = new TestModelObject();
+    private TestPmo pmo = new TestPmo(modelObject);
     private PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
 
     @Mock
     private ElementDescriptor elementDescriptor;
 
-    private void setUpPmo() {
-        modelObject = new TestModelObject();
-        pmo.setModelObject(modelObject);
-    }
-
     @Test
     public void testCreateDispatcherChain_getValueFromPmo() {
-        setUpPmo();
         when(elementDescriptor.getModelPropertyName()).thenReturn("foo");
         when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         when(elementDescriptor.getPmoPropertyName()).thenReturn("value");
@@ -64,7 +57,6 @@ public class PropertyDispatcherFactoryTest {
 
     @Test
     public void testCreateDispatcherChain_pushToPmo() {
-        setUpPmo();
         when(elementDescriptor.getModelPropertyName()).thenReturn("foo");
         when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         when(elementDescriptor.getPmoPropertyName()).thenReturn("value");
@@ -78,7 +70,6 @@ public class PropertyDispatcherFactoryTest {
 
     @Test
     public void testCreateDispatcherChain_getValueFromModelObject() {
-        setUpPmo();
         when(elementDescriptor.getModelPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
         when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         when(elementDescriptor.getPmoPropertyName()).thenReturn("foo");
@@ -93,7 +84,6 @@ public class PropertyDispatcherFactoryTest {
 
     @Test
     public void testCreateDispatcherChain_push() {
-        setUpPmo();
         when(elementDescriptor.getModelPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
         when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         when(elementDescriptor.getPmoPropertyName()).thenReturn("foo");
@@ -107,7 +97,6 @@ public class PropertyDispatcherFactoryTest {
 
     @Test
     public void testCreateDispatcherChain_getValueFromChangedModelObject() {
-        setUpPmo();
         when(elementDescriptor.getModelPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
         when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         when(elementDescriptor.getPmoPropertyName()).thenReturn("foo");
@@ -124,7 +113,6 @@ public class PropertyDispatcherFactoryTest {
 
     @Test
     public void testCreateDispatcherChain_setValueToChangedModelObject() {
-        setUpPmo();
         when(elementDescriptor.getModelPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
         when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
         when(elementDescriptor.getPmoPropertyName()).thenReturn("foo");
@@ -136,6 +124,28 @@ public class PropertyDispatcherFactoryTest {
 
         defaultDispatcher.push(Aspect.of("", "testNewSetValue"));
         assertThat(newModelObject.getModelProp(), is("testNewSetValue"));
+    }
+
+    @Test
+    public void testCreateDispatcherChain_modelObjectField() {
+        PmoWithModelObjectField pmoWithModelObjectField = new PmoWithModelObjectField();
+
+        when(elementDescriptor.getModelPropertyName()).thenReturn(TestModelObject.PROPERTY_MODEL_PROP);
+        when(elementDescriptor.getModelObjectName()).thenReturn(ModelObject.DEFAULT_NAME);
+        when(elementDescriptor.getPmoPropertyName()).thenReturn("foo");
+
+        PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
+                .createDispatcherChain(pmoWithModelObjectField, elementDescriptor,
+                                       PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+
+        pmoWithModelObjectField.modelObject.setModelProp("prop");
+
+        Object initialValue = defaultDispatcher.pull(Aspect.of(""));
+        assertThat(initialValue, is("prop"));
+
+        defaultDispatcher.push(Aspect.of("", "testNewSetValue"));
+        assertThat(pmoWithModelObjectField.modelObject.getModelProp(), is("testNewSetValue"));
+
     }
 
     @Test(expected = NullPointerException.class)
@@ -153,4 +163,10 @@ public class PropertyDispatcherFactoryTest {
                                                         PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
     }
 
+    private static class PmoWithModelObjectField {
+
+        @ModelObject
+        private TestModelObject modelObject = new TestModelObject();
+
+    }
 }

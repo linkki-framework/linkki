@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
  * must not return {@code null}.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ ElementType.METHOD, ElementType.FIELD })
 public @interface ModelObject {
 
     public static final String DEFAULT_NAME = "modelObject";

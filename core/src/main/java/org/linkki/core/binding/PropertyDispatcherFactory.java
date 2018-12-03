@@ -95,7 +95,7 @@ public class PropertyDispatcherFactory {
             String modelObjectName,
             String modelObjectProperty,
             PropertyDispatcher wrappedDispatcher) {
-        if (UIAnnotationReader.hasModelObjectAnnotatedMethod(pmo, modelObjectName)) {
+        if (UIAnnotationReader.hasModelObjectAnnotation(pmo, modelObjectName)) {
             Supplier<?> modelObject = UIAnnotationReader.getModelObjectSupplier(pmo, modelObjectName);
             ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(modelObject,
                     modelObjectProperty, wrappedDispatcher);
@@ -106,7 +106,7 @@ public class PropertyDispatcherFactory {
     }
 
     private ExceptionPropertyDispatcher newExceptionDispatcher(Object pmo, String modelObjectName, String property) {
-        if (UIAnnotationReader.hasModelObjectAnnotatedMethod(pmo, modelObjectName)) {
+        if (UIAnnotationReader.hasModelObjectAnnotation(pmo, modelObjectName)) {
             return new ExceptionPropertyDispatcher(property,
                     UIAnnotationReader.getModelObjectSupplier(pmo, modelObjectName).get(), pmo);
         } else {

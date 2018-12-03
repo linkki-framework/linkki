@@ -16,7 +16,9 @@ package org.linkki.core.ui.section.descriptor;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -30,8 +32,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
@@ -169,47 +171,72 @@ public class UIAnnotationReader {
     }
 
     /**
-     * Reads the given presentation model object's class to find a method annotated with
+     * Reads the given presentation model object's class to find a method or field annotated with
      * {@link ModelObject @ModelObject} and the annotation's {@link ModelObject#name()} matching the
-     * given model object name. Returns a supplier that supplies a model object by invoking that method.
+     * given model object name. Returns a supplier that supplies a model object by invoking that
+     * method or retrieving the field value.
      *
      * @param pmo a presentation model object
-     * @param modelObjectName the name of the model object as provided by a method annotated with
-     *            {@link ModelObject @ModelObject}
+     * @param modelObjectName the name of the model object as provided by a method/field annotated
+     *            with {@link ModelObject @ModelObject}
      *
-     * @return a supplier that supplies a model object by invoking the annotated method
+     * @return a supplier that supplies a model object by invoking the annotated method or
+     *         retrieving the field value
      *
-     * @throws ModelObjectAnnotationException if no matching method is found or the method has no return
-     *             value
+     * @throws ModelObjectAnnotationException if no matching method or field is found, the method
+     *             has no return value or the field has the type {@link Void}.
      */
     public static Supplier<?> getModelObjectSupplier(Object pmo, String modelObjectName) {
         requireNonNull(pmo, "pmo must not be null");
         requireNonNull(modelObjectName, "modelObjectName must not be null");
-        Optional<Method> modelObjectMethod = BeanUtils
-                .getMethod(requireNonNull(pmo, "pmo must not be null").getClass(),
-                           (m) -> m.isAnnotationPresent(ModelObject.class)
-                                   && m.getAnnotation(ModelObject.class).name().equals(modelObjectName));
-        if (modelObjectMethod.isPresent()) {
-            Method method = modelObjectMethod.get();
-            if (Void.TYPE.equals(method.getReturnType())) {
-                throw new ModelObjectAnnotationException(pmo, method);
+
+        Optional<Method> annotatedMethod = getModelObjectMethod(pmo, modelObjectName);
+        Optional<Field> annotatedField = getModelObjectField(pmo, modelObjectName);
+
+        if (annotatedMethod.isPresent() && annotatedField.isPresent()) {
+            throw ModelObjectAnnotationException.multipleMembersAnnotated(pmo, modelObjectName, annotatedMethod.get(),
+                                                                          annotatedField.get());
+        }
+
+        return annotatedMethod
+                .map(m -> getModelObjectSupplier(pmo, m))
+                .orElseGet(() -> annotatedField
+                        .map(f -> getModelObjectSupplier(pmo, f))
+                        .orElseThrow(() -> ModelObjectAnnotationException.noAnnotatedMember(pmo, modelObjectName)));
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static Supplier getModelObjectSupplier(Object pmo, Method method) {
+        if (Void.TYPE.equals(method.getReturnType())) {
+            throw ModelObjectAnnotationException.voidMethod(pmo, method);
+        }
+        return () -> {
+            try {
+                return method.invoke(pmo);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new LinkkiBindingException(
+                        "Cannot call method to get model object " + pmo.getClass().getName() + "#"
+                                + method.getName(),
+                        e);
             }
-            return () -> {
-                try {
-                    return method.invoke(pmo);
-                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                    throw new LinkkiBindingException(
-                            "Cannot call method to get model object " + pmo.getClass().getName() + "#"
-                                    + method.getName(),
-                            e);
-                }
-            };
+        };
+    }
+
+    private static Supplier<?> getModelObjectSupplier(Object pmo, Field field) {
+        if (Void.TYPE.equals(field.getType())) {
+            throw ModelObjectAnnotationException.voidField(pmo, field);
         }
-        if (ModelObject.DEFAULT_NAME.equals(modelObjectName)) {
-            throw new ModelObjectAnnotationException(pmo);
-        } else {
-            throw new ModelObjectAnnotationException(pmo, modelObjectName);
-        }
+        return () -> {
+            field.setAccessible(true);
+            try {
+                return field.get(pmo);
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                throw new LinkkiBindingException(
+                        "Cannot get field value to get model object " + pmo.getClass().getName() + "#"
+                                + field.getName(),
+                        e);
+            }
+        };
     }
 
     /**
@@ -219,14 +246,29 @@ public class UIAnnotationReader {
      * @param pmo an object used for a presentation model
      * @param modelObjectName the name of the model object
      *
-     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using the
-     *         given name
+     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using
+     *         the given name
      */
-    public static boolean hasModelObjectAnnotatedMethod(Object pmo, @Nullable String modelObjectName) {
+    public static boolean hasModelObjectAnnotation(Object pmo, String modelObjectName) {
+        return getModelObjectField(pmo, modelObjectName).isPresent()
+                || getModelObjectMethod(pmo, modelObjectName).isPresent();
+    }
+
+    private static Optional<Method> getModelObjectMethod(Object pmo, String modelObjectName) {
         return BeanUtils.getMethod(requireNonNull(pmo, "pmo must not be null").getClass(),
                                    (m) -> m.isAnnotationPresent(ModelObject.class)
-                                           && m.getAnnotation(ModelObject.class).name().equals(modelObjectName))
-                .isPresent();
+                                           && requireNonNull(m.getAnnotation(ModelObject.class)).name()
+                                                   .equals(modelObjectName));
+    }
+
+    private static Optional<Field> getModelObjectField(Object pmo, String modelObjectName) {
+        return FieldUtils.getFieldsListWithAnnotation(requireNonNull(pmo, "pmo must not be null").getClass(),
+                                                      ModelObject.class)
+                .stream()
+                .filter(f -> requireNonNull(f.getAnnotation(ModelObject.class)).name().equals(modelObjectName))
+                .reduce((f1, f2) -> {
+                    throw ModelObjectAnnotationException.multipleMembersAnnotated(pmo, modelObjectName, f1, f2);
+                });
     }
 
     /**
@@ -236,21 +278,44 @@ public class UIAnnotationReader {
     public static final class ModelObjectAnnotationException extends IllegalArgumentException {
         private static final long serialVersionUID = 1L;
 
-        public ModelObjectAnnotationException(Object pmo) {
-            super("Presentation model object " + pmo + " has no method annotated with @"
-                    + ModelObject.class.getSimpleName());
+        private ModelObjectAnnotationException(String description) {
+            super(description);
         }
 
-        public ModelObjectAnnotationException(Object pmo, String modelObjectName) {
-            super("Presentation model object " + pmo + " has no method annotated with @"
-                    + ModelObject.class.getSimpleName() + " for the model object named \"" + modelObjectName + "\"");
+        public static ModelObjectAnnotationException noAnnotatedMember(Object pmo, String modelObjectName) {
+            return new ModelObjectAnnotationException("Presentation model object class " + pmo.getClass()
+                    + " has no method or field annotated with " + getDescriptionForAnnotation(modelObjectName));
         }
 
-        public ModelObjectAnnotationException(Object pmo, Method method) {
-            super("Presentation model object " + pmo + "'s method " + method.getName() + " is annotated with @"
-                    + ModelObject.class.getSimpleName() + " but returns void");
+        public static ModelObjectAnnotationException voidField(Object pmo, Field field) {
+            return new ModelObjectAnnotationException(
+                    "Presentation model object " + pmo + "'s field " + field.getName() + " is annotated with @"
+                            + ModelObject.class.getSimpleName() + " but is of type Void");
         }
 
+        public static ModelObjectAnnotationException voidMethod(Object pmo, Method method) {
+            return new ModelObjectAnnotationException(
+                    "Presentation model object " + pmo + "'s method " + method.getName() + " is annotated with @"
+                            + ModelObject.class.getSimpleName() + " but returns void");
+        }
+
+        public static ModelObjectAnnotationException multipleMembersAnnotated(Object pmo,
+                String modelObjectName,
+                Member... annotatedMembers) {
+            return new ModelObjectAnnotationException(String.format(
+                                                                    "Presentation model object class %s has multiple members (%s) that are annotated with %s",
+                                                                    pmo.getClass(),
+                                                                    Arrays.stream(annotatedMembers).map(Member::getName)
+                                                                            .collect(Collectors.joining(", ")),
+                                                                    getDescriptionForAnnotation(modelObjectName)));
+        }
+
+        private static String getDescriptionForAnnotation(String modelObjectName) {
+            String annotation = "@" + ModelObject.class.getSimpleName();
+            return ModelObject.DEFAULT_NAME.equals(modelObjectName)
+                    ? annotation
+                    : annotation + " for the model object named \"" + modelObjectName + "\"";
+        }
     }
 
 }
