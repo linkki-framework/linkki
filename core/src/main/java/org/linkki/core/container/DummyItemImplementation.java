@@ -15,6 +15,7 @@
 package org.linkki.core.container;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -32,12 +33,12 @@ public class DummyItemImplementation implements Item {
     @Override
     @Nullable
     public Property<?> getItemProperty(Object id) {
-        throw new UnsupportedOperationException("Not supported in the dummy implementation!");
+        return null;
     }
 
     @Override
     public Collection<?> getItemPropertyIds() {
-        throw new UnsupportedOperationException("Not supported in the dummy implementation!");
+        return Collections.emptySet();
     }
 
     @Override
