@@ -15,10 +15,12 @@ package org.linkki.samples.appsample.pmo;
 
 import java.util.function.Consumer;
 
+import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.framework.ui.dialogs.ConfirmationDialog;
+import org.linkki.framework.ui.dialogs.OkCancelDialog;
+import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.samples.appsample.model.Report;
 
 import com.vaadin.server.FontAwesome;
@@ -40,9 +42,13 @@ public class ReportSectionPmo extends ReportPmo {
     @UIButton(position = 40, caption = "Send", icon = FontAwesome.SEND, showIcon = true, enabled = EnabledType.DYNAMIC)
     public void send() {
         getReport().save();
-        ConfirmationDialog.open("Thank you!",
-                                String.format("Report with id \"%d\" is sent to our team. Thank you for reporting!",
-                                              getReport().getId()));
+
+        PmoBasedDialogFactory dialogFactory = new PmoBasedDialogFactory(PropertyBehavior.readOnly());
+        OkCancelDialog dialog = dialogFactory.newOkDialog("Report is sent to our team. Thank you!",
+                                                          new ReportPmo(getReport()));
+        dialog.setWidth("1100px");
+        dialog.open();
+
         addReport.accept(getReport());
         newReport();
     }

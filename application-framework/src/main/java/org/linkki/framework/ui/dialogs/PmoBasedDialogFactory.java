@@ -15,9 +15,9 @@ package org.linkki.framework.ui.dialogs;
 
 import static java.util.Objects.requireNonNull;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.section.AbstractSection;
@@ -56,6 +56,18 @@ public class PmoBasedDialogFactory {
     }
 
     /**
+     * Creates a new dialog factory with no validation service.
+     * 
+     * @param propertyBehavior configures some {@link PropertyBehavior} like
+     *            {@link PropertyBehavior#readOnly()} to change the over all behavior of the dialog
+     * 
+     * @see PropertyBehavior
+     */
+    public PmoBasedDialogFactory(PropertyBehavior... propertyBehavior) {
+        this(ValidationService.NOP_VALIDATION_SERVICE, PropertyBehaviorProvider.with(propertyBehavior));
+    }
+
+    /**
      * Creates a new dialog factory.
      * 
      * @param validationService a service validating the data in the dialog
@@ -86,15 +98,33 @@ public class PmoBasedDialogFactory {
     }
 
     /**
-     * Creates a new {@link OkCancelDialog}.
+     * Creates a new dialog with only Ok button.
+     *
+     * @param title the dialog title
+     * @param pmos the presentation model objects providing the data and the layout information
+     * @return A dialog with the content defined by the given PMO.
+     */
+    public OkCancelDialog newOkDialog(String title, Object... pmos) {
+        return newOkCancelDialog(title, Handler.NOP_HANDLER, ButtonOption.OK_ONLY, pmos);
+    }
+
+    /**
+     * Creates a new dialog with ok and cancel button.
      * 
      * @param title the dialog title
      * @param okHandler the called when OK is clicked
      * @param pmos the presentation model objects providing the data and the layout information
      * @return A dialog with the content defined by the given PMO.
      */
-    public OkCancelDialog newOkCancelDialog(String title, Handler okHandler, @NonNull Object... pmos) {
-        OkCancelDialog dialog = new OkCancelDialog(title, okHandler, ButtonOption.OK_CANCEL);
+    public OkCancelDialog newOkCancelDialog(String title, Handler okHandler, Object... pmos) {
+        return newOkCancelDialog(title, okHandler, ButtonOption.OK_CANCEL, pmos);
+    }
+
+    private OkCancelDialog newOkCancelDialog(String title,
+            Handler okHandler,
+            ButtonOption buttonOption,
+            Object... pmos) {
+        OkCancelDialog dialog = new OkCancelDialog(title, okHandler, buttonOption);
         DialogBindingManager bindingManager = new DialogBindingManager(dialog, validationService,
                 propertyBehaviorProvider);
 
