@@ -7,6 +7,12 @@
 
 == New & Noteworthy
 
+=== January 10th, 2019
+
+==== ComponentFactory.sizedLabel deprecated
+
+The methods `sizedLabel(AbstractOrderedLayout, String)` and `sizedLabel(Layout, String, ContentMode)` in the `ComponentFactory` have been marked as deprecated, as they duplicate the `newLabelWidthUndefined` methods with the same parameters which better fit the naming of the other methods in the class. 
+
 === November 29th, 2018
 
 ==== ApplicationHeader#addRightComponents() deprecated

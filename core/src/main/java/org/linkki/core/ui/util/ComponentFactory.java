@@ -101,20 +101,18 @@ public class ComponentFactory {
     }
 
     /**
-     * Erzeugt einen neuen Label der soviel Platz einnimmt, wie er zur Anzeige benötigt
-     * (width=undefined).
+     * Creates a new {@link Label} taking as much space as is required to display it (width=undefined).
+     * 
+     * @deprecated for removal since 2019-01-10 because it duplicated
+     *             {@link #newLabelWidthUndefined(AbstractOrderedLayout, String)}
      */
+    @Deprecated
     public static final Label sizedLabel(AbstractOrderedLayout parent, String caption) {
-        Label l = new Label(caption);
-        l.setWidthUndefined();
-        parent.addComponent(l);
-        parent.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
-        return l;
+        return newLabelWidthUndefined(parent, caption);
     }
 
     /**
-     * Erzeugt einen neuen Label der soviel Platz einnimmt, wie er zur Anzeige benötigt
-     * (width=undefined).
+     * Creates a new {@link Label} taking all available space (width=100%).
      */
     public static final Label newLabelWidth100(AbstractOrderedLayout parent, String caption) {
         Label l = new Label(caption);
@@ -124,10 +122,22 @@ public class ComponentFactory {
     }
 
     /**
-     * Erzeugt einen neuen Label der soviel Platz einnimmt, wie er zur Anzeige benötigt
-     * (width=undefined).
+     * Creates a new {@link Label} taking as much space as is required to display it (width=undefined)
+     * using the given {@link ContentMode}.
+     * 
+     * @deprecated for removal since 2019-01-10 to unify method names. Use
+     *             {@link #newLabelWidthUndefined(Layout, String, ContentMode)} instead.
      */
+    @Deprecated
     public static final Label sizedLabel(Layout parent, String caption, ContentMode mode) {
+        return newLabelWidthUndefined(parent, caption, mode);
+    }
+
+    /**
+     * Creates a new {@link Label} taking as much space as is required to display it (width=undefined)
+     * using the given {@link ContentMode}.
+     */
+    public static final Label newLabelWidthUndefined(Layout parent, String caption, ContentMode mode) {
         Label l = new Label(caption, mode);
         l.setWidthUndefined();
         parent.addComponent(l);
@@ -135,8 +145,7 @@ public class ComponentFactory {
     }
 
     /**
-     * Erzeugt einen neuen Label der soviel Platz einnimmt, wie er zur Anzeige benötigt
-     * (width=undefined).
+     * Creates a new {@link Label} taking as much space as is required to display it (width=undefined).
      */
     public static final Label newLabelWidthUndefined(AbstractOrderedLayout parent, String caption) {
         Label l = new Label(caption);
@@ -147,7 +156,7 @@ public class ComponentFactory {
     }
 
     public static Label labelIcon(AbstractOrderedLayout parent, FontIcon icon) {
-        Label l = sizedLabel(parent, "");
+        Label l = newLabelWidthUndefined(parent, "");
         l.setContentMode(ContentMode.HTML);
         l.setValue(icon.getHtml());
         return l;
