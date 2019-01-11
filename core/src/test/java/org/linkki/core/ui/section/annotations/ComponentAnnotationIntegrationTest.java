@@ -27,9 +27,9 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.TestBindingContext;
+import org.linkki.core.binding.descriptor.ElementDescriptor;
+import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.ui.components.LabelComponentWrapper;
-import org.linkki.core.ui.section.descriptor.ElementDescriptor;
-import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;

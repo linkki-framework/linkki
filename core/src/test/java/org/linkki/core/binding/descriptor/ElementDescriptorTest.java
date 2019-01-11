@@ -11,9 +11,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.core.ui.section.annotations;
+package org.linkki.core.binding.descriptor;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -22,16 +23,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinition;
-import org.linkki.core.ui.section.descriptor.ElementDescriptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FieldDescriptorTest {
+public class ElementDescriptorTest {
 
-    @SuppressWarnings("null")
     @Mock
-    private TextFieldBindingDefinition adapter;
+    private TextFieldBindingDefinition adapter = mock(TextFieldBindingDefinition.class);
 
     @Before
     public void setUp() {
@@ -41,38 +40,38 @@ public class FieldDescriptorTest {
     @Test
     public void getLabelText_deriveFromLabel() {
         when(adapter.label()).thenReturn("blablub");
-        ElementDescriptor fieldDescriptor = new ElementDescriptor(adapter, "xyz", Void.class, new ArrayList<>());
+        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "xyz", Void.class, new ArrayList<>());
 
-        assertEquals("blablub", fieldDescriptor.getLabelText());
+        assertEquals("blablub", elementDescriptor.getLabelText());
     }
 
     @Test
     public void getLabelText_deriveFromPropertyName() {
-        ElementDescriptor fieldDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
+        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
 
-        assertEquals("Test", fieldDescriptor.getLabelText());
+        assertEquals("Test", elementDescriptor.getLabelText());
     }
 
     @Test
     public void getLabelText_addSuffixOnlyIfNecessary() {
-        ElementDescriptor fieldDescriptor = new ElementDescriptor(adapter, "Test:", Void.class, new ArrayList<>());
+        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test:", Void.class, new ArrayList<>());
 
-        assertEquals("Test:", fieldDescriptor.getLabelText());
+        assertEquals("Test:", elementDescriptor.getLabelText());
     }
 
     @Test
     public void getPropertyName_favorModelAttribute() {
         when(adapter.modelAttribute()).thenReturn("xyz");
-        ElementDescriptor fieldDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
+        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
 
-        assertEquals("xyz", fieldDescriptor.getModelPropertyName());
+        assertEquals("xyz", elementDescriptor.getModelPropertyName());
     }
 
     @Test
     public void getPropertyName_byMethodName() {
-        ElementDescriptor fieldDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
+        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
 
-        assertEquals("Test", fieldDescriptor.getModelPropertyName());
+        assertEquals("Test", elementDescriptor.getModelPropertyName());
     }
 
 }

@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.core.ui.section.descriptor;
+package org.linkki.core.binding.descriptor;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.linkki.core.binding.ComponentBinding;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.annotations.Bind;
+import org.linkki.core.binding.descriptor.BindAnnotationDescriptor;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.util.handler.Handler;

@@ -28,7 +28,6 @@ import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
-import org.linkki.core.ui.section.annotations.adapters.AvailableValuesProvider;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.Property;

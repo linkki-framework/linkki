@@ -20,7 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.descriptor.UIAnnotationReader;
 
 import com.vaadin.ui.Component;
 

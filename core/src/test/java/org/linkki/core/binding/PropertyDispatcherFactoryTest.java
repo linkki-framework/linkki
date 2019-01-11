@@ -21,11 +21,11 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
+import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.descriptor.BindingDescriptor;
-import org.linkki.core.ui.section.descriptor.ElementDescriptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 

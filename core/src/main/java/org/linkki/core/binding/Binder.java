@@ -29,9 +29,9 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.BindAnnotationDescriptor;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.ui.components.LabelComponentWrapper;
-import org.linkki.core.ui.section.descriptor.BindAnnotationDescriptor;
-import org.linkki.core.ui.section.descriptor.BindingDescriptor;
 import org.linkki.util.BeanUtils;
 
 import com.vaadin.ui.Component;

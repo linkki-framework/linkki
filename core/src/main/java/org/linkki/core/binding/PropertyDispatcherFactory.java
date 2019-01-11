@@ -19,6 +19,8 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
+import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.binding.dispatcher.BehaviorDependentDispatcher;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
@@ -26,8 +28,6 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.StaticValueDispatcher;
 import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.descriptor.BindingDescriptor;
-import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 
 /**
  * Creates Chains of {@link PropertyDispatcher PropertyDispatchers}.
