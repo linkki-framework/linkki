@@ -21,12 +21,10 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-import java.util.LinkedHashSet;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import org.junit.Test;
-import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
-import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.binding.descriptor.UIAnnotationReader.ModelObjectAnnotationException;
 import org.linkki.core.ui.section.annotations.BindTooltip;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
@@ -46,8 +44,8 @@ public class UIAnnotationReaderTest {
         assertNotNull(reader.findDescriptors("test"));
         assertNotNull(reader.findDescriptors("test3"));
 
-        LinkedHashSet<PropertyElementDescriptors> uiElements = reader.getUiElements();
-        assertThat(uiElements.size(), is(3));
+        Stream<PropertyElementDescriptors> uiElements = reader.getUiElements();
+        assertThat(uiElements.count(), is(3L));
     }
 
     @Test(expected = ModelObjectAnnotationException.class)

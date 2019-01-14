@@ -69,7 +69,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
 
     protected void bind(Object pmo, String propertyName, Component component) {
         UIAnnotationReader uiAnnotationReader = new UIAnnotationReader(pmo.getClass());
-        ElementDescriptor elementDescriptor = uiAnnotationReader.getUiElements().stream()
+        ElementDescriptor elementDescriptor = uiAnnotationReader.getUiElements()
                 .filter(d -> d.getPmoPropertyName().equals(propertyName))
                 .findFirst().get().getDescriptor(pmo);
         bindingContext.bind(pmo, elementDescriptor, new LabelComponentWrapper(component));

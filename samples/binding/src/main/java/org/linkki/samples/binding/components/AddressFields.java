@@ -30,9 +30,11 @@ public class AddressFields {
     @Bind(pmoProperty = "zip", modelAttribute = Address.PROPERTY_ZIP)
     private final TextField zipTxt;
 
-    @Bind(pmoProperty = "city", modelAttribute = Address.PROPERTY_CITY)
-    private final TextField cityTxt;
+    /* uses the field's name as pmoProperty and modelAttribute */
+    @Bind
+    private final TextField city;
 
+    /* name of pmoProperty is different from the field name */
     @Bind(pmoProperty = "country", availableValues = AvailableValuesType.DYNAMIC, modelAttribute = Address.PROPERTY_COUNTRY)
     private final ComboBox countryCb;
 
@@ -41,7 +43,7 @@ public class AddressFields {
     public AddressFields() {
         streetTxt = createTextField("Street");
         zipTxt = createTextField(null);
-        cityTxt = createTextField(null);
+        city = createTextField(null);
         countryCb = new ComboBox("Country") {
 
             private static final long serialVersionUID = 1L;
@@ -62,7 +64,7 @@ public class AddressFields {
     }
 
     public TextField getCityTxt() {
-        return cityTxt;
+        return city;
     }
 
     public ComboBox getCountryCb() {

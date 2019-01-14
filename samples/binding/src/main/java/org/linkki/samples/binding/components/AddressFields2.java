@@ -55,8 +55,9 @@ public class AddressFields2 {
         return zipTxt;
     }
 
-    @Bind(pmoProperty = "city")
-    public TextField getCityTxt() {
+    /* uses the pmoProperty and modelAttribute "city" derived from the method name */
+    @Bind
+    public TextField getCity() {
         return cityTxt;
     }
 

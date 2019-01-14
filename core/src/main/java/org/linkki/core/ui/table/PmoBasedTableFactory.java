@@ -72,7 +72,7 @@ public class PmoBasedTableFactory<@NonNull T> {
         TableBinding<T> tableBinding = bindTable(table);
         createColumns(tableBinding);
         tableBinding.init();
-        boolean hasCollapsibleColumn = annotationReader.getUiElements().stream()
+        boolean hasCollapsibleColumn = annotationReader.getUiElements()
                 .map(annotationReader::getTableColumnDescriptor)
                 .filter(Optional::isPresent)
                 .map(Optional::get)

@@ -23,15 +23,14 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.LinkkiBindingException;
@@ -106,27 +105,19 @@ public class UIAnnotationReader {
     }
 
     private String getPmoPropertyName(Method method) {
-        if (method.getReturnType() == Void.TYPE) {
-            return method.getName();
-        } else if (method.getName().startsWith("is")) {
-            return StringUtils.uncapitalize(method.getName().substring(2));
-        } else if (method.getName().startsWith("get")) {
-            return StringUtils.uncapitalize(method.getName().substring(3));
-        } else {
-            return method.getName();
-        }
+        return BeanUtils.getPropertyName(method);
     }
 
 
     /**
      * Currently for testing purposes only!
      *
-     * @return the descriptor for the given property.
+     * @return the descriptor for the given property
      *
      * @throws NoSuchElementException if no descriptor with the given property can be found
      */
     public PropertyElementDescriptors findDescriptors(String propertyName) {
-        return getUiElements().stream()
+        return getUiElements()
                 .filter(el -> el.getPmoPropertyName().equals(propertyName))
                 .findFirst()
                 .get();
@@ -140,14 +131,13 @@ public class UIAnnotationReader {
      * Returns all descriptors that are found by this reader. The descriptors are ordered by their
      * position.
      * 
-     * @return all descriptors orders by the position.
+     * @return all descriptors ordered by position
      */
-    public LinkedHashSet<PropertyElementDescriptors> getUiElements() {
+    public Stream<PropertyElementDescriptors> getUiElements() {
         validateNoDuplicatePosition();
         return descriptorsByProperty.values().stream()
                 .filter(PropertyElementDescriptors::isNotEmpty)
-                .sorted(Comparator.comparing(PropertyElementDescriptors::getPosition))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
+                .sorted(Comparator.comparing(PropertyElementDescriptors::getPosition));
     }
 
     private void validateNoDuplicatePosition() {
@@ -173,18 +163,18 @@ public class UIAnnotationReader {
     /**
      * Reads the given presentation model object's class to find a method or field annotated with
      * {@link ModelObject @ModelObject} and the annotation's {@link ModelObject#name()} matching the
-     * given model object name. Returns a supplier that supplies a model object by invoking that
-     * method or retrieving the field value.
+     * given model object name. Returns a supplier that supplies a model object by invoking that method
+     * or retrieving the field value.
      *
      * @param pmo a presentation model object
-     * @param modelObjectName the name of the model object as provided by a method/field annotated
-     *            with {@link ModelObject @ModelObject}
+     * @param modelObjectName the name of the model object as provided by a method/field annotated with
+     *            {@link ModelObject @ModelObject}
      *
-     * @return a supplier that supplies a model object by invoking the annotated method or
-     *         retrieving the field value
+     * @return a supplier that supplies a model object by invoking the annotated method or retrieving
+     *         the field value
      *
-     * @throws ModelObjectAnnotationException if no matching method or field is found, the method
-     *             has no return value or the field has the type {@link Void}.
+     * @throws ModelObjectAnnotationException if no matching method or field is found, the method has no
+     *             return value or the field has the type {@link Void}.
      */
     public static Supplier<?> getModelObjectSupplier(Object pmo, String modelObjectName) {
         requireNonNull(pmo, "pmo must not be null");
@@ -246,8 +236,8 @@ public class UIAnnotationReader {
      * @param pmo an object used for a presentation model
      * @param modelObjectName the name of the model object
      *
-     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using
-     *         the given name
+     * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using the
+     *         given name
      */
     public static boolean hasModelObjectAnnotation(Object pmo, String modelObjectName) {
         return getModelObjectField(pmo, modelObjectName).isPresent()

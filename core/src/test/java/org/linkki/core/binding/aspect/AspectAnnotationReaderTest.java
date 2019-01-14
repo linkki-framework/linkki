@@ -23,8 +23,13 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 
+import org.eclipse.jdt.annotation.Nullable;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -33,6 +38,7 @@ import org.linkki.util.handler.Handler;
 
 public class AspectAnnotationReaderTest {
 
+    @SuppressWarnings("null")
     @Test
     public void testCreateAspectDefinitionsFrom() throws NoSuchMethodException, SecurityException {
         TestAnnotation annotationToTest = TestClass.class.getMethod("something").getAnnotation(TestAnnotation.class);
@@ -40,17 +46,58 @@ public class AspectAnnotationReaderTest {
         assertThat(definitions.size(), is(2));
 
         LinkkiAspectDefinition definition = definitions.get(0);
-        assertThat(definition, instanceOf(TestAspectDefinition.class));
-        assertThat(((TestAspectDefinition)definition).initialized, is(true));
+        assertThat(definition, is(instanceOf(TestAspectDefinition.class)));
+        assertThat(definition, isInitializedWith(TestAnnotation.class));
 
         LinkkiAspectDefinition anotherDefinition = definitions.get(1);
-        assertThat(anotherDefinition, instanceOf(AnotherTestAspectDefinition.class));
-        assertThat(((AnotherTestAspectDefinition)anotherDefinition).anotherInitialized, is(true));
+        assertThat(anotherDefinition, is(instanceOf(AnotherTestAspectDefinition.class)));
+        assertThat(anotherDefinition, isInitializedWith(TestAnnotation.class));
+    }
+
+    @Test
+    public void testCreateAspectDefinitionsFor() throws NoSuchMethodException, SecurityException {
+        AnnotatedElement annotatedElement = TestClass.class.getMethod("somethingElse");
+        List<LinkkiAspectDefinition> definitions = AspectAnnotationReader.createAspectDefinitionsFor(annotatedElement);
+        assertThat(definitions.size(), is(3));
+
+        LinkkiAspectDefinition definition = definitions.get(0);
+        assertThat(definition, is(instanceOf(TestAspectDefinition.class)));
+        assertThat(definition, isInitializedWith(TestAnnotation.class));
+
+        LinkkiAspectDefinition anotherDefinition = definitions.get(1);
+        assertThat(anotherDefinition, is(instanceOf(AnotherTestAspectDefinition.class)));
+        assertThat(anotherDefinition, isInitializedWith(TestAnnotation.class));
+
+        LinkkiAspectDefinition definitionFromSecondAnnotation = definitions.get(2);
+        assertThat(definitionFromSecondAnnotation, is(instanceOf(TestAspectDefinition.class)));
+        assertThat(definitionFromSecondAnnotation, isInitializedWith(AnotherTestAnnotation.class));
+    }
+
+    private Matcher<LinkkiAspectDefinition> isInitializedWith(Class<? extends Annotation> annotation) {
+        return new TypeSafeMatcher<LinkkiAspectDefinition>() {
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("is initialized");
+            }
+
+            @Override
+            protected boolean matchesSafely(LinkkiAspectDefinition definition) {
+                Annotation initializedAnnotation = ((TestAspectDefinition)definition).initializedAnnotation;
+                return initializedAnnotation != null && annotation.equals(initializedAnnotation.annotationType());
+            }
+        };
     }
 
     private static class TestClass {
         @TestAnnotation
         public void something() {
+            // does nothing
+        }
+
+        @TestAnnotation
+        @AnotherTestAnnotation
+        public void somethingElse() {
             // does nothing
         }
     }
@@ -63,11 +110,18 @@ public class AspectAnnotationReaderTest {
         // not used
     }
 
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    @LinkkiAspect(TestAspectDefinition.class)
+    private @interface AnotherTestAnnotation {
+        // not used
+    }
+
     private static class TestAspectDefinition implements LinkkiAspectDefinition {
 
-        private boolean initialized;
+        @Nullable
+        private Annotation initializedAnnotation;
 
-        @SuppressWarnings("unused")
         public TestAspectDefinition() {
             super();
         }
@@ -79,27 +133,14 @@ public class AspectAnnotationReaderTest {
 
         @Override
         public void initialize(Annotation annotation) {
-            initialized = true;
+            this.initializedAnnotation = annotation;
         }
     }
 
-    private static class AnotherTestAspectDefinition implements LinkkiAspectDefinition {
-
-        private boolean anotherInitialized;
-
+    private static class AnotherTestAspectDefinition extends TestAspectDefinition {
         @SuppressWarnings("unused")
         public AnotherTestAspectDefinition() {
             super();
-        }
-
-        @Override
-        public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-            return Handler.NOP_HANDLER;
-        }
-
-        @Override
-        public void initialize(Annotation annotation) {
-            anotherInitialized = true;
         }
     }
 }

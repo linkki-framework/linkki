@@ -23,9 +23,8 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.linkki.core.binding.ComponentBinding;
 import org.linkki.core.binding.ElementBinding;
-import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.binding.descriptor.BindAnnotationDescriptor;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.util.handler.Handler;
 
@@ -35,9 +34,11 @@ import com.vaadin.ui.TextField;
 
 public class BindAnnotationDescriptorTest {
 
+    private BoundProperty boundProperty = new BoundProperty("prop");
+
     @Test
     public void testCreateBinding_CreatesFieldBindingForField() {
-        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(Bind.class), new ArrayList<>());
+        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(boundProperty, new ArrayList<>());
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
         ElementBinding binding = descriptor.createBinding(dispatcher, Handler.NOP_HANDLER,
                                                           new LabelComponentWrapper(new TextField()));
@@ -46,7 +47,7 @@ public class BindAnnotationDescriptorTest {
 
     @Test
     public void testCreateBinding_CreatesButtonBindingForButton() {
-        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(Bind.class), new ArrayList<>());
+        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(boundProperty, new ArrayList<>());
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
         ElementBinding binding = descriptor.createBinding(dispatcher, Handler.NOP_HANDLER,
                                                           new LabelComponentWrapper(new Button()));
@@ -55,7 +56,7 @@ public class BindAnnotationDescriptorTest {
 
     @Test
     public void testCreateBinding_CreatesLabelBindingForLabel() {
-        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(mock(Bind.class), new ArrayList<>());
+        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(boundProperty, new ArrayList<>());
         PropertyDispatcher dispatcher = mock(PropertyDispatcher.class);
         ElementBinding binding = descriptor.createBinding(dispatcher, Handler.NOP_HANDLER,
                                                           new LabelComponentWrapper(new Label()));
