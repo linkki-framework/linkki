@@ -66,7 +66,8 @@ public class ButtonPmoBindingTest {
         ButtonPmo pmo = mock(ButtonPmo.class);
         PropertyDispatcher propertyDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(
                 new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY, wrappedDispatcher));
-        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::modelChanged);
+        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, propertyDispatcher,
+                bindingContext::modelChanged);
         bindingContext.add(buttonPmoBinding);
         button.click();
         verify(pmo).onClick();

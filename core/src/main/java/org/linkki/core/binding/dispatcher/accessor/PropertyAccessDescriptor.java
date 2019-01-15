@@ -14,10 +14,16 @@
 package org.linkki.core.binding.dispatcher.accessor;
 
 import static java.util.Objects.requireNonNull;
+import static org.linkki.util.LazyCachingSupplier.lazyCaching;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Optional;
+import java.util.function.Supplier;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
+import org.eclipse.jdt.annotation.NonNull;
 
 /**
  * This class wraps a {@link PropertyDescriptor} for a bound class and a specified property
@@ -28,15 +34,43 @@ import java.util.Optional;
  */
 public class PropertyAccessDescriptor {
 
+    private static final String GET_PREFIX = "get";
+    private static final String SET_PREFIX = "set";
+    private static final String IS_PREFIX = "is";
+
     private final Class<?> boundClass;
     private final String propertyName;
-    private final Optional<PropertyDescriptor> propertyDescriptor;
+    private final Supplier<Optional<Method>> getter = lazyCaching(this::findGetter);
+    private final Supplier<Optional<Method>> setter = lazyCaching(this::findSetter);
+
+    private String capitalizedPropertyName;
 
     public PropertyAccessDescriptor(Class<?> boundClass, String propertyName) {
-        this.boundClass = requireNonNull(boundClass, "boundClass must not be null");
+        this.boundClass = requireNonNull(boundClass, "clazz must not be null");
         this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
+        capitalizedPropertyName = StringUtils.capitalize(propertyName);
+    }
 
-        propertyDescriptor = findDescriptor();
+    private final Optional<Method> findGetter() {
+        Class<?> @NonNull [] params = {};
+        Method foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, GET_PREFIX + capitalizedPropertyName,
+                                                                     params);
+        if (foundMethod == null) {
+            Class<?> @NonNull [] params1 = {};
+            foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, IS_PREFIX + capitalizedPropertyName,
+                                                                  params1);
+        }
+        return Optional.ofNullable(foundMethod);
+    }
+
+
+    private final Optional<Method> findSetter() {
+        return getter.get()//
+                .map(Method::getReturnType)
+                .map(returnTyp -> new Class<?>[] { returnTyp })
+                .map(params -> MethodUtils.getMatchingAccessibleMethod(boundClass, SET_PREFIX + capitalizedPropertyName,
+                                                                       params))
+                .flatMap(Optional::ofNullable);
     }
 
     public WriteMethod createWriteMethod() {
@@ -47,20 +81,12 @@ public class PropertyAccessDescriptor {
         return new ReadMethod(this);
     }
 
-    Optional<Method> getReflectionWriteMethod() {
-        return propertyDescriptor.flatMap(pd -> Optional.ofNullable(pd.getWriteMethod()));
+    Supplier<Optional<Method>> getReflectionWriteMethod() {
+        return setter;
     }
 
-    Optional<Method> getReflectionReadMethod() {
-        return propertyDescriptor.flatMap(pd -> Optional.ofNullable(pd.getReadMethod()));
-    }
-
-    private Optional<PropertyDescriptor> findDescriptor() {
-        return getDefaultMethodPropertyDescriptor();
-    }
-
-    private Optional<PropertyDescriptor> getDefaultMethodPropertyDescriptor() {
-        return PropertyDescriptorFactory.createPropertyDescriptor(getBoundClass(), getPropertyName());
+    Supplier<Optional<Method>> getReflectionReadMethod() {
+        return getter;
     }
 
     public Class<?> getBoundClass() {
@@ -69,6 +95,11 @@ public class PropertyAccessDescriptor {
 
     public String getPropertyName() {
         return propertyName;
+    }
+
+    @Override
+    public String toString() {
+        return PropertyAccessDescriptor.class.getSimpleName() + '[' + boundClass + '#' + propertyName + ']';
     }
 
 }

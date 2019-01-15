@@ -30,14 +30,15 @@ public abstract class AbstractMethod {
 
     private final Class<?> boundClass;
     private final String propertyName;
-    private final Optional<Method> reflectionMethod;
+    private final Supplier<Optional<Method>> methodSupplier;
 
     /**
      * @param descriptor the descriptor for the property
-     * @param reflectionMethod the method. May be {@link Optional#empty()}.
+     * @param methodSupplier the {@link Supplier} for the {@link Method}. May return
+     *            {@link Optional#empty()}.
      */
-    public AbstractMethod(PropertyAccessDescriptor descriptor, Optional<Method> reflectionMethod) {
-        this.reflectionMethod = requireNonNull(reflectionMethod, "reflectionMethod must not be null");
+    public AbstractMethod(PropertyAccessDescriptor descriptor, Supplier<Optional<Method>> methodSupplier) {
+        this.methodSupplier = requireNonNull(methodSupplier, "methodSupplier must not be null");
         requireNonNull(descriptor, "descriptor must not be null");
 
         boundClass = descriptor.getBoundClass();
@@ -49,7 +50,7 @@ public abstract class AbstractMethod {
     }
 
     protected Optional<Method> getReflectionMethod() {
-        return reflectionMethod;
+        return methodSupplier.get();
     }
 
     protected Object getBoundClass() {

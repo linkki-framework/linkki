@@ -14,6 +14,7 @@
 package org.linkki.core.binding.dispatcher.accessor;
 
 import static org.junit.Assert.assertEquals;
+import static org.linkki.util.LazyCachingSupplier.lazyCaching;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class ReadMethodTest {
     @SuppressWarnings("unused")
     // warning suppressed as object is created to test the constructor, not to use it
     public void testConstructor() {
-        when(descriptor.getReflectionReadMethod()).thenReturn(Optional.empty());
+        when(descriptor.getReflectionReadMethod()).thenReturn(lazyCaching(Optional::empty));
         new ReadMethod(descriptor);
     }
 
