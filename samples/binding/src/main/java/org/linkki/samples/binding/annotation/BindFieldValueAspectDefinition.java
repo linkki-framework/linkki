@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.core.binding.annotations.aspect;
+package org.linkki.samples.binding.annotation;
 
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -26,7 +26,7 @@ import com.vaadin.ui.AbstractField;
  * The {@link Bind} annotation could be used with different kinds of fields, hence we do not want to
  * throw an exception if this aspect is not applicable.
  */
-class BindFieldValueAspectDefinition extends FieldValueAspectDefinition {
+public class BindFieldValueAspectDefinition extends FieldValueAspectDefinition {
 
     @Override
     public void initModelUpdate(PropertyDispatcher propertyDispatcher,

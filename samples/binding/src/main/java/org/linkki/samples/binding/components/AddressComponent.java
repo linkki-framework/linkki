@@ -23,7 +23,7 @@ public class AddressComponent extends FormLayout {
 
     private static final long serialVersionUID = 1L;
 
-    public AddressComponent(AddressFields fields) {
+    public AddressComponent(AddressFields3 fields) {
         setSizeFull();
         setSpacing(true);
         setMargin(new MarginInfo(false, true, true, true));

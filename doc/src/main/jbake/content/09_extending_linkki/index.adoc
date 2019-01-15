@@ -1,0 +1,13 @@
+:jbake-title: Extending linkki
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 90
+
+== Extending linkki
+
+linkki offers several options to extend its abilities:
+
+ * Binding custom UI Elements via <<ui-customfield, UICustomField>>
+ * Binding custom UI Elements with custom UI annotations
+ * Binding aspects of UI elements by <<creating-aspects, creating a new aspect>>
+ * Creating a <<custom-binding-annotation, custom binding annotation>>

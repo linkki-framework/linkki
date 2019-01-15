@@ -7,6 +7,13 @@
 
 == New & Noteworthy
 
+=== January 15th, 2019
+
+==== Refactoring @Bind
+
+The Annotation `@Bind` was refactored to allow creating other variations (see <<custom-binding-annotation, Custom Binding Annotation>>).
+During this refactoring, a fallback mechanism to determine the `pmoProperty` attribute from the name of the annotated method (or field) as for the UI annotations has been implemented as well.
+
 === November 29th, 2018
 
 ==== ApplicationHeader#addRightComponents() deprecated

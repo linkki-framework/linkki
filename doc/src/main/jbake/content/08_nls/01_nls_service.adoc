@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:image-dir: {images}09_nls
+:image-dir: {images}08_nls
 :source-dir-binding-sample: ../../../../../../samples/binding/src/main
 
 === Location of resource bundles
@@ -26,7 +26,7 @@ The key is a String that consists of the PMOs class name, the name of the PMO pr
 include::{source-dir-binding-sample}/resources/org/linkki/samples/binding/pmo/linkki-messages.properties[tags=properties]
 ----
 
-The first entry of the above `.properties` file points to the PMO `ContactRowPmo`, and provides an English translation for the label of its property `name`:
+The second entry of the above `.properties` file points to the PMO `ContactRowPmo`, and provides an English translation for the label of its property `name`:
 
 [source,java]
 ----
@@ -49,3 +49,4 @@ With its German translation entry in `linkki-messages_de.properties`:
 [source,java]
 ----
 include::{source-dir-binding-sample}/resources/org/linkki/samples/binding/pmo/linkki-messages_de.properties[tags=sectionCaption]
+----
