@@ -27,35 +27,33 @@ import com.vaadin.ui.Component;
 /**
  * Aspect definition for caption binding. Assumes that the {@link ComponentWrapper} wraps a
  * {@link Component} by default.
- * <p>
- * In most cases, the annotation in which this aspect definition is referenced is needed to determine
- * the {@link #getStaticCaption() static caption} and the {@link #getCaptionType() caption type}. This
- * annotation can be stored in {@link #initialize(java.lang.annotation.Annotation)}.
  */
-public abstract class CaptionAspectDefinition extends ModelToUiAspectDefinition<@Nullable String> {
+public class CaptionAspectDefinition extends ModelToUiAspectDefinition<@Nullable String> {
 
     public static final String NAME = "caption";
 
+    private final CaptionType captionType;
+    private final String staticCaption;
+
+    public CaptionAspectDefinition(CaptionType captionType, String staticCaption) {
+        this.captionType = captionType;
+        this.staticCaption = staticCaption;
+
+    }
+
     @Override
     public Aspect<@Nullable String> createAspect() {
-        if (getCaptionType() == CaptionType.DYNAMIC) {
+        if (captionType == CaptionType.DYNAMIC) {
             return Aspect.of(NAME);
-        } else if (getCaptionType() == CaptionType.STATIC) {
-            return Aspect.of(NAME, getStaticCaption());
+        } else if (captionType == CaptionType.STATIC) {
+            return Aspect.of(NAME, staticCaption);
         } else {
             return Aspect.of(NAME, null);
         }
     }
 
-    protected abstract String getStaticCaption();
-
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         return caption -> ((Component)componentWrapper.getComponent()).setCaption(caption);
     }
-
-    /**
-     * Type of the caption binding. Usually has to be retrieved from an annotation.
-     */
-    public abstract CaptionType getCaptionType();
 }

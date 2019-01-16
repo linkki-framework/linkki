@@ -13,42 +13,58 @@
  */
 package org.linkki.doc;
 
-import java.lang.annotation.Annotation;
 import java.util.function.Consumer;
 
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.doc.BindTooltip.TooltipType;
 import org.linkki.util.handler.Handler;
 
-@SuppressWarnings("null")
 // tag::BindTooltipAspectDefinition[]
 public class BindTooltipAspectDefinition implements LinkkiAspectDefinition {
 
-    public static final String NAME = "Tooltip";
+    public static final String NAME = "tooltip";
 
-    private BindTooltip annotation;
+    private final TooltipType tooltipType;
 
-    @Override
-    public void initialize(Annotation tooltipAnnotation) {
-        this.annotation = (BindTooltip)tooltipAnnotation;
+    private final String staticValue;
+
+    public BindTooltipAspectDefinition(TooltipType tooltipType, String staticValue) {
+        this.tooltipType = tooltipType;
+        this.staticValue = staticValue;
     }
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        Consumer<String> setter = componentWrapper::setTooltip;
         Aspect<String> aspect = createAspect();
-        return () -> setter.accept(propertyDispatcher.pull(aspect));
+        Consumer<String> setter = componentWrapper::setTooltip;
+        if (tooltipType == TooltipType.STATIC) {
+            setter.accept(propertyDispatcher.pull(aspect));
+            return Handler.NOP_HANDLER;
+        } else {
+            return () -> setter.accept(propertyDispatcher.pull(aspect));
+        }
     }
 
     public Aspect<String> createAspect() {
-        if (annotation.tooltipType() == TooltipType.STATIC) {
-            return Aspect.of(NAME, annotation.value());
+        if (tooltipType == TooltipType.STATIC) {
+            return Aspect.of(NAME, staticValue);
         } else {
             return Aspect.of(NAME);
         }
     }
+
+
+    public static enum TooltipType {
+
+        STATIC,
+
+        /**
+         * Tooltip is bound to the property using the method get&lt;PropertyName&gt;Tooltip().
+         */
+        DYNAMIC;
+    }
+
 }
 // end::BindTooltipAspectDefinition[]

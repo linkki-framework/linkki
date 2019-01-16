@@ -25,7 +25,7 @@ import java.text.DateFormat;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.section.annotations.adapters.DateFieldBindingDefinition;
-import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 
 /**
  * A field for date input, in accordance with {@link com.vaadin.ui.DateField}.
@@ -33,7 +33,7 @@ import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(DateFieldBindingDefinition.class)
-@LinkkiAspect(FieldAspectDefinition.class)
+@LinkkiAspect(FieldAspectDefinitionCreator.class)
 public @interface UIDateField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */

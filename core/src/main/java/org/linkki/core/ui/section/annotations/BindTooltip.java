@@ -20,6 +20,7 @@ import java.lang.annotation.Target;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.BindTooltipAspectDefinition;
 
 /**
@@ -28,7 +29,7 @@ import org.linkki.core.ui.section.annotations.aspect.BindTooltipAspectDefinition
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
-@LinkkiAspect(BindTooltipAspectDefinition.class)
+@LinkkiAspect(BindTooltip.AspectCreator.class)
 public @interface BindTooltip {
 
     /** The displayed text for {@link TooltipType#STATIC} */
@@ -49,4 +50,15 @@ public @interface BindTooltip {
          */
         DYNAMIC;
     }
+
+    class AspectCreator implements LinkkiAspect.Creator<BindTooltip> {
+
+        @Override
+        public LinkkiAspectDefinition create(BindTooltip annotation) {
+            BindTooltip bindTooltip = annotation;
+            return new BindTooltipAspectDefinition(bindTooltip.tooltipType(), bindTooltip.value());
+        }
+
+    }
+
 }

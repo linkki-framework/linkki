@@ -21,6 +21,7 @@ import java.lang.annotation.Target;
 
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.BindReadOnlyAnnotationAspectDefinition;
 
 /**
@@ -29,7 +30,7 @@ import org.linkki.core.ui.section.annotations.aspect.BindReadOnlyAnnotationAspec
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
-@LinkkiAspect(BindReadOnlyAnnotationAspectDefinition.class)
+@LinkkiAspect(BindReadOnly.AspectCreator.class)
 public @interface BindReadOnly {
 
     /**
@@ -41,7 +42,7 @@ public @interface BindReadOnly {
 
 
     /** The type how the read-only state of an UI component is bound. */
-    public enum ReadOnlyType {
+    enum ReadOnlyType {
 
         /**
          * Always displays as read-only.
@@ -58,4 +59,14 @@ public @interface BindReadOnly {
          */
         DYNAMIC;
     }
+
+    class AspectCreator implements LinkkiAspect.Creator<BindReadOnly> {
+
+        @Override
+        public LinkkiAspectDefinition create(BindReadOnly annotation) {
+            return new BindReadOnlyAnnotationAspectDefinition(annotation.value());
+        }
+
+    }
+
 }

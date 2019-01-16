@@ -14,7 +14,6 @@
 
 package org.linkki.core.ui.section.annotations.aspect;
 
-import java.lang.annotation.Annotation;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -32,11 +31,6 @@ import com.vaadin.ui.Label;
 public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object> {
 
     public static final String NAME = StringUtils.EMPTY;
-
-    @Override
-    public void initialize(Annotation annotation) {
-        // does nothing
-    }
 
     @Override
     public Aspect<Object> createAspect() {

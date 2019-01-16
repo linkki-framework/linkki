@@ -14,7 +14,6 @@
 
 package org.linkki.core.binding.aspect.definition;
 
-import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,11 +77,6 @@ public class CompositeAspectDefinition implements LinkkiAspectDefinition {
                     }
                     // CSON: IllegalCatch
                 });
-    }
-
-    @Override
-    public void initialize(Annotation annotation) {
-        aspectDefinitions.forEach(a -> a.initialize(annotation));
     }
 
     @Override

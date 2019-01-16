@@ -15,7 +15,6 @@ package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
 
-import java.lang.annotation.Annotation;
 import java.util.Arrays;
 
 import org.linkki.core.ButtonPmo;
@@ -49,48 +48,24 @@ public class ButtonPmoBinding {
 
         Button button = ComponentFactory.newButton(pmo.getButtonIcon(), pmo.getStyleNames());
         ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
-        bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()), buttonWrapper);
+        bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
+                            buttonWrapper);
         return button;
     }
 
     static class ButtonPmoAspectDefinition extends CompositeAspectDefinition {
         public ButtonPmoAspectDefinition() {
-            super(new ButtonPmoEnabledAspectDefinition(),
-                    new ButtonPmoVisibleAspectDefinition(),
+            super(new EnabledAspectDefinition(EnabledType.DYNAMIC),
+                    new VisibleAspectDefinition(VisibleType.DYNAMIC),
                     new ButtonPmoInvokeAspectDefinition());
-        }
-    }
-
-    private static class ButtonPmoEnabledAspectDefinition extends EnabledAspectDefinition {
-
-        @Override
-        public void initialize(Annotation annotation) {
-            // does nothing
-        }
-
-        @Override
-        public EnabledType getEnabledType() {
-            return EnabledType.DYNAMIC;
-        }
-    }
-
-    private static class ButtonPmoVisibleAspectDefinition extends VisibleAspectDefinition {
-
-        @Override
-        public void initialize(Annotation annotation) {
-            // does nothing
-        }
-
-        @Override
-        public VisibleType getVisibleType() {
-            return VisibleType.DYNAMIC;
         }
     }
 
     /**
      * Cannot use {@link ButtonInvokeAspectDefinition} as {@link ButtonPmo} uses an empty String as
-     * fixed property name, thus the invoke button has a fixed aspect name of
-     * {@link ButtonPmo#onClick()}.
+     * fixed property name (see
+     * {@link PropertyDispatcherFactory#createDispatcherChain(ButtonPmo, org.linkki.core.binding.dispatcher.PropertyBehaviorProvider)}),
+     * thus the invoke button has a fixed aspect name of {@link ButtonPmo#onClick()}.
      */
     private static class ButtonPmoInvokeAspectDefinition implements LinkkiAspectDefinition {
 
@@ -112,10 +87,6 @@ public class ButtonPmoBinding {
             });
         }
 
-        @Override
-        public void initialize(Annotation annotation) {
-            // does nothing
-        }
     }
 
 }

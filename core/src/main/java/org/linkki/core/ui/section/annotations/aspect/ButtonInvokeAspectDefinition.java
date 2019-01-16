@@ -14,8 +14,6 @@
 
 package org.linkki.core.ui.section.annotations.aspect;
 
-import java.lang.annotation.Annotation;
-
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
@@ -48,8 +46,4 @@ public class ButtonInvokeAspectDefinition implements LinkkiAspectDefinition {
         });
     }
 
-    @Override
-    public void initialize(Annotation annotation) {
-        // does not have to anything
-    }
 }

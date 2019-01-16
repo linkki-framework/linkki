@@ -24,13 +24,18 @@ import org.linkki.core.ui.section.annotations.EnabledType;
 /**
  * Asepct definition for {@link EnabledType}
  */
-public abstract class EnabledAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
+public class EnabledAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
     public static final String NAME = "enabled";
 
+    private final EnabledType enabledType;
+
+    public EnabledAspectDefinition(EnabledType enabledType) {
+        this.enabledType = enabledType;
+    }
+
     @Override
     public Aspect<Boolean> createAspect() {
-        EnabledType enabledType = getEnabledType();
         switch (enabledType) {
             case DISABLED:
                 return Aspect.of(NAME, false);
@@ -48,5 +53,4 @@ public abstract class EnabledAspectDefinition extends ModelToUiAspectDefinition<
         return componentWrapper::setEnabled;
     }
 
-    public abstract EnabledType getEnabledType();
 }

@@ -14,6 +14,7 @@
 
 package org.linkki.core.binding.aspect;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
@@ -26,15 +27,16 @@ import org.linkki.core.ui.section.PmoBasedSectionFactory;
 
 /**
  * Annotation to add a {@link LinkkiAspectDefinition}. This is a meta-annotation that means it is
- * applied on another annotation which should be used in client code. This might be a UI field
- * annotation but could also be a new annotation that simply defines one aspect binding.
+ * applied on another annotation which should be used in client code, for example a PMO class. This
+ * might be a UI field annotation but could also be a new annotation that simply defines one aspect
+ * binding.
  * <p>
  * For example a tool tip aspect might be declared like this:
  * 
  * <pre>
  * &#64;Retention(RetentionPolicy.RUNTIME)
  * &#64;Target(value = { ElementType.FIELD, ElementType.METHOD })
- * &#64;LinkkiAspect(BindTooltipAspectDefinition.class)
+ * &#64;LinkkiAspect(BindTooltip.AspectCreator.class)
  * public @interface BindTooltip {
  * 
  *     String text() default StringUtils.EMPTY;
@@ -57,5 +59,28 @@ import org.linkki.core.ui.section.PmoBasedSectionFactory;
 @Target(ElementType.ANNOTATION_TYPE)
 public @interface LinkkiAspect {
 
-    Class<? extends LinkkiAspectDefinition> value();
+    Class<? extends Creator<?>> value();
+
+    /**
+     * Implementations of this interface describe how the configured {@link LinkkiAspectDefinition} is
+     * created. The implementation must have a default constructor which will be called while reading
+     * the annotations of a PMO class.
+     */
+    interface Creator<T extends Annotation> {
+
+        /**
+         * Creates the aspect definition by providing the annotation that was annotated with
+         * {@link LinkkiAspect}. The annotation may hold information such as a static value or anything
+         * necessary for value post processing.
+         * <p>
+         * The {@link LinkkiAspectDefinition} is instantiated for every property. That means it is valid to
+         * store the given annotation in a field.
+         * 
+         * @param annotation the annotation that is annotated with {@link LinkkiAspect}
+         * @return the new {@link LinkkiAspectDefinition} initialized with the given annotation
+         */
+        LinkkiAspectDefinition create(T annotation);
+
+    }
+
 }

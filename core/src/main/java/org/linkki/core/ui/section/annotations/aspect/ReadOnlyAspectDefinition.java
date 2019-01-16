@@ -14,8 +14,6 @@
 
 package org.linkki.core.ui.section.annotations.aspect;
 
-import java.lang.annotation.Annotation;
-
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -25,11 +23,6 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.ui.AbstractField;
 
 public class ReadOnlyAspectDefinition implements LinkkiAspectDefinition {
-
-    @Override
-    public void initialize(Annotation annotation) {
-        // nothing to do
-    }
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher,

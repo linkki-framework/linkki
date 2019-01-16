@@ -19,9 +19,8 @@ import static java.util.Objects.requireNonNull;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
+import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
-import org.linkki.core.ui.table.column.aspect.ColumnExpandRatioAspectDefinition;
-import org.linkki.core.ui.table.column.aspect.ColumnWidthAspectDefinition;
 
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
@@ -107,13 +106,13 @@ public class TableColumnWrapper implements ComponentWrapper {
     }
 
     public void setWidth(int width) {
-        if (width != ColumnWidthAspectDefinition.UNDEFINED_WIDTH) {
+        if (width != UITableColumn.UNDEFINED_WIDTH) {
             table.setColumnWidth(propertyName, width);
         }
     }
 
     public void setExpandRatio(float expandRatio) {
-        if (expandRatio != ColumnExpandRatioAspectDefinition.UNDEFINED_EXPAND_RATIO) {
+        if (expandRatio != UITableColumn.UNDEFINED_EXPAND_RATIO) {
             table.setColumnExpandRatio(propertyName, expandRatio);
         }
     }

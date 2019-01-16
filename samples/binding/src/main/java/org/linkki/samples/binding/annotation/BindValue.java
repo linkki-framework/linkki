@@ -25,9 +25,12 @@ import java.lang.reflect.Method;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.binding.property.LinkkiBoundProperty;
 import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
+import org.linkki.samples.binding.annotation.BindValue.BindFieldValueAspectDefinitionCreator;
 import org.linkki.samples.binding.annotation.BindValue.BindValueAnnotationBoundPropertyCreator;
 import org.linkki.util.BeanUtils;
 
@@ -35,7 +38,7 @@ import org.linkki.util.BeanUtils;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
 @LinkkiBoundProperty(BindValueAnnotationBoundPropertyCreator.class)
-@LinkkiAspect(BindFieldValueAspectDefinition.class)
+@LinkkiAspect(BindFieldValueAspectDefinitionCreator.class)
 public @interface BindValue {
 
     String pmoProperty() default "";
@@ -74,5 +77,14 @@ public @interface BindValue {
 
     }
     // end::custom-bound-property-creator[]
+
+    static class BindFieldValueAspectDefinitionCreator implements LinkkiAspect.Creator<@NonNull BindValue> {
+
+        @Override
+        public LinkkiAspectDefinition create(BindValue annotation) {
+            return new FieldValueAspectDefinition();
+        }
+
+    }
 
 }

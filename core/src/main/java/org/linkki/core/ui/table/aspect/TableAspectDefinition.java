@@ -14,7 +14,6 @@
 
 package org.linkki.core.ui.table.aspect;
 
-import java.lang.annotation.Annotation;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -44,11 +43,6 @@ public abstract class TableAspectDefinition<@NonNull ROW, V> extends ModelToUiAs
         super();
         this.name = name;
         this.valueSetter = valueSetter;
-    }
-
-    @Override
-    public void initialize(Annotation annotation) {
-        // nothing to do
     }
 
     @Override

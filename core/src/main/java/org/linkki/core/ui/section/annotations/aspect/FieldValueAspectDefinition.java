@@ -16,7 +16,6 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import static java.util.Objects.requireNonNull;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -124,11 +123,6 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
             dataSource.fireReadOnlyStatusChange();
             dataSource.fireValueChange();
         };
-    }
-
-    @Override
-    public void initialize(Annotation annotation) {
-        // does nothing
     }
 
     /**

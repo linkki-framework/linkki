@@ -14,7 +14,6 @@
 
 package org.linkki.core.ui.table.column.aspect;
 
-import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
 
@@ -22,8 +21,8 @@ public class ColumnCollapseAspectDefinition extends StaticColumnAspectDefinition
 
     public static final String NAME = "collapsible";
 
-    public ColumnCollapseAspectDefinition() {
-        super(NAME, CollapseMode.NOT_COLLAPSIBLE, UITableColumn::collapsible, TableColumnWrapper::setCollapseMode);
+    public ColumnCollapseAspectDefinition(CollapseMode collapseMode) {
+        super(NAME, collapseMode, TableColumnWrapper::setCollapseMode);
     }
 }
 

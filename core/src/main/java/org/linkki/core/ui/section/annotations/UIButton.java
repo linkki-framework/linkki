@@ -1,22 +1,21 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section.annotations;
 
 import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,13 +23,13 @@ import java.lang.annotation.Target;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.ui.section.annotations.UIButton.ButtonAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.ButtonBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.EnabledAspectForBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
@@ -42,7 +41,7 @@ import com.vaadin.server.FontAwesome;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(ButtonBindingDefinition.class)
-@LinkkiAspect(ButtonAspectDefinition.class)
+@LinkkiAspect(UIButton.AspectCreator.class)
 public @interface UIButton {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -100,35 +99,16 @@ public @interface UIButton {
     /**
      * Aspect definition for {@link UIButton} annotation.
      */
-    class ButtonAspectDefinition extends CompositeAspectDefinition {
+    class AspectCreator implements LinkkiAspect.Creator<UIButton> {
 
-        public ButtonAspectDefinition() {
-            super(new LabelAspectDefinition(),
-                    new EnabledAspectForBindingDefinition(),
-                    new VisibleAspectForBindingDefinition(),
-                    new ButtonCaptionAspectDefinition(),
+        @Override
+        public LinkkiAspectDefinition create(UIButton annotation) {
+            return new CompositeAspectDefinition(
+                    new LabelAspectDefinition(annotation.label()),
+                    new EnabledAspectDefinition(annotation.enabled()),
+                    new VisibleAspectDefinition(annotation.visible()),
+                    new CaptionAspectDefinition(annotation.captionType(), annotation.caption()),
                     new ButtonInvokeAspectDefinition());
-        }
-    }
-
-    class ButtonCaptionAspectDefinition extends CaptionAspectDefinition {
-
-        @SuppressWarnings("null")
-        private UIButton buttonAnnotation;
-
-        @Override
-        public void initialize(Annotation annotation) {
-            this.buttonAnnotation = (UIButton)annotation;
-        }
-
-        @Override
-        protected String getStaticCaption() {
-            return buttonAnnotation.caption();
-        }
-
-        @Override
-        public CaptionType getCaptionType() {
-            return buttonAnnotation.captionType();
         }
     }
 }

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.linkki.core.binding.LinkkiBindingException;
+import org.linkki.core.binding.aspect.LinkkiAspect.Creator;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 
 /**
@@ -47,22 +48,28 @@ public class AspectAnnotationReader {
                 .collect(Collectors.toList());
     }
 
-    protected static <ASPECT_ANNOTATION extends Annotation> List<Class<? extends LinkkiAspectDefinition>> getAspectDefinitionClasses(
+    protected static <ASPECT_ANNOTATION extends Annotation, UI_ANNOTATION extends Annotation> List<Class<? extends LinkkiAspect.Creator<UI_ANNOTATION>>> getAspectDefinitionClasses(
             ASPECT_ANNOTATION annotation) {
         return Arrays.asList(annotation.annotationType().getAnnotationsByType(LinkkiAspect.class)).stream()
-                .map(LinkkiAspect::value)
+                .map(aspectAnnotation -> {
+                    @SuppressWarnings("unchecked")
+                    Class<? extends Creator<UI_ANNOTATION>> creatorClass = (Class<? extends Creator<UI_ANNOTATION>>)aspectAnnotation
+                            .value();
+                    return creatorClass;
+                })
                 .collect(Collectors.toList());
     }
 
-    private static <D extends LinkkiAspectDefinition> D instantiateDefinition(Class<D> aspectDefClass,
-            Annotation uiAnnotation) {
+    private static <UI_ANNOTATION extends Annotation> LinkkiAspectDefinition instantiateDefinition(
+            Class<? extends Creator<UI_ANNOTATION>> aspectDefCreatorClass,
+            UI_ANNOTATION uiAnnotation) {
         try {
-            D aspectDef = aspectDefClass.newInstance();
-            aspectDef.initialize(uiAnnotation);
-            return aspectDef;
+            Creator<UI_ANNOTATION> aspectDefCreator = aspectDefCreatorClass.newInstance();
+            return aspectDefCreator.create(uiAnnotation);
         } catch (InstantiationException | IllegalAccessException e) {
             throw new LinkkiBindingException(
-                    "Cannot instantiate aspect definition " + aspectDefClass + " for " + uiAnnotation.annotationType(),
+                    "Cannot instantiate aspect definition " + aspectDefCreatorClass + " for "
+                            + uiAnnotation.annotationType(),
                     e);
         }
     }

@@ -13,22 +13,24 @@
  */
 package org.linkki.core.ui.section.annotations;
 
+import static org.linkki.core.binding.aspect.definition.ApplicableTypeAspectDefinition.ifApplicable;
 import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
-import org.linkki.core.ui.section.annotations.UICustomField.CustomFieldAvailableValuesAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.ui.section.annotations.UICustomField.AvailableValuesAspectCreator;
 import org.linkki.core.ui.section.annotations.adapters.CustomFieldBindingDefinition;
-import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.IgnoreTypeAvailableValuesAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 
+import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Field;
 
 /**
@@ -41,8 +43,8 @@ import com.vaadin.ui.Field;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CustomFieldBindingDefinition.class)
-@LinkkiAspect(CustomFieldAvailableValuesAspectDefinition.class)
-@LinkkiAspect(FieldAspectDefinition.class)
+@LinkkiAspect(AvailableValuesAspectCreator.class)
+@LinkkiAspect(FieldAspectDefinitionCreator.class)
 public @interface UICustomField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -86,19 +88,14 @@ public @interface UICustomField {
      */
     Class<? extends Field<?>> uiControl();
 
-    class CustomFieldAvailableValuesAspectDefinition extends IgnoreTypeAvailableValuesAspectDefinition {
-
-        @SuppressWarnings("null")
-        private UICustomField customFieldAnnotation;
+    class AvailableValuesAspectCreator implements LinkkiAspect.Creator<UICustomField> {
 
         @Override
-        public void initialize(Annotation annotation) {
-            this.customFieldAnnotation = (UICustomField)annotation;
+        public LinkkiAspectDefinition create(UICustomField annotation) {
+            return ifApplicable(AbstractSelect.class,
+                                new AvailableValuesAspectDefinition(annotation.content()));
         }
 
-        @Override
-        protected AvailableValuesType getAvailableValuesType() {
-            return customFieldAnnotation.content();
-        }
     }
+
 }

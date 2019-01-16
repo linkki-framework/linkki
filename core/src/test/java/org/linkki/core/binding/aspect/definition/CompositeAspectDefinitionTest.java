@@ -16,12 +16,9 @@ package org.linkki.core.binding.aspect.definition;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.lang.annotation.Annotation;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -100,18 +97,6 @@ public class CompositeAspectDefinitionTest {
         verify(aspect1).initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated);
         verify(aspect2NotSupported, never()).initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated);
         verify(aspect3).initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated);
-    }
-
-    @Test
-    public void testInitialize() {
-        CompositeAspectDefinition composite = new CompositeAspectDefinition(aspect1, aspect2NotSupported, aspect3);
-        Annotation annotation = mock(Annotation.class);
-
-        composite.initialize(annotation);
-
-        verify(aspect1).initialize(annotation);
-        verify(aspect2NotSupported).initialize(annotation);
-        verify(aspect3).initialize(annotation);
     }
 
     @Test

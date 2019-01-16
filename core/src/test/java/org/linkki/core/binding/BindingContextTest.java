@@ -276,7 +276,8 @@ public class BindingContextTest {
         buttonPmo.enabled = false;
 
         ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
-        context.bind(buttonPmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()), buttonWrapper);
+        context.bind(buttonPmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
+                     buttonWrapper);
 
         assertThat(button.isEnabled(), is(false));
     }

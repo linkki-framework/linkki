@@ -97,8 +97,7 @@ public class BindReadOnlyAnnotationAspectDefinitionTest {
     }
 
     private void createUiUpdaterAndApplyIt_BindReadOnlyAspect(Field<?> field, ReadOnlyType value) {
-        BindReadOnlyAnnotationAspectDefinition aspectDefinition = new BindReadOnlyAnnotationAspectDefinition();
-        aspectDefinition.setReadOnlyType(value);
+        BindReadOnlyAnnotationAspectDefinition aspectDefinition = new BindReadOnlyAnnotationAspectDefinition(value);
         createUiUpdaterAndApplyIt(field, aspectDefinition);
     }
 

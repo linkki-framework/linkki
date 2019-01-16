@@ -25,7 +25,7 @@ import java.text.DecimalFormat;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.section.annotations.adapters.DoubleFieldBindingDefinition;
-import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 
 /**
  * A text field for displaying formatted numbers.
@@ -33,7 +33,7 @@ import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(DoubleFieldBindingDefinition.class)
-@LinkkiAspect(FieldAspectDefinition.class)
+@LinkkiAspect(FieldAspectDefinitionCreator.class)
 public @interface UIDoubleField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */

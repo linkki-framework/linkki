@@ -2,12 +2,47 @@
 :jbake-type: chapter
 :jbake-status: published
 :jbake-order: 0
+:source-dir: ../../../java
 :source-dir-application: ../../../../../../samples/application-framework/src/main/java
 :images-folder-name: 01_newnoteworthy
 
 == New & Noteworthy
 
-=== January 30th, 2019
+=== January 31st, 2019
+
+==== Refactoring of Aspects
+
+The creation of <<creating-aspects,linkki aspects>> has changed. Instead of giving the `LinkkiAspectDefinition` implementation class as value for the `@LinkkiAspect` annotation, a `LinkkiAspect.Creator` implementation has to be used now.
+
+This offers the benefit that the `LinkkiAspectDefinitions` do no longer need to depend on the corresponding annotations. The values from the annotations can be passed by the `LinkkiAspect.Creator`. This makes the aspect definitions better testable and allows the use of the same aspect definition with multiple different annotations. The `initialize()` method of the `LinkkiAspectDefinition`, that up to now was called after creation via default constructor, was removed. The values previously read from the annotation in that method should now be read in the `LinkkiAspect.Creator` and passed to the `LinkkiAspectDefinition`'s constructor, thus allowing instantiating aspect definitions from sources other than annotations.
+
+.Previous instantiation of the aspect definition with annotation
+[source,java]
+----
+    @SuppressWarnings("null")
+    private TooltipType type;
+
+    @Override
+    public void initialize(Annotation annotation) {
+        this.type = ((BindTooltip)annotation).type();
+    }
+----
+
+.New instantiation of the aspect definition with value
+[source,java]
+----
+  private final TooltipType type;
+
+  public LabelAspectDefinition(TooltipType type) {
+        this.type = type;
+  }
+----
+
+.Reading of the value in the `LinkkiAspect.Creator`
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspectCreator]
+----
 
 ==== Refactoring for tables and @UITableColumn
 

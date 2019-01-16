@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.annotations.Bind.BindAnnotationBoundPropertyCreator;
-import org.linkki.core.binding.annotations.aspect.BindAnnotationAspectDefinition;
+import org.linkki.core.binding.annotations.aspect.BindAnnotationAspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.binding.property.LinkkiBoundProperty;
@@ -48,7 +48,7 @@ import org.linkki.util.BeanUtils;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
 @LinkkiBoundProperty(BindAnnotationBoundPropertyCreator.class)
-@LinkkiAspect(BindAnnotationAspectDefinition.class)
+@LinkkiAspect(BindAnnotationAspectDefinitionCreator.class)
 public @interface Bind {
 
     /**
@@ -62,10 +62,10 @@ public @interface Bind {
      * <p>
      * Note that for each aspect, the {@link #pmoProperty()} is evaluated before
      * {@link #modelAttribute()}. That means if an aspect method can be found with the defined
-     * {@link #pmoProperty()} in the PMO, that method is used. If no method can be found in the PMO,
-     * the {@link #modelAttribute()} is then used to find the method in the {@link #modelObject()}.
-     * If no {@link #modelAttribute()} is defined, {@link #pmoProperty()} is used to find the method
-     * in the {@link #modelObject()}.
+     * {@link #pmoProperty()} in the PMO, that method is used. If no method can be found in the PMO, the
+     * {@link #modelAttribute()} is then used to find the method in the {@link #modelObject()}. If no
+     * {@link #modelAttribute()} is defined, {@link #pmoProperty()} is used to find the method in the
+     * {@link #modelObject()}.
      */
     String pmoProperty() default "";
 
@@ -76,8 +76,8 @@ public @interface Bind {
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
-     * Name of the {@linkplain #modelObject() model object's} attribute that is bound to this
-     * component. If none is specified, {@link #pmoProperty()} is used.
+     * Name of the {@linkplain #modelObject() model object's} attribute that is bound to this component.
+     * If none is specified, {@link #pmoProperty()} is used.
      */
     String modelAttribute() default "";
 
@@ -88,8 +88,8 @@ public @interface Bind {
     VisibleType visible() default VisibleType.VISIBLE;
 
     /**
-     * If and how the required state of the UI element is bound to the PMO. Ignored for UI elements
-     * that cannot be required, e.g. buttons.
+     * If and how the required state of the UI element is bound to the PMO. Ignored for UI elements that
+     * cannot be required, e.g. buttons.
      */
     RequiredType required() default RequiredType.NOT_REQUIRED;
 

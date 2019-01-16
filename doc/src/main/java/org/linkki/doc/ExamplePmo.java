@@ -16,8 +16,9 @@ package org.linkki.doc;
 //tag::class[]
 public class ExamplePmo {
 
-    private String surname;
-    private String salutation;
+    private String surname = "";
+
+    private String salutation = "";
 
     public void setSurname(String surname) {
         this.surname = surname;

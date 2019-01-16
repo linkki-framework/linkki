@@ -17,7 +17,6 @@ import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -27,10 +26,9 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.nls.NlsText;
-import org.linkki.core.ui.section.annotations.UIYesNoComboBox.YesNoAvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.YesNoComboBoxBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 
 /**
  * A combo box for boolean or Boolean values.
@@ -38,8 +36,8 @@ import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(YesNoComboBoxBindingDefinition.class)
-@LinkkiAspect(FieldAspectDefinition.class)
-@LinkkiAspect(YesNoAvailableValuesAspectDefinition.class)
+@LinkkiAspect(FieldAspectDefinitionCreator.class)
+@LinkkiAspect(AvailableValuesAspectDefinition.EnumValuesInclNullCreator.class)
 public @interface UIYesNoComboBox {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -100,18 +98,5 @@ public @interface UIYesNoComboBox {
         }
     }
 
-    class YesNoAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
-
-        @Override
-        public void initialize(Annotation annotation) {
-            // does not need to do anything
-        }
-
-        @Override
-        protected AvailableValuesType getAvailableValuesType() {
-            return AvailableValuesType.ENUM_VALUES_INCL_NULL;
-        }
-
-    }
 }
 

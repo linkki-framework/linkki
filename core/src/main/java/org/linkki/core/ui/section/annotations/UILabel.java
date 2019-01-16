@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section.annotations;
 
@@ -22,12 +22,11 @@ import java.lang.annotation.Target;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.ui.section.annotations.UILabel.LabelComponentAspectDefinition;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
-import org.linkki.core.ui.section.annotations.aspect.EnabledAspectForBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelValueAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 
 /**
  * Provides a single UI-element to display text content. It is equal to {@link com.vaadin.ui.Label}.
@@ -35,7 +34,7 @@ import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefi
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(LabelBindingDefinition.class)
-@LinkkiAspect(LabelComponentAspectDefinition.class)
+@LinkkiAspect(UILabel.AspectCreator.class)
 public @interface UILabel {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -73,11 +72,13 @@ public @interface UILabel {
     /**
      * Aspect definition for {@link UILabel} annotation.
      */
-    class LabelComponentAspectDefinition extends CompositeAspectDefinition {
-        public LabelComponentAspectDefinition() {
-            super(new LabelAspectDefinition(),
-                    new EnabledAspectForBindingDefinition(),
-                    new VisibleAspectForBindingDefinition(),
+    class AspectCreator implements LinkkiAspect.Creator<UILabel> {
+
+        @Override
+        public LinkkiAspectDefinition create(UILabel annotation) {
+            return new CompositeAspectDefinition(
+                    new LabelAspectDefinition(annotation.label()),
+                    new VisibleAspectDefinition(annotation.visible()),
                     new LabelValueAspectDefinition());
         }
     }

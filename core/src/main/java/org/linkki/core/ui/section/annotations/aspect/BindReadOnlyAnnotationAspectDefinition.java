@@ -14,20 +14,15 @@
 
 package org.linkki.core.ui.section.annotations.aspect;
 
-import java.lang.annotation.Annotation;
-
 import org.apache.commons.lang3.BooleanUtils;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.section.annotations.BindReadOnly;
 import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.AbstractField;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Aspect definition for read-only state.
@@ -36,16 +31,9 @@ public class BindReadOnlyAnnotationAspectDefinition implements LinkkiAspectDefin
 
     public static final String NAME = "readOnly";
 
-    @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
-    @SuppressWarnings("null")
-    private ReadOnlyType value;
+    private final ReadOnlyType value;
 
-    @Override
-    public void initialize(Annotation bindReadOnlyAnnotation) {
-        setReadOnlyType(((BindReadOnly)bindReadOnlyAnnotation).value());
-    }
-
-    public void setReadOnlyType(ReadOnlyType value) {
+    public BindReadOnlyAnnotationAspectDefinition(ReadOnlyType value) {
         this.value = value;
     }
 
@@ -64,4 +52,5 @@ public class BindReadOnlyAnnotationAspectDefinition implements LinkkiAspectDefin
                 return Handler.NOP_HANDLER;
         }
     }
+
 }

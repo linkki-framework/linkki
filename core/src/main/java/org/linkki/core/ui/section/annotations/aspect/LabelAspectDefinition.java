@@ -14,12 +14,11 @@
 
 package org.linkki.core.ui.section.annotations.aspect;
 
-import java.lang.annotation.Annotation;
 import java.util.function.Consumer;
 
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.StaticModelToUiAspectDefinition;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
@@ -32,17 +31,16 @@ import org.linkki.core.ui.table.column.TableColumnWrapper;
  * {@link BindingDefinition} but there might be a dispatcher that overwrites the value for example with
  * a translation from a property file.
  */
-public class LabelAspectDefinition extends ModelToUiAspectDefinition<@Nullable String> {
+public class LabelAspectDefinition extends StaticModelToUiAspectDefinition<@Nullable String> {
 
     public static final String NAME = "label";
 
-    @SuppressWarnings("null")
-    private String label;
+    private final String label;
 
-    @Override
-    public void initialize(Annotation annotation) {
-        BindingDefinition bindingDefinition = BindingDefinition.from(annotation);
-        label = bindingDefinition.label();
+
+    public LabelAspectDefinition(String label) {
+        super();
+        this.label = label;
     }
 
     @Override

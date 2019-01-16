@@ -14,10 +14,8 @@
 
 package org.linkki.core.ui.table.column.aspect;
 
-import java.lang.annotation.Annotation;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.aspect.Aspect;
@@ -37,23 +35,15 @@ public abstract class StaticColumnAspectDefinition<VALUE_TYPE>
         extends StaticModelToUiAspectDefinition<VALUE_TYPE> {
 
     private String name;
-    private Function<UITableColumn, VALUE_TYPE> valueFromAnnotation;
     private BiConsumer<TableColumnWrapper, VALUE_TYPE> valueSetter;
 
     private VALUE_TYPE value;
 
     public StaticColumnAspectDefinition(String name, VALUE_TYPE defaultValue,
-            Function<UITableColumn, VALUE_TYPE> valueFromAnnotation,
             BiConsumer<TableColumnWrapper, VALUE_TYPE> valueSetter) {
         this.name = name;
         this.value = defaultValue;
-        this.valueFromAnnotation = valueFromAnnotation;
         this.valueSetter = valueSetter;
-    }
-
-    @Override
-    public void initialize(Annotation uiTableColumn) {
-        setValue(valueFromAnnotation.apply(((UITableColumn)uiTableColumn)));
     }
 
     @Override

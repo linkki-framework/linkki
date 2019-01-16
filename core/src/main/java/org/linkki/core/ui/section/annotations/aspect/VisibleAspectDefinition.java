@@ -23,17 +23,20 @@ import org.linkki.core.ui.section.annotations.VisibleType;
 
 /**
  * Aspect definition for {@link VisibleType}.
- * <p>
- * To access the annotation in which the {@link VisibleType} is defined use
- * {@link #initialize(java.lang.annotation.Annotation)}.
  */
-public abstract class VisibleAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
+public class VisibleAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
     public static final String NAME = "visible";
 
+    private final VisibleType visibleType;
+
+    public VisibleAspectDefinition(VisibleType visibleType) {
+        this.visibleType = visibleType;
+
+    }
+
     @Override
     public Aspect<Boolean> createAspect() {
-        VisibleType visibleType = getVisibleType();
         switch (visibleType) {
             case DYNAMIC:
                 return Aspect.of(NAME);
@@ -51,5 +54,4 @@ public abstract class VisibleAspectDefinition extends ModelToUiAspectDefinition<
         return componentWrapper::setVisible;
     }
 
-    public abstract VisibleType getVisibleType();
 }

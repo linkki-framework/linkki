@@ -106,17 +106,35 @@ public class AspectAnnotationReaderTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    @LinkkiAspect(TestAspectDefinition.class)
-    @LinkkiAspect(AnotherTestAspectDefinition.class)
+    @LinkkiAspect(TestAspectDefinitionCreator.class)
+    @LinkkiAspect(AnotherTestAspectDefinitionCreator.class)
     private @interface TestAnnotation {
         // not used
     }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    @LinkkiAspect(TestAspectDefinition.class)
+    @LinkkiAspect(TestAspectDefinitionCreator.class)
     private @interface AnotherTestAnnotation {
         // not used
+    }
+
+    public static class TestAspectDefinitionCreator implements LinkkiAspect.Creator<Annotation> {
+
+        @Override
+        public LinkkiAspectDefinition create(Annotation annotation) {
+            return new TestAspectDefinition(annotation);
+        }
+
+    }
+
+    public static class AnotherTestAspectDefinitionCreator implements LinkkiAspect.Creator<Annotation> {
+
+        @Override
+        public LinkkiAspectDefinition create(Annotation annotation) {
+            return new AnotherTestAspectDefinition(annotation);
+        }
+
     }
 
     private static class TestAspectDefinition implements LinkkiAspectDefinition {
@@ -124,25 +142,19 @@ public class AspectAnnotationReaderTest {
         @Nullable
         private Annotation initializedAnnotation;
 
-        public TestAspectDefinition() {
-            super();
+        public TestAspectDefinition(Annotation annotation) {
+            this.initializedAnnotation = annotation;
         }
 
         @Override
         public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
             return Handler.NOP_HANDLER;
         }
-
-        @Override
-        public void initialize(Annotation annotation) {
-            this.initializedAnnotation = annotation;
-        }
     }
 
     private static class AnotherTestAspectDefinition extends TestAspectDefinition {
-        @SuppressWarnings("unused")
-        public AnotherTestAspectDefinition() {
-            super();
+        public AnotherTestAspectDefinition(Annotation annotation) {
+            super(annotation);
         }
     }
 }

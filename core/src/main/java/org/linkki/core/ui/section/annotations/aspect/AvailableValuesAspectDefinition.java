@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.section.annotations.aspect;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +23,7 @@ import java.util.function.Consumer;
 
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.container.LinkkiInMemoryContainer;
@@ -35,9 +37,15 @@ import com.vaadin.ui.AbstractSelect;
 /**
  * Defines aspects that update the set of available value of an {@link AbstractSelect}.
  */
-public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
+public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
 
     public static final String NAME = "availableValues";
+
+    private final AvailableValuesType availableValuesType;
+
+    public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType) {
+        this.availableValuesType = availableValuesType;
+    }
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
@@ -48,10 +56,9 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
     }
 
     public Aspect<List<?>> createAspect(String propertyName, Class<?> valueClass) {
-        AvailableValuesType type = getAvailableValuesType();
-        if (type == AvailableValuesType.DYNAMIC) {
+        if (availableValuesType == AvailableValuesType.DYNAMIC) {
             return Aspect.of(NAME);
-        } else if (type == AvailableValuesType.NO_VALUES) {
+        } else if (availableValuesType == AvailableValuesType.NO_VALUES) {
             return Aspect.of(NAME, new ArrayList<>());
         } else {
             return Aspect.of(NAME, getValuesDerivedFromDatatype(propertyName, valueClass));
@@ -63,7 +70,7 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
             @SuppressWarnings("unchecked")
             Class<T> enumType = (Class<T>)valueClass;
             return AvailableValuesProvider.enumToValues(enumType,
-                                                        getAvailableValuesType() == AvailableValuesType.ENUM_VALUES_INCL_NULL);
+                                                        availableValuesType == AvailableValuesType.ENUM_VALUES_INCL_NULL);
         }
         if (valueClass == Boolean.TYPE) {
             return AvailableValuesProvider.booleanPrimitiveToValues();
@@ -113,9 +120,31 @@ public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDef
     }
 
     /**
-     * The {@link AvailableValuesType} that is defined in the annotation.
-     * 
-     * @return value for {@link AvailableValuesType}
+     * {@link org.linkki.core.binding.aspect.LinkkiAspect.Creator} that creates a special kind of
+     * {@link AvailableValuesAspectDefinition} where the configured {@link AvailableValuesType} is
+     * always {@link AvailableValuesType#ENUM_VALUES_INCL_NULL}.
      */
-    protected abstract AvailableValuesType getAvailableValuesType();
+    public static class EnumValuesInclNullCreator implements LinkkiAspect.Creator<Annotation> {
+
+        @Override
+        public LinkkiAspectDefinition create(Annotation annotation) {
+            return new AvailableValuesAspectDefinition(AvailableValuesType.ENUM_VALUES_INCL_NULL);
+        }
+
+    }
+
+    /**
+     * {@link org.linkki.core.binding.aspect.LinkkiAspect.Creator} that creates a special kind of
+     * {@link AvailableValuesAspectDefinition} where the configured {@link AvailableValuesType} is
+     * always {@link AvailableValuesType#DYNAMIC}.
+     */
+    public static class DynamicCreator implements LinkkiAspect.Creator<Annotation> {
+
+        @Override
+        public LinkkiAspectDefinition create(Annotation annotation) {
+            return new AvailableValuesAspectDefinition(AvailableValuesType.DYNAMIC);
+        }
+
+    }
+
 }

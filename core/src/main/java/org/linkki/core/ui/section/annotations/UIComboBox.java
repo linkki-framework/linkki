@@ -17,27 +17,27 @@ import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
-import org.linkki.core.ui.section.annotations.UIComboBox.ComboBoxAvailableValuesAspectDefinition;
+import org.linkki.core.ui.section.annotations.UIComboBox.ComboBoxAvailableValuesAspectCreator;
 import org.linkki.core.ui.section.annotations.adapters.ComboboxBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 
 /**
  * Creates a ComboBox with the specified parameters.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiAspect(ComboBoxAvailableValuesAspectDefinition.class)
-@LinkkiAspect(FieldAspectDefinition.class)
+@LinkkiAspect(ComboBoxAvailableValuesAspectCreator.class)
+@LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiBindingDefinition(ComboboxBindingDefinition.class)
 public @interface UIComboBox {
 
@@ -92,20 +92,13 @@ public @interface UIComboBox {
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 
-    class ComboBoxAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
-
-        @SuppressWarnings("null")
-        private UIComboBox comboBoxAnnotation;
+    class ComboBoxAvailableValuesAspectCreator implements LinkkiAspect.Creator<UIComboBox> {
 
         @Override
-        public void initialize(Annotation annotation) {
-            comboBoxAnnotation = (UIComboBox)annotation;
-        }
-
-        @Override
-        protected AvailableValuesType getAvailableValuesType() {
-            return comboBoxAnnotation.content();
+        public LinkkiAspectDefinition create(UIComboBox annotation) {
+            return new AvailableValuesAspectDefinition(annotation.content());
         }
 
     }
+
 }

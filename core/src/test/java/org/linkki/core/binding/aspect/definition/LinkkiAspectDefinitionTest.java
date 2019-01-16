@@ -17,8 +17,6 @@ package org.linkki.core.binding.aspect.definition;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.lang.annotation.Annotation;
-
 import org.junit.Test;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
@@ -42,11 +40,6 @@ public class LinkkiAspectDefinitionTest {
     }
 
     private static class TestLinkkiAspectDefinition implements LinkkiAspectDefinition {
-
-        @Override
-        public void initialize(Annotation annotation) {
-            // nothing to do
-        }
 
         @Override
         public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {

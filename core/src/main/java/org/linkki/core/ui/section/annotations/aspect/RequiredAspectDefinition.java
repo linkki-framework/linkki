@@ -28,18 +28,19 @@ import com.vaadin.ui.AbstractField;
  * Aspect definition for {@link RequiredType}. Assumes that the given component is a
  * {@link AbstractField}.
  */
-public abstract class RequiredAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
+public class RequiredAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
     public static final String NAME = "required";
     private EnabledAspectDefinition enabledAspectDefinition;
+    private final RequiredType requiredType;
 
-    public RequiredAspectDefinition(EnabledAspectDefinition enabledTypeAspectDefinition) {
+    public RequiredAspectDefinition(RequiredType requiredType, EnabledAspectDefinition enabledTypeAspectDefinition) {
+        this.requiredType = requiredType;
         this.enabledAspectDefinition = enabledTypeAspectDefinition;
     }
 
     @Override
     public Aspect<Boolean> createAspect() {
-        RequiredType requiredType = getRequiredType();
         switch (requiredType) {
             case DYNAMIC:
                 return Aspect.of(NAME);
@@ -71,7 +72,7 @@ public abstract class RequiredAspectDefinition extends ModelToUiAspectDefinition
         if (component instanceof AbstractField) {
             AbstractField<?> field = (AbstractField<?>)componentWrapper.getComponent();
             return field::setRequired;
-        } else if (getRequiredType() == RequiredType.NOT_REQUIRED) {
+        } else if (requiredType == RequiredType.NOT_REQUIRED) {
             return Consumers.nopConsumer();
         } else {
             throw new IllegalArgumentException(
@@ -79,5 +80,4 @@ public abstract class RequiredAspectDefinition extends ModelToUiAspectDefinition
         }
     }
 
-    public abstract RequiredType getRequiredType();
 }
