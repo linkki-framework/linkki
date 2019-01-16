@@ -13,18 +13,26 @@
  */
 package org.linkki.core.binding.dispatcher.accessor;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.function.Function;
 
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
 
 /**
  * Wrapper for a {@link Method}. {@link #canRead()} can safely be accessed even if no read method
  * exists. {@link #readValue(Object)} will access the getter via reflection.
+ * 
+ * @param <T> the type containing the property
+ * @param <V> the property's type
  */
-public class ReadMethod extends AbstractMethod {
+public class ReadMethod<@NonNull T, V> extends AbstractMethod<T> {
 
-    public ReadMethod(PropertyAccessDescriptor descriptor) {
+    @Nullable
+    private Function<T, V> getter;
+
+    ReadMethod(PropertyAccessDescriptor<T, V> descriptor) {
         super(descriptor, descriptor.getReflectionReadMethod());
     }
 
@@ -38,30 +46,33 @@ public class ReadMethod extends AbstractMethod {
      * @throws IllegalStateException if no read method exists
      * @throws RuntimeException if an error occurs while accessing the read method
      */
-    public Object readValue(Object boundObject) {
+    public V readValue(T boundObject) {
         if (canRead()) {
             return readValueWithExceptionHandling(boundObject);
         } else {
             throw new IllegalStateException(
-                    "Cannot find getter method for " + boundObject.getClass().getName() + "#" + getPropertyName());
+                    "Cannot find getter method for "
+                            + boundObject.getClass().getName()
+                            + "#" + getPropertyName());
         }
     }
 
-    private Object readValueWithExceptionHandling(Object boundObject) {
+    private V readValueWithExceptionHandling(T boundObject) {
         try {
-            return invokeMethod(boundObject);
-        } catch (IllegalAccessException e) {
+            V value = getter().apply(boundObject);
+            return value;
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new LinkkiBindingException(
-                    "Cannot access method " + getMethodWithExceptionHandling(), e);
-        } catch (IllegalArgumentException | InvocationTargetException e) {
-            throw new LinkkiBindingException(
-                    "Cannot invoke read method " + getMethodWithExceptionHandling(), e);
+                    "Cannot read value from object: " + boundObject + ", property: " + getPropertyName(), e);
         }
     }
 
-    @SuppressWarnings("null")
-    private Object invokeMethod(Object boundObject) throws IllegalAccessException, InvocationTargetException {
-        return getMethodWithExceptionHandling().invoke(boundObject);
+    @SuppressWarnings({ "null", "unchecked" })
+    private Function<T, V> getter() {
+        if (getter == null) {
+            getter = getMethodAs(Function.class);
+        }
+        return getter;
     }
 
     public Class<?> getReturnType() {

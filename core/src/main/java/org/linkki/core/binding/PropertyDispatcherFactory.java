@@ -55,7 +55,8 @@ public class PropertyDispatcherFactory {
 
     /**
      * Subclasses may override to add custom dispatchers to the chain. The dispatchers will be added
-     * <em>after</em> the standard dispatchers and <em>before</em> the behavior dependent dispatchers.
+     * <em>after</em> the standard dispatchers and <em>before</em> the behavior dependent
+     * dispatchers.
      * <p>
      * The default implementation adds no dispatchers.
      * <p>

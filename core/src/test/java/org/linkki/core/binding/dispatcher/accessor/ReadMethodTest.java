@@ -28,24 +28,23 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class ReadMethodTest {
     @Mock
     @SuppressWarnings("null")
-    PropertyAccessDescriptor descriptor;
+    PropertyAccessDescriptor<TestObject, Long> descriptor;
 
     @Test
     @SuppressWarnings("unused")
     // warning suppressed as object is created to test the constructor, not to use it
     public void testConstructor() {
         when(descriptor.getReflectionReadMethod()).thenReturn(lazyCaching(Optional::empty));
-        new ReadMethod(descriptor);
+        new ReadMethod<>(descriptor);
     }
 
     @Test
     public void testReadValue() {
         TestObject testObject = new TestObject();
-        PropertyAccessDescriptor propertyAccessDescriptor = new PropertyAccessDescriptor(testObject.getClass(),
-                TestObject.READ_ONLY_LONG_PROPERTY);
+        descriptor = new PropertyAccessDescriptor<>(TestObject.class, TestObject.READ_ONLY_LONG_PROPERTY);
 
-        ReadMethod readMethod = propertyAccessDescriptor.createReadMethod();
-        assertEquals(42, ((Long)readMethod.readValue(testObject)).longValue());
+        ReadMethod<TestObject, Long> readMethod = descriptor.createReadMethod();
+        assertEquals(42, readMethod.readValue(testObject).longValue());
     }
 
 }

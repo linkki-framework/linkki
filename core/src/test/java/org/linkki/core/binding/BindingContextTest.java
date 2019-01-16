@@ -74,7 +74,8 @@ public class BindingContextTest {
 
     private ComponentBinding createBinding(TestBindingContext context, TestPmo pmo, Component component) {
         return new ComponentBinding(new LabelComponentWrapper(component),
-                new ReflectionPropertyDispatcher(() -> pmo, "value", new ExceptionPropertyDispatcher("value", pmo)),
+                new ReflectionPropertyDispatcher(() -> pmo, "value",
+                        new ExceptionPropertyDispatcher("value", pmo)),
                 context::modelChanged, new ArrayList<>());
     }
 

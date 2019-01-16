@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section.descriptor;
 
@@ -32,15 +32,14 @@ import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
 /**
  * This class stores all {@link ElementDescriptor}s of a PMO specified at the same property.
  * <p>
- * In case only one {@link ElementDescriptor} exists for a position, no additional method is needed
- * in the PMO. <br>
- * Otherwise to resolve which ElementDescriptor shall be used, the PMO must provide a method with
- * the signature: {@code public Class get[pmoPropertyName]ComponentType()} see
+ * In case only one {@link ElementDescriptor} exists for a position, no additional method is needed in
+ * the PMO. <br>
+ * Otherwise to resolve which ElementDescriptor shall be used, the PMO must provide a method with the
+ * signature: {@code public Class get[pmoPropertyName]ComponentType()} see
  * {@link PropertyNamingConvention#getComponentTypeProperty(String)}.
  * <p>
- * NOTE: If more UIElements are specified for a property, the annotations must have the same
- * position and the {@code label}'s must be equal otherwise an {@link IllegalStateException} will be
- * thrown.
+ * NOTE: If more UIElements are specified for a property, the annotations must have the same position
+ * and the {@code label}'s must be equal otherwise an {@link IllegalStateException} will be thrown.
  */
 public class PropertyElementDescriptors {
 
@@ -124,7 +123,7 @@ public class PropertyElementDescriptors {
                             "Labels for property %s in pmo class %s don't match. Values are: '%s' and '%s'",
                             pmoPropertyName, pmoClass.getName(), labelText, descriptor.getLabelText());
 
-        PropertyAccessor propertyAccessor = PropertyAccessorCache
+        PropertyAccessor<?, ?> propertyAccessor = PropertyAccessorCache
                 .get(pmoClass, PROPERTY_NAMING_CONVENTION.getComponentTypeProperty(getPmoPropertyName()));
         if (!propertyAccessor.canRead()) {
             throw new IllegalStateException(String
@@ -137,7 +136,7 @@ public class PropertyElementDescriptors {
 
     @SuppressWarnings("unchecked")
     private Class<? extends Annotation> getInitialAnnotationClassFromPmo(Object pmo) {
-        PropertyAccessor propertyAccessor = PropertyAccessorCache
+        PropertyAccessor<@NonNull Object, @NonNull ?> propertyAccessor = (PropertyAccessor<Object, ?>)PropertyAccessorCache
                 .get(pmo.getClass(), PROPERTY_NAMING_CONVENTION.getComponentTypeProperty(getPmoPropertyName()));
         return (Class<? extends Annotation>)propertyAccessor.getPropertyValue(pmo);
     }

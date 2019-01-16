@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.message;
 
@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.validation.ValidationMarker;
@@ -193,7 +192,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
     public String getText() {
         return messages.stream()
                 .map(Message::getText)
-                .collect(Collectors.joining(SystemUtils.LINE_SEPARATOR));
+                .collect(Collectors.joining(System.lineSeparator()));
     }
 
     /**
@@ -374,8 +373,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
     }
 
     @Override
-    @SuppressWarnings({ "null" })
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj) {
             return true;
         }
@@ -404,7 +402,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
     public String toString() {
         return messages.stream()
                 .map(Message::toString)
-                .collect(Collectors.joining(SystemUtils.LINE_SEPARATOR));
+                .collect(Collectors.joining("\n"));
     }
 
     /**

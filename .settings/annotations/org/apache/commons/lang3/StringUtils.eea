@@ -4,7 +4,7 @@ EMPTY
  L1java/lang/String;
 capitalize
  (Ljava/lang/String;)Ljava/lang/String;
- (Ljava/lang/String;)Ljava/lang/String;
+ (Ljava/lang/String;)L1java/lang/String;
 uncapitalize
  (Ljava/lang/String;)Ljava/lang/String;
  (L1java/lang/String;)L1java/lang/String;

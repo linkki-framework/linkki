@@ -47,8 +47,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     /**
      * @param boundObjectSupplier a supplier to get the object accessed via reflection. Must not be
      *            {@code null}. The object is provided via a supplier because it may change.
-     * @param property the name of the property of the bound object that this {@link PropertyDispatcher}
-     *            will handle
+     * @param property the name of the property of the bound object that this
+     *            {@link PropertyDispatcher} will handle
      * @param fallbackDispatcher the dispatcher accessed in case a value cannot be read or written
      *            (because no getters/setters exist) from the accessed object property. Must not be
      *            {@code null}.
@@ -90,16 +90,18 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T pull(Aspect<T> aspect) {
+    public <V> V pull(Aspect<V> aspect) {
         if (aspect.isValuePresent()) {
             throw new IllegalStateException(String
                     .format("Static aspect %s should not be handled by %s. It seems like the dispatcher chain is broken, check your %s",
                             aspect, getClass().getSimpleName(), BindingContext.class.getSimpleName()));
         }
+        @Nullable
         Object boundObject = getBoundObject();
         String propertyAspectName = getPropertyAspectName(aspect);
         if (boundObject != null && hasReadMethod(propertyAspectName)) {
-            return (T)getAccessor(propertyAspectName).getPropertyValue(boundObject);
+            PropertyAccessor<Object, V> accessor = (PropertyAccessor<Object, V>)getAccessor(propertyAspectName);
+            return accessor.getPropertyValue(boundObject);
         } else {
             return fallbackDispatcher.pull(aspect);
         }
@@ -111,7 +113,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public <T> void push(Aspect<T> aspect) {
+    public <V> void push(Aspect<V> aspect) {
+        @Nullable
         Object boundObject = getBoundObject();
         if (boundObject != null) {
             if (aspect.isValuePresent()) {
@@ -122,16 +125,18 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
     }
 
-    private <T> void callSetter(Aspect<T> aspect) {
+    private <V> void callSetter(Aspect<V> aspect) {
         String propertyAspectName = getPropertyAspectName(aspect);
         if (hasWriteMethod(propertyAspectName)) {
-            getAccessor(propertyAspectName).setPropertyValue(getExistingBoundObject(), aspect.getValue());
+            @SuppressWarnings("unchecked")
+            PropertyAccessor<Object, V> accessor = (PropertyAccessor<Object, V>)getAccessor(propertyAspectName);
+            accessor.setPropertyValue(getExistingBoundObject(), aspect.getValue());
         } else {
             fallbackDispatcher.push(aspect);
         }
     }
 
-    private <T> void invoke(Aspect<T> aspect) {
+    private <V> void invoke(Aspect<V> aspect) {
         String propertyAspectName = getPropertyAspectName(aspect);
         Method method = getExactMethod(propertyAspectName);
         if (method != null) {
@@ -154,7 +159,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    public <T> boolean isPushable(Aspect<T> aspect) {
+    public <V> boolean isPushable(Aspect<V> aspect) {
+        @Nullable
         Object boundObject = getBoundObject();
         return (boundObject != null && hasWriteMethod(getPropertyAspectName(aspect)))
                 || fallbackDispatcher.isPushable(aspect);
@@ -170,7 +176,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         return getAccessor(propertyToWrite).canWrite();
     }
 
-    private PropertyAccessor getAccessor(String propertyToAccess) {
+    private PropertyAccessor<?, ?> getAccessor(String propertyToAccess) {
         return PropertyAccessorCache.get(getExistingBoundObject().getClass(), propertyToAccess);
     }
 

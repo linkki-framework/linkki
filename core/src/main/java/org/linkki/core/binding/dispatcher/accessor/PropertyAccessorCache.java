@@ -16,6 +16,7 @@ package org.linkki.core.binding.dispatcher.accessor;
 import static java.util.Objects.requireNonNull;
 
 import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.LazyInitializingMap;
 
 /**
@@ -23,8 +24,8 @@ import org.linkki.util.LazyInitializingMap;
  */
 public final class PropertyAccessorCache {
 
-    private static final LazyInitializingMap<CacheKey, PropertyAccessor> ACCESSOR_CACHE = new LazyInitializingMap<>(
-            key -> new PropertyAccessor(key.clazz, key.property));
+    private static final LazyInitializingMap<CacheKey, PropertyAccessor<?, ?>> ACCESSOR_CACHE = new LazyInitializingMap<>(
+            key -> new PropertyAccessor<>(key.clazz, key.property));
 
     private PropertyAccessorCache() {
         // should not be instantiated
@@ -35,15 +36,16 @@ public final class PropertyAccessorCache {
      * @param property a property of the class
      * @return the accessor for the property
      */
-    public static PropertyAccessor get(Class<?> clazz, String property) {
-        return ACCESSOR_CACHE.get(new CacheKey(clazz, property));
+    @SuppressWarnings("unchecked")
+    public static <@NonNull T> PropertyAccessor<T, ?> get(Class<T> clazz, String property) {
+        return (PropertyAccessor<T, ?>)ACCESSOR_CACHE.get(new CacheKey(clazz, property));
     }
 
     private static final class CacheKey {
-        private final Class<?> clazz;
+        private final Class<@NonNull ?> clazz;
         private final String property;
 
-        public CacheKey(@NonNull Class<?> clazz, @NonNull String property) {
+        public CacheKey(@NonNull Class<@NonNull ?> clazz, @NonNull String property) {
             super();
             this.clazz = requireNonNull(clazz, "clazz must not be null");
             this.property = requireNonNull(property, "property must not be null");
@@ -58,9 +60,8 @@ public final class PropertyAccessorCache {
             return result;
         }
 
-        @SuppressWarnings("null")
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(@Nullable Object obj) {
             if (this == obj) {
                 return true;
             }

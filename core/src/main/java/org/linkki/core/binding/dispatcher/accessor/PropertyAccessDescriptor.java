@@ -30,35 +30,33 @@ import org.eclipse.jdt.annotation.NonNull;
  * identified by its name. It could create a {@link WriteMethod} or {@link ReadMethod} object for
  * the bound class and property using the methods {@link #createWriteMethod()} and
  * {@link #createReadMethod()}.
- *
+ * 
+ * @param <T> the type containing the property
+ * @param <V> the property's type
  */
-public class PropertyAccessDescriptor {
+public class PropertyAccessDescriptor<@NonNull T, V> {
 
     private static final String GET_PREFIX = "get";
     private static final String SET_PREFIX = "set";
     private static final String IS_PREFIX = "is";
 
-    private final Class<?> boundClass;
+    private final Class<? extends T> boundClass;
     private final String propertyName;
     private final Supplier<Optional<Method>> getter = lazyCaching(this::findGetter);
     private final Supplier<Optional<Method>> setter = lazyCaching(this::findSetter);
 
     private String capitalizedPropertyName;
 
-    public PropertyAccessDescriptor(Class<?> boundClass, String propertyName) {
+    public PropertyAccessDescriptor(Class<? extends T> boundClass, String propertyName) {
         this.boundClass = requireNonNull(boundClass, "clazz must not be null");
         this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
         capitalizedPropertyName = StringUtils.capitalize(propertyName);
     }
 
     private final Optional<Method> findGetter() {
-        Class<?> @NonNull [] params = {};
-        Method foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, GET_PREFIX + capitalizedPropertyName,
-                                                                     params);
+        Method foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, GET_PREFIX + capitalizedPropertyName);
         if (foundMethod == null) {
-            Class<?> @NonNull [] params1 = {};
-            foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, IS_PREFIX + capitalizedPropertyName,
-                                                                  params1);
+            foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, IS_PREFIX + capitalizedPropertyName);
         }
         return Optional.ofNullable(foundMethod);
     }
@@ -73,12 +71,12 @@ public class PropertyAccessDescriptor {
                 .flatMap(Optional::ofNullable);
     }
 
-    public WriteMethod createWriteMethod() {
-        return new WriteMethod(this);
+    public WriteMethod<T, V> createWriteMethod() {
+        return new WriteMethod<>(this);
     }
 
-    public ReadMethod createReadMethod() {
-        return new ReadMethod(this);
+    public ReadMethod<T, V> createReadMethod() {
+        return new ReadMethod<>(this);
     }
 
     Supplier<Optional<Method>> getReflectionWriteMethod() {
@@ -89,7 +87,7 @@ public class PropertyAccessDescriptor {
         return getter;
     }
 
-    public Class<?> getBoundClass() {
+    public Class<? extends T> getBoundClass() {
         return boundClass;
     }
 
