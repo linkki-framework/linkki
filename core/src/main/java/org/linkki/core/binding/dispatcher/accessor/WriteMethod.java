@@ -1,18 +1,24 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.dispatcher.accessor;
 
+import java.lang.invoke.CallSite;
+import java.lang.invoke.LambdaConversionException;
+import java.lang.invoke.LambdaMetafactory;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles.Lookup;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.function.BiConsumer;
 
@@ -68,4 +74,23 @@ public class WriteMethod<@NonNull T, V> extends AbstractMethod<T> {
         return setter;
     }
 
+    @Override
+    protected CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func) {
+        try {
+            return LambdaMetafactory.metafactory(lookup,
+                                                 "accept",
+                                                 MethodType.methodType(BiConsumer.class),
+                                                 MethodType.methodType(Void.TYPE, Object.class, Object.class),
+                                                 methodHandle,
+                                                 wrap(methodHandle));
+        } catch (LambdaConversionException e) {
+            throw new IllegalStateException("Can't create " + CallSite.class.getSimpleName() + " for "
+                    + methodHandle, e);
+        }
+    }
+
+    // to avoid problems with primitive parameters in Java 11
+    private MethodType wrap(MethodHandle methodHandle) {
+        return methodHandle.type().wrap().changeReturnType(Void.TYPE);
+    }
 }

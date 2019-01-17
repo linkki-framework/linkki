@@ -13,12 +13,15 @@
  */
 package org.linkki.core.binding.dispatcher.accessor;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.dispatcher.accessor.other.OtherPackageTestObject;
@@ -235,6 +238,35 @@ public class PropertyAccessorTest {
         propertyAccessor.setPropertyValue(testImpl, "baz");
         propertyValue = propertyAccessor.getPropertyValue(testImpl);
         assertEquals("baz", propertyValue);
+    }
+
+    /**
+     * On my machine with LambdaMetafactory:
+     * <ul>
+     * <li>1000 set/get-calls took 9ms</li>
+     * <li>1000000 set/get-calls took 47ms</li>
+     * <li>1000000000 set/get-calls took 13637ms</li>
+     * </ul>
+     * With old reflection:
+     * <ul>
+     * <li>1000 set/get-calls took 6ms</li>
+     * <li>1000000 set/get-calls took 57ms</li>
+     * <li>1000000000 set/get-calls took 21279ms</li>
+     * </ul>
+     */
+    @Ignore
+    @Test
+    public void testPerformance() {
+        PropertyAccessor<TestObject, Integer> accessor = new PropertyAccessor<>(TestObject.class,
+                TestObject.INT_PROPERTY);
+        for (long l = 1000L; l <= 1_000_000_000L; l *= 1000) {
+            long start = System.currentTimeMillis();
+            for (int i = 0; i < l; i++) {
+                accessor.setPropertyValue(testObject, i);
+                assertThat(accessor.getPropertyValue(testObject), is(i));
+            }
+            System.out.println(l + " set/get-calls took " + (System.currentTimeMillis() - start) + "ms");
+        }
     }
 
     public static class TestInterfaceImpl implements TestInterface {
