@@ -55,7 +55,8 @@ public class PropertyDispatcherFactory {
 
     /**
      * Subclasses may override to add custom dispatchers to the chain. The dispatchers will be added
-     * <em>after</em> the standard dispatchers and <em>before</em> the behavior dependent dispatchers.
+     * <em>after</em> the standard dispatchers and <em>before</em> the behavior dependent
+     * dispatchers.
      * <p>
      * The default implementation adds no dispatchers.
      * <p>
@@ -84,9 +85,7 @@ public class PropertyDispatcherFactory {
         
         ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(buttonPmo, modelObjectName, StringUtils.EMPTY);
         ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(buttonPmo, StringUtils.EMPTY, modelObjectName, StringUtils.EMPTY, exceptionDispatcher);
-        @SuppressWarnings("deprecation")
-        org.linkki.core.binding.dispatcher.ButtonPmoDispatcher buttonPmoDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(reflectionDispatcher);
-        return new BehaviorDependentDispatcher(buttonPmoDispatcher, behaviorProvider);
+        return new BehaviorDependentDispatcher(reflectionDispatcher, behaviorProvider);
         // @formatter:on
     }
 

@@ -28,7 +28,6 @@ import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 
 import com.vaadin.ui.Button;
 
-@SuppressWarnings("deprecation")
 public class ButtonPmoBindingTest {
 
     static class TestButtonPmo implements ButtonPmo {
@@ -64,9 +63,10 @@ public class ButtonPmoBindingTest {
     @Test
     public void testButtonClickIsForwaredToPmo() {
         ButtonPmo pmo = mock(ButtonPmo.class);
-        PropertyDispatcher propertyDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(
-                new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY, wrappedDispatcher));
-        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::modelChanged);
+        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY,
+                wrappedDispatcher);
+        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, propertyDispatcher,
+                bindingContext::modelChanged);
         bindingContext.add(buttonPmoBinding);
         button.click();
         verify(pmo).onClick();
@@ -75,8 +75,8 @@ public class ButtonPmoBindingTest {
     @Test
     public void testUpdateFromPmo_PmoSublass() {
         TestButtonPmo pmo = new TestButtonPmo();
-        PropertyDispatcher propertyDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(
-                new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY, wrappedDispatcher));
+        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY,
+                wrappedDispatcher);
         ButtonPmoBinding binding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::modelChanged);
         bindingContext.add(binding);
 
@@ -96,8 +96,9 @@ public class ButtonPmoBindingTest {
     @Test
     public void testUpdateFromPmo_LambdaPmo() {
         ButtonPmo lambdaPmo = () -> System.out.println("click");
-        PropertyDispatcher propertyDispatcher = new org.linkki.core.binding.dispatcher.ButtonPmoDispatcher(
-                new ReflectionPropertyDispatcher(() -> lambdaPmo, StringUtils.EMPTY, wrappedDispatcher));
+        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> lambdaPmo, StringUtils.EMPTY,
+                wrappedDispatcher);
+
         ButtonPmoBinding binding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::modelChanged);
         bindingContext.add(binding);
 
