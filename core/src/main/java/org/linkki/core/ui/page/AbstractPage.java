@@ -17,7 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
 
-import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 import javax.annotation.PostConstruct;
 
 import org.eclipse.jdt.annotation.NonNull;
@@ -31,6 +30,8 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+
+import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
 /**
  * A page allows displaying and editing data in a vertical layout. It usually consists of so called

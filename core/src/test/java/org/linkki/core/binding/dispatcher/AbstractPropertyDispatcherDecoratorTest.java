@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings("null")

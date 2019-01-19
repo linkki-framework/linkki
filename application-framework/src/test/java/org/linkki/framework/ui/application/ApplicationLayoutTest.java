@@ -17,14 +17,13 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.framework.state.ApplicationConfig;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.vaadin.navigator.Navigator.EmptyView;
 import com.vaadin.navigator.View;
@@ -65,8 +64,6 @@ public class ApplicationLayoutTest {
 
     private void setUpApplicationLayout() {
         applicationLayout = new ApplicationLayout(header, footer);
-
-        when(ui.getPage()).thenReturn(page);
     }
 
     @Test
@@ -111,7 +108,6 @@ public class ApplicationLayoutTest {
     @Test
     public void testShowView_NoFooter() {
         applicationLayout = new ApplicationLayout(header, null);
-        when(ui.getPage()).thenReturn(page);
 
         assertThat(applicationLayout.getComponentCount(), is(2));
         assertThat(applicationLayout.getComponent(1), is(instanceOf(EmptyView.class)));

@@ -36,7 +36,7 @@ import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefini
 import org.linkki.core.ui.section.descriptor.BindAnnotationDescriptor;
 import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings("null")

@@ -27,7 +27,7 @@ import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.descriptor.BindingDescriptor;
 import org.linkki.core.ui.section.descriptor.ElementDescriptor;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings("null")

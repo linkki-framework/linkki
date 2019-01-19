@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.page.Page;
 import org.linkki.util.StreamUtil;
@@ -84,7 +82,6 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
      * 
      * Must be called manually if no dependency injection framework is used.
      */
-    @PostConstruct
     public final void init() {
         createContent();
     }
