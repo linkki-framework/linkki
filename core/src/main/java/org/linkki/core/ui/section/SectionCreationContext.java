@@ -24,6 +24,8 @@ import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinding;
 import org.linkki.core.binding.LinkkiBindingException;
+import org.linkki.core.binding.descriptor.ElementDescriptor;
+import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.components.ComponentWrapper;
@@ -32,9 +34,6 @@ import org.linkki.core.ui.section.annotations.SectionID;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.adapters.UISectionDefinition;
-import org.linkki.core.ui.section.descriptor.ElementDescriptor;
-import org.linkki.core.ui.section.descriptor.PropertyElementDescriptors;
-import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 import org.linkki.util.BeanUtils;
 
 import com.vaadin.ui.Button;
@@ -134,10 +133,9 @@ public class SectionCreationContext {
 
     private void createUiElements(BaseSection section) {
         UIAnnotationReader annotationReader = new UIAnnotationReader(getPmo().getClass());
-        for (PropertyElementDescriptors elementDescriptors : annotationReader.getUiElements()) {
-            ElementDescriptor uiElement = elementDescriptors.getDescriptor(pmo);
-            bindUiElement(uiElement, createLabelAndComponent(section, uiElement));
-        }
+        annotationReader.getUiElements()
+                .map(elementDescriptors -> elementDescriptors.getDescriptor(pmo))
+                .forEach(uiElement -> bindUiElement(uiElement, createLabelAndComponent(section, uiElement)));
     }
 
     private ComponentWrapper createLabelAndComponent(BaseSection section, ElementDescriptor uiElement) {

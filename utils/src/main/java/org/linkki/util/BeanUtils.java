@@ -16,7 +16,6 @@ package org.linkki.util;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.AccessController;
@@ -27,6 +26,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.Nullable;
 
 public class BeanUtils {
@@ -62,9 +62,9 @@ public class BeanUtils {
     }
 
     /**
-     * Returns an optional containing the class' method matching the given predicate (empty optional
-     * if none matches). If you expect more than one match, {@link #getMethods(Class, Predicate)}
-     * might be what you're looking for.
+     * Returns an optional containing the class' method matching the given predicate (empty optional if
+     * none matches). If you expect more than one match, {@link #getMethods(Class, Predicate)} might be
+     * what you're looking for.
      * 
      * @throws IllegalStateException If more than one method matches the predicate.
      */
@@ -131,6 +131,16 @@ public class BeanUtils {
     @Nullable
     public static Object getValueFromField(Object object, String name) {
         Field field = getField(object.getClass(), name);
+        return getValueFromField(object, field);
+    }
+
+    /**
+     * Returns the object's value for the field with the given name.
+     * 
+     * @see Class#getDeclaredField(String)
+     */
+    @Nullable
+    public static Object getValueFromField(Object object, Field field) {
         return AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             @Nullable
@@ -141,8 +151,8 @@ public class BeanUtils {
                 }
                 try {
                     return field.get(object);
-                } catch (IllegalArgumentException | IllegalAccessException e) {
-                    throw new RuntimeException(e);
+                } catch (IllegalAccessException e) {
+                    throw new IllegalArgumentException(e);
                 } finally {
                     field.setAccessible(accessible);
                 }
@@ -151,17 +161,22 @@ public class BeanUtils {
     }
 
     /**
-     * Returns the class' property descriptor with the given name.
-     * 
-     * @throws IllegalArgumentException if no such property exists.
+     * Returns the property name from the given method:
+     * <ul>
+     * <li>{@code String getFoo()} -&gt; "foo"</li>
+     * <li>{@code boolean isBar()} -&gt; "bar"</li>
+     * <li>{@code void fooBar()} -&gt; "fooBar"</li>
+     * </ul>
      */
-    public static PropertyDescriptor getProperty(Class<?> clazz, String propertyName) {
-        PropertyDescriptor[] descriptors = getBeanInfo(clazz).getPropertyDescriptors();
-        for (PropertyDescriptor propertyDescriptor : descriptors) {
-            if (propertyDescriptor.getName().equals(propertyName)) {
-                return propertyDescriptor;
-            }
+    public static String getPropertyName(Method method) {
+        if (method.getReturnType() == Void.TYPE) {
+            return method.getName();
+        } else if (method.getName().startsWith("is")) {
+            return StringUtils.uncapitalize(method.getName().substring(2));
+        } else if (method.getName().startsWith("get")) {
+            return StringUtils.uncapitalize(method.getName().substring(3));
+        } else {
+            return method.getName();
         }
-        throw new IllegalArgumentException("Class '" + clazz + "' has not property'" + propertyName + "'.");
     }
 }

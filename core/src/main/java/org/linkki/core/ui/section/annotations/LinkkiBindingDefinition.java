@@ -18,7 +18,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.descriptor.UIAnnotationReader;
 
 /**
  * Marks an annotation used to mark a UI element created by Linkki, such as {@link UILabel} or

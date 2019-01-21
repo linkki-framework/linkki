@@ -1,9 +1,0 @@
-:jbake-title: NLS Service
-:jbake-type: chapter
-:jbake-status: published
-:jbake-order: 90
-
-== NLS Service
-
-linkki uses so called `ResourceBundles` to implement Native Language Support. This enables code to be independent of the locale that is later used for display. In addition, support for more languages can be easily added later on.
-A `ResourceBundle` is a simple text file which contains all translations for one specified language. In linkki, the so called PMO NLS Service uses this mechanism to localize Strings defined in linkki annotations such as captions or labels. It will translate String attributes automatically if the resources bundles are set up correctly with the according keys.

@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.core.ui.section.descriptor;
+package org.linkki.core.binding.descriptor;
 
 import static java.util.Objects.requireNonNull;
 

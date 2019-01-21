@@ -7,6 +7,13 @@
 
 == New & Noteworthy
 
+=== January 21st, 2019
+
+==== Refactoring @Bind
+
+The Annotation `@Bind` was refactored to allow creating other variations (see <<custom-binding-annotation, Custom Binding Annotation>>).
+During this refactoring, a fallback mechanism to determine the `pmoProperty` attribute from the name of the annotated method (or field) as for the UI annotations has been implemented as well.
+
 === January 10th, 2019
 
 ==== ComponentFactory.sizedLabel deprecated

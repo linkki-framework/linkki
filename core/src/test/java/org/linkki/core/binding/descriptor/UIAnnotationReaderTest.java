@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.core.ui.section.descriptor;
+package org.linkki.core.binding.descriptor;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -21,10 +21,11 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-import java.util.LinkedHashSet;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import org.junit.Test;
+import org.linkki.core.binding.descriptor.UIAnnotationReader.ModelObjectAnnotationException;
 import org.linkki.core.ui.section.annotations.BindTooltip;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.ModelObject;
@@ -32,7 +33,6 @@ import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.core.ui.section.descriptor.UIAnnotationReader.ModelObjectAnnotationException;
 
 public class UIAnnotationReaderTest {
 
@@ -44,8 +44,8 @@ public class UIAnnotationReaderTest {
         assertNotNull(reader.findDescriptors("test"));
         assertNotNull(reader.findDescriptors("test3"));
 
-        LinkedHashSet<PropertyElementDescriptors> uiElements = reader.getUiElements();
-        assertThat(uiElements.size(), is(3));
+        Stream<PropertyElementDescriptors> uiElements = reader.getUiElements();
+        assertThat(uiElements.count(), is(3L));
     }
 
     @Test(expected = ModelObjectAnnotationException.class)

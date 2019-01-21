@@ -30,7 +30,7 @@ include::{source-dir}/org/linkki/samples/binding/components/AddressFields.java[t
 .@Bind on Methods
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/components/AddressFields2.java[tags=addressFields-methodBinding]
+include::{source-dir}/org/linkki/samples/binding/components/AddressFieldsWithBindOnGetters.java[tags=addressFields-methodBinding]
 ----
 
 TIP: When the data binding of a Vaadin component of a third party library should be used by *linkki*, it can be activated via inheritance of 'delegate proxies' and `@Bind` on the methods.

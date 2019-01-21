@@ -30,7 +30,7 @@ public class AddressComponent extends FormLayout {
 
         TextField street = fields.getStreetTxt();
         TextField zip = fields.getZipTxt();
-        TextField city = fields.getCityTxt();
+        TextField city = fields.getCity();
         ComboBox country = fields.getCountryCb();
 
         street.setSizeFull();

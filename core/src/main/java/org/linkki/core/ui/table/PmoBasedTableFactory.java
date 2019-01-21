@@ -20,15 +20,15 @@ import java.util.Optional;
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
+import org.linkki.core.binding.descriptor.ElementDescriptor;
+import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
+import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.nls.pmo.PmoLabelType;
 import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
 import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
-import org.linkki.core.ui.section.descriptor.ElementDescriptor;
-import org.linkki.core.ui.section.descriptor.PropertyElementDescriptors;
-import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
@@ -72,7 +72,7 @@ public class PmoBasedTableFactory<@NonNull T> {
         TableBinding<T> tableBinding = bindTable(table);
         createColumns(tableBinding);
         tableBinding.init();
-        boolean hasCollapsibleColumn = annotationReader.getUiElements().stream()
+        boolean hasCollapsibleColumn = annotationReader.getUiElements()
                 .map(annotationReader::getTableColumnDescriptor)
                 .filter(Optional::isPresent)
                 .map(Optional::get)

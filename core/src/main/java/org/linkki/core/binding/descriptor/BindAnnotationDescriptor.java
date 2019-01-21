@@ -11,39 +11,40 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.core.ui.section.descriptor;
+package org.linkki.core.binding.descriptor;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.property.BoundProperty;
 
+/**
+ * Descriptor for {@link Bind @Bind}.
+ */
 public class BindAnnotationDescriptor extends BindingDescriptor {
 
-    private Bind annotation;
+    private final BoundProperty boundProperty;
 
-    public BindAnnotationDescriptor(Bind annotation, List<LinkkiAspectDefinition> aspectDefinitions) {
+    public BindAnnotationDescriptor(BoundProperty boundProperty,
+            List<LinkkiAspectDefinition> aspectDefinitions) {
         super(aspectDefinitions);
-        this.annotation = annotation;
+        this.boundProperty = boundProperty;
     }
 
     @Override
     public String getModelPropertyName() {
-        if (StringUtils.isEmpty(annotation.modelAttribute())) {
-            return getPmoPropertyName();
-        }
-        return annotation.modelAttribute();
+        return boundProperty.getModelAttribute();
     }
 
     @Override
     public String getModelObjectName() {
-        return annotation.modelObject();
+        return boundProperty.getModelObject();
     }
 
     @Override
     public String getPmoPropertyName() {
-        return annotation.pmoProperty();
+        return boundProperty.getPmoProperty();
     }
 
 }

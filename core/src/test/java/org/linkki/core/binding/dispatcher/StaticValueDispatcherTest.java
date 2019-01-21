@@ -24,8 +24,10 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.descriptor.BindAnnotationDescriptor;
+import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -33,8 +35,6 @@ import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
-import org.linkki.core.ui.section.descriptor.BindAnnotationDescriptor;
-import org.linkki.core.ui.section.descriptor.UIAnnotationReader;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -61,7 +61,7 @@ public class StaticValueDispatcherTest {
     public void setUp() {
         objectWithUIAnnotations = new TestObjectWithUIAnnotations();
         UIAnnotationReader uiAnnotationReader = new UIAnnotationReader(objectWithUIAnnotations.getClass());
-        uiAnnotationDispatchers = uiAnnotationReader.getUiElements().stream()
+        uiAnnotationDispatchers = uiAnnotationReader.getUiElements()
                 .collect(Collectors.toMap(e -> e.getPmoPropertyName(),
                                           e -> new StaticValueDispatcher(uiAnnotationFallbackDispatcher)));
     }
@@ -97,17 +97,8 @@ public class StaticValueDispatcherTest {
 
     public class TestObjectWithBindAnnotation {
 
-        @Bind(pmoProperty = "", enabled = EnabledType.DISABLED, visible = VisibleType.INVISIBLE, required = RequiredType.REQUIRED, availableValues = AvailableValuesType.NO_VALUES)
-        public Bind bindAnnotation() {
-            try {
-                return getClass().getMethod("bindAnnotation", new Class<?>[] {}).getAnnotation(Bind.class);
-            } catch (NoSuchMethodException | SecurityException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         public BindAnnotationDescriptor bindAnnotationDescriptor() {
-            return new BindAnnotationDescriptor(bindAnnotation(), new ArrayList<>());
+            return new BindAnnotationDescriptor(new BoundProperty("prop"), new ArrayList<>());
         }
     }
 

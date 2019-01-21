@@ -2,12 +2,12 @@
 :jbake-type: section
 :jbake-status: published
 
-:image-dir: {images}08_Aspects
 :source-dir: ../../../java
 
+[[creating-aspects]]
 === Creating a new aspect
 
-In addition to built-in aspects, you can easily create your own. This guide walks you through the process of implementing a simple aspect that allows components to show a dynamically bound tooltip. In this example, you will build the aspect as a standalone annotation that can be used in addition to any `BindingDefinition`. 
+In addition to built-in aspects, you can easily create your own. This guide walks you through the process of implementing a simple aspect that allows components to show a dynamically bound tooltip. In this example, you will build the aspect as a standalone annotation that can be used in addition to any `BindingDefinition`.
 
 TIP: This aspect is already included in linkki. It is only used as an example due to its simplicity.
 
@@ -39,9 +39,9 @@ An aspect definition that uses the newly defined annotation `@BindTooltip` would
 include::{source-dir}/org/linkki/doc/BindTooltipAspectDefinition.java[tags=BindTooltipAspectDefinition]
 ```
 
-* `initModelUpdate` is not needed in this example because the tooltip won't change in the model upon UI change. 
+* `initModelUpdate` is not needed in this example because the tooltip won't change in the model upon UI change.
 * In the method `createUiUpdater`,  the `propertyDispatcher` is asked for the tooltip value which is then set in the component using `ComponentWrapper#setTooltip`. The `propertyDispatcher` needs an aspect to know which value it should retrieve, and how. This aspect is created in the method `createAspect()`.
-* `createAspect()` creates the aspect depending on the values given in the annotation. 
+* `createAspect()` creates the aspect depending on the values given in the annotation.
 * The `BindTooltip`-annotation is stored by the `initialize(Annotation)` method to be used in `createAspect()`.
 
 ==== @LinkkiAspect Annotation

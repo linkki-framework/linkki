@@ -17,27 +17,48 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
+import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.Binder;
+import org.linkki.core.binding.annotations.Bind.BindAnnotationBoundPropertyCreator;
 import org.linkki.core.binding.annotations.aspect.BindAnnotationAspectDefinition;
 import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.property.BoundProperty;
+import org.linkki.core.binding.property.LinkkiBoundProperty;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.util.BeanUtils;
 
 /**
- *
+ * This annotation is used to bind manually created components with a PMO and optionally a model
+ * object. It is used to manually create UI layouts where linkki @UI... annotations do not give the
+ * necessary flexibility. To still keep the linkki binding it is possible to annotate the created
+ * field components using this annotation. Afterwards just call
+ * {@link Binder#setupBindings(org.linkki.core.binding.BindingContext)} to bring the UI and the
+ * model together.
+ * 
+ * @see Binder
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
+@LinkkiBoundProperty(BindAnnotationBoundPropertyCreator.class)
 @LinkkiAspect(BindAnnotationAspectDefinition.class)
 public @interface Bind {
 
     /**
-     * The name of the PMO's property to which the UI element is bound. If the property does not
-     * exist in the PMO, the given value is used as the attribute name of the bounded
-     * {@link #modelObject()}.
+     * The name of the PMO's property to which the UI element is bound. If it is empty (default) the
+     * property name is derived from the annotated element, that means:
+     * <ul>
+     * <li>in case of a field it is the field name</li>
+     * <li>it case of a getter method it is the method name without is/get</li>
+     * <li>otherwise it is the full name of the annotated method</li>
+     * </ul>
      * <p>
      * Note that for each aspect, the {@link #pmoProperty()} is evaluated before
      * {@link #modelAttribute()}. That means if an aspect method can be found with the defined
@@ -46,7 +67,7 @@ public @interface Bind {
      * If no {@link #modelAttribute()} is defined, {@link #pmoProperty()} is used to find the method
      * in the {@link #modelObject()}.
      */
-    String pmoProperty();
+    String pmoProperty() default "";
 
     /**
      * The name of the {@link ModelObject} this component is bound to, by default
@@ -77,4 +98,38 @@ public @interface Bind {
      * available values (e.g. combo boxes), ignored for all other elements.
      */
     AvailableValuesType availableValues() default AvailableValuesType.NO_VALUES;
+
+    /**
+     * Initializes a {@link BoundProperty} with the values of the {@link Bind @Bind} annotation's
+     * {@link Bind#pmoProperty() pmoProperty}, {@link Bind#modelObject() modelObject}, and
+     * {@link Bind#modelAttribute() modelAttribute} attributes. If the {@link Bind#pmoProperty()
+     * pmoProperty} is not set, the annotated field/method's name is used.
+     */
+    class BindAnnotationBoundPropertyCreator implements LinkkiBoundProperty.Creator<Bind> {
+
+        @Override
+        public BoundProperty createBoundProperty(Bind annotation, AnnotatedElement annotatedElement) {
+            return new BoundProperty(getPmoProperty(annotation, annotatedElement))
+                    .withModelObject(annotation.modelObject())
+                    .withModelAttribute(annotation.modelAttribute());
+        }
+
+        private String getPmoProperty(Bind annotation, AnnotatedElement annotatedElement) {
+            String pmoProperty = annotation.pmoProperty();
+            if (StringUtils.isEmpty(pmoProperty)) {
+                if (annotatedElement instanceof Method) {
+                    pmoProperty = BeanUtils.getPropertyName((Method)annotatedElement);
+                } else if (annotatedElement instanceof Field) {
+                    pmoProperty = ((Field)annotatedElement).getName();
+                } else {
+                    throw new IllegalArgumentException("The @" + Bind.class.getSimpleName()
+                            + " annotation only supports reading the property name from " + Field.class.getSimpleName()
+                            + "s and " + Method.class.getSimpleName() + "s");
+                }
+            }
+            return pmoProperty;
+        }
+
+    }
+
 }

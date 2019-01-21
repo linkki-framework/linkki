@@ -15,7 +15,9 @@
 package org.linkki.core.binding.aspect;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,8 +34,8 @@ public class AspectAnnotationReader {
     }
 
     /**
-     * Creates a list of {@link LinkkiAspectDefinition}s that are annotated in the definition of the
-     * given linkki UI annotation.
+     * Creates a list of {@link LinkkiAspectDefinition LinkkiAspectDefinitions} that are annotated in
+     * the definition of the given linkki UI annotation.
      * 
      * @param uiAnnotation UI annotation that is used for linkki bindings
      * @return list of aspect definitions that apply to the given UI annotation
@@ -64,4 +66,20 @@ public class AspectAnnotationReader {
                     e);
         }
     }
+
+
+    /**
+     * Creates a list of {@link LinkkiAspectDefinition LinkkiAspectDefinitions} from all
+     * {@link LinkkiAspect}-annotated annotations on the given {@link AnnotatedElement}.
+     * 
+     * @param annotatedElement an element with annotations
+     * @return list of aspect definitions that apply to the given element's annotations
+     */
+    public static List<LinkkiAspectDefinition> createAspectDefinitionsFor(AnnotatedElement annotatedElement) {
+        return Arrays.asList(annotatedElement.getAnnotations()).stream()
+                .map(a -> AspectAnnotationReader.createAspectDefinitionsFrom(a))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+    }
+
 }

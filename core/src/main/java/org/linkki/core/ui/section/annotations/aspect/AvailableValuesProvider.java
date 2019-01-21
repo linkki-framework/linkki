@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.core.ui.section.annotations.adapters;
+package org.linkki.core.ui.section.annotations.aspect;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -14,8 +14,8 @@
 package org.linkki.core.binding.dispatcher;
 
 import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.nls.pmo.PmoNlsService;
-import org.linkki.core.ui.section.descriptor.BindingDescriptor;
 
 /**
  * This dispatcher returns the static value of an {@link Aspect} if it has a value. If no value

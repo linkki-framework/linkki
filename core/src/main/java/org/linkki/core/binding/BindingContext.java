@@ -27,11 +27,11 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.behavior.PropertyBehavior;
+import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.section.descriptor.BindingDescriptor;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.util.handler.Handler;
 

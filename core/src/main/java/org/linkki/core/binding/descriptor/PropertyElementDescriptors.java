@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.core.ui.section.descriptor;
+package org.linkki.core.binding.descriptor;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -30,7 +30,8 @@ import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
 
 /**
- * This class stores all {@link ElementDescriptor}s of a PMO specified at the same property.
+ * This class stores all {@link ElementDescriptor ElementDescriptors} of a PMO specified at the same
+ * property.
  * <p>
  * In case only one {@link ElementDescriptor} exists for a position, no additional method is needed
  * in the PMO. <br>
