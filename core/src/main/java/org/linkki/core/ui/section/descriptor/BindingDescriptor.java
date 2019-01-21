@@ -17,6 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
+import org.linkki.core.binding.ComponentBinding;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -65,9 +66,15 @@ public abstract class BindingDescriptor {
      * Creates a binding with the given dispatcher, the given handler for updating the UI and the given
      * UI components using the binding information from this descriptor.
      */
-    public abstract ElementBinding createBinding(PropertyDispatcher propertyDispatcher,
+    public ElementBinding createBinding(PropertyDispatcher propertyDispatcher,
             Handler modelChanged,
-            ComponentWrapper componentWrapper);
+            ComponentWrapper componentWrapper) {
+        requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
+        requireNonNull(modelChanged, "modelChanged must not be null");
+        requireNonNull(componentWrapper, "component must not be null");
+        return new ComponentBinding(componentWrapper, propertyDispatcher, modelChanged,
+                getAspectDefinitions());
+    }
 
     /**
      * The name of the property from the pmo

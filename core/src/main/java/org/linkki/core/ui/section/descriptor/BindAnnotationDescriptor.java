@@ -16,13 +16,8 @@ package org.linkki.core.ui.section.descriptor;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.binding.ComponentBinding;
-import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.util.handler.Handler;
 
 public class BindAnnotationDescriptor extends BindingDescriptor {
 
@@ -44,14 +39,6 @@ public class BindAnnotationDescriptor extends BindingDescriptor {
     @Override
     public String getModelObjectName() {
         return annotation.modelObject();
-    }
-
-    @Override
-    public ElementBinding createBinding(PropertyDispatcher propertyDispatcher,
-            Handler modelChanged,
-            ComponentWrapper componentWrapper) {
-        return new ComponentBinding(componentWrapper, propertyDispatcher, modelChanged,
-                getAspectDefinitions());
     }
 
     @Override
