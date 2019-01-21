@@ -142,7 +142,7 @@ public class Aspect<T> {
 
     @Override
     public String toString() {
-        return "Aspect " + (name.isEmpty() ? "VALUE" : name) + " " + value;
+        return String.format("Aspect: '%s', %s", name.isEmpty() ? "VALUE" : name, value);
     }
 
     /**
@@ -190,12 +190,7 @@ public class Aspect<T> {
 
         @Override
         public String toString() {
-            if (isValuePresent()) {
-                return "Value " + value;
-            } else {
-                return "no value present";
-            }
+            return isValuePresent() ? "Value: '" + value + "'" : "no value present";
         }
-
     }
 }

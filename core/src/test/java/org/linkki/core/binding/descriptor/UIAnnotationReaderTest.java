@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 import org.junit.Test;
 import org.linkki.core.binding.descriptor.UIAnnotationReader.ModelObjectAnnotationException;
@@ -44,8 +43,7 @@ public class UIAnnotationReaderTest {
         assertNotNull(reader.findDescriptors("test"));
         assertNotNull(reader.findDescriptors("test3"));
 
-        Stream<PropertyElementDescriptors> uiElements = reader.getUiElements();
-        assertThat(uiElements.count(), is(3L));
+        assertThat(reader.getUiElements().count(), is(3L));
     }
 
     @Test(expected = ModelObjectAnnotationException.class)

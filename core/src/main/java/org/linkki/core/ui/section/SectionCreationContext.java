@@ -135,7 +135,7 @@ public class SectionCreationContext {
         UIAnnotationReader annotationReader = new UIAnnotationReader(getPmo().getClass());
         annotationReader.getUiElements()
                 .map(elementDescriptors -> elementDescriptors.getDescriptor(pmo))
-                .forEach(uiElement -> bindUiElement(uiElement, createLabelAndComponent(section, uiElement)));
+                .forEach(descriptor -> bindUiElement(descriptor, createLabelAndComponent(section, descriptor)));
     }
 
     private ComponentWrapper createLabelAndComponent(BaseSection section, ElementDescriptor uiElement) {
