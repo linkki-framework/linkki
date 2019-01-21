@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -47,6 +46,7 @@
         <commons-lang3.version>3.4</commons-lang3.version>
         <doc.user>${user.name}</doc.user>
         <spotbugs.version>3.1.10</spotbugs.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <build>
@@ -55,18 +55,37 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>toolchain</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <toolchains>
+                        <jdk>
+                            <version>${java.version}</version>
+                        </jdk>
+                    </toolchains>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <!-- at the moment we do not check missing javadoc like missing
-                        @param or @return -->
+                    <!-- at the moment we do not check missing javadoc like missing @param or @return -->
                     <additionalparam>-Xdoclint:accessibility
                         -Xdoclint:html
                         -Xdoclint:reference
@@ -91,8 +110,7 @@
                     </tags>
                 </configuration>
             </plugin>
-            <!-- CheckStyle: in order to get the config in the correct version you
-                need to add an extension to the org.faktorips.build.config
+            <!-- CheckStyle: in order to get the config in the correct version you need to add an extension to the org.faktorips.build.config 
                 module -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -121,8 +139,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- FindBugs: in order to get the config in the correct version you
-                need to add an extension to the org.faktorips.build.config
+            <!-- FindBugs: in order to get the config in the correct version you need to add an extension to the org.faktorips.build.config 
                 module -->
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
@@ -265,8 +282,7 @@
                     <version>3.1.1</version>
                 </plugin>
 
-                <!--This plugin's configuration is used to store Eclipse m2e settings
-                    only. It has no influence on the Maven
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
                     build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
