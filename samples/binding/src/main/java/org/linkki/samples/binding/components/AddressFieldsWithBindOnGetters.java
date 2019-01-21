@@ -15,12 +15,16 @@ package org.linkki.samples.binding.components;
 
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.samples.binding.annotation.BindValue;
 import org.linkki.samples.binding.model.Country;
 
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 
-public class AddressFields2 {
+/**
+ * Same as {@link AddressFields} but with {@link Bind} annotation on the getter methods.
+ */
+public class AddressFieldsWithBindOnGetters {
 
     private final TextField streetTxt;
 
@@ -30,7 +34,7 @@ public class AddressFields2 {
 
     private final ComboBox countryCb;
 
-    public AddressFields2() {
+    public AddressFieldsWithBindOnGetters() {
         streetTxt = createTextField("Street");
         zipTxt = createTextField(null);
         cityTxt = createTextField(null);
@@ -50,11 +54,6 @@ public class AddressFields2 {
         return streetTxt;
     }
 
-    @Bind(pmoProperty = "zip")
-    public TextField getZipTxt() {
-        return zipTxt;
-    }
-
     /* uses the pmoProperty and modelAttribute "city" derived from the method name */
     @Bind
     public TextField getCity() {
@@ -66,6 +65,13 @@ public class AddressFields2 {
         return countryCb;
     }
     // end::addressFields-methodBinding[]
+
+    // tag::addressFields-custom-bind[]
+    @BindValue(pmoProperty = "zip")
+    public TextField getZipTxt() {
+        return zipTxt;
+    }
+    // end::addressFields-custom-bind[]
 
     private static TextField createTextField(String caption) {
         TextField tf = new TextField(caption);

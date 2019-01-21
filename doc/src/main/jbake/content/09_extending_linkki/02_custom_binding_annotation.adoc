@@ -1,4 +1,4 @@
-:jbake-title: Custom binding annotation
+:jbake-title: Custom Annotation with Binder
 :jbake-type: section
 :jbake-status: published
 
@@ -37,5 +37,12 @@ Now the `@BindValue` annotation can be used with a `Binder` for  <<manual-bindin
 
 [source,java]
 ----
-include::{source-dir-binding-sample}/java/org/linkki/samples/binding/components/AddressFields3.java[tags=addressFields-custom-bind]
+include::{source-dir-binding-sample}/java/org/linkki/samples/binding/components/AddressFields.java[tags=addressFields-custom-bind]
+----
+
+Just as the `@Bind` annotation, the new annotation can also be used on getter methods:
+
+[source,java]
+----
+include::{source-dir-binding-sample}/java/org/linkki/samples/binding/components/AddressFieldsWithBindOnGetters.java[tags=addressFields-custom-bind]
 ----

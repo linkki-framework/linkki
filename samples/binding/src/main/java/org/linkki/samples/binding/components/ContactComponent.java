@@ -68,7 +68,7 @@ public class ContactComponent extends Panel {
 
         AbstractSection contactSection = sectionFactory.createSection(contactPmo, bindingContext);
 
-        AddressFields3 addressFields = new AddressFields3();
+        AddressFields addressFields = new AddressFields();
         AddressComponent addressComponent = new AddressComponent(addressFields);
 
         // tag::manual-binding[]

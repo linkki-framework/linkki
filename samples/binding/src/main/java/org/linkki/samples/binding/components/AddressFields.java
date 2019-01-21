@@ -13,22 +13,25 @@
  */
 package org.linkki.samples.binding.components;
 
+import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.samples.binding.annotation.BindValue;
 import org.linkki.samples.binding.model.Address;
 import org.linkki.samples.binding.model.Country;
 
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 
+/**
+ * Input fields for the address using {@link Bind @Bind} annotation on private fields and
+ * {@link Binder}.
+ */
 // tag::addressFields-class[]
 public class AddressFields {
 
     @Bind(pmoProperty = "street", modelAttribute = Address.PROPERTY_STREET)
     private final TextField streetTxt;
-
-    @Bind(pmoProperty = "zip", modelAttribute = Address.PROPERTY_ZIP)
-    private final TextField zipTxt;
 
     /* uses the field's name as pmoProperty and modelAttribute */
     @Bind
@@ -39,6 +42,11 @@ public class AddressFields {
     private final ComboBox countryCb;
 
     // end::addressFields-class[]
+
+    // tag::addressFields-custom-bind[]
+    @BindValue(pmoProperty = "zip", modelAttribute = Address.PROPERTY_ZIP)
+    private final TextField zipTxt;
+    // end::addressFields-custom-bind[]
 
     public AddressFields() {
         streetTxt = createTextField("Street");
@@ -63,7 +71,7 @@ public class AddressFields {
         return zipTxt;
     }
 
-    public TextField getCityTxt() {
+    public TextField getCity() {
         return city;
     }
 

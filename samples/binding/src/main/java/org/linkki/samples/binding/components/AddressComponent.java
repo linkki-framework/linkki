@@ -23,14 +23,14 @@ public class AddressComponent extends FormLayout {
 
     private static final long serialVersionUID = 1L;
 
-    public AddressComponent(AddressFields3 fields) {
+    public AddressComponent(AddressFields fields) {
         setSizeFull();
         setSpacing(true);
         setMargin(new MarginInfo(false, true, true, true));
 
         TextField street = fields.getStreetTxt();
         TextField zip = fields.getZipTxt();
-        TextField city = fields.getCityTxt();
+        TextField city = fields.getCity();
         ComboBox country = fields.getCountryCb();
 
         street.setSizeFull();
