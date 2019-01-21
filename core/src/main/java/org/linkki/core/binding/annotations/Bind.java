@@ -13,7 +13,6 @@
  */
 package org.linkki.core.binding.annotations;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -106,18 +105,17 @@ public @interface Bind {
      * {@link Bind#modelAttribute() modelAttribute} attributes. If the {@link Bind#pmoProperty()
      * pmoProperty} is not set, the annotated field/method's name is used.
      */
-    class BindAnnotationBoundPropertyCreator implements LinkkiBoundProperty.Creator {
+    class BindAnnotationBoundPropertyCreator implements LinkkiBoundProperty.Creator<Bind> {
 
         @Override
-        public BoundProperty createBoundProperty(Annotation annotation, AnnotatedElement annotatedElement) {
-            Bind bindAnnotation = (Bind)annotation;
-            return new BoundProperty(getPmoProperty(annotatedElement, bindAnnotation))
-                    .withModelObject(bindAnnotation.modelObject())
-                    .withModelAttribute(bindAnnotation.modelAttribute());
+        public BoundProperty createBoundProperty(Bind annotation, AnnotatedElement annotatedElement) {
+            return new BoundProperty(getPmoProperty(annotation, annotatedElement))
+                    .withModelObject(annotation.modelObject())
+                    .withModelAttribute(annotation.modelAttribute());
         }
 
-        private String getPmoProperty(AnnotatedElement annotatedElement, Bind bindAnnotation) {
-            String pmoProperty = bindAnnotation.pmoProperty();
+        private String getPmoProperty(Bind annotation, AnnotatedElement annotatedElement) {
+            String pmoProperty = annotation.pmoProperty();
             if (StringUtils.isEmpty(pmoProperty)) {
                 if (annotatedElement instanceof Method) {
                     pmoProperty = BeanUtils.getPropertyName((Method)annotatedElement);

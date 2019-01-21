@@ -39,15 +39,17 @@ import java.lang.reflect.Field;
 @Target(ElementType.ANNOTATION_TYPE)
 public @interface LinkkiBoundProperty {
 
-    Class<? extends Creator> value();
+    Class<? extends Creator<?>> value();
 
     /**
      * Creates a {@link BoundProperty} from an {@link Annotation} annotated with
      * {@link LinkkiBoundProperty @LinkkiBoundProperty} and its {@link AnnotatedElement}.
      * 
+     * @param <T> the type of the annotation that is annotated with {@link LinkkiBoundProperty}.
+     * 
      * @see LinkkiBoundProperty
      */
-    interface Creator {
+    interface Creator<T extends Annotation> {
 
         /**
          * Creates a {@link BoundProperty} from an {@link Annotation} annotated with
@@ -62,20 +64,19 @@ public @interface LinkkiBoundProperty {
          * </code>
          * </pre>
          * 
-         * To get the {@link BoundProperty} for this field the {@link BoundPropertyAnnotationReader}
-         * would be used. It reads the annotations of the {@link Field} {@code name}, finds the
-         * {@code @Bind} annotation which is annotated with
-         * {@link LinkkiBoundProperty @LinkkiBoundProperty} and finally instantiates the referenced
-         * {@link Creator} class. Using this instance it calls
-         * {@link #createBoundProperty(Annotation, AnnotatedElement)} providing the {@code @Bind}
-         * annotation instance and the {@link Field} {@code name}.
+         * To get the {@link BoundProperty} for this field the {@link BoundPropertyAnnotationReader} would
+         * be used. It reads the annotations of the {@link Field} {@code name}, finds the {@code @Bind}
+         * annotation which is annotated with {@link LinkkiBoundProperty @LinkkiBoundProperty} and finally
+         * instantiates the referenced {@link Creator} class. Using this instance it calls
+         * {@link #createBoundProperty(Annotation, AnnotatedElement)} providing the {@code @Bind} annotation
+         * instance and the {@link Field} {@code name}.
          * 
          * @param annotation the {@link Annotation} annotated with
          *            {@link LinkkiBoundProperty @LinkkiBoundProperty}
          * @param annotatedElement the element annotated with the annotation
          * @return the {@link BoundProperty} which describes the property names for the binding.
          */
-        BoundProperty createBoundProperty(Annotation annotation, AnnotatedElement annotatedElement);
+        BoundProperty createBoundProperty(T annotation, AnnotatedElement annotatedElement);
 
     }
 }
