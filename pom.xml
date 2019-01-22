@@ -59,6 +59,11 @@
                     <target>${java.version}</target>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
+                    <compilerArguments>
+                        <Xlint/>
+                        <!-- Because the eclipse compiler and javac differ: https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
+                        <Xlint:-varargs/>
+                    </compilerArguments>
                 </configuration>
             </plugin>
             <plugin>

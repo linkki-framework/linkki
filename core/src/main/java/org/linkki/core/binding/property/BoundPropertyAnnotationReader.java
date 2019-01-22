@@ -36,14 +36,13 @@ public final class BoundPropertyAnnotationReader {
     }
 
     /**
-     * Returns <code>true</code> if the annotated element (mostly a field or method) has exactly one
-     * an annotation that describes a {@link BoundProperty}. This is done via the meta annotation
-     * {@link LinkkiBoundProperty @LinkkiBoundProperty}. Having multiple annotations which describe
-     * a {@link BoundProperty} is not valid and therefore an {@link IllegalArgumentException} is
-     * thrown.
+     * Returns <code>true</code> if the annotated element (mostly a field or method) has exactly one an
+     * annotation that describes a {@link BoundProperty}. This is done via the meta annotation
+     * {@link LinkkiBoundProperty @LinkkiBoundProperty}. Having multiple annotations which describe a
+     * {@link BoundProperty} is not valid and therefore an {@link IllegalArgumentException} is thrown.
      * 
-     * @param annotatedElement the annotated element which might have an annotation that is
-     *            annotated with {@link LinkkiBoundProperty @LinkkiBoundProperty}
+     * @param annotatedElement the annotated element which might have an annotation that is annotated
+     *            with {@link LinkkiBoundProperty @LinkkiBoundProperty}
      * @return <code>true</code> if there is a {@link LinkkiBoundProperty @LinkkiBoundProperty}
      *         annotation, <code>false</code> if not
      * 
@@ -57,13 +56,13 @@ public final class BoundPropertyAnnotationReader {
     /**
      * Returns the {@link BoundProperty} which is instantiated using the {@link Creator} from the
      * {@link LinkkiBoundProperty @LinkkiBoundProperty} annotation found at any annotation of the
-     * {@code annotatedElement}. Before calling this method it is useful to check whether there is
-     * such an annotation using {@link #isBoundPropertyPresent(AnnotatedElement)}.
+     * {@code annotatedElement}. Before calling this method it is useful to check whether there is such
+     * an annotation using {@link #isBoundPropertyPresent(AnnotatedElement)}.
      * 
      * @param annotatedElement the element which describes the {@link BoundProperty}
      * @return the {@link BoundProperty} described by the annotated element
-     * @throws IllegalArgumentException if there is either no or more than one annotation annotated
-     *             with {@link LinkkiBoundProperty @LinkkiBoundProperty}
+     * @throws IllegalArgumentException if there is either no or more than one annotation annotated with
+     *             {@link LinkkiBoundProperty @LinkkiBoundProperty}
      */
     public static BoundProperty getBoundProperty(AnnotatedElement annotatedElement) {
         return getAnnotationWithBoundPropertyDefinition(annotatedElement)
@@ -83,12 +82,14 @@ public final class BoundPropertyAnnotationReader {
                 });
     }
 
-    private static BoundProperty createBoundProperty(AnnotatedElement annotatedElement, Annotation a) {
+    private static <T extends Annotation> BoundProperty createBoundProperty(AnnotatedElement annotatedElement, T a) {
         @SuppressWarnings("null")
         @NonNull
         LinkkiBoundProperty boundPropertyAnnotation = a.annotationType().getAnnotation(LinkkiBoundProperty.class);
         try {
-            LinkkiBoundProperty.Creator boundPropertyCreator = boundPropertyAnnotation.value().newInstance();
+            @SuppressWarnings("unchecked")
+            LinkkiBoundProperty.Creator<T> boundPropertyCreator = (Creator<T>)boundPropertyAnnotation.value()
+                    .newInstance();
             return boundPropertyCreator.createBoundProperty(a, annotatedElement);
         } catch (InstantiationException | IllegalAccessException e) {
             throw new IllegalArgumentException(

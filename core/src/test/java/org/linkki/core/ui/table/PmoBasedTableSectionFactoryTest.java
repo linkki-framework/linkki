@@ -70,7 +70,7 @@ public class PmoBasedTableSectionFactoryTest {
                 return bindingContext.getBindings().stream()
                         .filter(TableBinding.class::isInstance)
                         .map(TableBinding.class::cast)
-                        .map(TableBinding::getTableContainer)
+                        .map(TableBinding<?>::getTableContainer)
                         .anyMatch(Predicate.isEqual(container));
             }
         };

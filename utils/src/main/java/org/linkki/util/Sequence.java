@@ -127,7 +127,7 @@ public class Sequence<T> implements Iterable<T> {
 
     /**
      * Returns a new {@link Sequence} concatenated with the elements produced by the given
-     * {@link Supplier Suppliers} if the condition ist {@code true}. This {@link Sequence} is not
+     * {@link Supplier Suppliers} if the condition is {@code true}. This {@link Sequence} is not
      * affected.
      * 
      * @param suppliers the suppliers for new elements that should be concatenated
@@ -146,7 +146,7 @@ public class Sequence<T> implements Iterable<T> {
 
     /**
      * Returns a new {@link Sequence} concatenated with the element produced by the given
-     * {@link Supplier} if the condition ist {@code true}. This {@link Sequence} is not affected.
+     * {@link Supplier} if the condition is {@code true}. This {@link Sequence} is not affected.
      * 
      * @param supplier the supplier for a new element that should be concatenated
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
