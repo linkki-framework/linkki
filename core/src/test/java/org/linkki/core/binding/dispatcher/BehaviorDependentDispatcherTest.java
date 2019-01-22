@@ -34,7 +34,7 @@ import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 
@@ -52,7 +52,6 @@ public class BehaviorDependentDispatcherTest {
     public void setUp() {
         when(behaviorProvider.getBehaviors()).thenReturn(Collections.emptyList());
         when(wrappedDispatcher.pull(Mockito.any())).thenReturn(true);
-        when(wrappedDispatcher.isPushable(Mockito.any())).thenReturn(true);
         behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, behaviorProvider);
     }
 

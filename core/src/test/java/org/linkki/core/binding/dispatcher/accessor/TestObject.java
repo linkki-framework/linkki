@@ -22,6 +22,7 @@ public class TestObject implements TestInterface {
     public static final String READ_ONLY_LONG_PROPERTY = "readOnlyLongProperty";
     @SuppressWarnings("null")
     private String stringValue;
+    private int intValue = 42;
 
     public String getStringProperty() {
         return stringValue;
@@ -32,12 +33,11 @@ public class TestObject implements TestInterface {
     }
 
     public int getIntProperty() {
-        return 42;
+        return intValue;
     }
 
-    @SuppressWarnings("unused")
     public void setIntProperty(int value) {
-        // nothing to do
+        intValue = value;
     }
 
     public boolean isBooleanProperty() {

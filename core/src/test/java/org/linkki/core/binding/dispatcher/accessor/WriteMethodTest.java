@@ -13,6 +13,7 @@
  */
 package org.linkki.core.binding.dispatcher.accessor;
 
+import static org.linkki.util.LazyCachingSupplier.lazyCaching;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -20,29 +21,28 @@ import java.util.Optional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WriteMethodTest {
     @Mock
     @SuppressWarnings("null")
-    PropertyAccessDescriptor descriptor;
+    PropertyAccessDescriptor<TestObject, Boolean> descriptor;
 
     @Test
     @SuppressWarnings("unused")
     // warning suppressed as object is created to test the constructor, not to use it
     public void testConstructor() {
-        when(descriptor.getReflectionWriteMethod()).thenReturn(Optional.empty());
-        new WriteMethod(descriptor);
+        when(descriptor.getReflectionWriteMethod()).thenReturn(lazyCaching(Optional::empty));
+        new WriteMethod<>(descriptor);
     }
 
     @Test
     public void testWriteValue() {
         TestObject testObject = new TestObject();
-        PropertyAccessDescriptor propertyAccessDescriptor = new PropertyAccessDescriptor(testObject.getClass(),
-                TestObject.BOOLEAN_PROPERTY);
+        descriptor = new PropertyAccessDescriptor<>(TestObject.class, TestObject.BOOLEAN_PROPERTY);
 
-        WriteMethod writeMethod = propertyAccessDescriptor.createWriteMethod();
+        WriteMethod<TestObject, Boolean> writeMethod = descriptor.createWriteMethod();
         writeMethod.writeValue(testObject, true);
     }
 

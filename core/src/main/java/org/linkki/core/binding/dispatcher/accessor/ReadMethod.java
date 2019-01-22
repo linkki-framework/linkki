@@ -1,30 +1,44 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.dispatcher.accessor;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.invoke.CallSite;
+import java.lang.invoke.LambdaConversionException;
+import java.lang.invoke.LambdaMetafactory;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles.Lookup;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
+import java.util.function.Function;
 
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
 
 /**
  * Wrapper for a {@link Method}. {@link #canRead()} can safely be accessed even if no read method
  * exists. {@link #readValue(Object)} will access the getter via reflection.
+ * 
+ * @param <T> the type containing the property
+ * @param <V> the property's type
  */
-public class ReadMethod extends AbstractMethod {
+public class ReadMethod<@NonNull T, V> extends AbstractMethod<T> {
 
-    public ReadMethod(PropertyAccessDescriptor descriptor) {
+    @Nullable
+    private Function<T, V> getter;
+
+    ReadMethod(PropertyAccessDescriptor<T, V> descriptor) {
         super(descriptor, descriptor.getReflectionReadMethod());
     }
 
@@ -38,34 +52,51 @@ public class ReadMethod extends AbstractMethod {
      * @throws IllegalStateException if no read method exists
      * @throws RuntimeException if an error occurs while accessing the read method
      */
-    public Object readValue(Object boundObject) {
+    public V readValue(T boundObject) {
         if (canRead()) {
             return readValueWithExceptionHandling(boundObject);
         } else {
             throw new IllegalStateException(
-                    "Cannot find getter method for " + boundObject.getClass().getName() + "#" + getPropertyName());
+                    "Cannot find getter method for "
+                            + boundObject.getClass().getName()
+                            + "#" + getPropertyName());
         }
     }
 
-    private Object readValueWithExceptionHandling(Object boundObject) {
+    private V readValueWithExceptionHandling(T boundObject) {
         try {
-            return invokeMethod(boundObject);
-        } catch (IllegalAccessException e) {
+            V value = getter().apply(boundObject);
+            return value;
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new LinkkiBindingException(
-                    "Cannot access method " + getMethodWithExceptionHandling(), e);
-        } catch (IllegalArgumentException | InvocationTargetException e) {
-            throw new LinkkiBindingException(
-                    "Cannot invoke read method " + getMethodWithExceptionHandling(), e);
+                    "Cannot read value from object: " + boundObject + ", property: " + getPropertyName(), e);
         }
     }
 
-    @SuppressWarnings("null")
-    private Object invokeMethod(Object boundObject) throws IllegalAccessException, InvocationTargetException {
-        return getMethodWithExceptionHandling().invoke(boundObject);
+    @SuppressWarnings({ "null", "unchecked" })
+    private Function<T, V> getter() {
+        if (getter == null) {
+            getter = getMethodAs(Function.class);
+        }
+        return getter;
     }
 
-    public Class<?> getReturnType() {
-        return getMethodWithExceptionHandling().getReturnType();
+    @SuppressWarnings("unchecked")
+    public Class<V> getReturnType() {
+        return (Class<V>)getMethodWithExceptionHandling().getReturnType();
+    }
+
+    @Override
+    protected CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func) {
+        try {
+            return LambdaMetafactory
+                    .metafactory(lookup, "apply", MethodType.methodType(Function.class),
+                                 MethodType.methodType(Object.class, Object.class),
+                                 methodHandle, func);
+        } catch (LambdaConversionException e) {
+            throw new IllegalStateException("Can't create " + CallSite.class.getSimpleName() + " for "
+                    + methodHandle, e);
+        }
     }
 
 }

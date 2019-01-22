@@ -13,47 +13,53 @@
  */
 package org.linkki.core.binding.dispatcher.accessor;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.linkki.core.binding.LinkkiBindingException;
+import org.linkki.core.binding.dispatcher.accessor.other.OtherPackageTestObject;
+import org.linkki.core.binding.dispatcher.accessor.other.TestPublicSubclass;
 
 public class PropertyAccessorTest {
+
+    private static final String STRING_PROPERTY_INITIAL_VALUE = "initialValue";
+
     @SuppressWarnings("null")
     private TestObject testObject;
     @SuppressWarnings("null")
-    private PropertyAccessor stringAccessor;
+    private PropertyAccessor<TestObject, String> stringAccessor;
 
     @Before
     public void setUp() {
         testObject = new TestObject();
-        testObject.setStringProperty("initialValue");
-        stringAccessor = new PropertyAccessor(testObject.getClass(), TestObject.STRING_PROPERTY);
+        testObject.setStringProperty(STRING_PROPERTY_INITIAL_VALUE);
+        stringAccessor = new PropertyAccessor<>(TestObject.class, TestObject.STRING_PROPERTY);
     }
 
     @Test
     public void testRead() {
-        String propertyValue = (String)stringAccessor.getPropertyValue(testObject);
-        assertNotNull(propertyValue);
+        String propertyValue = stringAccessor.getPropertyValue(testObject);
+        assertEquals(STRING_PROPERTY_INITIAL_VALUE, propertyValue);
     }
 
     @Test
     public void testWrite() {
-        assertEquals("initialValue", testObject.getStringProperty());
+        assertEquals(STRING_PROPERTY_INITIAL_VALUE, testObject.getStringProperty());
         stringAccessor.setPropertyValue(testObject, "anotherValue");
         assertEquals("anotherValue", testObject.getStringProperty());
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test(expected = RuntimeException.class)
     public void testWriteWrongType() {
-        PropertyAccessor accessor = new PropertyAccessor(testObject.getClass(), TestObject.STRING_PROPERTY);
-        accessor.setPropertyValue(testObject, 5);
+        ((PropertyAccessor)stringAccessor).setPropertyValue(testObject, 5);
     }
 
     @Test
@@ -64,33 +70,34 @@ public class PropertyAccessorTest {
 
     @Test
     public void testConstructorWrongProperty() {
-        PropertyAccessor propertyAccessor = new PropertyAccessor(stringAccessor.getClass(), "doesNotExist");
+        PropertyAccessor<Object, ?> propertyAccessor = new PropertyAccessor<>(Object.class, "doesNotExist");
         assertFalse(propertyAccessor.canRead());
         assertFalse(propertyAccessor.canWrite());
     }
 
-    @SuppressWarnings("null")
+    @SuppressWarnings({ "null", "unused" })
     @Test(expected = NullPointerException.class)
     public void testConstructor_nullObject() {
-        stringAccessor = new PropertyAccessor(null, "anyProperty");
+        PropertyAccessor<?, ?> propertyAccessor = new PropertyAccessor<>(null, "anyProperty");
     }
 
-    @SuppressWarnings("null")
+    @SuppressWarnings({ "null", "unused" })
     @Test(expected = NullPointerException.class)
     public void testConstructor_nullPropertyName() {
-        stringAccessor = new PropertyAccessor(testObject.getClass(), null);
+        PropertyAccessor<TestObject, ?> propertyAccessor = new PropertyAccessor<>(TestObject.class, null);
     }
 
-    @SuppressWarnings("null")
+    @SuppressWarnings({ "null", "unused" })
     @Test(expected = NullPointerException.class)
     public void testConstructor_nullArguments() {
-        stringAccessor = new PropertyAccessor(null, null);
+        PropertyAccessor<?, ?> propertyAccessor = new PropertyAccessor<>(null, null);
     }
 
     @Test
     public void testBooleanProperty() {
         Object testObject2 = new TestObject();
-        PropertyAccessor accessor = new PropertyAccessor(testObject2.getClass(), TestObject.BOOLEAN_PROPERTY);
+        PropertyAccessor<Object, Object> accessor = new PropertyAccessor<>(TestObject.class,
+                TestObject.BOOLEAN_PROPERTY);
         assertTrue((Boolean)accessor.getPropertyValue(testObject2));
         accessor.setPropertyValue(testObject2, true);
     }
@@ -98,69 +105,211 @@ public class PropertyAccessorTest {
     @Test
     public void testIntProperty() {
         TestObject testObject2 = new TestObject();
-        PropertyAccessor accessor = new PropertyAccessor(testObject2.getClass(), TestObject.INT_PROPERTY);
-        assertEquals(42, ((Integer)accessor.getPropertyValue(testObject2)).intValue());
+        PropertyAccessor<TestObject, Integer> accessor = new PropertyAccessor<>(TestObject.class,
+                TestObject.INT_PROPERTY);
+        assertEquals(42, accessor.getPropertyValue(testObject2).intValue());
         accessor.setPropertyValue(testObject2, 23);
-    }
-
-    @Test
-    public void testIntProperty_stopIfValuesEqual() {
-        TestObject testSample = spy(new TestObject());
-        PropertyAccessor accessor = new PropertyAccessor(testSample.getClass(), TestObject.INT_PROPERTY);
-        assertEquals(42, ((Integer)accessor.getPropertyValue(testSample)).intValue());
-
-        accessor.setPropertyValue(testSample, 42);
-        verify(testSample, never()).setIntProperty(42);
-
-        accessor.setPropertyValue(testSample, 23);
-        verify(testSample).setIntProperty(23);
     }
 
     @Test
     public void testCanRead() {
         TestObject testObject2 = new TestObject();
-        PropertyAccessor propertyAccessor = new PropertyAccessor(testObject2.getClass(),
+        PropertyAccessor<TestObject, Long> propertyAccessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.READ_ONLY_LONG_PROPERTY);
         assertFalse(propertyAccessor.canWrite());
         assertTrue(propertyAccessor.canRead());
-        Long propertyValue = (Long)propertyAccessor.getPropertyValue(testObject2);
+        Long propertyValue = propertyAccessor.getPropertyValue(testObject2);
         assertEquals(42, propertyValue.longValue());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = LinkkiBindingException.class)
     public void testSetPropertyValue_readOnlyProperty() {
         TestObject testObject2 = new TestObject();
-        PropertyAccessor accessor = new PropertyAccessor(testObject2.getClass(), TestObject.READ_ONLY_LONG_PROPERTY);
+        PropertyAccessor<TestObject, Long> accessor = new PropertyAccessor<>(TestObject.class,
+                TestObject.READ_ONLY_LONG_PROPERTY);
         accessor.setPropertyValue(testObject2, 5L);
     }
 
     @Test
     public void testGetValueClass() {
-        TestObject testObject2 = new TestObject();
-        PropertyAccessor accessor = new PropertyAccessor(testObject2.getClass(), TestObject.READ_ONLY_LONG_PROPERTY);
+        PropertyAccessor<TestObject, Long> accessor = new PropertyAccessor<>(TestObject.class,
+                TestObject.READ_ONLY_LONG_PROPERTY);
         assertEquals(long.class, accessor.getValueClass());
     }
 
     @Test
     public void testGetValueClass2() {
-        TestObject testObject2 = new TestObject();
-        PropertyAccessor accessor = new PropertyAccessor(testObject2.getClass(), TestObject.BOOLEAN_PROPERTY);
+        PropertyAccessor<TestObject, Boolean> accessor = new PropertyAccessor<>(TestObject.class,
+                TestObject.BOOLEAN_PROPERTY);
         assertEquals(boolean.class, accessor.getValueClass());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetValueClassIllegalProperty() {
-        TestObject testObject2 = new TestObject();
-        PropertyAccessor accessor = new PropertyAccessor(testObject2.getClass(), "illegalProperty");
+        PropertyAccessor<TestObject, ?> accessor = new PropertyAccessor<>(TestObject.class, "illegalProperty");
         accessor.getValueClass();
     }
 
     @Test
     public void testLongProperty() {
-        PropertyAccessor propertyAccessor = new PropertyAccessor(testObject.getClass(),
+        PropertyAccessor<TestObject, Long> propertyAccessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.READ_ONLY_LONG_PROPERTY);
-        Long propertyValue = (Long)propertyAccessor.getPropertyValue(testObject);
+        Long propertyValue = propertyAccessor.getPropertyValue(testObject);
         assertEquals(42, propertyValue.longValue());
+    }
+
+    /**
+     * It should be possible to call default methods from implemented interface.
+     */
+    @Test
+    public void testDefaultMethod() {
+        PropertyAccessor<TestInterface, String> propertyAccessor = new PropertyAccessor<>(TestInterfaceImpl.class,
+                TestInterface.RO_DEFAULT_METHOD);
+        TestInterface testInterfaceImpl = new TestInterfaceImpl();
+        String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
+        assertEquals("Hello", propertyValue);
+    }
+
+    /**
+     * It should be possible to call default methods from implemented interface of the super class.
+     */
+    @Test
+    public void testDefaultMethod_InSubclass() {
+        PropertyAccessor<TestInterface, String> propertyAccessor = new PropertyAccessor<>(
+                TestInterfaceImplSub.class,
+                TestInterface.RO_DEFAULT_METHOD);
+        TestInterface testInterfaceImpl = new TestInterfaceImplSub();
+        String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
+        assertEquals("Hello", propertyValue);
+    }
+
+    /**
+     * If a default method from an interface is overriden, the overriding method should be called.
+     */
+    @Test
+    public void testDefaultMethod_OverwrittenInSubclass() {
+        PropertyAccessor<TestInterface, String> propertyAccessor = new PropertyAccessor<>(
+                TestInterfaceOverwriting.class,
+                TestInterface.RO_DEFAULT_METHOD);
+        TestInterface testInterfaceImpl = new TestInterfaceOverwriting();
+        String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
+        assertEquals("Hi", propertyValue);
+    }
+
+    @Test
+    public void testDefaultMethod_OtherPackage() {
+        PropertyAccessor<TestInterface, String> propertyAccessor = new PropertyAccessor<>(
+                OtherPackageTestObject.class,
+                TestInterface.RO_DEFAULT_METHOD);
+        TestInterface testInterfaceImpl = new OtherPackageTestObject();
+        String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
+        assertEquals("other", propertyValue);
+    }
+
+    @Test
+    public void testDefaultMethod_OtherPackagePrivate() {
+        TestInterface testInterfaceImpl = OtherPackageTestObject.getPackagePrivateInstance();
+        PropertyAccessor<TestInterface, String> propertyAccessor = new PropertyAccessor<TestInterface, String>(
+                testInterfaceImpl.getClass(),
+                TestInterface.RO_DEFAULT_METHOD);
+        String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);
+        assertEquals("otherPackage", propertyValue);
+    }
+
+    @Test
+    public void testDefaultMethod_OtherPackageProtected() {
+        PropertyAccessor<TestPublicSubclass, Integer> propertyAccessor = new PropertyAccessor<>(
+                TestPublicSubclass.class,
+                TestPublicSubclass.PROPERTY_ANSWER);
+
+        int propertyValue = propertyAccessor.getPropertyValue(new TestPublicSubclass());
+        assertEquals(42, propertyValue);
+    }
+
+    @Test
+    public void testGenericInterface() {
+        PropertyAccessor<TestGenericInterfaceImpl, String> propertyAccessor = new PropertyAccessor<>(
+                TestGenericInterfaceImpl.class,
+                "foo");
+        TestGenericInterfaceImpl testImpl = new TestGenericInterfaceImpl();
+        String propertyValue = propertyAccessor.getPropertyValue(testImpl);
+        assertEquals("bar", propertyValue);
+
+        propertyAccessor.setPropertyValue(testImpl, "baz");
+        propertyValue = propertyAccessor.getPropertyValue(testImpl);
+        assertEquals("baz", propertyValue);
+    }
+
+    /**
+     * On my machine with LambdaMetafactory:
+     * <ul>
+     * <li>1000 set/get-calls took 9ms</li>
+     * <li>1000000 set/get-calls took 47ms</li>
+     * <li>1000000000 set/get-calls took 13637ms</li>
+     * </ul>
+     * With old reflection:
+     * <ul>
+     * <li>1000 set/get-calls took 6ms</li>
+     * <li>1000000 set/get-calls took 57ms</li>
+     * <li>1000000000 set/get-calls took 21279ms</li>
+     * </ul>
+     */
+    @Ignore
+    @Test
+    public void testPerformance() {
+        PropertyAccessor<TestObject, Integer> accessor = new PropertyAccessor<>(TestObject.class,
+                TestObject.INT_PROPERTY);
+        for (long l = 1000L; l <= 1_000_000_000L; l *= 1000) {
+            long start = System.currentTimeMillis();
+            for (int i = 0; i < l; i++) {
+                accessor.setPropertyValue(testObject, i);
+                assertThat(accessor.getPropertyValue(testObject), is(i));
+            }
+            System.out.println(l + " set/get-calls took " + (System.currentTimeMillis() - start) + "ms");
+        }
+    }
+
+    public static class TestInterfaceImpl implements TestInterface {
+
+        @Override
+        public void doSomething() {
+            // nope
+        }
+
+    }
+
+    public static class TestInterfaceImplSub extends TestInterfaceImpl {
+        // same
+    }
+
+    public static class TestInterfaceOverwriting extends TestInterfaceImpl {
+
+        @Override
+        public String getRoDefaultMethod() {
+            return "Hi";
+        }
+    }
+
+    public static interface TestGenericInterface<T> {
+        public T getFoo();
+
+        public void setFoo(T t);
+    }
+
+    public static class TestGenericInterfaceImpl implements TestGenericInterface<String> {
+
+        private String foo = "bar";
+
+        @Override
+        public String getFoo() {
+            return foo;
+        }
+
+        @Override
+        public void setFoo(String foo) {
+            this.foo = foo;
+        }
+
     }
 
 }

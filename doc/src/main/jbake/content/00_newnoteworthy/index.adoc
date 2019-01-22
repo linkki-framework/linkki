@@ -9,6 +9,10 @@
 
 === January 21st, 2019
 
+==== Default methods from interfaces in PMO classes
+
+*linkki* now finds annotated methods that are inherited from interface default methods.
+
 ==== Refactoring @Bind
 
 The Annotation `@Bind` was refactored to allow creating other variations (see <<custom-binding-annotation, Custom Binding Annotation>>).

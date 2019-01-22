@@ -15,9 +15,7 @@ package org.linkki.core.binding.dispatcher.accessor;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Objects;
-
-import org.eclipse.jdt.annotation.Nullable;
+import org.eclipse.jdt.annotation.NonNull;
 
 /**
  * Allows reading and writing a value from/to an object's property. Also provides the value class of
@@ -26,17 +24,21 @@ import org.eclipse.jdt.annotation.Nullable;
  * For accessing an object's property, create a {@link PropertyAccessor} for the class to be
  * accessed and the name of the property. The accessor can determine whether the property can be
  * read or written.
+ * 
+ * @param <T> the type containing the property
+ * @param <V> the property's type
  */
-public class PropertyAccessor {
+public class PropertyAccessor<@NonNull T, V> {
 
     private final String propertyName;
-    private final ReadMethod readMethod;
-    private final WriteMethod writeMethod;
+    private final ReadMethod<T, V> readMethod;
+    private final WriteMethod<T, V> writeMethod;
 
-    public PropertyAccessor(Class<?> boundClass, String propertyName) {
+    public PropertyAccessor(Class<? extends T> boundClass, String propertyName) {
         this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
         requireNonNull(boundClass, "boundClass must not be null");
-        PropertyAccessDescriptor propertyAccessDescriptor = new PropertyAccessDescriptor(boundClass, propertyName);
+        PropertyAccessDescriptor<T, V> propertyAccessDescriptor = new PropertyAccessDescriptor<>(boundClass,
+                propertyName);
         readMethod = propertyAccessDescriptor.createReadMethod();
         writeMethod = propertyAccessDescriptor.createWriteMethod();
     }
@@ -50,7 +52,7 @@ public class PropertyAccessor {
      *
      * @throws IllegalStateException if no getter can be found
      */
-    public Object getPropertyValue(Object boundObject) {
+    public V getPropertyValue(T boundObject) {
         return readMethod.readValue(boundObject);
     }
 
@@ -64,14 +66,8 @@ public class PropertyAccessor {
      *
      * @throws IllegalStateException if no setter can be found
      */
-    public void setPropertyValue(Object boundObject, @Nullable Object value) {
-        if (requiresWrite(boundObject, value)) {
-            writeMethod.writeValue(boundObject, value);
-        }
-    }
-
-    private boolean requiresWrite(Object boundObject, @Nullable Object value) {
-        return !canRead() || !Objects.equals(value, readMethod.readValue(boundObject));
+    public void setPropertyValue(T boundObject, V value) {
+        writeMethod.writeValue(boundObject, value);
     }
 
     /**

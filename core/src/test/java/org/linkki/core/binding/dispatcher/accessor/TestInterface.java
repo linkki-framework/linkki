@@ -20,6 +20,7 @@ public interface TestInterface {
     static final String NON_PROPERTY = "nonProperty";
     static final String HELLO_STRING_METHOD = "helloString";
     static final String RO_DEFAULT_METHOD = "roDefaultMethod";
+    static final String DO_SOMETHING_METHOD = "doSomething";
     static final boolean DEFAULT_PROPERTY_VALUE = true;
 
     void doSomething();

@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.validation.ValidationMarker;
@@ -211,7 +210,7 @@ public class Message implements Serializable {
             buffer.append(invalidProperties.get(i).getProperty());
         }
         buffer.append(']');
-        buffer.append(SystemUtils.LINE_SEPARATOR);
+        buffer.append('\n');
         buffer.append(text);
         return buffer.toString();
     }
@@ -271,14 +270,15 @@ public class Message implements Serializable {
     }
 
     /**
-     * A builder for the {@link Message} class. This builder has been designed due to heavy constructor
-     * overloading with many parameters. It helps instantiating global variables of {@link Message}.
+     * A builder for the {@link Message} class. This builder has been designed due to heavy
+     * constructor overloading with many parameters. It helps instantiating global variables of
+     * {@link Message}.
      * <p>
      * To use the builder simply create an instance by calling the
-     * {@link Message#builder(String, ErrorLevel)}. Afterwards add needed information to the builder for
-     * example call {@link #invalidObjectWithProperties(Object object, String... properties)} to provide
-     * some invalid object properties. When the builder has every information that is needed to create a
-     * proper message call {@link #create()}.
+     * {@link Message#builder(String, ErrorLevel)}. Afterwards add needed information to the builder
+     * for example call {@link #invalidObjectWithProperties(Object object, String... properties)} to
+     * provide some invalid object properties. When the builder has every information that is needed
+     * to create a proper message call {@link #create()}.
      */
     @SuppressWarnings("hiding")
     public static class Builder {
@@ -359,8 +359,8 @@ public class Message implements Serializable {
         }
 
         /**
-         * Add some object properties the message refers to by creating instances of {@link ObjectProperty}
-         * for every given property and the given object.
+         * Add some object properties the message refers to by creating instances of
+         * {@link ObjectProperty} for every given property and the given object.
          * 
          * @param object The object the message refers to
          * @param properties Some properties the message refers to

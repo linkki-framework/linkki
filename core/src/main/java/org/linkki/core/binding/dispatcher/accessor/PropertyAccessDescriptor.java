@@ -14,61 +14,90 @@
 package org.linkki.core.binding.dispatcher.accessor;
 
 import static java.util.Objects.requireNonNull;
+import static org.linkki.util.LazyCachingSupplier.lazyCaching;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Optional;
+import java.util.function.Supplier;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
+import org.eclipse.jdt.annotation.NonNull;
 
 /**
  * This class wraps a {@link PropertyDescriptor} for a bound class and a specified property
  * identified by its name. It could create a {@link WriteMethod} or {@link ReadMethod} object for
  * the bound class and property using the methods {@link #createWriteMethod()} and
  * {@link #createReadMethod()}.
- *
+ * 
+ * @param <T> the type containing the property
+ * @param <V> the property's type
  */
-public class PropertyAccessDescriptor {
+public class PropertyAccessDescriptor<@NonNull T, V> {
 
-    private final Class<?> boundClass;
+    private static final String GET_PREFIX = "get";
+    private static final String SET_PREFIX = "set";
+    private static final String IS_PREFIX = "is";
+
+    private final Class<? extends T> boundClass;
     private final String propertyName;
-    private final Optional<PropertyDescriptor> propertyDescriptor;
+    private final Supplier<Optional<Method>> getter = lazyCaching(this::findGetter);
+    private final Supplier<Optional<Method>> setter = lazyCaching(this::findSetter);
 
-    public PropertyAccessDescriptor(Class<?> boundClass, String propertyName) {
-        this.boundClass = requireNonNull(boundClass, "boundClass must not be null");
+    private String capitalizedPropertyName;
+
+    public PropertyAccessDescriptor(Class<? extends T> boundClass, String propertyName) {
+        this.boundClass = requireNonNull(boundClass, "clazz must not be null");
         this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
-
-        propertyDescriptor = findDescriptor();
+        capitalizedPropertyName = StringUtils.capitalize(propertyName);
     }
 
-    public WriteMethod createWriteMethod() {
-        return new WriteMethod(this);
+    private final Optional<Method> findGetter() {
+        Method foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, GET_PREFIX + capitalizedPropertyName);
+        if (foundMethod == null) {
+            foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, IS_PREFIX + capitalizedPropertyName);
+        }
+        return Optional.ofNullable(foundMethod);
     }
 
-    public ReadMethod createReadMethod() {
-        return new ReadMethod(this);
+
+    private final Optional<Method> findSetter() {
+        return getter.get()//
+                .map(Method::getReturnType)
+                .map(returnTyp -> new Class<?>[] { returnTyp })
+                .map(params -> MethodUtils.getMatchingAccessibleMethod(boundClass, SET_PREFIX + capitalizedPropertyName,
+                                                                       params))
+                .flatMap(Optional::ofNullable);
     }
 
-    Optional<Method> getReflectionWriteMethod() {
-        return propertyDescriptor.flatMap(pd -> Optional.ofNullable(pd.getWriteMethod()));
+    public WriteMethod<T, V> createWriteMethod() {
+        return new WriteMethod<>(this);
     }
 
-    Optional<Method> getReflectionReadMethod() {
-        return propertyDescriptor.flatMap(pd -> Optional.ofNullable(pd.getReadMethod()));
+    public ReadMethod<T, V> createReadMethod() {
+        return new ReadMethod<>(this);
     }
 
-    private Optional<PropertyDescriptor> findDescriptor() {
-        return getDefaultMethodPropertyDescriptor();
+    Supplier<Optional<Method>> getReflectionWriteMethod() {
+        return setter;
     }
 
-    private Optional<PropertyDescriptor> getDefaultMethodPropertyDescriptor() {
-        return PropertyDescriptorFactory.createPropertyDescriptor(getBoundClass(), getPropertyName());
+    Supplier<Optional<Method>> getReflectionReadMethod() {
+        return getter;
     }
 
-    public Class<?> getBoundClass() {
+    public Class<? extends T> getBoundClass() {
         return boundClass;
     }
 
     public String getPropertyName() {
         return propertyName;
+    }
+
+    @Override
+    public String toString() {
+        return PropertyAccessDescriptor.class.getSimpleName() + '[' + boundClass + '#' + propertyName + ']';
     }
 
 }

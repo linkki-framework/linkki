@@ -1,75 +1,96 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.dispatcher.accessor;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.invoke.CallSite;
+import java.lang.invoke.LambdaConversionException;
+import java.lang.invoke.LambdaMetafactory;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles.Lookup;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
+import java.util.function.BiConsumer;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
 
 /**
  * Wrapper for a {@link Method}. {@link #canWrite()} can safely be accessed even if no write method
  * exists. {@link #writeValue(Object, Object)} will access the setter via reflection.
+ * 
+ * @param <T> the type containing the property
+ * @param <V> the property's type
  */
-public class WriteMethod extends AbstractMethod {
+public class WriteMethod<@NonNull T, V> extends AbstractMethod<T> {
 
-    public WriteMethod(PropertyAccessDescriptor descriptor) {
+    @Nullable
+    private BiConsumer<T, V> setter;
+
+    WriteMethod(PropertyAccessDescriptor<T, V> descriptor) {
         super(descriptor, descriptor.getReflectionWriteMethod());
     }
 
+    /**
+     * Checks whether a write method exists.
+     */
     public boolean canWrite() {
         return hasMethod();
     }
 
     /**
      * Writes a value by accessing the respective write method.
-     *
+     * 
      * @param value the value to be written
-     * @throws IllegalStateException if no write method exists
-     * @throws RuntimeException if an error occurs while accessing the write method
+     * @throws LinkkiBindingException if an error occurs while accessing the write method
+     * @see #canWrite()
      */
-    public void writeValue(Object target, @Nullable Object value) {
-        if (canWrite()) {
-            writeValueWithExceptionHandling(target, value);
-        } else {
-            throw new IllegalStateException(
-                    "Cannot write property " + target.getClass().getSimpleName() + "#" + getPropertyName() + " in "
-                            + target);
-        }
-    }
-
-    private void writeValueWithExceptionHandling(Object boundObject, @Nullable Object value) {
+    public void writeValue(T target, V value) {
         try {
-            invokeMethod(boundObject, value);
-        } catch (IllegalAccessException e) {
-            throw new LinkkiBindingException(
-                    "Cannot access " + getBoundClass() + "#" + getPropertyName() + " for writing.",
-                    e);
-        } catch (IllegalArgumentException e) {
+            setter().accept(target, value);
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new LinkkiBindingException(
                     "Cannot write value: " + value + " in " + getBoundClass() + "#" + getPropertyName(),
                     e);
-        } catch (InvocationTargetException e) {
-            throw new LinkkiBindingException(
-                    "Cannot invoke write method on " + getBoundClass() + "#" + getPropertyName(), e);
         }
     }
 
-    private void invokeMethod(Object boundObject, @Nullable Object value)
-            throws IllegalAccessException, InvocationTargetException {
-        getMethodWithExceptionHandling().invoke(boundObject, value);
+    @SuppressWarnings({ "null", "unchecked" })
+    private BiConsumer<T, V> setter() {
+        if (setter == null) {
+            setter = getMethodAs(BiConsumer.class);
+        }
+        return setter;
     }
 
+    @Override
+    protected CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func) {
+        try {
+            return LambdaMetafactory.metafactory(lookup,
+                                                 "accept",
+                                                 MethodType.methodType(BiConsumer.class),
+                                                 MethodType.methodType(Void.TYPE, Object.class, Object.class),
+                                                 methodHandle,
+                                                 wrap(methodHandle));
+        } catch (LambdaConversionException e) {
+            throw new IllegalStateException("Can't create " + CallSite.class.getSimpleName() + " for "
+                    + methodHandle, e);
+        }
+    }
+
+    // to avoid problems with primitive parameters in Java 11
+    private MethodType wrap(MethodHandle methodHandle) {
+        return methodHandle.type().wrap().changeReturnType(Void.TYPE);
+    }
 }

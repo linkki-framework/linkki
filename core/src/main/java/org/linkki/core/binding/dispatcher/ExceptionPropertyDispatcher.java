@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
@@ -50,18 +51,12 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     /**
      * {@inheritDoc}
      * <p>
-     * If there is no value class this dispatcher returns {@link Void#TYPE} because an exception is not
-     * useful in this case.
+     * If there is no value class this dispatcher returns {@link Void#TYPE} because an exception is
+     * not useful in this case.
      */
     @Override
     public Class<?> getValueClass() {
         return Void.TYPE;
-    }
-
-    private String getExceptionText(String action) {
-        return MessageFormat.format("Cannot {0} property \"{1}\" in any of {2}", action, property,
-                                    objects.stream().map(t -> t == null ? null : t.getClass().toGenericString())
-                                            .collect(toList()));
     }
 
     /**
@@ -83,23 +78,34 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
         if (objects.size() > 0) {
             return objects.get(0);
         } else {
-            throw new IllegalStateException("ExceptionPropertyDispatcher has no presentation model object");
+            throw new IllegalStateException(
+                    "ExceptionPropertyDispatcher has no presentation model object. "
+                            + "The bound object should be found in a previous dispatcher in the dispatcher chain before reaching ExceptionPropertyDisptacher.");
         }
     }
 
     @Override
 
     public <T> T pull(Aspect<T> aspect) {
-        throw new IllegalStateException(getExceptionText("read aspect \"" + aspect.getName() + "\" method for"));
+        throw new IllegalStateException(
+                missingMethod("is/get" + StringUtils.capitalize(getProperty()), "read"));
     }
 
     @Override
     public <T> void push(Aspect<T> aspect) {
         if (aspect.isValuePresent()) {
-            throw new IllegalArgumentException(getExceptionText("write"));
+            throw new IllegalArgumentException(
+                    missingMethod("set" + StringUtils.capitalize(getProperty()), "write"));
         } else {
-            throw new IllegalArgumentException(getExceptionText("invoke method for"));
+            throw new IllegalArgumentException(missingMethod("void " + property + "()", "invoke"));
         }
+    }
+
+    private String missingMethod(String methodSignature, String action) {
+        return MessageFormat.format("Cannot find method \"{0}\" to {1} property \"{2}\" in any of the classes {3}",
+                                    methodSignature, action, property,
+                                    objects.stream().map(t -> t == null ? null : t.getClass().toGenericString())
+                                            .collect(toList()));
     }
 
     @Override
