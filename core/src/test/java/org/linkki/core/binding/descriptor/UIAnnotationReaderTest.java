@@ -152,19 +152,19 @@ public class UIAnnotationReaderTest {
         }
 
         @BindTooltip("TestTooltip")
-        @UITextField(position = 1, modelAttribute = "test")
+        @UITextField(position = 1, label = "", modelAttribute = "test")
         public void test() {
             //
         }
 
-        @UIComboBox(position = 2, modelAttribute = "test2")
+        @UIComboBox(position = 2, label = "", modelAttribute = "test2")
         public void abc() {
             //
         }
 
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
         @UITableColumn
-        @UIDateField(position = 3, modelAttribute = "test3")
+        @UIDateField(position = 3, label = "", modelAttribute = "test3")
         public void test3() {
             //
         }

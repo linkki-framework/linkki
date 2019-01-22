@@ -59,7 +59,7 @@ public class UiIntegerFieldTest {
             this.modelObject = modelObject;
         }
 
-        @UIIntegerField(position = 1, modelAttribute = "integerValue")
+        @UIIntegerField(position = 1, label = "", modelAttribute = "integerValue")
         public void integerValue() {
             // data binding
         }
@@ -71,9 +71,9 @@ public class UiIntegerFieldTest {
     }
 
     /**
-     * Returns a {@code TextField} that is bound to the given model object using the IPM data
-     * binder. The {@code TextField} is part of a mostly mocked UI so that a rudimentary Vaadin
-     * environment is in place.
+     * Returns a {@code TextField} that is bound to the given model object using the IPM data binder.
+     * The {@code TextField} is part of a mostly mocked UI so that a rudimentary Vaadin environment is
+     * in place.
      * 
      * @param modelObject the model object to which the {@code TextField} is bound
      * @return a {@code TextField} that is bound to the model object

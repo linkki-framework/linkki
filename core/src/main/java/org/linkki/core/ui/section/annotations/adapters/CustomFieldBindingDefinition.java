@@ -78,11 +78,6 @@ public class CustomFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public boolean showLabel() {
-        return !uiCustomField.noLabel();
-    }
-
-    @Override
     public String modelObject() {
         return uiCustomField.modelObject();
     }

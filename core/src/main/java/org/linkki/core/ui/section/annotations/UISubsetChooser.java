@@ -62,9 +62,7 @@ public @interface UISubsetChooser {
     int position();
 
     /** Provides a description label next to the UI element */
-    String label() default "";
-
-    boolean noLabel() default false;
+    String label();
 
     /** Defines if an UI-Component is editable, using values of {@link EnabledType} */
     EnabledType enabled() default ENABLED;

@@ -151,8 +151,8 @@ public class DynamicFieldBindingTest {
             return model;
         }
 
-        @UITextField(position = POS, modelAttribute = "paymentMethod")
-        @UIComboBox(position = POS, modelAttribute = "paymentMethod", content = AvailableValuesType.DYNAMIC)
+        @UITextField(position = POS, label = "", modelAttribute = "paymentMethod")
+        @UIComboBox(position = POS, label = "", modelAttribute = "paymentMethod", content = AvailableValuesType.DYNAMIC)
         public void paymentMethod() {
             // model binding
         }
@@ -174,7 +174,7 @@ public class DynamicFieldBindingTest {
     public static class PmoWithoutMethod {
 
         @UICheckBox(position = POS, caption = "label")
-        @UIButton(position = POS, label = "label", showLabel = true)
+        @UIButton(position = POS, label = "label")
         public void method() {
             // model binding
         }
@@ -183,7 +183,7 @@ public class DynamicFieldBindingTest {
     @UISection
     public static class PmoWithWrongClass {
 
-        @UITextArea(position = POS)
+        @UITextArea(position = POS, label = "")
         @UILabel(position = POS)
         public void component() {
             /* model binding */ }
@@ -196,12 +196,12 @@ public class DynamicFieldBindingTest {
     @UISection
     public static class PmoWith2MethodsAnnotated {
 
-        @UITextField(position = POS)
+        @UITextField(position = POS, label = "")
         public String getValueTxt() {
             return "";
         }
 
-        @UIComboBox(position = POS)
+        @UIComboBox(position = POS, label = "")
         public String getValueCb() {
             return "";
         }

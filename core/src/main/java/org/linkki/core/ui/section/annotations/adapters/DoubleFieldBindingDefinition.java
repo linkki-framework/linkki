@@ -75,11 +75,6 @@ public class DoubleFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public boolean showLabel() {
-        return !uiDoubleField.noLabel();
-    }
-
-    @Override
     public String modelObject() {
         return uiDoubleField.modelObject();
     }

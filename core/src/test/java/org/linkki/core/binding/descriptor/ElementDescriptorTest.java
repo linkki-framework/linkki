@@ -19,7 +19,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinition;
@@ -31,11 +30,6 @@ public class ElementDescriptorTest {
 
     @Mock
     private TextFieldBindingDefinition adapter = mock(TextFieldBindingDefinition.class);
-
-    @Before
-    public void setUp() {
-        when(adapter.showLabel()).thenReturn(true);
-    }
 
     @Test
     public void testGetPropertyName_favorModelAttribute() {

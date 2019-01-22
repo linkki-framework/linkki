@@ -40,9 +40,7 @@ public @interface UITextField {
     int position();
 
     /** Provides a description label next to the UI element */
-    String label() default "";
-
-    boolean noLabel() default false;
+    String label();
 
     /**
      * Name of the model object that is to be bound if multiple model objects are included for model

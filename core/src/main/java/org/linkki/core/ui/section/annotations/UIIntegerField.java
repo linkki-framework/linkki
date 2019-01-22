@@ -40,9 +40,7 @@ public @interface UIIntegerField {
     int position();
 
     /** Provides a description label next to the UI element */
-    String label() default "";
-
-    boolean noLabel() default false;
+    String label();
 
     /** Defines if an UI-Component is editable, using values of {@link EnabledType} */
     EnabledType enabled() default ENABLED;
@@ -59,8 +57,8 @@ public @interface UIIntegerField {
     int maxLength() default 0;
 
     /**
-     * Format for the UI representation of the value. See {@link DecimalFormat} for the
-     * documentation of the pattern.
+     * Format for the UI representation of the value. See {@link DecimalFormat} for the documentation of
+     * the pattern.
      */
     String format() default "";
 

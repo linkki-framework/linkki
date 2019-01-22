@@ -50,7 +50,7 @@ public class SamplePmo {
     }
 
 
-    @UIButton(position = 3, label = PMO_LABEL, caption = PMO_CAPTION, showLabel = true)
+    @UIButton(position = 3, label = PMO_LABEL, caption = PMO_CAPTION)
     public void myButton() {
         // nothing here
     }
@@ -60,7 +60,7 @@ public class SamplePmo {
         // nothing here
     }
 
-    @UISubsetChooser(position = 5, leftColumnCaption = "Left Column Caption", rightColumnCaption = "Right Column Caption")
+    @UISubsetChooser(position = 5, label = "", leftColumnCaption = "Left Column Caption", rightColumnCaption = "Right Column Caption")
     public Set<TestEnum> getFoo() {
         return foo;
     }

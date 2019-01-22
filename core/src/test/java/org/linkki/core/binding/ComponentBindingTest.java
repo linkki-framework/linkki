@@ -146,7 +146,7 @@ public class ComponentBindingTest {
             this.modelObject = modelObject;
         }
 
-        @UITextField(position = 1, modelAttribute = "text", required = RequiredType.REQUIRED)
+        @UITextField(position = 1, label = "", modelAttribute = "text", required = RequiredType.REQUIRED)
         public void text() {
             // data binding
         }

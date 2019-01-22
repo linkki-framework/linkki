@@ -101,7 +101,7 @@ public class SectionCreationContextTest {
             return "test-ID";
         }
 
-        @UITextField(position = 0)
+        @UITextField(position = 0, label = "")
         public String getTestProperty() {
             return "some_value";
         }

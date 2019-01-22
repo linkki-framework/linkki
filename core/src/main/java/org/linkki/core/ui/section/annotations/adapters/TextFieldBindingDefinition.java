@@ -78,11 +78,6 @@ public class TextFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public boolean showLabel() {
-        return !uiTextField.noLabel();
-    }
-
-    @Override
     public String modelObject() {
         return uiTextField.modelObject();
     }

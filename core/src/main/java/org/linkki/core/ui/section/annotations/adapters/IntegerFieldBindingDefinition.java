@@ -74,11 +74,6 @@ public class IntegerFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public boolean showLabel() {
-        return !uiIntegerField.noLabel();
-    }
-
-    @Override
     public String modelObject() {
         return uiIntegerField.modelObject();
     }

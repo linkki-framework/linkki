@@ -49,9 +49,7 @@ public @interface UICustomField {
     int position();
 
     /** Provides a description label next to the UI-Element */
-    String label() default "";
-
-    boolean noLabel() default false;
+    String label();
 
     /**
      * Name of the model object that is to be bound if multiple model objects are included for model
@@ -76,8 +74,8 @@ public @interface UICustomField {
     VisibleType visible() default VISIBLE;
 
     /**
-     * Specifies the source of the available values, the content of the custom field if it supports
-     * a content. May be a list of selectable items.
+     * Specifies the source of the available values, the content of the custom field if it supports a
+     * content. May be a list of selectable items.
      * 
      * @see AvailableValuesType
      */

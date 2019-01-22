@@ -93,7 +93,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
         }
 
         @Override
-        @UIButton(position = 2, label = TEST_LABEL, visible = VisibleType.INVISIBLE, caption = "static", enabled = EnabledType.DISABLED, showLabel = true)
+        @UIButton(position = 2, label = TEST_LABEL, visible = VisibleType.INVISIBLE, caption = "static", enabled = EnabledType.DISABLED)
         public void staticValue() {
             // does nothing
         }

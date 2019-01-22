@@ -41,13 +41,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class BindingDefinitionTest {
 
     @UICheckBox(position = 0, caption = "")
-    @UIComboBox(position = 0)
-    @UIDateField(position = 0)
-    @UIDoubleField(position = 0)
-    @UIIntegerField(position = 0)
-    @UITextArea(position = 0)
-    @UITextField(position = 0)
-    @UILabel(position = 0)
+    @UIComboBox(position = 0, label = "")
+    @UIDateField(position = 0, label = "")
+    @UIDoubleField(position = 0, label = "")
+    @UIIntegerField(position = 0, label = "")
+    @UITextArea(position = 0, label = "")
+    @UITextField(position = 0, label = "")
+    @UILabel(position = 0, label = "")
     @UIFooBar
     @UICustom
     @FooBar
@@ -177,11 +177,6 @@ class UITestBindingDefinition implements BindingDefinition {
     @Override
     public String label() {
         return null;
-    }
-
-    @Override
-    public boolean showLabel() {
-        return false;
     }
 
     @Override

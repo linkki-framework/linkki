@@ -38,7 +38,7 @@ public class ContactRowPmo {
     }
 
     @UITableColumn(expandRatio = 0.05F)
-    @UICheckBox(position = 1, label = "&#9733;", noLabel = false, caption = "")
+    @UICheckBox(position = 1, label = "&#9733;", caption = "")
     public boolean isFavorite() {
         return contact.isFavorite();
     }

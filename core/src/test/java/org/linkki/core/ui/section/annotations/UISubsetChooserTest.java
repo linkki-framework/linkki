@@ -39,7 +39,7 @@ public class UISubsetChooserTest {
 
         private final Set<TestEnum> foo = new LinkedHashSet<>();
 
-        @UISubsetChooser(position = 1, leftColumnCaption = "Left Column Caption", rightColumnCaption = "Right Column Caption")
+        @UISubsetChooser(position = 1, label = "", leftColumnCaption = "Left Column Caption", rightColumnCaption = "Right Column Caption")
         public Set<TestEnum> getFoo() {
             return foo;
         }
@@ -67,7 +67,7 @@ public class UISubsetChooserTest {
     @UISection
     protected static class TestPmoWithCustomWidth extends TestPmo {
 
-        @UISubsetChooser(position = 1, width = "50%")
+        @UISubsetChooser(position = 1, label = "", width = "50%")
         @Override
         public Set<TestEnum> getFoo() {
             return super.getFoo();

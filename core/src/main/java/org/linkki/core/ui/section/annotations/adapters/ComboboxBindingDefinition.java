@@ -74,11 +74,6 @@ public class ComboboxBindingDefinition implements BindingDefinition {
         return uiComboField.modelAttribute();
     }
 
-    @Override
-    public boolean showLabel() {
-        return !uiComboField.noLabel();
-    }
-
     private ItemCaptionProvider<?> getItemCaptionProvider() {
         try {
             return uiComboField.itemCaptionProvider().newInstance();

@@ -31,7 +31,7 @@ public class DateFieldBindingDefinitionTest {
 
     private static final String CUSTOM_DATE_FORMAT = "yy.dd.MM";
 
-    @UIDateField(position = 0)
+    @UIDateField(position = 0, label = "")
     public UIDateField defaultAnnotation() {
         try {
             return getClass().getMethod("defaultAnnotation", new Class<?>[] {}).getAnnotation(UIDateField.class);
@@ -40,7 +40,7 @@ public class DateFieldBindingDefinitionTest {
         }
     }
 
-    @UIDateField(position = 0, dateFormat = CUSTOM_DATE_FORMAT)
+    @UIDateField(position = 0, label = "", dateFormat = CUSTOM_DATE_FORMAT)
     public UIDateField customAnnotation() {
         try {
             return getClass().getMethod("customAnnotation", new Class<?>[] {}).getAnnotation(UIDateField.class);
