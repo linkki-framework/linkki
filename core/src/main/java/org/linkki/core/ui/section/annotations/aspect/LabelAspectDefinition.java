@@ -23,7 +23,7 @@ import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
-import org.linkki.core.ui.table.TableColumnWrapper;
+import org.linkki.core.ui.table.column.TableColumnWrapper;
 
 /**
  * Aspect definition to bind the label of a component.

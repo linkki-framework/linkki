@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.util.Consumers;
@@ -31,7 +30,7 @@ import com.vaadin.ui.AbstractField;
  */
 public abstract class RequiredAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
-    public static final String NAME = PropertyNamingConvention.REQUIRED_PROPERTY_SUFFIX;
+    public static final String NAME = "required";
     private EnabledAspectDefinition enabledAspectDefinition;
 
     public RequiredAspectDefinition(EnabledAspectDefinition enabledTypeAspectDefinition) {

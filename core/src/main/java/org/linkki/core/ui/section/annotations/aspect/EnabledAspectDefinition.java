@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.EnabledType;
 
@@ -27,7 +26,7 @@ import org.linkki.core.ui.section.annotations.EnabledType;
  */
 public abstract class EnabledAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
-    public static final String NAME = PropertyNamingConvention.ENABLED_PROPERTY_SUFFIX;
+    public static final String NAME = "enabled";
 
     @Override
     public Aspect<Boolean> createAspect() {

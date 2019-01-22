@@ -12,19 +12,20 @@
  * the License.
  */
 
-package org.linkki.core.ui.table;
+package org.linkki.core.ui.table.column;
 
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
+import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 
 /**
- * Wrapper for the column of a table. The column and column header is no real component in vaadin7,
+ * Wrapper for the column header. The column and column header is no real component in vaadin7,
  * hence this wrapper has no real component to wrap. It is more useful to use only methods directly
  * provided by this wrapper than using the return value of {@link #getComponent()}.
  */
@@ -43,6 +44,8 @@ public class TableColumnWrapper implements ComponentWrapper {
     public TableColumnWrapper(Table table, String propertyName) {
         this.table = requireNonNull(table, "table must not be null");
         this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
+        // vaadin default is true, our default is false
+        table.setColumnCollapsible(propertyName, false);
     }
 
     @Override
@@ -96,5 +99,14 @@ public class TableColumnWrapper implements ComponentWrapper {
         return "ColumnHeaderWrapper [" + table.getId() + "#" + propertyName + "]";
     }
 
+    public void setCollapseMode(CollapseMode collapseMode) {
+        if (collapseMode.isCollapsible() && !table.isColumnCollapsingAllowed()) {
+            table.setColumnCollapsingAllowed(true);
+        }
+        if (table.isColumnCollapsingAllowed()) {
+            table.setColumnCollapsible(propertyName, collapseMode.isCollapsible());
+            table.setColumnCollapsed(propertyName, collapseMode.isInitiallyCollapsed());
+        }
+    }
 
 }

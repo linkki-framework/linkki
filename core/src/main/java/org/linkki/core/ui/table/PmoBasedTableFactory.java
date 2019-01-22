@@ -29,7 +29,7 @@ import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
-import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
+import org.linkki.core.ui.table.column.TableColumnWrapper;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
@@ -68,18 +68,8 @@ public class PmoBasedTableFactory<@NonNull T> {
     public Table createTable() {
         Table table = createTableComponent();
         TableBinding<T> tableBinding = bindTable(table);
-        createColumns(tableBinding);
         tableBinding.init();
-        boolean hasCollapsibleColumn = annotationReader.getUiElements()
-                .map(annotationReader::getTableColumnDescriptor)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(TableColumnDescriptor::getCollapseMode)
-                .anyMatch(CollapseMode::isCollapsible);
-        table.setColumnCollapsingAllowed(hasCollapsibleColumn);
-        if (hasCollapsibleColumn) {
-            annotationReader.getUiElements().forEach(e -> setCollapsed(table, e));
-        }
+        createColumns(tableBinding);
         table.setPageLength(containerPmo.getPageLength());
         return table;
     }
@@ -122,14 +112,6 @@ public class PmoBasedTableFactory<@NonNull T> {
         tableBinding.bind(containerPmo, new SimpleBindingDescriptor(propertyName, aspectDefs),
                           new TableColumnWrapper(table, propertyName));
         setConfiguredColumnWidthOrExpandRatio(table, elementDesc);
-    }
-
-    private void setCollapsed(Table table, PropertyElementDescriptors elementDesc) {
-        Optional<TableColumnDescriptor> column = annotationReader.getTableColumnDescriptor(elementDesc);
-        CollapseMode collapseMode = column.map(TableColumnDescriptor::getCollapseMode)
-                .orElse(CollapseMode.NOT_COLLAPSIBLE);
-        table.setColumnCollapsible(elementDesc.getPmoPropertyName(), collapseMode.isCollapsible());
-        table.setColumnCollapsed(elementDesc.getPmoPropertyName(), collapseMode.isInitiallyCollapsed());
     }
 
     private void setConfiguredColumnWidthOrExpandRatio(Table table, PropertyElementDescriptors elementDesc) {

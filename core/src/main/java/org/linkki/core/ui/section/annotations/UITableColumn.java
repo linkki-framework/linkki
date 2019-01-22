@@ -18,6 +18,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.ui.table.column.aspect.ColumnCollapseAspectDefinition;
+
 import com.vaadin.ui.Table;
 
 /**
@@ -32,6 +35,7 @@ import com.vaadin.ui.Table;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiAspect(ColumnCollapseAspectDefinition.class)
 public @interface UITableColumn {
 
     static final int UNDEFINED_WIDTH = -1;
@@ -85,8 +89,8 @@ public @interface UITableColumn {
     /**
      * Configures the expand ratio for the column.
      * 
-     * @implSpec The expand ratio defines what part of excess available space the layout allots to
-     *           this column.
+     * @implSpec The expand ratio defines what part of excess available space the layout allots to this
+     *           column.
      * 
      * @implNote This attribute is mutually exclusive with {@link #width()}.
      * 

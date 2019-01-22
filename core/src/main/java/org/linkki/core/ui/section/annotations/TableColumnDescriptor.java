@@ -17,8 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.lang.reflect.Method;
 
-import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
-
 /**
  * Holds all information about a table column.
  */
@@ -60,10 +58,6 @@ public class TableColumnDescriptor {
             throw new IllegalStateException(
                     "width and expandRatio cannot be both defined on " + annotatedClass + "." + annotatedMethod + "!");
         }
-    }
-
-    public CollapseMode getCollapseMode() {
-        return columnAnnotation.collapsible();
     }
 
 }

@@ -16,13 +16,18 @@ package org.linkki.core.binding.dispatcher;
 import static java.util.Objects.requireNonNull;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.BindTooltipAspectDefinition;
 
 /**
  * Naming convention for properties. Adds suffixes, e.g. "enabled", to the base property, e.g.
  * "premium". To obtain the enabled property for premium, e.g. "premiumEnabled". The respective
  * getter would be called "isPremiumEnabled()".
+ * 
+ * @deprecated since Jan. 23rd 2019, all the names are defined directly in the specific
+ *             {@link LinkkiAspectDefinition}
  */
+@Deprecated
 public class PropertyNamingConvention {
 
     public static final String ENABLED_PROPERTY_SUFFIX = "enabled";
@@ -32,8 +37,8 @@ public class PropertyNamingConvention {
     public static final String AVAILABLE_VALUES_PROPERTY_SUFFIX = "availableValues";
     public static final String CAPTION_PROPERTY_SUFFIX = "caption";
     /**
-     * @deprecated since October 4th, 2018. Use {@link BindTooltipAspectDefinition#NAME} instead.
-     *             Will be removed in the next release.
+     * @deprecated since October 4th, 2018. Use {@link BindTooltipAspectDefinition#NAME} instead. Will
+     *             be removed in the next release.
      */
     @Deprecated
     public static final String TOOLTIP_PROPERTY_SUFFIX = "toolTip";
@@ -48,8 +53,8 @@ public class PropertyNamingConvention {
     }
 
     /**
-     * @return the capitalized property with the suffix {@link #ENABLED_PROPERTY_SUFFIX}. e.g.
-     *         "premium" results in "premiumEnabled".
+     * @return the capitalized property with the suffix {@link #ENABLED_PROPERTY_SUFFIX}. e.g. "premium"
+     *         results in "premiumEnabled".
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getEnabledProperty(String property) {
@@ -57,8 +62,8 @@ public class PropertyNamingConvention {
     }
 
     /**
-     * @return the capitalized property with the suffix {@link #VISIBLE_PROPERTY_SUFFIX}. e.g.
-     *         "premium" results in "premiumVisible".
+     * @return the capitalized property with the suffix {@link #VISIBLE_PROPERTY_SUFFIX}. e.g. "premium"
+     *         results in "premiumVisible".
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getVisibleProperty(String property) {
@@ -75,8 +80,8 @@ public class PropertyNamingConvention {
     }
 
     /**
-     * @return the capitalized property with the suffix {@link #AVAILABLE_VALUES_PROPERTY_SUFFIX}.
-     *         e.g. "premium" results in "premiumAvailableValues".
+     * @return the capitalized property with the suffix {@link #AVAILABLE_VALUES_PROPERTY_SUFFIX}. e.g.
+     *         "premium" results in "premiumAvailableValues".
      * @throws NullPointerException if the given property is <code>null</code>
      */
     public String getAvailableValuesProperty(String property) {
@@ -129,4 +134,5 @@ public class PropertyNamingConvention {
         }
         return StringUtils.uncapitalize(property + StringUtils.capitalize(suffix));
     }
+
 }

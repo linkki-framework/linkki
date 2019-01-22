@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding.descriptor;
 
@@ -28,7 +28,6 @@ import org.apache.commons.lang3.Validate;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
 
@@ -36,18 +35,17 @@ import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
  * This class stores all {@link ElementDescriptor ElementDescriptors} of a PMO specified at the same
  * property.
  * <p>
- * In case only one {@link ElementDescriptor} exists for a position, no additional method is needed in
- * the PMO. <br>
- * Otherwise to resolve which ElementDescriptor shall be used, the PMO must provide a method with the
- * signature: {@code public Class get[pmoPropertyName]ComponentType()} see
- * {@link PropertyNamingConvention#getComponentTypeProperty(String)}.
+ * In case only one {@link ElementDescriptor} exists for a position, no additional method is needed
+ * in the PMO. <br>
+ * Otherwise to resolve which ElementDescriptor shall be used, the PMO must provide a method with
+ * the signature: {@code public Class get[pmoPropertyName]ComponentType()}.
  * <p>
- * NOTE: If more UIElements are specified for a property, the annotations must have the same position
- * otherwise an {@link IllegalStateException} will be thrown.
+ * NOTE: If more UIElements are specified for a property, the annotations must have the same
+ * position otherwise an {@link IllegalStateException} will be thrown.
  */
 public class PropertyElementDescriptors {
 
-    private static final PropertyNamingConvention PROPERTY_NAMING_CONVENTION = new PropertyNamingConvention();
+    private static final String COMPONENT_PROPERTY_SUFFIX = "ComponentType";
 
     private final Map<@NonNull Class<? extends Annotation>, @NonNull ElementDescriptor> descriptors;
 
@@ -107,8 +105,8 @@ public class PropertyElementDescriptors {
     }
 
     /**
-     * A property can only have two different descriptors if the have the same position and a method
-     * with {@link PropertyNamingConvention#getComponentTypeProperty(String)} exists for the property.
+     * A property can only have different descriptors if the have the same position and a method with
+     * {@link #getComponentTypeProperty(String)} exists for the property.
      */
     private void validateDynamicFieldDescriptor(ElementDescriptor descriptor, Class<?> pmoClass) {
         Validate.validState(descriptor.getPosition() == position, String
@@ -116,12 +114,11 @@ public class PropertyElementDescriptors {
                         pmoPropertyName));
 
         PropertyAccessor propertyAccessor = PropertyAccessorCache
-                .get(pmoClass, PROPERTY_NAMING_CONVENTION.getComponentTypeProperty(getPmoPropertyName()));
+                .get(pmoClass, getComponentTypeProperty(getPmoPropertyName()));
         if (!propertyAccessor.canRead()) {
             throw new IllegalStateException(String
                     .format("Method %s must be present in pmo class %s if more than one UIElement is defined for the same property %s",
-                            "get" + StringUtils.capitalize(PROPERTY_NAMING_CONVENTION
-                                    .getComponentTypeProperty(getPmoPropertyName())),
+                            "get" + StringUtils.capitalize(getComponentTypeProperty(getPmoPropertyName())),
                             pmoClass, pmoPropertyName));
         }
     }
@@ -129,8 +126,12 @@ public class PropertyElementDescriptors {
     @SuppressWarnings("unchecked")
     private Class<? extends Annotation> getInitialAnnotationClassFromPmo(Object pmo) {
         PropertyAccessor propertyAccessor = PropertyAccessorCache
-                .get(pmo.getClass(), PROPERTY_NAMING_CONVENTION.getComponentTypeProperty(getPmoPropertyName()));
+                .get(pmo.getClass(), getComponentTypeProperty(getPmoPropertyName()));
         return (Class<? extends Annotation>)propertyAccessor.getPropertyValue(pmo);
+    }
+
+    private String getComponentTypeProperty(String property) {
+        return StringUtils.uncapitalize(property + COMPONENT_PROPERTY_SUFFIX);
     }
 
     public void addAspect(List<LinkkiAspectDefinition> aspectDefs) {

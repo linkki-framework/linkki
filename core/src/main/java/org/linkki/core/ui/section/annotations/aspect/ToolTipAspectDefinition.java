@@ -19,7 +19,6 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.ui.components.ComponentWrapper;
 
 /**
@@ -30,7 +29,7 @@ import org.linkki.core.ui.components.ComponentWrapper;
 @SuppressWarnings("deprecation")
 public class ToolTipAspectDefinition extends ModelToUiAspectDefinition<String> {
 
-    public static final String NAME = PropertyNamingConvention.TOOLTIP_PROPERTY_SUFFIX;
+    public static final String NAME = "toolTip";
 
     @SuppressWarnings("null")
     private org.linkki.core.ui.section.annotations.UIToolTip annotation;
