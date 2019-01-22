@@ -83,6 +83,7 @@ public class ComponentBindingTest {
     public void testUpdateFromPmo_updateAspect() {
         Handler componentUpdater = mock(Handler.class);
         LinkkiAspectDefinition aspectDefinition = mock(LinkkiAspectDefinition.class);
+        when(aspectDefinition.supports(any())).thenReturn(true);
         when(aspectDefinition.createUiUpdater(any(), any())).thenReturn(componentUpdater);
         ComponentBinding fieldBinding = new ComponentBinding(new LabelComponentWrapper(label, field),
                 propertyDispatcherValue,

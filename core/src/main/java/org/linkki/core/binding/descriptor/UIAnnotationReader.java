@@ -97,7 +97,6 @@ public class UIAnnotationReader {
 
         elementDescriptors.addDescriptor(annotation,
                                          new ElementDescriptor(uiElement, pmoPropertyName,
-                                                 annotatedClass,
                                                  aspectDefs),
                                          annotatedClass);
 

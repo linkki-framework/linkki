@@ -34,7 +34,8 @@ public class FieldAspectDefinition extends CompositeAspectDefinition {
         RequiredAspectForBindingDefinition requiredAspectDefinition = new RequiredAspectForBindingDefinition(
                 enabledAspectDefinition);
 
-        return Arrays.asList(enabledAspectDefinition,
+        return Arrays.asList(new LabelAspectDefinition(),
+                             enabledAspectDefinition,
                              requiredAspectDefinition,
                              new VisibleAspectForBindingDefinition(),
                              new FieldValueAspectDefinition(),

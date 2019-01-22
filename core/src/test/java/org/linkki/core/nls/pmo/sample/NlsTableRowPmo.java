@@ -43,7 +43,7 @@ public class NlsTableRowPmo {
         return "3";
     }
 
-    @UIButton(position = 3, label = PMO_LABEL)
+    @UIButton(position = 3)
     public void delete() {
         // nothing to do
     }

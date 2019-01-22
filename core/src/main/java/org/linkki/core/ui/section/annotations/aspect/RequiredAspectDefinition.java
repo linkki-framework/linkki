@@ -59,8 +59,8 @@ public abstract class RequiredAspectDefinition extends ModelToUiAspectDefinition
      * {@inheritDoc}
      * <p>
      * This method only supports {@link AbstractField} if the {@link RequiredType} is not
-     * {@link RequiredType#NOT_REQUIRED}. In this case, {@link AbstractField#setRequired(boolean)}
-     * is used.
+     * {@link RequiredType#NOT_REQUIRED}. In this case, {@link AbstractField#setRequired(boolean)} is
+     * used.
      * 
      * @throws IllegalArgumentException if the {@link RequiredType} is not
      *             {@link RequiredType#NOT_REQUIRED} and the component wrapped by given
@@ -76,7 +76,7 @@ public abstract class RequiredAspectDefinition extends ModelToUiAspectDefinition
             return Consumers.nopConsumer();
         } else {
             throw new IllegalArgumentException(
-                    "Required type binding is not supported for component type " + component.getClass() + " ");
+                    "Required type binding is not supported for a component of type " + component.getClass() + " ");
         }
     }
 

@@ -119,6 +119,11 @@ public class LabelComponentWrapper implements ComponentWrapper {
     }
 
     @Override
+    public WrapperType getType() {
+        return WrapperType.FIELD;
+    }
+
+    @Override
     public String toString() {
         return Optional.ofNullable(label).map(Label::getValue).orElse("<no label>") + "("
                 + component.getClass().getSimpleName() + ")";

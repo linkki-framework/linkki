@@ -55,7 +55,7 @@ public class SamplePmo {
         // nothing here
     }
 
-    @UIButton(position = 4, label = PMO_LABEL, caption = PMO_CAPTION)
+    @UIButton(position = 4, caption = PMO_CAPTION)
     public void myButton2() {
         // nothing here
     }

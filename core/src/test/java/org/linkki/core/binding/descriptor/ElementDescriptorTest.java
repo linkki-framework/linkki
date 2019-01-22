@@ -38,38 +38,16 @@ public class ElementDescriptorTest {
     }
 
     @Test
-    public void getLabelText_deriveFromLabel() {
-        when(adapter.label()).thenReturn("blablub");
-        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "xyz", Void.class, new ArrayList<>());
-
-        assertEquals("blablub", elementDescriptor.getLabelText());
-    }
-
-    @Test
-    public void getLabelText_deriveFromPropertyName() {
-        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
-
-        assertEquals("Test", elementDescriptor.getLabelText());
-    }
-
-    @Test
-    public void getLabelText_addSuffixOnlyIfNecessary() {
-        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test:", Void.class, new ArrayList<>());
-
-        assertEquals("Test:", elementDescriptor.getLabelText());
-    }
-
-    @Test
-    public void getPropertyName_favorModelAttribute() {
+    public void testGetPropertyName_favorModelAttribute() {
         when(adapter.modelAttribute()).thenReturn("xyz");
-        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
+        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test", new ArrayList<>());
 
         assertEquals("xyz", elementDescriptor.getModelPropertyName());
     }
 
     @Test
-    public void getPropertyName_byMethodName() {
-        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test", Void.class, new ArrayList<>());
+    public void testGetPropertyName_byMethodName() {
+        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test", new ArrayList<>());
 
         assertEquals("Test", elementDescriptor.getModelPropertyName());
     }

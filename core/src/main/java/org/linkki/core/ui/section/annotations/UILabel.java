@@ -22,9 +22,10 @@ import java.lang.annotation.Target;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.ui.section.annotations.UILabel.LabelAspectDefinition;
+import org.linkki.core.ui.section.annotations.UILabel.LabelComponentAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.EnabledAspectForBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.LabelAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelValueAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefinition;
 
@@ -34,7 +35,7 @@ import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefi
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(LabelBindingDefinition.class)
-@LinkkiAspect(LabelAspectDefinition.class)
+@LinkkiAspect(LabelComponentAspectDefinition.class)
 public @interface UILabel {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -65,17 +66,17 @@ public @interface UILabel {
     String[] styleNames() default {};
 
     /**
-     * When set to {@code true}, the label's content will be displayed as HTML, otherwise as plain
-     * text.
+     * When set to {@code true}, the label's content will be displayed as HTML, otherwise as plain text.
      */
     boolean htmlContent() default false;
 
     /**
      * Aspect definition for {@link UILabel} annotation.
      */
-    class LabelAspectDefinition extends CompositeAspectDefinition {
-        public LabelAspectDefinition() {
-            super(new EnabledAspectForBindingDefinition(),
+    class LabelComponentAspectDefinition extends CompositeAspectDefinition {
+        public LabelComponentAspectDefinition() {
+            super(new LabelAspectDefinition(),
+                    new EnabledAspectForBindingDefinition(),
                     new VisibleAspectForBindingDefinition(),
                     new LabelValueAspectDefinition());
         }

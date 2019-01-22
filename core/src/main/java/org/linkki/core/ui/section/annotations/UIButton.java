@@ -28,6 +28,7 @@ import org.linkki.core.ui.section.annotations.UIButton.ButtonAspectDefinition;
 import org.linkki.core.ui.section.annotations.adapters.ButtonBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.LabelAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.EnabledAspectForBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefinition;
 
@@ -105,7 +106,8 @@ public @interface UIButton {
     class ButtonAspectDefinition extends CompositeAspectDefinition {
 
         public ButtonAspectDefinition() {
-            super(new EnabledAspectForBindingDefinition(),
+            super(new LabelAspectDefinition(),
+                    new EnabledAspectForBindingDefinition(),
                     new VisibleAspectForBindingDefinition(),
                     new ButtonCaptionAspectDefinition(),
                     new ButtonInvokeAspectDefinition());

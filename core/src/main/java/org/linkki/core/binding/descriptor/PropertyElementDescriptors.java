@@ -1,24 +1,27 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.descriptor;
 
+import static java.util.stream.Collectors.toList;
+
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -33,32 +36,27 @@ import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
  * This class stores all {@link ElementDescriptor ElementDescriptors} of a PMO specified at the same
  * property.
  * <p>
- * In case only one {@link ElementDescriptor} exists for a position, no additional method is needed
- * in the PMO. <br>
- * Otherwise to resolve which ElementDescriptor shall be used, the PMO must provide a method with
- * the signature: {@code public Class get[pmoPropertyName]ComponentType()} see
+ * In case only one {@link ElementDescriptor} exists for a position, no additional method is needed in
+ * the PMO. <br>
+ * Otherwise to resolve which ElementDescriptor shall be used, the PMO must provide a method with the
+ * signature: {@code public Class get[pmoPropertyName]ComponentType()} see
  * {@link PropertyNamingConvention#getComponentTypeProperty(String)}.
  * <p>
- * NOTE: If more UIElements are specified for a property, the annotations must have the same
- * position and the {@code label}'s must be equal otherwise an {@link IllegalStateException} will be
- * thrown.
+ * NOTE: If more UIElements are specified for a property, the annotations must have the same position
+ * otherwise an {@link IllegalStateException} will be thrown.
  */
 public class PropertyElementDescriptors {
 
     private static final PropertyNamingConvention PROPERTY_NAMING_CONVENTION = new PropertyNamingConvention();
 
     private final Map<@NonNull Class<? extends Annotation>, @NonNull ElementDescriptor> descriptors;
+
     private final String pmoPropertyName;
+
     private int position;
-    private String labelText = StringUtils.EMPTY;
+
     private final List<LinkkiAspectDefinition> additionalAspects = new ArrayList<>();
 
-    // position and labelText are null at initilization but
-    // the first element is added immediatly after the creation of the
-    // object
-    // since this constructor is package-private it can not be called from
-    // a user of the framework so it's ok...
-    // to make eclipse happy we suppress the null warning :/
     PropertyElementDescriptors(String pmoPropertyName) {
         this.pmoPropertyName = pmoPropertyName;
         this.descriptors = new HashMap<>(2);
@@ -72,29 +70,26 @@ public class PropertyElementDescriptors {
         return pmoPropertyName;
     }
 
-    public String getLabelText() {
-        return labelText;
+    public ElementDescriptor getDescriptor(Object pmo) {
+        ElementDescriptor descriptor = findDescriptor(pmo);
+        descriptor.addAspectDefinitions(additionalAspects);
+        return descriptor;
     }
 
-    public ElementDescriptor getDescriptor(Object pmo) {
-        @NonNull
-        ElementDescriptor descriptor;
+    private ElementDescriptor findDescriptor(Object pmo) {
         if (descriptors.size() == 1) {
-            descriptor = descriptors.values()
-                    .iterator()
-                    .next();
+            return descriptors.values()
+                    .iterator().next();
         } else {
             Class<? extends Annotation> initialAnnotation = getInitialAnnotationClassFromPmo(pmo);
             @Nullable
-            ElementDescriptor descriptorFromAnnotation = descriptors.get(initialAnnotation);
-            if (descriptorFromAnnotation == null) {
+            ElementDescriptor descriptor = descriptors.get(initialAnnotation);
+            if (descriptor == null) {
                 throw new IllegalStateException(String.format("No descriptor found for annotation @%s for property %s",
                                                               initialAnnotation.getSimpleName(), pmoPropertyName));
             }
-            descriptor = descriptorFromAnnotation;
+            return descriptor;
         }
-        descriptor.addAspectDefinitions(additionalAspects);
-        return descriptor;
     }
 
     void addDescriptor(Annotation annotation, ElementDescriptor descriptor, Class<?> pmoClass) {
@@ -104,7 +99,6 @@ public class PropertyElementDescriptors {
 
         if (descriptors.isEmpty()) {
             position = descriptor.getPosition();
-            labelText = descriptor.getLabelText();
         } else {
             validateDynamicFieldDescriptor(descriptor, pmoClass);
         }
@@ -120,10 +114,6 @@ public class PropertyElementDescriptors {
         Validate.validState(descriptor.getPosition() == position, String
                 .format("UIElement annotations for property '%s' do not all have the same position",
                         pmoPropertyName));
-
-        Validate.validState(Objects.equals(labelText, descriptor.getLabelText()),
-                            "Labels for property %s in pmo class %s don't match. Values are: '%s' and '%s'",
-                            pmoPropertyName, pmoClass.getName(), labelText, descriptor.getLabelText());
 
         PropertyAccessor propertyAccessor = PropertyAccessorCache
                 .get(pmoClass, PROPERTY_NAMING_CONVENTION.getComponentTypeProperty(getPmoPropertyName()));
@@ -150,4 +140,18 @@ public class PropertyElementDescriptors {
     public boolean isNotEmpty() {
         return !descriptors.isEmpty();
     }
+
+    /**
+     * Returns all {@link LinkkiAspectDefinition aspect definitions} from all {@link ElementDescriptor
+     * ElementDescriptors} and all {@link #addAspect(List) added aspect definitions}.
+     */
+    public List<LinkkiAspectDefinition> getAllAspects() {
+        return Stream.concat(
+                             descriptors.values().stream()
+                                     .map(d -> d.getAspectDefinitions())
+                                     .flatMap(Collection::stream),
+                             additionalAspects.stream())
+                .collect(toList());
+    }
+
 }

@@ -15,16 +15,17 @@ package org.linkki.core.ui.table;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
+import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
-import org.linkki.core.nls.pmo.PmoLabelType;
-import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
@@ -39,8 +40,6 @@ import com.vaadin.ui.TreeTable;
  * A factory to create a table based on a {@link ContainerPmo}.
  */
 public class PmoBasedTableFactory<@NonNull T> {
-
-    private PmoNlsService pmoNlsService;
 
     private final ContainerPmo<T> containerPmo;
 
@@ -61,7 +60,6 @@ public class PmoBasedTableFactory<@NonNull T> {
         this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         this.rowPmoClass = containerPmo.getItemPmoClass();
         this.annotationReader = new UIAnnotationReader(rowPmoClass);
-        pmoNlsService = PmoNlsService.get();
     }
 
     /**
@@ -100,6 +98,7 @@ public class PmoBasedTableFactory<@NonNull T> {
         table.setHeightUndefined();
         table.setWidth("100%");
         table.setSortEnabled(false);
+        table.setId(containerPmo.getClass().getSimpleName());
         return table;
     }
 
@@ -119,9 +118,9 @@ public class PmoBasedTableFactory<@NonNull T> {
         FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<>(elementDesc, tableBinding);
         String propertyName = elementDesc.getPmoPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
-        table.setColumnHeader(propertyName,
-                              pmoNlsService.getLabel(PmoLabelType.PROPERTY_LABEL, rowPmoClass, propertyName,
-                                                     elementDesc.getLabelText()));
+        List<LinkkiAspectDefinition> aspectDefs = elementDesc.getAllAspects();
+        tableBinding.bind(containerPmo, new SimpleBindingDescriptor(propertyName, aspectDefs),
+                          new TableColumnWrapper(table, propertyName));
         setConfiguredColumnWidthOrExpandRatio(table, elementDesc);
     }
 

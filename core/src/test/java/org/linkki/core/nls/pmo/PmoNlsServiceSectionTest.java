@@ -43,7 +43,7 @@ public class PmoNlsServiceSectionTest {
     @SuppressWarnings("null")
     private Label buttonLabelWithTranslation;
     @SuppressWarnings("null")
-    private Label invisibleButtonLabelWithTranslation;
+    private Label buttonWithoutLabel;
     @SuppressWarnings("null")
     private Button buttonWithTranslatedCaption;
 
@@ -69,7 +69,7 @@ public class PmoNlsServiceSectionTest {
         textfieldLabelWithoutTranslation = (Label)sectionContent.getComponent(0, 1);
         buttonLabelWithTranslation = (Label)sectionContent.getComponent(0, 2);
         buttonWithTranslatedCaption = (Button)sectionContent.getComponent(1, 2);
-        invisibleButtonLabelWithTranslation = (Label)sectionContent.getComponent(0, 3);
+        buttonWithoutLabel = (Label)sectionContent.getComponent(0, 3);
         buttonWithoutTranslatedCaption = (Button)sectionContent.getComponent(1, 3);
 
         // test setup
@@ -82,7 +82,6 @@ public class PmoNlsServiceSectionTest {
         assertThat(buttonCaptionTranslation, is(not(SamplePmo.PMO_CAPTION)));
 
         assertThat(getLabelTranslation(SamplePmo.PROPERTY_CBFIELD), is(SamplePmo.PMO_LABEL));
-        assertThat(getLabelTranslation(SamplePmo.PROPERTY_MYBUTTON2), is(buttonLabelTranslation));
         assertThat(getCaptionTranslation(SamplePmo.PROPERTY_MYBUTTON2), is(SamplePmo.PMO_CAPTION));
     }
 
@@ -105,7 +104,7 @@ public class PmoNlsServiceSectionTest {
         assertThat(textfieldLabelWithTranslation.getValue(), is(textfieldLabelTranslation));
         assertThat(textfieldLabelWithoutTranslation.getValue(), is(SamplePmo.PMO_LABEL));
         assertThat(buttonLabelWithTranslation.getValue(), is(buttonLabelTranslation));
-        assertThat(invisibleButtonLabelWithTranslation.getValue(), is(""));
+        assertThat(buttonWithoutLabel.getValue(), is(""));
         assertThat(buttonWithTranslatedCaption.getCaption(), is(buttonCaptionTranslation));
         assertThat(buttonWithoutTranslatedCaption.getCaption(), is(SamplePmo.PMO_CAPTION));
     }
