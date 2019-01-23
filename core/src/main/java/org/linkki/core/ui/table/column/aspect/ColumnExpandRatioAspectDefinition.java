@@ -6,10 +6,10 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.ui.table.column.aspect;
@@ -17,7 +17,7 @@ package org.linkki.core.ui.table.column.aspect;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
 
-public class ColumnExpandRatioAspectDefinition extends ColumnAspectDefinition<Float> {
+public class ColumnExpandRatioAspectDefinition extends StaticColumnAspectDefinition<Float> {
 
     public static final String NAME = "expandRatio";
     public static final float UNDEFINED_EXPAND_RATIO = -1.0f;

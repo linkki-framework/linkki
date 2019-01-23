@@ -135,15 +135,23 @@ public interface LinkkiAspectDefinition {
      * is also provided within this {@link Aspect}. It is up to the {@link PropertyDispatcher} to use
      * the value or to return a value from another data source though.
      * <p>
-     * Afterwards, the value that is returned by the {@link PropertyDispatcher} has to be set to the
+     * The handler has to set the value that is returned by the {@link PropertyDispatcher} to the
      * {@link ComponentWrapper}.
      * <p>
-     * This method might be called multiple times for example if the PMO defining this aspect definition
-     * is used in a table. Hence it is not allowed to keep any state of the given parameters.
+     * This method might be called for different component wrappers. For example if the aspect is bound
+     * to a field within a table, one aspect instance is used for all fields in one column. Hence it is
+     * not allowed to keep any state of the given parameters.
+     * <p>
+     * For every component wrapper this method is called exactly one time when creating the UI. If the
+     * value that should be bound is static and should <em>not</em> be updated with every UI update it
+     * is legal to set the value directly and return {@link Handler#NOP_HANDLER}.
      * 
      * @param propertyDispatcher dispatcher (chain) that retrieves the value of an {@link Aspect} by
      *            using {@link PropertyDispatcher#pull(Aspect)}
      * @param componentWrapper UI component that may need to be updated
+     * 
+     * @see ModelToUiAspectDefinition
+     * @see StaticModelToUiAspectDefinition
      */
     Handler createUiUpdater(PropertyDispatcher propertyDispatcher,
             ComponentWrapper componentWrapper);

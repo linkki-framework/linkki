@@ -23,6 +23,8 @@ import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UILabel;
+import org.linkki.core.ui.section.annotations.UITableColumn;
+import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.samples.treetable.dynamic.model.Player.Position;
 
@@ -31,15 +33,18 @@ public abstract class PlayerTableRowPmo {
     @UITextField(position = 10, label = "Team")
     public abstract String getTeam();
 
+    @UITableColumn(width = 100)
     @UIComboBox(position = 20, label = "Position", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = PositionCaptionProvider.class)
     public abstract Position getPosition();
 
     @UITextField(position = 30, label = "First Name")
     public abstract String getFirstName();
 
+    @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE)
     @UITextField(position = 40, label = "Last Name")
     public abstract String getLastName();
 
+    @UITableColumn(width = 60, collapsible = CollapseMode.INITIALLY_COLLAPSED)
     @UILabel(position = 50, label = "Age")
     public abstract String getAge();
 

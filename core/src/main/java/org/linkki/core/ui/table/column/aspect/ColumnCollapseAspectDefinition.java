@@ -18,7 +18,7 @@ import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
 
-public class ColumnCollapseAspectDefinition extends ColumnAspectDefinition<CollapseMode> {
+public class ColumnCollapseAspectDefinition extends StaticColumnAspectDefinition<CollapseMode> {
 
     public static final String NAME = "collapsible";
 
