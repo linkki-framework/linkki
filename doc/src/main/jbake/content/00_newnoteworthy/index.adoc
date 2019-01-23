@@ -7,14 +7,29 @@
 
 == New & Noteworthy
 
-=== January 21st, 2019
+=== January 23rd, 2019
+
+==== Refactoring for tables and @UITableColumn
+
+We made a major refactoring concerning the internal handling of tables and columns. All properties of a table column (like label, width, expand ratio, collapsible) are now handled using <<creating-aspects,linkki aspects>>. With this refactoring these properties are real bindings now. Although these bindings are not dynamic (at the moment) we decided to use the `ContainerPmo` as bound object. That means:
+
+  * if you create (or we in the future) a dynamic aspect binding the method is searched at the `ContainerPmo` not at the PMO of the row.
+  * The key for translated column labels is no longer created using the row PMO but the ContainerPmo. *You need to change existing translation keys in you linkki-messages.properties files*
+
+==== Refactoring for labels
+
+With the refactoring of aspects for table columns, the label also gets bound using aspects. If you have created a custom component that does *not* use the common `FieldAspectDefinition` you might need to add the new `LabelAspectDefinition` to your component.
+
+Beside this refactoring some concept according the labels has changed. With our experience in multiple projects it turned out that in almost all cases the label is specified directly with the field annotation. However until now the label was no required property. There was a rarely known fallback, the capitalized property name was used when no label was specified. Additionally there was a special property `noLabel` to disable the label.
+
+With this version the fallback to the property name was removed. *An empty label simply means no label.* Therefore the `noLabel` property was removed, too. To avoid problems during migration the label becomes mandatory, that means you need to specify a label or empty String to show no label.
+
+In `@UIButton` and `@UICheckBox` there was a property `showLabel` instead of `noLabel` because for buttons and check box fields the default is showing no label. Instead both fields have a caption which is shown on top of the button or to the right of the check box. The property `showLabel` was also removed, the default for `label` is still the empty String.
 
 ==== Refactoring @Bind
 
 The Annotation `@Bind` was refactored to allow creating other variations (see <<custom-binding-annotation, Custom Binding Annotation>>).
 During this refactoring, a fallback mechanism to determine the `pmoProperty` attribute from the name of the annotated method (or field) as for the UI annotations has been implemented as well.
-
-=== January 10th, 2019
 
 ==== ComponentFactory.sizedLabel deprecated
 

@@ -18,7 +18,7 @@ These `.properties` files contain messages in text form, each file represents on
 
 === Predefined key structure for linkki PMO
 
-An entry for a PMO property in the `.properties` files consists of two parts: The "key" that identifies a localizable aspect of a PMO property and the text, seperated by `=`.
+An entry for a translation in the `linkki-messages.properties` files consists of two parts: The "key" that identifies a localizable aspect of a PMO property and the text, seperated by `=`.
 The key is a String that consists of the PMOs class name, the name of the PMO property name and the localizable aspect of the property, seperated by `_`. The `linkki-messages.properties` file from the picture above looks like this:
 
 [source,java]
@@ -26,15 +26,16 @@ The key is a String that consists of the PMOs class name, the name of the PMO pr
 include::{source-dir-binding-sample}/resources/org/linkki/samples/binding/pmo/linkki-messages.properties[tags=properties]
 ----
 
-The second entry of the above `.properties` file points to the PMO `ContactRowPmo`, and provides an English translation for the label of its property `name`:
+For tables the property keys for the columns are *not* derived from the row PMO class name but using the `ContainerPmo` class name. Although the properties are easily described in the row PMO, the table column belongs to the whole table and not to a single row. The second entry of the above `.properties` file points to the PMO `ContactTablePmo`, and provides an English translation for the label of its column `name`:
 
 [source,java]
 ----
 include::{source-dir-binding-sample}/java/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
 ----
 
-Note that linkki always tries to retrieve a value from the `linkki-messages.properties`, if the file exists. That means that the label "Name" that is defined directly in the annotation `UiLabel` above will not be used in this constellation. The entry `ContactRowPmo_name_label=name` overrides it as default value if there is no specific `.properties` file for the users locale.
+NOTE: linkki always tries to retrieve a value from the `linkki-messages.properties`, if the file exists. That means that the label "Name" that is defined directly in the annotation `@UILabel` above will not be used in this constellation. The entry `ContactTablePmo_name_label=name` overrides it as default value if there is no specific `.properties` file for the user's locale.
 
+[[nls-properties]]
 === Translatable PMO properties
 
 All aspects containing String values can be translated. Frequently used examples are label, caption and toolip. Section captions can also be translated. Its key does not contain a property name but only the PMOs class name and "_caption". For example:

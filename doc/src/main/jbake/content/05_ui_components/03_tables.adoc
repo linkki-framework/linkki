@@ -26,27 +26,49 @@ Here, the annotation <<ui-element,UI element>> defines the column in the table. 
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
 ----
 
+That means every property that was found in the row PMO class provided by the `ContainerPmo` is set up as a column. That means every defined property specifies the setup of the column as well as the concrete field inside the table's cell. Next to all aspects that are provided by `@UITableColumn` it takes the label from the field definition.
+
+IMPORTANT: The properties of a table column are described using the properties in the row PMO. But these properties cannot be bound to any specific row PMO instance (there might be none if the table is empty or many if there are a lot of rows). Hence all bindings are directed to the `ContainerPmo` instance. That also means: If you want to <<nls-properties,translate a column label>> the key is created using the class name of the `ContainerPmo` *not* the row PMO.
+
 [[ui-table-column]]
 ===== @UITableColumn
 
-By design all properties of a PMO are presented in the table. With the annotation `@UITableColumn` the column width can be set via the properties `width` (in pixels) or `expandRatio`.
+By design all properties of a PMO are presented in the table. With the annotation `@UITableColumn` additional properties of a table column could be bound.
+
+To modify the column size you could use the properties `width` (in pixels) or `expandRatio`.
 
 NOTE: If both properties are set, `width` has a higher priority than `expandRatio`.
+
+Additionally, with the property `collapsible`, you could specify a `CollapseMode` to let the column be collapsible or initially collapsed.
+
+
+[[ui-simple-table-pmo]]
+==== SimpleTablePmo
+
+Most commonly, the row PMO objects are converted from a list of model objects. In this case, the abstract class `org.linkki.core.ui.table.SimpleTablePmo<MO, ROW>` may be extended. This abstract class defines a constructor that requires the list or the supplier for the list of model objects. Additionally the method `createRow(MO)` needs to be implemented. This method simply takes a model object and creates a row PMO for it. A simple example may look like this:
+
+[source, java]
+----
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/SimpleContactTablePmo.java[tags=simpleContactTablePmo]
+----
+
+The `SimpleTablePmo` is an abstract convenience implementation of the `ContainerPmo`.
 
 [[ui-container-pmo]]
 ==== ContainerPmo
 
-A `ContainerPmo` is a class that implements the interface `ContainerPmo<T>` and is annotated with `@UISection`. The main function of a `ContainerPmo` is providing the PMOs to be rendered in the table.
+A `ContainerPmo` is a class that implements the interface `ContainerPmo<T>` and might be annotated with `@UISection` to show the table in a `TableSection`. The main function of a `ContainerPmo` is providing the PMOs to be rendered in the table.
 
-The method `List<T> getItems()` is called by the `TableBinding` to add the elements to the table. It should always return the same instance of `List<T>`. The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
+The method `List<T> getItems()` is called by the `TableBinding` to add the elements to the table. It should always return the same instance of `List<T>` as long as the items do not change. The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
 
-By overwriting the `default` method `int getPageLength()` the number of lines shown can be controlled. By default 15 lines are shown. It is a common tactic to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
+By overwriting the default method `int getPageLength()` the number of lines shown can be controlled. By default 15 lines are shown. It is a common tactic to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
 
-```java
+[source, java]
+----
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactTablePmo.java[tags=page-length]
-```
+----
 
-The column structure of the table is determined by the class <<ui-row-pmo, row PMO>>, which is returned by the method `Class<? extends T> getItemPmoClass`. In the default implementation the class of the generic parameter `T` is returned. For tables that should have the same rows but different columns, this method can be overwritten to use a subclass of `T`.
+The column structure of the table is determined by the <<ui-row-pmo, row PMO>> class, which is returned by the method `Class<? extends T> getItemPmoClass`. In the default implementation the class of the generic parameter `T` is returned. To support extensible tables which are configured with other columns, the method can be overwritten and return a subclass of `T`.
 
 If the table should support the adding of items, the `default` method `Optional<ButtonPmo> getAddItemButtonPmo` must be overwritten. How a `ButtonPmo` is created is described in the chapter <<button-pmo, ButtonPmo>>.
 
@@ -64,16 +86,6 @@ The instancing is done with two parameters
 [source, java]
 ----
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactTablePmo.java[tags=item-supplier]
-----
-
-[[ui-simple-table-pmo]]
-==== SimpleTablePmo
-
-Most commonly, the row PMO objects are converted from a list of model objects. In this case, the abstract class `org.linkki.core.ui.table.SimpleTablePmo<MO, ROW>` may be extended. This abstract class defines a constructor that requires the list or the supplier for the list of model objects. Additionally the method `createRow(MO)` needs to be implemented. This method simply get a model object and creates a row PMO for it. The same example as in the previous section may look like this:
-
-[source, java]
-----
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/SimpleContactTablePmo.java[tags=simpleContactTablePmo]
 ----
 
 [[ui-hierarchical-table]]

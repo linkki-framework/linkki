@@ -20,6 +20,7 @@ import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UITableColumn;
+import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 import org.linkki.samples.binding.model.Contact;
 
 import com.vaadin.server.FontAwesome;
@@ -73,7 +74,7 @@ public class ContactRowPmo {
     }
     // end::contactRowPmo-labelBinding[]
 
-    @UITableColumn(expandRatio = 0.8F)
+    @UITableColumn(expandRatio = 0.8F, collapsible = CollapseMode.INITIALLY_COLLAPSED)
     @UILabel(position = 20, label = "Address")
     public String getAddress() {
         return contact.getAddress().asSingleLineString();
