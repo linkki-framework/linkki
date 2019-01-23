@@ -34,7 +34,6 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  * {@link WrapperType#COMPONENT} the type is not fixed to {@link WrapperType#COMPONENT} and should be as
  * narrow as possible (for example {@link WrapperType#FIELD} or {@link WrapperType#LAYOUT}.
  */
-
 public class CaptionComponentWrapper implements ComponentWrapper {
 
     private static final long serialVersionUID = 1L;
