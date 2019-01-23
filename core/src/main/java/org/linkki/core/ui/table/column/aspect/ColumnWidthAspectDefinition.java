@@ -15,15 +15,15 @@
 package org.linkki.core.ui.table.column.aspect;
 
 import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
 
-public class ColumnCollapseAspectDefinition extends ColumnAspectDefinition<CollapseMode> {
+public class ColumnWidthAspectDefinition extends ColumnAspectDefinition<Integer> {
 
-    public static final String NAME = "collapsible";
+    public static final String NAME = "width";
+    public static final int UNDEFINED_WIDTH = -1;
 
-    public ColumnCollapseAspectDefinition() {
-        super(NAME, CollapseMode.NOT_COLLAPSIBLE, UITableColumn::collapsible, TableColumnWrapper::setCollapseMode);
+    public ColumnWidthAspectDefinition() {
+        super(NAME, UNDEFINED_WIDTH, UITableColumn::width, TableColumnWrapper::setWidth);
     }
 }
 

@@ -38,9 +38,7 @@ import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
 import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.util.BeanUtils;
 
@@ -54,7 +52,6 @@ public class UIAnnotationReader {
 
     private final Class<?> annotatedClass;
     private final Map<@NonNull String, @NonNull PropertyElementDescriptors> descriptorsByProperty = new HashMap<>();
-    private final Map<@NonNull PropertyElementDescriptors, @NonNull TableColumnDescriptor> columnDescriptors = new HashMap<>();
 
     public UIAnnotationReader(Class<?> annotatedClass) {
         this.annotatedClass = requireNonNull(annotatedClass, "annotatedClass must not be null");
@@ -81,11 +78,6 @@ public class UIAnnotationReader {
             addDescriptor(elementDescriptors, uiElement, pmoPropertyName, annotation, aspectDefs);
         } else {
             elementDescriptors.addAspect(aspectDefs);
-
-            if (annotation instanceof UITableColumn) {
-                columnDescriptors.put(elementDescriptors,
-                                      new TableColumnDescriptor(annotatedClass, method, (UITableColumn)annotation));
-            }
         }
     }
 
@@ -122,10 +114,6 @@ public class UIAnnotationReader {
                 .get();
     }
 
-    public boolean hasTableColumnAnnotation(PropertyElementDescriptors d) {
-        return columnDescriptors.containsKey(d);
-    }
-
     /**
      * Returns all descriptors that are found by this reader. The descriptors are ordered by their
      * position.
@@ -153,10 +141,6 @@ public class UIAnnotationReader {
                                                                   propertiesWithSamePosition,
                                                                   annotatedClass.getName()));
                 });
-    }
-
-    public Optional<TableColumnDescriptor> getTableColumnDescriptor(PropertyElementDescriptors d) {
-        return Optional.ofNullable(columnDescriptors.get(d));
     }
 
     /**

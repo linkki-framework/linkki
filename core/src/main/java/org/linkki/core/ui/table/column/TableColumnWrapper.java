@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 
 package org.linkki.core.ui.table.column;
@@ -20,14 +20,16 @@ import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
 import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
+import org.linkki.core.ui.table.column.aspect.ColumnExpandRatioAspectDefinition;
+import org.linkki.core.ui.table.column.aspect.ColumnWidthAspectDefinition;
 
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 
 /**
- * Wrapper for the column header. The column and column header is no real component in vaadin7,
- * hence this wrapper has no real component to wrap. It is more useful to use only methods directly
- * provided by this wrapper than using the return value of {@link #getComponent()}.
+ * Wrapper for the column header. The column and column header is no real component in vaadin7, hence
+ * this wrapper has no real component to wrap. It is more useful to use only methods directly provided
+ * by this wrapper than using the return value of {@link #getComponent()}.
  */
 public class TableColumnWrapper implements ComponentWrapper {
 
@@ -106,6 +108,18 @@ public class TableColumnWrapper implements ComponentWrapper {
         if (table.isColumnCollapsingAllowed()) {
             table.setColumnCollapsible(propertyName, collapseMode.isCollapsible());
             table.setColumnCollapsed(propertyName, collapseMode.isInitiallyCollapsed());
+        }
+    }
+
+    public void setWidth(int width) {
+        if (width != ColumnWidthAspectDefinition.UNDEFINED_WIDTH) {
+            table.setColumnWidth(propertyName, width);
+        }
+    }
+
+    public void setExpandRatio(float expandRatio) {
+        if (expandRatio != ColumnExpandRatioAspectDefinition.UNDEFINED_EXPAND_RATIO) {
+            table.setColumnExpandRatio(propertyName, expandRatio);
         }
     }
 

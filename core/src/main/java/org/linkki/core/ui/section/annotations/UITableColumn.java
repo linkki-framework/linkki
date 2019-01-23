@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section.annotations;
 
@@ -20,15 +20,17 @@ import java.lang.annotation.Target;
 
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.table.column.aspect.ColumnCollapseAspectDefinition;
+import org.linkki.core.ui.table.column.aspect.ColumnExpandRatioAspectDefinition;
+import org.linkki.core.ui.table.column.aspect.ColumnWidthAspectDefinition;
 
 import com.vaadin.ui.Table;
 
 /**
- * Annotation that allows to customize the column for a PMO's field/method that is rendered in a
- * table column.
+ * Annotation that allows to customize the column for a PMO's field/method that is rendered in a table
+ * column.
  * 
- * @implNote This annotation is <em>not</em> required for a field/method to be rendered in a column.
- *           All fields/methods with one of the {@code @UI...} annotations
+ * @implNote This annotation is <em>not</em> required for a field/method to be rendered in a column. All
+ *           fields/methods with one of the {@code @UI...} annotations
  *           ({@link UITextField @UITextField}, {@link UICheckBox @UICheckBox} etc.) are rendered
  *           automatically. This annotation allows optional customization and can be omitted if no
  *           customization is needed.
@@ -36,44 +38,12 @@ import com.vaadin.ui.Table;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiAspect(ColumnCollapseAspectDefinition.class)
+@LinkkiAspect(ColumnWidthAspectDefinition.class)
+@LinkkiAspect(ColumnExpandRatioAspectDefinition.class)
 public @interface UITableColumn {
 
-    static final int UNDEFINED_WIDTH = -1;
-    static final float UNDEFINED_EXPAND_RATIO = -1.0f;
-
-    /**
-     * Defines whether a column can be collapsed and whether it initially is.
-     */
-    public enum CollapseMode {
-        /**
-         * The column is always shown.
-         */
-        NOT_COLLAPSIBLE(false, false),
-        /**
-         * The column is collapsible and is initially visible.
-         */
-        COLLAPSIBLE(true, false),
-        /**
-         * The column is collapsible and is initially collapsed.
-         */
-        INITIALLY_COLLAPSED(true, true);
-
-        private final boolean collapsible;
-        private final boolean initiallyCollapsed;
-
-        private CollapseMode(boolean collapsible, boolean initiallyCollapsed) {
-            this.collapsible = collapsible;
-            this.initiallyCollapsed = initiallyCollapsed;
-        }
-
-        public boolean isCollapsible() {
-            return collapsible;
-        }
-
-        public boolean isInitiallyCollapsed() {
-            return initiallyCollapsed;
-        }
-    }
+    static final int UNDEFINED_WIDTH = ColumnWidthAspectDefinition.UNDEFINED_WIDTH;
+    static final float UNDEFINED_EXPAND_RATIO = ColumnExpandRatioAspectDefinition.UNDEFINED_EXPAND_RATIO;
 
     /**
      * Configures the width in pixels for the column.
@@ -104,5 +74,39 @@ public @interface UITableColumn {
      * @implNote Table columns are by default not collapsible.
      */
     CollapseMode collapsible() default CollapseMode.NOT_COLLAPSIBLE;
+
+    /**
+     * Defines whether a column can be collapsed and whether it initially is.
+     */
+    public enum CollapseMode {
+        /**
+         * The column is always shown.
+         */
+        NOT_COLLAPSIBLE(false, false),
+        /**
+         * The column is collapsible and is initially visible.
+         */
+        COLLAPSIBLE(true, false),
+        /**
+         * The column is collapsible and is initially collapsed.
+         */
+        INITIALLY_COLLAPSED(true, true);
+    
+        private final boolean collapsible;
+        private final boolean initiallyCollapsed;
+    
+        private CollapseMode(boolean collapsible, boolean initiallyCollapsed) {
+            this.collapsible = collapsible;
+            this.initiallyCollapsed = initiallyCollapsed;
+        }
+    
+        public boolean isCollapsible() {
+            return collapsible;
+        }
+    
+        public boolean isInitiallyCollapsed() {
+            return initiallyCollapsed;
+        }
+    }
 
 }

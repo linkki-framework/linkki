@@ -1,22 +1,21 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.table;
 
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
@@ -28,7 +27,6 @@ import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.components.LabelComponentWrapper;
-import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
 
 import com.vaadin.ui.Component;
@@ -111,19 +109,6 @@ public class PmoBasedTableFactory<@NonNull T> {
         List<LinkkiAspectDefinition> aspectDefs = elementDesc.getAllAspects();
         tableBinding.bind(containerPmo, new SimpleBindingDescriptor(propertyName, aspectDefs),
                           new TableColumnWrapper(table, propertyName));
-        setConfiguredColumnWidthOrExpandRatio(table, elementDesc);
-    }
-
-    private void setConfiguredColumnWidthOrExpandRatio(Table table, PropertyElementDescriptors elementDesc) {
-        Optional<TableColumnDescriptor> column = annotationReader.getTableColumnDescriptor(elementDesc);
-        column.ifPresent(c -> {
-            c.checkValidConfiguration();
-            if (c.isCustomWidthDefined()) {
-                table.setColumnWidth(elementDesc.getPmoPropertyName(), c.getWidth());
-            } else if (c.isCustomExpandRatioDefined()) {
-                table.setColumnExpandRatio(elementDesc.getPmoPropertyName(), c.getExpandRatio());
-            }
-        });
     }
 
     private TableBinding<T> bindTable(Table table) {
