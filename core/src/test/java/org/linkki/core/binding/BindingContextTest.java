@@ -185,7 +185,7 @@ public class BindingContextTest {
         assertThat(binding, is(instanceOf(TableBinding.class)));
         @SuppressWarnings("unchecked")
         TableBinding<TestRowPmo> tableBinding = (TableBinding<TestRowPmo>)binding;
-        assertThat(tableBinding.getBindings(), hasSize(3));
+        assertThat(tableBinding.getBindings(), hasSize(7));
 
         context.removeBindingsForComponent(table);
         assertThat(context.getBindings(), is(empty()));
@@ -235,7 +235,7 @@ public class BindingContextTest {
         assertThat(binding, is(instanceOf(TableBinding.class)));
         @SuppressWarnings("unchecked")
         TableBinding<TestRowPmo> tableBinding = (TableBinding<TestRowPmo>)binding;
-        assertThat(tableBinding.getBindings(), hasSize(3));
+        assertThat(tableBinding.getBindings(), hasSize(7));
 
         context.removeBindingsForPmo(tablePmo);
         assertThat(context.getBindings(), is(empty()));
@@ -261,8 +261,7 @@ public class BindingContextTest {
         when(fieldDefintion.required()).thenReturn(RequiredType.REQUIRED);
         when(fieldDefintion.enabled()).thenReturn(EnabledType.ENABLED);
         when(fieldDefintion.visible()).thenReturn(VisibleType.VISIBLE);
-        ElementDescriptor fieldDescriptor = new ElementDescriptor(fieldDefintion, "value", Void.class,
-                new ArrayList<>());
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(fieldDefintion, "value", new ArrayList<>());
 
         // Precondition
         assertThat(field.isImmediate(), is(false));

@@ -82,7 +82,7 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UITextField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, columns = COLUMNS, maxLength = MAX_LENGTH)
+        @UITextField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, columns = COLUMNS, maxLength = MAX_LENGTH)
         public void value() {
             // model binding
         }

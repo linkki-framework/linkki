@@ -157,7 +157,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UIComboBox(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
+        @UIComboBox(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
         public void value() {
             // model binding
         }

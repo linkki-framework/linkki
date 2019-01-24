@@ -105,7 +105,7 @@ public class UISubsetChooserIntegrationTest
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UISubsetChooser(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, leftColumnCaption = "leftC", rightColumnCaption = "rightC")
+        @UISubsetChooser(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, leftColumnCaption = "leftC", rightColumnCaption = "rightC")
         public void value() {
             // model binding
         }

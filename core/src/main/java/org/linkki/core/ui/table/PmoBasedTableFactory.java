@@ -1,34 +1,33 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.table;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TableBinding;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
+import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
-import org.linkki.core.nls.pmo.PmoLabelType;
-import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.components.LabelComponentWrapper;
-import org.linkki.core.ui.section.annotations.TableColumnDescriptor;
-import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
+import org.linkki.core.ui.table.column.TableColumnWrapper;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
@@ -39,8 +38,6 @@ import com.vaadin.ui.TreeTable;
  * A factory to create a table based on a {@link ContainerPmo}.
  */
 public class PmoBasedTableFactory<@NonNull T> {
-
-    private PmoNlsService pmoNlsService;
 
     private final ContainerPmo<T> containerPmo;
 
@@ -61,7 +58,6 @@ public class PmoBasedTableFactory<@NonNull T> {
         this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         this.rowPmoClass = containerPmo.getItemPmoClass();
         this.annotationReader = new UIAnnotationReader(rowPmoClass);
-        pmoNlsService = PmoNlsService.get();
     }
 
     /**
@@ -70,18 +66,8 @@ public class PmoBasedTableFactory<@NonNull T> {
     public Table createTable() {
         Table table = createTableComponent();
         TableBinding<T> tableBinding = bindTable(table);
-        createColumns(tableBinding);
         tableBinding.init();
-        boolean hasCollapsibleColumn = annotationReader.getUiElements()
-                .map(annotationReader::getTableColumnDescriptor)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(TableColumnDescriptor::getCollapseMode)
-                .anyMatch(CollapseMode::isCollapsible);
-        table.setColumnCollapsingAllowed(hasCollapsibleColumn);
-        if (hasCollapsibleColumn) {
-            annotationReader.getUiElements().forEach(e -> setCollapsed(table, e));
-        }
+        createColumns(tableBinding);
         table.setPageLength(containerPmo.getPageLength());
         return table;
     }
@@ -100,6 +86,7 @@ public class PmoBasedTableFactory<@NonNull T> {
         table.setHeightUndefined();
         table.setWidth("100%");
         table.setSortEnabled(false);
+        table.setId(containerPmo.getClass().getSimpleName());
         return table;
     }
 
@@ -119,30 +106,9 @@ public class PmoBasedTableFactory<@NonNull T> {
         FieldColumnGenerator<T> columnGen = new FieldColumnGenerator<>(elementDesc, tableBinding);
         String propertyName = elementDesc.getPmoPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
-        table.setColumnHeader(propertyName,
-                              pmoNlsService.getLabel(PmoLabelType.PROPERTY_LABEL, rowPmoClass, propertyName,
-                                                     elementDesc.getLabelText()));
-        setConfiguredColumnWidthOrExpandRatio(table, elementDesc);
-    }
-
-    private void setCollapsed(Table table, PropertyElementDescriptors elementDesc) {
-        Optional<TableColumnDescriptor> column = annotationReader.getTableColumnDescriptor(elementDesc);
-        CollapseMode collapseMode = column.map(TableColumnDescriptor::getCollapseMode)
-                .orElse(CollapseMode.NOT_COLLAPSIBLE);
-        table.setColumnCollapsible(elementDesc.getPmoPropertyName(), collapseMode.isCollapsible());
-        table.setColumnCollapsed(elementDesc.getPmoPropertyName(), collapseMode.isInitiallyCollapsed());
-    }
-
-    private void setConfiguredColumnWidthOrExpandRatio(Table table, PropertyElementDescriptors elementDesc) {
-        Optional<TableColumnDescriptor> column = annotationReader.getTableColumnDescriptor(elementDesc);
-        column.ifPresent(c -> {
-            c.checkValidConfiguration();
-            if (c.isCustomWidthDefined()) {
-                table.setColumnWidth(elementDesc.getPmoPropertyName(), c.getWidth());
-            } else if (c.isCustomExpandRatioDefined()) {
-                table.setColumnExpandRatio(elementDesc.getPmoPropertyName(), c.getExpandRatio());
-            }
-        });
+        List<LinkkiAspectDefinition> aspectDefs = elementDesc.getAllAspects();
+        tableBinding.bind(containerPmo, new SimpleBindingDescriptor(propertyName, aspectDefs),
+                          new TableColumnWrapper(table, propertyName));
     }
 
     private TableBinding<T> bindTable(Table table) {

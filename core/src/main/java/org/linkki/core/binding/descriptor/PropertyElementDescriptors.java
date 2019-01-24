@@ -13,19 +13,21 @@
  */
 package org.linkki.core.binding.descriptor;
 
+import static java.util.stream.Collectors.toList;
+
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
 
@@ -36,28 +38,23 @@ import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
  * In case only one {@link ElementDescriptor} exists for a position, no additional method is needed in
  * the PMO. <br>
  * Otherwise to resolve which ElementDescriptor shall be used, the PMO must provide a method with the
- * signature: {@code public Class get[pmoPropertyName]ComponentType()} see
- * {@link PropertyNamingConvention#getComponentTypeProperty(String)}.
+ * signature: {@code public Class get[pmoPropertyName]ComponentType()}.
  * <p>
  * NOTE: If more UIElements are specified for a property, the annotations must have the same position
- * and the {@code label}'s must be equal otherwise an {@link IllegalStateException} will be thrown.
+ * otherwise an {@link IllegalStateException} will be thrown.
  */
 public class PropertyElementDescriptors {
 
-    private static final PropertyNamingConvention PROPERTY_NAMING_CONVENTION = new PropertyNamingConvention();
+    private static final String COMPONENT_PROPERTY_SUFFIX = "ComponentType";
 
     private final Map<@NonNull Class<? extends Annotation>, @NonNull ElementDescriptor> descriptors;
+
     private final String pmoPropertyName;
+
     private int position;
-    private String labelText = StringUtils.EMPTY;
+
     private final List<LinkkiAspectDefinition> additionalAspects = new ArrayList<>();
 
-    // position and labelText are null at initilization but
-    // the first element is added immediatly after the creation of the
-    // object
-    // since this constructor is package-private it can not be called from
-    // a user of the framework so it's ok...
-    // to make eclipse happy we suppress the null warning :/
     PropertyElementDescriptors(String pmoPropertyName) {
         this.pmoPropertyName = pmoPropertyName;
         this.descriptors = new HashMap<>(2);
@@ -71,29 +68,26 @@ public class PropertyElementDescriptors {
         return pmoPropertyName;
     }
 
-    public String getLabelText() {
-        return labelText;
+    public ElementDescriptor getDescriptor(Object pmo) {
+        ElementDescriptor descriptor = findDescriptor(pmo);
+        descriptor.addAspectDefinitions(additionalAspects);
+        return descriptor;
     }
 
-    public ElementDescriptor getDescriptor(Object pmo) {
-        @NonNull
-        ElementDescriptor descriptor;
+    private ElementDescriptor findDescriptor(Object pmo) {
         if (descriptors.size() == 1) {
-            descriptor = descriptors.values()
-                    .iterator()
-                    .next();
+            return descriptors.values()
+                    .iterator().next();
         } else {
             Class<? extends Annotation> initialAnnotation = getInitialAnnotationClassFromPmo(pmo);
             @Nullable
-            ElementDescriptor descriptorFromAnnotation = descriptors.get(initialAnnotation);
-            if (descriptorFromAnnotation == null) {
+            ElementDescriptor descriptor = descriptors.get(initialAnnotation);
+            if (descriptor == null) {
                 throw new IllegalStateException(String.format("No descriptor found for annotation @%s for property %s",
                                                               initialAnnotation.getSimpleName(), pmoPropertyName));
             }
-            descriptor = descriptorFromAnnotation;
+            return descriptor;
         }
-        descriptor.addAspectDefinitions(additionalAspects);
-        return descriptor;
     }
 
     void addDescriptor(Annotation annotation, ElementDescriptor descriptor, Class<?> pmoClass) {
@@ -103,7 +97,6 @@ public class PropertyElementDescriptors {
 
         if (descriptors.isEmpty()) {
             position = descriptor.getPosition();
-            labelText = descriptor.getLabelText();
         } else {
             validateDynamicFieldDescriptor(descriptor, pmoClass);
         }
@@ -112,25 +105,20 @@ public class PropertyElementDescriptors {
     }
 
     /**
-     * A property can only have two different descriptors if the have the same position and a method
-     * with {@link PropertyNamingConvention#getComponentTypeProperty(String)} exists for the property.
+     * A property can only have two different descriptors if they have the same position and a method
+     * with {@link #getComponentTypeProperty(String)} exists for the property.
      */
     private void validateDynamicFieldDescriptor(ElementDescriptor descriptor, Class<?> pmoClass) {
         Validate.validState(descriptor.getPosition() == position, String
                 .format("UIElement annotations for property '%s' do not all have the same position",
                         pmoPropertyName));
 
-        Validate.validState(Objects.equals(labelText, descriptor.getLabelText()),
-                            "Labels for property %s in pmo class %s don't match. Values are: '%s' and '%s'",
-                            pmoPropertyName, pmoClass.getName(), labelText, descriptor.getLabelText());
-
         PropertyAccessor<?, ?> propertyAccessor = PropertyAccessorCache
-                .get(pmoClass, PROPERTY_NAMING_CONVENTION.getComponentTypeProperty(getPmoPropertyName()));
+                .get(pmoClass, getComponentTypeProperty(getPmoPropertyName()));
         if (!propertyAccessor.canRead()) {
             throw new IllegalStateException(String
                     .format("Method %s must be present in pmo class %s if more than one UIElement is defined for the same property %s",
-                            "get" + StringUtils.capitalize(PROPERTY_NAMING_CONVENTION
-                                    .getComponentTypeProperty(getPmoPropertyName())),
+                            "get" + StringUtils.capitalize(getComponentTypeProperty(getPmoPropertyName())),
                             pmoClass, pmoPropertyName));
         }
     }
@@ -138,8 +126,12 @@ public class PropertyElementDescriptors {
     @SuppressWarnings("unchecked")
     private Class<? extends Annotation> getInitialAnnotationClassFromPmo(Object pmo) {
         PropertyAccessor<@NonNull Object, @NonNull ?> propertyAccessor = (PropertyAccessor<Object, ?>)PropertyAccessorCache
-                .get(pmo.getClass(), PROPERTY_NAMING_CONVENTION.getComponentTypeProperty(getPmoPropertyName()));
+                .get(pmo.getClass(), getComponentTypeProperty(getPmoPropertyName()));
         return (Class<? extends Annotation>)propertyAccessor.getPropertyValue(pmo);
+    }
+
+    private String getComponentTypeProperty(String property) {
+        return StringUtils.uncapitalize(property + COMPONENT_PROPERTY_SUFFIX);
     }
 
     public void addAspect(List<LinkkiAspectDefinition> aspectDefs) {
@@ -149,4 +141,18 @@ public class PropertyElementDescriptors {
     public boolean isNotEmpty() {
         return !descriptors.isEmpty();
     }
+
+    /**
+     * Returns all {@link LinkkiAspectDefinition aspect definitions} from all {@link ElementDescriptor
+     * ElementDescriptors} and all {@link #addAspect(List) added aspect definitions}.
+     */
+    public List<LinkkiAspectDefinition> getAllAspects() {
+        return Stream.concat(
+                             descriptors.values().stream()
+                                     .map(d -> d.getAspectDefinitions())
+                                     .flatMap(Collection::stream),
+                             additionalAspects.stream())
+                .collect(toList());
+    }
+
 }

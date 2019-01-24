@@ -74,8 +74,4 @@ public class CheckboxBindingDefinition implements BindingDefinition {
         return uiCheckBox.modelAttribute();
     }
 
-    @Override
-    public boolean showLabel() {
-        return !uiCheckBox.noLabel();
-    }
 }

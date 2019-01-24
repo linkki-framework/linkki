@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.VisibleType;
 
@@ -30,7 +29,7 @@ import org.linkki.core.ui.section.annotations.VisibleType;
  */
 public abstract class VisibleAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
-    public static final String NAME = PropertyNamingConvention.VISIBLE_PROPERTY_SUFFIX;
+    public static final String NAME = "visible";
 
     @Override
     public Aspect<Boolean> createAspect() {

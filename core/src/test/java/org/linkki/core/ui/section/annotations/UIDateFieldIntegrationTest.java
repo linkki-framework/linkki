@@ -199,7 +199,7 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UIDateField(position = 1, noLabel = true, enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, dateFormat = FANCY_FORMAT)
+        @UIDateField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, dateFormat = FANCY_FORMAT)
         public void value() {
             // model binding
         }

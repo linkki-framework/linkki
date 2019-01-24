@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section;
 
@@ -77,6 +77,12 @@ public class SectionCreationContextTest {
         assertThat(section, is(instanceOf(HorizontalSection.class)));
     }
 
+    @Test
+    public void testSectionWithCustomLayout_shouldCreateCustomLayoutSection() {
+        BaseSection section = createContext(new SectionWithCustomLayout()).createSection();
+        assertThat(section, is(instanceOf(CustomLayoutSection.class)));
+    }
+
     @SuppressWarnings("null")
     @Test
     public void testSectionWithoutAnnotation_usesDefaultValues() {
@@ -95,7 +101,7 @@ public class SectionCreationContextTest {
             return "test-ID";
         }
 
-        @UITextField(position = 0)
+        @UITextField(position = 0, label = "")
         public String getTestProperty() {
             return "some_value";
         }
@@ -108,6 +114,11 @@ public class SectionCreationContextTest {
 
     @UISection(layout = SectionLayout.HORIZONTAL)
     private static class SectionWithHorizontalLayout {
+        // no content required
+    }
+
+    @UISection(layout = SectionLayout.CUSTOM)
+    private static class SectionWithCustomLayout {
         // no content required
     }
 

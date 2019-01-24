@@ -22,6 +22,7 @@ import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.components.WrapperType;
 import org.linkki.util.handler.Handler;
 
 /**
@@ -89,14 +90,14 @@ import org.linkki.util.handler.Handler;
 public interface LinkkiAspectDefinition {
 
     /**
-     * Initializes the aspect by providing the annotation that was annotated with
-     * {@link LinkkiAspect}. The annotation may hold information such as a static value or anything
-     * necessary for value post processing.
+     * Initializes the aspect by providing the annotation that was annotated with {@link LinkkiAspect}.
+     * The annotation may hold information such as a static value or anything necessary for value post
+     * processing.
      * <p>
      * In contrast to the other methods this method is called directly after instantiating.
      * <p>
-     * The {@link LinkkiAspectDefinition} is instantiated for every property. That means it is valid
-     * to store the given annotation in a field.
+     * The {@link LinkkiAspectDefinition} is instantiated for every property. That means it is valid to
+     * store the given annotation in a field.
      * 
      * @param annotation the annotation that defines the UI element and is annotated with
      *            {@link LinkkiAspect}
@@ -104,17 +105,16 @@ public interface LinkkiAspectDefinition {
     void initialize(Annotation annotation);
 
     /**
-     * This method is called after {@link #initialize(Annotation)} and is meant to register a
-     * listener at the UI component (which is wrapped in the {@link ComponentWrapper}) to react on
-     * changes in the UI.
+     * This method is called after {@link #initialize(Annotation)} and is meant to register a listener
+     * at the UI component (which is wrapped in the {@link ComponentWrapper}) to react on changes in the
+     * UI.
      * <p>
      * If any changes in the UI occurred the value should be provided to
      * {@link PropertyDispatcher#push(Aspect)}. After the value is given to the
      * {@link PropertyDispatcher} the {@code modelChanged} {@link Handler} has to be triggered.
      * <p>
-     * This method might be called multiple times for example if the PMO defining this aspect
-     * definition is used in a table. Hence it is not allowed to keep any state of the given
-     * parameters.
+     * This method might be called multiple times for example if the PMO defining this aspect definition
+     * is used in a table. Hence it is not allowed to keep any state of the given parameters.
      * 
      * @param propertyDispatcher the {@link PropertyDispatcher} that handles the value of an
      *            {@link Aspect}
@@ -128,24 +128,62 @@ public interface LinkkiAspectDefinition {
     }
 
     /**
-     * Creates a handler that is triggered when the UI has to be updated. When this handler is
-     * called, the value for the bound aspect should be retrieved by calling
+     * Creates a handler that is triggered when the UI has to be updated. When this handler is called,
+     * the value for the bound aspect should be retrieved by calling
      * {@link PropertyDispatcher#pull(Aspect)}. The given {@link Aspect} has to have the name of the
-     * bound aspect and if there is a value (for example defined in the UI field annotation) its
-     * value is also provided within this {@link Aspect}. It is up to the {@link PropertyDispatcher}
-     * to use the value or to return a value from another data source though.
+     * bound aspect and if there is a value (for example defined in the UI field annotation) its value
+     * is also provided within this {@link Aspect}. It is up to the {@link PropertyDispatcher} to use
+     * the value or to return a value from another data source though.
      * <p>
-     * Afterwards, the value that is returned by the {@link PropertyDispatcher} has to be set to the
+     * The handler has to set the value that is returned by the {@link PropertyDispatcher} to the
      * {@link ComponentWrapper}.
      * <p>
-     * This method might be called multiple times for example if the PMO defining this aspect
-     * definition is used in a table. Hence it is not allowed to keep any state of the given
-     * parameters.
+     * This method might be called for different component wrappers. For example if the aspect is bound
+     * to a field within a table, one aspect instance is used for all fields in one column. Hence it is
+     * not allowed to keep any state of the given parameters.
+     * <p>
+     * For every component wrapper this method is called exactly one time when creating the UI. If the
+     * value that should be bound is static and should <em>not</em> be updated with every UI update it
+     * is legal to set the value directly and return {@link Handler#NOP_HANDLER}.
      * 
      * @param propertyDispatcher dispatcher (chain) that retrieves the value of an {@link Aspect} by
      *            using {@link PropertyDispatcher#pull(Aspect)}
      * @param componentWrapper UI component that may need to be updated
+     * 
+     * @see ModelToUiAspectDefinition
+     * @see StaticModelToUiAspectDefinition
      */
     Handler createUiUpdater(PropertyDispatcher propertyDispatcher,
             ComponentWrapper componentWrapper);
+
+
+    /**
+     * Returns <code>true</code> if the given {@link WrapperType} is supported by this
+     * {@link LinkkiAspectDefinition}. The aspect is only evaluated for a specific
+     * {@link ComponentWrapper} if the {@link ComponentWrapper#getType() type of the component wrapper}
+     * is supported, that means this method returns <code>true</code> for that specific type.
+     * <p>
+     * The supported types should not be used to distinguish specific available properties of
+     * components. For example it is not intended to check whether a component supports available values
+     * or not. In these cases it is more likely a misconfiguration(the annotation is falsely applied to
+     * a property bound to an incompatible component) which should lead to an exception. Different types
+     * must be distinguished if there are multiple {@link ComponentWrapper ComponentWrappers} created
+     * for a single property and a set of {@link LinkkiAspectDefinition aspect definitions} must be
+     * split between those {@link ComponentWrapper ComponentWrappers}.
+     * <p>
+     * For example a property in a row PMO is used to describe aspects concerning the field which is in
+     * a cell of a table as well as some aspects that are responsible for the whole column. In this case
+     * the column and the field/cell have a different {@link WrapperType} and the aspects are only
+     * applicable for the one or the other.
+     * 
+     * @implSpec The default implementation supports all kinds of {@link WrapperType#COMPONENT}, that
+     *           means all {@link WrapperType wrapper types} where
+     *           {@code WrapperType.COMPONENT.isAssignableFrom(type)} return <code>true</code>.
+     * 
+     * @return whether a given {@link WrapperType} is supported by this {@link LinkkiAspectDefinition}
+     */
+    default boolean supports(WrapperType type) {
+        return WrapperType.COMPONENT.isAssignableFrom(type);
+    }
+
 }

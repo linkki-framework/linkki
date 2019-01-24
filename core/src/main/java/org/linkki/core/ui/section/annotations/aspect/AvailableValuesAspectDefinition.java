@@ -24,7 +24,6 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
@@ -38,7 +37,7 @@ import com.vaadin.ui.AbstractSelect;
  */
 public abstract class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
 
-    public static final String NAME = PropertyNamingConvention.AVAILABLE_VALUES_PROPERTY_SUFFIX;
+    public static final String NAME = "availableValues";
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {

@@ -19,8 +19,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNull;
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.components.WrapperType;
 import org.linkki.util.handler.Handler;
 
 /**
@@ -51,7 +53,9 @@ public class CompositeAspectDefinition implements LinkkiAspectDefinition {
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        return aspectDefinitions.stream().map(a -> a.createUiUpdater(propertyDispatcher, componentWrapper))
+        return aspectDefinitions.stream()
+                .filter(d -> d.supports(componentWrapper.getType()))
+                .map(a -> a.createUiUpdater(propertyDispatcher, componentWrapper))
                 .reduce(Handler.NOP_HANDLER, Handler::andThen);
     }
 
@@ -59,11 +63,33 @@ public class CompositeAspectDefinition implements LinkkiAspectDefinition {
     public void initModelUpdate(PropertyDispatcher propertyDispatcher,
             ComponentWrapper componentWrapper,
             Handler modelUpdated) {
-        aspectDefinitions.forEach(a -> a.initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated));
+        aspectDefinitions
+                .stream()
+                .filter(d -> d.supports(componentWrapper.getType()))
+                .forEach(a -> {
+                    // CSOFF: IllegalCatch
+                    try {
+                        a.initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated);
+                    } catch (RuntimeException e) {
+                        throw new LinkkiBindingException(
+                                e.getMessage() + " while init model update of " + a.getClass().getSimpleName() + " for "
+                                        + componentWrapper + " <=> "
+                                        + propertyDispatcher,
+                                e);
+                    }
+                    // CSON: IllegalCatch
+                });
     }
 
     @Override
     public void initialize(Annotation annotation) {
         aspectDefinitions.forEach(a -> a.initialize(annotation));
     }
+
+    @Override
+    public boolean supports(WrapperType type) {
+        return aspectDefinitions.stream()
+                .anyMatch(d -> d.supports(type));
+    }
+
 }

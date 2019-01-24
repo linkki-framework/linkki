@@ -72,11 +72,6 @@ public class SubsetChooserBindingDefinition implements BindingDefinition {
         return uiSubsetChooser.modelAttribute();
     }
 
-    @Override
-    public boolean showLabel() {
-        return !uiSubsetChooser.noLabel();
-    }
-
     private ItemCaptionProvider<?> getItemCaptionProvider() {
         try {
             return uiSubsetChooser.itemCaptionProvider().newInstance();

@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
@@ -35,8 +36,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * back to another dispatcher if no property/method is available in the accessed object.
  */
 public class ReflectionPropertyDispatcher implements PropertyDispatcher {
-
-    private final PropertyNamingConvention propertyNamingConvention = new PropertyNamingConvention();
 
     private final PropertyDispatcher fallbackDispatcher;
 
@@ -181,7 +180,11 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     private String getPropertyAspectName(Aspect<?> aspect) {
-        return propertyNamingConvention.getCombinedPropertyName(getProperty(), aspect.getName());
+        if (StringUtils.isEmpty(getProperty())) {
+            return aspect.getName();
+        } else {
+            return StringUtils.uncapitalize(property + StringUtils.capitalize(aspect.getName()));
+        }
     }
 
     /**

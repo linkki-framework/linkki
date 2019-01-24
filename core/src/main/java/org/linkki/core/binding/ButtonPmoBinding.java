@@ -24,7 +24,9 @@ import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.ui.components.CaptionComponentWrapper;
 import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.components.WrapperType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
@@ -56,7 +58,7 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
         this.button = requireNonNull(button, "button must not be null");
         this.propertyDispatcher = requireNonNull(propertyDispatcher, "propertyDispatcher must not be null");
 
-        ButtonPmoButtonWrapper buttonWrapper = new ButtonPmoButtonWrapper(button);
+        CaptionComponentWrapper buttonWrapper = new CaptionComponentWrapper("buttonPmo", button, WrapperType.FIELD);
         ButtonPmoAspectDefinition aspectDefinition = new ButtonPmoAspectDefinition();
         aspectDefinition.initModelUpdate(propertyDispatcher, buttonWrapper, modelChanged);
         uiUpdater = aspectDefinition.createUiUpdater(propertyDispatcher, buttonWrapper);
@@ -160,49 +162,4 @@ public class ButtonPmoBinding implements ElementBinding, Serializable {
         }
     }
 
-    private static class ButtonPmoButtonWrapper implements ComponentWrapper {
-
-        private static final long serialVersionUID = 1L;
-
-        private Button wrappedButton;
-
-        public ButtonPmoButtonWrapper(Button button) {
-            wrappedButton = button;
-        }
-
-        @Override
-        public void setId(String id) {
-            wrappedButton.setId(id);
-        }
-
-        @Override
-        public void setLabel(String labelText) {
-            wrappedButton.setCaption(labelText);
-        }
-
-        @Override
-        public void setEnabled(boolean enabled) {
-            wrappedButton.setEnabled(enabled);
-        }
-
-        @Override
-        public void setVisible(boolean visible) {
-            wrappedButton.setVisible(visible);
-        }
-
-        @Override
-        public void setTooltip(String text) {
-            wrappedButton.setDescription(text);
-        }
-
-        @Override
-        public Button getComponent() {
-            return wrappedButton;
-        }
-
-        @Override
-        public void setValidationMessages(MessageList messagesForProperty) {
-            // do nothing
-        }
-    }
 }

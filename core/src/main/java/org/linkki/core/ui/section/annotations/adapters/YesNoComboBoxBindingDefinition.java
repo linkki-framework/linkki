@@ -74,11 +74,6 @@ public class YesNoComboBoxBindingDefinition implements BindingDefinition {
         return uiYesNoComboBox.modelAttribute();
     }
 
-    @Override
-    public boolean showLabel() {
-        return !uiYesNoComboBox.noLabel();
-    }
-
     private ItemCaptionProvider<?> getItemCaptionProvider() {
         try {
             return uiYesNoComboBox.itemCaptionProvider().newInstance();

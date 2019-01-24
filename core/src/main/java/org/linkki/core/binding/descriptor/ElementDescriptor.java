@@ -19,8 +19,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.nls.pmo.PmoLabelType;
-import org.linkki.core.nls.pmo.PmoNlsService;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 
 import com.vaadin.ui.Component;
@@ -32,17 +30,13 @@ import com.vaadin.ui.Component;
 public class ElementDescriptor extends BindingDescriptor {
 
     private final String pmoPropertyName;
-    private final PmoNlsService pmoNlsService;
-    private final Class<?> pmoClass;
     private final BindingDefinition bindingDefinition;
 
-    public ElementDescriptor(BindingDefinition bindingDefinition, String pmoPropertyName, Class<?> pmoClass,
+    public ElementDescriptor(BindingDefinition bindingDefinition, String pmoPropertyName,
             List<LinkkiAspectDefinition> aspectDefinitions) {
         super(aspectDefinitions);
         this.bindingDefinition = requireNonNull(bindingDefinition, "bindingDefinition must not be null");
         this.pmoPropertyName = requireNonNull(pmoPropertyName, "pmoPropertyName must not be null");
-        this.pmoClass = requireNonNull(pmoClass, "pmoClass must not be null");
-        pmoNlsService = PmoNlsService.get();
     }
 
     protected BindingDefinition getBindingDefinition() {
@@ -52,23 +46,6 @@ public class ElementDescriptor extends BindingDescriptor {
     /** The position of the UI element in its parent/container. */
     public int getPosition() {
         return getBindingDefinition().position();
-    }
-
-    /**
-     * @return the label text as defined by the {@link PmoNlsService}, with fall back to the label
-     *         defined in the annotation and further to the property name.
-     */
-    @SuppressWarnings("null")
-    public String getLabelText() {
-        if (!getBindingDefinition().showLabel()) {
-            return "";
-        }
-
-        String label = getBindingDefinition().label();
-        if (StringUtils.isEmpty(label)) {
-            label = StringUtils.capitalize(getModelPropertyName());
-        }
-        return pmoNlsService.getLabel(PmoLabelType.PROPERTY_LABEL, pmoClass, getPmoPropertyName(), label);
     }
 
     /** Creates a new Vaadin UI component for this UI element. */

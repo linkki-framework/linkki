@@ -16,12 +16,13 @@ package org.linkki.core.ui.components;
 
 import java.io.Serializable;
 
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.message.MessageList;
 
 /**
  * This interface provides the most common API for a component in linkki. Besides the actual UI
  * component, additional components such as a label may be wrapped together for binding. It's
- * encouraged to use an specific implementation rather than using the base class.
+ * encouraged to use a specific implementation rather than using the base class.
  * 
  * @see LabelComponentWrapper
  * 
@@ -72,6 +73,22 @@ public interface ComponentWrapper extends Serializable {
      * @return the unwrapped component
      */
     Object getComponent();
+
+    /**
+     * Returns the {@link WrapperType} this {@link ComponentWrapper} is responsible for. The
+     * {@link WrapperType} is used to determine whether a specific {@link LinkkiAspectDefinition}
+     * supports this {@link ComponentWrapper} or not. If it is not applicable it is ignored silently.
+     * <p>
+     * As {@link WrapperType wrapper types} are hierarchical this type should be the most specific type
+     * this wrapper represents. A specific {@link LinkkiAspectDefinition} might be applicable for a more
+     * a more wider type. For example: a {@link LinkkiAspectDefinition} that supports
+     * {@link WrapperType#COMPONENT} also supports {@link ComponentWrapper} of type
+     * {@link WrapperType#FIELD} because {@link WrapperType#FIELD} is a subtype of
+     * {@link WrapperType#COMPONENT}.
+     * 
+     * @return the {@link WrapperType} of this {@link ComponentWrapper}
+     */
+    WrapperType getType();
 
     /**
      * Specify a list of messages that should be displayed at the component. The component might get

@@ -82,11 +82,6 @@ public class DateFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public boolean showLabel() {
-        return !uiDateField.noLabel();
-    }
-
-    @Override
     public String modelObject() {
         return uiDateField.modelObject();
     }

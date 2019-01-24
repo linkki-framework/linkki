@@ -83,6 +83,7 @@ public class ComponentBindingTest {
     public void testUpdateFromPmo_updateAspect() {
         Handler componentUpdater = mock(Handler.class);
         LinkkiAspectDefinition aspectDefinition = mock(LinkkiAspectDefinition.class);
+        when(aspectDefinition.supports(any())).thenReturn(true);
         when(aspectDefinition.createUiUpdater(any(), any())).thenReturn(componentUpdater);
         ComponentBinding fieldBinding = new ComponentBinding(new LabelComponentWrapper(label, field),
                 propertyDispatcherValue,
@@ -145,7 +146,7 @@ public class ComponentBindingTest {
             this.modelObject = modelObject;
         }
 
-        @UITextField(position = 1, modelAttribute = "text", required = RequiredType.REQUIRED)
+        @UITextField(position = 1, label = "", modelAttribute = "text", required = RequiredType.REQUIRED)
         public void text() {
             // data binding
         }

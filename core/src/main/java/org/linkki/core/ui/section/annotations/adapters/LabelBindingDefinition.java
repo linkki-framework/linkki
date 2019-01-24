@@ -15,7 +15,6 @@ package org.linkki.core.ui.section.annotations.adapters;
 
 import static java.util.Objects.requireNonNull;
 
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
@@ -67,11 +66,6 @@ public class LabelBindingDefinition implements BindingDefinition {
     @Override
     public String label() {
         return labelAnnotation.label();
-    }
-
-    @Override
-    public boolean showLabel() {
-        return StringUtils.isNotBlank(labelAnnotation.label());
     }
 
     @Override

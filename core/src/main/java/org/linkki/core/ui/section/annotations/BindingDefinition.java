@@ -47,9 +47,6 @@ public interface BindingDefinition {
     /** Provides a description label next to the UI component */
     String label();
 
-    /** Used by {@link UIButton} to enable or disable its {@link UIButton#label()} */
-    boolean showLabel();
-
     /** If and how the enabled state of the UI component is bound to the PMO. */
     EnabledType enabled();
 

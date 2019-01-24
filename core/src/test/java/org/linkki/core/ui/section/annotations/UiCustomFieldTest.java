@@ -157,7 +157,7 @@ public class UiCustomFieldTest {
             // data binding
         }
 
-        @UICustomField(position = 10, uiControl = TextField.class)
+        @UICustomField(position = 10, label = "", uiControl = TextField.class)
         public String getNoSelectField() {
             return "test";
         }

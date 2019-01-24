@@ -18,6 +18,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.ui.table.column.aspect.ColumnCollapseAspectDefinition;
+import org.linkki.core.ui.table.column.aspect.ColumnExpandRatioAspectDefinition;
+import org.linkki.core.ui.table.column.aspect.ColumnWidthAspectDefinition;
+
 import com.vaadin.ui.Table;
 
 /**
@@ -32,10 +37,43 @@ import com.vaadin.ui.Table;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiAspect(ColumnCollapseAspectDefinition.class)
+@LinkkiAspect(ColumnExpandRatioAspectDefinition.class)
+@LinkkiAspect(ColumnWidthAspectDefinition.class)
 public @interface UITableColumn {
 
-    static final int UNDEFINED_WIDTH = -1;
-    static final float UNDEFINED_EXPAND_RATIO = -1.0f;
+    static final int UNDEFINED_WIDTH = ColumnWidthAspectDefinition.UNDEFINED_WIDTH;
+    static final float UNDEFINED_EXPAND_RATIO = ColumnExpandRatioAspectDefinition.UNDEFINED_EXPAND_RATIO;
+
+    /**
+     * Configures the width in pixels for the column.
+     * 
+     * @implSpec The default value of -1 means that the column can be sized freely by the layout.
+     * 
+     * @implNote This attribute is mutually exclusive with {@link #expandRatio()}.
+     * 
+     * @see Table#setColumnWidth(Object, int)
+     */
+    int width() default UNDEFINED_WIDTH;
+
+    /**
+     * Configures the expand ratio for the column.
+     * 
+     * @implSpec The expand ratio defines what part of excess available space the layout allots to this
+     *           column.
+     * 
+     * @implNote This attribute is mutually exclusive with {@link #width()}.
+     * 
+     * @see Table#setColumnExpandRatio(Object, float)
+     */
+    float expandRatio() default UNDEFINED_EXPAND_RATIO;
+
+    /**
+     * Configures whether a column can be collapsed and whether it initially is.
+     * 
+     * @implNote Table columns are by default not collapsible.
+     */
+    CollapseMode collapsible() default CollapseMode.NOT_COLLAPSIBLE;
 
     /**
      * Defines whether a column can be collapsed and whether it initially is.
@@ -70,35 +108,5 @@ public @interface UITableColumn {
             return initiallyCollapsed;
         }
     }
-
-    /**
-     * Configures the width in pixels for the column.
-     * 
-     * @implSpec The default value of -1 means that the column can be sized freely by the layout.
-     * 
-     * @implNote This attribute is mutually exclusive with {@link #expandRatio()}.
-     * 
-     * @see Table#setColumnWidth(Object, int)
-     */
-    int width() default UNDEFINED_WIDTH;
-
-    /**
-     * Configures the expand ratio for the column.
-     * 
-     * @implSpec The expand ratio defines what part of excess available space the layout allots to
-     *           this column.
-     * 
-     * @implNote This attribute is mutually exclusive with {@link #width()}.
-     * 
-     * @see Table#setColumnExpandRatio(Object, float)
-     */
-    float expandRatio() default UNDEFINED_EXPAND_RATIO;
-
-    /**
-     * Configures whether a column can be collapsed and whether it initially is.
-     * 
-     * @implNote Table columns are by default not collapsible.
-     */
-    CollapseMode collapsible() default CollapseMode.NOT_COLLAPSIBLE;
 
 }

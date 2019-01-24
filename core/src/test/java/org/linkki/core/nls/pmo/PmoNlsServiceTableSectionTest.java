@@ -46,8 +46,7 @@ public class PmoNlsServiceTableSectionTest {
     @Before
     public void setUp() {
         // test nls setup
-        translatedCaption = PmoNlsService.get().getLabel(PmoLabelType.SECTION_CAPTION, NlsTablePmo.class, null,
-                                                         NlsTablePmo.TABLE_CAPTION);
+        translatedCaption = PmoNlsService.get().getSectionCaption(NlsTablePmo.class, null, NlsTablePmo.TABLE_CAPTION);
         assertThat(translatedCaption, is(not(NlsTablePmo.TABLE_CAPTION)));
         translatedLabel = getTranslatedLabel(NlsTableRowPmo.PROPERTY_VALUE1);
         assertThat(translatedLabel, is(not(NlsTableRowPmo.PMO_LABEL)));
@@ -57,7 +56,7 @@ public class PmoNlsServiceTableSectionTest {
     }
 
     private String getTranslatedLabel(String property) {
-        return PmoNlsService.get().getLabel(NlsTableRowPmo.class, property, "label",
+        return PmoNlsService.get().getLabel(NlsTablePmo.class, property, "label",
                                             NlsTableRowPmo.PMO_LABEL);
     }
 

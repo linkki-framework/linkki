@@ -45,9 +45,7 @@ public @interface UIComboBox {
     int position();
 
     /** Provides a description label next to the UI element */
-    String label() default "";
-
-    boolean noLabel() default false;
+    String label();
 
     /**
      * Specifies the source of the available values, the content of the combo box.
@@ -89,8 +87,8 @@ public @interface UIComboBox {
      * Specifies which {@link ItemCaptionProvider} should be used to convert {@link #content()} into
      * String captions.
      * <p>
-     * Default value assumes that the value class has a method "getName" and uses this method for
-     * the String representation.
+     * Default value assumes that the value class has a method "getName" and uses this method for the
+     * String representation.
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 

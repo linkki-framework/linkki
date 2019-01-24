@@ -119,7 +119,7 @@ public class StaticValueDispatcherTest {
             // nothing to do
         }
 
-        @UIComboBox(position = 3, modelAttribute = DYNAMIC_ENUM_ATTR, content = AvailableValuesType.DYNAMIC, visible = VisibleType.VISIBLE, required = RequiredType.NOT_REQUIRED)
+        @UIComboBox(position = 3, label = "", modelAttribute = DYNAMIC_ENUM_ATTR, content = AvailableValuesType.DYNAMIC, visible = VisibleType.VISIBLE, required = RequiredType.NOT_REQUIRED)
         public void dynamicEnumAttr() {
             // nothing to do
         }
@@ -128,12 +128,12 @@ public class StaticValueDispatcherTest {
             return new Object();
         }
 
-        @UITextField(position = 4, modelAttribute = DISABLED_INVISIBLE, visible = VisibleType.INVISIBLE, enabled = EnabledType.DISABLED, required = RequiredType.NOT_REQUIRED)
+        @UITextField(position = 4, label = "", modelAttribute = DISABLED_INVISIBLE, visible = VisibleType.INVISIBLE, enabled = EnabledType.DISABLED, required = RequiredType.NOT_REQUIRED)
         public void disabledInvisible() {
             // nothing to do
         }
 
-        @UITextField(position = 5, modelAttribute = REQUIRED_IF_ENABLED, enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED_IF_ENABLED)
+        @UITextField(position = 5, label = "", modelAttribute = REQUIRED_IF_ENABLED, enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED_IF_ENABLED)
         public void requiredIfEnabled() {
             // nothing to do
         }

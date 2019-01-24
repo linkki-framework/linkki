@@ -19,7 +19,6 @@ import java.util.function.Consumer;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.CaptionType;
 
@@ -35,7 +34,7 @@ import com.vaadin.ui.Component;
  */
 public abstract class CaptionAspectDefinition extends ModelToUiAspectDefinition<@Nullable String> {
 
-    public static final String NAME = PropertyNamingConvention.CAPTION_PROPERTY_SUFFIX;
+    public static final String NAME = "caption";
 
     @Override
     public Aspect<@Nullable String> createAspect() {

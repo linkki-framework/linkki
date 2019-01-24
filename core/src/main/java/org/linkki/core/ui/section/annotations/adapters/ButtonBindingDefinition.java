@@ -60,11 +60,6 @@ public class ButtonBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public boolean showLabel() {
-        return buttonAnnotation.showLabel();
-    }
-
-    @Override
     public EnabledType enabled() {
         return buttonAnnotation.enabled();
     }

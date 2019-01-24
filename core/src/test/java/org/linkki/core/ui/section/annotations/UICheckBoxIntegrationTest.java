@@ -139,7 +139,7 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
 
         @Override
         @BindTooltip(TEST_TOOLTIP)
-        @UICheckBox(position = 2, caption = TEST_CAPTION, label = TEST_LABEL, noLabel = false, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
+        @UICheckBox(position = 2, caption = TEST_CAPTION, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
         }

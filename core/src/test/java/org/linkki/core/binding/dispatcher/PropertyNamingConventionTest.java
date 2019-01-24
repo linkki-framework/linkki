@@ -18,6 +18,11 @@ import static org.junit.Assert.assertEquals;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
+/**
+ * @deprecated since Jan. 23rd 2019, because PropertyNamingConvention is also deprecated
+ */
+@Deprecated
+@SuppressWarnings("deprecation")
 public class PropertyNamingConventionTest {
 
     private PropertyNamingConvention namingConvention = new PropertyNamingConvention();

@@ -83,7 +83,7 @@ public class BindingContextIntegrationTest {
 
         assertThat(bindings(), contains(instanceOf(ButtonPmoBinding.class),
                                         is(tableBinding)));
-        assertThat(tableBinding.getBindings().size(), is(2));
+        assertThat(tableBinding.getBindings().size(), is(3));
     }
 
     @Test
@@ -95,7 +95,7 @@ public class BindingContextIntegrationTest {
         assertThat(bindings(), contains(instanceOf(ButtonPmoBinding.class),
                                         instanceOf(ComponentBinding.class),
                                         is(tableBinding)));
-        assertThat(tableBinding.getBindings().size(), is(2));
+        assertThat(tableBinding.getBindings().size(), is(3));
     }
 
     @Test
@@ -118,7 +118,7 @@ public class BindingContextIntegrationTest {
         assertThat(bindings(), contains(instanceOf(ButtonPmoBinding.class),
                                         instanceOf(ComponentBinding.class),
                                         is(tableBinding)));
-        assertThat(tableBinding.getBindings().size(), is(2));
+        assertThat(tableBinding.getBindings().size(), is(3));
     }
 
     private void setUpBindings() {
@@ -135,7 +135,7 @@ public class BindingContextIntegrationTest {
                                       instanceOf(ComponentBinding.class),
                                       instanceOf(TableBinding.class)));
         tableBinding = (TableBinding<TestTableSectionRowPmo>)bindings.get(bindings.size() - 1);
-        assertThat(tableBinding.getBindings().size(), is(2));
+        assertThat(tableBinding.getBindings().size(), is(3));
     }
 
     private List<Binding> bindings() {

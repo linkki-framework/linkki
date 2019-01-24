@@ -29,6 +29,7 @@ import org.linkki.core.ui.section.annotations.adapters.ButtonBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.EnabledAspectForBindingDefinition;
+import org.linkki.core.ui.section.annotations.aspect.LabelAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectForBindingDefinition;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -49,9 +50,6 @@ public @interface UIButton {
 
     /** Provides a description label next to the button */
     String label() default "";
-
-    /** Displays a label next to the button. Buttons don't show their label by default */
-    boolean showLabel() default false;
 
     /**
      * Static text displayed on the button. If the value should be determined dynamically, use
@@ -105,7 +103,8 @@ public @interface UIButton {
     class ButtonAspectDefinition extends CompositeAspectDefinition {
 
         public ButtonAspectDefinition() {
-            super(new EnabledAspectForBindingDefinition(),
+            super(new LabelAspectDefinition(),
+                    new EnabledAspectForBindingDefinition(),
                     new VisibleAspectForBindingDefinition(),
                     new ButtonCaptionAspectDefinition(),
                     new ButtonInvokeAspectDefinition());

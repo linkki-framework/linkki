@@ -45,7 +45,8 @@ public @interface UICheckBox {
     /**
      * Provides a label on the left side of the check box.
      * <p>
-     * Will not be displayed unless {@link #noLabel()} is {@code false}
+     * Normally a check box does not have a label on the left side but a {@link #caption()} which rests
+     * on the right side of the box.
      */
     String label() default "";
 
@@ -54,16 +55,13 @@ public @interface UICheckBox {
      * <p>
      * Use an empty String as caption if no caption is needed.
      * <p>
-     * For a label on the left, set {@link #noLabel()} to {@code false} and use {@link #label()} for
-     * the label text.
+     * For a label on the left, use {@link #label()} for the label text.
      * <p>
-     * If the check box is used inside a {@link UITableColumn}, the {@link #label()} will be
-     * displayed in the column header while the {@link #caption()} will be displayed inside the
-     * table cell together with the check box.
+     * If the check box is used inside a {@link UITableColumn}, the {@link #label()} will be displayed
+     * in the column header while the {@link #caption()} will be displayed inside the table cell
+     * together with the check box.
      */
     String caption();
-
-    boolean noLabel() default true;
 
     /** Defines if an UI-Component is editable, using values of {@link EnabledType}. */
     EnabledType enabled() default ENABLED;
@@ -77,8 +75,8 @@ public @interface UICheckBox {
     VisibleType visible() default VISIBLE;
 
     /**
-     * The name of the model object that is to be bound if multiple model objects are included for
-     * model binding.
+     * The name of the model object that is to be bound if multiple model objects are included for model
+     * binding.
      */
     String modelObject() default ModelObject.DEFAULT_NAME;
 

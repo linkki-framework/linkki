@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyNamingConvention;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.util.Consumers;
@@ -31,7 +30,7 @@ import com.vaadin.ui.AbstractField;
  */
 public abstract class RequiredAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
-    public static final String NAME = PropertyNamingConvention.REQUIRED_PROPERTY_SUFFIX;
+    public static final String NAME = "required";
     private EnabledAspectDefinition enabledAspectDefinition;
 
     public RequiredAspectDefinition(EnabledAspectDefinition enabledTypeAspectDefinition) {
@@ -59,8 +58,8 @@ public abstract class RequiredAspectDefinition extends ModelToUiAspectDefinition
      * {@inheritDoc}
      * <p>
      * This method only supports {@link AbstractField} if the {@link RequiredType} is not
-     * {@link RequiredType#NOT_REQUIRED}. In this case, {@link AbstractField#setRequired(boolean)}
-     * is used.
+     * {@link RequiredType#NOT_REQUIRED}. In this case, {@link AbstractField#setRequired(boolean)} is
+     * used.
      * 
      * @throws IllegalArgumentException if the {@link RequiredType} is not
      *             {@link RequiredType#NOT_REQUIRED} and the component wrapped by given
@@ -76,7 +75,7 @@ public abstract class RequiredAspectDefinition extends ModelToUiAspectDefinition
             return Consumers.nopConsumer();
         } else {
             throw new IllegalArgumentException(
-                    "Required type binding is not supported for component type " + component.getClass() + " ");
+                    "Required type binding is not supported for a component of type " + component.getClass() + " ");
         }
     }
 
