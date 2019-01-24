@@ -20,7 +20,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-numberfield,`UIIntegerField`>>, <<ui-numberfield,`UIDoubleField`>> |Entry field for numbers
 |<<ui-checkbox,`UICheckbox`>> |Control for boolean input
 |<<ui-datefield,`UIDateField`>> |Field for date entry with date picker
-|<<ui-combobox,`UICombobox`>> |Dropdown field with predefined options
+|<<ui-combobox,`UIComboBox`>> |Dropdown field with predefined options
 |<<ui-yesnocombobox,`UIYesNoCombobox`>> |Dropdown field for boolean choices
 |===
 

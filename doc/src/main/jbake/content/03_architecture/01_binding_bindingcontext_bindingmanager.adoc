@@ -18,7 +18,7 @@ To create and manage one or more `BindingContexts`, a `BindingManager` is used. 
 
 ==== The scope of UI updates
 
-A `BindingContext` ensures that all fields bound to it get updated if one of them changes. Thus a BindingContext defines the a "scope" of UI updates for it's fields.
+A `BindingContext` ensures that all fields bound to it get updated if one of them changes. Thus a BindingContext defines the "scope" of UI updates for it's fields.
 
 It is common practice to use a BindingContext for all fields visible to the user at a time. For example a single binding context for a big form. On the other hand, if there are multiple tab sheets it's best to use a separate binding context for each of them, as only one of the tabs is visible at a time. This also avoids unnecessary updates of fields that aren't even visible.
 

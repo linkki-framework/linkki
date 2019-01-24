@@ -51,6 +51,7 @@ public class MainView extends SidebarLayout implements View {
         // nothing to do
     }
 
+    // tag::sidebar-createReportLayout[]
     private VerticalLayout createReportLayout() {
         VerticalLayout layout = new VerticalLayout();
         // tag::addHeadline-call[]
@@ -61,6 +62,7 @@ public class MainView extends SidebarLayout implements View {
         layout.addComponent(page);
         return layout;
     }
+    // end::sidebar-createReportLayout[]
 
     private VerticalLayout createReportListLayout() {
         ReportListPage reportListPage = new ReportListPage(reports);

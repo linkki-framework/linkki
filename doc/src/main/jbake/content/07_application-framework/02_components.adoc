@@ -60,11 +60,16 @@ On the left there is a horizontal bar containing icons (buttons) for every sheet
 
 In order to create a sidebar instantiate the `SidebarLayout` and add `SidebarSheets`. Every sheet requires an icon, a name and a content. It is also possible to provide a `Supplier<Component>` that is called when the sheet is selected for the first time (lazy initialization). This approach is useful if the creation of the content is more complex and/or if the sheet might be rarely visible.
 
-Additionally you can supply a `UiUpdateOberser` that is triggered every time the sheet is selected. Use this observer to update your binding context in case of changes to the underlying model while the sheet was invisible. Our sample application contains a sidebar layout with two sheets that highlights the utility of that approach. The second sheet displays a list of reports which are created on the first sheet. Thus the second sheet needs to be updated every time it is selected because the underlying data might have changed in the meantime.
+Additionally you can supply a `UiUpdateObserver` that is triggered every time the sheet is selected, that means it gets visible. Use this observer to update your binding context in case of changes to the underlying model while the sheet was not selected. Our sample application contains a sidebar layout with two sheets that highlights the utility of that approach. The second sheet displays a list of reports which are created on the first sheet. Thus the second sheet needs to be updated every time it is selected because the underlying data might have changed in the meantime.
 
 [source,java]
 ----
 include::{source-dir-application}/org/linkki/samples/appsample/view/MainView.java[tags=sidebar-addSheet]
+----
+
+[source,java]
+----
+include::{source-dir-application}/org/linkki/samples/appsample/view/MainView.java[tags=sidebar-createReportLayout]
 ----
 
 ==== Headline
