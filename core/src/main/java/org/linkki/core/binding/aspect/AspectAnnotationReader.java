@@ -25,7 +25,7 @@ import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 
 /**
- * Utility class to creates {@link LinkkiAspectDefinition}s from an UI annotation.
+ * Utility class to create {@link LinkkiAspectDefinition LinkkiAspectDefinitions} from annotations.
  */
 public class AspectAnnotationReader {
 
