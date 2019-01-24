@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section.annotations.adapters;
 
@@ -44,40 +44,36 @@ public class ButtonBindingDefinitionTest {
     @Captor
     private ArgumentCaptor<ClickShortcut> clickShortcutCaptor;
 
-    @UIButton(position = 0)
-    public UIButton defaultAnnotation() {
+    private UIButton getAnnotation(String name) {
         try {
-            return getClass().getMethod("defaultAnnotation", new Class<?>[] {}).getAnnotation(UIButton.class);
+            @NonNull
+            @SuppressWarnings("null")
+            UIButton annotation = getClass().getMethod(name, new Class<?>[] {})
+                    .getAnnotation(UIButton.class);
+            return annotation;
         } catch (NoSuchMethodException | SecurityException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @UIButton(position = 0)
+    public UIButton defaultAnnotation() {
+        return getAnnotation("defaultAnnotation");
     }
 
     @UIButton(position = 0, showIcon = true, icon = FontAwesome.AMBULANCE, styleNames = ValoTheme.BUTTON_ICON_ONLY)
     public UIButton customAnnotation() {
-        try {
-            return getClass().getMethod("customAnnotation", new Class<?>[] {}).getAnnotation(UIButton.class);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
-        }
+        return getAnnotation("customAnnotation");
     }
 
     @UIButton(position = 0, shortcutKeyCode = KeyCode.E, shortcutModifierKeys = ModifierKey.ALT)
     public UIButton shortcutButton() {
-        try {
-            return getClass().getMethod("shortcutButton", new Class<?>[] {}).getAnnotation(UIButton.class);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
-        }
+        return getAnnotation("shortcutButton");
     }
 
     @UIButton(position = 1, showCaption = true, caption = "test")
     public UIButton anotherAnnotation() {
-        try {
-            return getClass().getMethod("anotherAnnotation", new Class<?>[] {}).getAnnotation(UIButton.class);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
-        }
+        return getAnnotation("anotherAnnotation");
     }
 
     @Test

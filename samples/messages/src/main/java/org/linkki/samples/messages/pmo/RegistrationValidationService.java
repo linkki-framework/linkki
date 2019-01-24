@@ -71,6 +71,7 @@ public class RegistrationValidationService implements ValidationService {
                             objectProperty(pmo, "confirmPassword"))
                     .create());
         } else if (validationMode == ValidationMode.STRICT && StringUtils.isEmpty(password)) {
+            @SuppressWarnings("null")
             // tag::message-builder[]
             Message passwordRequiredMessage = Message
                     .builder("Password is required", ErrorMessage.ErrorLevel.ERROR)
@@ -120,6 +121,7 @@ public class RegistrationValidationService implements ValidationService {
         }
     }
 
+    @SuppressWarnings("null")
     @NonNull
     private ObjectProperty objectProperty(Object object, String property) {
         return new ObjectProperty(object, property);
