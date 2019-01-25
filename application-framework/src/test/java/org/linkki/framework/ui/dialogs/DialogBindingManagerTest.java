@@ -25,7 +25,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.ComponentBinding;
+import org.linkki.core.binding.Binding;
+import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
@@ -34,6 +35,7 @@ import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
 public class DialogBindingManagerTest {
@@ -67,9 +69,9 @@ public class DialogBindingManagerTest {
         when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
         when(propertyDispatcher.getMessages(any())).thenReturn(new MessageList());
 
-        ComponentBinding binding = spy(new ComponentBinding(new LabelComponentWrapper(new Label(), new Button()),
+        Binding<?> binding = spy(new Binding<Component>(new LabelComponentWrapper(new Label(), new Button()),
                 propertyDispatcher,
-                Handler.NOP_HANDLER, new ArrayList<>()));
+                Handler.NOP_HANDLER, new ArrayList<>(), PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER));
         ctx.add(binding);
 
         ctx.modelChanged();

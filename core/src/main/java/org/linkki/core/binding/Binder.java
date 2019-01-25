@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding;
 
@@ -27,8 +27,8 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.descriptor.BindAnnotationDescriptor;
 import org.linkki.core.binding.descriptor.BindingDescriptor;
+import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.binding.property.BoundPropertyAnnotationReader;
 import org.linkki.core.ui.components.LabelComponentWrapper;
@@ -37,12 +37,12 @@ import org.linkki.util.BeanUtils;
 import com.vaadin.ui.Component;
 
 /**
- * A Binder is a utility class used to create data-bindings between the UI elements (such as text-
- * or combo-boxes, buttons etc.) of a view and a PMO .
+ * A Binder is a utility class used to create data-bindings between the UI elements (such as text- or
+ * combo-boxes, buttons etc.) of a view and a PMO .
  * <p>
- * The view is annotated with annotations (e.g. {@link Bind @Bind}) that define which UI elements
- * are bound to which properties of the PMO. It is possible to annotate fields as well as methods.
- * The PMO is just a POJO. Typically, the usage of the Binder looks something like this:
+ * The view is annotated with annotations (e.g. {@link Bind @Bind}) that define which UI elements are
+ * bound to which properties of the PMO. It is possible to annotate fields as well as methods. The PMO
+ * is just a POJO. Typically, the usage of the Binder looks something like this:
  * 
  * <pre>
  * <code>
@@ -55,9 +55,9 @@ import com.vaadin.ui.Component;
  * </code>
  * </pre>
  * 
- * Note that the view does not necessarily have to be a Vaadin UI component, it is possible to bind
- * the annotated fields and methods in a POJO. Of course, the bound fields/methods still have to
- * be/return one of the following types
+ * Note that the view does not necessarily have to be a Vaadin UI component, it is possible to bind the
+ * annotated fields and methods in a POJO. Of course, the bound fields/methods still have to be/return
+ * one of the following types
  * <ul>
  * <li>{@link com.vaadin.ui.Field}</li>
  * <li>{@link com.vaadin.ui.Label}</li>
@@ -147,7 +147,7 @@ public class Binder {
         List<LinkkiAspectDefinition> aspectDefinitions = AspectAnnotationReader
                 .createAspectDefinitionsFor(annotatedElement);
 
-        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(boundProperty, aspectDefinitions);
+        BindingDescriptor descriptor = new SimpleBindingDescriptor(boundProperty, aspectDefinitions);
         bindings.put(descriptor, component);
     }
 }

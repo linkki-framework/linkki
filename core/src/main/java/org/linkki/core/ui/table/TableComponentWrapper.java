@@ -28,23 +28,20 @@ import com.vaadin.ui.TreeTable;
 
 /**
  * Wraps a vaadin {@link Table}.
+ * 
+ * @param <ROW> a class annotated with linkki annotations used as PMO for a row in the table
  */
-public class TableComponentWrapper<@NonNull T> extends CaptionComponentWrapper {
+public class TableComponentWrapper<@NonNull ROW> extends CaptionComponentWrapper<Table> {
 
     public static final WrapperType TABLE_TYPE = WrapperType.of("table", WrapperType.COMPONENT);
 
     private static final long serialVersionUID = 1L;
 
-    private final LinkkiInMemoryContainer<T> tableContainer = new LinkkiInMemoryContainer<>();
+    private final LinkkiInMemoryContainer<ROW> tableContainer = new LinkkiInMemoryContainer<>();
 
     public TableComponentWrapper(String id, Table table) {
         super(id, table, TABLE_TYPE);
         table.setContainerDataSource(tableContainer);
-    }
-
-    @Override
-    public Table getComponent() {
-        return (Table)super.getComponent();
     }
 
     /**
@@ -78,31 +75,31 @@ public class TableComponentWrapper<@NonNull T> extends CaptionComponentWrapper {
      * {@link Table#getContainerDataSource() container data source} if the given items are not the ones
      * currently displayed.
      */
-    public void setItems(List<T> actualItems) {
+    public void setItems(List<ROW> actualItems) {
         boolean hasChildChanged = hasItemChanged(actualItems);
         if (hasChildChanged || hasItemListChanged(actualItems)) {
             tableContainer.setItems(actualItems);
         }
     }
 
-    private boolean hasItemListChanged(List<T> actualItems) {
+    private boolean hasItemListChanged(List<ROW> actualItems) {
         return !tableContainer.getItemIds().equals(actualItems);
     }
 
-    private boolean hasItemChanged(List<? extends T> items) {
+    private boolean hasItemChanged(List<? extends ROW> items) {
         return items.stream()
                 .map(this::hasItemChanged)
                 .reduce(false, (anyChanged, thisChanged) -> anyChanged || thisChanged);
     }
 
-    private boolean hasItemChanged(T item) {
+    private boolean hasItemChanged(ROW item) {
         if (getComponent() instanceof TreeTable) {
             boolean collapsed = ((TreeTable)getComponent()).isCollapsed(item);
             if (collapsed) {
                 return tableContainer.removeExistingChildren(item);
             } else {
-                Collection<T> existingChildren = tableContainer.getExistingChildren(item);
-                List<? extends T> currentChildren = getCurrentChildren(item);
+                Collection<ROW> existingChildren = tableContainer.getExistingChildren(item);
+                List<? extends ROW> currentChildren = getCurrentChildren(item);
                 boolean itemInsideChildrenHasChanged = hasItemChanged(currentChildren);
                 boolean childrenHaveChanged = !currentChildren.equals(existingChildren);
                 if (itemInsideChildrenHasChanged || childrenHaveChanged) {
@@ -115,9 +112,9 @@ public class TableComponentWrapper<@NonNull T> extends CaptionComponentWrapper {
         }
     }
 
-    private List<? extends T> getCurrentChildren(T item) {
+    private List<? extends ROW> getCurrentChildren(ROW item) {
         @SuppressWarnings("unchecked")
-        HierarchicalRowPmo<? extends T> hierarchicalRowPmo = (HierarchicalRowPmo<? extends T>)item;
+        HierarchicalRowPmo<? extends ROW> hierarchicalRowPmo = (HierarchicalRowPmo<? extends ROW>)item;
         return hierarchicalRowPmo.getChildRows();
     }
 

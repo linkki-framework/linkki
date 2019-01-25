@@ -59,7 +59,9 @@ public class AspectUpdatersTest {
     @Mock
     @SuppressWarnings("null")
     private ComponentWrapper componentWrapper;
+
     private Handler modelChanged = Handler.NOP_HANDLER;
+
     @SuppressWarnings("null")
     private AspectUpdaters aspectUpdaters;
 

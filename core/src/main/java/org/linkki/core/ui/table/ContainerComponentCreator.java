@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 
 package org.linkki.core.ui.table;
@@ -19,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.binding.TableBinding;
+import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
@@ -34,10 +34,10 @@ import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.TreeTable;
 
 
-class ContainerComponentCreator<@NonNull T> {
-    private final ContainerPmo<T> containerPmo;
+class ContainerComponentCreator<@NonNull ROW> {
+    private final ContainerPmo<ROW> containerPmo;
 
-    ContainerComponentCreator(ContainerPmo<T> containerPmo) {
+    ContainerComponentCreator(ContainerPmo<ROW> containerPmo) {
         this.containerPmo = containerPmo;
     }
 
@@ -62,15 +62,15 @@ class ContainerComponentCreator<@NonNull T> {
      * 
      * @param elementDesc the descriptor for the PMO's field
      */
-    void createColumn(TableBinding<T> tableBinding, PropertyElementDescriptors elementDesc) {
-        Table table = tableBinding.getBoundComponent();
-        ContainerComponentCreator.FieldColumnGenerator<T> columnGen = new ContainerComponentCreator.FieldColumnGenerator<>(
-                elementDesc, tableBinding);
+    void createColumn(Binding<Table> binding, PropertyElementDescriptors elementDesc) {
+        Table table = binding.getBoundComponent();
+        ContainerComponentCreator.FieldColumnGenerator<ROW> columnGen = new ContainerComponentCreator.FieldColumnGenerator<>(
+                elementDesc, binding);
         String propertyName = elementDesc.getPmoPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
         List<LinkkiAspectDefinition> aspectDefs = elementDesc.getAllAspects();
-        tableBinding.bind(containerPmo, new SimpleBindingDescriptor(propertyName, aspectDefs),
-                          new TableColumnWrapper(table, propertyName));
+        binding.bind(containerPmo, new SimpleBindingDescriptor(propertyName, aspectDefs),
+                     new TableColumnWrapper(table, propertyName));
     }
 
 
@@ -80,11 +80,12 @@ class ContainerComponentCreator<@NonNull T> {
         private static final long serialVersionUID = 1L;
 
         private final PropertyElementDescriptors elementDescriptors;
-        private final TableBinding<T> tableBinding;
+        private final Binding<?> binding;
 
-        public FieldColumnGenerator(PropertyElementDescriptors elementDescriptors, TableBinding<T> tableBinding) {
+        public FieldColumnGenerator(PropertyElementDescriptors elementDescriptors,
+                Binding<?> binding) {
             this.elementDescriptors = requireNonNull(elementDescriptors, "elementDescriptors must not be null");
-            this.tableBinding = requireNonNull(tableBinding, "tableBinding must not be null");
+            this.binding = requireNonNull(binding, "binding must not be null");
         }
 
         @Override
@@ -99,9 +100,9 @@ class ContainerComponentCreator<@NonNull T> {
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;
-            component.addAttachListener($ -> tableBinding.bind(itemPmo, elementDescriptor,
-                                                               new LabelComponentWrapper(component)));
-            component.addDetachListener($ -> tableBinding.removeBindingsForComponent(component));
+            component.addAttachListener($ -> binding.bind(itemPmo, elementDescriptor,
+                                                          new LabelComponentWrapper(component)));
+            component.addDetachListener($ -> binding.removeBindingsForComponent(component));
 
             return component;
         }

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding;
 
@@ -17,6 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -26,24 +27,27 @@ import java.util.stream.Collectors;
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
+import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.binding.descriptor.BindingDescriptor;
+import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Label;
 
 /**
- * A binding context binds fields and tables in a part of the user interface like a page or a dialog
- * to properties of presentation model objects. If the value in one of the fields is changed, all
- * fields in the context are updated from the presentation model objects via their bindings.
+ * A binding context binds fields and tables in a part of the user interface like a page or a dialog to
+ * properties of presentation model objects. If the value in one of the fields is changed, all fields in
+ * the context are updated from the presentation model objects via their bindings.
  * <p>
  * {@linkplain BindingContext}s are usually managed by a {@link BindingManager} that handles events
  * across multiple contexts.
@@ -55,9 +59,9 @@ public class BindingContext implements UiUpdateObserver {
     private final String name;
     private final PropertyBehaviorProvider behaviorProvider;
     private final Handler afterUpdateHandler;
+    private final PropertyDispatcherFactory dispatcherFactory;
 
-    private final Map<@NonNull Object, @NonNull Binding> bindings = new ConcurrentHashMap<>();
-    private final PropertyDispatcherFactory dispatcherFactory = new PropertyDispatcherFactory();
+    private final Map<@NonNull Object, @NonNull Binding<?>> bindings = new ConcurrentHashMap<>();
 
 
     /**
@@ -98,9 +102,33 @@ public class BindingContext implements UiUpdateObserver {
      */
     public BindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
             Handler afterUpdateHandler) {
+        this(contextName, behaviorProvider, afterUpdateHandler, new PropertyDispatcherFactory());
+    }
+
+    /**
+     * Creates a new binding context with the given name, using the behavior provider to decorate its
+     * bindings and notifying a handler after every UI update.
+     * <p>
+     * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event outside
+     * of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()} is used by
+     * {@link BindingManager} to trigger the validation service and to notify all
+     * {@link UiUpdateObserver}s in the manager to show the validation result.
+     * 
+     * @param contextName name of this context that is used as identifier in a
+     *            {@linkplain BindingManager}
+     * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are relevant to this
+     *            context
+     * @param afterUpdateHandler a handler that is applied after the UI update. Usually
+     *            {@link BindingManager#afterUpdateUi()}
+     * @param dispatcherFactory the factory used to create the {@link PropertyDispatcher} chain for any
+     *            property
+     */
+    public BindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
+            Handler afterUpdateHandler, PropertyDispatcherFactory dispatcherFactory) {
         this.name = requireNonNull(contextName, "contextName must not be null");
         this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
         this.afterUpdateHandler = requireNonNull(afterUpdateHandler, "afterUpdateHandler must not be null");
+        this.dispatcherFactory = requireNonNull(dispatcherFactory, "dispatcherFactory must not be null");
     }
 
     /**
@@ -113,7 +141,7 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Adds a binding to the context.
      */
-    public BindingContext add(Binding binding) {
+    public BindingContext add(Binding<?> binding) {
         requireNonNull(binding, "binding must not be null");
 
         bindings.put(binding.getBoundComponent(), binding);
@@ -123,7 +151,7 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Returns all bindings in the context.
      */
-    public Collection<@NonNull Binding> getBindings() {
+    public Collection<@NonNull Binding<?>> getBindings() {
         return Collections.unmodifiableCollection(bindings.values());
     }
 
@@ -133,24 +161,24 @@ public class BindingContext implements UiUpdateObserver {
      * well.
      */
     public void removeBindingsForComponent(Component c) {
-        Binding removedBinding = bindings.remove(c);
+        Binding<?> removedBinding = bindings.remove(c);
         if (c instanceof HasComponents) {
             ((HasComponents)c).iterator().forEachRemaining(this::removeBindingsForComponent);
         }
 
-        if (removedBinding instanceof BindingContext) {
+        if (removedBinding != null) {
             ((BindingContext)removedBinding).bindings.clear();
         }
     }
 
     /**
-     * Removes all bindings in this context that refer to the given presentation model object. If
-     * the presentation model is bound to a component and that component is a container component,
-     * all bindings for the components children and their children are removed as well.
+     * Removes all bindings in this context that refer to the given presentation model object. If the
+     * presentation model is bound to a component and that component is a container component, all
+     * bindings for the components children and their children are removed as well.
      * <p>
      * If the PMO includes other PMOs (like {@link ContainerPmo}), all bindings for those PMOs are
-     * removed as well. This does not work for getter methods that return a new instance for each
-     * call, like mostly done for {@link ButtonPmo ButtonPmos}:
+     * removed as well. This does not work for getter methods that return a new instance for each call,
+     * like mostly done for {@link ButtonPmo ButtonPmos}:
      * 
      * <code>
      * ContainerPmo.getAddItemButtonPmo() {
@@ -158,8 +186,8 @@ public class BindingContext implements UiUpdateObserver {
      *  }
      * </code>
      * 
-     * In order to be properly removed, the same instance has to be returned on each call of the
-     * getter method.
+     * In order to be properly removed, the same instance has to be returned on each call of the getter
+     * method.
      */
     public void removeBindingsForPmo(Object pmo) {
         @SuppressWarnings("null")
@@ -235,7 +263,7 @@ public class BindingContext implements UiUpdateObserver {
      * Updates all bindings with the given message list.
      * <p>
      * This method is used by a {@link BindingManager} to push validation results to all registered
-     * {@linkplain BindingContext}s.
+     * {@linkplain BindingContext BindingContexts}.
      * 
      * @see BindingManager#updateMessages(MessageList)
      * @deprecated This method is deprecated since August 1st, 2018 and may be removed in future
@@ -273,8 +301,8 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a binding between the presentation model object and UI elements (i.e.
-     * {@linkplain Label} and {@linkplain Component}) as described by the given descriptor.
+     * Creates a binding between the presentation model object and UI elements (i.e. {@linkplain Label}
+     * and {@linkplain Component}) as described by the given descriptor.
      * <p>
      * If the label is {@code null} it is ignored for the binding
      * 
@@ -283,48 +311,64 @@ public class BindingContext implements UiUpdateObserver {
      * @param componentWrapper the {@link ComponentWrapper} that wraps the component that should be
      *            bound
      */
-    public void bind(Object pmo,
+    public <@NonNull T> Binding<T> bind(Object pmo,
             BindingDescriptor bindingDescriptor,
             ComponentWrapper componentWrapper) {
         requireNonNull(pmo, "pmo must not be null");
         requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
-        requireNonNull(componentWrapper, "component must not be null");
-        ElementBinding binding = bindingDescriptor.createBinding(createDispatcherChain(pmo, bindingDescriptor),
-                                                                 this::modelChanged, componentWrapper);
+        requireNonNull(componentWrapper, "componentWrapper must not be null");
+        Binding<T> binding = createBinding(pmo, bindingDescriptor, componentWrapper);
         binding.updateFromPmo();
         add(binding);
+        return binding;
     }
 
     /**
-     * Binds the {@linkplain ButtonPmo} to the {@linkplain Button}.
+     * Creates a binding between the presentation model object and UI elements (i.e. {@linkplain Label}
+     * and {@linkplain Component}) for the {@link Aspect Aspects} defined by the given
+     * {@link LinkkiAspectDefinition LinkkiAspectDefinitions}.
+     * <p>
+     * If the label is {@code null} it is ignored for the binding
      * 
-     * @param pmo a button model object
-     * @param button the button to be bound
-     * @return the {@link ButtonPmoBinding} connecting the button and its model
+     * @param pmo a presentation model object
+     * @param boundProperty the (presentation) model property to be bound
+     * @param aspectDefs the definitions for the aspects to be bound
+     * @param componentWrapper the {@link ComponentWrapper} that wraps the component that should be
+     *            bound
      */
-    public ButtonPmoBinding bind(ButtonPmo pmo, Button button) {
-        requireNonNull(pmo, "pmo must not be null");
-        requireNonNull(button, "button must not be null");
-
-        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, createDispatcherChain(pmo),
-                this::modelChanged);
-        buttonPmoBinding.updateFromPmo();
-        add(buttonPmoBinding);
-        return buttonPmoBinding;
+    public <@NonNull T> Binding<T> bind(Object pmo,
+            BoundProperty boundProperty,
+            List<LinkkiAspectDefinition> aspectDefs,
+            ComponentWrapper componentWrapper) {
+        return bind(pmo, new SimpleBindingDescriptor(boundProperty, aspectDefs), componentWrapper);
     }
 
-    protected PropertyDispatcher createDispatcherChain(Object pmo,
+    /**
+     * Creates a binding with the given dispatcher, the given handler for updating the UI and the given
+     * UI components using the binding information from this descriptor.
+     */
+    private <@NonNull T> Binding<T> createBinding(Object pmo,
+            BindingDescriptor bindingDescriptor,
+            ComponentWrapper componentWrapper) {
+        requireNonNull(pmo, "pmo must not be null");
+        requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
+        requireNonNull(componentWrapper, "componentWrapper must not be null");
+        return new Binding<>(componentWrapper, createDispatcherChain(pmo, bindingDescriptor), this::modelChanged,
+                bindingDescriptor.getAspectDefinitions(), getBehaviorProvider());
+    }
+
+    /**
+     * @deprecated since January 2019. Instead of overwriting this provide a
+     *             {@link PropertyDispatcherFactory} to
+     *             {@link #BindingContext(String, PropertyBehaviorProvider, Handler, PropertyDispatcherFactory)}.
+     */
+    @Deprecated
+    public PropertyDispatcher createDispatcherChain(Object pmo,
             BindingDescriptor bindingDescriptor) {
         requireNonNull(pmo, "pmo must not be null");
         requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
 
         return dispatcherFactory.createDispatcherChain(pmo, bindingDescriptor, getBehaviorProvider());
-    }
-
-    protected PropertyDispatcher createDispatcherChain(ButtonPmo buttonPmo) {
-        requireNonNull(buttonPmo, "buttonPmo must not be null");
-
-        return dispatcherFactory.createDispatcherChain(buttonPmo, getBehaviorProvider());
     }
 
 }

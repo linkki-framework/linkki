@@ -16,26 +16,30 @@ package org.linkki.core.ui.table;
 import static java.util.Objects.requireNonNull;
 
 import org.eclipse.jdt.annotation.NonNull;
+import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.TableBinding;
+import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.ui.table.aspect.TableAspectDefinitions;
 
 import com.vaadin.ui.Table;
 
 /**
  * A factory to create a table based on a {@link ContainerPmo}.
+ * 
+ * @param <ROW> a class annotated with linkki annotations used as PMO for a row in the table
  */
-public class PmoBasedTableFactory<@NonNull T> {
+public class PmoBasedTableFactory<@NonNull ROW> {
 
-    private final ContainerPmo<T> containerPmo;
+    private final ContainerPmo<ROW> containerPmo;
 
     private final UIAnnotationReader annotationReader;
 
     private final BindingContext bindingContext;
 
-    private final Class<? extends T> rowPmoClass;
+    private final Class<? extends ROW> rowPmoClass;
 
-    private final ContainerComponentCreator<T> containerComponentCreator;
+    private final ContainerComponentCreator<ROW> containerComponentCreator;
 
     /**
      * Creates a new factory.
@@ -43,7 +47,7 @@ public class PmoBasedTableFactory<@NonNull T> {
      * @param containerPmo The container providing the contents and column definitions.
      * @param bindingContext The binding context to which the cell bindings are added.
      */
-    public PmoBasedTableFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
+    public PmoBasedTableFactory(ContainerPmo<ROW> containerPmo, BindingContext bindingContext) {
         this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
         this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         this.rowPmoClass = containerPmo.getItemPmoClass();
@@ -56,15 +60,17 @@ public class PmoBasedTableFactory<@NonNull T> {
      */
     public Table createTable() {
         Table table = containerComponentCreator.createTableComponent();
-        TableBinding<T> tableBinding = TableBinding.create(bindingContext, table, containerPmo);
-        createColumns(tableBinding);
+        TableComponentWrapper<ROW> tableComponentWrapper = new TableComponentWrapper<>(
+                containerPmo.getClass().getName(), table);
+        SimpleBindingDescriptor bindingDescriptor = new SimpleBindingDescriptor("", TableAspectDefinitions.createAll());
+        Binding<Table> binding = bindingContext.bind(containerPmo, bindingDescriptor, tableComponentWrapper);
+        createColumns(binding);
         table.setPageLength(containerPmo.getPageLength());
         return table;
     }
 
-    private void createColumns(TableBinding<T> tableBinding) {
-        annotationReader.getUiElements()
-                .forEach(e -> containerComponentCreator.createColumn(tableBinding, e));
+    private void createColumns(Binding<Table> binding) {
+        annotationReader.getUiElements().forEach(e -> containerComponentCreator.createColumn(binding, e));
     }
 
 }

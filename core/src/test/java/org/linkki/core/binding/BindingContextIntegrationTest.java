@@ -51,7 +51,7 @@ public class BindingContextIntegrationTest {
     @SuppressWarnings("null")
     private TestPage testPage;
     @SuppressWarnings("null")
-    private TableBinding<TestTableSectionRowPmo> tableBinding;
+    private Binding<TestTableSectionRowPmo> binding;
     @SuppressWarnings("null")
     private BindingContext bindingContext;
 
@@ -72,7 +72,7 @@ public class BindingContextIntegrationTest {
         testPage.removeBindings();
 
         assertThat(testPage.getBindingContext().getBindings(), is(empty()));
-        assertThat(tableBinding.getBindings(), is(empty()));
+        assertThat(binding.getBindings(), is(empty()));
     }
 
     @Test
@@ -81,9 +81,9 @@ public class BindingContextIntegrationTest {
 
         bindingContext.removeBindingsForPmo(testPage.standardSectionPmo);
 
-        assertThat(bindings(), contains(instanceOf(ButtonPmoBinding.class),
-                                        is(tableBinding)));
-        assertThat(tableBinding.getBindings().size(), is(4));
+        assertThat(bindings(), contains(instanceOf(Binding.class),
+                                        instanceOf(Binding.class)));
+        assertThat(binding.getBindings().size(), is(3));
     }
 
     @Test
@@ -92,10 +92,10 @@ public class BindingContextIntegrationTest {
 
         bindingContext.removeBindingsForPmo(testPage.standardSectionPmo.getEditButtonPmo().get());
 
-        assertThat(bindings(), contains(instanceOf(ButtonPmoBinding.class),
-                                        instanceOf(ComponentBinding.class),
-                                        is(tableBinding)));
-        assertThat(tableBinding.getBindings().size(), is(4));
+        assertThat(bindings(), contains(instanceOf(Binding.class),
+                                        instanceOf(Binding.class),
+                                        instanceOf(Binding.class)));
+        assertThat(binding.getBindings().size(), is(3));
     }
 
     @Test
@@ -104,9 +104,9 @@ public class BindingContextIntegrationTest {
 
         bindingContext.removeBindingsForPmo(testPage.tableSectionPmo);
 
-        assertThat(bindings(), contains(instanceOf(ButtonPmoBinding.class),
-                                        instanceOf(ComponentBinding.class)));
-        assertThat(tableBinding.getBindings(), is(empty()));
+        assertThat(bindings(), contains(instanceOf(Binding.class),
+                                        instanceOf(Binding.class)));
+        assertThat(binding.getBindings(), is(empty()));
     }
 
     @Test
@@ -115,10 +115,10 @@ public class BindingContextIntegrationTest {
 
         bindingContext.removeBindingsForPmo(testPage.tableSectionPmo.getAddItemButtonPmo().get());
 
-        assertThat(bindings(), contains(instanceOf(ButtonPmoBinding.class),
-                                        instanceOf(ComponentBinding.class),
-                                        is(tableBinding)));
-        assertThat(tableBinding.getBindings().size(), is(4));
+        assertThat(bindings(), contains(instanceOf(Binding.class),
+                                        instanceOf(Binding.class),
+                                        instanceOf(Binding.class)));
+        assertThat(binding.getBindings().size(), is(3));
     }
 
     private void setUpBindings() {
@@ -129,16 +129,18 @@ public class BindingContextIntegrationTest {
         testPage.attach();
 
         bindingContext = testPage.getBindingContext();
-        List<Binding> bindings = bindings();
-        assertThat(bindings, contains(instanceOf(ButtonPmoBinding.class),
-                                      instanceOf(ButtonPmoBinding.class),
-                                      instanceOf(ComponentBinding.class),
-                                      instanceOf(TableBinding.class)));
-        tableBinding = (TableBinding<TestTableSectionRowPmo>)bindings.get(bindings.size() - 1);
-        assertThat(tableBinding.getBindings().size(), is(4));
+        List<Binding<?>> bindings = bindings();
+        assertThat(bindings, contains(instanceOf(Binding.class),
+                                      instanceOf(Binding.class),
+                                      instanceOf(Binding.class),
+                                      instanceOf(Binding.class)));
+        binding = (Binding<TestTableSectionRowPmo>)bindings.stream()
+                .filter(b -> b.getPmo().equals(testPage.tableSectionPmo))
+                .findFirst().get();
+        assertThat(binding.getBindings().size(), is(3));
     }
 
-    private List<Binding> bindings() {
+    private List<Binding<?>> bindings() {
         return bindingContext.getBindings().stream()
                 .sorted(Comparator.comparing(b -> b.getClass().getSimpleName())).collect(Collectors.toList());
     }

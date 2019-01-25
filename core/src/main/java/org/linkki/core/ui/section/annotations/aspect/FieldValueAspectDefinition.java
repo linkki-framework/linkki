@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 
 package org.linkki.core.ui.section.annotations.aspect;
@@ -35,7 +35,7 @@ import com.vaadin.ui.DateField;
 
 /**
  * Aspect definition for value change. Defines that the data source will get/set values through
- * {@link Aspect Aspects} by providing handler in
+ * {@link Aspect Aspects} by providing a handler in
  * {@link #initModelUpdate(PropertyDispatcher, ComponentWrapper, Handler)}.
  */
 public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
@@ -78,8 +78,7 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
      * 
      * @see AbstractField#validate()
      */
-    @SuppressWarnings("rawtypes")
-    private void prepareFieldToHandleNullForRequiredFields(AbstractField field) {
+    private void prepareFieldToHandleNullForRequiredFields(AbstractField<?> field) {
         // note: we prepare the field if it is required or not, as the required state
         // can be changed dynamically.
         boolean commitInvalid = true;
@@ -99,8 +98,7 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
         }
         if (validateMethod.getDeclaringClass().getName().startsWith("com.vaadin")) {
             throw new IllegalStateException(
-                    String.format(
-                                  "A field that has a converter must override validate() to disable Vaadin's required field handling! See %s#%s for further explanation",
+                    String.format("A field that has a converter must override validate() to disable Vaadin's required field handling! See %s#%s for further explanation",
                                   getClass().getSimpleName(),
                                   "prepareFieldToHandleNullForRequiredFields(AbstractField)"));
         }
@@ -120,8 +118,8 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        AbstractField<?> component = (AbstractField<?>)componentWrapper.getComponent();
-        FieldBindingDataSource<?> dataSource = (FieldBindingDataSource<?>)component.getPropertyDataSource();
+        AbstractField<?> field = (AbstractField<?>)componentWrapper.getComponent();
+        FieldBindingDataSource<?> dataSource = (FieldBindingDataSource<?>)field.getPropertyDataSource();
         return () -> {
             dataSource.fireReadOnlyStatusChange();
             dataSource.fireValueChange();
@@ -177,7 +175,7 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
         }
 
         /*
-         * Override for visibility in ComponentBinding
+         * Override for visibility in Binding
          */
         @Override
         protected void fireValueChange() {
@@ -185,7 +183,7 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
         }
 
         /*
-         * Override for visibility in ComponentBinding
+         * Override for visibility in Binding
          */
         @Override
         protected void fireReadOnlyStatusChange() {

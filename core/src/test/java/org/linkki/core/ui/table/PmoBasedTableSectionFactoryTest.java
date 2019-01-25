@@ -26,8 +26,8 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
+import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.TableBinding;
 import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.container.LinkkiInMemoryContainer;
 
@@ -53,31 +53,30 @@ public class PmoBasedTableSectionFactoryTest {
         Table table = (Table)tableSection.getComponent(1);
         assertThat(table.getContainerDataSource(), is(instanceOf(LinkkiInMemoryContainer.class)));
         LinkkiInMemoryContainer<?> container = (LinkkiInMemoryContainer<?>)table.getContainerDataSource();
-        assertThat(bindingContext, hasTableBindingWith(container));
+        assertThat(bindingContext, hasBindingWith(container));
     }
 
-    private Matcher<BindingContext> hasTableBindingWith(LinkkiInMemoryContainer<?> container) {
+    private Matcher<BindingContext> hasBindingWith(LinkkiInMemoryContainer<?> container) {
         return new TypeSafeMatcher<BindingContext>() {
 
             @Override
             public void describeTo(Description description) {
-                description.appendText("a BindingContext containing a TableBinding using the table container ");
+                description.appendText("a BindingContext containing a Binding using the table container ");
                 description.appendValue(container);
             }
 
             @Override
             protected boolean matchesSafely(BindingContext bindingContext) {
                 return bindingContext.getBindings().stream()
-                        .filter(TableBinding.class::isInstance)
-                        .map(TableBinding.class::cast)
-                        .map(PmoBasedTableSectionFactoryTest::getTableContainer)
+                        .filter(Binding.class::isInstance)
+                        .map(Binding.class::cast)
+                        .map(binding -> binding.getBoundComponent())
+                        .filter(Table.class::isInstance)
+                        .map(Table.class::cast)
+                        .map(Table::getContainerDataSource)
                         .anyMatch(Predicate.isEqual(container));
             }
         };
-    }
-
-    protected static LinkkiInMemoryContainer<?> getTableContainer(TableBinding<?> tableBinding) {
-        return (LinkkiInMemoryContainer<?>)tableBinding.getBoundComponent().getContainerDataSource();
     }
 
     @Test
@@ -114,7 +113,7 @@ public class PmoBasedTableSectionFactoryTest {
         Table table = (Table)tableSection.getComponent(1);
         assertThat(table.getContainerDataSource(), is(instanceOf(LinkkiInMemoryContainer.class)));
         LinkkiInMemoryContainer<?> container = (LinkkiInMemoryContainer<?>)table.getContainerDataSource();
-        assertThat(bindingContext, hasTableBindingWith(container));
+        assertThat(bindingContext, hasBindingWith(container));
     }
 
     public static class NoAnnotationTablePmo implements ContainerPmo<TestRowPmo> {

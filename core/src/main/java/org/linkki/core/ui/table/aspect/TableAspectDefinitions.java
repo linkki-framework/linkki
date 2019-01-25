@@ -17,6 +17,7 @@ package org.linkki.core.ui.table.aspect;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.table.TableComponentWrapper;
 
@@ -34,7 +35,7 @@ public class TableAspectDefinitions {
      * Creates a list of {@link LinkkiAspectDefinition LinkkiAspectDefinitions} for use with
      * {@link TableComponentWrapper TableComponentWrappers}.
      */
-    public static List<LinkkiAspectDefinition> createAll() {
+    public static <@NonNull T> List<LinkkiAspectDefinition> createAll() {
         return Arrays.asList(new TableItemsAspectDefinition<>(),
                              new TableFooterAspectDefinition<>(),
                              new TablePageLengthAspectDefinition<>());

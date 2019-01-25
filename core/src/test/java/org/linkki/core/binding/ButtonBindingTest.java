@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding;
 
@@ -25,6 +25,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.LabelComponentWrapper;
@@ -40,7 +41,7 @@ public class ButtonBindingTest {
     private Label label = spy(new Label());
     private Button button = spy(new Button());
 
-    private ElementBinding binding;
+    private Binding<?> binding;
     private PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
     private BindingContext context = TestBindingContext.create();
     private TestAspectDefinition aspectDefinition;
@@ -50,8 +51,8 @@ public class ButtonBindingTest {
         Object pmo = mock(Object.class);
         when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
 
-        binding = new ComponentBinding(new LabelComponentWrapper(label, button), propertyDispatcher, context::modelChanged,
-                Arrays.asList(aspectDefinition));
+        binding = new Binding<>(new LabelComponentWrapper(label, button), propertyDispatcher, context::modelChanged,
+                Arrays.asList(aspectDefinition), PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         context.add(binding);
     }
 

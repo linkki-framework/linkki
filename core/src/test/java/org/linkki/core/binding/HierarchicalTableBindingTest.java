@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding;
 
@@ -32,7 +32,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
-import org.linkki.core.ui.table.TestRowPmo;
 import org.linkki.core.ui.table.hierarchy.AbstractCodeRow;
 import org.linkki.core.ui.table.hierarchy.CodeTablePmo;
 import org.linkki.core.ui.table.hierarchy.LowerCaseRowPmo;
@@ -42,6 +41,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.vaadin.data.Container.ItemSetChangeListener;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TreeTable;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,7 +57,7 @@ public class HierarchicalTableBindingTest {
     @Mock
     private ItemSetChangeListener listener;
 
-    private TableBinding<TestRowPmo> tableBinding;
+    private Binding<Table> binding;
 
     @SuppressWarnings("unchecked")
     @Before
@@ -65,15 +65,16 @@ public class HierarchicalTableBindingTest {
         containerPmo = new CodeTablePmo();
 
         table = (TreeTable)new PmoBasedTableFactory<>(containerPmo, bindingContext).createTable();
-        tableBinding = (TableBinding<TestRowPmo>)bindingContext.getBindings().stream()
-                .filter(TableBinding.class::isInstance)
+        binding = bindingContext.getBindings().stream()
+                .filter(Binding.class::isInstance)
+                .map(Binding.class::cast)
                 .findFirst()
                 .get();
         getTableContainer().addItemSetChangeListener(listener);
     }
 
     protected LinkkiInMemoryContainer<?> getTableContainer() {
-        return (LinkkiInMemoryContainer<?>)tableBinding.getBoundComponent().getContainerDataSource();
+        return (LinkkiInMemoryContainer<?>)binding.getBoundComponent().getContainerDataSource();
     }
 
     @Test
@@ -92,7 +93,7 @@ public class HierarchicalTableBindingTest {
         NumberRowPmo rowAa1 = childRow(rowAa, 0);
         NumberRowPmo rowAa2 = childRow(rowAa, 1);
 
-        tableBinding.updateFromPmo();
+        binding.updateFromPmo();
 
         @SuppressWarnings("unchecked")
         Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();
@@ -113,7 +114,7 @@ public class HierarchicalTableBindingTest {
         NumberRowPmo rowAa2 = childRow(rowAa, 1);
         rowAa1.getCode().setNumber(42);
 
-        tableBinding.updateFromPmo();
+        binding.updateFromPmo();
 
         // sort order of numberRows is by number and so Aa1(now Aa42) and Aa2 must switch places
         // we don't use pmosFor(...) here because we want to make sure it's the same PMOs
@@ -130,7 +131,7 @@ public class HierarchicalTableBindingTest {
         NumberRowPmo rowAa1 = childRow(rowAa, 0);
         rowAa1.getCode().setUpperCaseLetter("C");
 
-        tableBinding.updateFromPmo();
+        binding.updateFromPmo();
 
         @SuppressWarnings("unchecked")
         Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();
@@ -151,7 +152,7 @@ public class HierarchicalTableBindingTest {
         rowAa1.getCode().setLowerCaseLetter("c");
         rowAa1.getCode().setNumber(23);
 
-        tableBinding.updateFromPmo();
+        binding.updateFromPmo();
 
         @SuppressWarnings("unchecked")
         Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();
@@ -168,7 +169,7 @@ public class HierarchicalTableBindingTest {
         NumberRowPmo rowAa1 = childRow(rowAa, 0);
         rowAa1.getCode().setLowerCaseLetter("c");
 
-        tableBinding.updateFromPmo();
+        binding.updateFromPmo();
 
         @SuppressWarnings("unchecked")
         Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();

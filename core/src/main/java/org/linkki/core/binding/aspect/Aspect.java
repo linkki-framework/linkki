@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 
 package org.linkki.core.binding.aspect;
@@ -25,27 +25,29 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * The linkki binding in general defines a synchronization link between a UI component and a
- * corresponding property in the presentation model. More precisely, the binding does not only
- * handle the value of the property but may also handle other information like visible, enabled,
- * read-only, required, etc. Every single kind of information is called an aspect of the binding.
+ * corresponding property in the presentation model. More precisely, the binding does not only handle
+ * the value of the property but may also handle other information like visible, enabled, read-only,
+ * required, etc. Every single kind of information is called an aspect of the binding.
  * <p>
  * Every aspect has a unique name. First this name identifies the aspect (the kind of needed
- * information) and second the name could be used to retrieve the information from the model. For
- * more information see {@link #getName()}.
+ * information) and second the name could be used to retrieve the information from the model. For more
+ * information see {@link #getName()}.
  * <p>
  * In addition to the name an {@link Aspect} could have a value. A value might be something that is
- * configured statically for example in the UI field annotation. Although the value is present it
- * might be overruled by a {@link PropertyDispatcher}. Keep in mind that the existence of a value
- * does not mean that the value is not <code>null</code>. In some cases the aspect might define a
- * value that is the <code>null</code> value.
+ * configured statically for example in the UI field annotation. Although the value is present it might
+ * be overruled by a {@link PropertyDispatcher}. Keep in mind that the existence of a value does not
+ * mean that the value is not <code>null</code>. In some cases the aspect might define a value that is
+ * the <code>null</code> value.
+ * 
+ * @param <V> the class for values updated with this {@link Aspect}
  */
-public class Aspect<T> {
+public class Aspect<V> {
 
     private final String name;
 
-    private final Value<T> value;
+    private final Value<V> value;
 
-    private Aspect(String name, Value<T> value) {
+    private Aspect(String name, Value<V> value) {
         this.name = name;
         this.value = value;
     }
@@ -78,7 +80,7 @@ public class Aspect<T> {
      * @throws NoSuchElementException if no value is present, if this behavior is not needed use
      *             {@link #isValuePresent()}
      */
-    public T getValue() {
+    public V getValue() {
         if (isValuePresent()) {
             return value.get();
         } else {
@@ -94,7 +96,7 @@ public class Aspect<T> {
      * 
      * @see #getValue()
      */
-    public T getValueOr(Supplier<T> supplier) {
+    public V getValueOr(Supplier<V> supplier) {
         return value.orElseGet(supplier);
     }
 
@@ -115,7 +117,7 @@ public class Aspect<T> {
      * @return a new {@link Aspect} containing the given value and the same name like this
      *         {@link Aspect}
      */
-    public Aspect<T> with(T newValue) {
+    public Aspect<V> with(V newValue) {
         return of(name, newValue);
     }
 

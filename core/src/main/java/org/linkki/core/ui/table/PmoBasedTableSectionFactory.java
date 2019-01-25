@@ -31,17 +31,17 @@ import com.vaadin.ui.Table;
 /**
  * A factory to create sections showing a single table based on a PMO.
  */
-public class PmoBasedTableSectionFactory<@NonNull T> {
+public class PmoBasedTableSectionFactory<@NonNull ROW> {
 
     private PmoNlsService pmoNlsService;
 
-    private final ContainerPmo<T> containerPmo;
+    private final ContainerPmo<ROW> containerPmo;
     private final BindingContext bindingContext;
 
     /**
      * Creates a new factory.
      */
-    public PmoBasedTableSectionFactory(ContainerPmo<T> containerPmo, BindingContext bindingContext) {
+    public PmoBasedTableSectionFactory(ContainerPmo<ROW> containerPmo, BindingContext bindingContext) {
         this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
         this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         pmoNlsService = PmoNlsService.get();
@@ -51,19 +51,19 @@ public class PmoBasedTableSectionFactory<@NonNull T> {
      * Creates a new section showing a table, table structure and content is defined by the factory's
      * {@link ContainerPmo}.
      */
-    public TableSection<T> createSection() {
+    public TableSection<ROW> createSection() {
         Table table = createTable();
         Optional<ButtonPmo> addItemPmo = containerPmo.getAddItemButtonPmo();
-        TableSection<T> section = createTableSection(table, addItemPmo);
+        TableSection<ROW> section = createTableSection(table, addItemPmo);
         return section;
     }
 
     private Table createTable() {
-        PmoBasedTableFactory<T> tableFactory = new PmoBasedTableFactory<>(containerPmo, bindingContext);
+        PmoBasedTableFactory<ROW> tableFactory = new PmoBasedTableFactory<>(containerPmo, bindingContext);
         return tableFactory.createTable();
     }
 
-    private TableSection<T> createTableSection(Table table, Optional<ButtonPmo> addItemButtonPmo) {
+    private TableSection<ROW> createTableSection(Table table, Optional<ButtonPmo> addItemButtonPmo) {
         UISection sectionDefinition = UISectionDefinition.from(containerPmo);
 
         String caption = pmoNlsService.getSectionCaption(containerPmo.getClass(), null, sectionDefinition.caption());

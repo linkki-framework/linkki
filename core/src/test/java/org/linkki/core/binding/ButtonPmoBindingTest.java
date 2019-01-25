@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding;
 
@@ -23,8 +23,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.binding.ButtonPmoBinding.ButtonPmoAspectDefinition;
+import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
+import org.linkki.core.ui.components.CaptionComponentWrapper;
+import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.components.WrapperType;
 
 import com.vaadin.ui.Button;
 
@@ -63,22 +67,24 @@ public class ButtonPmoBindingTest {
     @Test
     public void testButtonClickIsForwaredToPmo() {
         ButtonPmo pmo = mock(ButtonPmo.class);
-        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY,
-                wrappedDispatcher);
-        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, propertyDispatcher,
-                bindingContext::modelChanged);
-        bindingContext.add(buttonPmoBinding);
+        when(pmo.isEnabled()).thenReturn(true);
+        bind(pmo);
+
         button.click();
+
         verify(pmo).onClick();
+    }
+
+    private Binding<Button> bind(ButtonPmo pmo) {
+        ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
+        SimpleBindingDescriptor bindingDescriptor = new SimpleBindingDescriptor("", new ButtonPmoAspectDefinition());
+        return bindingContext.bind(pmo, bindingDescriptor, buttonWrapper);
     }
 
     @Test
     public void testUpdateFromPmo_PmoSublass() {
         TestButtonPmo pmo = new TestButtonPmo();
-        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY,
-                wrappedDispatcher);
-        ButtonPmoBinding binding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::modelChanged);
-        bindingContext.add(binding);
+        Binding<Button> binding = bind(pmo);
 
         pmo.enabled = true;
         pmo.visible = true;
@@ -96,11 +102,8 @@ public class ButtonPmoBindingTest {
     @Test
     public void testUpdateFromPmo_LambdaPmo() {
         ButtonPmo lambdaPmo = () -> System.out.println("click");
-        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> lambdaPmo, StringUtils.EMPTY,
-                wrappedDispatcher);
 
-        ButtonPmoBinding binding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::modelChanged);
-        bindingContext.add(binding);
+        Binding<Button> binding = bind(lambdaPmo);
 
         binding.updateFromPmo();
         assertThat(button.isVisible(), is(true));

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 
 package org.linkki.core.ui.section.annotations.aspect;
@@ -28,6 +28,9 @@ import com.vaadin.ui.AbstractSelect;
 
 /**
  * Defines aspects that update the set of available value of an {@link AbstractSelect}.
+ * <p>
+ * Although we defined the superclass only accepting {@link AbstractSelect} this type is not really
+ * checked during compile time.
  */
 public abstract class IgnoreTypeAvailableValuesAspectDefinition extends AvailableValuesAspectDefinition {
 

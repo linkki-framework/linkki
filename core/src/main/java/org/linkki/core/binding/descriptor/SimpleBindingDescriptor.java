@@ -14,6 +14,7 @@
 
 package org.linkki.core.binding.descriptor;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
@@ -22,23 +23,32 @@ import org.linkki.core.binding.property.BoundProperty;
 /**
  * A simple {@link BindingDescriptor} that only describes the bound property to be used with the
  * configured {@link LinkkiAspectDefinition aspect definitions}.
+ * <p>
+ * If the {@code pmoPropertyName} is an empty String, the binding of aspects happens via
+ * {@code get<Aspect>()} methods.
+ * 
+ * @see LinkkiAspectDefinition
  */
 public class SimpleBindingDescriptor extends BindingDescriptor {
 
     private final BoundProperty boundProperty;
 
-    public SimpleBindingDescriptor(String pmoPropertyName, List<LinkkiAspectDefinition> aspectDefs) {
+    public SimpleBindingDescriptor(String pmoPropertyName, LinkkiAspectDefinition... aspectDefs) {
+        this(pmoPropertyName, Arrays.asList(aspectDefs));
+    }
+
+    public SimpleBindingDescriptor(String pmoPropertyName, List<? extends LinkkiAspectDefinition> aspectDefs) {
         this(new BoundProperty(pmoPropertyName), aspectDefs);
     }
 
     public SimpleBindingDescriptor(String pmoPropertyName, String modelPropertyName, String modelObjectName,
-            List<LinkkiAspectDefinition> aspectDefs) {
+            List<? extends LinkkiAspectDefinition> aspectDefs) {
         this(new BoundProperty(pmoPropertyName).withModelObject(modelObjectName).withModelAttribute(modelPropertyName),
                 aspectDefs);
     }
 
     public SimpleBindingDescriptor(BoundProperty boundProperty,
-            List<LinkkiAspectDefinition> aspectDefs) {
+            List<? extends LinkkiAspectDefinition> aspectDefs) {
         super(aspectDefs);
         this.boundProperty = boundProperty;
     }
