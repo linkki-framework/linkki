@@ -45,7 +45,7 @@ import org.linkki.core.ui.components.CaptionComponentWrapper;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
-import org.linkki.core.ui.section.BaseSection;
+import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.EnabledType;
@@ -199,7 +199,7 @@ public class BindingContextTest {
     public void testRemoveBindingsForComponent_Button() {
         TestBindingContext context = TestBindingContext.create();
         TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
-        BaseSection section = new PmoBasedSectionFactory().createBaseSection(testPmoWithButton, context);
+        AbstractSection section = new PmoBasedSectionFactory().createSection(testPmoWithButton, context);
 
         assertThat(context.getBindings(), hasSize(1));
 
@@ -247,7 +247,7 @@ public class BindingContextTest {
     public void testRemoveBindingsForPmo_Button() {
         TestBindingContext context = TestBindingContext.create();
         TestPmoWithButton testPmoWithButton = new TestPmoWithButton();
-        new PmoBasedSectionFactory().createBaseSection(testPmoWithButton, context);
+        new PmoBasedSectionFactory().createSection(testPmoWithButton, context);
 
         assertThat(context.getBindings(), hasSize(1));
 

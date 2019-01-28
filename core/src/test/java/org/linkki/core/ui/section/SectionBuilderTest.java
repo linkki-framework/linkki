@@ -21,6 +21,7 @@ import static org.junit.Assert.assertThat;
 import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.section.PmoBasedSectionFactory.SectionBuilder;
 import org.linkki.core.ui.section.annotations.SectionID;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UISection;
@@ -30,31 +31,29 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Panel;
 
-@SuppressWarnings("deprecation")
-@Deprecated
-public class SectionCreationContextTest {
+public class SectionBuilderTest {
 
     private BindingContext bindingContext = new BindingContext("testBindingContext");
 
     @Test
     public void testSetSectionId() {
-        BaseSection section = createContext(new SCCPmoWithID()).createSection();
+        AbstractSection section = createContext(new SCCPmoWithID()).createSection();
         assertThat(section.getId(), is("test-ID"));
     }
 
-    private SectionCreationContext createContext(Object pmo) {
-        return new SectionCreationContext(pmo, bindingContext);
+    private SectionBuilder createContext(Object pmo) {
+        return new SectionBuilder(pmo, bindingContext);
     }
 
     @Test
     public void testSetSectionDefaultId() {
-        BaseSection section = createContext(new SCCPmoWithoutID()).createSection();
+        AbstractSection section = createContext(new SCCPmoWithoutID()).createSection();
         assertThat(section.getId(), is("SCCPmoWithoutID"));
     }
 
     @Test
     public void testSetComponentId() {
-        BaseSection section = createContext(new SCCPmoWithID()).createSection();
+        AbstractSection section = createContext(new SCCPmoWithID()).createSection();
         assertThat(section.getComponentCount(), is(2));
         @NonNull
         Panel panel = (Panel)section.getComponent(1);
@@ -69,26 +68,26 @@ public class SectionCreationContextTest {
 
     @Test
     public void testSectionWithDefaultLayout_shouldCreateFormLayout() {
-        BaseSection section = createContext(new SCCPmoWithoutID()).createSection();
+        AbstractSection section = createContext(new SCCPmoWithoutID()).createSection();
         assertThat(section, is(instanceOf(FormSection.class)));
     }
 
     @Test
     public void testSectionWithHorizontalLayout_shouldCreateHorizontalSection() {
-        BaseSection section = createContext(new SectionWithHorizontalLayout()).createSection();
+        AbstractSection section = createContext(new SectionWithHorizontalLayout()).createSection();
         assertThat(section, is(instanceOf(HorizontalSection.class)));
     }
 
     @Test
     public void testSectionWithCustomLayout_shouldCreateCustomLayoutSection() {
-        BaseSection section = createContext(new SectionWithCustomLayout()).createSection();
+        AbstractSection section = createContext(new SectionWithCustomLayout()).createSection();
         assertThat(section, is(instanceOf(CustomLayoutSection.class)));
     }
 
     @SuppressWarnings("null")
     @Test
     public void testSectionWithoutAnnotation_usesDefaultValues() {
-        BaseSection section = createContext(new SectionWithoutAnnotation()).createSection();
+        AbstractSection section = createContext(new SectionWithoutAnnotation()).createSection();
         assertThat(section, is(instanceOf(FormSection.class)));
         assertThat(section.getId(), is(SectionWithoutAnnotation.class.getSimpleName()));
         assertThat(section.getCaption(), is(nullValue()));

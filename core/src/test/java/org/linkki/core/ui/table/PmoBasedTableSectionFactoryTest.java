@@ -30,6 +30,8 @@ import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.container.LinkkiInMemoryContainer;
+import org.linkki.core.ui.section.AbstractSection;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -42,10 +44,9 @@ public class PmoBasedTableSectionFactoryTest {
     public void testCreateSection_TableIsAddedAndBound() {
         TestTablePmo containerPmo = new TestTablePmo();
         BindingContext bindingContext = TestBindingContext.create();
-        PmoBasedTableSectionFactory<TestRowPmo> factory = new PmoBasedTableSectionFactory<TestRowPmo>(
-                containerPmo, bindingContext);
+        PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
 
-        TableSection<TestRowPmo> tableSection = factory.createSection();
+        AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
 
         assertThat(tableSection, is(notNullValue()));
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
@@ -83,10 +84,9 @@ public class PmoBasedTableSectionFactoryTest {
     public void testCreateSection_SectionHasAddButtonInHeader() {
         TestTablePmo containerPmo = new TestTablePmo();
         BindingContext bindingContext = TestBindingContext.create();
-        PmoBasedTableSectionFactory<TestRowPmo> factory = new PmoBasedTableSectionFactory<TestRowPmo>(
-                containerPmo, bindingContext);
+        PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
 
-        TableSection<TestRowPmo> tableSection = factory.createSection();
+        AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
 
         assertThat(tableSection, is(notNullValue()));
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
@@ -102,10 +102,9 @@ public class PmoBasedTableSectionFactoryTest {
     public void testCreateSection_NoAnnotation() {
         NoAnnotationTablePmo containerPmo = new NoAnnotationTablePmo();
         BindingContext bindingContext = TestBindingContext.create();
-        PmoBasedTableSectionFactory<TestRowPmo> factory = new PmoBasedTableSectionFactory<TestRowPmo>(
-                containerPmo, bindingContext);
+        PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
 
-        TableSection<TestRowPmo> tableSection = factory.createSection();
+        AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
 
         assertThat(tableSection, is(notNullValue()));
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
