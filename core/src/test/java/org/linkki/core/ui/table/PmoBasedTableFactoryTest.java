@@ -1,40 +1,36 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.table;
 
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.container.LinkkiInMemoryContainer;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.vaadin.data.Container.ItemSetChangeListener;
@@ -45,124 +41,118 @@ public class PmoBasedTableFactoryTest {
 
     private BindingContext bindingContext = spy(new BindingContext());
 
-    private TestTablePmo containerPmo = new TestTablePmo();
+    private static LinkkiInMemoryContainer<?> getTableContainer(BindingContext bindingContext) {
+        return (LinkkiInMemoryContainer<?>)getFirstBinding(bindingContext).getBoundComponent().getContainerDataSource();
+    }
 
-    private Table table = new Table();
-
-    @SuppressWarnings("null")
-    private Binding<Table> binding;
-
-    @SuppressWarnings("null")
-    @Mock
-    private ItemSetChangeListener listener;
-
-
-    @Before
     @SuppressWarnings("unchecked")
-    public void setUp() {
-        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(containerPmo, bindingContext);
-        table = factory.createTable();
+    private static Binding<Table> getFirstBinding(BindingContext bindingContext) {
+        return (Binding<Table>)bindingContext.getBindings().stream().findFirst().get();
+    }
 
-        assertThat(bindingContext.getBindings().size(), is(1));
-        binding = (Binding<Table>)bindingContext.getBindings().stream().findFirst().get();
-
-        getTableContainer().addItemSetChangeListener(listener);
+    private static ItemSetChangeListener addItemSetChangeListener(BindingContext bindingContext) {
+        ItemSetChangeListener listener = mock(ItemSetChangeListener.class);
+        getTableContainer(bindingContext).addItemSetChangeListener(listener);
+        return listener;
     }
 
     @Test
-    public void testCreateTable_InitialPageLengthIsSetOnTable() {
-        assertThat(table.getPageLength(), is(ContainerPmo.DEFAULT_PAGE_LENGTH));
-    }
+    public void testPageLength() {
+        TestTablePmo tablePmo = new TestTablePmo(15);
 
-    @Test
-    public void testCreateTable_ItemsAreBound() {
-        TestRowPmo rowPmo1 = containerPmo.addItem();
-        TestRowPmo rowPmo2 = containerPmo.addItem();
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
 
+        assertThat(table.getPageLength(), is(15));
+
+        tablePmo.setPageLength(25);
         bindingContext.modelChanged();
 
-        assertThat(containerPmo.getItems(), contains(rowPmo1, rowPmo2));
+        assertThat(table.getPageLength(), is(25));
+        verifyZeroInteractions(itemSetChangedListener);
+    }
+
+    @Test
+    public void testItems_AfterConstruction() {
+        TestRowPmo rowPmo1 = new TestRowPmo();
+        TestRowPmo rowPmo2 = new TestRowPmo();
+
+        TestTablePmo tablePmo = new TestTablePmo(rowPmo1, rowPmo2);
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+
+        assertThat(tablePmo.getItems(), contains(rowPmo1, rowPmo2));
         assertThat(table.getItemIds(), contains(rowPmo1, rowPmo2));
     }
 
-    protected LinkkiInMemoryContainer<?> getTableContainer() {
-        return (LinkkiInMemoryContainer<?>)binding.getBoundComponent().getContainerDataSource();
+    @Test
+    public void testItems_UponUpdate_AddItems() {
+        TestTablePmo tablePmo = new TestTablePmo();
+
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
+
+        assertThat(table.getItemIds(), is(empty()));
+
+        TestRowPmo newRow = new TestRowPmo();
+        tablePmo.getItems().add(newRow);
+
+        bindingContext.modelChanged();
+
+        assertThat(tablePmo.getItems(), contains(newRow));
+        assertThat(table.getItemIds(), contains(newRow));
+        verify(itemSetChangedListener).containerItemSetChange(any());
+        verifyNoMoreInteractions(itemSetChangedListener);
+    }
+
+    @Test
+    public void testItems_UponUpdate_RemoveItems() {
+        TestRowPmo row1 = new TestRowPmo();
+        TestRowPmo row2 = new TestRowPmo();
+        TestTablePmo tablePmo = new TestTablePmo(row1, row2);
+
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
+
+        assertThat(table.getItemIds().size(), is(2));
+
+        tablePmo.getItems().remove(row1);
+        bindingContext.modelChanged();
+
+        assertThat(tablePmo.getItems(), contains(row2));
+        assertThat(table.getItemIds(), contains(row2));
+        verify(itemSetChangedListener).containerItemSetChange(any());
+        verifyNoMoreInteractions(itemSetChangedListener);
     }
 
     @Test
     public void testDataSourceSet() {
-        assertEquals(getTableContainer(), table.getContainerDataSource());
-    }
-
-    @Test
-    public void testUpdateFromPmo_PageLengthIsSet() {
-        containerPmo.setPageLength(23);
-
-        binding.updateFromPmo();
-
-        assertEquals(23, table.getPageLength());
-        verifyZeroInteractions(listener);
-    }
-
-    @Test
-    public void testUpdateFromPmo_NewItemsAreAdded() {
-        containerPmo.addItem();
-
-        binding.updateFromPmo();
-
-        assertEquals(containerPmo.getItems(), table.getItemIds());
-        verify(listener).containerItemSetChange(any());
-        verifyNoMoreInteractions(listener);
-    }
-
-    @Test
-    public void testUpdateFromPmo_RemovedItemsAreCleanedUp() {
-        containerPmo.addItem();
-        bindingContext.modelChanged();
-        reset(listener);
-        containerPmo.getItems().clear();
-
-        bindingContext.modelChanged();
-
-        assertEquals(containerPmo.getItems(), table.getItemIds());
-        verify(listener).containerItemSetChange(any());
-        verifyNoMoreInteractions(listener);
-    }
-
-    @Test
-    public void testUpdateFromPmo_FooterIsAlwaysUpdated() {
-        TableFooterPmo footerPmo = mock(TableFooterPmo.class);
-        containerPmo.setFooterPmo(footerPmo);
-
-        binding.updateFromPmo();
-        binding.updateFromPmo();
-
-        // item set did not change
-        verifyNoMoreInteractions(listener);
-
-        // each footer property was requested for each call of updateFromPmo
-        verify(footerPmo, times(2)).getFooterText(TestRowPmo.PROPERTY_VALUE_1);
-        verify(footerPmo, times(2)).getFooterText(TestRowPmo.PROPERTY_VALUE_2);
-        verify(footerPmo, times(2)).getFooterText(TestRowPmo.PROPERTY_VALUE_3);
-        verify(footerPmo, times(2)).getFooterText(TestRowPmo.PROPERTY_DELETE);
-        verifyNoMoreInteractions(footerPmo);
-
+        TestTablePmo tablePmo = new TestTablePmo();
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        assertThat(getTableContainer(bindingContext), is(table.getContainerDataSource()));
     }
 
     @Test
     public void testFooterUpdateAfterConstruction() {
-        TableFooterPmo footerPmo = mock(TableFooterPmo.class);
-        containerPmo.setFooterPmo(footerPmo);
+        TableFooterPmo footerPmo = property -> property;
+        TestTablePmo tablePmo = new TestTablePmo(footerPmo);
 
-        bindingContext.modelChanged();
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
 
         assertTrue(table.isFooterVisible());
+        assertThat(table.getColumnFooter(TestRowPmo.PROPERTY_VALUE_1), is(TestRowPmo.PROPERTY_VALUE_1));
+        assertThat(table.getColumnFooter(TestRowPmo.PROPERTY_VALUE_2), is(TestRowPmo.PROPERTY_VALUE_2));
 
-        containerPmo.setFooterPmo(null);
-
+        tablePmo.setFooterPmo(null);
         bindingContext.modelChanged();
-
         assertFalse(table.isFooterVisible());
+        verifyNoMoreInteractions(itemSetChangedListener);
+
+        tablePmo.setFooterPmo(property -> "test");
+        bindingContext.modelChanged();
+        assertTrue(table.isFooterVisible());
+        assertThat(table.getColumnFooter(TestRowPmo.PROPERTY_VALUE_1), is("test"));
+        verifyNoMoreInteractions(itemSetChangedListener);
     }
 
 }

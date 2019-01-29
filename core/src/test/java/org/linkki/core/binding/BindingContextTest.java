@@ -52,6 +52,7 @@ import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
+import org.linkki.core.ui.table.TestRowPmo;
 import org.linkki.core.ui.table.TestTablePmo;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
@@ -178,8 +179,7 @@ public class BindingContextTest {
     @Test
     public void testRemoveBindingsForComponent_Container() {
         TestBindingContext context = TestBindingContext.create();
-        TestTablePmo tablePmo = new TestTablePmo();
-        tablePmo.addItem();
+        TestTablePmo tablePmo = new TestTablePmo(new TestRowPmo());
         Table table = new PmoBasedTableFactory<>(tablePmo, context).createTable();
         UI ui = MockUi.mockUi();
         table.setParent(ui);
@@ -226,8 +226,7 @@ public class BindingContextTest {
     @Test
     public void testRemoveBindingsForPmo_Container() {
         TestBindingContext context = TestBindingContext.create();
-        TestTablePmo tablePmo = new TestTablePmo();
-        tablePmo.addItem();
+        TestTablePmo tablePmo = new TestTablePmo(new TestRowPmo());
         Table table = new PmoBasedTableFactory<>(tablePmo, context).createTable();
         UI ui = MockUi.mockUi();
         table.setParent(ui);

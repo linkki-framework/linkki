@@ -14,6 +14,7 @@
 package org.linkki.core.ui.table;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,21 +28,31 @@ public class TestTablePmo implements ContainerPmo<@NonNull TestRowPmo> {
 
     public static final String CAPTION = "container";
 
-    private final List<@NonNull TestRowPmo> pmos = new ArrayList<>();
-
-    private int pageLength = ContainerPmo.DEFAULT_PAGE_LENGTH;
-
+    private final List<@NonNull TestRowPmo> pmos;
+    private int pageLength;
     @Nullable
     private TableFooterPmo footerPmo;
 
-    public TestRowPmo addItem() {
-        TestRowPmo columnPmo = new TestRowPmo(this);
-        pmos.add(columnPmo);
-        return columnPmo;
+    public TestTablePmo() {
+        this(new ArrayList<>(), ContainerPmo.DEFAULT_PAGE_LENGTH, null);
     }
 
-    public void deleteItem(TestRowPmo columnPmo) {
-        pmos.remove(columnPmo);
+    public TestTablePmo(TestRowPmo... rowPmos) {
+        this(new ArrayList<>(Arrays.asList(rowPmos)), ContainerPmo.DEFAULT_PAGE_LENGTH, null);
+    }
+
+    public TestTablePmo(int pageLength) {
+        this(new ArrayList<>(), pageLength, null);
+    }
+
+    public TestTablePmo(TableFooterPmo footerPmo) {
+        this(new ArrayList<>(), ContainerPmo.DEFAULT_PAGE_LENGTH, footerPmo);
+    }
+
+    public TestTablePmo(List<@NonNull TestRowPmo> rowPmos, int pageLength, @Nullable TableFooterPmo footerPmo) {
+        this.pmos = rowPmos;
+        this.pageLength = pageLength;
+        this.footerPmo = footerPmo;
     }
 
     @Override
@@ -51,7 +62,7 @@ public class TestTablePmo implements ContainerPmo<@NonNull TestRowPmo> {
 
     @Override
     public Optional<ButtonPmo> getAddItemButtonPmo() {
-        return Optional.of(ButtonPmo.newAddButton(this::addItem));
+        return Optional.of(ButtonPmo.newAddButton(() -> pmos.add(new TestRowPmo())));
     }
 
     @Override

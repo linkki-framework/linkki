@@ -14,10 +14,13 @@
 package org.linkki.samples.binding.pmo;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.SimpleItemSupplier;
+import org.linkki.core.ui.table.TableFooterPmo;
 import org.linkki.samples.binding.model.Contact;
 
 @SuppressWarnings("null")
@@ -47,4 +50,11 @@ public class ContactTablePmo implements ContainerPmo<ContactRowPmo> {
         return Math.min(ContainerPmo.DEFAULT_PAGE_LENGTH, getItems().size());
     }
     // end::page-length[]
+
+    @Override
+    public @NonNull Optional<@NonNull TableFooterPmo> getFooterPmo() {
+        long favorites = items.get().stream().filter(ContactRowPmo::isFavorite).count();
+        return favorites == 0 ? Optional.empty()
+                : Optional.of(s -> "favorite".equals(s) ? Long.toString(favorites) : "");
+    }
 }
