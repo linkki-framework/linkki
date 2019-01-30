@@ -7,7 +7,7 @@
 
 == New & Noteworthy
 
-=== January 29th, 2019
+=== January 30th, 2019
 
 ==== Refactoring for tables and @UITableColumn
 
@@ -40,8 +40,10 @@ During this refactoring, a fallback mechanism to determine the `pmoProperty` att
 ==== Deprecated classes
 
   * The methods `sizedLabel(AbstractOrderedLayout, String)` and `sizedLabel(Layout, String, ContentMode)` in the `ComponentFactory` have been marked as deprecated, as they duplicate the `newLabelWidthUndefined` methods with the same parameters which better fit the naming of the other methods in the class.
-  *  The classes `PmoBasedTableSectionFactory` and `SectionCreationContext` have been deprecated in favor of a unified class `PmoBasedSectionFactory`. You could use `PmoBasedSectionFactory.createSection(Object, BindingContext)` method to create all kinds of sections annotated with `@UISection`. If the PMO class implements
+  * The classes `PmoBasedTableSectionFactory` and `SectionCreationContext` have been deprecated in favor of a unified class `PmoBasedSectionFactory`. You could use `PmoBasedSectionFactory.createSection(Object, BindingContext)` method to create all kinds of sections annotated with `@UISection`. If the PMO class implements
   `ContainerPmo` it automatically creates a `TableSection`.
+  * The method `BindingContext.createDispatcherChain(Object, BindingDescriptor)` was deprecated. If you had overwritten this method, pass your `PropertyDispatcherFactory` to the new constructor `BindingContext(String, PropertyBehaviorProvider, Handler, PropertyDispatcherFactory)`.
+  * The signatures of the methods in `PropertyDispatcherFactory` have changed. Instead of the `BindingDescriptor` it gets directly the newly introduced `BoundProperty` which holds the reference to the bound PMO property name as well as the model object name and model object property name.
 
 === November 29th, 2018
 

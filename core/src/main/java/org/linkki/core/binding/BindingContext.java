@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding;
 
@@ -45,9 +45,9 @@ import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Label;
 
 /**
- * A binding context binds fields and tables in a part of the user interface like a page or a dialog to
- * properties of presentation model objects. If the value in one of the fields is changed, all fields in
- * the context are updated from the presentation model objects via their bindings.
+ * A binding context binds fields and tables in a part of the user interface like a page or a dialog
+ * to properties of presentation model objects. If the value in one of the fields is changed, all
+ * fields in the context are updated from the presentation model objects via their bindings.
  * <p>
  * {@linkplain BindingContext}s are usually managed by a {@link BindingManager} that handles events
  * across multiple contexts.
@@ -317,7 +317,8 @@ public class BindingContext implements UiUpdateObserver {
         requireNonNull(pmo, "pmo must not be null");
         requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
         requireNonNull(componentWrapper, "componentWrapper must not be null");
-        Binding<T> binding = createBinding(pmo, bindingDescriptor, componentWrapper);
+        Binding<T> binding = createBinding(pmo, bindingDescriptor.getBoundProperty(),
+                                           bindingDescriptor.getAspectDefinitions(), componentWrapper);
         binding.updateFromPmo();
         add(binding);
         return binding;
@@ -348,27 +349,33 @@ public class BindingContext implements UiUpdateObserver {
      * UI components using the binding information from this descriptor.
      */
     private <@NonNull T> Binding<T> createBinding(Object pmo,
-            BindingDescriptor bindingDescriptor,
+            BoundProperty boundProperty,
+            List<LinkkiAspectDefinition> aspectDefinitions,
             ComponentWrapper componentWrapper) {
         requireNonNull(pmo, "pmo must not be null");
-        requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
+        requireNonNull(boundProperty, "bindingDescriptor must not be null");
+        requireNonNull(aspectDefinitions, "aspectDefinitions must not be null");
         requireNonNull(componentWrapper, "componentWrapper must not be null");
-        return new Binding<>(componentWrapper, createDispatcherChain(pmo, bindingDescriptor), this::modelChanged,
-                bindingDescriptor.getAspectDefinitions(), getBehaviorProvider());
+        return new Binding<>(componentWrapper,
+                dispatcherFactory.createDispatcherChain(pmo, boundProperty, getBehaviorProvider()),
+                this::modelChanged,
+                aspectDefinitions, behaviorProvider);
     }
 
     /**
-     * @deprecated since January 2019. Instead of overwriting this provide a
+     * @deprecated since January 2019. Instead of overwriting this method, provide a
      *             {@link PropertyDispatcherFactory} to
      *             {@link #BindingContext(String, PropertyBehaviorProvider, Handler, PropertyDispatcherFactory)}.
+     *             <b>This method is no longer called!</b>
      */
     @Deprecated
-    public PropertyDispatcher createDispatcherChain(Object pmo,
+    public final PropertyDispatcher createDispatcherChain(Object pmo,
             BindingDescriptor bindingDescriptor) {
         requireNonNull(pmo, "pmo must not be null");
         requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
 
-        return dispatcherFactory.createDispatcherChain(pmo, bindingDescriptor, getBehaviorProvider());
+        return dispatcherFactory.createDispatcherChain(pmo, bindingDescriptor.getBoundProperty(),
+                                                       getBehaviorProvider());
     }
 
 }

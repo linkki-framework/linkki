@@ -17,7 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Supplier;
 
-import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.binding.dispatcher.BehaviorDependentDispatcher;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
@@ -25,6 +24,7 @@ import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.StaticValueDispatcher;
+import org.linkki.core.binding.property.BoundProperty;
 
 /**
  * Creates Chains of {@link PropertyDispatcher PropertyDispatchers}.
@@ -32,20 +32,20 @@ import org.linkki.core.binding.dispatcher.StaticValueDispatcher;
 public class PropertyDispatcherFactory {
 
     public PropertyDispatcher createDispatcherChain(Object pmo,
-            BindingDescriptor bindingDescriptor,
+            BoundProperty boundProperty,
             PropertyBehaviorProvider behaviorProvider) {
         requireNonNull(pmo, "pmo must not be null");
-        requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
+        requireNonNull(boundProperty, "boundProperty must not be null");
         requireNonNull(behaviorProvider, "behaviorProvider must not be null");
 
         // @formatter:off
-        String modelPropertyName = bindingDescriptor.getModelPropertyName();
-        String modelObjectName = bindingDescriptor.getModelObjectName();
-        String pmoPropertyName = bindingDescriptor.getPmoPropertyName();
+        String modelPropertyName = boundProperty.getModelAttribute();
+        String modelObjectName = boundProperty.getModelObject();
+        String pmoPropertyName = boundProperty.getPmoProperty();
         ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo, modelObjectName, pmoPropertyName);
         ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, pmoPropertyName, modelObjectName, modelPropertyName, exceptionDispatcher);
         StaticValueDispatcher bindingAnnotationDispatcher = new StaticValueDispatcher(reflectionDispatcher);
-        PropertyDispatcher customDispatchers = createCustomDispatchers(pmo, bindingDescriptor, bindingAnnotationDispatcher);
+        PropertyDispatcher customDispatchers = createCustomDispatchers(pmo, boundProperty, bindingAnnotationDispatcher);
         return new BehaviorDependentDispatcher(customDispatchers, behaviorProvider);
         // @formatter:on
     }
@@ -60,12 +60,12 @@ public class PropertyDispatcherFactory {
      * should be returned.
      * 
      * @param pmo the PMO the dispatcher is responsible for
-     * @param bindingDescriptor the descriptor of the bound UI element
+     * @param boundProperty the {@link BoundProperty} of the bound UI element
      * @param standardDispatchers the previously created dispatcher chain from
-     *            {@link #createDispatcherChain(Object, BindingDescriptor, PropertyBehaviorProvider)}
+     *            {@link #createDispatcherChain(Object, BoundProperty, PropertyBehaviorProvider)}
      */
     protected PropertyDispatcher createCustomDispatchers(Object pmo,
-            BindingDescriptor bindingDescriptor,
+            BoundProperty boundProperty,
             PropertyDispatcher standardDispatchers) {
         requireNonNull(standardDispatchers, "standardDispatchers must not be null");
         return standardDispatchers;
