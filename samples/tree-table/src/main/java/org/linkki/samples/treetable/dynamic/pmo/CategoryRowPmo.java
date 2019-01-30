@@ -30,7 +30,7 @@ public abstract class CategoryRowPmo<@NonNull CMO, @NonNull CPMO extends PlayerT
         implements HierarchicalRowPmo<CPMO> {
 
     private Supplier<Stream<Player>> playerStreamSupplier;
-    private SimpleItemSupplier<CPMO, CMO> childRowSupplier;
+    private SimpleItemSupplier<@NonNull CPMO, @NonNull CMO> childRowSupplier;
 
     // tag::hierarchical-row-pmo-with-simple-item-supplier[]
     public CategoryRowPmo(Supplier<Stream<Player>> playerStreamSupplier,

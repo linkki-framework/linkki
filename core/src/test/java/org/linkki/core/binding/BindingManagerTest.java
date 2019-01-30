@@ -35,7 +35,7 @@ public class BindingManagerTest {
     private ValidationService validationService;
 
     @Test
-    public void testAfterUpdateUi_sortsMessagesByErrorLevel() {
+    public void testAfterUpdateUi_sortsMessagesBySeverity() {
         Message e1 = Message.newError("e1", "E1");
         Message e2 = Message.newError("e2", "E2");
         Message e3 = Message.newError("e3", "E3");

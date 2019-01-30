@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.message;
 
@@ -27,69 +27,58 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.validation.ValidationMarker;
 
-import com.vaadin.server.ErrorMessage.ErrorLevel;
-
 /**
- * A human readable text message with an optional code that identifies the type of the message and a
- * {@link ErrorLevel} that indicates if this is an error, warning or information.
+ * A human readable text message with a {@link Severity} and an optional code that identifies the origin
+ * of the message.
  * <p>
- * In addition a message provides access to the objects and their properties the message relates to.
- * E.g. if a message reads that "insured person's age must be at least 18" than the person's age is
- * invalid. This information can be used for example to mark controls in the UI that display this
- * property.
+ * In addition, a message provides access to the objects and their properties the message relates to.
+ * For example, if a message says that "insured person's age must be at least 18" than the invalid
+ * object that the message relates to is the insured person, and the invalid property is its age. This
+ * information can be used to define which controls should display the message.
  * <p>
- * If the provided message has replacement parameters that cannot be evaluated while creating the
- * message text, it is possible to provide these parameters to the message object. Have a look at
- * {@link MsgReplacementParameter} for further information.
+ * You can store additional information about the message by providing {@link ValidationMarker
+ * validation markers} to the message. The exact use of the marker then depends on the implementation of
+ * the {@link ValidationMarker}.
  * <p>
- * If you need any further information stored with the message, it is possible to implement the
- * {@link ValidationMarker} object and provide some additional markers to the message. The exact use
- * of the markers depends on the custom implementation.
- * <p>
- * Message is an immutable value object. Two message objects are considered equal if they have the
- * same errorLevel, code, text, "invalid properties", replacement parameters and
- * {@link ValidationMarker markers}.
- * 
- * @see MsgReplacementParameter
+ * Message is an immutable value object. Two message objects are considered equal if they have the same
+ * severity, code, text, invalid properties and {@link ValidationMarker markers}.
  */
-
 public class Message implements Serializable {
 
     private static final long serialVersionUID = -6818159480375138792L;
 
-
-    private final ErrorLevel errorLevel;
+    private final Severity severity;
     private final String text;
     @Nullable
     private final String code;
 
     /**
-     * The objects and their properties that are addressed in the message
+     * The objects and their properties that the message relates to.
      */
     private final List<@NonNull ObjectProperty> invalidProperties;
 
     /**
-     * A set of {@link ValidationMarker} containing additional information.
+     * A set of {@link ValidationMarker} containing additional information about the message.
      */
     private final Set<@NonNull ValidationMarker> markers;
 
 
     /**
-     * Creates a new message by defining the following parameters.
+     * Creates a new message with an optional code, a text content and a {@link Severity}.
      * 
-     * @param code A message code that identifies the kind of the message
-     * @param text The human readable text of this message
-     * @param errorLevel the message's {@link ErrorLevel}
+     * @param code a code that identifies the message
+     * @param text the human readable text of this message
+     * @param severity the message's {@link Severity}
      */
-    public Message(@Nullable String code, String text, ErrorLevel errorLevel) {
-        this(code, text, errorLevel, null, null);
+    public Message(@Nullable String code, String text, Severity severity) {
+        this(code, text, severity, null, null);
     }
 
-    private Message(@Nullable String code, String text, ErrorLevel errorLevel,
+    Message(@Nullable String code, String text, Severity severity,
             @Nullable List<ObjectProperty> invalidObjectProperties, @Nullable Set<ValidationMarker> markers) {
         this.code = code;
         this.text = Objects.requireNonNull(text, "text must not be null");
-        this.errorLevel = Objects.requireNonNull(errorLevel, "errorLevel must not be null");
+        this.severity = Objects.requireNonNull(severity, "severity must not be null");
         if (markers != null) {
             this.markers = Collections.unmodifiableSet(new HashSet<>(markers));
         } else {
@@ -103,28 +92,28 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructs a new information message.
+     * Constructs a new {@link Message} with {@link Severity#INFORMATION}.
      */
     public static Message newInfo(String code, String text) {
-        return new Message(code, text, ErrorLevel.INFORMATION);
+        return new Message(code, text, Severity.INFORMATION);
     }
 
     /**
-     * Constructs a new warning message.
+     * Constructs a new {@link Message} with {@link Severity#WARNING}.
      */
     public static Message newWarning(String code, String text) {
-        return new Message(code, text, ErrorLevel.WARNING);
+        return new Message(code, text, Severity.WARNING);
     }
 
     /**
-     * Constructs a new error message.
+     * Constructs a new {@link Message} with {@link Severity#ERROR}.
      */
     public static Message newError(String code, String text) {
-        return new Message(code, text, ErrorLevel.ERROR);
+        return new Message(code, text, Severity.ERROR);
     }
 
-    public ErrorLevel getErrorLevel() {
-        return errorLevel;
+    public Severity getSeverity() {
+        return severity;
     }
 
     /**
@@ -184,39 +173,31 @@ public class Message implements Serializable {
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
-        switch (errorLevel) {
-            case ERROR:
-                buffer.append("ERROR");
-                break;
-            case WARNING:
-                buffer.append("WARNING");
-                break;
-            case INFORMATION:
-                buffer.append("INFO");
-                break;
-            default:
-                buffer.append("errorLevel ").append(errorLevel);
-        }
-        buffer.append(' ');
-        buffer.append(code);
-        buffer.append('[');
+
+        buffer.append(severity.toString())
+                .append(' ')
+                .append(code)
+                .append('[');
+
         int max = invalidProperties.size();
         for (int i = 0; i < max; i++) {
             if (i > 0) {
                 buffer.append(", ");
             }
-            buffer.append(invalidProperties.get(i).getObject().toString());
-            buffer.append('.');
-            buffer.append(invalidProperties.get(i).getProperty());
+            buffer.append(invalidProperties.get(i).getObject().toString())
+                    .append('.')
+                    .append(invalidProperties.get(i).getProperty());
         }
-        buffer.append(']');
-        buffer.append('\n');
-        buffer.append(text);
+
+        buffer.append(']')
+                .append('\n')
+                .append(text);
+
         return buffer.toString();
     }
 
     /**
-     * Returns true if o is a Message and errorLevel, code and text are equal.
+     * Returns true if o is a Message and severity, code and text are equal.
      * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -232,7 +213,7 @@ public class Message implements Serializable {
         if (!Objects.equals(text, other.text)) {
             return false;
         }
-        if (errorLevel != other.errorLevel) {
+        if (severity != other.severity) {
             return false;
         }
         if (!Objects.equals(invalidProperties, other.invalidProperties)) {
@@ -254,38 +235,37 @@ public class Message implements Serializable {
      * {@link Message}.
      *
      * @param text the text of the {@link Message}
-     * @param errorLevel the {@link Message messages'} {@link ErrorLevel}
+     * @param severity the {@link Message messages'} {@link Severity}
      *
      * @return a new {@link Builder}
      *
-     * @throws NullPointerException if {@code text} or {@code errorLevel} is {@code null}
+     * @throws NullPointerException if {@code text} or {@code severity} is {@code null}
      *
      * @see Builder
      */
-    public static Builder builder(String text, ErrorLevel errorLevel) {
+    public static Builder builder(String text, Severity severity) {
         Objects.requireNonNull(text, "text must not be null");
-        Objects.requireNonNull(errorLevel, "errorLevel must not be null");
+        Objects.requireNonNull(severity, "severity must not be null");
 
-        return new Builder(text, errorLevel);
+        return new Builder(text, severity);
     }
 
     /**
-     * A builder for the {@link Message} class. This builder has been designed due to heavy
-     * constructor overloading with many parameters. It helps instantiating global variables of
-     * {@link Message}.
+     * A builder for the {@link Message} class. This builder has been designed due to heavy constructor
+     * overloading with many parameters. It helps instantiating global variables of {@link Message}.
      * <p>
      * To use the builder simply create an instance by calling the
-     * {@link Message#builder(String, ErrorLevel)}. Afterwards add needed information to the builder
-     * for example call {@link #invalidObjectWithProperties(Object object, String... properties)} to
-     * provide some invalid object properties. When the builder has every information that is needed
-     * to create a proper message call {@link #create()}.
+     * {@link Message#builder(String, Severity)}. Afterwards add needed information to the builder for
+     * example call {@link #invalidObjectWithProperties(Object object, String... properties)} to provide
+     * some invalid object properties. When the builder has every information that is needed to create a
+     * proper message call {@link #create()}.
      */
     @SuppressWarnings("hiding")
     public static class Builder {
 
         private final String text;
 
-        private final ErrorLevel errorLevel;
+        private final Severity severity;
 
         private final List<ObjectProperty> invalidObjectProperties;
 
@@ -300,11 +280,11 @@ public class Message implements Serializable {
          * information.
          * 
          * @param text The human readable text of this message
-         * @param errorLevel the message's {@link ErrorLevel}
+         * @param severity the message's {@link Severity}
          */
-        private Builder(String text, ErrorLevel errorLevel) {
+        private Builder(String text, Severity severity) {
             this.text = text;
-            this.errorLevel = errorLevel;
+            this.severity = severity;
 
             invalidObjectProperties = new ArrayList<>();
             markers = new HashSet<>();
@@ -408,7 +388,7 @@ public class Message implements Serializable {
          * @return a new message that has the parameters of this builder.
          */
         public Message create() {
-            return new Message(code, text, errorLevel, invalidObjectProperties, markers);
+            return new Message(code, text, severity, invalidObjectProperties, markers);
         }
 
     }

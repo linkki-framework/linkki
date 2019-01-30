@@ -71,17 +71,14 @@ public class CarTablePmo implements ContainerPmo<@NonNull CarRowPmo>, Serializab
 
         switch (column) {
             case Car.PROPERTY_RETENTION:
-
                 return String.format("%,.2f", cars.stream()
                         .mapToDouble(Car::getRetention)
                         .sum());
 
             case Car.PROPERTY_CAR_TYPE:
-
                 return "Total Retention:";
 
             default:
-
                 return "";
         }
     }

@@ -9,8 +9,7 @@
 == New & Noteworthy
 
 === February 1st, 2019
-
-==== `linkki-core` without Vaadin dependency
+==== Encapsulation of Vaadin dependencies into `linkki-core-vaadin7`
 
 All Vaadin dependencies have been moved from `linkki-core` to `linkki-core-vaadin7`. Any uses of UI framework (for example Vaadin) API from the core is now handled via the `UiFramework` class. It is recommended that you also use it instead of directly calling Vaadin API where applicable.
 
@@ -20,6 +19,28 @@ All Vaadin dependencies have been moved from `linkki-core` to `linkki-core-vaadi
 | New method | Vaadin method | Notes
 | `UiFramework.getLocale()`| `UiUtils.getUiLocale()`/`UI.getCurrent().getLocale()` | the locale defined for the UI session, may differ from the System locale
 |===
+
+===== Introduction of linkki `Severity` for `Message` and `MessageList`
+
+To make the linkki `Message` and `MessageList` independent of Vaadin, a new enum `Severity` is introduced to avoid using the Vaadin `ErrorLevel` directly. Consequently, several methods of `Message` and `MessageList` are changed:
+
+.API changes in org.linkki.core.message
+[cols="1, 1, 3", options="header, footer"]
+|===
+| Until now | New | Notes
+| | `Severity` | A Vaadin independent enum indicating the kind of severity a message can have.
+3+| *Message*
+| `Message(String, String, ErrorLevel)` | `Message(String, String, Severity)` | _1)_
+| `getErrorLevel` | `getSeverity` | _1)_
+| `builder(String, ErrorLevel)` | `builder(String, Severity)` | _1)_
+3+| *MessageList*
+| `etErrorLevel` | `getSeverity` | _1)_
+| `getFirstMessage(ErrorLevel)` | `getFirstMessage(Severity)` | _1)_
+| `sortByErrorLevel` | `sortBySeverity` | _1)_
+3+| _1) The existing method is removed. It is not possible to deprecate it due to direct Vaadin dependencies._
+|===
+
+=== January 31st, 2019
 
 ==== Refactoring of Aspects
 
@@ -55,13 +76,16 @@ This offers the benefit that the `LinkkiAspectDefinitions` do no longer need to 
 include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspectCreator]
 ----
 
+
+=== January 30th, 2019
+
 ==== Refactoring for tables and @UITableColumn
 
 We made a major refactoring concerning the internal handling of tables and columns. All properties of a table column (like label, width, expand ratio, collapsible) are now handled using <<creating-aspects,linkki aspects>>. With this refactoring these properties are real bindings now. Although these bindings are not dynamic (at the moment) we decided to use the `ContainerPmo` as bound object. That means:
 
   * if you create (or we in the future) a dynamic aspect binding the method is searched at the `ContainerPmo` not at the PMO of the row.
   * The key for translated column labels is no longer created using the row PMO but the ContainerPmo. *You need to change existing translation keys in you linkki-messages.properties files*
-  
+
 The items, page length, and footer of a table are also bound via aspects to the `ContainerPmo`'s existing methods `getItems()`, `getPageLength()`, and `getFooterPmo()`. This is just an internal reorganization that requires no changes in client code.
 
 ==== Refactoring for labels

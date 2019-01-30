@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.message.SeverityErrorLevelConverter;
 import org.linkki.util.StreamUtil;
 
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
@@ -109,7 +110,8 @@ public class LabelComponentWrapper implements ComponentWrapper {
 
     @Nullable
     private UserError getErrorHandler(MessageList messages) {
-        return messages.getErrorLevel()
+        return messages.getSeverity()
+                .map(SeverityErrorLevelConverter::convertToErrorLevel)
                 .map(e -> new UserError(formatMessages(messages), ContentMode.PREFORMATTED, e))
                 .orElse(null);
     }

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.samples.binding.pmo;
 
@@ -27,7 +27,7 @@ public class AddressPmo {
 
     @SuppressWarnings("null")
     public AddressPmo(Address address) {
-        reset(address);
+        this.addressInEdit = copyAddress(address);
     }
 
     @ModelObject
@@ -39,12 +39,16 @@ public class AddressPmo {
         return CountryService.getCountries();
     }
 
-    public void reset(@Nullable Address newAddress) {
-        if (newAddress != null) {
-            this.addressInEdit = new Address(newAddress.getStreet(), newAddress.getZip(), newAddress.getCity(),
-                    newAddress.getCountry());
+    public void reset(Address newAddress) {
+        this.addressInEdit = copyAddress(newAddress);
+    }
+
+    private static Address copyAddress(@Nullable Address addressToCopy) {
+        if (addressToCopy != null) {
+            return new Address(addressToCopy.getStreet(), addressToCopy.getZip(), addressToCopy.getCity(),
+                    addressToCopy.getCountry());
         } else {
-            this.addressInEdit = new Address(null, null, null, null);
+            return new Address(null, null, null, null);
         }
     }
 

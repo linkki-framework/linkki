@@ -46,7 +46,7 @@ public class MessagesPanel extends Panel {
     }
 
     private FontAwesome getMessageIcon(Message message) {
-        switch (message.getErrorLevel()) {
+        switch (message.getSeverity()) {
         case INFORMATION:
             return FontAwesome.INFO_CIRCLE;
         case WARNING:

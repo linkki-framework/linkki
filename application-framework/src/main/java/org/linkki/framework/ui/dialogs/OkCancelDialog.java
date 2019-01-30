@@ -1,15 +1,15 @@
 /*
- * Copyright Faktor Zehn GmbH.
+ * s * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.framework.ui.dialogs;
 
@@ -22,6 +22,7 @@ import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.Page;
@@ -31,7 +32,6 @@ import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
@@ -44,26 +44,24 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
- * A modal dialog with a header/title, an OK button and an optional cancel button at the bottom. To
- * add a component as dialog content use {@link #addContent(Component)}.
+ * A modal dialog with a header/title, an OK button and an optional cancel button at the bottom. To add
+ * a component as dialog content use {@link #addContent(Component)}.
  * 
- * @implNote To create a dialog with fixed dimensions, use the method
- *           {@link #setSize(String, String)}. This is useful if:
+ * @implNote To create a dialog with fixed dimensions, use the method {@link #setSize(String, String)}.
+ *           This is useful if:
  *           <ul>
  *           <li>there are different options that may change the layout</li>
  *           <li>you do not want that the dialog dynamically increase height for validation
  *           messages</li>
  *           </ul>
- *           For more information on sizing and layout behavior see
- *           {@link #setSize(String, String)}.
+ *           For more information on sizing and layout behavior see {@link #setSize(String, String)}.
  *           <p>
- *           To validate the data in the dialog or give the user warning or information messages,
- *           set a validation service via ({@link #setValidationService(ValidationService)}). The
- *           first message with the highest {@link com.vaadin.server.ErrorMessage.ErrorLevel
- *           ErrorLevel} reported during the validation via the
- *           {@link ValidationService#getValidationMessages()} is displayed at the bottom of the
- *           dialog, between its content and the OK and cancel buttons. (see
- *           {@link MessageList#getFirstMessage(ErrorMessage.ErrorLevel)})
+ *           To validate the data in the dialog or give the user warning or information messages, set a
+ *           validation service via ({@link #setValidationService(ValidationService)}). The first
+ *           message with the highest {@link Severity} reported during the validation via the
+ *           {@link ValidationService#getValidationMessages()} is displayed at the bottom of the dialog,
+ *           between its content and the OK and cancel buttons. (see
+ *           {@link MessageList#getFirstMessage(Severity)})
  */
 public class OkCancelDialog extends Window {
 
@@ -96,8 +94,8 @@ public class OkCancelDialog extends Window {
     private Handler beforeOkHandler = Handler.NOP_HANDLER;
 
     /**
-     * The message row that displays the first message from the message list if there is a message
-     * to display.
+     * The message row that displays the first message from the message list if there is a message to
+     * display.
      */
     private Optional<MessageRow> messageRow = Optional.empty();
 
@@ -106,8 +104,8 @@ public class OkCancelDialog extends Window {
     private boolean mayProceed = true;
 
     /**
-     * Creates a new dialog with the given caption that displays both the OK and Cancel button and
-     * uses a handler that does nothing when the OK button is clicked.
+     * Creates a new dialog with the given caption that displays both the OK and Cancel button and uses
+     * a handler that does nothing when the OK button is clicked.
      * 
      * @param caption the dialog's caption
      */
@@ -167,12 +165,11 @@ public class OkCancelDialog extends Window {
     }
 
     /**
-     * Overrides {@link Window#setContent(Component)} as the OkCancelDialog does not allow replacing
-     * its entire content (e.g. the OK and Cancel buttons). Instead, only the content of the main
-     * area is replaced.
+     * Overrides {@link Window#setContent(Component)} as the OkCancelDialog does not allow replacing its
+     * entire content (e.g. the OK and Cancel buttons). Instead, only the content of the main area is
+     * replaced.
      * <p>
-     * Note that this also removes any components that were added using
-     * {@link #addContent(Component)}.
+     * Note that this also removes any components that were added using {@link #addContent(Component)}.
      */
     // mainArea is null when setContent is called from the superclass constructor. For all other
     // purposes, we consider it @NonNull
@@ -263,28 +260,27 @@ public class OkCancelDialog extends Window {
 
     /**
      * Use this method to create a dialog with fixed size. The size may be absolute or relative for
-     * example 60% of browser window. Specifies the width and height of the dialog and sets all
-     * internal layout components to full size.
+     * example 60% of browser window. Specifies the width and height of the dialog and sets all internal
+     * layout components to full size.
      * <p>
-     * If you specify the height and add multiple components using {@link #addContent(Component)}
-     * all added components will have the same expand ratio by default (which is 0). This causes all
+     * If you specify the height and add multiple components using {@link #addContent(Component)} all
+     * added components will have the same expand ratio by default (which is 0). This causes all
      * components to be assigned equal space. Use {@link #addContent(Component, float)} to assign a
      * specific expand ratios to a component. For example, if you want to have all components to use
-     * only as much space as they need and the last component to consume all excess space, add the
-     * last component using <code>addContent(component, 1)</code> and all other components without
-     * expand ratio (using <code>addContent(component)</code>).
+     * only as much space as they need and the last component to consume all excess space, add the last
+     * component using <code>addContent(component, 1)</code> and all other components without expand
+     * ratio (using <code>addContent(component)</code>).
      * <p>
-     * When calculating the correct height always consider that there might be validation messages
-     * below your content. If the dialog's height is too small the components may overlap or be
-     * cropped.
+     * When calculating the correct height always consider that there might be validation messages below
+     * your content. If the dialog's height is too small the components may overlap or be cropped.
      * <p>
      * The dialog will never create scroll bars. If you want scroll bars, add a single panel as root
      * content, and configure it to use scroll bars. The header, the button(s) and the validation
      * messages will then always be visible.
      * <p>
-     * Note: If you have multiple nested layout components (like {@link TabSheetArea tab sheet
-     * areas}, {@link Page pages} or vaadin layouts you have to make sure that every component is
-     * set to full size (AbstractComponent{@link #setSizeFull()}.
+     * Note: If you have multiple nested layout components (like {@link TabSheetArea tab sheet areas},
+     * {@link Page pages} or vaadin layouts you have to make sure that every component is set to full
+     * size (AbstractComponent{@link #setSizeFull()}.
      * <p>
      * If you need a dialog with dynamic height you must not call this method.
      * 
@@ -303,18 +299,20 @@ public class OkCancelDialog extends Window {
 
     /**
      * Retrieves the message list from the validation service and filters it according to its
-     * {@link #getValidationDisplayState()}. The filtered messages are returned. If needed, a
-     * message from the list is displayed and the OK button is disabled.
+     * {@link #getValidationDisplayState()}. The filtered messages are returned. If needed, a message
+     * from the list is displayed and the OK button is disabled.
      * 
      * @implSpec A previously displayed message is removed if the message list does not contain any
-     *           messages. If the message list contains a message, the first message with the
-     *           highest errorLevel is displayed. If the message list contains an error message the
-     *           OK button is disabled.
+     *           messages. If the message list contains a message, the first message with the highest
+     *           errorLevel is displayed. If the message list contains an error message the OK button is
+     *           disabled.
      */
     public MessageList validate() {
         MessageList messages = validationDisplayState.filter(getValidationService().getValidationMessages());
         messageRow.ifPresent(contentArea::removeComponent);
-        messages.getErrorLevel().flatMap(messages::getFirstMessage).ifPresent(this::addMessageRow);
+        messages.getSeverity()
+                .flatMap(messages::getFirstMessage)
+                .ifPresent(this::addMessageRow);
         mayProceed = !messages.containsErrorMsg();
         okButton.setEnabled(mayProceed);
         return messages;
@@ -362,8 +360,8 @@ public class OkCancelDialog extends Window {
     }
 
     /**
-     * Add {@link UriFragmentChangedListener} to the dialog. By default, the dialog is closed upon
-     * uri change by calling {@link #close()}.
+     * Add {@link UriFragmentChangedListener} to the dialog. By default, the dialog is closed upon uri
+     * change by calling {@link #close()}.
      */
     protected void initURIChangeListener() {
         UI current = UI.getCurrent();
@@ -429,8 +427,8 @@ public class OkCancelDialog extends Window {
     }
 
     /**
-     * Called when the user clicks the cancel button or closes the window. Default implementation
-     * does nothing.
+     * Called when the user clicks the cancel button or closes the window. Default implementation does
+     * nothing.
      */
     protected void cancel() {
         // nothing to do as explained in the Java Doc.

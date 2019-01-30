@@ -19,6 +19,7 @@ import java.util.stream.StreamSupport;
 
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.message.SeverityErrorLevelConverter;
 
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
@@ -93,7 +94,8 @@ public class CaptionComponentWrapper<C extends Component> implements ComponentWr
 
     @Nullable
     private UserError getErrorHandler(MessageList messages) {
-        return messages.getErrorLevel()
+        return messages.getSeverity()
+                .map(SeverityErrorLevelConverter::convertToErrorLevel)
                 .map(e -> new UserError(formatMessages(messages), ContentMode.PREFORMATTED, e))
                 .orElse(null);
     }

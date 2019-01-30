@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.matcher;
 
@@ -19,8 +19,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.core.CombinableMatcher;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.ObjectProperty;
-
-import com.vaadin.server.ErrorMessage.ErrorLevel;
+import org.linkki.core.message.Severity;
 
 public class MessageMatchers {
 
@@ -49,19 +48,19 @@ public class MessageMatchers {
     }
 
     public static MessageListMessageMatcher hasInfoMessage(String code) {
-        return new MessageListMessageMatcher(codeAndErrorLevel(code, ErrorLevel.INFORMATION));
+        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.INFORMATION));
     }
 
     public static MessageListMessageMatcher hasWarningMessage(String code) {
-        return new MessageListMessageMatcher(codeAndErrorLevel(code, ErrorLevel.WARNING));
+        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.WARNING));
     }
 
     public static MessageListMessageMatcher hasErrorMessage(String code) {
-        return new MessageListMessageMatcher(codeAndErrorLevel(code, ErrorLevel.ERROR));
+        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.ERROR));
     }
 
-    private static Matcher<Message> codeAndErrorLevel(String code, ErrorLevel errorLevel) {
-        return CombinableMatcher.both(new MessageCodeMatcher(code)).and(new MessageErrorLevelMatcher(errorLevel));
+    private static Matcher<Message> codeAndSeverity(String code, Severity severity) {
+        return CombinableMatcher.both(new MessageCodeMatcher(code)).and(new MessageSeverityMatcher(severity));
     }
 
 }

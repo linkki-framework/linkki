@@ -1,28 +1,124 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.message;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.util.validation.ValidationMarker;
 
-import com.vaadin.server.ErrorMessage.ErrorLevel;
-
 public class MessageTest {
+
+    @Test
+    public void testEquals_Equal() {
+        Object invalidObject = new Object();
+        ObjectProperty objectProperty = new ObjectProperty(invalidObject);
+        ValidationMarker validationMarker = () -> false;
+
+        Message message1 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+                Collections.singleton(validationMarker));
+        Message message2 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+                Collections.singleton(validationMarker));
+
+        assertTrue(message1.equals(message2));
+        assertTrue(message2.equals(message1));
+    }
+
+    @Test
+    public void testEquals_NotEqual_Code() {
+        Object invalidObject = new Object();
+        ObjectProperty objectProperty = new ObjectProperty(invalidObject);
+        ValidationMarker validationMarker = () -> false;
+
+        Message message1 = new Message("code1", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+                Collections.singleton(validationMarker));
+        Message message2 = new Message("code2", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+                Collections.singleton(validationMarker));
+
+        assertFalse(message1.equals(message2));
+    }
+
+    @Test
+    public void testEquals_NotEqual_Text() {
+        Object invalidObject = new Object();
+        ObjectProperty objectProperty = new ObjectProperty(invalidObject);
+        ValidationMarker validationMarker = () -> false;
+
+        Message message1 = new Message("code", "text1", Severity.INFORMATION, Arrays.asList(objectProperty),
+                Collections.singleton(validationMarker));
+        Message message2 = new Message("code", "text2", Severity.INFORMATION, Arrays.asList(objectProperty),
+                Collections.singleton(validationMarker));
+
+        assertFalse(message1.equals(message2));
+    }
+
+    @Test
+    public void testEquals_NotEqual_Severity() {
+        Object invalidObject = new Object();
+        ObjectProperty objectProperty = new ObjectProperty(invalidObject);
+        ValidationMarker validationMarker = () -> false;
+
+        Message message1 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+                Collections.singleton(validationMarker));
+        Message message2 = new Message("code", "text", Severity.WARNING, Arrays.asList(objectProperty),
+                Collections.singleton(validationMarker));
+
+        assertFalse(message1.equals(message2));
+    }
+
+    @Test
+    public void testEquals_NotEqual_ObjectProperties() {
+        Object invalidObject = new Object();
+        ObjectProperty objectProperty = new ObjectProperty(invalidObject);
+        ValidationMarker validationMarker = () -> false;
+
+        Message message1 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+                Collections.singleton(validationMarker));
+        Message message2 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty, objectProperty),
+                Collections.singleton(validationMarker));
+
+        assertFalse(message1.equals(message2));
+    }
+
+    @Test
+    public void testEquals_NotEqual_validationMarker() {
+        Object invalidObject = new Object();
+        ObjectProperty objectProperty = new ObjectProperty(invalidObject);
+
+        Message message1 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+                Collections.singleton(() -> false));
+        Message message2 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+                Collections.singleton(() -> true));
+
+        assertFalse(message1.equals(message2));
+    }
+
+    @Test
+    public void testToString() {
+        Message message = new Message("code", "text", Severity.WARNING,
+                Arrays.asList(new ObjectProperty("Object", "property", 1)),
+                Collections.singleton(() -> true));
+
+        assertThat(message.toString(), is("WARNING code[Object.property]\ntext"));
+    }
 
     @Test
     public void testIsMandatoryFieldMessage() {
@@ -36,7 +132,7 @@ public class MessageTest {
     }
 
     private Message createMessage(@NonNull ValidationMarker... markers) {
-        return Message.builder("", ErrorLevel.ERROR).markers(markers).create();
+        return Message.builder("", Severity.ERROR).markers(markers).create();
     }
 
 }
