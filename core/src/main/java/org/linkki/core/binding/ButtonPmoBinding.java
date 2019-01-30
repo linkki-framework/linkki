@@ -89,9 +89,8 @@ public class ButtonPmoBinding {
 
     /**
      * Cannot use {@link ButtonInvokeAspectDefinition} as {@link ButtonPmo} uses an empty String as
-     * fixed property name (see
-     * {@link PropertyDispatcherFactory#createDispatcherChain(ButtonPmo, org.linkki.core.binding.dispatcher.PropertyBehaviorProvider)}),
-     * thus the invoke button has a fixed aspect name of {@link ButtonPmo#onClick()}.
+     * fixed property name, thus the invoke button has a fixed aspect name of
+     * {@link ButtonPmo#onClick()}.
      */
     private static class ButtonPmoInvokeAspectDefinition implements LinkkiAspectDefinition {
 
