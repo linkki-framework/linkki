@@ -31,7 +31,6 @@ import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.binding.descriptor.BindingDescriptor;
-import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.property.BoundProperty;
@@ -61,7 +60,7 @@ public class BindingContext implements UiUpdateObserver {
     private final Handler afterUpdateHandler;
     private final PropertyDispatcherFactory dispatcherFactory;
 
-    private final Map<@NonNull Object, @NonNull Binding<?>> bindings = new ConcurrentHashMap<>();
+    private final Map<@NonNull Object, Binding> bindings = new ConcurrentHashMap<>();
 
 
     /**
@@ -102,7 +101,7 @@ public class BindingContext implements UiUpdateObserver {
      */
     public BindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
             Handler afterUpdateHandler) {
-        this(contextName, behaviorProvider, afterUpdateHandler, new PropertyDispatcherFactory());
+        this(contextName, behaviorProvider, new PropertyDispatcherFactory(), afterUpdateHandler);
     }
 
     /**
@@ -118,13 +117,13 @@ public class BindingContext implements UiUpdateObserver {
      *            {@linkplain BindingManager}
      * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are relevant to this
      *            context
-     * @param afterUpdateHandler a handler that is applied after the UI update. Usually
-     *            {@link BindingManager#afterUpdateUi()}
      * @param dispatcherFactory the factory used to create the {@link PropertyDispatcher} chain for any
      *            property
+     * @param afterUpdateHandler a handler that is applied after the UI update. Usually
+     *            {@link BindingManager#afterUpdateUi()}
      */
     public BindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,
-            Handler afterUpdateHandler, PropertyDispatcherFactory dispatcherFactory) {
+            PropertyDispatcherFactory dispatcherFactory, Handler afterUpdateHandler) {
         this.name = requireNonNull(contextName, "contextName must not be null");
         this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
         this.afterUpdateHandler = requireNonNull(afterUpdateHandler, "afterUpdateHandler must not be null");
@@ -141,7 +140,7 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Adds a binding to the context.
      */
-    public BindingContext add(Binding<?> binding) {
+    public BindingContext add(Binding binding) {
         requireNonNull(binding, "binding must not be null");
 
         bindings.put(binding.getBoundComponent(), binding);
@@ -151,7 +150,7 @@ public class BindingContext implements UiUpdateObserver {
     /**
      * Returns all bindings in the context.
      */
-    public Collection<@NonNull Binding<?>> getBindings() {
+    public Collection<Binding> getBindings() {
         return Collections.unmodifiableCollection(bindings.values());
     }
 
@@ -161,12 +160,12 @@ public class BindingContext implements UiUpdateObserver {
      * well.
      */
     public void removeBindingsForComponent(Component c) {
-        Binding<?> removedBinding = bindings.remove(c);
+        Binding removedBinding = bindings.remove(c);
         if (c instanceof HasComponents) {
             ((HasComponents)c).iterator().forEachRemaining(this::removeBindingsForComponent);
         }
 
-        if (removedBinding != null) {
+        if (removedBinding instanceof BindingContext) {
             ((BindingContext)removedBinding).bindings.clear();
         }
     }
@@ -311,17 +310,12 @@ public class BindingContext implements UiUpdateObserver {
      * @param componentWrapper the {@link ComponentWrapper} that wraps the component that should be
      *            bound
      */
-    public <@NonNull T> Binding<T> bind(Object pmo,
+    public Binding bind(Object pmo,
             BindingDescriptor bindingDescriptor,
             ComponentWrapper componentWrapper) {
-        requireNonNull(pmo, "pmo must not be null");
         requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
-        requireNonNull(componentWrapper, "componentWrapper must not be null");
-        Binding<T> binding = createBinding(pmo, bindingDescriptor.getBoundProperty(),
-                                           bindingDescriptor.getAspectDefinitions(), componentWrapper);
-        binding.updateFromPmo();
-        add(binding);
-        return binding;
+        return bind(pmo, bindingDescriptor.getBoundProperty(), bindingDescriptor.getAspectDefinitions(),
+                    componentWrapper);
     }
 
     /**
@@ -337,35 +331,49 @@ public class BindingContext implements UiUpdateObserver {
      * @param componentWrapper the {@link ComponentWrapper} that wraps the component that should be
      *            bound
      */
-    public <@NonNull T> Binding<T> bind(Object pmo,
+    public Binding bind(Object pmo,
             BoundProperty boundProperty,
             List<LinkkiAspectDefinition> aspectDefs,
             ComponentWrapper componentWrapper) {
-        return bind(pmo, new SimpleBindingDescriptor(boundProperty, aspectDefs), componentWrapper);
+        requireNonNull(pmo, "pmo must not be null");
+        requireNonNull(boundProperty, "boundProperty must not be null");
+        requireNonNull(aspectDefs, "aspectDefs must not be null");
+        requireNonNull(componentWrapper, "componentWrapper must not be null");
+        Binding binding = createBinding(pmo, boundProperty, aspectDefs, componentWrapper);
+        binding.updateFromPmo();
+        add(binding);
+        return binding;
+    }
+
+    public <@NonNull T> ContainerBinding<T> bindContainer(Object pmo,
+            BoundProperty boundProperty,
+            List<LinkkiAspectDefinition> aspectDefs,
+            ComponentWrapper componentWrapper) {
+        Binding elementBinding = createBinding(pmo, boundProperty, aspectDefs, componentWrapper);
+        ContainerBinding<T> containerBinding = new ContainerBinding<>(elementBinding, getBehaviorProvider(),
+                dispatcherFactory, this::modelChanged);
+        containerBinding.updateFromPmo();
+        add(containerBinding);
+        return containerBinding;
     }
 
     /**
      * Creates a binding with the given dispatcher, the given handler for updating the UI and the given
      * UI components using the binding information from this descriptor.
      */
-    private <@NonNull T> Binding<T> createBinding(Object pmo,
+    private ElementBinding createBinding(Object pmo,
             BoundProperty boundProperty,
             List<LinkkiAspectDefinition> aspectDefinitions,
             ComponentWrapper componentWrapper) {
-        requireNonNull(pmo, "pmo must not be null");
-        requireNonNull(boundProperty, "bindingDescriptor must not be null");
-        requireNonNull(aspectDefinitions, "aspectDefinitions must not be null");
-        requireNonNull(componentWrapper, "componentWrapper must not be null");
-        return new Binding<>(componentWrapper,
-                dispatcherFactory.createDispatcherChain(pmo, boundProperty, getBehaviorProvider()),
-                this::modelChanged,
-                aspectDefinitions, behaviorProvider);
+        return new ElementBinding(componentWrapper,
+                dispatcherFactory.createDispatcherChain(pmo, boundProperty, getBehaviorProvider()), this::modelChanged,
+                aspectDefinitions);
     }
 
     /**
      * @deprecated since January 2019. Instead of overwriting this method, provide a
      *             {@link PropertyDispatcherFactory} to
-     *             {@link #BindingContext(String, PropertyBehaviorProvider, Handler, PropertyDispatcherFactory)}.
+     *             {@link #BindingContext(String, PropertyBehaviorProvider, PropertyDispatcherFactory, Handler)}.
      *             <b>This method is no longer called!</b>
      */
     @Deprecated

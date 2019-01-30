@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.binding;
@@ -29,15 +29,10 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.components.CaptionComponentWrapper;
-import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.LabelComponentWrapper;
-import org.linkki.core.ui.components.WrapperType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UISection;
@@ -49,11 +44,10 @@ import com.vaadin.server.ErrorMessage.ErrorLevel;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
-public class BindingTest {
+public class ElementBindingTest {
 
     private Label label = spy(new Label());
 
@@ -61,7 +55,7 @@ public class BindingTest {
     private ComboBox selectField = spy(new ComboBox());
 
     @SuppressWarnings("null")
-    private Binding<Component> selectBinding;
+    private ElementBinding selectBinding;
 
     @SuppressWarnings("null")
     private PropertyDispatcher propertyDispatcherValue;
@@ -84,10 +78,10 @@ public class BindingTest {
         when(propertyDispatcherValue.getMessages(any(MessageList.class))).thenReturn(messageList);
         when(propertyDispatcherEnumValue.getMessages(any(MessageList.class))).thenReturn(messageList);
 
-        selectBinding = new Binding<>(new LabelComponentWrapper(label, selectField),
+        selectBinding = new ElementBinding(new LabelComponentWrapper(label, selectField),
                 propertyDispatcherEnumValue,
                 Handler.NOP_HANDLER,
-                new ArrayList<>(), PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+                new ArrayList<>());
     }
 
     @Test
@@ -96,9 +90,9 @@ public class BindingTest {
         LinkkiAspectDefinition aspectDefinition = mock(LinkkiAspectDefinition.class);
         when(aspectDefinition.supports(any())).thenReturn(true);
         when(aspectDefinition.createUiUpdater(any(), any())).thenReturn(componentUpdater);
-        Binding<Component> fieldBinding = new Binding<>(new LabelComponentWrapper(label, field),
+        ElementBinding fieldBinding = new ElementBinding(new LabelComponentWrapper(label, field),
                 propertyDispatcherValue,
-                Handler.NOP_HANDLER, Arrays.asList(aspectDefinition), PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+                Handler.NOP_HANDLER, Arrays.asList(aspectDefinition));
         fieldBinding.updateFromPmo();
 
         verify(componentUpdater).apply();
@@ -133,19 +127,6 @@ public class BindingTest {
     @Test(expected = NullPointerException.class)
     public void testDisplayMessages_noMessageList() {
         selectBinding.displayMessages(null);
-    }
-
-    @Test
-    public void testModelChanged_IsForwardedToParent() {
-        BindingContext bindingContext = spy(new BindingContext());
-        ComponentWrapper componentWrapper = new CaptionComponentWrapper<>("", new TextField(), WrapperType.COMPONENT);
-        Binding<?> binding = bindingContext.bind(new TestPmo(new TestModelObject()),
-                                                 new SimpleBindingDescriptor("test", Arrays.asList()),
-                                                 componentWrapper);
-
-        binding.modelChanged();
-
-        verify(bindingContext).modelChanged();
     }
 
     protected static class TestModelObject {

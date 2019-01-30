@@ -16,10 +16,10 @@ package org.linkki.core.ui.table;
 import static java.util.Objects.requireNonNull;
 
 import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.binding.Binding;
+import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.ui.table.aspect.TableAspectDefinitions;
 
 import com.vaadin.ui.Table;
@@ -62,8 +62,9 @@ public class PmoBasedTableFactory<@NonNull ROW> {
         Table table = containerComponentCreator.createTableComponent();
         TableComponentWrapper<ROW> tableComponentWrapper = new TableComponentWrapper<>(
                 containerPmo.getClass().getName(), table);
-        SimpleBindingDescriptor bindingDescriptor = new SimpleBindingDescriptor("", TableAspectDefinitions.createAll());
-        Binding<Table> binding = bindingContext.bind(containerPmo, bindingDescriptor, tableComponentWrapper);
+        ContainerBinding<Table> binding = bindingContext.bindContainer(containerPmo, BoundProperty.of(""),
+                                                                       TableAspectDefinitions.createAll(),
+                                                                       tableComponentWrapper);
         createColumns(binding);
         // need to update binding after columns are created because the footer content cannot be updated
         // without columns
@@ -71,7 +72,7 @@ public class PmoBasedTableFactory<@NonNull ROW> {
         return table;
     }
 
-    private void createColumns(Binding<Table> binding) {
+    private void createColumns(ContainerBinding<Table> binding) {
         annotationReader.getUiElements().forEach(e -> containerComponentCreator.createColumn(binding, e));
     }
 

@@ -16,13 +16,14 @@ package org.linkki.core.binding;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
@@ -48,8 +49,7 @@ public class ButtonPmoBinding {
 
         Button button = ComponentFactory.newButton(pmo.getButtonIcon(), pmo.getStyleNames());
         ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
-        SimpleBindingDescriptor bindingDescriptor = new SimpleBindingDescriptor("", new ButtonPmoAspectDefinition());
-        bindingContext.bind(pmo, bindingDescriptor, buttonWrapper);
+        bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()), buttonWrapper);
         return button;
     }
 

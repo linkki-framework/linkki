@@ -15,7 +15,6 @@ package org.linkki.core.binding;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -27,6 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.junit.After;
@@ -36,10 +36,9 @@ import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.ButtonPmoBinding.ButtonPmoAspectDefinition;
 import org.linkki.core.binding.ButtonPmoBindingTest.TestButtonPmo;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
-import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
+import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
 import org.linkki.core.ui.components.ComponentWrapper;
@@ -74,21 +73,21 @@ public class BindingContextTest {
         UI.setCurrent(null);
     }
 
-    private Binding<?> createBinding(TestBindingContext context) {
+    private ElementBinding createBinding(TestBindingContext context) {
         return createBinding(context, new TestPmo(), new TextField());
     }
 
-    private Binding<?> createBinding(TestBindingContext context, TestPmo pmo, Component component) {
-        return new Binding<>(new LabelComponentWrapper(component),
+    private ElementBinding createBinding(TestBindingContext context, TestPmo pmo, Component component) {
+        return new ElementBinding(new LabelComponentWrapper(component),
                 new ReflectionPropertyDispatcher(() -> pmo, "value",
                         new ExceptionPropertyDispatcher("value", pmo)),
-                context::modelChanged, new ArrayList<>(), PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+                context::modelChanged, new ArrayList<>());
     }
 
     @Test
     public void testAdd() {
         TestBindingContext context = TestBindingContext.create();
-        Binding<?> binding = createBinding(context);
+        ElementBinding binding = createBinding(context);
 
         assertEquals(0, context.getBindings().size());
         context.add(binding);
@@ -99,7 +98,7 @@ public class BindingContextTest {
     public void testModelChangedBindings() {
         Handler afterUpdateUi = mock(Handler.class);
         TestBindingContext context = TestBindingContext.create(afterUpdateUi);
-        Binding<?> binding = spy(createBinding(context));
+        ElementBinding binding = spy(createBinding(context));
 
         context.add(binding);
 
@@ -113,7 +112,7 @@ public class BindingContextTest {
         Handler afterUpdateUi = mock(Handler.class);
 
         TestBindingContext context = TestBindingContext.create(afterUpdateUi);
-        Binding<?> binding = spy(createBinding(context));
+        ElementBinding binding = spy(createBinding(context));
 
         context.uiUpdated();
 
@@ -136,7 +135,7 @@ public class BindingContextTest {
         Handler afterUpdateUi = mock(Handler.class);
 
         TestBindingContext context = TestBindingContext.create(afterUpdateUi);
-        Binding<?> binding = spy(createBinding(context));
+        ElementBinding binding = spy(createBinding(context));
 
         context.add(binding);
 
@@ -148,7 +147,7 @@ public class BindingContextTest {
     @Test
     public void testChangeBoundObject() {
         TestBindingContext context = TestBindingContext.create();
-        Binding<?> binding = spy(createBinding(context));
+        ElementBinding binding = spy(createBinding(context));
 
         context.uiUpdated();
         verify(binding, never()).updateFromPmo();
@@ -163,8 +162,8 @@ public class BindingContextTest {
     public void testRemoveBindingsForComponent() {
         TestBindingContext context = TestBindingContext.create();
         TestPmo testPmo = new TestPmo();
-        Binding<?> binding1 = createBinding(context, testPmo, field1);
-        Binding<?> binding2 = createBinding(context, testPmo, field2);
+        ElementBinding binding1 = createBinding(context, testPmo, field1);
+        ElementBinding binding2 = createBinding(context, testPmo, field2);
         context.add(binding1);
         context.add(binding2);
 
@@ -186,8 +185,7 @@ public class BindingContextTest {
         table.attach();
 
         assertThat(context.getBindings(), hasSize(1));
-        Binding<?> binding = context.getBindings().iterator().next();
-        assertThat(binding, is(instanceOf(Binding.class)));
+        ContainerBinding<?> binding = (ContainerBinding<?>)context.getBindings().iterator().next();
         assertThat(binding.getBindings(), hasSize(7));
 
         context.removeBindingsForComponent(table);
@@ -212,8 +210,8 @@ public class BindingContextTest {
         TestBindingContext context = TestBindingContext.create();
 
         TestPmo pmo = new TestPmo();
-        Binding<?> binding1 = createBinding(context, pmo, field1);
-        Binding<?> binding2 = createBinding(context, pmo, field2);
+        ElementBinding binding1 = createBinding(context, pmo, field1);
+        ElementBinding binding2 = createBinding(context, pmo, field2);
         context.add(binding1);
         context.add(binding2);
 
@@ -233,8 +231,7 @@ public class BindingContextTest {
         table.attach();
 
         assertThat(context.getBindings(), hasSize(1));
-        Binding<?> binding = context.getBindings().iterator().next();
-        assertThat(binding, is(instanceOf(Binding.class)));
+        ContainerBinding<?> binding = (ContainerBinding<?>)context.getBindings().iterator().next();
         assertThat(binding.getBindings(), hasSize(7));
 
         context.removeBindingsForPmo(tablePmo);
@@ -279,8 +276,7 @@ public class BindingContextTest {
         buttonPmo.enabled = false;
 
         ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
-        SimpleBindingDescriptor bindingDescriptor = new SimpleBindingDescriptor("", new ButtonPmoAspectDefinition());
-        context.bind(buttonPmo, bindingDescriptor, buttonWrapper);
+        context.bind(buttonPmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()), buttonWrapper);
 
         assertThat(button.isEnabled(), is(false));
     }

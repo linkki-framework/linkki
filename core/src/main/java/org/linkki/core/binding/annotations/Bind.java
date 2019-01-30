@@ -109,7 +109,7 @@ public @interface Bind {
 
         @Override
         public BoundProperty createBoundProperty(Bind annotation, AnnotatedElement annotatedElement) {
-            return new BoundProperty(getPmoProperty(annotation, annotatedElement))
+            return BoundProperty.of(getPmoProperty(annotation, annotatedElement))
                     .withModelObject(annotation.modelObject())
                     .withModelAttribute(annotation.modelAttribute());
         }

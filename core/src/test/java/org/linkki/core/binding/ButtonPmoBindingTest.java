@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.binding;
 
@@ -19,13 +19,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.ButtonPmoBinding.ButtonPmoAspectDefinition;
-import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
@@ -75,16 +77,16 @@ public class ButtonPmoBindingTest {
         verify(pmo).onClick();
     }
 
-    private Binding<Button> bind(ButtonPmo pmo) {
+    private Binding bind(ButtonPmo pmo) {
         ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
-        SimpleBindingDescriptor bindingDescriptor = new SimpleBindingDescriptor("", new ButtonPmoAspectDefinition());
-        return bindingContext.bind(pmo, bindingDescriptor, buttonWrapper);
+        return bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
+                                   buttonWrapper);
     }
 
     @Test
     public void testUpdateFromPmo_PmoSublass() {
         TestButtonPmo pmo = new TestButtonPmo();
-        Binding<Button> binding = bind(pmo);
+        Binding binding = bind(pmo);
 
         pmo.enabled = true;
         pmo.visible = true;
@@ -103,7 +105,7 @@ public class ButtonPmoBindingTest {
     public void testUpdateFromPmo_LambdaPmo() {
         ButtonPmo lambdaPmo = () -> System.out.println("click");
 
-        Binding<Button> binding = bind(lambdaPmo);
+        Binding binding = bind(lambdaPmo);
 
         binding.updateFromPmo();
         assertThat(button.isVisible(), is(true));

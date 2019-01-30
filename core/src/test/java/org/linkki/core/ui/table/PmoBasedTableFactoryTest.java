@@ -28,8 +28,8 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -46,8 +46,8 @@ public class PmoBasedTableFactoryTest {
     }
 
     @SuppressWarnings("unchecked")
-    private static Binding<Table> getFirstBinding(BindingContext bindingContext) {
-        return (Binding<Table>)bindingContext.getBindings().stream().findFirst().get();
+    private static ContainerBinding<Table> getFirstBinding(BindingContext bindingContext) {
+        return (ContainerBinding<Table>)bindingContext.getBindings().stream().findFirst().get();
     }
 
     private static ItemSetChangeListener addItemSetChangeListener(BindingContext bindingContext) {

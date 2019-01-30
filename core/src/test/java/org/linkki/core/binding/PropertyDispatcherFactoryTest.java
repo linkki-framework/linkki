@@ -39,7 +39,7 @@ public class PropertyDispatcherFactoryTest {
     @Test
     public void testCreateDispatcherChain_getValueFromPmo() {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
-                .createDispatcherChain(pmo, new BoundProperty("value").withModelAttribute("foo"),
+                .createDispatcherChain(pmo, BoundProperty.of("value").withModelAttribute("foo"),
                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         pmo.setValue(ANY_VALUE);
 
@@ -51,7 +51,7 @@ public class PropertyDispatcherFactoryTest {
     @Test
     public void testCreateDispatcherChain_pushToPmo() {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
-                .createDispatcherChain(pmo, new BoundProperty("value").withModelAttribute("foo"),
+                .createDispatcherChain(pmo, BoundProperty.of("value").withModelAttribute("foo"),
                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
         defaultDispatcher.push(Aspect.of("", ANY_VALUE));
@@ -63,7 +63,7 @@ public class PropertyDispatcherFactoryTest {
     public void testCreateDispatcherChain_getValueFromModelObject() {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo,
-                                       new BoundProperty("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
+                                       BoundProperty.of("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         modelObject.setModelProp("testValue");
 
@@ -76,7 +76,7 @@ public class PropertyDispatcherFactoryTest {
     public void testCreateDispatcherChain_push() {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo,
-                                       new BoundProperty("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
+                                       BoundProperty.of("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
         defaultDispatcher.push(Aspect.of("", "testSetValue"));
@@ -88,7 +88,7 @@ public class PropertyDispatcherFactoryTest {
     public void testCreateDispatcherChain_getValueFromChangedModelObject() {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo,
-                                       new BoundProperty("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
+                                       BoundProperty.of("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         TestModelObject newModelObject = new TestModelObject();
         pmo.setModelObject(newModelObject);
@@ -104,7 +104,7 @@ public class PropertyDispatcherFactoryTest {
 
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo,
-                                       new BoundProperty("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
+                                       BoundProperty.of("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
         TestModelObject newModelObject = new TestModelObject();
         pmo.setModelObject(newModelObject);
@@ -119,7 +119,7 @@ public class PropertyDispatcherFactoryTest {
 
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmoWithModelObjectField,
-                                       new BoundProperty("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
+                                       BoundProperty.of("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
         pmoWithModelObjectField.modelObject.setModelProp("prop");
@@ -143,7 +143,7 @@ public class PropertyDispatcherFactoryTest {
             }
         };
 
-        propertyDispatcherFactory.createDispatcherChain(pmo, new BoundProperty(null),
+        propertyDispatcherFactory.createDispatcherChain(pmo, BoundProperty.of(null),
                                                         PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
     }
 

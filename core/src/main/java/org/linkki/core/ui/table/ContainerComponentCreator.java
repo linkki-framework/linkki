@@ -19,11 +19,11 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.binding.Binding;
+import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
-import org.linkki.core.binding.descriptor.SimpleBindingDescriptor;
+import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
@@ -62,14 +62,14 @@ class ContainerComponentCreator<@NonNull ROW> {
      * 
      * @param elementDesc the descriptor for the PMO's field
      */
-    void createColumn(Binding<Table> binding, PropertyElementDescriptors elementDesc) {
+    void createColumn(ContainerBinding<Table> binding, PropertyElementDescriptors elementDesc) {
         Table table = binding.getBoundComponent();
         ContainerComponentCreator.FieldColumnGenerator<ROW> columnGen = new ContainerComponentCreator.FieldColumnGenerator<>(
                 elementDesc, binding);
         String propertyName = elementDesc.getPmoPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
         List<LinkkiAspectDefinition> aspectDefs = elementDesc.getAllAspects();
-        binding.bind(containerPmo, new SimpleBindingDescriptor(propertyName, aspectDefs),
+        binding.bind(containerPmo, BoundProperty.of(propertyName), aspectDefs,
                      new TableColumnWrapper(table, propertyName));
     }
 
@@ -80,10 +80,10 @@ class ContainerComponentCreator<@NonNull ROW> {
         private static final long serialVersionUID = 1L;
 
         private final PropertyElementDescriptors elementDescriptors;
-        private final Binding<?> binding;
+        private final ContainerBinding<?> binding;
 
         public FieldColumnGenerator(PropertyElementDescriptors elementDescriptors,
-                Binding<?> binding) {
+                ContainerBinding<?> binding) {
             this.elementDescriptors = requireNonNull(elementDescriptors, "elementDescriptors must not be null");
             this.binding = requireNonNull(binding, "binding must not be null");
         }

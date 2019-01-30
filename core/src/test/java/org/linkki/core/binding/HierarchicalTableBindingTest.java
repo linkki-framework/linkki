@@ -57,7 +57,7 @@ public class HierarchicalTableBindingTest {
     @Mock
     private ItemSetChangeListener listener;
 
-    private Binding<Table> binding;
+    private ContainerBinding<Table> binding;
 
     @SuppressWarnings("unchecked")
     @Before
@@ -66,8 +66,8 @@ public class HierarchicalTableBindingTest {
 
         table = (TreeTable)new PmoBasedTableFactory<>(containerPmo, bindingContext).createTable();
         binding = bindingContext.getBindings().stream()
-                .filter(Binding.class::isInstance)
-                .map(Binding.class::cast)
+                .filter(ContainerBinding.class::isInstance)
+                .map(ContainerBinding.class::cast)
                 .findFirst()
                 .get();
         getTableContainer().addItemSetChangeListener(listener);

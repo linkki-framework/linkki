@@ -64,7 +64,7 @@ public abstract class BindingDescriptor {
     public abstract String getPmoPropertyName();
 
     public BoundProperty getBoundProperty() {
-        return new BoundProperty(getPmoPropertyName()).withModelObject(getModelObjectName())
+        return BoundProperty.of(getPmoPropertyName()).withModelObject(getModelObjectName())
                 .withModelAttribute(getModelPropertyName());
     }
 
