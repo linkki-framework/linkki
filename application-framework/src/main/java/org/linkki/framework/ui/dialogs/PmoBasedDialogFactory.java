@@ -116,21 +116,41 @@ public class PmoBasedDialogFactory {
      * @return A dialog with the content defined by the given PMO.
      */
     public OkCancelDialog newOkCancelDialog(String title, Handler okHandler, Object... pmos) {
-        return newOkCancelDialog(title, okHandler, ButtonOption.OK_CANCEL, pmos);
+        return newOkCancelDialog(title, okHandler, Handler.NOP_HANDLER, ButtonOption.OK_CANCEL, pmos);
     }
 
-    private OkCancelDialog newOkCancelDialog(String title,
+    /**
+     * Creates a new dialog with ok and cancel button.
+     * 
+     * @param title the dialog title
+     * @param okHandler the called when OK is clicked
+     * @param cancelHandler The handler that handles clicks on the CANCEL button
+     * @param pmos the presentation model objects providing the data and the layout information
+     * @return A dialog with the content defined by the given PMO.
+     */
+    public OkCancelDialog newOkCancelDialog(String title, Handler okHandler, Handler cancelHandler, Object... pmos) {
+        return newOkCancelDialog(title, okHandler, cancelHandler, ButtonOption.OK_CANCEL, pmos);
+    }
+
+    OkCancelDialog newOkCancelDialog(String title,
             Handler okHandler,
+            Handler cancelHandler,
             ButtonOption buttonOption,
             Object... pmos) {
-        OkCancelDialog dialog = new OkCancelDialog(title, okHandler, buttonOption);
+
+        OkCancelDialog dialog = OkCancelDialog.builder(title)
+                .okHandler(okHandler)
+                .cancelHandler(cancelHandler)
+                .buttonOption(buttonOption)
+                .build();
+
         DialogBindingManager bindingManager = new DialogBindingManager(dialog, validationService,
                 propertyBehaviorProvider);
 
         BindingContext bindingContext = bindingManager.startNewContext(dialog.getClass());
+
         for (Object pmo : pmos) {
-            AbstractSection content;
-            content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
+            AbstractSection content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
             float expRatio = 0f;
             if (pmo == pmos[pmos.length - 1]) {
                 expRatio = 1f;

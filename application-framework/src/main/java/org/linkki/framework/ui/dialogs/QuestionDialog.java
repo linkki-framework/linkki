@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.framework.ui.dialogs;
 
@@ -21,8 +21,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
- * A modal dialog that asks the user a question that can be confirmed with OK (and not confirmed
- * with Cancel).
+ * A modal dialog that asks the user a question that can be confirmed with OK (and not confirmed with
+ * Cancel).
  */
 public class QuestionDialog extends OkCancelDialog {
 
@@ -36,7 +36,7 @@ public class QuestionDialog extends OkCancelDialog {
      * @param okHandler a function that is executed when the OK button was pressed
      */
     public QuestionDialog(String caption, Component content, Handler okHandler) {
-        super(caption, content, okHandler, ButtonOption.OK_CANCEL);
+        super(caption, okHandler, Handler.NOP_HANDLER, ButtonOption.OK_CANCEL, content);
     }
 
     /**

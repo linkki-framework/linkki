@@ -8,9 +8,24 @@
 
 == New & Noteworthy
 
-=== January 31st, 2019
+=== {dversion}
 
-==== Refactoring of Aspects
+==== `cancelHandler` in `OkCancelDialog`
+
+We added a `cancelHandler` to `OkCancelDialog` which will be called when the cancel button is invoked. To create a new `OkCancelDialog` with a `cancelHandler`, the new extended constructor can be used. Alternatively, `PmoBasedDialogFactory` has also been extended by a new `newOkCancelDialog` method that accepts a `cancelHandler` in addition to the `okHandler`.
+
+As the new functionality further increases the number of arguments that can be passed to `OkCancelDialog`, a `Builder` is introduced to simplify the creation of a dialog. `OkCancelDialog` provides a new static method `builder(String)` that creates a new builder:
+
+[source,java]
+----
+OkCancelDialog.builder(caption)
+              .cancelHandler(cancelHandler)
+              .build();
+----
+
+The builder also supports multiple content components to be consistent to the `newOkCancelDialog` method in `PmoBasedDialogFactory`. As the `OkCancelDialog` should now be created using the builder, the existing constructors using a nullable content component are deprecated. A new constructor taking all configurations is provided for overriding. 
+
+==== New creation mechanism of aspects
 
 The creation of <<creating-aspects,linkki aspects>> has changed. Instead of giving the `LinkkiAspectDefinition` implementation class as value for the `@LinkkiAspect` annotation, a `LinkkiAspect.Creator` implementation has to be used now.
 
@@ -44,33 +59,43 @@ This offers the benefit that the `LinkkiAspectDefinitions` do no longer need to 
 include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspectCreator]
 ----
 
-==== Refactoring for tables and @UITableColumn
+==== `ContainerPmo` as bound object of @UITableColumn attributes
 
 We made a major refactoring concerning the internal handling of tables and columns. All properties of a table column (like label, width, expand ratio, collapsible) are now handled using <<creating-aspects,linkki aspects>>. With this refactoring these properties are real bindings now. Although these bindings are not dynamic (at the moment) we decided to use the `ContainerPmo` as bound object. That means:
 
-  * if you create (or we in the future) a dynamic aspect binding the method is searched at the `ContainerPmo` not at the PMO of the row.
-  * The key for translated column labels is no longer created using the row PMO but the ContainerPmo. *You need to change existing translation keys in you linkki-messages.properties files*
-  
+  * The key for translated column labels is no longer created using the row PMO but the `ContainerPmo`. *You need to change existing translation keys in you linkki-messages.properties files*
+  * If you create (or we in the future) a dynamic aspect binding the corresponding method must be defined in the `ContainerPmo` instead of in the PMO of the row.
+
+WARNING: If you are translating the label of the columns with `linkki-messages.properties` files, you must change the existing translation keys to the class name of the container PMO. +
+Assume that there is an entry with the key `TestRowPmo_name_label` for the property `name` in `TestRowPmo` which is used in `TestTablePmo` as row PMO. This key be changed to `TestTablePmo_name_label`.
+
 The items, page length, and footer of a table are also bound via aspects to the `ContainerPmo`'s existing methods `getItems()`, `getPageLength()`, and `getFooterPmo()`. This is just an internal reorganization that requires no changes in client code.
 
-==== Refactoring for labels
+TIP: `getFooterPmo` is now bound fully dynamically. This fixes a previous bug that the footer is not removed dynamically once created.
 
-With the refactoring of aspects for table columns, the label also gets bound using aspects. If you have created a custom component that does *not* use the common `FieldAspectDefinition` you might need to add the new `LabelAspectDefinition` to your component.
+==== Aspect for labels
 
-Beside this refactoring some concept according the labels has changed. With our experience in multiple projects it turned out that in almost all cases the label is specified directly with the field annotation. However until now the label was no required property. There was a rarely known fallback, the capitalized property name was used when no label was specified. Additionally there was a special property `noLabel` to disable the label.
+The label is not bound using aspects. If you have created a custom component that does *not* use the common `FieldAspectDefinition` you might need to add the new `LabelAspectDefinition` to your component.
 
-With this version the fallback to the property name was removed. *An empty label simply means no label.* Therefore the `noLabel` property was removed, too. To avoid problems during migration the label becomes mandatory, that means you need to specify a label or empty String to show no label.
+==== `label` now mandatory in UI annotations
 
-In `@UIButton` and `@UICheckBox` there was a property `showLabel` instead of `noLabel` because for buttons and check box fields the default is showing no label. Instead both fields have a caption which is shown on top of the button or to the right of the check box. The property `showLabel` was also removed, the default for `label` is still the empty String.
+Our experience in multiple projects has shown that the label is specified directly with the field annotation in almost all cases. Even if the label is translated in `linkki-messages.properties`, it is useful to declare the `label` in the field annotation for documentation purposes. Therefore, the `label` property is now mandatory in all UI annotations except `@UIButton` and `@UICheckBox`.
+
+Until now, there is a rarely known fallback value for the `label` attribute which is the capitalized property name. Thus, there was a special property `noLabel` to disable the label.
+
+With this version the fallback to the property name was removed. Therefore the `noLabel` property was removed, too. To show no label, simply use an empty String.
+
+In `@UIButton` and `@UICheckBox` there was a property `showLabel` instead of `noLabel` because showing no label is the default for buttons and check boxes. Instead, both fields have a caption which is shown on top of the button or to the right of the check box. The property `showLabel` was removed, the default for `label` is still the empty String.
 
 ==== Default methods from interfaces in PMO classes
 
 *linkki* now finds annotated methods that are inherited from interface default methods.
 
-==== Refactoring @Bind
+==== Custom @Bind-like annotation using `Binder` and fallback for `pmoProperty` in `@Bind`
 
 The Annotation `@Bind` was refactored to allow creating other variations (see <<custom-binding-annotation, Custom Binding Annotation>>).
-During this refactoring, a fallback mechanism to determine the `pmoProperty` attribute from the name of the annotated method (or field) as for the UI annotations has been implemented as well.
+
+During this refactoring, a fallback mechanism to determine the `pmoProperty` attribute from the name of the annotated method (or field) has been implemented as well.
 
 ==== Deprecated classes
 
@@ -78,7 +103,7 @@ During this refactoring, a fallback mechanism to determine the `pmoProperty` att
   * The classes `PmoBasedTableSectionFactory` and `SectionCreationContext` have been deprecated in favor of a unified class `PmoBasedSectionFactory`. You could use `PmoBasedSectionFactory.createSection(Object, BindingContext)` method to create all kinds of sections annotated with `@UISection`. If the PMO class implements
   `ContainerPmo` it automatically creates a `TableSection`.
   * The method `BindingContext.createDispatcherChain(Object, BindingDescriptor)` was deprecated. If you had overwritten this method, pass your `PropertyDispatcherFactory` to the new constructor `BindingContext(String, PropertyBehaviorProvider, Handler, PropertyDispatcherFactory)`.
-  * The signatures of the methods in `PropertyDispatcherFactory` have changed. Instead of the `BindingDescriptor` it gets directly the newly introduced `BoundProperty` which holds the reference to the bound PMO property name as well as the model object name and model object property name.
+  * The signatures of the methods in `PropertyDispatcherFactory` have changed. Instead of the `BindingDescriptor` it directly takes the newly introduced `BoundProperty` which holds the reference to the bound PMO property name as well as the model object name and model object property name.
 
 === November 29th, 2018
 

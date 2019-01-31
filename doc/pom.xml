@@ -54,6 +54,7 @@
                                 <project.basedir>${project.basedir}</project.basedir>
                                 <jbake.outputDirectory>${jbake.outputDirectory}</jbake.outputDirectory>
                                 <dtitle>${documentation.dtitle}</dtitle>
+                                <dversion>${project.version}</dversion>
                                 <readmepath>${basedir.parent}</readmepath>
                             </properties>
                         </configuration>
@@ -127,6 +128,7 @@
                                 <pdf-style>base</pdf-style>
                                 <allow-uri-read>true</allow-uri-read>
                                 <dtitle>${documentation.dtitle}</dtitle>
+                                <dversion>${project.version}</dversion>
                                 <readmepath>${basedir.parent}</readmepath>
                             </attributes>
                         </configuration>
