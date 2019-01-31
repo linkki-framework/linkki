@@ -21,8 +21,8 @@ import java.util.Locale;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
+import org.linkki.core.ui.TestUiFramework;
 import org.linkki.core.ui.section.annotations.UIDateField;
-import org.linkki.core.ui.util.UiUtil;
 import org.linkki.util.DateFormatRegistry;
 
 import com.vaadin.ui.Component;
@@ -57,7 +57,7 @@ public class DateFieldBindingDefinitionTest {
     @Test
     public void testNewComponent_DefaultDateFormatIsUsed() {
         // Precondition
-        assertThat(UiUtil.getUiLocale(), is(Locale.GERMAN));
+        TestUiFramework.get().setUiLocale(Locale.GERMAN);
 
         DateFieldBindingDefinition adapter = new DateFieldBindingDefinition(defaultAnnotation());
         Component component = adapter.newComponent();

@@ -70,6 +70,11 @@
             </dependency>
             <dependency>
                 <groupId>org.linkki-framework</groupId>
+                <artifactId>linkki-core-vaadin7</artifactId>
+                <version>${linkki.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-application-framework</artifactId>
                 <version>${linkki.version}</version>
             </dependency>

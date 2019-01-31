@@ -8,7 +8,18 @@
 
 == New & Noteworthy
 
-=== January 31st, 2019
+=== February 1st, 2019
+
+==== `linkki-core` without Vaadin dependency
+
+All Vaadin dependencies have been moved from `linkki-core` to `linkki-core-vaadin7`. Any uses of UI framework (for example Vaadin) API from the core is now handled via the `UiFramework` class. It is recommended that you also use it instead of directly calling Vaadin API where applicable.
+
+.Methods of the UiFramework
+[options="header"]
+|===
+| New method | Vaadin method | Notes
+| `UiFramework.getLocale()`| `UiUtils.getUiLocale()`/`UI.getCurrent().getLocale()` | the locale defined for the UI session, may differ from the System locale
+|===
 
 ==== Refactoring of Aspects
 
