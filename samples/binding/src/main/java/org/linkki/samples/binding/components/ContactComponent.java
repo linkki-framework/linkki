@@ -106,8 +106,8 @@ public class ContactComponent extends Panel {
     }
 
     private void resetPmos(Contact contact) {
-
         contactPmo.reset(contact);
+        childrenSectionPmo.reset(contact);
         addressPmo.reset(contact.getAddress());
 
         bindingContext.modelChanged();

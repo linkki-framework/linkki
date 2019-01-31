@@ -28,22 +28,24 @@ import com.vaadin.ui.Component;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
- * Wrapps a vaadin component and uses the vaadin built-in caption instead of an extra label component.
+ * Wraps a vaadin component and uses the vaadin built-in caption instead of an extra label component
+ * like the {@link LabelComponentWrapper}.
  * <p>
  * Although it is common to create this kind of {@link ComponentWrapper} for
  * {@link WrapperType#COMPONENT} the type is not fixed to {@link WrapperType#COMPONENT} and should be as
  * narrow as possible (for example {@link WrapperType#FIELD} or {@link WrapperType#LAYOUT}.
+ * 
+ * @param <C> the type of {@link Component} adapted by this {@link ComponentWrapper}
  */
-
-public class CaptionComponentWrapper implements ComponentWrapper {
+public class CaptionComponentWrapper<C extends Component> implements ComponentWrapper {
 
     private static final long serialVersionUID = 1L;
 
-    private final Component component;
+    private final C component;
 
     private WrapperType wrapperType;
 
-    public CaptionComponentWrapper(String id, Component component, WrapperType wrapperType) {
+    public CaptionComponentWrapper(String id, C component, WrapperType wrapperType) {
         this.component = component;
         this.wrapperType = wrapperType;
         component.setId(id);
@@ -61,23 +63,23 @@ public class CaptionComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setEnabled(boolean enabled) {
-        getComponent().setEnabled(enabled);
+        component.setEnabled(enabled);
     }
 
     @Override
     public void setVisible(boolean visible) {
-        getComponent().setVisible(visible);
+        component.setVisible(visible);
     }
 
     @Override
     public void setTooltip(String text) {
         if (component instanceof AbstractComponent) {
-            ((AbstractComponent)getComponent()).setDescription(text);
+            ((AbstractComponent)component).setDescription(text);
         }
     }
 
     @Override
-    public Component getComponent() {
+    public C getComponent() {
         return component;
     }
 
@@ -109,8 +111,7 @@ public class CaptionComponentWrapper implements ComponentWrapper {
 
     @Override
     public String toString() {
-        return component.getCaption() + "("
-                + component.getClass().getSimpleName() + ")";
+        return component.getCaption() + "(" + component.getClass().getSimpleName() + ")";
     }
 
 }

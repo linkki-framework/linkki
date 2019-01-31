@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.ComponentBinding;
+import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
@@ -67,9 +67,9 @@ public class DialogBindingManagerTest {
         when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
         when(propertyDispatcher.getMessages(any())).thenReturn(new MessageList());
 
-        ComponentBinding binding = spy(new ComponentBinding(new LabelComponentWrapper(new Label(), new Button()),
-                propertyDispatcher,
-                Handler.NOP_HANDLER, new ArrayList<>()));
+        ElementBinding binding = spy(new ElementBinding(
+                new LabelComponentWrapper(new Label(), new Button()),
+                propertyDispatcher, Handler.NOP_HANDLER, new ArrayList<>()));
         ctx.add(binding);
 
         ctx.modelChanged();

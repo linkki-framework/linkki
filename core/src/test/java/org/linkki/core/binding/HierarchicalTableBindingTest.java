@@ -30,8 +30,8 @@ import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
-import org.linkki.core.ui.table.TestRowPmo;
 import org.linkki.core.ui.table.hierarchy.AbstractCodeRow;
 import org.linkki.core.ui.table.hierarchy.CodeTablePmo;
 import org.linkki.core.ui.table.hierarchy.LowerCaseRowPmo;
@@ -41,6 +41,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.vaadin.data.Container.ItemSetChangeListener;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TreeTable;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -56,7 +57,7 @@ public class HierarchicalTableBindingTest {
     @Mock
     private ItemSetChangeListener listener;
 
-    private TableBinding<TestRowPmo> tableBinding;
+    private ContainerBinding<Table> binding;
 
     @SuppressWarnings("unchecked")
     @Before
@@ -64,16 +65,21 @@ public class HierarchicalTableBindingTest {
         containerPmo = new CodeTablePmo();
 
         table = (TreeTable)new PmoBasedTableFactory<>(containerPmo, bindingContext).createTable();
-        tableBinding = (TableBinding<TestRowPmo>)bindingContext.getBindings().stream()
-                .filter(TableBinding.class::isInstance)
+        binding = bindingContext.getBindings().stream()
+                .filter(ContainerBinding.class::isInstance)
+                .map(ContainerBinding.class::cast)
                 .findFirst()
                 .get();
-        tableBinding.getTableContainer().addItemSetChangeListener(listener);
+        getTableContainer().addItemSetChangeListener(listener);
+    }
+
+    protected LinkkiInMemoryContainer<?> getTableContainer() {
+        return (LinkkiInMemoryContainer<?>)binding.getBoundComponent().getContainerDataSource();
     }
 
     @Test
     public void testDataSourceSet() {
-        assertEquals(tableBinding.getTableContainer(), table.getContainerDataSource());
+        assertEquals(getTableContainer(), table.getContainerDataSource());
     }
 
     @Test
@@ -87,7 +93,7 @@ public class HierarchicalTableBindingTest {
         NumberRowPmo rowAa1 = childRow(rowAa, 0);
         NumberRowPmo rowAa2 = childRow(rowAa, 1);
 
-        tableBinding.updateFromPmo();
+        binding.updateFromPmo();
 
         @SuppressWarnings("unchecked")
         Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();
@@ -108,7 +114,7 @@ public class HierarchicalTableBindingTest {
         NumberRowPmo rowAa2 = childRow(rowAa, 1);
         rowAa1.getCode().setNumber(42);
 
-        tableBinding.updateFromPmo();
+        binding.updateFromPmo();
 
         // sort order of numberRows is by number and so Aa1(now Aa42) and Aa2 must switch places
         // we don't use pmosFor(...) here because we want to make sure it's the same PMOs
@@ -125,7 +131,7 @@ public class HierarchicalTableBindingTest {
         NumberRowPmo rowAa1 = childRow(rowAa, 0);
         rowAa1.getCode().setUpperCaseLetter("C");
 
-        tableBinding.updateFromPmo();
+        binding.updateFromPmo();
 
         @SuppressWarnings("unchecked")
         Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();
@@ -146,7 +152,7 @@ public class HierarchicalTableBindingTest {
         rowAa1.getCode().setLowerCaseLetter("c");
         rowAa1.getCode().setNumber(23);
 
-        tableBinding.updateFromPmo();
+        binding.updateFromPmo();
 
         @SuppressWarnings("unchecked")
         Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();
@@ -163,7 +169,7 @@ public class HierarchicalTableBindingTest {
         NumberRowPmo rowAa1 = childRow(rowAa, 0);
         rowAa1.getCode().setLowerCaseLetter("c");
 
-        tableBinding.updateFromPmo();
+        binding.updateFromPmo();
 
         @SuppressWarnings("unchecked")
         Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();
@@ -183,7 +189,7 @@ public class HierarchicalTableBindingTest {
 
     @SuppressWarnings("unchecked")
     private <P, C> C[] children(P parent) {
-        return (C[])all(tableBinding.getTableContainer().getChildren(parent));
+        return (C[])all(getTableContainer().getChildren(parent));
     }
 
     @SuppressWarnings("unchecked")

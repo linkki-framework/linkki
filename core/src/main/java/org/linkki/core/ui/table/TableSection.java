@@ -17,24 +17,23 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
-import org.apache.commons.lang3.Validate;
 import org.linkki.core.ui.section.AbstractSection;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
 /**
  * A section containing a single table. This kind of section is created by the
- * {@link PmoBasedTableSectionFactory}.
+ * {@link PmoBasedSectionFactory} if the presentation model object is a {@link ContainerPmo}.
  */
-public class TableSection<T> extends AbstractSection {
+public class TableSection extends AbstractSection {
 
     private static final long serialVersionUID = 1L;
 
     private final Table table;
 
-    /* package private, used by the PmoBaseTableFactory */
-    TableSection(String caption, boolean closeable, Optional<Button> addItemButton, Table table) {
+    public TableSection(String caption, boolean closeable, Optional<Button> addItemButton, Table table) {
         super(caption, closeable, addItemButton);
         this.table = requireNonNull(table, "table must not be null");
         addComponent(table);
@@ -46,8 +45,7 @@ public class TableSection<T> extends AbstractSection {
      * Returns the table shown in the section.
      */
     public Table getTable() {
-        Validate.isTrue(this.table != null, "Table must be already set.");
-        return table;
+        return getSectionContent();
     }
 
     @Override

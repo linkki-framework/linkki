@@ -1,4 +1,7 @@
 class org/mockito/Mockito
+doReturn
+ (Ljava/lang/Object;)Lorg/mockito/stubbing/Stubber;
+ (Ljava/lang/Object;)L1org/mockito/stubbing/Stubber;
 mock
  <T:Ljava/lang/Object;>(Ljava/lang/Class<TT;>;)TT;
  <T:Ljava/lang/Object;>(Ljava/lang/Class<TT;>;)T1T;

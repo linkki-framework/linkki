@@ -1,102 +1,158 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.linkki.core.ui.table;
 
-import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.section.annotations.UITableColumn;
+import org.linkki.core.binding.ContainerBinding;
+import org.linkki.core.container.LinkkiInMemoryContainer;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import com.vaadin.data.Container.ItemSetChangeListener;
 import com.vaadin.ui.Table;
 
+@RunWith(MockitoJUnitRunner.class)
 public class PmoBasedTableFactoryTest {
 
-    private BindingContext ctx = new BindingContext();
+    private BindingContext bindingContext = spy(new BindingContext());
 
-    @Test
-    public void testCreateTable_PmoClassIsUsedAsId() {
-        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(new TestTablePmo(), ctx);
-        Table table = factory.createTable();
-        assertThat(table.getId(), is("TestTablePmo"));
+    private static LinkkiInMemoryContainer<?> getTableContainer(BindingContext bindingContext) {
+        return (LinkkiInMemoryContainer<?>)getFirstBinding(bindingContext).getBoundComponent().getContainerDataSource();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static ContainerBinding<Table> getFirstBinding(BindingContext bindingContext) {
+        return (ContainerBinding<Table>)bindingContext.getBindings().stream().findFirst().get();
+    }
+
+    private static ItemSetChangeListener addItemSetChangeListener(BindingContext bindingContext) {
+        ItemSetChangeListener listener = mock(ItemSetChangeListener.class);
+        getTableContainer(bindingContext).addItemSetChangeListener(listener);
+        return listener;
     }
 
     @Test
-    public void testCreateTable_FieldLabelsAreUsedAsColumnHeaders() {
-        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(new TestTablePmo(), ctx);
-        Table table = factory.createTable();
-        assertThat(table, is(notNullValue()));
-        // 1, 2 and 3 are the labels for the fields, the delete button has an no label
-        assertThat(table.getColumnHeaders(), is(arrayContaining("1", "2", "3", "")));
+    public void testPageLength() {
+        TestTablePmo tablePmo = new TestTablePmo(15);
+
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
+
+        assertThat(table.getPageLength(), is(15));
+
+        tablePmo.setPageLength(25);
+        bindingContext.modelChanged();
+
+        assertThat(table.getPageLength(), is(25));
+        verifyZeroInteractions(itemSetChangedListener);
     }
 
     @Test
-    public void testCreateTable_WidthAndExpandRatioIsReadFromAnnotation() {
-        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(new TestTablePmo(), ctx);
-        Table table = factory.createTable();
-        assertThat(table, is(notNullValue()));
+    public void testItems_AfterConstruction() {
+        TestRowPmo rowPmo1 = new TestRowPmo();
+        TestRowPmo rowPmo2 = new TestRowPmo();
 
-        assertThat(table.getColumnWidth("value1"), is(100));
-        assertThat(table.getColumnExpandRatio("value1"), is(UITableColumn.UNDEFINED_EXPAND_RATIO));
+        TestTablePmo tablePmo = new TestTablePmo(rowPmo1, rowPmo2);
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
 
-        assertThat(table.getColumnWidth("value2"), is(UITableColumn.UNDEFINED_WIDTH));
-        assertThat(table.getColumnExpandRatio("value2"), is(2.0f));
-
-        assertThat(table.getColumnWidth("value3"), is(UITableColumn.UNDEFINED_WIDTH));
-        assertThat(table.getColumnExpandRatio("value3"), is(UITableColumn.UNDEFINED_EXPAND_RATIO));
+        assertThat(tablePmo.getItems(), contains(rowPmo1, rowPmo2));
+        assertThat(table.getItemIds(), contains(rowPmo1, rowPmo2));
     }
 
     @Test
-    public void testCreateTable_CollapsibleAndCollapsedIsReadFromAnnotation() {
-        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(new TestTablePmo(), ctx);
-        Table table = factory.createTable();
-        assertThat(table, is(notNullValue()));
+    public void testItems_UponUpdate_AddItems() {
+        TestTablePmo tablePmo = new TestTablePmo();
 
-        assertThat(table.isColumnCollapsible("value1"), is(true));
-        assertThat(table.isColumnCollapsed("value1"), is(false));
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
 
-        assertThat(table.isColumnCollapsible("value2"), is(true));
-        assertThat(table.isColumnCollapsed("value2"), is(true));
+        assertThat(table.getItemIds(), is(empty()));
 
-        assertThat(table.isColumnCollapsible("value3"), is(false));
-        assertThat(table.isColumnCollapsed("value3"), is(false));
+        TestRowPmo newRow = new TestRowPmo();
+        tablePmo.getItems().add(newRow);
+
+        bindingContext.modelChanged();
+
+        assertThat(tablePmo.getItems(), contains(newRow));
+        assertThat(table.getItemIds(), contains(newRow));
+        verify(itemSetChangedListener).containerItemSetChange(any());
+        verifyNoMoreInteractions(itemSetChangedListener);
     }
 
     @Test
-    public void testCreateTable_InitialPageLengthIsSetOnTable() {
-        TestTablePmo containerPmo = new TestTablePmo();
-        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx);
-        Table table = factory.createTable();
-        assertThat(table.getPageLength(), is(ContainerPmo.DEFAULT_PAGE_LENGTH));
+    public void testItems_UponUpdate_RemoveItems() {
+        TestRowPmo row1 = new TestRowPmo();
+        TestRowPmo row2 = new TestRowPmo();
+        TestTablePmo tablePmo = new TestTablePmo(row1, row2);
+
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
+
+        assertThat(table.getItemIds().size(), is(2));
+
+        tablePmo.getItems().remove(row1);
+        bindingContext.modelChanged();
+
+        assertThat(tablePmo.getItems(), contains(row2));
+        assertThat(table.getItemIds(), contains(row2));
+        verify(itemSetChangedListener).containerItemSetChange(any());
+        verifyNoMoreInteractions(itemSetChangedListener);
     }
 
     @Test
-    public void testCreateTable_ItemsAreBound() {
-        TestTablePmo containerPmo = new TestTablePmo();
-        TestRowPmo columnPmo1 = containerPmo.addItem();
-        TestRowPmo columnPmo2 = containerPmo.addItem();
-        assertThat(containerPmo.getItems(), contains(columnPmo1, columnPmo2));
-
-        PmoBasedTableFactory<TestRowPmo> factory = new PmoBasedTableFactory<>(containerPmo, ctx);
-        Table table = factory.createTable();
-
-        assertThat(table.getItemIds(), contains(columnPmo1, columnPmo2));
+    public void testDataSourceSet() {
+        TestTablePmo tablePmo = new TestTablePmo();
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        assertThat(getTableContainer(bindingContext), is(table.getContainerDataSource()));
     }
 
+    @Test
+    public void testFooterUpdateAfterConstruction() {
+        TableFooterPmo footerPmo = property -> property;
+        TestTablePmo tablePmo = new TestTablePmo(footerPmo);
+
+        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
+
+        assertTrue(table.isFooterVisible());
+        assertThat(table.getColumnFooter(TestRowPmo.PROPERTY_VALUE_1), is(TestRowPmo.PROPERTY_VALUE_1));
+        assertThat(table.getColumnFooter(TestRowPmo.PROPERTY_VALUE_2), is(TestRowPmo.PROPERTY_VALUE_2));
+
+        tablePmo.setFooterPmo(null);
+        bindingContext.modelChanged();
+        assertFalse(table.isFooterVisible());
+        verifyNoMoreInteractions(itemSetChangedListener);
+
+        tablePmo.setFooterPmo(property -> "test");
+        bindingContext.modelChanged();
+        assertTrue(table.isFooterVisible());
+        assertThat(table.getColumnFooter(TestRowPmo.PROPERTY_VALUE_1), is("test"));
+        verifyNoMoreInteractions(itemSetChangedListener);
+    }
 
 }

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.framework.ui.dialogs;
 
@@ -22,13 +22,12 @@ import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
-import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 
 /**
- * A factory to create dialogs with a content based on a {@link PresentationModelObject}. At the
- * moment only the {@link OkCancelDialog} is supported.
+ * A factory to create dialogs with a content based on a {@link PresentationModelObject}. At the moment
+ * only the {@link OkCancelDialog} is supported.
  */
 public class PmoBasedDialogFactory {
 
@@ -131,11 +130,7 @@ public class PmoBasedDialogFactory {
         BindingContext bindingContext = bindingManager.startNewContext(dialog.getClass());
         for (Object pmo : pmos) {
             AbstractSection content;
-            if (pmo instanceof ContainerPmo) {
-                content = pmoBasedSectionFactory.createTableSection((ContainerPmo<?>)pmo, bindingContext);
-            } else {
-                content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
-            }
+            content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
             float expRatio = 0f;
             if (pmo == pmos[pmos.length - 1]) {
                 expRatio = 1f;

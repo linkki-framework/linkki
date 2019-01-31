@@ -33,7 +33,7 @@ import com.vaadin.ui.TreeTable;
  * A container of PMOs that has itself the role of a PMO for table controls (and maybe for other
  * controls displaying a set of objects).
  * 
- * @param <T> a PMO class annotated with linkki {@code @UI~} annotations and optionally
+ * @param <ROW> a PMO class annotated with linkki {@code @UI~} annotations and optionally
  *            {@link UITableColumn @UITableColumn}. May implement {@link HierarchicalRowPmo} to
  *            create a hierarchical {@link TreeTable}.
  * 
@@ -41,7 +41,7 @@ import com.vaadin.ui.TreeTable;
  *           {@link HierarchicalRowPmo} or you must override {@link #isHierarchical()} to return
  *           {@code true} and have only the no-leave-nodes implement {@link HierarchicalRowPmo}
  */
-public interface ContainerPmo<@NonNull T> {
+public interface ContainerPmo<@NonNull ROW> {
 
     /** Default page length to use when no other page length is set. */
     public static final int DEFAULT_PAGE_LENGTH = 15;
@@ -52,12 +52,12 @@ public interface ContainerPmo<@NonNull T> {
      * @implNote The default implementation reads the generic type T from the class definition.
      */
     @SuppressWarnings({ "unchecked", "null" })
-    default Class<? extends T> getItemPmoClass() {
+    default Class<? extends ROW> getItemPmoClass() {
         Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(getClass(), ContainerPmo.class);
         for (Entry<TypeVariable<?>, Type> typeArgument : typeArguments.entrySet()) {
             TypeVariable<?> key = typeArgument.getKey();
             if (key.getGenericDeclaration().equals(ContainerPmo.class)) {
-                return (Class<T>)typeArgument.getValue();
+                return (Class<ROW>)typeArgument.getValue();
             }
         }
         throw new IllegalArgumentException("Cannot identify row pmo type for " + getClass().getName());
@@ -78,7 +78,7 @@ public interface ContainerPmo<@NonNull T> {
      *           If you create the item PMOs based on a list of model objects, the easiest way is to use
      *           the {@link SimpleItemSupplier}.
      */
-    List<T> getItems();
+    List<ROW> getItems();
 
     /**
      * Returns a {@link TableFooterPmo} that provides the data for the table footer.

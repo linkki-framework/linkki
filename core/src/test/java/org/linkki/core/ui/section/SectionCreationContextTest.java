@@ -30,6 +30,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Panel;
 
+@SuppressWarnings("deprecation")
+@Deprecated
 public class SectionCreationContextTest {
 
     private BindingContext bindingContext = new BindingContext("testBindingContext");

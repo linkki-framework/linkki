@@ -27,9 +27,11 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.TableBinding;
+import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.container.LinkkiInMemoryContainer;
+import org.linkki.core.ui.section.AbstractSection;
+import org.linkki.core.ui.section.PmoBasedSectionFactory;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -42,10 +44,9 @@ public class PmoBasedTableSectionFactoryTest {
     public void testCreateSection_TableIsAddedAndBound() {
         TestTablePmo containerPmo = new TestTablePmo();
         BindingContext bindingContext = TestBindingContext.create();
-        PmoBasedTableSectionFactory<TestRowPmo> factory = new PmoBasedTableSectionFactory<TestRowPmo>(
-                containerPmo, bindingContext);
+        PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
 
-        TableSection<TestRowPmo> tableSection = factory.createSection();
+        AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
 
         assertThat(tableSection, is(notNullValue()));
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
@@ -53,24 +54,27 @@ public class PmoBasedTableSectionFactoryTest {
         Table table = (Table)tableSection.getComponent(1);
         assertThat(table.getContainerDataSource(), is(instanceOf(LinkkiInMemoryContainer.class)));
         LinkkiInMemoryContainer<?> container = (LinkkiInMemoryContainer<?>)table.getContainerDataSource();
-        assertThat(bindingContext, hasTableBindingWith(container));
+        assertThat(bindingContext, hasBindingWith(container));
     }
 
-    private Matcher<BindingContext> hasTableBindingWith(LinkkiInMemoryContainer<?> container) {
+    private Matcher<BindingContext> hasBindingWith(LinkkiInMemoryContainer<?> container) {
         return new TypeSafeMatcher<BindingContext>() {
 
             @Override
             public void describeTo(Description description) {
-                description.appendText("a BindingContext containing a TableBinding using the table container ");
+                description.appendText("a BindingContext containing a Binding using the table container ");
                 description.appendValue(container);
             }
 
             @Override
             protected boolean matchesSafely(BindingContext bindingContext) {
                 return bindingContext.getBindings().stream()
-                        .filter(TableBinding.class::isInstance)
-                        .map(TableBinding.class::cast)
-                        .map(TableBinding<?>::getTableContainer)
+                        .filter(ContainerBinding.class::isInstance)
+                        .map(ContainerBinding.class::cast)
+                        .map(binding -> binding.getBoundComponent())
+                        .filter(Table.class::isInstance)
+                        .map(Table.class::cast)
+                        .map(Table::getContainerDataSource)
                         .anyMatch(Predicate.isEqual(container));
             }
         };
@@ -80,10 +84,9 @@ public class PmoBasedTableSectionFactoryTest {
     public void testCreateSection_SectionHasAddButtonInHeader() {
         TestTablePmo containerPmo = new TestTablePmo();
         BindingContext bindingContext = TestBindingContext.create();
-        PmoBasedTableSectionFactory<TestRowPmo> factory = new PmoBasedTableSectionFactory<TestRowPmo>(
-                containerPmo, bindingContext);
+        PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
 
-        TableSection<TestRowPmo> tableSection = factory.createSection();
+        AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
 
         assertThat(tableSection, is(notNullValue()));
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
@@ -99,10 +102,9 @@ public class PmoBasedTableSectionFactoryTest {
     public void testCreateSection_NoAnnotation() {
         NoAnnotationTablePmo containerPmo = new NoAnnotationTablePmo();
         BindingContext bindingContext = TestBindingContext.create();
-        PmoBasedTableSectionFactory<TestRowPmo> factory = new PmoBasedTableSectionFactory<TestRowPmo>(
-                containerPmo, bindingContext);
+        PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
 
-        TableSection<TestRowPmo> tableSection = factory.createSection();
+        AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
 
         assertThat(tableSection, is(notNullValue()));
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
@@ -110,7 +112,7 @@ public class PmoBasedTableSectionFactoryTest {
         Table table = (Table)tableSection.getComponent(1);
         assertThat(table.getContainerDataSource(), is(instanceOf(LinkkiInMemoryContainer.class)));
         LinkkiInMemoryContainer<?> container = (LinkkiInMemoryContainer<?>)table.getContainerDataSource();
-        assertThat(bindingContext, hasTableBindingWith(container));
+        assertThat(bindingContext, hasBindingWith(container));
     }
 
     public static class NoAnnotationTablePmo implements ContainerPmo<TestRowPmo> {

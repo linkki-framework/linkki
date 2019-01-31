@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding;
 
@@ -17,9 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Supplier;
 
-import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.ButtonPmo;
-import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.binding.dispatcher.BehaviorDependentDispatcher;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
@@ -27,7 +24,7 @@ import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.StaticValueDispatcher;
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.binding.property.BoundProperty;
 
 /**
  * Creates Chains of {@link PropertyDispatcher PropertyDispatchers}.
@@ -35,28 +32,27 @@ import org.linkki.core.ui.section.annotations.ModelObject;
 public class PropertyDispatcherFactory {
 
     public PropertyDispatcher createDispatcherChain(Object pmo,
-            BindingDescriptor bindingDescriptor,
+            BoundProperty boundProperty,
             PropertyBehaviorProvider behaviorProvider) {
         requireNonNull(pmo, "pmo must not be null");
-        requireNonNull(bindingDescriptor, "bindingDescriptor must not be null");
+        requireNonNull(boundProperty, "boundProperty must not be null");
         requireNonNull(behaviorProvider, "behaviorProvider must not be null");
 
         // @formatter:off
-        String modelPropertyName = bindingDescriptor.getModelPropertyName();
-        String modelObjectName = bindingDescriptor.getModelObjectName();
-        String pmoPropertyName = bindingDescriptor.getPmoPropertyName();
+        String modelPropertyName = boundProperty.getModelAttribute();
+        String modelObjectName = boundProperty.getModelObject();
+        String pmoPropertyName = boundProperty.getPmoProperty();
         ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(pmo, modelObjectName, pmoPropertyName);
         ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(pmo, pmoPropertyName, modelObjectName, modelPropertyName, exceptionDispatcher);
         StaticValueDispatcher bindingAnnotationDispatcher = new StaticValueDispatcher(reflectionDispatcher);
-        PropertyDispatcher customDispatchers = createCustomDispatchers(pmo, bindingDescriptor, bindingAnnotationDispatcher);
+        PropertyDispatcher customDispatchers = createCustomDispatchers(pmo, boundProperty, bindingAnnotationDispatcher);
         return new BehaviorDependentDispatcher(customDispatchers, behaviorProvider);
         // @formatter:on
     }
 
     /**
      * Subclasses may override to add custom dispatchers to the chain. The dispatchers will be added
-     * <em>after</em> the standard dispatchers and <em>before</em> the behavior dependent
-     * dispatchers.
+     * <em>after</em> the standard dispatchers and <em>before</em> the behavior dependent dispatchers.
      * <p>
      * The default implementation adds no dispatchers.
      * <p>
@@ -64,29 +60,15 @@ public class PropertyDispatcherFactory {
      * should be returned.
      * 
      * @param pmo the PMO the dispatcher is responsible for
-     * @param bindingDescriptor the descriptor of the bound UI element
+     * @param boundProperty the {@link BoundProperty} of the bound UI element
      * @param standardDispatchers the previously created dispatcher chain from
-     *            {@link #createDispatcherChain(Object, BindingDescriptor, PropertyBehaviorProvider)}
+     *            {@link #createDispatcherChain(Object, BoundProperty, PropertyBehaviorProvider)}
      */
     protected PropertyDispatcher createCustomDispatchers(Object pmo,
-            BindingDescriptor bindingDescriptor,
+            BoundProperty boundProperty,
             PropertyDispatcher standardDispatchers) {
         requireNonNull(standardDispatchers, "standardDispatchers must not be null");
         return standardDispatchers;
-    }
-
-    public PropertyDispatcher createDispatcherChain(ButtonPmo buttonPmo,
-            PropertyBehaviorProvider behaviorProvider) {
-        requireNonNull(buttonPmo, "buttonPmo must not be null");
-        requireNonNull(behaviorProvider, "behaviorProvider must not be null");
-
-        // @formatter:off
-        String modelObjectName = ModelObject.DEFAULT_NAME;
-        
-        ExceptionPropertyDispatcher exceptionDispatcher = newExceptionDispatcher(buttonPmo, modelObjectName, StringUtils.EMPTY);
-        ReflectionPropertyDispatcher reflectionDispatcher = newReflectionDispatcher(buttonPmo, StringUtils.EMPTY, modelObjectName, StringUtils.EMPTY, exceptionDispatcher);
-        return new BehaviorDependentDispatcher(reflectionDispatcher, behaviorProvider);
-        // @formatter:on
     }
 
     private ReflectionPropertyDispatcher newReflectionDispatcher(Object pmo,

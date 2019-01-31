@@ -46,4 +46,8 @@ public class ChildrenSectionPmo {
     public boolean isNotesVisible() {
         return contact.getNoOfChildren() > 0;
     }
+
+    public void reset(Contact newContact) {
+        this.contact = newContact;
+    }
 }

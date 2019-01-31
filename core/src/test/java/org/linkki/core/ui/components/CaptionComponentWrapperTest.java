@@ -38,7 +38,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetId() {
         Component component = mock(Component.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component, WrapperType.FIELD);
+        CaptionComponentWrapper<Component> wrapper = new CaptionComponentWrapper<>("testID", component,
+                WrapperType.FIELD);
 
         verify(component).setId("testID");
 
@@ -50,7 +51,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetLabel() {
         Component component = mock(Component.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component, WrapperType.FIELD);
+        CaptionComponentWrapper<Component> wrapper = new CaptionComponentWrapper<>("testID", component,
+                WrapperType.FIELD);
 
         wrapper.setLabel("testLabel");
 
@@ -60,7 +62,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetEnabled() {
         Component component = mock(Component.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component, WrapperType.FIELD);
+        CaptionComponentWrapper<Component> wrapper = new CaptionComponentWrapper<>("testID", component,
+                WrapperType.FIELD);
 
         wrapper.setEnabled(true);
 
@@ -74,7 +77,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetVisible() {
         Component component = mock(Component.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component, WrapperType.FIELD);
+        CaptionComponentWrapper<Component> wrapper = new CaptionComponentWrapper<>("testID", component,
+                WrapperType.FIELD);
 
         wrapper.setVisible(true);
 
@@ -88,7 +92,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetTooltip_NotOnVanillaComponent() {
         Component component = mock(Component.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component, WrapperType.FIELD);
+        CaptionComponentWrapper<Component> wrapper = new CaptionComponentWrapper<>("testID", component,
+                WrapperType.FIELD);
         verify(component).setId("testID");
         verifyNoMoreInteractions(component);
 
@@ -98,7 +103,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetTooltip() {
         AbstractComponent component = mock(AbstractComponent.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component, WrapperType.FIELD);
+        CaptionComponentWrapper<Component> wrapper = new CaptionComponentWrapper<>("testID", component,
+                WrapperType.FIELD);
 
         wrapper.setTooltip("testTip");
 
@@ -108,7 +114,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testGetComponent() {
         Component component = mock(Component.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component, WrapperType.FIELD);
+        CaptionComponentWrapper<Component> wrapper = new CaptionComponentWrapper<>("testID", component,
+                WrapperType.FIELD);
 
         assertThat(wrapper.getComponent(), is(sameInstance(component)));
     }
@@ -116,7 +123,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetValidationMessages_NotOnVanillaComponent() {
         Component component = mock(Component.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component, WrapperType.FIELD);
+        CaptionComponentWrapper<Component> wrapper = new CaptionComponentWrapper<>("testID", component,
+                WrapperType.FIELD);
         verify(component).setId("testID");
 
         MessageList messages = new MessageList(Message.newError("e", "testError"));
@@ -127,7 +135,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetValidationMessages() {
         AbstractComponent component = mock(AbstractComponent.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component, WrapperType.FIELD);
+        CaptionComponentWrapper<Component> wrapper = new CaptionComponentWrapper<>("testID", component,
+                WrapperType.FIELD);
         ArgumentCaptor<ErrorMessage> errorMessageCaptor = ArgumentCaptor.forClass(ErrorMessage.class);
 
         MessageList messages = new MessageList(Message.newError("e", "testError"),
@@ -146,7 +155,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetValidationMessages_Empty() {
         AbstractComponent component = mock(AbstractComponent.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component, WrapperType.FIELD);
+        CaptionComponentWrapper<Component> wrapper = new CaptionComponentWrapper<>("testID", component,
+                WrapperType.FIELD);
 
         MessageList messages = new MessageList();
         wrapper.setValidationMessages(messages);
@@ -158,9 +168,9 @@ public class CaptionComponentWrapperTest {
     public void testGetType() {
         Component component = mock(Component.class);
 
-        assertThat(new CaptionComponentWrapper("testID", component, WrapperType.FIELD).getType(),
+        assertThat(new CaptionComponentWrapper<>("testID", component, WrapperType.FIELD).getType(),
                    is(WrapperType.FIELD));
-        assertThat(new CaptionComponentWrapper("testID", component, WrapperType.LAYOUT).getType(),
+        assertThat(new CaptionComponentWrapper<>("testID", component, WrapperType.LAYOUT).getType(),
                    is(WrapperType.LAYOUT));
     }
 

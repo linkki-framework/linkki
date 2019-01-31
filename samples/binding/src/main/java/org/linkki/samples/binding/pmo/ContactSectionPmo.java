@@ -34,6 +34,7 @@ public class ContactSectionPmo implements PresentationModelObject {
     private Contact contact;
     // end::contactPmo-class[]
 
+    @SuppressWarnings("null")
     public ContactSectionPmo(Contact contact) {
         reset(contact);
     }

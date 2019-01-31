@@ -19,12 +19,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.binding.ButtonPmoBinding.ButtonPmoAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
+import org.linkki.core.binding.property.BoundProperty;
+import org.linkki.core.ui.components.CaptionComponentWrapper;
+import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.components.WrapperType;
 
 import com.vaadin.ui.Button;
 
@@ -63,22 +69,24 @@ public class ButtonPmoBindingTest {
     @Test
     public void testButtonClickIsForwaredToPmo() {
         ButtonPmo pmo = mock(ButtonPmo.class);
-        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY,
-                wrappedDispatcher);
-        ButtonPmoBinding buttonPmoBinding = new ButtonPmoBinding(button, propertyDispatcher,
-                bindingContext::modelChanged);
-        bindingContext.add(buttonPmoBinding);
+        when(pmo.isEnabled()).thenReturn(true);
+        bind(pmo);
+
         button.click();
+
         verify(pmo).onClick();
+    }
+
+    private Binding bind(ButtonPmo pmo) {
+        ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
+        return bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
+                                   buttonWrapper);
     }
 
     @Test
     public void testUpdateFromPmo_PmoSublass() {
         TestButtonPmo pmo = new TestButtonPmo();
-        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> pmo, StringUtils.EMPTY,
-                wrappedDispatcher);
-        ButtonPmoBinding binding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::modelChanged);
-        bindingContext.add(binding);
+        Binding binding = bind(pmo);
 
         pmo.enabled = true;
         pmo.visible = true;
@@ -96,11 +104,8 @@ public class ButtonPmoBindingTest {
     @Test
     public void testUpdateFromPmo_LambdaPmo() {
         ButtonPmo lambdaPmo = () -> System.out.println("click");
-        PropertyDispatcher propertyDispatcher = new ReflectionPropertyDispatcher(() -> lambdaPmo, StringUtils.EMPTY,
-                wrappedDispatcher);
 
-        ButtonPmoBinding binding = new ButtonPmoBinding(button, propertyDispatcher, bindingContext::modelChanged);
-        bindingContext.add(binding);
+        Binding binding = bind(lambdaPmo);
 
         binding.updateFromPmo();
         assertThat(button.isVisible(), is(true));

@@ -15,6 +15,7 @@ package org.linkki.samples.binding.pmo;
 
 import java.util.List;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.samples.binding.model.Address;
 import org.linkki.samples.binding.model.Country;
@@ -24,6 +25,7 @@ public class AddressPmo {
 
     private Address addressInEdit;
 
+    @SuppressWarnings("null")
     public AddressPmo(Address address) {
         reset(address);
     }
@@ -37,7 +39,7 @@ public class AddressPmo {
         return CountryService.getCountries();
     }
 
-    public void reset(Address newAddress) {
+    public void reset(@Nullable Address newAddress) {
         if (newAddress != null) {
             this.addressInEdit = new Address(newAddress.getStreet(), newAddress.getZip(), newAddress.getCity(),
                     newAddress.getCountry());

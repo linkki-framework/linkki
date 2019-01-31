@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.table;
 
@@ -56,16 +56,10 @@ public class ContainerPmoTest {
         public List getItems() {
             return new ArrayList<>();
         }
-
     }
 
-
     private static class SubTestRow extends TestRowPmo {
-
-        public SubTestRow(TestTablePmo parent) {
-            super(parent);
-        }
-
+        // nothing
     }
 
     private abstract static class AnotherTestTablePmo<T extends TestRowPmo> implements ContainerPmo<T> {
@@ -76,9 +70,7 @@ public class ContainerPmoTest {
 
         @Override
         public List<SubTestRow> getItems() {
-            return Arrays.asList(new SubTestRow(new TestTablePmo()));
+            return Arrays.asList(new SubTestRow());
         }
-
     }
-
 }

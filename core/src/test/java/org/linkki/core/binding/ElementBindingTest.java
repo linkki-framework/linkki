@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package org.linkki.core.binding;
 
 import static org.junit.Assert.assertEquals;
@@ -46,20 +47,23 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
-@SuppressWarnings("null")
-public class ComponentBindingTest {
+public class ElementBindingTest {
 
     private Label label = spy(new Label());
 
     private AbstractField<String> field = spy(new TextField());
     private ComboBox selectField = spy(new ComboBox());
 
-    private ComponentBinding selectBinding;
+    @SuppressWarnings("null")
+    private ElementBinding selectBinding;
 
+    @SuppressWarnings("null")
     private PropertyDispatcher propertyDispatcherValue;
 
+    @SuppressWarnings("null")
     private MessageList messageList;
 
+    @SuppressWarnings("null")
     private PropertyDispatcher propertyDispatcherEnumValue;
 
     @Before
@@ -74,7 +78,8 @@ public class ComponentBindingTest {
         when(propertyDispatcherValue.getMessages(any(MessageList.class))).thenReturn(messageList);
         when(propertyDispatcherEnumValue.getMessages(any(MessageList.class))).thenReturn(messageList);
 
-        selectBinding = new ComponentBinding(new LabelComponentWrapper(label, selectField), propertyDispatcherEnumValue,
+        selectBinding = new ElementBinding(new LabelComponentWrapper(label, selectField),
+                propertyDispatcherEnumValue,
                 Handler.NOP_HANDLER,
                 new ArrayList<>());
     }
@@ -85,7 +90,7 @@ public class ComponentBindingTest {
         LinkkiAspectDefinition aspectDefinition = mock(LinkkiAspectDefinition.class);
         when(aspectDefinition.supports(any())).thenReturn(true);
         when(aspectDefinition.createUiUpdater(any(), any())).thenReturn(componentUpdater);
-        ComponentBinding fieldBinding = new ComponentBinding(new LabelComponentWrapper(label, field),
+        ElementBinding fieldBinding = new ElementBinding(new LabelComponentWrapper(label, field),
                 propertyDispatcherValue,
                 Handler.NOP_HANDLER, Arrays.asList(aspectDefinition));
         fieldBinding.updateFromPmo();
@@ -103,6 +108,8 @@ public class ComponentBindingTest {
 
         ArgumentCaptor<UserError> captor = ArgumentCaptor.forClass(UserError.class);
         verify(selectField).setComponentError(captor.capture());
+
+        @SuppressWarnings("null")
         @NonNull
         UserError userError = captor.getValue();
         assertEquals(userError.getMessage(), "text");
@@ -116,6 +123,7 @@ public class ComponentBindingTest {
         verify(selectField).setComponentError(null);
     }
 
+    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testDisplayMessages_noMessageList() {
         selectBinding.displayMessages(null);

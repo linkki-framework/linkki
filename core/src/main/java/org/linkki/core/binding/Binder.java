@@ -19,7 +19,6 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
@@ -27,8 +26,6 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.descriptor.BindAnnotationDescriptor;
-import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.binding.property.BoundPropertyAnnotationReader;
 import org.linkki.core.ui.components.LabelComponentWrapper;
@@ -76,27 +73,42 @@ public class Binder {
 
     /** Creates bindings between the view and the PMO and adds them to the given binding context. */
     public void setupBindings(BindingContext bindingContext) {
-        LinkedHashMap<BindingDescriptor, Component> bindingDescriptors = readBindings();
-
-        bindingDescriptors.forEach((descriptor, component) -> bindingContext
-                .bind(pmo, descriptor, new LabelComponentWrapper(component)));
+        addFieldBindings(bindingContext);
+        addMethodBindings(bindingContext);
     }
 
-    /** Reads the descriptors and the components to use for binding from the view. */
-    private LinkedHashMap<BindingDescriptor, Component> readBindings() {
-        LinkedHashMap<BindingDescriptor, Component> bindings = new LinkedHashMap<>();
-        addFieldBindings(bindings);
-        addMethodBindings(bindings);
-        return bindings;
+    /**
+     * Adds descriptors and component for the view's fields annotated with {@link Bind @Bind} to the
+     * given map.
+     * 
+     * @param bindingContext
+     */
+    private void addFieldBindings(BindingContext bindingContext) {
+        FieldUtils.getAllFieldsList(view.getClass())
+                .stream()
+                .filter(BoundPropertyAnnotationReader::isBoundPropertyPresent)
+                .forEach(f -> addBinding(bindingContext, f, getComponentFrom(f)));
+    }
+
+    private Component getComponentFrom(Field field) {
+        Validate.validState(Component.class.isAssignableFrom(field.getType()),
+                            "%s is not a Component-typed field and cannot be annotated with @Bind", field);
+        try {
+            Component component = requireNonNull((Component)BeanUtils.getValueFromField(view, field),
+                                                 () -> "Cannot create binding for field " + field + " as it is null");
+            return component;
+        } catch (IllegalArgumentException e) {
+            throw new LinkkiBindingException("Cannot access field " + field, e);
+        }
     }
 
     /**
      * Adds descriptors and component for the view's methods annotated with {@link Bind @Bind} to the
      * given map.
      */
-    private void addMethodBindings(LinkedHashMap<BindingDescriptor, Component> bindings) {
+    private void addMethodBindings(BindingContext bindingContext) {
         BeanUtils.getMethods(view.getClass(), BoundPropertyAnnotationReader::isBoundPropertyPresent)
-                .forEach(m -> addBinding(m, getComponentFrom(m), bindings));
+                .forEach(m -> addBinding(bindingContext, m, getComponentFrom(m)));
     }
 
     private Component getComponentFrom(Method method) {
@@ -116,38 +128,14 @@ public class Binder {
         }
     }
 
-    /**
-     * Adds descriptors and component for the view's fields annotated with {@link Bind @Bind} to the
-     * given map.
-     */
-    @SuppressWarnings("null")
-    private void addFieldBindings(LinkedHashMap<BindingDescriptor, Component> bindings) {
-        FieldUtils.getAllFieldsList(view.getClass())
-                .stream()
-                .filter(BoundPropertyAnnotationReader::isBoundPropertyPresent)
-                .forEach(f -> addBinding(f, getComponentFrom(f), bindings));
-    }
-
-    private Component getComponentFrom(Field field) {
-        Validate.validState(Component.class.isAssignableFrom(field.getType()),
-                            "%s is not a Component-typed field and cannot be annotated with @Bind", field);
-        try {
-            Component component = requireNonNull((Component)BeanUtils.getValueFromField(view, field),
-                                                 () -> "Cannot create binding for field " + field + " as it is null");
-            return component;
-        } catch (IllegalArgumentException e) {
-            throw new LinkkiBindingException("Cannot access field " + field, e);
-        }
-    }
-
-    private static void addBinding(AnnotatedElement annotatedElement,
-            Component component,
-            LinkedHashMap<BindingDescriptor, Component> bindings) {
+    private void addBinding(BindingContext bindingContext,
+            AnnotatedElement annotatedElement,
+            Component component) {
         BoundProperty boundProperty = BoundPropertyAnnotationReader.getBoundProperty(annotatedElement);
         List<LinkkiAspectDefinition> aspectDefinitions = AspectAnnotationReader
                 .createAspectDefinitionsFor(annotatedElement);
-
-        BindAnnotationDescriptor descriptor = new BindAnnotationDescriptor(boundProperty, aspectDefinitions);
-        bindings.put(descriptor, component);
+        bindingContext.bind(pmo, boundProperty, aspectDefinitions,
+                            new LabelComponentWrapper(component));
     }
+
 }

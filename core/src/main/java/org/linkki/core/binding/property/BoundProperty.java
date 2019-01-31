@@ -1,20 +1,23 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the
- * License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.linkki.core.binding.property;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.section.annotations.ModelObject;
 
 /**
@@ -24,8 +27,16 @@ import org.linkki.core.ui.section.annotations.ModelObject;
 public final class BoundProperty {
 
     private final String pmoProperty;
+
     private final String modelObject;
+
     private final String modelAttribute;
+
+    private BoundProperty(String pmoProperty, String modelObject, String modelAttribute) {
+        this.pmoProperty = pmoProperty;
+        this.modelObject = modelObject;
+        this.modelAttribute = StringUtils.isEmpty(modelAttribute) ? pmoProperty : modelAttribute;
+    }
 
     /**
      * Creates a {@link BoundProperty} with the given PMO property, the {@link ModelObject#DEFAULT_NAME
@@ -34,14 +45,8 @@ public final class BoundProperty {
      * @see #withModelObject(String)
      * @see #withModelAttribute(String)
      */
-    public BoundProperty(String pmoProperty) {
-        this(pmoProperty, ModelObject.DEFAULT_NAME, StringUtils.EMPTY);
-    }
-
-    private BoundProperty(String pmoProperty, String modelObject, String modelAttribute) {
-        this.pmoProperty = pmoProperty;
-        this.modelObject = modelObject;
-        this.modelAttribute = StringUtils.isEmpty(modelAttribute) ? pmoProperty : modelAttribute;
+    public static BoundProperty of(String pmoPropertyName) {
+        return new BoundProperty(pmoPropertyName, ModelObject.DEFAULT_NAME, StringUtils.EMPTY);
     }
 
     /**
@@ -90,6 +95,46 @@ public final class BoundProperty {
      */
     public String getModelObject() {
         return modelObject;
+    }
+
+    @Override
+    public String toString() {
+        return "BoundProperty [pmoProperty=" + pmoProperty + ", modelObject=" + modelObject + ", modelAttribute="
+                + modelAttribute + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + modelAttribute.hashCode();
+        result = prime * result + modelObject.hashCode();
+        result = prime * result + pmoProperty.hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        BoundProperty other = (BoundProperty)obj;
+        if (!Objects.equals(modelAttribute, other.modelAttribute)) {
+            return false;
+        }
+        if (!Objects.equals(modelObject, other.modelObject)) {
+            return false;
+        }
+        if (!Objects.equals(pmoProperty, other.pmoProperty)) {
+            return false;
+        }
+        return true;
     }
 
 }
