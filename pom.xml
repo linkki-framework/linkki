@@ -30,6 +30,7 @@
         <module>test</module>
         <module>utils</module>
         <module>core</module>
+        <module>core-vaadin7</module>
         <module>application-framework</module>
         <module>doc</module>
         <module>samples</module>
