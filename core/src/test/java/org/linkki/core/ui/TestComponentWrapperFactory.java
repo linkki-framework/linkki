@@ -12,33 +12,21 @@
  * License.
  */
 
-package org.linkki.core.vaadin7;
+package org.linkki.core.ui;
 
-import java.util.Locale;
-
-import org.linkki.core.ui.UiFrameworkExtension;
+import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.ComponentWrapperFactory;
-import org.linkki.core.vaadin7.components.Vaadin7ComponentWrapperFactory;
 
-import com.vaadin.ui.UI;
-
-public class Vaadin7 implements UiFrameworkExtension {
+public enum TestComponentWrapperFactory implements ComponentWrapperFactory {
+    INSTANCE;
 
     @Override
-    public Locale getLocale() {
-        UI ui = UI.getCurrent();
-        if (ui != null) {
-            Locale locale = ui.getLocale();
-            if (locale != null) {
-                return locale;
-            }
-        }
-        return Locale.GERMAN;
+    public boolean isUiComponent(Class<?> clazz) {
+        return TestUiComponent.class.isAssignableFrom(clazz);
     }
 
     @Override
-    public ComponentWrapperFactory getComponentWrapperFactory() {
-        return Vaadin7ComponentWrapperFactory.INSTANCE;
+    public ComponentWrapper createComponentWrapper(Object component) {
+        return new TestComponentWrapper((TestUiComponent)component);
     }
-
 }

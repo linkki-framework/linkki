@@ -16,9 +16,12 @@ package org.linkki.core.ui;
 
 import java.util.Locale;
 
+import org.linkki.core.ui.components.ComponentWrapperFactory;
+
 public class TestUiFramework implements UiFrameworkExtension {
 
     private Locale uiLocale = Locale.GERMAN;
+    private TestComponentWrapperFactory componentWrapperFactory = TestComponentWrapperFactory.INSTANCE;
 
     public static TestUiFramework get() {
         return (TestUiFramework)UiFramework.get();
@@ -31,6 +34,15 @@ public class TestUiFramework implements UiFrameworkExtension {
 
     public void setUiLocale(Locale uiLocale) {
         this.uiLocale = uiLocale;
+    }
+
+    @Override
+    public ComponentWrapperFactory getComponentWrapperFactory() {
+        return componentWrapperFactory;
+    }
+
+    public void setComponentWrapperFactory(TestComponentWrapperFactory componentWrapperFactory) {
+        this.componentWrapperFactory = componentWrapperFactory;
     }
 
 }

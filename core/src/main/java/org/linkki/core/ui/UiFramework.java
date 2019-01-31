@@ -16,6 +16,7 @@ package org.linkki.core.ui;
 
 import java.util.Locale;
 
+import org.linkki.core.ui.components.ComponentWrapperFactory;
 import org.linkki.util.service.Services;
 
 /**
@@ -39,6 +40,23 @@ public final class UiFramework {
         return get().getLocale();
     }
 
+    /**
+     * Returns the {@link ComponentWrapperFactory} for this UI framework.
+     * 
+     * @return the {@link ComponentWrapperFactory}
+     */
+    public static ComponentWrapperFactory getComponentWrapperFactory() {
+        return get().getComponentWrapperFactory();
+    }
+
+    /**
+     * Returns the single {@link UiFrameworkExtension}. Can be used to access the UI framework specific
+     * implementation. All interface methods are mirrored as static methods in this class, so this
+     * method should only be called to access methods only defined in a known implementation.
+     * 
+     * @implNote The instance is found via {@link Services#get(Class)}.
+     * @return the {@link UiFrameworkExtension}
+     */
     public static UiFrameworkExtension get() {
         return Services.get(UiFrameworkExtension.class);
     }

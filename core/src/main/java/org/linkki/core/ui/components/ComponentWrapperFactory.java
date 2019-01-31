@@ -12,29 +12,26 @@
  * License.
  */
 
-package org.linkki.core.ui;
-
-import java.util.Locale;
-
-import org.linkki.core.ui.components.ComponentWrapperFactory;
+package org.linkki.core.ui.components;
 
 /**
- * Service interface for the abstraction of UI framework specific code. Instances should be accessed via
- * {@link UiFramework}'s methods.
+ * Creates UI framework specific {@link ComponentWrapper ComponentWrappers}.
  */
-public interface UiFrameworkExtension {
+public interface ComponentWrapperFactory {
 
     /**
-     * Returns the locale defined for the UI session, may differ from the System locale.
+     * Returns whether the class represents a UI component in this UIFramework.
      * 
-     * @return the locale defined for the UI session
+     * @return whether the class represents a UI component in this UIFramework
      */
-    Locale getLocale();
+    boolean isUiComponent(Class<?> clazz);
 
     /**
-     * Returns the {@link ComponentWrapperFactory} for this UI framework.
+     * Creates a {@link ComponentWrapper}.
      * 
-     * @return the {@link ComponentWrapperFactory}
+     * @param component a component
+     * @return a wrapper for the component
      */
-    ComponentWrapperFactory getComponentWrapperFactory();
+    ComponentWrapper createComponentWrapper(Object component);
+
 }
