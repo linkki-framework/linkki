@@ -51,7 +51,7 @@ public class BindingContextIntegrationTest {
     @SuppressWarnings("null")
     private TestPage testPage;
     @SuppressWarnings("null")
-    private ContainerBinding<TestTableSectionRowPmo> binding;
+    private ContainerBinding binding;
     @SuppressWarnings("null")
     private BindingContext bindingContext;
 
@@ -134,7 +134,7 @@ public class BindingContextIntegrationTest {
                                       instanceOf(ElementBinding.class),
                                       instanceOf(ElementBinding.class),
                                       instanceOf(ElementBinding.class)));
-        binding = (ContainerBinding<TestTableSectionRowPmo>)bindings.stream()
+        binding = (ContainerBinding)bindings.stream()
                 .filter(b -> b.getPmo().equals(testPage.tableSectionPmo))
                 .findFirst().get();
         assertThat(binding.getBindings().size(), is(3));

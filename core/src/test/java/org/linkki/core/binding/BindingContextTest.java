@@ -179,13 +179,13 @@ public class BindingContextTest {
     public void testRemoveBindingsForComponent_Container() {
         TestBindingContext context = TestBindingContext.create();
         TestTablePmo tablePmo = new TestTablePmo(new TestRowPmo());
-        Table table = new PmoBasedTableFactory<>(tablePmo, context).createTable();
+        Table table = new PmoBasedTableFactory(tablePmo, context).createTable();
         UI ui = MockUi.mockUi();
         table.setParent(ui);
         table.attach();
 
         assertThat(context.getBindings(), hasSize(1));
-        ContainerBinding<?> binding = (ContainerBinding<?>)context.getBindings().iterator().next();
+        ContainerBinding binding = (ContainerBinding)context.getBindings().iterator().next();
         assertThat(binding.getBindings(), hasSize(7));
 
         context.removeBindingsForComponent(table);
@@ -225,13 +225,13 @@ public class BindingContextTest {
     public void testRemoveBindingsForPmo_Container() {
         TestBindingContext context = TestBindingContext.create();
         TestTablePmo tablePmo = new TestTablePmo(new TestRowPmo());
-        Table table = new PmoBasedTableFactory<>(tablePmo, context).createTable();
+        Table table = new PmoBasedTableFactory(tablePmo, context).createTable();
         UI ui = MockUi.mockUi();
         table.setParent(ui);
         table.attach();
 
         assertThat(context.getBindings(), hasSize(1));
-        ContainerBinding<?> binding = (ContainerBinding<?>)context.getBindings().iterator().next();
+        ContainerBinding binding = (ContainerBinding)context.getBindings().iterator().next();
         assertThat(binding.getBindings(), hasSize(7));
 
         context.removeBindingsForPmo(tablePmo);

@@ -345,12 +345,12 @@ public class BindingContext implements UiUpdateObserver {
         return binding;
     }
 
-    public <@NonNull T> ContainerBinding<T> bindContainer(Object pmo,
+    public <@NonNull T> ContainerBinding bindContainer(Object pmo,
             BoundProperty boundProperty,
             List<LinkkiAspectDefinition> aspectDefs,
             ComponentWrapper componentWrapper) {
         Binding elementBinding = createBinding(pmo, boundProperty, aspectDefs, componentWrapper);
-        ContainerBinding<T> containerBinding = new ContainerBinding<>(elementBinding, getBehaviorProvider(),
+        ContainerBinding containerBinding = new ContainerBinding(elementBinding, getBehaviorProvider(),
                 dispatcherFactory, this::modelChanged);
         containerBinding.updateFromPmo();
         add(containerBinding);

@@ -40,7 +40,7 @@ public class ContainerBindingTest {
     public void testModelChanged_IsForwardedToParent() {
         BindingContext bindingContext = spy(new BindingContext());
         ComponentWrapper componentWrapper = new CaptionComponentWrapper<>("", new TextField(), WrapperType.COMPONENT);
-        ContainerBinding<?> binding = bindingContext.bindContainer(new TestPmo(new TestModelObject()),
+        ContainerBinding binding = bindingContext.bindContainer(new TestPmo(new TestModelObject()),
                                                                    BoundProperty.of("test"), Arrays.asList(),
                                                                    componentWrapper);
 
@@ -85,7 +85,7 @@ public class ContainerBindingTest {
         TestAspectDef testAspectDef = new TestAspectDef();
         TestDependantAspectDef testDependantAspectDef = new TestDependantAspectDef(testAspectDef);
 
-        ContainerBinding<?> binding = bindingContext.bindContainer(new Object(),
+        ContainerBinding binding = bindingContext.bindContainer(new Object(),
                                                                    BoundProperty.of("test"),
                                                                    Arrays.asList(testAspectDef),
                                                                    componentWrapper);
@@ -108,7 +108,7 @@ public class ContainerBindingTest {
         ComponentWrapper componentWrapper = new CaptionComponentWrapper<>("", new TextField(), WrapperType.COMPONENT);
         TestAspectDef testAspectDef = new TestAspectDef();
 
-        ContainerBinding<?> binding = bindingContext.bindContainer(new Object(),
+        ContainerBinding binding = bindingContext.bindContainer(new Object(),
                                                                    BoundProperty.of("test"),
                                                                    Arrays.asList(testAspectDef),
                                                                    componentWrapper);

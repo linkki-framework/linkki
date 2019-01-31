@@ -62,7 +62,7 @@ public class PmoNlsServiceTableSectionTest {
 
     @Test
     public void testTableRowLabels() {
-        PmoBasedTableFactory<NlsTableRowPmo> factory = new PmoBasedTableFactory<>(new NlsTablePmo(), bindingContext);
+        PmoBasedTableFactory factory = new PmoBasedTableFactory(new NlsTablePmo(), bindingContext);
         Table table = factory.createTable();
         assertThat(table, is(notNullValue()));
         assertThat(table.getColumnHeaders(),

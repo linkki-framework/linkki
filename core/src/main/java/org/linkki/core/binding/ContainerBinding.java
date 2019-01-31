@@ -14,7 +14,6 @@
 
 package org.linkki.core.binding;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.util.handler.Handler;
 
@@ -31,7 +30,7 @@ import org.linkki.util.handler.Handler;
  * The logic of the {@link ContainerBinding} ensures that the aspects of this binding are dealt with
  * before any child {@link Binding} is triggered.
  */
-public class ContainerBinding<@NonNull T> extends BindingContext implements Binding {
+public class ContainerBinding extends BindingContext implements Binding {
 
     private final Binding binding;
 
@@ -68,10 +67,8 @@ public class ContainerBinding<@NonNull T> extends BindingContext implements Bind
     }
 
     @Override
-    public T getBoundComponent() {
-        @SuppressWarnings("unchecked")
-        T boundComponent = (T)binding.getBoundComponent();
-        return boundComponent;
+    public Object getBoundComponent() {
+        return binding.getBoundComponent();
     }
 
     @Override

@@ -49,12 +49,12 @@ public class TableSection extends AbstractSection {
     }
 
     @Override
-    public String toString() {
-        return "TableSection based on " + table.getContainerDataSource();
+    public Table getSectionContent() {
+        return table;
     }
 
     @Override
-    public Table getSectionContent() {
-        return table;
+    public String toString() {
+        return "TableSection based on " + table.getContainerDataSource();
     }
 }

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.table;
 
@@ -42,12 +42,12 @@ public class PmoBasedTableFactoryTest {
     private BindingContext bindingContext = spy(new BindingContext());
 
     private static LinkkiInMemoryContainer<?> getTableContainer(BindingContext bindingContext) {
-        return (LinkkiInMemoryContainer<?>)getFirstBinding(bindingContext).getBoundComponent().getContainerDataSource();
+        return (LinkkiInMemoryContainer<?>)((Table)getFirstBinding(bindingContext).getBoundComponent())
+                .getContainerDataSource();
     }
 
-    @SuppressWarnings("unchecked")
-    private static ContainerBinding<Table> getFirstBinding(BindingContext bindingContext) {
-        return (ContainerBinding<Table>)bindingContext.getBindings().stream().findFirst().get();
+    private static ContainerBinding getFirstBinding(BindingContext bindingContext) {
+        return (ContainerBinding)bindingContext.getBindings().stream().findFirst().get();
     }
 
     private static ItemSetChangeListener addItemSetChangeListener(BindingContext bindingContext) {
@@ -60,7 +60,7 @@ public class PmoBasedTableFactoryTest {
     public void testPageLength() {
         TestTablePmo tablePmo = new TestTablePmo(15);
 
-        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        Table table = new PmoBasedTableFactory(tablePmo, bindingContext).createTable();
         ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
 
         assertThat(table.getPageLength(), is(15));
@@ -78,7 +78,7 @@ public class PmoBasedTableFactoryTest {
         TestRowPmo rowPmo2 = new TestRowPmo();
 
         TestTablePmo tablePmo = new TestTablePmo(rowPmo1, rowPmo2);
-        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        Table table = new PmoBasedTableFactory(tablePmo, bindingContext).createTable();
 
         assertThat(tablePmo.getItems(), contains(rowPmo1, rowPmo2));
         assertThat(table.getItemIds(), contains(rowPmo1, rowPmo2));
@@ -88,7 +88,7 @@ public class PmoBasedTableFactoryTest {
     public void testItems_UponUpdate_AddItems() {
         TestTablePmo tablePmo = new TestTablePmo();
 
-        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        Table table = new PmoBasedTableFactory(tablePmo, bindingContext).createTable();
         ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
 
         assertThat(table.getItemIds(), is(empty()));
@@ -110,7 +110,7 @@ public class PmoBasedTableFactoryTest {
         TestRowPmo row2 = new TestRowPmo();
         TestTablePmo tablePmo = new TestTablePmo(row1, row2);
 
-        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        Table table = new PmoBasedTableFactory(tablePmo, bindingContext).createTable();
         ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
 
         assertThat(table.getItemIds().size(), is(2));
@@ -127,7 +127,7 @@ public class PmoBasedTableFactoryTest {
     @Test
     public void testDataSourceSet() {
         TestTablePmo tablePmo = new TestTablePmo();
-        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        Table table = new PmoBasedTableFactory(tablePmo, bindingContext).createTable();
         assertThat(getTableContainer(bindingContext), is(table.getContainerDataSource()));
     }
 
@@ -136,7 +136,7 @@ public class PmoBasedTableFactoryTest {
         TableFooterPmo footerPmo = property -> property;
         TestTablePmo tablePmo = new TestTablePmo(footerPmo);
 
-        Table table = new PmoBasedTableFactory<>(tablePmo, bindingContext).createTable();
+        Table table = new PmoBasedTableFactory(tablePmo, bindingContext).createTable();
         ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
 
         assertTrue(table.isFooterVisible());

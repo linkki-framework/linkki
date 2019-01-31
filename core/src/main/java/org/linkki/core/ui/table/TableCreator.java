@@ -19,12 +19,13 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.binding.ContainerBinding;
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.ui.application.ApplicationStyles;
+import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
 
@@ -33,26 +34,28 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.TreeTable;
 
+/**
+ * A {@link ColumnBasedComponentCreator} that creates a vaadin {@link Table}
+ */
+class TableCreator implements ColumnBasedComponentCreator {
 
-class ContainerComponentCreator<@NonNull ROW> {
-    private final ContainerPmo<ROW> containerPmo;
+    private final ContainerPmo<?> containerPmo;
 
-    ContainerComponentCreator(ContainerPmo<ROW> containerPmo) {
+    TableCreator(ContainerPmo<?> containerPmo) {
         this.containerPmo = containerPmo;
     }
-
 
     /**
      * Creates a new table based on the container PMO.
      */
-    Table createTableComponent() {
+    @Override
+    public ComponentWrapper createComponent() {
         Table table = containerPmo.isHierarchical() ? new TreeTable() : new Table();
         table.addStyleName(ApplicationStyles.TABLE);
         table.setHeightUndefined();
         table.setWidth("100%");
         table.setSortEnabled(false);
-        table.setId(containerPmo.getClass().getSimpleName());
-        return table;
+        return new TableComponentWrapper<>(containerPmo.getClass().getSimpleName(), table);
     }
 
     /**
@@ -60,19 +63,22 @@ class ContainerComponentCreator<@NonNull ROW> {
      * {@link LinkkiAspectDefinition#supports(org.linkki.core.ui.components.WrapperType) supported}
      * {@link LinkkiAspectDefinition LinkkiAspectDefinitions}.
      * 
+     * @param tableWrapper the {@link ComponentWrapper} that wrapps the table
      * @param elementDesc the descriptor for the PMO's field
      */
-    void createColumn(ContainerBinding<Table> binding, PropertyElementDescriptors elementDesc) {
-        Table table = binding.getBoundComponent();
-        ContainerComponentCreator.FieldColumnGenerator<ROW> columnGen = new ContainerComponentCreator.FieldColumnGenerator<>(
-                elementDesc, binding);
+    @Override
+    public void initColumn(ComponentWrapper tableWrapper,
+            BindingContext bindingContext,
+            PropertyElementDescriptors elementDesc) {
+        TableCreator.FieldColumnGenerator<?> columnGen = new TableCreator.FieldColumnGenerator<>(
+                elementDesc, bindingContext);
         String propertyName = elementDesc.getPmoPropertyName();
+        Table table = (Table)tableWrapper.getComponent();
         table.addGeneratedColumn(propertyName, columnGen);
         List<LinkkiAspectDefinition> aspectDefs = elementDesc.getAllAspects();
-        binding.bind(containerPmo, BoundProperty.of(propertyName), aspectDefs,
-                     new TableColumnWrapper(table, propertyName));
+        bindingContext.bind(containerPmo, BoundProperty.of(propertyName), aspectDefs,
+                            new TableColumnWrapper(table, propertyName));
     }
-
 
     /** Column generator that generates a column for a field of a PMO. */
     private static class FieldColumnGenerator<@NonNull T> implements ColumnGenerator {
@@ -80,12 +86,12 @@ class ContainerComponentCreator<@NonNull ROW> {
         private static final long serialVersionUID = 1L;
 
         private final PropertyElementDescriptors elementDescriptors;
-        private final ContainerBinding<?> binding;
+        private final BindingContext bindingContext;
 
         public FieldColumnGenerator(PropertyElementDescriptors elementDescriptors,
-                ContainerBinding<?> binding) {
+                BindingContext bindingContext) {
             this.elementDescriptors = requireNonNull(elementDescriptors, "elementDescriptors must not be null");
-            this.binding = requireNonNull(binding, "binding must not be null");
+            this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
         }
 
         @Override
@@ -100,9 +106,9 @@ class ContainerComponentCreator<@NonNull ROW> {
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;
-            component.addAttachListener($ -> binding.bind(itemPmo, elementDescriptor,
-                                                          new LabelComponentWrapper(component)));
-            component.addDetachListener($ -> binding.removeBindingsForComponent(component));
+            component.addAttachListener($ -> bindingContext.bind(itemPmo, elementDescriptor,
+                                                                 new LabelComponentWrapper(component)));
+            component.addDetachListener($ -> bindingContext.removeBindingsForComponent(component));
 
             return component;
         }
