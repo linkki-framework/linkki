@@ -15,6 +15,7 @@
 package org.linkki.core.ui;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 import org.linkki.core.ui.components.ComponentWrapperFactory;
 
@@ -37,4 +38,14 @@ public interface UiFrameworkExtension {
      * @return the {@link ComponentWrapperFactory}
      */
     ComponentWrapperFactory getComponentWrapperFactory();
+
+    /**
+     * Returns a {@link Stream} of all child components, if the given UI component has child components.
+     * If the parameter is no UI component, {@link Stream#empty()} is returned
+     * 
+     * @param uiComponent with child components
+     * @return all child components
+     */
+    Stream<?> getChildComponents(Object uiComponent);
+
 }

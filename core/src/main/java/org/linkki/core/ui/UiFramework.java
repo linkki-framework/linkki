@@ -15,6 +15,7 @@
 package org.linkki.core.ui;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 import org.linkki.core.ui.components.ComponentWrapperFactory;
 import org.linkki.util.service.Services;
@@ -60,4 +61,16 @@ public final class UiFramework {
     public static UiFrameworkExtension get() {
         return Services.get(UiFrameworkExtension.class);
     }
+
+    /**
+     * Returns a {@link Stream} of all child components, if the given UI component has child components.
+     * If the parameter is no UI component, {@link Stream#empty()} is returned
+     * 
+     * @param uiComponent with child components
+     * @return all child components
+     */
+    public static Stream<?> getChildComponents(Object uiComponent) {
+        return get().getChildComponents(uiComponent);
+    }
+
 }

@@ -14,11 +14,14 @@
 package org.linkki.core.vaadin7;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 import org.linkki.core.ui.UiFrameworkExtension;
 import org.linkki.core.ui.components.ComponentWrapperFactory;
 import org.linkki.core.vaadin7.components.Vaadin7ComponentWrapperFactory;
+import org.linkki.util.StreamUtil;
 
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 
 public class Vaadin7 implements UiFrameworkExtension {
@@ -38,6 +41,14 @@ public class Vaadin7 implements UiFrameworkExtension {
     @Override
     public ComponentWrapperFactory getComponentWrapperFactory() {
         return Vaadin7ComponentWrapperFactory.INSTANCE;
+    }
+
+    @Override
+    public Stream<?> getChildComponents(Object uiComponent) {
+        if (uiComponent instanceof HasComponents) {
+            return StreamUtil.stream((HasComponents)uiComponent);
+        }
+        return Stream.empty();
     }
 
 }

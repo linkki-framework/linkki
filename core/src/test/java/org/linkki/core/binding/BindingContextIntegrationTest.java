@@ -14,6 +14,8 @@
 
 package org.linkki.core.binding;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.instanceOf;
@@ -73,7 +75,6 @@ public class BindingContextIntegrationTest {
         testPage.removeBindings();
 
         assertThat(testPage.getBindingContext().getBindings(), is(empty()));
-        assertThat(binding.getBindings(), is(empty()));
     }
 
     @Test
@@ -107,7 +108,7 @@ public class BindingContextIntegrationTest {
 
         assertThat(bindings(), contains(instanceOf(ElementBinding.class),
                                         instanceOf(ElementBinding.class)));
-        assertThat(binding.getBindings(), is(empty()));
+        assertThat(bindings(), not(hasItem(binding)));
     }
 
     @Test

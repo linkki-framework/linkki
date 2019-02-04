@@ -15,8 +15,10 @@
 package org.linkki.core.ui;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 import org.linkki.core.ui.components.ComponentWrapperFactory;
+import org.linkki.util.StreamUtil;
 
 public class TestUiFramework implements UiFrameworkExtension {
 
@@ -45,4 +47,12 @@ public class TestUiFramework implements UiFrameworkExtension {
         this.componentWrapperFactory = componentWrapperFactory;
     }
 
+    @Override
+    public Stream<?> getChildComponents(Object uiComponent) {
+        if (uiComponent instanceof Iterable<?>) {
+            return StreamUtil.stream((Iterable<?>)uiComponent);
+        } else {
+            return Stream.empty();
+        }
+    }
 }

@@ -190,7 +190,6 @@ public class BindingContextTest {
 
         context.removeBindingsForComponent(table);
         assertThat(context.getBindings(), is(empty()));
-        assertThat(binding.getBindings(), is(empty()));
     }
 
     @Test
@@ -233,10 +232,8 @@ public class BindingContextTest {
         assertThat(context.getBindings(), hasSize(1));
         ContainerBinding binding = (ContainerBinding)context.getBindings().iterator().next();
         assertThat(binding.getBindings(), hasSize(7));
-
         context.removeBindingsForPmo(tablePmo);
         assertThat(context.getBindings(), is(empty()));
-        assertThat(binding.getBindings(), is(empty()));
     }
 
     @Test
@@ -246,7 +243,6 @@ public class BindingContextTest {
         new PmoBasedSectionFactory().createSection(testPmoWithButton, context);
 
         assertThat(context.getBindings(), hasSize(1));
-
         context.removeBindingsForPmo(testPmoWithButton);
         assertThat(context.getBindings(), is(empty()));
     }

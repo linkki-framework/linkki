@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding;
 
@@ -19,10 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
@@ -35,18 +32,16 @@ import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.ui.UiFramework;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.Label;
 
 /**
- * A binding context binds fields and tables in a part of the user interface like a page or a dialog
- * to properties of presentation model objects. If the value in one of the fields is changed, all
- * fields in the context are updated from the presentation model objects via their bindings.
+ * A binding context binds fields and tables in a part of the user interface like a page or a dialog to
+ * properties of presentation model objects. If the value in one of the fields is changed, all fields in
+ * the context are updated from the presentation model objects via their bindings.
  * <p>
  * {@linkplain BindingContext}s are usually managed by a {@link BindingManager} that handles events
  * across multiple contexts.
@@ -155,50 +150,42 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Removes all bindings in this context that refer to the given component. If the component is a
-     * container component, all bindings for the components children and their children are removed as
-     * well.
+     * Removes all bindings in this context that refer to the given framework specific UI component
+     * (e.g. text field) . If the UI component is a container component, all bindings for the components
+     * children and their children are removed as well.
+     * 
+     * @param uiComponent that is given to find and remove the bindings that refer to it
      */
-    public void removeBindingsForComponent(Component c) {
-        Binding removedBinding = bindings.remove(c);
-        if (c instanceof HasComponents) {
-            ((HasComponents)c).iterator().forEachRemaining(this::removeBindingsForComponent);
-        }
-
-        if (removedBinding instanceof BindingContext) {
-            ((BindingContext)removedBinding).bindings.clear();
-        }
+    public void removeBindingsForComponent(Object uiComponent) {
+        bindings.remove(uiComponent);
+        UiFramework.getChildComponents(uiComponent)
+                .iterator()
+                .forEachRemaining(this::removeBindingsForComponent);
     }
 
     /**
-     * Removes all bindings in this context that refer to the given presentation model object. If the
-     * presentation model is bound to a component and that component is a container component, all
-     * bindings for the components children and their children are removed as well.
+     * Removes all bindings in this context that refer to the given presentation model object.
      * <p>
      * If the PMO includes other PMOs (like {@link ContainerPmo}), all bindings for those PMOs are
-     * removed as well. This does not work for getter methods that return a new instance for each call,
-     * like mostly done for {@link ButtonPmo ButtonPmos}:
+     * removed as well.
      * 
-     * <code>
-     * ContainerPmo.getAddItemButtonPmo() {
-     *      return Optional.of(ButtonPmo.newAddButton(..));
-     *  }
-     * </code>
+     * @implNote Removing all bindings for included PMOs does not work for getter methods that return a
+     *           new instance for each call, like mostly done for {@link ButtonPmo ButtonPmos}:
      * 
-     * In order to be properly removed, the same instance has to be returned on each call of the getter
-     * method.
+     *           <code>
+     *           ContainerPmo.getAddItemButtonPmo() {
+     *              return Optional.of(ButtonPmo.newAddButton(..));
+     *           }
+     *           </code>
+     * 
+     *           In order to be properly removed, the same instance has to be returned on each call of
+     *           the getter method.
+     * 
+     * @param pmo that is given to find and remove the bindings that refer to it
      */
     public void removeBindingsForPmo(Object pmo) {
-        @SuppressWarnings("null")
-        Set<Object> keysToRemove = bindings.entrySet().stream().filter(e -> e.getValue().getPmo() == pmo)
-                .map(Entry::getKey).collect(Collectors.toSet());
-        keysToRemove.forEach(key -> {
-            if (key instanceof Component) {
-                removeBindingsForComponent((Component)key);
-            } else {
-                bindings.remove(key);
-            }
-        });
+        bindings.values().removeIf(e -> e.getPmo() == pmo);
+
         if (pmo instanceof PresentationModelObject) {
             ((PresentationModelObject)pmo).getEditButtonPmo().ifPresent(this::removeBindingsForPmo);
         }
@@ -300,14 +287,14 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a binding between the presentation model object and UI elements (i.e. {@linkplain Label}
-     * and {@linkplain Component}) as described by the given descriptor.
+     * Creates a binding between the presentation model object and framework specific UI components
+     * (e.g. text field) as described by the given descriptor.
      * <p>
      * If the label is {@code null} it is ignored for the binding
      * 
      * @param pmo a presentation model object
      * @param bindingDescriptor the descriptor describing the binding
-     * @param componentWrapper the {@link ComponentWrapper} that wraps the component that should be
+     * @param componentWrapper the {@link ComponentWrapper} that wraps the UI component that should be
      *            bound
      */
     public Binding bind(Object pmo,
@@ -319,8 +306,8 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     /**
-     * Creates a binding between the presentation model object and UI elements (i.e. {@linkplain Label}
-     * and {@linkplain Component}) for the {@link Aspect Aspects} defined by the given
+     * Creates a binding between the presentation model object and framework specific UI components
+     * (e.g. text fields, sections, tables) for the {@link Aspect Aspects} defined by the given
      * {@link LinkkiAspectDefinition LinkkiAspectDefinitions}.
      * <p>
      * If the label is {@code null} it is ignored for the binding
@@ -328,7 +315,7 @@ public class BindingContext implements UiUpdateObserver {
      * @param pmo a presentation model object
      * @param boundProperty the (presentation) model property to be bound
      * @param aspectDefs the definitions for the aspects to be bound
-     * @param componentWrapper the {@link ComponentWrapper} that wraps the component that should be
+     * @param componentWrapper the {@link ComponentWrapper} that wraps the UI component that should be
      *            bound
      */
     public Binding bind(Object pmo,

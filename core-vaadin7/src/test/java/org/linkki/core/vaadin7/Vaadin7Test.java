@@ -21,12 +21,17 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 import org.junit.After;
 import org.junit.Test;
 import org.linkki.core.ui.UiFramework;
 
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HasComponents;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 public class Vaadin7Test {
 
@@ -50,4 +55,20 @@ public class Vaadin7Test {
         assertThat(UiFramework.getLocale(), is(Locale.ITALIAN));
 
     }
+
+    @Test
+    public void testGetChildComponents() {
+        Component component1 = new Label("first label");
+        Component component2 = new Label("second label");
+        HasComponents componentWithChildren = new VerticalLayout(component1, component2);
+
+        Component[] arr = { component1, component2 };
+        assertThat(UiFramework.get().getChildComponents(componentWithChildren).toArray(), is(arr));
+    }
+
+    public void testGetChildComponents_noComponents() {
+        String noComponent = "no Component";
+        assertThat(UiFramework.get().getChildComponents(noComponent), is(Stream.empty()));
+    }
+
 }
