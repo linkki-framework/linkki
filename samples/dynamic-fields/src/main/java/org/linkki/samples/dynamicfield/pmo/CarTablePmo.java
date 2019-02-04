@@ -19,6 +19,7 @@ import java.util.Optional;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.ButtonPmoBuilder;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.SimpleItemSupplier;
@@ -53,7 +54,7 @@ public class CarTablePmo implements ContainerPmo<@NonNull CarRowPmo>, Serializab
 
     @Override
     public Optional<ButtonPmo> getAddItemButtonPmo() {
-        return Optional.of(ButtonPmo.newAddButton(addCarAction));
+        return Optional.of(ButtonPmoBuilder.newAddButton(addCarAction));
     }
 
     @Override

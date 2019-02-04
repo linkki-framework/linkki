@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.util;
 
@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.eclipse.jdt.annotation.Nullable;
-import org.linkki.core.ButtonPmo;
 import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.components.IntegerField;
 import org.linkki.core.ui.components.LinkkiComboBox;
@@ -235,23 +234,6 @@ public class ComponentFactory {
 
     public static DoubleField newDoubleField(Locale locale) {
         return new DoubleField(locale);
-    }
-
-    /**
-     * Creates a button for the given PMO.
-     * 
-     * @deprecated This method creates a button and installs a click listener for the callback on
-     *             {@link ButtonPmo#onClick()}. This is not the recommended way to handle click events.
-     *             Prefer using a binding context! If you cannot use a binding context call
-     *             {@link #newButton(Resource, Collection)} and create the listener on your own.
-     */
-    @Deprecated
-    public static Button newButton(ButtonPmo buttonPmo) {
-        Button button = new Button(buttonPmo.getButtonIcon());
-        button.setTabIndex(-1);
-        buttonPmo.getStyleNames().forEach(style -> button.addStyleName(style));
-        button.addClickListener(e -> buttonPmo.onClick());
-        return button;
     }
 
     public static Button newButton(Resource icon, Collection<String> styleNames) {

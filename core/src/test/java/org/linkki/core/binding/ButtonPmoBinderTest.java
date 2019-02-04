@@ -25,37 +25,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.binding.ButtonPmoBinding.ButtonPmoAspectDefinition;
+import org.linkki.core.binding.ButtonPmoBinder.ButtonPmoAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.property.BoundProperty;
+import org.linkki.core.test.TestButtonPmo;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
 
 import com.vaadin.ui.Button;
 
-public class ButtonPmoBindingTest {
-
-    static class TestButtonPmo implements ButtonPmo {
-
-        boolean visible = true;
-        boolean enabled = true;
-
-        @Override
-        public void onClick() {
-            // Nothing to do
-        }
-
-        @Override
-        public boolean isEnabled() {
-            return enabled;
-        }
-
-        @Override
-        public boolean isVisible() {
-            return visible;
-        }
-    }
+public class ButtonPmoBinderTest {
 
     private final PropertyDispatcher wrappedDispatcher = mock(PropertyDispatcher.class);
     private final BindingContext bindingContext = TestBindingContext.create();
@@ -88,28 +68,17 @@ public class ButtonPmoBindingTest {
         TestButtonPmo pmo = new TestButtonPmo();
         Binding binding = bind(pmo);
 
-        pmo.enabled = true;
-        pmo.visible = true;
+        pmo.setEnabled(true);
+        pmo.setVisible(true);
         binding.updateFromPmo();
         assertThat(button.isVisible(), is(true));
         assertThat(button.isEnabled(), is(true));
 
-        pmo.enabled = false;
-        pmo.visible = false;
+        pmo.setEnabled(false);
+        pmo.setVisible(false);
         binding.updateFromPmo();
         assertThat(button.isVisible(), is(false));
         assertThat(button.isEnabled(), is(false));
-    }
-
-    @Test
-    public void testUpdateFromPmo_LambdaPmo() {
-        ButtonPmo lambdaPmo = () -> System.out.println("click");
-
-        Binding binding = bind(lambdaPmo);
-
-        binding.updateFromPmo();
-        assertThat(button.isVisible(), is(true));
-        assertThat(button.isEnabled(), is(true));
     }
 
 }

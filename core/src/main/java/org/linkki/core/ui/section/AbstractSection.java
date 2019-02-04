@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section;
 
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.Nullable;
-import org.linkki.core.ButtonPmo;
+import org.linkki.core.ButtonPmoBuilder;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
@@ -34,9 +34,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * A section consists of a header displaying a caption and a body/content containing controls to
- * view and edit data. Optionally the section can be closed and opened. When the section is closed
- * only the header is shown.
+ * A section consists of a header displaying a caption and a body/content containing controls to view
+ * and edit data. Optionally the section can be closed and opened. When the section is closed only the
+ * header is shown.
  */
 public abstract class AbstractSection extends VerticalLayout {
 
@@ -112,10 +112,9 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     private static Button createOpenCloseButton(Handler toggleCloseOpen) {
-        ButtonPmo buttonPmo = ButtonPmo.Builder.action(toggleCloseOpen).icon(FontAwesome.ANGLE_DOWN).get();
-        Button button = ComponentFactory.newButton(buttonPmo.getButtonIcon(), buttonPmo.getStyleNames());
+        Button button = ComponentFactory.newButton(FontAwesome.ANGLE_DOWN, ButtonPmoBuilder.DEFAULT_STYLES);
         button.addStyleName(ApplicationStyles.BUTTON_TEXT);
-        button.addClickListener(e -> buttonPmo.onClick());
+        button.addClickListener(e -> toggleCloseOpen.apply());
         return button;
     }
 
@@ -134,8 +133,8 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     /**
-     * The spacer consists of a layout and a label. The layout is needed to force vaadin to
-     * correctly calculate the height when the content below is set to height: 100%
+     * The spacer consists of a layout and a label. The layout is needed to force vaadin to correctly
+     * calculate the height when the content below is set to height: 100%
      */
     private static Component createSpacer() {
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -149,9 +148,8 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     /**
-     * Adds a new button to the header using the given button PMO. The new button is added before
-     * the close button. If the section does not have a close button it is added at the end of the
-     * header.
+     * Adds a new button to the header using the given button PMO. The new button is added before the
+     * close button. If the section does not have a close button it is added at the end of the header.
      */
     public void addHeaderButton(Button button) {
         addBeforeCloseButton(button);
@@ -214,8 +212,8 @@ public abstract class AbstractSection extends VerticalLayout {
 
     /**
      * @implSpec Implementations of this method have to return the section's content, which is the
-     *           {@link Component} added to the section. The section's header is not part of the
-     *           content and has to be excluded.
+     *           {@link Component} added to the section. The section's header is not part of the content
+     *           and has to be excluded.
      * 
      * @return the content of this section
      */

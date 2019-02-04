@@ -33,13 +33,13 @@ import org.junit.After;
 import org.junit.Test;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
-import org.linkki.core.binding.ButtonPmoBinding.ButtonPmoAspectDefinition;
-import org.linkki.core.binding.ButtonPmoBindingTest.TestButtonPmo;
+import org.linkki.core.binding.ButtonPmoBinder.ButtonPmoAspectDefinition;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.dispatcher.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.ReflectionPropertyDispatcher;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.test.TestButtonPmo;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.LabelComponentWrapper;
@@ -272,8 +272,8 @@ public class BindingContextTest {
     public void testBind_ButtonPmoBindningToCheckUpdateFromPmo() {
         TestBindingContext context = TestBindingContext.create();
         TestButtonPmo buttonPmo = new TestButtonPmo();
-        Button button = ComponentFactory.newButton(buttonPmo.getButtonIcon(), buttonPmo.getStyleNames());
-        buttonPmo.enabled = false;
+        Button button = ComponentFactory.newButton();
+        buttonPmo.setEnabled(false);
 
         ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
         context.bind(buttonPmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
@@ -284,13 +284,11 @@ public class BindingContextTest {
 
     public static class TestPmoWithButton implements PresentationModelObject {
 
-        private final ButtonPmo buttonPmo = () -> {
-            /* nothing to do */
-        };
+        private static final ButtonPmo NOP_BUTTON_PMO = new TestButtonPmo();
 
         @Override
         public Optional<ButtonPmo> getEditButtonPmo() {
-            return Optional.of(buttonPmo);
+            return Optional.of(NOP_BUTTON_PMO);
         }
     }
 }

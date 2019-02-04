@@ -24,7 +24,7 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.ButtonPmoBinding;
+import org.linkki.core.binding.ButtonPmoBinder;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
@@ -170,7 +170,7 @@ public class PmoBasedSectionFactory {
         }
 
         private Optional<Button> createEditButton(Optional<ButtonPmo> buttonPmo) {
-            return buttonPmo.map(b -> ButtonPmoBinding.createBoundButton(bindingContext, b));
+            return buttonPmo.map(b -> ButtonPmoBinder.createBoundButton(bindingContext, b));
         }
 
         private void createUiElements(BaseSection section) {
@@ -196,7 +196,7 @@ public class PmoBasedSectionFactory {
         private TableSection createTableSection(String caption, boolean closable) {
             Table table = new PmoBasedTableFactory((ContainerPmo<?>)pmo, bindingContext).createTable();
             Optional<Button> addItemButton = ((ContainerPmo<?>)pmo).getAddItemButtonPmo()
-                    .map(b -> ButtonPmoBinding.createBoundButton(bindingContext, b));
+                    .map(b -> ButtonPmoBinder.createBoundButton(bindingContext, b));
             return new TableSection(caption, closable, addItemButton, table);
         }
 

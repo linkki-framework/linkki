@@ -16,11 +16,15 @@ package org.linkki.core.binding;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.function.Consumer;
 
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.StaticModelToUiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
@@ -34,19 +38,20 @@ import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
 
+import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 
-public class ButtonPmoBinding {
+public class ButtonPmoBinder {
 
-    private ButtonPmoBinding() {
+    private ButtonPmoBinder() {
         // no instances
     }
 
-    public static Button createBoundButton(BindingContext bindingContext, ButtonPmo pmo) {
+    public static Button createBoundButton(BindingContext bindingContext, Object pmo) {
         requireNonNull(bindingContext, "bindingContext must not be null");
         requireNonNull(pmo, "pmo must not be null");
 
-        Button button = ComponentFactory.newButton(pmo.getButtonIcon(), pmo.getStyleNames());
+        Button button = ComponentFactory.newButton();
         ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
         bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
                             buttonWrapper);
@@ -57,7 +62,9 @@ public class ButtonPmoBinding {
         public ButtonPmoAspectDefinition() {
             super(new EnabledAspectDefinition(EnabledType.DYNAMIC),
                     new VisibleAspectDefinition(VisibleType.DYNAMIC),
-                    new ButtonPmoInvokeAspectDefinition());
+                    new ButtonPmoInvokeAspectDefinition(),
+                    new ButtonPmoIconAspectDefinition(),
+                    new ButtonPmoStyleAspectDefinition());
         }
     }
 
@@ -85,6 +92,34 @@ public class ButtonPmoBinding {
                 propertyDispatcher.push(Aspect.of(NAME));
                 modelUpdated.apply();
             });
+        }
+
+    }
+
+    private static class ButtonPmoIconAspectDefinition extends ModelToUiAspectDefinition<Resource> {
+
+        @Override
+        public Aspect<Resource> createAspect() {
+            return Aspect.of("buttonIcon");
+        }
+
+        @Override
+        public Consumer<Resource> createComponentValueSetter(ComponentWrapper componentWrapper) {
+            return ((Button)componentWrapper.getComponent())::setIcon;
+        }
+
+    }
+
+    private static class ButtonPmoStyleAspectDefinition extends StaticModelToUiAspectDefinition<Collection<String>> {
+
+        @Override
+        public Aspect<Collection<String>> createAspect() {
+            return Aspect.of("styleNames");
+        }
+
+        @Override
+        public Consumer<Collection<String>> createComponentValueSetter(ComponentWrapper componentWrapper) {
+            return l -> l.forEach(((Button)componentWrapper.getComponent())::addStyleName);
         }
 
     }

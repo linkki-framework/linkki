@@ -21,6 +21,7 @@ import java.util.Optional;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.ButtonPmoBuilder;
 import org.linkki.core.ui.section.annotations.UISection;
 
 @UISection(caption = TestTablePmo.CAPTION)
@@ -62,7 +63,7 @@ public class TestTablePmo implements ContainerPmo<@NonNull TestRowPmo> {
 
     @Override
     public Optional<ButtonPmo> getAddItemButtonPmo() {
-        return Optional.of(ButtonPmo.newAddButton(() -> pmos.add(new TestRowPmo())));
+        return Optional.of(ButtonPmoBuilder.newAddButton(() -> pmos.add(new TestRowPmo())));
     }
 
     @Override
