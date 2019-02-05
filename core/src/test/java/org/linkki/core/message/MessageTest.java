@@ -13,10 +13,10 @@
  */
 package org.linkki.core.message;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,8 +38,8 @@ public class MessageTest {
         Message message2 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
 
-        assertTrue(message1.equals(message2));
-        assertTrue(message2.equals(message1));
+        assertThat(message1, is(equalTo(message2)));
+        assertThat(message2, is(equalTo(message1)));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class MessageTest {
         Message message2 = new Message("code2", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
 
-        assertFalse(message1.equals(message2));
+        assertThat(message1, is(not(equalTo(message2))));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class MessageTest {
         Message message2 = new Message("code", "text2", Severity.INFORMATION, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
 
-        assertFalse(message1.equals(message2));
+        assertThat(message1, is(not(equalTo(message2))));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class MessageTest {
         Message message2 = new Message("code", "text", Severity.WARNING, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
 
-        assertFalse(message1.equals(message2));
+        assertThat(message1, is(not(equalTo(message2))));
     }
 
     @Test
@@ -90,12 +90,15 @@ public class MessageTest {
         ObjectProperty objectProperty = new ObjectProperty(invalidObject);
         ValidationMarker validationMarker = () -> false;
 
-        Message message1 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
-                Collections.singleton(validationMarker));
-        Message message2 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty, objectProperty),
-                Collections.singleton(validationMarker));
+        Message message1 = Message.builder("text", Severity.INFORMATION).code("code").markers(validationMarker)
+                .invalidObjectWithProperties(invalidObject).create();
+        Message message2 = Message.builder("text", Severity.INFORMATION).code("code").markers(validationMarker)
+                .invalidObjects(objectProperty, objectProperty).create();
+        Message message3 = Message.builder("text", Severity.INFORMATION).code("code").markers(validationMarker)
+                .invalidObjectWithProperties(invalidObject, "foo", "bar").create();
 
-        assertFalse(message1.equals(message2));
+        assertThat(message1, is(not(equalTo(message2))));
+        assertThat(message1, is(not(equalTo(message3))));
     }
 
     @Test
@@ -108,7 +111,7 @@ public class MessageTest {
         Message message2 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
                 Collections.singleton(() -> true));
 
-        assertFalse(message1.equals(message2));
+        assertThat(message1, is(not(equalTo(message2))));
     }
 
     @Test

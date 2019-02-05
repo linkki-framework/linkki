@@ -1,21 +1,21 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section.annotations;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.linkki.test.matcher.Matchers.assertThat;
 
 import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
@@ -64,13 +64,14 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
 
         button.click();
 
-        assertTrue(getDefaultPmo().clicked);
+        assertThat(getDefaultPmo().isClicked());
     }
 
     @UISection
     protected static class ButtonTestPmo extends AnnotationTestPmo {
 
         private boolean clicked = false;
+
         private String caption = "dynamic";
 
         public ButtonTestPmo(Object modelObject) {
@@ -101,6 +102,14 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
         @UIButton(position = 30)
         public void getButton() {
             // does nothing
+        }
+
+        public boolean isClicked() {
+            return clicked;
+        }
+
+        public void setClicked(boolean clicked) {
+            this.clicked = clicked;
         }
     }
 

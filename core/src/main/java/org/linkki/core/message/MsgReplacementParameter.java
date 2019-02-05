@@ -19,9 +19,9 @@ import java.util.Objects;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
- * When creating a message the text might be created by replacing parameters (or placeholders) with
- * concrete values, e.g. "The sum insured must be at least {minSumInsured}." where {minSumInsured} is
- * replaced with the current minimum e.g. 200 Euro. If you need to represent the user a different text,
+ * When creating a {@link Message} the text might be created by replacing parameters (or placeholders)
+ * with concrete values, e.g. "The sum insured must be at least {minSumInsured}." where {minSumInsured}
+ * is replaced with the current minimum e.g. 200 Euro. If you need to present the user a different text,
  * you need the actual value for the parameter. To achieve this the message holds the parameters along
  * with their actual value.
  * <p>
@@ -36,16 +36,16 @@ public class MsgReplacementParameter implements Serializable {
 
     private static final long serialVersionUID = -4588558762246019241L;
 
-    private String name;
+    private final String name;
     @Nullable
-    private Object value;
+    private final Object value;
 
     /**
      * Creates a new parameter value with name and value.
      * 
      * @throws NullPointerException if paramName is null.
      */
-    public MsgReplacementParameter(String paramName, Object paramValue) {
+    public MsgReplacementParameter(String paramName, @Nullable Object paramValue) {
         name = Objects.requireNonNull(paramName, "paramName must not be null");
         value = paramValue;
     }

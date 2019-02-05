@@ -16,9 +16,8 @@ package org.linkki.core.ui.table;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.linkki.test.matcher.Matchers.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -139,18 +138,18 @@ public class PmoBasedTableFactoryTest {
         Table table = new PmoBasedTableFactory(tablePmo, bindingContext).createTable();
         ItemSetChangeListener itemSetChangedListener = addItemSetChangeListener(bindingContext);
 
-        assertTrue(table.isFooterVisible());
+        assertThat(table.isFooterVisible());
         assertThat(table.getColumnFooter(TestRowPmo.PROPERTY_VALUE_1), is(TestRowPmo.PROPERTY_VALUE_1));
         assertThat(table.getColumnFooter(TestRowPmo.PROPERTY_VALUE_2), is(TestRowPmo.PROPERTY_VALUE_2));
 
         tablePmo.setFooterPmo(null);
         bindingContext.modelChanged();
-        assertFalse(table.isFooterVisible());
+        assertThat(table.isFooterVisible(), is(false));
         verifyNoMoreInteractions(itemSetChangedListener);
 
         tablePmo.setFooterPmo(property -> "test");
         bindingContext.modelChanged();
-        assertTrue(table.isFooterVisible());
+        assertThat(table.isFooterVisible());
         assertThat(table.getColumnFooter(TestRowPmo.PROPERTY_VALUE_1), is("test"));
         verifyNoMoreInteractions(itemSetChangedListener);
     }

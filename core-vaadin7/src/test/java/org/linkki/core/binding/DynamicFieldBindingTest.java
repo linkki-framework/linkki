@@ -14,11 +14,11 @@
 package org.linkki.core.binding;
 
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +54,7 @@ public class DynamicFieldBindingTest {
 
         Component component = TestUiUtil.createFirstComponentOf(pmo);
         assertNotNull(component);
-        assertTrue(component instanceof TextField);
+        assertThat(component, is(instanceOf(TextField.class)));
 
         TextField txt = (TextField)component;
         assertThat(txt.getValue(), is(value));
@@ -74,7 +74,7 @@ public class DynamicFieldBindingTest {
 
         Component component = TestUiUtil.createFirstComponentOf(pmo);
         assertNotNull(component);
-        assertTrue(component instanceof ComboBox);
+        assertThat(component, is(instanceOf(ComboBox.class)));
 
         ComboBox cb = (ComboBox)component;
         assertThat(cb.getContainerDataSource().getItemIds(), contains(pmo.getPaymentMethodAvailableValues().toArray()));

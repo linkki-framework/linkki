@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.linkki.test.matcher.Matchers.assertThat;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -107,7 +107,7 @@ public class SimpleItemSupplierTest {
         modelObjects.add(42);
         List<SimplePmo> list = itemSupplier.get();
         List<SimplePmo> list2 = itemSupplier.get();
-        assertTrue(list == list2);
+        assertThat(list == list2);
     }
 
     private List<Integer> getModelObjects() {
