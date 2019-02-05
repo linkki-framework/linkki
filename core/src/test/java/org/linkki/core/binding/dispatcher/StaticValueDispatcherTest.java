@@ -26,26 +26,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.core.ui.section.annotations.VisibleType;
-import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
+import org.linkki.core.ui.section.annotations.TestUIField;
+import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-// TODO LIN-1247 replace vaadin annotations with test annotations and move back to core
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings("null")
 public class StaticValueDispatcherTest {
 
-    private static final String STATIC_ENUM_ATTR_EXCL_NULL = "staticEnumAttrExclNull";
-    private static final String REQUIRED_IF_ENABLED = "requiredIfEnabled";
     private static final String DYNAMIC_ENUM_ATTR = "dynamicEnumAttr";
     private static final String STATIC_ENUM_ATTR = "staticEnumAttr";
-    private static final String DISABLED_INVISIBLE = "disabledInvisible";
     private static final String XYZ = "xyz";
 
     @Mock
@@ -74,7 +66,7 @@ public class StaticValueDispatcherTest {
 
     @Test
     public void testPull_static() {
-        Aspect<ArrayList<Object>> staticAspect = Aspect.of(AvailableValuesAspectDefinition.NAME,
+        Aspect<ArrayList<Object>> staticAspect = Aspect.of(EnabledAspectDefinition.NAME,
                                                            new ArrayList<>());
         pull(STATIC_ENUM_ATTR, staticAspect);
         verify(uiAnnotationFallbackDispatcher, never()).pull(staticAspect);
@@ -83,8 +75,8 @@ public class StaticValueDispatcherTest {
 
     @Test
     public void testPull_dynamic() {
-        Aspect<ArrayList<Object>> dynamicAspect = Aspect.of(AvailableValuesAspectDefinition.NAME);
-        pull(STATIC_ENUM_ATTR, dynamicAspect);
+        Aspect<ArrayList<Object>> dynamicAspect = Aspect.of(EnabledAspectDefinition.NAME);
+        pull(DYNAMIC_ENUM_ATTR, dynamicAspect);
         verify(uiAnnotationFallbackDispatcher).pull(dynamicAspect);
     }
 
@@ -96,37 +88,18 @@ public class StaticValueDispatcherTest {
 
     public class TestObjectWithUIAnnotations {
 
-        @UITextField(position = 1, modelAttribute = XYZ, label = "XYZ:", enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED, visible = VisibleType.DYNAMIC)
+        @TestUIField(position = 1, modelAttribute = XYZ, label = "XYZ:")
         public void xyz() {
             // nothing to do
         }
 
-        @UIComboBox(position = 2, modelAttribute = STATIC_ENUM_ATTR, label = "Bla", enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
+        @TestUIField(position = 2, modelAttribute = STATIC_ENUM_ATTR, label = STATIC_ENUM_ATTR, enabled = EnabledType.ENABLED)
         public void staticEnumAttr() {
             // nothing to do
         }
 
-        @UIComboBox(position = 7, modelAttribute = STATIC_ENUM_ATTR_EXCL_NULL, label = "Bla", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, enabled = EnabledType.ENABLED, required = RequiredType.DYNAMIC)
-        public void staticEnumAttrExclNull() {
-            // nothing to do
-        }
-
-        @UIComboBox(position = 3, label = "", modelAttribute = DYNAMIC_ENUM_ATTR, content = AvailableValuesType.DYNAMIC, visible = VisibleType.VISIBLE, required = RequiredType.NOT_REQUIRED)
+        @TestUIField(position = 3, modelAttribute = DYNAMIC_ENUM_ATTR, label = DYNAMIC_ENUM_ATTR, enabled = EnabledType.DYNAMIC)
         public void dynamicEnumAttr() {
-            // nothing to do
-        }
-
-        public Object getDynamicEnumAttr() {
-            return new Object();
-        }
-
-        @UITextField(position = 4, label = "", modelAttribute = DISABLED_INVISIBLE, visible = VisibleType.INVISIBLE, enabled = EnabledType.DISABLED, required = RequiredType.NOT_REQUIRED)
-        public void disabledInvisible() {
-            // nothing to do
-        }
-
-        @UITextField(position = 5, label = "", modelAttribute = REQUIRED_IF_ENABLED, enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED_IF_ENABLED)
-        public void requiredIfEnabled() {
             // nothing to do
         }
 

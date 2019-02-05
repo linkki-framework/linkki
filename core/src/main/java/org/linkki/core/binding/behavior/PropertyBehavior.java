@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.behavior;
 
@@ -19,8 +19,8 @@ import java.util.function.BiPredicate;
 import java.util.function.BooleanSupplier;
 
 /**
- * Influences the behavior of properties. There are multiple aspects that can be influenced. They
- * are whether a property is
+ * Influences the behavior of properties. There are multiple aspects that can be influenced. They are
+ * whether a property is
  * <ul>
  * <li>writable</li>
  * <li>visible</li>
@@ -29,9 +29,8 @@ import java.util.function.BooleanSupplier;
  * <p>
  * Return values follow a logical AND (or veto logic). If {@link #isVisible(Object, String)} returns
  * <code>false</code>, that property will be hidden, no matter what other {@link PropertyBehavior
- * behaviors} say. This means a behavior should return <code>true</code> for all properties by
- * default, unless it wants to restrict the behavior. In this case <code>false</code> should be
- * returned.
+ * behaviors} say. This means a behavior should return <code>true</code> for all properties by default,
+ * unless it wants to restrict the behavior. In this case <code>false</code> should be returned.
  */
 public interface PropertyBehavior {
 

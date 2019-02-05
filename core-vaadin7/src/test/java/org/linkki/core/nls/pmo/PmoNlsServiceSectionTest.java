@@ -21,7 +21,6 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.TestBindingContext;
 import org.linkki.core.nls.pmo.sample.SamplePmo;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
@@ -59,7 +58,7 @@ public class PmoNlsServiceSectionTest {
     @SuppressWarnings("null")
     @Before
     public void setUp() {
-        BindingContext context = TestBindingContext.create();
+        BindingContext context = new BindingContext();
         AbstractSection section = new PmoBasedSectionFactory().createSection(new SamplePmo(), context);
         HorizontalLayout header = (HorizontalLayout)section.getComponent(0);
         sectionHeader = (Label)header.getComponent(0);

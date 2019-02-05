@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.core.test;
+package org.linkki.core.binding;
 
 import java.util.Collections;
 import java.util.List;

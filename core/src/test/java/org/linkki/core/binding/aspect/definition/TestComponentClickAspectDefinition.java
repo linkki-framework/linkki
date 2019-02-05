@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.core.binding;
+package org.linkki.core.binding.aspect.definition;
 
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;

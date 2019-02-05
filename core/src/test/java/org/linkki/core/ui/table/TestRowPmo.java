@@ -12,22 +12,25 @@
  * License.
  */
 
-package org.linkki.core.ui;
+package org.linkki.core.ui.table;
 
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.components.ComponentWrapperFactory;
+import org.linkki.core.binding.TestEnum;
+import org.linkki.core.binding.TestPmo;
+import org.linkki.core.ui.section.annotations.TestUIField;
 
-public enum TestComponentWrapperFactory implements ComponentWrapperFactory {
+public class TestRowPmo extends TestPmo {
 
-    INSTANCE;
-
+    @TestUIField(position = 10, label = "val")
     @Override
-    public boolean isUiComponent(Class<?> clazz) {
-        return TestUiComponent.class.isAssignableFrom(clazz);
+    public String getValue() {
+        return super.getValue();
     }
 
+    @TestUIField(position = 20, label = "enum")
     @Override
-    public ComponentWrapper createComponentWrapper(Object component) {
-        return new TestComponentWrapper((TestUiComponent)component);
+    public TestEnum getEnumValue() {
+        return super.getEnumValue();
     }
+
+
 }

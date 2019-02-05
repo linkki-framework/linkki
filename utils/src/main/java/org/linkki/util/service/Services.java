@@ -42,7 +42,9 @@ public final class Services {
             ServiceLoader<S> serviceLoader = ServiceLoader.load(serviceClass);
             return StreamSupport.stream(serviceLoader.spliterator(), false).reduce((f1, f2) -> {
                 throw new IllegalStateException(
-                        "Multiple implementations of " + serviceClass.getName() + " found on the classpath.");
+                        "Multiple implementations of " + serviceClass.getName() + " found on the classpath: "
+                                + f1.getClass()
+                                + " and " + f2.getClass());
             }).orElseThrow(() -> new IllegalStateException(
                     "No implementation of " + serviceClass.getName() + " found on the classpath."));
         });

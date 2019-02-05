@@ -31,6 +31,7 @@ import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.aspect.definition.StaticModelToUiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.TestComponentClickAspectDefinition;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.binding.property.LinkkiBoundProperty;
 import org.linkki.core.ui.components.ComponentWrapper;

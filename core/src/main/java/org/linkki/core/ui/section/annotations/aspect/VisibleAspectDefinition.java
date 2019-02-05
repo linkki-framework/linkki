@@ -32,7 +32,6 @@ public class VisibleAspectDefinition extends ModelToUiAspectDefinition<Boolean> 
 
     public VisibleAspectDefinition(VisibleType visibleType) {
         this.visibleType = visibleType;
-
     }
 
     @Override

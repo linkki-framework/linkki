@@ -21,7 +21,10 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -34,14 +37,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
+import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.test.TestButtonPmo;
+import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.page.AbstractPage;
+import org.linkki.core.ui.section.annotations.BindingDefinition;
+import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITableColumn;
+import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.table.SimpleTablePmo;
 
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
 @SuppressWarnings("unchecked")
@@ -123,6 +133,23 @@ public class BindingContextIntegrationTest {
         assertThat(binding.getBindings().size(), is(3));
     }
 
+    @Test
+    public void testBind_BoundComponentsAreMadeImmediate() {
+        TextField field = new TextField();
+        BindingDefinition fieldDefintion = mock(BindingDefinition.class);
+        when(fieldDefintion.required()).thenReturn(RequiredType.REQUIRED);
+        when(fieldDefintion.enabled()).thenReturn(EnabledType.ENABLED);
+        when(fieldDefintion.visible()).thenReturn(VisibleType.VISIBLE);
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(fieldDefintion, "value", new ArrayList<>());
+
+        // Precondition
+        assertThat(field.isImmediate(), is(false));
+
+        BindingContext context = new BindingContext();
+        context.bind(new TestStandardSectionPmo(), fieldDescriptor, new LabelComponentWrapper(field));
+        assertThat(field.isImmediate(), is(true));
+    }
+
     private void setUpBindings() {
         bindingManager = new TestBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
         testPage = new TestPage(bindingManager);
@@ -154,13 +181,13 @@ public class BindingContextIntegrationTest {
         }
 
         @Override
-        public TestBindingContext startNewContext(String name) {
-            return (TestBindingContext)super.startNewContext(name);
+        public BindingContext startNewContext(String name) {
+            return super.startNewContext(name);
         }
 
         @Override
-        protected TestBindingContext newBindingContext(String name) {
-            return TestBindingContext.create();
+        protected BindingContext newBindingContext(String name) {
+            return new BindingContext();
         }
 
     }

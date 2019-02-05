@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 
 package org.linkki.core.ui.section.annotations;
@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.binding.TestBindingContext;
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.ui.components.LabelComponentWrapper;
@@ -42,7 +42,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
 
     private Object defaultModelObject;
     private P defaultPmo;
-    private TestBindingContext bindingContext;
+    private BindingContext bindingContext;
     private Function<Object, ? extends @NonNull P> pmoCreator;
     private Supplier<Object> modelObjectSupplier;
     private GridLayout defaultSection;
@@ -59,11 +59,11 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
         defaultModelObject = newDefaultModelObject();
         defaultPmo = newPmo(defaultModelObject);
 
-        bindingContext = TestBindingContext.create();
+        bindingContext = new BindingContext();
         defaultSection = TestUiUtil.createSectionWith(defaultPmo, bindingContext);
     }
 
-    TestBindingContext getBindingContext() {
+    BindingContext getBindingContext() {
         return bindingContext;
     }
 

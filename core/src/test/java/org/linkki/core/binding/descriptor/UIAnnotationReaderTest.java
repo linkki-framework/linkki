@@ -28,12 +28,8 @@ import org.linkki.core.binding.descriptor.UIAnnotationReader.ModelObjectAnnotati
 import org.linkki.core.ui.section.annotations.BindTooltip;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UIDateField;
-import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.ui.section.annotations.TestUIField;
 
-// TODO LIN-1247 replace vaadin annotations with test annotations and move back to core
 public class UIAnnotationReaderTest {
 
     private UIAnnotationReader reader = new UIAnnotationReader(TestPmo.class);
@@ -153,19 +149,18 @@ public class UIAnnotationReaderTest {
         }
 
         @BindTooltip("TestTooltip")
-        @UITextField(position = 1, label = "", modelAttribute = "test")
+        @TestUIField(position = 1, label = "", modelAttribute = "test")
         public void test() {
             //
         }
 
-        @UIComboBox(position = 2, label = "", modelAttribute = "test2")
+        @TestUIField(position = 2, label = "", modelAttribute = "test2")
         public void abc() {
             //
         }
 
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UITableColumn
-        @UIDateField(position = 3, label = "", modelAttribute = "test3")
+        @TestUIField(position = 3, label = "", modelAttribute = "test3")
         public void test3() {
             //
         }

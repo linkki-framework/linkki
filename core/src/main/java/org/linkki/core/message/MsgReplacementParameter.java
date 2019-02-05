@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.message;
 
@@ -20,20 +20,17 @@ import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * When creating a message the text might be created by replacing parameters (or placeholders) with
- * concrete values, e.g. "The sum insured must be at least {minSumInsured}." where {minSumInsured}
- * is replaced with the current minimum e.g. 200 Euro. If you need to represent the user a different
- * text, you need the actual value for the parameter. To achieve this the message holds the
- * parameters along with their actual value.
+ * concrete values, e.g. "The sum insured must be at least {minSumInsured}." where {minSumInsured} is
+ * replaced with the current minimum e.g. 200 Euro. If you need to represent the user a different text,
+ * you need the actual value for the parameter. To achieve this the message holds the parameters along
+ * with their actual value.
  * <p>
  * The following are scenarios where you might need to present a different text for a message:
  * <ul>
- * <li>You have limited space available for the text, for example if your display is a
- * terminal.</li>
- * <li>You present the text to a different user group, e.g. internet users instead of your
- * backoffice employees.</li>
+ * <li>You have limited space available for the text, for example if your display is a terminal.</li>
+ * <li>You present the text to a different user group, e.g. internet users instead of your backoffice
+ * employees.</li>
  * </ul>
- * 
- * @author Jan Ortmann
  */
 public class MsgReplacementParameter implements Serializable {
 

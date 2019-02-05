@@ -38,7 +38,7 @@ import com.vaadin.ui.Button;
 public class ButtonPmoBinderTest {
 
     private final PropertyDispatcher wrappedDispatcher = mock(PropertyDispatcher.class);
-    private final BindingContext bindingContext = TestBindingContext.create();
+    private final BindingContext bindingContext = new BindingContext();
     private final Button button = new Button();
 
     @Before

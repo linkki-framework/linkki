@@ -38,7 +38,7 @@ public class ButtonBindingTest {
 
     private ElementBinding binding;
     private PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
-    private BindingContext context = TestBindingContext.create();
+    private BindingContext context = new BindingContext();
     private TestAspectDefinition aspectDefinition;
 
     private void setUpDefaultBinding() {

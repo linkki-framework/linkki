@@ -22,12 +22,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-// TODO LIN-1247 replace vaadin annotations with test annotations and move back to core
 public class ContainerPmoTest {
 
     @Test
     public void testGetItemPmoClass() {
-        TestTablePmo testTablePmo = new TestTablePmo();
+        TestContainerPmo testTablePmo = new TestContainerPmo();
 
         Class<?> itemPmoClass = testTablePmo.getItemPmoClass();
 

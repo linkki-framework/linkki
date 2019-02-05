@@ -37,7 +37,6 @@ import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.util.handler.Handler;
 
-
 /**
  * A binding context binds fields and tables in a part of the user interface like a page or a dialog to
  * properties of presentation model objects. If the value in one of the fields is changed, all fields in
