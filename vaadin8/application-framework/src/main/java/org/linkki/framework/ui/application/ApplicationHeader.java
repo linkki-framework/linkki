@@ -20,7 +20,7 @@ import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
 
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
@@ -151,7 +151,7 @@ public class ApplicationHeader extends HorizontalLayout {
      *           {@link #addHelpMenu(MenuBar) help menu item}.
      */
     protected MenuItem addHelpMenu(MenuBar parent) {
-        MenuItem helpMenu = parent.addItem("", FontAwesome.QUESTION_CIRCLE, null); // $NON-NLS-1$
+        MenuItem helpMenu = parent.addItem("", VaadinIcons.QUESTION_CIRCLE, null); // $NON-NLS-1$
         addHelpMenuItems(helpMenu);
         return helpMenu;
     }
@@ -176,7 +176,7 @@ public class ApplicationHeader extends HorizontalLayout {
      * is created in {@link #addHelpMenu(MenuBar)}.
      */
     protected void addApplicationInfoMenuItem(MenuItem helpMenu) {
-        helpMenu.addItem(NlsText.getString("ApplicationHeader.Info"), FontAwesome.INFO_CIRCLE, //$NON-NLS-1$
+        helpMenu.addItem(NlsText.getString("ApplicationHeader.Info"), VaadinIcons.INFO_CIRCLE, //$NON-NLS-1$
                          i -> new ApplicationInfoDialog(
                                  createApplicationInfoPmo(LinkkiUi.getCurrentApplicationConfig())).open());
     }
@@ -197,7 +197,7 @@ public class ApplicationHeader extends HorizontalLayout {
      *           menu.
      */
     protected MenuItem addUserMenu(String username, MenuBar parent) {
-        MenuItem userMenu = parent.addItem(username, FontAwesome.USER, null); // $NON-NLS-1$
+        MenuItem userMenu = parent.addItem(username, VaadinIcons.USER, null); // $NON-NLS-1$
         addUserMenuItems(userMenu);
         return userMenu;
     }

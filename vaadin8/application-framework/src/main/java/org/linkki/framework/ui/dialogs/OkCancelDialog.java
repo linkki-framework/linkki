@@ -33,7 +33,7 @@ import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.server.Page.UriFragmentChangedListener;
+import com.vaadin.server.Page.PopStateListener;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -408,12 +408,12 @@ public class OkCancelDialog extends Window {
     }
 
     /**
-     * Add {@link UriFragmentChangedListener} to the dialog. By default, the dialog is closed upon uri
-     * change by calling {@link #close()}.
+     * Add {@link PopStateListener} to the dialog. By default, the dialog is closed upon uri change by
+     * calling {@link #close()}.
      */
     protected void initURIChangeListener() {
         UI current = UI.getCurrent();
-        current.getPage().addUriFragmentChangedListener(e -> close());
+        current.getPage().addPopStateListener(e -> close());
     }
 
     /**

@@ -1,0 +1,325 @@
+/*
+* Styles for linkki application framework
+*
+* Some variables from valo are redefined to make this mixin usable standalone. 
+* Make sure to import this linkki.scss first if you want to use linkki defaults.
+*/
+
+$v-app-background-color: #fdfdfd !default;
+$v-font-color: #474747 !default;
+$v-focus-color: #005596 !default;
+$v-border: 1px solid darken($v-app-background-color, 15%) !default;
+$v-line-height: 1.0 !default;
+$v-layout-margin-top: 5px !default;
+$v-layout-margin-bottom: 5px !default;
+$v-layout-margin-left: 5px !default;
+$v-layout-margin-right: 5px !default;
+
+$linkki-color-primary: $v-focus-color !default;
+$linkki-color-foreground-light: $v-font-color !default;
+$linkki-color-foreground-dark: white !default;
+$linkki-color-error: #ed473b !default;
+$linkki-color-warning: #f29400 !default;
+$linkki-color-info: #3aaadc !default;
+$linkki-color-messagepanel: mix($linkki-color-error, $v-app-background-color, 0.02) !default;
+
+$linkki-border: $v-border !default;
+$linkki-sidebar-width: 56px !default;
+
+/* Returns predefined foreground color depending on the darkness of the given background color. 
+* To automatically calculate a foreground color with enough constrast use valo-font-color instead
+*/
+@function linkki-foreground-color($bg-color){
+  @if type-of($bg-color) == color {
+      @if is-dark-color($bg-color){
+          @return $linkki-color-foreground-dark;
+      } @else {
+          @return $linkki-color-foreground-light;
+      }
+  }
+  @return null;
+}
+
+@mixin linkki {
+
+  .horizontal-section-spacing {
+    .v-label {
+        margin-right: 10px;
+        line-height: 1.75;
+    }
+  
+    .v-textfield {
+        margin-right: 10px;
+    }
+  }
+  
+  /*
+   * error markings in table cells need to be repeated here to overwrite textfield-borderless
+   */
+   @each $control in textfield, filterselect, datefield, select-twincol{
+	  .v-table-cell-content .v-#{$control}-error-error {
+	    border: 1px solid $linkki-color-error !important;
+	    border-radius : 2px;
+	    background: #fffbfb;
+	    color: #6c2621;
+	  }
+	  .v-table-cell-content .v-#{$control}-error-warning {
+	    border: 1px solid $linkki-color-warning !important;
+	    border-radius : 2px;
+	    background: #fffdfa;
+	    color: #745119;
+	  }
+	  .v-table-cell-content .v-#{$control}-error-info {
+	    border: 1px solid $linkki-color-info !important;
+	    border-radius : 2px;
+	    background: #fafdff;
+	    color: #195774;
+	  }
+  }
+
+  /* Avoid shadow in borderless buttons, used for example in tables */
+  .v-button-borderless:focus:after {
+    @include box-shadow(none);
+  }
+  
+  /* 
+  * Login popup
+  */
+  .linkki-login-panel {
+    width: 100% !important;
+    padding: 8px;
+    @include background-image(linear-gradient(to bottom, $v-app-background-color 2%, $v-app-background-color 98%));
+  }
+  
+  .linkki-login-panel-caption {
+    width: 33% !important;
+  
+    .v-panel-caption {
+        color: linkki-foreground-color($linkki-color-primary);
+        background-color: $linkki-color-primary;
+        @include background-image(linear-gradient(to bottom, $linkki-color-primary 2%, $linkki-color-primary 95%));
+    }
+  }
+  
+  /*
+  * Header
+  */
+  
+  .linkki-application-header {
+    color: linkki-foreground-color($linkki-color-primary);
+    background-color: $linkki-color-primary;
+  
+    .v-slot-linkki-application-header-right {
+        padding-right: 10px;
+    }
+    
+    .linkki-application-header-right {
+
+    }
+  
+    .v-menubar-menuitem-caption {
+        color: linkki-foreground-color($linkki-color-primary);
+        font-size: 120%;
+    }
+  }
+  
+  /*
+  * Sidebar Layout
+  */
+  
+  .linkki-sidebar-layout {
+    width: 100%;
+    height: 100%;
+    padding-left: $linkki-sidebar-width;
+  }
+  
+  .linkki-sidebar {
+    background-color: darken($v-app-background-color, 4%);
+    height: 100%;
+    width: $linkki-sidebar-width;
+    margin-left: -$linkki-sidebar-width;
+    border-right: $linkki-border;
+  
+    .v-button {
+        background-color: inherit;
+        border: none;
+        font-size: 150%;
+        line-height: 2.5;
+        height: 2.5em;
+        width: 100%;
+  
+        &:focus:after{
+            @include box-shadow(none);
+        }
+    }
+  
+    .v-button.selected {
+        background-color: darken($v-app-background-color, 8%);
+    }
+  }
+  
+  .linkki-sidebar-content {
+    height: 100%;
+    width: 100%;  
+  }
+  
+  /*
+  * Headline
+  */
+  
+  .linkki-headline {
+      border-bottom: $linkki-border;
+      padding: 20px 10px;
+
+        .v-slot {
+            vertical-align: middle;
+        }
+
+  }
+  
+  /* 
+  * Dialogs 
+  */
+  
+  .linkki-dialog-caption .v-window-outerheader {
+    font-size: 140%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: $linkki-border;
+  }
+  
+  .linkki-dialog-content {
+    padding: 10px 20px;
+  }
+  
+  .linkki-message-row {
+    padding: 1em 8px;
+    font-size: 90%;
+  }
+
+  .linkki-application-info-dialog .v-label, .v-Notification-caption {
+    line-height: 1.4 !important;
+  }
+  
+  /* 
+  * Messages panels
+  */
+  .v-panel-content-linkki-message-list {
+    max-height: 300px;
+  }
+  
+  .v-splitpanel-vsplitter-linkki-message-panel-split {
+    height: 2px !important;
+  }
+  
+  .v-panel-linkki-message-panel {
+    border: none;
+  }
+  
+  .v-panel-linkki-message-panel .v-table-cell-content {
+    border: none;
+    /* for separating lines between the messages:
+    border-right: none;
+    border-left: none;
+    border-color: #ed473b !important;
+    */
+  }
+  
+  .v-panel-linkki-message-panel .v-table-body {
+    border: none;
+  }
+  
+  .v-panel-caption-linkki-message-panel {
+    font-size: 110%;
+    font-weight: bold;
+    background-color: $linkki-color-messagepanel;
+    @include background-image(linear-gradient(to bottom, $linkki-color-messagepanel 0%, $linkki-color-messagepanel 100%));
+    border: none;
+    /* for separating lines between the messages:
+    border-color: #ed473b !important;
+    */
+  }
+  
+  .v-panel-content-linkki-message-panel tr{
+    background-color: $linkki-color-messagepanel;
+    @include background-image(linear-gradient(to bottom, $linkki-color-messagepanel 0%, $linkki-color-messagepanel 100%));
+  }
+  
+  /* Styles for messages */
+  .v-caption-linkki-message-error .v-icon {
+    color: $linkki-color-error;
+  }
+  
+  .v-label-linkki-message-error .v-icon {
+    color: $linkki-color-error;
+  }
+  
+  .v-caption-linkki-message-warning .v-icon {
+    color: $linkki-color-warning;
+  }
+  
+  .v-label-linkki-message-warning .v-icon {
+    color: $linkki-color-warning;
+  }
+  
+  .v-caption-linkki-message-info .v-icon {
+    color: $linkki-color-info;
+  }
+  
+  .v-label-linkki-message-info .v-icon {
+    color: $linkki-color-info;
+  }
+  
+  /* 
+  * Tables
+  */
+  
+  .linkki-table {
+    width: 100% !important;
+  }
+  
+  .linkki-table-cell {
+    width: 100% !important;
+  }
+  
+  .v-button-linkki-table-cell {
+    text-align: left;
+  }
+
+  /*
+  * Sections
+  */
+  
+  .linkki-section-caption {
+    width: 100%;
+    vertical-align: middle;
+    /* Trick to make the line take up the rest of the space */
+    overflow: hidden;
+  
+    /* Space before section caption and below caption */
+    padding-top: 20px;
+    padding-bottom: 10px;
+  
+    /* Styles for the section's captions */
+    .v-slot-linkki-section-caption-text {
+        .linkki-section-caption-text {
+            font-size: 110%;
+            font-weight: bold;
+        }
+    }
+  
+    /* Puts a line as a separator between the different sections */
+    .v-slot-linkki-section-caption-line {
+        width: 100%;
+  
+        .v-label {
+            width: 100%;
+        }
+    }
+  } //end-linkki-section-caption
+
+  .v-button.linkki-button-text {
+    @include valo-button-borderless-style;
+    height: unset;
+  }
+}
