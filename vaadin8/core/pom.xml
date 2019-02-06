@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.linkki-framework</groupId>
+        <groupId>org.linkki-framework.vaadin8</groupId>
         <artifactId>linkki-vaadin8</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>linkki-core-vaadin8</artifactId>
     <packaging>jar</packaging>
-    <name>Linkki Databinding and Core Framework for Vaadin 7</name>
+    <name>linkki Databinding and Core Framework for Vaadin 8</name>
 
     <dependencies>
         <dependency>

@@ -8,15 +8,16 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <groupId>org.linkki-framework.vaadin7</groupId>
     <artifactId>linkki-vaadin7</artifactId>
     <packaging>pom</packaging>
-    <name>linkki vaadin7</name>
-    <description>Vaadin7 Modules for linkki</description>
+    <name>linkki vaadin 7</name>
+    <description>Vaadin 7 Modules for linkki</description>
 
     <modules>
         <module>core</module>
         <module>application-framework</module>
-        <module>samples</module>
+        <module>sample</module>
     </modules>
 
     <properties>

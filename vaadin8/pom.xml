@@ -8,14 +8,16 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <groupId>org.linkki-framework.vaadin8</groupId>
     <artifactId>linkki-vaadin8</artifactId>
     <packaging>pom</packaging>
-    <name>linkki vaadin8</name>
-    <description>Vaadin8 Modules for linkki</description>
+    <name>linkki vaadin 8</name>
+    <description>Vaadin 8 Modules for linkki</description>
 
     <modules>
         <module>core</module>
         <module>application-framework</module>
+        <module>sample</module>
     </modules>
 
     <properties>
