@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-application-framework</artifactId>
+            <artifactId>linkki-application-framework-vaadin7</artifactId>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jdt</groupId>
@@ -31,7 +31,7 @@
 
 
     <build>
-        <!-- remove version from artifact so we can always link to http://localhost:8080/linkki-getting-started -->
+        <!-- remove version from artifact so we can always link to http://localhost:8080/linkki-application-sample -->
         <finalName>${project.artifactId}</finalName>
         <resources>
             <resource>

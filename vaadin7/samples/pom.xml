@@ -77,7 +77,7 @@
             <!-- end::linkki-core-vaadin7[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
-                <artifactId>linkki-application-framework</artifactId>
+                <artifactId>linkki-application-framework-vaadin7</artifactId>
                 <version>${linkki.version}</version>
             </dependency>
 

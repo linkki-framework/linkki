@@ -5,7 +5,7 @@
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/webapp"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="linkki-application-framework-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/linkki-application-framework/linkki-application-framework">
+        <dependent-module archiveName="linkki-application-framework-vaadin7-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/linkki-application-framework-vaadin7/linkki-application-framework-vaadin7">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="linkki-utils-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/linkki-utils/linkki-utils">

@@ -4,11 +4,11 @@
 
     <parent>
         <groupId>org.linkki-framework</groupId>
-        <artifactId>linkki</artifactId>
+        <artifactId>linkki-vaadin7</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>linkki-application-framework</artifactId>
+    <artifactId>linkki-application-framework-vaadin7</artifactId>
     <packaging>jar</packaging>
     <name>Linkki Application Framework</name>
 
