@@ -32,7 +32,8 @@ public class ColumnBasedComponentAspectDefinitions {
 
     /**
      * Creates a list of {@link LinkkiAspectDefinition LinkkiAspectDefinitions} for use with
-     * {@link ColumnBasedComponentWrapper ColumnBasedComponentWrappers}.
+     * {@link ColumnBasedComponentWrapper ColumnBasedComponentWrappers} that update the items, footer,
+     * and page length.
      */
     public static List<LinkkiAspectDefinition> createAll() {
         return Arrays.asList(new ColumnBasedComponentItemsAspectDefinition<>(),

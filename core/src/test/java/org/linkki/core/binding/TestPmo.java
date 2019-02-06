@@ -22,6 +22,10 @@ import org.linkki.core.ui.section.annotations.ModelObject;
 
 @SuppressWarnings("null")
 public class TestPmo {
+
+    public static final String PROPERTY_VALUE = "value";
+    public static final String PROPERTY_ENUM_VALUE = "enumValue";
+
     private String value = StringUtils.EMPTY;
 
     private Object modelObject;

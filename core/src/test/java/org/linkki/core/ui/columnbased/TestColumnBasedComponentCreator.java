@@ -14,27 +14,19 @@
 
 package org.linkki.core.ui.columnbased;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.ui.TestComponentWrapper;
 import org.linkki.core.ui.TestUiLayoutComponent;
 import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.table.TestContainerPmo;
+import org.linkki.core.ui.table.ContainerPmo;
 
 public class TestColumnBasedComponentCreator implements ColumnBasedComponentCreator {
-    private final TestContainerPmo containerPmo;
-
-    public TestColumnBasedComponentCreator(TestContainerPmo containerPmo) {
-        this.containerPmo = containerPmo;
-    }
 
     @Override
-    public void initColumn(ComponentWrapper parentWrapper,
+    public void initColumn(ContainerPmo<?> containerPmo,
+            ComponentWrapper parentWrapper,
             BindingContext bindingContext,
             PropertyElementDescriptors elementDesc) {
         TestColumnBasedComponent<?> table = (TestColumnBasedComponent<?>)parentWrapper.getComponent();
@@ -46,12 +38,7 @@ public class TestColumnBasedComponentCreator implements ColumnBasedComponentCrea
     }
 
     @Override
-    public List<LinkkiAspectDefinition> getContainerAspects() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public ComponentWrapper createComponent() {
+    public ComponentWrapper createComponent(ContainerPmo<?> containerPmo) {
         return new TestComponentWrapper(new TestColumnBasedComponent<>());
     }
 }

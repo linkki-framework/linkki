@@ -26,7 +26,6 @@ import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.columnbased.ColumnBasedComponentCreator;
-import org.linkki.core.ui.columnbased.aspect.ColumnBasedComponentAspectDefinitions;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
@@ -41,17 +40,11 @@ import com.vaadin.ui.TreeTable;
  */
 class TableCreator implements ColumnBasedComponentCreator {
 
-    private final ContainerPmo<?> containerPmo;
-
-    TableCreator(ContainerPmo<?> containerPmo) {
-        this.containerPmo = containerPmo;
-    }
-
     /**
      * Creates a new table based on the container PMO.
      */
     @Override
-    public ComponentWrapper createComponent() {
+    public ComponentWrapper createComponent(ContainerPmo<?> containerPmo) {
         Table table = containerPmo.isHierarchical() ? new TreeTable() : new Table();
         table.addStyleName(ApplicationStyles.TABLE);
         table.setHeightUndefined();
@@ -65,11 +58,12 @@ class TableCreator implements ColumnBasedComponentCreator {
      * {@link LinkkiAspectDefinition#supports(org.linkki.core.ui.components.WrapperType) supported}
      * {@link LinkkiAspectDefinition LinkkiAspectDefinitions}.
      * 
-     * @param tableWrapper the {@link ComponentWrapper} that wraps the table
      * @param elementDesc the descriptor for the PMO's field
+     * @param tableWrapper the {@link ComponentWrapper} that wraps the table
      */
     @Override
-    public void initColumn(ComponentWrapper tableWrapper,
+    public void initColumn(ContainerPmo<?> containerPmo,
+            ComponentWrapper tableWrapper,
             BindingContext bindingContext,
             PropertyElementDescriptors elementDesc) {
         TableCreator.FieldColumnGenerator<?> columnGen = new TableCreator.FieldColumnGenerator<>(
@@ -80,11 +74,6 @@ class TableCreator implements ColumnBasedComponentCreator {
         List<LinkkiAspectDefinition> aspectDefs = elementDesc.getAllAspects();
         bindingContext.bind(containerPmo, BoundProperty.of(propertyName), aspectDefs,
                             new TableColumnWrapper(table, propertyName));
-    }
-
-    @Override
-    public List<LinkkiAspectDefinition> getContainerAspects() {
-        return ColumnBasedComponentAspectDefinitions.createAll();
     }
 
     /** Column generator that generates a column for a field of a PMO. */

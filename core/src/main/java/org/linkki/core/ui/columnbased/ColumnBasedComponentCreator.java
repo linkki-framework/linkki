@@ -19,7 +19,9 @@ import java.util.List;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
+import org.linkki.core.ui.columnbased.aspect.ColumnBasedComponentAspectDefinitions;
 import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.table.ContainerPmo;
 
 /**
  * Used to create UI framework specific column based components like table or grid.
@@ -32,11 +34,12 @@ import org.linkki.core.ui.components.ComponentWrapper;
 public interface ColumnBasedComponentCreator {
 
     /**
-     * Creates a new {@link ComponentWrapper}
+     * Creates a new {@link ComponentWrapper}.
      * 
+     * @param containerPmo the presentation model object for the container
      * @return the wrapper for the component that contains the columns, like a table or a grid component
      */
-    ComponentWrapper createComponent();
+    ComponentWrapper createComponent(ContainerPmo<?> containerPmo);
 
     /**
      * Initializes a single column for the previously created column based component.
@@ -44,24 +47,30 @@ public interface ColumnBasedComponentCreator {
      * @implSpec The implementation is responsible to dynamically create the needed UI elements for
      *           every row in this column, that means the field in the cell. It is also responsible to
      *           register and to remove the bindings for these UI elements.
-     * 
+     * @param containerPmo the presentation model object for the whole container
      * @param parentWrapper the component wrapper that contains the column based component (table or
      *            grid)
      * @param bindingContext the {@link BindingContext} used to bind the column and field properties
      * @param elementDesc the {@link PropertyElementDescriptors} that describes the content of the
      *            column and UI element in the cell
      */
-    void initColumn(ComponentWrapper parentWrapper,
+    void initColumn(ContainerPmo<?> containerPmo,
+            ComponentWrapper parentWrapper,
             BindingContext bindingContext,
             PropertyElementDescriptors elementDesc);
 
     /**
      * Returns {@link LinkkiAspectDefinition definitions for aspects} that should be bound to the
-     * {@link ComponentWrapper} {@link #createComponent() created} by this
+     * {@link ComponentWrapper} {@link #createComponent(ContainerPmo) created} by this
      * {@link ColumnBasedComponentCreator}.
+     * 
+     * @implNote the default implementation returns
+     *           {@link ColumnBasedComponentAspectDefinitions#createAll()}
      * 
      * @return all container {@link LinkkiAspectDefinition aspect definitions}
      */
-    List<LinkkiAspectDefinition> getContainerAspects();
+    default List<LinkkiAspectDefinition> getContainerAspects() {
+        return ColumnBasedComponentAspectDefinitions.createAll();
+    }
 
 }

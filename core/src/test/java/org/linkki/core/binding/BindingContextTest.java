@@ -173,9 +173,10 @@ public class BindingContextTest {
     }
 
     private TestUiLayoutComponent bindTable(BindingContext context, TestContainerPmo containerPmo) {
-        ColumnBasedComponentFactory columnBasedComponentFactory = new ColumnBasedComponentFactory(containerPmo, context,
-                new TestColumnBasedComponentCreator(containerPmo));
-        TestUiLayoutComponent table = (TestUiLayoutComponent)columnBasedComponentFactory.createContainerComponent();
+        ColumnBasedComponentFactory columnBasedComponentFactory = new ColumnBasedComponentFactory(
+                new TestColumnBasedComponentCreator());
+        TestUiLayoutComponent table = (TestUiLayoutComponent)columnBasedComponentFactory
+                .createContainerComponent(containerPmo, context);
         return table;
     }
 

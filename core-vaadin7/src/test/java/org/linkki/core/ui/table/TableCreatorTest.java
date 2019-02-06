@@ -36,8 +36,8 @@ public class TableCreatorTest {
 
     @Test
     public void testCreateComponent_PmoClassIsUsedAsId() {
-        TableCreator creator = new TableCreator(new TestTablePmo());
-        Table table = (Table)creator.createComponent().getComponent();
+        TableCreator creator = new TableCreator();
+        Table table = (Table)creator.createComponent(new TestTablePmo()).getComponent();
         assertThat(table.getId(), is("TestTablePmo"));
     }
 
@@ -80,15 +80,15 @@ public class TableCreatorTest {
     private Table createTableWithColumns() {
         TestTablePmo containerPmo = new TestTablePmo();
         Stream<PropertyElementDescriptors> uiElements = new UIAnnotationReader(TestRowPmo.class).getUiElements();
-        TableCreator creator = new TableCreator(containerPmo);
-        ComponentWrapper componentWrapper = creator.createComponent();
+        TableCreator creator = new TableCreator();
+        ComponentWrapper componentWrapper = creator.createComponent(containerPmo);
         BindingContext bindingContext = new BindingContext();
         ContainerBinding binding = bindingContext.bindContainer(containerPmo,
                                                                 BoundProperty.of(""), Arrays.asList(),
                                                                 new TableComponentWrapper<>("",
                                                                         (Table)componentWrapper.getComponent()));
 
-        uiElements.forEach(elementDesc -> creator.initColumn(componentWrapper, binding, elementDesc));
+        uiElements.forEach(elementDesc -> creator.initColumn(containerPmo, componentWrapper, binding, elementDesc));
         return (Table)componentWrapper.getComponent();
     }
 

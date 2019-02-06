@@ -31,18 +31,9 @@ import org.linkki.core.ui.table.ContainerPmo;
  */
 public class ColumnBasedComponentFactory {
 
-    private final ContainerPmo<?> containerPmo;
-    private final UIAnnotationReader annotationReader;
-    private final BindingContext bindingContext;
-    private final Class<?> rowPmoClass;
     private final ColumnBasedComponentCreator containerComponentCreator;
 
-    public ColumnBasedComponentFactory(ContainerPmo<?> containerPmo, BindingContext bindingContext,
-            ColumnBasedComponentCreator containerComponentCreator) {
-        this.containerPmo = requireNonNull(containerPmo, "containerPmo must not be null");
-        this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
-        this.rowPmoClass = containerPmo.getItemPmoClass();
-        this.annotationReader = new UIAnnotationReader(rowPmoClass);
+    public ColumnBasedComponentFactory(ColumnBasedComponentCreator containerComponentCreator) {
         this.containerComponentCreator = requireNonNull(containerComponentCreator,
                                                         "containerComponentCreator must not be null");
     }
@@ -50,20 +41,25 @@ public class ColumnBasedComponentFactory {
     /**
      * Create a new table based on the container PMO.
      */
-    public Object createContainerComponent() {
-        ComponentWrapper tableWrapper = containerComponentCreator.createComponent();
-        ContainerBinding binding = bindingContext.bindContainer(containerPmo, BoundProperty.of(""),
-                                                                containerComponentCreator.getContainerAspects(),
-                                                                tableWrapper);
-        createColumns(tableWrapper, binding);
+    public Object createContainerComponent(ContainerPmo<?> containerPmo, BindingContext bindingContext) {
+        ComponentWrapper tableWrapper = containerComponentCreator
+                .createComponent(requireNonNull(containerPmo, "containerPmo must not be null"));
+        ContainerBinding binding = requireNonNull(bindingContext, "bindingContext must not be null")
+                .bindContainer(containerPmo, BoundProperty.of(""),
+                               containerComponentCreator.getContainerAspects(),
+                               tableWrapper);
+        createColumns(containerPmo, tableWrapper, binding);
         // need to update binding after columns are created because the footer content cannot be updated
         // without columns
         binding.updateFromPmo();
         return tableWrapper.getComponent();
     }
 
-    private void createColumns(ComponentWrapper tableWrapper, ContainerBinding binding) {
-        annotationReader.getUiElements().forEach(e -> containerComponentCreator.initColumn(tableWrapper, binding, e));
+    private void createColumns(ContainerPmo<?> containerPmo, ComponentWrapper tableWrapper, ContainerBinding binding) {
+        Class<?> rowPmoClass = containerPmo.getItemPmoClass();
+        UIAnnotationReader annotationReader = new UIAnnotationReader(rowPmoClass);
+        annotationReader.getUiElements()
+                .forEach(e -> containerComponentCreator.initColumn(containerPmo, tableWrapper, binding, e));
     }
 
 }

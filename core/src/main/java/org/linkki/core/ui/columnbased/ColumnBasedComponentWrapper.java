@@ -29,7 +29,14 @@ import org.linkki.core.ui.table.TableFooterPmo;
  */
 public interface ColumnBasedComponentWrapper<@NonNull ROW> extends ComponentWrapper {
 
+    static final long serialVersionUID = 1L;
+
     WrapperType COLUMN_BASED_TYPE = WrapperType.of("columnBased", WrapperType.COMPONENT);
+
+    @Override
+    public default WrapperType getType() {
+        return ColumnBasedComponentWrapper.COLUMN_BASED_TYPE;
+    }
 
     /**
      * Updates the columns' footers. If the given {@link Optional}&lt;{@link TableFooterPmo}&gt; is

@@ -23,7 +23,11 @@ import com.vaadin.ui.Table;
  */
 public class PmoBasedTableFactory {
 
-    private ColumnBasedComponentFactory containerComponentFactory;
+    private static final ColumnBasedComponentFactory CONTAINER_COMPONENT_FACTORY = new ColumnBasedComponentFactory(
+            new TableCreator());
+
+    private final ContainerPmo<?> containerPmo;
+    private final BindingContext bindingContext;
 
     /**
      * Creates a new factory.
@@ -32,12 +36,12 @@ public class PmoBasedTableFactory {
      * @param bindingContext The binding context to which the cell bindings are added.
      */
     public PmoBasedTableFactory(ContainerPmo<?> containerPmo, BindingContext bindingContext) {
-        containerComponentFactory = new ColumnBasedComponentFactory(containerPmo, bindingContext,
-                new TableCreator(containerPmo));
+        this.containerPmo = containerPmo;
+        this.bindingContext = bindingContext;
     }
 
     public Table createTable() {
-        return (Table)containerComponentFactory.createContainerComponent();
+        return (Table)CONTAINER_COMPONENT_FACTORY.createContainerComponent(containerPmo, bindingContext);
     }
 
 }

@@ -59,4 +59,9 @@ public class TestContainerPmo implements ContainerPmo<TestRowPmo> {
         this.footerPmo = Optional.ofNullable(footerPmo);
     }
 
+    @Override
+    public int getPageLength() {
+        return items.size();
+    }
+
 }
