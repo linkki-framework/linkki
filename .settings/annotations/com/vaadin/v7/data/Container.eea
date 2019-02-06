@@ -1,0 +1,7 @@
+class com/vaadin/v7/data/Container
+getContainerProperty
+ (Ljava/lang/Object;Ljava/lang/Object;)Lcom/vaadin/v7/data/Property;
+ (L1java/lang/Object;L1java/lang/Object;)Lcom/vaadin/v7/data/Property;
+getType
+ (Ljava/lang/Object;)Ljava/lang/Class<*>;
+ (L1java/lang/Object;)Ljava/lang/Class<*>;

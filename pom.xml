@@ -30,6 +30,7 @@
         <module>utils</module>
         <module>core</module>
         <module>vaadin7</module>
+        <module>vaadin8</module>
         <module>doc</module>
     </modules>
 

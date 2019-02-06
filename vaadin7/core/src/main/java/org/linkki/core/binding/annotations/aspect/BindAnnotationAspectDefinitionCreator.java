@@ -14,7 +14,7 @@
 
 package org.linkki.core.binding.annotations.aspect;
 
-import static org.linkki.core.binding.aspect.definition.ApplicableTypeAspectDefinition.ifApplicable;
+import static org.linkki.core.binding.aspect.definition.ApplicableTypeAspectDefinition.ifComponentTypeIs;
 
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.aspect.AspectDefinitionCreator;
@@ -40,16 +40,16 @@ public class BindAnnotationAspectDefinitionCreator implements AspectDefinitionCr
     public LinkkiAspectDefinition create(Bind annotation) {
         EnabledAspectDefinition enabledTypeAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
         return new CompositeAspectDefinition(
-                ifApplicable(
+                ifComponentTypeIs(
                         AbstractSelect.class,
                         new AvailableValuesAspectDefinition(annotation.availableValues())),
                 enabledTypeAspectDefinition,
                 new RequiredAspectDefinition(annotation.required(), enabledTypeAspectDefinition),
                 new VisibleAspectDefinition(annotation.visible()),
-                ifApplicable(AbstractField.class, new FieldValueAspectDefinition()),
-                ifApplicable(AbstractField.class, new ReadOnlyAspectDefinition()),
-                ifApplicable(Label.class, new LabelValueAspectDefinition()),
-                ifApplicable(Button.class, new ButtonInvokeAspectDefinition()));
+                ifComponentTypeIs(AbstractField.class, new FieldValueAspectDefinition()),
+                ifComponentTypeIs(AbstractField.class, new ReadOnlyAspectDefinition()),
+                ifComponentTypeIs(Label.class, new LabelValueAspectDefinition()),
+                ifComponentTypeIs(Button.class, new ButtonInvokeAspectDefinition()));
     }
 
 }

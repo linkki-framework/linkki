@@ -14,48 +14,20 @@
 
 package org.linkki.core.binding.aspect.definition;
 
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.util.handler.Handler;
 
 /**
  * Wraps a {@link LinkkiAspectDefinition} that will only be called if the {@link ComponentWrapper} wraps
  * a Component of type {@code<T>}.
  */
-public class ApplicableTypeAspectDefinition implements LinkkiAspectDefinition {
-
-    private final LinkkiAspectDefinition wrappedAspectDefinition;
-    private final Class<?> applicableType;
+public class ApplicableTypeAspectDefinition extends ApplicableAspectDefinition {
 
     private ApplicableTypeAspectDefinition(LinkkiAspectDefinition wrappedAspectDefinition, Class<?> applicableType) {
-        this.wrappedAspectDefinition = wrappedAspectDefinition;
-        this.applicableType = applicableType;
+        super(wrappedAspectDefinition, w -> applicableType.isInstance(w.getComponent()));
     }
 
-    public static ApplicableTypeAspectDefinition ifApplicable(Class<?> applicableType,
+    public static ApplicableTypeAspectDefinition ifComponentTypeIs(Class<?> applicableType,
             LinkkiAspectDefinition wrappedAspectDefinition) {
         return new ApplicableTypeAspectDefinition(wrappedAspectDefinition, applicableType);
-    }
-
-    @Override
-    public void initModelUpdate(PropertyDispatcher propertyDispatcher,
-            ComponentWrapper componentWrapper,
-            Handler modelUpdated) {
-        if (isApplicableFor(componentWrapper)) {
-            wrappedAspectDefinition.initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated);
-        }
-    }
-
-    @Override
-    public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        if (isApplicableFor(componentWrapper)) {
-            return wrappedAspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper);
-        } else {
-            return Handler.NOP_HANDLER;
-        }
-    }
-
-    private boolean isApplicableFor(ComponentWrapper componentWrapper) {
-        return applicableType.isInstance(componentWrapper.getComponent());
     }
 }

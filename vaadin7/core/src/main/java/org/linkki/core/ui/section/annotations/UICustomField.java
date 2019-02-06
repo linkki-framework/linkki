@@ -13,7 +13,7 @@
  */
 package org.linkki.core.ui.section.annotations;
 
-import static org.linkki.core.binding.aspect.definition.ApplicableTypeAspectDefinition.ifApplicable;
+import static org.linkki.core.binding.aspect.definition.ApplicableTypeAspectDefinition.ifComponentTypeIs;
 import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
 import static org.linkki.core.ui.section.annotations.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
@@ -93,7 +93,7 @@ public @interface UICustomField {
 
         @Override
         public LinkkiAspectDefinition create(UICustomField annotation) {
-            return ifApplicable(AbstractSelect.class,
+            return ifComponentTypeIs(AbstractSelect.class,
                                 new AvailableValuesAspectDefinition(annotation.content()));
         }
 

@@ -107,7 +107,7 @@ public interface ItemCaptionProvider<T> {
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
                 throw new IllegalStateException(
-                        "Can't get value from method " + value.getClass() + "#" + methodName + " of " + value);
+                        "Can't get value from method " + value.getClass() + "#" + methodName + " of " + value, e);
             }
         }
 
