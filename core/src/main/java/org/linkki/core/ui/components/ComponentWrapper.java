@@ -23,8 +23,6 @@ import org.linkki.core.message.MessageList;
  * This interface provides the most common API for a component in linkki. Besides the actual UI
  * component, additional components such as a label may be wrapped together for binding. It's encouraged
  * to use a specific implementation rather than using the base class.
- * 
- * @see LabelComponentWrapper
  */
 public interface ComponentWrapper extends Serializable {
 

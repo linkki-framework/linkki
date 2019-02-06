@@ -26,12 +26,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.message.ObjectProperty;
 import org.linkki.core.message.Severity;
-import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -100,7 +100,7 @@ public class BehaviorDependentDispatcherTest {
     public void testNonConsensus_writable() {
         when(behaviorProvider.getBehaviors()).thenReturn(Arrays.asList(PropertyBehavior.writable(() -> false)));
         when(behaviorDispatcher.getBoundObject()).thenReturn(mock(Object.class));
-        assertThat(behaviorDispatcher.isPushable(Aspect.of(FieldValueAspectDefinition.NAME)), is(false));
+        assertThat(behaviorDispatcher.isPushable(Aspect.of(LinkkiAspectDefinition.VALUE_ASPECT_NAME)), is(false));
     }
 
     @Test

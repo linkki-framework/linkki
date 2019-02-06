@@ -18,7 +18,6 @@ import java.util.Locale;
 import java.util.stream.Stream;
 
 import org.linkki.core.ui.components.ComponentWrapperFactory;
-import org.linkki.util.StreamUtil;
 
 public class TestUiFramework implements UiFrameworkExtension {
 
@@ -49,8 +48,8 @@ public class TestUiFramework implements UiFrameworkExtension {
 
     @Override
     public Stream<?> getChildComponents(Object uiComponent) {
-        if (uiComponent instanceof Iterable<?>) {
-            return StreamUtil.stream((Iterable<?>)uiComponent);
+        if (uiComponent instanceof TestUiLayoutComponent) {
+            return ((TestUiLayoutComponent)uiComponent).getChildren().stream();
         } else {
             return Stream.empty();
         }

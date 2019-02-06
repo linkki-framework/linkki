@@ -23,15 +23,6 @@
             <version>1.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <optional>true</optional>
-        </dependency>
         <!-- Needed to run tests using VaadinSession -->
         <dependency>
             <groupId>javax.servlet</groupId>

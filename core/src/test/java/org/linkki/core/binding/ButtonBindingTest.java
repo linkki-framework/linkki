@@ -25,19 +25,16 @@ import java.util.Arrays;
 import org.junit.Test;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.ui.TestComponentWrapper;
+import org.linkki.core.ui.TestUiComponent;
 import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mockito;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
 
 @SuppressWarnings("null")
 public class ButtonBindingTest {
 
-    private Label label = spy(new Label());
-    private Button button = spy(new Button());
+    private TestUiComponent button = spy(new TestUiComponent());
 
     private ElementBinding binding;
     private PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
@@ -49,7 +46,7 @@ public class ButtonBindingTest {
         Object pmo = mock(Object.class);
         when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
 
-        binding = new ElementBinding(new LabelComponentWrapper(label, button), propertyDispatcher,
+        binding = new ElementBinding(new TestComponentWrapper(button), propertyDispatcher,
                 context::modelChanged,
                 Arrays.asList(aspectDefinition));
         context.add(binding);

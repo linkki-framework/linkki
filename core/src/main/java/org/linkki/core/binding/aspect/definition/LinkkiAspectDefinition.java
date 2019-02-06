@@ -35,59 +35,66 @@ import org.linkki.util.handler.Handler;
  * <p>
  * Looking deeper into the aspects in detail you see two directions of data flow:
  * <p>
- * Firstly, there might be a change in the UI field, for example a user has changed the text. From
- * point of view of the UI this leads to a push aspect because the value needs to be pushed to the
- * model. To support this case, the aspect definition needs to register an appropriate listener at
- * the UI component and react on changes. When a change occurs the aspect definition needs to
- * specify how to get the value from of the component and hand it over to
- * {@link PropertyDispatcher#push(Aspect)}. The method {@link PropertyDispatcher#push(Aspect)} is
- * responsible for writing the value to the bound model. Afterwards the aspect definition needs to
- * apply a given {@link Handler} that triggers the UI update in the {@link BindingContext}.
+ * Firstly, there might be a change in the UI field, for example a user has changed the text. From point
+ * of view of the UI this leads to a push aspect because the value needs to be pushed to the model. To
+ * support this case, the aspect definition needs to register an appropriate listener at the UI
+ * component and react on changes. When a change occurs the aspect definition needs to specify how to
+ * get the value from of the component and hand it over to {@link PropertyDispatcher#push(Aspect)}. The
+ * method {@link PropertyDispatcher#push(Aspect)} is responsible for writing the value to the bound
+ * model. Afterwards the aspect definition needs to apply a given {@link Handler} that triggers the UI
+ * update in the {@link BindingContext}.
  * <p>
- * Secondly, the UI will be updated upon changes in model. This is called a pull-aspect because the
- * data is pulled from model. Corresponding to the previous example this is the value of the
- * component in the first place but there are a lot of other pull-aspects like "enabled", "visible",
- * "required", "available values" that could also be bound. To do so, the aspect definition provides
- * a {@link Handler} that is triggered when an UI update is requested. In this handler
+ * Secondly, the UI will be updated upon changes in model. This is called a pull-aspect because the data
+ * is pulled from model. Corresponding to the previous example this is the value of the component in the
+ * first place but there are a lot of other pull-aspects like "enabled", "visible", "required",
+ * "available values" that could also be bound. To do so, the aspect definition provides a
+ * {@link Handler} that is triggered when an UI update is requested. In this handler
  * {@link PropertyDispatcher#pull(Aspect)} is asked for the aspect value as described below in
  * {@link #createUiUpdater(PropertyDispatcher, ComponentWrapper)}. The value that is returned by
  * {@link PropertyDispatcher#pull(Aspect)} has to be set in the component. That means the aspect
  * definition describes which aspect value should be set in the component.
  * <p>
- * Because there might be many different sources for an aspect value, the aspect definition always
- * has to ask the {@link PropertyDispatcher} for the correct value. For example, the read-only
- * aspect might be defined (static) for a text field to be writable. However there could be a
+ * Because there might be many different sources for an aspect value, the aspect definition always has
+ * to ask the {@link PropertyDispatcher} for the correct value. For example, the read-only aspect might
+ * be defined (static) for a text field to be writable. However there could be a
  * {@link PropertyDispatcher} that overrules this value because the UI might be in a browse mode.
  * Therefore it is always important to specify the correct name of an aspect and call
- * {@link PropertyDispatcher#pull(Aspect)} even if it already contains a value. On the other hand
- * there might be a visible aspect that has no specified value, that means it is derived
- * dynamically. To give the {@link PropertyDispatcher} a hint how to resolve the value, the aspect
- * needs a name. This name might be used as suffix of a method that is called by the
- * {@link ReflectionPropertyDispatcher}. For example a dynamic visible aspect for the property
- * "address" might look for a method called "isAddressVisible()". This leads to the specification of
- * an {@link Aspect} which has the following properties:
+ * {@link PropertyDispatcher#pull(Aspect)} even if it already contains a value. On the other hand there
+ * might be a visible aspect that has no specified value, that means it is derived dynamically. To give
+ * the {@link PropertyDispatcher} a hint how to resolve the value, the aspect needs a name. This name
+ * might be used as suffix of a method that is called by the {@link ReflectionPropertyDispatcher}. For
+ * example a dynamic visible aspect for the property "address" might look for a method called
+ * "isAddressVisible()". This leads to the specification of an {@link Aspect} which has the following
+ * properties:
  * <ul>
  * <li>An optional value</li>
  * <li>A name that describes the kind of aspect</li>
  * </ul>
  * <p>
- * The aspect definition always creates an {@link Aspect} with a name and optionally with a value.
- * The value might be read from the field annotation for example. But the aspect definition should
- * not use the value directly as long as it might be changed by a property dispatcher. The
- * {@link PropertyDispatcher} is responsible to return either the value, a dynamic value by calling
- * a method, or to return any other value depending on other context.
+ * The aspect definition always creates an {@link Aspect} with a name and optionally with a value. The
+ * value might be read from the field annotation for example. But the aspect definition should not use
+ * the value directly as long as it might be changed by a property dispatcher. The
+ * {@link PropertyDispatcher} is responsible to return either the value, a dynamic value by calling a
+ * method, or to return any other value depending on other context.
  * <p>
- * A {@link LinkkiAspectDefinition} might be specified with the annotation {@link LinkkiAspect}
- * using a {@link org.linkki.core.binding.aspect.LinkkiAspect.Creator}. The creator reads the
- * properties of the annotation and provides them for the {@link LinkkiAspectDefinition}. The
- * annotation {@link LinkkiAspect} is defined as meta-annotation for example on a UI field
- * annotation.
+ * A {@link LinkkiAspectDefinition} might be specified with the annotation {@link LinkkiAspect} using a
+ * {@link org.linkki.core.binding.aspect.LinkkiAspect.Creator}. The creator reads the properties of the
+ * annotation and provides them for the {@link LinkkiAspectDefinition}. The annotation
+ * {@link LinkkiAspect} is defined as meta-annotation for example on a UI field annotation.
  * <p>
  * A {@link LinkkiAspectDefinition} is instantiated for every property in the PMO. But the same PMO
- * might be used multiple times for example for every row in a table. That means it is not allowed
- * to keep any state about the {@link PropertyDispatcher} or the {@link ComponentWrapper}.
+ * might be used multiple times for example for every row in a table. That means it is not allowed to
+ * keep any state about the {@link PropertyDispatcher} or the {@link ComponentWrapper}.
  */
 public interface LinkkiAspectDefinition {
+
+    /**
+     * This is the name to be used by {@link LinkkiAspectDefinition LinkkiAspectDefinitions} defining an
+     * {@link Aspect} that directly binds the value returned by the annotated method. The name is an
+     * empty String so that the {@code get<Property><Aspect>()} method defaults to the annotated
+     * {@code get<Property>()} method.
+     */
+    public static final String VALUE_ASPECT_NAME = "";
 
     /**
      * This method is called after the aspect was created and is meant to register a listener at the UI

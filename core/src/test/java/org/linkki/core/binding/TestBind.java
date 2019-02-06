@@ -20,20 +20,25 @@ import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.function.Consumer;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.TestBind.TestBindAnnotationAspectDefinitionCreator;
 import org.linkki.core.binding.TestBind.TestBindAnnotationBoundPropertyCreator;
+import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.aspect.definition.StaticModelToUiAspectDefinition;
 import org.linkki.core.binding.property.BoundProperty;
 import org.linkki.core.binding.property.LinkkiBoundProperty;
+import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.components.WrapperType;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.LabelAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 import org.linkki.util.BeanUtils;
 
@@ -126,10 +131,40 @@ public @interface TestBind {
             return new CompositeAspectDefinition(
                     new EnabledAspectDefinition(annotation.enabled()),
                     new VisibleAspectDefinition(annotation.visible()),
-                    new LabelAspectDefinition(annotation.label()),
+                    new TestLabelAspectDefinition(annotation.label()),
                     new TestComponentClickAspectDefinition());
         }
 
     }
+
+    static class TestLabelAspectDefinition extends StaticModelToUiAspectDefinition<@Nullable String> {
+
+        public static final String NAME = "label";
+
+        private final String label;
+
+
+        public TestLabelAspectDefinition(String label) {
+            super();
+            this.label = label;
+        }
+
+        @Override
+        public Aspect<@Nullable String> createAspect() {
+            return Aspect.of(NAME, label);
+        }
+
+        @Override
+        public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+            return l -> componentWrapper.setLabel(l);
+        }
+
+        @Override
+        public boolean supports(WrapperType type) {
+            return WrapperType.COMPONENT.isAssignableFrom(type);
+        }
+
+    }
+
 
 }

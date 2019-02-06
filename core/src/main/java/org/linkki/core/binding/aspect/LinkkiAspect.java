@@ -22,8 +22,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
 
 /**
  * Annotation to add a {@link LinkkiAspectDefinition}. This is a meta-annotation that means it is
@@ -45,11 +45,10 @@ import org.linkki.core.ui.section.PmoBasedSectionFactory;
  * }
  * </pre>
  * 
- * Such annotations could be used within every PMO that is scanned by a {@link PmoBasedSectionFactory}.
- * The {@link PmoBasedSectionFactory} will initialize the binding for this aspect.
  * <p>
  * This annotation can be used multiple times to add different {@link LinkkiAspectDefinition
- * LinkkiAspectDefinitions} to the same annotation.
+ * LinkkiAspectDefinitions} to the same annotation. Alternatively, a {@link CompositeAspectDefinition}
+ * can be used to create multiple aspects.
  * <p>
  * For further information see {@link Aspect} and {@link LinkkiAspectDefinition}.
  */
@@ -73,8 +72,8 @@ public @interface LinkkiAspect {
          * {@link LinkkiAspect}. The annotation may hold information such as a static value or anything
          * necessary for value post processing.
          * <p>
-         * The {@link LinkkiAspectDefinition} is instantiated for every property. That means it is valid to
-         * store the given annotation in a field.
+         * The {@link LinkkiAspectDefinition} is instantiated for every property. That means it is valid
+         * to store the given annotation in a field.
          * 
          * @param annotation the annotation that is annotated with {@link LinkkiAspect}
          * @return the new {@link LinkkiAspectDefinition} initialized with the given annotation

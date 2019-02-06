@@ -21,8 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 
-import com.vaadin.ui.Component;
-
 /**
  * Holds information about a bound UI element (such as the PMO and model property name) and on how to
  * create and display such an UI element.
@@ -48,8 +46,8 @@ public class ElementDescriptor extends BindingDescriptor {
         return getBindingDefinition().position();
     }
 
-    /** Creates a new Vaadin UI component for this UI element. */
-    public Component newComponent() {
+    /** Creates a new UI component for this UI element. */
+    public Object newComponent() {
         return getBindingDefinition().newComponent();
     }
 

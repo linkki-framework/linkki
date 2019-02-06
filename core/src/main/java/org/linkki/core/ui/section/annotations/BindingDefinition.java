@@ -22,8 +22,6 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
 
-import com.vaadin.ui.Component;
-
 /**
  * A common interface for annotations that are used to create and bind UI components in a view generated
  * from an annotated PMO.
@@ -39,7 +37,7 @@ import com.vaadin.ui.Component;
  */
 public interface BindingDefinition {
 
-    Component newComponent();
+    Object newComponent();
 
     /** Mandatory attribute that defines the order in which UI components are displayed */
     int position();
