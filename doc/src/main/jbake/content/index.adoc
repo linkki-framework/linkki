@@ -25,7 +25,7 @@ automate processing, leaving the UI only for those use cases that
 require manual interaction by back-office staff.
 * You prefer to code both domain logic and UI in Java.
 
-You can use *linkki* with https://projects.spring.io/spring-boot/[Spring Boot],
+You can use *linkki* with http://spring.io/projects/spring-boot[Spring Boot],
 Spring inside an application server or pure JEE.
 
 === Conceptual Overview

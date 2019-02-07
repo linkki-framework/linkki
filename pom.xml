@@ -15,6 +15,10 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+    <organization>
+        <name>Faktor Zehn GmbH</name>
+        <url>https://www.faktorzehn.de</url>
+    </organization>
     <developers>
         <developer>
             <name>Faktor Zehn</name>
@@ -39,13 +43,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <m2e.jdt.annotationpath>/linkki/.settings/annotations</m2e.jdt.annotationpath>
         <git.user>${user.name}</git.user>
-        <vaadin.version>7.7.13</vaadin.version>
-        <joda-time.version>2.4</joda-time.version>
+        <vaadin.version>7.7.16</vaadin.version>
+        <joda-time.version>2.10.1</joda-time.version>
         <junit.version>4.12</junit.version>
-        <mockito.version>2.23.4</mockito.version>
-        <commons-lang3.version>3.4</commons-lang3.version>
+        <mockito.version>2.24.0</mockito.version>
+        <commons-lang3.version>3.8.1</commons-lang3.version>
         <doc.user>${user.name}</doc.user>
-        <spotbugs.version>3.1.10</spotbugs.version>
+        <spotbugs.version>3.1.11</spotbugs.version>
+        <checkstyle.version>8.17</checkstyle.version>
         <java.version>1.8</java.version>
     </properties>
 
@@ -91,11 +96,10 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <!-- at the moment we do not check missing javadoc like missing @param or @return -->
-                    <additionalparam>-Xdoclint:accessibility
-                        -Xdoclint:html
-                        -Xdoclint:reference
-                        -Xdoclint:syntax
-                    </additionalparam>
+                    <doclint>accessibility,html,reference,syntax,-missing</doclint>
+                    <links>
+                        <link>http://vaadin.com/api/framework/${vaadin-version}/</link>
+                    </links>
                     <tags>
                         <tag>
                             <name>apiNote</name>
@@ -234,7 +238,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.12</version>
+                            <version>${checkstyle.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -248,7 +252,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.2</version>
+                    <version>0.8.3</version>
                 </plugin>
 
                 <plugin>
@@ -269,7 +273,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.3</version>
+                    <version>3.0.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -279,7 +283,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.2</version>
+                    <version>2.5.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -358,7 +362,7 @@
             <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>org.eclipse.jdt.annotation</artifactId>
-                <version>2.2.0</version>
+                <version>2.2.200</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
