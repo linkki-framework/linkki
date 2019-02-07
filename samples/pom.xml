@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,14 +18,12 @@
 
     <name>Linkki Samples</name>
 
-
     <properties>
         <java.version>1.8</java.version>
         <vaadin.version>7.7.13</vaadin.version>
         <linkki.version>1.0-SNAPSHOT</linkki.version>
         <spotbugs.version>3.1.8</spotbugs.version>
     </properties>
-
 
     <modules>
         <module>getting-started</module>
@@ -36,7 +35,6 @@
         <module>tree-table</module>
     </modules>
 
-
     <dependencyManagement>
         <dependencies>
 
@@ -47,6 +45,7 @@
                 <scope>provided</scope>
             </dependency>
 
+            <!-- tag::vaadin[] -->
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-server</artifactId>
@@ -62,17 +61,20 @@
                 <artifactId>vaadin-themes</artifactId>
                 <version>${vaadin.version}</version>
             </dependency>
+            <!-- end::vaadin[] -->
 
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core</artifactId>
                 <version>${linkki.version}</version>
             </dependency>
+            <!-- tag::linkki-core-vaadin7[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core-vaadin7</artifactId>
                 <version>${linkki.version}</version>
             </dependency>
+            <!-- end::linkki-core-vaadin7[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-application-framework</artifactId>
@@ -116,7 +118,6 @@
 
 
     <build>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -139,7 +140,6 @@
                 <groupId>org.apache.tomee.maven</groupId>
                 <artifactId>tomee-maven-plugin</artifactId>
             </plugin>
-
         </plugins>
         <pluginManagement>
             <plugins>
@@ -181,6 +181,5 @@
         </pluginManagement>
 
     </build>
-
 
 </project>

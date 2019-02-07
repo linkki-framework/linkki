@@ -6,6 +6,6 @@
 [[application-framework]]
 == Application Framework
 
-Next to the binding abilities *linkki* provides a set of useful components that could be used to build business enterprise applications.
+Next to the binding abilities *linkki* provides a set of useful components that can be used to build business enterprise applications.
 
 The use of the application framework is optional.
