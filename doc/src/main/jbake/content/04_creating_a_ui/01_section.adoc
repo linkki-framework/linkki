@@ -16,3 +16,5 @@ If a section contains a table instead of multiple input fields it is called _Tab
 Each HTML element of a section can be accessed via an ID. This can be used, for instance, to identify a section for UI testing. By default the simple name of the class is used as ID. Alternatively the annotation '@SectionID' can be used to specify a method that returns the ID for the section.
 
 A method annotated with '@SectionID' is called exactly once when the section is created. The id remains the same for the duration of the session and is not updated dynamically.
+
+To access the section id, the helper method `Sections.getSectionId(Object)` may be used.

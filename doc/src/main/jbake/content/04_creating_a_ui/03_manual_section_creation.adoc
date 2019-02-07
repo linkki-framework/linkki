@@ -1,0 +1,27 @@
+:jbake-title: Manual Binding With `@Bind`
+:jbake-type: section
+:jbake-status: published
+
+:source-dir: ../../../../../../samples/custom-layout/src/main/java
+:github: https://github.com/linkki-framework/linkki
+:github-tree: {github}/tree/master
+:github-blob: {github}/blob/master
+
+[[manual-section-creation]]
+=== Manual Section Creation
+
+If you do not use a standard `@UISection` or UI layout, you may still use the same mechanisms employed by the {github-blob}/core/src/main/java/org/linkki/core/ui/section/PmoBasedSectionFactory.java[`PmoBasedSectionFactory`] to read UI annotations, create and bind UI components by way of the {github-blob}/core/src/main/java/org/linkki/core/ui/UiElementCreator.java[`UiElementCreator`].
+
+In this example the UI elements of a PMO are directly added to a vaadin `FormLayout`. In this case the @UISection annotation of the PMO is ignored.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/customlayout/FormLayoutCreator.java[tags=FormLayoutCreator-class]
+----
+
+The created `FormLayout` could simply be used with other UI components:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/customlayout/CustomLayoutUI.java[tags=CustomLayoutUI-create]
+----

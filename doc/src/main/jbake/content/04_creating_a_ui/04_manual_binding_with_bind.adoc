@@ -18,7 +18,7 @@ To activate the manual binding the component must be marked with the `@Bind` ann
 * `com.vaadin.ui.Label`
 * `com.vaadin.ui.Button`
 
-Then, the data binding can be created via the {github-blob}/core/src/main/java/org/linkki/core/binding/Binding.java[`Binder`].
+Then, the data binding can be created via the {github-blob}/core/src/main/java/org/linkki/core/binding/Binder.java[`Binder`].
 
 
 .@Bind on Fields
@@ -47,8 +47,9 @@ You can find a sample project with the different binding options on {github-tree
 ====
 Binding summary:
 
-* `@UISection` -> simple and quick template with limited configuration options
-* manual binding -> full control
+* <<pmo-uisection, @UISection>> -> simple and quick template with limited configuration options
+* <<manual-section-creation, UiElementCreator>> -> automated creation and binding of UI components with control over the layout 
+* <<manual-binding, manual binding>> -> full control, but more effort and direct UI framework dependencies
 
 *linkki* uses certain naming conventions. That way sources of errors and refactoring complexity are reduced.
 

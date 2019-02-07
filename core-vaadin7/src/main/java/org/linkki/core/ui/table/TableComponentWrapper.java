@@ -31,7 +31,7 @@ import com.vaadin.ui.TreeTable;
  * 
  * @param <ROW> a class annotated with linkki annotations used as PMO for a row in the table
  */
-public class TableComponentWrapper<@NonNull ROW> extends CaptionComponentWrapper<Table>
+public class TableComponentWrapper<@NonNull ROW> extends CaptionComponentWrapper
         implements ColumnBasedComponentWrapper<ROW> {
 
     private static final long serialVersionUID = 1L;
@@ -41,6 +41,11 @@ public class TableComponentWrapper<@NonNull ROW> extends CaptionComponentWrapper
     public TableComponentWrapper(String id, Table table) {
         super(id, table, COLUMN_BASED_TYPE);
         table.setContainerDataSource(tableContainer);
+    }
+
+    @Override
+    public Table getComponent() {
+        return (Table)super.getComponent();
     }
 
     /**

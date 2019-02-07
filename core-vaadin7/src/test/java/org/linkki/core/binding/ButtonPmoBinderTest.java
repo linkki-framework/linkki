@@ -58,7 +58,7 @@ public class ButtonPmoBinderTest {
     }
 
     private Binding bind(ButtonPmo pmo) {
-        ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
+        ComponentWrapper buttonWrapper = new CaptionComponentWrapper("buttonPmo", button, WrapperType.FIELD);
         return bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
                                    buttonWrapper);
     }

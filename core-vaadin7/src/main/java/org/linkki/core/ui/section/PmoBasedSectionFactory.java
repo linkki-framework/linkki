@@ -15,23 +15,15 @@ package org.linkki.core.ui.section;
 
 import static java.util.Objects.requireNonNull;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Optional;
 
 import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ButtonPmo;
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinder;
-import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.binding.descriptor.ElementDescriptor;
-import org.linkki.core.binding.descriptor.UIAnnotationReader;
 import org.linkki.core.nls.pmo.PmoNlsService;
-import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.ui.UiElementCreator;
 import org.linkki.core.ui.components.LabelComponentWrapper;
-import org.linkki.core.ui.section.annotations.SectionID;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -42,7 +34,6 @@ import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
 import org.linkki.core.ui.table.TableSection;
-import org.linkki.util.BeanUtils;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -94,21 +85,22 @@ public class PmoBasedSectionFactory {
      */
     /* private */ static class SectionBuilder {
 
-        private final Object pmo;
-        private final BindingContext bindingContext;
+        private Object pmo;
+        private BindingContext bindingContext;
 
         public SectionBuilder(Object pmo, BindingContext bindingContext) {
             this.pmo = pmo;
             this.bindingContext = bindingContext;
         }
 
+        @SuppressWarnings("null")
         public AbstractSection createSection() {
-            @Nullable
             UISection sectionDefinition = pmo.getClass().getAnnotation(UISection.class);
 
             SectionLayout layout = sectionDefinition != null ? sectionDefinition.layout() : SectionLayout.COLUMN;
             String caption = PmoNlsService.get()
-                    .getSectionCaption(pmo.getClass(), sectionDefinition != null ? sectionDefinition.caption() : "");
+                    .getSectionCaption(pmo.getClass(),
+                                       sectionDefinition != null ? sectionDefinition.caption() : "");
             boolean closable = sectionDefinition != null ? sectionDefinition.closeable() : false;
             int columns = sectionDefinition != null ? sectionDefinition.columns() : 1;
 
@@ -116,35 +108,27 @@ public class PmoBasedSectionFactory {
                     ? createTableSection(caption, closable)
                     : createBaseSection(layout, caption, closable, columns);
 
-            section.setId(getSectionId());
+            section.setId(Sections.getSectionId(pmo));
             return section;
-        }
-
-        private String getSectionId() {
-            Optional<Method> idMethod = BeanUtils.getMethod(pmo.getClass(),
-                                                            (m) -> m.isAnnotationPresent(SectionID.class));
-            return idMethod.map(this::getIdFromSectionIdMethod).orElse(pmo.getClass().getSimpleName());
-        }
-
-        private String getIdFromSectionIdMethod(Method m) {
-            try {
-                return requireNonNull((String)m.invoke(pmo),
-                                      "The method annotated with @" + SectionID.class.getSimpleName()
-                                              + " must not return null.");
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                throw new LinkkiBindingException(
-                        "Cannot call method to get section ID from " + pmo.getClass().getName() + "#" + m.getName(), e);
-            }
         }
 
         private BaseSection createBaseSection(SectionLayout layout, String caption, boolean closeable, int columns) {
             BaseSection section = createEmptySection(layout, caption, closeable, columns);
-            createUiElements(section);
+            UiElementCreator.createUiElements(pmo,
+                                              bindingContext,
+                                              component -> new LabelComponentWrapper(new Label(), (Component)component))
+                    .forEach(wrapper -> add(section, wrapper));
             return section;
         }
 
+        private void add(BaseSection section, LabelComponentWrapper wrapper) {
+            Label label = wrapper.getLabelComponent().get();
+            Component component = wrapper.getComponent();
+            section.add(component.getId(), label, component);
+        }
+
         private BaseSection createEmptySection(SectionLayout layout, String caption, boolean closeable, int columns) {
-            Optional<Button> editButton = createEditButton(getEditButtonPmo());
+            Optional<Button> editButton = createEditButton(Sections.getEditButtonPmo(pmo));
             switch (layout) {
                 case COLUMN:
                     return new FormSection(caption,
@@ -164,33 +148,8 @@ public class PmoBasedSectionFactory {
             }
         }
 
-        private Optional<ButtonPmo> getEditButtonPmo() {
-            return (pmo instanceof PresentationModelObject) ? ((PresentationModelObject)pmo).getEditButtonPmo()
-                    : Optional.empty();
-        }
-
         private Optional<Button> createEditButton(Optional<ButtonPmo> buttonPmo) {
             return buttonPmo.map(b -> ButtonPmoBinder.createBoundButton(bindingContext, b));
-        }
-
-        private void createUiElements(BaseSection section) {
-            UIAnnotationReader annotationReader = new UIAnnotationReader(pmo.getClass());
-            annotationReader.getUiElements()
-                    .map(elementDescriptors -> elementDescriptors.getDescriptor(pmo))
-                    .forEach(descriptor -> bindUiElement(descriptor, createLabelAndComponent(section, descriptor)));
-        }
-
-        private ComponentWrapper createLabelAndComponent(BaseSection section, ElementDescriptor uiElement) {
-            Component component = (Component)uiElement.newComponent();
-            String pmoPropertyName = uiElement.getPmoPropertyName();
-            Label label = new Label();
-            section.add(pmoPropertyName, label, component);
-            return new LabelComponentWrapper(label, component);
-        }
-
-        private void bindUiElement(ElementDescriptor elementDescriptor, ComponentWrapper componentWrapper) {
-            componentWrapper.setId(elementDescriptor.getPmoPropertyName());
-            bindingContext.bind(pmo, elementDescriptor, componentWrapper);
         }
 
         private TableSection createTableSection(String caption, boolean closable) {

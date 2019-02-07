@@ -150,7 +150,6 @@ public class BinderTest {
     public class TestPmo {
         public static final String PROPERTY_PMO_ATTRIBUTE = "pmoAttribute";
 
-        public static final String METHOD_ON_CLICK = "onClick";
         public static final String PMO_ATTRIBUTE_TOOLTIP = "testPmo";
         public static final String MODEL_ATTRIBUTE_TOOLTIP = "testModel";
 
@@ -160,7 +159,7 @@ public class BinderTest {
         private String modelAttributeTooltip = MODEL_ATTRIBUTE_TOOLTIP;
         private int clickCount;
 
-        public void pmoAttributeClick() {
+        public void pmoAttributeOnClick() {
             clickCount++;
         }
 
@@ -197,7 +196,7 @@ public class BinderTest {
         public static final String PROPERTY_MODEL_ATTRIBUTE = "modelAttribute";
         private int clickCount;
 
-        public void modelAttributeClick() {
+        public void modelAttributeOnClick() {
             clickCount++;
         }
 

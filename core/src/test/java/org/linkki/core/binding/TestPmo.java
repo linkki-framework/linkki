@@ -27,6 +27,7 @@ public class TestPmo {
     public static final String PROPERTY_ENUM_VALUE = "enumValue";
 
     private String value = StringUtils.EMPTY;
+    private String valueTooltip = "abc";
 
     private Object modelObject;
 
@@ -69,7 +70,11 @@ public class TestPmo {
     }
 
     public String getValueTooltip() {
-        return "abc";
+        return valueTooltip;
+    }
+
+    public void setValueTooltip(String valueTooltip) {
+        this.valueTooltip = valueTooltip;
     }
 
     public void setVisible(boolean visible) {

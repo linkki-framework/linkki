@@ -52,7 +52,7 @@ public class ButtonPmoBinder {
         requireNonNull(pmo, "pmo must not be null");
 
         Button button = ComponentFactory.newButton();
-        ComponentWrapper buttonWrapper = new CaptionComponentWrapper<>("buttonPmo", button, WrapperType.FIELD);
+        ComponentWrapper buttonWrapper = new CaptionComponentWrapper("buttonPmo", button, WrapperType.FIELD);
         bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
                             buttonWrapper);
         return button;

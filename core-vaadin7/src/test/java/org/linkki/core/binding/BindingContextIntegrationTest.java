@@ -24,7 +24,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -49,6 +48,7 @@ import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 import org.linkki.core.ui.table.SimpleTablePmo;
 
 import com.vaadin.ui.TextField;
@@ -134,13 +134,14 @@ public class BindingContextIntegrationTest {
     }
 
     @Test
-    public void testBind_BoundComponentsAreMadeImmediate() {
+    public void testBind_WithFieldAspectDefinition_BoundComponentsAreMadeImmediate() {
         TextField field = new TextField();
         BindingDefinition fieldDefintion = mock(BindingDefinition.class);
         when(fieldDefintion.required()).thenReturn(RequiredType.REQUIRED);
         when(fieldDefintion.enabled()).thenReturn(EnabledType.ENABLED);
         when(fieldDefintion.visible()).thenReturn(VisibleType.VISIBLE);
-        ElementDescriptor fieldDescriptor = new ElementDescriptor(fieldDefintion, "value", new ArrayList<>());
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(fieldDefintion, "value",
+                Arrays.asList(new FieldValueAspectDefinition()));
 
         // Precondition
         assertThat(field.isImmediate(), is(false));

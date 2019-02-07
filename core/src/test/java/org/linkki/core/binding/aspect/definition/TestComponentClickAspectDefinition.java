@@ -15,7 +15,6 @@
 package org.linkki.core.binding.aspect.definition;
 
 import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.TestUiComponent;
 import org.linkki.core.ui.components.ComponentWrapper;
@@ -23,7 +22,7 @@ import org.linkki.util.handler.Handler;
 
 public class TestComponentClickAspectDefinition implements LinkkiAspectDefinition {
 
-    public static final String NAME = "click";
+    public static final String NAME = "onClick";
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {

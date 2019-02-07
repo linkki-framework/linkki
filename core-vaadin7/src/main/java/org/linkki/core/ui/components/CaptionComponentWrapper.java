@@ -35,20 +35,22 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  * Although it is common to create this kind of {@link ComponentWrapper} for
  * {@link WrapperType#COMPONENT} the type is not fixed to {@link WrapperType#COMPONENT} and should be as
  * narrow as possible (for example {@link WrapperType#FIELD} or {@link WrapperType#LAYOUT}.
- * 
- * @param <C> the type of {@link Component} adapted by this {@link ComponentWrapper}
  */
-public class CaptionComponentWrapper<C extends Component> implements ComponentWrapper {
+public class CaptionComponentWrapper implements ComponentWrapper {
 
     private static final long serialVersionUID = 1L;
 
-    private final C component;
+    private final Component component;
 
     private WrapperType wrapperType;
 
-    public CaptionComponentWrapper(String id, C component, WrapperType wrapperType) {
+    public CaptionComponentWrapper(Component component, WrapperType wrapperType) {
         this.component = component;
         this.wrapperType = wrapperType;
+    }
+
+    public CaptionComponentWrapper(String id, Component component, WrapperType wrapperType) {
+        this(component, wrapperType);
         component.setId(id);
     }
 
@@ -80,7 +82,7 @@ public class CaptionComponentWrapper<C extends Component> implements ComponentWr
     }
 
     @Override
-    public C getComponent() {
+    public Component getComponent() {
         return component;
     }
 

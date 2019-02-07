@@ -31,7 +31,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Panel;
 
-public class SectionBuilderTest {
+public class Vaadin7SectionBuilderTest {
 
     private BindingContext bindingContext = new BindingContext("testBindingContext");
 

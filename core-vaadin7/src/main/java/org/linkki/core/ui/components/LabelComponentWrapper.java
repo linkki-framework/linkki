@@ -48,11 +48,6 @@ public class LabelComponentWrapper implements ComponentWrapper {
     public LabelComponentWrapper(@Nullable Label label, Component component) {
         this.label = label;
         this.component = component;
-        // Make bound components "immediate", i.e. let them update their PMO as soon as a field is
-        // left, a checkbox is checked etc.
-        if (component instanceof AbstractComponent) {
-            ((AbstractComponent)component).setImmediate(true);
-        }
     }
 
     @Override

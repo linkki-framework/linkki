@@ -25,9 +25,11 @@ public class TestButtonPmo implements ButtonPmo {
 
     private boolean enabled = true;
 
+    private int clickCount;
+
     @Override
     public void onClick() {
-        // Nothing to do
+        clickCount++;
     }
 
     @Override
@@ -57,6 +59,10 @@ public class TestButtonPmo implements ButtonPmo {
     @Override
     public Object getButtonIcon() {
         return null;
+    }
+
+    public int getClickCount() {
+        return clickCount;
     }
 
 }

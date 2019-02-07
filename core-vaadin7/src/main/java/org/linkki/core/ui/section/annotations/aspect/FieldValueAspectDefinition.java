@@ -54,6 +54,10 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
 
         prepareFieldToHandleNullForRequiredFields(field);
         field.setPropertyDataSource(dataSource);
+
+        // Make bound components "immediate", i.e. let them update their PMO as soon as a field is
+        // left, a checkbox is checked etc.
+        field.setImmediate(true);
     }
 
     /**
