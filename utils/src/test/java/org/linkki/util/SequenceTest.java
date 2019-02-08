@@ -60,4 +60,17 @@ public class SequenceTest {
         assertThat(sequence.list().size(), is(2));
         assertThat(sequence.list(), hasItems(DUMMY_ARG, FAKE_ARG));
     }
+
+    @Test
+    public void testToString() {
+        Sequence<Integer> sequence = Sequence.of(1, 2, 3);
+        assertThat(sequence.toString(), is("[1, 2, 3]"));
+    }
+
+    @Test
+    public void testToString_ensureNoNPEifEmpty() {
+        assertThat(Sequence.empty().toString(), is("[]"));
+    }
+
+
 }

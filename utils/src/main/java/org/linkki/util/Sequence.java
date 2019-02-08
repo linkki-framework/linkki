@@ -185,6 +185,11 @@ public class Sequence<T> implements Iterable<T> {
         return list.stream();
     }
 
+    @Override
+    public String toString() {
+        return list.toString();
+    }
+
     /**
      * Creates a {@link Collector} that collects a {@link Stream}'s elements into a {@link Sequence}.
      */
