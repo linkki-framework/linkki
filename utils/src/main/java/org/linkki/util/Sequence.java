@@ -98,7 +98,8 @@ public class Sequence<T> implements Iterable<T> {
      */
     @CheckReturnValue
     public Sequence<T> with(Collection<T> newElements) {
-        ArrayList<T> collection = new ArrayList<>(list);
+        ArrayList<T> collection = new ArrayList<>(list.size() + newElements.size());
+        collection.addAll(list);
         collection.addAll(newElements);
         return new Sequence<>(collection);
     }
@@ -163,9 +164,9 @@ public class Sequence<T> implements Iterable<T> {
     }
 
     /**
-     * Returns the internal list of this {@link Sequence}.
+     * Returns the values/objects in the sequence as unmodifiable list in the order they are added.
      * 
-     * @return a list containing all elements of this sequence
+     * @return an unmodifiable list containing all elements of this sequence.
      */
     public List<T> list() {
         return list;

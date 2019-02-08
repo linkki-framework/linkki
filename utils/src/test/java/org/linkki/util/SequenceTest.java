@@ -20,7 +20,9 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -72,5 +74,27 @@ public class SequenceTest {
         assertThat(Sequence.empty().toString(), is("[]"));
     }
 
+    public void testWith_Collection() {
+        Sequence<String> sequence = Sequence.of(DUMMY_ARG);
+        sequence = sequence.with(Arrays.asList(FAKE_ARG));
+
+        assertThat(sequence.list().size(), is(2));
+        assertThat(sequence.list(), hasItems(DUMMY_ARG, FAKE_ARG));
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testList_returnsUnmodifiableList() {
+        Sequence<String> sequence = Sequence.of(DUMMY_ARG, FAKE_ARG);
+        sequence.list().add("foo");
+    }
+
+    @Test
+    public void testList_returnsValuesInOrderOfSequence() {
+        Sequence<String> sequence = Sequence.of(DUMMY_ARG, FAKE_ARG);
+        List<String> list = sequence.list();
+        assertThat(list.size(), is(2));
+        assertThat(list.get(0), is(DUMMY_ARG));
+        assertThat(list.get(1), is(FAKE_ARG));
+    }
 
 }
