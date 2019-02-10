@@ -22,6 +22,7 @@ import org.junit.Test;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.TextField;
 
 public class SidebarSheetTest {
 
@@ -57,6 +58,12 @@ public class SidebarSheetTest {
         sidebarSheet.select();
 
         assertThat(triggered, is(true));
+    }
+
+    @Test
+    public void testToString() {
+        SidebarSheet sheet = new SidebarSheet(VaadinIcons.ADJUST, "Foo", new TextField());
+        assertThat(sheet.toString(), is("Foo"));
     }
 
     private static SidebarSheet createSideBarSheet(Component content) {

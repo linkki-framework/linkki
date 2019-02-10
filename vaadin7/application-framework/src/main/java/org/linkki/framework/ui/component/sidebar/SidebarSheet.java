@@ -154,4 +154,8 @@ public class SidebarSheet {
         getContent().setVisible(false);
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
