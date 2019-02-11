@@ -23,14 +23,28 @@ OkCancelDialog.builder(caption)
               .build();
 ----
 
-The builder also supports multiple content components to be consistent to the `newOkCancelDialog` method in `PmoBasedDialogFactory`. As the `OkCancelDialog` should now be created using the builder, the existing constructors using a nullable content component are deprecated. A new constructor taking all configurations is provided for overriding. 
+The builder also supports multiple content components to be consistent to the `newOkCancelDialog` method in `PmoBasedDialogFactory`. As the `OkCancelDialog` should now be created using the builder, the existing constructors using a nullable content component are deprecated. A new constructor taking all configurations is provided for overriding.
 
 ==== New creation mechanism of aspects
 
 The creation of <<creating-aspects,linkki aspects>> has changed. Instead of giving the `LinkkiAspectDefinition` implementation class as value for the `@LinkkiAspect` annotation, a `LinkkiAspect.Creator` implementation has to be used now.
 
-This offers the benefit that the `LinkkiAspectDefinitions` do no longer need to depend on the corresponding annotations. The values from the annotations can be passed by the `LinkkiAspect.Creator`. This makes the aspect definitions better testable and allows the use of the same aspect definition with multiple different annotations. The `initialize()` method of the `LinkkiAspectDefinition`, that up to now was called after creation via default constructor, was removed. The values previously read from the annotation in that method should now be read in the `LinkkiAspect.Creator` and passed to the `LinkkiAspectDefinition`'s constructor, thus allowing instantiating aspect definitions from sources other than annotations.
+This offers the benefit that the `LinkkiAspectDefinitions` do no longer need to depend on the corresponding annotations. The values from the annotations can be passed by the `LinkkiAspect.Creator`. This makes the aspect definitions better testable and allows the use of the same aspect definition with multiple different annotations. The `initialize()` method of the `LinkkiAspectDefinition`, that up to now was called after creation via default constructor, was removed. The values previously read from the annotation in that method should now be read in the `LinkkiAspect.Creator` and passed to the `LinkkiAspectDefinition` 's constructor, thus allowing instantiating aspect definitions from sources other than annotations.
 
+===== API Changes
+
+This feature brings several changes in the API:
+
+* Existing `LinkkiAspectDefinitions` can no longer be used in `@LinkkiAspect` directly. It requires an implementation of `LinkkiAspect.Creator` to create the aspect definitions. +
++
+.Reading of the value in the `LinkkiAspect.Creator`
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspectCreator]
+----
+* `initialize(Annotation)` is removed from the `LinkkiAspectDefinition` interface. All necessary information should be directly passed to the constructor instead. +
+Previously, the `initialize` method had the responsibility of reading the relevant attributes from the given annotation. To make the aspect definition more flexible, we recommend moving this responsibility to the creator. The constructor of the aspect definition then directly take the relevant values.
++
 .Previous instantiation of the aspect definition with annotation
 [source,java]
 ----
@@ -42,7 +56,7 @@ This offers the benefit that the `LinkkiAspectDefinitions` do no longer need to 
         this.type = ((BindTooltip)annotation).type();
     }
 ----
-
++
 .New instantiation of the aspect definition with value
 [source,java]
 ----
@@ -52,30 +66,32 @@ This offers the benefit that the `LinkkiAspectDefinitions` do no longer need to 
         this.type = type;
   }
 ----
-
-.Reading of the value in the `LinkkiAspect.Creator`
+* If the existing `LinkkiAspectDefinition` extends `CompositeAspectDefinition`, the definition itself may not be needed any more. Instead, it can be turned into a aspect definition creator that creates a `CompositeAspectDefinition` in the `create(Annotation)` method.
++
+.Creation of a `CompositeAspectDefinition`
 [source,java]
 ----
-include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspectCreator]
+public class MyAspectDefinitionCreator implements LinkkiAspect.Creator<@NonNull MyAnnotation> {
+
+    @Override
+    public LinkkiAspectDefinition create(MyAnnotation annotation) {
+        return new CompositeAspectDefinition(
+                new LabelAspectDefinition(annotation.label()),
+                new VisibleAspectDefinition(annotation.visible()),
+                new FieldValueAspectDefinition(),
+                new ReadOnlyAspectDefinition());
+    }
+}
 ----
+* `FieldAspectDefinition` has been a composite aspect definition for annotations that are annotated with `@LinkkiBindingDefinition`. This class is now removed as it is directly created as a composite aspect definition in `FieldAspectDefinitionCreator`. If you want to reuse this aspect definition, you can use the creator directly with `@LinkkiAspect(FieldAspectDefinitionCreator.class)` on you annotation class. Other aspects that are specific to you annotation can then be added in a separate `@LinkkiAspect` annotation.
 
-==== `ContainerPmo` as bound object of @UITableColumn attributes
+==== Binding of aspects in `ContainerPmo`
 
-We made a major refactoring concerning the internal handling of tables and columns. All properties of a table column (like label, width, expand ratio, collapsible) are now handled using <<creating-aspects,linkki aspects>>. With this refactoring these properties are real bindings now. Although these bindings are not dynamic (at the moment) we decided to use the `ContainerPmo` as bound object. That means:
+The items, page length, and footer of a table are now bound to the `ContainerPmo` 's existing methods `getItems()`, `getPageLength()`, and `getFooterPmo()` using aspects. Consequently, `getFooterPmo()` is now bound fully dynamically. This fixes a previous bug that the footer is not removed dynamically once created.
 
-  * The key for translated column labels is no longer created using the row PMO but the `ContainerPmo`. *You need to change existing translation keys in you linkki-messages.properties files*
-  * If you create (or we in the future) a dynamic aspect binding the corresponding method must be defined in the `ContainerPmo` instead of in the PMO of the row.
+==== Binding of labels as an aspect
 
-WARNING: If you are translating the label of the columns with `linkki-messages.properties` files, you must change the existing translation keys to the class name of the container PMO. +
-Assume that there is an entry with the key `TestRowPmo_name_label` for the property `name` in `TestRowPmo` which is used in `TestTablePmo` as row PMO. This key be changed to `TestTablePmo_name_label`.
-
-The items, page length, and footer of a table are also bound via aspects to the `ContainerPmo`'s existing methods `getItems()`, `getPageLength()`, and `getFooterPmo()`. This is just an internal reorganization that requires no changes in client code.
-
-TIP: `getFooterPmo` is now bound fully dynamically. This fixes a previous bug that the footer is not removed dynamically once created.
-
-==== Aspect for labels
-
-The label is not bound using aspects. If you have created a custom component that does *not* use the common `FieldAspectDefinition` you might need to add the new `LabelAspectDefinition` to your component.
+The label is now bound using the aspect `LabelAspectDefinition`. If you have created a custom annotation that does *not* use the common `FieldAspectDefinition` you might need to add the new `LabelAspectDefinition` to your annotation.
 
 ==== `label` now mandatory in UI annotations
 
