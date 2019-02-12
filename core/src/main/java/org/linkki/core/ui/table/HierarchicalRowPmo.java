@@ -16,12 +16,9 @@ package org.linkki.core.ui.table;
 
 import java.util.List;
 
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TreeTable;
-
 /**
- * If you use an implementation of this interface with a {@link ContainerPmo}, the created
- * {@link TableSection} will contain a {@link TreeTable} instead of a regular {@link Table}.
+ * Marks a row PMO used in a {@link ContainerPmo} as hierarchical. This may lead to a UI that
+ * shows/hides child rows below their parents.
  * 
  * @param <R> the type of the child row presentation model objects of this row PMO
  */

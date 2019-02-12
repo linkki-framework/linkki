@@ -5,9 +5,10 @@
 
 == Creation Of A UI With linkki
 
-*linkki* offers two ways to create a UI:
+*linkki* offers three ways to create a UI:
 
 1. <<pmo-uisection, via `@UISection` on the PMO>>
-2. <<manual-binding, manual binding via `@Bind`>>
+2. <<manual-section-creation, with a UiElementCreator for more layout control>> 
+3. <<manual-binding, manual binding via `@Bind`>>
 
-In the first case a so called _Section_ is generated, in which UI elements are arranged. The second option leaves the creation of UI elements entirely to the developer.
+In the first case a so called _Section_ is generated, in which UI elements are arranged while the second only automates the element creation but allows a free layout. The third option leaves the creation of UI elements entirely to the developer.

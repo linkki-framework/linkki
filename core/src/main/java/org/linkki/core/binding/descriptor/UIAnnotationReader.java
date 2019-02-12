@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.descriptor;
 
@@ -38,15 +38,14 @@ import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.util.BeanUtils;
 
 /**
- * Reads UIField annotations, e.g. {@link UITextField}, {@link UIComboBox}, etc. from a given
+ * Reads UI field annotations, e.g. {@code @UITextField}, {@code @UIComboBox}, etc. from a given
  * object's class.
  * <p>
- * Provides a set of {@link ElementDescriptor} for all found properties via {@link #getUiElements()}
+ * Provides a set of {@link ElementDescriptor ElementDescriptors} for all found properties via
+ * {@link #getUiElements()}
  */
 public class UIAnnotationReader {
 

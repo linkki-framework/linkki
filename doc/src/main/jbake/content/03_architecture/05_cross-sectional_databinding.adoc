@@ -9,7 +9,7 @@
 [[cross-sectional-binding]]
 === Cross-Sectional Data Binding
 
-Although the state of the UI can be mostly defined by information from PMOs and the domain model, it sometimes must be additionaly influenced by other factors, such as system state, for instance. These factors are dealt with via _cross-sectional data binding_.
+Although the state of the UI can be mostly defined by information from PMOs and the domain model, it sometimes must be additionally influenced by other factors, such as system state, for instance. In *linkki* we call this concept _cross-sectional data binding_ because it influences the data binding of multiple fields in a cross-sectional way.
 
 A good example for such aspects is the "browse mode". Many applications distinguish between:
 

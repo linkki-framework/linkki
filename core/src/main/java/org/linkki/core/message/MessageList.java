@@ -32,8 +32,6 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.validation.ValidationMarker;
 
-import com.vaadin.server.ErrorMessage.ErrorLevel;
-
 /**
  * A list of {@link Message Messages}.
  */
@@ -42,7 +40,6 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
     private static final long serialVersionUID = 1557794794967025627L;
 
     private final List<@NonNull Message> messages;
-
 
     /**
      * Creates a message list that contains the given {@link Message message(s)}.
@@ -113,17 +110,17 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
     }
 
     /**
-     * Searches the <strong>first</strong> {@link Message} with the given {@link ErrorLevel}. If no such
+     * Searches the <strong>first</strong> {@link Message} with the given {@link Severity}. If no such
      * {@link Message} exists, an empty {@link Optional} will be returned.
      *
-     * @param errorLevel {@link ErrorLevel} to search for
+     * @param errorLevel {@link Severity} to search for
      * 
-     * @return the <strong>first</strong> {@link Message} with the given {@link ErrorLevel} or
-     *         {@link Optional#empty()} if no {@link Message} with the given {@link ErrorLevel} exists.
+     * @return the <strong>first</strong> {@link Message} with the given {@link Severity} or
+     *         {@link Optional#empty()} if no {@link Message} with the given {@link Severity} exists.
      */
-    public Optional<Message> getFirstMessage(ErrorLevel errorLevel) {
+    public Optional<Message> getFirstMessage(Severity errorLevel) {
         return messages.stream()
-                .filter(m -> m.getErrorLevel() == errorLevel)
+                .filter(m -> m.getSeverity() == errorLevel)
                 .findFirst();
     }
 
@@ -164,21 +161,20 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
     }
 
     /**
-     * Returns the maximum {@link ErrorLevel} of this {@link MessageList}. If this {@link MessageList
+     * Returns the maximum {@link Severity} of this {@link MessageList}. If this {@link MessageList
      * list} {@link #isEmpty()}, {@link Optional#empty()} will be returned.
      * <p>
      * For Example:<br>
-     * A {@link MessageList} contains 2 {@link Message messages}.<br>
-     * One with {@link ErrorLevel#INFORMATION} and one with {@link ErrorLevel#ERROR}.<br>
-     * {@code getErrorLevel()} returns {@link ErrorLevel#ERROR}.
+     * A {@link MessageList} contains two {@link Message messages}, one with {@link Severity#INFORMATION} and
+     * one with {@link Severity#ERROR}. In this case, this method returns {@link Severity#ERROR}.
      *
-     * @return the {@link MessageList message list's} maximum {@link ErrorLevel} or
+     * @return the {@link MessageList message list's} maximum {@link Severity} or
      *         {@link Optional#empty()}.
      */
-    public Optional<ErrorLevel> getErrorLevel() {
+    public Optional<Severity> getSeverity() {
         return messages.stream()
-                .map(Message::getErrorLevel)
-                .max(Comparator.comparing(ErrorLevel::intValue));
+                .map(Message::getSeverity)
+                .max(Comparator.comparing(Severity::ordinal));
     }
 
     /**
@@ -192,16 +188,16 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
     public String getText() {
         return messages.stream()
                 .map(Message::getText)
-                .collect(Collectors.joining(System.lineSeparator()));
+                .collect(Collectors.joining("\n"));
     }
 
     /**
      * @return {@code true} if one of the {@link Message messages} in this list is has the
-     *         {@link ErrorLevel#ERROR}, otherwise {code false}.
+     *         {@link Severity#ERROR}, otherwise {code false}.
      */
     public boolean containsErrorMsg() {
         return messages.stream()
-                .anyMatch(m -> m.getErrorLevel() == ErrorLevel.ERROR);
+                .anyMatch(m -> m.getSeverity() == Severity.ERROR);
     }
 
     /**
@@ -339,21 +335,21 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
 
     /**
      * Returns a new {@link MessageList} containing the same {@link Message NlsText} as this list,
-     * sorted by descending {@link ErrorLevel}. Within each error level the previous order is preserved.
+     * sorted by descending {@link Severity}. Within each error level the previous order is preserved.
      */
-    public MessageList sortByErrorLevel() {
+    public MessageList sortBySeverity() {
         return messages.stream()
-                .sorted(Comparator.comparing(Message::getErrorLevel).reversed())
+                .sorted(Comparator.comparing(Message::getSeverity).reversed())
                 .collect(collector());
     }
 
     /**
-     * @return the <strong>first</strong> {@link Message} with the highest {@link ErrorLevel} or
+     * @return the <strong>first</strong> {@link Message} with the highest {@link Severity} or
      *         {@link Optional#empty()} if this list is {@link #isEmpty()}
      */
-    public Optional<Message> getMessageWithHighestErrorLevel() {
+    public Optional<Message> getMessageWithHighestSeverity() {
         return messages.stream()
-                .sorted(Comparator.comparing(Message::getErrorLevel).reversed())
+                .sorted(Comparator.comparing(Message::getSeverity).reversed())
                 .findFirst();
     }
 

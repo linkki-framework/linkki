@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 
 package org.linkki.core.binding.property;
@@ -53,15 +53,16 @@ public final class BoundPropertyAnnotationReader {
     }
 
     /**
-     * Returns the {@link BoundProperty} which is instantiated using the {@link BoundPropertyCreator} from the
-     * {@link LinkkiBoundProperty @LinkkiBoundProperty} annotation found at any annotation of the
-     * {@code annotatedElement}. Before calling this method it is useful to check whether there is such
-     * an annotation using {@link #isBoundPropertyPresent(AnnotatedElement)}.
+     * Returns the {@link BoundProperty} which is instantiated using the {@link BoundPropertyCreator}
+     * from the {@link LinkkiBoundProperty @LinkkiBoundProperty} annotation found at any annotation of
+     * the {@code annotatedElement}. Before calling this method it is useful to check whether there is
+     * such an annotation using {@link #isBoundPropertyPresent(AnnotatedElement)}.
      * 
      * @param annotatedElement the element which describes the {@link BoundProperty}
      * @return the {@link BoundProperty} described by the annotated element
      * @throws IllegalArgumentException if there is either no or more than one annotation annotated with
-     *             {@link LinkkiBoundProperty @LinkkiBoundProperty}
+     *             {@link LinkkiBoundProperty @LinkkiBoundProperty} or if the
+     *             {@link BoundPropertyCreator} can't be created or create a {@link BoundProperty}.
      */
     public static BoundProperty getBoundProperty(AnnotatedElement annotatedElement) {
         return getAnnotationWithBoundPropertyDefinition(annotatedElement)

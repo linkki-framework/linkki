@@ -14,6 +14,7 @@
 
 package org.linkki.core.binding.aspect;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
@@ -21,12 +22,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
 
 /**
- * Annotation to add a {@link LinkkiAspectDefinition}. This is a meta-annotation that means it is
- * applied on another annotation which should be used in client code, for example a PMO class. This
+ * {@link Annotation} to add a {@link LinkkiAspectDefinition}. This is a meta-annotation that means it
+ * is applied on another annotation which should be used in client code, for example a PMO class. This
  * might be a UI field annotation but could also be a new annotation that simply defines one aspect
  * binding.
  * <p>
@@ -44,11 +45,10 @@ import org.linkki.core.ui.section.PmoBasedSectionFactory;
  * }
  * </pre>
  * 
- * Such annotations could be used within every PMO that is scanned by a {@link PmoBasedSectionFactory}.
- * The {@link PmoBasedSectionFactory} will initialize the binding for this aspect.
  * <p>
  * This annotation can be used multiple times to add different {@link LinkkiAspectDefinition
- * LinkkiAspectDefinitions} to the same annotation.
+ * LinkkiAspectDefinitions} to the same annotation. Alternatively, a {@link CompositeAspectDefinition}
+ * can be used to create multiple aspects.
  * <p>
  * For further information see {@link Aspect} and {@link LinkkiAspectDefinition}.
  */

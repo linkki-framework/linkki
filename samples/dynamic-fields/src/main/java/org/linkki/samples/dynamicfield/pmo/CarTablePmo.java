@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.samples.dynamicfield.pmo;
 
@@ -17,7 +17,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
+import org.linkki.core.ButtonPmoBuilder;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.SimpleItemSupplier;
@@ -26,13 +28,13 @@ import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.util.handler.Handler;
 
 @UISection(caption = "Cars")
-public class CarTablePmo implements ContainerPmo<CarRowPmo>, Serializable {
+public class CarTablePmo implements ContainerPmo<@NonNull CarRowPmo>, Serializable {
 
     private static final long serialVersionUID = 8770409786960309300L;
 
 
     private final Handler addCarAction;
-    private final SimpleItemSupplier<CarRowPmo, Car> items;
+    private final SimpleItemSupplier<@NonNull CarRowPmo, @NonNull Car> items;
 
     // tag::table-footer[]
     private final TableFooterPmo footer;
@@ -52,7 +54,7 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo>, Serializable {
 
     @Override
     public Optional<ButtonPmo> getAddItemButtonPmo() {
-        return Optional.of(ButtonPmo.newAddButton(addCarAction));
+        return Optional.of(ButtonPmoBuilder.newAddButton(addCarAction));
     }
 
     @Override
@@ -70,17 +72,14 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo>, Serializable {
 
         switch (column) {
             case Car.PROPERTY_RETENTION:
-
                 return String.format("%,.2f", cars.stream()
                         .mapToDouble(Car::getRetention)
                         .sum());
 
             case Car.PROPERTY_CAR_TYPE:
-
                 return "Total Retention:";
 
             default:
-
                 return "";
         }
     }

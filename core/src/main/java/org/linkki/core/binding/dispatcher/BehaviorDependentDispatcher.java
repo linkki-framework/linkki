@@ -18,9 +18,9 @@ import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 
 import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 
 /**
@@ -96,7 +96,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
 
     @Override
     public <T> boolean isPushable(Aspect<T> aspect) {
-        if (aspect.getName().equals(FieldValueAspectDefinition.NAME)
+        if (aspect.getName().equals(LinkkiAspectDefinition.VALUE_ASPECT_NAME)
                 && !isConsensus(b -> b.isWritable(requireNonNull(getBoundObject()), getProperty()))) {
             return false;
         } else {

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.table;
 
@@ -24,20 +24,15 @@ import org.apache.commons.lang3.reflect.TypeUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.section.annotations.UITableColumn;
-
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TreeTable;
 
 /**
  * A container of PMOs that has itself the role of a PMO for table controls (and maybe for other
  * controls displaying a set of objects).
  * 
- * @param <ROW> a PMO class annotated with linkki {@code @UI~} annotations and optionally
- *            {@link UITableColumn @UITableColumn}. May implement {@link HierarchicalRowPmo} to
- *            create a hierarchical {@link TreeTable}.
+ * @param <ROW> a PMO class annotated with linkki annotations for fields and/or table columns. May
+ *            implement {@link HierarchicalRowPmo} to create a hierarchical table.
  * 
- * @implSpec if you want to create a {@link TreeTable}, either your PMO class must implement
+ * @implSpec if you want to create a hierarchical table, either your PMO class must implement
  *           {@link HierarchicalRowPmo} or you must override {@link #isHierarchical()} to return
  *           {@code true} and have only the no-leave-nodes implement {@link HierarchicalRowPmo}
  */
@@ -106,16 +101,13 @@ public interface ContainerPmo<@NonNull ROW> {
      * 
      * @implNote Default is 15 to activate the paging mechanism.
      * @implSpec Return 0 to deactivate table paging.
-     * 
-     * @see Table#setPageLength(int)
      */
     default int getPageLength() {
         return DEFAULT_PAGE_LENGTH;
     }
 
     /**
-     * Returns whether the data contained in this container is hierarchical, which results in the
-     * {@link Table} created from this {@link ContainerPmo} being a {@link TreeTable}.
+     * Returns whether the data contained in this container is hierarchical.
      * 
      * @implNote The default implementation checks whether the generic PMO class implements
      *           {@link HierarchicalRowPmo}.

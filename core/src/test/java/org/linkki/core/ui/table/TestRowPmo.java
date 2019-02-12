@@ -11,48 +11,26 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
+
 package org.linkki.core.ui.table;
 
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.UIButton;
-import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.binding.TestEnum;
+import org.linkki.core.binding.TestPmo;
+import org.linkki.core.ui.section.annotations.TestUIField;
 
-public class TestRowPmo {
+public class TestRowPmo extends TestPmo {
 
-    public static final String PROPERTY_VALUE_1 = "value1";
-    public static final String PROPERTY_VALUE_2 = "value2";
-    public static final String PROPERTY_VALUE_3 = "value3";
-    public static final String PROPERTY_DELETE = "delete";
-
-    private final Object modelObject = new Object();
-
-    @UITableColumn(width = 100, collapsible = CollapseMode.COLLAPSIBLE)
-    @UITextField(position = 0, label = "1")
-    public String getValue1() {
-        return "1";
+    @TestUIField(position = 10, label = "val")
+    @Override
+    public String getValue() {
+        return super.getValue();
     }
 
-    @UITableColumn(expandRatio = 2.0f, collapsible = CollapseMode.INITIALLY_COLLAPSED)
-    @UITextField(position = 1, label = "2")
-    public String getValue2() {
-        return "2";
+    @TestUIField(position = 20, label = "enum")
+    @Override
+    public TestEnum getEnumValue() {
+        return super.getEnumValue();
     }
 
-    @UITextField(position = 2, label = "3")
-    public String getValue3() {
-        return "3";
-    }
-
-    @UIButton(position = 3)
-    public void delete() {
-        // does nothing
-    }
-
-    @ModelObject
-    public Object getModelObject() {
-        return modelObject;
-    }
 
 }

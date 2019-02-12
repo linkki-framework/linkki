@@ -23,6 +23,7 @@ import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.Page;
@@ -32,7 +33,6 @@ import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
@@ -62,10 +62,10 @@ import com.vaadin.ui.themes.ValoTheme;
  *           <p>
  *           To validate the data in the dialog or give the user warning or information messages, set a
  *           validation service via ({@link #setValidationService(ValidationService)}). The first
- *           message with the highest {@link com.vaadin.server.ErrorMessage.ErrorLevel ErrorLevel}
- *           reported during the validation via the {@link ValidationService#getValidationMessages()} is
- *           displayed at the bottom of the dialog, between its content and the OK and cancel buttons.
- *           (see {@link MessageList#getFirstMessage(ErrorMessage.ErrorLevel)})
+ *           message with the highest {@link Severity} reported during the validation via the
+ *           {@link ValidationService#getValidationMessages()} is displayed at the bottom of the dialog,
+ *           between its content and the OK and cancel buttons. (see
+ *           {@link MessageList#getFirstMessage(Severity)})
  */
 public class OkCancelDialog extends Window {
 
@@ -359,7 +359,9 @@ public class OkCancelDialog extends Window {
     public MessageList validate() {
         MessageList messages = validationDisplayState.filter(getValidationService().getValidationMessages());
         messageRow.ifPresent(contentArea::removeComponent);
-        messages.getErrorLevel().flatMap(messages::getFirstMessage).ifPresent(this::addMessageRow);
+        messages.getSeverity()
+                .flatMap(messages::getFirstMessage)
+                .ifPresent(this::addMessageRow);
         mayProceed = !messages.containsErrorMsg();
         okButton.setEnabled(mayProceed);
         return messages;

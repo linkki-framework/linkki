@@ -16,7 +16,7 @@ package org.linkki.core.nls.pmo;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.nls.NlsService;
-import org.linkki.core.ui.util.UiUtil;
+import org.linkki.core.ui.UiFramework;
 
 /**
  * PMO NLS service using a {@link PmoBundleNameGenerator} to derive bundle names with which a
@@ -62,7 +62,7 @@ public class DefaultPmoNlsService implements PmoNlsService {
                 .getString(bundleNameGenerator.getBundleName(requireNonNull(pmoClass, "pmoClass must not be null")),
                            key,
                            requireNonNull(fallbackValue, "fallbackValue must not be null"),
-                           UiUtil.getUiLocale());
+                           UiFramework.getLocale());
     }
 
     private static String getBundleName(Class<?> pmoClass) {

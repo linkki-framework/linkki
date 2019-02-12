@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.components;
 
@@ -20,21 +20,18 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.Nullable;
 
-import com.vaadin.ui.AbstractSelect;
-
 /**
- * An {@link ItemCaptionProvider} is used to get the caption for an item in an
- * {@link AbstractSelect}.
+ * An {@link ItemCaptionProvider} is used to get the caption for an item in a selection UI component
+ * like a combo box.
  * <p>
  * Due to the current VAADIN implementation we cannot be fully type safe.
  * <p>
- * We provide two three default implementations:
+ * We provide three default implementations:
  * <ul>
  * <li>{@link DefaultCaptionProvider} calls a method {@code getName()} on the value object.</li>
- * <li>{@link ToStringCaptionProvider} simply uses the object's {@link Object#toString()} method.
- * </li>
- * <li>{@link IdAndNameCaptionProvider} calls the methods {@code getName()} and {@code getId()} on
- * the value object and returns a caption in the format "name [id]".</li>
+ * <li>{@link ToStringCaptionProvider} simply uses the object's {@link Object#toString()} method.</li>
+ * <li>{@link IdAndNameCaptionProvider} calls the methods {@code getName()} and {@code getId()} on the
+ * value object and returns a caption in the format "name [id]".</li>
  * </ul>
  */
 @FunctionalInterface
@@ -59,8 +56,8 @@ public interface ItemCaptionProvider<T> {
 
     /**
      * This is the unsafe version of {@link #getCaption(Object)}. The framework will only call this
-     * method because vaadin only handles the type {@link Object} in {@link AbstractSelect}. When
-     * implementing this interface you could ignore this method because it simply delegates to
+     * method because the type is not necessarily known in the UI selection component. When implementing
+     * this interface you could ignore this method because it simply delegates to
      * {@link #getCaption(Object)} which is the type-safe variant for you. However, if anybody does
      * something nasty we would get a ClassCastException right here.
      * 

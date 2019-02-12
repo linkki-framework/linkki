@@ -22,27 +22,23 @@ import static org.mockito.Mockito.verify;
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.linkki.core.binding.ElementBindingTest.TestModelObject;
-import org.linkki.core.binding.ElementBindingTest.TestPmo;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.property.BoundProperty;
-import org.linkki.core.ui.components.CaptionComponentWrapper;
+import org.linkki.core.ui.TestComponentWrapper;
+import org.linkki.core.ui.TestUiComponent;
 import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.components.WrapperType;
 import org.linkki.util.handler.Handler;
-
-import com.vaadin.ui.TextField;
 
 public class ContainerBindingTest {
 
     @Test
     public void testModelChanged_IsForwardedToParent() {
         BindingContext bindingContext = spy(new BindingContext());
-        ComponentWrapper componentWrapper = new CaptionComponentWrapper<>("", new TextField(), WrapperType.COMPONENT);
-        ContainerBinding<?> binding = bindingContext.bindContainer(new TestPmo(new TestModelObject()),
-                                                                   BoundProperty.of("test"), Arrays.asList(),
-                                                                   componentWrapper);
+        ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
+        ContainerBinding binding = bindingContext.bindContainer(new TestPmo(new TestModelObject()),
+                                                                BoundProperty.of("test"), Arrays.asList(),
+                                                                componentWrapper);
 
         binding.modelChanged();
 
@@ -52,7 +48,7 @@ public class ContainerBindingTest {
     @Test
     public void testUpdateFromPmo_InitialUpdated() {
         BindingContext bindingContext = new BindingContext();
-        ComponentWrapper componentWrapper = new CaptionComponentWrapper<>("", new TextField(), WrapperType.COMPONENT);
+        ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         TestAspectDef testAspectDef = new TestAspectDef();
 
         bindingContext.bindContainer(new TestPmo(new TestModelObject()),
@@ -65,7 +61,7 @@ public class ContainerBindingTest {
     @Test
     public void testUpdateFromPmo_ManuallyUpdated() {
         BindingContext bindingContext = new BindingContext();
-        ComponentWrapper componentWrapper = new CaptionComponentWrapper<>("", new TextField(), WrapperType.COMPONENT);
+        ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         TestAspectDef testAspectDef = new TestAspectDef();
 
         bindingContext.bindContainer(new TestPmo(new TestModelObject()),
@@ -81,14 +77,14 @@ public class ContainerBindingTest {
     @Test
     public void testUpdateFromPmo_ContainerBindingBeforeChildren() {
         BindingContext bindingContext = new BindingContext();
-        ComponentWrapper componentWrapper = new CaptionComponentWrapper<>("", new TextField(), WrapperType.COMPONENT);
+        ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         TestAspectDef testAspectDef = new TestAspectDef();
         TestDependantAspectDef testDependantAspectDef = new TestDependantAspectDef(testAspectDef);
 
-        ContainerBinding<?> binding = bindingContext.bindContainer(new Object(),
-                                                                   BoundProperty.of("test"),
-                                                                   Arrays.asList(testAspectDef),
-                                                                   componentWrapper);
+        ContainerBinding binding = bindingContext.bindContainer(new Object(),
+                                                                BoundProperty.of("test"),
+                                                                Arrays.asList(testAspectDef),
+                                                                componentWrapper);
         binding.bind(new Object(), BoundProperty.of("test2"), Arrays.asList(testDependantAspectDef), componentWrapper);
 
         assertThat(testAspectDef.triggered, is(true));
@@ -105,13 +101,13 @@ public class ContainerBindingTest {
     @Test
     public void testModelChanged() {
         BindingContext bindingContext = new BindingContext();
-        ComponentWrapper componentWrapper = new CaptionComponentWrapper<>("", new TextField(), WrapperType.COMPONENT);
+        ComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
         TestAspectDef testAspectDef = new TestAspectDef();
 
-        ContainerBinding<?> binding = bindingContext.bindContainer(new Object(),
-                                                                   BoundProperty.of("test"),
-                                                                   Arrays.asList(testAspectDef),
-                                                                   componentWrapper);
+        ContainerBinding binding = bindingContext.bindContainer(new Object(),
+                                                                BoundProperty.of("test"),
+                                                                Arrays.asList(testAspectDef),
+                                                                componentWrapper);
         testAspectDef.triggered = false;
         binding.modelChanged();
 

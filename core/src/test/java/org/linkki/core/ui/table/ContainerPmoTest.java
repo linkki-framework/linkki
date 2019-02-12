@@ -26,7 +26,7 @@ public class ContainerPmoTest {
 
     @Test
     public void testGetItemPmoClass() {
-        TestTablePmo testTablePmo = new TestTablePmo();
+        TestContainerPmo testTablePmo = new TestContainerPmo();
 
         Class<?> itemPmoClass = testTablePmo.getItemPmoClass();
 

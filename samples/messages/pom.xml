@@ -44,7 +44,7 @@
 
         <dependency>
             <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-core</artifactId>
+            <artifactId>linkki-core-vaadin7</artifactId>
         </dependency>
     </dependencies>
 

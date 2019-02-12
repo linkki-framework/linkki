@@ -4,6 +4,7 @@
 
 :base-dir: ../../../../../../samples/getting-started
 :tree-sample-dir: ../../../../../../samples/tree-table
+:sample-parent-dir: ../../../../../../samples
 
 [[project-setup]]
 === Project Setup
@@ -13,7 +14,7 @@
 To start this project, you need
 
  * Java 8
- * your favourite Java IDE
+ * your favorite Java IDE
  * Maven
  * a modern browser
  
@@ -23,7 +24,14 @@ Apart from *linkki* we require Vaadin as dependency:
 
 [source,xml]
 ----
-include::{base-dir}/pom.xml[]
+include::{sample-parent-dir}/pom.xml[tags=vaadin]
+----
+
+And the matching UI framework dependent *linkki* module:
+
+[source,xml]
+----
+include::{sample-parent-dir}/pom.xml[tags=linkki-core-vaadin7]
 ----
 
 In the above example, we are creating a web application that is packaged as `war`, as it is needed for the <<linkki-example, linkki example>>.

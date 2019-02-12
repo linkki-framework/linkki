@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section.annotations;
 
@@ -22,24 +22,22 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
 
-import com.vaadin.ui.Component;
-
 /**
- * A common interface for annotations that are used to create and bind UI components in a view
- * generated from an annotated PMO.
+ * A common interface for annotations that are used to create and bind UI components in a view generated
+ * from an annotated PMO.
  * <p>
- * As annotations can't implement an interface, the {@link UIAnnotationReader} is used to get
- * definition instances for the annotated methods of a (PMO) class.
+ * As annotations can't implement an interface, the {@link UIAnnotationReader} is used to get definition
+ * instances for the annotated methods of a (PMO) class.
  * <p>
- * The static methods {@link #isLinkkiBindingDefinition(Annotation)} and {@link #from(Annotation)}
- * can be used to check annotations and create {@link BindingDefinition} instances from them.
+ * The static methods {@link #isLinkkiBindingDefinition(Annotation)} and {@link #from(Annotation)} can
+ * be used to check annotations and create {@link BindingDefinition} instances from them.
  * 
  * @see UIAnnotationReader
  * @see LinkkiBindingDefinition
  */
 public interface BindingDefinition {
 
-    Component newComponent();
+    Object newComponent();
 
     /** Mandatory attribute that defines the order in which UI components are displayed */
     int position();

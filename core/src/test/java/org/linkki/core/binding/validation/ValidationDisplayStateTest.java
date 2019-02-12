@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.validation;
 
@@ -23,9 +23,8 @@ import org.junit.Test;
 import org.linkki.core.matcher.MessageMatchers;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 import org.linkki.util.validation.ValidationMarker;
-
-import com.vaadin.server.ErrorMessage.ErrorLevel;
 
 public class ValidationDisplayStateTest {
 
@@ -33,9 +32,9 @@ public class ValidationDisplayStateTest {
     public void testFilter() {
         ValidationMarker mandatoryFieldMarker = () -> true;
         ValidationMarker nonMandatoryFieldMarker = () -> false;
-        Message m1 = Message.builder("m1", ErrorLevel.ERROR).markers(mandatoryFieldMarker).create();
-        Message m2 = Message.builder("m2", ErrorLevel.ERROR).markers(nonMandatoryFieldMarker).create();
-        Message m3 = Message.builder("m3", ErrorLevel.ERROR).create();
+        Message m1 = Message.builder("m1", Severity.ERROR).markers(mandatoryFieldMarker).create();
+        Message m2 = Message.builder("m2", Severity.ERROR).markers(nonMandatoryFieldMarker).create();
+        Message m3 = Message.builder("m3", Severity.ERROR).create();
         MessageList messages = new MessageList(m1, m2, m3);
 
         assertThat(SHOW_ALL.filter(messages), contains(m1, m2, m3));

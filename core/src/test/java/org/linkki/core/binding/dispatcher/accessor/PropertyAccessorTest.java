@@ -1,24 +1,23 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.dispatcher.accessor;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.linkki.test.matcher.Matchers.assertThat;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -71,8 +70,8 @@ public class PropertyAccessorTest {
     @Test
     public void testConstructorWrongProperty() {
         PropertyAccessor<Object, ?> propertyAccessor = new PropertyAccessor<>(Object.class, "doesNotExist");
-        assertFalse(propertyAccessor.canRead());
-        assertFalse(propertyAccessor.canWrite());
+        assertThat((propertyAccessor.canRead()), is(false));
+        assertThat((propertyAccessor.canWrite()), is(false));
     }
 
     @SuppressWarnings({ "null", "unused" })
@@ -98,7 +97,7 @@ public class PropertyAccessorTest {
         Object testObject2 = new TestObject();
         PropertyAccessor<Object, Object> accessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.BOOLEAN_PROPERTY);
-        assertTrue((Boolean)accessor.getPropertyValue(testObject2));
+        assertThat(accessor.getPropertyValue(testObject2), is(true));
         accessor.setPropertyValue(testObject2, true);
     }
 
@@ -116,8 +115,8 @@ public class PropertyAccessorTest {
         TestObject testObject2 = new TestObject();
         PropertyAccessor<TestObject, Long> propertyAccessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.READ_ONLY_LONG_PROPERTY);
-        assertFalse(propertyAccessor.canWrite());
-        assertTrue(propertyAccessor.canRead());
+        assertThat((propertyAccessor.canWrite()), is(false));
+        assertThat(propertyAccessor.canRead());
         Long propertyValue = propertyAccessor.getPropertyValue(testObject2);
         assertEquals(42, propertyValue.longValue());
     }

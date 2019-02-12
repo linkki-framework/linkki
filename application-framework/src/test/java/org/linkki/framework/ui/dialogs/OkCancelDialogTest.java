@@ -36,6 +36,7 @@ import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 import org.linkki.framework.ui.application.LinkkiUi;
 import org.linkki.framework.ui.application.TestApplicationConfig;
 import org.linkki.framework.ui.component.MessageRow;
@@ -44,7 +45,6 @@ import org.linkki.util.StreamUtil;
 import org.linkki.util.handler.Handler;
 import org.linkki.util.validation.ValidationMarker;
 
-import com.vaadin.server.ErrorMessage.ErrorLevel;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
@@ -221,7 +221,7 @@ public class OkCancelDialogTest {
     @Test
     public void testValidate_FiltersMessages() {
         ValidationMarker mandatoryFieldMarker = () -> true;
-        Message message = Message.builder("error", ErrorLevel.ERROR).markers(mandatoryFieldMarker).create();
+        Message message = Message.builder("error", Severity.ERROR).markers(mandatoryFieldMarker).create();
         MessageList messages = new MessageList(message);
         ValidationService validationService = ValidationService.of(messages);
 

@@ -17,7 +17,7 @@ The goal is to create a simple user interface for reporting errors. The report s
 * Improvement
 * Question
 
-The report can only be submited if a description has been entered and a type was selected.
+The report can only be submitted if a description has been entered and a type was selected.
 
 image::{images}{images-folder-name}/report_enabled.png[]
 

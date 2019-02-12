@@ -49,8 +49,8 @@ public class ContactsTableComponent extends Panel implements UiUpdateObserver {
     }
 
     private void createContent(Consumer<Contact> editAction) {
-        table = new PmoBasedTableFactory<>(
-                new ContactTablePmo(contactStorage, editAction, contactStorage::remove), context).createTable();
+        table = new PmoBasedTableFactory(new ContactTablePmo(contactStorage, editAction, contactStorage::remove),
+                context).createTable();
 
         noContentLabel = new VerticalLayout(new Label("No contacts available"));
         noContentLabel.setMargin(true);
