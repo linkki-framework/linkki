@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.binding.aspect.LinkkiAspect.Creator;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 
 /**
@@ -48,12 +47,12 @@ public class AspectAnnotationReader {
                 .collect(Collectors.toList());
     }
 
-    protected static <ASPECT_ANNOTATION extends Annotation, UI_ANNOTATION extends Annotation> List<Class<? extends LinkkiAspect.Creator<UI_ANNOTATION>>> getAspectDefinitionClasses(
+    protected static <ASPECT_ANNOTATION extends Annotation, UI_ANNOTATION extends Annotation> List<Class<? extends AspectDefinitionCreator<UI_ANNOTATION>>> getAspectDefinitionClasses(
             ASPECT_ANNOTATION annotation) {
         return Arrays.asList(annotation.annotationType().getAnnotationsByType(LinkkiAspect.class)).stream()
                 .map(aspectAnnotation -> {
                     @SuppressWarnings("unchecked")
-                    Class<? extends Creator<UI_ANNOTATION>> creatorClass = (Class<? extends Creator<UI_ANNOTATION>>)aspectAnnotation
+                    Class<? extends AspectDefinitionCreator<UI_ANNOTATION>> creatorClass = (Class<? extends AspectDefinitionCreator<UI_ANNOTATION>>)aspectAnnotation
                             .value();
                     return creatorClass;
                 })
@@ -61,10 +60,10 @@ public class AspectAnnotationReader {
     }
 
     private static <UI_ANNOTATION extends Annotation> LinkkiAspectDefinition instantiateDefinition(
-            Class<? extends Creator<UI_ANNOTATION>> aspectDefCreatorClass,
+            Class<? extends AspectDefinitionCreator<UI_ANNOTATION>> aspectDefCreatorClass,
             UI_ANNOTATION uiAnnotation) {
         try {
-            Creator<UI_ANNOTATION> aspectDefCreator = aspectDefCreatorClass.newInstance();
+            AspectDefinitionCreator<UI_ANNOTATION> aspectDefCreator = aspectDefCreatorClass.newInstance();
             return aspectDefCreator.create(uiAnnotation);
         } catch (InstantiationException | IllegalAccessException e) {
             throw new LinkkiBindingException(

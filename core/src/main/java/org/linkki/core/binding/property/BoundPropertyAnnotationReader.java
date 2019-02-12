@@ -21,7 +21,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.binding.property.LinkkiBoundProperty.Creator;
 
 /**
  * Reads the annotation {@link LinkkiBoundProperty @LinkkiBoundProperty}.
@@ -54,7 +53,7 @@ public final class BoundPropertyAnnotationReader {
     }
 
     /**
-     * Returns the {@link BoundProperty} which is instantiated using the {@link Creator} from the
+     * Returns the {@link BoundProperty} which is instantiated using the {@link BoundPropertyCreator} from the
      * {@link LinkkiBoundProperty @LinkkiBoundProperty} annotation found at any annotation of the
      * {@code annotatedElement}. Before calling this method it is useful to check whether there is such
      * an annotation using {@link #isBoundPropertyPresent(AnnotatedElement)}.
@@ -69,7 +68,7 @@ public final class BoundPropertyAnnotationReader {
                 .map(a -> createBoundProperty(annotatedElement, a))
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format("%s has no annotation that defines a %s", annotatedElement,
-                                      LinkkiBoundProperty.Creator.class.getName())));
+                                      BoundPropertyCreator.class.getName())));
     }
 
     private static Optional<Annotation> getAnnotationWithBoundPropertyDefinition(AnnotatedElement annotatedElement) {
@@ -78,7 +77,7 @@ public final class BoundPropertyAnnotationReader {
                 .reduce((a, b) -> {
                     throw new IllegalArgumentException(
                             String.format("%s has more than one annotation that defines a %s", annotatedElement,
-                                          LinkkiBoundProperty.Creator.class.getName()));
+                                          BoundPropertyCreator.class.getName()));
                 });
     }
 
@@ -88,13 +87,13 @@ public final class BoundPropertyAnnotationReader {
         LinkkiBoundProperty boundPropertyAnnotation = a.annotationType().getAnnotation(LinkkiBoundProperty.class);
         try {
             @SuppressWarnings("unchecked")
-            LinkkiBoundProperty.Creator<T> boundPropertyCreator = (Creator<T>)boundPropertyAnnotation.value()
+            BoundPropertyCreator<T> boundPropertyCreator = (BoundPropertyCreator<T>)boundPropertyAnnotation.value()
                     .newInstance();
             return boundPropertyCreator.createBoundProperty(a, annotatedElement);
         } catch (InstantiationException | IllegalAccessException e) {
             throw new IllegalArgumentException(
                     String.format("Cannot instantiate %s for %s",
-                                  LinkkiBoundProperty.Creator.class.getName(), annotatedElement),
+                                  BoundPropertyCreator.class.getName(), annotatedElement),
                     e);
         }
     }

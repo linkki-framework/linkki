@@ -18,9 +18,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.ui.section.annotations.UITableColumn.TableColumnAspectDefinitionCreator;
 import org.linkki.core.ui.table.column.aspect.ColumnCollapseAspectDefinition;
 import org.linkki.core.ui.table.column.aspect.ColumnExpandRatioAspectDefinition;
 import org.linkki.core.ui.table.column.aspect.ColumnWidthAspectDefinition;
@@ -39,7 +41,7 @@ import com.vaadin.ui.Table;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiAspect(UITableColumn.AspectCreator.class)
+@LinkkiAspect(TableColumnAspectDefinitionCreator.class)
 public @interface UITableColumn {
 
     static final int UNDEFINED_WIDTH = -1;
@@ -109,7 +111,7 @@ public @interface UITableColumn {
         }
     }
 
-    static class AspectCreator implements LinkkiAspect.Creator<UITableColumn> {
+    static class TableColumnAspectDefinitionCreator implements AspectDefinitionCreator<UITableColumn> {
 
         @Override
         public LinkkiAspectDefinition create(UITableColumn annotation) {

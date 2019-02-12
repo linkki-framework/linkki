@@ -41,7 +41,7 @@ public class UITableColumnAspectCreatorTest {
         @SuppressWarnings("null")
         @NonNull
         UITableColumn annotation = method.getAnnotation(UITableColumn.class);
-        return new UITableColumn.AspectCreator().create(annotation);
+        return new UITableColumn.TableColumnAspectDefinitionCreator().create(annotation);
     }
 
     private static class TestClassWithAnnotations {

@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.container.LinkkiInMemoryContainer;
@@ -120,11 +120,11 @@ public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
     }
 
     /**
-     * {@link org.linkki.core.binding.aspect.LinkkiAspect.Creator} that creates a special kind of
+     * {@link org.linkki.core.binding.aspect.AspectDefinitionCreator} that creates a special kind of
      * {@link AvailableValuesAspectDefinition} where the configured {@link AvailableValuesType} is
      * always {@link AvailableValuesType#ENUM_VALUES_INCL_NULL}.
      */
-    public static class EnumValuesInclNullCreator implements LinkkiAspect.Creator<Annotation> {
+    public static class EnumValuesInclNullCreator implements AspectDefinitionCreator<Annotation> {
 
         @Override
         public LinkkiAspectDefinition create(Annotation annotation) {
@@ -134,11 +134,11 @@ public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
     }
 
     /**
-     * {@link org.linkki.core.binding.aspect.LinkkiAspect.Creator} that creates a special kind of
+     * {@link org.linkki.core.binding.aspect.AspectDefinitionCreator} that creates a special kind of
      * {@link AvailableValuesAspectDefinition} where the configured {@link AvailableValuesType} is
      * always {@link AvailableValuesType#DYNAMIC}.
      */
-    public static class DynamicCreator implements LinkkiAspect.Creator<Annotation> {
+    public static class DynamicCreator implements AspectDefinitionCreator<Annotation> {
 
         @Override
         public LinkkiAspectDefinition create(Annotation annotation) {

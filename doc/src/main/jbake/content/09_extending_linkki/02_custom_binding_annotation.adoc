@@ -20,7 +20,7 @@ include::{source-dir-binding-sample}/java/org/linkki/samples/binding/annotation/
 }
 ----
 
-The custom annotation class must be annotated with another annotation called `@LinkkiBoundProperty` which provides a `BoundProperty`. A `BoundProperty` is necessary as it describes which property in the PMO and the business model should be bound to the annotated component. `@LinkkiBoundProperty` provides the `BoundProperty` by defining a creator Class that implements the interface `LinkkiBoundProperty.Creator`. This creator must have a default constructor that can be later called by the *linkki* framework to create a `BoundProperty`.
+The custom annotation class must be annotated with another annotation called `@LinkkiBoundProperty` which provides a `BoundProperty`. A `BoundProperty` is necessary as it describes which property in the PMO and the business model should be bound to the annotated component. `@LinkkiBoundProperty` provides the `BoundProperty` by defining a creator Class that implements the interface `BoundPropertyCreator`. This creator must have a default constructor that can be later called by the *linkki* framework to create a `BoundProperty`.
 
 In the example, the `@BindValue` annotation defines the `BindValueAnnotationBoundPropertyCreator` as its `@LinkkiBoundProperty`:
 

@@ -14,7 +14,6 @@
 
 package org.linkki.core.binding.aspect;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
@@ -59,28 +58,6 @@ import org.linkki.core.ui.section.PmoBasedSectionFactory;
 @Target(ElementType.ANNOTATION_TYPE)
 public @interface LinkkiAspect {
 
-    Class<? extends Creator<?>> value();
-
-    /**
-     * Implementations of this interface describe how the configured {@link LinkkiAspectDefinition} is
-     * created. The implementation must have a default constructor which will be called while reading
-     * the annotations of a PMO class.
-     */
-    interface Creator<T extends Annotation> {
-
-        /**
-         * Creates the aspect definition by providing the annotation that was annotated with
-         * {@link LinkkiAspect}. The annotation may hold information such as a static value or anything
-         * necessary for value post processing.
-         * <p>
-         * The {@link LinkkiAspectDefinition} is instantiated for every property. That means it is valid to
-         * store the given annotation in a field.
-         * 
-         * @param annotation the annotation that is annotated with {@link LinkkiAspect}
-         * @return the new {@link LinkkiAspectDefinition} initialized with the given annotation
-         */
-        LinkkiAspectDefinition create(T annotation);
-
-    }
+    Class<? extends AspectDefinitionCreator<?>> value();
 
 }

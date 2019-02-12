@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section.annotations;
 
@@ -22,12 +22,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.ui.section.annotations.UICheckBox.CheckBoxCaptionAspectCreator;
+import org.linkki.core.ui.section.annotations.UICheckBox.CheckBoxCaptionAspectDefinitionCreator;
 import org.linkki.core.ui.section.annotations.adapters.CheckboxBindingDefinition;
-import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 
 /**
  * In accordance to {@link com.vaadin.ui.CheckBox}, bound to a boolean property.
@@ -35,7 +36,7 @@ import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CheckboxBindingDefinition.class)
-@LinkkiAspect(CheckBoxCaptionAspectCreator.class)
+@LinkkiAspect(CheckBoxCaptionAspectDefinitionCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 public @interface UICheckBox {
 
@@ -85,7 +86,7 @@ public @interface UICheckBox {
      */
     String modelAttribute() default "";
 
-    class CheckBoxCaptionAspectCreator implements LinkkiAspect.Creator<UICheckBox> {
+    class CheckBoxCaptionAspectDefinitionCreator implements AspectDefinitionCreator<UICheckBox> {
 
         @Override
         public LinkkiAspectDefinition create(UICheckBox annotation) {

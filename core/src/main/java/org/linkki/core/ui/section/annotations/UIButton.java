@@ -21,9 +21,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.ui.section.annotations.UIButton.UIButtonAspectDefinitionCreator;
 import org.linkki.core.ui.section.annotations.adapters.ButtonBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
@@ -41,7 +43,7 @@ import com.vaadin.server.FontAwesome;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(ButtonBindingDefinition.class)
-@LinkkiAspect(UIButton.AspectCreator.class)
+@LinkkiAspect(UIButtonAspectDefinitionCreator.class)
 public @interface UIButton {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -99,7 +101,7 @@ public @interface UIButton {
     /**
      * Aspect definition for {@link UIButton} annotation.
      */
-    class AspectCreator implements LinkkiAspect.Creator<UIButton> {
+    class UIButtonAspectDefinitionCreator implements AspectDefinitionCreator<UIButton> {
 
         @Override
         public LinkkiAspectDefinition create(UIButton annotation) {

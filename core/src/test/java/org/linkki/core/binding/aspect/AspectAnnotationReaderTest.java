@@ -119,7 +119,7 @@ public class AspectAnnotationReaderTest {
         // not used
     }
 
-    public static class TestAspectDefinitionCreator implements LinkkiAspect.Creator<Annotation> {
+    public static class TestAspectDefinitionCreator implements AspectDefinitionCreator<Annotation> {
 
         @Override
         public LinkkiAspectDefinition create(Annotation annotation) {
@@ -128,7 +128,7 @@ public class AspectAnnotationReaderTest {
 
     }
 
-    public static class AnotherTestAspectDefinitionCreator implements LinkkiAspect.Creator<Annotation> {
+    public static class AnotherTestAspectDefinitionCreator implements AspectDefinitionCreator<Annotation> {
 
         @Override
         public LinkkiAspectDefinition create(Annotation annotation) {

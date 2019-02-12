@@ -20,9 +20,9 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.lang3.Validate;
+import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.table.ContainerPmo;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.server.FontAwesome;

@@ -78,7 +78,7 @@ import org.linkki.util.handler.Handler;
  * a method, or to return any other value depending on other context.
  * <p>
  * A {@link LinkkiAspectDefinition} might be specified with the annotation {@link LinkkiAspect}
- * using a {@link org.linkki.core.binding.aspect.LinkkiAspect.Creator}. The creator reads the
+ * using a {@link org.linkki.core.binding.aspect.AspectDefinitionCreator}. The creator reads the
  * properties of the annotation and provides them for the {@link LinkkiAspectDefinition}. The
  * annotation {@link LinkkiAspect} is defined as meta-annotation for example on a UI field
  * annotation.

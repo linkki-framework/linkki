@@ -20,11 +20,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
-
 import org.apache.commons.lang3.Validate;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.message.MessageList;
+
+import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
 /**
  * Manages a set of {@link BindingContext}s that are effected by each other.

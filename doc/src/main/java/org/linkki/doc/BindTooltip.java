@@ -20,8 +20,10 @@ import java.lang.annotation.Target;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.NonNull;
+import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.doc.BindTooltip.BindTooltipAspectDefintionCreator;
 import org.linkki.doc.BindTooltipAspectDefinition.TooltipType;
 
 // tag::BindTooltip[]
@@ -29,7 +31,7 @@ import org.linkki.doc.BindTooltipAspectDefinition.TooltipType;
 @Target(value = { ElementType.METHOD })
 // end::BindTooltip[]
 // tag::BindTooltipLinkkiAspect[]
-@LinkkiAspect(BindTooltip.AspectCreator.class)
+@LinkkiAspect(BindTooltipAspectDefintionCreator.class)
 // tag::BindTooltip[]
 public @interface BindTooltip {
     // end::BindTooltipLinkkiAspect[]
@@ -40,7 +42,7 @@ public @interface BindTooltip {
     // end::BindTooltip[]
 
     // tag::BindTooltipLinkkiAspectCreator[]
-    class AspectCreator implements LinkkiAspect.Creator<@NonNull BindTooltip> {
+    class BindTooltipAspectDefintionCreator implements AspectDefinitionCreator<@NonNull BindTooltip> {
 
         @Override
         public LinkkiAspectDefinition create(BindTooltip annotation) {

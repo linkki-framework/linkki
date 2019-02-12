@@ -17,7 +17,7 @@ package org.linkki.core.binding.annotations.aspect;
 import static org.linkki.core.binding.aspect.definition.ApplicableTypeAspectDefinition.ifApplicable;
 
 import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
@@ -34,7 +34,7 @@ import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 
-public class BindAnnotationAspectDefinitionCreator implements LinkkiAspect.Creator<Bind> {
+public class BindAnnotationAspectDefinitionCreator implements AspectDefinitionCreator<Bind> {
 
     @Override
     public LinkkiAspectDefinition create(Bind annotation) {

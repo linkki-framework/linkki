@@ -23,9 +23,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.ui.section.annotations.UICustomField.AvailableValuesAspectCreator;
+import org.linkki.core.ui.section.annotations.UICustomField.CustomFieldAvailableValuesAspectDefinitionCreator;
 import org.linkki.core.ui.section.annotations.adapters.CustomFieldBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
@@ -43,7 +44,7 @@ import com.vaadin.ui.Field;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CustomFieldBindingDefinition.class)
-@LinkkiAspect(AvailableValuesAspectCreator.class)
+@LinkkiAspect(CustomFieldAvailableValuesAspectDefinitionCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 public @interface UICustomField {
 
@@ -88,7 +89,7 @@ public @interface UICustomField {
      */
     Class<? extends Field<?>> uiControl();
 
-    class AvailableValuesAspectCreator implements LinkkiAspect.Creator<UICustomField> {
+    class CustomFieldAvailableValuesAspectDefinitionCreator implements AspectDefinitionCreator<UICustomField> {
 
         @Override
         public LinkkiAspectDefinition create(UICustomField annotation) {

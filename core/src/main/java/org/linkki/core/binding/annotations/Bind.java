@@ -27,6 +27,7 @@ import org.linkki.core.binding.annotations.Bind.BindAnnotationBoundPropertyCreat
 import org.linkki.core.binding.annotations.aspect.BindAnnotationAspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.property.BoundProperty;
+import org.linkki.core.binding.property.BoundPropertyCreator;
 import org.linkki.core.binding.property.LinkkiBoundProperty;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.EnabledType;
@@ -105,7 +106,7 @@ public @interface Bind {
      * {@link Bind#modelAttribute() modelAttribute} attributes. If the {@link Bind#pmoProperty()
      * pmoProperty} is not set, the annotated field/method's name is used.
      */
-    class BindAnnotationBoundPropertyCreator implements LinkkiBoundProperty.Creator<Bind> {
+    class BindAnnotationBoundPropertyCreator implements BoundPropertyCreator<Bind> {
 
         @Override
         public BoundProperty createBoundProperty(Bind annotation, AnnotatedElement annotatedElement) {

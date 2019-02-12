@@ -22,11 +22,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
-import org.linkki.core.ui.section.annotations.UIComboBox.ComboBoxAvailableValuesAspectCreator;
+import org.linkki.core.ui.section.annotations.UIComboBox.ComboBoxAvailableValuesAspectDefinitionCreator;
 import org.linkki.core.ui.section.annotations.adapters.ComboboxBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
@@ -36,7 +37,7 @@ import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreato
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiAspect(ComboBoxAvailableValuesAspectCreator.class)
+@LinkkiAspect(ComboBoxAvailableValuesAspectDefinitionCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiBindingDefinition(ComboboxBindingDefinition.class)
 public @interface UIComboBox {
@@ -92,7 +93,7 @@ public @interface UIComboBox {
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 
-    class ComboBoxAvailableValuesAspectCreator implements LinkkiAspect.Creator<UIComboBox> {
+    class ComboBoxAvailableValuesAspectDefinitionCreator implements AspectDefinitionCreator<UIComboBox> {
 
         @Override
         public LinkkiAspectDefinition create(UIComboBox annotation) {

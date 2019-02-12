@@ -27,17 +27,17 @@ The builder also supports multiple content components to be consistent to the `n
 
 ==== New creation mechanism of aspects
 
-The creation of <<creating-aspects,linkki aspects>> has changed. Instead of giving the `LinkkiAspectDefinition` implementation class as value for the `@LinkkiAspect` annotation, a `LinkkiAspect.Creator` implementation has to be used now.
+The creation of <<creating-aspects,linkki aspects>> has changed. Instead of giving the `LinkkiAspectDefinition` implementation class as value for the `@LinkkiAspect` annotation, a `AspectDefinitionCreator` implementation has to be used now.
 
-This offers the benefit that the `LinkkiAspectDefinitions` do no longer need to depend on the corresponding annotations. The values from the annotations can be passed by the `LinkkiAspect.Creator`. This makes the aspect definitions better testable and allows the use of the same aspect definition with multiple different annotations. The `initialize()` method of the `LinkkiAspectDefinition`, that up to now was called after creation via default constructor, was removed. The values previously read from the annotation in that method should now be read in the `LinkkiAspect.Creator` and passed to the `LinkkiAspectDefinition` 's constructor, thus allowing instantiating aspect definitions from sources other than annotations.
+This offers the benefit that the `LinkkiAspectDefinitions` do no longer need to depend on the corresponding annotations. The values from the annotations can be passed by the `AspectDefinitionCreator`. This makes the aspect definitions better testable and allows the use of the same aspect definition with multiple different annotations. The `initialize()` method of the `LinkkiAspectDefinition`, that up to now was called after creation via default constructor, was removed. The values previously read from the annotation in that method should now be read in the `AspectDefinitionCreator` and passed to the `LinkkiAspectDefinition` 's constructor, thus allowing instantiating aspect definitions from sources other than annotations.
 
 ===== API Changes
 
 This feature brings several changes in the API:
 
-* Existing `LinkkiAspectDefinitions` can no longer be used in `@LinkkiAspect` directly. It requires an implementation of `LinkkiAspect.Creator` to create the aspect definitions. +
+* Existing `LinkkiAspectDefinitions` can no longer be used in `@LinkkiAspect` directly. It requires an implementation of `AspectDefinitionCreator` to create the aspect definitions. +
 +
-.Reading of the value in the `LinkkiAspect.Creator`
+.Reading of the value in the `AspectDefinitionCreator`
 [source,java]
 ----
 include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspectCreator]
@@ -71,7 +71,7 @@ Previously, the `initialize` method had the responsibility of reading the releva
 .Creation of a `CompositeAspectDefinition`
 [source,java]
 ----
-public class MyAspectDefinitionCreator implements LinkkiAspect.Creator<@NonNull MyAnnotation> {
+public class MyAspectDefinitionCreator implements AspectDefinitionCreator<@NonNull MyAnnotation> {
 
     @Override
     public LinkkiAspectDefinition create(MyAnnotation annotation) {

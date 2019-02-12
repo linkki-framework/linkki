@@ -20,9 +20,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.ui.section.annotations.UILabel.LabelAspectDefinitionCreator;
 import org.linkki.core.ui.section.annotations.adapters.LabelBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelValueAspectDefinition;
@@ -34,7 +36,7 @@ import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(LabelBindingDefinition.class)
-@LinkkiAspect(UILabel.AspectCreator.class)
+@LinkkiAspect(LabelAspectDefinitionCreator.class)
 public @interface UILabel {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -72,7 +74,7 @@ public @interface UILabel {
     /**
      * Aspect definition for {@link UILabel} annotation.
      */
-    class AspectCreator implements LinkkiAspect.Creator<UILabel> {
+    class LabelAspectDefinitionCreator implements AspectDefinitionCreator<UILabel> {
 
         @Override
         public LinkkiAspectDefinition create(UILabel annotation) {

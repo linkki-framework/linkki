@@ -44,7 +44,7 @@ TIP: Using the name `value` for an annotation's attribute allows users to omit t
 
 ==== @LinkkiAspect Annotation
 
-Lastly, `BindTooltip` has to be annotated with `@LinkkiAspect` to tell *linkki* how to create the aspect from the annotation. The value for that annotation is a class implementing `LinkkiAspect.Creator<BindTooltip>` that can be created as an inner class:
+Lastly, `BindTooltip` has to be annotated with `@LinkkiAspect` to tell *linkki* how to create the aspect from the annotation. The value for that annotation is a class implementing `AspectDefinitionCreator<BindTooltip>` that can be created as an inner class:
 
 ```java
 include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspect]
