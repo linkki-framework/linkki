@@ -69,7 +69,7 @@ class ContainerComponentCreator<@NonNull ROW> {
         String propertyName = elementDesc.getPmoPropertyName();
         table.addGeneratedColumn(propertyName, columnGen);
         List<LinkkiAspectDefinition> aspectDefs = elementDesc.getAllAspects();
-        binding.bind(containerPmo, BoundProperty.of(propertyName), aspectDefs,
+        binding.bind(containerPmo.getItemPmoClass(), BoundProperty.of(propertyName), aspectDefs,
                      new TableColumnWrapper(table, propertyName));
     }
 

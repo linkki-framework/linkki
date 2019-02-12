@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.dispatcher;
 
@@ -18,8 +18,8 @@ import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.nls.pmo.PmoNlsService;
 
 /**
- * This dispatcher returns the static value of an {@link Aspect} if it has a value. If no value
- * exists for the given property the wrapped dispatcher is accessed for a value.
+ * This dispatcher returns the static value of an {@link Aspect} if it has a value. If no value exists
+ * for the given property the wrapped dispatcher is accessed for a value.
  */
 public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
 
@@ -43,7 +43,7 @@ public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
             T staticValue = aspect.getValue();
             Object boundObject = getBoundObject();
             if (staticValue instanceof String && boundObject != null) {
-                Class<?> pmoClass = boundObject.getClass();
+                Class<?> pmoClass = getTypeForKey(boundObject);
                 return (T)PmoNlsService.get()
                         .getLabel(pmoClass, getProperty(), aspect.getName(), (String)staticValue);
             } else {
@@ -52,6 +52,10 @@ public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
         } else {
             return super.pull(aspect);
         }
+    }
+
+    private Class<?> getTypeForKey(Object boundObject) {
+        return boundObject instanceof Class ? (Class<?>)boundObject : boundObject.getClass();
     }
 
 }

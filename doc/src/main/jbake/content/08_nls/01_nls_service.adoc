@@ -26,14 +26,14 @@ The key is a String that consists of the PMOs class name, the name of the PMO pr
 include::{source-dir-binding-sample}/resources/org/linkki/samples/binding/pmo/linkki-messages.properties[tags=properties]
 ----
 
-For tables the property keys for the columns are *not* derived from the row PMO class name but using the `ContainerPmo` class name. Although the properties are easily described in the row PMO, the table column belongs to the whole table and not to a single row. The second entry of the above `.properties` file points to the PMO `ContactTablePmo`, and provides an English translation for the label of its column `name`:
+The second entry of the above `.properties` file points to the PMO `ContactRowPmo`, and provides an English translation for the label of its property `name`:
 
 [source,java]
 ----
 include::{source-dir-binding-sample}/java/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
 ----
 
-NOTE: linkki always tries to retrieve a value from the `linkki-messages.properties`, if the file exists. That means that the label "Name" that is defined directly in the annotation `@UILabel` above will not be used in this constellation. The entry `ContactTablePmo_name_label=name` overrides it as default value if there is no specific `.properties` file for the user's locale.
+NOTE: linkki always tries to retrieve a value from the `linkki-messages.properties`, if the file exists. That means that the label "Name" that is defined directly in the annotation `@UILabel` above will not be used in this constellation. The entry `ContactRowPmo_name_label=name` overrides it as default value if there is no specific `.properties` file for the user's locale.
 
 [[nls-properties]]
 === Translatable PMO properties

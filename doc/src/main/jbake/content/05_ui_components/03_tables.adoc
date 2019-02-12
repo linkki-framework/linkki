@@ -28,7 +28,7 @@ include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactRowPmo.java[
 
 That means every property that was found in the row PMO class provided by the `ContainerPmo` is set up as a column. That means every defined property specifies the setup of the column as well as the concrete field inside the table's cell. Next to all aspects that are provided by `@UITableColumn` it takes the label from the field definition.
 
-IMPORTANT: The properties of a table column are described using the properties in the row PMO. But these properties cannot be bound to any specific row PMO instance (there might be none if the table is empty or many if there are a lot of rows). Hence all bindings are directed to the `ContainerPmo` instance. That also means: If you want to <<nls-properties,translate a column label>> the key is created using the class name of the `ContainerPmo` *not* the row PMO.
+IMPORTANT: The properties of a table column are described using the properties in the row PMO. But these properties cannot be bound to any specific row PMO instance (there might be none if the table is empty or many if there are a lot of rows). Hence all bindings are directed to the row PMO class. That also means: If you want to <<nls-properties,translate a column label>> the key is created using the class name of the row PMO.
 
 [[ui-table-column]]
 ===== @UITableColumn

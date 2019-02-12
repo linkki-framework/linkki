@@ -56,8 +56,7 @@ public class PmoNlsServiceTableSectionTest {
     }
 
     private String getTranslatedLabel(String property) {
-        return PmoNlsService.get().getLabel(NlsTablePmo.class, property, "label",
-                                            NlsTableRowPmo.PMO_LABEL);
+        return PmoNlsService.get().getLabel(NlsTableRowPmo.class, property, "label", NlsTableRowPmo.PMO_LABEL);
     }
 
     @Test
