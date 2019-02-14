@@ -14,6 +14,8 @@
 
 package org.linkki.core.ui.section.annotations.aspect;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -41,8 +43,8 @@ public class AvailableValuesAspectDefinition<C extends HasItems<?>> implements L
 
     public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
             BiConsumer<C, ListDataProvider<Object>> dataProviderSetter) {
-        this.availableValuesType = availableValuesType;
-        this.dataProviderSetter = dataProviderSetter;
+        this.availableValuesType = requireNonNull(availableValuesType, "availableValuesType must not be null");
+        this.dataProviderSetter = requireNonNull(dataProviderSetter, "dataProviderSetter must not be null");
     }
 
     @Override

@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
+import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.TestUiUtil;
@@ -50,8 +51,9 @@ public class DynamicFieldBindingTest {
 
         String value = "value";
         Pmo pmo = new Pmo(new Model(value, false));
+        BindingContext bindingContext = new BindingContext();
 
-        Component component = TestUiUtil.createFirstComponentOf(pmo);
+        Component component = TestUiUtil.createFirstComponentOf(pmo, bindingContext);
         assertNotNull(component);
         assertThat(component, is(instanceOf(TextField.class)));
 
@@ -59,31 +61,38 @@ public class DynamicFieldBindingTest {
         assertThat(txt.getValue(), is(value));
 
         String newValue = "new value";
-        txt.setValue(newValue);
+        TestUiUtil.setUserOriginatedValue(txt, newValue);
         assertThat(pmo.model.paymentMethod, is(newValue));
 
         pmo.model.paymentMethod = null;
-        assertThat(txt.getValue(), is(nullValue()));
+
+        bindingContext.modelChanged();
+        // because of the ToStringConverter
+        assertThat(txt.getValue(), is(""));
     }
 
     @Test
     public void testDynamicField_shouldBindToComboBox() {
         String value = "semi-annual";
         Pmo pmo = new Pmo(new Model(value, true));
+        BindingContext bindingContext = new BindingContext();
 
-        Component component = TestUiUtil.createFirstComponentOf(pmo);
+        Component component = TestUiUtil.createFirstComponentOf(pmo, bindingContext);
         assertNotNull(component);
         assertThat(component, is(instanceOf(ComboBox.class)));
 
-        ComboBox cb = (ComboBox)component;
-        assertThat(cb.getContainerDataSource().getItemIds(), contains(pmo.getPaymentMethodAvailableValues().toArray()));
+        @SuppressWarnings("unchecked")
+        ComboBox<String> cb = (ComboBox<String>)component;
+        assertThat(TestUiUtil.getData(cb), contains(pmo.getPaymentMethodAvailableValues().toArray()));
         assertThat(cb.getValue(), is(value));
 
         String newValue = "annual";
-        cb.setValue(newValue);
+        TestUiUtil.setUserOriginatedValue(cb, newValue);
         assertThat(pmo.model.paymentMethod, is(newValue));
 
         pmo.model.paymentMethod = null;
+
+        bindingContext.modelChanged();
         assertThat(cb.getValue(), is(nullValue()));
     }
 
@@ -152,7 +161,7 @@ public class DynamicFieldBindingTest {
         }
 
         @UITextField(position = POS, label = "", modelAttribute = "paymentMethod")
-        @UIComboBox(position = POS, label = "", modelAttribute = "paymentMethod", content = AvailableValuesType.DYNAMIC)
+        @UIComboBox(position = POS, label = "", modelAttribute = "paymentMethod", content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
         public void paymentMethod() {
             // model binding
         }
