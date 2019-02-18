@@ -37,6 +37,7 @@
         <module>application-framework</module>
         <module>doc</module>
         <module>samples</module>
+        <module>archetypes</module>
     </modules>
 
     <properties>
@@ -44,7 +45,7 @@
         <m2e.jdt.annotationpath>/linkki/.settings/annotations</m2e.jdt.annotationpath>
         <git.user>${user.name}</git.user>
         <vaadin.version>7.7.16</vaadin.version>
-        <joda-time.version>2.10.1</joda-time.version>
+        <joda-time.version>2.4</joda-time.version>
         <junit.version>4.12</junit.version>
         <mockito.version>2.24.0</mockito.version>
         <commons-lang3.version>3.8.1</commons-lang3.version>
@@ -311,6 +312,25 @@
                                     </pluginExecutionFilter>
                                     <action>
                                         <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.apache.maven.plugins
+                                        </groupId>
+                                        <artifactId>
+                                            maven-toolchains-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [1.0,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>toolchain</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
