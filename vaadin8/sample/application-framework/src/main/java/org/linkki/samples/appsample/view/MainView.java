@@ -54,6 +54,8 @@ public class MainView extends SidebarLayout implements View {
     // tag::sidebar-createReportLayout[]
     private VerticalLayout createReportLayout() {
         VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(false);
+        layout.setSpacing(true);
         // tag::addHeadline-call[]
         layout.addComponent(new Headline("Create Report"));
         // end::addHeadline-call[]

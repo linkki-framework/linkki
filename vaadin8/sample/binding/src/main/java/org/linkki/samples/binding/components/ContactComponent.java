@@ -84,6 +84,7 @@ public class ContactComponent extends Panel {
         VerticalLayout wrapperLayout = new VerticalLayout(contactSection, addressComponent, childrenSection,
                 buttonsSection);
         wrapperLayout.setMargin(true);
+        wrapperLayout.setSpacing(false);
         setContent(wrapperLayout);
     }
 

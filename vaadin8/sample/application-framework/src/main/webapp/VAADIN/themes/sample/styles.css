@@ -1627,15 +1627,6 @@ div.v-layout.v-horizontal.v-widget {
 	vertical-align: top;
 }
 
-.sample .horizontal-section-spacing .v-label {
-	margin-right: 10px;
-	line-height: 1.75;
-}
-
-.sample .horizontal-section-spacing .v-textfield {
-	margin-right: 10px;
-}
-
 .sample .v-table-cell-content .v-textfield-error-error {
 	border: 1px solid #ed473b !important;
 	border-radius: 2px;
@@ -1898,7 +1889,7 @@ div.v-layout.v-horizontal.v-widget {
 	width: 100%;
 	vertical-align: middle;
 	overflow: hidden;
-	padding-top: 20px;
+	padding-top: 8px;
 	padding-bottom: 10px;
 }
 
@@ -15512,4 +15503,8 @@ div.v-layout.v-horizontal.v-widget {
 	display: inline-block;
 	width: 19px;
 	overflow: hidden;
+}
+
+.sample #ChildrenSectionPmo {
+	padding-left: 37px;
 }

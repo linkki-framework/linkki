@@ -37,23 +37,23 @@ public class Vaadin8SectionBuilderTest {
 
     @Test
     public void testSetSectionId() {
-        AbstractSection section = createContext(new SCCPmoWithID()).createSection();
+        AbstractSection section = createSectionBuilder(new SCCPmoWithID()).createSection();
         assertThat(section.getId(), is("test-ID"));
     }
 
-    private SectionBuilder createContext(Object pmo) {
+    private SectionBuilder createSectionBuilder(Object pmo) {
         return new SectionBuilder(pmo, bindingContext);
     }
 
     @Test
     public void testSetSectionDefaultId() {
-        AbstractSection section = createContext(new SCCPmoWithoutID()).createSection();
+        AbstractSection section = createSectionBuilder(new SCCPmoWithoutID()).createSection();
         assertThat(section.getId(), is("SCCPmoWithoutID"));
     }
 
     @Test
     public void testSetComponentId() {
-        AbstractSection section = createContext(new SCCPmoWithID()).createSection();
+        AbstractSection section = createSectionBuilder(new SCCPmoWithID()).createSection();
         assertThat(section.getComponentCount(), is(1));
         GridLayout gridLayout = TestUiUtil.getContentGrid((FormSection)section);
         @SuppressWarnings("null")
@@ -64,26 +64,26 @@ public class Vaadin8SectionBuilderTest {
 
     @Test
     public void testSectionWithDefaultLayout_shouldCreateFormLayout() {
-        AbstractSection section = createContext(new SCCPmoWithoutID()).createSection();
+        AbstractSection section = createSectionBuilder(new SCCPmoWithoutID()).createSection();
         assertThat(section, is(instanceOf(FormSection.class)));
     }
 
     @Test
     public void testSectionWithHorizontalLayout_shouldCreateHorizontalSection() {
-        AbstractSection section = createContext(new SectionWithHorizontalLayout()).createSection();
+        AbstractSection section = createSectionBuilder(new SectionWithHorizontalLayout()).createSection();
         assertThat(section, is(instanceOf(HorizontalSection.class)));
     }
 
     @Test
     public void testSectionWithCustomLayout_shouldCreateCustomLayoutSection() {
-        AbstractSection section = createContext(new SectionWithCustomLayout()).createSection();
+        AbstractSection section = createSectionBuilder(new SectionWithCustomLayout()).createSection();
         assertThat(section, is(instanceOf(CustomLayoutSection.class)));
     }
 
     @SuppressWarnings("null")
     @Test
     public void testSectionWithoutAnnotation_usesDefaultValues() {
-        AbstractSection section = createContext(new SectionWithoutAnnotation()).createSection();
+        AbstractSection section = createSectionBuilder(new SectionWithoutAnnotation()).createSection();
         assertThat(section, is(instanceOf(FormSection.class)));
         assertThat(section.getId(), is(SectionWithoutAnnotation.class.getSimpleName()));
         assertThat(section.getCaption(), is(nullValue()));

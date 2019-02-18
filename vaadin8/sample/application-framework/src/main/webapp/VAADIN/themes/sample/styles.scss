@@ -11,4 +11,8 @@ $v-shadow: false !default;
   // Include linkki theme styles
   @include linkki;
   @include valo;
+  
+  #ChildrenSectionPmo {
+    padding-left: 37px;
+  }
 }

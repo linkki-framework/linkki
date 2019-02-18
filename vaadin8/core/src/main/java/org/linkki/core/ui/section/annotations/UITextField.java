@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section.annotations;
 
@@ -30,8 +30,8 @@ import org.linkki.core.ui.section.annotations.aspect.ValueAspectDefinitionCreato
 import com.vaadin.server.Sizeable;
 
 /**
- * A field for textual input. In accordance with {@link com.vaadin.ui.TextField}. For multiple
- * inputs see {@link UITextArea}
+ * A field for textual input. In accordance with {@link com.vaadin.ui.TextField}. For multiple inputs
+ * see {@link UITextArea}
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -76,7 +76,7 @@ public @interface UITextField {
      * 
      * @see Sizeable#setWidth(String)
      */
-    String width() default "";
+    String width() default "100%";
 
     /** Defines the maximal count of characters which can be displayed */
     int maxLength() default 0;

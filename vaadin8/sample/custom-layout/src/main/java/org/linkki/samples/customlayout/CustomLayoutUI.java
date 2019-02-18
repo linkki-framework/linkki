@@ -40,15 +40,19 @@ public class CustomLayoutUI extends UI {
 
         VerticalLayout content = new VerticalLayout();
         content.setMargin(true);
+        content.setSpacing(false);
         setContent(content);
 
         content.addComponent(new PmoBasedSectionFactory()
                 .createSection(pmo,
                                bindingContext));
 
-        content.addComponent(new Label(
+
+        Label label = new Label(
                 "<p><hr/><p>Same PMO in a simple FormLayout - it references the same PMO instance, so all fields are in sync<p><hr/>",
-                ContentMode.HTML));
+                ContentMode.HTML);
+        label.setWidth("100%");
+        content.addComponent(label);
 
         // tag::CustomLayoutUI-create[]
         content.addComponent(FormLayoutCreator.create(pmo, bindingContext));

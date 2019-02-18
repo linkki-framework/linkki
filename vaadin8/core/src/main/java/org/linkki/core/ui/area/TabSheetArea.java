@@ -23,7 +23,6 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.page.Page;
 import org.linkki.util.StreamUtil;
 
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
@@ -72,7 +71,7 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
             tabSheet.setSizeFull();
             setSizeFull();
         }
-        setMargin(new MarginInfo(true, false, false, false));
+        setMargin(false);
     }
 
     /**

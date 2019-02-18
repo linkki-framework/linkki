@@ -42,16 +42,6 @@ $linkki-sidebar-width: 56px !default;
 
 @mixin linkki {
 
-  .horizontal-section-spacing {
-    .v-label {
-        margin-right: 10px;
-        line-height: 1.75;
-    }
-  
-    .v-textfield {
-        margin-right: 10px;
-    }
-  }
   
   /*
    * error markings in table cells need to be repeated here to overwrite textfield-borderless
@@ -297,7 +287,7 @@ $linkki-sidebar-width: 56px !default;
     overflow: hidden;
   
     /* Space before section caption and below caption */
-    padding-top: 20px;
+    padding-top: 8px;
     padding-bottom: 10px;
   
     /* Styles for the section's captions */

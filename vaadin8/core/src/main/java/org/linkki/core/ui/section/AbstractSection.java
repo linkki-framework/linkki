@@ -78,8 +78,9 @@ public abstract class AbstractSection extends VerticalLayout {
     public AbstractSection(String caption, boolean closeable, Optional<Button> editButton) {
         super();
         requireNonNull(caption, "caption must not be null");
-        setMargin(false);
         this.editButton = requireNonNull(editButton, "editButton must not be null");
+        setMargin(false);
+        setSpacing(false);
         if (StringUtils.isNotEmpty(caption) || editButton.isPresent()) {
             this.openCloseButton = closeable ? createOpenCloseButton(this::switchOpenStatus) : null;
             this.header = createHeader(caption, editButton, Optional.ofNullable(openCloseButton));

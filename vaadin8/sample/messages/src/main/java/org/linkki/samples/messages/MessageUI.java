@@ -63,7 +63,9 @@ public class MessageUI extends UI {
 		AbstractSection section = sectionFactory.createSection(registrationPmo,
 				bindingManager.getExistingContextOrStartNewOne(getClass()));
 
-		setContent(new VerticalLayout(messagesPanel, section));
+		VerticalLayout layout = new VerticalLayout(messagesPanel, section);
+        layout.setMargin(false);
+		setContent(layout);
 	}
 
 	private void handleRegistration(MessagesPanel messagesPanel, RegistrationSectionPmo userPmo) {

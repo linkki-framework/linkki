@@ -14,7 +14,6 @@
 package org.linkki.samples.binding.pmo;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.BindTooltip;
@@ -29,7 +28,7 @@ import org.linkki.samples.binding.model.Contact;
 
 // tag::contactPmo-class[]
 @UISection
-public class ContactSectionPmo implements PresentationModelObject {
+public class ContactSectionPmo {
 
     private Contact contact;
     // end::contactPmo-class[]
