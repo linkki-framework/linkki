@@ -14,19 +14,15 @@
 package org.linkki.core.ui.area;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.page.Page;
 import org.linkki.util.StreamUtil;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * A base class for all areas that use a {@link TabSheet} containing multiple pages.
@@ -43,11 +39,9 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * Note: If the area is not injected you need to call {@link #init()} manually!
  */
-public abstract class TabSheetArea extends VerticalLayout implements Area {
+public abstract class TabSheetArea extends TabSheet implements Area {
 
     private static final long serialVersionUID = 1L;
-
-    private TabSheet tabSheet = new TabSheet();
 
     public TabSheetArea() {
         this(true);
@@ -65,13 +59,10 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
      */
     public TabSheetArea(boolean preserveHeader) {
         super();
-        addComponent(tabSheet);
-        tabSheet.addSelectedTabChangeListener(e -> reloadBindings());
+        addSelectedTabChangeListener(e -> reloadBindings());
         if (preserveHeader) {
-            tabSheet.setSizeFull();
             setSizeFull();
         }
-        setMargin(false);
     }
 
     /**
@@ -88,19 +79,13 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
         createContent();
     }
 
-    public TabSheet getTabSheet() {
-        return tabSheet;
-    }
-
     /**
-     * Adds a new tab with the given caption containing the given tab page in this TabSheet.
-     * 
-     * @param tabPage the new tab's content
-     * @param caption the new tab's caption
-     * @return the new tab
+     * @deprecated since 20.02.2019 as this class now directly extends {@link TabSheet}. Use this
+     *             instance directly instead.
      */
-    protected Tab addTab(Page tabPage, String caption) {
-        return tabSheet.addTab(tabPage, caption);
+    @Deprecated
+    public TabSheet getTabSheet() {
+        return this;
     }
 
     /**
@@ -109,7 +94,7 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
      * @param tabPage the component contained in the tab to remove
      */
     protected void removeTab(Page tabPage) {
-        tabSheet.removeComponent(tabPage);
+        removeComponent(tabPage);
     }
 
     /**
@@ -118,30 +103,18 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
      * @return the tab pages that are contained in the tabs of this TabSheet.
      */
     protected List<Page> getTabs() {
-        return StreamUtil.stream(() -> tabSheet.iterator())
+        return StreamUtil.stream(this)
                 .filter(c -> c instanceof Page)
                 .map(c -> (Page)c)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Returns the tab pages that are contained in the tabs of this TabSheet.
-     * 
-     * @return the tab pages that are contained in the tabs of this TabSheet.
-     */
-    @Nullable
-    protected Page getSelectedTab() {
-        Component selectedTab = tabSheet.getSelectedTab();
-        if (selectedTab instanceof Page) {
-            return (Page)selectedTab;
-        } else {
-            return null;
-        }
-    }
-
     @Override
     public void reloadBindings() {
-        Optional.ofNullable(getSelectedTab()).ifPresent(Page::reloadBindings);
+        Component selectedTab = getSelectedTab();
+        if (selectedTab != null && selectedTab instanceof Page) {
+            ((Page)selectedTab).reloadBindings();
+        }
     }
 
 }
