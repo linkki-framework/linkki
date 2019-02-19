@@ -18,7 +18,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
@@ -38,7 +37,7 @@ public @interface BindTooltip {
 
     TooltipType tooltipType() default TooltipType.STATIC;
 
-    String value() default StringUtils.EMPTY;
+    String value() default "";
     // end::BindTooltip[]
 
     // tag::BindTooltipLinkkiAspectCreator[]

@@ -107,7 +107,6 @@ public class PmoBasedSectionFactory {
                     : createBaseSection(layout, caption, closable, columns);
 
             section.setId(Sections.getSectionId(pmo));
-
             return section;
         }
 

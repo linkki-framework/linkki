@@ -8,7 +8,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.linkki-framework.vaadin7</groupId>
     <artifactId>linkki-vaadin7</artifactId>
     <packaging>pom</packaging>
     <name>linkki vaadin 7</name>
@@ -17,10 +16,11 @@
     <modules>
         <module>core</module>
         <module>application-framework</module>
-        <module>sample</module>
+        <module>samples</module>
     </modules>
 
     <properties>
+        <joda-time.version>2.4</joda-time.version>
         <vaadin.version>7.7.13</vaadin.version>
     </properties>
 
@@ -46,6 +46,12 @@
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-themes</artifactId>
                 <version>${vaadin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>

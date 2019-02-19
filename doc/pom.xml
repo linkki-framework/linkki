@@ -26,7 +26,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.linkki-framework.vaadin7</groupId>
+            <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-vaadin7</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -187,36 +187,17 @@
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>
-                                            org.asciidoctor
-                                        </groupId>
+                                        <groupId>org.asciidoctor</groupId>
                                         <artifactId>
                                             asciidoctor-maven-plugin
                                         </artifactId>
-                                        <versionRange>
-                                            [1.5.5,)
-                                        </versionRange>
+                                        <versionRange>[1.5.6,)</versionRange>
                                         <goals>
-                                            <goal>
-                                                process-asciidoc
-                                            </goal>
+                                            <goal>process-asciidoc</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-toolchains-plugin</artifactId>
-                                        <versionRange>[1.0,)</versionRange>
-                                        <goals>
-                                            <goal>toolchain</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
+                                        <ignore></ignore>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>

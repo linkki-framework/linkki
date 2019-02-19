@@ -38,8 +38,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <m2e.jdt.annotationpath>/linkki/.settings/annotations</m2e.jdt.annotationpath>
         <git.user>${user.name}</git.user>
-        <vaadin.version>7.7.13</vaadin.version>
-        <joda-time.version>2.4</joda-time.version>
         <junit.version>4.12</junit.version>
         <mockito.version>2.23.4</mockito.version>
         <commons-lang3.version>3.4</commons-lang3.version>
@@ -285,9 +283,7 @@
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.1.1</version>
                 </plugin>
-
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
-                    build itself. -->
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -297,15 +293,19 @@
                             <pluginExecutions>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>org.jacoco</groupId>
-                                        <artifactId>jacoco-maven-plugin</artifactId>
-                                        <versionRange>${jacoco.version}</versionRange>
+                                        <groupId>
+                                            org.apache.maven.plugins
+                                        </groupId>
+                                        <artifactId>
+                                            maven-toolchains-plugin
+                                        </artifactId>
+                                        <versionRange>[1.0,)</versionRange>
                                         <goals>
-                                            <goal>prepare-agent</goal>
+                                            <goal>toolchain</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore></ignore>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -349,37 +349,10 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>${joda-time.version}</version>
-                <optional>true</optional>
-            </dependency>
-            <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>org.eclipse.jdt.annotation</artifactId>
                 <version>2.2.0</version>
                 <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-server</artifactId>
-                <version>${vaadin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-client-compiled</artifactId>
-                <version>${vaadin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-client</artifactId>
-                <version>${vaadin.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-themes</artifactId>
-                <version>${vaadin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>

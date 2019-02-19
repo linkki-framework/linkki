@@ -8,7 +8,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.linkki-framework.vaadin8</groupId>
     <artifactId>linkki-vaadin8</artifactId>
     <packaging>pom</packaging>
     <name>linkki vaadin 8</name>
@@ -17,7 +16,7 @@
     <modules>
         <module>core</module>
         <module>application-framework</module>
-        <module>sample</module>
+        <module>samples</module>
     </modules>
 
     <properties>
