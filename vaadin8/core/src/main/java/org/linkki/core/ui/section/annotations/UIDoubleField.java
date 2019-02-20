@@ -67,7 +67,7 @@ public @interface UIDoubleField {
     /**
      * Specifies the width of the field using a number and a CSS unit, for example "5em" or "50%".
      * <p>
-     * This value is set to empty String by default which means the is undefined and the actual width
+     * This value is set to empty String by default which means it is undefined and the actual width
      * depends on the layout.
      * 
      * @see Sizeable#setWidth(String)
