@@ -1,0 +1,259 @@
+:jbake-title: Previous Versions
+:jbake-type: section
+:jbake-status: published
+:jbake-order: 99
+
+:source-dir: ../../../java
+:source-dir-application: ../../../../../../samples/application-framework/src/main/java
+:images-folder-name: 01_newnoteworthy
+
+=== November 29th, 2018
+
+==== ApplicationHeader#addRightComponents() deprecated
+
+The `addRightComponents()` method in `ApplicationHeader` is deprecated as components added in this method were not automatically aligned to right. Use `addRightComponents(HorizontalLayout)` instead of which the method argument is a right aligned layout.
+
+The CSS style `LinkkiStyles#APLICATION_HEADER` and `LinkkiStyles#APPLICATION_HEADER_RIGHT` have been modified as the previously included style are not needed anymore.
+
+==== @ModelObject can be applied to instance variables
+
+The annotation `@ModelObject` can now be added to an instance variable. It is not necessary to create a getter for the model object any more. For more information, refer to the <<domain-model-binding, documentation>>.
+
+=== November 22th, 2018
+
+From now on linkki uses eclipse null annotations from the `org.eclipse.jdt` package. To use it, you have to add this dependency to your pom:
+
+[source,xml]
+----
+<dependency>
+  <groupId>org.eclipse.jdt</groupId>
+  <artifactId>org.eclipse.jdt.annotation</artifactId>
+  <version>2.2.0</version>
+  <scope>provided</scope>
+</dependency>
+----
+
+Also, you have to make sure that the right annotations are used in your project configuration:
+
+. Enabled annotation-based null analysis in the project configuration
+. Configure the default annotations for null specifications with the following  annotations as primary annotation:
+ * *'Nullable' annotations*: `org.eclipse.jdt.annotation.Nullable`
+ * *'NonNull' annotations*: `org.eclipse.jdt.annotation.NonNull`
+ * *'NonNullByDefault' annotations*: `org.eclipse.jdt.annotation.NonNullByDefault`
+
+.1 Project configuration page for null analysis
+image::{images}{images-folder-name}/7Nov18_PropertiesNullHandling.png[]
+
+.2 Configuration for "Annotations for Null Specifications"
+image::{images}{images-folder-name}/7Nov18_PropertiesNullHandling_Configure.png[]
+
+For more information about the null analysis in eclipse refer to the https://wiki.eclipse.org/JDT_Core/Null_Analysis[eclipse JDT documentation].
+
+WARNING: There is a bug in Eclipse where you get compile errors in your projects if your project configuration is not correct, for example if you write `javax.annotation.NonNull` instead of `javax.annotation.Nonnull` (link:https://bugs.eclipse.org/bugs/show_bug.cgi?id=479389[Eclipse bug]). Check for correct spelling in the configuration if you get the warning "The type ... cannot be resolved. It is indirectly referenced from required .class files".
+
+=== November 7th, 2018
+Moved the class `BindReadOnly` from package `org.linkki.core.binding.aspect` to `org.linkki.core.ui.section.annotations`.
+
+=== October 10th, 2018
+
+`modelObject` and `modelAttribute` are added to <<manual-binding, @Bind>> as parameters. These attributes can be used together with the annotation `@ModelObject` to bind the annotated PMO property directly to a model attribute. In addition, the quality of error messages is improved.
+
+=== October 4th,2018
+The annotation `@UIToolTip` has been deprecated and reintroduced as `@BindTooltip`.
+
+The changes in Detail:
+
+* `@BindTooltip` uses "tooltip" as a property (previously "toolTip")
+* `@BindTooltip` uses `BindTooltipType` as a type (previously `ToolTipType`)
+* `@BindTooltip` with a dynamic tooltip requires the corresponding method to be named `getXYZTooltip()` (lower case "t" here as well, instead of `getXYZToolTip()`)
+
+Migrating existing code to `@BindTooltip` is recommended.
+
+=== September 10th, 2018
+
+=== BindReadOnly
+
+A new annotation <<bind-read-only, @BindReadOnly>> is introduced to provide read-only behavior to components.
+
+IMPORTANT: The `@BindReadOnly` annotation must be placed after `@Bind` or `@UI-annotations` as the read-only state might have already be affected by these annotations.
+
+TIP: This annotation should be used only in exceptional cases, since most of the behavior is better controlled by <<cross-sectional-binding, PropertyBehavior>>.
+
+=== August 29th, 2018
+
+==== Unified Header Height
+
+The height of section headers with and without buttons is now set to the same.
+
+=== August 27th, 2018
+
+==== Default PropertyBehaviors
+
+Often, a property behavior only needs to control one of the states (writable, visible, shows messages). Thus, the interface `PropertyBehavior` (see <<property-behavior, PropertyBehaviors>>) now offers static methods to create instances that override just one of its methods, for example `PropertyBehavior#visible`.
+
+There are two methods for each of the states that can be controlled by a behavior:
+ * One static method creates the behavior by taking a `BiPredicate<Object, String>` that is called for every bound object and property.
+ * The other one takes a `BooleanProvider` that decides the state regardless of the property and bound object.
+
+As a read-only state is often used as the negation of the writable state, additional static methods are offered for easy creation of read-only property behaviors.
+
+The `PropertyBehaviorProvider` interface also received a static method to create an instance from a variable argument array of `PropertyBehaviors`.
+
+=== August 16th, 2018
+
+==== ApplicationFooter now hidden by default
+
+As the application information displayed in the `ApplicationFooter` is included in the newly introduced `ApplicationInfoDialog`, the footer is now hidden by default.
+
+=== August 1st, 2018
+
+==== Hierarchical Tables
+
+The tables created for a `ContainerPmo` can now contain hierarchical data that is displayed in a `TreeTable`. See <<ui-hierarchical-table,HierarchicalRowPmo>> for details.
+
+===== API Changes
+
+While implementing the hierarchical tables, we refactored the `BindingContext` and `TableBinding`. The `TableBinding` is now itself a `BindingContext`. The `BindingContext` does no longer distinguish between `ElementBindings` and `TableBindings` so the relevant methods `add(elementBinding)`/`add(TableBinding)` and `getElementBindings()`/`getTableBindings()` have been united to `add(Binding)` and `getBindings()`. Some methods on `BindingContext` have been deprecated and reintroduced with new names and improved documentation:
+
+[options="header"]
+|===
+| Old | New | Notes
+| `updateMessages`| `displayMessages` | now returns a filtered `MessageList` like `Binding#displayMessages`
+| `updateUI` | `modelChanged` | should be called when the context's after update handler should also be notified
+|===
+
+`AbstractPage` now calls `uiUpdated()` in `reloadBindings()` instead of `modelChanged()`. As stated in JavaDoc, `reloadBindings()` should only refresh the UI, which is not a model update. Thus, `modelChanged()` is not the correct method to call. In practice, `reloadBindings()` is mainly used to react to tab changes in `TabSheetAreas` which should not trigger `UiUpdateObservers`. This correction of behavior may result in components not being initially updated if it is registered as a `UiUpdateObserver` and relies on being notified initially.
+
+The `LinkkiInMemoryContainer` now implements `Container.Hierarchical` to support hierarchical data, and it no longer wraps its items in a `LinkkiItemWrapper`. It's methods `removeAllItems` and `addAllItems` that previously were always used in unison have been deprecated and replaced by a single `setItems`-Method.
+
+==== Collapsible Table Columns
+
+Table columns can now be set as collapsible and collapsed, using the new corresponding properties in the `UITableColumn` annotation.
+
+=== July 18th, 2018
+
+==== Help menu in `ApplicationHeader`
+
+The right `MenuBar` of the `ApplicationHeader` is now equipped with a help menu which provides an `ApplicationInfoDialog` by default. It is customizable implementing `ApplicationConfig` and extending `ApplicationHeader` and `ApplicationInfoPmo`.
+
+==== Footer
+
+The `ApplicationFooter` is now defined in `ApplicationConfig` as optional. In order to hide it, override `ApplicationConfig#getFooterDefinition()` with `Optional.empty()`.
+
+=== June 27th, 2018
+
+==== Headline
+
+`Headline` now extends `HorizontalLayout` instead of `CustomComponent`. Hence `Headline#getHeaderLayout()` isn't needed anymore and was dropped. The method `#getPolicyInfoLabel()` was dropped too. If you have overridden this method to modify the shown title, use the new constructor `Headline(label)` instead. The Headline's label is now annotated with `@Bind`, binding the field to a pmo property which's name is accessible at `Headline#HEADER_TITLE`.
+Finally, the method `setHeadline(String)` is deprecated, use `setTitle(String)` instead.
+
+=== June 14th, 2018
+
+==== SidebarSheet
+
+The SidebarSheet was slightly refactored. It now offers lazy initialization, which means its content is not created until the sheet is selected for the first time. Additionally it is possible to add an `UiUpdateObserver` that is triggered every time the sheet is selected.
+
+The old constructor is deprecated and will be replaced. The new constructors offer a more consistent API.
+
+There is a new documentation chapter explaining the <<sidebarlayout,sidebar layout>>.
+
+=== June 12th, 2018
+
+==== *linkki* is getting independent from cdi
+
+All dependencies to and usages of CDI have been removed from linkki to better allow *linkki*'s usage in different environments. This refactoring makes some necessary changes:
+
+ * `LinkkiUi` was introduced to have an easy setup for a new *linkki* application. Implement your own subclass to specify your configuration.
+ * `ApplicationFrame` is separated to `ApplicationLayout` and `ApplicationNavigator`. The first only contains the UI layout of the application, the second is a subclass of vaadin's `Navigator` and enhances it with some convenience methods. Both are instantiated using the `ApplicationConfig` and are no longer injected. There are some additional methods to specify the `ApplicationHeader` or `ApplicationMenuItemDefinition`s separately.
+ * To specify the `ApplicationConfig`, implement a subclass of `LinkkiUI` and provide your configuration via
+ constructor or by calling `configure(ApplicationConfig)`.
+ * The interface `AutoDiscoveredConverter` has been removed; Converters must now be manually registered using `ApplicationConfig#getConverterFactory`. The default contains all Java 8 date type converters.
+ ** The `LinkkiConverterFactory` now accepts a sequence supplier as its constructor and offers a default sequence containing the Java 8 date converters
+ ** The Joda date converters can be now found in the `JodaConverters#DEFAULT_JODA_DATE_CONVERTERS`
+ * The package `org.linkki.util.cdi` and its children have been removed
+ * The `LoginServlet` was removed from *linkki*; associated style classes have also been removed. For Faktor Zehn users, an equivalent class has been created in `f10-commons-auth-spring`, others are free to implement their own login solution.
+ * `DefaultPmoBasedSectionFactory` is deprecated and will be removed in the next version. Simply use `PmoBasedSectionFactory` instead.
+
+You can see an example in our `SampleApplicationUI`
+
+[source,java]
+----
+include::{source-dir-application}/org/linkki/samples/appsample/ui/SampleApplicationUI.java[tags=application-sample-ui]
+----
+
+
+=== April 10th, 2018
+
+==== NLS Service
+
+linkki now always use `DefaultPmoNlsService` as `PmoNlsService` and `DefaultNlsService` as `NlsService`. That means custom implementations of these interfaces are not automatically used by linkki anymore. If an individual implementation of these classes were/have to be used, please contact the linkki development team.
+
+==== BeanInstantiator
+
+`org.linkki.util.cdi.BeanInstantiator` is deprecated and will be removed the next release. Instead, use `org.apache.deltaspike.core.api.provider.BeanProvider`. Test cases which need the CDI environment provided by `BeanInstantiator` can extend `TestWithBeanProvider` from `f10-commons-cdi-test`:
+
+            <dependency>
+                <groupId>de.faktorzehn.commons</groupId>
+                <artifactId>f10-commons-cdi-test</artifactId>
+                <version>18.7.0</version>
+            </dependency>
+
+=== March 22th, 2018
+
+==== No More Binding Private Methods
+
+Previously, linkki allowed some annotations to be used on non-public methods when using `Binder` to manually create bindings. This is no longer possible, as we believe that all methods used by linkki's binding should be public and not be accessed by reflection hacks.
+
+=== February 15th, 2018
+
+==== Binding Aspects
+
+The binding mechanism was redesigned fundamentally. Everything that could be bound to a component such as the value, the enabled state, the visible state, available values etc. are now configured by so called binding aspects. This new mechanism makes it easier to include other UI component properties into the dynamic binding mechanism. It also greatly simplifies the process of implementing custom binding aspects.
+
+Due to the refactoring we could simplify and consolidate several classes. If you have created your own binding annotations or a customized property dispatcher chain there may be some need of adaption:
+
+. The interface `UIElementDefinition` is merged into `BindingDefinition`. Its implementations such as `UIFieldDefinition` are removed. If you have implemented your own field annotation that implements `UIElementDefinition` or `UIFieldDefinition`, just implement `BindingDefinition` directly instead. In addition to your `@LinkkiBindingDefinition` annotation you have to specify the bound aspects using `@LinkkiAspect` annotation. You could use the composite aspect `FieldAspectDefinition` which defines the most common aspects for `AbstractFields`. The aspect for available values is no longer retrieved via `BindingDefinition`. If you want to include this aspect just create a subclass of `AvailableValuesAspectDefinition` that suits your annotation and add it to your custom annotation using `@LinkkiAspect`.
+. The `AnnotationDispatcher` is renamed to `StaticValueDispatcher`
+. The implementations of `BindingDescriptor` are merged into `ElementDescriptor` for all field bindings. `BindAnnotationDescriptor` is used for the special case of `@Bind` annotation.
+. The subclasses of `ElementBinding` for components are united to `ComponentBinding`.
+
+We decided to not keep the deprecated implementations because the refactoring changes will have little effect on client code and keeping deprecated classes would significantly increase maintenance effort.
+
+=== January 15th, 2018
+
+==== `open()` in `OkCancelDialog`
+
+With the new method `open()` in `OkCancelDialog`, a dialog can be directly opened by calling `dialog.open()` instead of using `PmoBasedDialogFactory.open(dialog)`. The `open()` method can be extended to add additional behaviors to the dialog. By default, a `UriFragmentChangedListener` is added upon opening, ensuring that the dialog is properly closed on URL change. If this behavior should be adapted, make sure that all existing dialogs are opened using the new `open()` method.
+
+The `open(OkCancelDialog)` method in `PmoBasedDialogFactory` is deprecated and will be removed in the future.
+
+=== Januar 14th, 2018
+
+==== Changed package for PropertyBehavior
+
+The class `PropertyBehavior` was moved from `org.linkki.core.binding.aspect` to `org.linkki.core.binding.behavior`.
+
+=== January 10th, 2018
+
+==== New component Headline
+
+A new standard component for the application framework called `org.linkki.framework.ui.component.Headline` was introduced. It is used to show a headline at the top of a page below the application header. For customizing it is intended to subclass `Headline` and add further components.
+
+For styling the `Headline` there is a new stylesheet class called `linkki-headline`.
+
+==== OkHandler now deprecated
+
+The interface `OkHandler` is no longer used by *linkki* and will be removed in version 1.0. The already existing interface `Handler` has the same functionality and should be used instead.
+
+==== Annotation @UISection optional
+
+The annotation `@UISection` is now optional. If a class without that annotation is used as a PMO, the annotation's default values (column layout with one column, no caption, not closable, id equal to the class' simple name) are used for the resulting section.
+
+
+=== December 12th, 2017
+
+==== Captions for Checkboxes
+
+*linkki* versions up to 0.9.20171123 treated checkboxes like any other input field concerning labels: The label is displayed on the left, preceding the input field. But in most UI layouts, checkboxes are followed by a caption instead. To facilitate this layout, the `@UICheckBox` now has a `caption` property that must be set. The old `label` can still be used, but the default value for `noLabel` has been switched to `true`, so that `nolabel=false` has to be used where a label should be displayed.
+
+If a `@UICheckBox` is used in a table column and `nolabel=false` is set, the label is displayed as the column header, while the caption remains at the right of the individual checkboxes in the table cells.

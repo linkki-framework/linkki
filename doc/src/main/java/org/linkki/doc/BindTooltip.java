@@ -47,7 +47,6 @@ public @interface BindTooltip {
         public LinkkiAspectDefinition create(BindTooltip annotation) {
             return new BindTooltipAspectDefinition(annotation.tooltipType(), annotation.value());
         }
-
     }
     // end::BindTooltipLinkkiAspectCreator[]
     // tag::BindTooltip[]
