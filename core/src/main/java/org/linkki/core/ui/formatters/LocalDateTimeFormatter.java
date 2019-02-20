@@ -11,7 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.core.ui.converters;
+package org.linkki.core.ui.formatters;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,35 +19,21 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.DateFormats;
 
 /**
- * Converter for converting {@link LocalDateTime} to {@link String}. <br>
- * This converter can be used for example in {@link com.vaadin.ui.Table}s or for
- * {@link com.vaadin.ui.Label}s
- * <p>
- * Do <strong>NOT</strong> use this converter for Fields - this converter is for representation only
- * only!!
+ * Formatter for formatting {@link LocalDateTime} to {@link String}.
  */
-public class LocalDateTimeToStringConverter extends TemporalAccessorToStringConverter<LocalDateTime> {
-
-    private static final long serialVersionUID = -4156241047177368821L;
+public class LocalDateTimeFormatter extends TemporalAccessorFormatter<LocalDateTime> {
 
     @Override
-    public Class<LocalDateTime> getModelType() {
-        return LocalDateTime.class;
-    }
-
-    @Override
-    protected DateTimeFormatter getFormatter(@Nullable Locale locale) {
-        Locale localeForConversion = getLocale(locale);
-        String pattern = DateFormats.getPattern(localeForConversion);
+    protected DateTimeFormatter getFormatter(Locale locale) {
+        String pattern = DateFormats.getPattern(locale);
 
         return new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern(pattern))
                 .appendLiteral(' ')
                 .append(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                .toFormatter(localeForConversion);
+                .toFormatter(locale);
     }
 
 }

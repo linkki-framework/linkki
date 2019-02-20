@@ -23,7 +23,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.ui.UiFramework;
 import org.linkki.core.ui.section.annotations.UIDateField;
-import org.linkki.util.DateFormatRegistry;
+import org.linkki.util.DateFormats;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
@@ -63,7 +63,7 @@ public class DateFieldBindingDefinitionTest {
         Component component = adapter.newComponent();
         assertThat(component, is(instanceOf(DateField.class)));
         DateField dateField = (DateField)component;
-        assertThat(dateField.getDateFormat(), is(DateFormatRegistry.PATTERN_DE));
+        assertThat(dateField.getDateFormat(), is(DateFormats.PATTERN_DE));
     }
 
     @Test

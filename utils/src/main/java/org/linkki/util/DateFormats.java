@@ -17,6 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -24,42 +25,43 @@ import java.util.Map;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
- * A registry for date format patterns to use instead of the rather unsuitable default patterns provided
- * by {@link DateFormat#getDateInstance(int, Locale)}.
- * 
- * @deprecated since 2019-02-26. Use the static {@link DateFormats} instead.
+ * A registry for date format patterns that changes some rather unsuitable default patterns provided by
+ * {@link DateFormat#getDateInstance(int, Locale)} such as the German "dd.MM.yyyy" instead of
+ * "dd.MM.yy".
  */
-@Deprecated
-public class DateFormatRegistry {
+public final class DateFormats {
 
-    /**
-     * @deprecated use {@link DateFormats#PATTERN_ISO} instead
-     */
-    @Deprecated
     public static final String PATTERN_ISO = "yyyy-MM-dd";
-    /**
-     * @deprecated use {@link DateFormats#PATTERN_DE} instead
-     */
-    @Deprecated
     public static final String PATTERN_DE = "dd.MM.yyyy";
 
-    private final Map<String, @Nullable String> languagePatterns = new HashMap<>();
+    private static final Map<String, @Nullable String> LANGUAGE_PATTERNS = new HashMap<>();
 
-    {
-        languagePatterns.put(Locale.GERMAN.getLanguage(), PATTERN_DE);
+    static {
+        LANGUAGE_PATTERNS.put(Locale.GERMAN.getLanguage(), PATTERN_DE);
+    }
+
+    private DateFormats() {
+        // util
+    }
+
+    /**
+     * Registers the given pattern for the given language.
+     * 
+     * @param languageCode a ISO 639 language code, as obtainable from {@link Locale#getLanguage()}
+     * @param pattern a pattern for {@link DateTimeFormatter}
+     */
+    public static void register(String languageCode, String pattern) {
+        LANGUAGE_PATTERNS.put(languageCode, pattern);
     }
 
     /**
      * Returns the registered pattern if existent or a default pattern obtained from
      * {@link DateFormat#getDateInstance(int, Locale)} with style {@link DateFormat#SHORT}.
-     * 
-     * @deprecated use the static {@link DateFormats#getPattern(Locale)} instead
      */
-    @Deprecated
-    public String getPattern(Locale locale) {
+    public static String getPattern(Locale locale) {
         requireNonNull(locale, "locale must not be null");
 
-        String registeredPattern = languagePatterns.get(locale.getLanguage());
+        String registeredPattern = LANGUAGE_PATTERNS.get(locale.getLanguage());
         if (registeredPattern != null) {
             return registeredPattern;
         } else {
@@ -67,7 +69,7 @@ public class DateFormatRegistry {
         }
     }
 
-    private String defaultLocalePattern(Locale locale) {
+    private static String defaultLocalePattern(Locale locale) {
         requireNonNull(locale, "locale must not be null");
 
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, locale);

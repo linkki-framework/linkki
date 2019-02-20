@@ -25,7 +25,7 @@ import org.linkki.core.ui.section.annotations.RequiredType;
 import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
-import org.linkki.util.DateFormatRegistry;
+import org.linkki.util.DateFormats;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
@@ -36,7 +36,6 @@ import com.vaadin.ui.DateField;
 public class DateFieldBindingDefinition implements BindingDefinition {
 
     private final UIDateField uiDateField;
-    private final DateFormatRegistry dateFormatRegistry = new DateFormatRegistry();
 
     public DateFieldBindingDefinition(UIDateField uiDateField) {
         this.uiDateField = requireNonNull(uiDateField, "uiDateField must not be null");
@@ -49,7 +48,7 @@ public class DateFieldBindingDefinition implements BindingDefinition {
             dateField.setDateFormat(uiDateField.dateFormat());
         } else {
             Locale locale = UiFramework.getLocale();
-            dateField.setDateFormat(dateFormatRegistry.getPattern(locale));
+            dateField.setDateFormat(DateFormats.getPattern(locale));
         }
         return dateField;
     }
