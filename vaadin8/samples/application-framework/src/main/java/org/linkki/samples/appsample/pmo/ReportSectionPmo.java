@@ -16,6 +16,8 @@ package org.linkki.samples.appsample.pmo;
 import java.util.function.Consumer;
 
 import org.linkki.core.binding.behavior.PropertyBehavior;
+import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
+import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UISection;
@@ -44,12 +46,16 @@ public class ReportSectionPmo extends ReportPmo {
     public void send() {
         getReport().save();
 
-        PmoBasedDialogFactory dialogFactory = new PmoBasedDialogFactory(PropertyBehavior.readOnly());
+        SendEmailPmo sendEmailPmo = new SendEmailPmo();
+        PropertyBehavior readOnlyBehavior = PropertyBehavior.writable((o, p) -> o == sendEmailPmo);
+        PmoBasedDialogFactory dialogFactory = new PmoBasedDialogFactory((ValidationService)sendEmailPmo::validate,
+                PropertyBehaviorProvider.with(readOnlyBehavior));
         OkCancelDialog dialog = dialogFactory.newOkCancelDialog("Send the following report?",
                                                                 this::doSendReport,
                                                                 () -> Notification.show("Report is not sent."),
-                                                                new ReportPmo(getReport()));
-        dialog.setWidth("1100px");
+                                                                new ReportPmo(getReport()), sendEmailPmo);
+
+        dialog.setWidth("90%");
         dialog.open();
     }
 

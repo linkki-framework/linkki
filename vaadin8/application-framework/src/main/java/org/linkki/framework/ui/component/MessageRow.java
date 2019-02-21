@@ -30,6 +30,7 @@ public class MessageRow extends FormLayout {
     public MessageRow(Message message) {
         this.messagePmo = new MessagePmo(message);
         Label label = new Label();
+        label.setWidth("100%");
         label.setIcon(getIcon());
         label.setContentMode(ContentMode.HTML);
         label.setValue(getText());
