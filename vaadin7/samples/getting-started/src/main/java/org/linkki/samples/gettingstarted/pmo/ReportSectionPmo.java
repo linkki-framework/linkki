@@ -28,7 +28,6 @@ import org.linkki.samples.gettingstarted.model.Report;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Notification;
 
-// tag::report-pmo[]
 @UISection
 public class ReportSectionPmo implements PresentationModelObject {
 
@@ -38,31 +37,22 @@ public class ReportSectionPmo implements PresentationModelObject {
         this.report = requireNonNull(report, "report must not be null");
     }
 
-    // end::report-pmo[]
-
-    // tag::model-binding[]
     @ModelObject
     public Report getReport() {
         return report;
     }
-    // end::model-binding[]
 
-    // tag::textfield[]
     @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 5, columns = 50)
     public void description() {
         /* Use description from report (model object) directly */
     }
-    // end::textfield[]
 
-    // tag::combobox[]
     @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED)
     public void type() {
         // - bind value to the property "type" from report
         // - use enum constants from ReportType as available values
     }
-    // end::combobox[]
 
-    // tag::button[]
     @UIButton(position = 30, caption = "Send", icon = FontAwesome.SEND, showIcon = true, enabled = EnabledType.DYNAMIC)
     public void send() {
         report.save();
@@ -82,5 +72,4 @@ public class ReportSectionPmo implements PresentationModelObject {
         return description != null && !description.isEmpty()
                 && report.getType() != null;
     }
-    // tag::button[]
 }

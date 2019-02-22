@@ -32,7 +32,6 @@ public class CarTablePmo implements ContainerPmo<@NonNull CarRowPmo>, Serializab
 
     private static final long serialVersionUID = 8770409786960309300L;
 
-
     private final Handler addCarAction;
     private final SimpleItemSupplier<@NonNull CarRowPmo, @NonNull Car> items;
 

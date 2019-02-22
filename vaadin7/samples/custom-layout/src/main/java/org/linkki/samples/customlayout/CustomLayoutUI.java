@@ -50,9 +50,7 @@ public class CustomLayoutUI extends UI {
                 "<p><hr/><p>Same PMO in a simple FormLayout - it references the same PMO instance, so all fields are in sync<p><hr/>",
                 ContentMode.HTML));
 
-        // tag::CustomLayoutUI-create[]
         content.addComponent(FormLayoutCreator.create(pmo, bindingContext));
-        // end::CustomLayoutUI-create[]
     }
 
 }

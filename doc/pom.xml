@@ -27,7 +27,7 @@
     <dependencies>
         <dependency>
             <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-core-vaadin7</artifactId>
+            <artifactId>linkki-core-vaadin8</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

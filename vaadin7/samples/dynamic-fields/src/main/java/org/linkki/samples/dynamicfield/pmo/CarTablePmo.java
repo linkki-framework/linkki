@@ -32,11 +32,9 @@ public class CarTablePmo implements ContainerPmo<@NonNull CarRowPmo>, Serializab
 
     private static final long serialVersionUID = 8770409786960309300L;
 
-
     private final Handler addCarAction;
     private final SimpleItemSupplier<@NonNull CarRowPmo, @NonNull Car> items;
 
-    // tag::table-footer[]
     private final TableFooterPmo footer;
 
     public CarTablePmo(List<Car> carStorage, Handler addCarAction) {
@@ -45,7 +43,6 @@ public class CarTablePmo implements ContainerPmo<@NonNull CarRowPmo>, Serializab
 
         this.footer = c -> calculateTotalRetention(c, carStorage);
     }
-    // end::table-footer[]
 
     @Override
     public List<CarRowPmo> getItems() {
@@ -61,7 +58,6 @@ public class CarTablePmo implements ContainerPmo<@NonNull CarRowPmo>, Serializab
     public int getPageLength() {
         return Math.min(ContainerPmo.super.getPageLength(), getItems().size());
     }
-    // tag::table-footer[]
 
     @Override
     public Optional<TableFooterPmo> getFooterPmo() {
@@ -83,5 +79,4 @@ public class CarTablePmo implements ContainerPmo<@NonNull CarRowPmo>, Serializab
                 return "";
         }
     }
-    // end::table-footer[]
 }

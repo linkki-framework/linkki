@@ -37,20 +37,16 @@ public abstract class CarPmo implements PresentationModelObject, Serializable {
 
     private static final long serialVersionUID = -3117310513102291997L;
 
-
     private final Car car;
-
 
     public CarPmo(Car car) {
         this.car = car;
     }
 
-
     @ModelObject
     public Car getCar() {
         return car;
     }
-
 
     @UITextField(position = 10, label = "Make", modelAttribute = Car.PROPERTY_MAKE, required = RequiredType.REQUIRED_IF_ENABLED)
     public void make() {

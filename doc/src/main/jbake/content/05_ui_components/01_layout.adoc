@@ -2,8 +2,8 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-custom: ../../../../../../samples/custom-layout/src/main/java
-:resource-dir-custom: ../../../../../../samples/custom-layout/src/main/webapp
+:source-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/java
+:resource-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/webapp
 
 :images-folder-name: 05_ui_components
 
@@ -21,6 +21,7 @@ With the horizontal layout all input fields are displayed on a line, side by sid
 
 With the column layout fields are displayed one below the other. If additionally a number of columns are defined with the property `columns`, a kind of grid layout is produced. The grid is filled in the order of the field's position from left to right, row by row. 
 
+[[custom-layout]]
 ==== Custom layout
 
 Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v7/framework/layout/layout-customlayout.html[CustomLayout] from vaadin.

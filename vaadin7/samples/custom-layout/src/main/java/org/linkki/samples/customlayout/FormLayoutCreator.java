@@ -23,7 +23,6 @@ import org.linkki.core.ui.section.Sections;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 
-// tag::FormLayoutCreator-class[]
 public class FormLayoutCreator {
 
     public static FormLayout create(Object pmo, BindingContext bindingContext) {
@@ -38,4 +37,3 @@ public class FormLayoutCreator {
     }
 
 }
-// end::FormLayoutCreator-class[]

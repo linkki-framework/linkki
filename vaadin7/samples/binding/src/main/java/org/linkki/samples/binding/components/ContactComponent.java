@@ -72,9 +72,7 @@ public class ContactComponent extends Panel {
         AddressFields addressFields = new AddressFields();
         AddressComponent addressComponent = new AddressComponent(addressFields);
 
-        // tag::manual-binding[]
         new Binder(addressFields, addressPmo).setupBindings(bindingContext);
-        // end::manual-binding[]
 
         AbstractSection childrenSection = sectionFactory.createSection(childrenSectionPmo, bindingContext);
         AbstractSection buttonsSection = sectionFactory.createSection(buttonsSectionPmo, bindingContext);

@@ -19,7 +19,6 @@ import org.linkki.core.binding.DefaultBindingManager;
 import org.linkki.core.message.MessageList;
 import org.linkki.samples.messages.pmo.RegistrationValidationService;
 
-// tag::binding-manager-update-messages[]
 public class RegistrationBindingManager extends DefaultBindingManager {
 
     private final Consumer<MessageList> displayMessagesConsumer;
@@ -36,4 +35,3 @@ public class RegistrationBindingManager extends DefaultBindingManager {
         this.displayMessagesConsumer.accept(messages);
     }
 }
-// end::binding-manager-update-messages[]

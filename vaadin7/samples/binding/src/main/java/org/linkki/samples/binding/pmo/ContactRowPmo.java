@@ -50,7 +50,6 @@ public class ContactRowPmo {
     }
 
     @UITableColumn(width = 50)
-    // tag::contactRowPmo-labelHtmlContent[]
     @UILabel(position = 5, label = "", htmlContent = true)
     public String getGender() {
         switch (contact.getGender()) {
@@ -64,16 +63,13 @@ public class ContactRowPmo {
         }
 
     }
-    // end::contactRowPmo-labelHtmlContent[]
 
 
-    // tag::contactRowPmo-labelBinding[]
     @UITableColumn(expandRatio = 1F)
     @UILabel(position = 10, label = "Name")
     public String getName() {
         return contact.getName();
     }
-    // end::contactRowPmo-labelBinding[]
 
     @UITableColumn(expandRatio = 2F, collapsible = CollapseMode.INITIALLY_COLLAPSED)
     @UILabel(position = 20, label = "Address")
@@ -81,14 +77,12 @@ public class ContactRowPmo {
         return contact.getAddress().asSingleLineString();
     }
 
-    // tag::contactRowPmo-buttonBinding[]
     @UITableColumn(width = 50)
     @BindTooltip("Edit")
     @UIButton(position = 30, icon = FontAwesome.EDIT, showIcon = true)
     public void edit() {
         editAction.accept(contact);
     }
-    // end::contactRowPmo-buttonBinding[]
 
     @UITableColumn(width = 50)
     @BindTooltip("Delete")

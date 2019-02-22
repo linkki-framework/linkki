@@ -54,10 +54,8 @@ public class MessageUI extends UI {
         RegistrationSectionPmo registrationPmo = new RegistrationSectionPmo(user,
                 pmo -> handleRegistration(messagesPanel, pmo));
 
-        // tag::validation-service[]
         validationService = new RegistrationValidationService(registrationPmo);
         bindingManager = new RegistrationBindingManager(validationService, ml -> messagesPanel.updateMessages(ml));
-        // end::validation-service[]
 
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         AbstractSection section = sectionFactory.createSection(registrationPmo,

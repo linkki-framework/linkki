@@ -32,7 +32,6 @@ public abstract class CategoryRowPmo<@NonNull CMO, @NonNull CPMO extends PlayerT
     private Supplier<Stream<Player>> playerStreamSupplier;
     private SimpleItemSupplier<@NonNull CPMO, @NonNull CMO> childRowSupplier;
 
-    // tag::hierarchical-row-pmo-with-simple-item-supplier[]
     public CategoryRowPmo(Supplier<Stream<Player>> playerStreamSupplier,
             Function<Stream<Player>, Stream<CMO>> playersToChildModelObjectMapper,
             Function<CMO, CPMO> childModelObject2pmoMapping) {
@@ -41,7 +40,6 @@ public abstract class CategoryRowPmo<@NonNull CMO, @NonNull CPMO extends PlayerT
                 () -> playersToChildModelObjectMapper.apply(playerStreamSupplier.get()).collect(Collectors.toList()),
                 childModelObject2pmoMapping);
     }
-    // end::hierarchical-row-pmo-with-simple-item-supplier[]
 
     @Override
     public String getTeam() {

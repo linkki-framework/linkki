@@ -1,7 +1,7 @@
 :jbake-title: Additional Binding
 :jbake-type: section
 :jbake-status: published
-:source-dir: ../../../../../../samples/binding/src/main/java
+:source-dir: ../../../../../../vaadin8/samples/binding/src/main/java
 
 === Additional Binding
 

@@ -36,7 +36,6 @@ import org.linkki.samples.binding.annotation.BindValue.BindFieldValueAspectDefin
 import org.linkki.samples.binding.annotation.BindValue.BindValueAnnotationBoundPropertyCreator;
 import org.linkki.util.BeanUtils;
 
-// tag::custom-bind[]
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
 @LinkkiBoundProperty(BindValueAnnotationBoundPropertyCreator.class)
@@ -49,9 +48,6 @@ public @interface BindValue {
 
     String modelAttribute() default "";
 
-    // end::custom-bind[]
-
-    // tag::custom-bound-property-creator[]
     class BindValueAnnotationBoundPropertyCreator implements BoundPropertyCreator<@NonNull BindValue> {
 
         @Override
@@ -78,7 +74,6 @@ public @interface BindValue {
         }
 
     }
-    // end::custom-bound-property-creator[]
 
     static class BindFieldValueAspectDefinitionCreator implements AspectDefinitionCreator<@NonNull BindValue> {
 

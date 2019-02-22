@@ -29,16 +29,12 @@ public class PersonSectionPmo_fieldModelObject {
         this.person = person;
     }
 
-    // tag::pojo-binding[]
     @UITextField(position = 10, label = "First Name")
     public String getFirstName() {
         return person.getFirstname();
     }
-    // end::pojo-binding[]
 
-    // tag::model-binding[]
     @UITextField(position = 10, label = "First Name", modelAttribute = "firstname")
     public void firstName() {
     }
-    // end::model-binding[]
 }

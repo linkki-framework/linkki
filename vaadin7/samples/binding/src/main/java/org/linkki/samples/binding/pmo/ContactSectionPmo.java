@@ -32,19 +32,16 @@ import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.samples.binding.model.Contact;
 
-// tag::contactPmo-class[]
 @UISection
 public class ContactSectionPmo {
 
     private Contact contact;
-    // end::contactPmo-class[]
 
     @SuppressWarnings("null")
     public ContactSectionPmo(Contact contact) {
         this.contact = contact;
     }
 
-    // tag::contactPmo-class[]
     @ModelObject
     public Contact getContact() {
         return contact;
@@ -93,7 +90,6 @@ public class ContactSectionPmo {
         /* model binding only */
     }
 
-    // end::contactPmo-class[]
     public void reset(Contact newContact) {
         this.contact = newContact;
     }
@@ -101,6 +97,4 @@ public class ContactSectionPmo {
     public boolean isInputValid() {
         return !StringUtils.isEmpty(contact.getFirstname()) && !StringUtils.isEmpty(contact.getLastname());
     }
-    // tag::contactPmo-class[]
 }
-// end::contactPmo-class[]

@@ -3,7 +3,7 @@
 === linkki
 
 image:https://img.shields.io/badge/License-Apache2.0-blue.svg[License, link=https://opensource.org/licenses/Apache-2.0, role="left"]
-image:https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/linkki-core/badge.svg[Maven Central, link=https://mvnrepository.com/artifact/org.linkki-framework/linkki-core, role="left"]
+image:https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/linkki-core-vaadin8/badge.svg[Maven Central, link=https://mvnrepository.com/artifact/org.linkki-framework/linkki-core-vaadin8, role="left"]
 
 *linkki* is a data binding framework that makes building UI in https://vaadin.com/home[vaadin] applications easier and faster.
 
@@ -36,7 +36,7 @@ Applications often consist of a variety of input elements that closely mirror ob
 [source,java]
 
 ----
-    @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 5, columns = 50)
+    @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 5, width = "50em")
     public void description() {
         /* Use description from report (model object) directly */
     }
@@ -59,7 +59,7 @@ Applications often consist of a variety of input elements that closely mirror ob
 [source,java]
 
 ----
-    @UIButton(position = 30, caption = "Send", icon = FontAwesome.SEND, showIcon = true, enabled = EnabledType.DYNAMIC)
+    @UIButton(position = 30, caption = "Send", icon = VaadinIcons.SEND, showIcon = true, enabled = EnabledType.DYNAMIC)
     public void send() {
         report.save();
         Notification.show(
@@ -100,7 +100,7 @@ NOTE: The complete example can be found at http://doc.linkki-framework.org/linkk
 ----
 <dependency>
   <groupId>org.linkki-framework</groupId>
-  <artifactId>linkki-core</artifactId>
+  <artifactId>linkki-core-vaadin8</artifactId>
   <version>${linkki.version}</version>
 </dependency>
 ----

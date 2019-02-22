@@ -32,13 +32,11 @@ public class MessagesPanel extends Panel {
         for (Message message : messages) {
             Label messageLabel = new Label();
             messageLabel.setIcon(getMessageIcon(message));
-            // tag::mandatory[]
             String text = message.getText();
             if (message.isMandatoryFieldMessage()) {
                 text += " *";
             }
             messageLabel.setCaption(text);
-            // end::mandatory[]
             messageLabel.setContentMode(ContentMode.PREFORMATTED);
             layout.addComponent(messageLabel);
         }

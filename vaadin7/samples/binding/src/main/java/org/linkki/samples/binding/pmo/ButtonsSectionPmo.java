@@ -39,7 +39,6 @@ public class ButtonsSectionPmo {
         this.resetAction = resetAction;
     }
 
-    // tag::button[]
     @UIButton(position = 10, showIcon = true, icon = FontAwesome.SAVE, //
             captionType = CaptionType.NONE, enabled = EnabledType.DYNAMIC, //
             shortcutKeyCode = KeyCode.ENTER, styleNames = ValoTheme.BUTTON_PRIMARY)
@@ -55,5 +54,5 @@ public class ButtonsSectionPmo {
     public void reset() {
         resetAction.apply();
     }
-    // end::button[]
+
 }

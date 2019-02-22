@@ -14,6 +14,7 @@
 package org.linkki.doc;
 
 import static org.hamcrest.Matchers.is;
+import static org.linkki.doc.PathExistsMatcher.exists;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -31,9 +32,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.NonNull;
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -41,7 +39,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(value = Parameterized.class)
-public class TestLinks {
+public class LinkTest {
 
     private static final String GITHUB_PREFIX = "https://github.com/linkki-framework/linkki/blob/master";
     private static final String USER_AGENT = "User-Agent";
@@ -57,7 +55,7 @@ public class TestLinks {
 
     @Parameters
     public static Collection<Object[]> data() throws IOException {
-        return Files.walk(Paths.get("target")).filter(TestLinks::isHtmlFileInDocumentation).flatMap(p -> {
+        return Files.walk(Paths.get("target")).filter(LinkTest::isHtmlFileInDocumentation).flatMap(p -> {
             try {
                 return Files.lines(p, StandardCharsets.UTF_8).map(HREF::matcher).filter(Matcher::find)
                         .map(matcher -> matcher.group(1)).map(url -> new Object[] { p, url });
@@ -120,21 +118,6 @@ public class TestLinks {
                 }
             }
         }
-    }
-
-    private org.hamcrest.Matcher<Path> exists() {
-        return new TypeSafeMatcher<Path>() {
-
-            @Override
-            public void describeTo(@NonNull Description description) {
-                description.appendText("an existing file");
-            }
-
-            @Override
-            protected boolean matchesSafely(Path item) {
-                return item.toFile().exists();
-            }
-        };
     }
 
 }

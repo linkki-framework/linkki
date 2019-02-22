@@ -57,10 +57,8 @@ public class ReportSectionPmo implements PresentationModelObject {
     // tag::combobox[]
     @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED)
     public void type() {
-        /*
-         * - bind value to the property "type" from report - use enum constants from ReportType as
-         * available values
-         */
+        // - bind value to the property "type" from report
+        // - use enum constants from ReportType as available values
     }
     // end::combobox[]
 
@@ -84,5 +82,5 @@ public class ReportSectionPmo implements PresentationModelObject {
         return description != null && !description.isEmpty()
                 && report.getType() != null;
     }
-    // tag::button[]
+    // end::button[]
 }

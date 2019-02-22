@@ -23,32 +23,24 @@ import org.linkki.core.ui.table.SimpleItemSupplier;
 import org.linkki.core.ui.table.TableFooterPmo;
 import org.linkki.samples.binding.model.Contact;
 
-// tag::contactTablePmo-class[]
 public class ContactTablePmo implements ContainerPmo<ContactRowPmo> {
 
-    // end::contactTablePmo-class[]
     private final SimpleItemSupplier<ContactRowPmo, Contact> items;
 
-    // tag::item-supplier[]
     public ContactTablePmo(List<Contact> contacts, Consumer<Contact> editAction, Consumer<Contact> deleteAction) {
         items = new SimpleItemSupplier<>(() -> contacts,
                 p -> new ContactRowPmo(p, editAction, deleteAction));
     }
-    // end::item-supplier[]
 
-    // tag::contactTablePmo-getItems[]
     @Override
     public List<ContactRowPmo> getItems() {
         return items.get();
     }
-    // end::contactTablePmo-getItems[]
 
-    // tag::page-length[]
     @Override
     public int getPageLength() {
         return Math.min(ContainerPmo.DEFAULT_PAGE_LENGTH, getItems().size());
     }
-    // end::page-length[]
 
     @Override
     public @NonNull Optional<@NonNull TableFooterPmo> getFooterPmo() {

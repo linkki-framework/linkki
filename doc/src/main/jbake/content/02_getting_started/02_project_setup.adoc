@@ -2,9 +2,9 @@
 :jbake-type: section
 :jbake-status: published
 
-:base-dir: ../../../../../../samples/getting-started
-:tree-sample-dir: ../../../../../../samples/tree-table
-:sample-parent-dir: ../../../../../../samples
+:base-dir: ../../../../../../vaadin8/samples/getting-started
+:tree-sample-dir: ../../../../../../vaadin8/samples/tree-table
+:sample-parent-dir: ../../../../../../vaadin8/samples
 
 [[project-setup]]
 === Project Setup
@@ -31,7 +31,7 @@ And the matching UI framework dependent *linkki* module:
 
 [source,xml]
 ----
-include::{sample-parent-dir}/pom.xml[tags=linkki-core-vaadin7]
+include::{sample-parent-dir}/pom.xml[tags=linkki-core-vaadin8]
 ----
 
 In the above example, we are creating a web application that is packaged as `war`, as it is needed for the <<linkki-example, linkki example>>.

@@ -4,7 +4,7 @@
 :jbake-order: 99
 
 :source-dir: ../../../java
-:source-dir-application: ../../../../../../samples/application-framework/src/main/java
+:source-dir-application: ../../../../../../vaadin8/samples/application-framework/src/main/java
 :images-folder-name: 01_newnoteworthy
 
 === November 29th, 2018
