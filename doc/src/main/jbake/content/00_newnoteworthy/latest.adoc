@@ -44,6 +44,8 @@ details > div {
 
 With this version, *linkki* now supports both Vaadin Framework 7 and Vaadin Framework 8. If you intend to use *linkki* with Vaadin Framework 8, we highly recommend migrating to the previous *linkki* version first as Vaadin Framework 8 includes several major changes that also leads to changes in the *linkki* API. Also, it is best to first free your project from deprecated warnings related to linkki. Although we tried our best to keep the API stable, some concepts had to be reworked fundamentally, making it impossible to carry the existing API over to the new version.
 
+
+
 ==== *linkki* for Vaadin Framework 8
 
 Up to now, *linkki* could only be used with Vaadin Framework 7. Now, you can decide if you want to use *linkki* with Vaadin Framework 7 or Vaadin Framework 8. As Vaadin Framework 7 will not be maintained anymore in 2020, the development of *linkki* will be primarily focused on Vaadin 8 from now onwards.
@@ -91,6 +93,12 @@ ifndef::backend-html5[]
 ===== Migrating to *linkki* for Vaadin 8
 endif::[]
 
+Migration Script::
+To minimize the migration effort, we created shell scripts to help with the changes that can be easily automated.
++
+The find and replaces are defined in The file link:../migration_scripts/0.9.20190205_to_linkkiVaadin8/migrate.sed[migrate.sed] and link:../migration_scripts/search_replace.sh[search_replace.sh] executes these commands. The easiest way to use the migration script is to put both files in your project directory and run "./search_replace.sh ." in your terminal. The scripts can be executed in any terminal that supports shell scripts, including the git bash.
+
+Maven Dependency::
 The very first step for the migration is to include the new *linkki* Vaadin 8 dependencies for `linkki-core` or `linkki-application-framework`:
 
 [source,xml,subs="verbatim,attributes"]

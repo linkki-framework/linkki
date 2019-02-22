@@ -46,7 +46,7 @@ public class LinkTest {
     private static final Pattern HREF = Pattern.compile("<a href=\"([^\"]+)\">");
     private static final Pattern URL = Pattern
             .compile("^((http|https)://)?[-a-zA-Z0-9+&@#/%?=~_|,!:\\.;]*[-a-zA-Z0-9+@#/%=&_|]");
-    private static final Pattern LOCAL_REF = Pattern.compile("^([-_a-zA-Z0-9/\\.]+\\.html)?(#[-a-zA-Z0-9]+)?");
+    private static final Pattern LOCAL_REF = Pattern.compile("^([-_a-zA-Z0-9/\\.]+)?(#[-a-zA-Z0-9]+)?");
 
     @Parameter(0)
     public Path from;

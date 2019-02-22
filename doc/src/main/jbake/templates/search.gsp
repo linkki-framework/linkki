@@ -113,7 +113,7 @@
                         throw new IllegalStateException("Empty Map");
                     }
 
-                    final List<String> internalDirs = Arrays.asList("search", "js", "images", "fonts", "css");
+                    final List<String> internalDirs = Arrays.asList("search", "js", "images", "fonts", "css", "migration_scripts");
                     final List<File> nonInternalDirs = targetDir.listFiles().findAll{it.isDirectory() && !internalDirs.contains(it.getName())}.collect();
                     for (File dirTarget : nonInternalDirs) {
                         for (File html : dirTarget.listFiles()) {
