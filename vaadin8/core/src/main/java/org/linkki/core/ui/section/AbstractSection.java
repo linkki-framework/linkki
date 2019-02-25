@@ -27,6 +27,7 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.AbstractOrderedLayout;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -93,8 +94,9 @@ public abstract class AbstractSection extends VerticalLayout {
             Optional<Button> editButton,
             Optional<Button> openCloseButton) {
         HorizontalLayout headerLayout = new HorizontalLayout();
+        headerLayout.setWidth("100%");
+        headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         headerLayout.addStyleName(ApplicationStyles.SECTION_CAPTION);
-        headerLayout.setSpacing(true);
 
         if (StringUtils.isNotEmpty(caption)) {
             Label captionLabel = new Label(caption);
@@ -106,8 +108,10 @@ public abstract class AbstractSection extends VerticalLayout {
         openCloseButton.ifPresent(b -> addHeaderButton(headerLayout, b));
 
         Label line = new Label("<hr/>", ContentMode.HTML);
+        line.setWidth("100%");
         line.addStyleName(ApplicationStyles.SECTION_CAPTION_LINE);
         headerLayout.addComponent(line);
+        headerLayout.setExpandRatio(line, 1);
 
         return headerLayout;
     }
@@ -126,11 +130,15 @@ public abstract class AbstractSection extends VerticalLayout {
     private static void addHeaderButton(AbstractOrderedLayout header, Button button) {
         button.addStyleName(ApplicationStyles.BUTTON_TEXT);
         header.addComponent(button);
+        // Set the spacing to false as the button already has a margin around it.
+        header.setSpacing(false);
     }
 
     private static void addHeaderButton(AbstractOrderedLayout header, Button button, int index) {
         button.addStyleName(ApplicationStyles.BUTTON_TEXT);
         header.addComponent(button, index);
+        // Set the spacing to false as the button already has a margin around it.
+        header.setSpacing(false);
     }
 
     public boolean isEditButtonAvailable() {

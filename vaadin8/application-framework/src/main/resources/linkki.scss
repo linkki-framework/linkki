@@ -281,11 +281,6 @@ $linkki-sidebar-width: 56px !default;
   */
   
   .linkki-section-caption {
-    width: 100%;
-    vertical-align: middle;
-    /* Trick to make the line take up the rest of the space */
-    overflow: hidden;
-  
     /* Space before section caption and below caption */
     padding-top: 8px;
     padding-bottom: 10px;
@@ -295,15 +290,6 @@ $linkki-sidebar-width: 56px !default;
         .linkki-section-caption-text {
             font-size: 110%;
             font-weight: bold;
-        }
-    }
-  
-    /* Puts a line as a separator between the different sections */
-    .v-slot-linkki-section-caption-line {
-        width: 100%;
-  
-        .v-label {
-            width: 100%;
         }
     }
   } //end-linkki-section-caption

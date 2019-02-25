@@ -1886,9 +1886,6 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .linkki-section-caption {
-	width: 100%;
-	vertical-align: middle;
-	overflow: hidden;
 	padding-top: 8px;
 	padding-bottom: 10px;
 }
@@ -1896,14 +1893,6 @@ div.v-layout.v-horizontal.v-widget {
 .sample .linkki-section-caption .v-slot-linkki-section-caption-text .linkki-section-caption-text {
 	font-size: 110%;
 	font-weight: bold;
-}
-
-.sample .linkki-section-caption .v-slot-linkki-section-caption-line {
-	width: 100%;
-}
-
-.sample .linkki-section-caption .v-slot-linkki-section-caption-line .v-label {
-	width: 100%;
 }
 
 .sample .v-button.linkki-button-text {
