@@ -24,9 +24,12 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.UiFramework;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
+import org.linkki.core.vaadin8.nls.NlsText;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.Converter;
@@ -45,6 +48,8 @@ import com.vaadin.ui.HasValueChangeMode;
  * {@link #getConverter(Type, Type)} to add converters to the field.
  */
 public class ValueAspectDefinition implements LinkkiAspectDefinition {
+
+    public static final String MSG_CODE_INVALID_INPUT = "valueAspectDefinition.invalidInput";
 
     public static final String NAME = LinkkiAspectDefinition.VALUE_ASPECT_NAME;
 
@@ -78,8 +83,16 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
                 Result<?> result = converter.convertToModel(event.getValue(), getValueContext());
                 result.ifOk(v -> propertyDispatcher.push(Aspect.of(NAME, v)));
                 modelUpdated.apply();
+                result.ifError(s -> componentWrapper.setValidationMessages(getInvalidInputMessage(event.getValue())));
             }
         });
+    }
+
+    private MessageList getInvalidInputMessage(@Nullable Object value) {
+        return new MessageList(
+                Message.newWarning(MSG_CODE_INVALID_INPUT,
+                                   String.format(NlsText.getString("ValueAspectDefinition.invalidInput"),
+                                                 value != null ? value.toString() : "null")));
     }
 
     @SuppressWarnings("null")
