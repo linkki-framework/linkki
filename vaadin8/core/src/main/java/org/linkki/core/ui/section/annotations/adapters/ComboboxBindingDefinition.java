@@ -45,6 +45,8 @@ public class ComboboxBindingDefinition implements BindingDefinition {
         comboBox.setEmptySelectionAllowed(false);
         comboBox.setEmptySelectionCaption(getItemCaptionProvider().getNullCaption());
         comboBox.setWidth(uiComboField.width());
+        comboBox.setPopupWidth(null);
+        comboBox.setPageLength(0);
         return comboBox;
     }
 

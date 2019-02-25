@@ -13,7 +13,13 @@
  */
 package org.linkki.samples.binding.pmo;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.ui.UiFramework;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.core.ui.section.annotations.BindTooltip;
@@ -63,11 +69,26 @@ public class ContactSectionPmo {
         return "Last name";
     }
 
-    @UIComboBox(position = 30, label = "Gender", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = ToStringCaptionProvider.class)
+    @UIComboBox(position = 30, label = "Gender", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, //
+            itemCaptionProvider = GenderCaptionProvider.class)
     public void gender() {
         /* model binding only */ }
 
-    @UICheckBox(position = 40, caption = "Add to favorites")
+    @UIComboBox(position = 40, label = "Country of Birth", //
+            content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class, //
+            modelAttribute = Contact.PROPERTY_COUNTRY_OF_BIRTH)
+    public void countryOfBirth() {
+        /* model binding only */ }
+
+    public List<String> getCountryOfBirthAvailableValues() {
+        return Arrays.asList(Locale.getAvailableLocales()).stream()
+                .map(l -> l.getDisplayCountry(UiFramework.getLocale()))
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    @UICheckBox(position = 50, caption = "Add to favorites")
     public void favorite() {
         /* model binding only */
     }

@@ -1,20 +1,21 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.samples.binding.model;
 
 public class Contact {
 
+    public static final String PROPERTY_COUNTRY_OF_BIRTH = "countryOfBirth";
     public static final String PROPERTY_NO_OF_CHILDREN = "noOfChildren";
     public static final String PROPERTY_NOTES_ON_CHILDREN = "notesOnChildren";
 
@@ -23,7 +24,8 @@ public class Contact {
     private boolean favorite;
 
     private Address address;
-    private Gender gender = Gender.OTHER;
+    private Gender gender = Gender.NON_BINARY;
+    private String countryOfBirth;
 
     private int noOfChildren;
     private String notesOnChildren;
@@ -83,6 +85,14 @@ public class Contact {
         this.gender = gender;
     }
 
+    public String getCountryOfBirth() {
+        return countryOfBirth;
+    }
+
+    public void setCountryOfBirth(String countryOfBirth) {
+        this.countryOfBirth = countryOfBirth;
+    }
+
     public int getNoOfChildren() {
         return noOfChildren;
     }
@@ -102,6 +112,6 @@ public class Contact {
     public enum Gender {
         MALE,
         FEMALE,
-        OTHER
+        NON_BINARY
     }
 }
