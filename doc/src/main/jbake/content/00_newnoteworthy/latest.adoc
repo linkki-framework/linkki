@@ -1,10 +1,9 @@
-:jbake-title: {dversion}
+:jbake-title: Latest
 :jbake-type: section
 :jbake-status: published
 :jbake-order: 0
 
-:source-dir: ../../../java
-:source-dir-application: ../../../../../../samples/application-framework/src/main/java
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy
 
 ++++
@@ -47,7 +46,7 @@ With this version, *linkki* now supports both Vaadin Framework 7 and Vaadin Fram
 
 ==== *linkki* for Vaadin Framework 8
 
-Up to now, *linkki* can only be used with Vaadin Framework 7. Now, you can decide if you want to use *linkki* with Vaadin Framework 7 or Vaadin Framework 8. As Vaadin Framework 7 will not be maintained anymore in 2020, the development of *linkki* will be primarily focused on Vaadin 8 from now onwards.
+Up to now, *linkki* could only be used with Vaadin Framework 7. Now, you can decide if you want to use *linkki* with Vaadin Framework 7 or Vaadin Framework 8. As Vaadin Framework 7 will not be maintained anymore in 2020, the development of *linkki* will be primarily focused on Vaadin 8 from now onwards.
 
 Vaadin Framework 8 poses a large release containing major improvements and changes. If you want to use *linkki* with Vaadin Framework 8 but prefer a more granular migration process, you can first switch to *linkki* for Vaadin 7, then move forward to *linkki* for Vaadin 8 after having adjusted to the changes.
 

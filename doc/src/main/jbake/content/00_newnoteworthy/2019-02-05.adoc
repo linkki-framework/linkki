@@ -3,8 +3,7 @@
 :jbake-status: published
 :jbake-order: 98
 
-:source-dir: ../../../java
-:source-dir-application: ../../../../../../samples/application-framework/src/main/java
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy
 
 === 0.9.20190205.1
@@ -40,7 +39,13 @@ This feature brings several changes in the API:
 .Reading of the value in the `AspectDefinitionCreator`
 [source,java]
 ----
-include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspectCreator]
+class BindTooltipAspectDefintionCreator implements AspectDefinitionCreator<@NonNull BindTooltip> {
+
+    @Override
+    public LinkkiAspectDefinition create(BindTooltip annotation) {
+        return new BindTooltipAspectDefinition(annotation.tooltipType(), annotation.value());
+    }
+}
 ----
 * `initialize(Annotation)` is removed from the `LinkkiAspectDefinition` interface. All necessary information should be directly passed to the constructor instead. +
 Previously, the `initialize` method had the responsibility of reading the relevant attributes from the given annotation. To make the aspect definition more flexible, we recommend moving this responsibility to the creator. The constructor of the aspect definition then directly take the relevant values.
@@ -48,24 +53,24 @@ Previously, the `initialize` method had the responsibility of reading the releva
 .Previous instantiation of the aspect definition with annotation
 [source,java]
 ----
-    @SuppressWarnings("null")
-    private TooltipType type;
+@SuppressWarnings("null")
+private TooltipType type;
 
-    @Override
-    public void initialize(Annotation annotation) {
-        this.type = ((BindTooltip)annotation).type();
-    }
+@Override
+public void initialize(Annotation annotation) {
+    this.type = ((BindTooltip)annotation).type();
+}
 ----
 +
 .New instantiation of the aspect definition with value
 [source,java]
 ----
-  private final TooltipType type;
+private final TooltipType type;
 
-   public BindTooltipAspectDefinition(TooltipType type) {
-       this.type = type;
-       this.value = value;
-   }
+public BindTooltipAspectDefinition(TooltipType type) {
+    this.type = type;
+    this.value = value;
+}
 ----
 * If the existing `LinkkiAspectDefinition` extends `CompositeAspectDefinition`, the definition itself may not be needed any more. Instead, it can be turned into an aspect definition creator that creates a `CompositeAspectDefinition` in the `create(Annotation)` method.
 +
@@ -74,13 +79,13 @@ Previously, the `initialize` method had the responsibility of reading the releva
 ----
 public class MyAspectDefinitionCreator implements AspectDefinitionCreator<@NonNull MyAnnotation> {
 
-    @Override
-    public LinkkiAspectDefinition create(MyAnnotation annotation) {
-        return new CompositeAspectDefinition(
-                new LabelAspectDefinition(annotation.label()),
-                new VisibleAspectDefinition(annotation.visible()),
-                new FieldValueAspectDefinition(),
-                new ReadOnlyAspectDefinition());
+@Override
+public LinkkiAspectDefinition create(MyAnnotation annotation) {
+return new CompositeAspectDefinition(
+        new LabelAspectDefinition(annotation.label()),
+        new VisibleAspectDefinition(annotation.visible()),
+        new FieldValueAspectDefinition(),
+        new ReadOnlyAspectDefinition());
     }
 }
 ----

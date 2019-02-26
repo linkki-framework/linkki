@@ -2,8 +2,7 @@
 :jbake-type: chapter
 :jbake-status: published
 :jbake-order: 0
-:source-dir: ../../../java
-:source-dir-application: ../../../../../../vaadin8/samples/application-framework/src/main/java
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy
 
 == New & Noteworthy

@@ -3,8 +3,7 @@
 :jbake-status: published
 :jbake-order: 99
 
-:source-dir: ../../../java
-:source-dir-application: ../../../../../../vaadin8/samples/application-framework/src/main/java
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy
 
 === November 29th, 2018
@@ -178,7 +177,22 @@ You can see an example in our `SampleApplicationUI`
 
 [source,java]
 ----
-include::{source-dir-application}/org/linkki/samples/appsample/ui/SampleApplicationUI.java[tags=application-sample-ui]
+@Theme(value = "sample")
+@PreserveOnRefresh
+public class SampleApplicationUI extends LinkkiUi {
+
+    private static final long serialVersionUID = 1L;
+
+    public SampleApplicationUI() {
+        super(new SampleApplicationConfig());
+    }
+
+    @Override
+    protected void init(VaadinRequest request) {
+        super.init(request);
+        addView(MainView.NAME, MainView.class);
+    }
+}
 ----
 
 
@@ -192,11 +206,14 @@ linkki now always use `DefaultPmoNlsService` as `PmoNlsService` and `DefaultNlsS
 
 `org.linkki.util.cdi.BeanInstantiator` is deprecated and will be removed the next release. Instead, use `org.apache.deltaspike.core.api.provider.BeanProvider`. Test cases which need the CDI environment provided by `BeanInstantiator` can extend `TestWithBeanProvider` from `f10-commons-cdi-test`:
 
-            <dependency>
-                <groupId>de.faktorzehn.commons</groupId>
-                <artifactId>f10-commons-cdi-test</artifactId>
-                <version>18.7.0</version>
-            </dependency>
+[source,xml]
+----
+<dependency>
+    <groupId>de.faktorzehn.commons</groupId>
+    <artifactId>f10-commons-cdi-test</artifactId>
+    <version>18.7.0</version>
+</dependency>
+----
 
 === March 22th, 2018
 
