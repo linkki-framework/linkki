@@ -5,4 +5,4 @@
 
 == Getting Started
 
-This section helps you to get startet with linkki by showcasing a simple example and its setup.
+This section helps you to get startet with *linkki* by showcasing a simple example and its setup.

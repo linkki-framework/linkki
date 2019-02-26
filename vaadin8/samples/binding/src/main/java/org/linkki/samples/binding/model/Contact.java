@@ -15,6 +15,7 @@ package org.linkki.samples.binding.model;
 
 public class Contact {
 
+    public static final String PROPERTY_LASTNAME = "lastname";
     public static final String PROPERTY_COUNTRY_OF_BIRTH = "countryOfBirth";
     public static final String PROPERTY_NO_OF_CHILDREN = "noOfChildren";
     public static final String PROPERTY_NOTES_ON_CHILDREN = "notesOnChildren";

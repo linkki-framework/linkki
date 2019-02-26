@@ -39,15 +39,15 @@ include::{source-dir}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=con
 ----
 
 [[bind-read-only]]
-==== Bind read-only state
+==== Bind Read-Only State
 
-To change a components read-only behavior, linkki provides the annotation `@BindReadOnly`. This annotation can be used in combination with  @Bind or UI-annotations.
+To change a component's read-only behavior, *linkki* provides the annotation `@BindReadOnly`. This annotation can be used in combination with  @Bind or UI-annotations.
 
-IMPORTANT: The `@BindReadOnly` annotation must be placed after `@Bind` or `@UI-annotations` as the read-only state might have already be affected by these annotations.
+IMPORTANT: The `@BindReadOnly` annotation must be placed after `@Bind` or `@UI-annotations` as the read-only state might have already been affected by these annotations.
 
-TIP: This annotation should be used only in exceptional cases, since most of the behavior is better controlled by <<cross-sectional-binding, PropertyBehavior>>.
+TIP: This annotation should be used only in exceptional cases, since most of the behavior is better controlled by a <<cross-sectional-binding, PropertyBehavior>>.
 
-The `@BindReadOnly` Annotation has only one Property, `ReadOnlyType`. Per Default, `ReadOnlyType#ALWAYS` is selected. Following `ReadOnlyType` are available:
+The `@BindReadOnly` Annotation has only one property, `ReadOnlyType`. Per default, `ReadOnlyType#ALWAYS` is selected. Following `ReadOnlyTypes` are available:
 
 [cols="1,9"]
 .ReadOnlyType

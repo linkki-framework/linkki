@@ -42,7 +42,6 @@ public class ComboboxBindingDefinition implements BindingDefinition {
     public Component newComponent() {
         ComboBox<?> comboBox = ComponentFactory.newComboBox();
         comboBox.setItemCaptionGenerator(getItemCaptionProvider()::getUnsafeCaption);
-        comboBox.setEmptySelectionAllowed(false);
         comboBox.setEmptySelectionCaption(getItemCaptionProvider().getNullCaption());
         comboBox.setWidth(uiComboField.width());
         comboBox.setPopupWidth(null);

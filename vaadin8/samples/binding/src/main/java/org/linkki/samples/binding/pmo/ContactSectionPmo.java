@@ -60,9 +60,10 @@ public class ContactSectionPmo {
     }
 
     @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-    @UITextField(position = 20, label = "Lastname", required = RequiredType.REQUIRED, modelAttribute = "lastname")
+    @UITextField(position = 20, label = "Lastname", required = RequiredType.REQUIRED, modelAttribute = Contact.PROPERTY_LASTNAME)
     public void lastname() {
-        /* model binding only */ }
+        /* model binding only */
+    }
 
     public String getLastnameTooltip() {
         return "Last name";
@@ -71,7 +72,8 @@ public class ContactSectionPmo {
     @UIComboBox(position = 30, label = "Gender", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, //
             itemCaptionProvider = GenderCaptionProvider.class)
     public void gender() {
-        /* model binding only */ }
+        /* model binding only */
+    }
 
     @UIComboBox(position = 40, label = "Country of Birth", //
             content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class, //

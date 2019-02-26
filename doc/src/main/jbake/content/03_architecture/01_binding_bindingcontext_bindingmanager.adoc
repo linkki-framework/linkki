@@ -16,7 +16,7 @@ image::{images}{images-folder-name}/binding_context_manager.png[]
 
 To create and manage one or more `BindingContexts`, a `BindingManager` is used. For a given name (for instance derived from a class) it returns a `BindingContext`, creating a new one when necessary. The desired binding behavior can be defined in subclasses of `BindingManager` (see <<cross-sectional-binding,Vertical Binding>>). If no special behavior needs to be implemented, a `DefaultBindingManager` can be used.
 
-==== The scope of UI updates
+==== The Scope of UI Updates
 
 A `BindingContext` ensures that all fields bound to it get updated if one of them changes. Thus a BindingContext defines the "scope" of UI updates for it's fields.
 

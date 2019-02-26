@@ -24,7 +24,7 @@ With the column layout fields are displayed one below the other. If additionally
 [[custom-layout]]
 ==== Custom layout
 
-Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v7/framework/layout/layout-customlayout.html[CustomLayout] from vaadin.
+Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v8/framework/layout/layout-customlayout.html[CustomLayout] from Vaadin.
 
 All you have to do is to create a HTML file located in the `layouts` folder in your theme folder. The HTML file has to be named with the simple name of your PMO and use the file extension `.html`. Within this HTML file you use `<div location="...">` elements as placeholder for every component. Within the `location` attribute you use the PMO property name to reference the component as needed. If you also want to have the placeholder for the PMO defined label you simply use the PMO property name with the suffix `-label`. In the PMO there are no restrictions. The position will be ignored, as it is determined by the HTML template.
 

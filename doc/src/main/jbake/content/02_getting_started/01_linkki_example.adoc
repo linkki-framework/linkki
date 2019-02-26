@@ -7,7 +7,7 @@
 :images-folder-name: 02_getting_started
 
 [[linkki-example]]
-=== linkki example
+=== *linkki* Example
 
 === Goal
 
@@ -31,7 +31,7 @@ To start this project, follow the steps described in <<project-setup, project se
 First we implement the 'DomainModel'. The model consists of two classes, <<report, `Report`>> and <<report-type, `ReportType`>>. These classes do _not_ receive UI specific annotations.
 
 [[report]]
-[source,java,linenums]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/gettingstarted/model/Report.java[tags=report]
 
@@ -40,13 +40,13 @@ include::{source-dir}/org/linkki/samples/gettingstarted/model/Report.java[tags=r
 ----
 
 [[report-type]]
-[source,java,linenums]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/gettingstarted/model/ReportType.java[tags=report-type]
 ----
 NOTE: `ReportType` implements the method `getName()`. This method is called by *linkki* to display the 'caption' for the enum values.
 
-=== Step 2: PresentationObjectModel (PMO)
+=== Step 2: PresentationModelObject (PMO)
 
 Our UI shall receive a text area for the entry of a description. For the selection of the report type a ComboBox with the enum constants of the `ReportType` shall be displayed. To submit the report we also require a `Send` button. It shall only be active if a description has been entered and a type was selected.
 
@@ -54,7 +54,7 @@ Now we create a new class in the package `org.linkki.samples.gettingstarted.pmo`
 
 The class has an instance variable, the <<report, `Report`>>, which must be passed to the constructor.
 
-[source,java,linenums]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java[tags=report-pmo]
 
@@ -63,14 +63,14 @@ include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.jav
 
 For the model binding to work, a method must be created and annotated with `@ModelObject`.
 
-[source,java,linenums]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java[tags=model-binding]
 ----
 
 Now the TextArea and the ComboBox are defined. Again, for each a method must be created, annotated with `@UITextArea` and `@UIComboBox`, respectively.
 
-[source,java,linenums]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java[tags=textfield]
 
@@ -87,7 +87,7 @@ By setting `EnabledType.DYNAMIC`, *linkki* searches for a method `boolean isSend
 
 IMPORTANT: The method name _must_ conform to the convention is[NameOfThePropertyBelongingToTheAnnotatedMethod]Enabled(). The method must be public and return a boolean value.
 
-[source,java,linenums]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.java[tags=button]
 ----
@@ -96,12 +96,14 @@ include::{source-dir}/org/linkki/samples/gettingstarted/pmo/ReportSectionPmo.jav
 
 The UI contains 'only' the section for the creation of the report.
 
-The first part is 'normal' Vaadin code. The interesting *linkki* parts start at line 9. First a `PmoBasedSectionFactory` is instantiated. The PMO is passed as parameter to the method `createSection`. As second parameter a `BindingContext` is passed -> it is explained in the later chapters. As the last step the created `section` must now be set as `content` of the UI.
+The first part is 'normal' Vaadin code. The interesting *linkki* parts start at `(2)`. First a `PmoBasedSectionFactory` is instantiated. The PMO is passed as parameter to the method `createSection`. As second parameter a `BindingContext` is passed -> it is explained in the later chapters. As the last step the created `section` must now be set as `content` of the UI.
 
-[source,java,linenums]
+[source,java]
 ----
 include::{source-dir}/org/linkki/samples/gettingstarted/GettingStartedUI.java[tags=ui-class]
 ----
+<1> Standard Vaadin code
+<2> *linkki* specific code
 
 === Step 4: web.xml
 

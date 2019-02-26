@@ -18,7 +18,7 @@ In most applications the validation service simply calls the domain model valida
 
 [[message]]
 ==== Message and MessageList
-A `Message` has a human readable text, an error code and a vaadin `ErrorLevel` (one of `INFORMATION`, `WARNING`, `ERROR`, `CRITICAL` and `SYSTEMERROR`). It may also contain a set of <<object-properties,ObjectProperties>> to refer to specific invalid properties of an object. Additionally there may be <<validation-marker,ValidationMarkers>> to distinguish different kinds of validation messages.
+A `Message` has a human readable text, an error code and a `Severity` (one of `INFORMATION`, `WARNING`, `ERROR`). It may also contain a set of <<object-properties,ObjectProperties>> to refer to specific invalid properties of an object. Additionally there may be <<validation-marker,ValidationMarkers>> to distinguish different kinds of validation messages.
 
 The easiest way to create a `Message` is to use its builder (via the `builder()` method). Alternatively, a `Message` can also be created using the static factory methods (`createError()`, `createWarning()`, `createInfo()`) or by directly calling the constructor.
 

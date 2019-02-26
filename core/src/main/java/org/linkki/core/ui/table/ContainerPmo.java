@@ -44,7 +44,8 @@ public interface ContainerPmo<@NonNull ROW> {
     /**
      * Returns the class of the items / rows in the container.
      * 
-     * @implNote The default implementation reads the generic type T from the class definition.
+     * @implNote The default implementation reads the generic type {@literal<ROW>} from the class
+     *           definition.
      */
     @SuppressWarnings({ "unchecked", "null" })
     default Class<? extends ROW> getItemPmoClass() {

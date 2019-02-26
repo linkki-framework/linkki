@@ -13,8 +13,10 @@
 
 The basics of table creation were already mentioned in the chapter <<binding-table, binding of a table>>. This section details the <<ui-row-pmo,definition of table structure>>, the <<ui-container-pmo, `ContainerPmo<T>`>>, the <<ui-simple-item-supplier, `SimpleItemSupplier<PMO, MO>`>> and the <<ui-table-footer, `TableFooter`>>.
 
+WARNING: For compatibility and performance reasons, *linkki* uses the Vaadin 7 `Table` implementation (from the Vaadin 7 compatibility layer included in Vaadin 8). 
+
 [[ui-row-pmo]]
-==== Definition of the table structure with a row PMO
+==== Definition of the Table Structure with a Row PMO
 The structure of the table is defined in a PMO class, whose instances represent rows in the table. Thus, these classes are called "row PMOs".
 
 Row PMO classes are standard PMOs, which do not represent sections and thus shouldn't be annotated with `@UISection`.
@@ -26,9 +28,9 @@ Here, the annotation <<ui-element,UI element>> defines the column in the table. 
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
 ----
 
-That means every property that was found in the row PMO class provided by the `ContainerPmo` is set up as a column. That means every defined property specifies the setup of the column as well as the concrete field inside the table's cell. Next to all aspects that are provided by `@UITableColumn` it takes the label from the field definition.
+That means every property that was found in the row PMO class provided by the `ContainerPmo` is set up as a column. Every defined property specifies the setup of the column as well as the concrete field inside the table's cell. Next to all aspects that are provided by `@UITableColumn` it takes the label from the field definition.
 
-IMPORTANT: The properties of a table column are described using the properties in the row PMO. But these properties cannot be bound to any specific row PMO instance (there might be none if the table is empty or many if there are a lot of rows). Hence all bindings are directed to the row PMO class. That also means: If you want to <<nls-properties,translate a column label>> the key is created using the class name of the row PMO.
+IMPORTANT: The properties of a table column are described using the properties in the row PMO. But these properties cannot be bound to any specific row PMO instance (there might be none if the table is empty or many if there are multiple rows). Hence all bindings are directed to the row PMO class. That also means: If you want to <<nls-properties,translate a column label>> the key is created using the class name of the row PMO.
 
 [[ui-table-column]]
 ===== @UITableColumn
@@ -37,7 +39,7 @@ By design all properties of a PMO are presented in the table. With the annotatio
 
 To modify the column size you could use the properties `width` (in pixels) or `expandRatio`.
 
-NOTE: If both properties are set, `width` has a higher priority than `expandRatio`.
+NOTE: If both properties are set, an `IllegalStateException` will be thrown when the UI is constructed.
 
 Additionally, with the property `collapsible`, you could specify a `CollapseMode` to let the column be collapsible or initially collapsed.
 
@@ -45,7 +47,7 @@ Additionally, with the property `collapsible`, you could specify a `CollapseMode
 [[ui-simple-table-pmo]]
 ==== SimpleTablePmo
 
-Most commonly, the row PMO objects are converted from a list of model objects. In this case, the abstract class `org.linkki.core.ui.table.SimpleTablePmo<MO, ROW>` may be extended. This abstract class defines a constructor that requires the list or the supplier for the list of model objects. Additionally the method `createRow(MO)` needs to be implemented. This method simply takes a model object and creates a row PMO for it. A simple example may look like this:
+Most commonly, the row PMO objects are converted from a list of model objects. In this case, the abstract class `org.linkki.core.ui.table.SimpleTablePmo<MO, ROW>` may be extended. It defines a constructor that requires the list or the supplier for the list of model objects. Additionally the method `createRow(MO)` needs to be implemented. This method simply takes a model object and creates a row PMO for it and is only called once for every model object. A simple example may look like this:
 
 [source, java]
 ----
@@ -57,9 +59,9 @@ The `SimpleTablePmo` is an abstract convenience implementation of the `Container
 [[ui-container-pmo]]
 ==== ContainerPmo
 
-A `ContainerPmo` is a class that implements the interface `ContainerPmo<T>` and might be annotated with `@UISection` to show the table in a `TableSection`. The main function of a `ContainerPmo` is providing the PMOs to be rendered in the table.
+A `ContainerPmo` is a class that implements the interface `ContainerPmo<ROW>` and might be annotated with `@UISection` to show the table in a `TableSection`. The main function of a `ContainerPmo` is providing the PMOs to be rendered in the table.
 
-The method `List<T> getItems()` is called by the `TableBinding` to add the elements to the table. It should always return the same instance of `List<T>` as long as the items do not change. The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
+The method `List<ROW> getItems()` is called by the `ContainerBinding` to add the elements to the table. It should always return the same instance of `List<ROW>` as long as the items do not change. The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
 
 By overwriting the default method `int getPageLength()` the number of lines shown can be controlled. By default 15 lines are shown. It is a common tactic to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
 
@@ -68,7 +70,7 @@ By overwriting the default method `int getPageLength()` the number of lines show
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactTablePmo.java[tags=page-length]
 ----
 
-The column structure of the table is determined by the <<ui-row-pmo, row PMO>> class, which is returned by the method `Class<? extends T> getItemPmoClass`. In the default implementation the class of the generic parameter `T` is returned. To support extensible tables which are configured with other columns, the method can be overwritten and return a subclass of `T`.
+The column structure of the table is determined by the <<ui-row-pmo, row PMO>> class, which is returned by the method `Class<? extends ROW> getItemPmoClass`. In the default implementation the class of the generic parameter `ROW` is returned. To support tables which are configured with other components for the cells, the method can be overwritten and return a subclass of `ROW`.
 
 If the table should support the adding of items, the `default` method `Optional<ButtonPmo> getAddItemButtonPmo` must be overwritten. How a `ButtonPmo` is created is described in the chapter <<button-pmo, ButtonPmo>>.
 
@@ -80,9 +82,9 @@ The `SimpleItemSupplier<PMO, MO>` is used to only create a new `List<PMO>`, if a
 The instancing is done with two parameters
 
 * `modelObjectSupplier` of type `Supplier<List<MO>>` is called to access a list of the model objects
-* `mo2pmoMapping` of type `Function<MO, PMO>` is called for the creation of a PMO for a model objects
+* `mo2pmoMapping` of type `Function<MO, PMO>` is called for the creation of a PMO for a model object
 
-.Example initialising of a SimpleItemSuppliers
+.Example initialising of a SimpleItemSupplier
 [source, java]
 ----
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactTablePmo.java[tags=item-supplier]
@@ -118,9 +120,10 @@ By overwriting the `default` method `getFooterPmo()` a footer row is generated. 
 
 The parameter `column` is the ID of the column for which the text should be displayed. An example for this would be a sum of all items from a column.
 
-```java
+[source, java]
+----
 include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarTablePmo.java[tags=table-footer]
-```
+----
 
 [[button-pmo]]
 ==== ButtonPmo

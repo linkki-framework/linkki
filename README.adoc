@@ -1,6 +1,6 @@
 :readme-images: doc/src/main/jbake/assets/images/content/
 
-=== linkki
+=== *linkki*
 
 image:https://img.shields.io/badge/License-Apache2.0-blue.svg[License, link=https://opensource.org/licenses/Apache-2.0, role="left"]
 image:https://maven-badges.herokuapp.com/maven-central/org.linkki-framework/linkki-core-vaadin8/badge.svg[Maven Central, link=https://mvnrepository.com/artifact/org.linkki-framework/linkki-core-vaadin8, role="left"]
@@ -113,7 +113,7 @@ NOTE: The complete example can be found at http://doc.linkki-framework.org/linkk
 
 ==== Documentation
 
-Documentation for linkki can be found at http://doc.linkki-framework.org[doc.linkki-framework.org].
+Documentation for *linkki* can be found at http://doc.linkki-framework.org[doc.linkki-framework.org].
 
 
 ==== License

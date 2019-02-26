@@ -6,7 +6,6 @@
 
     <distributable/>
 
-
     <servlet>
         <servlet-name>Vaadin Application Servlet</servlet-name>
         <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>

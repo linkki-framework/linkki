@@ -43,24 +43,24 @@ details > div {
 
 === {dversion}
 
-With this version, linkki now supports both Vaadin Framework 7 and Vaadin Framework 8. If you intend to use linkki with Vaadin Framework 8, we highly recommend migrating to the previous linkki version first as Vaadin Framework 8 includes several major changes that also leads to changes in the linkki API. Also, it is best to first free your project from deprecated warnings related to linkki. Although we tried our best to keep the API stable, some concepts had to be reworked fundamentally, making it impossible to carry the existing API over to the new version.
+With this version, *linkki* now supports both Vaadin Framework 7 and Vaadin Framework 8. If you intend to use *linkki* with Vaadin Framework 8, we highly recommend migrating to the previous *linkki* version first as Vaadin Framework 8 includes several major changes that also leads to changes in the *linkki* API. Also, it is best to first free your project from deprecated warnings related to linkki. Although we tried our best to keep the API stable, some concepts had to be reworked fundamentally, making it impossible to carry the existing API over to the new version.
 
-==== linkki for Vaadin Framework 8
+==== *linkki* for Vaadin Framework 8
 
-Up to now, linkki can only be used with Vaadin Framework 7. Now, you can decide if you want to use linkki with Vaadin Framework 7 or Vaadin Framework 8. As Vaadin Framework 7 will not be maintained anymore in 2020, the development of linkki will be primarily focused on Vaadin 8 from now onwards.
+Up to now, *linkki* can only be used with Vaadin Framework 7. Now, you can decide if you want to use *linkki* with Vaadin Framework 7 or Vaadin Framework 8. As Vaadin Framework 7 will not be maintained anymore in 2020, the development of *linkki* will be primarily focused on Vaadin 8 from now onwards.
 
-Vaadin Framework 8 poses a large release containing major improvements and changes. If you want to use linkki with Vaadin Framework 8 but prefer a more granular migration process, you can first switch to linkki for Vaadin 7, then move forward to linkki for Vaadin 8 after having adjusted to the changes.
+Vaadin Framework 8 poses a large release containing major improvements and changes. If you want to use *linkki* with Vaadin Framework 8 but prefer a more granular migration process, you can first switch to *linkki* for Vaadin 7, then move forward to *linkki* for Vaadin 8 after having adjusted to the changes.
 
 ifdef::backend-html5[]
 +++ <details><summary> +++
-+++ <h5 style="display:inline;"> Migrating to linkki for Vaadin 7</h5>+++
++++ <h5 style="display:inline;"> Migrating to *linkki* for Vaadin 7</h5>+++
 +++ </summary><div> +++
 endif::[]
 ifndef::backend-html5[]
-===== Migrating to linkki for Vaadin 7
+===== Migrating to *linkki* for Vaadin 7
 endif::[]
 
-If you want to continue using linkki with Vaadin 7, the only Vaadin 7 specific step is to replace the linkki dependencies with the new linkki Vaadin 7 dependencies for `linkki-core` or `linkki-application-framework`:
+If you want to continue using *linkki* with Vaadin 7, the only Vaadin 7 specific step is to replace the *linkki* dependencies with the new *linkki* Vaadin 7 dependencies for `linkki-core` or `linkki-application-framework`:
 
 [source,xml,subs="verbatim,attributes"]
 ----
@@ -85,14 +85,14 @@ ifdef::backend-html5[]
 +++ </div></details> +++
 
 +++ <details><summary> +++
-+++ <h5 style="display:inline;"> Migrating to linkki for Vaadin 8</h5>+++
++++ <h5 style="display:inline;"> Migrating to *linkki* for Vaadin 8</h5>+++
 +++ </summary><div> +++
 endif::[]
 ifndef::backend-html5[]
-===== Migrating to linkki for Vaadin 8
+===== Migrating to *linkki* for Vaadin 8
 endif::[]
 
-The very first step for the migration is to include the new linkki Vaadin 8 dependencies for `linkki-core` or `linkki-application-framework`:
+The very first step for the migration is to include the new *linkki* Vaadin 8 dependencies for `linkki-core` or `linkki-application-framework`:
 
 [source,xml,subs="verbatim,attributes"]
 ----
@@ -150,16 +150,16 @@ public class MyApplicationConfig implements ApplicationConfig {
 ----
 |===
 +
-This change is relevant for you if you have overriden `ApplicationConfig#getConverterFactory` to use custom converters with linkki default annotations.
+This change is relevant for you if you have overriden `ApplicationConfig#getConverterFactory` to use custom converters with *linkki* default annotations.
 +
-Converters are necessary to make linkki UI annotations work for custom data types. By default, linkki UI annotations only work for a very specific data type. `@UIDateField` for example only works with Java Time `LocalDate`. If you want to use an annotation with a different data type, you have to provide a converter for the data type. To make the example annotation `@UIDateField` work with Joda `LocalDates`, a converter that transforms Joda `LocalDates` to Java Time `LocalDates` must be registered to the application.
+Converters are necessary to make *linkki* UI annotations work for custom data types. By default, *linkki* UI annotations only work for a very specific data type. `@UIDateField` for example only works with Java Time `LocalDate`. If you want to use an annotation with a different data type, you have to provide a converter for the data type. To make the example annotation `@UIDateField` work with Joda `LocalDates`, a converter that transforms Joda `LocalDates` to Java Time `LocalDates` must be registered to the application.
 +
 Prior to this version, we directly utilized the Vaadin `ConverterFactory` mechanism to register converters. Several default converters were provided in `LinkkiConverterFactory` that is configured in the `ApplicationConfig`. There, you can also replace the `LinkkiConverterFactory` with a custom implementation to include your own converters.
 +
-In Vaadin Framework 8, the `ConverterFactory` mechanism is removed. Without a central registry, converters have to be bound to the input fields directly in Vaadin Framework 8. To mitigate this change for linkki users, linkki now has its own `LinkkiConverterRegistry`. Custom converters can directly be amended to the default converters by calling `LinkkiConverterRegistry.DEFAULT.with(...)`.
+In Vaadin Framework 8, the `ConverterFactory` mechanism is removed. Without a central registry, converters have to be bound to the input fields directly in Vaadin Framework 8. To mitigate this change for *linkki* users, *linkki* now has its own `LinkkiConverterRegistry`. Custom converters can directly be amended to the default converters by calling `LinkkiConverterRegistry.DEFAULT.with(...)`.
 
 Joda Time Converters::
-`ConverterFactory` was commonly used to incorporate Joda converters that were included in `JodaConverters`. linkki Vaadin 8 does not support Joda Time any more. If you are still using Joda Time, you now have to create the converters yourself. Vaadin's `LocalDateToDateConverter` can serve as a reference when building your own converter.
+`ConverterFactory` was commonly used to incorporate Joda converters that were included in `JodaConverters`. *linkki* Vaadin 8 does not support Joda Time any more. If you are still using Joda Time, you now have to create the converters yourself. Vaadin's `LocalDateToDateConverter` can serve as a reference when building your own converter.
 
 FieldValueAspectDefinition::
 `FieldValueAspectDefinition` is renamed to `ValueAspectDefinition` which now handles converters and formatters that should be attached to a specific field annotation. Due to this change, it is no longer created by the  `FieldAspectDefinitionCreator` by default.
@@ -174,7 +174,7 @@ public @interface UISpecialField { ... }
 ----
 
 +
-.Custom UI annotation without converter: with linkki Vaadin 8
+.Custom UI annotation without converter: with *linkki* Vaadin 8
 [source,java]
 ----
 ...
@@ -203,7 +203,7 @@ public class SpecialFieldBindingDefinition implements BindingDefinition {
 }
 ----
 +
-.Custom UI annotation with custom converter: with linkki Vaadin 8
+.Custom UI annotation with custom converter: with *linkki* Vaadin 8
 [source,java]
 ----
 ...
@@ -236,14 +236,14 @@ This change is necessary to comply with the new Vaadin mechanism for converters.
 For all custom UI annotations that do not use any specific converters, you can simply add the aspect explicitly in a separate `@LinkkiAspect` annotation using the `ValueAspectDefinitionCreator`. If your custom UI annotations have previously added a  custom converter in the `newComponent` method of the `BindingDefinition`, you have to introduce a new `Creator` that creates a `ValueAspectDefinition` with the given converter. This also applies to number fields that have previously required a formatter.
 
 ApplicationStyles::
-The style name `ApplicationStyles_SPACING_HORIZONTAL_SECTION` is now deprecated and will not be set to a horizontal section anymore. The styles attached to this class name are no longer necessary in linkki for Vaadin 8. As the CSS class is no longer assigned by linkki, you need to adjust the selector in the SCSS file if you have used this class (`horizontal-section-spacing`) as a selector.
+The style name `ApplicationStyles_SPACING_HORIZONTAL_SECTION` is now deprecated and will not be set to a horizontal section anymore. The styles attached to this class name are no longer necessary in *linkki* for Vaadin 8. As the CSS class is no longer assigned by linkki, you need to adjust the selector in the SCSS file if you have used this class (`horizontal-section-spacing`) as a selector.
 
 Default spacing in layouts::
 The default behavior considering spacing and margin has changed in Vaadin layouts. For the migration, make sure to double check all layouts to avoid unwanted spacing.
 +
 This change applies to all Vaadin ordered layouts, including `HorizontalLayout` and `VerticalLayout`. Spacing adds distance between elements in the layout while margins (which translate to CSS paddings) keep the elements away from the borders. These adjustments keep the elements apart from each other and from the border, making them more accessible and more readable. However, the extra space may not be desired if you are using the layouts as mere wrappers.
 +
-Some linkki layouts are also reworked considering margins. Sections now have a smaller top margin while `AbstractPage` now has a padding inside of all borders as well as default spacing between the elements. These changes should make the spacing within an `AbstractPage` more consistent.
+Some *linkki* layouts are also reworked considering margins. Sections now have a smaller top margin while `AbstractPage` now has a padding inside of all borders as well as default spacing between the elements. These changes should make the spacing within an `AbstractPage` more consistent.
 +
 Sections that do not have a caption nor any header buttons had a spacer instead of the header. This spacer is removed in the new version as it is often not desired. If you wish to have extra space for a specific section, you can add a top margin in the SCSS theme by selecting the section using the PMO class name or the ID assigned by `@SectionId`.
 
@@ -252,7 +252,7 @@ In Vaadin Framework 8, `Label` no longer have full width by default. If you have
 
 Now you can continue with the general changes that apply to both Vaadin 7 and Vaadin 8 migration. These are listed below the Vaadin specific migration steps.
 
-Besides the changes in linkki, Vaadin Framework 8 itself comes with several API changes. To migrate your Vaadin native implementations, consult the https://vaadin.com/docs/v8/framework/migration/migrating-to-vaadin8.html[Vaadin 8 Migration Guide]. Note that linkki uses the compatibility layer for Vaadin 7 to be able to use the Vaadin 7 `Table` component. However, other components from the compatibility layer will not work with `linkki-core-vaadin8`.
+Besides the changes in linkki, Vaadin Framework 8 itself comes with several API changes. To migrate your Vaadin native implementations, consult the https://vaadin.com/docs/v8/framework/migration/migrating-to-vaadin8.html[Vaadin 8 Migration Guide]. Note that *linkki* uses the compatibility layer for Vaadin 7 to be able to use the Vaadin 7 `Table` component. However, other components from the compatibility layer will not work with `linkki-core-vaadin8`.
 
 ifdef::backend-html5[]
 +++ </div></details> +++
@@ -265,7 +265,7 @@ Regardless of which Vaadin version you intend to use, there are some general cha
 [role="api-change"]
 ====== Encapsulation of Vaadin specific implementations in `linkki-core`
 
-To make linkki usable with different Vaadin versions, all Vaadin dependencies in `linkki-core` have been moved to Vaadin specific artifacts. Any uses of UI framework API from the core are now handled via the new `UiFramework` class. It is recommended that you also use it instead of directly calling Vaadin API where applicable. This especially apply to all `UiUtils.getUiLocale()` and `UI.getCurrent().getLocale()` calls.
+To make *linkki* usable with different Vaadin versions, all Vaadin dependencies in `linkki-core` have been moved to Vaadin specific artifacts. Any uses of UI framework API from the core are now handled via the new `UiFramework` class. It is recommended that you also use it instead of directly calling Vaadin API where applicable. This especially apply to all `UiUtils.getUiLocale()` and `UI.getCurrent().getLocale()` calls.
 
 .Methods of UiFramework
 [cols="1,1,2", options="header"]
@@ -276,9 +276,9 @@ To make linkki usable with different Vaadin versions, all Vaadin dependencies in
 |===
 
 [role="api-change"]
-====== Introduction of linkki `Severity` for `Message` and `MessageList`
+====== Introduction of *linkki* `Severity` for `Message` and `MessageList`
 
-To make the linkki `Message` and `MessageList` independent of Vaadin, a new enum `Severity` is introduced to avoid using the Vaadin `ErrorLevel` directly. Consequently, several methods of `Message` and `MessageList` are changed, now using the new linkki `Severity`. Note that the existing methods are directly removed, as it is not possible to deprecate them due to direct Vaadin dependencies.
+To make the *linkki* `Message` and `MessageList` independent of Vaadin, a new enum `Severity` is introduced to avoid using the Vaadin `ErrorLevel` directly. Consequently, several methods of `Message` and `MessageList` are changed, now using the new *linkki* `Severity`. Note that the existing methods are directly removed, as it is not possible to deprecate them due to direct Vaadin dependencies.
 
 .API changes in org.linkki.core.message
 [cols="1,1,2",options="header"]

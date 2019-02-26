@@ -12,11 +12,24 @@
 
 Due to special requirements or custom `Fields` it is sometimes not possible to use the <<pmo-uisection, automatic creation via `@UISection`>>. For this case *linkki* offers the option of 'only' using the data binding. This way, control over creation, arrangement and configuration (e.g. `setNullRepresentation()` or `setConverter()`) of the component is kept.
 
-To activate the manual binding the component must be marked with the `@Bind` annotation. Both fields and methods can be annotated. Supported types are:
+To activate the manual binding the component must be marked with the `@Bind` annotation. Both fields and methods can be annotated. Manual binding with `@Bind` supports different component types depending on the Vaadin Framework version. Components based on the following classes and interfaces can be used with `@Bind`:
+
+* `com.vaadin.ui.Component` 
+* `com.vaadin.ui.AbstractField<T>`
+* `com.vaadin.ui.Label`
+* `com.vaadin.ui.Button`
+* `com.vaadin.data.HasValue<V>`
+* `com.vaadin.data.HasItems<T>`
+
+[TIP]
+====
+For Vaadin 7 the base classes allowed for `@Bind` annotated fields are 
 
 * `com.vaadin.ui.Field`
 * `com.vaadin.ui.Label`
 * `com.vaadin.ui.Button`
+* `com.vaadin.ui.AbstractSelect`
+====
 
 Then, the data binding can be created via the {github-blob}/core/src/main/java/org/linkki/core/binding/Binder.java[`Binder`].
 

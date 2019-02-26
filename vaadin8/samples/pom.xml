@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,15 +14,20 @@
     <name>linkki Vaadin 8 Samples</name>
 
 
+    <!-- tag::vaadin[] -->
     <properties>
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- end::vaadin[] -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <!-- tag::vaadin[] -->
         <vaadin.version>8.7.0</vaadin.version>
+        <!-- end::vaadin[] -->
         <linkki.version>${project.version}</linkki.version>
         <spotbugs.version>3.1.8</spotbugs.version>
+        <!-- tag::vaadin[] -->
     </properties>
 
-
+    <!-- end::vaadin[] -->
     <modules>
         <module>getting-started</module>
         <module>binding</module>
@@ -34,7 +40,9 @@
 
 
     <dependencyManagement>
+        <!-- tag::vaadin[] -->
         <dependencies>
+            <!-- end::vaadin[] -->
 
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>
@@ -96,7 +104,9 @@
                 <version>2.2.0</version>
                 <scope>provided</scope>
             </dependency>
+            <!-- tag::vaadin[] -->
         </dependencies>
+        <!-- end::vaadin[] -->
     </dependencyManagement>
 
 
