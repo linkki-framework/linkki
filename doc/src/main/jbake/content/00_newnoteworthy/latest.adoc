@@ -52,7 +52,7 @@ Vaadin Framework 8 poses a large release containing major improvements and chang
 
 ifdef::backend-html5[]
 +++ <details><summary> +++
-+++ <h5 style="display:inline;"> Migrating to *linkki* for Vaadin 7</h5>+++
++++ <h5 style="display:inline;"> Migrating to linkki for Vaadin 7</h5>+++
 +++ </summary><div> +++
 endif::[]
 ifndef::backend-html5[]
@@ -84,7 +84,7 @@ ifdef::backend-html5[]
 +++ </div></details> +++
 
 +++ <details><summary> +++
-+++ <h5 style="display:inline;"> Migrating to *linkki* for Vaadin 8</h5>+++
++++ <h5 style="display:inline;"> Migrating to linkki for Vaadin 8</h5>+++
 +++ </summary><div> +++
 endif::[]
 ifndef::backend-html5[]
@@ -242,9 +242,18 @@ The default behavior considering spacing and margin has changed in Vaadin layout
 +
 This change applies to all Vaadin ordered layouts, including `HorizontalLayout` and `VerticalLayout`. Spacing adds distance between elements in the layout while margins (which translate to CSS paddings) keep the elements away from the borders. These adjustments keep the elements apart from each other and from the border, making them more accessible and more readable. However, the extra space may not be desired if you are using the layouts as mere wrappers.
 +
+.Margin and spacing in Vaadin
+image::{images}{images-folder-name}/margin_spacing.png[Margin and spacing in Vaadin]
++
 Some *linkki* layouts are also reworked considering margins. Sections now have a smaller top margin while `AbstractPage` now has a padding inside of all borders as well as default spacing between the elements. These changes should make the spacing within an `AbstractPage` more consistent.
 +
 Sections that do not have a caption nor any header buttons had a spacer instead of the header. This spacer is removed in the new version as it is often not desired. If you wish to have extra space for a specific section, you can add a top margin in the SCSS theme by selecting the section using the PMO class name or the ID assigned by `@SectionId`.
++
+.Section with no header in linkki Vaadin 7
+image::{images}{images-folder-name}/headerless_section_vaadin7.png[Section with no header in linkki Vaadin 7]
++
+.Section with no header in linkki Vaadin 8
+image::{images}{images-folder-name}/headerless_section_vaadin8.png[Section with no header in linkki Vaadin 8]
 
 Width of labels::
 In Vaadin Framework 8, `Label` no longer have full width by default. If you have created any Vaadin `Label`, make sure to check the length of the label to avoid unnecessary changes. Labels that are created with a `@Label` annotation are not affected.
