@@ -10,25 +10,25 @@ import org.linkki.doc.Partner;
 @UISection(caption = "Partner")
 public class PartnerSectionPmo {
 
-  private Partner partner;
+    private Partner partner;
 
-  public PartnerSectionPmo(Partner partner) {
-    this.partner = partner;
-  }
+    public PartnerSectionPmo(Partner partner) {
+        this.partner = partner;
+    }
 
-  @ModelObject
-  public Partner getPartner() {
-    return partner;
-  }
+    @ModelObject
+    public Partner getPartner() {
+        return partner;
+    }
 
-  @UITextField(position = 1, label = "Name", width = "20em", modelAttribute = "name")
-  public void name() {
-    // just binding
-  }
+    @UITextField(position = 1, label = "Name", width = "20em", modelAttribute = "name")
+    public void name() {
+        // just binding
+    }
 
-  @UIDateField(position = 2, label = "Date of Birth", modelAttribute = "dateOfBirth")
-  public void dateOfBirth() {
-    // just binding
-  }
+    @UIDateField(position = 2, label = "Date of Birth", modelAttribute = "dateOfBirth")
+    public void dateOfBirth() {
+        // just binding
+    }
 }
-//end::pmo[]
+// end::pmo[]

@@ -10,28 +10,28 @@ import org.linkki.core.ui.section.annotations.UITextField;
 @UISection(caption = "Partner")
 public class PartnerSectionPmo {
 
-  private Partner partner;
+    private Partner partner;
 
-  public PartnerSectionPmo(Partner partner) {
-    this.partner = partner;
-  }
+    public PartnerSectionPmo(Partner partner) {
+        this.partner = partner;
+    }
 
-  @UITextField(position = 1, label = "Name", width = "20em")
-  public String getName() {
-    return partner.getName();
-  }
+    @UITextField(position = 1, label = "Name", width = "20em")
+    public String getName() {
+        return partner.getName();
+    }
 
-  public void setName(String newName) {
-    partner.setName(newName);
-  }
+    public void setName(String newName) {
+        partner.setName(newName);
+    }
 
-  @UIDateField(position = 2, label = "Date of Birth")
-  public LocalDate getDateOfBirth() {
-    return partner.getDateOfBirth();
-  }
+    @UIDateField(position = 2, label = "Date of Birth")
+    public LocalDate getDateOfBirth() {
+        return partner.getDateOfBirth();
+    }
 
-  public void setDateOfBirth(LocalDate newDateOfBirth) {
-    partner.setDateOfBirth(newDateOfBirth);
-  }
+    public void setDateOfBirth(LocalDate newDateOfBirth) {
+        partner.setDateOfBirth(newDateOfBirth);
+    }
 }
-//end::pmo[]
+// end::pmo[]

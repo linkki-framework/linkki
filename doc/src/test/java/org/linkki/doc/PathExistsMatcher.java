@@ -8,11 +8,11 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 class PathExistsMatcher extends TypeSafeMatcher<Path> {
-    
+
     public static Matcher<Path> exists() {
         return new PathExistsMatcher();
     }
-    
+
     @Override
     public void describeTo(@NonNull Description description) {
         description.appendText("an existing file");

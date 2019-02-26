@@ -35,7 +35,7 @@ public class TestPmo {
     private boolean visible = true;
     private boolean required = false;
 
-    private List<?> availableValues = new ArrayList<Object>();
+    private List<?> availableValues = new ArrayList<>();
 
     private TestEnum enumValue;
 

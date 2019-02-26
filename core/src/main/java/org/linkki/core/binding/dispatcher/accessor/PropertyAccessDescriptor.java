@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.dispatcher.accessor;
 
@@ -26,10 +26,9 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import org.eclipse.jdt.annotation.NonNull;
 
 /**
- * This class wraps a {@link PropertyDescriptor} for a bound class and a specified property
- * identified by its name. It could create a {@link WriteMethod} or {@link ReadMethod} object for
- * the bound class and property using the methods {@link #createWriteMethod()} and
- * {@link #createReadMethod()}.
+ * This class wraps a {@link PropertyDescriptor} for a bound class and a specified property identified
+ * by its name. It could create a {@link WriteMethod} or {@link ReadMethod} object for the bound class
+ * and property using the methods {@link #createWriteMethod()} and {@link #createReadMethod()}.
  * 
  * @param <T> the type containing the property
  * @param <V> the property's type

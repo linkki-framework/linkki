@@ -336,7 +336,7 @@ public class ComponentFactory {
     }
 
     public static <T> ComboBox<T> newComboBox() {
-        ComboBox<T> linkkiComboBox = new ComboBox<T>();
+        ComboBox<T> linkkiComboBox = new ComboBox<>();
         return linkkiComboBox;
     }
 

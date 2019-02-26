@@ -165,8 +165,9 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
      * list} {@link #isEmpty()}, {@link Optional#empty()} will be returned.
      * <p>
      * For Example:<br>
-     * A {@link MessageList} contains two {@link Message messages}, one with {@link Severity#INFORMATION} and
-     * one with {@link Severity#ERROR}. In this case, this method returns {@link Severity#ERROR}.
+     * A {@link MessageList} contains two {@link Message messages}, one with
+     * {@link Severity#INFORMATION} and one with {@link Severity#ERROR}. In this case, this method
+     * returns {@link Severity#ERROR}.
      *
      * @return the {@link MessageList message list's} maximum {@link Severity} or
      *         {@link Optional#empty()}.

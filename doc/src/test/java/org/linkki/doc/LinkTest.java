@@ -14,10 +14,10 @@
 package org.linkki.doc;
 
 import static org.hamcrest.Matchers.is;
-import static org.linkki.doc.PathExistsMatcher.exists;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.linkki.doc.PathExistsMatcher.exists;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

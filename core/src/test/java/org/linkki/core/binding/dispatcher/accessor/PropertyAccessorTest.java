@@ -208,7 +208,7 @@ public class PropertyAccessorTest {
     @Test
     public void testDefaultMethod_OtherPackagePrivate() {
         TestInterface testInterfaceImpl = OtherPackageTestObject.getPackagePrivateInstance();
-        PropertyAccessor<TestInterface, String> propertyAccessor = new PropertyAccessor<TestInterface, String>(
+        PropertyAccessor<TestInterface, String> propertyAccessor = new PropertyAccessor<>(
                 testInterfaceImpl.getClass(),
                 TestInterface.RO_DEFAULT_METHOD);
         String propertyValue = propertyAccessor.getPropertyValue(testInterfaceImpl);

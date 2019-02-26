@@ -114,7 +114,7 @@ public @interface UISubsetChooser {
 
         @Override
         public LinkkiAspectDefinition create(UISubsetChooser annotation) {
-            return new AvailableValuesAspectDefinition<TwinColSelect<Object>>(AvailableValuesType.DYNAMIC,
+            return new AvailableValuesAspectDefinition<>(AvailableValuesType.DYNAMIC,
                     TwinColSelect<Object>::setDataProvider);
         }
     }

@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.framework.ui.dialogs;
 
@@ -30,12 +30,12 @@ import com.vaadin.ui.UI;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * An {@link ErrorHandler} that shows a {@link ConfirmationDialog} with some exception details when
- * an exception occurs, and shows another {@link View} when the user closes that error dialog.
+ * An {@link ErrorHandler} that shows a {@link ConfirmationDialog} with some exception details when an
+ * exception occurs, and shows another {@link View} when the user closes that error dialog.
  * <p>
- * By default, {@link DefaultErrorDialog} is used to display the exception and the {@link View}
- * named "" (empty String) is shown upon confirmation. To use another dialog or a different
- * {@link View} to navigate to, use the constructor
+ * By default, {@link DefaultErrorDialog} is used to display the exception and the {@link View} named ""
+ * (empty String) is shown upon confirmation. To use another dialog or a different {@link View} to
+ * navigate to, use the constructor
  * {@link #DialogErrorHandler(ApplicationNavigator, BiFunction, String)}.
  * <p>
  * Register this handler in your main UI-class in order to report all exceptions:

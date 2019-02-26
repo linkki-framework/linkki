@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.annotations;
 
@@ -37,12 +37,12 @@ import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.util.BeanUtils;
 
 /**
- * This annotation is used to bind manually created components with a PMO and optionally a model
- * object. It is used to manually create UI layouts where linkki @UI... annotations do not give the
- * necessary flexibility. To still keep the linkki binding it is possible to annotate the created
- * field components using this annotation. Afterwards just call
- * {@link Binder#setupBindings(org.linkki.core.binding.BindingContext)} to bring the UI and the
- * model together.
+ * This annotation is used to bind manually created components with a PMO and optionally a model object.
+ * It is used to manually create UI layouts where linkki @UI... annotations do not give the necessary
+ * flexibility. To still keep the linkki binding it is possible to annotate the created field components
+ * using this annotation. Afterwards just call
+ * {@link Binder#setupBindings(org.linkki.core.binding.BindingContext)} to bring the UI and the model
+ * together.
  * 
  * @see Binder
  */

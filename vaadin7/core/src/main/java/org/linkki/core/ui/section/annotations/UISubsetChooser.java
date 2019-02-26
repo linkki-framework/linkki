@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.ui.section.annotations;
 
@@ -34,9 +34,9 @@ import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreato
 /**
  * Creates a subset chooser, i.e. a multi-select component with a left and a right list.
  * 
- * Note that the value handled by a subset chooser must be a {@link Set} whereas the list of
- * available values can be any kind of {@link Collection}. When using this annotation you will
- * presumably need something like this:
+ * Note that the value handled by a subset chooser must be a {@link Set} whereas the list of available
+ * values can be any kind of {@link Collection}. When using this annotation you will presumably need
+ * something like this:
  * 
  * <pre>
  * <code>
