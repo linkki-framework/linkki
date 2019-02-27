@@ -1,0 +1,4 @@
+class com/vaadin/data/Result
+ok
+ <R:Ljava/lang/Object;>(TR;)Lcom/vaadin/data/Result<TR;>;
+ <R:Ljava/lang/Object;>(T0R;)Lcom/vaadin/data/Result<TR;>;

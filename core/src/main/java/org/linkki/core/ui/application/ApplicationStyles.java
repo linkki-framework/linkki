@@ -45,6 +45,10 @@ public class ApplicationStyles {
 
     public static final String TABLE_CELL = "linkki-table-cell";
 
+    /**
+     * @deprecated since February 18th 2019, horizontal-section-spacing will not affect linkki vaadin8
+     */
+    @Deprecated
     public static final String SPACING_HORIZONTAL_SECTION = "horizontal-section-spacing";
 
     public static final String DIALOG_BUTTON_BAR = "linkki-dialog-button-bar";

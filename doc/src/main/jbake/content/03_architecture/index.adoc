@@ -27,9 +27,9 @@ The chapter concludes with <<cross-sectional-binding,Cross-Sectional Data Bindin
 
 *linkki* is split into several modules from which you can pick what you need:
 
-==== linkki-core
+==== linkki Core
 
-The core module contains UI framework independent code to setup bindings, aspects, `BindingContext` etc. In addition, it provides common usable implementations for reading *linkki* annotations. As a result, linkki-core dependent code can stay unmodified when switching to a different UI framework. It also sets up as much as possible to enable the framework specific part to easily create the UI elements and layout components.
+The core module contains UI framework independent code to setup bindings, aspects, `BindingContext` etc. In addition, it provides common usable implementations for reading *linkki* annotations. As a result, `linkki-core` dependent code can stay unmodified when switching to a different UI framework. It also sets up as much as possible to enable the framework specific part to easily create the UI elements and layout components. If you intend to use linkki with Vaadin 7 or 8 (instead of writing your own UI framework mapping), you can directly use the matching dependency below.
 
 To declare the dependency in maven: 
 
@@ -41,11 +41,12 @@ To declare the dependency in maven:
 </dependency>
 ----
 
-==== linkki-core-vaadin7
+[[maven-dependency-core-vaadin]]
+==== linkki Core for Vaadin
 
-To use *linkki* with Vaadin 7 you need to reference this module. It provides all the vaadin 7 specific implementations and all component annotations described in <<ui-components, UI Components>>. 
+To use *linkki* with Vaadin you need to reference a module providing all the Vaadin version specific implementations and all component annotations described in <<ui-components, UI Components>>. 
 
-To use it in maven, it has to be declared in pom as dependency as shown below: 
+Use the dependency matching your Vaadin version:
 
 [source,xml]
 ----
@@ -55,17 +56,17 @@ To use it in maven, it has to be declared in pom as dependency as shown below:
 </dependency>
 ----
 
-==== linkki-application-framework
-
-The application framework contains additional classes for building business applications, described in <<application-framework, Application Framework>>.
-
-To declare the dependency in maven: 
+or
 
 [source,xml]
 ----
 <dependency>
     <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-application-framework</artifactId>
+    <artifactId>linkki-core-vaadin8</artifactId>
 </dependency>
 ----
 
+==== linkki Application Framework for Vaadin
+
+The application framework contains additional classes for building business applications, described in <<application-framework, Application Framework>>.
+See <<maven-dependency-application-framework, Maven Dependency for the linkki Application Framework>>.

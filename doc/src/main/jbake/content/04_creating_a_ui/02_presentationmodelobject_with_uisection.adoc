@@ -1,14 +1,14 @@
 :jbake-title: PMO with UI Section
 :jbake-type: section
 :jbake-status: published
-:source-dir: ../../../../../../samples/binding/src/main/java
+:source-dir: ../../../../../../vaadin8/samples/binding/src/main/java
 :github: https://github.com/linkki-framework/linkki
 :github-blob: {github}/blob/master
 
 [[pmo-uisection]]
 === PresentationModelObject with `@UISection`
 
-When a class is annotated with `@UISection`, *linkki* takes control over the creation and arrangement of the defined components. Using annotations for the <<ui-element, UI elements>>, certain aspects can be defined or controlled. The sections are created via a {github-blob}/core/src/main/java/org/linkki/core/ui/section/PmoBasedSectionFactory.java[`PmoBasedSectionFactory`].
+When a class is annotated with `@UISection`, *linkki* takes control over the creation and arrangement of the defined components. Using annotations for the <<ui-element, UI elements>>, certain aspects can be defined or controlled. The sections are created via a {github-blob}/vaadin8/core/src/main/java/org/linkki/core/ui/section/PmoBasedSectionFactory.java[`PmoBasedSectionFactory`].
 
 The <<ui-element, `UI elements`>> are bound either to the 'properties' of a `ModelObject` or a PMO. A detailed description can be found in the chapter <<domain-model-binding, `Data on Multiple Layers`>>.
 
@@ -23,31 +23,33 @@ TIP: The annotation `@UISection` can be omitted. The `SectionCreationContext` cr
 
 [[binding-model-object]]
 .Binding with `@ModelObject`
+
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/binding/pmo/ContactSectionPmo.java[tags=contactPmo-class]
 ----
+
 TIP: The definition of `modelAttribute` is optional if the property name in the `ModelObject` and the name of the annotated method are equal. But it
-is recommended to specify the `modelAttribute` to make it explicit. The value should be externalized to a constant in the target model object.
+is recommended to specify the `modelAttribute` to make it explicit. The value should be externalized to a constant in the target model object as seen for the `lastname` property.
 
 [[binding-table]]
 ==== Binding of a Table
 
-To create a section with a table the PMO class must implement <<ui-container-pmo, `org.linkki.core.ui.table.ContainerPmo<T>`>>. The generic parameter `T` represents the type of the PMO to create a row in this table.
+To create a section with a table the PMO class must implement <<ui-container-pmo, `org.linkki.core.ui.table.ContainerPmo<ROW>`>>. The generic parameter `ROW` represents the type of the PMO to create a row in this table.
 
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/binding/pmo/ContactTablePmo.java[tags=contactTablePmo-class]
 ----
 
-The method `getItems()` returns the rows of the table in the form of the previously defined `T` 'row PMOs'.
+The method `getItems()` returns the rows of the table in the form of the previously defined `ROW` 'row PMOs'.
 
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/binding/pmo/ContactTablePmo.java[tags=contactTablePmo-getItems]
 ----
 
-In the `interface ContainerPmo<T>` additional `default` methods are defined. A detailed description can be found in the section about <<ui-container-pmo, ContainerPmo>>.
+In the `interface ContainerPmo<ROW>` additional `default` methods are defined. A detailed description can be found in the section about <<ui-container-pmo, ContainerPmo>>.
 
 The so called 'Row PMO' is a regular PMO as described in <<form-binding, the first section>>. The only difference is that the UI elements may optionally be annotated with <<ui-table-column, `@UITableColumn`>>.
 

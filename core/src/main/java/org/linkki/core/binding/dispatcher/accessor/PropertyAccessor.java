@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.dispatcher.accessor;
 
@@ -18,12 +18,11 @@ import static java.util.Objects.requireNonNull;
 import org.eclipse.jdt.annotation.NonNull;
 
 /**
- * Allows reading and writing a value from/to an object's property. Also provides the value class of
- * the property.
+ * Allows reading and writing a value from/to an object's property. Also provides the value class of the
+ * property.
  * <p>
- * For accessing an object's property, create a {@link PropertyAccessor} for the class to be
- * accessed and the name of the property. The accessor can determine whether the property can be
- * read or written.
+ * For accessing an object's property, create a {@link PropertyAccessor} for the class to be accessed
+ * and the name of the property. The accessor can determine whether the property can be read or written.
  * 
  * @param <T> the type containing the property
  * @param <V> the property's type
@@ -57,9 +56,9 @@ public class PropertyAccessor<@NonNull T, V> {
     }
 
     /**
-     * Only writes the value, if necessary. That is if the property's current value is different
-     * from the value to be written. This avoids infinite feedback loops in data binding, as most
-     * fields fire events if their value changes.
+     * Only writes the value, if necessary. That is if the property's current value is different from
+     * the value to be written. This avoids infinite feedback loops in data binding, as most fields fire
+     * events if their value changes.
      * <p>
      * However, if the property is write only the value will always be written (as the current value
      * cannot be retrieved in this case).
@@ -71,16 +70,14 @@ public class PropertyAccessor<@NonNull T, V> {
     }
 
     /**
-     * @return <code>true</code> if there is a read method (getter) for the given object and
-     *         property
+     * @return <code>true</code> if there is a read method (getter) for the given object and property
      */
     public boolean canWrite() {
         return writeMethod.canWrite();
     }
 
     /**
-     * @return <code>true</code> if there is a write method (setter) for the given object and
-     *         property
+     * @return <code>true</code> if there is a write method (setter) for the given object and property
      */
     public boolean canRead() {
         return readMethod.canRead();

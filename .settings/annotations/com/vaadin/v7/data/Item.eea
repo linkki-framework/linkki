@@ -1,0 +1,10 @@
+class com/vaadin/v7/data/Item
+addItemProperty
+ (Ljava/lang/Object;Lcom/vaadin/v7/data/Property;)Z
+ (L1java/lang/Object;L1com/vaadin/v7/data/Property;)Z
+getItemProperty
+ (Ljava/lang/Object;)Lcom/vaadin/v7/data/Property;
+ (L1java/lang/Object;)Lcom/vaadin/v7/data/Property;
+removeItemProperty
+ (Ljava/lang/Object;)Z
+ (L1java/lang/Object;)Z

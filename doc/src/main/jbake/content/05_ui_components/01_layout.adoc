@@ -2,8 +2,8 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-custom: ../../../../../../samples/custom-layout/src/main/java
-:resource-dir-custom: ../../../../../../samples/custom-layout/src/main/webapp
+:source-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/java
+:resource-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/webapp
 
 :images-folder-name: 05_ui_components
 
@@ -21,9 +21,10 @@ With the horizontal layout all input fields are displayed on a line, side by sid
 
 With the column layout fields are displayed one below the other. If additionally a number of columns are defined with the property `columns`, a kind of grid layout is produced. The grid is filled in the order of the field's position from left to right, row by row. 
 
+[[custom-layout]]
 ==== Custom layout
 
-Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v7/framework/layout/layout-customlayout.html[CustomLayout] from vaadin.
+Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v8/framework/layout/layout-customlayout.html[CustomLayout] from Vaadin.
 
 All you have to do is to create a HTML file located in the `layouts` folder in your theme folder. The HTML file has to be named with the simple name of your PMO and use the file extension `.html`. Within this HTML file you use `<div location="...">` elements as placeholder for every component. Within the `location` attribute you use the PMO property name to reference the component as needed. If you also want to have the placeholder for the PMO defined label you simply use the PMO property name with the suffix `-label`. In the PMO there are no restrictions. The position will be ignored, as it is determined by the HTML template.
 

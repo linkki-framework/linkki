@@ -3,12 +3,12 @@
 :jbake-status: published
 
 :image-dir: {images}07_application-framework
-:source-dir-application: ../../../../../../samples/application-framework/src/main/java
+:source-dir-application: ../../../../../../vaadin8/samples/application-framework/src/main/java
 
 === UI
 
-To create a Vaadin application you need to subclass `UI`. Using the *linkki application framework* you get a default implementation called `LinkkiUi` which handles the ui setup. The actual UI implementation is configured
-in your servlet using `@VaadinServletConfiguration`. To provide some views you could simply subclass `LinkkiUi` and use the `addView(...)` method or `addProvider(ViewProvider)`(for example with Vaadin's CDIViewProvider) as you need. The `LinkkiUi` uses the `ApplicationConfig` which could be implemented for your needs.
+To create a Vaadin application you need to subclass `UI`. Using the *linkki application framework* you get a default implementation called `LinkkiUi` which handles the UI setup. The actual UI implementation is configured
+in your servlet using `@VaadinServletConfiguration`. To provide some views you could simply subclass `LinkkiUi` and use the `addView(...)` method or `addProvider(ViewProvider)`(for example with Vaadin's `CDIViewProvider`) as you need. The `LinkkiUi` uses the `ApplicationConfig` which could be implemented for your needs.
 
 You can see an example in our `SampleApplicationUI`
 
@@ -30,7 +30,7 @@ implemented once in every *linkki* application and provided to the `LinkkiUi`. N
 
 === Components
 
-The *linkki* application framework contains the following components.
+The *linkki* application framework contains the following components:
 
 ==== Application Layout
 
@@ -47,7 +47,7 @@ The `ApplicationLayout` is created using  the `ApplicationConfig`'s `createAppli
 
 ==== Application Navigator
 
-The `ApplicationNavigator` is a subclass of vaadin's `Navigator` that has some convenience methods for initialization and navigation. It is instantiated by the `ApplicationConfig`. The navigator handles the different views and instructs the `ApplicationLayout` to show the view in the main area.
+The `ApplicationNavigator` is a subclass of Vaadin's `Navigator` that has some convenience methods for initialization and navigation. It is instantiated by the `ApplicationConfig`. The navigator handles the different views and instructs the `ApplicationLayout` to show the view in the main area.
 
 [[sidebarlayout]]
 ==== Sidebar Layout
@@ -56,7 +56,7 @@ The `SidebarLayout` is a UI component that gives access to several different vie
 
 image::{image-dir}/sidebar-layout.png[]
 
-On the left there is a horizontal bar containing icons (buttons) for every sheet. The tooltip of the button displays the name of the corresponding sheet. The content of the selected sheet is displayed to the right of the bar.
+On the left there is a vertical bar containing icons (buttons) for every sheet. The tooltip of the button displays the name of the corresponding sheet. The content of the selected sheet is displayed to the right of the bar.
 
 In order to create a sidebar instantiate the `SidebarLayout` and add `SidebarSheets`. Every sheet requires an icon, a name and a content. It is also possible to provide a `Supplier<Component>` that is called when the sheet is selected for the first time (lazy initialization). This approach is useful if the creation of the content is more complex and/or if the sheet might be rarely visible.
 

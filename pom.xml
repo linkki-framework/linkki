@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework</groupId>
@@ -33,18 +34,15 @@
         <module>test</module>
         <module>utils</module>
         <module>core</module>
-        <module>core-vaadin7</module>
-        <module>application-framework</module>
+        <module>vaadin7</module>
+        <module>vaadin8</module>
         <module>doc</module>
-        <module>samples</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <m2e.jdt.annotationpath>/linkki/.settings/annotations</m2e.jdt.annotationpath>
         <git.user>${user.name}</git.user>
-        <vaadin.version>7.7.16</vaadin.version>
-        <joda-time.version>2.10.1</joda-time.version>
         <junit.version>4.12</junit.version>
         <mockito.version>2.24.0</mockito.version>
         <commons-lang3.version>3.8.1</commons-lang3.version>
@@ -98,7 +96,7 @@
                     <!-- at the moment we do not check missing javadoc like missing @param or @return -->
                     <doclint>accessibility,html,reference,syntax,-missing</doclint>
                     <links>
-                        <link>http://vaadin.com/api/framework/${vaadin-version}/</link>
+                        <link>http://vaadin.com/api/framework/${vaadin.version}/</link>
                     </links>
                     <tags>
                         <tag>
@@ -290,7 +288,6 @@
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.1.1</version>
                 </plugin>
-
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
                     build itself. -->
                 <plugin>
@@ -302,15 +299,19 @@
                             <pluginExecutions>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>org.jacoco</groupId>
-                                        <artifactId>jacoco-maven-plugin</artifactId>
-                                        <versionRange>${jacoco.version}</versionRange>
+                                        <groupId>
+                                            org.apache.maven.plugins
+                                        </groupId>
+                                        <artifactId>
+                                            maven-toolchains-plugin
+                                        </artifactId>
+                                        <versionRange>[1.0,)</versionRange>
                                         <goals>
-                                            <goal>prepare-agent</goal>
+                                            <goal>toolchain</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore></ignore>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -354,37 +355,10 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>${joda-time.version}</version>
-                <optional>true</optional>
-            </dependency>
-            <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>org.eclipse.jdt.annotation</artifactId>
                 <version>2.2.200</version>
                 <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-server</artifactId>
-                <version>${vaadin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-client-compiled</artifactId>
-                <version>${vaadin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-client</artifactId>
-                <version>${vaadin.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-themes</artifactId>
-                <version>${vaadin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
