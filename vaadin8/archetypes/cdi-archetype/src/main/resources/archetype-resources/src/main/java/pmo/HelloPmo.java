@@ -21,7 +21,7 @@ public class HelloPmo {
         this.handler = handler;
     }
 
-    @UITextField(position = 10, label = "Please type your Name and press Enter")
+    @UITextField(position = 10, label = "Please type your name and press Enter")
     public String getName() {
         return name;
     }
@@ -33,7 +33,7 @@ public class HelloPmo {
     @UILabel(position = 20)
     public String getHello() {
         if (name != null) {
-            return "Hello " + name + "! This is a linkki Example Web Application.";
+            return "Hello " + name + "! This is a linkki example web application with CDI.";
         } else {
             return "";
         }

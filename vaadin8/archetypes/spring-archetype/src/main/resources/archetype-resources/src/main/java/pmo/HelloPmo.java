@@ -24,7 +24,7 @@ public class HelloPmo {
     }
 
 
-    @UITextField(position = 10, label = "Please type your Name and press Enter")
+    @UITextField(position = 10, label = "Please type your name and press Enter")
     public String getName() {
         return name;
     }
@@ -38,7 +38,7 @@ public class HelloPmo {
     public String getHello() {
         if (name != null) {
             return "Hello " + name
-                    + "! This is a linkki Example Web Application.";
+                    + "! This is a linkki example web application running on Spring Boot.";
         } else {
             return "";
         }
