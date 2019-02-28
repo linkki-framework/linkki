@@ -274,12 +274,13 @@ ifdef::backend-html5[]
 +++ </div></details> +++
 endif::[]
 
-===== General Changes
+
+==== General Changes
 
 Regardless of which Vaadin version you intend to use, there are some general changes that were necessary to separate Vaadin specific implementations.
 
 [role="api-change"]
-====== Encapsulation of Vaadin specific implementations in `linkki-core`
+===== Encapsulation of Vaadin specific implementations in `linkki-core`
 
 To make *linkki* usable with different Vaadin versions, all Vaadin dependencies in `linkki-core` have been moved to Vaadin specific artifacts. Any uses of UI framework API from the core are now handled via the new `UiFramework` class. It is recommended that you also use it instead of directly calling Vaadin API where applicable. This especially apply to all `UiUtils.getUiLocale()` and `UI.getCurrent().getLocale()` calls.
 
@@ -292,7 +293,7 @@ To make *linkki* usable with different Vaadin versions, all Vaadin dependencies 
 |===
 
 [role="api-change"]
-====== Introduction of *linkki* `Severity` for `Message` and `MessageList`
+===== Introduction of *linkki* `Severity` for `Message` and `MessageList`
 
 To make the *linkki* `Message` and `MessageList` independent of Vaadin, a new enum `Severity` is introduced to avoid using the Vaadin `ErrorLevel` directly. Consequently, several methods of `Message` and `MessageList` are changed, now using the new *linkki* `Severity`. Note that the existing methods are directly removed, as it is not possible to deprecate them due to direct Vaadin dependencies.
 
@@ -311,11 +312,11 @@ To make the *linkki* `Message` and `MessageList` independent of Vaadin, a new en
 | `sortByErrorLevel` | `sortBySeverity` |
 |===
 
-====== Removed Generic Type in PmoBasedTableFactory
+===== Removed Generic Type in PmoBasedTableFactory
 
 The generic typ of `PmoBasedTableFactory` is removed. If you have previously created a new instance of `PmoBasedTableFactory` using the constructor, you need to remove the generic typ / diamond operator.
 
-====== ButtonPmo and ButtonPmoBuilder
+===== ButtonPmo and ButtonPmoBuilder
 
 The interface `ButtonPmo` describes UI logic for buttons that are e.g. used in the section header. This interface has slightly changed as it used style names and buttons that have to be implemented differently in Vaadin 7 and Vaadin 8.
 
@@ -375,4 +376,10 @@ public class MyButtonPmo implements ButtonPmo {
   }
 }
 ----
+
+Vaadin 8 uses `VaadinIcons` instead of `FontAwesome`.
 |===
+
+==== Maven Archetypes for linkki
+It is now even easier to set up a new *linkki* project with the archetypes for vanilla *linkki* projects and those using CDI or Spring Boot. See <<maven-archetypes, Maven Archetypes>>.
+

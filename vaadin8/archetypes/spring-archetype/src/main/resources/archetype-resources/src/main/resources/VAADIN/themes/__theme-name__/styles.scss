@@ -1,0 +1,11 @@
+$v-shadow: false !default;
+
+@import "linkki.scss";
+@import "../valo/valo.scss";
+
+.${theme-name} {
+
+  // Include linkki theme styles
+  @include linkki;
+  @include valo;
+}
