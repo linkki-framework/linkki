@@ -52,8 +52,9 @@ public class ApplicableTypeAspectDefinitionTest {
 
     @Test
     public final void testCreateUiUpdater() {
-        ApplicableTypeAspectDefinition aspectDef = ApplicableTypeAspectDefinition.ifApplicable(TestUiComponent.class,
-                                                                                               aspectDefinition);
+        ApplicableTypeAspectDefinition aspectDef = ApplicableTypeAspectDefinition
+                .ifComponentTypeIs(TestUiComponent.class,
+                                   aspectDefinition);
 
         when(aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper)).thenReturn(modelUpdated);
         Handler uiUpdater = aspectDef.createUiUpdater(propertyDispatcher, componentWrapper);
@@ -64,8 +65,8 @@ public class ApplicableTypeAspectDefinitionTest {
 
     @Test
     public final void testCreateUiUpdater_NotApplicable() {
-        ApplicableTypeAspectDefinition aspectDef = ApplicableTypeAspectDefinition.ifApplicable(String.class,
-                                                                                               aspectDefinition);
+        ApplicableTypeAspectDefinition aspectDef = ApplicableTypeAspectDefinition.ifComponentTypeIs(String.class,
+                                                                                                    aspectDefinition);
 
         aspectDef.createUiUpdater(propertyDispatcher, componentWrapper);
 
@@ -74,8 +75,9 @@ public class ApplicableTypeAspectDefinitionTest {
 
     @Test
     public final void testInitModelUpdate() {
-        ApplicableTypeAspectDefinition aspectDef = ApplicableTypeAspectDefinition.ifApplicable(TestUiComponent.class,
-                                                                                               aspectDefinition);
+        ApplicableTypeAspectDefinition aspectDef = ApplicableTypeAspectDefinition
+                .ifComponentTypeIs(TestUiComponent.class,
+                                   aspectDefinition);
 
         aspectDef.initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated);
 
@@ -84,8 +86,8 @@ public class ApplicableTypeAspectDefinitionTest {
 
     @Test
     public final void testInitModelUpdate_NotApplicable() {
-        ApplicableTypeAspectDefinition aspectDef = ApplicableTypeAspectDefinition.ifApplicable(List.class,
-                                                                                               aspectDefinition);
+        ApplicableTypeAspectDefinition aspectDef = ApplicableTypeAspectDefinition.ifComponentTypeIs(List.class,
+                                                                                                    aspectDefinition);
 
         aspectDef.initModelUpdate(propertyDispatcher, componentWrapper, modelUpdated);
 

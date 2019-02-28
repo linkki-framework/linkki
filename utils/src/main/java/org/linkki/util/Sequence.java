@@ -64,7 +64,7 @@ public class Sequence<T> implements Iterable<T> {
      */
     @SuppressWarnings("unchecked")
     public static <T> Sequence<T> of(Collection<? extends T> elements) {
-        return new Sequence<T>((Collection<T>)elements);
+        return new Sequence<>((Collection<T>)elements);
     }
 
     /**
@@ -76,7 +76,7 @@ public class Sequence<T> implements Iterable<T> {
      */
     @SafeVarargs
     public static <T> Sequence<T> of(T... elements) {
-        return new Sequence<T>(Arrays.asList(elements));
+        return new Sequence<>(Arrays.asList(elements));
     }
 
     /**
@@ -85,7 +85,7 @@ public class Sequence<T> implements Iterable<T> {
      * @return an empty {@link Sequence}
      */
     public static <T> Sequence<T> empty() {
-        return new Sequence<T>();
+        return new Sequence<>();
     }
 
     /**
@@ -189,7 +189,7 @@ public class Sequence<T> implements Iterable<T> {
      * Creates a {@link Collector} that collects a {@link Stream}'s elements into a {@link Sequence}.
      */
     public static <T> Collector<T, ?, Sequence<T>> collect() {
-        return new SequenceCollector<T>();
+        return new SequenceCollector<>();
     }
 
     private static final class SequenceCollector<T> implements Collector<T, List<T>, Sequence<T>> {

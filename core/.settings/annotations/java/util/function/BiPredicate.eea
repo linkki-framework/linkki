@@ -1,4 +1,0 @@
-class java/util/function/BiPredicate
-negate
- ()Ljava/util/function/BiPredicate<TT;TU;>;
- ()L1java/util/function/BiPredicate<TT;TU;>;

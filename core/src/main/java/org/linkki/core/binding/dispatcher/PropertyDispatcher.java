@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.core.binding.dispatcher;
 
@@ -21,8 +21,8 @@ import org.linkki.core.message.MessageList;
  * Provides field information for an arbitrary property through an unified interface.
  * <p>
  * Each aspects value can be set to the model by using {@link #pull(Aspect)}, and retrieved by
- * {@link #push(Aspect)}. {{@link #push(Aspect)} can only be used if {@link #isPushable(Aspect)}
- * returns {@code true}. Additionally, validation messages can be retrieved with
+ * {@link #push(Aspect)}. {{@link #push(Aspect)} can only be used if {@link #isPushable(Aspect)} returns
+ * {@code true}. Additionally, validation messages can be retrieved with
  * {@linkplain #getMessages(MessageList)}, which are not handled by aspects.
  */
 public interface PropertyDispatcher {

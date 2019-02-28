@@ -1,7 +1,0 @@
-class java/text/SimpleDateFormat
-pattern
- Ljava/lang/String;
- L1java/lang/String;
-toPattern
- ()Ljava/lang/String;
- ()L1java/lang/String;

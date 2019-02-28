@@ -3,9 +3,9 @@
 :jbake-status: published
 :jbake-order: 90
 
-== Extending linkki
+== Extending *linkki*
 
-linkki offers several options to extend its abilities:
+*linkki* offers several options to extend its abilities:
 
  * Binding custom UI Elements via <<ui-customfield, UICustomField>>
  * Binding custom UI Elements with custom UI annotations

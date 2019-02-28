@@ -1,4 +1,0 @@
-class java/util/Map
-values
- ()Ljava/util/Collection<TV;>;
- ()L1java/util/Collection<TV;>;

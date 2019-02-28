@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.util;
 
@@ -24,12 +24,23 @@ import java.util.Map;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
- * A registry for date format patterns to use instead of the rather unsuitable default patterns
- * provided by {@link DateFormat#getDateInstance(int, Locale)}.
+ * A registry for date format patterns to use instead of the rather unsuitable default patterns provided
+ * by {@link DateFormat#getDateInstance(int, Locale)}.
+ * 
+ * @deprecated since 2019-02-26. Use the static {@link DateFormats} instead.
  */
+@Deprecated
 public class DateFormatRegistry {
 
+    /**
+     * @deprecated use {@link DateFormats#PATTERN_ISO} instead
+     */
+    @Deprecated
     public static final String PATTERN_ISO = "yyyy-MM-dd";
+    /**
+     * @deprecated use {@link DateFormats#PATTERN_DE} instead
+     */
+    @Deprecated
     public static final String PATTERN_DE = "dd.MM.yyyy";
 
     private final Map<String, @Nullable String> languagePatterns = new HashMap<>();
@@ -41,7 +52,10 @@ public class DateFormatRegistry {
     /**
      * Returns the registered pattern if existent or a default pattern obtained from
      * {@link DateFormat#getDateInstance(int, Locale)} with style {@link DateFormat#SHORT}.
+     * 
+     * @deprecated use the static {@link DateFormats#getPattern(Locale)} instead
      */
+    @Deprecated
     public String getPattern(Locale locale) {
         requireNonNull(locale, "locale must not be null");
 

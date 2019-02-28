@@ -1,0 +1,7 @@
+class com/vaadin/data/Converter
+convertToModel
+ (TPRESENTATION;Lcom/vaadin/data/ValueContext;)Lcom/vaadin/data/Result<TMODEL;>;
+ (TPRESENTATION;L1com/vaadin/data/ValueContext;)Lcom/vaadin/data/Result<TMODEL;>;
+convertToPresentation
+ (TMODEL;Lcom/vaadin/data/ValueContext;)TPRESENTATION;
+ (TMODEL;L1com/vaadin/data/ValueContext;)TPRESENTATION;

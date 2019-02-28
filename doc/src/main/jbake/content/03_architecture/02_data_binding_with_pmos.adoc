@@ -21,9 +21,10 @@ Of importance for the data binding are the so called "properties" of a PMO. Acco
 
 See the following example class:
 
-```java
+[source,java]
+----
 include::{source-dir}/org/linkki/doc/ExamplePmo.java[tags=class]
-```
+----
 
 This class has two properties: "salutation" and "nameForUI". The property "nameForUI" shows, that for a PMO property there doesn't necessarily have to exist a corresponding field. Also, "surname" is no property even though there is a field and a matching setter method, because the required method `String getSurname()` is missing.
 

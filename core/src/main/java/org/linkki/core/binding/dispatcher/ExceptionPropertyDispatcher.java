@@ -87,7 +87,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     @Override
 
     public <T> T pull(Aspect<T> aspect) {
-        throw new IllegalStateException(missingMethod("is/get" + StringUtils.capitalize(getProperty()), "read"));
+        throw new IllegalStateException(missingMethod(getPropertyAspectName("is/get", aspect), "read"));
     }
 
     @Override
@@ -97,6 +97,12 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
         } else {
             throw new IllegalArgumentException(missingMethod("void " + property + "()", "invoke"));
         }
+    }
+
+    private String getPropertyAspectName(String prefix, Aspect<?> aspect) {
+        return StringUtils
+                .uncapitalize(prefix + StringUtils.capitalize(getProperty())
+                        + StringUtils.capitalize(aspect.getName()));
     }
 
     private String missingMethod(String methodSignature, String action) {

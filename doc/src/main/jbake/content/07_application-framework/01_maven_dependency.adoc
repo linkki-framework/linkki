@@ -2,14 +2,25 @@
 :jbake-type: section
 :jbake-status: published
 
+[[maven-dependency-application-framework]]
 === Maven Dependency
 
-To use the application framework you need to add the following additional dependency. The version should be the same as for *linkki* core.
+To use the application framework you need to use the following dependency for the desired Vaadin version instead of <<maven-dependency-core-vaadin,*linkki* core>>.
 
 [source,xml]
 ----
         <dependency>
             <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-application-framework</artifactId>
+            <artifactId>linkki-application-framework-vaadin8</artifactId>
+        </dependency>
+----
+
+or
+
+[source,xml]
+----
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-application-framework-vaadin7</artifactId>
         </dependency>
 ----

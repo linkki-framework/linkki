@@ -2,9 +2,9 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-binding: ../../../../../../samples/binding/src/main/java
-:source-dir-messages: ../../../../../../samples/messages/src/main/java
-:source-dir-dynamic: ../../../../../../samples/dynamic-fields/src/main/java
+:source-dir-binding: ../../../../../../vaadin8/samples/binding/src/main/java
+:source-dir-messages: ../../../../../../vaadin8/samples/messages/src/main/java
+:source-dir-dynamic: ../../../../../../vaadin8/samples/dynamic-fields/src/main/java
 
 [[ui-element]]
 === UI Element
@@ -43,7 +43,6 @@ All UI elements have the following properties in common:
 
 * <<position, `position: int`>>
 * <<label, `label: String`>>
-* <<label, `noLabel: boolean`>>/<<label, `showLabel: boolean`>>
 * <<enabled, `enabled: boolean`>> (not configurable for all elements)
 * <<visible, `visible: boolean`>>
 * <<required, `required: boolean`>> (not configurable for all elements)
@@ -53,11 +52,11 @@ All UI elements have the following properties in common:
 * <<model-attribute, `modelObject: String`>>
 * <<model-attribute, `modelAttribute: String`>>
 
-CAUTION: <<position, `position`>> musst be specified. All other properties have default values.
+CAUTION: <<position, `position`>> must always be specified. For most annotations, <<label, `label`>> is also mandatory. All other properties have default values.
 
 [[position]]
 ===== Position
-The "position" property defines the order of elements in the UI. The relative size of the value is deciding. Elements with smaller `position` are added to the a section first.
+The "position" property defines the order of elements in the UI. The relative size of the value is deciding. Elements with smaller `position` are added to a section first.
 
 TIP: Gaps in the position numbering are allowed and common, to allow adding new UI elements at a later moment without needing to renumber all elements.
  
@@ -65,9 +64,7 @@ TIP: Gaps in the position numbering are allowed and common, to allow adding new 
 ===== Label
 Usually there is a label text for each UI element, that describes the element. The content of the label is defined by this attribute.
 
-If no label should be shown (as opposed to an empty one), `noLabel = true` can be used.
-
-An exception to this is the <<ui-button, button>>, for which normally no label is displayed. The controlling property is `showLabel`, set to `false` by default. The displaying can be forced by setting it to `true`.
+Exceptions to this are <<ui-button, buttons>> and <<ui-checkbox, checkboxes>>. These UI elements usually do not need a preceding label. Instead, the description of a button is displayed on the button itself while the description of the checkbox is commonly displayed at the right of the checkbox. This kind of describing element can be configured with the property `caption` in both annotations respectively. Buttons and checkboxes can still be configured with a label additionally by overwriting the `label` property.
 
 NOTE: If an independent label is needed, the UI element <<ui-label, UILabel>> can be used.
 
@@ -104,7 +101,7 @@ The property `required` visually highlights required fields. The following confi
 [cols="1,3"]
 .RequiredType
 |===
-|`REQUIRED`              |the UI element requires input (a value musst be entered/selected)
+|`REQUIRED`              |the UI element requires input (a value must be entered/selected)
 |`REQUIRED_IF_ENABLED`   |the UI element requires input if it is `enabled`
 |`NOT_REQUIRED`          |input in the UI element is optional (*default*)
 |`DYNAMIC`               |whether the element requires input is controlled by the return value of the method `boolean is<PropertyName>Required()`
@@ -116,15 +113,15 @@ WARNING: Fields marked as `required` are only visually highlighted. *No* validat
 
 [[model-attribute]]
 ===== ModelObject and -Attribute
-A <<ui-field, field>> can be bound to an attribute of an existing model object using <<domain-model-binding, domain model binding>>. For this the properties `modelAttribute` and possibly `modelObject` are required. The function is described in the section <<modell-attribut-namen, names of model attributes>>.
+A <<ui-field, field>> can be bound to an attribute of an existing model object using <<domain-model-binding, domain model binding>>. For this the properties `modelAttribute` and possibly `modelObject` are required. The function is described in the section <<model-attribute-names, names of model attributes>>.
 
 [[ui-label]]
 ==== UILabel
-The annotation `@UILabel` generates an independent UI element displaying `string` content. In contrast to a deactivated <<ui-textfield, UITextField>> its text is not framed by an input field. This annotation is equivalent to a `com.vaadin.ui.Label`.
+The annotation `@UILabel` generates an independent UI element displaying `String` content. In contrast to a deactivated <<ui-textfield, UITextField>> its text is not framed by an input field. This annotation is equivalent to a `com.vaadin.ui.Label`.
 
 The annotated method must return a value of `String` type. The return value defines what is shown as label.
 
-TIP: A UILabel also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside the UILabel.
+TIP: A `UILabel` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside the `UILabel`.
 
 ===== HTML Content
 The content of the label can be styled with HTML if `htmlContent=true` is specified.
@@ -144,7 +141,7 @@ To style labels the property `styleNames` can be used to specify a list (actuall
 A `com.vaadin.ui.CheckBox`, bound to a boolean property.
 Instead of a label on the left side of the UI element, checkboxes usually have a caption on the right. This caption must be set with the property `caption`. If no caption is desired, an empty String must be set. 
 
-The usual `label` property is still available if any display text is needed on the left side additionally. However, the label has to be manually activated by setting `noLabel` to `false`.
+The usual `label` property is still available if any display text is needed on the left side additionally.
 
 When used in a table, the `label` is used as the column name while the `caption` is displayed next to the checkbox in the table cell.
 
@@ -152,12 +149,12 @@ When used in a table, the `label` is used as the column name while the `caption`
 ==== UITextField
 A `com.vaadin.ui.TextField` for text entry. The annotation `UITextfield` has two additional properties:
 
-* `columns: int`
 * `maxLength: int`
+* `width: String`
 
-The property `columns` defines the width of the text field. If no positive value is defined, all available space is used.
+`maxLength` defines the maximum number of characters that can be entered or displayed in the field while `width` defines the visible width of the field using a number and a CSS unit, for example "5em" or "50%". This value is set to 100% by default which means it grabs the available space.
 
-`maxLength` defines the maximum number of characters that can be entered or displayed in the field.
+TIP: For Vaadin 7, the property `columns: int` defines the width of the text field. If no positive value is defined, all available space is used.
 
 [[ui-textarea]]
 ==== UITextArea
@@ -169,7 +166,7 @@ The property `rows` defines the height of the `UITextArea`, not how many rows ca
 
 [[ui-numberfield]]
 ==== UIIntegerField and UIDoubleField
-`@UIInterfield` and `@UIDoubleField` are text fields for displaying formatted numbers. Like <<ui-textfield,`@UITextField`>> these annotations have the property `maxLength`.
+`@UIIntegerfield` and `@UIDoubleField` are text fields for displaying formatted numbers. Like <<ui-textfield,`@UITextField`>> these annotations have the property `maxLength`.
 
 The format can be defined with the property `format: String`, using the notation from `java.text.NumberFormat`.
 
@@ -177,9 +174,9 @@ If no format is specified for a `UIIntegerField`, *linkki* uses the default Java
 
 [[ui-datefield]]
 ==== UIDateField
-The annotation `@UIDateField` generates a date input field and corresponds to (`com.vaadin.ui.DateField`). It allows specifying a date format using the property `dateFormat: String`. If not date format is defined the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for german. For other languages `DateFormat.SHORT` from the JDK is used.
+The annotation `@UIDateField` generates a date input field and corresponds to `com.vaadin.ui.DateField`. It allows specifying a date format using the property `dateFormat: String`. If not date format is defined the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
 
-TIP: The property can return both `java.time.LocalDate` and `org.joda.time.LocalDate`.
+TIP: With Vaadin 7, the property can return both `java.time.LocalDate` and `org.joda.time.LocalDate` when the matching converters are set in the `LinkkiConverterFactory`.
 
 [[ui-combobox]]
 ==== UIComboBox
@@ -203,8 +200,8 @@ The attribute `content` defines which values are available:
 |===
 |`ENUM_VALUES_INCL_NULL` |the values of the combobox correspond to the values of the enum data type of the property, extended by the value `null` (*default*)
 |`ENUM_VALUES_EXCL_NULL` |the values of the combobox correspond to the values of the enum data type of the property
-|`DYNAMIC`                 |the values of the combobox are defined dynamically through the method `Collection<T> get<PropertyName>AvailableValues()`
-|`NO_VALUES`               |this combobox has no selectable values
+|`DYNAMIC`               |the values of the combobox are defined dynamically through the method `Collection<T> get<PropertyName>AvailableValues()`
+|`NO_VALUES`             |this combobox has no selectable values
 |===
 
 [[ui-combobox-width]]
@@ -223,13 +220,13 @@ For displaying the individual values in the combobox a `org.linkki.core.ui.compo
 A `@UIYesNoComboBox` allows selection of a boolean value from a dropdown list like a <<ui-combobox, `UIComboBox`>>. The difference is that the values are not a generic enumeration or list but the well known boolean values `true` and `false` (and for `Boolean`, the option `null`). It has two properties known from the <<ui-combobox, `UIComboBox`>>:
 
 * <<ui-combobox-width,`width: String`>>
-* <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>>
+* <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> with a default implementation `BooleanCaptionProvider` that uses common names in the current locale like "Yes"/"No" or "Ja"/"Nein".
 
 [[ui-subsetchooser]]
 ==== UISubsetChooser
 For selection of multiple values from a list, *linkki* offers the `@UISubsetChooser`. In this UI control elements are selected by moving them from a list on the left to a list on the right. The display of the individual elements is similar to <<itemCaptionProvider, `UIComboBox`>>, but with a default of `ToStringCaptionProvider`. As with <<ui-combobox-width, UICombobox>> the width can be defined via the property `width`.
 
-The content of a SubsetChooser musst be specified with the method `Collection<T> get<PropertyName>AvailableValues()`. The bound property must be of type `Set<T>`.
+The content of a subset chooser must be specified with the method `Collection<T> get<PropertyName>AvailableValues()`. The bound property must be of type `Set<T>`.
 
 The caption of both columns can be set through the properties `leftColumnCaption: String` and `rightColumnCaption: String`.
 
@@ -237,7 +234,7 @@ The caption of both columns can be set through the properties `leftColumnCaption
 ==== UICustomField
 Other controls can also easily be generated and bound by *linkki*. For this the annotation `@UICustomField` is used. 
 
-The control class is specified with the property `uiControl: Class<? extends Field<?>>`. If the control inherits from `com.vaadin.ui.AbstractSelect` the values can be defined by `content: AvailableValuesType` like with <<ui-combobox,UIComboBox>>.
+The control class is specified with the property `uiControl: Class<? extends Field<?>>`. If the control implements `com.vaadin.data.HasItems<T>` the values can be defined by `content: AvailableValuesType` like with <<ui-combobox,UIComboBox>>.
 
 WARNING: `@UICustomField` only supports controls with a parameter-less constructor.
 
@@ -247,16 +244,18 @@ WARNING: `@UICustomField` only supports controls with a parameter-less construct
 include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationSectionPmo.java[tags=ui-custom-field]
 ----
 
+TIP: For Vaadin 7, available values are bound for components inheriting from `com.vaadin.ui.AbstractSelect`
+
 [[dynamicfield]]
 ==== Dynamic Field
 
-*linkki* allows for dynamic typing of an input field. In the following example `Selbstbehalt` should only be freely writable if `Autotyp` is set to `STANDARD`. Otherwise the user can only select values from a list:
+*linkki* allows for dynamic typing of an input field. In the following example `Retention` should only be freely writable if `CarType` is set to `STANDARD`. Otherwise the user can only select values from a list:
 
 [source,java]
 ----
 include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarPmo.java[tags=ui-dynamic-field]
 ----
-The selectable UI elements are defined via annotations on the method, as is customary. They must, however, fullfill the following requirements, to allow the type to be determined dynamically:
+The selectable UI elements are defined via annotations on the method, as is customary. They must, however, fulfill the following requirements, to allow the type to be determined dynamically:
 
 1. the `position` in the UI* annotations must match
 2. the `label` must have the same value
@@ -266,7 +265,7 @@ If the `position` values are identical but the `label` values differ, an excepti
 Which UI element is displayed for each PMO instance is determined by the method `Class<?> get<PropertyName>ComponentType()`. It returns the class of the UI*-Annotation for the UI control to be rendered.
 
 [[ui-button]]
-==== Button
+==== UIButton
 
 The annotation `@UIButton` is used to mark the method that should be executed with the click on the button. 
 
@@ -277,7 +276,7 @@ Buttons are not bound to values. Since buttons therefore have no corresponding P
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/ButtonsSectionPmo.java[tags=button]
 ----
 
-Contrary to other UI elements `@UIButton` doesn't have the property `noLabel`, but `showLabel` instead. The default value is `false`. Apart from the <<ui-properties, common properties>>, buttons have these additional ones:
+Apart from the <<ui-properties, common properties>>, buttons have these additional ones:
 
 * <<caption, caption: String>>
 * <<caption, captionType: CaptionType>>
@@ -304,7 +303,9 @@ The text shown on a button is called a caption. It is not to be confused with a 
 
 [[icon]]
 ===== Icon
-Apart from captions buttons can be adorned with icons. For this the constants of the Vaadin class `FontAwesome` are used. For the icon to be displayed the property `showIcon` must be set `true`.
+Apart from captions, buttons can be adorned with icons. For this the constants of the Vaadin class `VaadinIcons` are used. For the icon to be displayed the property `showIcon` must be set `true`.
+
+TIP: Vaadin 7 used `FontAwesome` instead of `VaadinIcons`.
 
 [[button-style-names]]
 ===== Style Names
