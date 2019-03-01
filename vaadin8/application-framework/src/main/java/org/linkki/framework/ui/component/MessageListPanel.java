@@ -27,17 +27,19 @@ public class MessageListPanel extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    private Label infoLabel = new Label();
-
     private VerticalLayout messages = new VerticalLayout();
 
     public MessageListPanel(String text) {
         addStyleName(LinkkiStyles.MESSAGE_LIST_STYLE);
         setWidth("400px");
+
+        Label infoLabel = new Label();
+        infoLabel.setWidth("100%");
         infoLabel.setValue(text);
         infoLabel.setStyleName(ValoTheme.LABEL_H3);
         infoLabel.setContentMode(ContentMode.HTML);
         addComponent(infoLabel);
+
         Panel panel = new Panel();
         addComponent(panel);
         panel.setContent(messages);

@@ -14,7 +14,7 @@ Due to special requirements or custom `Fields` it is sometimes not possible to u
 
 To activate the manual binding the component must be marked with the `@Bind` annotation. Both fields and methods can be annotated. Manual binding with `@Bind` supports different component types depending on the Vaadin Framework version. Components based on the following classes and interfaces can be used with `@Bind`:
 
-* `com.vaadin.ui.Component` 
+* `com.vaadin.ui.Component`
 * `com.vaadin.ui.AbstractField<T>`
 * `com.vaadin.ui.Label`
 * `com.vaadin.ui.Button`
@@ -23,7 +23,7 @@ To activate the manual binding the component must be marked with the `@Bind` ann
 
 [TIP]
 ====
-For Vaadin 7 the base classes allowed for `@Bind` annotated fields are 
+For Vaadin 7 the base classes allowed for `@Bind` annotated fields are
 
 * `com.vaadin.ui.Field`
 * `com.vaadin.ui.Label`
@@ -54,14 +54,14 @@ TIP: When the data binding of a Vaadin component of a third party library should
 include::{source-dir}/org/linkki/samples/binding/components/ContactComponent.java[tags=manual-binding]
 ----
 
-You can find a sample project with the different binding options on {github-tree}/samples/binding[GitHub].
+You can find a sample project with the different binding options on {github-tree}/vaadin8/samples/binding[GitHub].
 
 [TIP]
 ====
 Binding summary:
 
 * <<pmo-uisection, @UISection>> -> simple and quick template with limited configuration options
-* <<manual-section-creation, UiElementCreator>> -> automated creation and binding of UI components with control over the layout 
+* <<manual-section-creation, UiElementCreator>> -> automated creation and binding of UI components with control over the layout
 * <<manual-binding, manual binding>> -> full control, but more effort and direct UI framework dependencies
 
 *linkki* uses certain naming conventions. That way sources of errors and refactoring complexity are reduced.

@@ -109,7 +109,7 @@ public class ConfirmationDialog extends OkCancelDialog {
     public static ConfirmationDialog open(String caption,
             Component content,
             Handler okHandler) {
-        ConfirmationDialog d = new ConfirmationDialog(caption, content, okHandler);
+        ConfirmationDialog d = new ConfirmationDialog(caption, okHandler, content);
         d.open();
         return d;
     }
