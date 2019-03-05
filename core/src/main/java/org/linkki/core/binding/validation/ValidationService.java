@@ -25,7 +25,7 @@ public interface ValidationService {
      * Message code for a {@link org.linkki.core.message.Message Message} indicating a non-specific
      * fatal validation error.
      */
-    String FATAL_ERROR_MESSAGE_CODE = "fatalValiationError";
+    String FATAL_ERROR_MESSAGE_CODE = "fatalValidationError";
 
     /** A validation service that always returns an empty message list. */
     // Using MessageList::new instead of () -> new MessageList() causes strange JDT problems?!?
