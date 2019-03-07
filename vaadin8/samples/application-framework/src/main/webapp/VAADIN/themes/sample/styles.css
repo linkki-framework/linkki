@@ -1885,6 +1885,10 @@ div.v-layout.v-horizontal.v-widget {
 	text-align: left;
 }
 
+.sample .linkki-section {
+	overflow: auto;
+}
+
 .sample .linkki-section-caption {
 	padding-top: 8px;
 	padding-bottom: 10px;

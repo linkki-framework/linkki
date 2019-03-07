@@ -25,6 +25,8 @@ public class ApplicationStyles {
 
     public static final String FIXED_HORIZONTAL_SPACER = "linkki-fixed-horizontal-spacer";
 
+    public static final String SECTION = "linkki-section";
+
     /** Style for the caption of a section. */
     public static final String SECTION_CAPTION = "linkki-section-caption";
 

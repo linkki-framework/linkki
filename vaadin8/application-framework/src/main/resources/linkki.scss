@@ -280,6 +280,10 @@ $linkki-sidebar-width: 56px !default;
   * Sections
   */
   
+  .linkki-section {
+    overflow: auto;
+  }
+  
   .linkki-section-caption {
     /* Space before section caption and below caption */
     padding-top: 8px;
