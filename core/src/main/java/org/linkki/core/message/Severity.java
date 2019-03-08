@@ -25,7 +25,7 @@ public enum Severity {
     /**
      * Indicates that the {@link Message} contains nothing alarming but is purely informative in nature.
      */
-    INFORMATION,
+    INFO,
 
     /**
      * Indicates that the user should be warned about the content of the {@link Message}. A confirmation

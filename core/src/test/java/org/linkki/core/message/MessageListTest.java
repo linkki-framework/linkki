@@ -62,9 +62,9 @@ public class MessageListTest {
         invalidObjectProperty3 = new ObjectProperty("C", "higherIndexProperty", 2);
 
 
-        msg1 = Message.builder("Test1", Severity.INFORMATION).invalidObject(invalidObjectProperty1).create();
-        msg2 = Message.builder("Test2", Severity.INFORMATION).invalidObject(invalidObjectProperty2).create();
-        msg3 = Message.builder("Test3", Severity.INFORMATION).invalidObject(invalidObjectProperty3).create();
+        msg1 = Message.builder("Test1", Severity.INFO).invalidObject(invalidObjectProperty1).create();
+        msg2 = Message.builder("Test2", Severity.INFO).invalidObject(invalidObjectProperty2).create();
+        msg3 = Message.builder("Test3", Severity.INFO).invalidObject(invalidObjectProperty3).create();
 
         msgList1 = new MessageList(msg1);
         msgList1.add(msg2);
@@ -93,7 +93,7 @@ public class MessageListTest {
     public void testGetMessagesByMarker_withValidationMarker() {
         ValidationMarker marker = () -> false;
 
-        MessageList messages = new MessageList(Message.builder("msg1", Severity.INFORMATION).create(),
+        MessageList messages = new MessageList(Message.builder("msg1", Severity.INFO).create(),
                 Message.builder("msgWithMarker", Severity.WARNING).markers(marker).create());
 
         MessageList messagesByMarker = messages.getMessagesByMarker(marker);
@@ -105,7 +105,7 @@ public class MessageListTest {
     @Test
     public void testGetMessagesByMarker_markerNull_shouldReturnAllMessagesWithoutMarker() {
 
-        MessageList messages = new MessageList(Message.builder("msg1", Severity.INFORMATION).create(),
+        MessageList messages = new MessageList(Message.builder("msg1", Severity.INFO).create(),
                 Message.builder("msgWithMarker", Severity.WARNING).markers(() -> false).create());
 
         MessageList messagesByMarker = messages.getMessagesByMarker((ValidationMarker)null);
@@ -117,7 +117,7 @@ public class MessageListTest {
     @Test
     public void testGetMessagesByMarker_predicate() {
 
-        MessageList messages = new MessageList(Message.builder("msgWithoutMarker", Severity.INFORMATION).create(),
+        MessageList messages = new MessageList(Message.builder("msgWithoutMarker", Severity.INFO).create(),
                 Message.builder("msgWithMatchingMarker", Severity.WARNING).markers(() -> true).create(),
                 Message.builder("msgWithNonMathingMarker", Severity.ERROR).markers(() -> false).create());
 
@@ -136,7 +136,7 @@ public class MessageListTest {
     @Test
     public void testGetMessageWithHighestSeverity() {
 
-        MessageList messages = new MessageList(Message.builder("info", Severity.INFORMATION).create(),
+        MessageList messages = new MessageList(Message.builder("info", Severity.INFO).create(),
                 Message.builder("error", Severity.ERROR).create(),
                 Message.builder("warning", Severity.WARNING).create());
 
@@ -272,7 +272,7 @@ public class MessageListTest {
         MessageList messageList = new MessageList(
                 Message.newInfo(ANY, ANY),
                 Message.newInfo(ANY, ANY));
-        assertThat(messageList.getSeverity(), is(hasValue(Severity.INFORMATION)));
+        assertThat(messageList.getSeverity(), is(hasValue(Severity.INFO)));
     }
 
     @Test

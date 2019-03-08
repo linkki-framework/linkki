@@ -56,8 +56,8 @@ public class MessagePmoTest {
                         VaadinIcons.EXCLAMATION_CIRCLE, "Object: foo", "linkki-message-error" },
                 { Severity.WARNING, new ObjectProperty(new Object()),
                         VaadinIcons.WARNING, "Object", "linkki-message-warning" },
-                { Severity.INFORMATION, null,
-                        VaadinIcons.INFO_CIRCLE, "", "linkki-message-information" }
+                { Severity.INFO, null,
+                        VaadinIcons.INFO_CIRCLE, "", "linkki-message-info" }
         };
     }
 

@@ -45,7 +45,7 @@ public class MessagesPanel extends Panel {
 
     private FontAwesome getMessageIcon(Message message) {
         switch (message.getSeverity()) {
-        case INFORMATION:
+        case INFO:
             return FontAwesome.INFO_CIRCLE;
         case WARNING:
             return FontAwesome.EXCLAMATION_TRIANGLE;

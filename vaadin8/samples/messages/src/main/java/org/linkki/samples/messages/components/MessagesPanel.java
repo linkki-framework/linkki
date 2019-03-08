@@ -47,7 +47,7 @@ public class MessagesPanel extends Panel {
 
     private VaadinIcons getMessageIcon(Message message) {
         switch (message.getSeverity()) {
-        case INFORMATION:
+        case INFO:
             return VaadinIcons.INFO_CIRCLE;
         case WARNING:
             return VaadinIcons.WARNING;

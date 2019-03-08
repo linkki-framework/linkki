@@ -33,9 +33,9 @@ public class MessageTest {
         ObjectProperty objectProperty = new ObjectProperty(invalidObject);
         ValidationMarker validationMarker = () -> false;
 
-        Message message1 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+        Message message1 = new Message("code", "text", Severity.INFO, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
-        Message message2 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+        Message message2 = new Message("code", "text", Severity.INFO, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
 
         assertThat(message1, is(equalTo(message2)));
@@ -48,9 +48,9 @@ public class MessageTest {
         ObjectProperty objectProperty = new ObjectProperty(invalidObject);
         ValidationMarker validationMarker = () -> false;
 
-        Message message1 = new Message("code1", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+        Message message1 = new Message("code1", "text", Severity.INFO, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
-        Message message2 = new Message("code2", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+        Message message2 = new Message("code2", "text", Severity.INFO, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
 
         assertThat(message1, is(not(equalTo(message2))));
@@ -62,9 +62,9 @@ public class MessageTest {
         ObjectProperty objectProperty = new ObjectProperty(invalidObject);
         ValidationMarker validationMarker = () -> false;
 
-        Message message1 = new Message("code", "text1", Severity.INFORMATION, Arrays.asList(objectProperty),
+        Message message1 = new Message("code", "text1", Severity.INFO, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
-        Message message2 = new Message("code", "text2", Severity.INFORMATION, Arrays.asList(objectProperty),
+        Message message2 = new Message("code", "text2", Severity.INFO, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
 
         assertThat(message1, is(not(equalTo(message2))));
@@ -76,7 +76,7 @@ public class MessageTest {
         ObjectProperty objectProperty = new ObjectProperty(invalidObject);
         ValidationMarker validationMarker = () -> false;
 
-        Message message1 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+        Message message1 = new Message("code", "text", Severity.INFO, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
         Message message2 = new Message("code", "text", Severity.WARNING, Arrays.asList(objectProperty),
                 Collections.singleton(validationMarker));
@@ -90,11 +90,11 @@ public class MessageTest {
         ObjectProperty objectProperty = new ObjectProperty(invalidObject);
         ValidationMarker validationMarker = () -> false;
 
-        Message message1 = Message.builder("text", Severity.INFORMATION).code("code").markers(validationMarker)
+        Message message1 = Message.builder("text", Severity.INFO).code("code").markers(validationMarker)
                 .invalidObjectWithProperties(invalidObject).create();
-        Message message2 = Message.builder("text", Severity.INFORMATION).code("code").markers(validationMarker)
+        Message message2 = Message.builder("text", Severity.INFO).code("code").markers(validationMarker)
                 .invalidObjects(objectProperty, objectProperty).create();
-        Message message3 = Message.builder("text", Severity.INFORMATION).code("code").markers(validationMarker)
+        Message message3 = Message.builder("text", Severity.INFO).code("code").markers(validationMarker)
                 .invalidObjectWithProperties(invalidObject, "foo", "bar").create();
 
         assertThat(message1, is(not(equalTo(message2))));
@@ -106,9 +106,9 @@ public class MessageTest {
         Object invalidObject = new Object();
         ObjectProperty objectProperty = new ObjectProperty(invalidObject);
 
-        Message message1 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+        Message message1 = new Message("code", "text", Severity.INFO, Arrays.asList(objectProperty),
                 Collections.singleton(() -> false));
-        Message message2 = new Message("code", "text", Severity.INFORMATION, Arrays.asList(objectProperty),
+        Message message2 = new Message("code", "text", Severity.INFO, Arrays.asList(objectProperty),
                 Collections.singleton(() -> true));
 
         assertThat(message1, is(not(equalTo(message2))));
