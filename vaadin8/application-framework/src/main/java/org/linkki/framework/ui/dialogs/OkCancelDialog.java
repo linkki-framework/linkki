@@ -28,7 +28,7 @@ import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.Page;
 import org.linkki.framework.ui.LinkkiStyles;
-import org.linkki.framework.ui.component.MessageRow;
+import org.linkki.framework.ui.component.MessageUiComponents;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
 
@@ -39,6 +39,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -104,7 +105,7 @@ public class OkCancelDialog extends Window {
      * The message row that displays the first message from the message list if there is a message to
      * display.
      */
-    private Optional<MessageRow> messageRow = Optional.empty();
+    private Optional<Label> messageRow = Optional.empty();
 
     private boolean okPressed = false;
     private boolean cancelPressed = false;
@@ -367,13 +368,13 @@ public class OkCancelDialog extends Window {
     }
 
     private void addMessageRow(Message message) {
-        MessageRow newRow = new MessageRow(message);
-        newRow.setWidth("100%"); //$NON-NLS-1$
-        messageRow = Optional.of(newRow);
-        contentArea.addComponent(newRow);
-        contentArea.setExpandRatio(newRow, 0f);
-        contentArea.setComponentAlignment(newRow, Alignment.MIDDLE_LEFT);
+        Label messageLabel = MessageUiComponents.createMessageLabel(message);
+        messageRow = Optional.of(messageLabel);
+        contentArea.addComponent(messageLabel);
+        contentArea.setExpandRatio(messageLabel, 0f);
+        contentArea.setComponentAlignment(messageLabel, Alignment.MIDDLE_LEFT);
     }
+
 
     /** Returns the validation service that validates data in the dialog. */
 

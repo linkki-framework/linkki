@@ -61,6 +61,7 @@ public class MessagePmoTest {
         };
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testMessagePmo() {
         Message.Builder messageBuilder = Message.builder("text", severity);
@@ -74,5 +75,4 @@ public class MessagePmoTest {
         assertThat(message.getTooltip(), is(tooltip));
         assertThat(message.getStyle(), is(stylename));
     }
-
 }

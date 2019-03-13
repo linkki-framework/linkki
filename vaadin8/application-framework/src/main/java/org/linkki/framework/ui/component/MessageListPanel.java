@@ -23,6 +23,10 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+/**
+ * @deprecated since 13 March 2019, {@link MessageUiComponents#createMessageTable} can be used instead.
+ */
+@Deprecated
 public class MessageListPanel extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;

@@ -15,12 +15,16 @@ package org.linkki.samples.appsample.pmo;
 
 import java.util.function.Consumer;
 
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.section.annotations.EnabledType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.framework.ui.component.MessageUiComponents;
+import org.linkki.framework.ui.dialogs.ConfirmationDialog;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.samples.appsample.model.Report;
@@ -44,19 +48,28 @@ public class ReportSectionPmo extends ReportPmo {
 
     @UIButton(position = 40, caption = "Send", icon = VaadinIcons.PAPERPLANE, showIcon = true, enabled = EnabledType.DYNAMIC)
     public void send() {
-        getReport().save();
+        MessageList messages = validate();
+        if (messages.isEmpty()) {
+            getReport().save();
 
-        SendEmailPmo sendEmailPmo = new SendEmailPmo();
-        PropertyBehavior readOnlyBehavior = PropertyBehavior.writable((o, p) -> o == sendEmailPmo);
-        PmoBasedDialogFactory dialogFactory = new PmoBasedDialogFactory((ValidationService)sendEmailPmo::validate,
-                PropertyBehaviorProvider.with(readOnlyBehavior));
-        OkCancelDialog dialog = dialogFactory.newOkCancelDialog("Send the following report?",
-                                                                this::doSendReport,
-                                                                () -> Notification.show("Report is not sent."),
-                                                                new ReportPmo(getReport()), sendEmailPmo);
+            SendEmailPmo sendEmailPmo = new SendEmailPmo();
+            PropertyBehavior readOnlyBehavior = PropertyBehavior.writable((o, p) -> o == sendEmailPmo);
+            PmoBasedDialogFactory dialogFactory = new PmoBasedDialogFactory((ValidationService)sendEmailPmo::validate,
+                    PropertyBehaviorProvider.with(readOnlyBehavior));
 
-        dialog.setWidth("90%");
-        dialog.open();
+            OkCancelDialog dialog = dialogFactory.newOkCancelDialog("Send the following report?",
+                                                                    this::doSendReport,
+                                                                    () -> Notification.show("Report is not sent."),
+                                                                    new ReportPmo(getReport()), sendEmailPmo);
+
+            dialog.setWidth("90%");
+            dialog.open();
+        } else {
+            ConfirmationDialog
+                    .open("Report was not saved",
+                          MessageUiComponents.createMessageTable("Invalid date", () -> (messages),
+                                                                 new BindingContext()));
+        }
     }
 
     private void doSendReport() {

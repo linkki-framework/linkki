@@ -14,6 +14,12 @@
 
 package org.linkki.samples.appsample.pmo;
 
+import java.time.LocalDate;
+
+import org.eclipse.jdt.annotation.NonNull;
+import org.linkki.core.message.Message;
+import org.linkki.core.message.MessageList;
+import org.linkki.core.message.Severity;
 import org.linkki.core.ui.section.annotations.BindReadOnly;
 import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.section.annotations.ModelObject;
@@ -68,4 +74,14 @@ public class ReportPmo {
         return report.getType() != ReportType.BUG;
     }
 
+    @NonNull
+    public MessageList validate() {
+        MessageList messages = new MessageList();
+        if (report.getOccurrenceDate() == null) {
+            messages.add(Message.builder("Date can not be empty", Severity.ERROR).create());
+        } else if (report.getOccurrenceDate().isAfter(LocalDate.now())) {
+            messages.add(Message.builder("Date must not be in the future", Severity.ERROR).create());
+        }
+        return messages;
+    }
 }
