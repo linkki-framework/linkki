@@ -110,7 +110,7 @@ public final class MessageUiComponents {
         com.vaadin.v7.ui.Table table = new PmoBasedTableFactory(new MessageTablePmo(messages), bindingContext)
                 .createTable();
         table.setColumnHeaderMode(com.vaadin.v7.ui.Table.ColumnHeaderMode.HIDDEN);
-        table.setStyleName("linkki-message-panel");
+        table.setStyleName(ApplicationStyles.MESSAGE_TABLE);
         table.setWidth("100%");
         return table;
     }

@@ -30,6 +30,7 @@ import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.samples.appsample.model.Report;
 
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Notification;
 
 @UISection(caption = "Report")
@@ -68,7 +69,8 @@ public class ReportSectionPmo extends ReportPmo {
             ConfirmationDialog
                     .open("Report was not saved",
                           MessageUiComponents.createMessageTable("Invalid date", () -> (messages),
-                                                                 new BindingContext()));
+                                                                 new BindingContext()))
+                    .setWidth(20, Unit.EM);
         }
     }
 
