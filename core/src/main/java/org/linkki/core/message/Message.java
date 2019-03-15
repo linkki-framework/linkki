@@ -92,10 +92,10 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructs a new {@link Message} with {@link Severity#INFORMATION}.
+     * Constructs a new {@link Message} with {@link Severity#INFO}.
      */
     public static Message newInfo(String code, String text) {
-        return new Message(code, text, Severity.INFORMATION);
+        return new Message(code, text, Severity.INFO);
     }
 
     /**

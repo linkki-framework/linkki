@@ -21,6 +21,11 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 
+/***
+ * @deprecated since 13 March 2019; {@link MessageUiComponents#createMessageLabel(Message)} can be used
+ *             instead.
+ */
+@Deprecated
 public class MessageRow extends FormLayout {
 
     private static final long serialVersionUID = 1L;
@@ -33,7 +38,7 @@ public class MessageRow extends FormLayout {
         label.setWidth("100%");
         label.setIcon(getIcon());
         label.setContentMode(ContentMode.HTML);
-        label.setValue(getText());
+        label.setValue(getCaption());
         label.addStyleName(messagePmo.getStyle());
         label.setDescription(this.messagePmo.getTooltip());
         addComponent(label);

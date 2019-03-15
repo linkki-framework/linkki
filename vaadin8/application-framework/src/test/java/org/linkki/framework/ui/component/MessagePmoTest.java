@@ -56,11 +56,12 @@ public class MessagePmoTest {
                         VaadinIcons.EXCLAMATION_CIRCLE, "Object: foo", "linkki-message-error" },
                 { Severity.WARNING, new ObjectProperty(new Object()),
                         VaadinIcons.WARNING, "Object", "linkki-message-warning" },
-                { Severity.INFORMATION, null,
-                        VaadinIcons.INFO_CIRCLE, "", "linkki-message-information" }
+                { Severity.INFO, null,
+                        VaadinIcons.INFO_CIRCLE, "", "linkki-message-info" }
         };
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testMessagePmo() {
         Message.Builder messageBuilder = Message.builder("text", severity);
@@ -74,5 +75,4 @@ public class MessagePmoTest {
         assertThat(message.getTooltip(), is(tooltip));
         assertThat(message.getStyle(), is(stylename));
     }
-
 }

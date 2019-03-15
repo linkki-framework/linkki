@@ -1805,48 +1805,48 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 10px 20px;
 }
 
+.sample .linkki-application-info-dialog .v-label, .sample .v-Notification-caption {
+	line-height: 1.4 !important;
+}
+
 .sample .linkki-message-row {
 	padding: 1em 8px;
 	font-size: 90%;
 }
 
-.sample .linkki-application-info-dialog .v-label, .sample .v-Notification-caption {
-	line-height: 1.4 !important;
+.sample .linkki-message-table.v-table {
+	background: none;
 }
 
-.sample .v-panel-content-linkki-message-list {
-	max-height: 300px;
+.sample .v-caption-linkki-message-table.v-caption {
+	font-size: 100%;
+	font-weight: normal;
 }
 
-.sample .v-splitpanel-vsplitter-linkki-message-panel-split {
-	height: 2px !important;
+.sample .linkki-message-table .v-table-table {
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
-.sample .v-panel-linkki-message-panel {
+.sample .linkki-message-table .v-table-body {
 	border: none;
 }
 
-.sample .v-panel-linkki-message-panel .v-table-cell-content {
+.sample .linkki-message-table .v-table-cell-wrapper {
+	padding: 0;
+}
+
+.sample .linkki-message-table .v-table-cell-content {
 	border: none;
 }
 
-.sample .v-panel-linkki-message-panel .v-table-body {
-	border: none;
+.sample .v-caption-linkki-message-label {
+	margin-left: 4px;
+	font-weight: lighter;
 }
 
-.sample .v-panel-caption-linkki-message-panel {
-	font-size: 110%;
-	font-weight: bold;
-	background-color: #fcfcfc;
-	background-image: -webkit-linear-gradient(top, #fcfcfc 0%, #fcfcfc 100%);
-	background-image: linear-gradient(to bottom, #fcfcfc 0%, #fcfcfc 100%);
-	border: none;
-}
-
-.sample .v-panel-content-linkki-message-panel tr {
-	background-color: #fcfcfc;
-	background-image: -webkit-linear-gradient(top, #fcfcfc 0%, #fcfcfc 100%);
-	background-image: linear-gradient(to bottom, #fcfcfc 0%, #fcfcfc 100%);
+.sample .v-caption-linkki-message-label .v-icon {
+	padding: 0px 4px;
 }
 
 .sample .v-caption-linkki-message-error .v-icon {

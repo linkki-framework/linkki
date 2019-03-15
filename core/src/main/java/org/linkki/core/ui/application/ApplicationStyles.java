@@ -55,6 +55,10 @@ public class ApplicationStyles {
 
     public static final String DIALOG_BUTTON_BAR = "linkki-dialog-button-bar";
 
+    public static final String MESSAGE_LABEL = "linkki-message-label";
+
+    public static final String MESSAGE_TABLE = "linkki-message-table";
+
     public static final String MESSAGE_ROW = "linkki-message-row";
 
     /** A button that is styled as a text, without additional height. **/

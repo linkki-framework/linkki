@@ -56,8 +56,8 @@ public class MessagePmoTest {
                         FontAwesome.EXCLAMATION_CIRCLE, "Object: foo", "linkki-message-error" },
                 { Severity.WARNING, new ObjectProperty(new Object()),
                         FontAwesome.EXCLAMATION_TRIANGLE, "Object", "linkki-message-warning" },
-                { Severity.INFORMATION, null,
-                        FontAwesome.INFO_CIRCLE, "", "linkki-message-information" }
+                { Severity.INFO, null,
+                        FontAwesome.INFO_CIRCLE, "", "linkki-message-info" }
         };
     }
 

@@ -29,7 +29,7 @@ public class SeverityErrorLevelConverter {
         switch (severity) {
             case ERROR:
                 return ErrorLevel.ERROR;
-            case INFORMATION:
+            case INFO:
                 return ErrorLevel.INFORMATION;
             case WARNING:
                 return ErrorLevel.WARNING;
@@ -46,13 +46,13 @@ public class SeverityErrorLevelConverter {
             case ERROR:
                 return Severity.ERROR;
             case INFORMATION:
-                return Severity.INFORMATION;
+                return Severity.INFO;
             case SYSTEMERROR:
                 return Severity.ERROR;
             case WARNING:
                 return Severity.WARNING;
             default:
-                return Severity.INFORMATION;
+                return Severity.INFO;
         }
     }
 }

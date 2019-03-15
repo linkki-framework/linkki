@@ -39,7 +39,6 @@ import org.linkki.core.message.MessageList;
 import org.linkki.core.message.Severity;
 import org.linkki.framework.ui.application.LinkkiUi;
 import org.linkki.framework.ui.application.TestApplicationConfig;
-import org.linkki.framework.ui.component.MessageRow;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.StreamUtil;
 import org.linkki.util.handler.Handler;
@@ -275,8 +274,10 @@ public class OkCancelDialogTest {
             @SuppressWarnings("null")
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
+                @NonNull
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
-                return components(layout).findFirst().map(MessageRow.class::isInstance).orElse(false);
+                VerticalLayout nestedLayout = (VerticalLayout)layout.getComponent(0);
+                return components(nestedLayout).anyMatch(Label.class::isInstance);
             }
         };
     }
@@ -297,10 +298,9 @@ public class OkCancelDialogTest {
                 @NonNull
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
                 VerticalLayout nestedLayout = (VerticalLayout)layout.getComponent(0);
-
-                return components(nestedLayout).filter(MessageRow.class::isInstance)
+                return components(nestedLayout).filter(Label.class::isInstance)
                         .findFirst()
-                        .map(c -> ((MessageRow)c).getText().equals(text))
+                        .map(c -> ((Label)c).getCaption().equals(text))
                         .orElse(false);
             }
         };

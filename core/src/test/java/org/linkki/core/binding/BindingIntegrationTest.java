@@ -45,7 +45,7 @@ public class BindingIntegrationTest {
 
         Message pmoValueMessage = Message.builder("foo", Severity.WARNING).code("bar")
                 .invalidObjects(new ObjectProperty(testSectionPmo, TestSectionPmo.PROPERTY_VALUE)).create();
-        Message modelPropMessage = Message.builder("LoremIpsum", Severity.INFORMATION).code("baz")
+        Message modelPropMessage = Message.builder("LoremIpsum", Severity.INFO).code("baz")
                 .invalidObjects(new ObjectProperty(modelObject, TestModelObject.PROPERTY_MODEL_PROP))
                 .create();
         DefaultBindingManager bindingManager = new DefaultBindingManager(

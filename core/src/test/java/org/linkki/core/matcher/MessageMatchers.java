@@ -48,7 +48,7 @@ public class MessageMatchers {
     }
 
     public static MessageListMessageMatcher hasInfoMessage(String code) {
-        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.INFORMATION));
+        return new MessageListMessageMatcher(codeAndSeverity(code, Severity.INFO));
     }
 
     public static MessageListMessageMatcher hasWarningMessage(String code) {

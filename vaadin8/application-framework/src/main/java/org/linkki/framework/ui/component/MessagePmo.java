@@ -24,7 +24,12 @@ import org.linkki.framework.ui.LinkkiStyles;
 
 import com.vaadin.icons.VaadinIcons;
 
-/** PMO for {@link Message}. */
+/***
+ * PMO for {@link Message}.
+ * 
+ * @deprecated since 13 March 2019; {@link MessageRowPmo} can be used instead.
+ */
+@Deprecated
 public class MessagePmo {
 
     private final Message message;
