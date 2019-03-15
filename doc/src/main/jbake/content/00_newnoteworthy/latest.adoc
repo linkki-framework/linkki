@@ -383,3 +383,81 @@ Vaadin 8 uses `VaadinIcons` instead of `FontAwesome`.
 ==== Maven Archetypes for linkki
 It is now even easier to set up a new *linkki* project with the archetypes for vanilla *linkki* projects and those using CDI or Spring Boot. See <<maven-archetypes, Maven Archetypes>>.
 
+==== New Features in linkki for Vaadin 8
+
+===== UI Components for Messages
+
+A utility class `MessageUiComponents` has been introduced which creates different components to display `Message` and `MessageList`. Earlier `MessageListPanel` was used to show messages, to make the workflow simpler these classes had to be reworked. `MessagePmo` and `MessageRow` has been deprecated, instead `MessageRowPmo` has been created. `MessageTablePmo` has also been introduced to show messages in table. `MessageUiComponents` can be used to create `MessageTablePmo` like.
+
+[source,java]
+----
+MessageUiComponents.createMessageTable("Title", () -> (messages), new BindingContext()));
+----
+
+.List of deprecated classes
+[cols="a,a", options="header"]
+|===
+|Deprecated | New classes
+|MessagePmo | MessageRowPmo
+|MessageRow | MessageUiComponents#createMessageLabel
+|MessageListPanel|MessageUiComponents#createMessageTable
+|===
+
+CSS style classes are available for `linkki-message-table`/`linkki-message-row` and `linkki-message-label`. In `linkki.scss` there were some styles (`linkki-message-panel`, `linkki-message-list`) defined that had never been set in the `MessageListPanel` but only in classes from other Faktor Zehn products like Faktor-IPM. Those have been removed from *linkki*. They are provided below for reference, but a switch to the new message components is recommended.
+
+[source,css]
+----
+  .v-panel-content-linkki-message-list {
+    max-height: 300px;
+  }
+	
+  .v-splitpanel-vsplitter-linkki-message-panel-split {
+    height: 2px !important;
+  }
+	
+  .v-panel-linkki-message-panel {
+    border: none;
+  }
+  
+  .v-panel-linkki-message-panel .v-table-cell-content {
+    border: none;
+    /* for separating lines between the messages:
+    border-right: none;
+    border-left: none;
+    border-color: #ed473b !important;
+    */
+  }
+	
+  .v-panel-linkki-message-panel .v-table-body {
+    border: none;
+  }
+	
+  .v-panel-caption-linkki-message-panel {
+    font-size: 110%;
+    font-weight: bold;
+    background-color: $linkki-color-messagepanel;
+    @include background-image(linear-gradient(to bottom, $linkki-color-messagepanel 0%, $linkki-color-messagepanel 100%));
+    border: none;
+    /* for separating lines between the messages:
+    border-color: #ed473b !important;
+    */
+  }
+		
+  .v-panel-content-linkki-message-panel tr{
+    background-color: $linkki-color-messagepanel;
+    @include background-image(linear-gradient(to bottom, $linkki-color-messagepanel 0%, $linkki-color-messagepanel 100%));
+  }
+---- 
+
+===== Dynamic style name binding
+
+A new aspect `@BindStyleNames` has been introduced, to set user defined styles. This will
+overwrite any other user defined style names but not those from Vaadin. It is possible to provide multiple style names.
+
+[source,java]
+----
+@BindStyleNames(type = StyleType.DYNAMIC)
+   public String getIcon() {
+       return MessageUiComponents.getIcon(message.getSeverity()).getHtml();
+   }
+----
