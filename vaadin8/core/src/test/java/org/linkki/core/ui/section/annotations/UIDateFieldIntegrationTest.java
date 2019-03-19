@@ -26,6 +26,7 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UIDateFieldIntegrationTest.DateFieldTestPmo;
+import org.linkki.util.TwoDigitYearUtil;
 
 import com.vaadin.ui.DateField;
 
@@ -67,7 +68,7 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
     }
 
     @Test
-    public void testTextVieldValueWithLocalDate() {
+    public void testTextFieldValueWithLocalDate() {
         TestModelObjectWithLocalDate modelObject = new TestModelObjectWithLocalDate();
         DateField dateField = createFirstComponent(modelObject);
 
@@ -79,6 +80,29 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
         assertThat(modelObject.getValue(), is(localDate));
 
         localDate = LocalDate.of(1990, 1, 1);
+
+        modelObject.setValue(localDate);
+        getBindingContext().modelChanged();
+        assertThat(dateField.getValue(), is(localDate));
+
+        TestUiUtil.setUserOriginatedValue(dateField, null);
+        assertThat(modelObject.getValue(), is(nullValue()));
+    }
+
+    @Test
+    public void testTextFieldValueWithLocalDate_DateConversion() {
+        TestModelObjectWithLocalDate modelObject = new TestModelObjectWithLocalDate();
+        DateField dateField = createFirstComponent(modelObject);
+
+        assertThat(dateField.getValue(), is(nullValue()));
+
+        LocalDate localDate = LocalDate.of(19, 5, 1);
+        LocalDate expectedConvertedLocalDate = TwoDigitYearUtil.convert(localDate);
+
+        TestUiUtil.setUserOriginatedValue(dateField, localDate);
+        assertThat(modelObject.getValue(), is(expectedConvertedLocalDate));
+
+        localDate = LocalDate.of(90, 1, 1);
 
         modelObject.setValue(localDate);
         getBindingContext().modelChanged();

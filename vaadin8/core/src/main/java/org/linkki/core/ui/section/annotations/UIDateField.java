@@ -21,12 +21,20 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Type;
 import java.text.DateFormat;
+import java.time.LocalDate;
 
+import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
+import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.ui.converters.TwoDigitYearLocalDateConverter;
+import org.linkki.core.ui.section.annotations.UIDateField.DateFieldValueAspectCreator;
 import org.linkki.core.ui.section.annotations.adapters.DateFieldBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
-import org.linkki.core.ui.section.annotations.aspect.ValueAspectDefinitionCreator;
+import org.linkki.core.ui.section.annotations.aspect.ValueAspectDefinition;
+
+import com.vaadin.data.Converter;
 
 /**
  * A field for date input, in accordance with {@link com.vaadin.ui.DateField}.
@@ -35,7 +43,7 @@ import org.linkki.core.ui.section.annotations.aspect.ValueAspectDefinitionCreato
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(DateFieldBindingDefinition.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiAspect(DateFieldValueAspectCreator.class)
 public @interface UIDateField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -72,4 +80,22 @@ public @interface UIDateField {
      */
     String dateFormat() default "";
 
+    class DateFieldValueAspectCreator implements AspectDefinitionCreator<UIDateField> {
+
+        @Override
+        public LinkkiAspectDefinition create(UIDateField annotation) {
+
+            TwoDigitYearLocalDateConverter twoDigitYearConverter = new TwoDigitYearLocalDateConverter();
+
+            return new ValueAspectDefinition() {
+                @Override
+                protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
+                    @SuppressWarnings("unchecked")
+                    Converter<LocalDate, ?> superConverter = (Converter<LocalDate, ?>)super.getConverter(presentationType,
+                                                                                                         modelType);
+                    return twoDigitYearConverter.chain(superConverter);
+                }
+            };
+        }
+    }
 }
