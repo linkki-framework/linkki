@@ -1886,7 +1886,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .linkki-section {
-	overflow: auto;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 .sample .linkki-section-caption {
