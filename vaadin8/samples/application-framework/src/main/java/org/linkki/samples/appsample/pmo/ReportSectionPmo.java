@@ -50,7 +50,13 @@ public class ReportSectionPmo extends ReportPmo {
     @UIButton(position = 40, caption = "Send", icon = VaadinIcons.PAPERPLANE, showIcon = true, enabled = EnabledType.DYNAMIC)
     public void send() {
         MessageList messages = validate();
-        if (messages.isEmpty()) {
+        if (messages.containsErrorMsg()) {
+            ConfirmationDialog
+                    .open("Report was not saved",
+                          MessageUiComponents.createMessageTable("Invalid date", () -> (messages),
+                                                                 new BindingContext()))
+                    .setWidth(20, Unit.EM);
+        } else {
             getReport().save();
 
             SendEmailPmo sendEmailPmo = new SendEmailPmo();
@@ -65,12 +71,6 @@ public class ReportSectionPmo extends ReportPmo {
 
             dialog.setWidth("90%");
             dialog.open();
-        } else {
-            ConfirmationDialog
-                    .open("Report was not saved",
-                          MessageUiComponents.createMessageTable("Invalid date", () -> (messages),
-                                                                 new BindingContext()))
-                    .setWidth(20, Unit.EM);
         }
     }
 

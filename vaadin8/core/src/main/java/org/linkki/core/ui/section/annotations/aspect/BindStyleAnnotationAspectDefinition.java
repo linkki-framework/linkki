@@ -36,20 +36,20 @@ public class BindStyleAnnotationAspectDefinition implements LinkkiAspectDefiniti
 
     public static final String NAME = "styleNames";
 
-    private final StyleType type;
+    private final boolean dynamic;
     private final String[] value;
 
-    public BindStyleAnnotationAspectDefinition(String[] value, StyleType type) {
+    public BindStyleAnnotationAspectDefinition(String[] value, boolean dynamic) {
         this.value = value;
-        this.type = type;
+        this.dynamic = dynamic;
     }
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        if (type == StyleType.STATIC) {
-            return () -> setStaticStyleName(propertyDispatcher, componentWrapper);
-        } else {
+        if (dynamic) {
             return () -> setDynamicStyleName(propertyDispatcher, componentWrapper);
+        } else {
+            return () -> setStaticStyleName(propertyDispatcher, componentWrapper);
         }
     }
 
@@ -83,9 +83,6 @@ public class BindStyleAnnotationAspectDefinition implements LinkkiAspectDefiniti
         ((Component)componentWrapper.getComponent()).setStyleName(styleName);
     }
 
-    public enum StyleType {
-        STATIC,
-        DYNAMIC
-    }
+
 }
 

@@ -25,7 +25,6 @@ import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.BindStyleNames.BindStyleAspectDefinitionCreator;
 import org.linkki.core.ui.section.annotations.aspect.BindStyleAnnotationAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.BindStyleAnnotationAspectDefinition.StyleType;
 
 import com.vaadin.ui.Component;
 
@@ -43,24 +42,21 @@ public @interface BindStyleNames {
     /**
      * The style names that may be used in CSS as style classes. Multiple style names could be provided
      * like <code> @BindStyleNames({ STYLE_NAME_1, STYLE_NAME_2 }) </code>
+     * <p>
+     * If the value is an empty array (which is the default) the style names should be retrieved
+     * dynamically. That means the style names are retrieved from the method
+     * {@code get<PropertyName>StyleNames} which may return a {@link String} or {@link Collection} of
+     * {@link String}.
      * 
      * @see Component#setStyleName(String)
      */
     String[] value() default {};
 
-    /**
-     * By default the style names are retrieved from {@link #value()}. Set this type to
-     * {@link StyleType#DYNAMIC} to get the dynamic style names from method
-     * {@code get<PropertyName>StyleNames} which may return a {@link String} or {@link Collection} of
-     * {@link String}.
-     */
-    StyleType type() default StyleType.STATIC;
-
     class BindStyleAspectDefinitionCreator implements AspectDefinitionCreator<BindStyleNames> {
 
         @Override
         public LinkkiAspectDefinition create(BindStyleNames annotation) {
-            return new BindStyleAnnotationAspectDefinition(annotation.value(), annotation.type());
+            return new BindStyleAnnotationAspectDefinition(annotation.value(), annotation.value().length == 0);
         }
     }
 }

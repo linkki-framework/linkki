@@ -28,7 +28,6 @@ import org.linkki.core.ui.UiElementCreator;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindStyleNames;
 import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.core.ui.section.annotations.aspect.BindStyleAnnotationAspectDefinition.StyleType;
 
 import com.vaadin.ui.Component;
 
@@ -129,7 +128,7 @@ public class BindStyleNamesIntegrationTest {
             this.styleName = styleName;
         }
 
-        @BindStyleNames(type = StyleType.DYNAMIC)
+        @BindStyleNames
         @UITextField(label = "dynamic style names", position = 0)
         public String getProperty() {
             return "";
@@ -152,7 +151,7 @@ public class BindStyleNamesIntegrationTest {
             this.styleNames = styleNames;
         }
 
-        @BindStyleNames(type = StyleType.DYNAMIC)
+        @BindStyleNames
         @UITextField(label = "dynamic style names", position = 0)
         public String getProperty() {
             return "";
@@ -165,7 +164,7 @@ public class BindStyleNamesIntegrationTest {
 
     public static class TestPmoMissingDynamicStyleNamesMethod {
 
-        @BindStyleNames(type = StyleType.DYNAMIC)
+        @BindStyleNames
         @UITextField(label = "missing dynamic style names method", position = 0)
         public String getProperty() {
             return "";

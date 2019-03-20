@@ -58,29 +58,44 @@ public class ReportPmo {
          */
     }
 
-    @UIDateField(position = 20, label = "Occurrence date", modelAttribute = "occurrenceDate")
+    @UIDateField(position = 20, label = "Occurrence date", modelAttribute = "occurrenceDate", required = RequiredType.DYNAMIC)
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     public void occurenceDate() {
         /* bind value to pmo property */
     }
 
-    @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE)
-    @UITextArea(position = 30, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 2, width = "50em")
-    public void description() {
-        /* Use description from report (model object) directly */
+    public boolean isOccurenceDateRequired() {
+        return report.getType() == ReportType.BUG;
     }
 
     public boolean isOccurenceDateReadOnly() {
         return report.getType() != ReportType.BUG;
     }
 
+    @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE)
+    @UITextArea(position = 30, label = "Description", modelAttribute = "description", rows = 2, width = "50em", required = RequiredType.REQUIRED)
+    public void description() {
+        /* Use description from report (model object) directly */
+    }
+
     @NonNull
     public MessageList validate() {
         MessageList messages = new MessageList();
-        if (report.getOccurrenceDate() == null) {
-            messages.add(Message.builder("Date can not be empty", Severity.ERROR).create());
+        if (report.getOccurrenceDate() == null && report.getType() == ReportType.BUG) {
+            messages.add(Message.builder("Date should not be empty for bugs", Severity.ERROR).create());
         } else if (report.getOccurrenceDate().isAfter(LocalDate.now())) {
             messages.add(Message.builder("Date must not be in the future", Severity.ERROR).create());
+        }
+
+        if (report.getDescription().length() < 10) {
+            messages.add(Message.newWarning("warning.emptyDescription",
+                                            "A detailed description would help us better understand your report."));
+        }
+
+        if (report.getType() == ReportType.BUG) {
+            messages.add(Message
+                    .newInfo("info.screenshot",
+                             "A screenshot always help us better understand the issue you are encounting!"));
         }
         return messages;
     }
