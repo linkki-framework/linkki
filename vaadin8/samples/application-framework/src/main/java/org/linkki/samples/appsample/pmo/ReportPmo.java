@@ -95,7 +95,7 @@ public class ReportPmo {
         if (report.getType() == ReportType.BUG) {
             messages.add(Message
                     .newInfo("info.screenshot",
-                             "A screenshot always help us better understand the issue you are encounting!"));
+                             "A screenshot always helps us better understand the issue you are encountering."));
         }
         return messages;
     }

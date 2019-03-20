@@ -24,7 +24,7 @@ import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.BindReadOnly.BindReadOnlyAspectDefinitionCreator;
-import org.linkki.core.ui.section.annotations.aspect.BindReadOnlyAnnotationAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.BindReadOnlyAspectDefinition;
 
 /**
  * Binds read-only behavior to UI elements. The annotation can be used in combination with
@@ -66,7 +66,7 @@ public @interface BindReadOnly {
 
         @Override
         public LinkkiAspectDefinition create(BindReadOnly annotation) {
-            return new BindReadOnlyAnnotationAspectDefinition(annotation.value());
+            return new BindReadOnlyAspectDefinition(annotation.value());
         }
 
     }

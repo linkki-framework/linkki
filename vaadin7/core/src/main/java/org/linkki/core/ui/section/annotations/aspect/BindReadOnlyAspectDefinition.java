@@ -22,24 +22,24 @@ import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.data.HasValue;
+import com.vaadin.ui.AbstractField;
 
 /**
  * Aspect definition for read-only state.
  */
-public class BindReadOnlyAnnotationAspectDefinition implements LinkkiAspectDefinition {
+public class BindReadOnlyAspectDefinition implements LinkkiAspectDefinition {
 
     public static final String NAME = "readOnly";
 
     private final ReadOnlyType value;
 
-    public BindReadOnlyAnnotationAspectDefinition(ReadOnlyType value) {
+    public BindReadOnlyAspectDefinition(ReadOnlyType value) {
         this.value = value;
     }
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        HasValue<?> field = (HasValue<?>)componentWrapper.getComponent();
+        AbstractField<?> field = (AbstractField<?>)componentWrapper.getComponent();
 
         switch (value) {
             case ALWAYS:

@@ -23,8 +23,8 @@ import java.util.Collection;
 import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.ui.section.annotations.BindStyleNames.BindStyleAspectDefinitionCreator;
-import org.linkki.core.ui.section.annotations.aspect.BindStyleAnnotationAspectDefinition;
+import org.linkki.core.ui.section.annotations.BindStyleNames.BindStyleNamesAspectDefinitionCreator;
+import org.linkki.core.ui.section.annotations.aspect.BindStyleNamesAspectDefinition;
 
 import com.vaadin.ui.Component;
 
@@ -37,11 +37,11 @@ import com.vaadin.ui.Component;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
-@LinkkiAspect(BindStyleAspectDefinitionCreator.class)
+@LinkkiAspect(BindStyleNamesAspectDefinitionCreator.class)
 public @interface BindStyleNames {
     /**
      * The style names that may be used in CSS as style classes. Multiple style names could be provided
-     * like <code> @BindStyleNames({ STYLE_NAME_1, STYLE_NAME_2 }) </code>
+     * like <code>@BindStyleNames({ STYLE_NAME_1, STYLE_NAME_2 })</code>
      * <p>
      * If the value is an empty array (which is the default) the style names should be retrieved
      * dynamically. That means the style names are retrieved from the method
@@ -52,11 +52,11 @@ public @interface BindStyleNames {
      */
     String[] value() default {};
 
-    class BindStyleAspectDefinitionCreator implements AspectDefinitionCreator<BindStyleNames> {
+    class BindStyleNamesAspectDefinitionCreator implements AspectDefinitionCreator<BindStyleNames> {
 
         @Override
         public LinkkiAspectDefinition create(BindStyleNames annotation) {
-            return new BindStyleAnnotationAspectDefinition(annotation.value(), annotation.value().length == 0);
+            return new BindStyleNamesAspectDefinition(annotation.value());
         }
     }
 }
