@@ -42,7 +42,7 @@ public class CaptionComponentWrapper implements ComponentWrapper {
 
     private final Component component;
 
-    private WrapperType wrapperType;
+    private final WrapperType wrapperType;
 
     public CaptionComponentWrapper(Component component, WrapperType wrapperType) {
         this.component = component;

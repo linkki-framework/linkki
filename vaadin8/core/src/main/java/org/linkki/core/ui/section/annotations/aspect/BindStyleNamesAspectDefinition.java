@@ -41,21 +41,21 @@ public class BindStyleNamesAspectDefinition extends ModelToUiAspectDefinition<Ob
 
     private final boolean dynamic;
 
-    private final List<String> styleNames;
+    private final List<String> staticStyleNames;
 
     public BindStyleNamesAspectDefinition(String... styleNames) {
-        this.styleNames = Arrays.asList(styleNames);
+        this.staticStyleNames = Arrays.asList(styleNames);
         this.dynamic = styleNames.length == 0;
     }
 
     public BindStyleNamesAspectDefinition(List<String> styleNames, boolean dynamic) {
-        this.styleNames = new ArrayList<>(styleNames);
+        this.staticStyleNames = new ArrayList<>(styleNames);
         this.dynamic = dynamic;
     }
 
     @Override
     public Aspect<Object> createAspect() {
-        return dynamic ? Aspect.of(NAME) : Aspect.of(NAME, styleNames);
+        return dynamic ? Aspect.of(NAME) : Aspect.of(NAME, staticStyleNames);
     }
 
     @Override
@@ -69,7 +69,6 @@ public class BindStyleNamesAspectDefinition extends ModelToUiAspectDefinition<Ob
                             + StringUtils.capitalize(NAME)
                             + " must be either String or Collection<String>",
                     e);
-
         } else {
             super.handleUiUpdateException(e, propertyDispatcher, aspect);
         }
@@ -77,20 +76,20 @@ public class BindStyleNamesAspectDefinition extends ModelToUiAspectDefinition<Ob
 
     @Override
     public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        return styles -> {
-            if (styles instanceof String) {
-                setStyleName(componentWrapper, (String)styles);
+        String predefinedStyleNames = ((Component)componentWrapper.getComponent()).getStyleName();
+        return styleNames -> {
+            if (styleNames instanceof String) {
+                setStyleName(componentWrapper, predefinedStyleNames, (String)styleNames);
             } else {
                 @SuppressWarnings("unchecked")
-                String joinedStyleNames = String.join(" ", (Collection<String>)styles);
-                setStyleName(componentWrapper, joinedStyleNames);
+                String joinedStyleNames = String.join(" ", (Collection<String>)styleNames);
+                setStyleName(componentWrapper, predefinedStyleNames, joinedStyleNames);
             }
         };
     }
 
-    public void setStyleName(ComponentWrapper componentWrapper, String styleName) {
-        ((Component)componentWrapper.getComponent()).setStyleName(styleName);
+    public void setStyleName(ComponentWrapper componentWrapper, String predefinedStyleNames, String styleNames) {
+        ((Component)componentWrapper.getComponent()).setStyleName(predefinedStyleNames + " " + styleNames);
     }
 
 }
-

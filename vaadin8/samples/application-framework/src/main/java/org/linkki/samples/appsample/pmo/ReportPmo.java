@@ -34,7 +34,7 @@ import org.linkki.samples.appsample.model.ReportType;
 
 public class ReportPmo {
 
-    private Report report;
+    protected Report report;
 
     public ReportPmo(Report report) {
         this.report = report;
@@ -58,14 +58,10 @@ public class ReportPmo {
          */
     }
 
-    @UIDateField(position = 20, label = "Occurrence date", modelAttribute = "occurrenceDate", required = RequiredType.DYNAMIC)
+    @UIDateField(position = 20, label = "Occurrence date", modelAttribute = "occurrenceDate")
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     public void occurenceDate() {
         /* bind value to pmo property */
-    }
-
-    public boolean isOccurenceDateRequired() {
-        return report.getType() == ReportType.BUG;
     }
 
     public boolean isOccurenceDateReadOnly() {
@@ -73,7 +69,7 @@ public class ReportPmo {
     }
 
     @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE)
-    @UITextArea(position = 30, label = "Description", modelAttribute = "description", rows = 2, width = "50em", required = RequiredType.REQUIRED)
+    @UITextArea(position = 30, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 2, width = "50em")
     public void description() {
         /* Use description from report (model object) directly */
     }
@@ -81,9 +77,9 @@ public class ReportPmo {
     @NonNull
     public MessageList validate() {
         MessageList messages = new MessageList();
-        if (report.getOccurrenceDate() == null && report.getType() == ReportType.BUG) {
-            messages.add(Message.builder("Date should not be empty for bugs", Severity.ERROR).create());
-        } else if (report.getOccurrenceDate().isAfter(LocalDate.now())) {
+        if (ReportType.BUG == report.getType() && report.getOccurrenceDate() == null) {
+            messages.add(Message.builder("Date must not be empty", Severity.ERROR).create());
+        } else if (report.getOccurrenceDate() != null && report.getOccurrenceDate().isAfter(LocalDate.now())) {
             messages.add(Message.builder("Date must not be in the future", Severity.ERROR).create());
         }
 
@@ -92,7 +88,7 @@ public class ReportPmo {
                                             "A detailed description would help us better understand your report."));
         }
 
-        if (report.getType() == ReportType.BUG) {
+        if (ReportType.BUG == report.getType()) {
             messages.add(Message
                     .newInfo("info.screenshot",
                              "A screenshot always helps us better understand the issue you are encountering."));
