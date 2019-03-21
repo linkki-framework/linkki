@@ -27,8 +27,8 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
 
 /**
- * Wrapper for a {@link Method}. {@link #canRead()} can safely be accessed even if no read method
- * exists. {@link #readValue(Object)} will access the getter via reflection.
+ * Wrapper for a getter {@link Method}. {@link #canRead()} can safely be accessed even if no read method
+ * exists. {@link #readValue(Object)} will access the getter via {@link LambdaMetafactory}.
  * 
  * @param <T> the type containing the property
  * @param <V> the property's type
@@ -42,6 +42,9 @@ public class ReadMethod<@NonNull T, V> extends AbstractMethod<T> {
         super(descriptor, descriptor.getReflectionReadMethod());
     }
 
+    /**
+     * Checks whether a read method exists.
+     */
     public boolean canRead() {
         return hasMethod();
     }
@@ -90,9 +93,12 @@ public class ReadMethod<@NonNull T, V> extends AbstractMethod<T> {
     protected CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func) {
         try {
             return LambdaMetafactory
-                    .metafactory(lookup, "apply", MethodType.methodType(Function.class),
+                    .metafactory(lookup,
+                                 "apply",
+                                 MethodType.methodType(Function.class),
                                  MethodType.methodType(Object.class, Object.class),
-                                 methodHandle, func);
+                                 methodHandle,
+                                 func);
         } catch (LambdaConversionException e) {
             throw new IllegalStateException("Can't create " + CallSite.class.getSimpleName() + " for "
                     + methodHandle, e);

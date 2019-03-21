@@ -11,6 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
+
 package org.linkki.core.binding.dispatcher.accessor;
 
 import java.lang.invoke.CallSite;
@@ -20,59 +21,48 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
 
 /**
- * Wrapper for a setter {@link Method}. {@link #canWrite()} can safely be accessed even if no write
- * method exists. {@link #writeValue(Object, Object)} will access the setter via
+ * Wrapper for a void {@link Method} without parameters. {@link #canInvoke()} can safely be accessed
+ * even if the method to be invoked does not exists. {@link #invoke(Object)} will access the method via
  * {@link LambdaMetafactory}.
  * 
- * @param <T> the type containing the property
- * @param <V> the property's type
+ * @param <T> the type containing the method
  */
-public class WriteMethod<@NonNull T, V> extends AbstractMethod<T> {
+public class InvokeMethod<@NonNull T> extends AbstractMethod<T> {
 
     @Nullable
-    private BiConsumer<T, V> setter;
+    private Consumer<T> invoker;
 
-    WriteMethod(PropertyAccessDescriptor<T, V> descriptor) {
-        super(descriptor, descriptor.getReflectionWriteMethod());
+    public InvokeMethod(PropertyAccessDescriptor<@NonNull T, ?> descriptor) {
+        super(descriptor, descriptor.getReflectionInvokeMethod());
     }
 
     /**
-     * Checks whether a write method exists.
+     * Checks whether the method to be invoked exists.
      */
-    public boolean canWrite() {
+    public boolean canInvoke() {
         return hasMethod();
     }
 
     /**
-     * Writes a value by accessing the respective write method.
-     * 
-     * @param value the value to be written
-     * @throws LinkkiBindingException if an error occurs while accessing the write method
-     * @see #canWrite()
+     * Invokes the method.
+     *
+     * @throws IllegalStateException if the method to be invoked does not exist
+     * @throws RuntimeException if an error occurs while accessing the method
      */
-    public void writeValue(T target, V value) {
+    public void invoke(T target) {
         try {
-            setter().accept(target, value);
+            invoker().accept(target);
         } catch (IllegalArgumentException | IllegalStateException e) {
             throw new LinkkiBindingException(
-                    "Cannot write value: " + value + " in " + getBoundClass() + "#" + getPropertyName(),
-                    e);
+                    String.format("Error invoking method %s#%s", getBoundClass(), getPropertyName()), e);
         }
-    }
-
-    @SuppressWarnings({ "null", "unchecked" })
-    private BiConsumer<T, V> setter() {
-        if (setter == null) {
-            setter = getMethodAs(BiConsumer.class);
-        }
-        return setter;
     }
 
     @Override
@@ -80,8 +70,8 @@ public class WriteMethod<@NonNull T, V> extends AbstractMethod<T> {
         try {
             return LambdaMetafactory.metafactory(lookup,
                                                  "accept",
-                                                 MethodType.methodType(BiConsumer.class),
-                                                 MethodType.methodType(Void.TYPE, Object.class, Object.class),
+                                                 MethodType.methodType(Consumer.class),
+                                                 MethodType.methodType(Void.TYPE, Object.class),
                                                  methodHandle,
                                                  wrap(methodHandle));
         } catch (LambdaConversionException e) {
@@ -90,4 +80,11 @@ public class WriteMethod<@NonNull T, V> extends AbstractMethod<T> {
         }
     }
 
+    @SuppressWarnings({ "null", "unchecked" })
+    private Consumer<T> invoker() {
+        if (invoker == null) {
+            invoker = getMethodAs(Consumer.class);
+        }
+        return invoker;
+    }
 }

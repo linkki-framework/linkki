@@ -32,6 +32,7 @@ public class PropertyAccessor<@NonNull T, V> {
     private final String propertyName;
     private final ReadMethod<T, V> readMethod;
     private final WriteMethod<T, V> writeMethod;
+    private final InvokeMethod<T> invokeMethod;
 
     public PropertyAccessor(Class<? extends T> boundClass, String propertyName) {
         this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
@@ -40,6 +41,7 @@ public class PropertyAccessor<@NonNull T, V> {
                 propertyName);
         readMethod = propertyAccessDescriptor.createReadMethod();
         writeMethod = propertyAccessDescriptor.createWriteMethod();
+        invokeMethod = propertyAccessDescriptor.createInvokeMethod();
     }
 
     public String getPropertyName() {
@@ -56,12 +58,7 @@ public class PropertyAccessor<@NonNull T, V> {
     }
 
     /**
-     * Only writes the value, if necessary. That is if the property's current value is different from
-     * the value to be written. This avoids infinite feedback loops in data binding, as most fields fire
-     * events if their value changes.
-     * <p>
-     * However, if the property is write only the value will always be written (as the current value
-     * cannot be retrieved in this case).
+     * Sets the property to the given value.
      *
      * @throws IllegalStateException if no setter can be found
      */
@@ -70,10 +67,27 @@ public class PropertyAccessor<@NonNull T, V> {
     }
 
     /**
+     * Invokes the method.
+     *
+     * @throws IllegalStateException if the method to be invoked can not be found
+     */
+    public void invoke(T boundObject) {
+        invokeMethod.invoke(boundObject);
+    }
+
+    /**
      * @return <code>true</code> if there is a read method (getter) for the given object and property
      */
     public boolean canWrite() {
         return writeMethod.canWrite();
+    }
+
+    /**
+     * @return <code>true</code> if there is a method that can be invoked for the given object and
+     *         property
+     */
+    public boolean canInvoke() {
+        return invokeMethod.canInvoke();
     }
 
     /**

@@ -118,6 +118,11 @@ public abstract class AbstractMethod<@NonNull T> {
         }
     }
 
+    // to avoid problems with primitive parameters in Java 11
+    protected MethodType wrap(MethodHandle methodHandle) {
+        return methodHandle.type().wrap().changeReturnType(Void.TYPE);
+    }
+
     protected abstract CallSite getCallSite(Lookup lookup, MethodHandle methodHandle, MethodType func);
 
 }

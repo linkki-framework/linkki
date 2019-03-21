@@ -15,12 +15,9 @@ package org.linkki.core.binding.dispatcher;
 
 import static java.util.Objects.requireNonNull;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.MethodUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.BindingContext;
@@ -106,7 +103,12 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         }
     }
 
-
+    /**
+     * Returns whether the {@link #getBoundObject()} has a getter method for the given property.
+     * 
+     * @param propertyToRead property name of the bound object
+     * @return whether the bound object has a getter method for the property
+     */
     private boolean hasReadMethod(String propertyToRead) {
         return getAccessor(propertyToRead).canRead();
     }
@@ -137,24 +139,13 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     private <V> void invoke(Aspect<V> aspect) {
         String propertyAspectName = getPropertyAspectName(aspect);
-        Method method = getExactMethod(propertyAspectName);
-        if (method != null) {
-            try {
-                method.invoke(getExistingBoundObject());
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                throw new IllegalStateException(
-                        String.format("Error invoking method %s#%s",
-                                      getExistingBoundObject().getClass().getName(), propertyAspectName),
-                        e);
-            }
+        if (hasInvokeMethod(propertyAspectName)) {
+            @SuppressWarnings("unchecked")
+            PropertyAccessor<Object, V> accessor = (PropertyAccessor<Object, V>)getAccessor(propertyAspectName);
+            accessor.invoke(getExistingBoundObject());
         } else {
             fallbackDispatcher.push(aspect);
         }
-    }
-
-    @Nullable
-    private Method getExactMethod(String methodName) {
-        return MethodUtils.getAccessibleMethod(getExistingBoundObject().getClass(), methodName);
     }
 
     @Override
@@ -166,13 +157,23 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     }
 
     /**
-     * Returns if the {@link #getBoundObject()} has a setter method for the given property.
+     * Returns whether the {@link #getBoundObject()} has a setter method for the given property.
      * 
      * @param propertyToWrite property name of the bound object
-     * @return whether the bound object has a setter method for the property.
+     * @return whether the bound object has a setter method for the property
      */
     private boolean hasWriteMethod(String propertyToWrite) {
         return getAccessor(propertyToWrite).canWrite();
+    }
+
+    /**
+     * Returns whether the {@link #getBoundObject()} has a method for the given method name.
+     * 
+     * @param method name of the method that should be invoked
+     * @return whether the bound object has a method with the provided name
+     */
+    private boolean hasInvokeMethod(String method) {
+        return getAccessor(method).canInvoke();
     }
 
     private PropertyAccessor<?, ?> getAccessor(String propertyToAccess) {

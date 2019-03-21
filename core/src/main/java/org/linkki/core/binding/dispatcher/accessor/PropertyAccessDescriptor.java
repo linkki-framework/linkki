@@ -43,6 +43,7 @@ public class PropertyAccessDescriptor<@NonNull T, V> {
     private final String propertyName;
     private final Supplier<Optional<Method>> getter = lazyCaching(this::findGetter);
     private final Supplier<Optional<Method>> setter = lazyCaching(this::findSetter);
+    private final Supplier<Optional<Method>> invoker = lazyCaching(this::findInvoker);
 
     private String capitalizedPropertyName;
 
@@ -70,6 +71,11 @@ public class PropertyAccessDescriptor<@NonNull T, V> {
                 .flatMap(Optional::ofNullable);
     }
 
+    @SuppressWarnings("null")
+    private final Optional<Method> findInvoker() {
+        return Optional.ofNullable(MethodUtils.getAccessibleMethod(boundClass, propertyName));
+    }
+
     public WriteMethod<T, V> createWriteMethod() {
         return new WriteMethod<>(this);
     }
@@ -78,12 +84,20 @@ public class PropertyAccessDescriptor<@NonNull T, V> {
         return new ReadMethod<>(this);
     }
 
+    public InvokeMethod<T> createInvokeMethod() {
+        return new InvokeMethod<>(this);
+    }
+
     Supplier<Optional<Method>> getReflectionWriteMethod() {
         return setter;
     }
 
     Supplier<Optional<Method>> getReflectionReadMethod() {
         return getter;
+    }
+
+    Supplier<Optional<Method>> getReflectionInvokeMethod() {
+        return invoker;
     }
 
     public Class<? extends T> getBoundClass() {
@@ -98,5 +112,6 @@ public class PropertyAccessDescriptor<@NonNull T, V> {
     public String toString() {
         return PropertyAccessDescriptor.class.getSimpleName() + '[' + boundClass + '#' + propertyName + ']';
     }
+
 
 }
