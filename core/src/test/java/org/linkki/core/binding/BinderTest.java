@@ -20,12 +20,14 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.TestUiComponent;
-import org.linkki.core.ui.section.annotations.BindTooltip;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.defaults.nls.TestUiComponent;
+import org.linkki.core.defaults.uielement.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
+import org.linkki.core.defaults.uielement.aspects.types.TooltipType;
+import org.linkki.core.pmo.ModelObject;
 
 public class BinderTest {
 

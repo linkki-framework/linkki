@@ -18,7 +18,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.linkki.core.ui.UiFramework;
+import org.linkki.core.defaults.nls.DefaultNlsService;
+import org.linkki.core.uiframework.UiFramework;
 
 /**
  * Native Language Support Service for the translation of texts identified by a bundle name and key.

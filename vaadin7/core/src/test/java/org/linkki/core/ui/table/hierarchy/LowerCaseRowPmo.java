@@ -16,8 +16,8 @@ package org.linkki.core.ui.table.hierarchy;
 
 import java.util.List;
 
-import org.linkki.core.ui.table.HierarchicalRowPmo;
-import org.linkki.core.ui.table.SimpleItemSupplier;
+import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
+import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 
 public class LowerCaseRowPmo extends AbstractCodeRow implements HierarchicalRowPmo<NumberRowPmo> {
 

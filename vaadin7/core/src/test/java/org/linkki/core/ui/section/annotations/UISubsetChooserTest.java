@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.components.SubsetChooser;
 
 import com.vaadin.server.PaintException;

@@ -20,11 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.uielement.AvailableValuesProvider;
+import org.linkki.core.defaults.uielement.aspects.types.AvailableValuesType;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.HasItems;

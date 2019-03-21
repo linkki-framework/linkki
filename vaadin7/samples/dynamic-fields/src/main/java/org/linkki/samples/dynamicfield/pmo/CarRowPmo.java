@@ -13,7 +13,7 @@
  */
 package org.linkki.samples.dynamicfield.pmo;
 
-import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.samples.dynamicfield.model.Car;

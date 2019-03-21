@@ -16,8 +16,8 @@ package org.linkki.core.vaadin8;
 import java.util.Locale;
 import java.util.stream.Stream;
 
-import org.linkki.core.ui.UiFrameworkExtension;
-import org.linkki.core.ui.components.ComponentWrapperFactory;
+import org.linkki.core.binding.wrapper.ComponentWrapperFactory;
+import org.linkki.core.uiframework.UiFrameworkExtension;
 import org.linkki.core.vaadin8.components.Vaadin8ComponentWrapperFactory;
 import org.linkki.util.StreamUtil;
 

@@ -16,10 +16,11 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.util.function.Consumer;
 
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.uielement.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
 import org.linkki.util.Consumers;
 
 import com.vaadin.data.HasValue;

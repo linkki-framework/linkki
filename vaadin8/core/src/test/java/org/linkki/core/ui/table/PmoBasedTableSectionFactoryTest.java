@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.container.LinkkiInMemoryContainer;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 

@@ -23,12 +23,12 @@ import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.linkki.core.binding.aspect.AspectAnnotationReader;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.property.BoundProperty;
-import org.linkki.core.binding.property.BoundPropertyAnnotationReader;
-import org.linkki.core.ui.UiFramework;
-import org.linkki.core.ui.components.ComponentWrapperFactory;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
+import org.linkki.core.binding.wrapper.ComponentWrapperFactory;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.BeanUtils;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;

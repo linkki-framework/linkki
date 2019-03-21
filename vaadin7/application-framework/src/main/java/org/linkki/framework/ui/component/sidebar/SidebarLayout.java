@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
-import org.linkki.framework.ui.LinkkiStyles;
+import org.linkki.framework.ui.LinkkiApplicationStyles;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -35,10 +35,10 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  *           {@link #addSheet(SidebarSheet)} method. The first added sheet is selected by default, but
  *           another can be chosen via {@link #select(SidebarSheet)}.
  *           <p>
- *           The {@link SidebarLayout} can be styled with the {@link LinkkiStyles#SIDEBAR_LAYOUT},
- *           {@link LinkkiStyles#SIDEBAR} and {@link LinkkiStyles#SIDEBAR_CONTENT} style classes.
+ *           The {@link SidebarLayout} can be styled with the {@link LinkkiApplicationStyles#SIDEBAR_LAYOUT},
+ *           {@link LinkkiApplicationStyles#SIDEBAR} and {@link LinkkiApplicationStyles#SIDEBAR_CONTENT} style classes.
  *           Selected buttons in the sidebar are additionally styled with
- *           {@link LinkkiStyles#SIDEBAR_SELECTED}.
+ *           {@link LinkkiApplicationStyles#SIDEBAR_SELECTED}.
  */
 public class SidebarLayout extends CssLayout {
 
@@ -60,9 +60,9 @@ public class SidebarLayout extends CssLayout {
         setSizeFull();
         contentArea.setSizeFull();
 
-        setStyleName(LinkkiStyles.SIDEBAR_LAYOUT);
-        sidebar.setStyleName(LinkkiStyles.SIDEBAR);
-        contentArea.setStyleName(LinkkiStyles.SIDEBAR_CONTENT);
+        setStyleName(LinkkiApplicationStyles.SIDEBAR_LAYOUT);
+        sidebar.setStyleName(LinkkiApplicationStyles.SIDEBAR);
+        contentArea.setStyleName(LinkkiApplicationStyles.SIDEBAR_CONTENT);
 
         addComponent(sidebar);
         addComponent(contentArea);

@@ -1,8 +1,8 @@
 package org.linkki.doc.dynamic;
 
-import static org.linkki.core.ui.section.annotations.EnabledType.DYNAMIC;
+import static org.linkki.core.defaults.uielement.aspects.types.EnabledType.DYNAMIC;
 
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;

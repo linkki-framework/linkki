@@ -20,14 +20,14 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.UiFramework;
-import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin8.nls.NlsText;
 import org.linkki.util.handler.Handler;
 

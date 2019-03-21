@@ -29,10 +29,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.TestEnum;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 

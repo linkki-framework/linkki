@@ -14,7 +14,7 @@
 package org.linkki.samples.gettingstarted;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 import org.linkki.samples.gettingstarted.model.Report;

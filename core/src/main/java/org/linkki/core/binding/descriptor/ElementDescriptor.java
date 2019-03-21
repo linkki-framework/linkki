@@ -18,8 +18,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 
 /**
  * Holds information about a bound UI element (such as the PMO and model property name) and on how to

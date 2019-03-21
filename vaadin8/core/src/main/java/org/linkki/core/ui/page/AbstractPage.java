@@ -20,10 +20,10 @@ import java.util.Arrays;
 import javax.annotation.PostConstruct;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.BindingManager;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
-import org.linkki.core.ui.table.ContainerPmo;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;

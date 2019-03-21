@@ -22,8 +22,8 @@ import java.lang.reflect.Method;
 
 import org.junit.Test;
 import org.linkki.core.binding.annotations.Bind.BindAnnotationBoundPropertyCreator;
-import org.linkki.core.binding.property.BoundProperty;
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.pmo.ModelObject;
 
 public class BindAnnotationBoundPropertyCreatorTest {
 

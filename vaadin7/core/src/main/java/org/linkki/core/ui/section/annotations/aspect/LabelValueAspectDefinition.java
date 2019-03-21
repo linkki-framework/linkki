@@ -17,9 +17,9 @@ package org.linkki.core.ui.section.annotations.aspect;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
 
 import com.vaadin.ui.Label;
 

@@ -1,7 +1,7 @@
 package \${package}.page;
 
-import org.linkki.core.binding.BindingManager;
-import org.linkki.core.binding.DefaultBindingManager;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.page.AbstractPage;
 import org.linkki.framework.ui.dialogs.ConfirmationDialog;

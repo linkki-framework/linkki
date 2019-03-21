@@ -18,10 +18,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.linkki.core.binding.aspect.AspectDefinitionCreator;
-import org.linkki.core.binding.aspect.LinkkiAspect;
-import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
+import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.ui.section.annotations.UITableColumn.TableColumnAspectDefinitionCreator;
 import org.linkki.core.ui.table.column.aspect.ColumnCollapseAspectDefinition;
 import org.linkki.core.ui.table.column.aspect.ColumnExpandRatioAspectDefinition;

@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.binding.aspect.definition.TestComponentClickAspectDefinition;
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
+import org.linkki.core.pmo.ModelObject;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

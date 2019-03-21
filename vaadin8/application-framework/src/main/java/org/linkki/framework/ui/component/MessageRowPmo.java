@@ -18,12 +18,12 @@ import static java.util.Objects.requireNonNull;
 import java.util.Arrays;
 import java.util.List;
 
-import org.linkki.core.message.Message;
-import org.linkki.core.message.Severity;
-import org.linkki.core.ui.application.ApplicationStyles;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.style.LinkkiStyles;
+import org.linkki.core.defaults.uielement.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.uielement.aspects.types.TooltipType;
 import org.linkki.core.ui.section.annotations.BindStyleNames;
-import org.linkki.core.ui.section.annotations.BindTooltip;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 
@@ -49,7 +49,7 @@ public class MessageRowPmo {
     }
 
     public List<String> getIconStyleNames() {
-        return Arrays.asList(ApplicationStyles.MESSAGE_ROW, MessageUiComponents.getStyle(message.getSeverity()));
+        return Arrays.asList(LinkkiStyles.MESSAGE_ROW, MessageUiComponents.getStyle(message.getSeverity()));
     }
 
     public String getIconTooltip() {
@@ -57,7 +57,7 @@ public class MessageRowPmo {
     }
 
     @UITableColumn(expandRatio = 1)
-    @UILabel(position = 20, styleNames = ApplicationStyles.MESSAGE_ROW)
+    @UILabel(position = 20, styleNames = LinkkiStyles.MESSAGE_ROW)
     public String getText() {
         return message.getText();
     }

@@ -16,8 +16,8 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.lang.annotation.Annotation;
 
-import org.linkki.core.binding.aspect.AspectDefinitionCreator;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 
 public class ValueAspectDefinitionCreator implements AspectDefinitionCreator<Annotation> {
 

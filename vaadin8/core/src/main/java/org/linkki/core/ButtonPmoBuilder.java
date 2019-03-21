@@ -22,7 +22,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.table.ContainerPmo;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.icons.VaadinIcons;

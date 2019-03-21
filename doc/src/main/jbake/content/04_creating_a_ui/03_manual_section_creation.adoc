@@ -10,7 +10,7 @@
 [[manual-section-creation]]
 === Manual Section Creation
 
-If you do not use a standard `@UISection` or UI layout, you may still use the same mechanisms employed by the {github-blob}/vaadin8/core/src/main/java/org/linkki/core/ui/section/PmoBasedSectionFactory.java[`PmoBasedSectionFactory`] to read UI annotations, create and bind UI components by way of the {github-blob}/core/src/main/java/org/linkki/core/ui/UiElementCreator.java[`UiElementCreator`].
+If you do not use a standard `@UISection` or UI layout, you may still use the same mechanisms employed by the {github-blob}/vaadin8/core/src/main/java/org/linkki/core/ui/section/PmoBasedSectionFactory.java[`PmoBasedSectionFactory`] to read UI annotations, create and bind UI components by way of the {github-blob}/core/src/main/java/org.linkki.core.defaults.uielement.UiElementCreator.java[`UiElementCreator`].
 
 In this example the UI elements of a PMO are directly added to a Vaadin `FormLayout`. In this case the @UISection annotation of the PMO is ignored.
 

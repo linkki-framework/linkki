@@ -30,6 +30,6 @@ This class has two properties: "salutation" and "nameForUI". The property "nameF
 
 There are some optional interfaces that PMO classes may implement:
 
-* `org.linkki.core.PresentationModelObject` offers a method for the creation of a button PMO. This button is displayed in the section header if the PMO is used with <<pmo-uisection, create UI with @UISection>>.
-* `org.linkki.core.ButtonPmo` is a PMO for buttons, see <<ui-button,Buttons>>
-* `org.linkki.core.ui.table.ContainerPmo` is a PMO for tables, of which each row is represented by regular PMOs. See <<ui-container-pmo,Container Components>>
+* `org.linkki.core.pmo.PresentationModelObject` offers a method for the creation of a button PMO. This button is displayed in the section header if the PMO is used with <<pmo-uisection, create UI with @UISection>>.
+* `org.linkki.core.pmo.ButtonPmo` is a PMO for buttons, see <<ui-button,Buttons>>
+* `org.linkki.core.defaults.columnbased.pmo.ContainerPmo` is a PMO for tables, of which each row is represented by regular PMOs. See <<ui-container-pmo,Container Components>>

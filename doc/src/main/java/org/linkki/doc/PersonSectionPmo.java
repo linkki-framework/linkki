@@ -13,7 +13,7 @@
  */
 package org.linkki.doc;
 
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 

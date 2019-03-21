@@ -20,6 +20,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.nls.pmo.sample.SamplePmo;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.FormSection;

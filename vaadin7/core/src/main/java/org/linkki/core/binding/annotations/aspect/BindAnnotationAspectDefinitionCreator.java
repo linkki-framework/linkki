@@ -14,20 +14,20 @@
 
 package org.linkki.core.binding.annotations.aspect;
 
-import static org.linkki.core.binding.aspect.definition.ApplicableTypeAspectDefinition.ifComponentTypeIs;
+import static org.linkki.core.binding.descriptor.aspect.base.ApplicableTypeAspectDefinition.ifComponentTypeIs;
 
 import org.linkki.core.binding.annotations.Bind;
-import org.linkki.core.binding.aspect.AspectDefinitionCreator;
-import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.defaults.uielement.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.uielement.aspects.VisibleAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.DerivedReadOnlyAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelValueAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.RequiredAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractSelect;

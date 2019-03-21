@@ -13,25 +13,29 @@
  */
 package org.linkki.core.ui.section.annotations;
 
-import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
-import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.uielement.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.uielement.aspects.types.VisibleType.VISIBLE;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.linkki.core.binding.aspect.AspectDefinitionCreator;
-import org.linkki.core.binding.aspect.LinkkiAspect;
-import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
+import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.defaults.uielement.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.uielement.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.uielement.aspects.types.CaptionType;
+import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
+import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
 import org.linkki.core.ui.section.annotations.UIButton.UIButtonAspectDefinitionCreator;
 import org.linkki.core.ui.section.annotations.adapters.ButtonBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;

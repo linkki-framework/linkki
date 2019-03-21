@@ -47,7 +47,7 @@ Additionally, with the property `collapsible`, you could specify a `CollapseMode
 [[ui-simple-table-pmo]]
 ==== SimpleTablePmo
 
-Most commonly, the row PMO objects are converted from a list of model objects. In this case, the abstract class `org.linkki.core.ui.table.SimpleTablePmo<MO, ROW>` may be extended. It defines a constructor that requires the list or the supplier for the list of model objects. Additionally the method `createRow(MO)` needs to be implemented. This method simply takes a model object and creates a row PMO for it and is only called once for every model object. A simple example may look like this:
+Most commonly, the row PMO objects are converted from a list of model objects. In this case, the abstract class `org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo<MO, ROW>` may be extended. It defines a constructor that requires the list or the supplier for the list of model objects. Additionally the method `createRow(MO)` needs to be implemented. This method simply takes a model object and creates a row PMO for it and is only called once for every model object. A simple example may look like this:
 
 [source, java]
 ----
@@ -98,7 +98,7 @@ Sometimes, the data in a table should be grouped for presentation, for example w
 .Hierarchical table
 image::{images}{images-folder-name}/treetable.png[A hierarchical table,align="center"]
 
-This can be realized by using `org.linkki.core.ui.table.HierarchicalRowPmo<PMO>`, row PMOs that contain further rows as children. It is possible to use multiple subclasses for row PMOs, using `HierarchicalRowPmo` only for collapsible rows. To indicate that the table contains hierarchical rows, the <<ui-container-pmo,ContainerPmo>> should return `true` in the method `isHierarchical()`. By default, this method returns `true` if `getItemPmoClass()` returns a class that implements `HierarchicalRowPmo`, which means that all rows are collapsible.
+This can be realized by using `org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo<PMO>`, row PMOs that contain further rows as children. It is possible to use multiple subclasses for row PMOs, using `HierarchicalRowPmo` only for collapsible rows. To indicate that the table contains hierarchical rows, the <<ui-container-pmo,ContainerPmo>> should return `true` in the method `isHierarchical()`. By default, this method returns `true` if `getItemPmoClass()` returns a class that implements `HierarchicalRowPmo`, which means that all rows are collapsible.
 
 [source, java]
 ----

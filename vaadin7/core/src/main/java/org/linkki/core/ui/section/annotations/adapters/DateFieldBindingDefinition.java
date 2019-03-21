@@ -18,13 +18,13 @@ import static java.util.Objects.requireNonNull;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.ui.UiFramework;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
+import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
+import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
 import org.linkki.core.ui.section.annotations.UIDateField;
-import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.DateFormats;
 
 import com.vaadin.ui.Component;

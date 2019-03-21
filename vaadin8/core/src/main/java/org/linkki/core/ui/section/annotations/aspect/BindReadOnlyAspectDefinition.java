@@ -15,10 +15,10 @@
 package org.linkki.core.ui.section.annotations.aspect;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;
 import org.linkki.util.handler.Handler;
 

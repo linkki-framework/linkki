@@ -15,12 +15,12 @@ package org.linkki.core.ui.section.annotations.adapters;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.ui.TestUiComponent;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.TestUIField;
-import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.defaults.nls.TestUiComponent;
+import org.linkki.core.defaults.section.annotations.TestUIField;
+import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
+import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
+import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
 
 public class TestFieldBindingDefinition implements BindingDefinition {
 

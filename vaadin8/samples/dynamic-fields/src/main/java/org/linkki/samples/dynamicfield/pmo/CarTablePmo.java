@@ -16,12 +16,12 @@ package org.linkki.samples.dynamicfield.pmo;
 import java.util.List;
 import java.util.Optional;
 
-import org.linkki.core.ButtonPmo;
 import org.linkki.core.ButtonPmoBuilder;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
+import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.table.ContainerPmo;
-import org.linkki.core.ui.table.SimpleItemSupplier;
-import org.linkki.core.ui.table.TableFooterPmo;
 import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.util.handler.Handler;
 

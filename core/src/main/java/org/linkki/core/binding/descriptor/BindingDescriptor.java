@@ -17,9 +17,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.property.BoundProperty;
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.util.Sequence;
 
 public abstract class BindingDescriptor {

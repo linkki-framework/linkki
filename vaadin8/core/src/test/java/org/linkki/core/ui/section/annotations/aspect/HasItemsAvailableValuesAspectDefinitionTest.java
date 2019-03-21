@@ -27,8 +27,8 @@ import java.util.LinkedList;
 
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
+import org.linkki.core.defaults.uielement.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.components.LabelComponentWrapper;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 
 import com.vaadin.data.HasDataProvider;
 import com.vaadin.data.HasFilterableDataProvider;

@@ -14,7 +14,7 @@
 
 package org.linkki.core.ui.table.hierarchy;
 
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.pmo.ModelObject;
 
 public class NumberRowPmo extends AbstractCodeRow {
 

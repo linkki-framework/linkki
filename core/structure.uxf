@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLHierarchy</id>
+    <coordinates>
+      <x>180</x>
+      <y>0</y>
+      <w>300</w>
+      <h>1070</h>
+    </coordinates>
+    <panel_attributes>type=Package
+core
+	binding
+		aspect
+			annotation
+		definition
+			annotation
+		descriptor
+		dispatcher
+			behavior
+			fallback
+			reflection
+				accessor
+			staticvalue
+		manager
+		property
+			annotation
+		validation
+			message
+		wrapper
+	defaults
+		columnbased
+			aspects
+			pmo
+		formatters
+		nls
+		style
+		uielement
+			aspects
+				annotations
+				types
+	nls
+	pmo
+	uiframework</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

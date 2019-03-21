@@ -20,13 +20,13 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.message.Severity;
-import org.linkki.core.ui.application.ApplicationStyles;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.style.LinkkiStyles;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.Page;
-import org.linkki.framework.ui.LinkkiStyles;
+import org.linkki.framework.ui.LinkkiApplicationStyles;
 import org.linkki.framework.ui.component.MessageRow;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
@@ -238,7 +238,7 @@ public class OkCancelDialog extends Window {
     }
 
     private void initDialogWindow() {
-        setStyleName(LinkkiStyles.DIALOG_CAPTION);
+        setStyleName(LinkkiApplicationStyles.DIALOG_CAPTION);
         setModal(true);
         setResizable(false);
     }
@@ -251,7 +251,7 @@ public class OkCancelDialog extends Window {
     }
 
     private void initMainArea(Component... contentComponents) {
-        mainArea.addStyleName(LinkkiStyles.DIALOG_CONTENT);
+        mainArea.addStyleName(LinkkiApplicationStyles.DIALOG_CONTENT);
         contentArea.addStyleName("content-area"); //$NON-NLS-1$
         contentArea.addComponent(mainArea);
         contentArea.setExpandRatio(mainArea, 1f);
@@ -278,7 +278,7 @@ public class OkCancelDialog extends Window {
 
     private HorizontalLayout createButtons(ButtonOption buttonOption) {
         HorizontalLayout buttons = new HorizontalLayout();
-        buttons.addStyleName(ApplicationStyles.DIALOG_BUTTON_BAR);
+        buttons.addStyleName(LinkkiStyles.DIALOG_BUTTON_BAR);
         buttons.setSpacing(true);
         buttons.addComponent(okButton);
         buttons.setComponentAlignment(okButton, Alignment.BOTTOM_CENTER);

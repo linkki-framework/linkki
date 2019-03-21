@@ -13,14 +13,14 @@
  */
 package org.linkki.core.ui.util;
 
-import static org.linkki.core.ui.application.ApplicationStyles.HORIZONTAL_SPACER;
+import static org.linkki.core.defaults.style.LinkkiStyles.HORIZONTAL_SPACER;
 
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.ButtonPmo;
+import org.linkki.core.pmo.ButtonPmo;
 
 import com.vaadin.server.FontIcon;
 import com.vaadin.server.Resource;

@@ -31,15 +31,16 @@ import java.util.stream.Collectors;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.ButtonPmo;
-import org.linkki.core.PresentationModelObject;
+import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
+import org.linkki.core.pmo.ButtonPmo;
+import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.test.TestButtonPmo;
 import org.linkki.core.ui.page.AbstractPage;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.table.SimpleTablePmo;
 
 import com.vaadin.ui.UI;
 

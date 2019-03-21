@@ -18,8 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.linkki.core.ButtonPmo;
 import org.linkki.core.ButtonPmoBuilder;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
+import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.section.annotations.UISection;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;

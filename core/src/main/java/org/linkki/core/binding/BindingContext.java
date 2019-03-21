@@ -21,19 +21,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.linkki.core.ButtonPmo;
-import org.linkki.core.PresentationModelObject;
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.binding.descriptor.BindingDescriptor;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.property.BoundProperty;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.UiFramework;
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.table.ContainerPmo;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.UiUpdateObserver;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.pmo.ButtonPmo;
+import org.linkki.core.pmo.PresentationModelObject;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.handler.Handler;
 
 /**
@@ -249,7 +252,6 @@ public class BindingContext implements UiUpdateObserver {
      * This method is used by a {@link BindingManager} to push validation results to all registered
      * {@linkplain BindingContext BindingContexts}.
      * 
-     * @see BindingManager#updateMessages(MessageList)
      * @deprecated This method is deprecated since August 1st, 2018 and may be removed in future
      *             versions. Use {@link #displayMessages(MessageList)} instead.
      */
@@ -264,7 +266,6 @@ public class BindingContext implements UiUpdateObserver {
      * This method is used by a {@link BindingManager} to push validation results to all registered
      * {@linkplain BindingContext}s.
      * 
-     * @see BindingManager#updateMessages(MessageList)
      */
     public MessageList displayMessages(MessageList messages) {
         return bindings.values().stream()

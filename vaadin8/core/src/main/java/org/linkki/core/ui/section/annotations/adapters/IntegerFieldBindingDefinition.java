@@ -15,11 +15,11 @@ package org.linkki.core.ui.section.annotations.adapters;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.ui.section.annotations.BindingDefinition;
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
+import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
+import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
 import org.linkki.core.ui.section.annotations.UIIntegerField;
-import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.util.ComponentFactory;
 
 import com.vaadin.ui.Component;

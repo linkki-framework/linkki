@@ -1,12 +1,12 @@
 package \${package}.pmo;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.icons.VaadinIcons;

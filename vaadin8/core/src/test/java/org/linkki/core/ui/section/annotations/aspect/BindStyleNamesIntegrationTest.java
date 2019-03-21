@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.ui.UiElementCreator;
+import org.linkki.core.defaults.uielement.UiElementCreator;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindStyleNames;
 import org.linkki.core.ui.section.annotations.UITextField;

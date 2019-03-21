@@ -18,7 +18,11 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
+import org.linkki.core.defaults.uielement.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
+import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
+import org.linkki.core.defaults.uielement.aspects.types.TooltipType;
+import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
 import org.linkki.core.ui.section.annotations.UITextFieldIntegrationTest.TextFieldTestPmo;
 
 import com.vaadin.server.Sizeable.Unit;

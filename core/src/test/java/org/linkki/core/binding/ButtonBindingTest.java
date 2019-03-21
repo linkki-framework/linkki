@@ -23,11 +23,11 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.ui.TestComponentWrapper;
-import org.linkki.core.ui.TestUiComponent;
-import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.nls.TestComponentWrapper;
+import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mockito;
 

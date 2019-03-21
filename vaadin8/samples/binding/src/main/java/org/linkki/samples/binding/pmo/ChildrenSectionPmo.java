@@ -14,11 +14,11 @@
 
 package org.linkki.samples.binding.pmo;
 
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.UIIntegerField;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextArea;
-import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.samples.binding.model.Contact;
 
 // tag::sectionCaption[]

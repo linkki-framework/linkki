@@ -22,10 +22,10 @@ import java.util.function.Consumer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
 
 import com.vaadin.ui.Component;
 

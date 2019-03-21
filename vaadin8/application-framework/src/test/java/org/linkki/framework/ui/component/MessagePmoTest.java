@@ -19,9 +19,9 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.ObjectProperty;
-import org.linkki.core.message.Severity;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.ObjectProperty;
+import org.linkki.core.binding.validation.message.Severity;
 
 import com.vaadin.icons.VaadinIcons;
 

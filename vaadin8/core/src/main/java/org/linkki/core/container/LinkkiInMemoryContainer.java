@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
 
-import org.linkki.core.ui.table.HierarchicalRowPmo;
+import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

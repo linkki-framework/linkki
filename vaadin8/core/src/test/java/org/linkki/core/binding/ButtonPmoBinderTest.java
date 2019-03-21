@@ -24,14 +24,14 @@ import java.util.Arrays;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.ButtonPmoBinder.ButtonPmoAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.property.BoundProperty;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
+import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.test.TestButtonPmo;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.components.WrapperType;
 
 import com.vaadin.ui.Button;
 

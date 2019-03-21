@@ -15,8 +15,8 @@ package org.linkki.samples.treetable.ui;
 
 import java.util.function.Consumer;
 
-import org.linkki.core.binding.BindingManager;
-import org.linkki.core.binding.DefaultBindingManager;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.AbstractPage;

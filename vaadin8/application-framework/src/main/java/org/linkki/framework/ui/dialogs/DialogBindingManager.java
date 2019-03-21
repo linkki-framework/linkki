@@ -16,8 +16,8 @@ package org.linkki.framework.ui.dialogs;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.BindingManager;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 
 /**

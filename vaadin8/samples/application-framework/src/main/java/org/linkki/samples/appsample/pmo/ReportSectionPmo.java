@@ -16,11 +16,11 @@ package org.linkki.samples.appsample.pmo;
 import java.util.function.Consumer;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.behavior.PropertyBehavior;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.section.annotations.EnabledType;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.framework.ui.component.MessageUiComponents;

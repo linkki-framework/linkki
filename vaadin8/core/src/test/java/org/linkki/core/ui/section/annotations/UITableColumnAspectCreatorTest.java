@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotNull;
 import java.lang.reflect.Method;
 
 import org.junit.Test;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 

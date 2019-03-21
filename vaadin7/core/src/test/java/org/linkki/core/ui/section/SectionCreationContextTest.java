@@ -20,7 +20,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.section.annotations.SectionID;
+import org.linkki.core.pmo.SectionID;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;

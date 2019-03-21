@@ -31,10 +31,10 @@ import java.util.function.BiConsumer;
 
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
-import org.linkki.core.binding.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.defaults.uielement.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.components.LabelComponentWrapper;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 

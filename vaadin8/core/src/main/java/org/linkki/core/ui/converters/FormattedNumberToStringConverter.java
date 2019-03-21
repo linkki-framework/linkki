@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.ui.UiFramework;
+import org.linkki.core.uiframework.UiFramework;
 
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;

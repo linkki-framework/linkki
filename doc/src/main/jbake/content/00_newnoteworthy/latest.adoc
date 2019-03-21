@@ -243,7 +243,7 @@ This change is necessary to comply with the new Vaadin mechanism for converters.
 For all custom UI annotations that do not use any specific converters, you can simply add the aspect explicitly in a separate `@LinkkiAspect` annotation using the `ValueAspectDefinitionCreator`. If your custom UI annotations have previously added a  custom converter in the `newComponent` method of the `BindingDefinition`, you have to introduce a new `Creator` that creates a `ValueAspectDefinition` with the given converter. This also applies to number fields that have previously required a formatter.
 
 ApplicationStyles::
-The style name `ApplicationStyles_SPACING_HORIZONTAL_SECTION` is now deprecated and will not be set to a horizontal section anymore. The styles attached to this class name are no longer necessary in *linkki* for Vaadin 8. As the CSS class is no longer assigned by linkki, you need to adjust the selector in the SCSS file if you have used this class (`horizontal-section-spacing`) as a selector.
+The style name `LinkkiStyles_SPACING_HORIZONTAL_SECTION` is now deprecated and will not be set to a horizontal section anymore. The styles attached to this class name are no longer necessary in *linkki* for Vaadin 8. As the CSS class is no longer assigned by linkki, you need to adjust the selector in the SCSS file if you have used this class (`horizontal-section-spacing`) as a selector.
 
 Default spacing in layouts::
 The default behavior considering spacing and margin has changed in Vaadin layouts. For the migration, make sure to double check all layouts to avoid unwanted spacing.

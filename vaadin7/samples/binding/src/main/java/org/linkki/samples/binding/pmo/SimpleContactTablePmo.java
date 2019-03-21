@@ -16,8 +16,8 @@ package org.linkki.samples.binding.pmo;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.table.SimpleTablePmo;
 import org.linkki.samples.binding.model.Contact;
 
 @UISection

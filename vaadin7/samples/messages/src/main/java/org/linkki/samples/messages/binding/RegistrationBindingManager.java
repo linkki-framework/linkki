@@ -15,8 +15,8 @@ package org.linkki.samples.messages.binding;
 
 import java.util.function.Consumer;
 
-import org.linkki.core.binding.DefaultBindingManager;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.manager.DefaultBindingManager;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.samples.messages.pmo.RegistrationValidationService;
 
 public class RegistrationBindingManager extends DefaultBindingManager {

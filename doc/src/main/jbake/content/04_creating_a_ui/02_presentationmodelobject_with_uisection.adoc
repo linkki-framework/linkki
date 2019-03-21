@@ -35,7 +35,7 @@ is recommended to specify the `modelAttribute` to make it explicit. The value sh
 [[binding-table]]
 ==== Binding of a Table
 
-To create a section with a table the PMO class must implement <<ui-container-pmo, `org.linkki.core.ui.table.ContainerPmo<ROW>`>>. The generic parameter `ROW` represents the type of the PMO to create a row in this table.
+To create a section with a table the PMO class must implement <<ui-container-pmo, `org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW>`>>. The generic parameter `ROW` represents the type of the PMO to create a row in this table.
 
 [source,java]
 ----
@@ -65,4 +65,4 @@ All UI elements can be used in tables. The binding of a `@UIButton` looks as fol
 include::{source-dir}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
 ----
 
-NOTE: In our example the elements of the table shall be presented as read-only. Therefore no direct binding of the `ModelObject` via the `@ModelObject` annotation is done. If the items of your table are provided from a model object you may consider to use `org.linkki.core.ui.table.SimpleTablePmo<MO, ROW>` which is described in chapter <<ui-tables, Tables>> in detail.
+NOTE: In our example the elements of the table shall be presented as read-only. Therefore no direct binding of the `ModelObject` via the `@ModelObject` annotation is done. If the items of your table are provided from a model object you may consider to use `org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo<MO, ROW>` which is described in chapter <<ui-tables, Tables>> in detail.

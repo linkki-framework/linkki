@@ -19,7 +19,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.linkki.core.container.LinkkiInMemoryContainer;
-import org.linkki.core.ui.columnbased.ColumnBasedComponentWrapper;
+import org.linkki.core.defaults.columnbased.ColumnBasedComponentWrapper;
+import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
 
 import com.vaadin.ui.Table;

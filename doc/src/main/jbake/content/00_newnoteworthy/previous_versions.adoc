@@ -12,7 +12,7 @@
 
 The `addRightComponents()` method in `ApplicationHeader` is deprecated as components added in this method were not automatically aligned to right. Use `addRightComponents(HorizontalLayout)` instead of which the method argument is a right aligned layout.
 
-The CSS style `LinkkiStyles#APLICATION_HEADER` and `LinkkiStyles#APPLICATION_HEADER_RIGHT` have been modified as the previously included style are not needed anymore.
+The CSS style `LinkkiApplicationStyles#APLICATION_HEADER` and `LinkkiApplicationStyles#APPLICATION_HEADER_RIGHT` have been modified as the previously included style are not needed anymore.
 
 ==== @ModelObject can be applied to instance variables
 

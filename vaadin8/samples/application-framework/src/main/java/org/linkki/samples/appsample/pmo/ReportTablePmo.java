@@ -16,7 +16,7 @@ package org.linkki.samples.appsample.pmo;
 
 import java.util.List;
 
-import org.linkki.core.ui.table.SimpleTablePmo;
+import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.samples.appsample.model.Report;
 
 import edu.umd.cs.findbugs.annotations.NonNull;

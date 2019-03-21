@@ -16,8 +16,8 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.util.List;
 
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.uielement.aspects.types.AvailableValuesType;
 
 import com.vaadin.data.HasDataProvider;
 import com.vaadin.data.HasFilterableDataProvider;

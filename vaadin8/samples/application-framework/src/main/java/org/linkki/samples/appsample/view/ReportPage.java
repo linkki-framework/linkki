@@ -16,8 +16,8 @@ package org.linkki.samples.appsample.view;
 
 import java.util.function.Consumer;
 
-import org.linkki.core.binding.BindingManager;
-import org.linkki.core.binding.DefaultBindingManager;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.page.AbstractPage;
 import org.linkki.samples.appsample.model.Report;
