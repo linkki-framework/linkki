@@ -399,7 +399,7 @@ MessageUiComponents.createMessageTable("Title", () -> (messages), new BindingCon
 |===
 |Deprecated | New classes
 |MessagePmo | MessageRowPmo
-|MessageRow | MessageUiComponents#createMessageLabel
+|MessageRow | MessageUiComponents#createMessageComponent
 |MessageListPanel|MessageUiComponents#createMessageTable
 |===
 

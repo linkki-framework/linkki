@@ -44,7 +44,9 @@ import org.linkki.util.StreamUtil;
 import org.linkki.util.handler.Handler;
 import org.linkki.util.validation.ValidationMarker;
 
+import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -298,15 +300,16 @@ public class OkCancelDialogTest {
                 @NonNull
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
                 VerticalLayout nestedLayout = (VerticalLayout)layout.getComponent(0);
-                return components(nestedLayout).filter(Label.class::isInstance)
+                FormLayout formLayout = (FormLayout)nestedLayout.getComponent(1);
+                return components(formLayout).filter(Label.class::isInstance)
                         .findFirst()
-                        .map(c -> ((Label)c).getCaption().equals(text))
+                        .map(c -> ((Label)c).getValue().equals(text))
                         .orElse(false);
             }
         };
     }
 
-    static Stream<Component> components(VerticalLayout layout) {
+    static Stream<Component> components(AbstractLayout layout) {
         return StreamUtil.stream(layout);
     }
 

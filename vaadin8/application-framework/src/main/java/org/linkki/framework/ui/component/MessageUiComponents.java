@@ -29,6 +29,7 @@ import org.linkki.framework.ui.LinkkiStyles;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 
 /**
@@ -86,20 +87,22 @@ public final class MessageUiComponents {
     }
 
     /**
-     * Creates a label with the message's text and an icon representing its {@link Severity}. The label
-     * can be styled with {@link ApplicationStyles#MESSAGE_LABEL} and a {@link #getStyle(Severity) style
-     * derived from the severity}.
+     * Creates a form layout with a label that contains the message's text and an icon representing its
+     * {@link Severity}. The label can be styled with {@link ApplicationStyles#MESSAGE_LABEL} and a
+     * {@link #getStyle(Severity) style derived from the severity}.
      */
-    public static Label createMessageLabel(Message message) {
+    public static Component createMessageComponent(Message message) {
+        FormLayout component = new FormLayout();
         Label messageLabel = new Label();
-        messageLabel.setCaption(message.getText());
+        messageLabel.setWidth("100%");
+        messageLabel.setValue(message.getText());
         Severity severity = message.getSeverity();
         messageLabel.setIcon(getIcon(severity));
         messageLabel.addStyleName(ApplicationStyles.MESSAGE_LABEL);
         messageLabel.addStyleName(getStyle(severity));
         messageLabel.setDescription(getInvalidObjectPropertiesAsString(message));
-        messageLabel.setWidthUndefined();
-        return messageLabel;
+        component.addComponent(messageLabel);
+        return component;
     }
 
     /**

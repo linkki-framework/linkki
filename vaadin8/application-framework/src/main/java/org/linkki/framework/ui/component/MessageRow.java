@@ -22,8 +22,8 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 
 /***
- * @deprecated since 13 March 2019; {@link MessageUiComponents#createMessageLabel(Message)} can be used
- *             instead.
+ * @deprecated since 13 March 2019; {@link MessageUiComponents#createMessageComponent(Message)} can be
+ *             used instead.
  */
 @Deprecated
 public class MessageRow extends FormLayout {
