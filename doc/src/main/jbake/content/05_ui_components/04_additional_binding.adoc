@@ -56,3 +56,12 @@ The `@BindReadOnly` Annotation has only one property, `ReadOnlyType`. Per defaul
 |`DYNAMIC`  |the read-only behavior of the component is determined by the return value of the method `is<PropertyName>ReadOnly()`
 |`DERIVED`  |behavior as it would be without this annotation
 |===
+
+[[bind-style-names]]
+==== Style Names
+
+Vaadin components get rendered as HTML and styled via CSS. Using the `@BindStyleNames` annotation custom style names can be bound to a component in addition to those provided by Vaadin.
+
+A single style name can be provided as the annotation's value (`@BindStyleNames("foo")`) as well as an array of multiple style names (`@BindStyleNames({"bar", "baz"})`).
+
+The value can also be omitted, leading to dynamic resolution via a `get<Property>StyleNames()` method that may return a `String` or any `Collection<String>`.

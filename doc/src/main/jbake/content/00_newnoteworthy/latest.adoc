@@ -451,13 +451,13 @@ CSS style classes are available for `linkki-message-table`/`linkki-message-row` 
 
 ===== Dynamic style name binding
 
-A new aspect `@BindStyleNames` has been introduced, to set user defined styles. This will
+A new aspect <<bind-style-names,@BindStyleNames>> has been introduced, to set user defined styles. This will
 overwrite any other user defined style names but not those from Vaadin. It is possible to provide multiple style names.
 
 [source,java]
 ----
-@BindStyleNames(type = StyleType.DYNAMIC)
-   public String getIcon() {
-       return MessageUiComponents.getIcon(message.getSeverity()).getHtml();
-   }
+@BindStyleNames({"big", "blinking"})
+public String getIcon() {
+    return VaadinIcons.STAR.getHtml();
+}
 ----
