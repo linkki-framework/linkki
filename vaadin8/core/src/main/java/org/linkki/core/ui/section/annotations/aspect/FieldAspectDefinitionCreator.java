@@ -42,7 +42,7 @@ public class FieldAspectDefinitionCreator implements AspectDefinitionCreator<@No
                 enabledAspectDefinition,
                 requiredAspectDefinition,
                 new VisibleAspectDefinition(bindingDefinition.visible()),
-                new ReadOnlyAspectDefinition());
+                new DerivedReadOnlyAspectDefinition());
     }
 
 }

@@ -31,7 +31,7 @@ import org.mockito.Mockito;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
 
-public class BindReadOnlyAnnotationAspectDefinitionTest {
+public class BindReadOnlyAspectDefinitionTest {
 
     @SuppressWarnings("null")
     private @NonNull BehaviorDependentDispatcher dispatcher;
@@ -93,11 +93,11 @@ public class BindReadOnlyAnnotationAspectDefinitionTest {
     }
 
     private void createUiUpdaterAndApplyIt_ReadOnlyAspect(Field<?> field) {
-        createUiUpdaterAndApplyIt(field, new ReadOnlyAspectDefinition());
+        createUiUpdaterAndApplyIt(field, new DerivedReadOnlyAspectDefinition());
     }
 
     private void createUiUpdaterAndApplyIt_BindReadOnlyAspect(Field<?> field, ReadOnlyType value) {
-        BindReadOnlyAnnotationAspectDefinition aspectDefinition = new BindReadOnlyAnnotationAspectDefinition(value);
+        BindReadOnlyAspectDefinition aspectDefinition = new BindReadOnlyAspectDefinition(value);
         createUiUpdaterAndApplyIt(field, aspectDefinition);
     }
 

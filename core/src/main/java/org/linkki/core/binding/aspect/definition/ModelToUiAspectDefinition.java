@@ -42,18 +42,36 @@ public abstract class ModelToUiAspectDefinition<V> implements LinkkiAspectDefini
                 setter.accept(propertyDispatcher.pull(aspect));
                 // CSOFF: IllegalCatch
             } catch (RuntimeException e) {
-                Object boundObject = propertyDispatcher.getBoundObject();
-                throw new LinkkiBindingException(
-                        e.getMessage() +
-                                " while apply " +
-                                (aspect.getName().isEmpty() ? "value" : "aspect " + aspect.getName()) +
-                                " of " +
-                                (boundObject != null ? boundObject.getClass() : "<no object>") +
-                                "#" + propertyDispatcher.getProperty(),
-                        e);
+                handleUiUpdateException(e, propertyDispatcher, aspect);
                 // CSON: IllegalCatch
             }
         };
+    }
+
+    /**
+     * Handles a caught {@link RuntimeException} during UI update. Giving the {@link PropertyDispatcher}
+     * and the aspect this method creates a useful exception and throws a {@link LinkkiBindingException}
+     * wrapping the exception.
+     * <p>
+     * Subclasses may change the behavior, throw more useful exceptions or silently ignore the exception
+     * (beware this might lead to very difficult search for failures).
+     * 
+     * @param e the exception that was caught
+     * @param propertyDispatcher the {@link PropertyDispatcher} that was used to update the UI
+     * @param aspect the aspect that was used to update the UI
+     */
+    protected void handleUiUpdateException(RuntimeException e,
+            PropertyDispatcher propertyDispatcher,
+            Aspect<V> aspect) {
+        Object boundObject = propertyDispatcher.getBoundObject();
+        throw new LinkkiBindingException(
+                e.getMessage() +
+                        " while applying " +
+                        (aspect.getName().isEmpty() ? "value" : "aspect " + aspect.getName()) +
+                        " of " +
+                        (boundObject != null ? boundObject.getClass() : "<no object>") +
+                        "#" + propertyDispatcher.getProperty(),
+                e);
     }
 
     /**

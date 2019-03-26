@@ -20,16 +20,14 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ui.table.SimpleTablePmo;
 import org.linkki.samples.appsample.model.Report;
 
-public class ReportTablePmo extends SimpleTablePmo<@NonNull Report, @NonNull ReportPmo> {
-
+public class ReportTablePmo extends SimpleTablePmo<@NonNull Report, @NonNull ReportListPmo> {
 
     public ReportTablePmo(@NonNull List<@NonNull Report> reports) {
         super(reports);
     }
 
     @Override
-    protected ReportPmo createRow(Report report) {
-        return new ReportPmo(report);
+    protected ReportListPmo createRow(Report report) {
+        return new ReportListPmo(report);
     }
-
 }

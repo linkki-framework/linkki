@@ -32,7 +32,7 @@ import com.vaadin.data.HasValue;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextArea;
 
-public class BindReadOnlyAnnotationAspectDefinitionTest {
+public class BindReadOnlyAspectDefinitionTest {
 
     @SuppressWarnings("null")
     private @NonNull BehaviorDependentDispatcher dispatcher;
@@ -94,11 +94,11 @@ public class BindReadOnlyAnnotationAspectDefinitionTest {
     }
 
     private void createUiUpdaterAndApplyIt_ReadOnlyAspect(HasValue<?> field) {
-        createUiUpdaterAndApplyIt(field, new ReadOnlyAspectDefinition());
+        createUiUpdaterAndApplyIt(field, new DerivedReadOnlyAspectDefinition());
     }
 
     private void createUiUpdaterAndApplyIt_BindReadOnlyAspect(HasValue<?> field, ReadOnlyType value) {
-        BindReadOnlyAnnotationAspectDefinition aspectDefinition = new BindReadOnlyAnnotationAspectDefinition(value);
+        BindReadOnlyAspectDefinition aspectDefinition = new BindReadOnlyAspectDefinition(value);
         createUiUpdaterAndApplyIt(field, aspectDefinition);
     }
 

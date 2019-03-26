@@ -26,7 +26,6 @@ import org.linkki.core.ui.section.annotations.BindTooltip;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UILabel;
 import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.aspect.BindStyleAnnotationAspectDefinition.StyleType;
 
 /**
  * PMO for a {@link Message}, displaying an icon derived from the {@link Severity} and the
@@ -45,7 +44,7 @@ public class MessageRowPmo {
     @UITableColumn(expandRatio = 0)
     @UILabel(position = 10, htmlContent = true)
     @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-    @BindStyleNames(type = StyleType.DYNAMIC)
+    @BindStyleNames
     public String getIcon() {
         return MessageUiComponents.getIcon(message.getSeverity()).getHtml();
     }

@@ -44,6 +44,9 @@ s/org.linkki.core.ui.components.LinkkiComboBox/com.vaadin.ui.ComboBox/g
 s/LinkkiComboBox/ComboBox/g
 s/org.linkki.core.ui.converters.LocalDateTimeToStringConverter/org.linkki.core.ui.formatters.LocalDateTimeFormatter/g
 s/org.linkki.core.ui.converters.LocalDateToStringConverter/org.linkki.core.ui.formatters.LocalDateFormatter/g
+s/ReadOnlyAspectDefinition/DerivedReadOnlyAspectDefinition/g
+s/ReadOnlyAspectDefinition/DerivedReadOnlyAspectDefinition/g
+s/BindReadOnlyAnnotationAspectDefinition/BindReadOnlyAspectDefinition/g
 
 # deprecated API
 s/ComponentFactory.newTextfield/ComponentFactory.newTextField/g

@@ -34,7 +34,7 @@ import org.linkki.samples.appsample.model.ReportType;
 
 public class ReportPmo {
 
-    private Report report;
+    protected Report report;
 
     public ReportPmo(Report report) {
         this.report = report;
@@ -64,23 +64,34 @@ public class ReportPmo {
         /* bind value to pmo property */
     }
 
+    public boolean isOccurenceDateReadOnly() {
+        return report.getType() != ReportType.BUG;
+    }
+
     @UITableColumn(collapsible = CollapseMode.COLLAPSIBLE)
     @UITextArea(position = 30, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 2, width = "50em")
     public void description() {
         /* Use description from report (model object) directly */
     }
 
-    public boolean isOccurenceDateReadOnly() {
-        return report.getType() != ReportType.BUG;
-    }
-
     @NonNull
     public MessageList validate() {
         MessageList messages = new MessageList();
-        if (report.getOccurrenceDate() == null) {
-            messages.add(Message.builder("Date can not be empty", Severity.ERROR).create());
-        } else if (report.getOccurrenceDate().isAfter(LocalDate.now())) {
+        if (ReportType.BUG == report.getType() && report.getOccurrenceDate() == null) {
+            messages.add(Message.builder("Date must not be empty", Severity.ERROR).create());
+        } else if (report.getOccurrenceDate() != null && report.getOccurrenceDate().isAfter(LocalDate.now())) {
             messages.add(Message.builder("Date must not be in the future", Severity.ERROR).create());
+        }
+
+        if (report.getDescription().length() < 10) {
+            messages.add(Message.newWarning("warning.emptyDescription",
+                                            "A detailed description would help us better understand your report."));
+        }
+
+        if (ReportType.BUG == report.getType()) {
+            messages.add(Message
+                    .newInfo("info.screenshot",
+                             "A screenshot always helps us better understand the issue you are encountering."));
         }
         return messages;
     }

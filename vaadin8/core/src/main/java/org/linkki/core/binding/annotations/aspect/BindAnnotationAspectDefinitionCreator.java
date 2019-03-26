@@ -25,7 +25,7 @@ import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinitio
 import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.HasItemsAvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelValueAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.ReadOnlyAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.RequiredAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.ValueAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
@@ -50,7 +50,7 @@ public class BindAnnotationAspectDefinitionCreator implements AspectDefinitionCr
                 new VisibleAspectDefinition(annotation.visible()),
                 ifApplicable(w -> w.getComponent() instanceof HasValue && !(w.getComponent() instanceof MultiSelect),
                              new ValueAspectDefinition()),
-                ifComponentTypeIs(AbstractField.class, new ReadOnlyAspectDefinition()),
+                ifComponentTypeIs(AbstractField.class, new DerivedReadOnlyAspectDefinition()),
                 ifComponentTypeIs(Label.class, new LabelValueAspectDefinition()),
                 ifComponentTypeIs(Button.class, new ButtonInvokeAspectDefinition()));
     }

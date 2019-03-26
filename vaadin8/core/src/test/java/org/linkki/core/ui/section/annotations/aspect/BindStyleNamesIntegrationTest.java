@@ -28,11 +28,12 @@ import org.linkki.core.ui.UiElementCreator;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindStyleNames;
 import org.linkki.core.ui.section.annotations.UITextField;
-import org.linkki.core.ui.section.annotations.aspect.BindStyleAnnotationAspectDefinition.StyleType;
 
 import com.vaadin.ui.Component;
 
 public class BindStyleNamesIntegrationTest {
+
+    private static final String MY_STYLE = "blablablub";
 
     @Test
     public void testCreateAspect_static_single() {
@@ -55,6 +56,23 @@ public class BindStyleNamesIntegrationTest {
 
         assertThat(uiElements.get(0).getComponent().getStyleName(),
                    is(String.join(" ", TestPmoWithStaticStyleNames.STYLE_NAME_1,
+                                  TestPmoWithStaticStyleNames.STYLE_NAME_2)));
+    }
+
+    @Test
+    public void testCreateAspect_KeepPreviouslySpecifiedStaticStyles() {
+        BindingContext bindingContext = new BindingContext();
+        List<LabelComponentWrapper> uiElements = UiElementCreator
+                .createUiElements(new TestPmoWithStaticStyleNames(),
+                                  bindingContext, c -> {
+                                      ((Component)c).setStyleName(MY_STYLE);
+                                      return new LabelComponentWrapper((Component)c);
+                                  })
+                .collect(Collectors.toList());
+        bindingContext.modelChanged();
+
+        assertThat(uiElements.get(0).getComponent().getStyleName(),
+                   is(String.join(" ", MY_STYLE, TestPmoWithStaticStyleNames.STYLE_NAME_1,
                                   TestPmoWithStaticStyleNames.STYLE_NAME_2)));
     }
 
@@ -84,6 +102,40 @@ public class BindStyleNamesIntegrationTest {
         pmo.setStyleNames("new-style1", "new-style2");
         bindingContext.modelChanged();
         assertThat(uiElements.get(0).getComponent().getStyleName(), is("new-style1 new-style2"));
+    }
+
+    @Test
+    public void testCreateAspect_KeepPreviouslySpecifiedDynamicSingleStyle() {
+        BindingContext bindingContext = new BindingContext();
+        TestPmoWithDynamicStyleName pmo = new TestPmoWithDynamicStyleName("style1");
+        List<LabelComponentWrapper> uiElements = UiElementCreator
+                .createUiElements(pmo, bindingContext, c -> {
+                    ((Component)c).setStyleName(MY_STYLE);
+                    return new LabelComponentWrapper((Component)c);
+                })
+                .collect(Collectors.toList());
+
+        pmo.setStyleName("new-style1");
+        bindingContext.modelChanged();
+
+        assertThat(uiElements.get(0).getComponent().getStyleName(), is(MY_STYLE + " new-style1"));
+    }
+
+    @Test
+    public void testCreateAspect_KeepPreviouslySpecifiedDynamicStyles() {
+        BindingContext bindingContext = new BindingContext();
+        TestPmoWithDynamicStyleNames pmo = new TestPmoWithDynamicStyleNames("style1", "style2");
+        List<LabelComponentWrapper> uiElements = UiElementCreator
+                .createUiElements(pmo, bindingContext, c -> {
+                    ((Component)c).setStyleName(MY_STYLE);
+                    return new LabelComponentWrapper((Component)c);
+                })
+                .collect(Collectors.toList());
+
+        pmo.setStyleNames("new-style1", "new-style2");
+        bindingContext.modelChanged();
+
+        assertThat(uiElements.get(0).getComponent().getStyleName(), is(MY_STYLE + " new-style1 new-style2"));
     }
 
     @Test(expected = LinkkiBindingException.class)
@@ -129,7 +181,7 @@ public class BindStyleNamesIntegrationTest {
             this.styleName = styleName;
         }
 
-        @BindStyleNames(type = StyleType.DYNAMIC)
+        @BindStyleNames
         @UITextField(label = "dynamic style names", position = 0)
         public String getProperty() {
             return "";
@@ -152,7 +204,7 @@ public class BindStyleNamesIntegrationTest {
             this.styleNames = styleNames;
         }
 
-        @BindStyleNames(type = StyleType.DYNAMIC)
+        @BindStyleNames
         @UITextField(label = "dynamic style names", position = 0)
         public String getProperty() {
             return "";
@@ -165,7 +217,7 @@ public class BindStyleNamesIntegrationTest {
 
     public static class TestPmoMissingDynamicStyleNamesMethod {
 
-        @BindStyleNames(type = StyleType.DYNAMIC)
+        @BindStyleNames
         @UITextField(label = "missing dynamic style names method", position = 0)
         public String getProperty() {
             return "";
