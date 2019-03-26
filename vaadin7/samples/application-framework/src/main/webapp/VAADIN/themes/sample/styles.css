@@ -1851,7 +1851,7 @@ div.v-layout.v-horizontal.v-widget {
 	box-shadow: none;
 	background: transparent;
 	color: inherit;
-	height: unset;
+	height: auto;
 }
 
 .sample .v-button.linkki-button-text:hover:after {

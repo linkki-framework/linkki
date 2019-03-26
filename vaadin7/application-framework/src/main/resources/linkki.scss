@@ -320,6 +320,6 @@ $linkki-sidebar-width: 56px !default;
 
   .v-button.linkki-button-text {
     @include valo-button-borderless-style;
-    height: unset;
+    height: auto;
   }
 }
