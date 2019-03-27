@@ -83,9 +83,11 @@ public class ReportPmo {
             messages.add(Message.builder("Date must not be in the future", Severity.ERROR).create());
         }
 
-        if (report.getDescription().length() < 10) {
+        if (report.getDescription().length() < 100) {
             messages.add(Message.newWarning("warning.emptyDescription",
-                                            "A detailed description would help us better understand your report."));
+                                            "A detailed description would help us better understand your report. Your description \""
+                                                    + report.getDescription()
+                                                    + "\" contains less than 100 charaters."));
         }
 
         if (ReportType.BUG == report.getType()) {

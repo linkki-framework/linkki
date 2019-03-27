@@ -42,7 +42,9 @@ public class SendEmailPmo {
     public MessageList validate() {
         MessageList messages = new MessageList();
         if (StringUtils.isNotBlank(email) && !email.matches("^[a-zA-Z0-9._\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,4}$")) {
-            messages.add(Message.builder("Invalid E-Mail address! (Pattern: someone@example.com)", Severity.ERROR)
+            messages.add(Message
+                    .builder("The given email \"" + email + "\" is invalid (Pattern: someone@example.com)",
+                             Severity.ERROR)
                     .invalidObject(new ObjectProperty(this, PROPERTY_EMAIL)).create());
         }
         return messages;

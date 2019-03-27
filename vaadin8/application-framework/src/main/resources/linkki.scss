@@ -195,7 +195,7 @@ $linkki-sidebar-width: 56px !default;
   }
 
   .linkki-message-table.v-table {
-	background: none;
+	  background: none;
   }
   
   .v-caption-linkki-message-table.v-caption {
@@ -204,7 +204,7 @@ $linkki-sidebar-width: 56px !default;
   }
 
   .linkki-message-table .v-table-table {
-	@include box-shadow(none);
+  	@include box-shadow(none);
   }
   
   .linkki-message-table .v-table-body {
@@ -212,7 +212,7 @@ $linkki-sidebar-width: 56px !default;
   }
 
   .linkki-message-table .v-table-cell-wrapper {
-	padding: 0;
+  	padding: 0;
   }
   
   .linkki-message-table .v-table-cell-content {
@@ -224,12 +224,12 @@ $linkki-sidebar-width: 56px !default;
   }
 
   .v-caption-linkki-message-label {
-	margin-left: 4px;
-	font-weight: lighter;
+	  margin-left: 4px;
+    font-weight: lighter;
   }
 
   .v-caption-linkki-message-label .v-icon {
-	padding: 0px 4px;
+	  padding: 0px 4px;
   }
   
   /* Styles for messages */
@@ -267,6 +267,7 @@ $linkki-sidebar-width: 56px !default;
   
   .linkki-table-cell {
     width: 100% !important;
+    word-wrap: break-word;
   }
   
   .v-button-linkki-table-cell {
