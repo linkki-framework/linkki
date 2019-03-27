@@ -26,7 +26,7 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.columnbased.ColumnBasedComponentCreator;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.core.defaults.style.LinkkiStyles;
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
 
@@ -46,7 +46,7 @@ class TableCreator implements ColumnBasedComponentCreator {
     @Override
     public ComponentWrapper createComponent(ContainerPmo<?> containerPmo) {
         Table table = containerPmo.isHierarchical() ? new TreeTable() : new Table();
-        table.addStyleName(LinkkiStyles.TABLE);
+        table.addStyleName(LinkkiTheme.TABLE);
         table.setHeightUndefined();
         table.setWidth("100%");
         table.setSortEnabled(false);
@@ -97,8 +97,8 @@ class TableCreator implements ColumnBasedComponentCreator {
             requireNonNull(itemId, "itemId must not be null");
             ElementDescriptor elementDescriptor = elementDescriptors.getDescriptor(itemId);
             Component component = (Component)elementDescriptor.newComponent();
-            component.addStyleName(LinkkiStyles.BORDERLESS);
-            component.addStyleName(LinkkiStyles.TABLE_CELL);
+            component.addStyleName(LinkkiTheme.BORDERLESS);
+            component.addStyleName(LinkkiTheme.TABLE_CELL);
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;

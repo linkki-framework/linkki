@@ -15,7 +15,7 @@ package org.linkki.framework.ui.component;
 
 
 import org.linkki.core.ui.bind.annotation.Bind;
-import org.linkki.framework.ui.LinkkiApplicationStyles;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.server.Responsive;
 import com.vaadin.ui.HorizontalLayout;
@@ -85,7 +85,7 @@ public class Headline extends HorizontalLayout {
      * @implNote Override this method to add additional components to the headline.
      */
     protected void initHeaderLayout() {
-        addStyleName(LinkkiApplicationStyles.HEADLINE);
+        addStyleName(LinkkiApplicationTheme.HEADLINE);
         setWidth("100%"); //$NON-NLS-1$
         setHeightUndefined();
         setSpacing(true);

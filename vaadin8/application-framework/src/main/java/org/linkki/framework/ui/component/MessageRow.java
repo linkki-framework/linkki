@@ -14,7 +14,7 @@
 package org.linkki.framework.ui.component;
 
 import org.linkki.core.binding.validation.message.Message;
-import org.linkki.core.defaults.style.LinkkiStyles;
+import org.linkki.core.defaults.style.LinkkiTheme;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;
@@ -42,7 +42,7 @@ public class MessageRow extends FormLayout {
         label.addStyleName(messagePmo.getStyle());
         label.setDescription(this.messagePmo.getTooltip());
         addComponent(label);
-        addStyleName(LinkkiStyles.MESSAGE_ROW);
+        addStyleName(LinkkiTheme.MESSAGE_ROW);
     }
 
     public String getText() {
