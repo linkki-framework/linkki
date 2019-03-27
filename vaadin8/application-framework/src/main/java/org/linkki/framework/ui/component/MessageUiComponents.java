@@ -114,7 +114,7 @@ public final class MessageUiComponents {
                 .createTable();
         table.setColumnHeaderMode(com.vaadin.v7.ui.Table.ColumnHeaderMode.HIDDEN);
         table.setStyleName(ApplicationStyles.MESSAGE_TABLE);
-        table.setWidth("100%");
+        table.setSizeFull();
         return table;
     }
 
