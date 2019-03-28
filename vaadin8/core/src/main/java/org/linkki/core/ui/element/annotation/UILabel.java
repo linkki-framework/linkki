@@ -24,7 +24,10 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
@@ -32,6 +35,7 @@ import org.linkki.core.ui.element.annotation.UILabel.LabelAspectDefinitionCreato
 import org.linkki.core.ui.element.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.element.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.LabelBindingDefinition;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
 /**
  * Provides a single UI-element to display text content. It is equal to {@link com.vaadin.ui.Label}.
@@ -39,6 +43,8 @@ import org.linkki.core.ui.element.bindingdefinitions.LabelBindingDefinition;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(LabelBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(LabelAspectDefinitionCreator.class)
 public @interface UILabel {
 

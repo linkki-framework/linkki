@@ -26,22 +26,22 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspects;
 import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessor;
 import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessorCache;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * This class stores all {@link ElementDescriptor ElementDescriptors} of a PMO specified at the same
- * property.
+ * property. That includes different {@link LinkkiAspects} that are defined for this property as well as
+ * multiple {@link LinkkiComponentDefinition component definitions} that may be present in case of
+ * dynamic fields.
  * <p>
- * In case only one {@link ElementDescriptor} exists for a position, no additional method is needed in
- * the PMO. <br>
- * Otherwise to resolve which ElementDescriptor shall be used, the PMO must provide a method with the
- * signature: {@code public Class get[pmoPropertyName]ComponentType()}.
- * <p>
- * NOTE: If more UI elements are specified for a property, the annotations must have the same position
- * otherwise an {@link IllegalStateException} will be thrown.
+ * If multiple {@link LinkkiComponentDefinition component definitions} are present, a method with the
+ * signature {@code public Class get[pmoPropertyName]ComponentType()} must exist. Also, the component
+ * definitions must define the same position.
  */
 public class PropertyElementDescriptors {
 
@@ -90,7 +90,19 @@ public class PropertyElementDescriptors {
         }
     }
 
-    void addDescriptor(Annotation annotation, ElementDescriptor descriptor, Class<?> pmoClass) {
+    /**
+     * Adds the given descriptor that is derived from the annotation of the given annotation type. The
+     * given annotation type is used as an identifier for the descriptor in case multiple descriptors
+     * are present for the property.
+     * 
+     * @param uiElementAnnotationType type of the annotation that identifies the descriptor
+     * @param descriptor information about the binding for this property
+     * @param pmoClass the PMO class that must contain the component type discriminator in case multiple
+     *            descriptors exist for the property
+     */
+    void addDescriptor(Class<? extends Annotation> uiElementAnnotationType,
+            ElementDescriptor descriptor,
+            Class<?> pmoClass) {
         Validate.isTrue(pmoPropertyName.equals(descriptor.getPmoPropertyName()), String
                 .format("Cannot add descriptor for property %s to PropertyElementDescriptors intended for property %s",
                         descriptor.getPmoPropertyName(), pmoPropertyName));
@@ -101,7 +113,7 @@ public class PropertyElementDescriptors {
             validateDynamicFieldDescriptor(descriptor, pmoClass);
         }
 
-        descriptors.put(annotation.annotationType(), descriptor);
+        descriptors.put(uiElementAnnotationType, descriptor);
     }
 
     /**

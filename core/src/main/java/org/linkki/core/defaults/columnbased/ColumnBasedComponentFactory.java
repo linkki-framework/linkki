@@ -18,7 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
-import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
@@ -57,7 +57,7 @@ public class ColumnBasedComponentFactory {
 
     private void createColumns(ContainerPmo<?> containerPmo, ComponentWrapper tableWrapper, ContainerBinding binding) {
         Class<?> rowPmoClass = containerPmo.getItemPmoClass();
-        UIAnnotationReader annotationReader = new UIAnnotationReader(rowPmoClass);
+        UIElementAnnotationReader annotationReader = new UIElementAnnotationReader(rowPmoClass);
         annotationReader.getUiElements()
                 .forEach(e -> containerComponentCreator.initColumn(containerPmo, tableWrapper, binding, e));
     }

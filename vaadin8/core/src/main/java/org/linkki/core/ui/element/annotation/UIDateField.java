@@ -28,7 +28,10 @@ import java.time.LocalDate;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
@@ -37,6 +40,7 @@ import org.linkki.core.ui.converters.TwoDigitYearLocalDateConverter;
 import org.linkki.core.ui.element.annotation.UIDateField.DateFieldValueAspectCreator;
 import org.linkki.core.ui.element.aspects.ValueAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.DateFieldBindingDefinition;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
 import com.vaadin.data.Converter;
 
@@ -46,6 +50,8 @@ import com.vaadin.data.Converter;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(DateFieldBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(DateFieldValueAspectCreator.class)
 public @interface UIDateField {

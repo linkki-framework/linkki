@@ -22,6 +22,10 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.util.Sequence;
 
+/**
+ * Holds information about a bound UI element (such as the PMO and model property name) and on how to
+ * create and display such an UI element.
+ */
 public abstract class BindingDescriptor {
 
     private Sequence<LinkkiAspectDefinition> aspectDefinitions;
@@ -49,23 +53,27 @@ public abstract class BindingDescriptor {
      * field of a model/PMO class, this is the name of that field. For an UI element that invokes a
      * method (i.e. a button) this is the name of the method.
      */
-    public abstract String getModelPropertyName();
+    public String getModelAttributeName() {
+        return getBoundProperty().getModelAttribute();
+    }
 
     /**
-     * The name of the model object containing the {@link #getModelPropertyName() property} if the bound
-     * PMO itself does not contain the property. The PMO has to have a {@link ModelObject @ModelObject}
-     * annotation with that name on the method that returns the model object.
+     * The name of the model object containing the {@link #getModelAttributeName() property} if the
+     * bound PMO itself does not contain the property. The PMO has to have a
+     * {@link ModelObject @ModelObject} annotation with that name on the method that returns the model
+     * object.
      */
-    public abstract String getModelObjectName();
+    public String getModelObjectName() {
+        return getBoundProperty().getModelObject();
+    }
 
     /**
      * The name of the property from the pmo
      */
-    public abstract String getPmoPropertyName();
-
-    public BoundProperty getBoundProperty() {
-        return BoundProperty.of(getPmoPropertyName()).withModelObject(getModelObjectName())
-                .withModelAttribute(getModelPropertyName());
+    public String getPmoPropertyName() {
+        return getBoundProperty().getPmoProperty();
     }
+
+    public abstract BoundProperty getBoundProperty();
 
 }

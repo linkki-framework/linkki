@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
-import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 
 import com.vaadin.ui.AbstractComponent;
@@ -69,7 +69,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     }
 
     protected void bind(Object pmo, String propertyName, Component component) {
-        UIAnnotationReader uiAnnotationReader = new UIAnnotationReader(pmo.getClass());
+        UIElementAnnotationReader uiAnnotationReader = new UIElementAnnotationReader(pmo.getClass());
         ElementDescriptor elementDescriptor = uiAnnotationReader.getUiElements()
                 .filter(d -> d.getPmoPropertyName().equals(propertyName))
                 .findFirst().get().getDescriptor(pmo);

@@ -14,24 +14,25 @@
 
 package org.linkki.core.binding.uicreation;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
+
 /**
- * {@link Annotation} to create a {@link LinkkiComponentDefinition} with the annotated element.
+ * {@link Annotation} to create a {@link LinkkiComponentDefinition}.
  * <p>
  * This is a meta-annotation that means it is applied to another annotation which should be used in
  * client code, for example a PMO class. This might be a UI field annotation but could also be a new
  * annotation that simply defines one component creation.
  */
 @Retention(RUNTIME)
-@Target({ TYPE, METHOD })
+@Target({ ElementType.ANNOTATION_TYPE })
 public @interface LinkkiComponent {
 
-    Class<? extends LinkkiComponentDefinition<?>> value();
+    Class<? extends ComponentDefinitionCreator<?>> value();
 }

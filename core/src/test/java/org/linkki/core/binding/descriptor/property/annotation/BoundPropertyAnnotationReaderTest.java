@@ -16,6 +16,7 @@ package org.linkki.core.binding.descriptor.property.annotation;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -59,10 +60,9 @@ public class BoundPropertyAnnotationReaderTest {
                 .getField("componentWithUninstatiableBoundPropertyCreator")), is(true));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testIsBoundPropertyPresent_FailsWithMultipleBoundPropertyCreators() throws Exception {
-        BoundPropertyAnnotationReader.isBoundPropertyPresent(ClassWithBoundPropertyAnnotations.class
-                .getField("componentWithMultipleBoundPropertyCreators"));
+    public void testIsBoundPropertyPresent_multipleBoundPropertyCreators() throws Exception {
+        assertTrue(BoundPropertyAnnotationReader.isBoundPropertyPresent(ClassWithBoundPropertyAnnotations.class
+                .getField("componentWithMultipleBoundProperties")));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -71,9 +71,14 @@ public class BoundPropertyAnnotationReaderTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetBoundProperty_FailsWithMultipleBoundPropertyCreators() throws Exception {
+    public void testGetBoundProperty_FailsWithMultipleBoundProperties() throws Exception {
         BoundPropertyAnnotationReader.getBoundProperty(ClassWithBoundPropertyAnnotations.class
-                .getField("componentWithMultipleBoundPropertyCreators"));
+                .getField("componentWithMultipleBoundProperties"));
+    }
+
+    public void testGetBoundProperty_multipleSameBoundProperties() throws Exception {
+        BoundPropertyAnnotationReader.getBoundProperty(ClassWithBoundPropertyAnnotations.class
+                .getField("componentWithMultipleSameBoundProperties"));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -109,8 +114,12 @@ public class BoundPropertyAnnotationReaderTest {
         public TestUiComponent componentWithUninstatiableBoundPropertyCreator = new TestUiComponent();
 
         @TestBind
-        @AnnotationWithUninstantiableBoundPropertyCreator
-        public TestUiComponent componentWithMultipleBoundPropertyCreators = new TestUiComponent();
+        @AnnotationWithDummyBoundPropertyCreator("notPmoPropertyName")
+        public TestUiComponent componentWithMultipleBoundProperties = new TestUiComponent();
+
+        @TestBind
+        @AnnotationWithDummyBoundPropertyCreator("componentWithMultipleSameBoundProperties")
+        public TestUiComponent componentWithMultipleSameBoundProperties = new TestUiComponent();
 
         @TestBind
         public TestUiComponent getComponent() {

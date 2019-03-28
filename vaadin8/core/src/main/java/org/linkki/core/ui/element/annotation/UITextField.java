@@ -23,12 +23,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.bindingdefinitions.TextFieldBindingDefinition;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
 import com.vaadin.server.Sizeable;
 
@@ -39,6 +43,8 @@ import com.vaadin.server.Sizeable;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(TextFieldBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(ValueAspectDefinitionCreator.class)
 public @interface UITextField {

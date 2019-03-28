@@ -16,11 +16,15 @@ package org.linkki.core.binding.descriptor.bindingdefinition;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
@@ -32,13 +36,13 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * A common interface for annotations that are used to create and bind UI components in a view generated
  * from an annotated PMO.
  * <p>
- * As annotations can't implement an interface, the {@link UIAnnotationReader} is used to get definition
- * instances for the annotated methods of a (PMO) class.
+ * As annotations can't implement an interface, the {@link UIElementAnnotationReader} is used to get
+ * definition instances for the annotated methods of a (PMO) class.
  * <p>
  * The static methods {@link #isLinkkiBindingDefinition(Annotation)} and {@link #from(Annotation)} can
  * be used to check annotations and create {@link BindingDefinition} instances from them.
  * 
- * @see UIAnnotationReader
+ * @see UIElementAnnotationReader
  * @see LinkkiBindingDefinition
  */
 public interface BindingDefinition {
@@ -109,6 +113,21 @@ public interface BindingDefinition {
         } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException e) {
             throw new LinkkiBindingException("Cannot instantiate " + bindingDefinitionClass.getName(), e);
+        }
+    }
+
+    /**
+     * {@link BoundPropertyCreator} that reads {@link BoundProperty bound properties} from a
+     * {@link BindingDefinition}.
+     */
+    public static class BindingDefinitionBoundPropertyCreator implements BoundPropertyCreator<Annotation> {
+
+        @Override
+        public BoundProperty createBoundProperty(Annotation annotation, AnnotatedElement annotatedElement) {
+            BindingDefinition bindingDefinition = BindingDefinition.from(annotation);
+            return BoundProperty.of((Method)annotatedElement)
+                    .withModelAttribute(bindingDefinition.modelAttribute())
+                    .withModelObject(bindingDefinition.modelObject());
         }
     }
 }

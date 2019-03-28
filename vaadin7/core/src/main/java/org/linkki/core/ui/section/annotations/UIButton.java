@@ -25,7 +25,10 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.element.aspects.types.CaptionType;
@@ -36,6 +39,7 @@ import org.linkki.core.ui.section.annotations.adapters.ButtonBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelAspectDefinition;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
@@ -47,6 +51,8 @@ import com.vaadin.server.FontAwesome;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(ButtonBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(UIButtonAspectDefinitionCreator.class)
 public @interface UIButton {
 

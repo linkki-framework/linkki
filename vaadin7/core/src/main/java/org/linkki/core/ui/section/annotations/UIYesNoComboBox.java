@@ -23,7 +23,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.defaults.nls.NlsText;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
@@ -33,6 +36,7 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.adapters.YesNoComboBoxBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -42,6 +46,8 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(YesNoComboBoxBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(AvailableValuesAspectDefinition.EnumValuesInclNullCreator.class)
 public @interface UIYesNoComboBox {

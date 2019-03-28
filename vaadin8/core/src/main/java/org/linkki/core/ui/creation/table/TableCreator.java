@@ -97,7 +97,7 @@ class TableCreator implements ColumnBasedComponentCreator {
                 Object columnId) {
             requireNonNull(itemId, "itemId must not be null");
             ElementDescriptor elementDescriptor = elementDescriptors.getDescriptor(itemId);
-            Component component = (Component)elementDescriptor.newComponent();
+            Component component = (Component)elementDescriptor.newComponent(itemId);
             component.addStyleName(LinkkiTheme.BORDERLESS);
             component.addStyleName(LinkkiTheme.TABLE_CELL);
 

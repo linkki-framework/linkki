@@ -14,18 +14,15 @@
 
 package org.linkki.core.binding.uicreation;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-
 /**
  * Defines the creation of a component based on an annotation.
  */
-public interface LinkkiComponentDefinition<A extends Annotation> {
+public interface LinkkiComponentDefinition {
 
     /**
-     * Creates a new component based on the given annotation.
+     * Creates a new component based on the given PMO.
      */
-    Object createComponent(A annotation, AnnotatedElement annotatedElement);
+    Object createComponent(Object pmo);
 
     /**
      * Defines the position of the created component in the parent layout.
@@ -36,6 +33,6 @@ public interface LinkkiComponentDefinition<A extends Annotation> {
      * 
      * @return a number indicating the position of the component in relation to others
      */
-    int getPosition(A annotation);
+    int getPosition();
 
 }

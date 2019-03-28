@@ -26,7 +26,10 @@ import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCrea
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.defaults.section.annotations.TestUIField.TestFieldAspectDefinitionCreator;
 import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
@@ -34,9 +37,12 @@ import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.adapters.TestFieldBindingDefinition;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiBindingDefinition(TestFieldBindingDefinition.class)
 @LinkkiAspect(TestFieldAspectDefinitionCreator.class)
 public @interface TestUIField {

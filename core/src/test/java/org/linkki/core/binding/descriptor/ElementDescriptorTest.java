@@ -15,35 +15,32 @@ package org.linkki.core.binding.descriptor;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.mockito.Mock;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ElementDescriptorTest {
 
-    @Mock
-    private BindingDefinition adapter = mock(BindingDefinition.class);
-
     @Test
     public void testGetPropertyName_favorModelAttribute() {
-        when(adapter.modelAttribute()).thenReturn("xyz");
-        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test", new ArrayList<>());
+        ElementDescriptor elementDescriptor = new ElementDescriptor(mock(LinkkiComponentDefinition.class),
+                BoundProperty.of("test").withModelAttribute("xyz"), new ArrayList<>());
 
-        assertEquals("xyz", elementDescriptor.getModelPropertyName());
+        assertEquals("xyz", elementDescriptor.getModelAttributeName());
     }
 
     @Test
-    public void testGetPropertyName_byMethodName() {
-        ElementDescriptor elementDescriptor = new ElementDescriptor(adapter, "Test", new ArrayList<>());
+    public void testGetPropertyName() {
+        ElementDescriptor elementDescriptor = new ElementDescriptor(mock(LinkkiComponentDefinition.class),
+                BoundProperty.of("test"), new ArrayList<>());
 
-        assertEquals("Test", elementDescriptor.getModelPropertyName());
+        assertEquals("test", elementDescriptor.getModelAttributeName());
     }
 
 }

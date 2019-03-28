@@ -24,7 +24,7 @@ import static org.junit.Assert.assertThat;
 import java.util.function.Supplier;
 
 import org.junit.Test;
-import org.linkki.core.binding.descriptor.UIAnnotationReader.ModelObjectAnnotationException;
+import org.linkki.core.binding.descriptor.UIElementAnnotationReader.ModelObjectAnnotationException;
 import org.linkki.core.defaults.section.annotations.TestUIField;
 import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
@@ -32,7 +32,7 @@ import org.linkki.core.pmo.ModelObject;
 
 public class UIAnnotationReaderTest {
 
-    private UIAnnotationReader reader = new UIAnnotationReader(TestPmo.class);
+    private UIElementAnnotationReader reader = new UIElementAnnotationReader(TestPmo.class);
 
     @Test
     public void testReadAnnotations() {
@@ -45,8 +45,8 @@ public class UIAnnotationReaderTest {
 
     @Test(expected = ModelObjectAnnotationException.class)
     public void testGetModelObjectSupplier_noAnnotation() {
-        Supplier<?> modelObjectSupplier = UIAnnotationReader.getModelObjectSupplier(new TestObject(),
-                                                                                    ModelObject.DEFAULT_NAME);
+        Supplier<?> modelObjectSupplier = UIElementAnnotationReader.getModelObjectSupplier(new TestObject(),
+                                                                                           ModelObject.DEFAULT_NAME);
 
         assertThat(modelObjectSupplier, is(notNullValue()));
         modelObjectSupplier.get();
@@ -54,17 +54,17 @@ public class UIAnnotationReaderTest {
 
     @Test(expected = ModelObjectAnnotationException.class)
     public void testGetModelObjectSupplier_ThrowsExceptionIfNoMatchingAnnotationExists() {
-        UIAnnotationReader.getModelObjectSupplier(new PmoWithNamedModelObject(), "someOtherName");
+        UIElementAnnotationReader.getModelObjectSupplier(new PmoWithNamedModelObject(), "someOtherName");
     }
 
     @Test(expected = ModelObjectAnnotationException.class)
     public void testGetModelObjectSupplier_ThrowsExceptionIfAnnotatedMethodReturnsVoid() {
-        UIAnnotationReader.getModelObjectSupplier(new PmoWithVoidModelObjectMethod(), ModelObject.DEFAULT_NAME);
+        UIElementAnnotationReader.getModelObjectSupplier(new PmoWithVoidModelObjectMethod(), ModelObject.DEFAULT_NAME);
     }
 
     @Test
     public void testGetModelObjectSupplier() {
-        Supplier<?> modelObjectSupplier = UIAnnotationReader
+        Supplier<?> modelObjectSupplier = UIElementAnnotationReader
                 .getModelObjectSupplier(new PmoWithNamedModelObject(), PmoWithNamedModelObject.MODEL_OBJECT);
 
         assertThat(modelObjectSupplier, is(notNullValue()));
@@ -73,49 +73,52 @@ public class UIAnnotationReaderTest {
 
     @Test
     public void testHasModelObjectAnnotatedMethod() {
-        assertThat(UIAnnotationReader.hasModelObjectAnnotation(new TestPmo(), ModelObject.DEFAULT_NAME), is(true));
-        assertThat(UIAnnotationReader.hasModelObjectAnnotation(new PmoWithNamedModelObject(),
-                                                               PmoWithNamedModelObject.MODEL_OBJECT),
+        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new TestPmo(), ModelObject.DEFAULT_NAME),
                    is(true));
-        assertThat(UIAnnotationReader.hasModelObjectAnnotation(new PmoWithNamedModelObject(), ModelObject.DEFAULT_NAME),
+        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new PmoWithNamedModelObject(),
+                                                                      PmoWithNamedModelObject.MODEL_OBJECT),
+                   is(true));
+        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new PmoWithNamedModelObject(),
+                                                                      ModelObject.DEFAULT_NAME),
                    is(true));
     }
 
     @Test
     public void testHasModelObjectAnnotatedMethod_noAnnotation() {
-        assertThat(UIAnnotationReader.hasModelObjectAnnotation(new Object(), ModelObject.DEFAULT_NAME),
+        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new Object(), ModelObject.DEFAULT_NAME),
                    is(false));
     }
 
     @Test
     public void testHasModelObjectAnnotatedMethod_noMatchingAnnotation() {
-        assertThat(UIAnnotationReader.hasModelObjectAnnotation(new PmoWithNamedModelObject(), "someOtherName"),
+        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new PmoWithNamedModelObject(), "someOtherName"),
                    is(false));
-        assertThat(UIAnnotationReader.hasModelObjectAnnotation(new Object(), "FooBar"), is(false));
+        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new Object(), "FooBar"), is(false));
     }
 
     @Test
     public void testModelObjectAnnotatedMethod_OverrideMethodInSubclass() {
         PmoWithOverridenModelObjectMethod testSubclassPmo = new PmoWithOverridenModelObjectMethod();
 
-        assertThat(UIAnnotationReader.hasModelObjectAnnotation(testSubclassPmo,
-                                                               ModelObject.DEFAULT_NAME),
+        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(testSubclassPmo,
+                                                                      ModelObject.DEFAULT_NAME),
                    is(true));
-        assertThat(UIAnnotationReader.getModelObjectSupplier(testSubclassPmo, ModelObject.DEFAULT_NAME).get(),
+        assertThat(UIElementAnnotationReader.getModelObjectSupplier(testSubclassPmo, ModelObject.DEFAULT_NAME).get(),
                    is(testSubclassPmo.testSub));
     }
 
     @Test
     public void testModelObjectAnnotatedField() {
         PmoWithModelObjectField pmoWithModelObjectField = new PmoWithModelObjectField();
-        assertThat(UIAnnotationReader.getModelObjectSupplier(pmoWithModelObjectField, ModelObject.DEFAULT_NAME).get(),
+        assertThat(UIElementAnnotationReader.getModelObjectSupplier(pmoWithModelObjectField, ModelObject.DEFAULT_NAME)
+                .get(),
                    is(pmoWithModelObjectField.testSub));
     }
 
     @Test
     public void testPrivateModelObjectAnnotatedFieldInSuperclass() {
         PmoWithModelObjectFieldInSuperclass pmoWithModelObjectFieldInSuperclass = new PmoWithModelObjectFieldInSuperclass();
-        Object modelObject = UIAnnotationReader
+        Object modelObject = UIElementAnnotationReader
                 .getModelObjectSupplier(pmoWithModelObjectFieldInSuperclass, ModelObject.DEFAULT_NAME).get();
         assertThat(modelObject, is(not(nullValue())));
         assertThat(modelObject, instanceOf(TestSub.class));
@@ -124,9 +127,9 @@ public class UIAnnotationReaderTest {
     @Test
     public void testMixedModelObjectFieldAndMethod() {
         PmoWithNamedModelObject pmoWithNamedModelObject = new PmoWithNamedModelObject();
-        Object defaultModelObject = UIAnnotationReader
+        Object defaultModelObject = UIElementAnnotationReader
                 .getModelObjectSupplier(pmoWithNamedModelObject, ModelObject.DEFAULT_NAME).get();
-        Object namedModelObject = UIAnnotationReader
+        Object namedModelObject = UIElementAnnotationReader
                 .getModelObjectSupplier(pmoWithNamedModelObject, PmoWithNamedModelObject.MODEL_OBJECT).get();
 
         assertThat(defaultModelObject, instanceOf(TestSub.class));
@@ -136,7 +139,7 @@ public class UIAnnotationReaderTest {
     @Test(expected = ModelObjectAnnotationException.class)
     public void testTwoDefaultModelObjectAnnotations() {
         PmoWithTwoDefaultModelObjects pmoWithTwoDefaultModelObjects = new PmoWithTwoDefaultModelObjects();
-        UIAnnotationReader.getModelObjectSupplier(pmoWithTwoDefaultModelObjects, ModelObject.DEFAULT_NAME).get();
+        UIElementAnnotationReader.getModelObjectSupplier(pmoWithTwoDefaultModelObjects, ModelObject.DEFAULT_NAME).get();
     }
 
     public static class TestPmo {

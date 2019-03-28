@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.defaults.section.annotations.TestUIField;
@@ -52,7 +52,8 @@ public class StaticValueDispatcherTest {
     @Before
     public void setUp() {
         objectWithUIAnnotations = new TestObjectWithUIAnnotations();
-        UIAnnotationReader uiAnnotationReader = new UIAnnotationReader(objectWithUIAnnotations.getClass());
+        UIElementAnnotationReader uiAnnotationReader = new UIElementAnnotationReader(
+                objectWithUIAnnotations.getClass());
         uiAnnotationDispatchers = uiAnnotationReader.getUiElements()
                 .collect(Collectors.toMap(e -> e.getPmoPropertyName(),
                                           e -> new StaticValueDispatcher(uiAnnotationFallbackDispatcher)));

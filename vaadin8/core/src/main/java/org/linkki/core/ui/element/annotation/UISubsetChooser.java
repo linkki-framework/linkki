@@ -27,7 +27,10 @@ import java.util.Set;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
@@ -38,6 +41,7 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UISubsetChooser.SubsetChooserAvailableValuesAspectCreator;
 import org.linkki.core.ui.element.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.SubsetChooserBindingDefinition;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
 import com.vaadin.ui.TwinColSelect;
 
@@ -62,6 +66,8 @@ public Set&lt;T&gt; getFooAvailableValues() { ... }
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(SubsetChooserBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(SubsetChooserAvailableValuesAspectCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(ValueAspectDefinitionCreator.class)

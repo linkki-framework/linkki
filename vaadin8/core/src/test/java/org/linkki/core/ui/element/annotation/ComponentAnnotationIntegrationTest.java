@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
-import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 
 import com.vaadin.ui.AbstractComponent;
@@ -48,7 +48,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     private Supplier<Object> modelObjectSupplier;
     private GridLayout defaultSection;
 
-    
+
     public ComponentAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,
             Function<Object, ? extends P> pmoCreator) {
         this.modelObjectSupplier = modelObjectSupplier;
@@ -69,7 +69,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     }
 
     protected void bind(Object pmo, String propertyName, Component component) {
-        UIAnnotationReader uiAnnotationReader = new UIAnnotationReader(pmo.getClass());
+        UIElementAnnotationReader uiAnnotationReader = new UIElementAnnotationReader(pmo.getClass());
         ElementDescriptor elementDescriptor = uiAnnotationReader.getUiElements()
                 .filter(d -> d.getPmoPropertyName().equals(propertyName))
                 .findFirst().get().getDescriptor(pmo);
@@ -82,11 +82,11 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
 
     @Test
     public void testPosition() {
-        
+
         @NonNull
         Component component1 = getDefaultSection().getComponent(1, 0);
         assertThat(component1.getId(), is(getDynamicComponent().getId()));
-        
+
         @NonNull
         Component component2 = getDefaultSection().getComponent(1, 1);
         assertThat(component2.getId(), is(getStaticComponent().getId()));
@@ -184,7 +184,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
         return getComponentById(PROPERTY_STATIC_VALUE);
     }
 
-    
+
     protected P newPmo(Object modelObject) {
         return pmoCreator.apply(modelObject);
     }

@@ -35,11 +35,11 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.util.BeanUtils;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Reads UI field annotations, e.g. {@code @UITextField}, {@code @UIComboBox}, etc. from a given
@@ -48,12 +48,12 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * Provides a set of {@link ElementDescriptor ElementDescriptors} for all found properties via
  * {@link #getUiElements()}
  */
-public class UIAnnotationReader {
+public class UIElementAnnotationReader {
 
     private final Class<?> annotatedClass;
     private final Map<String, PropertyElementDescriptors> descriptorsByProperty = new HashMap<>();
 
-    public UIAnnotationReader(Class<?> annotatedClass) {
+    public UIElementAnnotationReader(Class<?> annotatedClass) {
         this.annotatedClass = requireNonNull(annotatedClass, "annotatedClass must not be null");
         initDescriptorMaps();
     }
@@ -61,44 +61,30 @@ public class UIAnnotationReader {
     private void initDescriptorMaps() {
         Method[] methods = annotatedClass.getMethods();
         for (Method method : methods) {
-            Arrays.stream(method.getAnnotations()).forEach(a -> createAndAddDescriptor(a, method));
+            BoundPropertyAnnotationReader.findBoundProperty(method)
+                    .ifPresent(bp -> Arrays.stream(method.getAnnotations())
+                            .forEach(a -> createAndAddDescriptor(a, method, bp)));
         }
     }
 
-    private void createAndAddDescriptor(Annotation annotation, Method method) {
-
+    private void createAndAddDescriptor(Annotation annotation, Method method, BoundProperty boundProperty) {
         List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader.createAspectDefinitionsFrom(annotation);
-        String pmoPropertyName = getPmoPropertyName(method);
-        @NonNull
-        PropertyElementDescriptors elementDescriptors = descriptorsByProperty.computeIfAbsent(pmoPropertyName,
-                                                                                              PropertyElementDescriptors::new);
 
-        if (BindingDefinition.isLinkkiBindingDefinition(annotation)) {
-            BindingDefinition uiElement = BindingDefinition.from(annotation);
-            addDescriptor(elementDescriptors, uiElement, pmoPropertyName, annotation, aspectDefs);
+        PropertyElementDescriptors elementDescriptors = descriptorsByProperty
+                .computeIfAbsent(boundProperty.getPmoProperty(),
+                                 PropertyElementDescriptors::new);
+
+        if (ComponentAnnotationReader.isLinkkiComponentDefinition(annotation)) {
+            elementDescriptors.addDescriptor(annotation.annotationType(),
+                                             new ElementDescriptor(
+                                                     ComponentAnnotationReader.getComponentDefinition(annotation,
+                                                                                                      method),
+                                                     boundProperty, aspectDefs),
+                                             annotatedClass);
         } else {
             elementDescriptors.addAspect(aspectDefs);
         }
     }
-
-    private PropertyElementDescriptors addDescriptor(PropertyElementDescriptors elementDescriptors,
-            BindingDefinition uiElement,
-            String pmoPropertyName,
-            Annotation annotation,
-            List<LinkkiAspectDefinition> aspectDefs) {
-
-        elementDescriptors.addDescriptor(annotation,
-                                         new ElementDescriptor(uiElement, pmoPropertyName,
-                                                 aspectDefs),
-                                         annotatedClass);
-
-        return elementDescriptors;
-    }
-
-    private String getPmoPropertyName(Method method) {
-        return BeanUtils.getPropertyName(method);
-    }
-
 
     /**
      * Currently for testing purposes only!
@@ -246,7 +232,7 @@ public class UIAnnotationReader {
 
     /**
      * Thrown when trying to get a method annotated with {@link ModelObject @ModelObject} via
-     * {@link UIAnnotationReader#getModelObjectSupplier(Object, String)} fails.
+     * {@link UIElementAnnotationReader#getModelObjectSupplier(Object, String)} fails.
      */
     public static final class ModelObjectAnnotationException extends IllegalArgumentException {
         private static final long serialVersionUID = 1L;

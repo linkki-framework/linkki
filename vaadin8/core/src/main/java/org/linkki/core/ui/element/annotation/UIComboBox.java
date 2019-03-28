@@ -26,7 +26,10 @@ import java.util.List;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
@@ -38,6 +41,7 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UIComboBox.ComboBoxAvailableValuesAspectDefinitionCreator;
 import org.linkki.core.ui.element.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.ComboboxBindingDefinition;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
 import com.vaadin.ui.ComboBox;
 
@@ -47,6 +51,8 @@ import com.vaadin.ui.ComboBox;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(ComboboxBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(ComboBoxAvailableValuesAspectDefinitionCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(ValueAspectDefinitionCreator.class)

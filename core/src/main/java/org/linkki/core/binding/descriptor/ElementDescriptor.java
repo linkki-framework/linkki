@@ -13,69 +13,45 @@
  */
 package org.linkki.core.binding.descriptor;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 
 /**
- * Holds information about a bound UI element (such as the PMO and model property name) and on how to
- * create and display such an UI element.
+ * A {@link BindingDescriptor} using {@link BindingDefinition}.
  */
 public class ElementDescriptor extends BindingDescriptor {
 
-    private final String pmoPropertyName;
-    private final BindingDefinition bindingDefinition;
+    private final LinkkiComponentDefinition componentDefinition;
+    private final BoundProperty boundProperty;
 
-    public ElementDescriptor(BindingDefinition bindingDefinition, String pmoPropertyName,
+    public ElementDescriptor(LinkkiComponentDefinition componentDefinition, BoundProperty boundPropery,
             List<LinkkiAspectDefinition> aspectDefinitions) {
         super(aspectDefinitions);
-        this.bindingDefinition = requireNonNull(bindingDefinition, "bindingDefinition must not be null");
-        this.pmoPropertyName = requireNonNull(pmoPropertyName, "pmoPropertyName must not be null");
-    }
-
-    protected BindingDefinition getBindingDefinition() {
-        return bindingDefinition;
+        this.componentDefinition = componentDefinition;
+        this.boundProperty = boundPropery;
     }
 
     /** The position of the UI element in its parent/container. */
     public int getPosition() {
-        return getBindingDefinition().position();
+        return componentDefinition.getPosition();
     }
 
     /** Creates a new UI component for this UI element. */
-    public Object newComponent() {
-        return getBindingDefinition().newComponent();
-    }
-
-    /**
-     * Property derived from the "modelAttribute" property defined by the annotation. If no
-     * "modelAttribute" exists, derives the property name from the name of the annotated method.
-     */
-    @Override
-    public String getModelPropertyName() {
-        if (StringUtils.isEmpty(getBindingDefinition().modelAttribute())) {
-            return getPmoPropertyName();
-        }
-        return getBindingDefinition().modelAttribute();
+    public Object newComponent(Object pmo) {
+        return componentDefinition.createComponent(pmo);
     }
 
     @Override
-    public String getModelObjectName() {
-        return getBindingDefinition().modelObject();
-    }
-
-    @Override
-    public String getPmoPropertyName() {
-        return pmoPropertyName;
+    public BoundProperty getBoundProperty() {
+        return boundProperty;
     }
 
     @Override
     public String toString() {
-        return "ElementDescriptor [getBindingDefinition()=" + getBindingDefinition()
-                + ", fallbackPropertyName=" + getPmoPropertyName() + "]";
+        return "ElementDescriptor [propertyName =" + getPmoPropertyName() + "]";
     }
 }

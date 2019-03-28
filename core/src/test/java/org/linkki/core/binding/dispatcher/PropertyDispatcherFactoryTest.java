@@ -144,7 +144,7 @@ public class PropertyDispatcherFactoryTest {
             }
         };
 
-        propertyDispatcherFactory.createDispatcherChain(pmo, BoundProperty.of(null),
+        propertyDispatcherFactory.createDispatcherChain(pmo, BoundProperty.of((String)null),
                                                         PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
     }
 
