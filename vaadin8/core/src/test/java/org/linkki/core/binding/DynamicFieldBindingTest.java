@@ -23,7 +23,6 @@ import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
@@ -40,6 +39,8 @@ import org.linkki.core.ui.section.annotations.UITextField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class DynamicFieldBindingTest {
 
@@ -119,7 +120,7 @@ public class DynamicFieldBindingTest {
 
     public static class Model {
 
-        @Nullable
+        @CheckForNull
         private String paymentMethod;
         private boolean showComboBox;
 
@@ -128,7 +129,7 @@ public class DynamicFieldBindingTest {
             this.showComboBox = showComboBox;
         }
 
-        @Nullable
+        @CheckForNull
         public String getPaymentMethod() {
             return paymentMethod;
         }

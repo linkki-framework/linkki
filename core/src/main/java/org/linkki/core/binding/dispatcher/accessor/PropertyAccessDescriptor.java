@@ -23,7 +23,6 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
-import org.eclipse.jdt.annotation.NonNull;
 
 /**
  * This class wraps a {@link PropertyDescriptor} for a bound class and a specified property identified
@@ -33,7 +32,7 @@ import org.eclipse.jdt.annotation.NonNull;
  * @param <T> the type containing the property
  * @param <V> the property's type
  */
-public class PropertyAccessDescriptor<@NonNull T, V> {
+public class PropertyAccessDescriptor<T, V> {
 
     private static final String GET_PREFIX = "get";
     private static final String SET_PREFIX = "set";
@@ -71,7 +70,6 @@ public class PropertyAccessDescriptor<@NonNull T, V> {
                 .flatMap(Optional::ofNullable);
     }
 
-    @SuppressWarnings("null")
     private final Optional<Method> findInvoker() {
         return Optional.ofNullable(MethodUtils.getAccessibleMethod(boundClass, propertyName));
     }

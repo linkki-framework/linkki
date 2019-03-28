@@ -32,6 +32,8 @@ import org.linkki.core.ui.section.annotations.UISubsetChooserIntegrationTest.Sub
 
 import com.vaadin.ui.TwinColSelect;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class UISubsetChooserIntegrationTest
         extends ComponentAnnotationIntegrationTest<TwinColSelect<TestEnum>, SubsetChooserBoxTestPmo> {
 
@@ -123,11 +125,12 @@ public class UISubsetChooserIntegrationTest
 
     }
 
-    @SuppressWarnings("null")
-    protected static class SubsetChooserModelObject {
 
+    protected static class SubsetChooserModelObject {
+        @CheckForNull
         private Set<TestEnum> value;
 
+        @CheckForNull
         public Set<TestEnum> getValue() {
             return value;
         }
@@ -137,6 +140,7 @@ public class UISubsetChooserIntegrationTest
 
         }
 
+        @CheckForNull
         public Set<TestEnum> getStaticValue() {
             return getValue();
         }

@@ -17,8 +17,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.DateFormats;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Converter for converting {@link LocalDate} to {@link String}. <br>
@@ -38,7 +39,7 @@ public class LocalDateToStringConverter extends TemporalAccessorToStringConverte
     }
 
     @Override
-    protected DateTimeFormatter getFormatter(@Nullable Locale locale) {
+    protected DateTimeFormatter getFormatter(@CheckForNull Locale locale) {
         Locale localeForConversion = getLocale(locale);
         return DateTimeFormatter.ofPattern(DateFormats.getPattern(localeForConversion),
                                            localeForConversion);

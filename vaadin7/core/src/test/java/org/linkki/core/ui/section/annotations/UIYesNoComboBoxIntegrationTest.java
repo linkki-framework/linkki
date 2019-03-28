@@ -27,6 +27,8 @@ import org.linkki.core.ui.section.annotations.UIYesNoComboBoxIntegrationTest.Com
 
 import com.vaadin.ui.ComboBox;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class UIYesNoComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<LinkkiComboBox, ComboBoxTestPmo> {
 
     public UIYesNoComboBoxIntegrationTest() {
@@ -119,11 +121,12 @@ public class UIYesNoComboBoxIntegrationTest extends FieldAnnotationIntegrationTe
         }
     }
 
-    @SuppressWarnings("null")
-    protected static class ComboBoxTestModelObject {
 
+    protected static class ComboBoxTestModelObject {
+        @CheckForNull
         private Boolean value;
 
+        @CheckForNull
         public Boolean getValue() {
             return value;
         }
@@ -134,7 +137,8 @@ public class UIYesNoComboBoxIntegrationTest extends FieldAnnotationIntegrationTe
         }
 
         public boolean getStaticValue() {
-            return getValue() == null ? false : getValue();
+            Boolean b = getValue();
+            return b == null ? false : b;
         }
 
     }

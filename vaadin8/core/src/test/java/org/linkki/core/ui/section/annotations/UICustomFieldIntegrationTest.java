@@ -29,6 +29,8 @@ import org.linkki.core.ui.section.annotations.UICustomFieldIntegrationTest.Combo
 
 import com.vaadin.ui.ComboBox;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class UICustomFieldIntegrationTest
         extends ComponentAnnotationIntegrationTest<ComboBox<TestEnum>, ComboBoxTestPmo> {
 
@@ -47,7 +49,7 @@ public class UICustomFieldIntegrationTest
         assertThat(TestUiUtil.getData(getDynamicComponent()), contains(TestEnum.TWO, TestEnum.THREE));
     }
 
-    @SuppressWarnings("null")
+
     @Test
     public void testNullInputIfRequired() {
         ComboBox<TestEnum> component = getDynamicComponent();
@@ -103,11 +105,12 @@ public class UICustomFieldIntegrationTest
         }
     }
 
-    @SuppressWarnings("null")
-    protected static class ComboBoxTestModelObject {
 
+    protected static class ComboBoxTestModelObject {
+        @CheckForNull
         private TestEnum value;
 
+        @CheckForNull
         public TestEnum getValue() {
             return value;
         }
@@ -117,6 +120,7 @@ public class UICustomFieldIntegrationTest
 
         }
 
+        @CheckForNull
         public TestEnum getStaticValue() {
             return getValue();
         }

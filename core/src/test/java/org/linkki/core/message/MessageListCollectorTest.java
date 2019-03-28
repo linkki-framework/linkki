@@ -46,7 +46,6 @@ public class MessageListCollectorTest {
         assertThat(sortedMessageList, hasSize(2));
         assertThat(sortedMessageList, hasInfoMessage("A"));
         assertThat(sortedMessageList, hasErrorMessage("B"));
-        @SuppressWarnings("null")
         List<String> codes = sortedMessageList.stream().map(Message::getCode).collect(toList());
         assertThat(codes, contains("A", "B"));
     }
@@ -60,7 +59,6 @@ public class MessageListCollectorTest {
         assertThat(sortedMessageList, hasSize(2));
         assertThat(sortedMessageList, hasInfoMessage("A"));
         assertThat(sortedMessageList, hasErrorMessage("B"));
-        @SuppressWarnings("null")
         List<String> codes = sortedMessageList.stream().map(Message::getCode).collect(toList());
         assertThat(codes, contains("A", "B"));
     }

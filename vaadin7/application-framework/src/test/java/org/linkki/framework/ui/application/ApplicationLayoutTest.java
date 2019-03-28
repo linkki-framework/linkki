@@ -35,31 +35,31 @@ import com.vaadin.ui.UI;
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicationLayoutTest {
 
-    @SuppressWarnings("null")
+    
     @Mock
     private UI ui;
 
-    @SuppressWarnings("null")
+    
     @Mock
     private Page page;
 
-    @SuppressWarnings("null")
+    
     @Mock
     private ApplicationHeader header;
 
-    @SuppressWarnings("null")
+    
     @Mock
     private ApplicationFooter footer;
 
-    @SuppressWarnings("null")
+    
     @Mock
     private ApplicationConfig config;
 
-    @SuppressWarnings("null")
+    
     @Mock
     private ViewProvider viewProvider;
 
-    @SuppressWarnings("null")
+    
     private ApplicationLayout applicationLayout;
 
     private void setUpApplicationLayout() {

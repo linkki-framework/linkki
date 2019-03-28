@@ -19,7 +19,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.UiUpdateObserver;
 import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.util.LazyReference;
@@ -28,6 +27,8 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Wrapper class for a component that is displayed in a {@link SidebarLayout}.
@@ -115,7 +116,7 @@ public class SidebarSheet {
      *            selected. May be {@code null}.
      */
     public SidebarSheet(Resource icon, String name, Supplier<Component> contentSupplier,
-            @Nullable UiUpdateObserver uiUpdateObserver) {
+            @CheckForNull UiUpdateObserver uiUpdateObserver) {
         this.button = new Button("", requireNonNull(icon, "icon must not be null")); // $NON-NLS-1
         this.contentSupplier = new LazyReference<>(requireNonNull(contentSupplier, "content must not be null"));
         this.name = requireNonNull(name, "tooltip must not be null");

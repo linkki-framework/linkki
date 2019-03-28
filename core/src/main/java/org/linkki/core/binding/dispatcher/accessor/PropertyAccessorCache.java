@@ -15,9 +15,9 @@ package org.linkki.core.binding.dispatcher.accessor;
 
 import static java.util.Objects.requireNonNull;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.LazyInitializingMap;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Global static cache for {@link PropertyAccessor PropertyAccessors}.
@@ -37,15 +37,15 @@ public final class PropertyAccessorCache {
      * @return a {@link PropertyAccessor} to access the property of instances of the class
      */
     @SuppressWarnings("unchecked")
-    public static <@NonNull T> PropertyAccessor<T, ?> get(Class<T> clazz, String property) {
+    public static <T> PropertyAccessor<T, ?> get(Class<T> clazz, String property) {
         return (PropertyAccessor<T, ?>)ACCESSOR_CACHE.get(new CacheKey(clazz, property));
     }
 
     private static final class CacheKey {
-        private final Class<@NonNull ?> clazz;
+        private final Class<?> clazz;
         private final String property;
 
-        public CacheKey(@NonNull Class<@NonNull ?> clazz, @NonNull String property) {
+        public CacheKey(@NonNull Class<?> clazz, String property) {
             super();
             this.clazz = requireNonNull(clazz, "clazz must not be null");
             this.property = requireNonNull(property, "property must not be null");
@@ -61,7 +61,7 @@ public final class PropertyAccessorCache {
         }
 
         @Override
-        public boolean equals(@Nullable Object obj) {
+        public boolean equals(Object obj) {
             if (this == obj) {
                 return true;
             }

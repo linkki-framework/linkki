@@ -40,7 +40,7 @@ public class AbstractSectionTest {
 
         private static final long serialVersionUID = 1L;
 
-        @SuppressWarnings("null")
+        
         @SuppressFBWarnings("NP_NONNULL_RETURN_VIOLATION")
         @Override
         public Component getSectionContent() {

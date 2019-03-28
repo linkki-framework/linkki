@@ -14,5 +14,7 @@
 /**
  * Aspects bound to table columns.
  */
-@org.eclipse.jdt.annotation.NonNullByDefault
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForMethods(edu.umd.cs.findbugs.annotations.NonNull.class)
 package org.linkki.core.ui.table.column.aspect;

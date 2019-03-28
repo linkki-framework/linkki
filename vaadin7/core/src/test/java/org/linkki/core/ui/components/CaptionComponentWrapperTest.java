@@ -22,7 +22,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
@@ -32,6 +31,8 @@ import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class CaptionComponentWrapperTest {
 
@@ -144,7 +145,7 @@ public class CaptionComponentWrapperTest {
         wrapper.setValidationMessages(messages);
 
         verify(component).setComponentError(errorMessageCaptor.capture());
-        @SuppressWarnings("null")
+        
         @NonNull
         ErrorMessage errorMessage = errorMessageCaptor.getValue();
         assertThat(errorMessage.getErrorLevel(), is(ErrorLevel.ERROR));

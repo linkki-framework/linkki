@@ -29,7 +29,7 @@ import org.linkki.core.ui.components.WrapperType;
 
 public class ColumnBasedComponentPageLengthAspectDefinitionTest {
 
-    @SuppressWarnings("null")
+    
     @Test
     public void testCreateAspect() {
         Aspect<Integer> aspect = new ColumnBasedComponentPageLengthAspectDefinition<>().createAspect();
@@ -37,7 +37,7 @@ public class ColumnBasedComponentPageLengthAspectDefinitionTest {
         assertThat(aspect.isValuePresent(), is(false));
     }
 
-    @SuppressWarnings("null")
+    
     @Test
     public void testCreateComponentValueSetter() {
         TestColumnBasedComponent<Object> component = new TestColumnBasedComponent<>();
@@ -50,7 +50,7 @@ public class ColumnBasedComponentPageLengthAspectDefinitionTest {
         assertThat(component.getPageLength(), is(42));
     }
 
-    @SuppressWarnings("null")
+    
     @Test
     public void testSupports() {
         assertThat(new ColumnBasedComponentPageLengthAspectDefinition<>().supports(WrapperType.COMPONENT), is(false));

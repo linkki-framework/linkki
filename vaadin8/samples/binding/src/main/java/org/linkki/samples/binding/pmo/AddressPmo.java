@@ -15,17 +15,17 @@ package org.linkki.samples.binding.pmo;
 
 import java.util.List;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.samples.binding.model.Address;
 import org.linkki.samples.binding.model.Country;
 import org.linkki.samples.binding.service.CountryService;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class AddressPmo {
 
     private Address addressInEdit;
 
-    @SuppressWarnings("null")
     public AddressPmo(Address address) {
         this.addressInEdit = copyAddress(address);
     }
@@ -43,7 +43,7 @@ public class AddressPmo {
         this.addressInEdit = copyAddress(newAddress);
     }
 
-    private static Address copyAddress(@Nullable Address addressToCopy) {
+    private static Address copyAddress(@CheckForNull Address addressToCopy) {
         if (addressToCopy != null) {
             return new Address(addressToCopy.getStreet(), addressToCopy.getZip(), addressToCopy.getCity(),
                     addressToCopy.getCountry());

@@ -14,5 +14,7 @@
 /**
  * Aspect definition that can be used for UI annotations
  */
-@org.eclipse.jdt.annotation.NonNullByDefault
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForMethods(edu.umd.cs.findbugs.annotations.NonNull.class)
 package org.linkki.core.ui.section.annotations.aspect;

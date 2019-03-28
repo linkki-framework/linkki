@@ -29,7 +29,6 @@ public class DefaultPmoNlsServiceTest {
 
     public static final String PROPERTY_TEST = "test";
     public static final String PROPERTY_NOT_PRESENT = "notPresent";
-    @SuppressWarnings("null")
     private Locale defaultLocale;
 
     @Before

@@ -19,7 +19,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.ui.UiFramework;
 import org.linkki.core.ui.section.annotations.UIDateField;
@@ -28,6 +27,8 @@ import org.linkki.util.DateFormats;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 public class DateFieldBindingDefinitionTest {
 
     private static final String CUSTOM_DATE_FORMAT = "yy.dd.MM";
@@ -35,7 +36,7 @@ public class DateFieldBindingDefinitionTest {
     private UIDateField getAnnotation(String name) {
         try {
             @NonNull
-            @SuppressWarnings("null")
+            
             UIDateField annotation = getClass().getMethod(name, new Class<?>[] {})
                     .getAnnotation(UIDateField.class);
             return annotation;

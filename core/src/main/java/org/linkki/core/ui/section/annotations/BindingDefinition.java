@@ -18,9 +18,10 @@ import static java.util.Objects.requireNonNull;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A common interface for annotations that are used to create and bind UI components in a view generated
@@ -72,7 +73,7 @@ public interface BindingDefinition {
      * Returns {@code true} if the given annotation is a non-null annotation marked as
      * {@link LinkkiBindingDefinition}.
      */
-    public static boolean isLinkkiBindingDefinition(@Nullable Annotation annotation) {
+    public static boolean isLinkkiBindingDefinition(@CheckForNull Annotation annotation) {
         if (annotation == null) {
             return false;
         } else {

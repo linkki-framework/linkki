@@ -29,7 +29,6 @@ public class DummyItemImplementation implements com.vaadin.v7.data.Item {
     private static final long serialVersionUID = -8329741338143404383L;
 
     @Override
-    @SuppressWarnings("null")
     public com.vaadin.v7.data.Property<?> getItemProperty(Object id) {
         return null;
     }

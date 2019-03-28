@@ -18,8 +18,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.behavior.PropertyBehavior;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 @FunctionalInterface
 public interface PropertyBehaviorProvider {

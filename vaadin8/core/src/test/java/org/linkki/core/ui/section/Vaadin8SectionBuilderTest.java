@@ -18,7 +18,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.section.PmoBasedSectionFactory.SectionBuilder;
@@ -30,6 +29,8 @@ import org.linkki.core.ui.section.annotations.UITextField;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class Vaadin8SectionBuilderTest {
 
@@ -56,7 +57,7 @@ public class Vaadin8SectionBuilderTest {
         AbstractSection section = createSectionBuilder(new SCCPmoWithID()).createSection();
         assertThat(section.getComponentCount(), is(1));
         GridLayout gridLayout = TestUiUtil.getContentGrid((FormSection)section);
-        @SuppressWarnings("null")
+        
         @NonNull
         Component textField = gridLayout.getComponent(1, 0);
         assertThat(textField.getId(), is("testProperty"));
@@ -80,7 +81,7 @@ public class Vaadin8SectionBuilderTest {
         assertThat(section, is(instanceOf(CustomLayoutSection.class)));
     }
 
-    @SuppressWarnings("null")
+    
     @Test
     public void testSectionWithoutAnnotation_usesDefaultValues() {
         AbstractSection section = createSectionBuilder(new SectionWithoutAnnotation()).createSection();

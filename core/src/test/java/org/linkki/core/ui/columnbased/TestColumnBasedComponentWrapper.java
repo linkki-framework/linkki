@@ -17,12 +17,11 @@ package org.linkki.core.ui.columnbased;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ui.TestComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
 import org.linkki.core.ui.table.TableFooterPmo;
 
-public class TestColumnBasedComponentWrapper<@NonNull ROW> extends TestComponentWrapper
+public class TestColumnBasedComponentWrapper<ROW> extends TestComponentWrapper
         implements ColumnBasedComponentWrapper<ROW> {
 
     private static final long serialVersionUID = 1L;
@@ -42,9 +41,9 @@ public class TestColumnBasedComponentWrapper<@NonNull ROW> extends TestComponent
     }
 
     @Override
-    public TestColumnBasedComponent<@NonNull ROW> getComponent() {
+    public TestColumnBasedComponent<ROW> getComponent() {
         @SuppressWarnings("unchecked")
-        TestColumnBasedComponent<@NonNull ROW> columnBasedComponent = (TestColumnBasedComponent<@NonNull ROW>)super.getComponent();
+        TestColumnBasedComponent<ROW> columnBasedComponent = (TestColumnBasedComponent<ROW>)super.getComponent();
         return columnBasedComponent;
     }
 
@@ -54,7 +53,7 @@ public class TestColumnBasedComponentWrapper<@NonNull ROW> extends TestComponent
     }
 
     @Override
-    public void setItems(List<@NonNull ROW> actualItems) {
+    public void setItems(List<ROW> actualItems) {
         getComponent().setItems(actualItems);
     }
 

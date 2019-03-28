@@ -17,7 +17,6 @@ package org.linkki.core.ui.columnbased;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
 import org.linkki.core.ui.table.TableFooterPmo;
@@ -27,7 +26,7 @@ import org.linkki.core.ui.table.TableFooterPmo;
  * 
  * @param <ROW> the row presentation model objects that are bound to the cells in one row
  */
-public interface ColumnBasedComponentWrapper<@NonNull ROW> extends ComponentWrapper {
+public interface ColumnBasedComponentWrapper<ROW> extends ComponentWrapper {
 
     static final long serialVersionUID = 1L;
 

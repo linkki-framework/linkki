@@ -25,7 +25,6 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.util.LookupProvider;
 
 /**
@@ -34,7 +33,7 @@ import org.linkki.util.LookupProvider;
  * 
  * @param <T> the type containing the property
  */
-public abstract class AbstractMethod<@NonNull T> {
+public abstract class AbstractMethod<T> {
 
 
     private final Class<? extends T> boundClass;
@@ -70,7 +69,7 @@ public abstract class AbstractMethod<@NonNull T> {
         return propertyName;
     }
 
-    protected Supplier<@NonNull IllegalArgumentException> noMethodFound(String accessMethodName) {
+    protected Supplier<IllegalArgumentException> noMethodFound(String accessMethodName) {
         return illegalArgumentException("Found no " + accessMethodName + "for " + getBoundClass() + "#"
                 + getPropertyName());
     }
@@ -94,7 +93,6 @@ public abstract class AbstractMethod<@NonNull T> {
      */
     protected <I> I getMethodAs(Class<? extends I> type) {
         Method method = getMethodWithExceptionHandling();
-        @SuppressWarnings("null")
         Lookup lookup = LookupProvider.lookup(method.getDeclaringClass());
         MethodHandle methodHandle = getMethodHandle(method, lookup);
         MethodType func = methodHandle.type();

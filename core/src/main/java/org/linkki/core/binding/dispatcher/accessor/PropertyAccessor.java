@@ -15,7 +15,7 @@ package org.linkki.core.binding.dispatcher.accessor;
 
 import static java.util.Objects.requireNonNull;
 
-import org.eclipse.jdt.annotation.NonNull;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Allows reading and writing a value from/to an object's property. Also provides the value class of the
@@ -27,7 +27,7 @@ import org.eclipse.jdt.annotation.NonNull;
  * @param <T> the type containing the property
  * @param <V> the property's type
  */
-public class PropertyAccessor<@NonNull T, V> {
+public class PropertyAccessor<T, V> {
 
     private final String propertyName;
     private final ReadMethod<T, V> readMethod;
@@ -62,7 +62,7 @@ public class PropertyAccessor<@NonNull T, V> {
      *
      * @throws IllegalStateException if no setter can be found
      */
-    public void setPropertyValue(T boundObject, V value) {
+    public void setPropertyValue(T boundObject, @CheckForNull V value) {
         writeMethod.writeValue(boundObject, value);
     }
 

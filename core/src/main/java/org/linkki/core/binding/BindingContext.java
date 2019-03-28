@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.aspect.Aspect;
@@ -54,7 +53,7 @@ public class BindingContext implements UiUpdateObserver {
     private final Handler afterUpdateHandler;
     private final PropertyDispatcherFactory dispatcherFactory;
 
-    private final Map<@NonNull Object, Binding> bindings = new ConcurrentHashMap<>();
+    private final Map<Object, Binding> bindings = new ConcurrentHashMap<>();
 
 
     /**
@@ -331,7 +330,7 @@ public class BindingContext implements UiUpdateObserver {
         return binding;
     }
 
-    public <@NonNull T> ContainerBinding bindContainer(Object pmo,
+    public <T> ContainerBinding bindContainer(Object pmo,
             BoundProperty boundProperty,
             List<LinkkiAspectDefinition> aspectDefs,
             ComponentWrapper componentWrapper) {

@@ -40,12 +40,10 @@ public class UiElementCreatorTest {
                 .collect(Collectors.toList());
 
         assertThat(wrappers, hasSize(2));
-        @SuppressWarnings("null")
         List<String> componentIds = wrappers.stream().map(TestComponentWrapper::getComponent)
                 .map(TestUiComponent::getId).collect(Collectors.toList());
         assertThat(componentIds, contains(TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP));
 
-        @SuppressWarnings("null")
         List<String> boundIds = bindingContext.getBindings().stream().map(Binding::getBoundComponent)
                 .map(TestUiComponent.class::cast).map(TestUiComponent::getId).collect(Collectors.toList());
         assertThat(boundIds, containsInAnyOrder(TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP));

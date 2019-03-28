@@ -66,7 +66,6 @@ public class UiElementCreator {
             ElementDescriptor uiElement = elementDescriptors.getDescriptor(pmo);
             @SuppressWarnings("unchecked")
             C component = (C)uiElement.newComponent();
-            @SuppressWarnings("null")
             W componentWrapper = componentWrapperCreator.apply(component);
             componentWrapper.setId(uiElement.getPmoPropertyName());
             bindingContext.bind(pmo, uiElement, componentWrapper);

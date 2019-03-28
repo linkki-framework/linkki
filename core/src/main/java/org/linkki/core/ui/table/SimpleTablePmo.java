@@ -16,8 +16,6 @@ package org.linkki.core.ui.table;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.eclipse.jdt.annotation.NonNull;
-
 /**
  * Base class for table (section) PMOs based on a given list of model objects.
  * <p>
@@ -42,7 +40,7 @@ import org.eclipse.jdt.annotation.NonNull;
  * @param <MO> The model object class
  * @param <ROW> The row PMO class.
  */
-public abstract class SimpleTablePmo<@NonNull MO, @NonNull ROW> implements ContainerPmo<ROW> {
+public abstract class SimpleTablePmo<MO, ROW> implements ContainerPmo<ROW> {
 
     private final SimpleItemSupplier<ROW, ? extends MO> rowSupplier;
 
@@ -62,7 +60,7 @@ public abstract class SimpleTablePmo<@NonNull MO, @NonNull ROW> implements Conta
      * Creates a table (section) PMO showing the model objects supplied by the given supplier. The
      * supplier is called every time the table gets updated.
      */
-    protected SimpleTablePmo(Supplier<@NonNull List<? extends MO>> modelObjectsSupplier) {
+    protected SimpleTablePmo(Supplier<List<? extends MO>> modelObjectsSupplier) {
         super();
         this.rowSupplier = new SimpleItemSupplier<>(modelObjectsSupplier, mo -> createRow(mo));
     }

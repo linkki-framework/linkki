@@ -29,7 +29,7 @@ import org.linkki.core.ui.section.annotations.ModelObject;
 
 public class BinderTest {
 
-    @SuppressWarnings("null")
+    
     private BindingContext bindingContext;
 
     @Before
@@ -83,7 +83,7 @@ public class BinderTest {
         assertThat(pmo.getModel().getClickCount(), is(2));
     }
 
-    @SuppressWarnings("null")
+    
     @Test(expected = NullPointerException.class)
     public void testSetupBindings_ThrowsExceptionForNullField() {
         TestView view = new TestView();
@@ -95,7 +95,7 @@ public class BinderTest {
         binder.setupBindings(bindingContext);
     }
 
-    @SuppressWarnings("null")
+    
     @Test(expected = NullPointerException.class)
     public void testSetupBindings_ThrowsExceptionForMethodReturningNull() {
         TestView view = new TestView();

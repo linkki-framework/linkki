@@ -31,7 +31,6 @@ public class ExceptionPropertyDispatcherTest {
 
     private static final String PROPERTY_NAME = "testProperty";
 
-    @SuppressWarnings("null")
     private ExceptionPropertyDispatcher dispatcher;
 
     @Before
@@ -58,7 +57,6 @@ public class ExceptionPropertyDispatcherTest {
         fail();
     }
 
-    @SuppressWarnings("null")
     @Test
     public void testGetBoundObject() {
         assertThat(dispatcher.getBoundObject(), is(OBJ1));

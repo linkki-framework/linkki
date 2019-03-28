@@ -27,7 +27,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class ReadMethodTest {
     @Mock
-    @SuppressWarnings("null")
     PropertyAccessDescriptor<TestObject, Long> descriptor;
 
     @Test

@@ -20,12 +20,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.framework.ui.LinkkiStyles;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Component consisting of a sidebar and a content area.
@@ -47,8 +48,8 @@ public class SidebarLayout extends CssLayout {
 
     private final CssLayout contentArea;
 
-    private final List<@NonNull SidebarSheet> sidebarSheets = new ArrayList<>();
-    @Nullable
+    private final List<SidebarSheet> sidebarSheets = new ArrayList<>();
+    @CheckForNull
     private SidebarSheet selected;
 
     public SidebarLayout() {
@@ -67,11 +68,11 @@ public class SidebarLayout extends CssLayout {
         addComponent(contentArea);
     }
 
-    public void addSheets(Stream<@NonNull SidebarSheet> sheets) {
+    public void addSheets(Stream<SidebarSheet> sheets) {
         sheets.forEach(this::addSheet);
     }
 
-    public void addSheets(Iterable<@NonNull SidebarSheet> sheets) {
+    public void addSheets(Iterable<SidebarSheet> sheets) {
         sheets.forEach(this::addSheet);
     }
 

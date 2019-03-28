@@ -16,7 +16,6 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.util.List;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.AvailableValuesType;
 
@@ -53,7 +52,7 @@ public class HasItemsAvailableValuesAspectDefinition extends AvailableValuesAspe
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void handleNullItems(ComponentWrapper componentWrapper, List<@Nullable Object> items) {
+    protected void handleNullItems(ComponentWrapper componentWrapper, List<Object> items) {
         Object component = componentWrapper.getComponent();
         if (component instanceof ComboBox<?>) {
             boolean hasNullItem = items.removeIf(i -> i == null);

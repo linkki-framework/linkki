@@ -31,7 +31,7 @@ public class LocalDateFormatterTest {
 
     private static final LocalDate DATE_2019_02_20 = LocalDate.of(2019, Month.FEBRUARY, 20);
 
-    @SuppressWarnings("null")
+    
     private Locale defaultLocale;
 
     @Test

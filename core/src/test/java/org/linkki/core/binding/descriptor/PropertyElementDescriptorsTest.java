@@ -33,7 +33,6 @@ import java.lang.annotation.Target;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
@@ -220,8 +219,8 @@ public class PropertyElementDescriptorsTest {
 
     }
 
-    @SuppressWarnings("null")
-    private <@NonNull A extends Annotation> A getAnnotation(String property, Class<A> annotationClass)
+    
+    private <A extends Annotation> A getAnnotation(String property, Class<A> annotationClass)
             throws NoSuchMethodException {
         return TestPmo.class.getMethod("get" + StringUtils.capitalize(property)).getAnnotation(annotationClass);
     }

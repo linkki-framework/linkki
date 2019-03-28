@@ -23,7 +23,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
@@ -48,7 +47,7 @@ public @interface BindValue {
 
     String modelAttribute() default "";
 
-    class BindValueAnnotationBoundPropertyCreator implements BoundPropertyCreator<@NonNull BindValue> {
+    class BindValueAnnotationBoundPropertyCreator implements BoundPropertyCreator<BindValue> {
 
         @Override
         public BoundProperty createBoundProperty(BindValue annotation, AnnotatedElement annotatedElement) {
@@ -75,7 +74,7 @@ public @interface BindValue {
 
     }
 
-    static class BindFieldValueAspectDefinitionCreator implements AspectDefinitionCreator<@NonNull BindValue> {
+    static class BindFieldValueAspectDefinitionCreator implements AspectDefinitionCreator<BindValue> {
 
         @Override
         public LinkkiAspectDefinition create(BindValue annotation) {

@@ -18,7 +18,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
@@ -41,7 +40,7 @@ public @interface BindTooltip {
     // end::BindTooltip[]
 
     // tag::BindTooltipLinkkiAspectCreator[]
-    class BindTooltipAspectDefintionCreator implements AspectDefinitionCreator<@NonNull BindTooltip> {
+    class BindTooltipAspectDefintionCreator implements AspectDefinitionCreator<BindTooltip> {
 
         @Override
         public LinkkiAspectDefinition create(BindTooltip annotation) {

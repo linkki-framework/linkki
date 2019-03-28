@@ -17,9 +17,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.Nullable;
-
 import com.vaadin.data.util.converter.Converter;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Base class for all converters which convert {@link TemporalAccessor}-subclasses to {@link String}
@@ -36,22 +36,21 @@ public abstract class TemporalAccessorToStringConverter<T extends TemporalAccess
      *
      * @return {@link DateTimeFormatter} used to convert {@code T} to {@link String}
      */
-    protected abstract DateTimeFormatter getFormatter(@Nullable Locale locale);
+    protected abstract DateTimeFormatter getFormatter(@CheckForNull Locale locale);
 
 
     @Override
-    public T convertToModel(@Nullable String value, @Nullable Class<? extends T> targetType, @Nullable Locale locale)
+    public T convertToModel(@CheckForNull String value, Class<? extends T> targetType, Locale locale)
             throws ConversionException {
         // do not use getSimple name because LocalDate is not enough information in the logs ;)
         throw new UnsupportedOperationException(
                 "this converter shall only be used to convert " + getModelType().getName() + " for presentation");
     }
 
-    @Nullable
     @Override
-    public String convertToPresentation(@Nullable T value,
-            @Nullable Class<? extends String> targetType,
-            @Nullable Locale locale)
+    public String convertToPresentation(@CheckForNull T value,
+            @CheckForNull Class<? extends String> targetType,
+            @CheckForNull Locale locale)
             throws ConversionException {
 
         if (value == null) {
@@ -67,7 +66,7 @@ public abstract class TemporalAccessorToStringConverter<T extends TemporalAccess
     }
 
 
-    protected static Locale getLocale(@Nullable Locale locale) {
+    protected static Locale getLocale(@CheckForNull Locale locale) {
         if (locale != null) {
             return locale;
         }

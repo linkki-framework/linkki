@@ -57,7 +57,7 @@ public class BindingDefinitionTest {
 
     private <T extends Annotation> T annotation(Class<T> annotationClass) {
         try {
-            @SuppressWarnings("null")
+            
             T annotation = getClass().getMethod("annotatedMethod", new Class<?>[] {}).getAnnotation(annotationClass);
             return requireNonNull(annotation, () -> "Missing annotation @" + annotationClass.getSimpleName());
         } catch (NoSuchMethodException | SecurityException e) {
@@ -97,7 +97,7 @@ public class BindingDefinitionTest {
         //@formatter:on
     }
 
-    @SuppressWarnings("null")
+    
     @Test(expected = NullPointerException.class)
     public void testFrom_ThrowsExceptionForNullAnnotation() {
         BindingDefinition.from(null);
@@ -139,7 +139,7 @@ interface UIFooBarBindingDefinition extends BindingDefinition {
     // dummy
 }
 
-@SuppressWarnings("null")
+
 @SuppressFBWarnings
 class UITestBindingDefinition implements BindingDefinition {
 

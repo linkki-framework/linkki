@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,18 +43,20 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 @RunWith(MockitoJUnitRunner.class)
 public class LinkkiUiTest {
 
-    @SuppressWarnings("null")
+    
     @Mock
     private VaadinRequest request;
 
-    @SuppressWarnings("null")
+    
     @Mock
     private VaadinSession vaadinSession;
 
-    @SuppressWarnings("null")
+    
     @Captor
     private ArgumentCaptor<ConverterFactory> converterFactoryCaptor;
 
@@ -77,7 +78,7 @@ public class LinkkiUiTest {
         VaadinSession.setCurrent(null);
     }
 
-    @SuppressWarnings("null")
+    
     @Test
     public void testInit() {
         initUi();
@@ -91,7 +92,7 @@ public class LinkkiUiTest {
         initUi();
 
         verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        @SuppressWarnings("null")
+        
         @NonNull
         ConverterFactory converterFactory = converterFactoryCaptor.getValue();
         assertThat(converterFactory, is(instanceOf(LinkkiConverterFactory.class)));
@@ -113,7 +114,7 @@ public class LinkkiUiTest {
         initUi();
 
         verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        @SuppressWarnings("null")
+        
         @NonNull
         ConverterFactory converterFactory = converterFactoryCaptor.getValue();
         assertThat(converterFactory, is(instanceOf(LinkkiConverterFactory.class)));
@@ -135,7 +136,7 @@ public class LinkkiUiTest {
         initUi();
 
         verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        @SuppressWarnings("null")
+        
         @NonNull
         ConverterFactory converterFactory = converterFactoryCaptor.getValue();
         assertThat(converterFactory, is(instanceOf(LinkkiConverterFactory.class)));

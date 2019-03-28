@@ -41,7 +41,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings({ "null", "deprecation" })
+@SuppressWarnings("deprecation")
 public class HierarchicalTableBindingTest {
 
     private BindingContext bindingContext = new BindingContext();

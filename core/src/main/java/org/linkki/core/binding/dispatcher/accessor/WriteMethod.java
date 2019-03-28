@@ -22,9 +22,9 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.function.BiConsumer;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Wrapper for a setter {@link Method}. {@link #canWrite()} can safely be accessed even if no write
@@ -34,9 +34,9 @@ import org.linkki.core.binding.LinkkiBindingException;
  * @param <T> the type containing the property
  * @param <V> the property's type
  */
-public class WriteMethod<@NonNull T, V> extends AbstractMethod<T> {
+public class WriteMethod<T, V> extends AbstractMethod<T> {
 
-    @Nullable
+    @CheckForNull
     private BiConsumer<T, V> setter;
 
     WriteMethod(PropertyAccessDescriptor<T, V> descriptor) {
@@ -57,7 +57,7 @@ public class WriteMethod<@NonNull T, V> extends AbstractMethod<T> {
      * @throws LinkkiBindingException if an error occurs while accessing the write method
      * @see #canWrite()
      */
-    public void writeValue(T target, V value) {
+    public void writeValue(T target, @CheckForNull V value) {
         try {
             setter().accept(target, value);
         } catch (IllegalArgumentException | IllegalStateException e) {
@@ -67,7 +67,7 @@ public class WriteMethod<@NonNull T, V> extends AbstractMethod<T> {
         }
     }
 
-    @SuppressWarnings({ "null", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     private BiConsumer<T, V> setter() {
         if (setter == null) {
             setter = getMethodAs(BiConsumer.class);

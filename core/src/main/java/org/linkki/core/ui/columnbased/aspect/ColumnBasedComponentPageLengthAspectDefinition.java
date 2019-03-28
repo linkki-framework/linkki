@@ -14,7 +14,6 @@
 
 package org.linkki.core.ui.columnbased.aspect;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.ui.columnbased.ColumnBasedComponentWrapper;
 
@@ -22,7 +21,7 @@ import org.linkki.core.ui.columnbased.ColumnBasedComponentWrapper;
  * Binds the number of simultaneously displayed items in a column based UI component to the number
  * obtained with a {@value #NAME} {@link Aspect}.
  */
-public class ColumnBasedComponentPageLengthAspectDefinition<@NonNull ROW, WRAPPER extends ColumnBasedComponentWrapper<ROW>>
+public class ColumnBasedComponentPageLengthAspectDefinition<ROW, WRAPPER extends ColumnBasedComponentWrapper<ROW>>
         extends ColumnBasedComponentAspectDefinition<ROW, Integer, WRAPPER> {
 
     public static final String NAME = "pageLength";

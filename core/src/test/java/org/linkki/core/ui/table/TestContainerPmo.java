@@ -19,8 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ButtonPmo;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class TestContainerPmo implements ContainerPmo<TestRowPmo> {
 
@@ -46,7 +47,7 @@ public class TestContainerPmo implements ContainerPmo<TestRowPmo> {
         return addItemButtonPmo;
     }
 
-    public void setAddItemButtonPmo(@Nullable ButtonPmo addItemButtonPmo) {
+    public void setAddItemButtonPmo(@CheckForNull ButtonPmo addItemButtonPmo) {
         this.addItemButtonPmo = Optional.ofNullable(addItemButtonPmo);
     }
 
@@ -55,7 +56,7 @@ public class TestContainerPmo implements ContainerPmo<TestRowPmo> {
         return footerPmo;
     }
 
-    public void setFooterPmo(@Nullable TableFooterPmo footerPmo) {
+    public void setFooterPmo(@CheckForNull TableFooterPmo footerPmo) {
         this.footerPmo = Optional.ofNullable(footerPmo);
     }
 

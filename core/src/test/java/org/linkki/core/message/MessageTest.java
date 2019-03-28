@@ -21,9 +21,10 @@ import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.util.validation.ValidationMarker;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class MessageTest {
 

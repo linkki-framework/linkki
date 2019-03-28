@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.linkki.core.ButtonPmo;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class TestButtonPmo implements ButtonPmo {
 
     private boolean visible = true;
@@ -53,7 +55,7 @@ public class TestButtonPmo implements ButtonPmo {
         return Collections.emptyList();
     }
 
-    @SuppressWarnings("null")
+    @SuppressFBWarnings("NP_NONNULL_RETURN_VIOLATION")
     @Override
     public Object getButtonIcon() {
         return null;

@@ -24,7 +24,7 @@ public interface ButtonPmo {
     /**
      * Returns the icon to display for the button.
      * <p>
-     * The kind of object depends on the current UI framework. In needs to be accepted by the
+     * The kind of object depends on the current UI framework. It needs to be accepted by the
      * corresponding button implementation.
      */
     Object getButtonIcon();

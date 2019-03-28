@@ -32,7 +32,7 @@ import org.linkki.core.ui.components.WrapperType;
 
 public class ColumnBasedComponentItemsAspectDefinitionTest {
 
-    @SuppressWarnings("null")
+
     @Test
     public void testCreateAspect() {
         Aspect<List<Object>> aspect = new ColumnBasedComponentItemsAspectDefinition<>().createAspect();
@@ -40,7 +40,7 @@ public class ColumnBasedComponentItemsAspectDefinitionTest {
         assertThat(aspect.isValuePresent(), is(false));
     }
 
-    @SuppressWarnings("null")
+
     @Test
     public void testCreateComponentValueSetter() {
         TestColumnBasedComponent<Object> component = new TestColumnBasedComponent<>();
@@ -53,7 +53,7 @@ public class ColumnBasedComponentItemsAspectDefinitionTest {
         assertThat(component.getItems(), contains("foo", "bar"));
     }
 
-    @SuppressWarnings("null")
+
     @Test
     public void testSupports() {
         assertThat(new ColumnBasedComponentItemsAspectDefinition<>().supports(WrapperType.COMPONENT), is(false));

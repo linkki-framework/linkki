@@ -16,7 +16,7 @@ package org.linkki.core.message;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.eclipse.jdt.annotation.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * When creating a {@link Message} the text might be created by replacing parameters (or placeholders)
@@ -37,7 +37,7 @@ public class MsgReplacementParameter implements Serializable {
     private static final long serialVersionUID = -4588558762246019241L;
 
     private final String name;
-    @Nullable
+    @CheckForNull
     private final Object value;
 
     /**
@@ -45,7 +45,7 @@ public class MsgReplacementParameter implements Serializable {
      * 
      * @throws NullPointerException if paramName is null.
      */
-    public MsgReplacementParameter(String paramName, @Nullable Object paramValue) {
+    public MsgReplacementParameter(String paramName, Object paramValue) {
         name = Objects.requireNonNull(paramName, "paramName must not be null");
         value = paramValue;
     }
@@ -60,13 +60,13 @@ public class MsgReplacementParameter implements Serializable {
     /**
      * Returns the parameter's value.
      */
-    @Nullable
+    @CheckForNull
     public Object getValue() {
         return value;
     }
 
     @Override
-    public boolean equals(@SuppressWarnings("null") Object o) {
+    public boolean equals(Object o) {
         if (!(o instanceof MsgReplacementParameter)) {
             return false;
         }

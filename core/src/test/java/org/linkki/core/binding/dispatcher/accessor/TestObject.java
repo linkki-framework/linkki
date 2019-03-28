@@ -15,15 +15,18 @@ package org.linkki.core.binding.dispatcher.accessor;
 
 import static org.junit.Assert.assertTrue;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class TestObject implements TestInterface {
     public static final String STRING_PROPERTY = "stringProperty";
     public static final String INT_PROPERTY = "intProperty";
     public static final String BOOLEAN_PROPERTY = "booleanProperty";
     public static final String READ_ONLY_LONG_PROPERTY = "readOnlyLongProperty";
-    @SuppressWarnings("null")
+    @CheckForNull
     private String stringValue;
     private int intValue = 42;
 
+    @CheckForNull
     public String getStringProperty() {
         return stringValue;
     }

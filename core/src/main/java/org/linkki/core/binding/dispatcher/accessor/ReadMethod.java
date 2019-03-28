@@ -22,9 +22,9 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.function.Function;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Wrapper for a getter {@link Method}. {@link #canRead()} can safely be accessed even if no read method
@@ -33,9 +33,9 @@ import org.linkki.core.binding.LinkkiBindingException;
  * @param <T> the type containing the property
  * @param <V> the property's type
  */
-public class ReadMethod<@NonNull T, V> extends AbstractMethod<T> {
+public class ReadMethod<T, V> extends AbstractMethod<T> {
 
-    @Nullable
+    @CheckForNull
     private Function<T, V> getter;
 
     ReadMethod(PropertyAccessDescriptor<T, V> descriptor) {
@@ -76,7 +76,7 @@ public class ReadMethod<@NonNull T, V> extends AbstractMethod<T> {
         }
     }
 
-    @SuppressWarnings({ "null", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     private Function<T, V> getter() {
         if (getter == null) {
             getter = getMethodAs(Function.class);

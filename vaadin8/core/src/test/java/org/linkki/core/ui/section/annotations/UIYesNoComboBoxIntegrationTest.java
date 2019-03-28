@@ -25,6 +25,8 @@ import org.linkki.core.ui.section.annotations.UIYesNoComboBoxIntegrationTest.Com
 
 import com.vaadin.ui.ComboBox;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class UIYesNoComboBoxIntegrationTest
         extends ComponentAnnotationIntegrationTest<ComboBox<Boolean>, ComboBoxTestPmo> {
 
@@ -32,7 +34,7 @@ public class UIYesNoComboBoxIntegrationTest
         super(ComboBoxTestModelObject::new, ComboBoxTestPmo::new);
     }
 
-    @SuppressWarnings("null")
+
     @Test
     public void testNullSelection() {
         assertThat(getStaticComponent().isEmptySelectionAllowed(), is(false));
@@ -79,7 +81,7 @@ public class UIYesNoComboBoxIntegrationTest
         assertThat(getDefaultModelObject().getValue(), is(false));
     }
 
-    @SuppressWarnings("null")
+
     @Test
     public void testNullInputIfRequired() {
         ComboBox<Boolean> comboBox = getDynamicComponent();
@@ -121,11 +123,12 @@ public class UIYesNoComboBoxIntegrationTest
         }
     }
 
-    @SuppressWarnings("null")
-    protected static class ComboBoxTestModelObject {
 
+    protected static class ComboBoxTestModelObject {
+        @CheckForNull
         private Boolean value;
 
+        @CheckForNull
         public Boolean getValue() {
             return value;
         }
@@ -136,7 +139,8 @@ public class UIYesNoComboBoxIntegrationTest
         }
 
         public boolean getStaticValue() {
-            return getValue() == null ? false : getValue();
+            Boolean b = getValue();
+            return b == null ? false : b;
         }
 
     }

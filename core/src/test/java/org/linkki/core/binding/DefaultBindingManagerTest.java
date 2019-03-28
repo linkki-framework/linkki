@@ -27,7 +27,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class DefaultBindingManagerTest {
 
     @Mock
-    @SuppressWarnings("null")
+    
     PropertyBehaviorProvider behaviorProvider;
 
     @Test

@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.components.IntegerField;
 import org.linkki.core.ui.components.LinkkiComboBox;
@@ -44,6 +43,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TwinColSelect;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class ComponentFactory {
@@ -259,7 +259,7 @@ public class ComponentFactory {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public void validate(@Nullable Object value) throws InvalidValueException {
+        public void validate(@CheckForNull Object value) throws InvalidValueException {
             if (value instanceof LocalDate) {
                 validateDate((LocalDate)value);
             }
@@ -281,10 +281,10 @@ public class ComponentFactory {
 
         @SuppressFBWarnings("NP_BOOLEAN_RETURN_NULL")
         @Override
-        @Nullable
-        public Boolean convertToModel(@Nullable String value,
-                @Nullable Class<? extends Boolean> targetType,
-                @Nullable Locale locale)
+        @CheckForNull
+        public Boolean convertToModel(@CheckForNull String value,
+                @CheckForNull Class<? extends Boolean> targetType,
+                @CheckForNull Locale locale)
                 throws ConversionException {
             if (value == null) {
                 return null;
@@ -299,10 +299,10 @@ public class ComponentFactory {
         }
 
         @Override
-        @Nullable
-        public String convertToPresentation(@Nullable Boolean value,
-                @Nullable Class<? extends String> targetType,
-                @Nullable Locale locale)
+        @CheckForNull
+        public String convertToPresentation(@CheckForNull Boolean value,
+                @CheckForNull Class<? extends String> targetType,
+                @CheckForNull Locale locale)
                 throws ConversionException {
             if (value == null) {
                 return null;

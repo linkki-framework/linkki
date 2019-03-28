@@ -26,7 +26,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class WriteMethodTest {
     @Mock
-    @SuppressWarnings("null")
     PropertyAccessDescriptor<TestObject, Boolean> descriptor;
 
     @Test

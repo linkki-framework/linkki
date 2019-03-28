@@ -23,9 +23,9 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.LinkkiBindingException;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Wrapper for a void {@link Method} without parameters. {@link #canInvoke()} can safely be accessed
@@ -34,12 +34,12 @@ import org.linkki.core.binding.LinkkiBindingException;
  * 
  * @param <T> the type containing the method
  */
-public class InvokeMethod<@NonNull T> extends AbstractMethod<T> {
+public class InvokeMethod<T> extends AbstractMethod<T> {
 
-    @Nullable
+    @CheckForNull
     private Consumer<T> invoker;
 
-    public InvokeMethod(PropertyAccessDescriptor<@NonNull T, ?> descriptor) {
+    public InvokeMethod(PropertyAccessDescriptor<T, ?> descriptor) {
         super(descriptor, descriptor.getReflectionInvokeMethod());
     }
 
@@ -80,7 +80,7 @@ public class InvokeMethod<@NonNull T> extends AbstractMethod<T> {
         }
     }
 
-    @SuppressWarnings({ "null", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     private Consumer<T> invoker() {
         if (invoker == null) {
             invoker = getMethodAs(Consumer.class);

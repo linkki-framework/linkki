@@ -21,7 +21,6 @@ import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.BindingContext;
 
@@ -36,7 +35,7 @@ import org.linkki.core.binding.BindingContext;
  *           {@link HierarchicalRowPmo} or you must override {@link #isHierarchical()} to return
  *           {@code true} and have only the no-leave-nodes implement {@link HierarchicalRowPmo}
  */
-public interface ContainerPmo<@NonNull ROW> {
+public interface ContainerPmo<ROW> {
 
     /** Default page length to use when no other page length is set. */
     public static final int DEFAULT_PAGE_LENGTH = 15;
@@ -47,7 +46,7 @@ public interface ContainerPmo<@NonNull ROW> {
      * @implNote The default implementation reads the generic type {@literal<ROW>} from the class
      *           definition.
      */
-    @SuppressWarnings({ "unchecked", "null" })
+    @SuppressWarnings({ "unchecked" })
     default Class<? extends ROW> getItemPmoClass() {
         Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(getClass(), ContainerPmo.class);
         for (Entry<TypeVariable<?>, Type> typeArgument : typeArguments.entrySet()) {

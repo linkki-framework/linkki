@@ -17,7 +17,6 @@ package org.linkki.core.ui.columnbased.aspect;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
 import org.linkki.core.ui.columnbased.ColumnBasedComponentWrapper;
@@ -31,7 +30,7 @@ import org.linkki.core.ui.components.WrapperType;
  * @param <VALUE> the type of the bound values
  * @param <WRAPPER> the concrete {@link ColumnBasedComponentWrapper}
  */
-public abstract class ColumnBasedComponentAspectDefinition<@NonNull ROW, VALUE, WRAPPER extends ColumnBasedComponentWrapper<ROW>>
+public abstract class ColumnBasedComponentAspectDefinition<ROW, VALUE, WRAPPER extends ColumnBasedComponentWrapper<ROW>>
         extends ModelToUiAspectDefinition<VALUE> {
 
     private final String name;

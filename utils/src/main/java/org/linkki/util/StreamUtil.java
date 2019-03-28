@@ -16,7 +16,7 @@ package org.linkki.util;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.eclipse.jdt.annotation.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class StreamUtil {
 
@@ -25,7 +25,7 @@ public class StreamUtil {
         super();
     }
 
-    public static <T> Stream<T> stream(@Nullable Iterable<T> iterable) {
+    public static <T> Stream<T> stream(@CheckForNull Iterable<T> iterable) {
         if (iterable == null) {
             return Stream.empty();
         }

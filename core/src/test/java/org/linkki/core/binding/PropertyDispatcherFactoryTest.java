@@ -27,7 +27,7 @@ import org.linkki.core.ui.section.annotations.ModelObject;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings("null")
+
 public class PropertyDispatcherFactoryTest {
 
     private static final String ANY_VALUE = "ukztu7kxju76r";

@@ -13,11 +13,9 @@
  */
 package org.linkki.samples.dynamicfield.pmo;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.ButtonPmoBuilder;
 import org.linkki.core.ui.section.annotations.UISection;
@@ -28,12 +26,10 @@ import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.util.handler.Handler;
 
 @UISection(caption = "Cars")
-public class CarTablePmo implements ContainerPmo<@NonNull CarRowPmo>, Serializable {
-
-    private static final long serialVersionUID = 8770409786960309300L;
+public class CarTablePmo implements ContainerPmo<CarRowPmo> {
 
     private final Handler addCarAction;
-    private final SimpleItemSupplier<@NonNull CarRowPmo, @NonNull Car> items;
+    private final SimpleItemSupplier<CarRowPmo, Car> items;
 
     private final TableFooterPmo footer;
 

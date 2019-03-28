@@ -22,13 +22,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.ui.components.ItemCaptionProvider;
 import org.linkki.core.ui.nls.NlsText;
 import org.linkki.core.ui.section.annotations.adapters.YesNoComboBoxBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * A combo box for boolean or Boolean values.

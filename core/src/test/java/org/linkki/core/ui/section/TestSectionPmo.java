@@ -16,7 +16,6 @@ package org.linkki.core.ui.section;
 
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.TestModelObject;
@@ -28,10 +27,12 @@ import org.linkki.core.ui.section.annotations.SectionID;
 import org.linkki.core.ui.section.annotations.TestUIField;
 import org.linkki.core.ui.section.annotations.VisibleType;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class TestSectionPmo extends TestPmo implements PresentationModelObject {
 
     private String id = "TestSection";
-    @Nullable
+    @CheckForNull
     private ButtonPmo editButtonPmo;
     private boolean modelPropEnabled = true;
 
@@ -53,7 +54,7 @@ public class TestSectionPmo extends TestPmo implements PresentationModelObject {
         return Optional.ofNullable(editButtonPmo);
     }
 
-    public void setEditButtonPmo(@Nullable ButtonPmo editButtonPmo) {
+    public void setEditButtonPmo(@CheckForNull ButtonPmo editButtonPmo) {
         this.editButtonPmo = editButtonPmo;
     }
 

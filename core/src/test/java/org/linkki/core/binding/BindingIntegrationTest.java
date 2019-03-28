@@ -57,7 +57,7 @@ public class BindingIntegrationTest {
         TestUiLayoutComponent section = TestSectionBuilder.createSection(testSectionPmo, bindingContext);
 
         assertThat(section.getChildren(), hasSize(3));
-        @SuppressWarnings("null")
+        
         List<String> childIds = section.getChildren().stream().map(TestUiComponent::getId).collect(Collectors.toList());
         assertThat(childIds, contains("editButton", TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP));
 

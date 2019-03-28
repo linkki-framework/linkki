@@ -22,7 +22,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.UiFramework;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
@@ -30,6 +29,8 @@ import org.linkki.core.ui.section.annotations.UIDoubleFieldIntegrationTest.Doubl
 
 import com.vaadin.event.ListenerMethod;
 import com.vaadin.ui.TextField;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextField, DoubleFieldTestPmo> {
 
@@ -75,7 +76,7 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         TestUiUtil.setUserOriginatedValue(textField, null);
     }
 
-    @SuppressWarnings("null")
+
     @Test
     public void testSetValueWithObjectDoubleInModelObject() {
         TestModelObjectWithObjectDouble modelObject = new TestModelObjectWithObjectDouble();
@@ -164,18 +165,17 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
 
     protected static class TestModelObjectWithObjectDouble extends TestModelObject<Double> {
 
-        @Nullable
+        @CheckForNull
         private Double value = null;
 
-        @SuppressWarnings("null")
-        @Nullable
+        @CheckForNull
         @Override
         public Double getValue() {
             return value;
         }
 
         @Override
-        public void setValue(@Nullable Double value) {
+        public void setValue(@CheckForNull Double value) {
             this.value = value;
         }
     }

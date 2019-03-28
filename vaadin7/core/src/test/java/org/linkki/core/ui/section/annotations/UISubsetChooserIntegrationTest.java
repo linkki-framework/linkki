@@ -32,6 +32,8 @@ import org.linkki.core.ui.components.SubsetChooser;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UISubsetChooserIntegrationTest.SubsetChooserBoxTestPmo;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class UISubsetChooserIntegrationTest
         extends FieldAnnotationIntegrationTest<SubsetChooser, SubsetChooserBoxTestPmo> {
 
@@ -131,11 +133,12 @@ public class UISubsetChooserIntegrationTest
 
     }
 
-    @SuppressWarnings("null")
-    protected static class SubsetChooserModelObject {
 
+    protected static class SubsetChooserModelObject {
+        @CheckForNull
         private Set<TestEnum> value;
 
+        @CheckForNull
         public Set<TestEnum> getValue() {
             return value;
         }
@@ -145,6 +148,7 @@ public class UISubsetChooserIntegrationTest
 
         }
 
+        @CheckForNull
         public Set<TestEnum> getStaticValue() {
             return getValue();
         }

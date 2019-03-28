@@ -17,13 +17,14 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UITextFieldIntegrationTest.TextFieldTestPmo;
 
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.TextField;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<TextField, TextFieldTestPmo> {
 
@@ -100,18 +101,17 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
 
     protected static class TestModelObjectWithString extends TestModelObject<String> {
 
-        @Nullable
+        @CheckForNull
         private String value = null;
 
-        @SuppressWarnings("null")
-        @Nullable
+        @CheckForNull
         @Override
         public String getValue() {
             return value;
         }
 
         @Override
-        public void setValue(@Nullable String value) {
+        public void setValue(@CheckForNull String value) {
             this.value = value;
         }
     }

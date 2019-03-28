@@ -37,7 +37,6 @@ public class ContactSectionPmo {
 
     private Contact contact;
 
-    @SuppressWarnings("null")
     public ContactSectionPmo(Contact contact) {
         this.contact = contact;
     }

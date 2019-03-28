@@ -20,7 +20,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
@@ -28,10 +27,12 @@ import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.util.handler.Handler;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class BindingManagerTest {
 
 
-    @SuppressWarnings("null")
+    
     private ValidationService validationService;
 
     @Test
@@ -82,7 +83,7 @@ public class BindingManagerTest {
 
     private static class TestBindingContext extends BindingContext {
 
-        @Nullable
+        @CheckForNull
         private MessageList messages;
 
         public TestBindingContext(String contextName, PropertyBehaviorProvider behaviorProvider,

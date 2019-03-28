@@ -24,12 +24,13 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.UiFramework;
 
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 
 /**
@@ -49,7 +50,7 @@ public abstract class FormattedNumberToStringConverter<T extends Number> impleme
     }
 
     @Override
-    public Result<T> convertToModel(@Nullable String value, ValueContext context) {
+    public Result<T> convertToModel(@CheckForNull String value, ValueContext context) {
         if (StringUtils.isBlank(value)) {
             return Result.ok(getNullValue());
         }
@@ -61,13 +62,13 @@ public abstract class FormattedNumberToStringConverter<T extends Number> impleme
         }
     }
 
-    @Nullable
+    @CheckForNull
     protected abstract T getNullValue();
 
     protected abstract T convertToModel(Number value);
 
     @Override
-    public String convertToPresentation(@Nullable T value, ValueContext context) {
+    public String convertToPresentation(@CheckForNull T value, ValueContext context) {
         if (value == null) {
             return "";
         } else {

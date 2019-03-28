@@ -17,12 +17,13 @@ package org.linkki.core.binding.aspect.definition;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.components.WrapperType;
 import org.linkki.util.handler.Handler;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * A convenient implementation for {@link LinkkiAspectDefinition LinkkiAspectDefinitions} which use

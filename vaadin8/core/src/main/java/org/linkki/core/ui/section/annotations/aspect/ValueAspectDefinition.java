@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -39,6 +38,8 @@ import com.vaadin.data.ValueContext;
 import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.ui.HasValueChangeMode;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * Aspect definition for value change. Defines that the data source will get/set values through
  * {@link Aspect Aspects} by providing a handler in
@@ -53,7 +54,7 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
 
     public static final String NAME = LinkkiAspectDefinition.VALUE_ASPECT_NAME;
 
-    @Nullable
+    @CheckForNull
     private final Converter<?, ?> fixConverter;
 
     public ValueAspectDefinition() {
@@ -79,7 +80,6 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
 
         field.addValueChangeListener(event -> {
             if (event.isUserOriginated()) {
-                @SuppressWarnings("null")
                 Result<?> result = converter.convertToModel(event.getValue(), getValueContext());
                 result.ifOk(v -> propertyDispatcher.push(Aspect.of(NAME, v)));
                 modelUpdated.apply();
@@ -88,14 +88,13 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
         });
     }
 
-    private MessageList getInvalidInputMessage(@Nullable Object value) {
+    private MessageList getInvalidInputMessage(@CheckForNull Object value) {
         return new MessageList(
                 Message.newWarning(MSG_CODE_INVALID_INPUT,
                                    String.format(NlsText.getString("ValueAspectDefinition.invalidInput"),
                                                  value != null ? value.toString() : "null")));
     }
 
-    @SuppressWarnings("null")
     private Type getTypeOf(HasValue<?> field) {
         Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(field.getClass(),
                                                                               HasValue.class);

@@ -15,7 +15,6 @@ package org.linkki.framework.ui.application.menu;
 
 import static java.util.Objects.requireNonNull;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.framework.ui.LinkkiStyles;
 import org.linkki.framework.ui.application.ApplicationHeader;
 
@@ -74,7 +73,7 @@ public abstract class ApplicationMenuItemDefinition implements Comparable<Applic
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }

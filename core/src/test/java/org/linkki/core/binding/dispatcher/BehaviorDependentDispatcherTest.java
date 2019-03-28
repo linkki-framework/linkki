@@ -18,7 +18,6 @@ import static org.junit.Assert.assertThat;
 import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.aspect.Aspect;
@@ -29,7 +28,8 @@ import org.linkki.core.message.ObjectProperty;
 import org.linkki.core.message.Severity;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 
-@SuppressWarnings("null")
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class BehaviorDependentDispatcherTest {
 
     private TestPropertyDispatcher wrappedDispatcher = new TestPropertyDispatcher();
@@ -136,6 +136,7 @@ public class BehaviorDependentDispatcherTest {
 
     private static class TestPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
 
+        @CheckForNull
         private Object boundObject = new Object();
 
         public TestPropertyDispatcher() {
@@ -147,12 +148,13 @@ public class BehaviorDependentDispatcherTest {
             return true;
         }
 
+        @CheckForNull
         @Override
-        public @Nullable Object getBoundObject() {
+        public Object getBoundObject() {
             return boundObject;
         }
 
-        public void setBoundObject(@Nullable Object boundObject) {
+        public void setBoundObject(@CheckForNull Object boundObject) {
             this.boundObject = boundObject;
         }
 

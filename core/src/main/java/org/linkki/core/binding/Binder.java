@@ -31,6 +31,8 @@ import org.linkki.core.ui.UiFramework;
 import org.linkki.core.ui.components.ComponentWrapperFactory;
 import org.linkki.util.BeanUtils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A Binder is a utility class used to create data-bindings between the UI elements (such as text- or
  * combo-boxes, buttons etc.) of a view and a PMO .
@@ -80,6 +82,7 @@ public class Binder {
                 .forEach(f -> addBinding(bindingContext, f, getComponentFrom(f)));
     }
 
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "because that's what requireNonNull is for")
     private Object getComponentFrom(Field field) {
         Validate.validState(wrapperFactory.isUiComponent(field.getType()),
                             "%s is not a UI-component-typed field and cannot be annotated with @Bind style annotations",

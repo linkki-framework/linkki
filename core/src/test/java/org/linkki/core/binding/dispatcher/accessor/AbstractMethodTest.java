@@ -27,7 +27,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class AbstractMethodTest {
     @Mock
-    @SuppressWarnings("null")
     private PropertyAccessDescriptor<?, ?> descriptor;
 
     @Test

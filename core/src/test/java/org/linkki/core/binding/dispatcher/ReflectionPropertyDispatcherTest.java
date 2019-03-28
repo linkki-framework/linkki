@@ -36,7 +36,8 @@ import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 import org.mockito.Mockito;
 
-@SuppressWarnings("null")
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class ReflectionPropertyDispatcherTest {
     private static final String PRIMITIVE_BOOLEAN = "primitiveBoolean";
     private static final String OBJECT_BOOLEAN = "objectBoolean";
@@ -302,6 +303,7 @@ public class ReflectionPropertyDispatcherTest {
 
         private TestModelObject modelObject;
 
+        @CheckForNull
         private String pmoProp;
 
         public TestPMO(TestModelObject modelObject) {
@@ -345,6 +347,7 @@ public class ReflectionPropertyDispatcherTest {
             this.modelObject = modelObject;
         }
 
+        @CheckForNull
         public String getPmoProp() {
             return pmoProp;
         }
@@ -366,6 +369,7 @@ public class ReflectionPropertyDispatcherTest {
         private String abc = "567";
 
         private boolean primitiveBoolean = false;
+        @CheckForNull
         private Boolean objectBoolean = null;
 
         public boolean isPrimitiveBoolean() {
@@ -376,6 +380,7 @@ public class ReflectionPropertyDispatcherTest {
             this.primitiveBoolean = b;
         }
 
+        @CheckForNull
         public Boolean getObjectBoolean() {
             return objectBoolean;
         }

@@ -18,14 +18,14 @@ import static java.util.Objects.requireNonNull;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
 import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
 import org.linkki.core.message.MessageList;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -61,7 +61,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
         return property;
     }
 
-    @Nullable
+    @CheckForNull
     @Override
     public Object getBoundObject() {
         return boundObjectSupplier.get();
@@ -92,7 +92,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
                     .format("Static aspect %s should not be handled by %s. It seems like the dispatcher chain is broken, check your %s",
                             aspect, getClass().getSimpleName(), BindingContext.class.getSimpleName()));
         }
-        @Nullable
+        @CheckForNull
         Object boundObject = getBoundObject();
         String propertyAspectName = getPropertyAspectName(aspect);
         if (boundObject != null && hasReadMethod(propertyAspectName)) {
@@ -115,7 +115,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     public <V> void push(Aspect<V> aspect) {
-        @Nullable
+        @CheckForNull
         Object boundObject = getBoundObject();
         if (boundObject != null) {
             if (aspect.isValuePresent()) {
@@ -150,7 +150,7 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     @Override
     public <V> boolean isPushable(Aspect<V> aspect) {
-        @Nullable
+        @CheckForNull
         Object boundObject = getBoundObject();
         return (boundObject != null && hasWriteMethod(getPropertyAspectName(aspect)))
                 || fallbackDispatcher.isPushable(aspect);

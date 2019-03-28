@@ -18,9 +18,10 @@ import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.Method;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class UITableColumnAspectCreatorTest {
 
@@ -38,7 +39,7 @@ public class UITableColumnAspectCreatorTest {
 
     private static LinkkiAspectDefinition create(String methodName) throws NoSuchMethodException, SecurityException {
         Method method = TestClassWithAnnotations.class.getDeclaredMethod(methodName, new Class<?>[] {});
-        @SuppressWarnings("null")
+        
         @NonNull
         UITableColumn annotation = method.getAnnotation(UITableColumn.class);
         return new UITableColumn.TableColumnAspectDefinitionCreator().create(annotation);

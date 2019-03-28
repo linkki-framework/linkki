@@ -16,7 +16,6 @@ package org.linkki.framework.ui.component;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -26,26 +25,28 @@ import org.linkki.core.message.Severity;
 
 import com.vaadin.icons.VaadinIcons;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 @RunWith(Parameterized.class)
 public class MessagePmoTest {
 
-    @SuppressWarnings("null")
+    
     @Parameterized.Parameter(value = 0)
     public Severity severity;
 
-    @Nullable
+    @CheckForNull
     @Parameterized.Parameter(value = 1)
     public ObjectProperty objectProperty;
 
-    @SuppressWarnings("null")
+    
     @Parameterized.Parameter(value = 2)
     public VaadinIcons icon;
 
-    @SuppressWarnings("null")
+    
     @Parameterized.Parameter(value = 3)
     public String tooltip;
 
-    @SuppressWarnings("null")
+    
     @Parameterized.Parameter(value = 4)
     public String stylename;
 

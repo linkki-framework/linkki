@@ -18,20 +18,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.ButtonPmoBuilder;
 import org.linkki.core.ui.section.annotations.UISection;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 @UISection(caption = TestTablePmo.CAPTION)
-public class TestTablePmo implements ContainerPmo<@NonNull TestRowPmo> {
+public class TestTablePmo implements ContainerPmo<TestRowPmo> {
 
     public static final String CAPTION = "container";
 
-    private final List<@NonNull TestRowPmo> pmos;
+    private final List<TestRowPmo> pmos;
     private int pageLength;
-    @Nullable
+    @CheckForNull
     private TableFooterPmo footerPmo;
 
     public TestTablePmo() {
@@ -50,7 +50,7 @@ public class TestTablePmo implements ContainerPmo<@NonNull TestRowPmo> {
         this(new ArrayList<>(), ContainerPmo.DEFAULT_PAGE_LENGTH, footerPmo);
     }
 
-    public TestTablePmo(List<@NonNull TestRowPmo> rowPmos, int pageLength, @Nullable TableFooterPmo footerPmo) {
+    public TestTablePmo(List<TestRowPmo> rowPmos, int pageLength, @CheckForNull TableFooterPmo footerPmo) {
         this.pmos = rowPmos;
         this.pageLength = pageLength;
         this.footerPmo = footerPmo;
@@ -80,7 +80,7 @@ public class TestTablePmo implements ContainerPmo<@NonNull TestRowPmo> {
         return Optional.ofNullable(footerPmo);
     }
 
-    public void setFooterPmo(@Nullable TableFooterPmo footerPmo) {
+    public void setFooterPmo(@CheckForNull TableFooterPmo footerPmo) {
         this.footerPmo = footerPmo;
     }
 }

@@ -17,7 +17,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.linkki.test.matcher.Matchers.assertThat;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.UIButtonIntegrationTest.ButtonTestPmo;
 
@@ -25,6 +24,8 @@ import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button, ButtonTestPmo> {
 
@@ -115,18 +116,18 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
 
     protected static class TestModelObjectWithString extends TestModelObject<String> {
 
-        @Nullable
+        @CheckForNull
         private String value = null;
 
-        @SuppressWarnings("null")
-        @Nullable
+
+        @CheckForNull
         @Override
         public String getValue() {
             return value;
         }
 
         @Override
-        public void setValue(@Nullable String value) {
+        public void setValue(@CheckForNull String value) {
             this.value = value;
         }
     }

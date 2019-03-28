@@ -16,8 +16,9 @@ package org.linkki.core.ui.formatters;
 
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.UiFramework;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A {@link Formatter} is used to convert a Value of type {@code <T>} to a {@link String}.
@@ -35,8 +36,8 @@ public interface Formatter<T> {
      * @param locale locale that determines the format
      * @return given value as formatted String
      */
-    @Nullable
-    String format(@Nullable T value, Locale locale);
+    @CheckForNull
+    String format(@CheckForNull T value, Locale locale);
 
     /**
      * Formats the given value with the locale derived from {@link UiFramework#getLocale()}.
@@ -44,8 +45,8 @@ public interface Formatter<T> {
      * @param value value that should be formatted
      * @return given value as formatted String
      */
-    @Nullable
-    public default String format(@Nullable T value) {
+    @CheckForNull
+    public default String format(@CheckForNull T value) {
         return format(value, UiFramework.getLocale());
     }
 }

@@ -30,9 +30,7 @@ public class PropertyAccessorTest {
 
     private static final String STRING_PROPERTY_INITIAL_VALUE = "initialValue";
 
-    @SuppressWarnings("null")
     private TestObject testObject;
-    @SuppressWarnings("null")
     private PropertyAccessor<TestObject, String> stringAccessor;
 
     @Before
@@ -74,19 +72,19 @@ public class PropertyAccessorTest {
         assertThat((propertyAccessor.canWrite()), is(false));
     }
 
-    @SuppressWarnings({ "null", "unused" })
+    @SuppressWarnings({ "unused" })
     @Test(expected = NullPointerException.class)
     public void testConstructor_nullObject() {
         PropertyAccessor<?, ?> propertyAccessor = new PropertyAccessor<>(null, "anyProperty");
     }
 
-    @SuppressWarnings({ "null", "unused" })
+    @SuppressWarnings({ "unused" })
     @Test(expected = NullPointerException.class)
     public void testConstructor_nullPropertyName() {
         PropertyAccessor<TestObject, ?> propertyAccessor = new PropertyAccessor<>(TestObject.class, null);
     }
 
-    @SuppressWarnings({ "null", "unused" })
+    @SuppressWarnings({ "unused" })
     @Test(expected = NullPointerException.class)
     public void testConstructor_nullArguments() {
         PropertyAccessor<?, ?> propertyAccessor = new PropertyAccessor<>(null, null);

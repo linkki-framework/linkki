@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,18 +43,20 @@ import org.linkki.core.ui.table.SimpleTablePmo;
 
 import com.vaadin.ui.UI;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 @SuppressWarnings("unchecked")
 public class BindingContextIntegrationTest {
 
-    @SuppressWarnings("null")
+    
     private UI ui;
-    @SuppressWarnings("null")
+    
     private BindingManager bindingManager;
-    @SuppressWarnings("null")
+    
     private TestPage testPage;
-    @SuppressWarnings("null")
+    
     private ContainerBinding binding;
-    @SuppressWarnings("null")
+    
     private BindingContext bindingContext;
 
     @Before

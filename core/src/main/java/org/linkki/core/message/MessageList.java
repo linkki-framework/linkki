@@ -28,18 +28,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.validation.ValidationMarker;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * A list of {@link Message Messages}.
  */
-public class MessageList implements Serializable, Iterable<@NonNull Message> {
+public class MessageList implements Serializable, Iterable<Message> {
 
     private static final long serialVersionUID = 1557794794967025627L;
 
-    private final List<@NonNull Message> messages;
+    private final List<Message> messages;
 
     /**
      * Creates a message list that contains the given {@link Message message(s)}.
@@ -78,7 +79,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
      * @param messageList {@link MessageList} with the {@link Message messages} to add to this
      *            {@link MessageList list}
      */
-    public void add(@Nullable MessageList messageList) {
+    public void add(@CheckForNull MessageList messageList) {
         if (messageList == null) {
             return;
         }
@@ -137,7 +138,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
      * @return the <strong>first</strong> {@link Message} with the given {@code code} or
      *         {@link Optional#empty()}
      */
-    public Optional<Message> getMessageByCode(@Nullable String code) {
+    public Optional<Message> getMessageByCode(@CheckForNull String code) {
         return messages.stream()
                 .filter(m -> Objects.equals(code, m.getCode()))
                 .findFirst();
@@ -154,7 +155,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
      * @return <strong>new</strong> {@link MessageList} with all {@link Message messages} with the given
      *         {@code code}
      */
-    public MessageList getMessagesByCode(@Nullable String code) {
+    public MessageList getMessagesByCode(@CheckForNull String code) {
         return messages.stream()
                 .filter(m -> Objects.equals(code, m.getCode()))
                 .collect(toMessageList());
@@ -234,7 +235,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
      * 
      * @throws NullPointerException if {@code object} is {@code null}
      */
-    public MessageList getMessagesFor(Object object, @Nullable String property) {
+    public MessageList getMessagesFor(Object object, @CheckForNull String property) {
         return getMessagesFor(object, property, -1);
     }
 
@@ -258,8 +259,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
      *
      * @throws NullPointerException if {@code object} is {@code null}
      */
-    @SuppressWarnings("null")
-    public MessageList getMessagesFor(Object object, @Nullable String property, int index) {
+    public MessageList getMessagesFor(Object object, @CheckForNull String property, int index) {
         Objects.requireNonNull(object, "object must not be null");
 
         return messages.stream()
@@ -272,7 +272,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
 
     }
 
-    private boolean isPropertyNullOrEmpty(@Nullable String property) {
+    private boolean isPropertyNullOrEmpty(@CheckForNull String property) {
         return StringUtils.isBlank(property);
     }
 
@@ -297,7 +297,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
      * @return a <strong>new</strong> {@link MessageList} containing all {link Message messages} with
      *         the given {@link ValidationMarker} or an empty {@link MessageList}
      */
-    public MessageList getMessagesByMarker(@Nullable ValidationMarker marker) {
+    public MessageList getMessagesByMarker(@CheckForNull ValidationMarker marker) {
         return messages.stream()
                 .filter(m -> (marker == null && !m.hasMarkers()) || marker != null && m.hasMarker(marker))
                 .collect(toMessageList());
@@ -328,8 +328,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
     }
 
     private boolean containsMatchingMarker(Message message, Predicate<ValidationMarker> markerPredicate) {
-        return message.getMarkers().stream()
-                .anyMatch(markerPredicate);
+        return message.getMarkers().stream().anyMatch(markerPredicate);
     }
 
 
@@ -369,7 +368,7 @@ public class MessageList implements Serializable, Iterable<@NonNull Message> {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }

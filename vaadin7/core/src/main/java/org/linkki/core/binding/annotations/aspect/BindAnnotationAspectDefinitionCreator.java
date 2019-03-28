@@ -22,10 +22,10 @@ import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
+import org.linkki.core.ui.section.annotations.aspect.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelValueAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.RequiredAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 

@@ -25,6 +25,8 @@ import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.util.handler.Handler;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A binding for a single component to a property represented by a {@link PropertyDispatcher}. The
  * binding is responsible to update all aspects that are defined by {@link LinkkiAspectDefinition
@@ -99,6 +101,7 @@ public class ElementBinding implements Binding {
      * @return The presentation model object that is bound to the component by this binding
      */
     @Override
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "because that's what requireNonNull is for")
     public Object getPmo() {
         return requireNonNull(getPropertyDispatcher().getBoundObject());
     }

@@ -18,15 +18,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ui.TestUiLayoutComponent;
 import org.linkki.core.ui.table.TableFooterPmo;
 
-public class TestColumnBasedComponent<@NonNull ROW> extends TestUiLayoutComponent {
+public class TestColumnBasedComponent<ROW> extends TestUiLayoutComponent {
 
     private Optional<TableFooterPmo> footerPmo = Optional.empty();
     private int pageLength;
-    private List<@NonNull ROW> items = Collections.emptyList();
+    private List<ROW> items = Collections.emptyList();
     private int columnsOnLastFooterUpdate;
 
     public Optional<TableFooterPmo> getFooterPmo() {

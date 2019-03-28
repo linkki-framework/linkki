@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,8 +31,9 @@ import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings("null")
 public class StaticValueDispatcherTest {
 
     private static final String DYNAMIC_ENUM_ATTR = "dynamicEnumAttr";
@@ -42,7 +42,7 @@ public class StaticValueDispatcherTest {
 
     @Mock
     private PropertyDispatcher uiAnnotationFallbackDispatcher;
-    private Map<String, @NonNull StaticValueDispatcher> uiAnnotationDispatchers;
+    private Map<String, StaticValueDispatcher> uiAnnotationDispatchers;
     private TestObjectWithUIAnnotations objectWithUIAnnotations;
 
     @Mock

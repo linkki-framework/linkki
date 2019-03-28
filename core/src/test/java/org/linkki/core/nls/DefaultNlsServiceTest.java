@@ -23,6 +23,8 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 
 @RunWith(Enclosed.class)
 public class DefaultNlsServiceTest {
@@ -46,10 +48,9 @@ public class DefaultNlsServiceTest {
 
     private static final NlsService service = new DefaultNlsService();
 
-    @SuppressWarnings("null")
+    @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     @RunWith(Parameterized.class)
     public static class BasicTests {
-
 
         @Parameterized.Parameter(value = 0)
         public String key;
@@ -93,32 +94,27 @@ public class DefaultNlsServiceTest {
     }
 
     public static class NullTests {
-        @SuppressWarnings("null")
         @Test(expected = NullPointerException.class)
         public void nullBundleTest() {
             service.getString(null, KEY1, RUSSIAN_LOCALE);
         }
 
-        @SuppressWarnings("null")
         @Test(expected = NullPointerException.class)
         public void nullKeyTest() {
             service.getString(BUNDLE_NAME, null, RUSSIAN_LOCALE);
         }
 
-        @SuppressWarnings("null")
         @Test(expected = NullPointerException.class)
         public void nullLocaleTest() {
             Locale l = null;
             service.getString(BUNDLE_NAME, KEY1, l);
         }
 
-        @SuppressWarnings("null")
         @Test(expected = NullPointerException.class)
         public void nullDefaultTest() {
             service.getString(BUNDLE_NAME, "foo", null, RUSSIAN_LOCALE);
         }
 
-        @SuppressWarnings("null")
         @Test(expected = NullPointerException.class)
         public void nullDefaultTest2() {
             String s = null;
@@ -126,10 +122,9 @@ public class DefaultNlsServiceTest {
         }
     }
 
-    @SuppressWarnings("null")
+    @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     @RunWith(Parameterized.class)
     public static class DefaultValuesTests {
-
 
         @Parameterized.Parameter(value = 0)
         public String key;

@@ -55,10 +55,10 @@ public class TestButtonPmo implements ButtonPmo {
         return Collections.emptyList();
     }
 
-    @SuppressWarnings("null")
+
     @Override
     public Object getButtonIcon() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public int getClickCount() {

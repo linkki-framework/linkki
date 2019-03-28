@@ -25,8 +25,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.eclipse.jdt.annotation.NonNull;
-
 
 /**
  * A supplier for item PMOs based on a list of underlying model objects. The PMOs are created from the
@@ -43,13 +41,13 @@ import org.eclipse.jdt.annotation.NonNull;
  * private SimpleItemSupplier&lt;FooItem, Foo&gt; itemSupplier = new SimpleItemSupplier&lt;&gt;(this::getFoos, FooItem::new);
  * </pre>
  */
-public class SimpleItemSupplier<@NonNull PMO, @NonNull MO> implements Supplier<List<PMO>> {
+public class SimpleItemSupplier<PMO, MO> implements Supplier<List<PMO>> {
 
     private List<PMO> items = Collections.emptyList();
     private List<MO> modelObjectsCopy = Collections.emptyList();
     private final Map<MO, PMO> itemMap = new HashMap<>();
 
-    private final Supplier<@NonNull ? extends List<? extends MO>> modelObjectSupplier;
+    private final Supplier<? extends List<? extends MO>> modelObjectSupplier;
     private final Function<MO, PMO> mo2pmoMapping;
 
     /**
@@ -58,7 +56,7 @@ public class SimpleItemSupplier<@NonNull PMO, @NonNull MO> implements Supplier<L
      * @param modelObjectSupplier Supplies the underlying model objects.
      * @param mo2pmoMapping A function to create an item PMO based on a model object.
      */
-    public SimpleItemSupplier(Supplier<@NonNull ? extends List<? extends MO>> modelObjectSupplier,
+    public SimpleItemSupplier(Supplier<? extends List<? extends MO>> modelObjectSupplier,
             Function<MO, PMO> mo2pmoMapping) {
         this.modelObjectSupplier = requireNonNull(modelObjectSupplier, "modelObjectSupplier must not be null");
         this.mo2pmoMapping = requireNonNull(mo2pmoMapping, "mo2pmoMapping must not be null");

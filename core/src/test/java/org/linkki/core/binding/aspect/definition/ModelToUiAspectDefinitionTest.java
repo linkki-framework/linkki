@@ -38,7 +38,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class ModelToUiAspectDefinitionTest {
 
-    @SuppressWarnings("null")
+    
     @Mock
     private PropertyDispatcher propertyDispatcher;
 

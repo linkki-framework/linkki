@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.util.handler.Handler;
@@ -29,6 +28,8 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.themes.ValoTheme;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Builder to create a {@link ButtonPmo} with a fluent API. <em>{@link #icon(Resource)} must be called
@@ -42,7 +43,7 @@ public class ButtonPmoBuilder {
 
     private final Handler action;
 
-    @Nullable
+    @CheckForNull
     private Resource icon;
 
     public ButtonPmoBuilder(Handler onClickAction) {

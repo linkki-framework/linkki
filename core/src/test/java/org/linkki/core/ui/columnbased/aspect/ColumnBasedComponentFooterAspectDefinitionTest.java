@@ -31,7 +31,6 @@ import org.linkki.core.ui.table.TableFooterPmo;
 
 public class ColumnBasedComponentFooterAspectDefinitionTest {
 
-    @SuppressWarnings("null")
     @Test
     public void testCreateAspect() {
         Aspect<Optional<TableFooterPmo>> aspect = new ColumnBasedComponentFooterAspectDefinition<>().createAspect();
@@ -39,7 +38,6 @@ public class ColumnBasedComponentFooterAspectDefinitionTest {
         assertThat(aspect.isValuePresent(), is(false));
     }
 
-    @SuppressWarnings("null")
     @Test
     public void testCreateComponentValueSetter() {
         TestColumnBasedComponent<Object> component = new TestColumnBasedComponent<>();
@@ -52,7 +50,6 @@ public class ColumnBasedComponentFooterAspectDefinitionTest {
         assertThat(component.getFooterPmo().get().getFooterText("bar"), is("foo"));
     }
 
-    @SuppressWarnings("null")
     @Test
     public void testSupports() {
         assertThat(new ColumnBasedComponentFooterAspectDefinition<>().supports(WrapperType.COMPONENT), is(false));

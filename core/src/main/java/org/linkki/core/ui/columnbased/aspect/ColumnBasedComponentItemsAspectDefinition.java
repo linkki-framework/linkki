@@ -16,7 +16,6 @@ package org.linkki.core.ui.columnbased.aspect;
 
 import java.util.List;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.ui.columnbased.ColumnBasedComponentWrapper;
 
@@ -24,7 +23,7 @@ import org.linkki.core.ui.columnbased.ColumnBasedComponentWrapper;
  * Binds items displayed in a column based UI component to a {@link List} of row presentation model
  * objects obtained with a {@value #NAME} {@link Aspect}.
  */
-public class ColumnBasedComponentItemsAspectDefinition<@NonNull ROW, WRAPPER extends ColumnBasedComponentWrapper<ROW>>
+public class ColumnBasedComponentItemsAspectDefinition<ROW, WRAPPER extends ColumnBasedComponentWrapper<ROW>>
         extends ColumnBasedComponentAspectDefinition<ROW, List<ROW>, WRAPPER> {
 
     public static final String NAME = "items";

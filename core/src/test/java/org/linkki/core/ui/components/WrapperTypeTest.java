@@ -42,7 +42,7 @@ public class WrapperTypeTest {
         assertFalse(WrapperType.of("custom", WrapperType.COMPONENT).isAssignableFrom(WrapperType.COMPONENT));
     }
 
-    @SuppressWarnings("null")
+
     @Test
     public void testIsRoot() {
         assertTrue(WrapperType.ROOT.isRoot());
@@ -53,7 +53,7 @@ public class WrapperTypeTest {
         assertFalse(WrapperType.of("", null).isRoot());
     }
 
-    @SuppressWarnings({ "null", "unlikely-arg-type" })
+    @SuppressWarnings("unlikely-arg-type")
     @Test
     public void testEquals() {
         assertTrue(WrapperType.ROOT.equals(WrapperType.ROOT));
@@ -72,7 +72,6 @@ public class WrapperTypeTest {
         assertFalse(WrapperType.of("field", null).equals(WrapperType.FIELD));
     }
 
-    @SuppressWarnings({ "null" })
     @Test
     public void testHashcode() {
         assertThat(WrapperType.ROOT.hashCode(), is(WrapperType.ROOT.hashCode()));

@@ -36,33 +36,33 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class AspectUpdatersTest {
 
     @Mock
-    @SuppressWarnings("null")
+    
     private LinkkiAspectDefinition aspect1;
     @Mock
-    @SuppressWarnings("null")
+    
     private LinkkiAspectDefinition aspect2NotSupported;
     @Mock
-    @SuppressWarnings("null")
+    
     private LinkkiAspectDefinition aspect3;
     @Mock
-    @SuppressWarnings("null")
+    
     private Handler updater1;
     @Mock
-    @SuppressWarnings("null")
+    
     private Handler updater2;
     @Mock
-    @SuppressWarnings("null")
+    
     private Handler updater3;
     @Mock
-    @SuppressWarnings("null")
+    
     private PropertyDispatcher propertyDispatcher;
     @Mock
-    @SuppressWarnings("null")
+    
     private ComponentWrapper componentWrapper;
 
     private Handler modelChanged = Handler.NOP_HANDLER;
 
-    @SuppressWarnings("null")
+    
     private AspectUpdaters aspectUpdaters;
 
     @Before

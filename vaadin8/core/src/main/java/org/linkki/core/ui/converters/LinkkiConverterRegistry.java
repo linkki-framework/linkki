@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.TypeUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.Sequence;
 
 import com.vaadin.data.Converter;
@@ -46,6 +45,8 @@ import com.vaadin.data.converter.StringToFloatConverter;
 import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.data.converter.StringToLongConverter;
 import com.vaadin.server.VaadinSession;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A converter registry that holds a set of standard converters. The registry could be instantiated with
@@ -147,7 +148,7 @@ public class LinkkiConverterRegistry implements Serializable {
      * @throws IllegalArgumentException if the types could be considered to be correct but no matching
      *             converter could be found.
      */
-    @SuppressWarnings({ "unchecked", "null" })
+    @SuppressWarnings("unchecked")
     public <P, M> Converter<P, M> findConverter(Type presentationType, Type modelType) {
         Class<?> rawPresentationType = getRawType(presentationType);
         Class<?> rawModelType = getRawType(modelType);
@@ -178,7 +179,7 @@ public class LinkkiConverterRegistry implements Serializable {
      * 
      * @return
      */
-    private boolean isIdentityNecessary(@Nullable Class<?> rawPresentationType, @Nullable Class<?> rawModelType) {
+    private boolean isIdentityNecessary(@CheckForNull Class<?> rawPresentationType, Class<?> rawModelType) {
         // CSOFF: Complexity
         return rawPresentationType == null
                 || rawModelType == null
@@ -187,22 +188,22 @@ public class LinkkiConverterRegistry implements Serializable {
         // CSON: Complexity
     }
 
-    @Nullable
-    private Class<?> getRawType(@Nullable Type type) {
+    @CheckForNull
+    private Class<?> getRawType(@CheckForNull Type type) {
         return ClassUtils.primitiveToWrapper(TypeUtils.getRawType(type, null));
     }
 
-    @Nullable
+    @CheckForNull
     private Type getPresentationType(Converter<?, ?> converter) {
         return getTypeOf(converter, 0);
     }
 
-    @Nullable
+    @CheckForNull
     private Type getModelType(Converter<?, ?> converter) {
         return getTypeOf(converter, 1);
     }
 
-    @Nullable
+    @CheckForNull
     private Type getTypeOf(Converter<?, ?> converter, int index) {
         Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(converter.getClass(),
                                                                               Converter.class);

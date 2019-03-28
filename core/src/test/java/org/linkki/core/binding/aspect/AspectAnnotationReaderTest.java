@@ -26,7 +26,6 @@ import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -36,9 +35,11 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.util.handler.Handler;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class AspectAnnotationReaderTest {
 
-    @SuppressWarnings("null")
+    
     @Test
     public void testCreateAspectDefinitionsFrom() throws NoSuchMethodException, SecurityException {
         TestAnnotation annotationToTest = TestClass.class.getMethod("something").getAnnotation(TestAnnotation.class);
@@ -139,7 +140,7 @@ public class AspectAnnotationReaderTest {
 
     private static class TestAspectDefinition implements LinkkiAspectDefinition {
 
-        @Nullable
+        @CheckForNull
         private Annotation initializedAnnotation;
 
         public TestAspectDefinition(Annotation annotation) {

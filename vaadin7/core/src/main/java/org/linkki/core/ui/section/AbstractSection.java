@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ButtonPmoBuilder;
 import org.linkki.core.ui.application.ApplicationStyles;
 import org.linkki.core.ui.util.ComponentFactory;
@@ -33,6 +32,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * A section consists of a header displaying a caption and a body/content containing controls to view
  * and edit data. Optionally the section can be closed and opened. When the section is closed only the
@@ -42,9 +43,9 @@ public abstract class AbstractSection extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    @Nullable
+    @CheckForNull
     private HorizontalLayout header;
-    @Nullable
+    @CheckForNull
     private Button openCloseButton;
     private boolean open = true;
     private Optional<Button> editButton = Optional.empty();
@@ -155,7 +156,6 @@ public abstract class AbstractSection extends VerticalLayout {
         addBeforeCloseButton(button);
     }
 
-    @SuppressWarnings("null")
     private void addBeforeCloseButton(Button headerButton) {
         if (openCloseButton != null) {
             if (header != null) {

@@ -26,7 +26,7 @@ import com.vaadin.server.UserError;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Wraps a vaadin component and uses the vaadin built-in caption instead of an extra label component
@@ -94,7 +94,7 @@ public class CaptionComponentWrapper implements ComponentWrapper {
         }
     }
 
-    @Nullable
+    @CheckForNull
     private UserError getErrorHandler(MessageList messages) {
         return messages.getSeverity()
                 .map(SeverityErrorLevelConverter::convertToErrorLevel)

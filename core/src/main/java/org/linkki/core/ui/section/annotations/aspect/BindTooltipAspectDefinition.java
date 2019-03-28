@@ -16,13 +16,12 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.util.function.Consumer;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
 import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 
-public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<@NonNull String> {
+public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<String> {
 
     public static final String NAME = "tooltip";
 
@@ -36,7 +35,7 @@ public class BindTooltipAspectDefinition extends ModelToUiAspectDefinition<@NonN
     }
 
     @Override
-    public Aspect<@NonNull String> createAspect() {
+    public Aspect<String> createAspect() {
         if (type == TooltipType.STATIC) {
             return Aspect.of(NAME, value);
         } else {

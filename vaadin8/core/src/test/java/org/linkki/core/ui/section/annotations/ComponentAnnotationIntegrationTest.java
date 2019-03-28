@@ -23,7 +23,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
@@ -35,6 +34,8 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 public abstract class ComponentAnnotationIntegrationTest<C extends AbstractComponent, P extends AnnotationTestPmo> {
 
     protected static final String PROPERTY_VALUE = "value";
@@ -43,11 +44,11 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     private Object defaultModelObject;
     private P defaultPmo;
     private BindingContext bindingContext;
-    private Function<Object, ? extends @NonNull P> pmoCreator;
+    private Function<Object, ? extends P> pmoCreator;
     private Supplier<Object> modelObjectSupplier;
     private GridLayout defaultSection;
 
-    @SuppressWarnings("null")
+    
     public ComponentAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,
             Function<Object, ? extends P> pmoCreator) {
         this.modelObjectSupplier = modelObjectSupplier;
@@ -81,11 +82,11 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
 
     @Test
     public void testPosition() {
-        @SuppressWarnings("null")
+        
         @NonNull
         Component component1 = getDefaultSection().getComponent(1, 0);
         assertThat(component1.getId(), is(getDynamicComponent().getId()));
-        @SuppressWarnings("null")
+        
         @NonNull
         Component component2 = getDefaultSection().getComponent(1, 1);
         assertThat(component2.getId(), is(getStaticComponent().getId()));
@@ -183,7 +184,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
         return getComponentById(PROPERTY_STATIC_VALUE);
     }
 
-    @SuppressWarnings("null")
+    
     protected P newPmo(Object modelObject) {
         return pmoCreator.apply(modelObject);
     }

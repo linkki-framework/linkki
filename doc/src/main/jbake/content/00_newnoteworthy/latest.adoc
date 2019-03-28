@@ -449,7 +449,7 @@ CSS style classes are available for `linkki-message-table`/`linkki-message-row` 
   }
 ---- 
 
-===== Dynamic style name binding
+===== Dynamic Style Name Binding
 
 A new aspect <<bind-style-names,@BindStyleNames>> has been introduced, to set user defined styles. This will
 overwrite any other user defined style names but not those from Vaadin. It is possible to provide multiple style names.
@@ -461,3 +461,7 @@ public String getIcon() {
     return VaadinIcons.STAR.getHtml();
 }
 ----
+
+===== NonNull Annotations
+
+In the pursuit of bug-free code we changed the annotations we use to mark whether methods accept and/or return null values from those of the Eclipse framework to those provided by SpotBugs. We recommend to disable annotation based null analysis in projects using *linkki* as Eclipse is not fully compatible with the SpotBugs annotations. 

@@ -68,7 +68,6 @@ public interface ApplicationConfig {
      *           {@link ApplicationFooter} created with the {@link #getFooterDefinition()}.
      */
     default ApplicationLayout createApplicationLayout() {
-        @SuppressWarnings("null")
         ApplicationFooter footer = getFooterDefinition().map(fd -> fd.apply(this)).orElse(null);
         return new ApplicationLayout(getHeaderDefinition().apply(new ApplicationMenu(getMenuItemDefinitions().list())),
                 footer);

@@ -20,11 +20,10 @@ import static java.util.function.Predicate.isEqual;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.samples.treetable.dynamic.model.Player;
 import org.linkki.samples.treetable.dynamic.model.Player.Position;
 
-public class PositionRowPmo extends CategoryRowPmo<@NonNull Player, @NonNull PlayerRowPmo> {
+public class PositionRowPmo extends CategoryRowPmo<Player, PlayerRowPmo> {
 
     private final Position position;
 

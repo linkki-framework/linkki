@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import org.eclipse.jdt.annotation.Nullable;
-
 /**
  * A registry for date format patterns that changes some rather unsuitable default patterns provided by
  * {@link DateFormat#getDateInstance(int, Locale)} such as the German "dd.MM.yyyy" instead of
@@ -34,7 +32,7 @@ public final class DateFormats {
     public static final String PATTERN_ISO = "yyyy-MM-dd";
     public static final String PATTERN_DE = "dd.MM.yyyy";
 
-    private static final Map<String, @Nullable String> LANGUAGE_PATTERNS = new HashMap<>();
+    private static final Map<String, String> LANGUAGE_PATTERNS = new HashMap<>();
 
     static {
         LANGUAGE_PATTERNS.put(Locale.GERMAN.getLanguage(), PATTERN_DE);

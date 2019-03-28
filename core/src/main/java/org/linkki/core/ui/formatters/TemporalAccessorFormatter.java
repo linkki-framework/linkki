@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Base class for all formatters which format {@link TemporalAccessor}-subclasses as {@link String}
@@ -42,8 +42,8 @@ public abstract class TemporalAccessorFormatter<T extends TemporalAccessor> impl
      * @return given value as formatted String
      */
     @Override
-    @Nullable
-    public String format(@Nullable T value, Locale locale) {
+    @CheckForNull
+    public String format(@CheckForNull T value, Locale locale) {
         if (value == null) {
             return "";
         }

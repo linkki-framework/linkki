@@ -16,7 +16,6 @@ package org.linkki.core.ui.columnbased.aspect;
 
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.ui.columnbased.ColumnBasedComponentWrapper;
 import org.linkki.core.ui.table.TableFooterPmo;
@@ -25,7 +24,7 @@ import org.linkki.core.ui.table.TableFooterPmo;
  * Binds columns' footers to a {@link Optional}{@link TableFooterPmo &lt;TableFooterPmo&gt;} obtained
  * with a {@value #NAME} {@link Aspect}.
  */
-public class ColumnBasedComponentFooterAspectDefinition<@NonNull ROW, WRAPPER extends ColumnBasedComponentWrapper<ROW>>
+public class ColumnBasedComponentFooterAspectDefinition<ROW, WRAPPER extends ColumnBasedComponentWrapper<ROW>>
         extends ColumnBasedComponentAspectDefinition<ROW, Optional<TableFooterPmo>, WRAPPER> {
 
     public static final String NAME = "footerPmo";

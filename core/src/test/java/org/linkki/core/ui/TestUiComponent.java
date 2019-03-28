@@ -14,21 +14,22 @@
 
 package org.linkki.core.ui;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.message.MessageList;
 import org.linkki.util.handler.Handler;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class TestUiComponent {
 
-    @Nullable
+    @CheckForNull
     private String id;
     private boolean visible;
     private boolean enabled;
-    @Nullable
+    @CheckForNull
     private String labelText;
-    @Nullable
+    @CheckForNull
     private String tooltipText;
-    @Nullable
+    @CheckForNull
     private MessageList validationMessages;
 
     private Handler clickHandler = Handler.NOP_HANDLER;
@@ -37,7 +38,7 @@ public class TestUiComponent {
         getClickHandler().apply();
     }
 
-    @Nullable
+    @CheckForNull
     public String getId() {
         return id;
     }
@@ -62,7 +63,7 @@ public class TestUiComponent {
         this.enabled = enabled;
     }
 
-    @Nullable
+    @CheckForNull
     public String getLabelText() {
         return labelText;
     }
@@ -71,7 +72,7 @@ public class TestUiComponent {
         this.labelText = labelText;
     }
 
-    @Nullable
+    @CheckForNull
     public String getTooltipText() {
         return tooltipText;
     }
@@ -80,7 +81,7 @@ public class TestUiComponent {
         this.tooltipText = tooltipText;
     }
 
-    @Nullable
+    @CheckForNull
     public MessageList getValidationMessages() {
         return validationMessages;
     }

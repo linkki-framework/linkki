@@ -21,8 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
@@ -50,7 +48,7 @@ public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        Consumer<@Nullable Collection<?>> setter = createComponentValueSetter(componentWrapper);
+        Consumer<Collection<?>> setter = createComponentValueSetter(componentWrapper);
         Aspect<List<?>> aspect = createAspect(propertyDispatcher.getProperty(),
                                               propertyDispatcher.getValueClass());
         return () -> setter.accept(propertyDispatcher.pull(aspect));
@@ -84,9 +82,9 @@ public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
         }
     }
 
-    public Consumer<@Nullable Collection<?>> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    public Consumer<Collection<?>> createComponentValueSetter(ComponentWrapper componentWrapper) {
         AbstractSelect component = ((AbstractSelect)componentWrapper.getComponent());
-        LinkkiInMemoryContainer<@NonNull Object> container = new LinkkiInMemoryContainer<>();
+        LinkkiInMemoryContainer<Object> container = new LinkkiInMemoryContainer<>();
         setContainerDataSource(component, container);
         return vals -> {
             if (vals != null) {

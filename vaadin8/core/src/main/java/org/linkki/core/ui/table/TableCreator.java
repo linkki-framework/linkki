@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
@@ -78,7 +77,7 @@ class TableCreator implements ColumnBasedComponentCreator {
 
     /** Column generator that generates a column for a field of a PMO. */
     @SuppressWarnings("deprecation")
-    private static class FieldColumnGenerator<@NonNull T> implements com.vaadin.v7.ui.Table.ColumnGenerator {
+    private static class FieldColumnGenerator<T> implements com.vaadin.v7.ui.Table.ColumnGenerator {
 
         private static final long serialVersionUID = 1L;
 

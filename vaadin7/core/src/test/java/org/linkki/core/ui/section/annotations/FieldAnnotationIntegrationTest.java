@@ -20,13 +20,12 @@ import static org.junit.Assert.assertThat;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 
 import com.vaadin.ui.AbstractField;
 
-public abstract class FieldAnnotationIntegrationTest<@NonNull F extends AbstractField<?>, P extends AnnotationTestPmo>
+public abstract class FieldAnnotationIntegrationTest<F extends AbstractField<?>, P extends AnnotationTestPmo>
         extends ComponentAnnotationIntegrationTest<F, P> {
 
     public FieldAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,

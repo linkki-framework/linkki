@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.eclipse.jdt.annotation.NonNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Reads the annotation {@link LinkkiBoundProperty @LinkkiBoundProperty}.
@@ -83,7 +83,6 @@ public final class BoundPropertyAnnotationReader {
     }
 
     private static <T extends Annotation> BoundProperty createBoundProperty(AnnotatedElement annotatedElement, T a) {
-        @SuppressWarnings("null")
         @NonNull
         LinkkiBoundProperty boundPropertyAnnotation = a.annotationType().getAnnotation(LinkkiBoundProperty.class);
         try {

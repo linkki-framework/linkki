@@ -23,13 +23,14 @@ import java.util.TreeMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.samples.treetable.fixed.model.Person;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 @UISection
-public class PersonTablePmo implements ContainerPmo<@NonNull AbstractPersonRowPmo> {
+public class PersonTablePmo implements ContainerPmo<AbstractPersonRowPmo> {
 
     private List<AbstractPersonRowPmo> rows;
 

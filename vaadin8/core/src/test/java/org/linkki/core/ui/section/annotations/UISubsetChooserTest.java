@@ -21,11 +21,12 @@ import static org.junit.Assert.assertThat;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
 
 import com.vaadin.ui.TwinColSelect;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class UISubsetChooserTest {
 
@@ -82,7 +83,7 @@ public class UISubsetChooserTest {
         return (TwinColSelect<TestEnum>)TestUiUtil.createFirstComponentOf(pmo);
     }
 
-    @SuppressWarnings("null")
+    
     @Test
     public void testDefaultItemCaptionProvider() {
         TwinColSelect<TestEnum> subsetChooser = createSubsetChooser(new TestPmo());
@@ -119,7 +120,7 @@ public class UISubsetChooserTest {
 
         subsetChooser.deselectAll();
 
-        @SuppressWarnings("null")
+        
         @NonNull
         Set<TestEnum> selectedValuesResultEmpty = subsetChooser.getValue();
         assertThat(selectedValuesResultEmpty, is(empty()));

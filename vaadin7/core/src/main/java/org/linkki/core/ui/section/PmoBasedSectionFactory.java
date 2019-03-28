@@ -17,7 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.ButtonPmo;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinder;
@@ -75,7 +74,7 @@ public class PmoBasedSectionFactory {
      * Creates a new section containing a table based on the given annotated {@link ContainerPmo} and
      * binds the table via the given binding context to the PMO.
      */
-    public <@NonNull T> TableSection createTableSection(ContainerPmo<T> pmo, BindingContext bindingContext) {
+    public <T> TableSection createTableSection(ContainerPmo<T> pmo, BindingContext bindingContext) {
         return (TableSection)createSection(pmo, bindingContext);
     }
 
@@ -93,7 +92,6 @@ public class PmoBasedSectionFactory {
             this.bindingContext = bindingContext;
         }
 
-        @SuppressWarnings("null")
         public AbstractSection createSection() {
             UISection sectionDefinition = pmo.getClass().getAnnotation(UISection.class);
 

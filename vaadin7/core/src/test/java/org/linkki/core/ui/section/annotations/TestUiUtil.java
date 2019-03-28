@@ -42,7 +42,7 @@ public final class TestUiUtil {
         return createFirstComponentOf(pmo, bindingContext);
     }
 
-    @SuppressWarnings("null")
+    
     public static Component createFirstComponentOf(Object pmo, BindingContext bindingContext) {
         return createSectionWith(pmo, bindingContext).getComponent(1, 0);
     }
@@ -59,7 +59,7 @@ public final class TestUiUtil {
         return createSectionWith(pmo, new BindingContext());
     }
 
-    @SuppressWarnings("null")
+    
     public static GridLayout createSectionWith(Object pmo, BindingContext bindingContext) {
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         AbstractSection section = sectionFactory.createSection(pmo, bindingContext);

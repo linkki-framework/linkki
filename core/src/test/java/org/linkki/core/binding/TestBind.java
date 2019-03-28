@@ -23,7 +23,6 @@ import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.TestBind.TestBindAnnotationAspectDefinitionCreator;
 import org.linkki.core.binding.TestBind.TestBindAnnotationBoundPropertyCreator;
 import org.linkki.core.binding.aspect.Aspect;
@@ -140,7 +139,7 @@ public @interface TestBind {
 
     }
 
-    static class TestLabelAspectDefinition extends StaticModelToUiAspectDefinition<@Nullable String> {
+    static class TestLabelAspectDefinition extends StaticModelToUiAspectDefinition<String> {
 
         public static final String NAME = "label";
 
@@ -153,7 +152,7 @@ public @interface TestBind {
         }
 
         @Override
-        public Aspect<@Nullable String> createAspect() {
+        public Aspect<String> createAspect() {
             return Aspect.of(NAME, label);
         }
 

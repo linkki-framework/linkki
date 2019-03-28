@@ -37,9 +37,9 @@ public class PmoNlsServiceTableSectionTest {
 
     private BindingContext bindingContext = new BindingContext();
 
-    @SuppressWarnings("null")
+    
     private String translatedLabel;
-    @SuppressWarnings("null")
+    
     private String translatedCaption;
 
     @Before

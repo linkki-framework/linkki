@@ -28,6 +28,8 @@ import org.linkki.core.ui.components.LinkkiComboBox;
 import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UICustomFieldIntegrationTest.ComboBoxTestPmo;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest<LinkkiComboBox, ComboBoxTestPmo> {
 
     public UICustomFieldIntegrationTest() {
@@ -101,11 +103,12 @@ public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest
         }
     }
 
-    @SuppressWarnings("null")
-    protected static class ComboBoxTestModelObject {
 
+    protected static class ComboBoxTestModelObject {
+        @CheckForNull
         private TestEnum value;
 
+        @CheckForNull
         public TestEnum getValue() {
             return value;
         }
@@ -115,6 +118,7 @@ public class UICustomFieldIntegrationTest extends FieldAnnotationIntegrationTest
 
         }
 
+        @CheckForNull
         public TestEnum getStaticValue() {
             return getValue();
         }

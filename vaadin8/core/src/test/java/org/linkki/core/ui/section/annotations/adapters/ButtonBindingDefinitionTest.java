@@ -21,7 +21,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.ui.section.annotations.UIButton;
@@ -37,17 +36,19 @@ import com.vaadin.ui.Button.ClickShortcut;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.themes.ValoTheme;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 @RunWith(MockitoJUnitRunner.class)
 public class ButtonBindingDefinitionTest {
 
-    @SuppressWarnings("null")
+    
     @Captor
     private ArgumentCaptor<ClickShortcut> clickShortcutCaptor;
 
     private UIButton getAnnotation(String name) {
         try {
             @NonNull
-            @SuppressWarnings("null")
+            
             UIButton annotation = getClass().getMethod(name, new Class<?>[] {})
                     .getAnnotation(UIButton.class);
             return annotation;
@@ -108,7 +109,7 @@ public class ButtonBindingDefinitionTest {
         Button buttonSpy = spy(button);
         buttonSpy.setClickShortcut(KeyCode.ENTER);
         verify(buttonSpy).removeShortcutListener(clickShortcutCaptor.capture());
-        @SuppressWarnings("null")
+        
         @NonNull
         ClickShortcut value = clickShortcutCaptor.getValue();
         assertThat(value.getKeyCode(), is(KeyCode.E));

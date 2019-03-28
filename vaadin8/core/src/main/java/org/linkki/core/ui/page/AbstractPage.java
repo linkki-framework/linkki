@@ -19,7 +19,6 @@ import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.BindingManager;
 import org.linkki.core.ui.section.AbstractSection;
@@ -30,6 +29,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
 /**

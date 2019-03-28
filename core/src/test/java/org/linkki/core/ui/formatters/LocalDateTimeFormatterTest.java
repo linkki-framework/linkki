@@ -31,7 +31,7 @@ public class LocalDateTimeFormatterTest {
 
     private static final LocalDateTime DATE_TIME = LocalDateTime.of(2019, Month.FEBRUARY, 20, 15, 28, 35);
 
-    @SuppressWarnings("null")
+    
     private Locale defaultLocale;
 
     @Test

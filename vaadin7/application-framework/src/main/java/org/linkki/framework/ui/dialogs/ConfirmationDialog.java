@@ -14,13 +14,14 @@
 package org.linkki.framework.ui.dialogs;
 
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A dialog to present an information to the user, who has to confirm it with OK.
@@ -50,11 +51,11 @@ public class ConfirmationDialog extends OkCancelDialog {
      * @deprecated use {@link #ConfirmationDialog(String, Handler, Component...)} instead
      */
     @Deprecated
-    public ConfirmationDialog(String caption, @Nullable Component content, Handler okHandler) {
+    public ConfirmationDialog(String caption, Component content, Handler okHandler) {
         this(caption, okHandler, toArray(content));
     }
 
-    private static Component[] toArray(@Nullable Component contentComponent) {
+    private static Component[] toArray(@CheckForNull Component contentComponent) {
         if (contentComponent == null) {
             return new Component[] {};
         } else {

@@ -16,7 +16,6 @@ package org.linkki.samples.appsample.pmo;
 
 import java.time.LocalDate;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.message.Message;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.message.Severity;
@@ -31,6 +30,8 @@ import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 import org.linkki.core.ui.section.annotations.UITextArea;
 import org.linkki.samples.appsample.model.Report;
 import org.linkki.samples.appsample.model.ReportType;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class ReportPmo {
 

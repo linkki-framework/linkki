@@ -31,7 +31,7 @@ import org.linkki.core.ui.components.ComponentWrapper;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mockito;
 
-@SuppressWarnings("null")
+
 public class ButtonBindingTest {
 
     private TestUiComponent button = spy(new TestUiComponent());

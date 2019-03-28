@@ -35,14 +35,6 @@
             <artifactId>geronimo-servlet_3.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-
-        <!-- otherwise we get warnings in eclipse that annotations can not be resolved -->
-        <!-- tag::eclipse-annotations[] -->
-        <dependency>
-            <groupId>org.eclipse.jdt</groupId>
-            <artifactId>org.eclipse.jdt.annotation</artifactId>
-        </dependency>
-        <!-- end::eclipse-annotations[] -->
     </dependencies>
 
     <build>

@@ -18,10 +18,9 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * The linkki binding in general defines a synchronization link between a UI component and a
@@ -80,6 +79,7 @@ public class Aspect<V> {
      * @throws NoSuchElementException if no value is present, if this behavior is not needed use
      *             {@link #isValuePresent()}
      */
+    @CheckForNull
     public V getValue() {
         if (isValuePresent()) {
             return value.get();
@@ -96,6 +96,7 @@ public class Aspect<V> {
      * 
      * @see #getValue()
      */
+    @CheckForNull
     public V getValueOr(Supplier<V> supplier) {
         return value.orElseGet(supplier);
     }
@@ -138,7 +139,7 @@ public class Aspect<V> {
      * @param value the value of the aspect
      * @return a new {@link Aspect} that has a value
      */
-    public static <T> Aspect<T> of(String name, T value) {
+    public static <T> Aspect<T> of(String name, @CheckForNull T value) {
         return new Aspect<>(name, new Value<>(true, value));
     }
 
@@ -155,15 +156,14 @@ public class Aspect<V> {
 
         private final boolean valuePresent;
 
-        @Nullable
+        @CheckForNull
         private final T value;
 
-        protected Value(boolean valuePresent, T value) {
+        protected Value(boolean valuePresent, @CheckForNull T value) {
             this.valuePresent = valuePresent;
             this.value = value;
         }
 
-        @SuppressFBWarnings(value = "NP_STORE_INTO_NONNULL_FIELD", justification = "SpotBugs Bug")
         protected Value() {
             this.valuePresent = false;
             this.value = null;
@@ -173,7 +173,7 @@ public class Aspect<V> {
             return valuePresent;
         }
 
-        @SuppressWarnings("null")
+        @CheckForNull
         public T get() {
             if (isValuePresent()) {
                 return value;
@@ -182,6 +182,7 @@ public class Aspect<V> {
             }
         }
 
+        @CheckForNull
         public T orElseGet(Supplier<T> valueSupplier) {
             if (isValuePresent()) {
                 return get();

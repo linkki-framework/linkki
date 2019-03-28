@@ -38,15 +38,6 @@ include::{sample-parent-dir}/pom.xml[tags=linkki-core-vaadin8]
 
 In the above example, we are creating a web application that is packaged as `war`, as it is needed for the <<linkki-example, *linkki* example>>.
 
-==== Null Analysis
-
-*linkki* uses https://mvnrepository.com/artifact/org.eclipse.jdt/org.eclipse.jdt.annotation[Eclipse JDT Annotations] for null analysis.  If *linkki* classes are extended (like `ContainerPmo` for tables), this dependency has to be added in order to compile correctly:
-
-[source,xml]
-----
-include::{tree-sample-dir}/pom.xml[tags=eclipse-annotations]
-----
-
 [[maven-archetypes]]
 ==== Maven Archetypes
 

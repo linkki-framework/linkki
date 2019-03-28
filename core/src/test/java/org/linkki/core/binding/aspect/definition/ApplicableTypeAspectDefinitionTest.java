@@ -36,15 +36,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicableTypeAspectDefinitionTest {
 
-    @SuppressWarnings("null")
+    
     @Mock
     private PropertyDispatcher propertyDispatcher;
 
-    @SuppressWarnings("null")
+    
     @Mock
     private LinkkiAspectDefinition aspectDefinition;
 
-    @SuppressWarnings("null")
+    
     @Mock
     private Handler modelUpdated;
 

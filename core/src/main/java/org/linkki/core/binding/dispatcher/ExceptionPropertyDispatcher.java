@@ -23,9 +23,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.message.MessageList;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * {@link PropertyDispatcher} that throws exception for aspect except for
@@ -36,7 +37,7 @@ import org.linkki.core.message.MessageList;
  */
 public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
 
-    private final List<@Nullable Object> objects = new ArrayList<>();
+    private final List<Object> objects = new ArrayList<>();
     private String property;
 
     /**
@@ -73,7 +74,7 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     }
 
     @Override
-    @Nullable
+    @CheckForNull
     public Object getBoundObject() {
         if (objects.size() > 0) {
             return objects.get(0);

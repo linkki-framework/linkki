@@ -22,6 +22,9 @@ import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.behavior.PropertyBehavior;
 import org.linkki.core.message.MessageList;
 import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
+import org.linkki.util.function.TriPredicate;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * {@link AbstractPropertyDispatcherDecorator DispatcherDecorator} that lets {@link PropertyBehavior}
@@ -54,11 +57,19 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      */
     @Override
     public MessageList getMessages(MessageList messageList) {
-        if (isConsensus(b -> b.isShowValidationMessages(requireNonNull(getBoundObject()), getProperty()))) {
+        if (isConsensus(forBoundObjectAndProperty(PropertyBehavior::isShowValidationMessages))) {
             return super.getMessages(messageList);
         } else {
             return new MessageList();
         }
+    }
+
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "that's why we use requireNonNull")
+    private Predicate<PropertyBehavior> forBoundObjectAndProperty(
+            TriPredicate<PropertyBehavior, Object, String> triPredicate) {
+        Object boundObject = requireNonNull(getBoundObject(), "boundObject must not be null");
+        String property = getProperty();
+        return b -> triPredicate.test(b, boundObject, property);
     }
 
     /**
@@ -84,10 +95,9 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
      */
     @SuppressWarnings("unchecked")
     @Override
-
     public <T> T pull(Aspect<T> aspect) {
         if (aspect.getName().equals(VisibleAspectDefinition.NAME) &&
-                !isConsensus(b -> b.isVisible(requireNonNull(getBoundObject()), getProperty()))) {
+                !isConsensus(forBoundObjectAndProperty(PropertyBehavior::isVisible))) {
             return (T)Boolean.FALSE;
         } else {
             return super.pull(aspect);
@@ -97,7 +107,7 @@ public class BehaviorDependentDispatcher extends AbstractPropertyDispatcherDecor
     @Override
     public <T> boolean isPushable(Aspect<T> aspect) {
         if (aspect.getName().equals(LinkkiAspectDefinition.VALUE_ASPECT_NAME)
-                && !isConsensus(b -> b.isWritable(requireNonNull(getBoundObject()), getProperty()))) {
+                && !isConsensus(forBoundObjectAndProperty(PropertyBehavior::isWritable))) {
             return false;
         } else {
             return super.isPushable(aspect);

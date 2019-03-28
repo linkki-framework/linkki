@@ -29,7 +29,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.binding.aspect.Aspect;
@@ -43,13 +42,15 @@ import com.vaadin.data.HasItems;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.ComboBox;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 public class AvailableValuesAspectDefinitionTest {
 
     private static final BiConsumer<HasItems<?>, ListDataProvider<Object>> NOP = (c, p) -> {
         /* NOP */
     };
 
-    @SuppressWarnings({ "null", "unused" })
+    @SuppressWarnings("unused")
     @Test(expected = NullPointerException.class)
     public void testConstructorWithoutAvailableValuesType() {
         new AvailableValuesAspectDefinition<>(null, NOP);
@@ -172,7 +173,7 @@ public class AvailableValuesAspectDefinitionTest {
 
         ArgumentCaptor<ListDataProvider<?>> dataProviderCaptor = ArgumentCaptor.forClass(ListDataProvider.class);
         verify(dataProviderSetter).accept(eq(component), (ListDataProvider<Object>)dataProviderCaptor.capture());
-        @SuppressWarnings("null")
+
         @NonNull
         ListDataProvider<?> dataProvider = dataProviderCaptor.getValue();
 

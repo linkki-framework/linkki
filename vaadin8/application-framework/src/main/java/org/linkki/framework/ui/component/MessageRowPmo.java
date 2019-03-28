@@ -40,7 +40,6 @@ public class MessageRowPmo {
         this.message = requireNonNull(message, "message must not be null");
     }
 
-    @SuppressWarnings("null")
     @UITableColumn(expandRatio = 0)
     @UILabel(position = 10, htmlContent = true)
     @BindTooltip(tooltipType = TooltipType.DYNAMIC)

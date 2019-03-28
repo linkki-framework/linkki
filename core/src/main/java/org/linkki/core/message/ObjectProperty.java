@@ -16,7 +16,7 @@ package org.linkki.core.message;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.eclipse.jdt.annotation.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 
 /**
@@ -30,7 +30,7 @@ public class ObjectProperty implements Serializable {
 
 
     private final Object object;
-    @Nullable
+    @CheckForNull
     private final String property;
 
     private final int index;
@@ -42,7 +42,7 @@ public class ObjectProperty implements Serializable {
      * position within the property. An index smaller than 0 indicates that it is not an indexed
      * property.
      */
-    public ObjectProperty(Object object, @Nullable String property, int index) {
+    public ObjectProperty(Object object, @CheckForNull String property, int index) {
         this.object = Objects.requireNonNull(object, "object must not be null");
         this.property = property;
         this.index = index;
@@ -83,7 +83,7 @@ public class ObjectProperty implements Serializable {
      * should be available as bean property in the given object.
      * 
      */
-    @Nullable
+    @CheckForNull
     public String getProperty() {
         return property;
     }
@@ -113,7 +113,7 @@ public class ObjectProperty implements Serializable {
     }
 
     @Override
-    public boolean equals(@SuppressWarnings("null") Object obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof ObjectProperty) {
             ObjectProperty other = (ObjectProperty)obj;
             return Objects.equals(object, other.object) && index == other.index

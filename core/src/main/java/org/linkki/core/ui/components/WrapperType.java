@@ -14,8 +14,9 @@
 
 package org.linkki.core.ui.components;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A wrapper type helps to distinguish different kinds of component wrappers. It is used to describe
@@ -52,10 +53,10 @@ public class WrapperType {
 
     private final String name;
 
-    @Nullable
+    @CheckForNull
     private final WrapperType parent;
 
-    private WrapperType(String name, @Nullable WrapperType parent) {
+    private WrapperType(String name, WrapperType parent) {
         this.name = name;
         this.parent = parent;
     }
@@ -87,7 +88,7 @@ public class WrapperType {
      * @return the parent {@link WrapperType} of this type
      * @see #isRoot()
      */
-    @Nullable
+    @CheckForNull
     public WrapperType getParent() {
         return parent;
     }
@@ -108,7 +109,7 @@ public class WrapperType {
      * @param type another {@link WrapperType} that should be the same or a subtype of this
      * @return {@code true} if the given type is the same or a subtype of this, otherwise {@code false}
      */
-    public boolean isAssignableFrom(@Nullable WrapperType type) {
+    public boolean isAssignableFrom(@CheckForNull WrapperType type) {
         return this.equals(type) || (type != null && isAssignableFrom(type.getParent()));
     }
 
@@ -124,7 +125,7 @@ public class WrapperType {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -142,7 +143,7 @@ public class WrapperType {
             if (other.parent != null) {
                 return false;
             }
-        } else if (parent != null && !parent.equals(other.parent)) {
+        } else if (!parent.equals(other.parent)) {
             return false;
         }
         return true;

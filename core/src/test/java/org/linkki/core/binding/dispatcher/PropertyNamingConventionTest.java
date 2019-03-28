@@ -32,7 +32,6 @@ public class PropertyNamingConventionTest {
         assertEquals("test", namingConvention.getValueProperty("test"));
     }
 
-    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testGetValueProperty_null() {
         namingConvention.getValueProperty(null);
@@ -48,7 +47,6 @@ public class PropertyNamingConventionTest {
         assertEquals("enabled", namingConvention.getEnabledProperty(StringUtils.EMPTY));
     }
 
-    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testGetEnabledProperty_null() {
         namingConvention.getEnabledProperty(null);
@@ -64,7 +62,6 @@ public class PropertyNamingConventionTest {
         assertEquals("visible", namingConvention.getVisibleProperty(StringUtils.EMPTY));
     }
 
-    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testGetVisibleProperty_null() {
         namingConvention.getVisibleProperty(null);
@@ -75,7 +72,6 @@ public class PropertyNamingConventionTest {
         assertEquals("testMessages", namingConvention.getMessagesProperty("test"));
     }
 
-    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testGetMessagesProperty_null() {
         namingConvention.getMessagesProperty(null);
@@ -86,7 +82,6 @@ public class PropertyNamingConventionTest {
         assertEquals("testRequired", namingConvention.getRequiredProperty("test"));
     }
 
-    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testGetRequiredProperty_null() {
         namingConvention.getRequiredProperty(null);
@@ -97,7 +92,6 @@ public class PropertyNamingConventionTest {
         assertEquals("testAvailableValues", namingConvention.getAvailableValuesProperty("test"));
     }
 
-    @SuppressWarnings("null")
     @Test(expected = NullPointerException.class)
     public void testGetAvailableValuesProperty_null() {
         namingConvention.getAvailableValuesProperty(null);

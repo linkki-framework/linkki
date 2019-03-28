@@ -11,5 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-@org.eclipse.jdt.annotation.NonNullByDefault
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForMethods(edu.umd.cs.findbugs.annotations.NonNull.class)
 package org.linkki.samples.appsample.ui;

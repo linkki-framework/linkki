@@ -17,7 +17,6 @@ package org.linkki.core.binding.property;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.section.annotations.ModelObject;
 
 /**
@@ -114,7 +113,7 @@ public final class BoundProperty {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }

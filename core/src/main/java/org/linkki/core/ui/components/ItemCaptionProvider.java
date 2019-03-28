@@ -18,7 +18,8 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.Nullable;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * An {@link ItemCaptionProvider} is used to get the caption for an item in a selection UI component
@@ -94,12 +95,12 @@ public interface ItemCaptionProvider<T> {
             return name != null ? name : StringUtils.EMPTY;
         }
 
-        @Nullable
+        @CheckForNull
         private String getName(Object value) {
             return getPropertyValue(value, "getName");
         }
 
-        @Nullable
+        @CheckForNull
         private String getPropertyValue(Object value, String methodName) {
             try {
                 Method method = value.getClass().getMethod(methodName);
@@ -124,17 +125,17 @@ public interface ItemCaptionProvider<T> {
             return getName(o) + " [" + getId(o) + "]";
         }
 
-        @Nullable
+        @CheckForNull
         private String getId(Object value) {
             return getPropertyValue(value, "getId");
         }
 
-        @Nullable
+        @CheckForNull
         private String getName(Object value) {
             return getPropertyValue(value, "getName");
         }
 
-        @Nullable
+        @CheckForNull
         private String getPropertyValue(Object value, String methodName) {
             try {
                 Method method = value.getClass().getMethod(methodName);

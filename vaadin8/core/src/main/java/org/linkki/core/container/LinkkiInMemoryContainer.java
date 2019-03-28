@@ -22,9 +22,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.table.HierarchicalRowPmo;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 
 /**
@@ -34,7 +34,7 @@ import org.linkki.core.ui.table.HierarchicalRowPmo;
  * @param <T> the type of items contained in this container
  */
 @SuppressWarnings("deprecation")
-public class LinkkiInMemoryContainer<@NonNull T>
+public class LinkkiInMemoryContainer<T>
         extends com.vaadin.v7.data.util.AbstractInMemoryContainer<T, Object, com.vaadin.v7.data.Item>
         implements com.vaadin.v7.data.Container.Hierarchical {
 
@@ -99,19 +99,19 @@ public class LinkkiInMemoryContainer<@NonNull T>
      */
     @SuppressWarnings("javadoc")
     @Override
-    protected com.vaadin.v7.data.Item getUnfilteredItem(@Nullable Object itemId) {
+    protected com.vaadin.v7.data.Item getUnfilteredItem(@CheckForNull Object itemId) {
         return new DummyItemImplementation();
     }
 
     @Override
-    public com.vaadin.v7.data.Property<T> getContainerProperty(@Nullable Object itemId,
-            @Nullable Object propertyId) {
+    public com.vaadin.v7.data.Property<T> getContainerProperty(@CheckForNull Object itemId,
+            @CheckForNull Object propertyId) {
         throw new UnsupportedOperationException("getContainerProperty is not supported");
     }
 
     @Override
-    @Nullable
-    public Class<?> getType(@Nullable Object propertyId) {
+    @CheckForNull
+    public Class<?> getType(@CheckForNull Object propertyId) {
         throw new UnsupportedOperationException("getType is not supported");
     }
 
@@ -127,7 +127,6 @@ public class LinkkiInMemoryContainer<@NonNull T>
         return children.getOrDefault(parent, Collections.emptyList());
     }
 
-    @SuppressWarnings("null")
     public boolean removeExistingChildren(T item) {
         return children.remove(item) != null;
     }
@@ -147,7 +146,7 @@ public class LinkkiInMemoryContainer<@NonNull T>
                 .map(HierarchicalRowPmo.class::cast);
     }
 
-    @Nullable
+    @CheckForNull
     @Override
     public T getParent(Object itemId) {
         return parents.get(itemId);
@@ -176,7 +175,7 @@ public class LinkkiInMemoryContainer<@NonNull T>
     }
 
     @Override
-    public boolean setParent(Object itemId, @Nullable Object newParentId)
+    public boolean setParent(Object itemId, Object newParentId)
             throws UnsupportedOperationException {
         return false;
     }

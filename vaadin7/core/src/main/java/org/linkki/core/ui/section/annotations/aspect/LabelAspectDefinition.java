@@ -16,7 +16,6 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.util.function.Consumer;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.StaticModelToUiAspectDefinition;
 import org.linkki.core.ui.components.ComponentWrapper;
@@ -31,7 +30,7 @@ import org.linkki.core.ui.table.column.TableColumnWrapper;
  * {@link BindingDefinition} but there might be a dispatcher that overwrites the value for example with
  * a translation from a property file.
  */
-public class LabelAspectDefinition extends StaticModelToUiAspectDefinition<@Nullable String> {
+public class LabelAspectDefinition extends StaticModelToUiAspectDefinition<String> {
 
     public static final String NAME = "label";
 
@@ -44,7 +43,7 @@ public class LabelAspectDefinition extends StaticModelToUiAspectDefinition<@Null
     }
 
     @Override
-    public Aspect<@Nullable String> createAspect() {
+    public Aspect<String> createAspect() {
         return Aspect.of(NAME, label);
     }
 

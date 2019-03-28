@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.ClassUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.Aspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -31,6 +30,8 @@ import org.linkki.util.handler.Handler;
 import com.vaadin.data.util.AbstractProperty;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.DateField;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Aspect definition for value change. Defines that the data source will get/set values through
@@ -133,20 +134,20 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
      * Overrides behavior of {@link AbstractProperty} so it uses the given handler to set/get values in
      * a property.
      */
-    private static final class FieldBindingDataSource<@Nullable T> extends AbstractProperty<T> {
+    private static final class FieldBindingDataSource<T> extends AbstractProperty<T> {
 
         private static final long serialVersionUID = 1L;
 
         private final Class<?> valueClass;
 
-        private final Supplier<@Nullable T> aspectValueGetter;
+        private final Supplier<T> aspectValueGetter;
 
-        private final Consumer<@Nullable T> aspectValueSetter;
+        private final Consumer<T> aspectValueSetter;
 
         private Handler uiUpdater;
 
-        public FieldBindingDataSource(Class<?> valueClass, Supplier<@Nullable T> valueGetter,
-                Consumer<@Nullable T> valueSetter,
+        public FieldBindingDataSource(Class<?> valueClass, Supplier<T> valueGetter,
+                Consumer<T> valueSetter,
                 Handler uiUpdater) {
             this.valueClass = requireNonNull(valueClass, "valueClass must not be null");
             this.aspectValueGetter = requireNonNull(valueGetter, "valueSupplier must not be null");
@@ -155,18 +156,18 @@ public class FieldValueAspectDefinition implements LinkkiAspectDefinition {
         }
 
         @Override
-        @Nullable
+        @CheckForNull
         public T getValue() {
             return aspectValueGetter.get();
         }
 
         @Override
-        public void setValue(@Nullable T newValue) throws com.vaadin.data.Property.ReadOnlyException {
+        public void setValue(@CheckForNull T newValue) throws com.vaadin.data.Property.ReadOnlyException {
             aspectValueSetter.accept(newValue);
             uiUpdater.apply();
         }
 
-        @SuppressWarnings({ "unchecked", "null" })
+        @SuppressWarnings("unchecked")
         @Override
         public Class<? extends T> getType() {
             return (Class<? extends T>)ClassUtils.primitiveToWrapper(valueClass);

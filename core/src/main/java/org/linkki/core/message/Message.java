@@ -23,9 +23,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.validation.ValidationMarker;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * A human readable text message with a {@link Severity} and an optional code that identifies the origin
@@ -49,18 +50,18 @@ public class Message implements Serializable {
 
     private final Severity severity;
     private final String text;
-    @Nullable
+    @CheckForNull
     private final String code;
 
     /**
      * The objects and their properties that the message relates to.
      */
-    private final List<@NonNull ObjectProperty> invalidProperties;
+    private final List<ObjectProperty> invalidProperties;
 
     /**
      * A set of {@link ValidationMarker} containing additional information about the message.
      */
-    private final Set<@NonNull ValidationMarker> markers;
+    private final Set<ValidationMarker> markers;
 
 
     /**
@@ -70,12 +71,12 @@ public class Message implements Serializable {
      * @param text the human readable text of this message
      * @param severity the message's {@link Severity}
      */
-    public Message(@Nullable String code, String text, Severity severity) {
+    public Message(@CheckForNull String code, String text, Severity severity) {
         this(code, text, severity, null, null);
     }
 
-    Message(@Nullable String code, String text, Severity severity,
-            @Nullable List<ObjectProperty> invalidObjectProperties, @Nullable Set<ValidationMarker> markers) {
+    Message(@CheckForNull String code, String text, Severity severity,
+            @CheckForNull List<ObjectProperty> invalidObjectProperties, @CheckForNull Set<ValidationMarker> markers) {
         this.code = code;
         this.text = Objects.requireNonNull(text, "text must not be null");
         this.severity = Objects.requireNonNull(severity, "severity must not be null");
@@ -126,7 +127,7 @@ public class Message implements Serializable {
     /**
      * Returns the message code.
      */
-    @Nullable
+    @CheckForNull
     public String getCode() {
         return code;
     }
@@ -166,7 +167,8 @@ public class Message implements Serializable {
      *         marking it as a mandatory field validation message
      */
     public boolean isMandatoryFieldMessage() {
-        return getMarkers().stream()
+        return getMarkers()
+                .stream()
                 .anyMatch(ValidationMarker::isRequiredInformationMissing);
     }
 
@@ -202,7 +204,7 @@ public class Message implements Serializable {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(@SuppressWarnings("null") Object o) {
+    public boolean equals(Object o) {
         if (!(o instanceof Message)) {
             return false;
         }
@@ -271,7 +273,7 @@ public class Message implements Serializable {
 
         private final Set<ValidationMarker> markers;
 
-        @Nullable
+        @CheckForNull
         private String code;
 
 
@@ -322,7 +324,7 @@ public class Message implements Serializable {
          *
          * @return this builder instance to directly add further properties
          */
-        public Builder invalidObjects(List<@NonNull ObjectProperty> invalidObjectProperties) {
+        public Builder invalidObjects(List<ObjectProperty> invalidObjectProperties) {
             this.invalidObjectProperties.addAll(invalidObjectProperties);
             return this;
         }
@@ -347,7 +349,7 @@ public class Message implements Serializable {
          *
          * @return this builder instance to directly add further properties
          */
-        public Builder invalidObjectWithProperties(Object object, @NonNull String... properties) {
+        public Builder invalidObjectWithProperties(Object object, String... properties) {
             if (properties.length == 0) {
                 return invalidObject(new ObjectProperty(object));
             }

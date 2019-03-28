@@ -32,13 +32,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.aspect.AspectAnnotationReader;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.ui.section.annotations.BindingDefinition;
 import org.linkki.core.ui.section.annotations.ModelObject;
 import org.linkki.util.BeanUtils;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Reads UI field annotations, e.g. {@code @UITextField}, {@code @UIComboBox}, etc. from a given
@@ -50,7 +51,7 @@ import org.linkki.util.BeanUtils;
 public class UIAnnotationReader {
 
     private final Class<?> annotatedClass;
-    private final Map<@NonNull String, @NonNull PropertyElementDescriptors> descriptorsByProperty = new HashMap<>();
+    private final Map<String, PropertyElementDescriptors> descriptorsByProperty = new HashMap<>();
 
     public UIAnnotationReader(Class<?> annotatedClass) {
         this.annotatedClass = requireNonNull(annotatedClass, "annotatedClass must not be null");

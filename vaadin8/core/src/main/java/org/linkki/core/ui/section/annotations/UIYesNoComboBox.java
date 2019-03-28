@@ -23,8 +23,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.aspect.AspectDefinitionCreator;
 import org.linkki.core.binding.aspect.LinkkiAspect;
 import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
@@ -38,6 +36,8 @@ import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreato
 import org.linkki.core.ui.section.annotations.aspect.ValueAspectDefinitionCreator;
 
 import com.vaadin.ui.ComboBox;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * A combo box for boolean or Boolean values.
@@ -117,7 +117,7 @@ public @interface UIYesNoComboBox {
 
                 @Override
                 @SuppressWarnings("unchecked")
-                protected void handleNullItems(ComponentWrapper componentWrapper, List<@Nullable Object> items) {
+                protected void handleNullItems(ComponentWrapper componentWrapper, List<Object> items) {
                     boolean hasNullItem = items.removeIf(i -> i == null);
                     ((ComboBox<Object>)componentWrapper.getComponent()).setEmptySelectionAllowed(hasNullItem);
                 }
