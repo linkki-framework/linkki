@@ -14,7 +14,7 @@
 package org.linkki.framework.ui.component;
 
 
-import org.linkki.core.binding.annotations.Bind;
+import org.linkki.core.ui.bind.annotation.Bind;
 import org.linkki.framework.ui.LinkkiApplicationStyles;
 
 import com.vaadin.server.Responsive;

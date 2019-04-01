@@ -1,9 +1,9 @@
 package org.linkki.doc.modelbinding;
 
 import org.linkki.core.pmo.ModelObject;
-import org.linkki.core.ui.section.annotations.UIDateField;
-import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.ui.element.annotation.UIDateField;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.doc.Partner;
 
 // tag::pmo[]

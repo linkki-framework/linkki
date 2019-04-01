@@ -8,7 +8,7 @@
 [[pmo-uisection]]
 === PresentationModelObject with `@UISection`
 
-When a class is annotated with `@UISection`, *linkki* takes control over the creation and arrangement of the defined components. Using annotations for the <<ui-element, UI elements>>, certain aspects can be defined or controlled. The sections are created via a {github-blob}/vaadin8/core/src/main/java/org/linkki/core/ui/section/PmoBasedSectionFactory.java[`PmoBasedSectionFactory`].
+When a class is annotated with `@UISection`, *linkki* takes control over the creation and arrangement of the defined components. Using annotations for the <<ui-element, UI elements>>, certain aspects can be defined or controlled. The sections are created via a {github-blob}/vaadin8/core/src/main/java/org/linkki/core/ui/creation/section/PmoBasedSectionFactory.java[`PmoBasedSectionFactory`].
 
 The <<ui-element, `UI elements`>> are bound either to the 'properties' of a `ModelObject` or a PMO. A detailed description can be found in the chapter <<domain-model-binding, `Data on Multiple Layers`>>.
 

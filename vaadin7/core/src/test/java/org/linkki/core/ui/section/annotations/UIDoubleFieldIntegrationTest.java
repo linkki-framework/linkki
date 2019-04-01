@@ -23,11 +23,11 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 
 import org.junit.Test;
-import org.linkki.core.defaults.uielement.aspects.annotations.BindTooltip;
-import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
-import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
-import org.linkki.core.defaults.uielement.aspects.types.TooltipType;
-import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.ui.components.DoubleField;
 import org.linkki.core.ui.section.annotations.UIDoubleFieldIntegrationTest.DoubleFieldTestPmo;
 import org.linkki.core.uiframework.UiFramework;

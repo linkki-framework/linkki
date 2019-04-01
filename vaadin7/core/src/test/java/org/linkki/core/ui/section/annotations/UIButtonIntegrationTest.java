@@ -18,9 +18,9 @@ import static org.junit.Assert.assertThat;
 import static org.linkki.test.matcher.Matchers.assertThat;
 
 import org.junit.Test;
-import org.linkki.core.defaults.uielement.aspects.types.CaptionType;
-import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
-import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.aspects.types.CaptionType;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.ui.section.annotations.UIButtonIntegrationTest.ButtonTestPmo;
 
 import com.vaadin.event.ShortcutAction.KeyCode;

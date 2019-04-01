@@ -24,7 +24,7 @@ import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.ObjectProperty;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.defaults.style.LinkkiStyles;
-import org.linkki.core.ui.table.PmoBasedTableFactory;
+import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
 import org.linkki.framework.ui.LinkkiApplicationStyles;
 
 import com.vaadin.icons.VaadinIcons;

@@ -21,11 +21,11 @@ import java.util.List;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.defaults.style.LinkkiStyles;
-import org.linkki.core.defaults.uielement.aspects.annotations.BindTooltip;
-import org.linkki.core.defaults.uielement.aspects.types.TooltipType;
-import org.linkki.core.ui.section.annotations.BindStyleNames;
-import org.linkki.core.ui.section.annotations.UILabel;
-import org.linkki.core.ui.section.annotations.UITableColumn;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
+import org.linkki.core.ui.element.annotation.BindStyleNames;
+import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
 /**
  * PMO for a {@link Message}, displaying an icon derived from the {@link Severity} and the

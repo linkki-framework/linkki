@@ -16,11 +16,11 @@ package org.linkki.core.nls.pmo.sample;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.linkki.core.binding.TestEnum;
-import org.linkki.core.ui.section.annotations.UIButton;
-import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.section.annotations.UISubsetChooser;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.ui.bind.TestEnum;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UISubsetChooser;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UISection;
 
 
 @UISection(caption = "SamplePmoCaption")

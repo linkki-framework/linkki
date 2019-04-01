@@ -14,8 +14,8 @@
 package org.linkki.doc;
 
 import org.linkki.core.pmo.ModelObject;
-import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UISection;
 
 @UISection
 public class PersonSectionPmo_fieldModelObject {

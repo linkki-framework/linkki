@@ -14,9 +14,9 @@
 
 package org.linkki.samples.treetable.fixed.pmo;
 
-import org.linkki.core.ui.section.annotations.UILabel;
-import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
+import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
 
 public abstract class AbstractPersonRowPmo {
 

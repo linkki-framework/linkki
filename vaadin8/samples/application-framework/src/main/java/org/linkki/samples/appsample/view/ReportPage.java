@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.page.AbstractPage;
+import org.linkki.core.ui.component.page.AbstractPage;
 import org.linkki.samples.appsample.model.Report;
 import org.linkki.samples.appsample.pmo.ReportSectionPmo;
 

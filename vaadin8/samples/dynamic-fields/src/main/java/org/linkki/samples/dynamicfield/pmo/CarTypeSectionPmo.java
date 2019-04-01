@@ -15,11 +15,11 @@ package org.linkki.samples.dynamicfield.pmo;
 
 import java.io.Serializable;
 
-import org.linkki.core.defaults.uielement.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.pmo.PresentationModelObject;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.dynamicfield.model.NewCar;
 
 @UISection

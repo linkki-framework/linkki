@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import org.linkki.core.defaults.uielement.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.TestUiUtil;
 import org.linkki.core.ui.section.annotations.UIButton;

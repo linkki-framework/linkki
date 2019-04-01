@@ -13,9 +13,9 @@
  */
 package org.linkki.core.nls.pmo.sample;
 
-import org.linkki.core.ui.section.annotations.UIButton;
-import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
 public class NlsTableRowPmo {
 

@@ -19,8 +19,8 @@ import static java.util.Objects.requireNonNull;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
 
 /**
  * Wrapper for the column header. The column and column header is no real component in vaadin7, hence

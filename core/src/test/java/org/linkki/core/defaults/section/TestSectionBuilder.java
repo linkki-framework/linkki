@@ -22,7 +22,7 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.nls.TestUiLayoutComponent;
-import org.linkki.core.defaults.uielement.UiElementCreator;
+import org.linkki.core.defaults.ui.element.UiElementCreator;
 import org.linkki.core.pmo.ButtonPmo;
 
 public class TestSectionBuilder {

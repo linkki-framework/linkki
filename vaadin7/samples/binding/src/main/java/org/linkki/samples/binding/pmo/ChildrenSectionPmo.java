@@ -14,7 +14,7 @@
 
 package org.linkki.samples.binding.pmo;
 
-import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.UIIntegerField;
 import org.linkki.core.ui.section.annotations.UISection;

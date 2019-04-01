@@ -21,8 +21,8 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.linkki.core.defaults.uielement.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.uielement.aspects.types.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.element.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.element.aspects.types.VisibleType.VISIBLE;
 import static org.linkki.test.matcher.Matchers.assertThat;
 
 import java.lang.annotation.Annotation;
@@ -42,11 +42,11 @@ import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDe
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.section.annotations.TestUIField;
-import org.linkki.core.defaults.uielement.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.uielement.aspects.VisibleAspectDefinition;
-import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
-import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
-import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 
 public class PropertyElementDescriptorsTest {

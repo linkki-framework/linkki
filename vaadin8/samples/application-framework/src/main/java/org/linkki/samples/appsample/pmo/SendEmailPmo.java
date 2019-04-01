@@ -19,7 +19,7 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.ObjectProperty;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.ui.element.annotation.UITextField;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 

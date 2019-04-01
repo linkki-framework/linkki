@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.ui.section.annotations.UILabelIntegrationTest.LabelTestPmo;
 
 import com.vaadin.shared.ui.label.ContentMode;

@@ -15,7 +15,7 @@
 package org.linkki.framework.ui.dialogs;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.LinkkiApplicationStyles;
 import org.linkki.framework.ui.application.ApplicationHeader;

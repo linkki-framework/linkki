@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.manager.UiUpdateObserver;
-import org.linkki.core.ui.table.PmoBasedTableFactory;
+import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
 import org.linkki.samples.binding.model.Contact;
 import org.linkki.samples.binding.pmo.ContactTablePmo;
 

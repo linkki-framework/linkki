@@ -21,7 +21,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinder;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.section.Sections;
-import org.linkki.core.defaults.uielement.UiElementCreator;
+import org.linkki.core.defaults.ui.element.UiElementCreator;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.components.LabelComponentWrapper;

@@ -18,10 +18,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.linkki.core.defaults.uielement.ItemCaptionProvider;
-import org.linkki.core.defaults.uielement.ItemCaptionProvider.ToStringCaptionProvider;
-import org.linkki.core.defaults.uielement.aspects.types.AvailableValuesType;
-import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.section.annotations.UIComboBox;

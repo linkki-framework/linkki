@@ -15,8 +15,8 @@ package org.linkki.samples.binding.pmo;
 
 import java.util.function.BooleanSupplier;
 
-import org.linkki.core.defaults.uielement.aspects.types.CaptionType;
-import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.CaptionType;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
 import org.linkki.core.ui.section.annotations.SectionLayout;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UISection;

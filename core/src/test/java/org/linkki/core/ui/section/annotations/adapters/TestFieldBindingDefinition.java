@@ -18,9 +18,9 @@ import static java.util.Objects.requireNonNull;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.section.annotations.TestUIField;
-import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
-import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
-import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 
 public class TestFieldBindingDefinition implements BindingDefinition {
 

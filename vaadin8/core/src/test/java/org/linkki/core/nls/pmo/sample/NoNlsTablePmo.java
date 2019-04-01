@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.core.ui.layout.annotation.UISection;
 
 @UISection(caption = NoNlsTablePmo.CAPTION)
 public class NoNlsTablePmo implements ContainerPmo<NlsTableRowPmo> {

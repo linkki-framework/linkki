@@ -13,8 +13,8 @@
  */
 package org.linkki.core.defaults.section.annotations;
 
-import static org.linkki.core.defaults.uielement.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.uielement.aspects.types.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.element.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.element.aspects.types.VisibleType.VISIBLE;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,10 +28,10 @@ import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.defaults.section.annotations.TestUIField.TestFieldAspectDefinitionCreator;
-import org.linkki.core.defaults.uielement.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.uielement.aspects.VisibleAspectDefinition;
-import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
-import org.linkki.core.defaults.uielement.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.adapters.TestFieldBindingDefinition;
 

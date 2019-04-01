@@ -17,8 +17,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
-import org.linkki.core.defaults.uielement.ItemCaptionProvider;
-import org.linkki.core.defaults.uielement.ItemCaptionProvider.DefaultCaptionProvider;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
 
 import com.vaadin.ui.ComboBox;
 

@@ -17,8 +17,8 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.section.AbstractSection;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.component.section.AbstractSection;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.samples.binding.model.Address;
 import org.linkki.samples.binding.model.Contact;
 import org.linkki.samples.binding.pmo.AddressPmo;

@@ -15,9 +15,9 @@ package org.linkki.samples.dynamicfield.pmo;
 
 import java.util.List;
 
-import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
-import org.linkki.core.ui.section.annotations.UIButton;
-import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.util.handler.Handler;
 

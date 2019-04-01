@@ -1,0 +1,61 @@
+/*
+ * Copyright Faktor Zehn GmbH.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
+ */
+package org.linkki.core.ui.component.section;
+
+import static java.util.Objects.requireNonNull;
+
+import java.util.Optional;
+
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+
+import com.vaadin.ui.Button;
+
+/**
+ * A section containing a single table. This kind of section is created by the
+ * {@link PmoBasedSectionFactory} if the presentation model object is a {@link ContainerPmo}.
+ */
+@SuppressWarnings("deprecation")
+public class TableSection extends AbstractSection {
+
+    private static final long serialVersionUID = 1L;
+
+    private final com.vaadin.v7.ui.Table table;
+
+    public TableSection(String caption, boolean closeable, Optional<Button> addItemButton,
+            com.vaadin.v7.ui.Table table) {
+        super(caption, closeable, addItemButton);
+        this.table = requireNonNull(table, "table must not be null");
+        addComponent(table);
+        setExpandRatio(table, 1f);
+        table.setSizeFull();
+    }
+
+    /**
+     * Returns the table shown in the section.
+     */
+    public com.vaadin.v7.ui.Table getTable() {
+        return getSectionContent();
+    }
+
+    @Override
+    public com.vaadin.v7.ui.Table getSectionContent() {
+        return table;
+    }
+
+    @Override
+    public String toString() {
+        return "TableSection based on " + table.getContainerDataSource();
+    }
+}

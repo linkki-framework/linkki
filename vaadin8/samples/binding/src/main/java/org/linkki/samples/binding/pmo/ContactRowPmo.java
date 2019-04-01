@@ -15,12 +15,12 @@ package org.linkki.samples.binding.pmo;
 
 import java.util.function.Consumer;
 
-import org.linkki.core.defaults.uielement.aspects.annotations.BindTooltip;
-import org.linkki.core.ui.section.annotations.UIButton;
-import org.linkki.core.ui.section.annotations.UICheckBox;
-import org.linkki.core.ui.section.annotations.UILabel;
-import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UICheckBox;
+import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
 import org.linkki.samples.binding.model.Contact;
 
 import com.vaadin.icons.VaadinIcons;

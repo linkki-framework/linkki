@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.BindReadOnly;
 import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;

@@ -15,8 +15,8 @@ package org.linkki.samples.gettingstarted.pmo;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.defaults.uielement.aspects.types.EnabledType;
-import org.linkki.core.defaults.uielement.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.section.annotations.UIButton;
