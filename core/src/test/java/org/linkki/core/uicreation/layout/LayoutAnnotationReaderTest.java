@@ -19,42 +19,47 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.linkki.test.matcher.Matchers.absent;
 import static org.linkki.test.matcher.Matchers.assertThat;
+import static org.linkki.test.matcher.Matchers.present;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
+import java.util.Optional;
 
 import org.junit.Test;
-import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.BindingContext;
 
 public class LayoutAnnotationReaderTest {
 
     @Test
-        public void testIsLayoutDefinition() {
-            assertThat(LayoutAnnotationReader.isLayoutDefinition(DummyPmo.class.getAnnotation(DummyLayout.class)));
-            assertThat(LayoutAnnotationReader.isLayoutDefinition(DummyLayout.class.getAnnotation(LinkkiLayout.class)),
-                       is(false));
-        }
+    public void testIsLayoutDefinition() {
+        assertThat(LayoutAnnotationReader.isLayoutDefinition(DummyPmo.class.getAnnotation(DummyLayout.class)));
+        assertThat(LayoutAnnotationReader.isLayoutDefinition(DummyLayout.class.getAnnotation(LinkkiLayout.class)),
+                   is(false));
+    }
 
     @Test
-    public void testGetLayoutDefinition() {
-        LinkkiLayoutDefinition layoutDefinition = LayoutAnnotationReader
-                .getLayoutDefinition(DummyPmo.class.getAnnotation(DummyLayout.class), DummyPmo.class);
-        assertThat(layoutDefinition, is(instanceOf(DummyLayoutDefinition.class)));
+    public void testFindLayoutDefinition() {
+        Optional<LinkkiLayoutDefinition> layoutDefinition = LayoutAnnotationReader.findLayoutDefinition(DummyPmo.class);
+        assertThat(layoutDefinition, is(present()));
+        assertThat(layoutDefinition.get(), is(instanceOf(DummyLayoutDefinition.class)));
+
+        assertThat(LayoutAnnotationReader.findLayoutDefinition(String.class), is(absent()));
     }
 
     static class DummyLayoutDefinition implements LinkkiLayoutDefinition {
 
         @Override
-        public ComponentWrapper add(Object parent, Object component) {
-            throw new UnsupportedOperationException();
+        public void createChildren(Object parentComponent, Object pmo, BindingContext bindingContext) {
+            // don't
         }
 
     }
 
-    public static class DummyLayoutDefinitionCreator implements LayoutDefinitionCreator<Annotation> {
+    public static class DummyLayoutDefinitionCreator implements LayoutDefinitionCreator {
 
         @Override
         public LinkkiLayoutDefinition create(Annotation annotation, AnnotatedElement annotatedElement) {

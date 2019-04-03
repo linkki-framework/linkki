@@ -18,8 +18,11 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.linkki.test.matcher.Matchers.absent;
 import static org.linkki.test.matcher.Matchers.assertThat;
+import static org.linkki.test.matcher.Matchers.hasValue;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
@@ -45,6 +48,12 @@ public class MetaAnnotationReaderTest {
                    is(false));
     }
 
+    @Test
+    public void testIsMetaAnnotationPresent_Null() {
+        assertThat(MetaAnnotationReader.isMetaAnnotationPresent(null, MetaMarkerAnnotation.class),
+                   is(false));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testCreate_NotAnnotated() {
         MetaAnnotationReader.create(blankAnnotation, ClassAnnotatedWithBlankAnnotation.class,
@@ -54,7 +63,7 @@ public class MetaAnnotationReaderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreate_CantCreate() {
-        abstract class DefectiveCreator implements ObjectFromAnnotationCreator<AnnotatedAnnotation, String> {
+        abstract class DefectiveCreator implements ObjectFromAnnotationCreator<String> {
             // can't be instantiated
         }
 
@@ -71,6 +80,32 @@ public class MetaAnnotationReaderTest {
                                                a -> FooCreator.class,
                                                FooCreator.class),
                    is("foo"));
+    }
+
+    @Test
+    public void testFind() {
+        assertThat(MetaAnnotationReader.find(ClassAnnotatedWithAnnotatedAnnotation.class,
+                                             MetaMarkerAnnotation.class,
+                                             a -> FooCreator.class,
+                                             FooCreator.class),
+                   hasValue("foo"));
+    }
+
+    @Test
+    public void testFind_None() {
+        assertThat(MetaAnnotationReader.find(String.class,
+                                             MetaMarkerAnnotation.class,
+                                             a -> FooCreator.class,
+                                             FooCreator.class),
+                   is(absent()));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testFind_Multiple() {
+        MetaAnnotationReader.find(ClassAnnotatedWithMultipleAnnotatedAnnotations.class,
+                                  MetaMarkerAnnotation.class,
+                                  a -> FooCreator.class,
+                                  FooCreator.class);
     }
 
     @Retention(RUNTIME)
@@ -97,24 +132,37 @@ public class MetaAnnotationReaderTest {
         // test
     }
 
+    @MetaMarkerAnnotation
+    @Retention(RUNTIME)
+    @Target(TYPE)
+    public @interface AnnotatedAnnotation2 {
+        // test
+    }
+
     @AnnotatedAnnotation
     static class ClassAnnotatedWithAnnotatedAnnotation {
         // test
     }
 
-    static class NoCreator implements ObjectFromAnnotationCreator<BlankAnnotation, String> {
+    @AnnotatedAnnotation
+    @AnnotatedAnnotation2
+    static class ClassAnnotatedWithMultipleAnnotatedAnnotations {
+        // test
+    }
+
+    static class NoCreator implements ObjectFromAnnotationCreator<String> {
 
         @Override
-        public String create(BlankAnnotation annotation, AnnotatedElement annotatedElement) {
+        public String create(Annotation annotation, AnnotatedElement annotatedElement) {
             return "nothing";
         }
 
     }
 
-    public static class FooCreator implements ObjectFromAnnotationCreator<AnnotatedAnnotation, String> {
+    public static class FooCreator implements ObjectFromAnnotationCreator<String> {
 
         @Override
-        public String create(AnnotatedAnnotation annotation, AnnotatedElement annotatedElement) {
+        public String create(Annotation annotation, AnnotatedElement annotatedElement) {
             return "foo";
         }
 

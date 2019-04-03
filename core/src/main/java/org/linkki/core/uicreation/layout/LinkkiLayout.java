@@ -33,5 +33,5 @@ import java.lang.annotation.Target;
 @Target(ANNOTATION_TYPE)
 public @interface LinkkiLayout {
 
-    Class<? extends LayoutDefinitionCreator<?>> value();
+    Class<? extends LayoutDefinitionCreator> value();
 }

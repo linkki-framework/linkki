@@ -85,10 +85,9 @@ public abstract class AbstractSection extends VerticalLayout {
         setSpacing(false);
         setStyleName(LinkkiTheme.SECTION);
 
+        this.openCloseButton = closeable ? createOpenCloseButton(this::switchOpenStatus) : null;
         if (StringUtils.isNotEmpty(caption) || editButton.isPresent()) {
-            this.openCloseButton = closeable ? createOpenCloseButton(this::switchOpenStatus) : null;
             this.header = createHeader(caption, editButton, Optional.ofNullable(openCloseButton));
-            header.setMargin(false);
             addComponent(header);
         }
     }
@@ -115,6 +114,7 @@ public abstract class AbstractSection extends VerticalLayout {
         line.addStyleName(LinkkiTheme.SECTION_CAPTION_LINE);
         headerLayout.addComponent(line);
         headerLayout.setExpandRatio(line, 1);
+        headerLayout.setMargin(false);
 
         return headerLayout;
     }
@@ -157,13 +157,22 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     private void addBeforeCloseButton(Button headerButton) {
+        // TODO TEST
         if (openCloseButton != null) {
             if (header != null) {
                 addHeaderButton(header, headerButton, header.getComponentIndex(openCloseButton));
+            } else {
+                this.header = createHeader(StringUtils.EMPTY, Optional.of(headerButton),
+                                           Optional.of(openCloseButton));
+                addComponent(header, 0);
             }
         } else {
             if (header != null) {
                 addHeaderButton(header, headerButton, header.getComponentCount() - 1);
+            } else {
+                this.header = createHeader(StringUtils.EMPTY, Optional.of(headerButton),
+                                           Optional.empty());
+                addComponent(header, 0);
             }
         }
     }

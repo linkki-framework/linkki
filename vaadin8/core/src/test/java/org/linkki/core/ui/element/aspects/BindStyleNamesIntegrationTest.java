@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.defaults.ui.element.UiElementCreator;
 import org.linkki.core.ui.element.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.uicreation.UiElementCreator;
 
 import com.vaadin.ui.Component;
 

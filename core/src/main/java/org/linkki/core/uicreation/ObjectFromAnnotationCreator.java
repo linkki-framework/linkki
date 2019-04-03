@@ -17,7 +17,7 @@ package org.linkki.core.uicreation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
-public interface ObjectFromAnnotationCreator<A extends Annotation, T> {
+public interface ObjectFromAnnotationCreator<T> {
 
-    T create(A annotation, AnnotatedElement annotatedElement);
+    T create(Annotation annotation, AnnotatedElement annotatedElement);
 }

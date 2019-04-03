@@ -50,6 +50,28 @@ public class AbstractSectionTest {
     }
 
     @Test
+    public void testAddHeaderButton_HeaderIsCreated() {
+        AbstractSection section = new TestSection("", true, Optional.empty());
+
+        assertThat(section.getComponentCount(), is(0));
+
+        Button headerButton1 = ComponentFactory.newButton();
+        section.addHeaderButton(headerButton1);
+
+        HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);
+
+        assertThat(sectionHeader, is(notNullValue()));
+        assertThat(sectionHeader.getComponentCount(), is(3)); // button, close button, line
+        assertThat(sectionHeader.getComponent(1), is(instanceOf(Button.class)));
+        Button closeButton = (Button)sectionHeader.getComponent(1);
+        assertThat(closeButton.getIcon(), is(VaadinIcons.ANGLE_DOWN));
+        assertThat(sectionHeader.getComponentCount(), is(3));
+        assertThat(sectionHeader.getComponent(1), is(closeButton));
+        Button button = (Button)sectionHeader.getComponent(0);
+        assertThat(button, is(headerButton1));
+    }
+
+    @Test
     public void testAddHeaderButton_HeaderButtonIsAddedBeforeCloseButton() {
         AbstractSection section = new TestSection("caption", true, Optional.empty());
         HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);

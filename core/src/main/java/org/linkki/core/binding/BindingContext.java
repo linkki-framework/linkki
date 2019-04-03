@@ -154,6 +154,9 @@ public class BindingContext implements UiUpdateObserver {
      * Removes all bindings in this context that refer to the given framework specific UI component
      * (e.g. text field) . If the UI component is a container component, all bindings for the components
      * children and their children are removed as well.
+     * <p>
+     * If this {@link BindingContext} contains bindings that are themselves a {@link BindingContext},
+     * the component is removed recursively from all child binding contexts.
      * 
      * @param uiComponent that is given to find and remove the bindings that refer to it
      */
@@ -162,6 +165,10 @@ public class BindingContext implements UiUpdateObserver {
         UiFramework.getChildComponents(uiComponent)
                 .iterator()
                 .forEachRemaining(this::removeBindingsForComponent);
+        bindings.values().stream()
+                .filter(BindingContext.class::isInstance)
+                .map(BindingContext.class::cast)
+                .forEach(bc -> bc.removeBindingsForComponent(uiComponent));
     }
 
     /**
@@ -169,6 +176,9 @@ public class BindingContext implements UiUpdateObserver {
      * <p>
      * If the PMO includes other PMOs (like {@link ContainerPmo}), all bindings for those PMOs are
      * removed as well.
+     * <p>
+     * If this {@link BindingContext} contains bindings that are themselves a {@link BindingContext},
+     * the PMO is removed recursively from all child binding contexts.
      * 
      * @implNote Removing all bindings for included PMOs does not work for getter methods that return a
      *           new instance for each call, like mostly done for {@link ButtonPmo ButtonPmos}:
@@ -186,6 +196,10 @@ public class BindingContext implements UiUpdateObserver {
      */
     public void removeBindingsForPmo(Object pmo) {
         bindings.values().removeIf(e -> e.getPmo() == pmo);
+        bindings.values().stream()
+                .filter(BindingContext.class::isInstance)
+                .map(BindingContext.class::cast)
+                .forEach(bc -> bc.removeBindingsForPmo(pmo));
 
         if (pmo instanceof PresentationModelObject) {
             ((PresentationModelObject)pmo).getEditButtonPmo().ifPresent(this::removeBindingsForPmo);

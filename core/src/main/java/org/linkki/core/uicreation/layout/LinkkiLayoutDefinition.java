@@ -15,26 +15,31 @@
 package org.linkki.core.uicreation.layout;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 
 /**
- * Defines how UI components are added to their parent, what other UI elements might need to be created
- * to create a layout and creates {@link ComponentWrapper ComponentWrappers} to allow binding of various
- * aspects of the UI components.
+ * Defines how to create child UI components, add them to their parent and bind them.
  */
 public interface LinkkiLayoutDefinition {
 
+    public static final LinkkiLayoutDefinition EMPTY = new EmptyLayoutDefinition();
+
     /**
-     * Adds the UI component (and possibly others, like labels and layout elements) to the parent
-     * component and returns a {@link ComponentWrapper} that can be used to
-     * {@link BindingContext#bind(Object, org.linkki.core.binding.descriptor.BindingDescriptor, ComponentWrapper)
-     * bind} the component.
+     * Creates UI components defined by the given PMO, adds them to the parent component and binds them
+     * using the {@link BindingContext}.
      * 
-     * @param parent the parent/container component
-     * @param component the child component
-     * @return a {@link ComponentWrapper} that returns the given child component from its
-     *         {@link ComponentWrapper#getComponent() getComponent()} method.
+     * @implSpec Implementations may cast the parent component to the class created by an accompanying
+     *           {@link LinkkiComponentDefinition}.
      */
-    public ComponentWrapper add(Object parent, Object component);
+    public void createChildren(Object parentComponent, Object pmo, BindingContext bindingContext);
+
+    public static class EmptyLayoutDefinition implements LinkkiLayoutDefinition {
+
+        @Override
+        public void createChildren(Object parentComponent, Object pmo, BindingContext bindingContext) {
+            // don't
+        }
+
+    }
 
 }

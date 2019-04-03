@@ -34,5 +34,5 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 @Target({ ElementType.ANNOTATION_TYPE })
 public @interface LinkkiComponent {
 
-    Class<? extends ComponentDefinitionCreator<?>> value();
+    Class<? extends ComponentDefinitionCreator> value();
 }

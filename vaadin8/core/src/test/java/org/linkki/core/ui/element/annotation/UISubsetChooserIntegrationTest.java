@@ -92,11 +92,10 @@ public class UISubsetChooserIntegrationTest
     @UISection
     protected static class SubsetChooserBoxTestPmo extends AnnotationTestPmo {
 
-        private List<TestEnum> availableValues;
+        private List<TestEnum> availableValues = new ArrayList<>();
 
         public SubsetChooserBoxTestPmo(Object modelObject) {
             super(modelObject);
-            availableValues = new ArrayList<>();
             availableValues.add(TestEnum.ONE);
             availableValues.add(TestEnum.TWO);
             availableValues.add(TestEnum.THREE);

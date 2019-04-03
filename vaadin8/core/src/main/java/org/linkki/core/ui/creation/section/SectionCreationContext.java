@@ -30,14 +30,14 @@ import org.linkki.core.ui.creation.section.PmoBasedSectionFactory.SectionBuilder
 @Deprecated
 public class SectionCreationContext {
 
-    private SectionBuilder sectionBuilder;
+    private SectionBuilder<?> sectionBuilder;
 
     /**
      * @deprecated since January 2019. Use {@link PmoBasedSectionFactory} instead.
      */
     @Deprecated
     public SectionCreationContext(Object pmo, BindingContext bindingContext) {
-        sectionBuilder = new PmoBasedSectionFactory.SectionBuilder(requireNonNull(pmo, "pmo must not be null"),
+        sectionBuilder = new PmoBasedSectionFactory.SectionBuilder<>(requireNonNull(pmo, "pmo must not be null"),
                 requireNonNull(bindingContext, "bindingContext must not be null"));
     }
 

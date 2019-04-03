@@ -21,7 +21,6 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinder;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.section.Sections;
-import org.linkki.core.defaults.ui.element.UiElementCreator;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.components.LabelComponentWrapper;
@@ -34,6 +33,7 @@ import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
 import org.linkki.core.ui.table.TableSection;
+import org.linkki.core.uicreation.UiElementCreator;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;

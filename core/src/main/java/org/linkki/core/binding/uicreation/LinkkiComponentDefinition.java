@@ -35,4 +35,5 @@ public interface LinkkiComponentDefinition {
      */
     int getPosition();
 
+
 }

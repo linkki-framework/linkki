@@ -27,11 +27,11 @@ import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip.BindT
 import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
 
 /**
- * Shows a tooltip next to a UI-Element. The annotation can be added to the method the UI-Element is
- * bound.
+ * Shows a tooltip for a UI component. The annotation can be added to the method bound to a UI field or
+ * to a class bound to a section, where the tooltip is shown on the header.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.FIELD, ElementType.METHOD })
+@Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
 @LinkkiAspect(BindTooltipAspectDefinitionCreator.class)
 public @interface BindTooltip {
 

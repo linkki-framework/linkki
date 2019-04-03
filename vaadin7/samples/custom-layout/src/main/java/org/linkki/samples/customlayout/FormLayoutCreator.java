@@ -17,8 +17,8 @@ package org.linkki.samples.customlayout;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.section.Sections;
-import org.linkki.core.defaults.ui.element.UiElementCreator;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
+import org.linkki.core.uicreation.UiElementCreator;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;

@@ -23,14 +23,14 @@ import org.linkki.core.uicreation.ObjectFromAnnotationCreator;
  * Creates a {@link LinkkiLayoutDefinition} from an {@link Annotation} annotated with
  * {@link LinkkiLayout}.
  */
-public interface LayoutDefinitionCreator<T extends Annotation>
-        extends ObjectFromAnnotationCreator<T, LinkkiLayoutDefinition> {
+public interface LayoutDefinitionCreator
+        extends ObjectFromAnnotationCreator<LinkkiLayoutDefinition> {
 
     /**
      * Creates a {@link LinkkiLayoutDefinition} from an {@link Annotation} annotated with
      * {@link LinkkiLayout}.
      */
     @Override
-    LinkkiLayoutDefinition create(T annotation, AnnotatedElement annotatedElement);
+    LinkkiLayoutDefinition create(Annotation annotation, AnnotatedElement annotatedElement);
 
 }

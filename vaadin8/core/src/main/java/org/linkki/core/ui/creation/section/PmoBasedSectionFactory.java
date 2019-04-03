@@ -14,20 +14,18 @@
 package org.linkki.core.ui.creation.section;
 
 import static java.util.Objects.requireNonNull;
+import static org.linkki.util.Optionals.either;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.core.defaults.section.Sections;
-import org.linkki.core.defaults.ui.element.UiElementCreator;
 import org.linkki.core.nls.PmoNlsService;
-import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.component.section.AbstractSection;
 import org.linkki.core.ui.component.section.BaseSection;
-import org.linkki.core.ui.component.section.CustomLayoutSection;
-import org.linkki.core.ui.component.section.FormSection;
-import org.linkki.core.ui.component.section.HorizontalSection;
 import org.linkki.core.ui.component.section.TableSection;
 import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
 import org.linkki.core.ui.element.annotation.UICheckBox;
@@ -35,13 +33,15 @@ import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.uicreation.ComponentAnnotationReader;
+import org.linkki.core.uicreation.UiElementCreator;
+import org.linkki.core.uicreation.layout.LayoutAnnotationReader;
+import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Base class for a factory to create sections based on an annotated PMO.
@@ -60,8 +60,8 @@ public class PmoBasedSectionFactory {
      * given binding context to the PMO. If the given PMO is a {@link ContainerPmo}, a table section is
      * created.
      */
-    public AbstractSection createSection(Object pmo, BindingContext bindingContext) {
-        SectionBuilder builder = new SectionBuilder(requireNonNull(pmo, "pmo must not be null"),
+    public <P> AbstractSection createSection(P pmo, BindingContext bindingContext) {
+        SectionBuilder<P> builder = new SectionBuilder<>(requireNonNull(pmo, "pmo must not be null"),
                 requireNonNull(bindingContext, "bindingContext must not be null"));
         return builder.createSection();
     }
@@ -86,12 +86,12 @@ public class PmoBasedSectionFactory {
      * Object holding references to PMO and binding context while creating a section for them. Intended
      * to be used only once.
      */
-    /* private */ static class SectionBuilder {
+    /* private */ static class SectionBuilder<P> {
 
-        private final Object pmo;
+        private final P pmo;
         private final BindingContext bindingContext;
 
-        public SectionBuilder(Object pmo, BindingContext bindingContext) {
+        public SectionBuilder(P pmo, BindingContext bindingContext) {
             this.pmo = pmo;
             this.bindingContext = bindingContext;
         }
@@ -99,66 +99,54 @@ public class PmoBasedSectionFactory {
         public AbstractSection createSection() {
             UISection sectionDefinition = pmo.getClass().getAnnotation(UISection.class);
 
-            SectionLayout layout = sectionDefinition != null ? sectionDefinition.layout() : SectionLayout.COLUMN;
-            String caption = PmoNlsService.get()
-                    .getSectionCaption(pmo.getClass(), sectionDefinition != null ? sectionDefinition.caption() : "");
-            boolean closable = sectionDefinition != null ? sectionDefinition.closeable() : false;
-            int columns = sectionDefinition != null ? sectionDefinition.columns() : 1;
-
-            AbstractSection section = pmo instanceof ContainerPmo
-                    ? createTableSection(caption, closable)
-                    : createBaseSection(layout, caption, closable, columns);
-
-            section.setId(Sections.getSectionId(pmo));
-            return section;
+            Function<Class<? super P>, Optional<LinkkiComponentDefinition>> componentDefinitionFinder = c -> {
+                return ContainerPmo.class.isAssignableFrom(c)
+                        ? Optional.of(new TableSectionComponentDefinition(sectionDefinition))
+                        : either(ComponentAnnotationReader.findComponentDefinition(pmo.getClass()))
+                                .or(() -> Optional.of(SectionComponentDefiniton.DEFAULT));
+            };
+            Function<Class<? super P>, Optional<LinkkiLayoutDefinition>> layoutDefinitionFinder = c -> {
+                return ContainerPmo.class.isAssignableFrom(c)
+                        ? Optional.of(LinkkiLayoutDefinition.EMPTY)
+                        : either(LayoutAnnotationReader.findLayoutDefinition(pmo.getClass()))
+                                .or(() -> Optional.of(SectionLayoutDefinition.DEFAULT));
+            };
+            ComponentWrapper componentWrapper = UiElementCreator
+                    .createComponent(pmo, bindingContext, componentDefinitionFinder,
+                                     layoutDefinitionFinder);
+            return (AbstractSection)componentWrapper.getComponent();
         }
 
-        private BaseSection createBaseSection(SectionLayout layout, String caption, boolean closeable, int columns) {
-            BaseSection section = createEmptySection(layout, caption, closeable, columns);
-            UiElementCreator.createUiElements(pmo,
-                                              bindingContext,
-                                              component -> new LabelComponentWrapper(new Label(), (Component)component))
-                    .forEach(wrapper -> add(section, wrapper));
-            return section;
-        }
+        private final class TableSectionComponentDefinition implements LinkkiComponentDefinition {
+            @CheckForNull
+            private final UISection sectionDefinition;
 
-        private void add(BaseSection section, LabelComponentWrapper wrapper) {
-            Label label = wrapper.getLabelComponent().get();
-            Component component = wrapper.getComponent();
-            section.add(component.getId(), label, component);
-        }
-
-        private BaseSection createEmptySection(SectionLayout layout, String caption, boolean closeable, int columns) {
-            Optional<Button> editButton = createEditButton(Sections.getEditButtonPmo(pmo));
-            switch (layout) {
-                case COLUMN:
-                    return new FormSection(caption,
-                            closeable,
-                            editButton,
-                            columns);
-                case HORIZONTAL:
-                    return new HorizontalSection(caption,
-                            closeable,
-                            editButton);
-                case CUSTOM:
-                    return new CustomLayoutSection(pmo.getClass().getSimpleName(), caption,
-                            closeable,
-                            editButton);
-                default:
-                    throw new IllegalStateException("unknown SectionLayout#" + layout);
+            private TableSectionComponentDefinition(UISection sectionDefinition) {
+                this.sectionDefinition = sectionDefinition;
             }
-        }
 
-        private Optional<Button> createEditButton(Optional<ButtonPmo> buttonPmo) {
-            return buttonPmo.map(b -> ButtonPmoBinder.createBoundButton(bindingContext, b));
-        }
+            @Override
+            public int getPosition() {
+                return 0;
+            }
 
-        private TableSection createTableSection(String caption, boolean closable) {
-            @SuppressWarnings("deprecation")
-            com.vaadin.v7.ui.Table table = new PmoBasedTableFactory((ContainerPmo<?>)pmo, bindingContext).createTable();
-            Optional<Button> addItemButton = ((ContainerPmo<?>)pmo).getAddItemButtonPmo()
-                    .map(b -> ButtonPmoBinder.createBoundButton(bindingContext, b));
-            return new TableSection(caption, closable, addItemButton, table);
+            @Override
+            public Object createComponent(@SuppressWarnings("hiding") Object pmo) {
+                String caption = PmoNlsService.get()
+                        .getSectionCaption(pmo.getClass(),
+                                           sectionDefinition != null ? sectionDefinition.caption() : "");
+                boolean closable = sectionDefinition != null ? sectionDefinition.closeable() : false;
+                return createTableSection(caption, closable);
+            }
+
+            private TableSection createTableSection(String caption, boolean closable) {
+                @SuppressWarnings("deprecation")
+                com.vaadin.v7.ui.Table table = new PmoBasedTableFactory((ContainerPmo<?>)pmo, bindingContext)
+                        .createTable();
+                Optional<Button> addItemButton = ((ContainerPmo<?>)pmo).getAddItemButtonPmo()
+                        .map(b -> ButtonPmoBinder.createBoundButton(bindingContext, b));
+                return new TableSection(caption, closable, addItemButton, table);
+            }
         }
 
     }

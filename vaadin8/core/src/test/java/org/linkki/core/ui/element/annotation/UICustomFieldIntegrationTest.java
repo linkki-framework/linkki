@@ -78,11 +78,10 @@ public class UICustomFieldIntegrationTest
     @UISection
     protected static class ComponentAnnotationTestPmo extends AnnotationTestPmo {
 
-        private List<TestEnum> availableValues;
+        private List<TestEnum> availableValues = new ArrayList<>();
 
         public ComponentAnnotationTestPmo(Object modelObject) {
             super(modelObject);
-            availableValues = new ArrayList<>();
             availableValues.add(TestEnum.ONE);
             availableValues.add(TestEnum.TWO);
             availableValues.add(TestEnum.THREE);

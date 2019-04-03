@@ -16,13 +16,17 @@ package org.linkki.core.uicreation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
- * Reads the annotation {@link LinkkiComponent} to create a {@link LinkkiComponentDefinition}.
+ * Reads the annotation {@link LinkkiComponent @LinkkiComponent} to create a
+ * {@link LinkkiComponentDefinition}.
  */
 public final class ComponentAnnotationReader {
 
@@ -30,14 +34,15 @@ public final class ComponentAnnotationReader {
         // do not instantiate
     }
 
-    public static boolean isComponentDefinition(Annotation annotation) {
+    public static boolean isComponentDefinition(@CheckForNull Annotation annotation) {
         return MetaAnnotationReader.isMetaAnnotationPresent(annotation, LinkkiComponent.class);
     }
 
 
     /**
      * Returns the component which is instantiated using the {@link LinkkiComponentDefinition} that is
-     * defined in the {@link LinkkiComponent} annotation that must be present in the given annotation.
+     * defined in the {@link LinkkiComponent @LinkkiComponent} annotation that must be present in the
+     * given annotation.
      * 
      * @param annotation annotation that defines a {@link LinkkiComponentDefinition}
      * @return the component definition
@@ -46,11 +51,26 @@ public final class ComponentAnnotationReader {
     public static <ANNOTATION extends Annotation> LinkkiComponentDefinition getComponentDefinition(
             ANNOTATION annotation,
             AnnotatedElement annotatedElement) {
-        @SuppressWarnings({ "unchecked", "rawtypes" })
         LinkkiComponentDefinition componentDefinition = MetaAnnotationReader
                 .create(annotation, annotatedElement, LinkkiComponent.class,
                         (Function<LinkkiComponent, Class<? extends ComponentDefinitionCreator>>)LinkkiComponent::value,
                         ComponentDefinitionCreator.class);
         return componentDefinition;
+    }
+
+    /**
+     * Returns the component which is instantiated using the {@link LinkkiComponentDefinition} that is
+     * defined in the {@link LinkkiComponent @LinkkiComponent} annotation if one is found on an
+     * annotation of the given element.
+     * 
+     * @param annotatedElement an element annotated with an annotation that defines a
+     *            {@link LinkkiComponentDefinition}
+     * @return the component definition if one is defined
+     * @throws IllegalArgumentException if the definition could not be created or there are multiple
+     *             annotations that could create one
+     */
+    public static Optional<LinkkiComponentDefinition> findComponentDefinition(AnnotatedElement annotatedElement) {
+        return MetaAnnotationReader.find(annotatedElement, LinkkiComponent.class, LinkkiComponent::value,
+                                         ComponentDefinitionCreator.class);
     }
 }

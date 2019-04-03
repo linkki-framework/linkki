@@ -70,6 +70,14 @@ public final class BoundProperty {
     }
 
     /**
+     * Creates a {@link BoundProperty} for the empty String PMO property. That leads to all aspect
+     * methods using no prefix, for example {@code isEnabled() instead of is<PropertyName>Enabled()}.
+     */
+    public static BoundProperty empty() {
+        return of(StringUtils.EMPTY);
+    }
+
+    /**
      * Creates a new {@link BoundProperty} with the same PMO property and model attribute name and the
      * given model object name.
      */

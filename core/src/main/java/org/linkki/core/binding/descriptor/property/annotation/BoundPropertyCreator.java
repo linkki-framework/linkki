@@ -19,6 +19,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 
 import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.uicreation.ObjectFromAnnotationCreator;
 
 /**
  * Creates a {@link BoundProperty} from an {@link Annotation} annotated with
@@ -28,7 +29,7 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
  * 
  * @see LinkkiBoundProperty
  */
-public interface BoundPropertyCreator<T extends Annotation> {
+public interface BoundPropertyCreator<T extends Annotation> extends ObjectFromAnnotationCreator<BoundProperty> {
 
     /**
      * Creates a {@link BoundProperty} from an {@link Annotation} annotated with
@@ -59,5 +60,25 @@ public interface BoundPropertyCreator<T extends Annotation> {
      * @see BoundProperty#of(String)
      */
     BoundProperty createBoundProperty(T annotation, AnnotatedElement annotatedElement);
+
+    @SuppressWarnings("unchecked")
+    @Override
+    default BoundProperty create(Annotation annotation, AnnotatedElement annotatedElement) {
+        return createBoundProperty((T)annotation, annotatedElement);
+    }
+
+
+    /**
+     * Creates an {@link BoundProperty#empty() empty BoundProperty}, so that any aspects bound to it use
+     * no prefix for their methods.
+     */
+    static class EmptyPropertyCreator implements BoundPropertyCreator<Annotation> {
+
+        @Override
+        public BoundProperty createBoundProperty(Annotation annotation, AnnotatedElement annotatedElement) {
+            return BoundProperty.empty();
+        }
+
+    }
 
 }

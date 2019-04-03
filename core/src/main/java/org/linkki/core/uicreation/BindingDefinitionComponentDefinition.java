@@ -42,7 +42,7 @@ public class BindingDefinitionComponentDefinition implements LinkkiComponentDefi
         return bindingDefinition.position();
     }
 
-    public static class Creator implements ComponentDefinitionCreator<Annotation> {
+    public static class Creator implements ComponentDefinitionCreator {
 
         @Override
         public BindingDefinitionComponentDefinition create(Annotation annotation,

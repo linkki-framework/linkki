@@ -46,8 +46,8 @@ public class Vaadin8SectionBuilderTest {
         assertThat(section.getId(), is("test-ID"));
     }
 
-    private SectionBuilder createSectionBuilder(Object pmo) {
-        return new SectionBuilder(pmo, bindingContext);
+    private <P> SectionBuilder<P> createSectionBuilder(P pmo) {
+        return new SectionBuilder<>(pmo, bindingContext);
     }
 
     @Test

@@ -172,6 +172,24 @@ public class BindingContextTest {
         assertThat(context.getBindings(), hasSize(1));
     }
 
+    @Test
+    public void testRemoveBindingsForComponent_InContainerBinding() {
+        BindingContext context = new BindingContext();
+        TestContainerPmo containerPmo = new TestContainerPmo(new TestRowPmo());
+        bindAddItemButton(context, containerPmo);
+        TestUiLayoutComponent table = bindTable(context, containerPmo);
+        TestUiComponent childComponent = table.getChildren().get(0);
+
+        assertThat(context.getBindings(), hasSize(2));
+        ContainerBinding containerBinding = (ContainerBinding)context.getBindings().stream()
+                .filter(ContainerBinding.class::isInstance).findFirst().get();
+        assertThat(containerBinding.getBindings(), hasSize(2));
+
+        context.removeBindingsForComponent(childComponent);
+        assertThat(context.getBindings(), hasSize(2));
+        assertThat(containerBinding.getBindings(), hasSize(1));
+    }
+
     private TestUiLayoutComponent bindTable(BindingContext context, TestContainerPmo containerPmo) {
         ColumnBasedComponentFactory columnBasedComponentFactory = new ColumnBasedComponentFactory(
                 new TestColumnBasedComponentCreator());

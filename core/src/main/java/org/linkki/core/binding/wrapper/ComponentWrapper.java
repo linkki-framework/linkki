@@ -19,7 +19,7 @@ import java.io.Serializable;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.defaults.ui.element.UiElementCreator;
+import org.linkki.core.uicreation.UiElementCreator;
 
 /**
  * This interface provides the most common API for a component in linkki. Besides the actual UI

@@ -126,8 +126,9 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
 
     @Test
     public void testInitReadOnlyField() {
-        ComboBox<TestEnum> comboBox = getDynamicComponent();
-        comboBox.setReadOnly(true);
+        ComboBox<TestEnum> comboBox = getStaticComponent();
+        comboBox.setReadOnly(false);
+        getBindingContext().removeBindingsForPmo(getDefaultPmo());
         bind(getDefaultPmo(), "staticValue", comboBox);
         assertThat(comboBox.isReadOnly(), is(true));
 
@@ -150,11 +151,10 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     @UISection
     protected static class ComboBoxTestPmo extends AnnotationTestPmo {
 
-        private List<TestEnum> availableValues;
+        private List<TestEnum> availableValues = new ArrayList<>();
 
         public ComboBoxTestPmo(Object modelObject) {
             super(modelObject);
-            availableValues = new ArrayList<>();
             availableValues.add(TestEnum.ONE);
             availableValues.add(TestEnum.TWO);
             availableValues.add(TestEnum.THREE);
