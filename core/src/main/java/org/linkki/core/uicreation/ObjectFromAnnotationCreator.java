@@ -17,20 +17,7 @@ package org.linkki.core.uicreation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
-import org.linkki.core.binding.uicreation.LinkkiComponent;
-import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+public interface ObjectFromAnnotationCreator<A extends Annotation, T> {
 
-/**
- * Creates a {@link LinkkiComponentDefinition} from an {@link Annotation} annotated with
- * {@link LinkkiComponent}.
- */
-public interface ComponentDefinitionCreator<T extends Annotation>
-        extends ObjectFromAnnotationCreator<T, LinkkiComponentDefinition> {
-
-    /**
-     * Creates a {@link LinkkiComponentDefinition} from an {@link Annotation} annotated with
-     * {@link LinkkiComponent}.
-     */
-    @Override
-    LinkkiComponentDefinition create(T annotation, AnnotatedElement annotatedElement);
+    T create(A annotation, AnnotatedElement annotatedElement);
 }

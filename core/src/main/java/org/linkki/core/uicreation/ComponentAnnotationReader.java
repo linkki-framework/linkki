@@ -16,12 +16,13 @@ package org.linkki.core.uicreation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.util.function.Function;
 
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 
 /**
- * Reads the annotation {@link LinkkiComponent} to create component.
+ * Reads the annotation {@link LinkkiComponent} to create a {@link LinkkiComponentDefinition}.
  */
 public final class ComponentAnnotationReader {
 
@@ -29,8 +30,8 @@ public final class ComponentAnnotationReader {
         // do not instantiate
     }
 
-    public static boolean isLinkkiComponentDefinition(Annotation annotation) {
-        return annotation.annotationType().isAnnotationPresent(LinkkiComponent.class);
+    public static boolean isComponentDefinition(Annotation annotation) {
+        return MetaAnnotationReader.isMetaAnnotationPresent(annotation, LinkkiComponent.class);
     }
 
 
@@ -39,34 +40,17 @@ public final class ComponentAnnotationReader {
      * defined in the {@link LinkkiComponent} annotation that must be present in the given annotation.
      * 
      * @param annotation annotation that defines a {@link LinkkiComponentDefinition}
-     * @return the component described by the
+     * @return the component definition
      * @throws IllegalArgumentException if the definition could not be created
      */
     public static <ANNOTATION extends Annotation> LinkkiComponentDefinition getComponentDefinition(
             ANNOTATION annotation,
             AnnotatedElement annotatedElement) {
-        try {
-            @SuppressWarnings("unchecked")
-            ComponentDefinitionCreator<ANNOTATION> creator = (ComponentDefinitionCreator<ANNOTATION>)getLinkkiComponentAnnotation(annotation)
-                    .value()
-                    .newInstance();
-            return creator.create(annotation, annotatedElement);
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new IllegalArgumentException(
-                    String.format("Cannot instantiate %s",
-                                  LinkkiComponentDefinition.class.getName()),
-                    e);
-        }
-    }
-
-    private static LinkkiComponent getLinkkiComponentAnnotation(Annotation annotation) {
-        if (!annotation.annotationType().isAnnotationPresent(LinkkiComponent.class)) {
-            throw new IllegalArgumentException(
-                    String.format("%s has no %s annotation that defines a %s", annotation,
-                                  LinkkiComponent.class.getName(),
-                                  LinkkiComponentDefinition.class.getName()));
-        } else {
-            return annotation.annotationType().getAnnotation(LinkkiComponent.class);
-        }
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+        LinkkiComponentDefinition componentDefinition = MetaAnnotationReader
+                .create(annotation, annotatedElement, LinkkiComponent.class,
+                        (Function<LinkkiComponent, Class<? extends ComponentDefinitionCreator>>)LinkkiComponent::value,
+                        ComponentDefinitionCreator.class);
+        return componentDefinition;
     }
 }

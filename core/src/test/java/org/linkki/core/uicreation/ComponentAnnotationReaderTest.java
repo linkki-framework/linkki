@@ -84,10 +84,10 @@ public class ComponentAnnotationReaderTest {
     @Test
     public void testIsLinkkiComponentDefinition() throws Exception {
         assertTrue(ComponentAnnotationReader
-                .isLinkkiComponentDefinition(ClassWithComponentAnnotatedAnnotations.class.getMethod("annotated")
+                .isComponentDefinition(ClassWithComponentAnnotatedAnnotations.class.getMethod("annotated")
                         .getAnnotation(AnnotationWithComponentAnnotation.class)));
         assertFalse(ComponentAnnotationReader
-                .isLinkkiComponentDefinition(ClassWithComponentAnnotatedAnnotations.class
+                .isComponentDefinition(ClassWithComponentAnnotatedAnnotations.class
                         .getMethod("annotatedWithoutComponent")
                         .getAnnotation(AnnotationWithoutComponentAnnotation.class)));
     }

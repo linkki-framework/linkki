@@ -12,25 +12,25 @@
  * License.
  */
 
-package org.linkki.core.uicreation;
+package org.linkki.core.uicreation.layout;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
-import org.linkki.core.binding.uicreation.LinkkiComponent;
-import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.uicreation.ObjectFromAnnotationCreator;
 
 /**
- * Creates a {@link LinkkiComponentDefinition} from an {@link Annotation} annotated with
- * {@link LinkkiComponent}.
+ * Creates a {@link LinkkiLayoutDefinition} from an {@link Annotation} annotated with
+ * {@link LinkkiLayout}.
  */
-public interface ComponentDefinitionCreator<T extends Annotation>
-        extends ObjectFromAnnotationCreator<T, LinkkiComponentDefinition> {
+public interface LayoutDefinitionCreator<T extends Annotation>
+        extends ObjectFromAnnotationCreator<T, LinkkiLayoutDefinition> {
 
     /**
-     * Creates a {@link LinkkiComponentDefinition} from an {@link Annotation} annotated with
-     * {@link LinkkiComponent}.
+     * Creates a {@link LinkkiLayoutDefinition} from an {@link Annotation} annotated with
+     * {@link LinkkiLayout}.
      */
     @Override
-    LinkkiComponentDefinition create(T annotation, AnnotatedElement annotatedElement);
+    LinkkiLayoutDefinition create(T annotation, AnnotatedElement annotatedElement);
+
 }

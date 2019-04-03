@@ -74,7 +74,7 @@ public class UIElementAnnotationReader {
                 .computeIfAbsent(boundProperty.getPmoProperty(),
                                  PropertyElementDescriptors::new);
 
-        if (ComponentAnnotationReader.isLinkkiComponentDefinition(annotation)) {
+        if (ComponentAnnotationReader.isComponentDefinition(annotation)) {
             elementDescriptors.addDescriptor(annotation.annotationType(),
                                              new ElementDescriptor(
                                                      ComponentAnnotationReader.getComponentDefinition(annotation,
