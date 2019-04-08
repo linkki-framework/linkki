@@ -49,7 +49,7 @@ public class LinkkiConverterRegistryTest {
                    is(instanceOf(MyStringToDateConverter.class)));
     }
 
-    @SuppressWarnings("null")
+    
     public static class MyStringToDateConverter implements Converter<String, Date> {
 
         private static final long serialVersionUID = 1L;

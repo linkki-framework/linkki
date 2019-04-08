@@ -16,7 +16,7 @@ package org.linkki.core.matcher;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.linkki.core.message.Message;
+import org.linkki.core.binding.validation.message.Message;
 
 public class MessageCodeMatcher extends TypeSafeMatcher<Message> {
 

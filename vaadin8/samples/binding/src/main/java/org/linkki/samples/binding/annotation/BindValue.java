@@ -23,15 +23,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.binding.aspect.AspectDefinitionCreator;
-import org.linkki.core.binding.aspect.LinkkiAspect;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.property.BoundProperty;
-import org.linkki.core.binding.property.BoundPropertyCreator;
-import org.linkki.core.binding.property.LinkkiBoundProperty;
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.aspect.ValueAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
+import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.element.aspects.ValueAspectDefinition;
 import org.linkki.samples.binding.annotation.BindValue.BindFieldValueAspectDefinitionCreator;
 import org.linkki.samples.binding.annotation.BindValue.BindValueAnnotationBoundPropertyCreator;
 import org.linkki.util.BeanUtils;
@@ -52,7 +51,7 @@ public @interface BindValue {
     // end::custom-bind[]
 
     // tag::custom-bound-property-creator[]
-    class BindValueAnnotationBoundPropertyCreator implements BoundPropertyCreator<@NonNull BindValue> {
+    class BindValueAnnotationBoundPropertyCreator implements BoundPropertyCreator<BindValue> {
 
         @Override
         public BoundProperty createBoundProperty(BindValue annotation, AnnotatedElement annotatedElement) {
@@ -80,7 +79,7 @@ public @interface BindValue {
     }
     // end::custom-bound-property-creator[]
 
-    static class BindFieldValueAspectDefinitionCreator implements AspectDefinitionCreator<@NonNull BindValue> {
+    static class BindFieldValueAspectDefinitionCreator implements AspectDefinitionCreator<BindValue> {
 
         @Override
         public LinkkiAspectDefinition create(BindValue annotation) {

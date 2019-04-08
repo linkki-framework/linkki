@@ -13,9 +13,10 @@
  */
 package org.linkki.core.binding.dispatcher;
 
-import org.eclipse.jdt.annotation.Nullable;
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.validation.message.MessageList;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Provides field information for an arbitrary property through an unified interface.
@@ -35,7 +36,7 @@ public interface PropertyDispatcher {
     /**
      * @return the model object containing the property.
      */
-    @Nullable
+    @CheckForNull
     Object getBoundObject();
 
     /**
@@ -66,6 +67,7 @@ public interface PropertyDispatcher {
      * @param aspect the {@link Aspect} that is requested from this dispatcher
      * @return value of the given {@link Aspect} according to this dispatcher
      */
+    @CheckForNull
     <T> T pull(Aspect<T> aspect);
 
     /**

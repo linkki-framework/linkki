@@ -17,11 +17,10 @@ package org.linkki.core.ui.table.hierarchy;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.ui.table.SimpleItemSupplier;
-import org.linkki.core.ui.table.SimpleTablePmo;
+import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
+import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 
-public class CodeTablePmo extends SimpleTablePmo<@NonNull String, @NonNull AbstractCodeRow> {
+public class CodeTablePmo extends SimpleTablePmo<String, AbstractCodeRow> {
 
     private final Codes codes;
 

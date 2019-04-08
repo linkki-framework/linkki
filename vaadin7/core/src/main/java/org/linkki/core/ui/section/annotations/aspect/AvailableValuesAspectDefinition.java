@@ -21,15 +21,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.AspectDefinitionCreator;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.container.LinkkiInMemoryContainer;
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.Property;
@@ -50,7 +49,7 @@ public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        Consumer<@Nullable Collection<?>> setter = createComponentValueSetter(componentWrapper);
+        Consumer<Collection<?>> setter = createComponentValueSetter(componentWrapper);
         Aspect<List<?>> aspect = createAspect(propertyDispatcher.getProperty(),
                                               propertyDispatcher.getValueClass());
         return () -> setter.accept(propertyDispatcher.pull(aspect));
@@ -84,9 +83,9 @@ public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
         }
     }
 
-    public Consumer<@Nullable Collection<?>> createComponentValueSetter(ComponentWrapper componentWrapper) {
+    public Consumer<Collection<?>> createComponentValueSetter(ComponentWrapper componentWrapper) {
         AbstractSelect component = ((AbstractSelect)componentWrapper.getComponent());
-        LinkkiInMemoryContainer<@NonNull Object> container = new LinkkiInMemoryContainer<>();
+        LinkkiInMemoryContainer<Object> container = new LinkkiInMemoryContainer<>();
         setContainerDataSource(component, container);
         return vals -> {
             if (vals != null) {
@@ -121,7 +120,7 @@ public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
     }
 
     /**
-     * {@link org.linkki.core.binding.aspect.AspectDefinitionCreator} that creates a special kind of
+     * {@link org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator} that creates a special kind of
      * {@link AvailableValuesAspectDefinition} where the configured {@link AvailableValuesType} is
      * always {@link AvailableValuesType#ENUM_VALUES_INCL_NULL}.
      */
@@ -135,7 +134,7 @@ public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
     }
 
     /**
-     * {@link org.linkki.core.binding.aspect.AspectDefinitionCreator} that creates a special kind of
+     * {@link org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator} that creates a special kind of
      * {@link AvailableValuesAspectDefinition} where the configured {@link AvailableValuesType} is
      * always {@link AvailableValuesType#DYNAMIC}.
      */

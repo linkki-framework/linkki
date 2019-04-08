@@ -24,15 +24,21 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
-import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.ui.components.LinkkiComboBox;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UIComboBoxIntegrationTest.ComboBoxTestPmo;
 
 import com.vaadin.ui.ComboBox;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<LinkkiComboBox, ComboBoxTestPmo> {
 
@@ -44,7 +50,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     public void testNullSelection() {
         assertThat(getStaticComponent().isNullSelectionAllowed(), is(false));
 
-        List<@Nullable TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
+        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
 
         ComboBox comboBox = getDynamicComponent();
         assertThat(availableValues.contains(null), is(false));
@@ -68,7 +74,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     public void testDynamicAvailableValues() {
         assertThat(getDynamicComponent().getItemIds(), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
 
-        List<@Nullable TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
+        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
         availableValues.remove(TestEnum.ONE);
         getDefaultPmo().setValueAvailableValues(availableValues);
         modelChanged();
@@ -145,7 +151,7 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     @UISection
     protected static class ComboBoxTestPmo extends AnnotationTestPmo {
 
-        private List<@Nullable TestEnum> availableValues;
+        private List<TestEnum> availableValues;
 
         public ComboBoxTestPmo(Object modelObject) {
             super(modelObject);
@@ -162,11 +168,11 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
             // model binding
         }
 
-        public List<@Nullable TestEnum> getValueAvailableValues() {
+        public List<TestEnum> getValueAvailableValues() {
             return Collections.unmodifiableList(availableValues);
         }
 
-        public void setValueAvailableValues(List<@Nullable TestEnum> values) {
+        public void setValueAvailableValues(List<TestEnum> values) {
             this.availableValues = values;
         }
 
@@ -179,20 +185,20 @@ public class UIComboBoxIntegrationTest extends FieldAnnotationIntegrationTest<Li
     }
 
     protected static class ComboBoxTestModelObject {
-        @Nullable
+        @CheckForNull
         private TestEnum value = TestEnum.THREE;
 
-        @Nullable
+        @CheckForNull
         public TestEnum getValue() {
             return value;
         }
 
-        public void setValue(@Nullable TestEnum value) {
+        public void setValue(@CheckForNull TestEnum value) {
             this.value = value;
 
         }
 
-        @Nullable
+        @CheckForNull
         public TestEnum getStaticValue() {
             return getValue();
         }

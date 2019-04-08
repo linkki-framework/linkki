@@ -20,17 +20,16 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.ui.table.HierarchicalRowPmo;
-import org.linkki.core.ui.table.SimpleItemSupplier;
+import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
+import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 import org.linkki.samples.treetable.dynamic.model.Player;
 import org.linkki.samples.treetable.dynamic.model.Player.Position;
 
-public abstract class CategoryRowPmo<@NonNull CMO, @NonNull CPMO extends PlayerTableRowPmo> extends PlayerTableRowPmo
+public abstract class CategoryRowPmo<CMO, CPMO extends PlayerTableRowPmo> extends PlayerTableRowPmo
         implements HierarchicalRowPmo<CPMO> {
 
     private Supplier<Stream<Player>> playerStreamSupplier;
-    private SimpleItemSupplier<@NonNull CPMO, @NonNull CMO> childRowSupplier;
+    private SimpleItemSupplier<CPMO, CMO> childRowSupplier;
 
     public CategoryRowPmo(Supplier<Stream<Player>> playerStreamSupplier,
             Function<Stream<Player>, Stream<CMO>> playersToChildModelObjectMapper,

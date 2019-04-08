@@ -15,13 +15,14 @@ package org.linkki.core.ui.converters;
 
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.linkki.util.DateFormats;
 
 import com.vaadin.data.util.converter.Converter;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Converter for converting {@link LocalDate} to {@link String}. <br>
@@ -35,19 +36,19 @@ public class JodaLocalDateToStringConverter implements Converter<String, LocalDa
 
     private static final long serialVersionUID = 1L;
 
-    @Nullable
+    @CheckForNull
     @Override
-    public LocalDate convertToModel(@Nullable String value,
-            @Nullable Class<? extends LocalDate> targetType,
-            @Nullable Locale locale) throws Converter.ConversionException {
+    public LocalDate convertToModel(@CheckForNull String value,
+            @CheckForNull Class<? extends LocalDate> targetType,
+            @CheckForNull Locale locale) throws Converter.ConversionException {
         throw new UnsupportedOperationException(getClass().getName() + " only supports convertToPresentation");
     }
 
-    @Nullable
+    @CheckForNull
     @Override
-    public String convertToPresentation(@Nullable LocalDate value,
-            @Nullable Class<? extends String> targetType,
-            @Nullable Locale locale) throws Converter.ConversionException {
+    public String convertToPresentation(@CheckForNull LocalDate value,
+            @CheckForNull Class<? extends String> targetType,
+            @CheckForNull Locale locale) throws Converter.ConversionException {
         if (value == null) {
             return "";
         }
@@ -58,7 +59,7 @@ public class JodaLocalDateToStringConverter implements Converter<String, LocalDa
         return DateTimeFormat.forPattern(DateFormats.getPattern(getNullsafeLocale(locale)));
     }
 
-    static Locale getNullsafeLocale(@Nullable Locale locale) {
+    static Locale getNullsafeLocale(@CheckForNull Locale locale) {
         if (locale == null) {
             return Locale.getDefault();
         } else {

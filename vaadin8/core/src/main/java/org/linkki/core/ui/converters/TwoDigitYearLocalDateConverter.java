@@ -16,12 +16,13 @@ package org.linkki.core.ui.converters;
 
 import java.time.LocalDate;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.util.TwoDigitYearUtil;
 
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Converts {@link LocalDate} to {@link LocalDate} while recalculating two digit years into four digit
@@ -32,10 +33,11 @@ public class TwoDigitYearLocalDateConverter implements Converter<LocalDate, Loca
 
     private static final long serialVersionUID = -7168406748935260873L;
 
+    @CheckForNull
     @Override
-    public Result<LocalDate> convertToModel(@Nullable LocalDate value, ValueContext context) {
+    public Result<LocalDate> convertToModel(@CheckForNull LocalDate value, ValueContext context) {
         if (value == null) {
-            return Result.ok(value);
+            return Result.ok(null);
         } else {
             return Result.ok(TwoDigitYearUtil.convert(value));
         }

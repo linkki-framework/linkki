@@ -21,13 +21,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Function;
 
-import org.eclipse.jdt.annotation.NonNull;
-
 /**
  * JDK-independent provider for {@link Lookup} instances.
  */
 public class LookupProvider {
-    private static Function<@NonNull Class<?>, @NonNull Lookup> lookupIn;
+    private static Function<Class<?>, Lookup> lookupIn;
     static {
         try {
             Method privateLookupInMethod = MethodHandles.class.getMethod(new String(
@@ -75,7 +73,6 @@ public class LookupProvider {
         }
     }
 
-    @SuppressWarnings("null")
     public static Lookup lookup(Class<?> clazz) {
         return lookupIn.apply(clazz);
     }

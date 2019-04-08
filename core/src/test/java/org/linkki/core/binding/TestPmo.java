@@ -17,10 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.binding.aspect.definition.TestComponentClickAspectDefinition;
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
+import org.linkki.core.pmo.ModelObject;
 
-@SuppressWarnings("null")
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 public class TestPmo {
 
     public static final String PROPERTY_VALUE = "value";
@@ -28,7 +29,7 @@ public class TestPmo {
 
     private String value = StringUtils.EMPTY;
     private String valueTooltip = "abc";
-
+    @CheckForNull
     private Object modelObject;
 
     private boolean enabled = true;
@@ -37,6 +38,7 @@ public class TestPmo {
 
     private List<?> availableValues = new ArrayList<>();
 
+    @CheckForNull
     private TestEnum enumValue;
 
     private boolean clicked;
@@ -45,7 +47,7 @@ public class TestPmo {
         this(null);
     }
 
-    public TestPmo(Object modelObject) {
+    public TestPmo(@CheckForNull Object modelObject) {
         this.modelObject = modelObject;
     }
 
@@ -81,6 +83,7 @@ public class TestPmo {
         this.visible = visible;
     }
 
+    @CheckForNull
     @ModelObject
     public Object getModelObject() {
         return modelObject;
@@ -110,6 +113,7 @@ public class TestPmo {
         this.enumValue = enumValue;
     }
 
+    @CheckForNull
     public TestEnum getEnumValue() {
         return enumValue;
     }
@@ -130,6 +134,7 @@ public class TestPmo {
         return true;
     }
 
+    @CheckForNull
     public TestEnum getReadonlyEnumValue() {
         return enumValue;
     }

@@ -28,9 +28,15 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.linkki.core.binding.TestEnum;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.ui.components.SubsetChooser;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UISubsetChooserIntegrationTest.SubsetChooserBoxTestPmo;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UISubsetChooserIntegrationTest
         extends FieldAnnotationIntegrationTest<SubsetChooser, SubsetChooserBoxTestPmo> {
@@ -131,11 +137,12 @@ public class UISubsetChooserIntegrationTest
 
     }
 
-    @SuppressWarnings("null")
-    protected static class SubsetChooserModelObject {
 
+    protected static class SubsetChooserModelObject {
+        @CheckForNull
         private Set<TestEnum> value;
 
+        @CheckForNull
         public Set<TestEnum> getValue() {
             return value;
         }
@@ -145,6 +152,7 @@ public class UISubsetChooserIntegrationTest
 
         }
 
+        @CheckForNull
         public Set<TestEnum> getStaticValue() {
             return getValue();
         }

@@ -21,7 +21,6 @@ import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
@@ -38,18 +37,20 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 @RunWith(MockitoJUnitRunner.class)
 public class LinkkiUiTest {
 
-    @SuppressWarnings("null")
+    
     @Mock
     private VaadinRequest request;
 
-    @SuppressWarnings("null")
+    
     @Mock
     private VaadinSession vaadinSession;
 
-    @SuppressWarnings("null")
+    
     @Captor
     private ArgumentCaptor<LinkkiConverterRegistry> converterRegistryCaptor;
 
@@ -65,7 +66,7 @@ public class LinkkiUiTest {
         linkkiUi.init(request);
     }
 
-    @SuppressWarnings("null")
+    
     @Test
     public void testInit() {
         initUi();
@@ -80,7 +81,7 @@ public class LinkkiUiTest {
 
         verify(vaadinSession).setAttribute(Mockito.eq(LinkkiConverterRegistry.class),
                                            converterRegistryCaptor.capture());
-        @SuppressWarnings("null")
+        
         @NonNull
         LinkkiConverterRegistry converterRegistry = converterRegistryCaptor.getValue();
         assertThat(converterRegistry, is(instanceOf(LinkkiConverterRegistry.class)));

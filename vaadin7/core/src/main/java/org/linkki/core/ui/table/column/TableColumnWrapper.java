@@ -16,9 +16,9 @@ package org.linkki.core.ui.table.column;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.components.WrapperType;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
 

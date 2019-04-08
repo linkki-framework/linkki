@@ -24,27 +24,31 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.binding.annotations.Bind;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
-import org.linkki.core.ui.section.annotations.BindTooltip;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.TestUiUtil;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
+import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.bind.annotation.Bind;
+import org.linkki.core.ui.element.annotation.TestUiUtil;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @SuppressWarnings("synthetic-access")
 public class BinderIntegrationTest {
 
-    @SuppressWarnings("null")
+
     private BindingContext bindingContext;
 
     @Before
@@ -233,7 +237,7 @@ public class BinderIntegrationTest {
      * If the given model attribute is invalid, but a valid pmo property is provided, then the binding
      * falls back to the pmo property.
      */
-    @SuppressWarnings("null")
+
     @Test
     public void testSetUpBindings_modelBinding_invalidModelAttribute() {
         ModelBindingView view = new ModelBindingView();
@@ -289,9 +293,9 @@ public class BinderIntegrationTest {
         assertThat(view.pmoPropertyModelAttributeCombined.isRequiredIndicatorVisible(), is(false));
     }
 
+    @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
     protected class TestView {
 
-        @SuppressWarnings("null")
         @Bind(pmoProperty = TestPmo.PROPERTY_TEXT, required = RequiredType.DYNAMIC)
         @BindTooltip(TestPmo.TEST_TOOLTIP)
         private TextField textField;
@@ -303,7 +307,7 @@ public class BinderIntegrationTest {
         @Bind(pmoProperty = TestPmo.PROPERTY_SOMEOTHERTEXT, availableValues = AvailableValuesType.DYNAMIC, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED)
         private ListSelect<String> listSelect = new ListSelect<>();
 
-        @SuppressWarnings("null")
+
         private TextField numberField;
 
         public void initFields() {

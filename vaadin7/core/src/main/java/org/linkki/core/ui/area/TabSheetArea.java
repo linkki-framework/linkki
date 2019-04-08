@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.page.Page;
 import org.linkki.util.StreamUtil;
 
@@ -28,6 +27,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.VerticalLayout;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A base class for all areas that use a {@link TabSheet} containing multiple pages.
@@ -130,7 +131,7 @@ public abstract class TabSheetArea extends VerticalLayout implements Area {
      * 
      * @return the tab pages that are contained in the tabs of this TabSheet.
      */
-    @Nullable
+    @CheckForNull
     protected Page getSelectedTab() {
         Component selectedTab = tabSheet.getSelectedTab();
         if (selectedTab instanceof Page) {

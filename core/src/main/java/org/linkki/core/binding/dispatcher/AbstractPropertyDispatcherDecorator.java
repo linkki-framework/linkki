@@ -15,9 +15,10 @@ package org.linkki.core.binding.dispatcher;
 
 import static java.util.Objects.requireNonNull;
 
-import org.eclipse.jdt.annotation.Nullable;
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.validation.message.MessageList;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 
 /**
@@ -54,7 +55,7 @@ public abstract class AbstractPropertyDispatcherDecorator implements PropertyDis
     }
 
     @Override
-    @Nullable
+    @CheckForNull
     public Object getBoundObject() {
         return getWrappedDispatcher().getBoundObject();
     }

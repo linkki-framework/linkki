@@ -16,6 +16,8 @@ package org.linkki.core.message;
 
 import static java.util.Objects.requireNonNull;
 
+import org.linkki.core.binding.validation.message.Severity;
+
 import com.vaadin.server.ErrorMessage.ErrorLevel;
 
 public class SeverityErrorLevelConverter {

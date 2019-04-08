@@ -29,17 +29,18 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.message.Severity;
-import org.linkki.core.ui.TestComponentWrapper;
-import org.linkki.core.ui.TestUiComponent;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.nls.TestComponentWrapper;
+import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.util.handler.Handler;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class ElementBindingTest {
 
@@ -47,16 +48,16 @@ public class ElementBindingTest {
     private TestUiComponent field = spy(new TestUiComponent());
     private TestUiComponent selectField = spy(new TestUiComponent());
 
-    @SuppressWarnings("null")
+    
     private ElementBinding selectBinding;
 
-    @SuppressWarnings("null")
+    
     private PropertyDispatcher propertyDispatcherValue;
 
-    @SuppressWarnings("null")
+    
     private MessageList messageList;
 
-    @SuppressWarnings("null")
+    
     private PropertyDispatcher propertyDispatcherEnumValue;
 
     @Before
@@ -97,7 +98,7 @@ public class ElementBindingTest {
 
         selectBinding.displayMessages(messageList);
 
-        @SuppressWarnings("null")
+        
         @NonNull
         MessageList validationMessages = selectField.getValidationMessages();
 
@@ -114,7 +115,7 @@ public class ElementBindingTest {
         assertThat(selectField.getValidationMessages(), is(emptyMessageList()));
     }
 
-    @SuppressWarnings("null")
+    
     @Test(expected = NullPointerException.class)
     public void testDisplayMessages_noMessageList() {
         selectBinding.displayMessages(null);

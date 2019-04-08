@@ -16,18 +16,19 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.lang.annotation.Annotation;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.binding.aspect.AspectDefinitionCreator;
-import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
-import org.linkki.core.ui.section.annotations.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
 
 /**
  * Aspect definition creator for all annotations that are annotated with
  * {@link LinkkiBindingDefinition}.
  */
-public class FieldAspectDefinitionCreator implements AspectDefinitionCreator<@NonNull Annotation> {
+public class FieldAspectDefinitionCreator implements AspectDefinitionCreator<Annotation> {
 
     @Override
     public LinkkiAspectDefinition create(Annotation annotation) {

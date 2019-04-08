@@ -25,15 +25,14 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.TestEnum;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 
@@ -43,6 +42,8 @@ import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * basically the same tests as in {@code ElementBindingTest} but focused on the
@@ -55,16 +56,16 @@ public class LabelComponentWrapperTest {
     private AbstractField<String> field = spy(new TextField());
     private ComboBox selectField = spy(new ComboBox());
 
-    @SuppressWarnings("null")
+    
     private ElementBinding selectBinding;
 
-    @SuppressWarnings("null")
+    
     private PropertyDispatcher propertyDispatcherValue;
 
-    @SuppressWarnings("null")
+    
     private MessageList messageList;
 
-    @SuppressWarnings("null")
+    
     private PropertyDispatcher propertyDispatcherEnumValue;
 
     @Before
@@ -110,7 +111,7 @@ public class LabelComponentWrapperTest {
         ArgumentCaptor<UserError> captor = ArgumentCaptor.forClass(UserError.class);
         verify(selectField).setComponentError(captor.capture());
 
-        @SuppressWarnings("null")
+        
         @NonNull
         UserError userError = captor.getValue();
         assertEquals(userError.getMessage(), "text");
@@ -124,7 +125,7 @@ public class LabelComponentWrapperTest {
         verify(selectField).setComponentError(null);
     }
 
-    @SuppressWarnings("null")
+    
     @Test(expected = NullPointerException.class)
     public void testDisplayMessages_noMessageList() {
         selectBinding.displayMessages(null);

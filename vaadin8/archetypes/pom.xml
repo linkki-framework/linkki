@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -32,6 +31,15 @@
         <module>plain-archetype</module>
     </modules>
 
+    <dependencies> 
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-application-framework-vaadin8</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <extensions>
             <extension>
@@ -51,14 +59,12 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <!-- every property that should NOT be replaced by filtering 
-                        needs to be escaped like \${foo} -->
+                    <!-- every property that should NOT be replaced by filtering needs to be escaped like \${foo} -->
                     <escapeString>\</escapeString>
                 </configuration>
             </plugin>
         </plugins>
-        <pluginManagement><!-- lock down plugins versions to avoid using 
-                Maven defaults (may be moved to parent pom) -->
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <plugin>
                     <artifactId>maven-archetype-plugin</artifactId>

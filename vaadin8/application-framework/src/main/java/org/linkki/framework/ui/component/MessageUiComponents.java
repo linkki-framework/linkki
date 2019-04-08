@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.message.ObjectProperty;
-import org.linkki.core.message.Severity;
-import org.linkki.core.ui.application.ApplicationStyles;
-import org.linkki.core.ui.table.PmoBasedTableFactory;
-import org.linkki.framework.ui.LinkkiStyles;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.ObjectProperty;
+import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.style.LinkkiStyles;
+import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
+import org.linkki.framework.ui.LinkkiApplicationStyles;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Component;
@@ -45,11 +45,11 @@ public final class MessageUiComponents {
     /**
      * Returns the CSS style name for the message's {@link Severity}.
      * 
-     * @implNote the style names consist of the {@link LinkkiStyles#MESSAGE_PREFIX} and the
+     * @implNote the style names consist of the {@link LinkkiApplicationStyles#MESSAGE_PREFIX} and the
      *           {@link Severity#name() Severity's name}, for example {@code linkki-message-error}.
      */
     public static String getStyle(Severity severity) {
-        return LinkkiStyles.MESSAGE_PREFIX + severity.name().toLowerCase();
+        return LinkkiApplicationStyles.MESSAGE_PREFIX + severity.name().toLowerCase();
     }
 
     /**
@@ -88,7 +88,7 @@ public final class MessageUiComponents {
 
     /**
      * Creates a form layout with a label that contains the message's text and an icon representing its
-     * {@link Severity}. The label can be styled with {@link ApplicationStyles#MESSAGE_LABEL} and a
+     * {@link Severity}. The label can be styled with {@link LinkkiStyles#MESSAGE_LABEL} and a
      * {@link #getStyle(Severity) style derived from the severity}.
      */
     public static Component createMessageComponent(Message message) {
@@ -98,7 +98,7 @@ public final class MessageUiComponents {
         messageLabel.setValue(message.getText());
         Severity severity = message.getSeverity();
         messageLabel.setIcon(getIcon(severity));
-        messageLabel.addStyleName(ApplicationStyles.MESSAGE_LABEL);
+        messageLabel.addStyleName(LinkkiStyles.MESSAGE_LABEL);
         messageLabel.addStyleName(getStyle(severity));
         messageLabel.setDescription(getInvalidObjectPropertiesAsString(message));
         component.addComponent(messageLabel);
@@ -113,8 +113,8 @@ public final class MessageUiComponents {
         com.vaadin.v7.ui.Table table = new PmoBasedTableFactory(new MessageTablePmo(messages), bindingContext)
                 .createTable();
         table.setColumnHeaderMode(com.vaadin.v7.ui.Table.ColumnHeaderMode.HIDDEN);
-        table.setStyleName(ApplicationStyles.MESSAGE_TABLE);
-        table.setSizeFull();
+        table.setStyleName(LinkkiStyles.MESSAGE_TABLE);
+        table.setWidth("100%");
         return table;
     }
 

@@ -17,9 +17,10 @@ package org.linkki.core.ui.components;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.eclipse.jdt.annotation.Nullable;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.message.SeverityErrorLevelConverter;
 import org.linkki.util.StreamUtil;
 
@@ -29,6 +30,8 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * Implementation of the {@link ComponentWrapper} with a Vaadin {@link Component} and a {@link Label}
  * component.
@@ -37,7 +40,7 @@ public class LabelComponentWrapper implements ComponentWrapper {
 
     private static final long serialVersionUID = 1L;
 
-    @Nullable
+    @CheckForNull
     private final Label label;
     private final Component component;
 
@@ -45,7 +48,7 @@ public class LabelComponentWrapper implements ComponentWrapper {
         this(null, component);
     }
 
-    public LabelComponentWrapper(@Nullable Label label, Component component) {
+    public LabelComponentWrapper(@CheckForNull Label label, Component component) {
         this.label = label;
         this.component = component;
     }
@@ -103,7 +106,7 @@ public class LabelComponentWrapper implements ComponentWrapper {
         }
     }
 
-    @Nullable
+    @CheckForNull
     private UserError getErrorHandler(MessageList messages) {
         return messages.getSeverity()
                 .map(SeverityErrorLevelConverter::convertToErrorLevel)

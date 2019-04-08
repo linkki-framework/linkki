@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
-import org.linkki.core.binding.behavior.PropertyBehavior;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mockito;

@@ -17,10 +17,10 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.nls.pmo.sample.SamplePmo;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
@@ -32,30 +32,32 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 public class PmoNlsServiceSectionTest {
-    @SuppressWarnings("null")
+    
     Label sectionHeader;
-    @SuppressWarnings("null")
+    
     private Label textfieldLabelWithoutTranslation;
-    @SuppressWarnings("null")
+    
     private Label textfieldLabelWithTranslation;
-    @SuppressWarnings("null")
+    
     private Label buttonLabelWithTranslation;
-    @SuppressWarnings("null")
+    
     private Label buttonWithoutLabel;
-    @SuppressWarnings("null")
+    
     private Button buttonWithTranslatedCaption;
 
-    @SuppressWarnings("null")
+    
     private String textfieldLabelTranslation;
-    @SuppressWarnings("null")
+    
     private String buttonLabelTranslation;
-    @SuppressWarnings("null")
+    
     private String buttonCaptionTranslation;
-    @SuppressWarnings("null")
+    
     private Button buttonWithoutTranslatedCaption;
 
-    @SuppressWarnings("null")
+    
     @Before
     public void setUp() {
         BindingContext context = new BindingContext();

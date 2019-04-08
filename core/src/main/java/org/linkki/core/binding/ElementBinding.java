@@ -17,13 +17,16 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import org.linkki.core.binding.aspect.AspectUpdaters;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.util.handler.Handler;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A binding for a single component to a property represented by a {@link PropertyDispatcher}. The
@@ -99,6 +102,7 @@ public class ElementBinding implements Binding {
      * @return The presentation model object that is bound to the component by this binding
      */
     @Override
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "because that's what requireNonNull is for")
     public Object getPmo() {
         return requireNonNull(getPropertyDispatcher().getBoundObject());
     }
@@ -134,4 +138,37 @@ public class ElementBinding implements Binding {
         return "Binding: " + componentWrapper + " <=> " + propertyDispatcher;
     }
 
+    /**
+     * Updaters for {@link Aspect Aspects} that are responsible for the same {@link ComponentWrapper}
+     * and the same property in the same bound object. Given a bound object with a property bound to a
+     * {@link ComponentWrapper}, all aspects of this property that are bound to the same component (for
+     * example visiblity, tooltip) are collected in the {@link AspectUpdaters} object corresponding to
+     * this property.
+     */
+    static class AspectUpdaters {
+
+        private final Handler uiUpdater;
+
+        public AspectUpdaters(List<LinkkiAspectDefinition> aspectDefinitions, PropertyDispatcher propertyDispatcher,
+                ComponentWrapper componentWrapper, Handler modelChanged) {
+            CompositeAspectDefinition aspectDefinition = new CompositeAspectDefinition(aspectDefinitions);
+            aspectDefinition.initModelUpdate(propertyDispatcher, componentWrapper, modelChanged);
+            this.uiUpdater = aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper);
+        }
+
+        /**
+         * Prompt all aspects to update the UI component.
+         */
+        public void updateUI() {
+            try {
+                uiUpdater.apply();
+                // CSOFF: IllegalCatch
+            } catch (RuntimeException e) {
+                throw new LinkkiBindingException(
+                        e.getMessage() + " in " + e.getStackTrace()[0], e);
+            }
+            // CSON: IllegalCatch
+        }
+
+    }
 }

@@ -20,13 +20,19 @@ import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.pmo.ModelObject;
 
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UiCustomFieldTest {
 
@@ -187,19 +193,19 @@ public class UiCustomFieldTest {
 
     public static class TestValue {
 
-        @Nullable
+        @CheckForNull
         private String value;
 
         public TestValue(String value) {
             this.value = value;
         }
 
-        @Nullable
+        @CheckForNull
         public String getId() {
             return value;
         }
 
-        @Nullable
+        @CheckForNull
         public String getName() {
             return value;
         }
@@ -213,7 +219,7 @@ public class UiCustomFieldTest {
         }
 
         @Override
-        public boolean equals(@Nullable Object obj) {
+        public boolean equals(@CheckForNull Object obj) {
             if (this == obj) {
                 return true;
             }

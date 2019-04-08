@@ -14,7 +14,7 @@
 package org.linkki.samples.customlayout;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.samples.customlayout.pmo.AddressSectionPmo;
 
 import com.vaadin.annotations.Theme;

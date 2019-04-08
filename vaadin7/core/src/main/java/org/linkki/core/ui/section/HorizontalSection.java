@@ -16,7 +16,7 @@ package org.linkki.core.ui.section;
 import java.util.Iterator;
 import java.util.Optional;
 
-import org.linkki.core.ui.application.ApplicationStyles;
+import org.linkki.core.defaults.style.LinkkiStyles;
 import org.linkki.core.ui.util.UiUtil;
 
 import com.vaadin.ui.Alignment;
@@ -80,7 +80,7 @@ public class HorizontalSection extends BaseSection {
         l.setWidthUndefined();
         content.addComponent(l);
         content.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
-        content.addStyleName(ApplicationStyles.SPACING_HORIZONTAL_SECTION);
+        content.addStyleName(LinkkiStyles.SPACING_HORIZONTAL_SECTION);
         add(component);
     }
 

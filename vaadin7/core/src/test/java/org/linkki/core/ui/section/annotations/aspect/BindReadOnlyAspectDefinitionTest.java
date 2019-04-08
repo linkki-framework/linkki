@@ -19,11 +19,10 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.dispatcher.BehaviorDependentDispatcher;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.dispatcher.behavior.BehaviorDependentDispatcher;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;
 import org.mockito.Mockito;
@@ -31,9 +30,11 @@ import org.mockito.Mockito;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 public class BindReadOnlyAspectDefinitionTest {
 
-    @SuppressWarnings("null")
+    
     private @NonNull BehaviorDependentDispatcher dispatcher;
 
     @Before

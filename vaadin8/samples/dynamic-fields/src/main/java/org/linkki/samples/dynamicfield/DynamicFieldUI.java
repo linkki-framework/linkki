@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.section.AbstractSection;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.component.section.AbstractSection;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.samples.dynamicfield.components.NewCarDialog;
 import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.samples.dynamicfield.model.CarType;

@@ -17,11 +17,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.ui.table.ContainerPmo;
-import org.linkki.core.ui.table.SimpleItemSupplier;
-import org.linkki.core.ui.table.TableFooterPmo;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.samples.binding.model.Contact;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class ContactTablePmo implements ContainerPmo<ContactRowPmo> {
 
@@ -43,7 +44,7 @@ public class ContactTablePmo implements ContainerPmo<ContactRowPmo> {
     }
 
     @Override
-    public @NonNull Optional<@NonNull TableFooterPmo> getFooterPmo() {
+    public @NonNull Optional<TableFooterPmo> getFooterPmo() {
         long favorites = getItems().stream().filter(pmo -> pmo.isFavorite()).count();
 
         if (favorites > 0) {

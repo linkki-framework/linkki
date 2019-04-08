@@ -18,15 +18,15 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
-import org.linkki.core.binding.property.BoundProperty;
-import org.linkki.core.ui.application.ApplicationStyles;
-import org.linkki.core.ui.columnbased.ColumnBasedComponentCreator;
-import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.columnbased.ColumnBasedComponentCreator;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.defaults.style.LinkkiStyles;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
 
@@ -46,7 +46,7 @@ class TableCreator implements ColumnBasedComponentCreator {
     @Override
     public ComponentWrapper createComponent(ContainerPmo<?> containerPmo) {
         Table table = containerPmo.isHierarchical() ? new TreeTable() : new Table();
-        table.addStyleName(ApplicationStyles.TABLE);
+        table.addStyleName(LinkkiStyles.TABLE);
         table.setHeightUndefined();
         table.setWidth("100%");
         table.setSortEnabled(false);
@@ -55,7 +55,7 @@ class TableCreator implements ColumnBasedComponentCreator {
 
     /**
      * Creates a new column for a field of a PMO and applies all
-     * {@link LinkkiAspectDefinition#supports(org.linkki.core.ui.components.WrapperType) supported}
+     * {@link LinkkiAspectDefinition#supports(org.linkki.core.binding.wrapper.WrapperType) supported}
      * {@link LinkkiAspectDefinition LinkkiAspectDefinitions}.
      * 
      * @param elementDesc the descriptor for the PMO's field
@@ -77,7 +77,7 @@ class TableCreator implements ColumnBasedComponentCreator {
     }
 
     /** Column generator that generates a column for a field of a PMO. */
-    private static class FieldColumnGenerator<@NonNull T> implements ColumnGenerator {
+    private static class FieldColumnGenerator<T> implements ColumnGenerator {
 
         private static final long serialVersionUID = 1L;
 
@@ -97,8 +97,8 @@ class TableCreator implements ColumnBasedComponentCreator {
             requireNonNull(itemId, "itemId must not be null");
             ElementDescriptor elementDescriptor = elementDescriptors.getDescriptor(itemId);
             Component component = (Component)elementDescriptor.newComponent();
-            component.addStyleName(ApplicationStyles.BORDERLESS);
-            component.addStyleName(ApplicationStyles.TABLE_CELL);
+            component.addStyleName(LinkkiStyles.BORDERLESS);
+            component.addStyleName(LinkkiStyles.TABLE_CELL);
 
             @SuppressWarnings("unchecked")
             T itemPmo = (T)itemId;

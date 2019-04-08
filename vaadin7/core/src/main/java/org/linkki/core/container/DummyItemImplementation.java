@@ -17,10 +17,10 @@ package org.linkki.core.container;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.eclipse.jdt.annotation.Nullable;
-
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * A dummy {@link Item} implementation for methods in {@link LinkkiInMemoryContainer} that return
@@ -31,7 +31,7 @@ public class DummyItemImplementation implements Item {
     private static final long serialVersionUID = -8329741338143404383L;
 
     @Override
-    @Nullable
+    @CheckForNull
     public Property<?> getItemProperty(Object id) {
         return null;
     }

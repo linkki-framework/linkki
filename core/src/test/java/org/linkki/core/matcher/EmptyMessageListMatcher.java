@@ -15,7 +15,7 @@ package org.linkki.core.matcher;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.validation.message.MessageList;
 
 public class EmptyMessageListMatcher extends TypeSafeMatcher<MessageList> {
 

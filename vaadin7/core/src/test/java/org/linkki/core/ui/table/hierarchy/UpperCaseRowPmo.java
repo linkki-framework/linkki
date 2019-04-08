@@ -16,17 +16,16 @@ package org.linkki.core.ui.table.hierarchy;
 
 import java.util.List;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.ui.table.HierarchicalRowPmo;
-import org.linkki.core.ui.table.SimpleItemSupplier;
+import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
+import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 
-public class UpperCaseRowPmo extends AbstractCodeRow implements HierarchicalRowPmo<@NonNull LowerCaseRowPmo> {
+public class UpperCaseRowPmo extends AbstractCodeRow implements HierarchicalRowPmo<LowerCaseRowPmo> {
 
     private String upperCaseLetter;
-    private SimpleItemSupplier<@NonNull LowerCaseRowPmo, @NonNull String> lowerCaseRowSupplier;
+    private SimpleItemSupplier<LowerCaseRowPmo, String> lowerCaseRowSupplier;
 
     public UpperCaseRowPmo(String upperCaseLetter,
-            SimpleItemSupplier<@NonNull LowerCaseRowPmo, @NonNull String> lowerCaseRowSupplier) {
+            SimpleItemSupplier<LowerCaseRowPmo, String> lowerCaseRowSupplier) {
         this.upperCaseLetter = upperCaseLetter;
         this.lowerCaseRowSupplier = lowerCaseRowSupplier;
     }

@@ -18,9 +18,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.container.LinkkiInMemoryContainer;
-import org.linkki.core.ui.columnbased.ColumnBasedComponentWrapper;
+import org.linkki.core.defaults.columnbased.ColumnBasedComponentWrapper;
+import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
 
 import com.vaadin.ui.Table;
@@ -31,7 +32,7 @@ import com.vaadin.ui.TreeTable;
  * 
  * @param <ROW> a class annotated with linkki annotations used as PMO for a row in the table
  */
-public class TableComponentWrapper<@NonNull ROW> extends CaptionComponentWrapper
+public class TableComponentWrapper<ROW> extends CaptionComponentWrapper
         implements ColumnBasedComponentWrapper<ROW> {
 
     private static final long serialVersionUID = 1L;

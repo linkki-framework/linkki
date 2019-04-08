@@ -17,13 +17,12 @@ package org.linkki.samples.treetable.dynamic.pmo;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.ui.table.SimpleTablePmo;
-import org.linkki.core.ui.table.TableFooterPmo;
+import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.samples.treetable.dynamic.model.League;
 import org.linkki.samples.treetable.dynamic.model.Player;
 
-public class LeagueTablePmo extends SimpleTablePmo<@NonNull String, @NonNull PlayerTableRowPmo> {
+public class LeagueTablePmo extends SimpleTablePmo<String, PlayerTableRowPmo> {
 
     private League league;
 

@@ -29,8 +29,6 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.eclipse.jdt.annotation.NonNull;
-
 import edu.umd.cs.findbugs.annotations.CheckReturnValue;
 
 /**
@@ -155,7 +153,7 @@ public class Sequence<T> implements Iterable<T> {
      *         elements or this {@link Sequence} if the condition is {@code false}
      */
     @CheckReturnValue
-    public final Sequence<T> withIf(boolean condition, Supplier<@NonNull T> supplier) {
+    public final Sequence<T> withIf(boolean condition, Supplier<T> supplier) {
         if (condition) {
             return with(supplier.get());
         } else {

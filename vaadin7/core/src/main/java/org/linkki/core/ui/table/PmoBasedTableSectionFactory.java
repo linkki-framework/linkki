@@ -15,8 +15,8 @@ package org.linkki.core.ui.table;
 
 import static java.util.Objects.requireNonNull;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
 
 /**
@@ -25,7 +25,7 @@ import org.linkki.core.ui.section.PmoBasedSectionFactory;
  * @deprecated since January 2019. Use {@link PmoBasedSectionFactory} for {@link TableSection} as well.
  */
 @Deprecated
-public class PmoBasedTableSectionFactory<@NonNull ROW> {
+public class PmoBasedTableSectionFactory<ROW> {
 
     private final ContainerPmo<ROW> containerPmo;
     private final BindingContext bindingContext;

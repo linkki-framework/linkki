@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class TwoDigitYearUtilTest {
 
-    @SuppressWarnings("null")
+    
     private TwoDigitYearUtil convertInternaler;
 
     @Before

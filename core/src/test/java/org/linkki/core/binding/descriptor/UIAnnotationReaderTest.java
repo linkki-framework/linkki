@@ -25,10 +25,10 @@ import java.util.function.Supplier;
 
 import org.junit.Test;
 import org.linkki.core.binding.descriptor.UIAnnotationReader.ModelObjectAnnotationException;
-import org.linkki.core.ui.section.annotations.BindTooltip;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.TestUIField;
+import org.linkki.core.defaults.section.annotations.TestUIField;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
+import org.linkki.core.pmo.ModelObject;
 
 public class UIAnnotationReaderTest {
 

@@ -19,7 +19,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
 
@@ -28,6 +27,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Default dialog used by {@link DialogErrorHandler} to show error information.
@@ -60,7 +61,7 @@ public class DefaultErrorDialog extends ConfirmationDialog {
         return new Label(NlsText.format("DefaultErrorHandler.errorDialogText", formattedTimestamp));
     }
 
-    private static TextField createRootCauseTextField(@Nullable Throwable t) {
+    private static TextField createRootCauseTextField(@CheckForNull Throwable t) {
         TextField textField = new TextField(NlsText.getString("DefaultErrorHandler.errorDialogDescription"));
 
         String message = Optional.ofNullable(ExceptionUtils.getRootCause(t))
@@ -71,7 +72,7 @@ public class DefaultErrorDialog extends ConfirmationDialog {
         return textField;
     }
 
-    private static TextArea createStackTraceTextArea(@Nullable Throwable t) {
+    private static TextArea createStackTraceTextArea(@CheckForNull Throwable t) {
         TextArea textArea = new TextArea(NlsText.getString("DefaultErrorHandler.errorDialogDetails"));
         textArea.setValue(ExceptionUtils.getStackTrace(t));
         formatText(textArea);

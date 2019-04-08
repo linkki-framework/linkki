@@ -17,8 +17,10 @@ package org.linkki.core.ui.components;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.message.SeverityErrorLevelConverter;
 
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
@@ -26,7 +28,7 @@ import com.vaadin.server.UserError;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Wraps a vaadin component and uses the vaadin built-in caption instead of an extra label component
@@ -94,7 +96,7 @@ public class CaptionComponentWrapper implements ComponentWrapper {
         }
     }
 
-    @Nullable
+    @CheckForNull
     private UserError getErrorHandler(MessageList messages) {
         return messages.getSeverity()
                 .map(SeverityErrorLevelConverter::convertToErrorLevel)

@@ -19,10 +19,11 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
 
 import com.vaadin.data.util.converter.Converter;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class DoubleFieldTest {
 
@@ -35,7 +36,7 @@ public class DoubleFieldTest {
     }
 
     private Converter<String, Object> getConverter(DoubleField field) {
-        @SuppressWarnings("null")
+        
         @NonNull
         Converter<String, Object> converter = field.getConverter();
         return converter;

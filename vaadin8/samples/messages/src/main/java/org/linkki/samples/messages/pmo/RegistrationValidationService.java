@@ -17,14 +17,15 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.NonNull;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.message.ObjectProperty;
-import org.linkki.core.message.Severity;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.ObjectProperty;
+import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.samples.messages.model.User;
 import org.linkki.util.validation.ValidationMarker;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class RegistrationValidationService implements ValidationService {
 

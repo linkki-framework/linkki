@@ -16,11 +16,10 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.util.function.Consumer;
 
-import org.eclipse.jdt.annotation.Nullable;
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.section.annotations.CaptionType;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.ui.element.aspects.types.CaptionType;
 
 import com.vaadin.ui.Component;
 
@@ -28,7 +27,7 @@ import com.vaadin.ui.Component;
  * Aspect definition for caption binding. Assumes that the {@link ComponentWrapper} wraps a
  * {@link Component} by default.
  */
-public class CaptionAspectDefinition extends ModelToUiAspectDefinition<@Nullable String> {
+public class CaptionAspectDefinition extends ModelToUiAspectDefinition<String> {
 
     public static final String NAME = "caption";
 
@@ -42,7 +41,7 @@ public class CaptionAspectDefinition extends ModelToUiAspectDefinition<@Nullable
     }
 
     @Override
-    public Aspect<@Nullable String> createAspect() {
+    public Aspect<String> createAspect() {
         if (captionType == CaptionType.DYNAMIC) {
             return Aspect.of(NAME);
         } else if (captionType == CaptionType.STATIC) {

@@ -21,24 +21,25 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 @RunWith(Parameterized.class)
 public class LocalDateToDateConverterTest {
 
     @Parameterized.Parameter(value = 0)
-    @SuppressWarnings("null")
+
     public String date;
 
     @Parameterized.Parameter(value = 1)
-    @SuppressWarnings("null")
+
     public String pattern;
 
     @Parameterized.Parameter(value = 2)
-    @SuppressWarnings("null")
+
     public LocalDate localDate;
 
 
@@ -89,7 +90,7 @@ public class LocalDateToDateConverterTest {
 
     }
 
-    @SuppressWarnings("null")
+
     @Test
     public void testConvertToModel() throws Exception {
         assertThat(convert(date, pattern), is(localDate));
@@ -100,19 +101,19 @@ public class LocalDateToDateConverterTest {
         assertThat(convert(localDate), is(convertToDate(getDateToConvert(date, pattern), pattern)));
     }
 
-    @Nullable
+    @CheckForNull
     private static LocalDate convert(String toConvert, String pattern) throws Exception {
         // we do not need type and locale
         return new LocalDateToDateConverter().convertToModel(convertToDate(toConvert, pattern), null, null);
     }
 
-    @Nullable
+    @CheckForNull
     private static Date convert(LocalDate toConvert) {
         return new LocalDateToDateConverter().convertToPresentation(toConvert, null, null);
     }
 
-    @Nullable
-    private static Date convertToDate(@Nullable String date, String pattern) throws Exception {
+    @CheckForNull
+    private static Date convertToDate(@CheckForNull String date, String pattern) throws Exception {
         if (date == null) {
             return null;
         }
@@ -124,8 +125,8 @@ public class LocalDateToDateConverterTest {
      * we fake the java heuristic for 2 digit years in dates currently it works like a charm but who
      * knows - sometime it will be broken
      */
-    @Nullable
-    private static String getDateToConvert(@Nullable String date, String pattern) throws Exception {
+    @CheckForNull
+    private static String getDateToConvert(@CheckForNull String date, String pattern) throws Exception {
 
         if (date == null || !date.startsWith("00")) {
             return date;

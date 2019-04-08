@@ -19,22 +19,23 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Consumer;
 
-import org.linkki.core.ButtonPmo;
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.aspect.definition.ModelToUiAspectDefinition;
-import org.linkki.core.binding.aspect.definition.StaticModelToUiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.StaticModelToUiAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.property.BoundProperty;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
+import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.components.WrapperType;
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.VisibleType;
 import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
 
@@ -71,7 +72,7 @@ public class ButtonPmoBinder {
     /**
      * Cannot use {@link ButtonInvokeAspectDefinition} as {@link ButtonPmo} uses an empty String as
      * fixed property name (see
-     * {@link PropertyDispatcherFactory#createDispatcherChain(ButtonPmo, org.linkki.core.binding.dispatcher.PropertyBehaviorProvider)}),
+     * {@link PropertyDispatcherFactory#createDispatcherChain(ButtonPmo, org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider)}),
      * thus the invoke button has a fixed aspect name of {@link ButtonPmo#onClick()}.
      */
     private static class ButtonPmoInvokeAspectDefinition implements LinkkiAspectDefinition {

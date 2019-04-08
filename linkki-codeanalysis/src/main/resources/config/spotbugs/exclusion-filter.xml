@@ -25,14 +25,6 @@
 			EI_EXPOSE_REP2,
 			BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
     </Match>
-    <Match>
-        <!-- Because Find/SpotBugs currently is not fully compatible with Eclipse Null annotations -->
-        <Bug code="NP" />
-    </Match>
-    <Match>
-        <!-- Because Find/SpotBugs currently is not fully compatible with Eclipse Null annotations -->
-        <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
-    </Match>
 
     <!-- All bugs in test classes, except for JUnit-specific bugs -->
     <Match>

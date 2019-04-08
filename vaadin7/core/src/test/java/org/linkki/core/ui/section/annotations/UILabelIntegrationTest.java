@@ -18,12 +18,14 @@ import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.ui.section.annotations.UILabelIntegrationTest.LabelTestPmo;
 
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Label, LabelTestPmo> {
 
@@ -87,18 +89,17 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
 
     protected static class TestModelObjectWithString extends TestModelObject<String> {
 
-        @Nullable
+        @CheckForNull
         private String value = null;
 
-        @SuppressWarnings("null")
-        @Nullable
+        @CheckForNull
         @Override
         public String getValue() {
             return value;
         }
 
         @Override
-        public void setValue(@Nullable String value) {
+        public void setValue(@CheckForNull String value) {
             this.value = value;
         }
     }

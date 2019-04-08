@@ -15,13 +15,13 @@ package org.linkki.framework.ui.dialogs;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.PresentationModelObject;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.behavior.PropertyBehavior;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.section.AbstractSection;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.pmo.PresentationModelObject;
+import org.linkki.core.ui.component.section.AbstractSection;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 

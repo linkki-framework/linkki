@@ -16,7 +16,6 @@ package org.linkki.framework.state;
 import java.util.Optional;
 import java.util.function.Function;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
@@ -71,7 +70,6 @@ public interface ApplicationConfig {
      *           {@link ApplicationFooter} created with the {@link #getFooterDefinition()}.
      */
     default ApplicationLayout createApplicationLayout() {
-        @SuppressWarnings("null")
         ApplicationFooter footer = getFooterDefinition().map(fd -> fd.apply(this)).orElse(null);
         return new ApplicationLayout(getHeaderDefinition().apply(new ApplicationMenu(getMenuItemDefinitions().list())),
                 footer);
@@ -94,7 +92,7 @@ public interface ApplicationConfig {
      * Optionally returns an {@link ApplicationFooterDefinition} that creates an
      * {@link ApplicationFooter}. Per default, no footer is created.
      */
-    default Optional<@Nullable ApplicationFooterDefinition> getFooterDefinition() {
+    default Optional<ApplicationFooterDefinition> getFooterDefinition() {
         return Optional.empty();
     }
 

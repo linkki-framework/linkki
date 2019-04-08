@@ -14,7 +14,8 @@
 
 package org.linkki.core.binding;
 
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.util.handler.Handler;
 
 /**

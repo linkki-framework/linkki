@@ -16,10 +16,11 @@ package org.linkki.core.ui.converters;
 import java.util.Date;
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.joda.time.LocalDate;
 
 import com.vaadin.data.util.converter.Converter;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Converter used for {@link org.linkki.core.ui.section.annotations.UIDateField}s for {@link LocalDate}.
@@ -29,10 +30,10 @@ public class JodaLocalDateToDateConverter implements Converter<Date, LocalDate> 
     private static final long serialVersionUID = 1L;
 
     @Override
-    @Nullable
-    public LocalDate convertToModel(@Nullable Date value,
-            @Nullable Class<? extends LocalDate> targetType,
-            @Nullable Locale locale) throws ConversionException {
+    @CheckForNull
+    public LocalDate convertToModel(@CheckForNull Date value,
+            @CheckForNull Class<? extends LocalDate> targetType,
+            @CheckForNull Locale locale) throws ConversionException {
         if (value == null) {
             return null;
         }
@@ -67,10 +68,10 @@ public class JodaLocalDateToDateConverter implements Converter<Date, LocalDate> 
     }
 
     @Override
-    @Nullable
-    public Date convertToPresentation(@Nullable LocalDate value,
-            @Nullable Class<? extends Date> targetType,
-            @Nullable Locale locale) throws ConversionException {
+    @CheckForNull
+    public Date convertToPresentation(@CheckForNull LocalDate value,
+            @CheckForNull Class<? extends Date> targetType,
+            @CheckForNull Locale locale) throws ConversionException {
         if (value == null) {
             return null;
         }

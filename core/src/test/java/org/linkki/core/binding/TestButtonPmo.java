@@ -17,7 +17,7 @@ package org.linkki.core.binding;
 import java.util.Collections;
 import java.util.List;
 
-import org.linkki.core.ButtonPmo;
+import org.linkki.core.pmo.ButtonPmo;
 
 public class TestButtonPmo implements ButtonPmo {
 
@@ -55,10 +55,10 @@ public class TestButtonPmo implements ButtonPmo {
         return Collections.emptyList();
     }
 
-    @SuppressWarnings("null")
+
     @Override
     public Object getButtonIcon() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public int getClickCount() {

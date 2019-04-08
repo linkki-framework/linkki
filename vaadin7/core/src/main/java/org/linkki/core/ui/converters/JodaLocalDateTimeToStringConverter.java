@@ -15,12 +15,13 @@ package org.linkki.core.ui.converters;
 
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import com.vaadin.data.util.converter.Converter;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Converter for converting {@link LocalDate} to {@link String}. <br>
@@ -35,19 +36,19 @@ public class JodaLocalDateTimeToStringConverter implements Converter<String, Loc
     private static final long serialVersionUID = 1L;
     private JodaLocalDateToStringConverter localDateConverter = new JodaLocalDateToStringConverter();
 
-    @Nullable
+    @CheckForNull
     @Override
-    public LocalDateTime convertToModel(@Nullable String value,
-            @Nullable Class<? extends LocalDateTime> targetType,
-            @Nullable Locale locale) throws ConversionException {
+    public LocalDateTime convertToModel(@CheckForNull String value,
+            @CheckForNull Class<? extends LocalDateTime> targetType,
+            @CheckForNull Locale locale) throws ConversionException {
         throw new UnsupportedOperationException(getClass().getName() + " only supports convertToPresentation");
     }
 
-    @Nullable
+    @CheckForNull
     @Override
-    public String convertToPresentation(@Nullable LocalDateTime value,
-            @Nullable Class<? extends String> targetType,
-            @Nullable Locale locale) throws ConversionException {
+    public String convertToPresentation(@CheckForNull LocalDateTime value,
+            @CheckForNull Class<? extends String> targetType,
+            @CheckForNull Locale locale) throws ConversionException {
         if (value == null) {
             return "";
         }

@@ -98,12 +98,6 @@
                 <version>${spotbugs.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>org.eclipse.jdt</groupId>
-                <artifactId>org.eclipse.jdt.annotation</artifactId>
-                <version>2.2.0</version>
-                <scope>provided</scope>
-            </dependency>
             <!-- tag::vaadin[] -->
         </dependencies>
         <!-- end::vaadin[] -->
@@ -121,10 +115,6 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jdt</groupId>
-            <artifactId>org.eclipse.jdt.annotation</artifactId>
         </dependency>
 
     </dependencies>

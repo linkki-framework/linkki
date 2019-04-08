@@ -19,13 +19,12 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings("null")
 public class AbstractPropertyDispatcherDecoratorTest {
     @Mock
     private PropertyDispatcher wrappedDispatcher;

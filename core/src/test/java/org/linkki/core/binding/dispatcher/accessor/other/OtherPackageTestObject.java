@@ -14,7 +14,7 @@
 
 package org.linkki.core.binding.dispatcher.accessor.other;
 
-import org.linkki.core.binding.dispatcher.accessor.TestInterface;
+import org.linkki.core.binding.dispatcher.reflection.accessor.TestInterface;
 
 public class OtherPackageTestObject implements TestInterface {
 

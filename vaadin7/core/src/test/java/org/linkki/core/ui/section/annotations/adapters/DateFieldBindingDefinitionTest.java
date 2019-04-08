@@ -19,14 +19,15 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Locale;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.Test;
-import org.linkki.core.ui.UiFramework;
 import org.linkki.core.ui.section.annotations.UIDateField;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.DateFormats;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class DateFieldBindingDefinitionTest {
 
@@ -35,7 +36,7 @@ public class DateFieldBindingDefinitionTest {
     private UIDateField getAnnotation(String name) {
         try {
             @NonNull
-            @SuppressWarnings("null")
+            
             UIDateField annotation = getClass().getMethod(name, new Class<?>[] {})
                     .getAnnotation(UIDateField.class);
             return annotation;

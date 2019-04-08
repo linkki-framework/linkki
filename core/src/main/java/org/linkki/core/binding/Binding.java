@@ -13,7 +13,7 @@
  */
 package org.linkki.core.binding;
 
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.validation.message.MessageList;
 
 /**
  * Common interface for bindings handled by the {@link BindingContext}. A binding has a PMO and an UI

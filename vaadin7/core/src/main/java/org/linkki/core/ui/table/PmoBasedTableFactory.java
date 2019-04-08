@@ -14,7 +14,8 @@
 package org.linkki.core.ui.table;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.columnbased.ColumnBasedComponentFactory;
+import org.linkki.core.defaults.columnbased.ColumnBasedComponentFactory;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 
 import com.vaadin.ui.Table;
 

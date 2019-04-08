@@ -20,12 +20,13 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 
 import com.vaadin.data.util.converter.Converter;
 
-public abstract class AbstractNumberFieldConverter<T extends Number> implements Converter<@Nullable String, T> {
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
+
+public abstract class AbstractNumberFieldConverter<T extends Number> implements Converter<String, T> {
 
     private static final long serialVersionUID = -872944068146887949L;
 
@@ -36,10 +37,10 @@ public abstract class AbstractNumberFieldConverter<T extends Number> implements 
     }
 
     @Override
-    @Nullable
-    public final T convertToModel(@Nullable String value,
-            @SuppressWarnings("null") Class<? extends T> targetType,
-            @Nullable Locale locale)
+    @CheckForNull
+    public final T convertToModel(@CheckForNull String value,
+            Class<? extends T> targetType,
+            @CheckForNull Locale locale)
             throws ConversionException {
         if (StringUtils.isEmpty(value)) {
             return getNullValue();
@@ -51,17 +52,16 @@ public abstract class AbstractNumberFieldConverter<T extends Number> implements 
         }
     }
 
-    @Nullable
+    @CheckForNull
     protected abstract T getNullValue();
 
     protected abstract T convertToModel(Number value);
 
-    @SuppressWarnings("null")
     @NonNull
     @Override
-    public String convertToPresentation(@Nullable T value,
+    public String convertToPresentation(@CheckForNull T value,
             Class<? extends String> targetType,
-            @Nullable Locale locale)
+            @CheckForNull Locale locale)
             throws ConversionException {
 
         if (value == null) {
@@ -71,9 +71,8 @@ public abstract class AbstractNumberFieldConverter<T extends Number> implements 
         }
     }
 
-    @SuppressWarnings("null")
     @Override
-    public final Class<@Nullable String> getPresentationType() {
+    public final Class<String> getPresentationType() {
         return String.class;
     }
 }

@@ -16,21 +16,22 @@ package org.linkki.samples.appsample.pmo;
 
 import java.time.LocalDate;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.message.Severity;
-import org.linkki.core.ui.section.annotations.BindReadOnly;
-import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UIDateField;
-import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
-import org.linkki.core.ui.section.annotations.UITextArea;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.element.annotation.BindReadOnly;
+import org.linkki.core.ui.element.annotation.BindReadOnly.ReadOnlyType;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
+import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.element.annotation.UIDateField;
+import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.samples.appsample.model.Report;
 import org.linkki.samples.appsample.model.ReportType;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class ReportPmo {
 

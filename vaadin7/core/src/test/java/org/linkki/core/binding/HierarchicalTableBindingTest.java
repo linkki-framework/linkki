@@ -45,7 +45,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TreeTable;
 
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings("null")
+
 public class HierarchicalTableBindingTest {
 
     private BindingContext bindingContext = new BindingContext();

@@ -27,7 +27,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.Nullable;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class BeanUtils {
 
@@ -128,7 +129,7 @@ public class BeanUtils {
      * 
      * @see Class#getDeclaredField(String)
      */
-    @Nullable
+    @CheckForNull
     public static Object getValueFromField(Object object, String name) {
         Field field = getField(object.getClass(), name);
         return getValueFromField(object, field);
@@ -139,11 +140,11 @@ public class BeanUtils {
      * 
      * @see Class#getDeclaredField(String)
      */
-    @Nullable
+    @CheckForNull
     public static Object getValueFromField(Object object, Field field) {
         return AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
-            @Nullable
+            @CheckForNull
             public Object run() {
                 boolean accessible = field.isAccessible();
                 if (!accessible) {

@@ -23,19 +23,24 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.ui.converters.JodaLocalDateToDateConverter;
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.core.ui.converters.LocalDateToDateConverter;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UIDateFieldIntegrationTest.DateFieldTestPmo;
 import org.linkki.util.Sequence;
 
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.DateField;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DateField, DateFieldTestPmo> {
 
@@ -214,55 +219,58 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
 
     protected static class TestModelObjectWithDate extends TestModelObject<Date> {
 
-        @Nullable
+        @CheckForNull
         private Date value = null;
 
-        @SuppressWarnings("null")
-        @Nullable
+
+        @CheckForNull
         @Override
         public Date getValue() {
             return value;
         }
 
         @Override
-        public void setValue(@Nullable Date value) {
+        public void setValue(@CheckForNull Date value) {
             this.value = value;
         }
     }
 
     protected static class TestModelObjectWithLocalDate {
 
-        @Nullable
+        @CheckForNull
         private LocalDate value = null;
 
-        @Nullable
+        @CheckForNull
         public LocalDate getStaticValue() {
             return getValue();
         }
 
-        @Nullable
+        @CheckForNull
         public LocalDate getValue() {
             return value;
         }
 
-        public void setValue(@Nullable LocalDate value) {
+        public void setValue(@CheckForNull LocalDate value) {
             this.value = value;
         }
     }
 
     protected static class TestModelObjectWithJodaLocalDate {
 
-        private org.joda.time.@Nullable LocalDate value = null;
+        @CheckForNull
+        private org.joda.time.LocalDate value = null;
 
-        public org.joda.time.@Nullable LocalDate getStaticValue() {
+        @CheckForNull
+        public org.joda.time.LocalDate getStaticValue() {
             return getValue();
         }
 
-        public org.joda.time.@Nullable LocalDate getValue() {
+        @CheckForNull
+        public org.joda.time.LocalDate getValue() {
             return value;
         }
 
-        public void setValue(org.joda.time.@Nullable LocalDate value) {
+        public void setValue(org.joda.time.LocalDate value) {
             this.value = value;
         }
     }

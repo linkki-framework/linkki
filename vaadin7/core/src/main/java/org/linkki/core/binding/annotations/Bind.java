@@ -25,15 +25,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.annotations.Bind.BindAnnotationBoundPropertyCreator;
 import org.linkki.core.binding.annotations.aspect.BindAnnotationAspectDefinitionCreator;
-import org.linkki.core.binding.aspect.LinkkiAspect;
-import org.linkki.core.binding.property.BoundProperty;
-import org.linkki.core.binding.property.BoundPropertyCreator;
-import org.linkki.core.binding.property.LinkkiBoundProperty;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.VisibleType;
+import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.util.BeanUtils;
 
 /**

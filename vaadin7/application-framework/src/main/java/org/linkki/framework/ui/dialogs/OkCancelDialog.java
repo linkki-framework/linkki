@@ -18,16 +18,15 @@ import static java.util.Objects.requireNonNull;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jdt.annotation.Nullable;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.message.Severity;
-import org.linkki.core.ui.application.ApplicationStyles;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.style.LinkkiStyles;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.Page;
-import org.linkki.framework.ui.LinkkiStyles;
+import org.linkki.framework.ui.LinkkiApplicationStyles;
 import org.linkki.framework.ui.component.MessageRow;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
@@ -43,6 +42,9 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A modal dialog with a header/title, an OK button and an optional cancel button at the bottom. To add
@@ -200,11 +202,11 @@ public class OkCancelDialog extends Window {
      *             {@link #builder(String)} to create a builder instead.
      */
     @Deprecated
-    public OkCancelDialog(String caption, @Nullable Component content, Handler okHandler, ButtonOption buttonOption) {
+    public OkCancelDialog(String caption, Component content, Handler okHandler, ButtonOption buttonOption) {
         this(caption, okHandler, Handler.NOP_HANDLER, buttonOption, toArray(content));
     }
 
-    private static Component[] toArray(@Nullable Component contentComponent) {
+    private static Component[] toArray(@CheckForNull Component contentComponent) {
         if (contentComponent == null) {
             return new Component[] {};
         } else {
@@ -219,11 +221,9 @@ public class OkCancelDialog extends Window {
      * <p>
      * Note that this also removes any components that were added using {@link #addContent(Component)}.
      */
-    // mainArea is null when setContent is called from the superclass constructor. For all other
-    // purposes, we consider it @NonNull
-    @SuppressWarnings({ "null", "unused" })
+    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "yeah, we know...")
     @Override
-    public void setContent(@Nullable Component content) {
+    public void setContent(@CheckForNull Component content) {
         // This method is invoked by superclass constructors. In this case the superclass'
         // implementation has to be used. Once initialization is finished, we implement a different
         // behavior (as described in the JavaDoc).
@@ -238,7 +238,7 @@ public class OkCancelDialog extends Window {
     }
 
     private void initDialogWindow() {
-        setStyleName(LinkkiStyles.DIALOG_CAPTION);
+        setStyleName(LinkkiApplicationStyles.DIALOG_CAPTION);
         setModal(true);
         setResizable(false);
     }
@@ -251,7 +251,7 @@ public class OkCancelDialog extends Window {
     }
 
     private void initMainArea(Component... contentComponents) {
-        mainArea.addStyleName(LinkkiStyles.DIALOG_CONTENT);
+        mainArea.addStyleName(LinkkiApplicationStyles.DIALOG_CONTENT);
         contentArea.addStyleName("content-area"); //$NON-NLS-1$
         contentArea.addComponent(mainArea);
         contentArea.setExpandRatio(mainArea, 1f);
@@ -278,7 +278,7 @@ public class OkCancelDialog extends Window {
 
     private HorizontalLayout createButtons(ButtonOption buttonOption) {
         HorizontalLayout buttons = new HorizontalLayout();
-        buttons.addStyleName(ApplicationStyles.DIALOG_BUTTON_BAR);
+        buttons.addStyleName(LinkkiStyles.DIALOG_BUTTON_BAR);
         buttons.setSpacing(true);
         buttons.addComponent(okButton);
         buttons.setComponentAlignment(okButton, Alignment.BOTTOM_CENTER);
@@ -524,9 +524,9 @@ public class OkCancelDialog extends Window {
         private Handler cancelHandler = Handler.NOP_HANDLER;
         private ButtonOption buttonOption = ButtonOption.OK_CANCEL;
 
-        @Nullable
+        @CheckForNull
         private String width;
-        @Nullable
+        @CheckForNull
         private String height;
 
         /**
@@ -609,7 +609,6 @@ public class OkCancelDialog extends Window {
          * 
          * @return a new {@link OkCancelDialog} that has the parameters of this builder.
          */
-        @SuppressWarnings("null")
         public OkCancelDialog build() {
             OkCancelDialog createdDialog = new OkCancelDialog(caption, okHandler, cancelHandler, buttonOption,
                     contentComponents);
