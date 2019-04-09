@@ -41,11 +41,6 @@ public class TextAreaBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return uiTextArea.position();
-    }
-
-    @Override
     public String label() {
         return uiTextArea.label();
     }

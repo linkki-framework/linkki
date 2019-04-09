@@ -25,19 +25,21 @@ import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
  */
 public class ElementDescriptor extends BindingDescriptor {
 
+    private final int position;
     private final LinkkiComponentDefinition componentDefinition;
     private final BoundProperty boundProperty;
 
-    public ElementDescriptor(LinkkiComponentDefinition componentDefinition, BoundProperty boundPropery,
+    public ElementDescriptor(int position, LinkkiComponentDefinition componentDefinition, BoundProperty boundPropery,
             List<LinkkiAspectDefinition> aspectDefinitions) {
         super(aspectDefinitions);
+        this.position = position;
         this.componentDefinition = componentDefinition;
         this.boundProperty = boundPropery;
     }
 
     /** The position of the UI element in its parent/container. */
     public int getPosition() {
-        return componentDefinition.getPosition();
+        return position;
     }
 
     /** Creates a new UI component for this UI element. */

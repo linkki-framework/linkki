@@ -48,11 +48,6 @@ public class YesNoComboBoxBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return uiYesNoComboBox.position();
-    }
-
-    @Override
     public String label() {
         return uiYesNoComboBox.label();
     }

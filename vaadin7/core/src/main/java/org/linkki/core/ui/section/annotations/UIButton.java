@@ -40,6 +40,7 @@ import org.linkki.core.ui.section.annotations.aspect.ButtonInvokeAspectDefinitio
 import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.LabelAspectDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
@@ -54,9 +55,11 @@ import com.vaadin.server.FontAwesome;
 @LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(UIButtonAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UIButton {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the button */

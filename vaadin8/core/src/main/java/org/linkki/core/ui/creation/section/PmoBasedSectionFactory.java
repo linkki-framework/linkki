@@ -126,11 +126,6 @@ public class PmoBasedSectionFactory {
             }
 
             @Override
-            public int getPosition() {
-                return 0;
-            }
-
-            @Override
             public Object createComponent(@SuppressWarnings("hiding") Object pmo) {
                 String caption = PmoNlsService.get()
                         .getSectionCaption(pmo.getClass(),

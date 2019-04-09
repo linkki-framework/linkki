@@ -39,6 +39,7 @@ import org.linkki.core.ui.section.annotations.adapters.SubsetChooserBindingDefin
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
  * Creates a subset chooser, i.e. a multi-select component with a left and a right list.
@@ -65,9 +66,11 @@ public Set&lt;T&gt; getFooAvailableValues() { ... }
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(AvailableValuesAspectDefinition.DynamicCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UISubsetChooser {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

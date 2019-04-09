@@ -64,16 +64,13 @@ public @interface UISection {
     /** Whether or not the section can be collapsed by the user. */
     boolean closeable() default false;
 
-    /** Defines the order in which UI-Elements are displayed. */
-    int position() default 0;
-
     public static class SectionComponentDefinitonCreator implements ComponentDefinitionCreator {
 
         @Override
         public LinkkiComponentDefinition create(Annotation annotation, AnnotatedElement annotatedElement) {
             UISection uiSection = (UISection)annotation;
             return new SectionComponentDefiniton(uiSection.layout(), uiSection.caption(), uiSection.closeable(),
-                    uiSection.columns(), uiSection.position());
+                    uiSection.columns());
         }
 
     }

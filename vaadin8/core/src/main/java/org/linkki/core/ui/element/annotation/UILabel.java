@@ -36,6 +36,7 @@ import org.linkki.core.ui.element.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.element.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.LabelBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
  * Provides a single UI-element to display text content. It is equal to {@link com.vaadin.ui.Label}.
@@ -46,9 +47,11 @@ import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 @LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(LabelAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UILabel {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

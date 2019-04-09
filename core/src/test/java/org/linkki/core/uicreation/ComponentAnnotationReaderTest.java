@@ -131,11 +131,6 @@ public class ComponentAnnotationReaderTest {
                 return new LinkkiComponentDefinition() {
 
                     @Override
-                    public int getPosition() {
-                        return 0;
-                    }
-
-                    @Override
                     public Object createComponent(Object pmo) {
                         return TESTCOMPONENT;
                     }
@@ -164,11 +159,6 @@ public class ComponentAnnotationReaderTest {
             public LinkkiComponentDefinition create(Annotation annotation,
                     AnnotatedElement annotatedElement) {
                 return new LinkkiComponentDefinition() {
-
-                    @Override
-                    public int getPosition() {
-                        return 0;
-                    }
 
                     @Override
                     public Object createComponent(Object pmo) {

@@ -42,6 +42,7 @@ import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxAvaila
 import org.linkki.core.ui.element.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.YesNoComboBoxBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.ui.ComboBox;
 
@@ -58,9 +59,11 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @LinkkiAspect(YesNoComboBoxAvailableValuesAspectCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UIYesNoComboBox {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

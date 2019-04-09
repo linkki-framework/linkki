@@ -34,6 +34,7 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.adapters.TextAreaBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
  * In- and output of texts which exceed a row, in accordance to {@link com.vaadin.ui.TextArea}.
@@ -44,9 +45,11 @@ import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 @LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UITextArea {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

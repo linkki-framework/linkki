@@ -36,11 +36,6 @@ public class TestFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return testUIField.position();
-    }
-
-    @Override
     public String label() {
         return testUIField.label();
     }

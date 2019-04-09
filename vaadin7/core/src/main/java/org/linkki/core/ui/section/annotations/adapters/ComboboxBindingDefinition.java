@@ -48,11 +48,6 @@ public class ComboboxBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return uiComboField.position();
-    }
-
-    @Override
     public String label() {
         return uiComboField.label();
     }

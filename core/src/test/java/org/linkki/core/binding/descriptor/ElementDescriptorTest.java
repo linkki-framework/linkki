@@ -29,7 +29,7 @@ public class ElementDescriptorTest {
 
     @Test
     public void testGetPropertyName_favorModelAttribute() {
-        ElementDescriptor elementDescriptor = new ElementDescriptor(mock(LinkkiComponentDefinition.class),
+        ElementDescriptor elementDescriptor = new ElementDescriptor(0, mock(LinkkiComponentDefinition.class),
                 BoundProperty.of("test").withModelAttribute("xyz"), new ArrayList<>());
 
         assertEquals("xyz", elementDescriptor.getModelAttributeName());
@@ -37,7 +37,7 @@ public class ElementDescriptorTest {
 
     @Test
     public void testGetPropertyName() {
-        ElementDescriptor elementDescriptor = new ElementDescriptor(mock(LinkkiComponentDefinition.class),
+        ElementDescriptor elementDescriptor = new ElementDescriptor(0, mock(LinkkiComponentDefinition.class),
                 BoundProperty.of("test"), new ArrayList<>());
 
         assertEquals("test", elementDescriptor.getModelAttributeName());

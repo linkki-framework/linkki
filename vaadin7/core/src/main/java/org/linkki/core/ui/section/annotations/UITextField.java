@@ -34,6 +34,7 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.adapters.TextFieldBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
  * A field for textual input. In accordance with {@link com.vaadin.ui.TextField}. For multiple inputs
@@ -45,9 +46,11 @@ import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 @LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UITextField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

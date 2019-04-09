@@ -25,7 +25,6 @@ import org.junit.runner.RunWith;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
-import org.linkki.core.defaults.ui.element.aspects.TooltipAspectDefinition;
 import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
 import org.mockito.junit.MockitoJUnitRunner;
 

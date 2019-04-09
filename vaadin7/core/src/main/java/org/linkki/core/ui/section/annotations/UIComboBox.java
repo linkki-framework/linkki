@@ -41,6 +41,7 @@ import org.linkki.core.ui.section.annotations.adapters.ComboboxBindingDefinition
 import org.linkki.core.ui.section.annotations.aspect.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
  * Creates a ComboBox with the specified parameters.
@@ -52,9 +53,11 @@ import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 @LinkkiBindingDefinition(ComboboxBindingDefinition.class)
 @LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
+@LinkkiPositioned
 public @interface UIComboBox {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

@@ -134,7 +134,7 @@ public class BindingContextIntegrationTest {
     @Test
     public void testBind_WithFieldAspectDefinition_BoundComponentsAreMadeImmediate() {
         TextField field = new TextField();
-        ElementDescriptor fieldDescriptor = new ElementDescriptor(
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(0,
                 new TestLinkkiComponentDefinition(), BoundProperty.of("value"),
                 Arrays.asList(new FieldValueAspectDefinition()));
 
@@ -277,9 +277,5 @@ public class BindingContextIntegrationTest {
             return new Object();
         }
 
-        @Override
-        public int getPosition() {
-            return 0;
-        }
     }
 }

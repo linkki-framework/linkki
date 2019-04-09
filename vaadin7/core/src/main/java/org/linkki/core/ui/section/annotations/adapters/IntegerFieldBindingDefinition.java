@@ -47,11 +47,6 @@ public class IntegerFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return uiIntegerField.position();
-    }
-
-    @Override
     public String label() {
         return uiIntegerField.label();
     }

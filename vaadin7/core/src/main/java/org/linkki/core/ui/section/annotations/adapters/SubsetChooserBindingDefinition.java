@@ -46,11 +46,6 @@ public class SubsetChooserBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return uiSubsetChooser.position();
-    }
-
-    @Override
     public String label() {
         return uiSubsetChooser.label();
     }

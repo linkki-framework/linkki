@@ -47,11 +47,6 @@ public class CustomFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return uiCustomField.position();
-    }
-
-    @Override
     public String label() {
         return uiCustomField.label();
     }

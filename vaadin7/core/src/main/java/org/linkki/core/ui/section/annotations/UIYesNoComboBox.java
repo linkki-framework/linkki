@@ -39,6 +39,7 @@ import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreato
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
  * A combo box for boolean or Boolean values.
@@ -50,9 +51,11 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(AvailableValuesAspectDefinition.EnumValuesInclNullCreator.class)
+@LinkkiPositioned
 public @interface UIYesNoComboBox {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

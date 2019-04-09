@@ -17,7 +17,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 
 public class ItemCaptionProviderTest {
 

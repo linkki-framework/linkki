@@ -35,6 +35,7 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.adapters.DateFieldBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
  * A field for date input, in accordance with {@link com.vaadin.ui.DateField}.
@@ -45,9 +46,11 @@ import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 @LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UIDateField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

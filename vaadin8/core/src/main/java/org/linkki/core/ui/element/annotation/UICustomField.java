@@ -39,6 +39,7 @@ import org.linkki.core.ui.element.annotation.UICustomField.CustomFieldAvailableV
 import org.linkki.core.ui.element.aspects.HasItemsAvailableValuesAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.CustomFieldBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.data.HasItems;
 import com.vaadin.server.Sizeable;
@@ -59,9 +60,11 @@ import com.vaadin.ui.Component;
 @LinkkiAspect(CustomFieldAvailableValuesAspectDefinitionCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UICustomField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI-Element */

@@ -50,11 +50,6 @@ public class ButtonBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return buttonAnnotation.position();
-    }
-
-    @Override
     public String label() {
         return buttonAnnotation.label();
     }

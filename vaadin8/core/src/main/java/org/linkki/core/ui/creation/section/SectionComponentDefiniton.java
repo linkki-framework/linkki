@@ -35,22 +35,19 @@ import com.vaadin.ui.Button;
 public class SectionComponentDefiniton implements LinkkiComponentDefinition {
 
     public static final SectionComponentDefiniton DEFAULT = new SectionComponentDefiniton(SectionLayout.COLUMN, "",
-            false, 1, 0);
+            false, 1);
 
     private final SectionLayout layout;
     private final String caption;
     private final boolean closeable;
     private final int columns;
-    private final int position;
 
-    public SectionComponentDefiniton(SectionLayout layout, String caption, boolean closeable, int columns,
-            int position) {
+    public SectionComponentDefiniton(SectionLayout layout, String caption, boolean closeable, int columns) {
         super();
         this.layout = layout;
         this.caption = caption;
         this.closeable = closeable;
         this.columns = columns;
-        this.position = position;
     }
 
     @Override
@@ -76,11 +73,6 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
             default:
                 throw new IllegalStateException("unknown SectionLayout#" + layout);
         }
-    }
-
-    @Override
-    public int getPosition() {
-        return position;
     }
 
 }

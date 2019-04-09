@@ -39,6 +39,7 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
+import org.linkki.core.uicreation.PositionAnnotationReader;
 import org.linkki.util.BeanUtils;
 
 /**
@@ -77,6 +78,7 @@ public class UIElementAnnotationReader {
         if (ComponentAnnotationReader.isComponentDefinition(annotation)) {
             elementDescriptors.addDescriptor(annotation.annotationType(),
                                              new ElementDescriptor(
+                                                     PositionAnnotationReader.getPosition(method),
                                                      ComponentAnnotationReader.getComponentDefinition(annotation,
                                                                                                       method),
                                                      boundProperty, aspectDefs),

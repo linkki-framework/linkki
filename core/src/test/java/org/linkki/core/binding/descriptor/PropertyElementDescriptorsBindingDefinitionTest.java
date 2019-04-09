@@ -50,6 +50,8 @@ import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.uicreation.PositionAnnotationReader;
 
 public class PropertyElementDescriptorsBindingDefinitionTest {
 
@@ -233,7 +235,8 @@ public class PropertyElementDescriptorsBindingDefinitionTest {
         BindingDefinition bindingDefinition = BindingDefinition.from(annotation);
 
         ElementDescriptor elementDescriptor = new ElementDescriptor(
-                TestLinkkiComponentDefinition.withPosition(bindingDefinition.position()),
+                PositionAnnotationReader.getPosition(annotation),
+                TestLinkkiComponentDefinition.create(),
                 BoundProperty.of(pmoProperty)
                         .withModelAttribute(bindingDefinition.modelAttribute())
                         .withModelObject(bindingDefinition.modelObject()),
@@ -292,8 +295,10 @@ public class PropertyElementDescriptorsBindingDefinitionTest {
     @org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition(AnotherTestFieldBindingDefinition.class)
     @org.linkki.core.binding.uicreation.LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
     @org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect(AnotherTestUIFieldAspectDefinitionCreator.class)
+    @org.linkki.core.uicreation.LinkkiPositioned
     public @interface AnotherTestUIField {
 
+        @LinkkiPositioned.Position
         int position();
 
         String label();
@@ -329,11 +334,6 @@ public class PropertyElementDescriptorsBindingDefinitionTest {
         @Override
         public TestUiComponent newComponent() {
             return new TestUiComponent();
-        }
-
-        @Override
-        public int position() {
-            return testUIField.position();
         }
 
         @Override

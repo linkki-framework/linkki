@@ -39,6 +39,7 @@ import org.linkki.core.ui.element.annotation.UIDoubleField.DoubleValueAspectCrea
 import org.linkki.core.ui.element.aspects.ValueAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.DoubleFieldBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.server.Sizeable;
 
@@ -52,9 +53,11 @@ import com.vaadin.server.Sizeable;
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(DoubleValueAspectCreator.class)
+@LinkkiPositioned
 public @interface UIDoubleField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

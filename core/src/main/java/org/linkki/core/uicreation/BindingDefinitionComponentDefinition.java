@@ -37,11 +37,6 @@ public class BindingDefinitionComponentDefinition implements LinkkiComponentDefi
         return bindingDefinition.newComponent();
     }
 
-    @Override
-    public int getPosition() {
-        return bindingDefinition.position();
-    }
-
     public static class Creator implements ComponentDefinitionCreator {
 
         @Override

@@ -45,11 +45,6 @@ public class DoubleFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return uiDoubleField.position();
-    }
-
-    @Override
     public String label() {
         return uiDoubleField.label();
     }

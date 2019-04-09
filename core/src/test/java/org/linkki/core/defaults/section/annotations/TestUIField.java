@@ -38,6 +38,7 @@ import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.adapters.TestFieldBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -45,9 +46,11 @@ import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiBindingDefinition(TestFieldBindingDefinition.class)
 @LinkkiAspect(TestFieldAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface TestUIField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

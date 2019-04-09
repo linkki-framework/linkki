@@ -21,11 +21,9 @@ import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 public class TestLinkkiComponentDefinition implements LinkkiComponentDefinition {
 
     private Supplier<Object> componentCreator;
-    private int position;
 
-    private TestLinkkiComponentDefinition(Supplier<Object> componentCreator, int position) {
+    private TestLinkkiComponentDefinition(Supplier<Object> componentCreator) {
         this.componentCreator = componentCreator;
-        this.position = position;
     }
 
     @Override
@@ -33,16 +31,11 @@ public class TestLinkkiComponentDefinition implements LinkkiComponentDefinition 
         return componentCreator.get();
     }
 
-    @Override
-    public int getPosition() {
-        return position;
+    public static TestLinkkiComponentDefinition create() {
+        return new TestLinkkiComponentDefinition(() -> new Object());
     }
 
-    public static TestLinkkiComponentDefinition withPosition(int position) {
-        return new TestLinkkiComponentDefinition(() -> new Object(), position);
-    }
-
-    public static TestLinkkiComponentDefinition create(Supplier<Object> componentCreator, int position) {
-        return new TestLinkkiComponentDefinition(componentCreator, position);
+    public static TestLinkkiComponentDefinition create(Supplier<Object> componentCreator) {
+        return new TestLinkkiComponentDefinition(componentCreator);
     }
 }

@@ -54,7 +54,7 @@ public class PropertyElementDescriptorsTest {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.SINGLE_PMO_PROPERTY);
 
         descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(TestLinkkiComponentDefinition.withPosition(10),
+                                  new ElementDescriptor(10, TestLinkkiComponentDefinition.create(),
                                           BoundProperty.of(TestPmo.SINGLE_PMO_PROPERTY),
                                           Collections.emptyList()),
                                   TestPmo.class);
@@ -88,14 +88,14 @@ public class PropertyElementDescriptorsTest {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.DUAL_PMO_PROPERTY);
 
         descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(
-                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation", 10),
+                                  new ElementDescriptor(10,
+                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
                                           BoundProperty.of(TestPmo.DUAL_PMO_PROPERTY),
                                           Collections.emptyList()),
                                   TestPmo.class);
         descriptors.addDescriptor(AnotherTestUIAnnotation.class,
-                                  new ElementDescriptor(
-                                          TestLinkkiComponentDefinition.create(() -> "AnotherTestUIAnnotation", 10),
+                                  new ElementDescriptor(10,
+                                          TestLinkkiComponentDefinition.create(() -> "AnotherTestUIAnnotation"),
                                           BoundProperty.of(TestPmo.DUAL_PMO_PROPERTY), Collections.emptyList()),
                                   TestPmo.class);
 
@@ -111,8 +111,8 @@ public class PropertyElementDescriptorsTest {
     public void testGetDescriptor_Single() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.SINGLE_PMO_PROPERTY);
 
-        descriptors.addDescriptor(TestUIAnnotation.class, new ElementDescriptor(
-                TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation", 10),
+        descriptors.addDescriptor(TestUIAnnotation.class, new ElementDescriptor(10,
+                TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
                 BoundProperty.of(TestPmo.SINGLE_PMO_PROPERTY),
                 Collections.emptyList()), TestPmo.class);
 
@@ -129,7 +129,7 @@ public class PropertyElementDescriptorsTest {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.SINGLE_PMO_PROPERTY);
 
         descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(TestLinkkiComponentDefinition.withPosition(0),
+                                  new ElementDescriptor(0, TestLinkkiComponentDefinition.create(),
                                           BoundProperty.of(TestPmo.SINGLE_PMO_PROPERTY), Collections.emptyList()),
                                   TestPmo.class);
 
@@ -145,14 +145,14 @@ public class PropertyElementDescriptorsTest {
                 TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION);
 
         descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(
-                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation", 30),
+                                  new ElementDescriptor(30,
+                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
                                           BoundProperty.of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION),
                                           Collections.emptyList()),
                                   TestPmo.class);
         descriptors.addDescriptor(AnotherTestUIAnnotation.class,
-                                  new ElementDescriptor(
-                                          TestLinkkiComponentDefinition.create(() -> "AnotherTestUIAnnotation", 31),
+                                  new ElementDescriptor(31,
+                                          TestLinkkiComponentDefinition.create(() -> "AnotherTestUIAnnotation"),
                                           BoundProperty.of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION),
                                           Collections.emptyList()),
                                   TestPmo.class);
@@ -164,14 +164,14 @@ public class PropertyElementDescriptorsTest {
                 TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR);
 
         descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(
-                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation", 30),
+                                  new ElementDescriptor(30,
+                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
                                           BoundProperty.of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR),
                                           Collections.emptyList()),
                                   TestPmo.class);
         descriptors.addDescriptor(AnotherTestUIAnnotation.class,
-                                  new ElementDescriptor(
-                                          TestLinkkiComponentDefinition.create(() -> "AnotherTestUIAnnotation", 30),
+                                  new ElementDescriptor(30,
+                                          TestLinkkiComponentDefinition.create(() -> "AnotherTestUIAnnotation"),
                                           BoundProperty
                                                   .of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR),
                                           Collections.emptyList()),
@@ -182,8 +182,8 @@ public class PropertyElementDescriptorsTest {
     public void testAddDescriptor_DifferentProperty() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.SINGLE_PMO_PROPERTY);
         descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(
-                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation", 30),
+                                  new ElementDescriptor(30,
+                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
                                           BoundProperty.of(TestPmo.DUAL_PMO_PROPERTY),
                                           Collections.emptyList()),
                                   TestPmo.class);
@@ -210,7 +210,7 @@ public class PropertyElementDescriptorsTest {
         assertThat(descriptors.isNotEmpty(), is(false));
 
         descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(TestLinkkiComponentDefinition.withPosition(0),
+                                  new ElementDescriptor(0, TestLinkkiComponentDefinition.create(),
                                           BoundProperty.of(TestPmo.SINGLE_PMO_PROPERTY), Collections.emptyList()),
                                   TestPmo.class);
 
@@ -223,13 +223,13 @@ public class PropertyElementDescriptorsTest {
 
         EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(EnabledType.ENABLED);
         descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(TestLinkkiComponentDefinition.withPosition(0),
+                                  new ElementDescriptor(0, TestLinkkiComponentDefinition.create(),
                                           BoundProperty.of(TestPmo.DUAL_PMO_PROPERTY),
                                           Collections.singletonList(enabledAspectDefinition)),
                                   TestPmo.class);
         VisibleAspectDefinition visibleAspectDefinition = new VisibleAspectDefinition(VisibleType.VISIBLE);
         descriptors.addDescriptor(AnotherTestUIAnnotation.class,
-                                  new ElementDescriptor(TestLinkkiComponentDefinition.withPosition(0),
+                                  new ElementDescriptor(0, TestLinkkiComponentDefinition.create(),
                                           BoundProperty.of(TestPmo.DUAL_PMO_PROPERTY),
                                           Collections.singletonList(visibleAspectDefinition)),
                                   TestPmo.class);

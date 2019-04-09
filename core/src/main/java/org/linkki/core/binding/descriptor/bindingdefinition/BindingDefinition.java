@@ -29,6 +29,7 @@ import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -49,8 +50,18 @@ public interface BindingDefinition {
 
     Object newComponent();
 
-    /** Mandatory attribute that defines the order in which UI components are displayed */
-    int position();
+    /**
+     * Mandatory attribute that defines the order in which UI components are displayed
+     * 
+     * @deprecated Positions are no longer defined by the {@link BindingDefinition}. Use the annotation
+     *             {@link LinkkiPositioned} to let a UI-Annotation define a position. Additionally add
+     *             the annotation {@link org.linkki.core.uicreation.LinkkiPositioned.Position} to the
+     *             position property in the annotation.
+     */
+    @Deprecated
+    default int position() {
+        return -1;
+    }
 
     /** Provides a description label next to the UI component */
     String label();

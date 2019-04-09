@@ -64,11 +64,6 @@ public class LabelBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return labelAnnotation.position();
-    }
-
-    @Override
     public String label() {
         return labelAnnotation.label();
     }

@@ -54,11 +54,6 @@ public class DateFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return uiDateField.position();
-    }
-
-    @Override
     public String label() {
         return uiDateField.label();
     }

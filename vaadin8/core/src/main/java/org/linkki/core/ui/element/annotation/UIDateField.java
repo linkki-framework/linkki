@@ -41,6 +41,7 @@ import org.linkki.core.ui.element.annotation.UIDateField.DateFieldValueAspectCre
 import org.linkki.core.ui.element.aspects.ValueAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.DateFieldBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.data.Converter;
 
@@ -54,9 +55,11 @@ import com.vaadin.data.Converter;
 @LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(DateFieldValueAspectCreator.class)
+@LinkkiPositioned
 public @interface UIDateField {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

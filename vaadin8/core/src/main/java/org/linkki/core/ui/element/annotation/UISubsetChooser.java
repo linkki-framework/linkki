@@ -42,6 +42,7 @@ import org.linkki.core.ui.element.annotation.UISubsetChooser.SubsetChooserAvaila
 import org.linkki.core.ui.element.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.SubsetChooserBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.ui.TwinColSelect;
 
@@ -71,9 +72,11 @@ public Set&lt;T&gt; getFooAvailableValues() { ... }
 @LinkkiAspect(SubsetChooserAvailableValuesAspectCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UISubsetChooser {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

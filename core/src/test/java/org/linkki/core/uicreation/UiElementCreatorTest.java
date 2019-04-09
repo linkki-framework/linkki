@@ -65,8 +65,7 @@ public class UiElementCreatorTest {
         ComponentWrapper componentWrapper = UiElementCreator.createComponent(testSectionPmo, bindingContext,
                                                                              c -> Optional
                                                                                      .of(TestLinkkiComponentDefinition
-                                                                                             .create(TestUiLayoutComponent::new,
-                                                                                                     42)),
+                                                                                             .create(TestUiLayoutComponent::new)),
                                                                              c -> Optional.of((parent,
                                                                                      pmo,
                                                                                      bc) -> ((TestUiLayoutComponent)parent)
@@ -97,8 +96,7 @@ public class UiElementCreatorTest {
                                          new BindingContext(),
                                          c -> Optional
                                                  .of(TestLinkkiComponentDefinition
-                                                         .create(TestUiLayoutComponent::new,
-                                                                 42)),
+                                                         .create(TestUiLayoutComponent::new)),
                                          c -> Optional.empty());
     }
 

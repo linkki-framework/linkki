@@ -192,11 +192,6 @@ class UITestBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return 0;
-    }
-
-    @Override
     public String label() {
         return null;
     }

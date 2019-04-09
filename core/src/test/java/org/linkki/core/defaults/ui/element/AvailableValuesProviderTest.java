@@ -18,7 +18,6 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
 
 public class AvailableValuesProviderTest {
 

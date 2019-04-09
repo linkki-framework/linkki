@@ -51,11 +51,6 @@ public class TextFieldBindingDefinition implements BindingDefinition {
     }
 
     @Override
-    public int position() {
-        return uiTextField.position();
-    }
-
-    @Override
     public String label() {
         return uiTextField.label();
     }
