@@ -132,12 +132,11 @@ public class UiElementCreator {
      * @throws IllegalArgumentException if a {@link LinkkiComponentDefinition} or
      *             {@link LinkkiLayoutDefinition} cannot be found
      */
-    public static <P> ComponentWrapper createComponent(P pmo,
+    public static ComponentWrapper createComponent(Object pmo,
             BindingContext bindingContext,
-            Function<Class<? super P>, Optional<LinkkiComponentDefinition>> componentDefinitionFinder,
-            Function<Class<? super P>, Optional<LinkkiLayoutDefinition>> layoutDefinitionFinder) {
-        @SuppressWarnings("unchecked")
-        Class<P> annotatedElement = (Class<P>)pmo.getClass();
+            Function<Class<?>, Optional<LinkkiComponentDefinition>> componentDefinitionFinder,
+            Function<Class<?>, Optional<LinkkiLayoutDefinition>> layoutDefinitionFinder) {
+        Class<?> annotatedElement = pmo.getClass();
         return UiElementCreator.createComponent(annotatedElement,
                                                 pmo,
                                                 bindingContext,

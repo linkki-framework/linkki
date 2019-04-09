@@ -20,9 +20,8 @@ import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 /**
  * Defines how to create child UI components, add them to their parent and bind them.
  */
+@FunctionalInterface
 public interface LinkkiLayoutDefinition {
-
-    public static final LinkkiLayoutDefinition EMPTY = new EmptyLayoutDefinition();
 
     /**
      * Creates UI components defined by the given PMO, adds them to the parent component and binds them
@@ -32,14 +31,5 @@ public interface LinkkiLayoutDefinition {
      *           {@link LinkkiComponentDefinition}.
      */
     public void createChildren(Object parentComponent, Object pmo, BindingContext bindingContext);
-
-    public static class EmptyLayoutDefinition implements LinkkiLayoutDefinition {
-
-        @Override
-        public void createChildren(Object parentComponent, Object pmo, BindingContext bindingContext) {
-            // don't
-        }
-
-    }
 
 }

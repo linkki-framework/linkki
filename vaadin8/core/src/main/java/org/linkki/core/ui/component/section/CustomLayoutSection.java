@@ -16,6 +16,8 @@ package org.linkki.core.ui.component.section;
 
 import java.util.Optional;
 
+import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomLayout;
@@ -43,6 +45,17 @@ public class CustomLayoutSection extends BaseSection {
 
     private CustomLayout customLayout;
 
+    public CustomLayoutSection(String pmoClassName, String caption, boolean closeable) {
+        this(pmoClassName, caption, closeable, Optional.empty());
+    }
+
+    /**
+     * @deprecated since 2019-04-09; Use
+     *             {@link CustomLayoutSection#CustomLayoutSection(String, String, boolean)} instead, as
+     *             the {@code editButton} should be added by the {@link LinkkiLayoutDefinition} via
+     *             {@link #addHeaderButton(Button)}.
+     */
+    @Deprecated
     public CustomLayoutSection(String pmoClassName, String caption, boolean closeable, Optional<Button> editButton) {
         super(caption, closeable, editButton);
         customLayout = new CustomLayout(pmoClassName);

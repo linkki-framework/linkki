@@ -16,6 +16,7 @@ package org.linkki.core.ui.component.section;
 import java.util.Optional;
 
 import org.linkki.core.ui.util.UiUtil;
+import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -54,9 +55,24 @@ public class FormSection extends BaseSection {
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param editButton If present the section has an edit button in the header.
      * @param numberOfColumns the number of the section's columns
      */
+    public FormSection(String caption, boolean closeable, int numberOfColumns) {
+        this(caption, closeable, Optional.empty(), numberOfColumns);
+    }
+
+    /**
+     * Creates a new section with the given caption, closable state, edit button and number of columns.
+     * 
+     * @param caption the caption
+     * @param closeable <code>true</code> if the section can be closed and opened.
+     * @param editButton If present the section has an edit button in the header.
+     * @param numberOfColumns the number of the section's columns
+     * @deprecated since 2019-04-09; Use {@link FormSection#FormSection(String, boolean, int)} instead,
+     *             as the {@code editButton} should be added by the {@link LinkkiLayoutDefinition} via
+     *             {@link #addHeaderButton(Button)}.
+     */
+    @Deprecated
     public FormSection(String caption, boolean closeable, Optional<Button> editButton, int numberOfColumns) {
         super(caption, closeable, editButton);
         this.numberOfColumns = numberOfColumns;

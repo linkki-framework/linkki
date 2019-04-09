@@ -70,6 +70,11 @@ public class PmoBasedTableSectionFactoryTest {
             @Override
             protected boolean matchesSafely(BindingContext bindingContext) {
                 return bindingContext.getBindings().stream()
+                        // TableSection
+                        .filter(ContainerBinding.class::isInstance)
+                        .map(ContainerBinding.class::cast)
+                        .flatMap(bc -> bc.getBindings().stream())
+                        // Table
                         .filter(ContainerBinding.class::isInstance)
                         .map(ContainerBinding.class::cast)
                         .map(binding -> binding.getBoundComponent())

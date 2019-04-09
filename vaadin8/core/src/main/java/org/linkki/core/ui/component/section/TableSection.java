@@ -19,8 +19,11 @@ import java.util.Optional;
 
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 import com.vaadin.ui.Button;
+
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * A section containing a single table. This kind of section is created by the
@@ -31,31 +34,44 @@ public class TableSection extends AbstractSection {
 
     private static final long serialVersionUID = 1L;
 
-    private final com.vaadin.v7.ui.Table table;
+    @Nullable
+    private com.vaadin.v7.ui.Table table;
 
-    public TableSection(String caption, boolean closeable, Optional<Button> addItemButton,
-            com.vaadin.v7.ui.Table table) {
+    /***
+     * @deprecated since 2019-04-09; Use {@link TableSection#TableSection(String, boolean)} instead, as
+     *             the {@code addItemButton} should be added by the {@link LinkkiLayoutDefinition} via
+     *             {@link #addHeaderButton(Button)}.
+     */
+    @Deprecated
+    public TableSection(String caption, boolean closeable, Optional<Button> addItemButton) {
         super(caption, closeable, addItemButton);
-        this.table = requireNonNull(table, "table must not be null");
-        addComponent(table);
-        setExpandRatio(table, 1f);
-        table.setSizeFull();
+    }
+
+    public TableSection(String caption, boolean closeable) {
+        super(caption, closeable);
     }
 
     /**
      * Returns the table shown in the section.
      */
     public com.vaadin.v7.ui.Table getTable() {
-        return getSectionContent();
+        return table;
+    }
+
+    public void setTable(com.vaadin.v7.ui.Table table) {
+        this.table = requireNonNull(table, "table must not be null");
+        addComponent(table);
+        setExpandRatio(table, 1f);
+        table.setSizeFull();
     }
 
     @Override
     public com.vaadin.v7.ui.Table getSectionContent() {
-        return table;
+        return getTable();
     }
 
     @Override
     public String toString() {
-        return "TableSection based on " + table.getContainerDataSource();
+        return "TableSection based on " + (table == null ? null : table.getContainerDataSource());
     }
 }

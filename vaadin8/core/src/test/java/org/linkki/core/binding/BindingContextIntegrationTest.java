@@ -17,6 +17,7 @@ package org.linkki.core.binding;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -88,11 +89,8 @@ public class BindingContextIntegrationTest {
         bindingContext.removeBindingsForPmo(testPage.standardSectionPmo);
 
         List<Binding> bindings = bindings();
-        // TODO LIN-1379: currently 2 Containers for TableSection, Button for TableSection
-        assertThat(bindings, contains(instanceOf(ContainerBinding.class),
-                                      instanceOf(ContainerBinding.class),
-                                      instanceOf(ElementBinding.class)));
-        assertThat(tableSectionBinding.getBindings().size(), is(3));
+        assertThat(bindings, contains(tableSectionBinding));
+        assertThat(tableSectionBinding.getBindings().size(), is(2));
     }
 
     @Test
@@ -102,13 +100,8 @@ public class BindingContextIntegrationTest {
         bindingContext.removeBindingsForPmo(testPage.standardSectionPmo.getEditButtonPmo().get());
 
         List<Binding> bindings = bindings();
-        // TODO LIN-1379: Container for StandardSection, currently 2 Containers for TableSection, Button
-        // for TableSection
-        assertThat(bindings, contains(instanceOf(ContainerBinding.class),
-                                      instanceOf(ContainerBinding.class),
-                                      instanceOf(ContainerBinding.class),
-                                      instanceOf(ElementBinding.class)));
-        assertThat(tableSectionBinding.getBindings().size(), is(3));
+        assertThat(bindings, containsInAnyOrder(tableSectionBinding, standardSectionBinding));
+        assertThat(tableSectionBinding.getBindings().size(), is(2));
         assertThat(standardSectionBinding.getBindings().size(), is(1));
     }
 
@@ -119,8 +112,7 @@ public class BindingContextIntegrationTest {
         bindingContext.removeBindingsForPmo(testPage.tableSectionPmo);
 
         List<Binding> bindings = bindings();
-        // only the container binding for the StandardSection
-        assertThat(bindings, contains(instanceOf(ContainerBinding.class)));
+        assertThat(bindings, contains(standardSectionBinding));
         assertThat(bindings, not(hasItem(tableSectionBinding)));
     }
 
@@ -131,11 +123,8 @@ public class BindingContextIntegrationTest {
         bindingContext.removeBindingsForPmo(testPage.tableSectionPmo.getAddItemButtonPmo().get());
 
         List<Binding> bindings = bindings();
-        // TODO LIN-1379: Container for StandardSection, currently 2 Containers for TableSection
-        assertThat(bindings, contains(instanceOf(ContainerBinding.class),
-                                      instanceOf(ContainerBinding.class),
-                                      instanceOf(ContainerBinding.class)));
-        assertThat(tableSectionBinding.getBindings().size(), is(3));
+        assertThat(bindings, containsInAnyOrder(tableSectionBinding, standardSectionBinding));
+        assertThat(tableSectionBinding.getBindings().size(), is(1));
     }
 
     private void setUpBindings() {
@@ -147,20 +136,14 @@ public class BindingContextIntegrationTest {
 
         bindingContext = testPage.getBindingContext();
         List<Binding> bindings = bindings();
-        // TODO LIN-1379: Container for StandardSection, currently 2 Containers for TableSection, Button
-        // for TableSection
+        // Container for StandardSection, TableSection
         assertThat(bindings, contains(instanceOf(ContainerBinding.class),
-                                      instanceOf(ContainerBinding.class),
-                                      instanceOf(ContainerBinding.class),
-                                      instanceOf(ElementBinding.class)));
+                                      instanceOf(ContainerBinding.class)));
         tableSectionBinding = (ContainerBinding)bindings.stream()
                 .filter(b -> b.getPmo().equals(testPage.tableSectionPmo))
-                // TODO LIN-1379: currently there are 2 Containers for TableSection, we want the one
-                // that was used to bind the table
-                .filter(b -> ((ContainerBinding)b).getBindings().size() > 0)
                 .findFirst().get();
-        // Column Header + Label in 2 Rows
-        assertThat(tableSectionBinding.getBindings().size(), is(3));
+        // Table + Button
+        assertThat(tableSectionBinding.getBindings().size(), is(2));
         standardSectionBinding = (ContainerBinding)bindings.stream()
                 .filter(b -> b.getPmo().equals(testPage.standardSectionPmo))
                 .findFirst().get();

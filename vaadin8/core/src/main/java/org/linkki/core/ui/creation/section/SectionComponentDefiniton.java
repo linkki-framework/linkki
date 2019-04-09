@@ -14,8 +14,6 @@
 
 package org.linkki.core.ui.creation.section;
 
-import java.util.Optional;
-
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.component.section.BaseSection;
@@ -23,8 +21,6 @@ import org.linkki.core.ui.component.section.CustomLayoutSection;
 import org.linkki.core.ui.component.section.FormSection;
 import org.linkki.core.ui.component.section.HorizontalSection;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
-
-import com.vaadin.ui.Button;
 
 /**
  * Defines how {@link BaseSection} instances are created.
@@ -51,25 +47,15 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
     }
 
     @Override
-    public BaseSection createComponent(Object pmo) {
-        Optional<Button> editButton = Optional.empty();
-        // wird erst in SectionLayoutDefinition#createChildren erzeugt, bleibt aber erst mal Teil der
-        // API der Sections
+    public Object createComponent(Object pmo) {
         String nlsCaption = PmoNlsService.get().getSectionCaption(pmo.getClass(), this.caption);
         switch (layout) {
             case COLUMN:
-                return new FormSection(nlsCaption,
-                        closeable,
-                        editButton,
-                        columns);
+                return new FormSection(nlsCaption, closeable, columns);
             case HORIZONTAL:
-                return new HorizontalSection(nlsCaption,
-                        closeable,
-                        editButton);
+                return new HorizontalSection(nlsCaption, closeable);
             case CUSTOM:
-                return new CustomLayoutSection(pmo.getClass().getSimpleName(), nlsCaption,
-                        closeable,
-                        editButton);
+                return new CustomLayoutSection(pmo.getClass().getSimpleName(), nlsCaption, closeable);
             default:
                 throw new IllegalStateException("unknown SectionLayout#" + layout);
         }

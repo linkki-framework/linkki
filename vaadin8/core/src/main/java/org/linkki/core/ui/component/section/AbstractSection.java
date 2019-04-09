@@ -157,7 +157,6 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     private void addBeforeCloseButton(Button headerButton) {
-        // TODO TEST
         if (openCloseButton != null) {
             if (header != null) {
                 addHeaderButton(header, headerButton, header.getComponentIndex(openCloseButton));

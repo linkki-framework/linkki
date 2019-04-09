@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Optional;
 
 import org.linkki.core.ui.util.UiUtil;
+import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -56,7 +57,11 @@ public class HorizontalSection extends BaseSection {
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
      * @param editButton If present the section has an edit button in the header.
+     * @deprecated since 2019-04-09; Use {@link HorizontalSection#HorizontalSection(String, boolean)}
+     *             instead, as the {@code editButton} should be added by the
+     *             {@link LinkkiLayoutDefinition} via {@link #addHeaderButton(Button)}.
      */
+    @Deprecated
     public HorizontalSection(String caption, boolean closeable, Optional<Button> editButton) {
         super(caption, closeable, editButton);
         content = new HorizontalLayout();
