@@ -17,7 +17,7 @@ package org.linkki.core.binding;
 import java.util.Collections;
 import java.util.List;
 
-import org.linkki.core.ButtonPmo;
+import org.linkki.core.pmo.ButtonPmo;
 
 public class TestButtonPmo implements ButtonPmo {
 

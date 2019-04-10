@@ -20,10 +20,10 @@ import static org.linkki.core.binding.validation.ValidationDisplayState.HIDE_MAN
 import static org.linkki.core.binding.validation.ValidationDisplayState.SHOW_ALL;
 
 import org.junit.Test;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.matcher.MessageMatchers;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.message.Severity;
 import org.linkki.util.validation.ValidationMarker;
 
 public class ValidationDisplayStateTest {

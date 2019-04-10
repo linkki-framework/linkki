@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.BindingManager;
-import org.linkki.core.binding.DefaultBindingManager;
-import org.linkki.core.binding.behavior.PropertyBehavior;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.samples.binding.components.ContactComponent;
 import org.linkki.samples.binding.components.ContactsTableComponent;

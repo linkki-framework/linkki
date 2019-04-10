@@ -12,7 +12,7 @@
  * License.
  */
 /**
- * {@link com.vaadin.data.Converter Converters} used by Linkki.
+ * {@link com.vaadin.data.Converter Converters} used by linkki.
  */
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)

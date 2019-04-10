@@ -14,9 +14,9 @@
 
 package org.linkki.samples.appsample.pmo;
 
-import org.linkki.core.ui.UiFramework;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
 import org.linkki.samples.appsample.state.CustomApplicationConfig;
 

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 

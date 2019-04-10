@@ -22,6 +22,11 @@ import java.util.List;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.pmo.ModelObject;
 
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.OptionGroup;

@@ -23,10 +23,14 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 
 import org.junit.Test;
-import org.linkki.core.ui.UiFramework;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.ui.components.IntegerField;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UIIntegerFieldIntegrationTest.IntegerFieldTestPmo;
+import org.linkki.core.uiframework.UiFramework;
 
 import com.vaadin.data.Buffered;
 import com.vaadin.ui.TextField;

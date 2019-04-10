@@ -19,17 +19,17 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.ui.UiFramework;
-import org.linkki.core.ui.components.ItemCaptionProvider.ToStringCaptionProvider;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
-import org.linkki.core.ui.section.annotations.BindTooltip;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.samples.binding.model.Contact;
 
 @UISection

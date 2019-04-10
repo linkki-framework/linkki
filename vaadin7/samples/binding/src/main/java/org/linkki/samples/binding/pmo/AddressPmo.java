@@ -15,7 +15,7 @@ package org.linkki.samples.binding.pmo;
 
 import java.util.List;
 
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.samples.binding.model.Address;
 import org.linkki.samples.binding.model.Country;
 import org.linkki.samples.binding.service.CountryService;

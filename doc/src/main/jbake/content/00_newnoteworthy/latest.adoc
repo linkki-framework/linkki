@@ -61,7 +61,9 @@ ifndef::backend-html5[]
 ===== Migrating to *linkki* for Vaadin 7
 endif::[]
 
-If you want to continue using *linkki* with Vaadin 7, the only Vaadin 7 specific step is to replace the *linkki* dependencies with the new *linkki* Vaadin 7 dependencies for `linkki-core` or `linkki-application-framework`:
+
+Maven Dependency::
+If you want to continue using *linkki* with Vaadin 7, you need to replace the *linkki* dependencies with the new *linkki* Vaadin 7 dependencies for `linkki-core` or `linkki-application-framework`:
 
 [source,xml,subs="verbatim,attributes"]
 ----
@@ -80,7 +82,14 @@ If you want to continue using *linkki* with Vaadin 7, the only Vaadin 7 specific
 </dependency>
 ----
 
-Now you can continue with the general changes that apply to both Vaadin 7 and Vaadin 8 migration. These are listed below the Vaadin specific migration steps.
+Migration Script::
+Alongside with the introduction of Vaadin 8 support for *linkki*, we needed to make some general changes in the core module, including a restructuring of the packages. To automate some of the migration steps, we created shell scripts to help with this update.
++
+The migration scripts contain find and replaces commands that can be automatically applied. The find and replaces are defined in the file link:../migration_scripts/0.9.20190205_to_latest/migrate-packages-core.sed[migrate-packages-core.sed]. The script link:../migration_scripts/search_replace.sh[search_replace.sh] executes these commands.
++
+The easiest way to use the migration script is to put both files in your project directory and run ``"./search_replace.sh -s migrate-packages-core.sed"` in your terminal. The scripts can be executed in any terminal that supports shell scripts, including the git bash.
+
+Some changes are not covered by the migration script. To deal with the remaining changes, if there are any in your project, you can inform about the changes in the section "<<general-changes,General Changes>>" that is below the Vaadin specific migration steps.
 
 ifdef::backend-html5[]
 +++ </div></details> +++
@@ -92,11 +101,6 @@ endif::[]
 ifndef::backend-html5[]
 ===== Migrating to *linkki* for Vaadin 8
 endif::[]
-
-Migration Script::
-To minimize the migration effort, we created shell scripts to help with the changes that can be easily automated.
-+
-The find and replaces are defined in The file link:../migration_scripts/0.9.20190205_to_linkkiVaadin8/migrate.sed[migrate.sed] and link:../migration_scripts/search_replace.sh[search_replace.sh] executes these commands. The easiest way to use the migration script is to put both files in your project directory and run "./search_replace.sh ." in your terminal. The scripts can be executed in any terminal that supports shell scripts, including the git bash.
 
 Maven Dependency::
 The very first step for the migration is to include the new *linkki* Vaadin 8 dependencies for `linkki-core` or `linkki-application-framework`:
@@ -117,6 +121,11 @@ The very first step for the migration is to include the new *linkki* Vaadin 8 de
   <version>{dversion}</version>
 </dependency>
 ----
+
+Migration Script::
+To minimize the migration effort, we created shell scripts to help with the changes that can be easily automated.
++
+The find and replaces are defined in the files link:../migration_scripts/0.9.20190205_to_latest/migrate.sed[migrate.sed] and link:../migration_scripts/0.9.20190205_to_latest/migrate-packages-vaadin8.sed[migrate-packages-vaadin8.sed]. The script link:../migration_scripts/search_replace.sh[search_replace.sh] executes these commands. The easiest way to use the migration script is to put all three files in your project directory and run "./search_replace.sh -s migrate.sed" followed by "./search_replace.sh -s migrate-packages-vaadin8.sed" in your terminal. The scripts can be executed in any terminal that supports shell scripts, including the git bash.
 
 LinkkiConverterFactory::
 The configuration of custom converters has changed. Instead of the existing `ConverterFactory`, a `LinkkiConverterRegistry` is now used in `ApplicationConfig`.
@@ -242,9 +251,6 @@ This change is necessary to comply with the new Vaadin mechanism for converters.
 +
 For all custom UI annotations that do not use any specific converters, you can simply add the aspect explicitly in a separate `@LinkkiAspect` annotation using the `ValueAspectDefinitionCreator`. If your custom UI annotations have previously added a  custom converter in the `newComponent` method of the `BindingDefinition`, you have to introduce a new `Creator` that creates a `ValueAspectDefinition` with the given converter. This also applies to number fields that have previously required a formatter.
 
-ApplicationStyles::
-The style name `ApplicationStyles_SPACING_HORIZONTAL_SECTION` is now deprecated and will not be set to a horizontal section anymore. The styles attached to this class name are no longer necessary in *linkki* for Vaadin 8. As the CSS class is no longer assigned by linkki, you need to adjust the selector in the SCSS file if you have used this class (`horizontal-section-spacing`) as a selector.
-
 Default spacing in layouts::
 The default behavior considering spacing and margin has changed in Vaadin layouts. For the migration, make sure to double check all layouts to avoid unwanted spacing.
 +
@@ -266,7 +272,7 @@ image::{images}{images-folder-name}/headerless_section_vaadin8.png[Section with 
 Width of labels::
 In Vaadin Framework 8, `Label` no longer have full width by default. If you have created any Vaadin `Label`, make sure to check the length of the label to avoid unnecessary changes. Labels that are created with a `@Label` annotation are not affected.
 
-Now you can continue with the general changes that apply to both Vaadin 7 and Vaadin 8 migration. These are listed below the Vaadin specific migration steps.
+In addition to the changes above, there are also some general changes that apply to both Vaadin 7 and Vaadin 8 migration. These are listed below the Vaadin specific migration steps. Some of these changes are covered by the migration script. However, you should inform yourself about the changes to deal the any remaining problems that could not be fixed by the script.
 
 Besides the changes in linkki, Vaadin Framework 8 itself comes with several API changes. To migrate your Vaadin native implementations, consult the https://vaadin.com/docs/v8/framework/migration/migrating-to-vaadin8.html[Vaadin 8 Migration Guide]. Note that *linkki* uses the compatibility layer for Vaadin 7 to be able to use the Vaadin 7 `Table` component. However, other components from the compatibility layer will not work with `linkki-core-vaadin8`.
 
@@ -275,6 +281,7 @@ ifdef::backend-html5[]
 endif::[]
 
 
+[[general-changes]]
 ==== General Changes
 
 Regardless of which Vaadin version you intend to use, there are some general changes that were necessary to separate Vaadin specific implementations.
@@ -311,6 +318,10 @@ To make the *linkki* `Message` and `MessageList` independent of Vaadin, a new en
 | `getFirstMessage(ErrorLevel)` | `getFirstMessage(Severity)` |
 | `sortByErrorLevel` | `sortBySeverity` |
 |===
+
+===== ApplicationStyles and LinkkiStyles
+
+The classes containing the CSS class names that are used by *linkki* are renamed. `ApplicationStyles` from the core module is now called `LinkkiTheme`. `LinkkiStyles` from the application framework module is now called `LinkkiApplicationTheme`. In addition, the style name `LinkkiTheme.SPACING_HORIZONTAL_SECTION` is now deprecated and will not be set to a horizontal section in the Vaadin 8 version. The styles attached to this class name are no longer necessary in *linkki* with Vaadin 8. As the CSS class is no longer assigned by linkki, you need to adjust the selector in the SCSS file if you have used this class (`horizontal-section-spacing`) as a selector.
 
 ===== Removed Generic Type in PmoBasedTableFactory
 
@@ -410,15 +421,15 @@ CSS style classes are available for `linkki-message-table`/`linkki-message-row` 
   .v-panel-content-linkki-message-list {
     max-height: 300px;
   }
-	
+
   .v-splitpanel-vsplitter-linkki-message-panel-split {
     height: 2px !important;
   }
-	
+
   .v-panel-linkki-message-panel {
     border: none;
   }
-  
+
   .v-panel-linkki-message-panel .v-table-cell-content {
     border: none;
     /* for separating lines between the messages:
@@ -427,11 +438,11 @@ CSS style classes are available for `linkki-message-table`/`linkki-message-row` 
     border-color: #ed473b !important;
     */
   }
-	
+
   .v-panel-linkki-message-panel .v-table-body {
     border: none;
   }
-	
+
   .v-panel-caption-linkki-message-panel {
     font-size: 110%;
     font-weight: bold;
@@ -442,12 +453,12 @@ CSS style classes are available for `linkki-message-table`/`linkki-message-row` 
     border-color: #ed473b !important;
     */
   }
-		
+
   .v-panel-content-linkki-message-panel tr{
     background-color: $linkki-color-messagepanel;
     @include background-image(linear-gradient(to bottom, $linkki-color-messagepanel 0%, $linkki-color-messagepanel 100%));
   }
----- 
+----
 
 ===== Dynamic Style Name Binding
 
@@ -464,4 +475,4 @@ public String getIcon() {
 
 ===== NonNull Annotations
 
-In the pursuit of bug-free code we changed the annotations we use to mark whether methods accept and/or return null values from those of the Eclipse framework to those provided by SpotBugs. We recommend to disable annotation based null analysis in projects using *linkki* as Eclipse is not fully compatible with the SpotBugs annotations. 
+In the pursuit of bug-free code we changed the annotations we use to mark whether methods accept and/or return null values from those of the Eclipse framework to those provided by SpotBugs. We recommend to disable annotation based null analysis in projects using *linkki* as Eclipse is not fully compatible with the SpotBugs annotations.

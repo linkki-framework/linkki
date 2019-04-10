@@ -20,8 +20,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.linkki.core.ui.table.HierarchicalRowPmo;
-import org.linkki.core.ui.table.SimpleItemSupplier;
+import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
+import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 import org.linkki.samples.treetable.dynamic.model.Player;
 import org.linkki.samples.treetable.dynamic.model.Player.Position;
 

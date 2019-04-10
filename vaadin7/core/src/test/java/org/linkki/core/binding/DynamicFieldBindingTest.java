@@ -24,8 +24,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.TestUiUtil;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UICheckBox;

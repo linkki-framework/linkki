@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.ButtonPmoBuilder;
-import org.linkki.core.ui.application.ApplicationStyles;
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.util.handler.Handler;
 
@@ -93,12 +93,12 @@ public abstract class AbstractSection extends VerticalLayout {
             Optional<Button> editButton,
             Optional<Button> openCloseButton) {
         HorizontalLayout headerLayout = new HorizontalLayout();
-        headerLayout.addStyleName(ApplicationStyles.SECTION_CAPTION);
+        headerLayout.addStyleName(LinkkiTheme.SECTION_CAPTION);
         headerLayout.setSpacing(true);
 
         if (StringUtils.isNotEmpty(caption)) {
             Label captionLabel = new Label(caption);
-            captionLabel.addStyleName(ApplicationStyles.SECTION_CAPTION_TEXT);
+            captionLabel.addStyleName(LinkkiTheme.SECTION_CAPTION_TEXT);
             headerLayout.addComponent(captionLabel);
         }
 
@@ -106,7 +106,7 @@ public abstract class AbstractSection extends VerticalLayout {
         openCloseButton.ifPresent(b -> addHeaderButton(headerLayout, b));
 
         Label line = new Label("<hr/>", ContentMode.HTML);
-        line.addStyleName(ApplicationStyles.SECTION_CAPTION_LINE);
+        line.addStyleName(LinkkiTheme.SECTION_CAPTION_LINE);
         headerLayout.addComponent(line);
 
         return headerLayout;
@@ -114,7 +114,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
     private static Button createOpenCloseButton(Handler toggleCloseOpen) {
         Button button = ComponentFactory.newButton(FontAwesome.ANGLE_DOWN, ButtonPmoBuilder.DEFAULT_STYLES);
-        button.addStyleName(ApplicationStyles.BUTTON_TEXT);
+        button.addStyleName(LinkkiTheme.BUTTON_TEXT);
         button.addClickListener(e -> toggleCloseOpen.apply());
         return button;
     }
@@ -124,12 +124,12 @@ public abstract class AbstractSection extends VerticalLayout {
      * AbstractOrderedLayout
      */
     private static void addHeaderButton(AbstractOrderedLayout header, Button button) {
-        button.addStyleName(ApplicationStyles.BUTTON_TEXT);
+        button.addStyleName(LinkkiTheme.BUTTON_TEXT);
         header.addComponent(button);
     }
 
     private static void addHeaderButton(AbstractOrderedLayout header, Button button, int index) {
-        button.addStyleName(ApplicationStyles.BUTTON_TEXT);
+        button.addStyleName(LinkkiTheme.BUTTON_TEXT);
         header.addComponent(button, index);
     }
 

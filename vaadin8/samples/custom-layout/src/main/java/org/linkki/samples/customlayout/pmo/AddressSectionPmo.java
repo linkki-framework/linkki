@@ -14,9 +14,9 @@
 
 package org.linkki.samples.customlayout.pmo;
 
-import org.linkki.core.ui.section.annotations.SectionLayout;
-import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.SectionLayout;
+import org.linkki.core.ui.layout.annotation.UISection;
 
 // tag::declaration[]
 @UISection(caption = "Address", layout = SectionLayout.CUSTOM)

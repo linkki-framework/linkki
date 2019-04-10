@@ -18,9 +18,9 @@ import static java.util.Objects.requireNonNull;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.ObjectProperty;
-import org.linkki.framework.ui.LinkkiStyles;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.ObjectProperty;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.icons.VaadinIcons;
 
@@ -39,7 +39,7 @@ public class MessagePmo {
     }
 
     public String getStyle() {
-        return LinkkiStyles.MESSAGE_PREFIX + message.getSeverity().name().toLowerCase();
+        return LinkkiApplicationTheme.MESSAGE_PREFIX + message.getSeverity().name().toLowerCase();
     }
 
     public VaadinIcons getIcon() {

@@ -16,7 +16,8 @@ package org.linkki.core.ui.components;
 import static java.util.Objects.requireNonNull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.ui.components.ItemCaptionProvider.DefaultCaptionProvider;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
 
 import com.vaadin.ui.TwinColSelect;
 

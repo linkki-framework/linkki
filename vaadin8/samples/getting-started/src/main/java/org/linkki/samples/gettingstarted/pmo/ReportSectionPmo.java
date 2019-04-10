@@ -15,14 +15,14 @@ package org.linkki.samples.gettingstarted.pmo;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.PresentationModelObject;
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.UIButton;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.section.annotations.UITextArea;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.pmo.PresentationModelObject;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.element.annotation.UITextArea;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.gettingstarted.model.Report;
 
 import com.vaadin.icons.VaadinIcons;

@@ -16,8 +16,8 @@ package org.linkki.samples.dynamicfield.components;
 import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.dispatcher.PropertyBehaviorProvider;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.samples.dynamicfield.model.CarType;
 import org.linkki.samples.dynamicfield.model.NewCar;

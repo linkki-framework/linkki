@@ -26,10 +26,14 @@ import java.util.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.ui.converters.JodaLocalDateToDateConverter;
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.core.ui.converters.LocalDateToDateConverter;
-import org.linkki.core.ui.section.annotations.BindTooltip.TooltipType;
 import org.linkki.core.ui.section.annotations.UIDateFieldIntegrationTest.DateFieldTestPmo;
 import org.linkki.util.Sequence;
 

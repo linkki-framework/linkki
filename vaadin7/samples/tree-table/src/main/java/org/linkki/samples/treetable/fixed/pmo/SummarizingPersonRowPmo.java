@@ -16,7 +16,7 @@ package org.linkki.samples.treetable.fixed.pmo;
 
 import java.util.List;
 
-import org.linkki.core.ui.table.HierarchicalRowPmo;
+import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
 
 public abstract class SummarizingPersonRowPmo extends AbstractPersonRowPmo
         implements HierarchicalRowPmo<AbstractPersonRowPmo> {

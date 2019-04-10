@@ -20,8 +20,8 @@ import static org.junit.Assert.assertThat;
 import java.util.Locale;
 
 import org.junit.Test;
-import org.linkki.core.ui.UiFramework;
 import org.linkki.core.ui.section.annotations.UIDateField;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.DateFormats;
 
 import com.vaadin.ui.Component;

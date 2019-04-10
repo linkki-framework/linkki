@@ -14,8 +14,8 @@
 
 package org.linkki.framework.ui.pmo;
 
-import org.linkki.core.ui.section.annotations.UILabel;
-import org.linkki.core.ui.section.annotations.UISection;
+import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;

@@ -13,7 +13,7 @@
  */
 package org.linkki.core.binding.validation;
 
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.validation.message.MessageList;
 
 /**
  * A validation service is used to get validation messages that should be displayed in the UI.
@@ -22,7 +22,7 @@ import org.linkki.core.message.MessageList;
 public interface ValidationService {
 
     /**
-     * Message code for a {@link org.linkki.core.message.Message Message} indicating a non-specific
+     * Message code for a {@link org.linkki.core.binding.validation.message.Message Message} indicating a non-specific
      * fatal validation error.
      */
     String FATAL_ERROR_MESSAGE_CODE = "fatalValidationError";

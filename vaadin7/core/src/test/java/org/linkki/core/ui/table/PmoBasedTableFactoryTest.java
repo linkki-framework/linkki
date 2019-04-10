@@ -30,6 +30,7 @@ import org.junit.runner.RunWith;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.container.LinkkiInMemoryContainer;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.vaadin.data.Container.ItemSetChangeListener;

@@ -33,10 +33,10 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.binding.aspect.AspectAnnotationReader;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.util.BeanUtils;
 
 import edu.umd.cs.findbugs.annotations.NonNull;

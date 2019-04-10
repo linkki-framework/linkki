@@ -17,7 +17,7 @@ package org.linkki.core.test;
 import java.util.Collections;
 import java.util.List;
 
-import org.linkki.core.ButtonPmo;
+import org.linkki.core.pmo.ButtonPmo;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

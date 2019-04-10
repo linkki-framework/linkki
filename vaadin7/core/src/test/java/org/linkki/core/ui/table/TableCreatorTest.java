@@ -26,8 +26,8 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
 import org.linkki.core.binding.descriptor.UIAnnotationReader;
-import org.linkki.core.binding.property.BoundProperty;
-import org.linkki.core.ui.components.ComponentWrapper;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 
 import com.vaadin.ui.Table;

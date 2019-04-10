@@ -15,10 +15,10 @@ package org.linkki.samples.gettingstarted.pmo;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.PresentationModelObject;
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UIComboBox;
 import org.linkki.core.ui.section.annotations.UISection;

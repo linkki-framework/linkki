@@ -14,7 +14,7 @@
 package org.linkki.framework.ui.application;
 
 import org.linkki.framework.state.ApplicationConfig;
-import org.linkki.framework.ui.LinkkiStyles;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.framework.ui.nls.NlsText;
@@ -34,8 +34,8 @@ import com.vaadin.ui.themes.ValoTheme;
  * consists of the {@link ApplicationMenu} on the left as well as a right aligned {@link MenuBar}.
  * 
  * @implSpec {@link ApplicationHeader} can be styled with the CSS class
- *           {@link LinkkiStyles#APPLICATION_HEADER}. The right aligned {@link MenuBar} uses the style
- *           name {@link LinkkiStyles#APPLICATION_HEADER_RIGHT} additionally.
+ *           {@link LinkkiApplicationTheme#APPLICATION_HEADER}. The right aligned {@link MenuBar} uses the style
+ *           name {@link LinkkiApplicationTheme#APPLICATION_HEADER_RIGHT} additionally.
  * 
  * @implNote The methods {@link #createRightMenuBar()}, {@link #addHelpMenu(MenuBar)} and
  *           {@link #addHelpMenuItems(MenuItem)} can be used to create an {@link ApplicationInfoDialog}
@@ -55,7 +55,7 @@ public class ApplicationHeader extends HorizontalLayout {
 
     public ApplicationHeader(ApplicationMenu applicationMenu) {
         this.applicationMenu = applicationMenu;
-        addStyleName(LinkkiStyles.APPLICATION_HEADER);
+        addStyleName(LinkkiApplicationTheme.APPLICATION_HEADER);
         setWidth("100%");
         setMargin(new MarginInfo(true, false, true, false));
     }
@@ -99,7 +99,7 @@ public class ApplicationHeader extends HorizontalLayout {
     @Deprecated
     protected void addRightComponents() {
         HorizontalLayout wrapper = new HorizontalLayout();
-        wrapper.setStyleName(LinkkiStyles.APPLICATION_HEADER_RIGHT);
+        wrapper.setStyleName(LinkkiApplicationTheme.APPLICATION_HEADER_RIGHT);
         wrapper.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
         wrapper.setSizeFull();
         wrapper.setSpacing(true);

@@ -14,6 +14,7 @@
 package org.linkki.core.ui.section.annotations;
 
 import org.junit.Test;
+import org.linkki.core.pmo.ModelObject;
 
 import com.vaadin.data.Buffered;
 import com.vaadin.ui.TextField;

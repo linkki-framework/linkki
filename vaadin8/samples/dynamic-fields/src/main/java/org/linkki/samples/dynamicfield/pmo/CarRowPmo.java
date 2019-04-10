@@ -13,9 +13,9 @@
  */
 package org.linkki.samples.dynamicfield.pmo;
 
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UITableColumn;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.samples.dynamicfield.model.Car;
 
 public class CarRowPmo extends CarPmo {

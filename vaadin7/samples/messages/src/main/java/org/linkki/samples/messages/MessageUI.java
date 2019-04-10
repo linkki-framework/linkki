@@ -13,7 +13,7 @@
  */
 package org.linkki.samples.messages;
 
-import org.linkki.core.binding.BindingManager;
+import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;

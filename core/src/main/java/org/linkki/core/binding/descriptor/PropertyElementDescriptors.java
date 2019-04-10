@@ -25,9 +25,9 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.dispatcher.accessor.PropertyAccessor;
-import org.linkki.core.binding.dispatcher.accessor.PropertyAccessorCache;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessor;
+import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessorCache;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

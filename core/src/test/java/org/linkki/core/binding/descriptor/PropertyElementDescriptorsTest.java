@@ -21,8 +21,8 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.linkki.core.ui.section.annotations.EnabledType.ENABLED;
-import static org.linkki.core.ui.section.annotations.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.element.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.element.aspects.types.VisibleType.VISIBLE;
 import static org.linkki.test.matcher.Matchers.assertThat;
 
 import java.lang.annotation.Annotation;
@@ -34,21 +34,20 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import org.linkki.core.binding.aspect.AspectDefinitionCreator;
-import org.linkki.core.binding.aspect.LinkkiAspect;
-import org.linkki.core.binding.aspect.definition.CompositeAspectDefinition;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
-import org.linkki.core.binding.aspect.definition.TestComponentClickAspectDefinition;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptorsTest.AnotherTestUIField.AnotherTestUIFieldAspectDefinitionCreator;
-import org.linkki.core.ui.TestUiComponent;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
-import org.linkki.core.ui.section.annotations.EnabledType;
-import org.linkki.core.ui.section.annotations.ModelObject;
-import org.linkki.core.ui.section.annotations.RequiredType;
-import org.linkki.core.ui.section.annotations.TestUIField;
-import org.linkki.core.ui.section.annotations.VisibleType;
-import org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition;
-import org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.defaults.nls.TestUiComponent;
+import org.linkki.core.defaults.section.annotations.TestUIField;
+import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.pmo.ModelObject;
 
 public class PropertyElementDescriptorsTest {
 
@@ -238,7 +237,7 @@ public class PropertyElementDescriptorsTest {
         return elementDescriptor;
     }
 
-    public static class TestPmo {
+    static class TestPmo {
 
         public static final String SINGLE_PMO_PROPERTY = "singlePmoProperty";
 
@@ -284,8 +283,8 @@ public class PropertyElementDescriptorsTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    @org.linkki.core.ui.section.annotations.LinkkiBindingDefinition(AnotherTestFieldBindingDefinition.class)
-    @LinkkiAspect(AnotherTestUIFieldAspectDefinitionCreator.class)
+    @org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition(AnotherTestFieldBindingDefinition.class)
+    @org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect(AnotherTestUIFieldAspectDefinitionCreator.class)
     public @interface AnotherTestUIField {
 
         int position();

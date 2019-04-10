@@ -15,8 +15,8 @@ package org.linkki.core.matcher;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.Severity;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.Severity;
 
 public class MessageSeverityMatcher extends TypeSafeMatcher<Message> {
 

@@ -14,6 +14,8 @@
 
 package org.linkki.core.ui.section.annotations;
 
+import org.linkki.core.pmo.ModelObject;
+
 /**
  * A single column PMO for testing.
  * <p>

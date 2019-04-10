@@ -19,13 +19,13 @@ import java.time.Period;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import org.linkki.core.ui.components.ItemCaptionProvider;
-import org.linkki.core.ui.section.annotations.AvailableValuesType;
-import org.linkki.core.ui.section.annotations.UIComboBox;
-import org.linkki.core.ui.section.annotations.UILabel;
-import org.linkki.core.ui.section.annotations.UITableColumn;
-import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;
-import org.linkki.core.ui.section.annotations.UITextField;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
+import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
 import org.linkki.samples.treetable.dynamic.model.Player.Position;
 
 public abstract class PlayerTableRowPmo {

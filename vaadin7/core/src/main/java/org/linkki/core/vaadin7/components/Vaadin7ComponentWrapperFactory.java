@@ -14,8 +14,8 @@
 
 package org.linkki.core.vaadin7.components;
 
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.components.ComponentWrapperFactory;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.ComponentWrapperFactory;
 import org.linkki.core.ui.components.LabelComponentWrapper;
 
 import com.vaadin.ui.Component;

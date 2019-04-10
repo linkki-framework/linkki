@@ -16,8 +16,8 @@ package org.linkki.samples.binding.pmo;
 
 import java.util.Locale;
 
-import org.linkki.core.ui.UiFramework;
-import org.linkki.core.ui.components.ItemCaptionProvider;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.samples.binding.model.Contact.Gender;
 
 public class GenderCaptionProvider implements ItemCaptionProvider<Gender> {

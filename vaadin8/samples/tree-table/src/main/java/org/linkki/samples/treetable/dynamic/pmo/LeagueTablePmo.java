@@ -17,8 +17,8 @@ package org.linkki.samples.treetable.dynamic.pmo;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.linkki.core.ui.table.SimpleTablePmo;
-import org.linkki.core.ui.table.TableFooterPmo;
+import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.samples.treetable.dynamic.model.League;
 import org.linkki.samples.treetable.dynamic.model.Player;
 

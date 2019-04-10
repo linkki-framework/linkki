@@ -17,9 +17,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.core.CombinableMatcher;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.ObjectProperty;
-import org.linkki.core.message.Severity;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.ObjectProperty;
+import org.linkki.core.binding.validation.message.Severity;
 
 public class MessageMatchers {
 

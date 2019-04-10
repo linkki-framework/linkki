@@ -15,9 +15,9 @@
 package org.linkki.framework.ui.dialogs;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.framework.state.ApplicationConfig;
-import org.linkki.framework.ui.LinkkiStyles;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
 import org.linkki.util.handler.Handler;
@@ -43,7 +43,7 @@ public class ApplicationInfoDialog extends ConfirmationDialog {
     private static VerticalLayout createContent(ApplicationInfoPmo applicationInfoPmo) {
         VerticalLayout content = new PmoBasedSectionFactory().createSection(applicationInfoPmo, new BindingContext());
         content.setWidth(applicationInfoPmo.getDialogWidth());
-        content.addStyleName(LinkkiStyles.APPLICATION_INFO_DIALOG);
+        content.addStyleName(LinkkiApplicationTheme.APPLICATION_INFO_DIALOG);
 
         return content;
     }

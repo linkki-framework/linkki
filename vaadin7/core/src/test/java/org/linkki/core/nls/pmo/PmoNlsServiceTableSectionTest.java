@@ -22,12 +22,13 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.nls.pmo.sample.NlsTablePmo;
 import org.linkki.core.nls.pmo.sample.NlsTableRowPmo;
 import org.linkki.core.nls.pmo.sample.NoNlsTablePmo;
 import org.linkki.core.ui.section.AbstractSection;
 import org.linkki.core.ui.section.PmoBasedSectionFactory;
-import org.linkki.core.ui.table.ContainerPmo;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
 
 import com.vaadin.ui.HorizontalLayout;

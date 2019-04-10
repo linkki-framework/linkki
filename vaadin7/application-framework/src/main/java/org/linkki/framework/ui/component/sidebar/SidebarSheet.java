@@ -19,8 +19,8 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.binding.UiUpdateObserver;
-import org.linkki.framework.ui.LinkkiStyles;
+import org.linkki.core.binding.manager.UiUpdateObserver;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.util.LazyReference;
 import org.linkki.util.handler.Handler;
 
@@ -143,7 +143,7 @@ public class SidebarSheet {
      */
     protected void select() {
         getContent().setVisible(true);
-        getButton().addStyleName(LinkkiStyles.SIDEBAR_SELECTED);
+        getButton().addStyleName(LinkkiApplicationTheme.SIDEBAR_SELECTED);
         uiUpdateObserver.ifPresent(UiUpdateObserver::uiUpdated);
     }
 
@@ -151,7 +151,7 @@ public class SidebarSheet {
      * Should only be called by {@link SidebarLayout}.
      */
     protected void unselect() {
-        getButton().removeStyleName(LinkkiStyles.SIDEBAR_SELECTED);
+        getButton().removeStyleName(LinkkiApplicationTheme.SIDEBAR_SELECTED);
         getContent().setVisible(false);
     }
 

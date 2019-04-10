@@ -13,7 +13,7 @@
  */
 package org.linkki.core.ui.table;
 
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UITableColumn;
 import org.linkki.core.ui.section.annotations.UITableColumn.CollapseMode;

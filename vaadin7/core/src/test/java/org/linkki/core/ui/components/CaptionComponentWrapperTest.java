@@ -23,8 +23,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.junit.Test;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.server.ErrorMessage;

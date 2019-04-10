@@ -25,15 +25,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
+import org.linkki.core.binding.manager.DefaultBindingManager;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.ObjectProperty;
+import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.nls.TestUiComponent;
+import org.linkki.core.defaults.nls.TestUiLayoutComponent;
+import org.linkki.core.defaults.section.TestSectionBuilder;
+import org.linkki.core.defaults.section.TestSectionPmo;
 import org.linkki.core.matcher.MessageMatchers;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.message.ObjectProperty;
-import org.linkki.core.message.Severity;
-import org.linkki.core.ui.TestUiComponent;
-import org.linkki.core.ui.TestUiLayoutComponent;
-import org.linkki.core.ui.section.TestSectionBuilder;
-import org.linkki.core.ui.section.TestSectionPmo;
 
 public class BindingIntegrationTest {
 

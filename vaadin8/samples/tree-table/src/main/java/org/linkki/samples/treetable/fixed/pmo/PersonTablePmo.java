@@ -23,8 +23,8 @@ import java.util.TreeMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.linkki.core.ui.section.annotations.UISection;
-import org.linkki.core.ui.table.ContainerPmo;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.treetable.fixed.model.Person;
 
 import edu.umd.cs.findbugs.annotations.NonNull;

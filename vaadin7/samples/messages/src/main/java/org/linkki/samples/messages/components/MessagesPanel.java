@@ -13,8 +13,8 @@
  */
 package org.linkki.samples.messages.components;
 
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;

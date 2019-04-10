@@ -14,10 +14,10 @@
 
 package org.linkki.samples.appsample.pmo;
 
-import org.linkki.core.ui.section.annotations.BindReadOnly;
-import org.linkki.core.ui.section.annotations.BindReadOnly.ReadOnlyType;
-import org.linkki.core.ui.section.annotations.BindStyleNames;
-import org.linkki.core.ui.section.annotations.UIComboBox;
+import org.linkki.core.ui.element.annotation.BindReadOnly;
+import org.linkki.core.ui.element.annotation.BindReadOnly.ReadOnlyType;
+import org.linkki.core.ui.element.annotation.BindStyleNames;
+import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.samples.appsample.model.Report;
 import org.linkki.samples.appsample.model.ReportType;
 

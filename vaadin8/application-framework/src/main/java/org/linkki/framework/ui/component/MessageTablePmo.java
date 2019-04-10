@@ -18,9 +18,9 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.function.Supplier;
 
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.ui.table.SimpleTablePmo;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 
 /**
  * PMO for a {@link MessageList} to be displayed in a table.

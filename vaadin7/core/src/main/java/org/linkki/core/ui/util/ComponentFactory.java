@@ -13,7 +13,7 @@
  */
 package org.linkki.core.ui.util;
 
-import static org.linkki.core.ui.application.ApplicationStyles.HORIZONTAL_SPACER;
+import static org.linkki.core.defaults.style.LinkkiTheme.HORIZONTAL_SPACER;
 
 import java.time.LocalDate;
 import java.util.Collection;

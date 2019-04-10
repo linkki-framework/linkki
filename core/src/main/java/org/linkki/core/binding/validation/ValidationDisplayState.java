@@ -13,9 +13,9 @@
  */
 package org.linkki.core.binding.validation;
 
-import static org.linkki.core.message.MessageListCollector.toMessageList;
+import static org.linkki.core.binding.validation.message.MessageListCollector.toMessageList;
 
-import org.linkki.core.message.MessageList;
+import org.linkki.core.binding.validation.message.MessageList;
 
 /** The state regarding which validation messages are displayed. */
 public enum ValidationDisplayState {

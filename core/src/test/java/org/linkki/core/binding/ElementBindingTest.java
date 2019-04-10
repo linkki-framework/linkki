@@ -31,13 +31,13 @@ import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.core.binding.aspect.definition.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.message.Message;
-import org.linkki.core.message.MessageList;
-import org.linkki.core.message.Severity;
-import org.linkki.core.ui.TestComponentWrapper;
-import org.linkki.core.ui.TestUiComponent;
+import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.nls.TestComponentWrapper;
+import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.util.handler.Handler;
 
 import edu.umd.cs.findbugs.annotations.NonNull;

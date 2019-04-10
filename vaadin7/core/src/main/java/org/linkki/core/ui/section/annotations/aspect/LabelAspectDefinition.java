@@ -16,11 +16,11 @@ package org.linkki.core.ui.section.annotations.aspect;
 
 import java.util.function.Consumer;
 
-import org.linkki.core.binding.aspect.Aspect;
-import org.linkki.core.binding.aspect.definition.StaticModelToUiAspectDefinition;
-import org.linkki.core.ui.components.ComponentWrapper;
-import org.linkki.core.ui.components.WrapperType;
-import org.linkki.core.ui.section.annotations.BindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.base.StaticModelToUiAspectDefinition;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
 
 /**

@@ -14,7 +14,7 @@
 
 package org.linkki.samples.treetable.dynamic.pmo;
 
-import org.linkki.core.ui.section.annotations.ModelObject;
+import org.linkki.core.pmo.ModelObject;
 import org.linkki.samples.treetable.dynamic.model.Player;
 import org.linkki.samples.treetable.dynamic.model.Player.Position;
 
