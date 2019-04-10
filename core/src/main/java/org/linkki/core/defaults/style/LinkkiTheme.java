@@ -16,7 +16,7 @@ package org.linkki.core.defaults.style;
 /**
  * Constants for the CSS styles used throughout the application.
  */
-public class LinkkiStyles {
+public class LinkkiTheme {
 
     /** Style for the menu section of the application. */
     public static final String MENU_WRAPPER = "linkki-menu-wrapper";
@@ -64,7 +64,7 @@ public class LinkkiStyles {
     /** A button that is styled as a text, without additional height. **/
     public static final String BUTTON_TEXT = "linkki-button-text";
 
-    private LinkkiStyles() {
+    private LinkkiTheme() {
         // prevent initialization
     }
 

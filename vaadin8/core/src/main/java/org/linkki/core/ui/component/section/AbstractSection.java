@@ -18,7 +18,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.defaults.style.LinkkiStyles;
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.component.ComponentFactory;
 import org.linkki.core.ui.pmo.ButtonPmoBuilder;
 import org.linkki.util.handler.Handler;
@@ -83,7 +83,7 @@ public abstract class AbstractSection extends VerticalLayout {
         this.editButton = requireNonNull(editButton, "editButton must not be null");
         setMargin(false);
         setSpacing(false);
-        setStyleName(LinkkiStyles.SECTION);
+        setStyleName(LinkkiTheme.SECTION);
 
         if (StringUtils.isNotEmpty(caption) || editButton.isPresent()) {
             this.openCloseButton = closeable ? createOpenCloseButton(this::switchOpenStatus) : null;
@@ -99,11 +99,11 @@ public abstract class AbstractSection extends VerticalLayout {
         HorizontalLayout headerLayout = new HorizontalLayout();
         headerLayout.setWidth("100%");
         headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        headerLayout.addStyleName(LinkkiStyles.SECTION_CAPTION);
+        headerLayout.addStyleName(LinkkiTheme.SECTION_CAPTION);
 
         if (StringUtils.isNotEmpty(caption)) {
             Label captionLabel = new Label(caption);
-            captionLabel.addStyleName(LinkkiStyles.SECTION_CAPTION_TEXT);
+            captionLabel.addStyleName(LinkkiTheme.SECTION_CAPTION_TEXT);
             headerLayout.addComponent(captionLabel);
         }
 
@@ -112,7 +112,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
         Label line = new Label("<hr/>", ContentMode.HTML);
         line.setWidth("100%");
-        line.addStyleName(LinkkiStyles.SECTION_CAPTION_LINE);
+        line.addStyleName(LinkkiTheme.SECTION_CAPTION_LINE);
         headerLayout.addComponent(line);
         headerLayout.setExpandRatio(line, 1);
 
@@ -121,7 +121,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
     private static Button createOpenCloseButton(Handler toggleCloseOpen) {
         Button button = ComponentFactory.newButton(VaadinIcons.ANGLE_DOWN, ButtonPmoBuilder.DEFAULT_STYLES);
-        button.addStyleName(LinkkiStyles.BUTTON_TEXT);
+        button.addStyleName(LinkkiTheme.BUTTON_TEXT);
         button.addClickListener(e -> toggleCloseOpen.apply());
         return button;
     }
@@ -131,14 +131,14 @@ public abstract class AbstractSection extends VerticalLayout {
      * AbstractOrderedLayout
      */
     private static void addHeaderButton(AbstractOrderedLayout header, Button button) {
-        button.addStyleName(LinkkiStyles.BUTTON_TEXT);
+        button.addStyleName(LinkkiTheme.BUTTON_TEXT);
         header.addComponent(button);
         // Set the spacing to false as the button already has a margin around it.
         header.setSpacing(false);
     }
 
     private static void addHeaderButton(AbstractOrderedLayout header, Button button, int index) {
-        button.addStyleName(LinkkiStyles.BUTTON_TEXT);
+        button.addStyleName(LinkkiTheme.BUTTON_TEXT);
         header.addComponent(button, index);
         // Set the spacing to false as the button already has a margin around it.
         header.setSpacing(false);

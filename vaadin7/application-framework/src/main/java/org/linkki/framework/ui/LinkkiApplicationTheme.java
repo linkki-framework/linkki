@@ -20,7 +20,7 @@ import org.linkki.framework.ui.component.sidebar.SidebarLayout;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
 
-public final class LinkkiApplicationStyles {
+public final class LinkkiApplicationTheme {
 
     /**
      * Style for the {@link ApplicationHeader header} of the application.
@@ -67,7 +67,7 @@ public final class LinkkiApplicationStyles {
     /** Style class for {@link ApplicationInfoDialog} */
     public static final String APPLICATION_INFO_DIALOG = "linkki-application-info-dialog"; //$NON-NLS-1$
 
-    private LinkkiApplicationStyles() {
+    private LinkkiApplicationTheme() {
         // This is just a utility class used to list constants and therefore should not be
         // instantiated
     }

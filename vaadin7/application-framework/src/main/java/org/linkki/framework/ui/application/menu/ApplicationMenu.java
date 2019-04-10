@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.linkki.core.defaults.style.LinkkiStyles;
-import org.linkki.framework.ui.LinkkiApplicationStyles;
+import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.application.ApplicationHeader;
 
 import com.vaadin.ui.MenuBar;
@@ -38,8 +38,8 @@ public class ApplicationMenu extends MenuBar {
     }
 
     public ApplicationMenu(List<ApplicationMenuItemDefinition> itemDefs) {
-        addStyleName(LinkkiApplicationStyles.APPLICATION_MENU);
-        addStyleName(LinkkiStyles.BORDERLESS);
+        addStyleName(LinkkiApplicationTheme.APPLICATION_MENU);
+        addStyleName(LinkkiTheme.BORDERLESS);
         setSizeUndefined();
         SortedSet<ApplicationMenuItemDefinition> sorted = new TreeSet<>();
         itemDefs.forEach(sorted::add);

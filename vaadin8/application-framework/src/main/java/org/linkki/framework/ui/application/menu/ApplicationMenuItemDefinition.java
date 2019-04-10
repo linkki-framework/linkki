@@ -15,7 +15,7 @@ package org.linkki.framework.ui.application.menu;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.framework.ui.LinkkiApplicationStyles;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.application.ApplicationHeader;
 
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -46,7 +46,7 @@ public abstract class ApplicationMenuItemDefinition implements Comparable<Applic
 
     public MenuItem createItem(ApplicationMenu menu) {
         MenuItem item = internalCreateItem(menu);
-        item.setStyleName(LinkkiApplicationStyles.APPLICATION_MENU);
+        item.setStyleName(LinkkiApplicationTheme.APPLICATION_MENU);
         return item;
     }
 
