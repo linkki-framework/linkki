@@ -4,7 +4,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.section.Sections;
 import org.linkki.core.ui.component.section.BaseSection;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
-import org.linkki.core.uicreation.UiElementCreator;
+import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 import com.vaadin.ui.Component;
@@ -32,9 +32,8 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
         Sections.getEditButtonPmo(pmo)
                 .map(b -> ButtonPmoBinder.createBoundButton(bindingContext, b))
                 .ifPresent(section::addHeaderButton);
-        UiElementCreator.createUiElements(pmo,
-                                          bindingContext,
-                                          c -> new LabelComponentWrapper(new Label(), (Component)c))
+        UiCreator.createUiElements(pmo, bindingContext,
+                                   c -> new LabelComponentWrapper(new Label(), (Component)c))
                 .forEach(w -> add(section, w));
     }
 

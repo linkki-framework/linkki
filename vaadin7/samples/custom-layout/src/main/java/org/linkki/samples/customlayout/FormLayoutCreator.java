@@ -18,7 +18,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.section.Sections;
 import org.linkki.core.ui.components.CaptionComponentWrapper;
-import org.linkki.core.uicreation.UiElementCreator;
+import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -28,10 +28,9 @@ public class FormLayoutCreator {
     public static FormLayout create(Object pmo, BindingContext bindingContext) {
         FormLayout formLayout = new FormLayout();
         formLayout.setId(Sections.getSectionId(pmo));
-        UiElementCreator
-                .createUiElements(pmo, bindingContext,
-                                  c -> new CaptionComponentWrapper("", (Component)c,
-                                          WrapperType.FIELD))
+        UiCreator.createUiElements(pmo, bindingContext,
+                                   c -> new CaptionComponentWrapper("", (Component)c,
+                                           WrapperType.FIELD))
                 .forEach(cw -> formLayout.addComponent(cw.getComponent()));
         return formLayout;
     }

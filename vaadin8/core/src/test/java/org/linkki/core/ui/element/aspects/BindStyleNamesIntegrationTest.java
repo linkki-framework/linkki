@@ -27,7 +27,7 @@ import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.ui.element.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
-import org.linkki.core.uicreation.UiElementCreator;
+import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.ui.Component;
 
@@ -38,7 +38,7 @@ public class BindStyleNamesIntegrationTest {
     @Test
     public void testCreateAspect_static_single() {
         BindingContext bindingContext = new BindingContext();
-        List<LabelComponentWrapper> uiElements = UiElementCreator
+        List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(new TestPmoWithStaticStyleName(),
                                   bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
@@ -49,7 +49,7 @@ public class BindStyleNamesIntegrationTest {
     @Test
     public void testCreateAspect_static_multiple() {
         BindingContext bindingContext = new BindingContext();
-        List<LabelComponentWrapper> uiElements = UiElementCreator
+        List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(new TestPmoWithStaticStyleNames(),
                                   bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
@@ -62,7 +62,7 @@ public class BindStyleNamesIntegrationTest {
     @Test
     public void testCreateAspect_KeepPreviouslySpecifiedStaticStyles() {
         BindingContext bindingContext = new BindingContext();
-        List<LabelComponentWrapper> uiElements = UiElementCreator
+        List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(new TestPmoWithStaticStyleNames(),
                                   bindingContext, c -> {
                                       ((Component)c).setStyleName(MY_STYLE);
@@ -80,7 +80,7 @@ public class BindStyleNamesIntegrationTest {
     public void testCreateAspect_dynamic_single() {
         BindingContext bindingContext = new BindingContext();
         TestPmoWithDynamicStyleName pmo = new TestPmoWithDynamicStyleName("style");
-        List<LabelComponentWrapper> uiElements = UiElementCreator
+        List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
         assertThat(uiElements.get(0).getComponent().getStyleName(), is("style"));
@@ -94,7 +94,7 @@ public class BindStyleNamesIntegrationTest {
     public void testCreateAspect_dynamic_multiple() {
         BindingContext bindingContext = new BindingContext();
         TestPmoWithDynamicStyleNames pmo = new TestPmoWithDynamicStyleNames("style1", "style2");
-        List<LabelComponentWrapper> uiElements = UiElementCreator
+        List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
         assertThat(uiElements.get(0).getComponent().getStyleName(), is("style1 style2"));
@@ -108,7 +108,7 @@ public class BindStyleNamesIntegrationTest {
     public void testCreateAspect_KeepPreviouslySpecifiedDynamicSingleStyle() {
         BindingContext bindingContext = new BindingContext();
         TestPmoWithDynamicStyleName pmo = new TestPmoWithDynamicStyleName("style1");
-        List<LabelComponentWrapper> uiElements = UiElementCreator
+        List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> {
                     ((Component)c).setStyleName(MY_STYLE);
                     return new LabelComponentWrapper((Component)c);
@@ -125,7 +125,7 @@ public class BindStyleNamesIntegrationTest {
     public void testCreateAspect_KeepPreviouslySpecifiedDynamicStyles() {
         BindingContext bindingContext = new BindingContext();
         TestPmoWithDynamicStyleNames pmo = new TestPmoWithDynamicStyleNames("style1", "style2");
-        List<LabelComponentWrapper> uiElements = UiElementCreator
+        List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> {
                     ((Component)c).setStyleName(MY_STYLE);
                     return new LabelComponentWrapper((Component)c);
@@ -142,7 +142,7 @@ public class BindStyleNamesIntegrationTest {
     public void testCreateAspect_dynamic_methodMissing() {
         BindingContext bindingContext = new BindingContext();
         TestPmoMissingDynamicStyleNamesMethod pmo = new TestPmoMissingDynamicStyleNamesMethod();
-        UiElementCreator.createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
+        UiCreator.createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
     }
 

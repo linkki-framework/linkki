@@ -70,7 +70,9 @@ s|org.linkki.core.ui.application.ApplicationStyles([[:punct:][:space:]])|org.lin
 s|ApplicationStyles|LinkkiTheme|g
 s|org.linkki.core.ui.section.annotations.aspect.AvailableValuesProvider([[:punct:][:space:]])|org.linkki.core.defaults.ui.element.AvailableValuesProvider\1|g
 s|org.linkki.core.ui.components.ItemCaptionProvider([[:punct:][:space:]])|org.linkki.core.defaults.ui.element.ItemCaptionProvider\1|g
-s|org.linkki.core.ui.UiElementCreator([[:punct:][:space:]])|org.linkki.core.defaults.ui.element.UiElementCreator\1|g
+s|org.linkki.core.ui.UiElementCreator([[:punct:][:space:]])|org.linkki.core.defaults.ui.element.UiCreator\1|g
+s|UiElementCreator|UiCreator|g
+s|UiCreator.createUiElements|UiCreator.createUiFields|g
 s|org.linkki.core.ui.section.annotations.aspect.EnabledAspectDefinition([[:punct:][:space:]])|org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition\1|g
 s|org.linkki.core.ui.section.annotations.aspect.BindTooltipAspectDefinition([[:punct:][:space:]])|org.linkki.core.defaults.ui.element.aspects.TooltipAspectDefinition\1|g
 s|org.linkki.core.ui.section.annotations.aspect.VisibleAspectDefinition([[:punct:][:space:]])|org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition\1|g

@@ -35,7 +35,7 @@ import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
-import org.linkki.core.uicreation.UiElementCreator;
+import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LayoutAnnotationReader;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
@@ -96,7 +96,7 @@ public class PmoBasedSectionFactory {
                     : either(LayoutAnnotationReader.findLayoutDefinition(c))
                             .or(() -> Optional.of(SectionLayoutDefinition.DEFAULT));
         };
-        ComponentWrapper componentWrapper = UiElementCreator
+        ComponentWrapper componentWrapper = UiCreator
                 .createComponent(pmo, bindingContext, componentDefinitionFinder, layoutDefinitionFinder);
         return (AbstractSection)componentWrapper.getComponent();
     }

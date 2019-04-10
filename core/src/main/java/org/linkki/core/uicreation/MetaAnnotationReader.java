@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -98,11 +99,11 @@ public final class MetaAnnotationReader {
             Class<META> metaAnnotationClass,
             Function<META, Class<? extends C>> valueGetter,
             Class<C> creatorClass) {
-        BinaryOperator<T> conflictResuolution = (a1, a2) -> {
+        BinaryOperator<T> conflictResolution = (t1, t2) -> {
             throw new IllegalArgumentException(annotatedElement + " has multiple annotations with a "
                     + metaAnnotationClass.getSimpleName());
         };
-        return find(annotatedElement, metaAnnotationClass, valueGetter, creatorClass, conflictResuolution);
+        return find(annotatedElement, metaAnnotationClass, valueGetter, creatorClass, conflictResolution);
     }
 
     /**
@@ -119,7 +120,7 @@ public final class MetaAnnotationReader {
      *            annotation)
      * @param valueGetter the function to extract the meta-annotation's {@code value}
      * @param creatorClass the class defined by the value, used to create the object
-     * @param conflictResuolution called if there are multiple creators defined by annotations
+     * @param conflictResolution called if there are multiple creators defined by annotations
      *
      * @return the object created by the {@link ObjectFromAnnotationCreator}
      *
@@ -131,11 +132,19 @@ public final class MetaAnnotationReader {
             Class<META> metaAnnotationClass,
             Function<META, Class<? extends C>> valueGetter,
             Class<C> creatorClass,
-            BinaryOperator<T> conflictResuolution) {
+            BinaryOperator<T> conflictResolution) {
+        return findAll(annotatedElement, metaAnnotationClass, valueGetter, creatorClass)
+                .reduce(conflictResolution);
+    }
+
+    private static <T, META extends Annotation, C extends ObjectFromAnnotationCreator<T>> Stream<T> findAll(
+            AnnotatedElement annotatedElement,
+            Class<META> metaAnnotationClass,
+            Function<META, Class<? extends C>> valueGetter,
+            Class<C> creatorClass) {
         return Arrays.stream(annotatedElement.getAnnotations())
                 .filter(a -> MetaAnnotationReader.isMetaAnnotationPresent(a, metaAnnotationClass))
-                .map(a -> create(a, annotatedElement, metaAnnotationClass, valueGetter, creatorClass))
-                .reduce(conflictResuolution);
+                .map(a -> create(a, annotatedElement, metaAnnotationClass, valueGetter, creatorClass));
     }
 
     private static <META extends Annotation, C> META getMetaAnnotation(Annotation annotation,

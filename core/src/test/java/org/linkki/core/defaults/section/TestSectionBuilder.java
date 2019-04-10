@@ -23,7 +23,7 @@ import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.nls.TestUiLayoutComponent;
 import org.linkki.core.pmo.ButtonPmo;
-import org.linkki.core.uicreation.UiElementCreator;
+import org.linkki.core.uicreation.UiCreator;
 
 public class TestSectionBuilder {
 
@@ -35,7 +35,7 @@ public class TestSectionBuilder {
         TestUiLayoutComponent section = new TestUiLayoutComponent();
         section.setId(Sections.getSectionId(pmo));
         Sections.getEditButtonPmo(pmo).ifPresent(buttonPmo -> createButton(buttonPmo, section, bindingContext));
-        UiElementCreator.createUiElements(pmo, bindingContext, TestComponentWrapper::new)
+        UiCreator.createUiElements(pmo, bindingContext, TestComponentWrapper::new)
                 .map(TestComponentWrapper::getComponent).forEach(section::addChild);
         return section;
     }

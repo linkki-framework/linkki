@@ -22,6 +22,7 @@ import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationRead
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
@@ -31,24 +32,37 @@ import org.linkki.core.uicreation.layout.LayoutAnnotationReader;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.uiframework.UiFramework;
+import org.linkki.util.Optionals;
 
 /**
- * A utility class that uses the {@link UIElementAnnotationReader} to find UI element annotations and
- * creates the defined components. The caller is responsible for adding the component to a surrounding
- * UI component and for returning a {@link ComponentWrapper} that could be handled over to the
- * {@link BindingContext}.
+ * A utility class that creates UI components from presentation model objects. These PMOs must be
+ * annotated with annotations which are themselves annotated with the meta-annotation
+ * {@link LinkkiComponent @LinkkiComponent}.
+ * <p>
+ * There are two options:
+ * <ol>
+ * <li>Creating all components from method-level annotations (such as {@code @UITextField}) with
+ * {@link #createUiElements(Object, BindingContext, Function)}</li>
+ * <li>Creating a component from a class-level annotation (such as {@code @UISection}) with
+ * {@link #createComponent(Object, BindingContext)}. Depending on a {@link LinkkiLayout @LinkkiLayout}
+ * annotation accompanying the {@link LinkkiComponent @LinkkiComponent}, the first option,
+ * {@link #createUiElements(Object, BindingContext, Function)}, will be called as well (as is the case for
+ * {@code @UISection's SectionLayoutDefinition}).</li>
+ * </ol>
  */
-public class UiElementCreator {
+public class UiCreator {
 
     private static final ComponentWrapperFactory COMPONENT_WRAPPER_FACTORY = UiFramework.getComponentWrapperFactory();
 
-    private UiElementCreator() {
+    private UiCreator() {
         // prevents instantiation
     }
 
     /**
-     * Creates all UI elements that were found in the PMO by searching for methods annotated with UI
-     * element annotations.
+     * Creates and binds all UI fields that were found in the PMO by searching for methods annotated
+     * with UI field annotations. Those annotations must provide a
+     * {@link LinkkiBoundProperty @LinkkiBoundProperty} and {@link LinkkiComponent @LinkkiComponent}
+     * annotation.
      * <p>
      * <em>The created UI components are not added to any parent. You can do that in the
      * {@code componentWrapperCreator} {@link Function} or afterwards retrieve the components from their
@@ -137,11 +151,11 @@ public class UiElementCreator {
             Function<Class<?>, Optional<LinkkiComponentDefinition>> componentDefinitionFinder,
             Function<Class<?>, Optional<LinkkiLayoutDefinition>> layoutDefinitionFinder) {
         Class<?> annotatedElement = pmo.getClass();
-        return UiElementCreator.createComponent(annotatedElement,
-                                                pmo,
-                                                bindingContext,
-                                                componentDefinitionFinder,
-                                                layoutDefinitionFinder);
+        return UiCreator.createComponent(annotatedElement,
+                                         pmo,
+                                         bindingContext,
+                                         componentDefinitionFinder,
+                                         layoutDefinitionFinder);
     }
 
     /**
@@ -166,7 +180,8 @@ public class UiElementCreator {
      * @throws IllegalArgumentException if a {@link LinkkiComponentDefinition} or
      *             {@link LinkkiLayoutDefinition} cannot be found
      */
-    public static <E extends AnnotatedElement> ComponentWrapper createComponent(E annotatedElement,
+    /* Package private for test. If/when we make this method public, it must consider dynamic fields. */
+    /* private */ static <E extends AnnotatedElement> ComponentWrapper createComponent(E annotatedElement,
             Object pmo,
             BindingContext bindingContext,
             Function<? super E, Optional<LinkkiComponentDefinition>> componentDefinitionFinder,
@@ -183,13 +198,14 @@ public class UiElementCreator {
                 .orElseGet(BoundProperty::empty);
         List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader.createAspectDefinitionsFor(annotatedElement);
 
-        ContainerBinding containerBinding = bindingContext.bindContainer(pmo, boundProperty, aspectDefs,
-                                                                         componentWrapper);
-
-        LinkkiLayoutDefinition layoutDefinition = layoutDefinitionFinder.apply(annotatedElement)
-                .orElseThrow(noDefinitionFound(LinkkiLayoutDefinition.class, annotatedElement));
-
-        layoutDefinition.createChildren(component, pmo, containerBinding);
+        Optionals.ifPresentOrElse(layoutDefinitionFinder.apply(annotatedElement),
+                                  layoutDefinition -> {
+                                      ContainerBinding containerBinding = bindingContext
+                                              .bindContainer(pmo, boundProperty, aspectDefs,
+                                                             componentWrapper);
+                                      layoutDefinition.createChildren(component, pmo, containerBinding);
+                                  },
+                                  () -> bindingContext.bind(pmo, boundProperty, aspectDefs, componentWrapper));
 
         return componentWrapper;
     }
