@@ -24,13 +24,12 @@ import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
  * Creates a {@link LinkkiComponentDefinition} from an {@link Annotation} annotated with
  * {@link LinkkiComponent}.
  */
-public interface ComponentDefinitionCreator extends ObjectFromAnnotationCreator<LinkkiComponentDefinition> {
+public interface ComponentDefinitionCreator<A extends Annotation> {
 
     /**
      * Creates a {@link LinkkiComponentDefinition} from an {@link Annotation} annotated with
      * {@link LinkkiComponent}.
      */
-    @Override
-    LinkkiComponentDefinition create(Annotation annotation, AnnotatedElement annotatedElement);
+    LinkkiComponentDefinition create(A annotation, AnnotatedElement annotatedElement);
 
 }

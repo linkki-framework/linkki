@@ -18,7 +18,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Optional;
 
-import org.linkki.core.uicreation.MetaAnnotationReader;
+import org.linkki.util.Classes;
+import org.linkki.util.MetaAnnotation;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -26,6 +27,9 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * Reads the annotation {@link LinkkiLayout} to create a {@link LinkkiLayoutDefinition}.
  */
 public final class LayoutAnnotationReader {
+
+    private static final MetaAnnotation<LinkkiLayout> LINKKI_LAYOUT_ANNOTATION = new MetaAnnotation<>(
+            LinkkiLayout.class);
 
     private LayoutAnnotationReader() {
         // do not instantiate
@@ -35,7 +39,7 @@ public final class LayoutAnnotationReader {
      * Checks whether the given {@link Annotation} is annotated with {@link LinkkiLayout @LinkkiLayout}.
      */
     public static boolean isLayoutDefinition(@CheckForNull Annotation annotation) {
-        return MetaAnnotationReader.isMetaAnnotationPresent(annotation, LinkkiLayout.class);
+        return LINKKI_LAYOUT_ANNOTATION.isPresentOn(annotation);
     }
 
     /**
@@ -50,7 +54,19 @@ public final class LayoutAnnotationReader {
      *             annotations that could create one
      */
     public static Optional<LinkkiLayoutDefinition> findLayoutDefinition(AnnotatedElement annotatedElement) {
-        return MetaAnnotationReader.find(annotatedElement, LinkkiLayout.class, LinkkiLayout::value,
-                                         LayoutDefinitionCreator.class);
+        return LINKKI_LAYOUT_ANNOTATION
+                .findAnnotatedAnnotationsOn(annotatedElement)
+                .reduce(LINKKI_LAYOUT_ANNOTATION.onlyOneOn(annotatedElement))
+                .map(annotation -> getLayoutDefinition(annotation, annotatedElement));
+    }
+
+    private static <A extends Annotation> LinkkiLayoutDefinition getLayoutDefinition(
+            A annotation,
+            AnnotatedElement annotatedElement) {
+        LinkkiLayout linkkiLayout = LINKKI_LAYOUT_ANNOTATION.getFrom(annotation);
+        @SuppressWarnings("unchecked")
+        Class<LayoutDefinitionCreator<A>> creatorClass = (Class<LayoutDefinitionCreator<A>>)linkkiLayout
+                .value();
+        return Classes.instantiate(creatorClass).create(annotation, annotatedElement);
     }
 }

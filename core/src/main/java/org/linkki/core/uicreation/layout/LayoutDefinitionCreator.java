@@ -17,20 +17,16 @@ package org.linkki.core.uicreation.layout;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
-import org.linkki.core.uicreation.ObjectFromAnnotationCreator;
-
 /**
  * Creates a {@link LinkkiLayoutDefinition} from an {@link Annotation} annotated with
  * {@link LinkkiLayout}.
  */
-public interface LayoutDefinitionCreator
-        extends ObjectFromAnnotationCreator<LinkkiLayoutDefinition> {
+public interface LayoutDefinitionCreator<A extends Annotation> {
 
     /**
      * Creates a {@link LinkkiLayoutDefinition} from an {@link Annotation} annotated with
      * {@link LinkkiLayout}.
      */
-    @Override
-    LinkkiLayoutDefinition create(Annotation annotation, AnnotatedElement annotatedElement);
+    LinkkiLayoutDefinition create(A annotation, AnnotatedElement annotatedElement);
 
 }

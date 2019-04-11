@@ -123,7 +123,7 @@ public class ComponentAnnotationReaderTest {
     @LinkkiComponent(AnnotationWithComponentAnnotation.Creator.class)
     public @interface AnnotationWithComponentAnnotation {
 
-        public static class Creator implements ComponentDefinitionCreator {
+        public static class Creator implements ComponentDefinitionCreator<Annotation> {
 
             @Override
             public LinkkiComponentDefinition create(Annotation annotation,
@@ -149,7 +149,7 @@ public class ComponentAnnotationReaderTest {
     @Target(value = { ElementType.FIELD, ElementType.METHOD })
     @LinkkiComponent(AnnotationWithInvalidCreator.Creator.class)
     public @interface AnnotationWithInvalidCreator {
-        public static class Creator implements ComponentDefinitionCreator {
+        public static class Creator implements ComponentDefinitionCreator<Annotation> {
 
             private Creator() {
                 // prohibit instantiation

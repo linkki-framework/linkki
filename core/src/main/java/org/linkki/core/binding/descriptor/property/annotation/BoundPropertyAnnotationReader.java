@@ -16,21 +16,20 @@ package org.linkki.core.binding.descriptor.property.annotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.function.BinaryOperator;
 
 import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.core.uicreation.MetaAnnotationReader;
+import org.linkki.util.Classes;
+import org.linkki.util.MetaAnnotation;
 
 /**
  * Reads the annotation {@link LinkkiBoundProperty @LinkkiBoundProperty}.
  */
 public final class BoundPropertyAnnotationReader {
 
-    private static final Predicate<? super Annotation> HAS_LINKKI_BOUND_PROPERTY = a -> MetaAnnotationReader
-            .isMetaAnnotationPresent(a, LinkkiBoundProperty.class);
+    private static final MetaAnnotation<LinkkiBoundProperty> BOUND_PROPERTY_ANNOTATION = new MetaAnnotation<>(
+            LinkkiBoundProperty.class);
 
     private BoundPropertyAnnotationReader() {
         // do not instantiate
@@ -47,7 +46,7 @@ public final class BoundPropertyAnnotationReader {
      *         annotation, <code>false</code> if not
      */
     public static boolean isBoundPropertyPresent(AnnotatedElement annotatedElement) {
-        return getAnnotationsWithBoundPropertyDefinition(annotatedElement).findAny().isPresent();
+        return BOUND_PROPERTY_ANNOTATION.isPresentOnAnyAnnotationOn(annotatedElement);
     }
 
     /**
@@ -86,26 +85,35 @@ public final class BoundPropertyAnnotationReader {
      *             {@link LinkkiBoundProperty}, but deliver different {@link BoundProperty bound
      *             properties} or if the {@link BoundPropertyCreator} can't be created.
      */
-    @SuppressWarnings("unchecked")
     public static Optional<BoundProperty> findBoundProperty(AnnotatedElement annotatedElement) {
-        return MetaAnnotationReader.find(annotatedElement, LinkkiBoundProperty.class, LinkkiBoundProperty::value,
-                                         BoundPropertyCreator.class, (b1, b2) -> {
-                                             if (b1.equals(b2)) {
-                                                 return b1;
-                                             } else {
-                                                 throw new IllegalArgumentException(
-                                                         String.format("%s has annotations that define different bound properties (%s, %s)",
-                                                                       annotatedElement,
-                                                                       b1.toString(),
-                                                                       b2.toString(),
-                                                                       BoundPropertyCreator.class.getName()));
-                                             }
-                                         });
+        return BOUND_PROPERTY_ANNOTATION.findAnnotatedAnnotationsOn(annotatedElement)
+                .map(a -> getBoundProperty(a, annotatedElement))
+                .reduce(allAnnotationsMustDefineTheSameProperty(annotatedElement));
     }
 
-    private static Stream<Annotation> getAnnotationsWithBoundPropertyDefinition(AnnotatedElement annotatedElement) {
-        return Arrays.stream(annotatedElement.getAnnotations())
-                .filter(HAS_LINKKI_BOUND_PROPERTY);
+    private static <A extends Annotation> BoundProperty getBoundProperty(A annotation,
+            AnnotatedElement annotatedElement) {
+        LinkkiBoundProperty boundProperty = BOUND_PROPERTY_ANNOTATION.getFrom(annotation);
+        @SuppressWarnings("unchecked")
+        Class<BoundPropertyCreator<A>> creatorClass = (Class<BoundPropertyCreator<A>>)boundProperty
+                .value();
+        return Classes.instantiate(creatorClass).createBoundProperty(annotation, annotatedElement);
+    }
+
+    private static BinaryOperator<BoundProperty> allAnnotationsMustDefineTheSameProperty(
+            AnnotatedElement annotatedElement) {
+        return (b1, b2) -> {
+            if (b1.equals(b2)) {
+                return b1;
+            } else {
+                throw new IllegalArgumentException(
+                        String.format("%s has annotations that define different bound properties (%s, %s)",
+                                      annotatedElement,
+                                      b1.toString(),
+                                      b2.toString(),
+                                      BoundPropertyCreator.class.getName()));
+            }
+        };
     }
 
 

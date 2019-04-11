@@ -23,7 +23,6 @@ import static org.linkki.test.matcher.Matchers.absent;
 import static org.linkki.test.matcher.Matchers.assertThat;
 import static org.linkki.test.matcher.Matchers.present;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
@@ -59,10 +58,10 @@ public class LayoutAnnotationReaderTest {
 
     }
 
-    public static class DummyLayoutDefinitionCreator implements LayoutDefinitionCreator {
+    public static class DummyLayoutDefinitionCreator implements LayoutDefinitionCreator<DummyLayout> {
 
         @Override
-        public LinkkiLayoutDefinition create(Annotation annotation, AnnotatedElement annotatedElement) {
+        public LinkkiLayoutDefinition create(DummyLayout annotation, AnnotatedElement annotatedElement) {
             return new DummyLayoutDefinition();
         }
 

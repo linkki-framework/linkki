@@ -17,10 +17,11 @@ package org.linkki.core.uicreation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.util.Classes;
+import org.linkki.util.MetaAnnotation;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -30,14 +31,16 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 public final class ComponentAnnotationReader {
 
+    private static final MetaAnnotation<LinkkiComponent> LINKKI_COMPONENT_ANNOTATION = new MetaAnnotation<>(
+            LinkkiComponent.class);
+
     private ComponentAnnotationReader() {
         // do not instantiate
     }
 
     public static boolean isComponentDefinition(@CheckForNull Annotation annotation) {
-        return MetaAnnotationReader.isMetaAnnotationPresent(annotation, LinkkiComponent.class);
+        return LINKKI_COMPONENT_ANNOTATION.isPresentOn(annotation);
     }
-
 
     /**
      * Returns the component which is instantiated using the {@link LinkkiComponentDefinition} that is
@@ -48,14 +51,14 @@ public final class ComponentAnnotationReader {
      * @return the component definition
      * @throws IllegalArgumentException if the definition could not be created
      */
-    public static <ANNOTATION extends Annotation> LinkkiComponentDefinition getComponentDefinition(
-            ANNOTATION annotation,
+    public static <A extends Annotation> LinkkiComponentDefinition getComponentDefinition(
+            A annotation,
             AnnotatedElement annotatedElement) {
-        LinkkiComponentDefinition componentDefinition = MetaAnnotationReader
-                .create(annotation, annotatedElement, LinkkiComponent.class,
-                        (Function<LinkkiComponent, Class<? extends ComponentDefinitionCreator>>)LinkkiComponent::value,
-                        ComponentDefinitionCreator.class);
-        return componentDefinition;
+        LinkkiComponent linkkiComponent = LINKKI_COMPONENT_ANNOTATION.getFrom(annotation);
+        @SuppressWarnings("unchecked")
+        Class<ComponentDefinitionCreator<A>> creatorClass = (Class<ComponentDefinitionCreator<A>>)linkkiComponent
+                .value();
+        return Classes.instantiate(creatorClass).create(annotation, annotatedElement);
     }
 
     /**
@@ -70,7 +73,9 @@ public final class ComponentAnnotationReader {
      *             annotations that could create one
      */
     public static Optional<LinkkiComponentDefinition> findComponentDefinition(AnnotatedElement annotatedElement) {
-        return MetaAnnotationReader.find(annotatedElement, LinkkiComponent.class, LinkkiComponent::value,
-                                         ComponentDefinitionCreator.class);
+        return LINKKI_COMPONENT_ANNOTATION
+                .findAnnotatedAnnotationsOn(annotatedElement)
+                .reduce(LINKKI_COMPONENT_ANNOTATION.onlyOneOn(annotatedElement))
+                .map(annotation -> getComponentDefinition(annotation, annotatedElement));
     }
 }

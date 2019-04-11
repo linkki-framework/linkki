@@ -16,7 +16,6 @@ package org.linkki.core.ui.layout.annotation;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
@@ -64,21 +63,21 @@ public @interface UISection {
     /** Whether or not the section can be collapsed by the user. */
     boolean closeable() default false;
 
-    public static class SectionComponentDefinitonCreator implements ComponentDefinitionCreator {
+    public static class SectionComponentDefinitonCreator implements ComponentDefinitionCreator<UISection> {
 
         @Override
-        public LinkkiComponentDefinition create(Annotation annotation, AnnotatedElement annotatedElement) {
-            UISection uiSection = (UISection)annotation;
+        public LinkkiComponentDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
+            UISection uiSection = annotation;
             return new SectionComponentDefiniton(uiSection.layout(), uiSection.caption(), uiSection.closeable(),
                     uiSection.columns());
         }
 
     }
 
-    public static class SectionLayoutDefinitionCreator implements LayoutDefinitionCreator {
+    public static class SectionLayoutDefinitionCreator implements LayoutDefinitionCreator<UISection> {
 
         @Override
-        public LinkkiLayoutDefinition create(Annotation annotation, AnnotatedElement annotatedElement) {
+        public LinkkiLayoutDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
             return SectionLayoutDefinition.DEFAULT;
         }
 
