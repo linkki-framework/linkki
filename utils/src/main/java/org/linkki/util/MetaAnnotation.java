@@ -19,7 +19,9 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.BinaryOperator;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -63,21 +65,13 @@ public class MetaAnnotation<META extends Annotation> {
     }
 
     /**
-     * Returns the meta-annotation present on the given {@link Annotation}.
+     * Returns the meta-annotation if it is present on the given {@link Annotation}.
      * 
-     * @param annotation an {@link Annotation} annotated with the meta-annotation
-     * @return the meta-annotation instance
-     * @throws IllegalArgumentException if the meta-annotation is not {@link #isPresentOn(Annotation)
-     *             present} on the given {@link Annotation}
+     * @param annotation an {@link Annotation}
+     * @return the meta-annotation instance, if the annotation is annotated with it
      */
-    public META getFrom(Annotation annotation) {
-        if (!isPresentOn(annotation)) {
-            throw new IllegalArgumentException(
-                    String.format("%s has no %s annotation", annotation,
-                                  metaAnnotationClass.getName()));
-        } else {
-            return annotation.annotationType().getAnnotation(metaAnnotationClass);
-        }
+    public Optional<META> findOn(Annotation annotation) {
+        return Optional.ofNullable(annotation.annotationType().getAnnotation(metaAnnotationClass));
     }
 
     /**
@@ -113,6 +107,26 @@ public class MetaAnnotation<META extends Annotation> {
             throw new IllegalArgumentException(annotatedElement + " has multiple annotations with a @"
                     + metaAnnotationClass.getSimpleName() + " annotation");
         };
+    }
+
+    /**
+     * Creates a {@link Supplier} for an {@link IllegalArgumentException} that names the given
+     * {@link Annotation} on the {@link AnnotatedElement} as not having the meta-annotation and suggests
+     * using the {@code checkerMethod} to safeguard against this exception.
+     * 
+     * @param annotation an {@link Annotation} on the {@link AnnotatedElement}
+     * @param annotatedElement an {@link AnnotatedElement}
+     * @param checkerMethod description of a method to be called before the method that throws this
+     *            exception to safeguard against it
+     * @return a {@link Supplier} for an {@link IllegalArgumentException}
+     */
+    public Supplier<? extends IllegalArgumentException> missingAnnotation(Annotation annotation,
+            AnnotatedElement annotatedElement,
+            String checkerMethod) {
+        return () -> new IllegalArgumentException(
+                "@" + annotation.annotationType().getSimpleName() + " on " + annotatedElement
+                        + " is not annotated with @" + metaAnnotationClass.getSimpleName() + ". You can use "
+                        + checkerMethod + " to check this beforehand.");
     }
 
 }

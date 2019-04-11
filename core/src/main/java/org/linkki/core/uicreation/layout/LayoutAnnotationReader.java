@@ -63,7 +63,10 @@ public final class LayoutAnnotationReader {
     private static <A extends Annotation> LinkkiLayoutDefinition getLayoutDefinition(
             A annotation,
             AnnotatedElement annotatedElement) {
-        LinkkiLayout linkkiLayout = LINKKI_LAYOUT_ANNOTATION.getFrom(annotation);
+        LinkkiLayout linkkiLayout = LINKKI_LAYOUT_ANNOTATION.findOn(annotation)
+                .orElseThrow(LINKKI_LAYOUT_ANNOTATION
+                        .missingAnnotation(annotation, annotatedElement, LayoutAnnotationReader.class.getSimpleName()
+                                + "#isLayoutDefinition(Annotation)"));
         @SuppressWarnings("unchecked")
         Class<LayoutDefinitionCreator<A>> creatorClass = (Class<LayoutDefinitionCreator<A>>)linkkiLayout
                 .value();

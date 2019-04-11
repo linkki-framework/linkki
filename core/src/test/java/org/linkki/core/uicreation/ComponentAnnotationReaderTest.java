@@ -15,9 +15,11 @@
 package org.linkki.core.uicreation;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
@@ -25,6 +27,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 
 import org.junit.Test;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
@@ -36,7 +39,7 @@ public class ComponentAnnotationReaderTest {
     public static String TESTCOMPONENT = "testcomponent";
 
     @Test
-    public void testReadComponentAnnotation() throws Exception {
+    public void testGetComponentDefinition() throws Exception {
         LinkkiComponentDefinition componentDefinition = ComponentAnnotationReader
                 .getComponentDefinition(ClassWithComponentAnnotatedAnnotations.class.getMethod("annotated")
                         .getAnnotation(AnnotationWithComponentAnnotation.class),
@@ -48,7 +51,7 @@ public class ComponentAnnotationReaderTest {
     }
 
     @Test
-    public void testReadComponentAnnotation_AnnotatedField() throws Exception {
+    public void testGetComponentDefinition_AnnotatedField() throws Exception {
         LinkkiComponentDefinition componentDefinition = ComponentAnnotationReader
                 .getComponentDefinition(ClassWithComponentAnnotatedAnnotations.class.getField("component")
                         .getAnnotation(AnnotationWithComponentAnnotation.class),
@@ -59,26 +62,33 @@ public class ComponentAnnotationReaderTest {
         assertThat(componentDefinition.createComponent(this), is(TESTCOMPONENT));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testReadComponentAnnotation_MethodAnnotatedWithoutComponentAnnotation() throws Exception {
-        @SuppressWarnings("unused")
-        LinkkiComponentDefinition componentDefinition = ComponentAnnotationReader
-                .getComponentDefinition(ClassWithComponentAnnotatedAnnotations.class
-                        .getMethod("annotatedWithoutComponent")
-                        .getAnnotation(AnnotationWithoutComponentAnnotation.class),
-                                        ClassWithComponentAnnotatedAnnotations.class
-                                                .getMethod("annotatedWithoutComponent"));
+    @Test
+    public void testGetComponentDefinition_MethodAnnotatedWithoutComponentAnnotation() throws Exception {
+        Method method = ClassWithComponentAnnotatedAnnotations.class.getMethod("annotatedWithoutComponent");
+        AnnotationWithoutComponentAnnotation annotation = method
+                .getAnnotation(AnnotationWithoutComponentAnnotation.class);
+        try {
+            ComponentAnnotationReader.getComponentDefinition(annotation, method);
+            fail("expected an " + IllegalArgumentException.class.getSimpleName());
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), containsString(AnnotationWithoutComponentAnnotation.class.getSimpleName()));
+            assertThat(e.getMessage(), containsString("annotatedWithoutComponent"));
+            assertThat(e.getMessage(), containsString("isComponentDefinition"));
+        }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testReadComponentAnnotation_MethodAnnotatedWithInvalidComponentAnnotation() throws Exception {
-        @SuppressWarnings("unused")
-        LinkkiComponentDefinition componentDefinition = ComponentAnnotationReader
-                .getComponentDefinition(ClassWithComponentAnnotatedAnnotations.class
-                        .getMethod("annotatedWithInvalidComponentAnnotation")
-                        .getAnnotation(AnnotationWithInvalidCreator.class),
-                                        ClassWithComponentAnnotatedAnnotations.class
-                                                .getMethod("annotatedWithInvalidComponentAnnotation"));
+    @Test
+    public void testGetComponentDefinition_MethodAnnotatedWithInvalidComponentAnnotation() throws Exception {
+        Method method = ClassWithComponentAnnotatedAnnotations.class
+                .getMethod("annotatedWithInvalidComponentAnnotation");
+        AnnotationWithInvalidCreator annotation = method
+                .getAnnotation(AnnotationWithInvalidCreator.class);
+        try {
+            ComponentAnnotationReader.getComponentDefinition(annotation, method);
+            fail("expected an " + IllegalArgumentException.class.getSimpleName());
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), containsString(AnnotationWithInvalidCreator.Creator.class.getSimpleName()));
+        }
     }
 
     @Test

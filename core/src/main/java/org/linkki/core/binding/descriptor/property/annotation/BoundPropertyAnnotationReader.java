@@ -70,7 +70,10 @@ public final class BoundPropertyAnnotationReader {
     public static BoundProperty getBoundProperty(AnnotatedElement annotatedElement) {
         return findBoundProperty(annotatedElement)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("%s has no annotation that defines a %s", annotatedElement,
+                        String.format("%s has no annotation that defines a %s. You can call "
+                                + BoundPropertyAnnotationReader.class.getSimpleName()
+                                + "#isBoundPropertyPresent(AnnotatedElement) to safeguard against this.",
+                                      annotatedElement,
                                       BoundPropertyCreator.class.getName())));
     }
 
@@ -93,7 +96,11 @@ public final class BoundPropertyAnnotationReader {
 
     private static <A extends Annotation> BoundProperty getBoundProperty(A annotation,
             AnnotatedElement annotatedElement) {
-        LinkkiBoundProperty boundProperty = BOUND_PROPERTY_ANNOTATION.getFrom(annotation);
+        LinkkiBoundProperty boundProperty = BOUND_PROPERTY_ANNOTATION.findOn(annotation)
+                .orElseThrow(BOUND_PROPERTY_ANNOTATION
+                        .missingAnnotation(annotation, annotatedElement,
+                                           BoundPropertyAnnotationReader.class.getSimpleName()
+                                                   + "#isBoundPropertyPresent(AnnotatedElement)"));
         @SuppressWarnings("unchecked")
         Class<BoundPropertyCreator<A>> creatorClass = (Class<BoundPropertyCreator<A>>)boundProperty
                 .value();

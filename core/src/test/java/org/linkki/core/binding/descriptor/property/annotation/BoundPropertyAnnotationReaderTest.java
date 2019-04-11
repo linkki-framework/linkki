@@ -14,9 +14,11 @@
 
 package org.linkki.core.binding.descriptor.property.annotation;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -65,9 +67,16 @@ public class BoundPropertyAnnotationReaderTest {
                 .getField("componentWithMultipleBoundProperties")));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetBoundProperty_FailsIfNoBoundPropertyAnnotationPresent() throws Exception {
-        BoundPropertyAnnotationReader.getBoundProperty(BoundPropertyAnnotationReaderTest.class.getField("foo"));
+        try {
+            BoundPropertyAnnotationReader.getBoundProperty(BoundPropertyAnnotationReaderTest.class.getField("foo"));
+            fail("expected an " + IllegalArgumentException.class.getSimpleName());
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), containsString(BoundPropertyAnnotationReaderTest.class.getSimpleName()));
+            assertThat(e.getMessage(), containsString("foo"));
+            assertThat(e.getMessage(), containsString("isBoundPropertyPresent"));
+        }
     }
 
     @Test(expected = IllegalArgumentException.class)

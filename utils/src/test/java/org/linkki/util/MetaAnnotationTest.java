@@ -24,7 +24,6 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.linkki.test.matcher.Matchers.absent;
 import static org.linkki.test.matcher.Matchers.assertThat;
@@ -84,16 +83,16 @@ public class MetaAnnotationTest {
     }
 
     @Test
-    public void testGetFrom() {
-        MetaMarkerAnnotation metaMarkerAnnotation = new MetaAnnotation<>(MetaMarkerAnnotation.class)
-                .getFrom(annotatedAnnotation);
-        assertNotNull(metaMarkerAnnotation);
-        assertThat(metaMarkerAnnotation.value(), is("foo"));
+    public void testFindOn() {
+        Optional<MetaMarkerAnnotation> metaMarkerAnnotation = new MetaAnnotation<>(MetaMarkerAnnotation.class)
+                .findOn(annotatedAnnotation);
+        assertThat(metaMarkerAnnotation.isPresent());
+        assertThat(metaMarkerAnnotation.get().value(), is("foo"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetFrom_NotPresent() {
-        new MetaAnnotation<>(MetaMarkerAnnotation.class).getFrom(blankAnnotation);
+    @Test
+    public void testFindOn_NotPresent() {
+        assertThat(new MetaAnnotation<>(MetaMarkerAnnotation.class).findOn(blankAnnotation), is(absent()));
     }
 
     @Test
