@@ -13,7 +13,7 @@
  */
 package org.linkki.core.ui.layout.annotation;
 
-import org.linkki.core.ui.component.section.CustomLayoutSection;
+import org.linkki.core.vaadin.component.section.CustomLayoutSection;
 
 /**
  * The options for the layout pattern of a section

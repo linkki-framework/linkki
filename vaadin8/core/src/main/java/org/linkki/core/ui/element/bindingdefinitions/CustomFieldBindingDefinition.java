@@ -17,10 +17,10 @@ import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UICustomField;
 
 import com.vaadin.ui.Component;

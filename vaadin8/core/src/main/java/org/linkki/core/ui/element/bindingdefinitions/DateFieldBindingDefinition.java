@@ -19,12 +19,12 @@ import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
-import org.linkki.core.ui.component.ComponentFactory;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.uiframework.UiFramework;
+import org.linkki.core.vaadin.component.ComponentFactory;
 import org.linkki.util.DateFormats;
 
 import com.vaadin.ui.Component;

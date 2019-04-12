@@ -29,9 +29,9 @@ import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.core.ui.component.section.AbstractSection;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.creation.table.container.LinkkiInMemoryContainer;
+import org.linkki.core.vaadin.component.section.AbstractSection;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;

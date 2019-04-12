@@ -23,12 +23,12 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
-import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
-import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.TooltipType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.element.annotation.UICustomFieldIntegrationTest.ComponentAnnotationTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;

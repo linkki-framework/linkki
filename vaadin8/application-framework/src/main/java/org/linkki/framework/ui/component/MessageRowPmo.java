@@ -21,9 +21,9 @@ import java.util.List;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.defaults.style.LinkkiTheme;
-import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
-import org.linkki.core.defaults.ui.element.aspects.types.TooltipType;
-import org.linkki.core.ui.element.annotation.BindStyleNames;
+import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.aspects.types.TooltipType;
+import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 

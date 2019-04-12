@@ -21,14 +21,14 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.pmo.SectionID;
-import org.linkki.core.ui.component.section.BaseSection;
-import org.linkki.core.ui.component.section.CustomLayoutSection;
-import org.linkki.core.ui.component.section.FormSection;
-import org.linkki.core.ui.component.section.HorizontalSection;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.vaadin.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.CustomLayoutSection;
+import org.linkki.core.vaadin.component.section.FormSection;
+import org.linkki.core.vaadin.component.section.HorizontalSection;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;

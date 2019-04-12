@@ -19,8 +19,8 @@ import java.time.Period;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
-import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;

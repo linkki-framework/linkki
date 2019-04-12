@@ -16,7 +16,7 @@ package org.linkki.core.ui.creation.section;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
 
 /**
  * Object holding the state about PMO and binding context, as well as the property dispatcher in use,

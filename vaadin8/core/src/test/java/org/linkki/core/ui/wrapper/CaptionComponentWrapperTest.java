@@ -26,7 +26,6 @@ import org.junit.Test;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.server.ErrorMessage;

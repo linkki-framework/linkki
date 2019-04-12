@@ -18,9 +18,9 @@ import java.util.function.Consumer;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.component.area.TabSheetArea;
-import org.linkki.core.ui.component.page.AbstractPage;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.vaadin.component.area.TabSheetArea;
+import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.samples.treetable.dynamic.model.Bundesliga;
 import org.linkki.samples.treetable.dynamic.model.League;
 import org.linkki.samples.treetable.dynamic.pmo.LeagueTablePmo;
@@ -31,6 +31,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
 
 @Theme(value = "valo")

@@ -29,9 +29,9 @@ import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.Bi
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;

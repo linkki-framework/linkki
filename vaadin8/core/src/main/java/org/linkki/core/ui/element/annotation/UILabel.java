@@ -13,7 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.linkki.core.defaults.ui.element.aspects.types.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,12 +28,12 @@ import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.Bi
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
-import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.element.annotation.UILabel.LabelAspectDefinitionCreator;
-import org.linkki.core.ui.element.aspects.LabelAspectDefinition;
-import org.linkki.core.ui.element.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.LabelBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;

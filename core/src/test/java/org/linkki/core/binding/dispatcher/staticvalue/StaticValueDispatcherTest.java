@@ -27,8 +27,8 @@ import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.defaults.section.annotations.TestUIField;
-import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 

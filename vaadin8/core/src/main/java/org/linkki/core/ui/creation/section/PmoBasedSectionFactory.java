@@ -24,9 +24,6 @@ import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.nls.PmoNlsService;
-import org.linkki.core.ui.component.section.AbstractSection;
-import org.linkki.core.ui.component.section.BaseSection;
-import org.linkki.core.ui.component.section.TableSection;
 import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
@@ -38,6 +35,9 @@ import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LayoutAnnotationReader;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
+import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.TableSection;
 
 /**
  * Base class for a factory to create sections based on an annotated PMO.

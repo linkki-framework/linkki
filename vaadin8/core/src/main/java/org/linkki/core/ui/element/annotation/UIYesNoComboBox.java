@@ -13,9 +13,9 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.linkki.core.defaults.ui.element.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.element.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.element.aspects.types.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -32,14 +32,14 @@ import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundPropert
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.nls.NlsText;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
-import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxAvailableValuesAspectCreator;
-import org.linkki.core.ui.element.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.YesNoComboBoxBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;

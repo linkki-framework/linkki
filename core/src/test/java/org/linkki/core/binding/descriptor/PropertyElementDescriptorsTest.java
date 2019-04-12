@@ -35,10 +35,10 @@ import org.junit.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 
 public class PropertyElementDescriptorsTest {
 

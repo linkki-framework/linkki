@@ -13,8 +13,8 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.linkki.core.defaults.ui.element.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.element.aspects.types.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -29,15 +29,15 @@ import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.Bi
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
-import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.CaptionType;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.types.CaptionType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
+import org.linkki.core.ui.aspects.ButtonInvokeAspectDefinition;
+import org.linkki.core.ui.aspects.CaptionAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.element.annotation.UIButton.UIButtonAspectDefinitionCreator;
-import org.linkki.core.ui.element.aspects.ButtonInvokeAspectDefinition;
-import org.linkki.core.ui.element.aspects.CaptionAspectDefinition;
-import org.linkki.core.ui.element.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.ButtonBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;

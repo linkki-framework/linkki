@@ -22,7 +22,7 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.AbstractPropertyDispatcherDecorator;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.util.function.TriPredicate;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;

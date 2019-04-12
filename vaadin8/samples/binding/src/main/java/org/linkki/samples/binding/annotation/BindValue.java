@@ -30,7 +30,7 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.pmo.ModelObject;
-import org.linkki.core.ui.element.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.aspects.ValueAspectDefinition;
 import org.linkki.samples.binding.annotation.BindValue.BindFieldValueAspectDefinitionCreator;
 import org.linkki.samples.binding.annotation.BindValue.BindValueAnnotationBoundPropertyCreator;
 

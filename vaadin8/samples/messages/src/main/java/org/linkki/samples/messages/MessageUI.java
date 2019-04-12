@@ -14,9 +14,9 @@
 package org.linkki.samples.messages;
 
 import org.linkki.core.binding.manager.BindingManager;
-import org.linkki.core.ui.component.section.AbstractSection;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.samples.messages.binding.RegistrationBindingManager;
 import org.linkki.samples.messages.components.MessagesPanel;
 import org.linkki.samples.messages.model.User;

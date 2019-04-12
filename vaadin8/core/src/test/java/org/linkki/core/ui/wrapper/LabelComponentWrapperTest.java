@@ -33,7 +33,6 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.ui.bind.TestEnum;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 

@@ -14,7 +14,7 @@
 package org.linkki.samples.binding.components;
 
 import org.linkki.core.binding.Binder;
-import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.bind.annotation.Bind;
 import org.linkki.samples.binding.annotation.BindValue;
 import org.linkki.samples.binding.model.Address;

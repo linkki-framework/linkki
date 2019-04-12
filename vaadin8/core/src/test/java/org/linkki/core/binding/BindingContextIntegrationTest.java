@@ -38,11 +38,11 @@ import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.bind.MockUi;
-import org.linkki.core.ui.component.page.AbstractPage;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.test.TestButtonPmo;
+import org.linkki.core.vaadin.component.page.AbstractPage;
 
 import com.vaadin.ui.UI;
 

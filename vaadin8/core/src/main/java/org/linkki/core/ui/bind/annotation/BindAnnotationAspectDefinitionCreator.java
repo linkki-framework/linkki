@@ -20,14 +20,14 @@ import static org.linkki.core.binding.descriptor.aspect.base.ApplicableTypeAspec
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
-import org.linkki.core.ui.element.aspects.ButtonInvokeAspectDefinition;
-import org.linkki.core.ui.element.aspects.DerivedReadOnlyAspectDefinition;
-import org.linkki.core.ui.element.aspects.HasItemsAvailableValuesAspectDefinition;
-import org.linkki.core.ui.element.aspects.LabelValueAspectDefinition;
-import org.linkki.core.ui.element.aspects.RequiredAspectDefinition;
-import org.linkki.core.ui.element.aspects.ValueAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
+import org.linkki.core.ui.aspects.ButtonInvokeAspectDefinition;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.HasItemsAvailableValuesAspectDefinition;
+import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
+import org.linkki.core.ui.aspects.ValueAspectDefinition;
 
 import com.vaadin.data.HasItems;
 import com.vaadin.data.HasValue;

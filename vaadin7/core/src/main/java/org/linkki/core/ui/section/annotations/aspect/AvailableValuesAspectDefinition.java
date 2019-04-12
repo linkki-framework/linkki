@@ -27,8 +27,8 @@ import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCrea
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.container.LinkkiInMemoryContainer;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
-import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.Property;

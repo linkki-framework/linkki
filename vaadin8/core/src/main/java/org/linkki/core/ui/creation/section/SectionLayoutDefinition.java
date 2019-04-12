@@ -2,10 +2,10 @@ package org.linkki.core.ui.creation.section;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.section.Sections;
-import org.linkki.core.ui.component.section.BaseSection;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
+import org.linkki.core.vaadin.component.section.BaseSection;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;

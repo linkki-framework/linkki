@@ -23,9 +23,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.component.section.AbstractSection;
-import org.linkki.core.ui.component.section.FormSection;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.FormSection;
 import org.linkki.util.StreamUtil;
 
 import com.vaadin.data.HasItems;

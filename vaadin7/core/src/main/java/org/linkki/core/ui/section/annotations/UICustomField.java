@@ -14,9 +14,9 @@
 package org.linkki.core.ui.section.annotations;
 
 import static org.linkki.core.binding.descriptor.aspect.base.ApplicableTypeAspectDefinition.ifComponentTypeIs;
-import static org.linkki.core.defaults.ui.element.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.element.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.element.aspects.types.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -30,10 +30,10 @@ import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.Bi
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
-import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.UICustomField.CustomFieldAvailableValuesAspectDefinitionCreator;
 import org.linkki.core.ui.section.annotations.adapters.CustomFieldBindingDefinition;

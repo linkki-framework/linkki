@@ -16,11 +16,11 @@ package org.linkki.core.ui.creation.section;
 
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.nls.PmoNlsService;
-import org.linkki.core.ui.component.section.BaseSection;
-import org.linkki.core.ui.component.section.CustomLayoutSection;
-import org.linkki.core.ui.component.section.FormSection;
-import org.linkki.core.ui.component.section.HorizontalSection;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
+import org.linkki.core.vaadin.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.CustomLayoutSection;
+import org.linkki.core.vaadin.component.section.FormSection;
+import org.linkki.core.vaadin.component.section.HorizontalSection;
 
 /**
  * Defines how {@link BaseSection} instances are created.

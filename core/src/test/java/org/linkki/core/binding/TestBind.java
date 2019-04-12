@@ -37,10 +37,10 @@ import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreat
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 
 /**

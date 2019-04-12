@@ -15,7 +15,7 @@ package org.linkki.samples.messages.pmo;
 
 import java.util.function.Consumer;
 
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.section.annotations.UIButton;

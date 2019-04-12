@@ -21,11 +21,11 @@ import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCrea
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
-import org.linkki.core.ui.element.aspects.DerivedReadOnlyAspectDefinition;
-import org.linkki.core.ui.element.aspects.LabelAspectDefinition;
-import org.linkki.core.ui.element.aspects.RequiredAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 
 /**
  * Aspect definition creator for all annotations that are annotated with
