@@ -28,8 +28,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 public final class LayoutAnnotationReader {
 
-    private static final MetaAnnotation<LinkkiLayout> LINKKI_LAYOUT_ANNOTATION = new MetaAnnotation<>(
-            LinkkiLayout.class);
+    private static final MetaAnnotation<LinkkiLayout> LINKKI_LAYOUT_ANNOTATION = MetaAnnotation.of(LinkkiLayout.class);
 
     private LayoutAnnotationReader() {
         // do not instantiate

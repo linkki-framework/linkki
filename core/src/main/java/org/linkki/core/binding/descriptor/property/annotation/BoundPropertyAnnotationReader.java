@@ -28,8 +28,8 @@ import org.linkki.util.MetaAnnotation;
  */
 public final class BoundPropertyAnnotationReader {
 
-    private static final MetaAnnotation<LinkkiBoundProperty> BOUND_PROPERTY_ANNOTATION = new MetaAnnotation<>(
-            LinkkiBoundProperty.class);
+    private static final MetaAnnotation<LinkkiBoundProperty> BOUND_PROPERTY_ANNOTATION = MetaAnnotation
+            .of(LinkkiBoundProperty.class);
 
     private BoundPropertyAnnotationReader() {
         // do not instantiate

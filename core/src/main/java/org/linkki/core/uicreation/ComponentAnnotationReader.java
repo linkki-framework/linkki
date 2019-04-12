@@ -31,8 +31,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 public final class ComponentAnnotationReader {
 
-    private static final MetaAnnotation<LinkkiComponent> LINKKI_COMPONENT_ANNOTATION = new MetaAnnotation<>(
-            LinkkiComponent.class);
+    private static final MetaAnnotation<LinkkiComponent> LINKKI_COMPONENT_ANNOTATION = MetaAnnotation
+            .of(LinkkiComponent.class);
 
     private ComponentAnnotationReader() {
         // do not instantiate

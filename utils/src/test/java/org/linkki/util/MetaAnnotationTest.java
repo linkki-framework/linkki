@@ -30,6 +30,8 @@ import static org.linkki.test.matcher.Matchers.assertThat;
 import static org.linkki.test.matcher.Matchers.present;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.List;
@@ -44,60 +46,109 @@ public class MetaAnnotationTest {
     private final AnnotatedAnnotation annotatedAnnotation = ClassAnnotatedWithAnnotatedAnnotation.class
             .getAnnotation(AnnotatedAnnotation.class);
 
+    private final AnnotatedAnnotation2 annotatedAnnotation2 = ClassAnnotatedWithMultipleAnnotatedAnnotations.class
+            .getAnnotation(AnnotatedAnnotation2.class);
+
     private final BlankAnnotation blankAnnotation = ClassAnnotatedWithBlankAnnotation.class
             .getAnnotation(BlankAnnotation.class);
 
     @Test
     public void testIsPresentOn() {
-        assertThat(new MetaAnnotation<>(MetaMarkerAnnotation.class).isPresentOn(annotatedAnnotation));
+        assertThat(MetaAnnotation.of(MetaMarkerAnnotation.class).isPresentOn(annotatedAnnotation));
+    }
+
+    @Test
+    public void testIsPresentOn_Repeatable() {
+        assertThat(MetaAnnotation.of(RepeatableMetaMarkerAnnotation.class).isPresentOn(annotatedAnnotation2));
     }
 
     @Test
     public void testIsPresentOn_Not() {
-        assertThat(new MetaAnnotation<>(MetaMarkerAnnotation.class).isPresentOn(blankAnnotation), is(false));
+        assertThat(MetaAnnotation.of(MetaMarkerAnnotation.class).isPresentOn(blankAnnotation), is(false));
     }
 
     @Test
     public void testIsPresentOn_Null() {
-        assertThat(new MetaAnnotation<>(MetaMarkerAnnotation.class).isPresentOn(null), is(false));
+        assertThat(MetaAnnotation.of(MetaMarkerAnnotation.class).isPresentOn(null), is(false));
     }
 
     @Test
     public void testIsPresentOnAnyAnnotationOn_Single() {
-        assertThat(new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        assertThat(MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .isPresentOnAnyAnnotationOn(ClassAnnotatedWithAnnotatedAnnotation.class));
     }
 
     @Test
     public void testIsPresentOnAnyAnnotationOn_Multiple() {
-        assertThat(new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        assertThat(MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .isPresentOnAnyAnnotationOn(ClassAnnotatedWithMultipleAnnotatedAnnotations.class));
     }
 
     @Test
     public void testIsPresentOnAnyAnnotationOn_None() {
-        assertThat(new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        assertThat(MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .isPresentOnAnyAnnotationOn(ClassAnnotatedWithBlankAnnotation.class), is(false));
-        assertThat(new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        assertThat(MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .isPresentOnAnyAnnotationOn(String.class), is(false));
     }
 
     @Test
     public void testFindOn() {
-        Optional<MetaMarkerAnnotation> metaMarkerAnnotation = new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        Optional<MetaMarkerAnnotation> metaMarkerAnnotation = MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .findOn(annotatedAnnotation);
         assertThat(metaMarkerAnnotation.isPresent());
         assertThat(metaMarkerAnnotation.get().value(), is("foo"));
     }
 
     @Test
+    public void testFindOn_Repeatable_Single() {
+        AnnotatedAnnotation3 annotatedAnnotation3 = ClassAnnotatedWithMultipleAnnotatedAnnotations.class
+                .getAnnotation(AnnotatedAnnotation3.class);
+        Optional<RepeatableMetaMarkerAnnotation> metaMarkerAnnotation = MetaAnnotation.of(
+                                                                                          RepeatableMetaMarkerAnnotation.class)
+                .findOn(annotatedAnnotation3);
+        assertThat(metaMarkerAnnotation.isPresent());
+        assertThat(metaMarkerAnnotation.get().value(), is("single"));
+    }
+
+    @Test
+    public void testFindOn_Repeatable_Multiple() {
+        try {
+            MetaAnnotation.of(RepeatableMetaMarkerAnnotation.class).findOn(annotatedAnnotation2);
+            fail("expected an " + IllegalArgumentException.class.getSimpleName());
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), containsString(AnnotatedAnnotation2.class.getSimpleName()));
+            assertThat(e.getMessage(), containsString(RepeatableMetaMarkerAnnotation.class.getSimpleName()));
+            assertThat(e.getMessage(), containsString("findAllOn"));
+        }
+    }
+
+    @Test
     public void testFindOn_NotPresent() {
-        assertThat(new MetaAnnotation<>(MetaMarkerAnnotation.class).findOn(blankAnnotation), is(absent()));
+        assertThat(MetaAnnotation.of(MetaMarkerAnnotation.class).findOn(blankAnnotation), is(absent()));
+    }
+
+    @Test
+    public void testFindAllOn() {
+        List<MetaMarkerAnnotation> metaMarkerAnnotation = MetaAnnotation.of(MetaMarkerAnnotation.class)
+                .findAllOn(annotatedAnnotation).collect(Collectors.toList());
+        assertThat(metaMarkerAnnotation, hasSize(1));
+        assertThat(metaMarkerAnnotation.get(0).value(), is("foo"));
+    }
+
+    @Test
+    public void testFindAllOn_Repeatable() {
+        List<RepeatableMetaMarkerAnnotation> metaMarkerAnnotation = MetaAnnotation.of(
+                                                                                      RepeatableMetaMarkerAnnotation.class)
+                .findAllOn(annotatedAnnotation2).collect(Collectors.toList());
+        assertThat(metaMarkerAnnotation, hasSize(2));
+        assertThat(metaMarkerAnnotation.get(0).value(), is("baz"));
+        assertThat(metaMarkerAnnotation.get(1).value(), is("bak"));
     }
 
     @Test
     public void testFindAnnotatedAnnotationsOn_Single() {
-        List<Annotation> annotatedAnnotations = new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        List<Annotation> annotatedAnnotations = MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .findAnnotatedAnnotationsOn(ClassAnnotatedWithAnnotatedAnnotation.class).collect(Collectors.toList());
         assertThat(annotatedAnnotations, hasSize(1));
         assertThat(annotatedAnnotations, contains(instanceOf(AnnotatedAnnotation.class)));
@@ -106,7 +157,7 @@ public class MetaAnnotationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testFindAnnotatedAnnotationsOn_Multiple() {
-        List<Annotation> annotatedAnnotations = new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        List<Annotation> annotatedAnnotations = MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .findAnnotatedAnnotationsOn(ClassAnnotatedWithMultipleAnnotatedAnnotations.class)
                 .collect(Collectors.toList());
         assertThat(annotatedAnnotations, hasSize(2));
@@ -116,23 +167,23 @@ public class MetaAnnotationTest {
 
     @Test
     public void testFindAnnotatedAnnotationsOn_None() {
-        List<Annotation> annotatedAnnotations = new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        List<Annotation> annotatedAnnotations = MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .findAnnotatedAnnotationsOn(ClassAnnotatedWithBlankAnnotation.class).collect(Collectors.toList());
         assertThat(annotatedAnnotations, is(empty()));
     }
 
     @Test
     public void testOnlyOneOn_Single() {
-        BinaryOperator<Annotation> onlyOneOn = new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        BinaryOperator<Annotation> onlyOneOn = MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .onlyOneOn(ClassAnnotatedWithMultipleAnnotatedAnnotations.class);
-        Optional<Annotation> optionalAnnotation = new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        Optional<Annotation> optionalAnnotation = MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .findAnnotatedAnnotationsOn(ClassAnnotatedWithAnnotatedAnnotation.class).reduce(onlyOneOn);
         assertThat(optionalAnnotation, is(present()));
     }
 
     @Test
     public void testOnlyOneOn_Multiple() {
-        BinaryOperator<Annotation> onlyOneOn = new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        BinaryOperator<Annotation> onlyOneOn = MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .onlyOneOn(ClassAnnotatedWithMultipleAnnotatedAnnotations.class);
         try {
             onlyOneOn.apply(blankAnnotation, annotatedAnnotation);
@@ -145,11 +196,45 @@ public class MetaAnnotationTest {
 
     @Test
     public void testOnlyOneOn_None() {
-        BinaryOperator<Annotation> onlyOneOn = new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        BinaryOperator<Annotation> onlyOneOn = MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .onlyOneOn(ClassAnnotatedWithBlankAnnotation.class);
-        Optional<Annotation> optionalAnnotation = new MetaAnnotation<>(MetaMarkerAnnotation.class)
+        Optional<Annotation> optionalAnnotation = MetaAnnotation.of(MetaMarkerAnnotation.class)
                 .findAnnotatedAnnotationsOn(ClassAnnotatedWithBlankAnnotation.class).reduce(onlyOneOn);
         assertThat(optionalAnnotation, is(absent()));
+    }
+
+    @Test
+    public void testIsRepeatable() {
+        assertThat(MetaAnnotation.of(MetaMarkerAnnotation.class).isRepeatable(), is(false));
+        assertThat(MetaAnnotation.of(RepeatableMetaMarkerAnnotation.class).isRepeatable());
+    }
+
+    @Test
+    public void testOf_NoTarget() {
+        try {
+            MetaAnnotation.of(NoTargetAnnotation.class);
+            fail("expected a " + IllegalArgumentException.class.getSimpleName());
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), containsString(NoTargetAnnotation.class.getSimpleName()));
+            assertThat(e.getMessage(), containsString(Target.class.getSimpleName()));
+        }
+    }
+
+    @Test
+    public void testOf_WrongTarget() {
+        try {
+            MetaAnnotation.of(Test.class);
+            fail("expected a " + IllegalArgumentException.class.getSimpleName());
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), containsString(Test.class.getSimpleName()));
+            assertThat(e.getMessage(), containsString(Target.class.getSimpleName()));
+            assertThat(e.getMessage(), containsString(ElementType.METHOD.toString()));
+            assertThat(e.getMessage(), containsString(ElementType.ANNOTATION_TYPE.toString()));
+        }
+    }
+
+    public @interface NoTargetAnnotation {
+        // test
     }
 
     @Retention(RUNTIME)
@@ -169,6 +254,19 @@ public class MetaAnnotationTest {
         String value();
     }
 
+    @Retention(RUNTIME)
+    @Target(ANNOTATION_TYPE)
+    @Repeatable(RepeatableMetaMarkerAnnotations.class)
+    public @interface RepeatableMetaMarkerAnnotation {
+        String value();
+    }
+
+    @Retention(RUNTIME)
+    @Target(ANNOTATION_TYPE)
+    public @interface RepeatableMetaMarkerAnnotations {
+        RepeatableMetaMarkerAnnotation[] value();
+    }
+
     @MetaMarkerAnnotation("foo")
     @Retention(RUNTIME)
     @Target(TYPE)
@@ -177,9 +275,18 @@ public class MetaAnnotationTest {
     }
 
     @MetaMarkerAnnotation("bar")
+    @RepeatableMetaMarkerAnnotation("baz")
+    @RepeatableMetaMarkerAnnotation("bak")
     @Retention(RUNTIME)
     @Target(TYPE)
     public @interface AnnotatedAnnotation2 {
+        // test
+    }
+
+    @RepeatableMetaMarkerAnnotation("single")
+    @Retention(RUNTIME)
+    @Target(TYPE)
+    public @interface AnnotatedAnnotation3 {
         // test
     }
 
@@ -190,6 +297,7 @@ public class MetaAnnotationTest {
 
     @AnnotatedAnnotation
     @AnnotatedAnnotation2
+    @AnnotatedAnnotation3
     static class ClassAnnotatedWithMultipleAnnotatedAnnotations {
         // test
     }

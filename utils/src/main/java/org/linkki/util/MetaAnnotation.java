@@ -16,6 +16,7 @@ package org.linkki.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
@@ -35,9 +36,44 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public class MetaAnnotation<META extends Annotation> {
 
     private final Class<META> metaAnnotationClass;
+    private final boolean repeatable;
 
-    public MetaAnnotation(Class<META> metaAnnotationClass) {
+    private MetaAnnotation(Class<META> metaAnnotationClass) {
         this.metaAnnotationClass = metaAnnotationClass;
+        repeatable = metaAnnotationClass.isAnnotationPresent(Repeatable.class);
+    }
+
+    /**
+     * Creates a new {@link MetaAnnotation MetaAnnotation&lt;META&gt;} from the given {@link Annotation}
+     * class.
+     * 
+     * @param <META> the meta-annotation class
+     * @param metaAnnotationClass the meta-annotation class
+     * @return a {@link MetaAnnotation} for the {@code metaAnnotationClass}
+     * @throws IllegalArgumentException if the given {@link Annotation} class is not a meta-annotation
+     */
+    public static <META extends Annotation> MetaAnnotation<META> of(Class<META> metaAnnotationClass) {
+        Target target = metaAnnotationClass.getAnnotation(Target.class);
+        if (target == null) {
+            throw new IllegalArgumentException(
+                    metaAnnotationClass.getSimpleName() + " has no @" + Target.class.getSimpleName() + " annotation");
+        }
+        if (Arrays.stream(target.value()).noneMatch(t -> t == ElementType.ANNOTATION_TYPE || t == ElementType.TYPE)) {
+            throw new IllegalArgumentException(
+                    metaAnnotationClass.getSimpleName() + " is no meta-annotation. @" + Target.class.getSimpleName()
+                            + " is " + Arrays.toString(target.value()) + " but should be "
+                            + ElementType.ANNOTATION_TYPE);
+        }
+        return new MetaAnnotation<>(metaAnnotationClass);
+    }
+
+    /**
+     * Returns {@code true} if the meta-annotation is {@link Repeatable @Repeatable}.
+     * 
+     * @return whether the meta-annotation is {@link Repeatable @Repeatable}
+     */
+    public boolean isRepeatable() {
+        return repeatable;
     }
 
     /**
@@ -61,17 +97,44 @@ public class MetaAnnotation<META extends Annotation> {
      * @return whether the meta-annotation is present on the given {@link Annotation}
      */
     public boolean isPresentOn(@CheckForNull Annotation annotation) {
-        return annotation != null && annotation.annotationType().isAnnotationPresent(metaAnnotationClass);
+        if (annotation != null) {
+            return repeatable
+                    ? annotation.annotationType().getAnnotationsByType(metaAnnotationClass).length > 0
+                    : annotation.annotationType().isAnnotationPresent(metaAnnotationClass);
+        } else {
+            return false;
+        }
     }
 
     /**
      * Returns the meta-annotation if it is present on the given {@link Annotation}.
+     * <p>
+     * If this meta-annotation {@link #isRepeatable() is repeatable}, this method returns an
+     * {@link Optional} with the single meta-annotation if it was not repeated but throws an
+     * {@link IllegalArgumentException} if it was.
+     * 
+     * @param annotation an {@link Annotation}
+     * @return the meta-annotation instance, if the annotation is annotated with it
+     * @throws IllegalArgumentException if the meta-annotation is repeatable and present multiple times.
+     * @see #findAllOn(Annotation) findAllOn(Annotation) for repeatable annotations
+     */
+    public Optional<META> findOn(Annotation annotation) {
+        return repeatable ? findAllOn(annotation).reduce((a1, a2) -> {
+            throw new IllegalArgumentException(annotation.annotationType() + " has multiple @"
+                    + metaAnnotationClass.getSimpleName() + " annotations. Please use "
+                    + MetaAnnotation.class.getSimpleName() + "#findAllOn(Annotation) for repeatable annotations.");
+        })
+                : Optional.ofNullable(annotation.annotationType().getAnnotation(metaAnnotationClass));
+    }
+
+    /**
+     * Returns all meta-annotations present on the given {@link Annotation}.
      * 
      * @param annotation an {@link Annotation}
      * @return the meta-annotation instance, if the annotation is annotated with it
      */
-    public Optional<META> findOn(Annotation annotation) {
-        return Optional.ofNullable(annotation.annotationType().getAnnotation(metaAnnotationClass));
+    public Stream<META> findAllOn(Annotation annotation) {
+        return Arrays.stream(annotation.annotationType().getAnnotationsByType(metaAnnotationClass));
     }
 
     /**
@@ -102,7 +165,7 @@ public class MetaAnnotation<META extends Annotation> {
      *         a stream of annotations as returned by
      *         {@link #findAnnotatedAnnotationsOn(AnnotatedElement)}
      */
-    public BinaryOperator<Annotation> onlyOneOn(AnnotatedElement annotatedElement) {
+    public <A extends Annotation> BinaryOperator<A> onlyOneOn(AnnotatedElement annotatedElement) {
         return (a1, a2) -> {
             throw new IllegalArgumentException(annotatedElement + " has multiple annotations with a @"
                     + metaAnnotationClass.getSimpleName() + " annotation");
