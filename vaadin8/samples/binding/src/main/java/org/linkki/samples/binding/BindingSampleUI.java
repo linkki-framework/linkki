@@ -42,7 +42,7 @@ public class BindingSampleUI extends UI {
     private static final long serialVersionUID = 42L;
 
     // can be switched with URL parameters:
-    // http://localhost:8080/linkki-binding-sample-1.0-SNAPSHOT/?editMode=READ_ONLY
+    // http://localhost:8080/linkki-sample-binding-vaadin8/?editMode=READ_ONLY
     private EditMode editMode = EditMode.EDIT;
 
     private static final List<Contact> PERSON_STORAGE = new ArrayList<>();
@@ -64,9 +64,9 @@ public class BindingSampleUI extends UI {
         BindingContext context = bindingManager.startNewContext("binding-sample");
 
         ContactComponent contactComponent = new ContactComponent(p -> save(p, PERSON_STORAGE), context);
-
         ContactsTableComponent contactsTable = new ContactsTableComponent(PERSON_STORAGE, contactComponent::editContact,
                 context);
+        // Make ContactsTableComponent call uiUpdated explicitly to switch between label or table
         bindingManager.addUiUpdateObserver(contactsTable);
 
         HorizontalSplitPanel panel = new HorizontalSplitPanel(contactComponent, contactsTable);

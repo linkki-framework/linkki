@@ -21,7 +21,7 @@
     </modules>
 
     <properties>
-        <vaadin.version>8.7.0</vaadin.version>
+        <vaadin.version>8.7.2</vaadin.version>
     </properties>
 
     <dependencyManagement>

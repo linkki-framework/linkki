@@ -20,6 +20,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.manager.UiUpdateObserver;
 import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
 import org.linkki.samples.binding.model.Contact;
+import org.linkki.samples.binding.pmo.ContactRowPmo;
 import org.linkki.samples.binding.pmo.ContactTablePmo;
 
 import com.vaadin.ui.Label;
@@ -48,9 +49,12 @@ public class ContactsTableComponent extends Panel implements UiUpdateObserver {
         uiUpdated();
     }
 
+    @SuppressWarnings("deprecation")
     private void createContent(Consumer<Contact> editAction) {
         table = new PmoBasedTableFactory(new ContactTablePmo(contactStorage, editAction, contactStorage::remove),
                 context).createTable();
+        table.setSelectable(true);
+        table.addItemClickListener(e -> ((ContactRowPmo)e.getItemId()).edit());
 
         noContentLabel = new VerticalLayout(new Label("No contacts available"));
         noContentLabel.setMargin(true);
