@@ -22,7 +22,7 @@ public class Report {
 
     private Integer id;
 
-    private String description;
+    private String description = "";
 
     private ReportType type;
 

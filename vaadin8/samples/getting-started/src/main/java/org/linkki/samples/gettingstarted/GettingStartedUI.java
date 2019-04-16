@@ -15,8 +15,8 @@ package org.linkki.samples.gettingstarted;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
-import org.linkki.core.ui.component.section.AbstractSection;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.samples.gettingstarted.model.Report;
 import org.linkki.samples.gettingstarted.pmo.ReportSectionPmo;
 import org.linkki.util.handler.Handler;

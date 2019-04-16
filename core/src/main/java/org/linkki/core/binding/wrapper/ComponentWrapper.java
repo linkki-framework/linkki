@@ -19,7 +19,7 @@ import java.io.Serializable;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.defaults.ui.element.UiElementCreator;
+import org.linkki.core.uicreation.UiCreator;
 
 /**
  * This interface provides the most common API for a component in linkki. Besides the actual UI
@@ -32,7 +32,7 @@ public interface ComponentWrapper extends Serializable {
      * Specifies the ID of the component that is wrapped by this {@link ComponentWrapper}. The ID might
      * be specified by the framework and could be used to identify the component.
      * <p>
-     * The {@link UiElementCreator} sets this ID to the {@link BoundProperty#getPmoProperty() name of
+     * The {@link UiCreator} sets this ID to the {@link BoundProperty#getPmoProperty() name of
      * the presentation model property} bound to this component.
      * 
      * @param id the ID of the component

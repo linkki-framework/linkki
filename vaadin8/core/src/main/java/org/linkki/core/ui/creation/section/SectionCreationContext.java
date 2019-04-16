@@ -16,8 +16,7 @@ package org.linkki.core.ui.creation.section;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.component.section.BaseSection;
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory.SectionBuilder;
+import org.linkki.core.vaadin.component.section.BaseSection;
 
 /**
  * Object holding the state about PMO and binding context, as well as the property dispatcher in use,
@@ -30,15 +29,16 @@ import org.linkki.core.ui.creation.section.PmoBasedSectionFactory.SectionBuilder
 @Deprecated
 public class SectionCreationContext {
 
-    private SectionBuilder sectionBuilder;
+    private final Object pmo;
+    private BindingContext bindingContext;
 
     /**
      * @deprecated since January 2019. Use {@link PmoBasedSectionFactory} instead.
      */
     @Deprecated
     public SectionCreationContext(Object pmo, BindingContext bindingContext) {
-        sectionBuilder = new PmoBasedSectionFactory.SectionBuilder(requireNonNull(pmo, "pmo must not be null"),
-                requireNonNull(bindingContext, "bindingContext must not be null"));
+        this.pmo = requireNonNull(pmo, "pmo must not be null");
+        this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
     }
 
     /**
@@ -47,7 +47,7 @@ public class SectionCreationContext {
      */
     @Deprecated
     public BaseSection createSection() {
-        return (BaseSection)sectionBuilder.createSection();
+        return (BaseSection)PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
     }
 
 }

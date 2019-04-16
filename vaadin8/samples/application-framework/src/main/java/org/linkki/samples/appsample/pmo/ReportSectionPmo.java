@@ -20,7 +20,8 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.framework.ui.component.MessageUiComponents;
@@ -34,6 +35,7 @@ import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Notification;
 
 @UISection(caption = "Report")
+@BindTooltip("Create a report")
 public class ReportSectionPmo extends ReportPmo {
 
     private final Consumer<Report> addReport;

@@ -33,7 +33,7 @@ import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.pmo.ModelObject;
 import org.mockito.Mockito;
 

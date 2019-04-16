@@ -13,9 +13,9 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.linkki.core.defaults.ui.element.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.element.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.element.aspects.types.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,18 +26,23 @@ import java.util.List;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
-import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.element.annotation.UIComboBox.ComboBoxAvailableValuesAspectDefinitionCreator;
-import org.linkki.core.ui.element.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.ComboboxBindingDefinition;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.ui.ComboBox;
 
@@ -47,12 +52,16 @@ import com.vaadin.ui.ComboBox;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(ComboboxBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(ComboBoxAvailableValuesAspectDefinitionCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UIComboBox {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

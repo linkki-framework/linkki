@@ -14,9 +14,9 @@
 
 package org.linkki.samples.appsample.pmo;
 
-import org.linkki.core.ui.element.annotation.BindReadOnly;
-import org.linkki.core.ui.element.annotation.BindReadOnly.ReadOnlyType;
-import org.linkki.core.ui.element.annotation.BindStyleNames;
+import org.linkki.core.ui.aspects.annotation.BindReadOnly;
+import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
+import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.samples.appsample.model.Report;
 import org.linkki.samples.appsample.model.ReportType;

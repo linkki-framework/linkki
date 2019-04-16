@@ -16,9 +16,9 @@ package org.linkki.core.ui.section.annotations.adapters;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.util.ComponentFactory;
 
@@ -48,11 +48,6 @@ public class TextFieldBindingDefinition implements BindingDefinition {
             field.setMaxLength(uiTextField.maxLength());
         }
         return field;
-    }
-
-    @Override
-    public int position() {
-        return uiTextField.position();
     }
 
     @Override

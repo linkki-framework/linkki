@@ -54,7 +54,23 @@ public interface BoundPropertyCreator<T extends Annotation> {
      *            {@link LinkkiBoundProperty @LinkkiBoundProperty}
      * @param annotatedElement the element annotated with the annotation
      * @return the {@link BoundProperty} which describes the property names for the binding.
+     * 
+     * @see BoundProperty#of(java.lang.reflect.Method)
+     * @see BoundProperty#of(String)
      */
     BoundProperty createBoundProperty(T annotation, AnnotatedElement annotatedElement);
+
+    /**
+     * Creates an {@link BoundProperty#empty() empty BoundProperty}, so that any aspects bound to it use
+     * no prefix for their methods.
+     */
+    static class EmptyPropertyCreator implements BoundPropertyCreator<Annotation> {
+
+        @Override
+        public BoundProperty createBoundProperty(Annotation annotation, AnnotatedElement annotatedElement) {
+            return BoundProperty.empty();
+        }
+
+    }
 
 }

@@ -14,28 +14,15 @@
 
 package org.linkki.core.binding.uicreation;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-
 /**
  * Defines the creation of a component based on an annotation.
  */
-public interface LinkkiComponentDefinition<A extends Annotation> {
+@FunctionalInterface
+public interface LinkkiComponentDefinition {
 
     /**
-     * Creates a new component based on the given annotation.
+     * Creates a new component based on the given PMO.
      */
-    Object createComponent(A annotation, AnnotatedElement annotatedElement);
-
-    /**
-     * Defines the position of the created component in the parent layout.
-     * <p>
-     * When adding multiple components to a parent, the positions of all components are compared to
-     * determine the order in which they should be added. Note that the final positioning of the
-     * component depends on the parent layout.
-     * 
-     * @return a number indicating the position of the component in relation to others
-     */
-    int getPosition(A annotation);
+    Object createComponent(Object pmo);
 
 }

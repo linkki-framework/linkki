@@ -26,9 +26,9 @@ import java.lang.annotation.Target;
 
 import org.junit.Test;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.UICheckBox;
 import org.linkki.core.ui.section.annotations.UIComboBox;
@@ -181,11 +181,6 @@ class UITestBindingDefinition implements BindingDefinition {
     @Override
     public Component newComponent() {
         return null;
-    }
-
-    @Override
-    public int position() {
-        return 0;
     }
 
     @Override

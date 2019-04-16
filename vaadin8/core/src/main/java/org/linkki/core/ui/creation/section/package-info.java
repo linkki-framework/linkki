@@ -12,7 +12,7 @@
  * License.
  */
 /**
- * Creation of {@link org.linkki.core.ui.component.section.AbstractSection Sections}.
+ * Creation of {@link org.linkki.core.vaadin.component.section.AbstractSection Sections}.
  */
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)

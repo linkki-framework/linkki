@@ -19,7 +19,7 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.framework.ui.component.MessageListPanel;

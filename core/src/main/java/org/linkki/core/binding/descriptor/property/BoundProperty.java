@@ -14,10 +14,13 @@
 
 package org.linkki.core.binding.descriptor.property;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.util.BeanUtils;
 
 /**
  * Defines how to retrieve the name(s) of the presentation model object property and optionally the
@@ -46,6 +49,32 @@ public final class BoundProperty {
      */
     public static BoundProperty of(String pmoPropertyName) {
         return new BoundProperty(pmoPropertyName, ModelObject.DEFAULT_NAME, StringUtils.EMPTY);
+    }
+
+    /**
+     * Creates a {@link BoundProperty} for the given annotated Method. The PMO property is derived from
+     * the method name, the model object name is set to {@link ModelObject#DEFAULT_NAME} and the model
+     * attribute name is left empty.
+     */
+    public static BoundProperty of(Method annotatedMethod) {
+        return of(BeanUtils.getPropertyName(annotatedMethod));
+    }
+
+    /**
+     * Creates a {@link BoundProperty} with the given annotated field. The PMO property is derived from
+     * the field name, the model object name is set to {@link ModelObject#DEFAULT_NAME} and the model
+     * attribute name is left empty.
+     */
+    public static BoundProperty of(Field annotatedField) {
+        return of(annotatedField.getName());
+    }
+
+    /**
+     * Creates a {@link BoundProperty} for the empty String PMO property. That leads to all aspect
+     * methods using no prefix, for example {@code isEnabled() instead of is<PropertyName>Enabled()}.
+     */
+    public static BoundProperty empty() {
+        return of(StringUtils.EMPTY);
     }
 
     /**

@@ -27,13 +27,12 @@ import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
-import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.bind.annotation.Bind.BindAnnotationBoundPropertyCreator;
-import org.linkki.util.BeanUtils;
 
 /**
  * This annotation is used to bind manually created components with a PMO and optionally a model object.
@@ -109,27 +108,27 @@ public @interface Bind {
 
         @Override
         public BoundProperty createBoundProperty(Bind annotation, AnnotatedElement annotatedElement) {
-            return BoundProperty.of(getPmoProperty(annotation, annotatedElement))
+            return getPmoProperty(annotation, annotatedElement)
                     .withModelObject(annotation.modelObject())
                     .withModelAttribute(annotation.modelAttribute());
         }
 
-        private String getPmoProperty(Bind annotation, AnnotatedElement annotatedElement) {
-            String pmoProperty = annotation.pmoProperty();
-            if (StringUtils.isEmpty(pmoProperty)) {
+        private BoundProperty getPmoProperty(Bind annotation, AnnotatedElement annotatedElement) {
+            String pmoPropertyName = annotation.pmoProperty();
+            if (StringUtils.isEmpty(pmoPropertyName)) {
                 if (annotatedElement instanceof Method) {
-                    pmoProperty = BeanUtils.getPropertyName((Method)annotatedElement);
+                    return BoundProperty.of((Method)annotatedElement);
                 } else if (annotatedElement instanceof Field) {
-                    pmoProperty = ((Field)annotatedElement).getName();
+                    return BoundProperty.of((Field)annotatedElement);
                 } else {
                     throw new IllegalArgumentException("The @" + Bind.class.getSimpleName()
                             + " annotation only supports reading the property name from " + Field.class.getSimpleName()
                             + "s and " + Method.class.getSimpleName() + "s");
                 }
+            } else {
+                return BoundProperty.of(pmoPropertyName);
             }
-            return pmoProperty;
         }
-
     }
 
 }

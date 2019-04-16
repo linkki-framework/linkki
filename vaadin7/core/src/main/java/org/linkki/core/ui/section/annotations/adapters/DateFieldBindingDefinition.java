@@ -19,9 +19,9 @@ import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.section.annotations.UIDateField;
 import org.linkki.core.ui.util.ComponentFactory;
 import org.linkki.core.uiframework.UiFramework;
@@ -51,11 +51,6 @@ public class DateFieldBindingDefinition implements BindingDefinition {
             dateField.setDateFormat(DateFormats.getPattern(locale));
         }
         return dateField;
-    }
-
-    @Override
-    public int position() {
-        return uiDateField.position();
     }
 
     @Override

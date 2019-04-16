@@ -17,6 +17,7 @@ package org.linkki.core.binding;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -37,11 +38,11 @@ import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.bind.MockUi;
-import org.linkki.core.ui.component.page.AbstractPage;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.test.TestButtonPmo;
+import org.linkki.core.vaadin.component.page.AbstractPage;
 
 import com.vaadin.ui.UI;
 
@@ -50,15 +51,16 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @SuppressWarnings("unchecked")
 public class BindingContextIntegrationTest {
 
-    
     private UI ui;
-    
+
     private BindingManager bindingManager;
-    
+
     private TestPage testPage;
-    
-    private ContainerBinding binding;
-    
+
+    private ContainerBinding tableSectionBinding;
+
+    private ContainerBinding standardSectionBinding;
+
     private BindingContext bindingContext;
 
     @Before
@@ -86,9 +88,9 @@ public class BindingContextIntegrationTest {
 
         bindingContext.removeBindingsForPmo(testPage.standardSectionPmo);
 
-        assertThat(bindings(), contains(instanceOf(ContainerBinding.class),
-                                        instanceOf(ElementBinding.class)));
-        assertThat(binding.getBindings().size(), is(3));
+        List<Binding> bindings = bindings();
+        assertThat(bindings, contains(tableSectionBinding));
+        assertThat(tableSectionBinding.getBindings().size(), is(2));
     }
 
     @Test
@@ -97,10 +99,10 @@ public class BindingContextIntegrationTest {
 
         bindingContext.removeBindingsForPmo(testPage.standardSectionPmo.getEditButtonPmo().get());
 
-        assertThat(bindings(), contains(instanceOf(ContainerBinding.class),
-                                        instanceOf(ElementBinding.class),
-                                        instanceOf(ElementBinding.class)));
-        assertThat(binding.getBindings().size(), is(3));
+        List<Binding> bindings = bindings();
+        assertThat(bindings, containsInAnyOrder(tableSectionBinding, standardSectionBinding));
+        assertThat(tableSectionBinding.getBindings().size(), is(2));
+        assertThat(standardSectionBinding.getBindings().size(), is(1));
     }
 
     @Test
@@ -109,9 +111,9 @@ public class BindingContextIntegrationTest {
 
         bindingContext.removeBindingsForPmo(testPage.tableSectionPmo);
 
-        assertThat(bindings(), contains(instanceOf(ElementBinding.class),
-                                        instanceOf(ElementBinding.class)));
-        assertThat(bindings(), not(hasItem(binding)));
+        List<Binding> bindings = bindings();
+        assertThat(bindings, contains(standardSectionBinding));
+        assertThat(bindings, not(hasItem(tableSectionBinding)));
     }
 
     @Test
@@ -120,10 +122,9 @@ public class BindingContextIntegrationTest {
 
         bindingContext.removeBindingsForPmo(testPage.tableSectionPmo.getAddItemButtonPmo().get());
 
-        assertThat(bindings(), contains(instanceOf(ContainerBinding.class),
-                                        instanceOf(ElementBinding.class),
-                                        instanceOf(ElementBinding.class)));
-        assertThat(binding.getBindings().size(), is(3));
+        List<Binding> bindings = bindings();
+        assertThat(bindings, containsInAnyOrder(tableSectionBinding, standardSectionBinding));
+        assertThat(tableSectionBinding.getBindings().size(), is(1));
     }
 
     private void setUpBindings() {
@@ -135,14 +136,19 @@ public class BindingContextIntegrationTest {
 
         bindingContext = testPage.getBindingContext();
         List<Binding> bindings = bindings();
+        // Container for StandardSection, TableSection
         assertThat(bindings, contains(instanceOf(ContainerBinding.class),
-                                      instanceOf(ElementBinding.class),
-                                      instanceOf(ElementBinding.class),
-                                      instanceOf(ElementBinding.class)));
-        binding = (ContainerBinding)bindings.stream()
+                                      instanceOf(ContainerBinding.class)));
+        tableSectionBinding = (ContainerBinding)bindings.stream()
                 .filter(b -> b.getPmo().equals(testPage.tableSectionPmo))
                 .findFirst().get();
-        assertThat(binding.getBindings().size(), is(3));
+        // Table + Button
+        assertThat(tableSectionBinding.getBindings().size(), is(2));
+        standardSectionBinding = (ContainerBinding)bindings.stream()
+                .filter(b -> b.getPmo().equals(testPage.standardSectionPmo))
+                .findFirst().get();
+        // value + button
+        assertThat(standardSectionBinding.getBindings().size(), is(2));
     }
 
     private List<Binding> bindings() {

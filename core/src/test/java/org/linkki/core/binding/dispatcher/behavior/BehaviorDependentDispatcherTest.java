@@ -27,7 +27,7 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.ObjectProperty;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.defaults.ui.element.aspects.VisibleAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

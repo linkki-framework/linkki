@@ -21,7 +21,6 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ButtonPmoBinder;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.section.Sections;
-import org.linkki.core.defaults.ui.element.UiElementCreator;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.components.LabelComponentWrapper;
@@ -34,6 +33,7 @@ import org.linkki.core.ui.section.annotations.UISection;
 import org.linkki.core.ui.section.annotations.UITextField;
 import org.linkki.core.ui.table.PmoBasedTableFactory;
 import org.linkki.core.ui.table.TableSection;
+import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -113,9 +113,8 @@ public class PmoBasedSectionFactory {
 
         private BaseSection createBaseSection(SectionLayout layout, String caption, boolean closeable, int columns) {
             BaseSection section = createEmptySection(layout, caption, closeable, columns);
-            UiElementCreator.createUiElements(pmo,
-                                              bindingContext,
-                                              component -> new LabelComponentWrapper(new Label(), (Component)component))
+            UiCreator.createUiElements(pmo, bindingContext,
+                                       component -> new LabelComponentWrapper(new Label(), (Component)component))
                     .forEach(wrapper -> add(section, wrapper));
             return section;
         }

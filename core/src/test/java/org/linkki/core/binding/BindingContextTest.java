@@ -43,8 +43,8 @@ import org.linkki.core.defaults.columnbased.pmo.TestRowPmo;
 import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.nls.TestUiLayoutComponent;
-import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.util.handler.Handler;
@@ -170,6 +170,24 @@ public class BindingContextTest {
 
         context.removeBindingsForComponent(table);
         assertThat(context.getBindings(), hasSize(1));
+    }
+
+    @Test
+    public void testRemoveBindingsForComponent_InContainerBinding() {
+        BindingContext context = new BindingContext();
+        TestContainerPmo containerPmo = new TestContainerPmo(new TestRowPmo());
+        bindAddItemButton(context, containerPmo);
+        TestUiLayoutComponent table = bindTable(context, containerPmo);
+        TestUiComponent childComponent = table.getChildren().get(0);
+
+        assertThat(context.getBindings(), hasSize(2));
+        ContainerBinding containerBinding = (ContainerBinding)context.getBindings().stream()
+                .filter(ContainerBinding.class::isInstance).findFirst().get();
+        assertThat(containerBinding.getBindings(), hasSize(2));
+
+        context.removeBindingsForComponent(childComponent);
+        assertThat(context.getBindings(), hasSize(2));
+        assertThat(containerBinding.getBindings(), hasSize(1));
     }
 
     private TestUiLayoutComponent bindTable(BindingContext context, TestContainerPmo containerPmo) {

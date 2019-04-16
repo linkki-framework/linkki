@@ -1,6 +1,6 @@
 package org.linkki.doc.dynamic;
 
-import static org.linkki.core.defaults.ui.element.aspects.types.EnabledType.DYNAMIC;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.DYNAMIC;
 
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UIDateField;

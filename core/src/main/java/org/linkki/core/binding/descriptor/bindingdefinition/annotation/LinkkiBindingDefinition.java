@@ -18,7 +18,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 
 /**
@@ -26,7 +26,7 @@ import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
  * {@code @UITextField}.
  * <p>
  * Every such annotation is accompanied by a {@link BindingDefinition} which in turn is used by the
- * {@link UIAnnotationReader} to create the actual UI element based on the annotation.
+ * {@link UIElementAnnotationReader} to create the actual UI element based on the annotation.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)

@@ -25,10 +25,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.junit.Test;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
@@ -46,6 +49,7 @@ import org.linkki.core.ui.element.bindingdefinitions.IntegerFieldBindingDefiniti
 import org.linkki.core.ui.element.bindingdefinitions.LabelBindingDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.TextAreaBindingDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.TextFieldBindingDefinition;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
 import com.vaadin.ui.Component;
 
@@ -70,7 +74,7 @@ public class BindingDefinitionTest {
 
     private <T extends Annotation> T annotation(Class<T> annotationClass) {
         try {
-            
+
             T annotation = getClass().getMethod("annotatedMethod", new Class<?>[] {}).getAnnotation(annotationClass);
             return requireNonNull(annotation, () -> "Missing annotation @" + annotationClass.getSimpleName());
         } catch (NoSuchMethodException | SecurityException e) {
@@ -110,7 +114,7 @@ public class BindingDefinitionTest {
         //@formatter:on
     }
 
-    
+
     @Test(expected = NullPointerException.class)
     public void testFrom_ThrowsExceptionForNullAnnotation() {
         BindingDefinition.from(null);
@@ -135,6 +139,8 @@ interface UIFooBarBindingDefinition extends BindingDefinition {
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(UIFooBarBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @interface UIFooBar {
     // dummy
 }
@@ -142,6 +148,8 @@ interface UIFooBarBindingDefinition extends BindingDefinition {
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(UITestBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @interface UICustom {
     // dummy
 }
@@ -181,11 +189,6 @@ class UITestBindingDefinition implements BindingDefinition {
     @Override
     public Component newComponent() {
         return null;
-    }
-
-    @Override
-    public int position() {
-        return 0;
     }
 
     @Override

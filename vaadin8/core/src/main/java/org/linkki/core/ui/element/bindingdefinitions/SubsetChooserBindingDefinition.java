@@ -15,12 +15,12 @@ package org.linkki.core.ui.element.bindingdefinitions;
 
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
-import org.linkki.core.ui.component.ComponentFactory;
 import org.linkki.core.ui.element.annotation.UISubsetChooser;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.ui.TwinColSelect;
 
@@ -43,11 +43,6 @@ public class SubsetChooserBindingDefinition implements BindingDefinition {
         subsetChooser.setLeftColumnCaption(uiSubsetChooser.leftColumnCaption());
         subsetChooser.setRightColumnCaption(uiSubsetChooser.rightColumnCaption());
         return subsetChooser;
-    }
-
-    @Override
-    public int position() {
-        return uiSubsetChooser.position();
     }
 
     @Override

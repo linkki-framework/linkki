@@ -16,11 +16,11 @@ package org.linkki.core.ui.element.bindingdefinitions;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
-import org.linkki.core.ui.component.ComponentFactory;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
@@ -42,11 +42,6 @@ public class IntegerFieldBindingDefinition implements BindingDefinition {
         TextField field = ComponentFactory.newTextField(uiIntegerField.maxLength(), uiIntegerField.width());
         field.addStyleName(ValoTheme.TEXTFIELD_ALIGN_RIGHT);
         return field;
-    }
-
-    @Override
-    public int position() {
-        return uiIntegerField.position();
     }
 
     @Override

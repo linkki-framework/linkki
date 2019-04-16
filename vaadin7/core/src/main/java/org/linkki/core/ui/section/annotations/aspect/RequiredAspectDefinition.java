@@ -19,8 +19,8 @@ import java.util.function.Consumer;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.util.Consumers;
 
 import com.vaadin.ui.AbstractField;

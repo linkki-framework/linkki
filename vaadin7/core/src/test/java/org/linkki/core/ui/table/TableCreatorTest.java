@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
-import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.section.annotations.UITableColumn;
@@ -79,7 +79,7 @@ public class TableCreatorTest {
 
     private Table createTableWithColumns() {
         TestTablePmo containerPmo = new TestTablePmo();
-        Stream<PropertyElementDescriptors> uiElements = new UIAnnotationReader(TestRowPmo.class).getUiElements();
+        Stream<PropertyElementDescriptors> uiElements = new UIElementAnnotationReader(TestRowPmo.class).getUiElements();
         TableCreator creator = new TableCreator();
         ComponentWrapper componentWrapper = creator.createComponent(containerPmo);
         BindingContext bindingContext = new BindingContext();

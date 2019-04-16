@@ -13,9 +13,9 @@
  */
 package org.linkki.core.ui.section.annotations;
 
-import static org.linkki.core.defaults.ui.element.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.element.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.element.aspects.types.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -25,16 +25,21 @@ import java.lang.annotation.Target;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.CaptionType;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.defaults.ui.aspects.types.CaptionType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.UICheckBox.CheckBoxCaptionAspectDefinitionCreator;
 import org.linkki.core.ui.section.annotations.adapters.CheckboxBindingDefinition;
 import org.linkki.core.ui.section.annotations.aspect.CaptionAspectDefinition;
 import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreator;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
  * In accordance to {@link com.vaadin.ui.CheckBox}, bound to a boolean property.
@@ -42,11 +47,15 @@ import org.linkki.core.ui.section.annotations.aspect.FieldAspectDefinitionCreato
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(CheckboxBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(CheckBoxCaptionAspectDefinitionCreator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UICheckBox {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed. */
+    @LinkkiPositioned.Position
     int position();
 
     /**

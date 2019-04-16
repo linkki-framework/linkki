@@ -21,8 +21,6 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -34,13 +32,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.test.TestButtonPmo;
@@ -59,15 +55,15 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @SuppressWarnings("unchecked")
 public class BindingContextIntegrationTest {
 
-    
+
     private UI ui;
-    
+
     private BindingManager bindingManager;
-    
+
     private TestPage testPage;
-    
+
     private ContainerBinding binding;
-    
+
     private BindingContext bindingContext;
 
     @Before
@@ -138,11 +134,8 @@ public class BindingContextIntegrationTest {
     @Test
     public void testBind_WithFieldAspectDefinition_BoundComponentsAreMadeImmediate() {
         TextField field = new TextField();
-        BindingDefinition fieldDefintion = mock(BindingDefinition.class);
-        when(fieldDefintion.required()).thenReturn(RequiredType.REQUIRED);
-        when(fieldDefintion.enabled()).thenReturn(EnabledType.ENABLED);
-        when(fieldDefintion.visible()).thenReturn(VisibleType.VISIBLE);
-        ElementDescriptor fieldDescriptor = new ElementDescriptor(fieldDefintion, "value",
+        ElementDescriptor fieldDescriptor = new ElementDescriptor(0,
+                new TestLinkkiComponentDefinition(), BoundProperty.of("value"),
                 Arrays.asList(new FieldValueAspectDefinition()));
 
         // Precondition
@@ -277,4 +270,12 @@ public class BindingContextIntegrationTest {
         }
     }
 
+    private static class TestLinkkiComponentDefinition implements LinkkiComponentDefinition {
+
+        @Override
+        public Object createComponent(Object pmo) {
+            return new Object();
+        }
+
+    }
 }

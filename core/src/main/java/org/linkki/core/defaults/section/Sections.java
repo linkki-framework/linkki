@@ -21,16 +21,16 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 
 import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.defaults.ui.element.UiElementCreator;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.pmo.SectionID;
+import org.linkki.core.uicreation.UiCreator;
 import org.linkki.util.BeanUtils;
 
 /**
  * Helper methods to create UI layout sections from presentation model objects.
  * 
- * @see UiElementCreator UiElementCreator to create the section's contents
+ * @see UiCreator UiCreator to create the section's contents
  */
 public class Sections {
     private Sections() {

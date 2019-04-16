@@ -17,7 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.TooltipAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.TooltipAspectDefinition;
 
 /**
  * Naming convention for properties. Adds suffixes, e.g. "enabled", to the base property, e.g.

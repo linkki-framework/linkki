@@ -14,12 +14,12 @@
 package org.linkki.core.ui.element.bindingdefinitions;
 
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
-import org.linkki.core.ui.component.ComponentFactory;
 import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.ui.Button;
 
@@ -47,11 +47,6 @@ public class ButtonBindingDefinition implements BindingDefinition {
             button.setClickShortcut(buttonAnnotation.shortcutKeyCode(), buttonAnnotation.shortcutModifierKeys());
         }
         return button;
-    }
-
-    @Override
-    public int position() {
-        return buttonAnnotation.position();
     }
 
     @Override

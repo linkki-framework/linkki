@@ -33,7 +33,6 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 import org.linkki.samples.binding.annotation.BindValue.BindFieldValueAspectDefinitionCreator;
 import org.linkki.samples.binding.annotation.BindValue.BindValueAnnotationBoundPropertyCreator;
-import org.linkki.util.BeanUtils;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
@@ -51,26 +50,28 @@ public @interface BindValue {
 
         @Override
         public BoundProperty createBoundProperty(BindValue annotation, AnnotatedElement annotatedElement) {
-            return BoundProperty.of(getPmoProperty(annotation, annotatedElement))
+            return getPmoProperty(annotation, annotatedElement)
                     .withModelObject(annotation.modelObject())
                     .withModelAttribute(annotation.modelAttribute());
         }
 
-        private String getPmoProperty(BindValue bindAnnotation, AnnotatedElement annotatedElement) {
-            String pmoProperty = bindAnnotation.pmoProperty();
-            if (StringUtils.isEmpty(pmoProperty)) {
+        private BoundProperty getPmoProperty(BindValue annotation, AnnotatedElement annotatedElement) {
+            String pmoPropertyName = annotation.pmoProperty();
+            if (StringUtils.isEmpty(pmoPropertyName)) {
                 if (annotatedElement instanceof Method) {
-                    pmoProperty = BeanUtils.getPropertyName((Method)annotatedElement);
+                    return BoundProperty.of((Method)annotatedElement);
                 } else if (annotatedElement instanceof Field) {
-                    pmoProperty = ((Field)annotatedElement).getName();
+                    return BoundProperty.of((Field)annotatedElement);
                 } else {
                     throw new IllegalArgumentException("The @" + BindValue.class.getSimpleName()
                             + " annotation only supports reading the property name from " + Field.class.getSimpleName()
                             + "s and " + Method.class.getSimpleName() + "s");
                 }
+            } else {
+                return BoundProperty.of(pmoPropertyName);
             }
-            return pmoProperty;
         }
+
 
     }
 

@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.linkki.core.binding.descriptor.UIAnnotationReader;
+import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.defaults.section.annotations.TestUIField;
-import org.linkki.core.defaults.ui.element.aspects.EnabledAspectDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -52,7 +52,8 @@ public class StaticValueDispatcherTest {
     @Before
     public void setUp() {
         objectWithUIAnnotations = new TestObjectWithUIAnnotations();
-        UIAnnotationReader uiAnnotationReader = new UIAnnotationReader(objectWithUIAnnotations.getClass());
+        UIElementAnnotationReader uiAnnotationReader = new UIElementAnnotationReader(
+                objectWithUIAnnotations.getClass());
         uiAnnotationDispatchers = uiAnnotationReader.getUiElements()
                 .collect(Collectors.toMap(e -> e.getPmoPropertyName(),
                                           e -> new StaticValueDispatcher(uiAnnotationFallbackDispatcher)));

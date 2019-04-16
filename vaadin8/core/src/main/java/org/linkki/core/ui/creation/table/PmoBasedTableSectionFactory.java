@@ -17,8 +17,8 @@ import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.core.ui.component.section.TableSection;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.vaadin.component.section.TableSection;
 
 /**
  * A factory to create sections showing a single table based on a PMO.

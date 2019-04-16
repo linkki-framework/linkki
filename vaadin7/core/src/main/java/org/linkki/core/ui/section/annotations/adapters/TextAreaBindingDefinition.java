@@ -16,9 +16,9 @@ package org.linkki.core.ui.section.annotations.adapters;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.section.annotations.UITextArea;
 import org.linkki.core.ui.util.ComponentFactory;
 
@@ -51,11 +51,6 @@ public class TextAreaBindingDefinition implements BindingDefinition {
             area.setRows(uiTextArea.rows());
         }
         return area;
-    }
-
-    @Override
-    public int position() {
-        return uiTextArea.position();
     }
 
     @Override

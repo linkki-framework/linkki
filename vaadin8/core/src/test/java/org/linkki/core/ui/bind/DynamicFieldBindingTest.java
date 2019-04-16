@@ -25,8 +25,8 @@ import java.util.List;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
-import org.linkki.core.defaults.ui.element.aspects.types.AvailableValuesType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
 import org.linkki.core.ui.element.annotation.UIButton;

@@ -13,9 +13,9 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.linkki.core.defaults.ui.element.aspects.types.EnabledType.ENABLED;
-import static org.linkki.core.defaults.ui.element.aspects.types.RequiredType.NOT_REQUIRED;
-import static org.linkki.core.defaults.ui.element.aspects.types.VisibleType.VISIBLE;
+import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
+import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
+import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,12 +23,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
+import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
-import org.linkki.core.defaults.ui.element.aspects.types.EnabledType;
-import org.linkki.core.defaults.ui.element.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.aspects.types.VisibleType;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
+import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.bindingdefinitions.TextAreaBindingDefinition;
+import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.server.Sizeable;
 
@@ -38,11 +43,15 @@ import com.vaadin.server.Sizeable;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @LinkkiBindingDefinition(TextAreaBindingDefinition.class)
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
 @LinkkiAspect(FieldAspectDefinitionCreator.class)
 @LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiPositioned
 public @interface UITextArea {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
+    @LinkkiPositioned.Position
     int position();
 
     /** Provides a description label next to the UI element */

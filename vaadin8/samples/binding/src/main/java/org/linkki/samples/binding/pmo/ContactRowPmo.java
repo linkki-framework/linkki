@@ -15,7 +15,7 @@ package org.linkki.samples.binding.pmo;
 
 import java.util.function.Consumer;
 
-import org.linkki.core.defaults.ui.element.aspects.annotations.BindTooltip;
+import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UILabel;

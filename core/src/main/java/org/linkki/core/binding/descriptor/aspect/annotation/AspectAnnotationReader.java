@@ -21,13 +21,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.util.Classes;
+import org.linkki.util.MetaAnnotation;
 
 /**
  * Utility class to create {@link LinkkiAspectDefinition LinkkiAspectDefinitions} from annotations.
  */
 public class AspectAnnotationReader {
+
+    private static final MetaAnnotation<LinkkiAspect> LINKKI_ASPECT_ANNOTATION = MetaAnnotation.of(LinkkiAspect.class);
 
     private AspectAnnotationReader() {
         // do not instantiate
@@ -42,35 +45,16 @@ public class AspectAnnotationReader {
      */
     public static <UI_ANNOTATION extends Annotation> List<LinkkiAspectDefinition> createAspectDefinitionsFrom(
             UI_ANNOTATION uiAnnotation) {
-        return getAspectDefinitionClasses(uiAnnotation).stream()
-                .map(c -> instantiateDefinition(c, uiAnnotation))
-                .collect(Collectors.toList());
-    }
-
-    protected static <ASPECT_ANNOTATION extends Annotation, UI_ANNOTATION extends Annotation> List<Class<? extends AspectDefinitionCreator<UI_ANNOTATION>>> getAspectDefinitionClasses(
-            ASPECT_ANNOTATION annotation) {
-        return Arrays.asList(annotation.annotationType().getAnnotationsByType(LinkkiAspect.class)).stream()
-                .map(aspectAnnotation -> {
+        return LINKKI_ASPECT_ANNOTATION.findAllOn(uiAnnotation)
+                .map(t -> {
                     @SuppressWarnings("unchecked")
-                    Class<? extends AspectDefinitionCreator<UI_ANNOTATION>> creatorClass = (Class<? extends AspectDefinitionCreator<UI_ANNOTATION>>)aspectAnnotation
+                    Class<? extends AspectDefinitionCreator<UI_ANNOTATION>> creator = (Class<? extends AspectDefinitionCreator<UI_ANNOTATION>>)t
                             .value();
-                    return creatorClass;
+                    return creator;
                 })
+                .map(Classes::instantiate)
+                .map(c -> c.create(uiAnnotation))
                 .collect(Collectors.toList());
-    }
-
-    private static <UI_ANNOTATION extends Annotation> LinkkiAspectDefinition instantiateDefinition(
-            Class<? extends AspectDefinitionCreator<UI_ANNOTATION>> aspectDefCreatorClass,
-            UI_ANNOTATION uiAnnotation) {
-        try {
-            AspectDefinitionCreator<UI_ANNOTATION> aspectDefCreator = aspectDefCreatorClass.newInstance();
-            return aspectDefCreator.create(uiAnnotation);
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new LinkkiBindingException(
-                    "Cannot instantiate aspect definition " + aspectDefCreatorClass + " for "
-                            + uiAnnotation.annotationType(),
-                    e);
-        }
     }
 
 
