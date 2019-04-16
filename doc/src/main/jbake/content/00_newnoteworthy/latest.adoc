@@ -85,10 +85,10 @@ If you want to continue using *linkki* with Vaadin 7, you need to replace the *l
 Migration Script::
 Alongside with the introduction of Vaadin 8 support for *linkki*, we needed to make some general changes in the core module, including a restructuring of the packages. To automate some of the migration steps, we created shell scripts to help with this update.
 +
-The migration scripts contain find and replaces commands that can be automatically applied. The find and replaces are defined in the file link:../migration_scripts/0.9.20190205_to_latest/migrate-packages-core.sed[migrate-packages-core.sed]. The script link:../migration_scripts/search_replace.sh[search_replace.sh] executes these commands.
+The migration scripts contain find and replaces commands that can be automatically applied. The find and replaces are defined in the files link:../migration_scripts/0.9.20190205_to_latest/migrate-packages-core.sed[migrate-packages-core.sed] and link:../migration_scripts/0.9.20190205_to_linkkiVaadin8/componentdefinition.sed[componentdefinition.sed]. The script link:../migration_scripts/search_replace.sh[search_replace.sh] executes these commands.
 +
-The easiest way to use the migration script is to put both files in your project directory and run ``"./search_replace.sh -s migrate-packages-core.sed"` in your terminal. The scripts can be executed in any terminal that supports shell scripts, including the git bash.
-
+The easiest way to use the migration script is to put both files in your project directory and run `"./search_replace.sh -s migrate-packages-core.sed"` followed by `"./search_replace.sh -s componentdefinition.sed"` in your terminal. The scripts can be executed in any terminal that supports shell scripts, including the git bash.
++
 Some changes are not covered by the migration script. To deal with the remaining changes, if there are any in your project, you can inform about the changes in the section "<<general-changes,General Changes>>" that is below the Vaadin specific migration steps.
 
 ifdef::backend-html5[]
@@ -125,7 +125,10 @@ The very first step for the migration is to include the new *linkki* Vaadin 8 de
 Migration Script::
 To minimize the migration effort, we created shell scripts to help with the changes that can be easily automated.
 +
-The find and replaces are defined in the files link:../migration_scripts/0.9.20190205_to_latest/migrate.sed[migrate.sed] and link:../migration_scripts/0.9.20190205_to_latest/migrate-packages-vaadin8.sed[migrate-packages-vaadin8.sed]. The script link:../migration_scripts/search_replace.sh[search_replace.sh] executes these commands. The easiest way to use the migration script is to put all three files in your project directory and run "./search_replace.sh -s migrate.sed" followed by "./search_replace.sh -s migrate-packages-vaadin8.sed" in your terminal. The scripts can be executed in any terminal that supports shell scripts, including the git bash.
+The find and replaces are defined in the files link:../migration_scripts/0.9.20190205_to_latest/migrate.sed[migrate.sed], link:../migration_scripts/0.9.20190205_to_latest/migrate-packages-vaadin8.sed[migrate-packages-vaadin8.sed] and link:../migration_scripts/0.9.20190205_to_linkkiVaadin8/componentdefinition.sed[componentdefinition.sed].
+The script link:../migration_scripts/search_replace.sh[search_replace.sh] executes these commands.
++
+The easiest way to use the migration script is to put all the files in your project directory and run `"./search_replace.sh -s migrate.sed"` followed by `"./search_replace.sh -s migrate-packages-vaadin8.sed"` and  `"./search_replace.sh -s componentdefinition.sed"` in your terminal. The scripts can be executed in any terminal that supports shell scripts, including the git bash.
 
 LinkkiConverterFactory::
 The configuration of custom converters has changed. Instead of the existing `ConverterFactory`, a `LinkkiConverterRegistry` is now used in `ApplicationConfig`.
@@ -318,6 +321,48 @@ To make the *linkki* `Message` and `MessageList` independent of Vaadin, a new en
 | `getFirstMessage(ErrorLevel)` | `getFirstMessage(Severity)` |
 | `sortByErrorLevel` | `sortBySeverity` |
 |===
+
+===== UI Components
+We generalized the creation of UI components in order to use the same machniasm to create both UI elements such as `UIComboBox` and UI layouts such as `UISection`.
+
+As a consequence, if you have custom UI annotations in your project, you need to add additional annotations to them.
+
+.Migration of custom UI annotations
+[cols="a,a", options="header"]
+|===
+| Until Now | New
+|
+[source,java]
+----
+...
+@LinkkiBindingDefinition(CustomAnnotationBindingDefinition.class)
+public @interface UICustomAnnotation {
+
+  int position();
+  ...
+}
+----
+|
+[source,java]
+----
+...
+@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class) // <1>
+@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class) // <2>
+@LinkkiPositioned // <3>
+@LinkkiBindingDefinition(CustomAnnotationBindingDefinition.class)
+public @interface UICustomAnnotation {
+
+  @LinkkiPositioned.Position // <3>
+  int position();
+  ...
+}
+----
+|===
+<1> `@LinkkiComponent` is a new annotation that refers to a `ComponentDefinitionCreator`. This creator defines how the UI component is created. For `LinkkiBindingDefinitions` you can use the provided `BindingDefinitionComponentDefinition.Creator.class`.
+<2> `@LinkkiBoundProperty` refers to a `BoundPropertyCreator`. A `BoundPropertyCreator` defines how to retrieve the name(s) of the presentation model object property and optionally the model object and model attribute from the annotation.
+<3> `@LinkkiPositioned` and `@LinkkiPositioned.Position` mark the position of the UI element when it is added to a parent.
+
+All these additional annotations allows you to create a custom UI annotation without using a `BindingDefinition`. `BindingDefinition` is a concept that mixes several different concerns. These concers can now be handeled and opted in individually with new matching annotations.
 
 ===== ApplicationStyles and LinkkiStyles
 
