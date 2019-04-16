@@ -30,15 +30,15 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 public interface AspectDefinitionCreator<T extends Annotation> {
 
     /**
-     * Creates the aspect definition from the annotation that was annotated with {@link LinkkiAspect}.
+     * Creates the aspect definition from the annotation that is annotated with {@link LinkkiAspect}.
      * The annotation may hold information such as a static value or anything necessary for value post
      * processing.
-     * <p>
-     * The {@link LinkkiAspectDefinition} is instantiated for every property. That means it is valid to
-     * store the given annotation in a field.
      * 
      * @param annotation the annotation that is annotated with {@link LinkkiAspect}
      * @return the new {@link LinkkiAspectDefinition} initialized with the given annotation
+     * 
+     * @implSpec The {@link LinkkiAspectDefinition} is instantiated for every property. That means it is
+     *           valid to store the given annotation in a field.
      */
     LinkkiAspectDefinition create(T annotation);
 
