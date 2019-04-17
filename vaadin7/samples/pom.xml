@@ -20,7 +20,6 @@
         <java.version>1.8</java.version>
         <vaadin.version>7.7.16</vaadin.version>
         <spotbugs.version>3.1.11</spotbugs.version>
-        <linkki.version>${project.version}</linkki.version>
     </properties>
 
     <modules>
@@ -64,13 +63,13 @@
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core-vaadin7</artifactId>
-                <version>${linkki.version}</version>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
             <!-- end::linkki-core-vaadin7[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-application-framework-vaadin7</artifactId>
-                <version>${linkki.version}</version>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
