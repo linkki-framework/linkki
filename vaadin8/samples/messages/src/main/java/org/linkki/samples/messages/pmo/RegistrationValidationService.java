@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
@@ -29,13 +30,9 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class RegistrationValidationService implements ValidationService {
 
-    public enum ValidationMode {
-        LENIENT, STRICT
-    }
-
     private final RegistrationSectionPmo registrationPmo;
 
-    private ValidationMode validationMode = ValidationMode.LENIENT;
+    private ValidationDisplayState validationDisplayState = ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS;
 
     public RegistrationValidationService(RegistrationSectionPmo registrationPmo) {
         this.registrationPmo = registrationPmo;
@@ -55,7 +52,7 @@ public class RegistrationValidationService implements ValidationService {
 
     private void validateName(User user, MessageList messages) {
         String name = user.getName();
-        if (validationMode == ValidationMode.STRICT && StringUtils.isEmpty(name)) {
+        if (validationDisplayState == ValidationDisplayState.SHOW_ALL && StringUtils.isEmpty(name)) {
             messages.add(Message.builder("Username is required", Severity.ERROR)
                     .invalidObject(objectProperty(user, User.PROPERTY_NAME)).markers(() -> true).create());
         } else if (name != null && name.length() < 3) {
@@ -71,7 +68,7 @@ public class RegistrationValidationService implements ValidationService {
                     .invalidObjects(objectProperty(pmo.getUser(), User.PROPERTY_PASSWORD),
                             objectProperty(pmo, "confirmPassword"))
                     .create());
-        } else if (validationMode == ValidationMode.STRICT && StringUtils.isEmpty(password)) {
+        } else if (validationDisplayState == ValidationDisplayState.SHOW_ALL && StringUtils.isEmpty(password)) {
             @SuppressWarnings("null")
             // tag::message-builder[]
             Message passwordRequiredMessage = Message
@@ -97,7 +94,7 @@ public class RegistrationValidationService implements ValidationService {
 
     private void validateEmail(User user, MessageList messages) {
         String email = user.getEmail();
-        if (validationMode == ValidationMode.STRICT && StringUtils.isEmpty(email)) {
+        if (validationDisplayState == ValidationDisplayState.SHOW_ALL && StringUtils.isEmpty(email)) {
             messages.add(Message.builder("E-Mail is required", Severity.ERROR)
                     .invalidObject(objectProperty(user, User.PROPERTY_EMAIL)).markers(() -> true).create());
         } else if (email != null && !email.matches("^[a-zA-Z0-9._\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,4}$")) {
@@ -108,7 +105,7 @@ public class RegistrationValidationService implements ValidationService {
 
     private void validateBirthday(User user, MessageList messages) {
         LocalDate birthday = user.getBirthday();
-        if (validationMode == ValidationMode.STRICT && birthday == null) {
+        if (validationDisplayState == ValidationDisplayState.SHOW_ALL && birthday == null) {
             messages.add(Message.builder("Birthday is required", Severity.ERROR)
                     .invalidObject(objectProperty(user, User.PROPERTY_BIRTHDAY)).markers(() -> true).create());
         } else if (birthday != null) {
@@ -128,11 +125,14 @@ public class RegistrationValidationService implements ValidationService {
         return new ObjectProperty(object, property);
     }
 
-    public ValidationMode getValidationMode() {
-        return validationMode;
+    @Override
+    public ValidationDisplayState getValidationDisplayState() {
+        return validationDisplayState;
     }
 
-    public void setValidationMode(ValidationMode validationMode) {
-        this.validationMode = validationMode;
+    public void setValidationDisplayState(ValidationDisplayState validationDisplayState) {
+        this.validationDisplayState = validationDisplayState;
     }
+    
+    
 }

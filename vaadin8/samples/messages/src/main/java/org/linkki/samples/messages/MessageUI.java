@@ -14,6 +14,7 @@
 package org.linkki.samples.messages;
 
 import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.AbstractSection;
@@ -22,7 +23,6 @@ import org.linkki.samples.messages.components.MessagesPanel;
 import org.linkki.samples.messages.model.User;
 import org.linkki.samples.messages.pmo.RegistrationSectionPmo;
 import org.linkki.samples.messages.pmo.RegistrationValidationService;
-import org.linkki.samples.messages.pmo.RegistrationValidationService.ValidationMode;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.Page;
@@ -70,7 +70,7 @@ public class MessageUI extends UI {
 
     private void handleRegistration(MessagesPanel messagesPanel, RegistrationSectionPmo userPmo) {
         // validate required fields as well
-        validationService.setValidationMode(ValidationMode.STRICT);
+        validationService.setValidationDisplayState(ValidationDisplayState.SHOW_ALL);
 
         // trigger validation and display errors in the MessagesPanel
         bindingManager.afterUpdateUi();
@@ -78,7 +78,7 @@ public class MessageUI extends UI {
         if (!validationService.getValidationMessages().containsErrorMsg()) {
             Notification.show("Registration successful! Thank you for joining us!");
             userPmo.reset();
-            validationService.setValidationMode(ValidationMode.LENIENT);
+            validationService.setValidationDisplayState(ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS);
         }
     }
 }

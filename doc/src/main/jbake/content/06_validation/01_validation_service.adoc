@@ -16,6 +16,13 @@ Most validations work on the domain model because the goal of the validation is 
 
 In most applications the validation service simply calls the domain model validation and collects all messages. In order to avoid a dependency from the domain model to *linkki* it is good practice to use an own implementation for messages in the domain model. In this case the validation service is also responsible for converting from domain layer messages to a *linkki* `MessageList`. 
 
+[[validation-display-state]]
+==== ValidationDisplayState
+
+When a user enters a page containing required fields, it is usually not desirable to greet him with a lot of validation error messages without a chance to enter the values first. *linkki* supports a more pleasant experience with the `ValidationDisplayState`: `HIDE_MANDATORY_FIELD_VALIDATIONS` filters all messages with a <<validation-marker,ValidationMarker>> returning `true` for `isRequiredInformationMissing()` while `SHOW_ALL` does not filter messages.
+
+The `ValidationService` can return a `ValidationDisplayState` via `getValidationDisplayState()` and offers the method `getFilteredMessages()` that takes the messages from `getValidationMessages()` and applies the `ValidationDisplayState`'s `filter` method. It is good practice to switch the `ValidationDisplayState` once the user has triggered a submit button or another page advancement mechanism.
+
 [[message]]
 ==== Message and MessageList
 A `Message` has a human readable text, an error code and a `Severity` (one of `INFORMATION`, `WARNING`, `ERROR`). It may also contain a set of <<object-properties,ObjectProperties>> to refer to specific invalid properties of an object. Additionally there may be <<validation-marker,ValidationMarkers>> to distinguish different kinds of validation messages.

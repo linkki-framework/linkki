@@ -521,3 +521,10 @@ public String getIcon() {
 ===== NonNull Annotations
 
 In the pursuit of bug-free code we changed the annotations we use to mark whether methods accept and/or return null values from those of the Eclipse framework to those provided by SpotBugs. We recommend to disable annotation based null analysis in projects using *linkki* as Eclipse is not fully compatible with the SpotBugs annotations.
+
+===== ValidationDisplayState
+
+The `ValidationService` gained two new default methods:
+
+ * `getValidationDisplayState()` to obtain a <<validation-display-state,`ValidationDisplayState`>>
+ * `getFilteredMessages()` to filter the validation messages with the `ValidationDisplayState`
