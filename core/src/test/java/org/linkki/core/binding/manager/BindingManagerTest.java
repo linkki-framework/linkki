@@ -23,17 +23,18 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.util.handler.Handler;
+import org.linkki.util.validation.ValidationMarker;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class BindingManagerTest {
 
-
-    
     private ValidationService validationService;
 
     @Test
@@ -54,6 +55,36 @@ public class BindingManagerTest {
         bindingManager.afterUpdateUi();
 
         assertThat(context.messages, is(equalTo(sortedMessageList)));
+    }
+
+    @Test
+    public void testAfterUpdateUi_filtersMessages() {
+        Message e1 = Message.newError("e1", "E1");
+        Message e2 = Message.builder("E2", Severity.ERROR).code("e2").markers(ValidationMarker.REQUIRED).create();
+        Message e3 = Message.newError("e3", "E3");
+        Message w1 = Message.builder("W1", Severity.WARNING).code("w1").markers(ValidationMarker.REQUIRED).create();
+        Message w2 = Message.newWarning("w2", "W2");
+        Message i1 = Message.builder("I1", Severity.INFO).code("i1").markers(ValidationMarker.REQUIRED).create();
+        Message i2 = Message.newInfo("i2", "I2");
+        MessageList unsortedMessageList = new MessageList(i2, e1, w1, e3, i1, e2, w2);
+        MessageList filteredMessageList = new MessageList(e1, e3, w2, i2);
+        validationService = new ValidationService() {
+            @Override
+            public MessageList getValidationMessages() {
+                return unsortedMessageList;
+            }
+
+            @Override
+            public ValidationDisplayState getValidationDisplayState() {
+                return ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS;
+            }
+        };
+        TestBindingManager bindingManager = new TestBindingManager(validationService);
+        TestBindingContext context = bindingManager.startNewContext("foo");
+
+        bindingManager.afterUpdateUi();
+
+        assertThat(context.messages, is(equalTo(filteredMessageList)));
     }
 
     @Test

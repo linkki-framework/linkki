@@ -528,3 +528,5 @@ The `ValidationService` gained two new default methods:
 
  * `getValidationDisplayState()` to obtain a <<validation-display-state,`ValidationDisplayState`>>
  * `getFilteredMessages()` to filter the validation messages with the `ValidationDisplayState`
+ 
+The `BindingManager` uses the filtered messages in `afterUpdateUi`.

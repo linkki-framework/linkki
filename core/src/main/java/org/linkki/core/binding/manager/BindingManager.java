@@ -145,7 +145,7 @@ public abstract class BindingManager {
      * {@link UiUpdateObserver}s properly.
      */
     public void afterUpdateUi() {
-        MessageList messages = this.validationService.getValidationMessages();
+        MessageList messages = this.validationService.getFilteredMessages();
 
 
         MessageList sortedMessages = messages.sortBySeverity();

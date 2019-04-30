@@ -31,7 +31,6 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 public class RegistrationValidationService implements ValidationService {
 
     private final RegistrationSectionPmo registrationPmo;
-
     private ValidationDisplayState validationDisplayState = ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS;
 
     public RegistrationValidationService(RegistrationSectionPmo registrationPmo) {
@@ -52,12 +51,15 @@ public class RegistrationValidationService implements ValidationService {
 
     private void validateName(User user, MessageList messages) {
         String name = user.getName();
-        if (validationDisplayState == ValidationDisplayState.SHOW_ALL && StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name)) {
             messages.add(Message.builder("Username is required", Severity.ERROR)
-                    .invalidObject(objectProperty(user, User.PROPERTY_NAME)).markers(() -> true).create());
-        } else if (name != null && name.length() < 3) {
+                    .invalidObject(objectProperty(user, User.PROPERTY_NAME))
+                    .markers(ValidationMarker.REQUIRED)
+                    .create());
+        } else if (name.length() < 3) {
             messages.add(Message.builder("Username must contain at least 3 characters", Severity.ERROR)
-                    .invalidObject(objectProperty(user, "name")).create());
+                    .invalidObject(objectProperty(user, "name"))
+                    .create());
         }
     }
 
@@ -68,8 +70,7 @@ public class RegistrationValidationService implements ValidationService {
                     .invalidObjects(objectProperty(pmo.getUser(), User.PROPERTY_PASSWORD),
                             objectProperty(pmo, "confirmPassword"))
                     .create());
-        } else if (validationDisplayState == ValidationDisplayState.SHOW_ALL && StringUtils.isEmpty(password)) {
-            @SuppressWarnings("null")
+        } else if (StringUtils.isEmpty(password)) {
             // tag::message-builder[]
             Message passwordRequiredMessage = Message
                     .builder("Password is required", Severity.ERROR)
@@ -79,25 +80,29 @@ public class RegistrationValidationService implements ValidationService {
             // end::message-builder[]
             messages.add(passwordRequiredMessage);
         } else if (password != null) {
-            if (!password.matches("[A-Za-z0-9]*")) {
+            if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$")) {
                 messages.add(Message
                         .builder("Password must contain at least one uppercase letter, "
                                 + "one lowercase letter and one number", Severity.ERROR)
-                        .invalidObject(objectProperty(pmo.getUser(), User.PROPERTY_PASSWORD)).create());
+                        .invalidObject(objectProperty(pmo.getUser(), User.PROPERTY_PASSWORD))
+                        .create());
             } else if (password.length() < 8) {
                 messages.add(Message
                         .builder("Password should contain at least 8 characters", Severity.WARNING)
-                        .invalidObject(objectProperty(pmo.getUser(), User.PROPERTY_PASSWORD)).create());
+                        .invalidObject(objectProperty(pmo.getUser(), User.PROPERTY_PASSWORD))
+                        .create());
             }
         }
     }
 
     private void validateEmail(User user, MessageList messages) {
         String email = user.getEmail();
-        if (validationDisplayState == ValidationDisplayState.SHOW_ALL && StringUtils.isEmpty(email)) {
+        if (StringUtils.isEmpty(email)) {
             messages.add(Message.builder("E-Mail is required", Severity.ERROR)
-                    .invalidObject(objectProperty(user, User.PROPERTY_EMAIL)).markers(() -> true).create());
-        } else if (email != null && !email.matches("^[a-zA-Z0-9._\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,4}$")) {
+                    .invalidObject(objectProperty(user, User.PROPERTY_EMAIL))
+                    .markers(ValidationMarker.REQUIRED)
+                    .create());
+        } else if (!email.matches("^[a-zA-Z0-9._\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,4}$")) {
             messages.add(Message.builder("Invalid E-Mail address! (someone@example.com)", Severity.ERROR)
                     .invalidObject(objectProperty(user, User.PROPERTY_EMAIL)).create());
         }
@@ -105,21 +110,19 @@ public class RegistrationValidationService implements ValidationService {
 
     private void validateBirthday(User user, MessageList messages) {
         LocalDate birthday = user.getBirthday();
-        if (validationDisplayState == ValidationDisplayState.SHOW_ALL && birthday == null) {
+        if (birthday == null) {
             messages.add(Message.builder("Birthday is required", Severity.ERROR)
-                    .invalidObject(objectProperty(user, User.PROPERTY_BIRTHDAY)).markers(() -> true).create());
-        } else if (birthday != null) {
-            if (birthday.isAfter(LocalDate.now())) {
-                messages.add(Message.builder("Birthday must not be in the future", Severity.ERROR)
-                        .invalidObject(objectProperty(user, User.PROPERTY_BIRTHDAY)).create());
-            } else if (birthday.isAfter(LocalDate.now().minusYears(15))) {
-                messages.add(Message.builder("You must be at least 15 years to register", Severity.ERROR)
-                        .invalidObject(objectProperty(user, User.PROPERTY_BIRTHDAY)).create());
-            }
+                    .invalidObject(objectProperty(user, User.PROPERTY_BIRTHDAY)).markers(ValidationMarker.REQUIRED)
+                    .create());
+        } else if (birthday.isAfter(LocalDate.now())) {
+            messages.add(Message.builder("Birthday must not be in the future", Severity.ERROR)
+                    .invalidObject(objectProperty(user, User.PROPERTY_BIRTHDAY)).create());
+        } else if (birthday.isAfter(LocalDate.now().minusYears(15))) {
+            messages.add(Message.builder("You must be at least 15 years to register", Severity.ERROR)
+                    .invalidObject(objectProperty(user, User.PROPERTY_BIRTHDAY)).create());
         }
     }
 
-    @SuppressWarnings("null")
     @NonNull
     private ObjectProperty objectProperty(Object object, String property) {
         return new ObjectProperty(object, property);
@@ -133,6 +136,5 @@ public class RegistrationValidationService implements ValidationService {
     public void setValidationDisplayState(ValidationDisplayState validationDisplayState) {
         this.validationDisplayState = validationDisplayState;
     }
-    
-    
+
 }
