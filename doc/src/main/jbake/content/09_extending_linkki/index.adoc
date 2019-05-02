@@ -8,7 +8,8 @@
 *linkki* offers several options to extend its abilities:
 
  * Binding custom UI controls via <<ui-customfield, UICustomField>>
- * Binding custom UI controls with custom UI annotations (will be documented soon)
  * Binding aspects of UI controls by <<creating-aspects, creating a new aspect>>
- * Creating custom UI element and layout annotations (will be documented soon)
+ * Creating custom UI elements by <<custom-ui-element-annotation, creating custom UI element annotations>>
+ * Creating custom layouts by <<custom-ui-layout-annotation, creating custom UI layout annotations>>
+
  * Creating a <<custom-binding-annotation, custom binding annotation>>

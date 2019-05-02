@@ -15,12 +15,15 @@ package org.linkki.samples.customlayout;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.uicreation.UiCreator;
 import org.linkki.samples.customlayout.pmo.AddressSectionPmo;
+import org.linkki.samples.customlayout.pmo.HotelSearchPmo;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -48,15 +51,25 @@ public class CustomLayoutUI extends UI {
                                bindingContext));
 
 
-        Label label = new Label(
+        Label simpleFormLayoutInfo = new Label(
                 "<p><hr/><p>Same PMO in a simple FormLayout - it references the same PMO instance, so all fields are in sync<p><hr/>",
                 ContentMode.HTML);
-        label.setWidth("100%");
-        content.addComponent(label);
+        simpleFormLayoutInfo.setWidth("100%");
+        content.addComponent(simpleFormLayoutInfo);
 
         // tag::CustomLayoutUI-create[]
         content.addComponent(FormLayoutCreator.create(pmo, bindingContext));
         // end::CustomLayoutUI-create[]
+
+        Label uiHorizontalLayoutInfo = new Label(
+                "<p><hr/><p>Different PMO with custom UIHorizontalLayout annotation - UI elements should align horizontally<p><hr/>",
+                ContentMode.HTML);
+        uiHorizontalLayoutInfo.setWidth("100%");
+        content.addComponent(uiHorizontalLayoutInfo);
+        // tag::CustomLayoutAnnotation[]
+        HotelSearchPmo zipCityPmo = new HotelSearchPmo();
+        content.addComponent((Component)UiCreator.createComponent(zipCityPmo, bindingContext).getComponent());
+        // end::CustomLayoutAnnotation[]
     }
 
 }

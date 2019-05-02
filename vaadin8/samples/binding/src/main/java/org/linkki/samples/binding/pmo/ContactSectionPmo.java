@@ -30,6 +30,8 @@ import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.uiframework.UiFramework;
+import org.linkki.samples.binding.annotation.AlignmentType;
+import org.linkki.samples.binding.annotation.UIRadioButtonGroup;
 import org.linkki.samples.binding.model.Contact;
 
 // tag::contactPmo-class[]
@@ -69,11 +71,13 @@ public class ContactSectionPmo {
         return "Last name";
     }
 
-    @UIComboBox(position = 30, label = "Gender", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, //
+    // tag::radiobutton[]
+    @UIRadioButtonGroup(position = 30, label = "Gender", buttonAlignment = AlignmentType.HORIZONTAL, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, //
             itemCaptionProvider = GenderCaptionProvider.class)
     public void gender() {
         /* model binding only */
     }
+    // end::radiobutton[]
 
     @UIComboBox(position = 40, label = "Country of Birth", //
             content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class, //

@@ -37,7 +37,7 @@ import com.vaadin.data.provider.ListDataProvider;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
- * Defines aspects that update the set of available value of an {@link HasItems}.
+ * Defines an aspect that updates the set of available values of {@link HasItems}.
  */
 public class AvailableValuesAspectDefinition<C extends HasItems<?>> implements LinkkiAspectDefinition {
 

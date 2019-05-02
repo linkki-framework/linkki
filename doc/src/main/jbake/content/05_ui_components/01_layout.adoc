@@ -8,21 +8,21 @@
 :images-folder-name: 05_ui_components
 
 [[layout]]
-=== Layout of sections
-
+=== Layout of Sections
 
 The section defines a layout for all the components within the section. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, COLUMN or CUSTOM.
 
-==== Horizontal layout
+[[horizontal-layout]]
+==== Horizontal Layout
 
 With the horizontal layout all input fields are displayed on a line, side by side in the order of their position. The attribute `columns` is ignored.
 
-==== Column layout
+==== Column Layout
 
 With the column layout fields are displayed one below the other. If additionally a number of columns are defined with the property `columns`, a kind of grid layout is produced. The grid is filled in the order of the field's position from left to right, row by row. 
 
 [[custom-layout]]
-==== Custom layout
+==== Custom Layout
 
 Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v8/framework/layout/layout-customlayout.html[CustomLayout] from Vaadin.
 

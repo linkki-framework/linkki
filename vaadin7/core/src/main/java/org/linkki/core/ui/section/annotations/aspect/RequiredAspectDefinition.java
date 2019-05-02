@@ -26,7 +26,7 @@ import org.linkki.util.Consumers;
 import com.vaadin.ui.AbstractField;
 
 /**
- * Aspect definition for {@link RequiredType}. Assumes that the given component is a
+ * Aspect definition for {@link RequiredType}. Assumes that the given component is an
  * {@link AbstractField}.
  */
 public class RequiredAspectDefinition extends ModelToUiAspectDefinition<Boolean> {

@@ -35,7 +35,7 @@ import com.vaadin.data.Property;
 import com.vaadin.ui.AbstractSelect;
 
 /**
- * Defines aspects that update the set of available value of an {@link AbstractSelect}.
+ * Defines an aspect that updates the set of available values of an {@link AbstractSelect}.
  */
 public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
 
@@ -120,9 +120,9 @@ public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
     }
 
     /**
-     * {@link org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator} that creates a special kind of
-     * {@link AvailableValuesAspectDefinition} where the configured {@link AvailableValuesType} is
-     * always {@link AvailableValuesType#ENUM_VALUES_INCL_NULL}.
+     * {@link org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator} that creates
+     * a special kind of {@link AvailableValuesAspectDefinition} where the configured
+     * {@link AvailableValuesType} is always {@link AvailableValuesType#ENUM_VALUES_INCL_NULL}.
      */
     public static class EnumValuesInclNullCreator implements AspectDefinitionCreator<Annotation> {
 
@@ -134,9 +134,9 @@ public class AvailableValuesAspectDefinition implements LinkkiAspectDefinition {
     }
 
     /**
-     * {@link org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator} that creates a special kind of
-     * {@link AvailableValuesAspectDefinition} where the configured {@link AvailableValuesType} is
-     * always {@link AvailableValuesType#DYNAMIC}.
+     * {@link org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator} that creates
+     * a special kind of {@link AvailableValuesAspectDefinition} where the configured
+     * {@link AvailableValuesType} is always {@link AvailableValuesType#DYNAMIC}.
      */
     public static class DynamicCreator implements AspectDefinitionCreator<Annotation> {
 
