@@ -28,7 +28,7 @@ import org.linkki.core.binding.validation.message.MessageList;
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
 /**
- * Manages a set of {@link BindingContext}s that are effected by each other.
+ * Manages a set of {@link BindingContext BindingContexts} that are affected by each other.
  */
 public abstract class BindingManager {
 
@@ -83,27 +83,21 @@ public abstract class BindingManager {
      * @see DefaultBindingManager#newBindingContext(String)
      * @see BindingManager#afterUpdateUi()
      */
-
     protected abstract BindingContext newBindingContext(String name);
 
-    public Optional<BindingContext> getExistingContext(Class<?> clazz) {
+    /**
+     * Returns the {@link BindingContext} for the given class' name, creating it if it does not already
+     * exist.
+     */
+    public BindingContext getContext(Class<?> clazz) {
         requireNonNull(clazz, "clazz must not be null");
-        return getExistingContext(clazz.getName());
+        return getContext(clazz.getName());
     }
 
-    public Optional<BindingContext> getExistingContext(String name) {
-        requireNonNull(name, "name must not be null");
-        return Optional.ofNullable(contextsByName.get(name));
-    }
-
-
-    public BindingContext getExistingContextOrStartNewOne(Class<?> clazz) {
-        requireNonNull(clazz, "clazz must not be null");
-        return getExistingContextOrStartNewOne(clazz.getName());
-    }
-
-
-    public BindingContext getExistingContextOrStartNewOne(String name) {
+    /**
+     * Returns the {@link BindingContext} for the given name, creating it if it does not already exist.
+     */
+    public BindingContext getContext(String name) {
         requireNonNull(name, "name must not be null");
 
         BindingContext context = contextsByName.get(name);
@@ -111,6 +105,46 @@ public abstract class BindingManager {
             context = startNewContext(name);
         }
         return context;
+    }
+
+    /**
+     * @deprecated for removal since May 6th, 2019. Use {@link #getContext(Class)} instead. The
+     *             {@link BindingContext} will be created if it does not already exist).
+     */
+    @Deprecated
+    public Optional<BindingContext> getExistingContext(Class<?> clazz) {
+        requireNonNull(clazz, "clazz must not be null");
+        return getExistingContext(clazz.getName());
+    }
+
+    /**
+     * @deprecated for removal since May 6th, 2019. Use {@link #getContext(String)} instead. The
+     *             {@link BindingContext} will be created if it does not already exist).
+     */
+    @Deprecated
+    public Optional<BindingContext> getExistingContext(String name) {
+        requireNonNull(name, "name must not be null");
+        return Optional.ofNullable(contextsByName.get(name));
+    }
+
+
+    /**
+     * @deprecated for removal since May 6th, 2019. Use {@link #getContext(Class)} instead. The
+     *             {@link BindingContext} will be created if it does not already exist).
+     */
+    @Deprecated
+    public BindingContext getExistingContextOrStartNewOne(Class<?> clazz) {
+        return getContext(clazz);
+    }
+
+
+    /**
+     * @deprecated for removal since May 6th, 2019. Use {@link #getContext(Class)} instead. The
+     *             {@link BindingContext} will be created if it does not already exist).
+     */
+    @Deprecated
+    public BindingContext getExistingContextOrStartNewOne(String name) {
+        return getContext(name);
     }
 
     public void removeContext(BindingContext context) {
