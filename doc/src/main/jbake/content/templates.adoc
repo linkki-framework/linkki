@@ -1,0 +1,51 @@
+=== API Changes
+
+[role="api-change"]
+==== Naming changes
+
+.Methods of UiFramework
+[cols="1,1,2", options="header"]
+|===
+| Until now | New | Notes
+| `UiUtils.getUiLocale()`
+`UI.getCurrent().getLocale()` | `UiFramework.getLocale()` | the locale defined for the UI session, may differ from the System locale
+|===
+
+[role="api-change"]
+==== Code implementation changes
+
+.Cooperating custom converters
+[cols="a,a", options="header"]
+|===
+| Until Now | New
+|
+[source,java]
+----
+public class MyApplicationConfig implements ApplicationConfig {
+  ...
+
+  @Override
+  public ConverterFactory getConverterFactory() {
+      return new LinkkiConverterFactory(this::getConverters);
+  }
+
+  private Sequence<Converter<?, ?>> getConverters() {
+      return LinkkiConverterFactory.DEFAULT_JAVA_8_DATE_CONVERTERS
+              .with(new MyConverter());
+  }
+}
+----
+|
+[source,java]
+----
+public class MyApplicationConfig implements ApplicationConfig {
+  ...
+
+  @Override
+  public ConverterRegistry getConverterRegistry() {
+      return LinkkiConverterRegistry.DEFAULT
+              .with(new MyConverter());
+  }
+}
+----
+|===
