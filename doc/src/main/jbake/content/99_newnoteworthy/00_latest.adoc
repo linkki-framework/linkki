@@ -44,6 +44,9 @@ details > div {
 
 ===== BindingManager#get~Context
 
-The `getExtistingContext` and `getExistingContextOrStartNewOne` methods of the `BindingManager` have been deprecated in favor of the shorter `getContext` methods, which do the same as the old `getExistingContextOrStartNewOne` methods. It is no longer considered necessary to get an `Optional<BindingContext>` as the creation of the context is rather cheap and would happen sooner or later anyways.
+The `getExistingContext` and `getExistingContextOrStartNewOne` methods of the `BindingManager` have been deprecated in favor of the shorter `getContext` methods, which do the same as the old `getExistingContextOrStartNewOne` methods. It is no longer considered necessary to get an `Optional<BindingContext>` as the creation of the context is rather cheap and would happen sooner or later anyways.
 
 Existing code can be migrated via link:../migration_scripts/0.9.20190418_to_latest/migrate.sed[0.9.201901418_to_latest/migrate.sed].
+
+===== Updated Dependencies
+*linkki*'s dependency to `org.apache.commons:commons-lang3` was updated to the latest version (3.9). All dependency versions are now listed in the documentation at <<dependencies, Dependencies>>. 

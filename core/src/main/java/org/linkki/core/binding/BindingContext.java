@@ -47,7 +47,7 @@ import org.linkki.util.handler.Handler;
  * {@linkplain BindingContext}s are usually managed by a {@link BindingManager} that handles events
  * across multiple contexts.
  * 
- * @see BindingManager#getExistingContextOrStartNewOne(String)
+ * @see BindingManager#getContext(String)
  */
 public class BindingContext implements UiUpdateObserver {
 

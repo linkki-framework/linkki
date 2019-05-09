@@ -31,7 +31,6 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
 
 @Theme(value = "valo")

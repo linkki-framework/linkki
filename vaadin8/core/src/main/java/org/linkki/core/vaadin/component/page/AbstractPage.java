@@ -167,7 +167,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * context for each class.
      */
     protected BindingContext getBindingContext() {
-        return getBindingManager().getExistingContextOrStartNewOne(getClass());
+        return getBindingManager().getContext(getClass());
     }
 
 }

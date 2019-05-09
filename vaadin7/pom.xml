@@ -19,8 +19,16 @@
     </modules>
 
     <properties>
-        <joda-time.version>2.4</joda-time.version>
-        <vaadin.version>7.7.16</vaadin.version>
+        <joda-time.version>
+        <!-- tag::joda[] -->
+        2.4
+        <!-- end::joda[] -->
+        </joda-time.version>
+        <vaadin.version>
+        <!-- tag::vaadin7[] -->
+        7.7.17
+        <!-- end::vaadin7[] -->
+        </vaadin.version>
     </properties>
 
     <dependencyManagement>

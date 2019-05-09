@@ -58,8 +58,7 @@ public class MessageUI extends UI {
         bindingManager = new RegistrationBindingManager(validationService, ml -> messagesPanel.updateMessages(ml));
 
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
-        AbstractSection section = sectionFactory.createSection(registrationPmo,
-                bindingManager.getExistingContextOrStartNewOne(getClass()));
+        AbstractSection section = sectionFactory.createSection(registrationPmo, bindingManager.getContext(getClass()));
 
         setContent(new VerticalLayout(messagesPanel, section));
     }

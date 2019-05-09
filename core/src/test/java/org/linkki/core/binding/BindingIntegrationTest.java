@@ -51,14 +51,14 @@ public class BindingIntegrationTest {
                 .create();
         DefaultBindingManager bindingManager = new DefaultBindingManager(
                 () -> new MessageList(pmoValueMessage, modelPropMessage));
-        BindingContext bindingContext = bindingManager.getExistingContextOrStartNewOne(TestSectionPmo.class);
+        BindingContext bindingContext = bindingManager.getContext(TestSectionPmo.class);
         TestButtonPmo editButtonPmo = new TestButtonPmo();
         testSectionPmo.setEditButtonPmo(editButtonPmo);
 
         TestUiLayoutComponent section = TestSectionBuilder.createSection(testSectionPmo, bindingContext);
 
         assertThat(section.getChildren(), hasSize(3));
-        
+
         List<String> childIds = section.getChildren().stream().map(TestUiComponent::getId).collect(Collectors.toList());
         assertThat(childIds, contains("editButton", TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP));
 

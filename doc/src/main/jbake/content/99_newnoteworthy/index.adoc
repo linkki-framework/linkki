@@ -11,7 +11,7 @@ ifdef::backend-html5[]
 [subs="attributes"]
 ++++
 <script language="javascript">
-    window.location.href = "./latest.html";
+    window.location.href = "./00_latest.html";
 </script>
 ++++
 endif::[]

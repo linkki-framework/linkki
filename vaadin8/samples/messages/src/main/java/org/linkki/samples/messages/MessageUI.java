@@ -60,8 +60,7 @@ public class MessageUI extends UI {
         // end::validation-service[]
 
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
-        AbstractSection section = sectionFactory.createSection(registrationPmo,
-                bindingManager.getExistingContextOrStartNewOne(getClass()));
+        AbstractSection section = sectionFactory.createSection(registrationPmo, bindingManager.getContext(getClass()));
 
         VerticalLayout layout = new VerticalLayout(messagesPanel, section);
         layout.setMargin(false);
