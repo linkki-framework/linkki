@@ -14,6 +14,7 @@
 package org.linkki.framework.ui;
 
 import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.component.Headline;
 import org.linkki.framework.ui.component.sidebar.SidebarLayout;
@@ -53,6 +54,9 @@ public final class LinkkiApplicationTheme {
     /** Style for the body of a modal {@link OkCancelDialog dialog}. */
     public static final String DIALOG_CONTENT = "linkki-dialog-content";
 
+
+    public static final String DIALOG_BUTTON_BAR = "linkki-dialog-button-bar";
+
     /**
      * Prefix for {@link Message} label style classes. The errorLevel in lower case is used as suffix
      */
@@ -60,6 +64,9 @@ public final class LinkkiApplicationTheme {
 
     /** Style class prefix {@link Message} labels. The errorLevel in lower case is used as suffix */
     public static final String MESSAGE_LIST_STYLE = "linkki-message-list"; //$NON-NLS-1$
+
+    /** Style for a row in a table that shows a {@link MessageList} */
+    public static final String MESSAGE_ROW = "linkki-message-row";
 
     /** Style class for {@link Headline} */
     public static final String HEADLINE = "linkki-headline"; //$NON-NLS-1$

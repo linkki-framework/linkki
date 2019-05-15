@@ -14,8 +14,10 @@
 package org.linkki.framework.ui;
 
 import org.linkki.core.binding.validation.message.Message;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.component.Headline;
+import org.linkki.framework.ui.component.MessageUiComponents;
 import org.linkki.framework.ui.component.sidebar.SidebarLayout;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
@@ -53,6 +55,9 @@ public final class LinkkiApplicationTheme {
     /** Style for the body of a modal {@link OkCancelDialog dialog}. */
     public static final String DIALOG_CONTENT = "linkki-dialog-content";
 
+    /** Style for the layout that contains the buttons in a dialog */
+    public static final String DIALOG_BUTTON_BAR = "linkki-dialog-button-bar";
+
     /**
      * Prefix for {@link Message} label style classes. The errorLevel in lower case is used as suffix
      */
@@ -60,6 +65,18 @@ public final class LinkkiApplicationTheme {
 
     /** Style class prefix {@link Message} labels. The errorLevel in lower case is used as suffix */
     public static final String MESSAGE_LIST_STYLE = "linkki-message-list"; //$NON-NLS-1$
+
+    /**
+     * Style for a label that represents a single {@link Message}, created by
+     * {@link MessageUiComponents#createMessageComponent(Message)}.
+     */
+    public static final String MESSAGE_LABEL = "linkki-message-label";
+
+    /** Style for a table that shows a {@link MessageList}, created by {@link MessageUiComponents}. */
+    public static final String MESSAGE_TABLE = "linkki-message-table";
+
+    /** Style for a row in a message table, @see {@link #MESSAGE_TABLE} */
+    public static final String MESSAGE_ROW = "linkki-message-row";
 
     /** Style class for {@link Headline} */
     public static final String HEADLINE = "linkki-headline"; //$NON-NLS-1$

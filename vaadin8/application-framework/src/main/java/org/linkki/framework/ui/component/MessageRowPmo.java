@@ -20,12 +20,12 @@ import java.util.List;
 
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 /**
  * PMO for a {@link Message}, displaying an icon derived from the {@link Severity} and the
@@ -49,7 +49,7 @@ public class MessageRowPmo {
     }
 
     public List<String> getIconStyleNames() {
-        return Arrays.asList(LinkkiTheme.MESSAGE_ROW, MessageUiComponents.getStyle(message.getSeverity()));
+        return Arrays.asList(LinkkiApplicationTheme.MESSAGE_ROW, MessageUiComponents.getStyle(message.getSeverity()));
     }
 
     public String getIconTooltip() {
@@ -57,7 +57,7 @@ public class MessageRowPmo {
     }
 
     @UITableColumn(expandRatio = 1)
-    @UILabel(position = 20, styleNames = LinkkiTheme.MESSAGE_ROW)
+    @UILabel(position = 20, styleNames = LinkkiApplicationTheme.MESSAGE_ROW)
     public String getText() {
         return message.getText();
     }

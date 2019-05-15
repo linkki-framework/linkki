@@ -23,7 +23,6 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.area.TabSheetArea;
 import org.linkki.core.ui.page.Page;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
@@ -278,7 +277,7 @@ public class OkCancelDialog extends Window {
 
     private HorizontalLayout createButtons(ButtonOption buttonOption) {
         HorizontalLayout buttons = new HorizontalLayout();
-        buttons.addStyleName(LinkkiTheme.DIALOG_BUTTON_BAR);
+        buttons.addStyleName(LinkkiApplicationTheme.DIALOG_BUTTON_BAR);
         buttons.setSpacing(true);
         buttons.addComponent(okButton);
         buttons.setComponentAlignment(okButton, Alignment.BOTTOM_CENTER);

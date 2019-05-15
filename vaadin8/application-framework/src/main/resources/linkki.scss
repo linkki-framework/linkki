@@ -71,25 +71,6 @@ $linkki-sidebar-width: 56px !default;
     @include box-shadow(none);
   }
   
-  /* 
-  * Login popup
-  */
-  .linkki-login-panel {
-    width: 100% !important;
-    padding: 8px;
-    @include background-image(linear-gradient(to bottom, $v-app-background-color 2%, $v-app-background-color 98%));
-  }
-  
-  .linkki-login-panel-caption {
-    width: 33% !important;
-  
-    .v-panel-caption {
-        color: linkki-foreground-color($linkki-color-primary);
-        background-color: $linkki-color-primary;
-        @include background-image(linear-gradient(to bottom, $linkki-color-primary 2%, $linkki-color-primary 95%));
-    }
-  }
-  
   /*
   * Header
   */

@@ -18,13 +18,10 @@ package org.linkki.core.defaults.style;
  */
 public class LinkkiTheme {
 
-    /** Style for the menu section of the application. */
-    public static final String MENU_WRAPPER = "linkki-menu-wrapper";
-
+    /** Style for a horizontal spacer */
     public static final String HORIZONTAL_SPACER = "linkki-horizontal-spacer";
 
-    public static final String FIXED_HORIZONTAL_SPACER = "linkki-fixed-horizontal-spacer";
-
+    /** Style for the section layout component */
     public static final String SECTION = "linkki-section";
 
     /** Style for the caption of a section. */
@@ -36,15 +33,15 @@ public class LinkkiTheme {
     /** Style for the line separating the section's header/caption from the body/content. */
     public static final String SECTION_CAPTION_LINE = "linkki-section-caption-line";
 
-    /** Style for the line separating the section's header/caption from the body/content. */
-    public static final String LOGIN_PANEL_CAPTION = "linkki-login-panel-caption";
-
-    public static final String LOGIN_PANEL = "linkki-login-panel";
-
+    /**
+     * Style for components that should be rendered without a border, for example components in tables
+     */
     public static final String BORDERLESS = "borderless";
 
+    /** Style for tables created by linkki */
     public static final String TABLE = "linkki-table";
 
+    /** Style for a single cell within a linkki table */
     public static final String TABLE_CELL = "linkki-table-cell";
 
     /**
@@ -52,14 +49,6 @@ public class LinkkiTheme {
      */
     @Deprecated
     public static final String SPACING_HORIZONTAL_SECTION = "horizontal-section-spacing";
-
-    public static final String DIALOG_BUTTON_BAR = "linkki-dialog-button-bar";
-
-    public static final String MESSAGE_LABEL = "linkki-message-label";
-
-    public static final String MESSAGE_TABLE = "linkki-message-table";
-
-    public static final String MESSAGE_ROW = "linkki-message-row";
 
     /** A button that is styled as a text, without additional height. **/
     public static final String BUTTON_TEXT = "linkki-button-text";
