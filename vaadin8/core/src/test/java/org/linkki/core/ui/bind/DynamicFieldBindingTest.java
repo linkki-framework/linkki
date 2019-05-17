@@ -39,18 +39,15 @@ import org.linkki.core.ui.layout.annotation.UISection;
 
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class DynamicFieldBindingTest {
 
     private static final int POS = 1;
 
-
     @Test
     public void testDynamicField_shouldBindToTextField() {
-
         String value = "value";
         Pmo pmo = new Pmo(new Model(value, false));
         BindingContext bindingContext = new BindingContext();
@@ -98,6 +95,23 @@ public class DynamicFieldBindingTest {
         assertThat(cb.getValue(), is(nullValue()));
     }
 
+    @Test
+    public void testDynamicField_differentModelAttribute() {
+        BindingContext bindingContext = new BindingContext();
+
+        PmoWithDifferentModelAttributes pmoWithTextField = new PmoWithDifferentModelAttributes(new Model(),
+                UITextField.class);
+        Component textField = TestUiUtil.createFirstComponentOf(pmoWithTextField, bindingContext);
+        assertNotNull(textField);
+        assertThat(textField, is(instanceOf(TextField.class)));
+
+        PmoWithDifferentModelAttributes pmoWithTextArea = new PmoWithDifferentModelAttributes(new Model(),
+                UITextArea.class);
+        Component textArea = TestUiUtil.createFirstComponentOf(pmoWithTextArea, bindingContext);
+        assertNotNull(textArea);
+        assertThat(textArea, is(instanceOf(TextArea.class)));
+    }
+
     @Test(expected = IllegalStateException.class)
     public void testDynamicField_missingMethod_shouldThrowIllegalStateException() {
         TestUiUtil.createFirstComponentOf(new PmoWithoutMethod());
@@ -121,22 +135,39 @@ public class DynamicFieldBindingTest {
 
     public static class Model {
 
-        @CheckForNull
+        public static final String PROPERTY_PAYMENT_METHOD = "paymentMethod";
+        public static final String PROPERTY_ADDRESS = "address";
+
         private String paymentMethod;
+        private String address;
         private boolean showComboBox;
+
+        Model() {
+            this.paymentMethod = "";
+            this.address = "";
+            this.showComboBox = false;
+        }
 
         Model(String paymentMethod, boolean showComboBox) {
             this.paymentMethod = paymentMethod;
             this.showComboBox = showComboBox;
+            this.address = "";
         }
 
-        @CheckForNull
         public String getPaymentMethod() {
             return paymentMethod;
         }
 
         public void setPaymentMethod(String paymentMethod) {
             this.paymentMethod = paymentMethod;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
         }
 
         public boolean isShowComboBox() {
@@ -178,6 +209,32 @@ public class DynamicFieldBindingTest {
 
         public List<String> getPaymentMethodAvailableValues() {
             return Arrays.asList("annual", "semi-annual", "quarterly", "monthly");
+        }
+    }
+
+    public static class PmoWithDifferentModelAttributes {
+
+        private Model model;
+        private Class<?> componentType;
+
+        PmoWithDifferentModelAttributes(Model model, Class<?> componentType) {
+            this.model = model;
+            this.componentType = componentType;
+        }
+
+        @ModelObject
+        public Model getModel() {
+            return model;
+        }
+
+        @UITextField(position = POS, label = "", modelAttribute = Model.PROPERTY_ADDRESS)
+        @UITextArea(position = POS, label = "", modelAttribute = Model.PROPERTY_PAYMENT_METHOD)
+        public void addressOrPaymentMethod() {
+            // model binding
+        }
+
+        public Class<?> getAddressOrPaymentMethodComponentType() {
+            return componentType;
         }
     }
 

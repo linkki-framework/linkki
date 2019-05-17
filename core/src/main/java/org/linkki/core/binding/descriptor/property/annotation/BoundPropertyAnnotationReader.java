@@ -91,7 +91,7 @@ public final class BoundPropertyAnnotationReader {
     public static Optional<BoundProperty> findBoundProperty(AnnotatedElement annotatedElement) {
         return BOUND_PROPERTY_ANNOTATION.findAnnotatedAnnotationsOn(annotatedElement)
                 .map(a -> getBoundProperty(a, annotatedElement))
-                .reduce(allAnnotationsMustDefineTheSameProperty(annotatedElement));
+                .reduce(allAnnotationsMustDefineTheSamePmoProperty(annotatedElement));
     }
 
     private static <A extends Annotation> BoundProperty getBoundProperty(A annotation,
@@ -107,10 +107,10 @@ public final class BoundPropertyAnnotationReader {
         return Classes.instantiate(creatorClass).createBoundProperty(annotation, annotatedElement);
     }
 
-    private static BinaryOperator<BoundProperty> allAnnotationsMustDefineTheSameProperty(
+    private static BinaryOperator<BoundProperty> allAnnotationsMustDefineTheSamePmoProperty(
             AnnotatedElement annotatedElement) {
         return (b1, b2) -> {
-            if (b1.equals(b2)) {
+            if (b1.getPmoProperty().equals(b2.getPmoProperty())) {
                 return b1;
             } else {
                 throw new IllegalArgumentException(

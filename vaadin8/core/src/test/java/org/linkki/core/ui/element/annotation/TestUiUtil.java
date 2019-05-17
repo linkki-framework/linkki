@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.FormSection;
 import org.linkki.util.StreamUtil;
@@ -54,9 +56,9 @@ public final class TestUiUtil {
         return createFirstComponentOf(pmo, bindingContext);
     }
 
-    
     public static Component createFirstComponentOf(Object pmo, BindingContext bindingContext) {
-        return createSectionWith(pmo, bindingContext).getComponent(1, 0);
+        return UiCreator.createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c)).findFirst()
+                .get().getComponent();
     }
 
     /**
@@ -71,7 +73,6 @@ public final class TestUiUtil {
         return createSectionWith(pmo, new BindingContext());
     }
 
-    
     public static GridLayout createSectionWith(Object pmo, BindingContext bindingContext) {
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         AbstractSection section = sectionFactory.createSection(pmo, bindingContext);
