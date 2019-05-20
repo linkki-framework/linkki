@@ -13,12 +13,16 @@
  */
 package org.linkki.samples.binding.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+
 public class Contact {
 
+    public static final String PROPERTY_FIRSTNAME = "firstname";
     public static final String PROPERTY_LASTNAME = "lastname";
     public static final String PROPERTY_COUNTRY_OF_BIRTH = "countryOfBirth";
     public static final String PROPERTY_NO_OF_CHILDREN = "noOfChildren";
-    public static final String PROPERTY_NOTES_ON_CHILDREN = "notesOnChildren";
 
     private String firstname;
     private String lastname;
@@ -28,8 +32,7 @@ public class Contact {
     private Gender gender = Gender.NON_BINARY;
     private String countryOfBirth;
 
-    private int noOfChildren;
-    private String notesOnChildren;
+    private List<ChildInfo> children = new ArrayList<>();
 
     public String getFirstname() {
         return firstname;
@@ -95,19 +98,17 @@ public class Contact {
     }
 
     public int getNoOfChildren() {
-        return noOfChildren;
+        return children.size();
     }
 
     public void setNoOfChildren(int noOfChildren) {
-        this.noOfChildren = noOfChildren;
+        if (noOfChildren > children.size()) {
+            IntStream.range(0, noOfChildren - children.size()).forEach(i -> children.add(new ChildInfo()));
+        }
     }
 
-    public String getNotesOnChildren() {
-        return notesOnChildren;
-    }
-
-    public void setNotesOnChildren(String notesOnChildren) {
-        this.notesOnChildren = notesOnChildren;
+    public List<ChildInfo> getChildren() {
+        return children;
     }
 
     public enum Gender {

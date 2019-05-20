@@ -11,43 +11,108 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-
 package org.linkki.samples.binding.pmo;
 
+import java.util.List;
+
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UITextArea;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.samples.binding.model.ChildInfo;
 import org.linkki.samples.binding.model.Contact;
+
+import com.vaadin.icons.VaadinIcons;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 // tag::sectionCaption[]
 @UISection(caption = "Children", closeable = true)
 public class ChildrenSectionPmo {
     // end::sectionCaption[]
 
-    @ModelObject
+    @ModelObject(name = "Contact")
     private Contact contact;
+
+    @CheckForNull
+    @ModelObject
+    private ChildInfo child;
 
     public ChildrenSectionPmo(Contact contact) {
         this.contact = contact;
+        selectChild();
     }
 
-    @UIIntegerField(position = 10, label = "Number of children", modelAttribute = Contact.PROPERTY_NO_OF_CHILDREN)
-    public void noOfChildren() {
-        // model binding
+    @UIIntegerField(position = 10, label = "Number of children", modelObject = "Contact", modelAttribute = Contact.PROPERTY_NO_OF_CHILDREN)
+    public int getNoOfChildren() {
+        return contact.getNoOfChildren();
     }
 
-    @UITextArea(position = 20, label = "Notes", modelAttribute = Contact.PROPERTY_NOTES_ON_CHILDREN, visible = VisibleType.DYNAMIC)
-    public void notes() {
-        // model binding
+    public void setNoOfChildren(int noOfChildren) {
+        contact.setNoOfChildren(noOfChildren);
+        selectChild();
     }
 
-    public boolean isNotesVisible() {
-        return contact.getNoOfChildren() > 0;
+    @UIComboBox(position = 20, label = "", visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC)
+    public ChildInfo getChild() {
+        return child;
+    }
+
+    public void setChild(ChildInfo child) {
+        this.child = child;
+    }
+
+    public List<ChildInfo> getChildAvailableValues() {
+        return contact.getChildren();
+    }
+
+    public boolean isChildVisible() {
+        return contact.getChildren().size() > 1;
+    }
+
+    @UITextField(position = 30, label = "Firstname", modelAttribute = ChildInfo.PROPERTY_FIRSTNAME)
+    public String getFirstname() {
+        return child != null ? child.getFirstname() : "";
+    }
+
+    @UITextField(position = 40, label = "Lastname", modelAttribute = ChildInfo.PROPERTY_LASTNAME)
+    public String getLastname() {
+        return child != null ? child.getLastname() : "";
+    }
+
+    @UITextArea(position = 50, label = "Note", modelAttribute = ChildInfo.PROPERTY_NOTE)
+    public String getNote() {
+        return child != null ? child.getNote() : "";
+    }
+
+    @UIButton(position = 60, showIcon = true, icon = VaadinIcons.TRASH, visible = VisibleType.DYNAMIC)
+    public void remove() {
+        contact.getChildren().remove(child);
+        this.child = contact.getChildren().size() > 0 ? contact.getChildren().get(0) : null;
+    }
+
+    public boolean isRemoveVisible() {
+        return this.child != null;
     }
 
     public void reset(Contact newContact) {
         this.contact = newContact;
+        selectChild();
+    }
+
+    private void selectChild() {
+        List<ChildInfo> children = contact.getChildren();
+        if (!children.contains(child)) {
+            if (!children.isEmpty()) {
+                child = contact.getChildren().get(0);
+            } else {
+                child = null;
+            }
+        }
     }
 }

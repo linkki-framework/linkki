@@ -1716,24 +1716,6 @@ div.v-layout.v-horizontal.v-widget {
 	box-shadow: none;
 }
 
-.sample .linkki-login-panel {
-	width: 100% !important;
-	padding: 8px;
-	background-image: -webkit-linear-gradient(top, #fdfdfd 2%, #fdfdfd 98%);
-	background-image: linear-gradient(to bottom, #fdfdfd 2%, #fdfdfd 98%);
-}
-
-.sample .linkki-login-panel-caption {
-	width: 33% !important;
-}
-
-.sample .linkki-login-panel-caption .v-panel-caption {
-	color: white;
-	background-color: #005596;
-	background-image: -webkit-linear-gradient(top, #005596 2%, #005596 95%);
-	background-image: linear-gradient(to bottom, #005596 2%, #005596 95%);
-}
-
 .sample .linkki-application-header {
 	color: white;
 	background-color: #005596;

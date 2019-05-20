@@ -36,4 +36,5 @@ public enum TestEnum {
     public String getName() {
         return name();
     }
+
 }

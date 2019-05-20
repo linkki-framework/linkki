@@ -52,14 +52,14 @@ public class HasItemsAvailableValuesAspectDefinition extends AvailableValuesAspe
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void handleNullItems(ComponentWrapper componentWrapper, List<Object> items) {
+    protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
         Object component = componentWrapper.getComponent();
         if (component instanceof ComboBox<?>) {
             boolean hasNullItem = items.removeIf(i -> i == null);
-            ((ComboBox<Object>)componentWrapper.getComponent()).setEmptySelectionAllowed(hasNullItem);
+            ((ComboBox<Object>)component).setEmptySelectionAllowed(hasNullItem);
         } else if (component instanceof NativeSelect<?>) {
             boolean hasNullItem = items.removeIf(i -> i == null);
-            ((NativeSelect<Object>)componentWrapper.getComponent()).setEmptySelectionAllowed(hasNullItem);
+            ((NativeSelect<Object>)component).setEmptySelectionAllowed(hasNullItem);
         }
     }
 }

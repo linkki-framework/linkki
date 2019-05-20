@@ -130,7 +130,7 @@ public @interface UIYesNoComboBox {
 
                 @Override
                 @SuppressWarnings("unchecked")
-                protected void handleNullItems(ComponentWrapper componentWrapper, List<Object> items) {
+                protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
                     boolean hasNullItem = items.removeIf(i -> i == null);
                     ((ComboBox<Object>)componentWrapper.getComponent()).setEmptySelectionAllowed(hasNullItem);
                 }

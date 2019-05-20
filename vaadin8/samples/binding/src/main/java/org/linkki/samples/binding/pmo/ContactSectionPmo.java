@@ -50,7 +50,7 @@ public class ContactSectionPmo {
     }
 
     @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-    @UITextField(position = 10, label = "Firstname", required = RequiredType.REQUIRED, modelAttribute = "firstname")
+    @UITextField(position = 10, label = "Firstname", required = RequiredType.REQUIRED, modelAttribute = Contact.PROPERTY_FIRSTNAME)
     public void firstname() {
         /* model binding only */
     }
@@ -79,7 +79,8 @@ public class ContactSectionPmo {
             content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class, //
             modelAttribute = Contact.PROPERTY_COUNTRY_OF_BIRTH)
     public void countryOfBirth() {
-        /* model binding only */ }
+        /* model binding only */
+    }
 
     public List<String> getCountryOfBirthAvailableValues() {
         return Arrays.asList(Locale.getAvailableLocales()).stream()

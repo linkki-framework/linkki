@@ -14,9 +14,10 @@
 
 package org.linkki.core.ui.aspects;
 
-import static java.util.Objects.requireNonNull;
+import static org.linkki.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -29,7 +30,11 @@ import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.HasItems;
+import com.vaadin.data.HasValue;
+import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
+
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Defines aspects that update the set of available value of an {@link HasItems}.
@@ -50,20 +55,55 @@ public class AvailableValuesAspectDefinition<C extends HasItems<?>> implements L
 
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        Aspect<List<?>> aspect = createAspect(propertyDispatcher.getProperty(),
-                                              propertyDispatcher.getValueClass());
+        Aspect<Collection<?>> aspect = createAspect(propertyDispatcher.getProperty(),
+                                                    propertyDispatcher.getValueClass());
 
         List<Object> items = new ArrayList<>();
         ListDataProvider<Object> listDataProvider = new ListDataProvider<>(items);
 
         setDataProvider(componentWrapper, listDataProvider);
-        return () -> {
-            items.clear();
-            items.addAll(propertyDispatcher.pull(aspect));
-            handleNullItems(componentWrapper, items);
-            listDataProvider.refreshAll();
-        };
 
+        return () -> updateItems(items, propertyDispatcher.pull(aspect), componentWrapper, listDataProvider);
+    }
+
+    private void updateItems(List<Object> items,
+            @Nullable Collection<?> newItemsParam,
+            ComponentWrapper componentWrapper,
+            ListDataProvider<Object> listDataProvider) {
+        ArrayList<?> newItems = new ArrayList<>(
+                requireNonNull(newItemsParam, "List of available values must not be null"));
+        handleNullItems(componentWrapper, newItems);
+        if (!items.equals(newItems)) {
+            items.clear();
+            items.addAll(newItems);
+            listDataProvider.refreshAll();
+        }
+        // refreshAll does not refresh the items
+        refreshVisibleItems(componentWrapper, listDataProvider);
+    }
+
+    /**
+     * Refreshes caption of visible items that are shown in the component.
+     * <p>
+     * Note that this should be called on every update, even if the content has not changed. The reason
+     * for that is that the caption of a value may change due to changes to other fields in the binding
+     * context.
+     * <p>
+     * For example: Given an text field that changes the name of a person. The person object itself is
+     * displayed in a combo box, the caption within the combo box is the name of the person. When
+     * changing the name of the person in the text field, the object in the combo box is untouched. But
+     * because of the caption has changed we need to force an update event for the selected item.
+     * 
+     * @implNote This implementation only refreshes a single selected item. The method is protected to
+     *           allow different behavior if specific components or {@link DataProvider data providers}
+     *           may need other actions. A list select for example may need to refresh all items because
+     *           not only the selected one is visible.
+     */
+    protected void refreshVisibleItems(ComponentWrapper componentWrapper, ListDataProvider<Object> listDataProvider) {
+        Object value = ((HasValue<?>)componentWrapper.getComponent()).getValue();
+        if (value != null) {
+            listDataProvider.refreshItem(value);
+        }
     }
 
     /**
@@ -77,7 +117,7 @@ public class AvailableValuesAspectDefinition<C extends HasItems<?>> implements L
      *            derive the {@link Aspect}'s values from valueClasses data type
      * @return the {@link Aspect} with name {@link AvailableValuesAspectDefinition#NAME}
      */
-    public Aspect<List<?>> createAspect(String propertyName, Class<?> valueClass) {
+    public Aspect<Collection<?>> createAspect(String propertyName, Class<?> valueClass) {
         AvailableValuesType type = getAvailableValuesType();
         if (type == AvailableValuesType.DYNAMIC) {
             return Aspect.of(NAME);
@@ -131,7 +171,7 @@ public class AvailableValuesAspectDefinition<C extends HasItems<?>> implements L
      * @param componentWrapper component of which available values should be updated
      * @param items items to be shown in the {@link ComponentWrapper}. May contain <code>null</code>.
      */
-    protected void handleNullItems(ComponentWrapper componentWrapper, List<Object> items) {
+    protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
         // does nothing by default
     }
 }

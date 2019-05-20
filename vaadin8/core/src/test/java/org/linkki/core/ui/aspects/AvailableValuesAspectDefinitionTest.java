@@ -14,18 +14,22 @@
 
 package org.linkki.core.ui.aspects;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -39,6 +43,9 @@ import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.data.HasItems;
+import com.vaadin.data.provider.DataChangeEvent;
+import com.vaadin.data.provider.DataChangeEvent.DataRefreshEvent;
+import com.vaadin.data.provider.DataProviderListener;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.ComboBox;
 
@@ -116,7 +123,7 @@ public class AvailableValuesAspectDefinitionTest {
         AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, NOP);
 
-        Aspect<List<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
+        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(false));
@@ -127,7 +134,7 @@ public class AvailableValuesAspectDefinitionTest {
         AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.NO_VALUES, NOP);
 
-        Aspect<List<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
+        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(true));
@@ -139,7 +146,7 @@ public class AvailableValuesAspectDefinitionTest {
         AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.ENUM_VALUES_EXCL_NULL, NOP);
 
-        Aspect<List<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
+        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(true));
@@ -151,7 +158,7 @@ public class AvailableValuesAspectDefinitionTest {
         AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.ENUM_VALUES_INCL_NULL, NOP);
 
-        Aspect<List<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
+        Aspect<Collection<?>> aspect = availableValuesAspectDefinition.createAspect("foo", TestEnum.class);
 
         assertThat(aspect.getName(), is(AvailableValuesAspectDefinition.NAME));
         assertThat(aspect.isValuePresent(), is(true));
@@ -164,20 +171,51 @@ public class AvailableValuesAspectDefinitionTest {
         BiConsumer<HasItems<?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
         AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                 AvailableValuesType.DYNAMIC, dataProviderSetter);
-
         PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
         when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.THREE));
         ComboBox<Object> component = mock(ComboBox.class);
         Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
                                                                             new LabelComponentWrapper(component));
-
         ArgumentCaptor<ListDataProvider<?>> dataProviderCaptor = ArgumentCaptor.forClass(ListDataProvider.class);
         verify(dataProviderSetter).accept(eq(component), (ListDataProvider<Object>)dataProviderCaptor.capture());
-
         @NonNull
         ListDataProvider<?> dataProvider = dataProviderCaptor.getValue();
 
         uiUpdater.apply();
+
         assertThat(dataProvider.getItems(), contains(TestEnum.ONE, TestEnum.THREE));
     }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testRefresh() {
+        BiConsumer<HasItems<?>, ListDataProvider<Object>> dataProviderSetter = mock(BiConsumer.class);
+        AvailableValuesAspectDefinition<HasItems<?>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
+                AvailableValuesType.DYNAMIC, dataProviderSetter);
+        PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
+        when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.THREE));
+        ComboBox<Object> component = mock(ComboBox.class);
+        when(component.getValue()).thenReturn(TestEnum.ONE);
+        Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
+                                                                            new LabelComponentWrapper(component));
+        ArgumentCaptor<ListDataProvider<?>> dataProviderCaptor = ArgumentCaptor.forClass(ListDataProvider.class);
+        ArgumentCaptor<DataChangeEvent<Object>> changeEventCaptor = ArgumentCaptor.forClass(DataChangeEvent.class);
+        verify(dataProviderSetter).accept(eq(component), (ListDataProvider<Object>)dataProviderCaptor.capture());
+        @NonNull
+        ListDataProvider<Object> dataProvider = (ListDataProvider<Object>)dataProviderCaptor.getValue();
+        DataProviderListener<Object> listener = mock(DataProviderListener.class);
+        dataProvider.addDataProviderListener(listener);
+
+        uiUpdater.apply();
+
+        verify(listener, times(2)).onDataChange(changeEventCaptor.capture());
+        DataChangeEvent<Object> refreshAllEvent = changeEventCaptor.getAllValues().get(0);
+        DataChangeEvent<Object> refreshItemEvent = changeEventCaptor.getAllValues().get(1);
+        assertThat(refreshAllEvent.getSource(), is(dataProvider));
+        assertThat(refreshAllEvent, is(not((instanceOf(DataRefreshEvent.class)))));
+        assertThat(refreshItemEvent.getSource(), is(dataProvider));
+        assertThat(refreshItemEvent, is((instanceOf(DataRefreshEvent.class))));
+        assertThat(((DataRefreshEvent<?>)refreshItemEvent).getItem(), is(TestEnum.ONE));
+    }
+
 }
