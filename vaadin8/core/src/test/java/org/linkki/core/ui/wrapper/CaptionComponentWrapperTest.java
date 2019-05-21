@@ -16,6 +16,7 @@ package org.linkki.core.ui.wrapper;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -32,6 +33,7 @@ import com.vaadin.server.ErrorMessage;
 import com.vaadin.shared.ui.ErrorLevel;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.TextField;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -59,6 +61,17 @@ public class CaptionComponentWrapperTest {
         wrapper.setLabel("testLabel");
 
         verify(component).setCaption("testLabel");
+    }
+
+    @Test
+    public void testSetLabel_EmptyString() {
+        Component component = new TextField();
+        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component,
+                WrapperType.FIELD);
+
+        wrapper.setLabel("");
+
+        assertThat(component.getCaption(), is(nullValue()));
     }
 
     @Test
@@ -146,7 +159,7 @@ public class CaptionComponentWrapperTest {
         wrapper.setValidationMessages(messages);
 
         verify(component).setComponentError(errorMessageCaptor.capture());
-        
+
         @NonNull
         ErrorMessage errorMessage = errorMessageCaptor.getValue();
         assertThat(errorMessage.getErrorLevel(), is(ErrorLevel.ERROR));

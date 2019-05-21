@@ -14,6 +14,8 @@
 
 package org.linkki.core.ui.wrapper;
 
+import static org.apache.commons.lang3.ObjectUtils.isEmpty;
+
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -61,9 +63,18 @@ public class CaptionComponentWrapper implements ComponentWrapper {
         component.setId(id);
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @implNote Vaadin distinguishes between no caption (caption is {@code null}) and an empty caption.
+     *           In second case, some space is reserved for a caption but no text is displayed. In
+     *           annnotations we cannot set the {@code null} value hence we cannot distinguish between
+     *           {@code null} and empty string. That's why this implementation treats the empty string
+     *           as no caption and will set {@code null} as the vaadin caption.
+     */
     @Override
     public void setLabel(String labelText) {
-        component.setCaption(labelText);
+        component.setCaption(isEmpty(labelText) ? null : labelText);
     }
 
     @Override
