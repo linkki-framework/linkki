@@ -20,7 +20,10 @@ import static org.junit.Assert.fail;
 import static org.linkki.doc.PathExistsMatcher.exists;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -84,10 +87,17 @@ public class LinkTest {
         } else if (link.startsWith("http")) {
             try {
                 URL url = new URL(link);
-                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                connection.setRequestProperty(USER_AGENT, StringUtils.EMPTY);
+                int responseCode = 0;
+                try {
+                    responseCode = connectTo(url, 2_000);
+                    if(responseCode==HttpURLConnection.HTTP_CLIENT_TIMEOUT || responseCode==HttpURLConnection.HTTP_GATEWAY_TIMEOUT) {
+                        responseCode = connectTo(url, 10_000);
+                    }
+                } catch (SocketException | SocketTimeoutException e ) {
+                    responseCode = connectTo(url, 10_000);
+                }
                 assertThat("external link '" + link + "' in '" + from + "' returns wrong http status",
-                           connection.getResponseCode(), is(HttpURLConnection.HTTP_OK));
+                           responseCode, is(HttpURLConnection.HTTP_OK));
             } catch (IOException e) {
                 fail("external link '" + link + "' in '" + from + "' could not be resolved:\n" + e);
             }
@@ -118,6 +128,14 @@ public class LinkTest {
                 }
             }
         }
+    }
+
+    private int connectTo(URL url, int timeout) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        connection.setConnectTimeout(timeout);
+        connection.setReadTimeout(timeout);
+        connection.setRequestProperty(USER_AGENT, StringUtils.EMPTY);
+        return connection.getResponseCode();
     }
 
 }
