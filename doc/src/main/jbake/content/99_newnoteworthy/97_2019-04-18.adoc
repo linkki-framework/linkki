@@ -94,7 +94,7 @@ Some changes are not covered by the migration script. To deal with the remaining
 ifdef::backend-html5[]
 +++ </div></details> +++
 
-+++ <details><summary> +++
++++ <details open="true"><summary> +++
 +++ <h5 style="display:inline;"> Migrating to linkki for Vaadin 8</h5>+++
 +++ </summary><div> +++
 endif::[]
