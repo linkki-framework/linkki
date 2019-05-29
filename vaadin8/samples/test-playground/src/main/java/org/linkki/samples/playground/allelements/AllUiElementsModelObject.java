@@ -16,27 +16,24 @@ package org.linkki.samples.playground.allelements;
 
 import java.time.LocalDate;
 
-import com.vaadin.ui.Notification;
-
 public class AllUiElementsModelObject {
 
-    public enum Suit {
-        SPADES("♠"),
-        HEARTS("♥"),
-        CLUBS("♣"),
-        DIAMONDS("♦");
+    public static final String PROPERTY_TEXT = "text";
 
-        private final String symbol;
+    public static final String PROPERTY_LONGTEXT = "longText";
 
-        private Suit(String symbol) {
-            this.symbol = symbol;
-        }
+    public static final String PROPERTY_INTVALUE = "intValue";
 
+    public static final String PROPERTY_DOUBLEVALUE = "doubleValue";
 
-        public String getName() {
-            return symbol;
-        }
-    }
+    public static final String PROPERTY_DATE = "date";
+
+    public static final String PROPERTY_ENUMVALUE = "enumValue";
+
+    public static final String PROPERTY_BOOLEANVALUE = "booleanValue";
+
+    public static final String PROPERTY_SECRET = "secret";
+
 
     private String text = "foo";
 
@@ -117,9 +114,4 @@ public class AllUiElementsModelObject {
     public void setSecret(String secret) {
         this.secret = secret;
     }
-
-    public void action() {
-        Notification.show("Clicked");
-    }
-
 }

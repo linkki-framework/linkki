@@ -87,7 +87,7 @@ public class AllUiElementsPmo {
 
     @UIButton(position = 100, caption = NlsText.I18n)
     public void action() {
-        // model binding
+        getModelObject().setIntValue(getModelObject().getIntValue() + 1);
     }
 
 }
