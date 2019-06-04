@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -40,6 +42,28 @@ public interface PropertyBehaviorProvider {
      */
     public static PropertyBehaviorProvider with(@NonNull PropertyBehavior... behaviors) {
         List<PropertyBehavior> behaviorsList = Arrays.asList(behaviors);
+        return () -> behaviorsList;
+    }
+
+    /**
+     * Creates a new {@link PropertyBehaviorProvider} that returns this
+     * {@link PropertyBehaviorProvider}'s {@link PropertyBehavior PropertyBehaviors} followed by the
+     * given {@link PropertyBehavior PropertyBehaviors}.
+     */
+    public default PropertyBehaviorProvider append(@NonNull PropertyBehavior... behaviors) {
+        List<PropertyBehavior> behaviorsList = Stream.concat(getBehaviors().stream(), Arrays.stream(behaviors))
+                .collect(Collectors.toList());
+        return () -> behaviorsList;
+    }
+
+    /**
+     * Creates a new {@link PropertyBehaviorProvider} that returns the given {@link PropertyBehavior
+     * PropertyBehaviors} followed by this {@link PropertyBehaviorProvider}'s {@link PropertyBehavior
+     * PropertyBehaviors}.
+     */
+    public default PropertyBehaviorProvider prepend(@NonNull PropertyBehavior... behaviors) {
+        List<PropertyBehavior> behaviorsList = Stream.concat(Arrays.stream(behaviors), getBehaviors().stream())
+                .collect(Collectors.toList());
         return () -> behaviorsList;
     }
 }

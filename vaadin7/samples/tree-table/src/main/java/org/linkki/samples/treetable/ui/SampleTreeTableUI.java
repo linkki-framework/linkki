@@ -54,7 +54,7 @@ public class SampleTreeTableUI extends UI {
             area.addTab(new PersonTablePmo(personRepository::getPersons), "static");
             area.addTab(new LeagueTablePmo(league), "dynamic");
         });
-        tabSheetArea.createContent();
+        tabSheetArea.init();
 
         setContent(tabSheetArea);
     }
@@ -82,7 +82,7 @@ public class SampleTreeTableUI extends UI {
 
         public Tab addTab(Object pmo, String caption) {
             SingleSectionPage tabPage = new SingleSectionPage(pmoBasedSectionFactory, pmo);
-            tabPage.createContent();
+            tabPage.init();
             return super.addTab(tabPage, caption);
         }
     }

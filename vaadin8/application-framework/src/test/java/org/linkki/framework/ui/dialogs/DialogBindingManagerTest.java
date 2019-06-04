@@ -54,7 +54,7 @@ public class DialogBindingManagerTest {
 
         // Use the NOP validation service in the binding manager
         DialogBindingManager manager = new DialogBindingManager(dialog, ValidationService.NOP_VALIDATION_SERVICE);
-        BindingContext ctx = manager.startNewContext("foo");
+        BindingContext ctx = manager.getContext("foo");
 
         // Change the dialog's validation service to make sure dialog's validate method is used and
         // not the validation service the manager was created with (so that the dialog could filter

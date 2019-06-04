@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
@@ -43,6 +44,7 @@ import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.test.TestButtonPmo;
 import org.linkki.core.vaadin.component.page.AbstractPage;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.UI;
 
@@ -163,13 +165,13 @@ public class BindingContextIntegrationTest {
         }
 
         @Override
-        public BindingContext startNewContext(String name) {
-            return super.startNewContext(name);
+        protected BindingContext newBindingContext(String name) {
+            return new BindingContext();
         }
 
         @Override
-        protected BindingContext newBindingContext(String name) {
-            return new BindingContext();
+        protected BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider) {
+            return new BindingContext("", behaviorProvider, Handler.NOP_HANDLER);
         }
 
     }

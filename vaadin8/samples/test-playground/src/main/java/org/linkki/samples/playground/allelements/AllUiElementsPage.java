@@ -26,7 +26,7 @@ public class AllUiElementsPage extends AbstractPage {
     private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
 
     public AllUiElementsPage() {
-        createContent();
+        init();
     }
 
     @Override

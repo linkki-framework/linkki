@@ -50,7 +50,7 @@ public class BindingManagerTest {
         MessageList sortedMessageList = new MessageList(e1, e3, e2, w1, w2, i2, i1);
         validationService = () -> unsortedMessageList;
         TestBindingManager bindingManager = new TestBindingManager(validationService);
-        TestBindingContext context = bindingManager.startNewContext("foo");
+        TestBindingContext context = bindingManager.getContext("foo");
 
         bindingManager.afterUpdateUi();
 
@@ -80,7 +80,7 @@ public class BindingManagerTest {
             }
         };
         TestBindingManager bindingManager = new TestBindingManager(validationService);
-        TestBindingContext context = bindingManager.startNewContext("foo");
+        TestBindingContext context = bindingManager.getContext("foo");
 
         bindingManager.afterUpdateUi();
 
@@ -137,13 +137,23 @@ public class BindingManagerTest {
         }
 
         @Override
-        public TestBindingContext startNewContext(String name) {
-            return (TestBindingContext)super.startNewContext(name);
+        public TestBindingContext getContext(Class<?> clazz) {
+            return (TestBindingContext)super.getContext(clazz);
+        }
+
+        @Override
+        public TestBindingContext getContext(String name) {
+            return (TestBindingContext)super.getContext(name);
         }
 
         @Override
         protected TestBindingContext newBindingContext(String name) {
             return new TestBindingContext(name, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, this::afterUpdateUi);
+        }
+
+        @Override
+        protected BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider) {
+            return new TestBindingContext(name, behaviorProvider, this::afterUpdateUi);
         }
 
     }

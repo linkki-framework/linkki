@@ -22,6 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.lang3.Validate;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.MessageList;
 
@@ -48,10 +49,43 @@ public abstract class BindingManager {
      * 
      * @param clazz the class of which the qualified name is used to identify the
      *            {@linkplain BindingContext} in this manager
+     * 
+     * @throws IllegalArgumentException if there already exists a context for the given class
+     * 
      * @see BindingContext
+     * @see #createContext(Class, PropertyBehaviorProvider) createContext(String,
+     *      PropertyBehaviorProvider) to start a {@link BindingContext} with a custom
+     *      {@link PropertyBehaviorProvider}
+     * 
+     * @deprecated for removal since June 7th, 2019. Use {@link #getContext(Class)} instead. The
+     *             {@link BindingContext} will be created if it does not already exist).
      */
+    @Deprecated
     public BindingContext startNewContext(Class<?> clazz) {
-        return startNewContext(clazz.getName());
+        return createContext(clazz.getName());
+    }
+
+    /**
+     * Creates a new {@link BindingContext} and assigns it to this manager. The class' qualified name is
+     * used as context name.
+     * <p>
+     * The {@link BindingContext} can then be retrieved via {@link #getContext(Class)}.
+     * 
+     * @param clazz the class of which the qualified name is used to identify the
+     *            {@linkplain BindingContext} in this manager
+     * @param behaviorProvider the {@link PropertyBehaviorProvider} to be used in the
+     *            {@link BindingContext}
+     * 
+     * @throws IllegalArgumentException if there already exists a context for the given class
+     * 
+     * @see BindingContext
+     * @see #getContext(Class)
+     * @see DefaultBindingManager#getDefaultBehaviorProvider()
+     * @see PropertyBehaviorProvider#append(org.linkki.core.binding.dispatcher.behavior.PropertyBehavior...)
+     * @see PropertyBehaviorProvider#prepend(org.linkki.core.binding.dispatcher.behavior.PropertyBehavior...)
+     */
+    public BindingContext createContext(Class<?> clazz, PropertyBehaviorProvider behaviorProvider) {
+        return createContext(clazz.getName(), behaviorProvider);
     }
 
     /**
@@ -59,15 +93,69 @@ public abstract class BindingManager {
      * {@linkplain BindingManager}.
      * 
      * @param name the name of the {@linkplain BindingContext} that identifies it in this manager
+     * 
+     * @throws IllegalArgumentException if there already exists a context with the given name
+     * 
      * @see BindingContext
+     * @see #createContext(String, PropertyBehaviorProvider) createContext(String,
+     *      PropertyBehaviorProvider) to start a {@link BindingContext} with a custom
+     *      {@link PropertyBehaviorProvider}
+     * 
+     * @deprecated for removal since June 7th, 2019. Use {@link #getContext(String)} instead. The
+     *             {@link BindingContext} will be created if it does not already exist).
      */
-
+    @Deprecated
     public BindingContext startNewContext(String name) {
+        return createContext(name);
+    }
+
+    /**
+     * Creates a new {@link BindingContext} with the given name and assigns it to this
+     * {@linkplain BindingManager}.
+     * 
+     * @param name the name of the {@linkplain BindingContext} that identifies it in this manager
+     * 
+     * @throws IllegalArgumentException if there already exists a context with the given name
+     * 
+     * @see BindingContext
+     * @see #createContext(String, PropertyBehaviorProvider) createContext(String,
+     *      PropertyBehaviorProvider) to start a {@link BindingContext} with a custom
+     *      {@link PropertyBehaviorProvider}
+     */
+    private BindingContext createContext(String name) {
         requireNonNull(name, "name must not be null");
         Validate.isTrue(!contextsByName.containsKey(name), "BindingManager already contains a BindingContext '%s'.",
                         name);
 
         BindingContext newContext = newBindingContext(name);
+        contextsByName.put(name, newContext);
+        return newContext;
+    }
+
+    /**
+     * Creates a new {@link BindingContext} with the given name and assigns it to this
+     * {@linkplain BindingManager}.
+     * <p>
+     * The {@link BindingContext} can then be retrieved via {@link #getContext(String)}.
+     * 
+     * @param name the name of the {@link BindingContext} that identifies it in this manager
+     * @param behaviorProvider the {@link PropertyBehaviorProvider} to be used in the
+     *            {@link BindingContext}
+     * 
+     * @throws IllegalArgumentException if there already exists a context with the given name
+     * 
+     * @see BindingContext
+     * @see #getContext(String)
+     * @see DefaultBindingManager#getDefaultBehaviorProvider()
+     * @see PropertyBehaviorProvider#append(org.linkki.core.binding.dispatcher.behavior.PropertyBehavior...)
+     * @see PropertyBehaviorProvider#prepend(org.linkki.core.binding.dispatcher.behavior.PropertyBehavior...)
+     */
+    public BindingContext createContext(String name, PropertyBehaviorProvider behaviorProvider) {
+        requireNonNull(name, "name must not be null");
+        Validate.isTrue(!contextsByName.containsKey(name), "BindingManager already contains a BindingContext '%s'.",
+                        name);
+
+        BindingContext newContext = newBindingContext(name, behaviorProvider);
         contextsByName.put(name, newContext);
         return newContext;
     }
@@ -86,8 +174,25 @@ public abstract class BindingManager {
     protected abstract BindingContext newBindingContext(String name);
 
     /**
+     * Creates a new {@link BindingContext} with the given name and {@link PropertyBehaviorProvider}.
+     * Does not assign the created context to this manager.
+     * <p>
+     * Note that the created {@linkplain BindingContext} should call {@link #afterUpdateUi()} (e.g. by
+     * providing "{@code this::afterUpdateUI}" as a handler) if it is to be added to a manager, so
+     * related binding contexts can be notified about UI updates.
+     * 
+     * @see DefaultBindingManager#newBindingContext(String)
+     * @see BindingManager#afterUpdateUi()
+     */
+    protected abstract BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider);
+
+    /**
      * Returns the {@link BindingContext} for the given class' name, creating it if it does not already
      * exist.
+     * <p>
+     * If you need a custom {@link PropertyBehaviorProvider}, you can start the {@link BindingContext}
+     * with {@link #createContext(Class, PropertyBehaviorProvider)} and access it with this method
+     * afterwards.
      */
     public BindingContext getContext(Class<?> clazz) {
         requireNonNull(clazz, "clazz must not be null");
@@ -96,13 +201,17 @@ public abstract class BindingManager {
 
     /**
      * Returns the {@link BindingContext} for the given name, creating it if it does not already exist.
+     * <p>
+     * If you need a custom {@link PropertyBehaviorProvider}, you can start the {@link BindingContext}
+     * with {@link #createContext(String, PropertyBehaviorProvider)} and access it with this method
+     * afterwards.
      */
     public BindingContext getContext(String name) {
         requireNonNull(name, "name must not be null");
 
         BindingContext context = contextsByName.get(name);
         if (context == null) {
-            context = startNewContext(name);
+            context = createContext(name);
         }
         return context;
     }

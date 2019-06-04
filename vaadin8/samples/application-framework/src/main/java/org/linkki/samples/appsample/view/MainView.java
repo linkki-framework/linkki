@@ -61,7 +61,7 @@ public class MainView extends SidebarLayout implements View {
         layout.addComponent(new Headline("Create Report"));
         // end::addHeadline-call[]
         ReportPage page = new ReportPage(reports::add);
-        page.createContent();
+        page.init();
         layout.addComponent(page);
         return layout;
     }

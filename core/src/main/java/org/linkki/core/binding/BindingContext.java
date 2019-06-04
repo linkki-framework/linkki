@@ -44,8 +44,8 @@ import org.linkki.util.handler.Handler;
  * properties of presentation model objects. If the value in one of the fields is changed, all fields in
  * the context are updated from the presentation model objects via their bindings.
  * <p>
- * {@linkplain BindingContext}s are usually managed by a {@link BindingManager} that handles events
- * across multiple contexts.
+ * {@link BindingContext BindingContexts} are usually managed by a {@link BindingManager} that handles
+ * events across multiple contexts.
  * 
  * @see BindingManager#getContext(String)
  */
@@ -86,12 +86,12 @@ public class BindingContext implements UiUpdateObserver {
      * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event outside
      * of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()} is used by
      * {@link BindingManager} to trigger the validation service and to notify all
-     * {@link UiUpdateObserver}s in the manager to show the validation result.
+     * {@link UiUpdateObserver UiUpdateObserver} in the manager to show the validation result.
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
-     * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are relevant to this
-     *            context
+     * @param behaviorProvider used to retrieve all {@link PropertyBehavior PropertyBehaviors} that are
+     *            relevant to this context
      * @param afterUpdateHandler a handler that is applied after the UI update. Usually
      *            {@link BindingManager#afterUpdateUi()}
      */
@@ -107,12 +107,12 @@ public class BindingContext implements UiUpdateObserver {
      * In general, the <code>afterUpdateHandler</code> can be used to trigger any global event outside
      * of this {@linkplain BindingContext}. Usually, {@link BindingManager#afterUpdateUi()} is used by
      * {@link BindingManager} to trigger the validation service and to notify all
-     * {@link UiUpdateObserver}s in the manager to show the validation result.
+     * {@link UiUpdateObserver UiUpdateObservers} in the manager to show the validation result.
      * 
      * @param contextName name of this context that is used as identifier in a
      *            {@linkplain BindingManager}
-     * @param behaviorProvider used to retrieve all {@link PropertyBehavior}s that are relevant to this
-     *            context
+     * @param behaviorProvider used to retrieve all {@link PropertyBehavior PropertyBehaviors} that are
+     *            relevant to this context
      * @param dispatcherFactory the factory used to create the {@link PropertyDispatcher} chain for any
      *            property
      * @param afterUpdateHandler a handler that is applied after the UI update. Usually
@@ -278,7 +278,7 @@ public class BindingContext implements UiUpdateObserver {
      * Updates all bindings with the given message list.
      * <p>
      * This method is used by a {@link BindingManager} to push validation results to all registered
-     * {@linkplain BindingContext}s.
+     * {@linkplain BindingContext BindingContexts}.
      * 
      */
     public MessageList displayMessages(MessageList messages) {

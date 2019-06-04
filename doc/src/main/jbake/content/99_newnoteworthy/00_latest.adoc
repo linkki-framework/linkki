@@ -55,39 +55,20 @@ To mirror the corresponding `newOkDialog` following methods are also introduced 
 |`openOkDialog(String, Object...)` | creates a new `OkCancelDialog` and opens the dialog.
 |`openOkCancelDialog(String, Handler , Object...)` | creates a new `OkCancelDialog` based on multiple pmos with okHandler and opens the dialog
 |===
+==== Passing a `PropertyBehaviorProvider` to a `BindingContext`
+The `DefaultBindingManager` already has a `PropertyBehaviorProvider` passed in its constructor which it uses to create new `BindingContexts`. A different behavior in one context within the same manager was not possible. Now, the methods `createContext(Class/String, PropertyBehaviorProvider)` can be used to create a new context with a custom behavior. They throw `IllegalArgumentExceptions` if called with an existing context's class/name.
 
-===== BindingManager#get~Context
+The previously introduced `getContext` methods can then be used to access the context created with `createContext` later without the need to keep a reference to the `PropertyBehaviorProvider` and create a new context with the default behavior if none was explicitly created.
 
-The `getExistingContext` and `getExistingContextOrStartNewOne` methods of the `BindingManager` have been deprecated in favor of the shorter `getContext` methods, which do the same as the old `getExistingContextOrStartNewOne` methods. It is no longer considered necessary to get an `Optional<BindingContext>` as the creation of the context is rather cheap and would happen sooner or later anyways.
+If the default behaviors should not be replaced but only extended, `DefaultBindingManager.getDefaultBehaviorProvider()` allows access to the  `PropertyBehaviorProvider` from which a new one can be created with `PropertyBehaviorProvider.append(PropertyBehavior...)`.
 
-Existing code can be migrated via the migration script link:../migration_scripts/0.9.20190418_to_latest/migrate.sed[migrate.sed]. The easiest way to use this migration script is to copy the migration script and the execution script link:../migration_scripts/search_replace.sh[search_replace.sh] into the project directory and run `"./search_replace.sh -s migrate.sed"` in your terminal. The script can be executed in any terminal that supports shell scripts, including the git bash.
-
-===== Updated Dependencies
-*linkki*'s dependency to `org.apache.commons:commons-lang3` was updated to the latest version (3.9). All dependency versions are now listed in the documentation at <<dependencies, Dependencies>>.
-
-===== Cleanup of linkki.scss, LinkkiTheme
-
-*linkki* uses some predefined styles that can be included in client applications. The class names for styles that are relevant for `linkki-core` are defined in `LinkkiTheme`, those relevant for `application-framework` are defined in `LinkkiApplicationTheme`. The styles for these class names are then defined in `linkki.scss`.
-
-Because of some refactorings in the past, there were some unused styles as well as unused style name constants. These are now removed and listed below. If any of those is still used in your client code, please consider to remove the usage of the constants or create your own style/constant.
-
-Removed constants in `LinkkiTheme`:
-
-* `MENU_WRAPPER = "linkki-menu-wrapper"`
-* `FIXED_HORIZONTAL_SPACER = "linkki-fixed-horizontal-spacer"`
-* `LOGIN_PANEL_CAPTION = "linkki-login-panel-caption"`
-* `LOGIN_PANEL = "linkki-login-panel"`
-
-Removed styles from `linkki.scss`
-
-* `.linkki-login-panel`
-* `.linkki-login-panel-caption`
-
-Constants moved from `LinkkiTheme` to `LinkkiApplicationTheme`
-
-* `DIALOG_BUTTON_BAR`
-* `MESSAGE_LABEL`
-* `MESSAGE_TABLE`
-* `MESSAGE_ROW`
-
-The values as well as the SCSS of the movoed constants stay unchanged.
+.Example use of PropertyBehaviorProvider.append
+[source,java]
+----
+        bindingManager.createContext(myPmo.getClass(),
+                                     bindingManager.getDefaultBehaviorProvider()
+                                             .append(PropertyBehavior.readOnly()));
+----
+[role="api-change"]
+===== `startNewContext` deprecated
+The `BindingManager`'s `startNewContext` method has been deprecated, as it is no longer necessary to explicitly start a context. When `getContext` is called, a new context is created as necessary. Existing calls can be refactored with link:../migration_scripts/0.9.20190528_to_latest/migrate.sed[0.9.20190528_to_latest/migrate.sed].

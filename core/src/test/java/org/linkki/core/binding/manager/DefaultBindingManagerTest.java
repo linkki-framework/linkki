@@ -28,16 +28,26 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class DefaultBindingManagerTest {
 
     @Mock
-    
-    PropertyBehaviorProvider behaviorProvider;
+    PropertyBehaviorProvider behaviorProvider1;
+    @Mock
+    PropertyBehaviorProvider behaviorProvider2;
 
     @Test
     public void testStartNewContext_BindingContextUsesManagersPropertyBehaviorProvider() {
         DefaultBindingManager defaultBindingManager = new DefaultBindingManager(() -> new MessageList(),
-                behaviorProvider);
-        BindingContext bindingContext = defaultBindingManager.startNewContext("foo");
+                behaviorProvider1);
+        BindingContext bindingContext = defaultBindingManager.getContext("foo");
 
-        assertThat(bindingContext.getBehaviorProvider(), is(behaviorProvider));
+        assertThat(bindingContext.getBehaviorProvider(), is(behaviorProvider1));
+    }
+
+    @Test
+    public void testStartNewContext_BindingContextUsesCustomPropertyBehaviorProvider() {
+        DefaultBindingManager defaultBindingManager = new DefaultBindingManager(() -> new MessageList(),
+                behaviorProvider1);
+        BindingContext bindingContext = defaultBindingManager.createContext("foo", behaviorProvider2);
+
+        assertThat(bindingContext.getBehaviorProvider(), is(behaviorProvider2));
     }
 
 }

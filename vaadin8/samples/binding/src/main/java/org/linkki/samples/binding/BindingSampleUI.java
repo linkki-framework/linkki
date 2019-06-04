@@ -61,7 +61,7 @@ public class BindingSampleUI extends UI {
         BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE,
                 PropertyBehaviorProvider.with(PropertyBehavior.readOnly(editMode::isReadOnly)));
         // end::PropertyBehavior[]
-        BindingContext context = bindingManager.startNewContext("binding-sample");
+        BindingContext context = bindingManager.getContext("binding-sample");
 
         ContactComponent contactComponent = new ContactComponent(p -> save(p, PERSON_STORAGE), context);
         ContactsTableComponent contactsTable = new ContactsTableComponent(PERSON_STORAGE, contactComponent::editContact,

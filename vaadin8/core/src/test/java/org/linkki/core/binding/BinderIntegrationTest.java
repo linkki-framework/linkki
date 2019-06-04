@@ -54,7 +54,7 @@ public class BinderIntegrationTest {
     @Before
     public void setUp() {
         BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
-        bindingContext = bindingManager.startNewContext("");
+        bindingContext = bindingManager.getContext("");
     }
 
     @Test

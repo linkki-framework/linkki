@@ -25,7 +25,7 @@ import org.linkki.core.binding.validation.ValidationService;
  */
 public class DefaultBindingManager extends BindingManager {
 
-    private final PropertyBehaviorProvider behaviorProvider;
+    private final PropertyBehaviorProvider defaultBehaviorProvider;
 
     /**
      * Creates a {@link BindingManager} that returns standard {@link BindingContext BindingContexts}
@@ -37,17 +37,35 @@ public class DefaultBindingManager extends BindingManager {
 
     /**
      * Creates a {@link BindingManager} that returns standard {@link BindingContext BindingContexts}
-     * with the given {@link PropertyBehaviorProvider}.
+     * with the given {@link PropertyBehaviorProvider}, as long as no other
+     * {@link PropertyBehaviorProvider} is specified in an explicit call to
+     * {@link #createContext(Class, PropertyBehaviorProvider)}.
      */
-    public DefaultBindingManager(ValidationService validationService, PropertyBehaviorProvider behaviorProvider) {
+    public DefaultBindingManager(ValidationService validationService,
+            PropertyBehaviorProvider defaultBehaviorProvider) {
         super(validationService);
-        this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
+        this.defaultBehaviorProvider = requireNonNull(defaultBehaviorProvider,
+                                                      "defaultBehaviorProvider must not be null");
     }
 
     @Override
     protected BindingContext newBindingContext(String name) {
         requireNonNull(name, "name must not be null");
+        return new BindingContext(name, getDefaultBehaviorProvider(), this::afterUpdateUi);
+    }
+
+    @Override
+    protected BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider) {
+        requireNonNull(name, "name must not be null");
+        requireNonNull(behaviorProvider, "behaviorProvider must not be null");
         return new BindingContext(name, behaviorProvider, this::afterUpdateUi);
+    }
+
+    /**
+     * Returns the default {@link PropertyBehaviorProvider} used for {@link #newBindingContext(String)}.
+     */
+    public PropertyBehaviorProvider getDefaultBehaviorProvider() {
+        return defaultBehaviorProvider;
     }
 
 }

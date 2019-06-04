@@ -15,9 +15,8 @@ package org.linkki.framework.ui.dialogs;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
-import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 
 /**
@@ -26,27 +25,19 @@ import org.linkki.core.binding.validation.ValidationService;
  * in the dialog are updated and that the dialog can filter the messages with which the binding contexts
  * are updated according to its {@link OkCancelDialog#getValidationDisplayState()}.
  */
-public class DialogBindingManager extends BindingManager {
-
-    private final PropertyBehaviorProvider behaviorProvider;
+public class DialogBindingManager extends DefaultBindingManager {
 
     public DialogBindingManager(OkCancelDialog dialog, ValidationService validationService) {
         this(dialog, validationService, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
     }
 
     public DialogBindingManager(OkCancelDialog dialog, ValidationService validationService,
-            PropertyBehaviorProvider behaviorProvider) {
-        super(() -> dialog.validate());
-        this.behaviorProvider = requireNonNull(behaviorProvider, "behaviorProvider must not be null");
+            PropertyBehaviorProvider defaultBehaviorProvider) {
+        super(() -> dialog.validate(), defaultBehaviorProvider);
 
         requireNonNull(dialog, "dialog must not be null");
         dialog.setValidationService(validationService);
         dialog.setBeforeOkHandler(this::afterUpdateUi);
-    }
-
-    @Override
-    protected BindingContext newBindingContext(String name) {
-        return new BindingContext(name, behaviorProvider, this::afterUpdateUi);
     }
 
 }

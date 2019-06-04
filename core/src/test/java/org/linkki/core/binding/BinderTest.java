@@ -31,13 +31,13 @@ import org.linkki.core.pmo.ModelObject;
 
 public class BinderTest {
 
-    
+
     private BindingContext bindingContext;
 
     @Before
     public void setUp() {
         BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
-        bindingContext = bindingManager.startNewContext("");
+        bindingContext = bindingManager.getContext("");
     }
 
     @Test
@@ -85,7 +85,7 @@ public class BinderTest {
         assertThat(pmo.getModel().getClickCount(), is(2));
     }
 
-    
+
     @Test(expected = NullPointerException.class)
     public void testSetupBindings_ThrowsExceptionForNullField() {
         TestView view = new TestView();
@@ -97,7 +97,7 @@ public class BinderTest {
         binder.setupBindings(bindingContext);
     }
 
-    
+
     @Test(expected = NullPointerException.class)
     public void testSetupBindings_ThrowsExceptionForMethodReturningNull() {
         TestView view = new TestView();

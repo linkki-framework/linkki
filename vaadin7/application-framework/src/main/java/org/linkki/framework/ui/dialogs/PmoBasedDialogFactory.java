@@ -147,7 +147,7 @@ public class PmoBasedDialogFactory {
         DialogBindingManager bindingManager = new DialogBindingManager(dialog, validationService,
                 propertyBehaviorProvider);
 
-        BindingContext bindingContext = bindingManager.startNewContext(dialog.getClass());
+        BindingContext bindingContext = bindingManager.getContext(dialog.getClass());
 
         for (Object pmo : pmos) {
             AbstractSection content = pmoBasedSectionFactory.createSection(pmo, bindingContext);
