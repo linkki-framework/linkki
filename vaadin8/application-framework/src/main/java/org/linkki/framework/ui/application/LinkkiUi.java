@@ -135,12 +135,6 @@ public class LinkkiUi extends UI {
         return getApplicationConfig().getApplicationName();
     }
 
-    @Override
-    protected void refresh(@CheckForNull VaadinRequest request) {
-        super.refresh(request);
-        getNavigator().refreshCurrentView();
-    }
-
     public ApplicationConfig getApplicationConfig() {
         return applicationConfig;
     }
