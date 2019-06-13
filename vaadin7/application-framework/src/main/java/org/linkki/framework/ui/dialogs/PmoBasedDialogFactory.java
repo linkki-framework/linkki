@@ -163,15 +163,61 @@ public class PmoBasedDialogFactory {
     }
 
     /**
+     * Creates a new dialog with only Ok button and opens it.
+     *
+     * @param title the dialog title
+     * @param pmos the presentation model objects providing the data and the layout information
+     * @return A dialog with the content defined by the given PMO.
+     */
+    public OkCancelDialog openOkDialog(String title, Object... pmos) {
+        OkCancelDialog dialog = newOkDialog(title, pmos);
+        dialog.open();
+        return dialog;
+    }
+
+    /**
      * Creates a new {@link OkCancelDialog} and opens it.
+     * 
+     * @deprecated use {@link #openOkCancelDialog(String ,Handler ,Handler ,Object...)} instead.
      * 
      * @param title the dialog title
      * @param pmo the presentation model object providing the data and the layout information
      * @param okHandler the called when OK is clicked
      * @return A dialog with the content defined by the given PMO.
      */
+    @Deprecated
     public OkCancelDialog openOkCancelDialog(String title, Object pmo, Handler okHandler) {
         OkCancelDialog dialog = newOkCancelDialog(title, okHandler, pmo);
+        dialog.open();
+        return dialog;
+    }
+
+    /**
+     * Creates a new {@link OkCancelDialog} based on multiple pmos with okHandler and opens the dialog.
+     * 
+     * @param title the dialog title
+     * @param okHandler the called when OK is clicked
+     * @param pmos the presentation model objects providing the data and the layout information
+     * @return A dialog with the content defined by the given PMO.
+     */
+    public OkCancelDialog openOkCancelDialog(String title, Handler okHandler, Object... pmos) {
+        OkCancelDialog dialog = newOkCancelDialog(title, okHandler, pmos);
+        dialog.open();
+        return dialog;
+    }
+
+    /**
+     * Creates a new {@link OkCancelDialog} based on multiple pmos with okHandler and cancelHandler and
+     * opens the dialog.
+     * 
+     * @param title the dialog title
+     * @param okHandler the called when OK is clicked
+     * @param cancelHandler the called when Cancel is clicked
+     * @param pmos the presentation model objects providing the data and the layout information
+     * @return A dialog with the content defined by the given PMO.
+     */
+    public OkCancelDialog openOkCancelDialog(String title, Handler okHandler, Handler cancelHandler, Object... pmos) {
+        OkCancelDialog dialog = newOkCancelDialog(title, okHandler, cancelHandler, pmos);
         dialog.open();
         return dialog;
     }

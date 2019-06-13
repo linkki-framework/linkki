@@ -43,6 +43,19 @@ details > div {
 === {dversion}
 
 [role="api-change"]
+===== OKCancelDialog
+
+The `openOkCancelDialog(String, Object, Handler)` method in `PmoBasedDialogFactory` is deprecated as the method had different argument order compared to newOkCancelDialog() method. Use `openOkCancelDialog(String, Handler, Handler, Object...)` instead. It creates a new `OkCancelDialog` based on multiple pmos and opens the dialog.
+
+To mirror the corresponding `newOkDialog` following methods are also introduced in `PmoBasedDialogFactory`.
+
+[options="header"]
+|===
+| New Methods | Description
+|`openOkDialog(String, Object...)` | creates a new `OkCancelDialog` and opens the dialog.
+|`openOkCancelDialog(String, Handler , Object...)` | creates a new `OkCancelDialog` based on multiple pmos with okHandler and opens the dialog
+|===
+
 ===== BindingManager#get~Context
 
 The `getExistingContext` and `getExistingContextOrStartNewOne` methods of the `BindingManager` have been deprecated in favor of the shorter `getContext` methods, which do the same as the old `getExistingContextOrStartNewOne` methods. It is no longer considered necessary to get an `Optional<BindingContext>` as the creation of the context is rather cheap and would happen sooner or later anyways.
