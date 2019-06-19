@@ -63,16 +63,17 @@ public class UIElementAnnotationReader {
         Method[] methods = annotatedClass.getMethods();
         for (Method method : methods) {
             BoundPropertyAnnotationReader.findBoundProperty(method)
-                    .ifPresent(bp -> Arrays.stream(method.getAnnotations())
-                            .forEach(a -> createAndAddDescriptor(a, method, bp)));
+                    .map(BoundProperty::getPmoProperty)
+                    .ifPresent(p -> Arrays.stream(method.getAnnotations())
+                            .forEach(a -> createAndAddDescriptor(a, method, p)));
         }
     }
 
-    private void createAndAddDescriptor(Annotation annotation, Method method, BoundProperty boundProperty) {
+    private void createAndAddDescriptor(Annotation annotation, Method method, String pmoProperty) {
         List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader.createAspectDefinitionsFrom(annotation);
 
         PropertyElementDescriptors elementDescriptors = descriptorsByProperty
-                .computeIfAbsent(boundProperty.getPmoProperty(),
+                .computeIfAbsent(pmoProperty,
                                  PropertyElementDescriptors::new);
 
         if (ComponentAnnotationReader.isComponentDefinition(annotation)) {
@@ -81,7 +82,8 @@ public class UIElementAnnotationReader {
                                                      PositionAnnotationReader.getPosition(method),
                                                      ComponentAnnotationReader.getComponentDefinition(annotation,
                                                                                                       method),
-                                                     boundProperty, aspectDefs),
+                                                     BoundPropertyAnnotationReader.getBoundProperty(annotation, method),
+                                                     aspectDefs),
                                              annotatedClass);
         } else {
             elementDescriptors.addAspect(aspectDefs);

@@ -45,7 +45,7 @@ details > div {
 [role="api-change"]
 ===== OKCancelDialog
 
-The `openOkCancelDialog(String, Object, Handler)` method in `PmoBasedDialogFactory` is deprecated as the method had different argument order compared to newOkCancelDialog() method. Use `openOkCancelDialog(String, Handler, Handler, Object...)` instead. It creates a new `OkCancelDialog` based on multiple pmos and opens the dialog.
+The `openOkCancelDialog(String, Object, Handler)` method in `PmoBasedDialogFactory` is deprecated as the method had different argument order compared to newOkCancelDialog() method. Use `openOkCancelDialog(String, Handler, Handler, Object...)` instead. It creates a new `OkCancelDialog` based on multiple PMOs and opens the dialog.
 
 To mirror the corresponding `newOkDialog` following methods are also introduced in `PmoBasedDialogFactory`.
 
@@ -53,7 +53,7 @@ To mirror the corresponding `newOkDialog` following methods are also introduced 
 |===
 | New Methods | Description
 |`openOkDialog(String, Object...)` | creates a new `OkCancelDialog` and opens the dialog.
-|`openOkCancelDialog(String, Handler , Object...)` | creates a new `OkCancelDialog` based on multiple pmos with okHandler and opens the dialog
+|`openOkCancelDialog(String, Handler , Object...)` | creates a new `OkCancelDialog` based on multiple PMOs with okHandler and opens the dialog
 |===
 ==== Passing a `PropertyBehaviorProvider` to a `BindingContext`
 The `DefaultBindingManager` already has a `PropertyBehaviorProvider` passed in its constructor which it uses to create new `BindingContexts`. A different behavior in one context within the same manager was not possible. Now, the methods `createContext(Class/String, PropertyBehaviorProvider)` can be used to create a new context with a custom behavior. They throw `IllegalArgumentExceptions` if called with an existing context's class/name.
@@ -72,3 +72,7 @@ If the default behaviors should not be replaced but only extended, `DefaultBindi
 [role="api-change"]
 ===== `startNewContext` deprecated
 The `BindingManager`'s `startNewContext` method has been deprecated, as it is no longer necessary to explicitly start a context. When `getContext` is called, a new context is created as necessary. Existing calls can be refactored with link:../migration_scripts/0.9.20190528_to_latest/migrate.sed[0.9.20190528_to_latest/migrate.sed].
+
+===== Bugfixes
+
+* When using a PMO property with <<dynamicfield,dynamic fields>> with different bound model attributes, every field was bound to the first annotation's model attribute.

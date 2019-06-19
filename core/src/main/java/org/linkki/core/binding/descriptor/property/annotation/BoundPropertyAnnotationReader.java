@@ -94,7 +94,7 @@ public final class BoundPropertyAnnotationReader {
                 .reduce(allAnnotationsMustDefineTheSamePmoProperty(annotatedElement));
     }
 
-    private static <A extends Annotation> BoundProperty getBoundProperty(A annotation,
+    public static <A extends Annotation> BoundProperty getBoundProperty(A annotation,
             AnnotatedElement annotatedElement) {
         LinkkiBoundProperty boundProperty = BOUND_PROPERTY_ANNOTATION.findOn(annotation)
                 .orElseThrow(BOUND_PROPERTY_ANNOTATION
