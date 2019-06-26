@@ -38,7 +38,7 @@ Custom dispatchers can be created via a `PropertyDispatcherFactory` (in its own 
 [[property-behavior]]
 ==== PropertyBehaviors
 
-PropertyBehaviors are created by a `PropertyBehaviorProvider` that can be passed to a `BindingContext` as constructor parameter. In this way, the application can configure which `PropertyBehaviors` should be used in the `BindingContext`.
+`PropertyBehaviors` are created by a `PropertyBehaviorProvider` that can be passed to a `BindingContext` as constructor parameter. In this way, the application can configure which `PropertyBehaviors` should be used in the `BindingContext`.
 
 A `BehaviorDependentDispatcher` can control the behavior of properties through `PropertyBehaviors`. Only a selection of properties can be controlled with it: Visibility (`isVisible`), editability (`isWritable`) and visibility of errors (`isShowValidationMessages`). For this, all `PropertyBehaviors` are called; if all return `true`, the `BehaviorDependentDispatcher` sends the request to the next `PropertyDispatcher`, otherwise it returns `false` or an empty error list, or doesn't set the value.
 
@@ -49,6 +49,17 @@ For custom behaviors the interface `PropertyBehavior` can be implemented. It als
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/BindingSampleUI.java[tags=PropertyBehavior]
+include::{source-dir}/org/linkki/samples/binding/BindingSampleUI.java[tags=property-behavior]
 ----
- 
+
+[[property-behavior-binding-manager]]
+==== Using PropertyBehaviors with a BindingManager
+
+If a `BindingContext` should be managed by a `BindingManager`, it can be created using one of the methods `BindingManager#createContext(Class/String, PropertyBehaviorProvider)`. The created context will then use the given behaviors. Note that these methods will throw `IllegalArgumentExceptions` if a context with the given name or class already exists.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/binding/BindingSampleUI.java[tags=property-behavior]
+----
+
+The default implementation `DefaultBindingManager` also provides a constructor in which a default `PropertyBehaviorProvider` can be defined that is then used for all `BindingContexts` created by using `getContext()`. Calling `createContext` with a `PropertyBehaviorProvider` would result in a `BindingContext` that only uses the provided behaviors, ignoring the default property behaviors of the `DefaultBindingManager`. If the default behaviors should not be replaced but only extended, `DefaultBindingManager.getDefaultBehaviorProvider()` allows access to the  `PropertyBehaviorProvider` from which a new one can be created with `PropertyBehaviorProvider.append(PropertyBehavior...)`.

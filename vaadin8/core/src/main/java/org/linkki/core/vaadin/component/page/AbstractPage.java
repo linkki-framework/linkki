@@ -164,7 +164,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     protected abstract BindingManager getBindingManager();
 
     /**
-     * Returns the existing binding context if present, otherwise creates a new one.
+     * Returns the binding context for this page.
      * 
      * @implNote the default binding context is identified by the {@link #getClass() current class}
      */

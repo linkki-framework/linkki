@@ -57,11 +57,14 @@ public class BindingSampleUI extends UI {
 
         Page.getCurrent().setTitle("linkki Sample :: Bindings");
 
-        // tag::PropertyBehavior[]
-        BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE,
-                PropertyBehaviorProvider.with(PropertyBehavior.readOnly(editMode::isReadOnly)));
-        // end::PropertyBehavior[]
-        BindingContext context = bindingManager.getContext("binding-sample");
+        BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
+        // tag::property-behavior[]
+        PropertyBehaviorProvider behaviorProvider = PropertyBehaviorProvider
+                .with(PropertyBehavior.readOnly(editMode::isReadOnly));
+        // end::property-behavior[]
+        // tag::property-behavior-binding-manager
+        BindingContext context = bindingManager.createContext("binding-sample", behaviorProvider);
+        // end::property-behavior-binding-manager
 
         ContactComponent contactComponent = new ContactComponent(p -> save(p, PERSON_STORAGE), context);
         ContactsTableComponent contactsTable = new ContactsTableComponent(PERSON_STORAGE, contactComponent::editContact,

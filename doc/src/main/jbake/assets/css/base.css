@@ -111,3 +111,14 @@ body {
 
 /* image roles, taken from asciidoctor.css */
 .image.left, .image.right { margin-top: 0.25em; margin-bottom: 0.25em; display: inline-block; line-height: 0; }
+
+/* correct styles for detils elements */
+details > summary {
+	display: list-item;
+}
+
+details > div {
+  padding-left: 1em;
+  margin-left: .2em;
+  border-left: 3px #eee solid;
+}

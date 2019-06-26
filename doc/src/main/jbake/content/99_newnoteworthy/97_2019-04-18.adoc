@@ -27,16 +27,6 @@
 .sect3 {
 	margin-bottom: 4em;
 }
-
-details > summary {
-	display: list-item;
-}
-
-details > div {
-  padding-left: 1em;
-  margin-left: .2em;
-  border-left: 3px #eee solid;
-}
 </style>
 ++++
 
@@ -528,5 +518,5 @@ The `ValidationService` gained two new default methods:
 
  * `getValidationDisplayState()` to obtain a <<validation-display-state,`ValidationDisplayState`>>
  * `getFilteredMessages()` to filter the validation messages with the `ValidationDisplayState`
- 
+
 The `BindingManager` uses the filtered messages in `afterUpdateUi`.

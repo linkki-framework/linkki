@@ -27,16 +27,6 @@
 .sect3 {
 	margin-bottom: 4em;
 }
-
-details > summary {
-	display: list-item;
-}
-
-details > div {
-  padding-left: 1em;
-  margin-left: .2em;
-  border-left: 3px #eee solid;
-}
 </style>
 ++++
 
@@ -55,20 +45,15 @@ To mirror the corresponding `newOkDialog` following methods are also introduced 
 |`openOkDialog(String, Object...)` | creates a new `OkCancelDialog` and opens the dialog.
 |`openOkCancelDialog(String, Handler , Object...)` | creates a new `OkCancelDialog` based on multiple PMOs with okHandler and opens the dialog
 |===
-==== Passing a `PropertyBehaviorProvider` to a `BindingContext`
-The `DefaultBindingManager` already has a `PropertyBehaviorProvider` passed in its constructor which it uses to create new `BindingContexts`. A different behavior in one context within the same manager was not possible. Now, the methods `createContext(Class/String, PropertyBehaviorProvider)` can be used to create a new context with a custom behavior. They throw `IllegalArgumentExceptions` if called with an existing context's class/name.
 
-The previously introduced `getContext` methods can then be used to access the context created with `createContext` later without the need to keep a reference to the `PropertyBehaviorProvider` and create a new context with the default behavior if none was explicitly created.
+==== New method in `BindingManager` to create a `BindingContext` with a `PropertyBehaviorProvider`
 
-If the default behaviors should not be replaced but only extended, `DefaultBindingManager.getDefaultBehaviorProvider()` allows access to the  `PropertyBehaviorProvider` from which a new one can be created with `PropertyBehaviorProvider.append(PropertyBehavior...)`.
+For a while now, `BindingContexts` can accept a `PropertyBehaviorProvider` that defines which behaviors are to be used for all bindings in the context. However, `BindingManager` does not directly offer any support for `PropertyBehaviors` when creating new `BindingContexts` yet. In the default implementation `DefaultBindingManager`, the constructor accepts a `PropertyBehaviorProvider` that is used for all new `BindingContexts`. No individual choices can be made.
 
-.Example use of PropertyBehaviorProvider.append
-[source,java]
-----
-        bindingManager.createContext(myPmo.getClass(),
-                                     bindingManager.getDefaultBehaviorProvider()
-                                             .append(PropertyBehavior.readOnly()));
-----
+In the new linkki version, `BindingManager` is extended with two new methods `createContext(Class, PropertyBehaviorProvider)` and `createContext(String, PropertyBehaviorProvider)`. These methods enables the caller to create a `BindingContext` using the specific behaviors that are passed to the method. The section "<<property-behavior-binding-manager, Using PropertyBehaviors with a BindingManager>>" in chapter "architecture" of the documentation contains further information about these methods.
+
+If you are creating an `AbstractPage` which should use a custom `PropertyBehaviorProvider`, you can create a new `BindingContext` using the new methods, and use this context in the method `getBindingContext()`.
+
 [role="api-change"]
 ===== `startNewContext` deprecated
 The `BindingManager`'s `startNewContext` method has been deprecated, as it is no longer necessary to explicitly start a context. When `getContext` is called, a new context is created as necessary. Existing calls can be refactored with link:../migration_scripts/0.9.20190528_to_latest/migrate.sed[0.9.20190528_to_latest/migrate.sed].
