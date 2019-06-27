@@ -20,7 +20,6 @@ import java.util.Arrays;
 import javax.annotation.PostConstruct;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.section.AbstractSection;
@@ -31,7 +30,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
@@ -53,9 +51,6 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     private static final long serialVersionUID = 1L;
 
     private final PmoBasedSectionFactory sectionFactory;
-
-    @CheckForNull
-    private BindingContext bindingContext;
 
     /**
      * Creates a page without top margin and with margins on left, right and bottom. Uses the
@@ -85,24 +80,11 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * framework can call it automatically.
      * <p>
      * Must be called manually if no dependency injection framework is used.
-     * 
-     * @implNote The {@link BindingContext} is created here via {@link #createBindingContext()}
      */
     @OverrideMustInvoke
     @PostConstruct
     public final void init() {
-        bindingContext = createBindingContext();
         createContent();
-    }
-
-    /**
-     * Creates the {@link #getBindingContext() binding context}.
-     * 
-     * @implSpec Override this method to pass custom {@link PropertyBehaviorProvider behaviors} to the
-     *           {@link BindingContext}.
-     */
-    protected BindingContext createBindingContext() {
-        return getBindingManager().getContext(getClass());
     }
 
     /**
@@ -183,12 +165,12 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     protected abstract BindingManager getBindingManager();
 
     /**
-     * Returns the {@link BindingContext} for this page.
+     * Returns the existing binding context if present, otherwise creates a new one.
      * 
-     * @see #init()
+     * @implNote the default binding context is identified by the {@link #getClass() current class}
      */
     protected BindingContext getBindingContext() {
-        return requireNonNull(bindingContext, "bindingContext must be created by a call to init() first");
+        return getBindingManager().getContext(getClass());
     }
 
 }
