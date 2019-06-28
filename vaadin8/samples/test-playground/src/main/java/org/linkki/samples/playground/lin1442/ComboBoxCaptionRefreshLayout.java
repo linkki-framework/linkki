@@ -12,50 +12,40 @@
  * License.
  */
 
-package org.linkki.samples.playground.allelements;
+package org.linkki.samples.playground.lin1442;
 
-import org.linkki.core.binding.manager.BindingManager;
-import org.linkki.core.binding.manager.DefaultBindingManager;
-import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.vaadin.component.page.AbstractPage;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
+import com.vaadin.ui.VerticalLayout;
 
-public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefinition {
+public class ComboBoxCaptionRefreshLayout extends VerticalLayout implements SidebarSheetDefinition {
 
-    private static final long serialVersionUID = 1L;
+    public static final String ID = "LIN-1442";
 
-    private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
+    private static final long serialVersionUID = 5943058450629856446L;
 
-    public AllUiElementsPage() {
-        init();
-    }
-
-    @Override
-    public final void createContent() {
-        addSection(new AllUiElementsPmo());
-    }
-
-    @Override
-    protected BindingManager getBindingManager() {
-        return bindingManager;
+    public ComboBoxCaptionRefreshLayout() {
+        BindingContext bindingContext = new BindingContext();
+        addComponent(PmoBasedSectionFactory
+                .createAndBindSection(new ComboBoxCaptionRefreshPmo(), bindingContext));
     }
 
     @Override
     public String getSidebarSheetName() {
-        return "All @UI Elements";
+        return ID;
     }
 
     @Override
     public Resource getSidebarSheetIcon() {
-        return VaadinIcons.LIST;
+        return VaadinIcons.REFRESH;
     }
 
     @Override
     public String getSidebarSheetId() {
-        return "all";
+        return ID;
     }
-
 }

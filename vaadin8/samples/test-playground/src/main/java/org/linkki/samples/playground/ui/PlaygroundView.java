@@ -15,10 +15,10 @@
 package org.linkki.samples.playground.ui;
 
 import org.linkki.framework.ui.component.sidebar.SidebarLayout;
-import org.linkki.framework.ui.component.sidebar.SidebarSheet;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
+import org.linkki.samples.playground.lin1442.ComboBoxCaptionRefreshLayout;
+import org.linkki.samples.playground.lin1486.ComboBoxVanishingValueLayout;
 
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
@@ -29,7 +29,13 @@ public class PlaygroundView extends SidebarLayout implements View {
     private static final long serialVersionUID = 1L;
 
     public PlaygroundView() {
-        addSheets(new SidebarSheet(VaadinIcons.LIST, "All @UI Elements", new AllUiElementsPage()));
+        addSidebarSheet(new AllUiElementsPage());
+        addSidebarSheet(new ComboBoxVanishingValueLayout());
+        addSidebarSheet(new ComboBoxCaptionRefreshLayout());
+    }
+
+    private void addSidebarSheet(SidebarSheetDefinition sidebarSheetDef) {
+        addSheet(sidebarSheetDef.createSheet());
     }
 
     @Override

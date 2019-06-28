@@ -5,6 +5,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/webapp"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <dependent-module archiveName="linkki-application-framework-vaadin8-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/linkki-application-framework-vaadin8/linkki-application-framework-vaadin8">
             <dependency-type>uses</dependency-type>
         </dependent-module>

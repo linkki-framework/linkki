@@ -30,8 +30,6 @@ import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.HasItems;
-import com.vaadin.data.HasValue;
-import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -63,47 +61,34 @@ public class AvailableValuesAspectDefinition<C extends HasItems<?>> implements L
 
         setDataProvider(componentWrapper, listDataProvider);
 
-        return () -> updateItems(items, propertyDispatcher.pull(aspect), componentWrapper, listDataProvider);
+        return () -> updateItems(items, propertyDispatcher.pull(aspect), componentWrapper);
     }
 
     private void updateItems(List<Object> items,
             @Nullable Collection<?> newItemsParam,
-            ComponentWrapper componentWrapper,
-            ListDataProvider<Object> listDataProvider) {
+            ComponentWrapper componentWrapper) {
         ArrayList<?> newItems = new ArrayList<>(
                 requireNonNull(newItemsParam, "List of available values must not be null"));
         handleNullItems(componentWrapper, newItems);
         if (!items.equals(newItems)) {
             items.clear();
             items.addAll(newItems);
-            listDataProvider.refreshAll();
         }
-        // refreshAll does not refresh the items
-        refreshVisibleItems(componentWrapper, listDataProvider);
+
+        refreshAll(componentWrapper, items);
     }
 
     /**
-     * Refreshes caption of visible items that are shown in the component.
-     * <p>
-     * Note that this should be called on every update, even if the content has not changed. The reason
-     * for that is that the caption of a value may change due to changes to other fields in the binding
-     * context.
-     * <p>
-     * For example: Given an text field that changes the name of a person. The person object itself is
-     * displayed in a combo box, the caption within the combo box is the name of the person. When
-     * changing the name of the person in the text field, the object in the combo box is untouched. But
-     * because of the caption has changed we need to force an update event for the selected item.
-     * 
-     * @implNote This implementation only refreshes a single selected item. The method is protected to
-     *           allow different behavior if specific components or {@link DataProvider data providers}
-     *           may need other actions. A list select for example may need to refresh all items because
-     *           not only the selected one is visible.
+     * Refreshes all items including all the captions of available and selected items.
+     *
+     * @implNote This implementation always set a new {@link ListDataProvider} to get potential updated
+     *           captions. Resetting the {@link ListDataProvider} performs better than updating the
+     *           existing list provider using {@link ListDataProvider#refreshItem(Object)} for every
+     *           item. Unlike the name suggests, the method {@link ListDataProvider#refreshAll()} does
+     *           not update the captions at all.
      */
-    protected void refreshVisibleItems(ComponentWrapper componentWrapper, ListDataProvider<Object> listDataProvider) {
-        Object value = ((HasValue<?>)componentWrapper.getComponent()).getValue();
-        if (value != null) {
-            listDataProvider.refreshItem(value);
-        }
+    protected void refreshAll(ComponentWrapper componentWrapper, List<Object> items) {
+        setDataProvider(componentWrapper, new ListDataProvider<>(items));
     }
 
     /**
