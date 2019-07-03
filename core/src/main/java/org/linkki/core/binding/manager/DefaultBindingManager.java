@@ -29,6 +29,15 @@ public class DefaultBindingManager extends BindingManager {
 
     /**
      * Creates a {@link BindingManager} that returns standard {@link BindingContext BindingContexts}
+     * with {@link PropertyBehaviorProvider#NO_BEHAVIOR_PROVIDER} and
+     * {@link ValidationService#NOP_VALIDATION_SERVICE}.
+     */
+    public DefaultBindingManager() {
+        this(ValidationService.NOP_VALIDATION_SERVICE);
+    }
+
+    /**
+     * Creates a {@link BindingManager} that returns standard {@link BindingContext BindingContexts}
      * with {@link PropertyBehaviorProvider#NO_BEHAVIOR_PROVIDER}.
      */
     public DefaultBindingManager(ValidationService validationService) {
