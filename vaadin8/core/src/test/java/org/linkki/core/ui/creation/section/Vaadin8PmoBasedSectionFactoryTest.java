@@ -54,7 +54,8 @@ public class Vaadin8PmoBasedSectionFactoryTest {
     @Test
     public void testSetComponentId() {
         AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(), bindingContext);
-        assertThat(section.getComponentCount(), is(1));
+        assertThat(section.getComponentCount(), is(2));
+        assertThat(section.getComponent(0).isVisible(), is(false)); // invisible header
         GridLayout gridLayout = TestUiUtil.getContentGrid((FormSection)section);
 
         @NonNull

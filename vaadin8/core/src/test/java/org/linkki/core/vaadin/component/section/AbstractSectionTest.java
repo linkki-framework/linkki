@@ -13,17 +13,13 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.Optional;
-
 import org.junit.Test;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -35,12 +31,17 @@ public class AbstractSectionTest {
 
     static class TestSection extends AbstractSection {
 
-        public TestSection(String caption, boolean closeable, Optional<Button> button) {
-            super(caption, closeable, button);
+        public TestSection(String caption, boolean closeable) {
+            super(caption, closeable);
         }
 
         private static final long serialVersionUID = 1L;
 
+        public HorizontalLayout getHeader() {
+            HorizontalLayout header = (HorizontalLayout)getComponent(0);
+            assertThat(header, is(notNullValue()));
+            return header;
+        }
 
         @SuppressFBWarnings("NP_NONNULL_RETURN_VIOLATION")
         @Override
@@ -51,147 +52,117 @@ public class AbstractSectionTest {
     }
 
     @Test
-    public void testAddHeaderButton_HeaderIsCreated() {
-        AbstractSection section = new TestSection("", true, Optional.empty());
+    public void testHeader_Caption() {
+        TestSection section = new TestSection("CAP", false);
+        HorizontalLayout header = section.getHeader();
+        Label captionLabel = (Label)header.getComponent(0);
 
-        assertThat(section.getComponentCount(), is(0));
-
-        Button headerButton1 = ComponentFactory.newButton();
-        section.addHeaderButton(headerButton1);
-
-        HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);
-
-        assertThat(sectionHeader, is(notNullValue()));
-        assertThat(sectionHeader.getComponentCount(), is(3)); // button, close button, line
-        assertThat(sectionHeader.getComponent(1), is(instanceOf(Button.class)));
-        Button closeButton = (Button)sectionHeader.getComponent(1);
-        assertThat(closeButton.getIcon(), is(VaadinIcons.ANGLE_DOWN));
-        assertThat(sectionHeader.getComponentCount(), is(3));
-        assertThat(sectionHeader.getComponent(1), is(closeButton));
-        Button button = (Button)sectionHeader.getComponent(0);
-        assertThat(button, is(headerButton1));
-    }
-
-    @Test
-    public void testAddHeaderButton_HeaderButtonIsAddedBeforeCloseButton() {
-        AbstractSection section = new TestSection("caption", true, Optional.empty());
-        HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);
-
-        assertThat(sectionHeader, is(notNullValue()));
-        assertThat(sectionHeader.getComponentCount(), is(3)); // label, close button, line
-        assertThat(sectionHeader.getComponent(1), is(instanceOf(Button.class)));
-        Button closeButton = (Button)sectionHeader.getComponent(1);
-        assertThat(closeButton.getIcon(), is(VaadinIcons.ANGLE_DOWN));
-
-        Button headerButton1 = ComponentFactory.newButton();
-        section.addHeaderButton(headerButton1);
-        assertThat(sectionHeader.getComponentCount(), is(4));
-        assertThat(sectionHeader.getComponent(2), is(closeButton));
-        Button button1 = (Button)sectionHeader.getComponent(1);
-        assertThat(button1, is(headerButton1));
-
-        Button headerButton2 = ComponentFactory.newButton();
-        section.addHeaderButton(headerButton2);
-        assertThat(sectionHeader.getComponentCount(), is(5));
-        assertThat(sectionHeader.getComponent(3), is(closeButton));
-        Button button2 = (Button)sectionHeader.getComponent(2);
-        assertThat(button2, is(headerButton2));
-    }
-
-    @Test
-    public void testAddHeaderButton_HeaderButtonIsAddedAtEndIfCloseButtonIsMissing() {
-        AbstractSection section = new TestSection("caption", false, Optional.empty());
-        HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);
-
-        assertThat(sectionHeader, is(notNullValue()));
-        assertThat(sectionHeader.getComponentCount(), is(2)); // label, line
-
-        Button headerButton1 = ComponentFactory.newButton();
-        section.addHeaderButton(headerButton1);
-        assertThat(sectionHeader.getComponentCount(), is(3));
-        Button button1 = (Button)sectionHeader.getComponent(1);
-        assertThat(button1, is(headerButton1));
-
-        Button headerButton2 = ComponentFactory.newButton();
-        section.addHeaderButton(headerButton2);
-        assertThat(sectionHeader.getComponentCount(), is(4));
-        assertThat(sectionHeader.getComponent(1), is(button1));
-        Button button2 = (Button)sectionHeader.getComponent(2);
-        assertThat(button2, is(headerButton2));
-    }
-
-    @Test
-    public void testSetCaption_HeaderIsCreated() {
-        AbstractSection section = new TestSection("", false, Optional.empty());
-
-        assertThat(section.getComponentCount(), is(0));
-
-        Label content = new Label("Content");
-        section.addComponent(content);
-
-        assertThat(section.getComponentCount(), is(1));
-
-        section.setCaption("CAP");
-
-        assertThat(section.getComponentCount(), is(2));
-
-        HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);
-
-        assertThat(sectionHeader, is(notNullValue()));
-        assertThat(sectionHeader.getComponentCount(), is(2)); // caption, line
-        Label captionLabel = (Label)sectionHeader.getComponent(0);
+        assertThat(header.isVisible(), is(true));
+        assertThat(captionLabel.isVisible(), is(true));
         assertThat(captionLabel.getValue(), is("CAP"));
-        assertThat(section.getComponent(1), is(content));
     }
 
     @Test
-    public void testSetCaption_Null_HeaderIsRemoved() {
-        AbstractSection section = new TestSection("CAP", false, Optional.empty());
+    public void testHeader_CloseButton() {
+        TestSection section = new TestSection("", true);
+        HorizontalLayout header = section.getHeader();
+        Label captionLabel = (Label)header.getComponent(0);
 
-        assertThat(section.getComponentCount(), is(1));
+        assertThat(header.isVisible(), is(true));
+        assertThat(captionLabel.isVisible(), is(false));
+    }
 
-        HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);
+    @Test
+    public void testHeader_AddHeaderButton() {
+        TestSection section = new TestSection("", false);
+        HorizontalLayout header = section.getHeader();
+        Label captionLabel = (Label)header.getComponent(0);
 
-        assertThat(sectionHeader, is(notNullValue()));
-        assertThat(sectionHeader.getComponentCount(), is(2)); // caption, line
-        Label captionLabel = (Label)sectionHeader.getComponent(0);
+        assertThat(header.isVisible(), is(false));
+        assertThat(captionLabel.isVisible(), is(false));
+
+        Button button = ComponentFactory.newButton();
+        section.addHeaderButton(button);
+
+        assertThat(header.isVisible(), is(true));
+        assertThat(captionLabel.isVisible(), is(false));
+    }
+
+    @Test
+    public void testSetCaption() {
+        TestSection section = new TestSection("CAP", false);
+        HorizontalLayout header = section.getHeader();
+        Label captionLabel = (Label)header.getComponent(0);
+
+        assertThat(header.isVisible(), is(true));
+        assertThat(captionLabel.isVisible(), is(true));
         assertThat(captionLabel.getValue(), is("CAP"));
 
-        Label content = new Label("Content");
-        section.addComponent(content);
+        section.setCaption("TION");
 
-        assertThat(section.getComponentCount(), is(2));
+        assertThat(header.isVisible(), is(true));
+        assertThat(captionLabel.isVisible(), is(true));
+        assertThat(captionLabel.getValue(), is("TION"));
+    }
+
+    @Test
+    public void testSetCaption_Null() {
+        TestSection section = new TestSection("CAP", false);
+        HorizontalLayout header = section.getHeader();
+        Label captionLabel = (Label)header.getComponent(0);
+
+        assertThat(header.isVisible(), is(true));
+        assertThat(captionLabel.isVisible(), is(true));
+        assertThat(captionLabel.getValue(), is("CAP"));
 
         section.setCaption(null);
 
-        assertThat(section.getComponentCount(), is(1));
-
-        assertThat(section.getComponent(0), is(content));
+        assertThat(header.isVisible(), is(false));
+        assertThat(captionLabel.isVisible(), is(false));
     }
 
     @Test
-    public void testSetCaption_Empty_HeaderIsRemoved() {
-        AbstractSection section = new TestSection("CAP", false, Optional.empty());
+    public void testSetCaption_Empty() {
+        TestSection section = new TestSection("CAP", false);
+        HorizontalLayout header = section.getHeader();
+        Label captionLabel = (Label)header.getComponent(0);
 
-        assertThat(section.getComponentCount(), is(1));
-
-        HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);
-
-        assertThat(sectionHeader, is(notNullValue()));
-        assertThat(sectionHeader.getComponentCount(), is(2)); // caption, line
-        Label captionLabel = (Label)sectionHeader.getComponent(0);
+        assertThat(header.isVisible(), is(true));
+        assertThat(captionLabel.isVisible(), is(true));
         assertThat(captionLabel.getValue(), is("CAP"));
-
-        Label content = new Label("Content");
-        section.addComponent(content);
-
-        assertThat(section.getComponentCount(), is(2));
 
         section.setCaption("");
 
-        assertThat(section.getComponentCount(), is(1));
+        assertThat(header.isVisible(), is(false));
+        assertThat(captionLabel.isVisible(), is(false));
+    }
 
-        assertThat(section.getComponent(0), is(content));
+    @Test
+    public void testAddHeaderButton() {
+        TestSection section = new TestSection("CAP", true);
+        HorizontalLayout header = section.getHeader();
+
+        assertThat(header.getComponentCount(), is(3)); // caption label, close button, line
+        assertThat(header.isVisible(), is(true));
+
+        Button button1 = new Button();
+        section.addHeaderButton(button1);
+
+        assertThat(header.getComponentCount(), is(4));
+        assertThat(header.getComponent(1), is(button1));
+
+        Button button2 = new Button();
+        section.addHeaderButton(button2);
+
+        assertThat(header.getComponentCount(), is(5));
+        assertThat(header.getComponent(1), is(button2));
+        assertThat(header.getComponent(2), is(button1));
+
+        section.setCaption("UPDATE");
+
+        assertThat(header.getComponentCount(), is(5));
+        assertThat(header.getComponent(1), is(button2));
+        assertThat(header.getComponent(2), is(button1));
     }
 
 }

@@ -63,7 +63,8 @@ public class HorizontalSection extends BaseSection {
      */
     @Deprecated
     public HorizontalSection(String caption, boolean closeable, Optional<Button> editButton) {
-        super(caption, closeable, editButton);
+        super(caption, closeable);
+        editButton.ifPresent(this::addHeaderButton);
         content = new HorizontalLayout();
         addComponent(content);
     }

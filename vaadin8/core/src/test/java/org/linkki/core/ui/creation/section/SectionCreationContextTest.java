@@ -60,9 +60,10 @@ public class SectionCreationContextTest {
     @Test
     public void testSetComponentId() {
         BaseSection section = createContext(new SCCPmoWithID()).createSection();
-        assertThat(section.getComponentCount(), is(1));
+        assertThat(section.getComponentCount(), is(2));
+        assertThat(section.getComponent(0).isVisible(), is(false)); // invisible header
         GridLayout gridLayout = TestUiUtil.getContentGrid((FormSection)section);
-        
+
         @NonNull
         Component textField = gridLayout.getComponent(1, 0);
         assertThat(textField.getId(), is("testProperty"));
@@ -86,7 +87,7 @@ public class SectionCreationContextTest {
         assertThat(section, is(instanceOf(CustomLayoutSection.class)));
     }
 
-    
+
     @Test
     public void testSectionWithoutAnnotation_usesDefaultValues() {
         BaseSection section = createContext(new SectionWithoutAnnotation()).createSection();

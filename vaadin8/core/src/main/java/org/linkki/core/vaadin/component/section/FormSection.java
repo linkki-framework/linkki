@@ -74,7 +74,8 @@ public class FormSection extends BaseSection {
      */
     @Deprecated
     public FormSection(String caption, boolean closeable, Optional<Button> editButton, int numberOfColumns) {
-        super(caption, closeable, editButton);
+        super(caption, closeable);
+        editButton.ifPresent(this::addHeaderButton);
         this.numberOfColumns = numberOfColumns;
         setWidth("100%");
         contentGrid = createContent();
@@ -169,11 +170,6 @@ public class FormSection extends BaseSection {
             contentGrid.addComponent(component, column, row, column + 1, row);
             contentGrid.space();
         }
-    }
-
-    @Override
-    protected void switchOpenStatus() {
-        super.switchOpenStatus();
     }
 
     @Override
