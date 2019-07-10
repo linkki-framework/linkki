@@ -52,34 +52,36 @@ public abstract class AbstractSection extends VerticalLayout {
     private Optional<Button> editButton = Optional.empty();
 
     /**
-     * Creates a new, section with the given caption that cannot be closed.
+     * Creates a new section with the given caption that cannot be closed. If {@code caption} is
+     * {@code null} or empty, no caption will be shown.
      * 
      * @param caption the caption to display for this section
      */
-    public AbstractSection(String caption) {
+    public AbstractSection(@CheckForNull String caption) {
         this(caption, false, Optional.empty());
     }
 
     /**
-     * Creates a new section with the given caption.
+     * Creates a new section with the given caption. If {@code caption} is {@code null} or empty, no
+     * caption will be shown.
      * 
      * @param caption the caption to display for this section
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
-    public AbstractSection(String caption, boolean closeable) {
+    public AbstractSection(@CheckForNull String caption, boolean closeable) {
         this(caption, closeable, Optional.empty());
     }
 
     /**
-     * Creates a new section with the given caption.
+     * Creates a new section with the given caption. If {@code caption} is {@code null} or empty, no
+     * caption will be shown.
      * 
      * @param caption the caption to display for this section
      * @param closeable <code>true</code> if the section can be closed and opened.
      * @param editButton If present the section has an edit button in the header.
      */
-    public AbstractSection(String caption, boolean closeable, Optional<Button> editButton) {
+    public AbstractSection(@CheckForNull String caption, boolean closeable, Optional<Button> editButton) {
         super();
-        requireNonNull(caption, "caption must not be null");
         this.editButton = requireNonNull(editButton, "editButton must not be null");
         setMargin(false);
         setSpacing(false);
@@ -92,7 +94,59 @@ public abstract class AbstractSection extends VerticalLayout {
         }
     }
 
-    private static HorizontalLayout createHeader(String caption,
+    /**
+     * Updates the caption of this section. If there is no caption, a new one will be added. If the new
+     * caption is {@code null} or empty, any existing caption label will be removed.
+     * 
+     * @param caption the caption text
+     */
+    @Override
+    public void setCaption(@CheckForNull String caption) {
+        // workaround for spotbugs null check
+        HorizontalLayout headerLayout = header;
+
+        if (headerLayout == null) {
+            if (!caption.isEmpty()) {
+                header = createHeader(caption, editButton, Optional.ofNullable(openCloseButton));
+                addComponent(header, 0);
+            }
+        } else {
+            Label captionLabel = getCaptionLabel();
+
+            if (StringUtils.isEmpty(caption)) {
+                if (!editButton.isPresent() && openCloseButton == null) {
+                    removeComponent(header);
+                    header = null;
+                } else {
+                    headerLayout.removeComponent(captionLabel);
+                }
+            } else {
+                if (captionLabel == null) {
+                    captionLabel = createCaption(caption);
+                    headerLayout.addComponent(captionLabel, 0);
+                } else {
+                    captionLabel.setValue(caption);
+                }
+            }
+        }
+    }
+
+    @CheckForNull
+    private Label getCaptionLabel() {
+        if (header == null) {
+            return null;
+        }
+
+        Component component = header.getComponent(0);
+
+        if (component instanceof Label && component.getStyleName().contains(LinkkiTheme.SECTION_CAPTION_TEXT)) {
+            return (Label)component;
+        } else {
+            return null;
+        }
+    }
+
+    private static HorizontalLayout createHeader(@CheckForNull String caption,
             Optional<Button> editButton,
             Optional<Button> openCloseButton) {
         HorizontalLayout headerLayout = new HorizontalLayout();
@@ -101,8 +155,7 @@ public abstract class AbstractSection extends VerticalLayout {
         headerLayout.addStyleName(LinkkiTheme.SECTION_CAPTION);
 
         if (StringUtils.isNotEmpty(caption)) {
-            Label captionLabel = new Label(caption);
-            captionLabel.addStyleName(LinkkiTheme.SECTION_CAPTION_TEXT);
+            Label captionLabel = createCaption(caption);
             headerLayout.addComponent(captionLabel);
         }
 
@@ -124,6 +177,12 @@ public abstract class AbstractSection extends VerticalLayout {
         button.addStyleName(LinkkiTheme.BUTTON_TEXT);
         button.addClickListener(e -> toggleCloseOpen.apply());
         return button;
+    }
+
+    private static Label createCaption(String caption) {
+        Label captionLabel = new Label(caption);
+        captionLabel.addStyleName(LinkkiTheme.SECTION_CAPTION_TEXT);
+        return captionLabel;
     }
 
     /*

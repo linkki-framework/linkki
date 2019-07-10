@@ -27,6 +27,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -40,7 +41,7 @@ public class AbstractSectionTest {
 
         private static final long serialVersionUID = 1L;
 
-        
+
         @SuppressFBWarnings("NP_NONNULL_RETURN_VIOLATION")
         @Override
         public Component getSectionContent() {
@@ -117,6 +118,80 @@ public class AbstractSectionTest {
         assertThat(sectionHeader.getComponent(1), is(button1));
         Button button2 = (Button)sectionHeader.getComponent(2);
         assertThat(button2, is(headerButton2));
+    }
+
+    @Test
+    public void testSetCaption_HeaderIsCreated() {
+        AbstractSection section = new TestSection("", false, Optional.empty());
+
+        assertThat(section.getComponentCount(), is(0));
+
+        Label content = new Label("Content");
+        section.addComponent(content);
+
+        assertThat(section.getComponentCount(), is(1));
+
+        section.setCaption("CAP");
+
+        assertThat(section.getComponentCount(), is(2));
+
+        HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);
+
+        assertThat(sectionHeader, is(notNullValue()));
+        assertThat(sectionHeader.getComponentCount(), is(2)); // caption, line
+        Label captionLabel = (Label)sectionHeader.getComponent(0);
+        assertThat(captionLabel.getValue(), is("CAP"));
+        assertThat(section.getComponent(1), is(content));
+    }
+
+    @Test
+    public void testSetCaption_Null_HeaderIsRemoved() {
+        AbstractSection section = new TestSection("CAP", false, Optional.empty());
+
+        assertThat(section.getComponentCount(), is(1));
+
+        HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);
+
+        assertThat(sectionHeader, is(notNullValue()));
+        assertThat(sectionHeader.getComponentCount(), is(2)); // caption, line
+        Label captionLabel = (Label)sectionHeader.getComponent(0);
+        assertThat(captionLabel.getValue(), is("CAP"));
+
+        Label content = new Label("Content");
+        section.addComponent(content);
+
+        assertThat(section.getComponentCount(), is(2));
+
+        section.setCaption(null);
+
+        assertThat(section.getComponentCount(), is(1));
+
+        assertThat(section.getComponent(0), is(content));
+    }
+
+    @Test
+    public void testSetCaption_Empty_HeaderIsRemoved() {
+        AbstractSection section = new TestSection("CAP", false, Optional.empty());
+
+        assertThat(section.getComponentCount(), is(1));
+
+        HorizontalLayout sectionHeader = (HorizontalLayout)section.getComponent(0);
+
+        assertThat(sectionHeader, is(notNullValue()));
+        assertThat(sectionHeader.getComponentCount(), is(2)); // caption, line
+        Label captionLabel = (Label)sectionHeader.getComponent(0);
+        assertThat(captionLabel.getValue(), is("CAP"));
+
+        Label content = new Label("Content");
+        section.addComponent(content);
+
+        assertThat(section.getComponentCount(), is(2));
+
+        section.setCaption("");
+
+        assertThat(section.getComponentCount(), is(1));
+
+        assertThat(section.getComponent(0), is(content));
     }
 
 }
