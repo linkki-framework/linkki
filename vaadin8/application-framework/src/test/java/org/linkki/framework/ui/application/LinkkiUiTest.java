@@ -20,10 +20,12 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
+import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.util.Sequence;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -42,22 +44,18 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 @RunWith(MockitoJUnitRunner.class)
 public class LinkkiUiTest {
 
-    
     @Mock
     private VaadinRequest request;
 
-    
     @Mock
     private VaadinSession vaadinSession;
 
-    
     @Captor
     private ArgumentCaptor<LinkkiConverterRegistry> converterRegistryCaptor;
 
     private TestApplicationConfig config = new TestApplicationConfig();
 
     private LinkkiUi linkkiUi = new LinkkiUi(config);
-
 
     private void initUi() {
         UI.setCurrent(linkkiUi);
@@ -66,12 +64,22 @@ public class LinkkiUiTest {
         linkkiUi.init(request);
     }
 
-    
     @Test
     public void testInit() {
         initUi();
 
         assertThat(UI.getCurrent().getContent(), is(linkkiUi.getApplicationLayout()));
+    }
+
+    @Test
+    public void testLayoutInitializedWithCorrectLocale() {
+        linkkiUi.setLocale(Locale.CANADA);
+
+        initUi();
+
+        String menuItem = ((ApplicationMenu)((ApplicationHeader)linkkiUi.getApplicationLayout().getComponent(0))
+                .getComponent(0)).getItems().get(0).getText();
+        assertThat(menuItem, is(Locale.CANADA.getDisplayCountry()));
     }
 
     @Test
@@ -81,7 +89,7 @@ public class LinkkiUiTest {
 
         verify(vaadinSession).setAttribute(Mockito.eq(LinkkiConverterRegistry.class),
                                            converterRegistryCaptor.capture());
-        
+
         @NonNull
         LinkkiConverterRegistry converterRegistry = converterRegistryCaptor.getValue();
         assertThat(converterRegistry, is(instanceOf(LinkkiConverterRegistry.class)));

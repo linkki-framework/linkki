@@ -15,11 +15,14 @@
 package org.linkki.framework.ui.application;
 
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.framework.state.ApplicationConfig;
+import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.util.Sequence;
 
 import com.vaadin.data.Converter;
+import com.vaadin.ui.MenuBar.MenuItem;
 
 public final class TestApplicationConfig implements ApplicationConfig {
 
@@ -56,7 +59,13 @@ public final class TestApplicationConfig implements ApplicationConfig {
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-        return Sequence.empty();
+        return Sequence.of(new ApplicationMenuItemDefinition(UiFramework.getLocale().getDisplayCountry(), 0) {
+
+            @Override
+            protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                return menu.addItem(UiFramework.getLocale().getDisplayCountry());
+            }
+        });
     }
 
 }

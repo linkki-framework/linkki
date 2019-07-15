@@ -65,8 +65,6 @@ public class LinkkiUi extends UI {
      */
     protected final void configure(ApplicationConfig config) {
         this.applicationConfig = requireNonNull(config, "config must not be null");
-        this.applicationLayout = applicationConfig.createApplicationLayout();
-        setNavigator(config.createApplicationNavigator(this, applicationLayout));
     }
 
     @Override
@@ -77,7 +75,10 @@ public class LinkkiUi extends UI {
     @Override
     protected void init(VaadinRequest request) {
         requireNonNull(applicationConfig,
-                       "configure must be called before any other methods to set applicationConfig and applicationLayout");
+                       "configure must be called before executing any initialization to set an ApplicationConfig");
+        this.applicationLayout = applicationConfig.createApplicationLayout();
+        setNavigator(applicationConfig.createApplicationNavigator(this, applicationLayout));
+
         setErrorHandler(createErrorHandler());
         // init converters
         VaadinSession vaadinSession = VaadinSession.getCurrent();

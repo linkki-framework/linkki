@@ -28,8 +28,8 @@ import com.vaadin.ui.MenuBar.MenuItem;
  */
 public abstract class ApplicationMenuItemDefinition implements Comparable<ApplicationMenuItemDefinition> {
 
-    private String name;
-    private int position;
+    private final String name;
+    private final int position;
 
     public ApplicationMenuItemDefinition(String name, int position) {
         this.name = requireNonNull(name, "name must not be null");
