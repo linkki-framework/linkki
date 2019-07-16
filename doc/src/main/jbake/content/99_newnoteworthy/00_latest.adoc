@@ -32,10 +32,18 @@
 
 === {dversion}
 
-[role="api-change"]
-===== OKCancelDialog
+==== New method in `BindingManager` to create a `BindingContext` with a `PropertyBehaviorProvider`
 
-The `openOkCancelDialog(String, Object, Handler)` method in `PmoBasedDialogFactory` is deprecated as the method had different argument order compared to newOkCancelDialog() method. Use `openOkCancelDialog(String, Handler, Handler, Object...)` instead. It creates a new `OkCancelDialog` based on multiple PMOs and opens the dialog.
+For a while now, `BindingContexts` can accept a `PropertyBehaviorProvider` that defines which behaviors are to be used for all bindings in the context. However, `BindingManager` does not directly offer any support for `PropertyBehaviors` when creating new `BindingContexts` yet. In the default implementation `DefaultBindingManager`, the constructor accepts a `PropertyBehaviorProvider` that is used for all new `BindingContexts`. No individual choices can be made.
+
+In the new linkki version, `BindingManager` is extended with two new methods `createContext(Class, PropertyBehaviorProvider)` and `createContext(String, PropertyBehaviorProvider)`. These methods enables the caller to create a `BindingContext` using the specific behaviors that are passed to the method. The section "<<property-behavior-binding-manager, Using PropertyBehaviors with a BindingManager>>" in chapter "architecture" of the documentation contains further information about these methods.
+
+If you are creating an `AbstractPage` which should use a custom `PropertyBehaviorProvider`, you can create a new `BindingContext` using the new methods, and use this context in the method `getBindingContext()`.
+
+[role="api-change"]
+==== Changed argument order in PmoBasedDialogFactory
+
+The `openOkCancelDialog(String, Object, Handler)` method in `PmoBasedDialogFactory` is deprecated as the method had different argument order compared to `newOkCancelDialog()` method. Use `openOkCancelDialog(String, Handler, Handler, Object...)` instead. It creates a new `OkCancelDialog` based on multiple PMOs and opens the dialog.
 
 To mirror the corresponding `newOkDialog` following methods are also introduced in `PmoBasedDialogFactory`.
 
@@ -46,18 +54,20 @@ To mirror the corresponding `newOkDialog` following methods are also introduced 
 |`openOkCancelDialog(String, Handler , Object...)` | creates a new `OkCancelDialog` based on multiple PMOs with okHandler and opens the dialog
 |===
 
-==== New method in `BindingManager` to create a `BindingContext` with a `PropertyBehaviorProvider`
+==== Default constructor for DefaultBindingManager
 
-For a while now, `BindingContexts` can accept a `PropertyBehaviorProvider` that defines which behaviors are to be used for all bindings in the context. However, `BindingManager` does not directly offer any support for `PropertyBehaviors` when creating new `BindingContexts` yet. In the default implementation `DefaultBindingManager`, the constructor accepts a `PropertyBehaviorProvider` that is used for all new `BindingContexts`. No individual choices can be made.
-
-In the new linkki version, `BindingManager` is extended with two new methods `createContext(Class, PropertyBehaviorProvider)` and `createContext(String, PropertyBehaviorProvider)`. These methods enables the caller to create a `BindingContext` using the specific behaviors that are passed to the method. The section "<<property-behavior-binding-manager, Using PropertyBehaviors with a BindingManager>>" in chapter "architecture" of the documentation contains further information about these methods.
-
-If you are creating an `AbstractPage` which should use a custom `PropertyBehaviorProvider`, you can create a new `BindingContext` using the new methods, and use this context in the method `getBindingContext()`.
+In the previous versions, a `ValidationService` is required to create a `DefaultBindingManager`. However, it is often sufficient to use a `DefaultBindingManager` with no validation service at all. For this reason, `DefaultBindingManager` now has a default constructor which creates a new instance with `ValidationService.NOP_VALIDATION_SERVICE`.
 
 [role="api-change"]
 ===== `startNewContext` deprecated
+
 The `BindingManager`'s `startNewContext` method has been deprecated, as it is no longer necessary to explicitly start a context. When `getContext` is called, a new context is created as necessary. Existing calls can be refactored with link:../migration_scripts/0.9.20190528_to_latest/migrate.sed[0.9.20190528_to_latest/migrate.sed].
 
-===== Bugfixes
+==== Update to Vaadin 8.8.5
+
+To benefit from bugfixes in the latest patch releases of Vaadin, the dependency of `linkki-vaadin8` has been updated to Vaadin 8.8.5. You can read the change logs for Vaadin https://github.com/vaadin/framework/releases/tag/8.8.3[8.8.3], https://github.com/vaadin/framework/releases/tag/8.8.4[8.8.4] and https://github.com/vaadin/framework/releases/tag/8.8.5[8.8.5].
+
+==== Bugfixes
 
 * When using a PMO property with <<dynamicfield,dynamic fields>> with different bound model attributes, every field was bound to the first annotation's model attribute.
+* Value of ComboBox is sometimes removed upon update of the `BindingContext`
