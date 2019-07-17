@@ -70,4 +70,5 @@ To benefit from bugfixes in the latest patch releases of Vaadin, the dependency 
 ==== Bugfixes
 
 * When using a PMO property with <<dynamicfield,dynamic fields>> with different bound model attributes, every field was bound to the first annotation's model attribute.
-* Value of ComboBox is sometimes removed upon update of the `BindingContext`
+* The value of a `ComboBox` was sometimes removed upon update of the `BindingContext`.
+* `LinkkiUi` initialization order was changed, so that the correct `Locale` is present when the `ApplicationLayout` is created.
