@@ -12,26 +12,36 @@
  * License.
  */
 
-package org.linkki.samples.playground.lin1486;
+package org.linkki.samples.playground.bugs;
+
+import java.util.function.Function;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.samples.playground.bugs.lin1442.ComboBoxCaptionRefreshPmo;
+import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
 import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.VerticalLayout;
 
-public class ComboBoxVanishingValueLayout extends VerticalLayout implements SidebarSheetDefinition {
+public class BugCollectionLayout extends VerticalLayout implements SidebarSheetDefinition {
 
-    public static final String ID = "LIN-1486";
+    public static final String ID = "BugCollection";
 
-    private static final long serialVersionUID = 5943058450629856446L;
+    private static final long serialVersionUID = 1L;
 
-    public ComboBoxVanishingValueLayout() {
+    public BugCollectionLayout() {
         BindingContext bindingContext = new BindingContext();
         addComponent(PmoBasedSectionFactory
-                .createAndBindSection(new ComboBoxVanishingValuePmo(bindingContext::modelChanged), bindingContext));
+                .createAndBindSection(new ComboBoxCaptionRefreshPmo(), bindingContext));
+        addComponentWithSeparateBindingContext(bc -> new ComboBoxVanishingValuePmo(bc::modelChanged));
+    }
+
+    private void addComponentWithSeparateBindingContext(Function<BindingContext, Object> pmoCreation) {
+        BindingContext bindingContext = new BindingContext();
+        addComponent(PmoBasedSectionFactory.createAndBindSection(pmoCreation.apply(bindingContext), bindingContext));
     }
 
     @Override
@@ -41,7 +51,7 @@ public class ComboBoxVanishingValueLayout extends VerticalLayout implements Side
 
     @Override
     public Resource getSidebarSheetIcon() {
-        return VaadinIcons.MAGIC;
+        return VaadinIcons.BUG;
     }
 
     @Override

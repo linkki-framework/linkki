@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.lin1442;
+package org.linkki.samples.playground.bugs.lin1442;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,7 +23,9 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.layout.annotation.UISection;
 
+@UISection(caption = "LIN-1442")
 public class ComboBoxCaptionRefreshPmo {
 
     private static AtomicInteger COUNTER = new AtomicInteger(0);
