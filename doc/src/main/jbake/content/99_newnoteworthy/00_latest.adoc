@@ -58,6 +58,9 @@ If you are creating an `AbstractPage` which should use a custom `PropertyBehavio
 ===== `startNewContext` deprecated
 The `BindingManager`'s `startNewContext` method has been deprecated, as it is no longer necessary to explicitly start a context. When `getContext` is called, a new context is created as necessary. Existing calls can be refactored with link:../migration_scripts/0.9.20190528_to_latest/migrate.sed[0.9.20190528_to_latest/migrate.sed].
 
+===== `@BindCaption`
+Section and field captions can now be bound via <<bind-caption,`@BindCaption`>>. In preparation for this, the `AbstractSection` was refactored to allow setting(and removing) a caption after construction.
+
 ===== Bugfixes
 
 * When using a PMO property with <<dynamicfield,dynamic fields>> with different bound model attributes, every field was bound to the first annotation's model attribute.

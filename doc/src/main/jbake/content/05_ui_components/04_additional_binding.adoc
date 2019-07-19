@@ -65,3 +65,28 @@ Vaadin components get rendered as HTML and styled via CSS. Using the `@BindStyle
 A single style name can be provided as the annotation's value (`@BindStyleNames("foo")`) as well as an array of multiple style names (`@BindStyleNames({"bar", "baz"})`).
 
 The value can also be omitted, leading to dynamic resolution via a `get<Property>StyleNames()` method that may return a `String` or any `Collection<String>`.
+
+[[bind-caption]]
+==== Caption
+
+For sections and applicable fields(e.g. <<ui-checkbox,`UICheckbox`>>, <<ui-button,`UIButton`>>), the caption can be set with the separate `@BindCaption` annotation. 
+
+The `@BindCaption` annotation has two properties:
+
+* <<caption-text, `value: String`>>
+* <<caption-type, `captionType: CaptionType`>>
+
+[[caption-text]]
+===== Value
+This is the text displayed on <<caption-type, `CaptionType.STATIC`>>. Its default value is an empty string (`""`).
+
+[[caption-type]]
+===== CaptionType
+The following configuration options are available for `CaptionType`:
+
+[cols="1,9"]
+.CaptionType
+|===
+|`STATIC`   |the caption is read from the attribute `value` (*default*)
+|`DYNAMIC`  |the captionis determined by the return value of the method `String get<PropertyName>Caption()`. The `value` is ignored.
+|===
