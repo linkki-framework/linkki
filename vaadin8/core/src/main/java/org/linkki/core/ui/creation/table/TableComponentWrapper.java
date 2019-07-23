@@ -53,7 +53,6 @@ public class TableComponentWrapper<ROW> extends CaptionComponentWrapper
      * footer will be visible, otherwise the the column footers will be set according to
      * {@link TableFooterPmo#getFooterText(String)}.
      */
-    @SuppressWarnings("javadoc")
     @Override
     public void updateFooter(Optional<TableFooterPmo> footerPmo) {
         com.vaadin.v7.ui.Table table = getComponent();
@@ -71,7 +70,6 @@ public class TableComponentWrapper<ROW> extends CaptionComponentWrapper
     /**
      * Sets the {@link com.vaadin.v7.ui.Table#setPageLength(int) page length}.
      */
-    @SuppressWarnings("javadoc")
     @Override
     public void setPageLength(int pageLength) {
         getComponent().setPageLength(pageLength);
@@ -82,7 +80,6 @@ public class TableComponentWrapper<ROW> extends CaptionComponentWrapper
      * {@link com.vaadin.v7.ui.Table#getContainerDataSource() container data source} if the given items
      * are not the ones currently displayed.
      */
-    @SuppressWarnings("javadoc")
     @Override
     public void setItems(List<ROW> actualItems) {
         boolean hasChildChanged = hasItemChanged(actualItems);

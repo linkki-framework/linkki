@@ -45,7 +45,6 @@ import com.vaadin.ui.TextField;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-@SuppressWarnings("synthetic-access")
 public class BinderIntegrationTest {
 
 

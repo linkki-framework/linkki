@@ -25,7 +25,7 @@
         <dependency>
             <groupId>org.linkki-framework.samples</groupId>
             <artifactId>linkki-sample-test-playground-vaadin8</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>${project.version}</version>
             <classifier>classes</classifier>
         </dependency>
     

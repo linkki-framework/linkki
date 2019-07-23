@@ -19,6 +19,9 @@ import org.linkki.framework.ui.component.sidebar.SidebarSheet;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 
+// needed to avoid false warning from javac
+// https://bugs.openjdk.java.net/browse/JDK-8191637
+@SuppressWarnings("serial")
 public interface SidebarSheetDefinition extends Component {
 
     String getSidebarSheetName();

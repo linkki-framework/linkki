@@ -67,7 +67,6 @@ public class ComboBoxCaptionRefreshPmo {
             this.value = value;
         }
 
-        @SuppressWarnings("unused")
         public Double getValue() {
             return value;
         }
@@ -76,7 +75,6 @@ public class ComboBoxCaptionRefreshPmo {
             this.value = value;
         }
 
-        @SuppressWarnings("unused")
         public String getName() {
             return String.valueOf(value);
         }
