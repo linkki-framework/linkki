@@ -49,6 +49,20 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
         assertThat(label.getValue(), is("fdsa"));
     }
 
+    @Test
+    public void testLabelFieldValue_Integer_UsesConverter() {
+        setModelObjectSupplier(TestModelObjectWithInteger::new);
+        Label label = getDynamicComponent();
+
+        assertThat(label.getContentMode(), is(ContentMode.HTML));
+        assertThat(label.getStyleName(), is(STYLES));
+        assertThat(label.getValue(), is(""));
+
+        ((TestModelObjectWithInteger)getDefaultModelObject()).setValue(123456);
+        modelChanged();
+        assertThat(label.getValue(), is("123.456"));
+    }
+
     @Override
     public void testEnabled() {
         assertThat(getStaticComponent().isEnabled(), is(true));
@@ -101,6 +115,23 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
 
         @Override
         public void setValue(@CheckForNull String value) {
+            this.value = value;
+        }
+    }
+
+    protected static class TestModelObjectWithInteger extends TestModelObject<Integer> {
+
+        @CheckForNull
+        private Integer value = null;
+
+        @CheckForNull
+        @Override
+        public Integer getValue() {
+            return value;
+        }
+
+        @Override
+        public void setValue(@CheckForNull Integer value) {
             this.value = value;
         }
     }

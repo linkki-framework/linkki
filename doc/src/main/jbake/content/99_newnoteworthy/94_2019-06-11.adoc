@@ -1,7 +1,7 @@
 :jbake-title: 0.9.20190611
 :jbake-type: section
 :jbake-status: published
-:jbake-order: 95
+:jbake-order: 94
 
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy

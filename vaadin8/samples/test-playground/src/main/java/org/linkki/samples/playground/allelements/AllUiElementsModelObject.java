@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.allelements;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class AllUiElementsModelObject {
@@ -34,6 +35,8 @@ public class AllUiElementsModelObject {
 
     public static final String PROPERTY_SECRET = "secret";
 
+    public static final String PROPERTY_BIG_DECIMAL = "bigDecimal";
+
 
     private String text = "foo";
 
@@ -50,6 +53,8 @@ public class AllUiElementsModelObject {
     private boolean booleanValue = true;
 
     private String secret = "secret";
+
+    private BigDecimal bigDecimal = BigDecimal.valueOf(1234567890L, 5);
 
     public String getText() {
         return text;
@@ -113,5 +118,13 @@ public class AllUiElementsModelObject {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public BigDecimal getBigDecimal() {
+        return bigDecimal;
+    }
+
+    public void setBigDecimal(BigDecimal bigDecimal) {
+        this.bigDecimal = bigDecimal;
     }
 }

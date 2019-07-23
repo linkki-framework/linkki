@@ -75,8 +75,13 @@ public class AllUiElementsPmo {
         // model binding
     }
 
-    @UILabel(position = 80, label = NlsText.I18n, modelAttribute = "secret")
+    @UILabel(position = 80, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET)
     public void textLabel() {
+        // model binding
+    }
+
+    @UILabel(position = 81, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_BIG_DECIMAL)
+    public void bigDecimalLabel() {
         // model binding
     }
 

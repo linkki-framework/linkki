@@ -152,6 +152,14 @@ public class AllUiElementsTest extends AbstractUiTest {
     }
 
     @Test
+    public void testLabelWithConverter() {
+        LabelElement label = $(LabelElement.class).id("bigDecimalLabel");
+        // because Vaadin's StringToBigDecimalConverter uses NumberFormat,
+        // which uses BigDecimal#doubleValue(), we get a rounded value
+        assertThat(label.getText(), is("12.345,679"));
+    }
+
+    @Test
     public void testButton() {
         ButtonElement button = $(ButtonElement.class).id("action");
         TextFieldElement integerField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_INTVALUE);

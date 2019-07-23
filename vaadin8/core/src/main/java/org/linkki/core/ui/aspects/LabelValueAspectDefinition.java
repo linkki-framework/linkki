@@ -20,7 +20,11 @@ import java.util.function.Consumer;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.ui.converters.LinkkiConverterRegistry;
+import org.linkki.core.uiframework.UiFramework;
 
+import com.vaadin.data.Converter;
+import com.vaadin.data.ValueContext;
 import com.vaadin.ui.Label;
 
 /**
@@ -38,6 +42,20 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object
 
     @Override
     public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        return v -> ((Label)componentWrapper.getComponent()).setValue(Objects.toString(v, ""));
+        return v -> ((Label)componentWrapper.getComponent())
+                .setValue(LabelValueAspectDefinition.toString(v));
+    }
+
+    private static String toString(Object o) {
+        if (o != null) {
+            try {
+                Converter<String, Object> converter = LinkkiConverterRegistry.getCurrent().findConverter(String.class,
+                                                                                                         o.getClass());
+                return converter.convertToPresentation(o, new ValueContext(UiFramework.getLocale()));
+            } catch (IllegalArgumentException e) {
+                // no converter
+            }
+        }
+        return Objects.toString(o, "");
     }
 }

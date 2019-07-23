@@ -210,6 +210,14 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     }
 
     /**
+     * Uses the new given supplier to {@link #setUp()} everything again.
+     */
+    public void setModelObjectSupplier(Supplier<Object> modelObjectSupplier) {
+        this.modelObjectSupplier = modelObjectSupplier;
+        setUp();
+    }
+
+    /**
      * Base class for model object to be used with {@link AnnotationTestPmo}. The property
      * <code>value</code> should not have a setter so that it can be used for read-only behavior
      * testing.
