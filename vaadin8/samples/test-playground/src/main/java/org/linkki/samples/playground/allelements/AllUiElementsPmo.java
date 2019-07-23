@@ -15,6 +15,7 @@
 package org.linkki.samples.playground.allelements;
 
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
@@ -31,7 +32,10 @@ import org.linkki.samples.playground.nls.NlsText;
 import com.vaadin.ui.PasswordField;
 
 @UISection(caption = NlsText.I18n)
+@BindStyleNames(AllUiElementsPmo.CSS_NAME)
 public class AllUiElementsPmo {
+
+    public static final String CSS_NAME = "playground";
 
     private final AllUiElementsModelObject modelObject = new AllUiElementsModelObject();
 

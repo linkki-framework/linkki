@@ -36,7 +36,7 @@ import com.vaadin.ui.Component;
  */
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.FIELD, ElementType.METHOD })
+@Target(value = { ElementType.TYPE, ElementType.FIELD, ElementType.METHOD })
 @LinkkiAspect(BindStyleNamesAspectDefinitionCreator.class)
 public @interface BindStyleNames {
     /**
