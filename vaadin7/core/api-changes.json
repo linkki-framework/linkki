@@ -1,0 +1,15 @@
+{
+  "1.1.0": {
+    "revapi": {
+        "ignore": [
+          {
+          "regex": true,
+          "code": "java\\.missing\\.(old|new)Class",
+          "old": "missing-class org\\.joda\\.time\\..*",
+          "new": "missing-class org\\.joda\\.time\\..*",
+          "justification": "It has been detected as contributing to the API and thus the analysis results may be incorrect. - it is incorrect"
+        }
+      ]
+    }
+  }
+}

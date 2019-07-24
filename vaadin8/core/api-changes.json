@@ -1,0 +1,38 @@
+{
+  "1.1.0": {
+    "revapi": {
+        "ignore": [
+        {
+          "code": "java.annotation.nowInherited",
+          "old": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
+          "new": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
+          "annotationType": "java.lang.annotation.Inherited",
+          "justification": "FCOM-153"
+        },
+        {
+          "code": "java.annotation.attributeValueChanged",
+          "old": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
+          "new": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
+          "annotationType": "java.lang.annotation.Target",
+          "attribute": "value",
+          "oldValue": "{java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.METHOD}",
+          "newValue": "{java.lang.annotation.ElementType.TYPE, java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.METHOD}",
+          "justification": "FCOM-153"
+        },
+        {
+          "code": "java.method.removed",
+          "old": "method boolean org.linkki.core.vaadin.component.section.AbstractSection::isEditButtonAvailable()",
+          "justification": "LIN-434 :: method was unused and did not work properly for some time"
+        },
+        {
+          "regex": true,
+          "code": "java.annotation.added",
+          "old": "parameter .*",
+          "new": "parameter .*",
+          "annotationType": "edu\\.umd\\.cs\\.findbugs\\.annotations\\.CheckForNull",
+          "justification": "@CheckForNull for parameters is compatible"
+        }       
+      ]
+    }
+  }
+}
