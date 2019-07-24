@@ -17,6 +17,7 @@ package org.linkki.samples.playground.dynamiccaption;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
+import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
@@ -33,7 +34,12 @@ public class DynamicCaptionWithCloseButtonPmo implements PresentationModelObject
         return sectionCaption;
     }
 
-    @UITextField(position = 10, label = PROPERTY_SECTION_CAPTION)
+    @UILabel(position = 10, htmlContent = true)
+    public String getDescription() {
+        return "<ul><li>The caption should update dynamically</li><li>Closable button should be visible even if the caption is empty</li></ul>";
+    }
+
+    @UITextField(position = 20, label = "Caption for closable section")
     public String getCloseCaption() {
         return sectionCaption;
     }

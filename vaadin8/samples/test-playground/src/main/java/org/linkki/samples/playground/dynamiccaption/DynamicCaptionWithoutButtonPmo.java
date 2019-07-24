@@ -22,6 +22,7 @@ import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
+import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
@@ -29,55 +30,44 @@ import org.linkki.core.ui.layout.annotation.UISection;
 @UISection
 public class DynamicCaptionWithoutButtonPmo implements PresentationModelObject {
 
-    public static final String PROPERTY_SECTION_CAPTION = "sectionCaption";
-    public static final String PROPERTY_FIELD_CAPTION = "fieldCaption";
+    public static final String PROPERTY_DYNAMIC_CAPTION = "dynamicCaption";
     public static final String PROPERTY_BUTTON = "button";
     public static final String PROPERTY_CHECKBOX = "checkbox";
 
-    private String sectionCaption = "Dynamic caption";
-    private String fieldCaption = "even more captions";
+    private String dynamicCaption = "Dynamic caption";
     private boolean checkbox = true;
 
     // aspect "caption" for the section
     public String getCaption() {
-        return sectionCaption;
+        return dynamicCaption;
     }
 
-    @UITextField(position = 10, label = PROPERTY_SECTION_CAPTION)
-    public String getSectionCaption() {
-        return sectionCaption;
+    @UILabel(position = 10, htmlContent = true)
+    public String getDescription() {
+        return "<ul><li>The caption should update dynamically</li><li>The header line should disappear if the caption is empty</li><li>The header line should reappear if the caption is non-empty</li></ul>";
     }
 
-    public void setSectionCaption(String caption) {
-        this.sectionCaption = caption;
+    @UITextField(position = 20, label = "Dynamic caption")
+    public String getDynamicCaption() {
+        return dynamicCaption;
     }
 
-    @BindCaption(captionType = CaptionType.DYNAMIC)
-    @UITextField(position = 20, label = PROPERTY_FIELD_CAPTION)
-    public String getFieldCaption() {
-        return fieldCaption;
-    }
-
-    public void setFieldCaption(String fieldCaption) {
-        this.fieldCaption = fieldCaption;
-    }
-
-    public String getFieldCaptionCaption() {
-        return fieldCaption;
+    public void setDynamicCaption(String caption) {
+        this.dynamicCaption = caption;
     }
 
     @BindCaption(captionType = CaptionType.DYNAMIC)
-    @UIButton(position = 30, label = PROPERTY_BUTTON)
+    @UIButton(position = 30)
     public void button() {
         // button
     }
 
     public String getButtonCaption() {
-        return fieldCaption;
+        return dynamicCaption;
     }
 
     @BindCaption(captionType = CaptionType.DYNAMIC)
-    @UICheckBox(position = 40, label = PROPERTY_CHECKBOX, caption = "")
+    @UICheckBox(position = 40, caption = "")
     public boolean isCheckbox() {
         return checkbox;
     }
@@ -87,7 +77,7 @@ public class DynamicCaptionWithoutButtonPmo implements PresentationModelObject {
     }
 
     public String getCheckboxCaption() {
-        return fieldCaption;
+        return dynamicCaption;
     }
 
     @Override

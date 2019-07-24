@@ -24,8 +24,6 @@ import org.linkki.samples.playground.dynamiccaption.DynamicCaptionWithCloseButto
 import org.linkki.samples.playground.dynamiccaption.DynamicCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.dynamiccaption.DynamicCaptionWithoutButtonPmo;
 
-import com.vaadin.testbench.elements.ButtonElement;
-import com.vaadin.testbench.elements.CheckBoxElement;
 import com.vaadin.testbench.elements.HorizontalLayoutElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.TextFieldElement;
@@ -45,7 +43,7 @@ public class BindCaptionTest extends AbstractUiTest {
         return section.$(HorizontalLayoutElement.class).first();
     }
 
-    private TextFieldElement getField(VerticalLayoutElement section, String id) {
+    private TextFieldElement getTextFieldById(VerticalLayoutElement section, String id) {
         return section.$(TextFieldElement.class).id(id);
     }
 
@@ -62,7 +60,7 @@ public class BindCaptionTest extends AbstractUiTest {
 
         assertThat(caption.getText(), is("Dynamic caption"));
 
-        TextFieldElement captionField = getField(section, DynamicCaptionWithoutButtonPmo.PROPERTY_SECTION_CAPTION);
+        TextFieldElement captionField = getTextFieldById(section, DynamicCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
         captionField.setValue("bar");
         assertThat(caption.getText(), is("bar"));
 
@@ -79,7 +77,7 @@ public class BindCaptionTest extends AbstractUiTest {
 
         assertThat(caption.getText(), is("Dynamic caption with edit button"));
 
-        TextFieldElement captionField = getField(section, DynamicCaptionWithEditButtonPmo.PROPERTY_SECTION_CAPTION);
+        TextFieldElement captionField = getTextFieldById(section, DynamicCaptionWithEditButtonPmo.PROPERTY_SECTION_CAPTION);
         captionField.setValue("bar");
         assertThat(caption.getText(), is("bar"));
 
@@ -97,7 +95,7 @@ public class BindCaptionTest extends AbstractUiTest {
 
         assertThat(caption.getText(), is("Dynamic caption with close button"));
 
-        TextFieldElement captionField = getField(section, DynamicCaptionWithCloseButtonPmo.PROPERTY_SECTION_CAPTION);
+        TextFieldElement captionField = getTextFieldById(section, DynamicCaptionWithCloseButtonPmo.PROPERTY_SECTION_CAPTION);
         captionField.setValue("☃");
         assertThat(caption.getText(), is("☃"));
 
@@ -107,21 +105,4 @@ public class BindCaptionTest extends AbstractUiTest {
         assertThat(header.$(LabelElement.class).all().size(), is(1));
     }
 
-    @Test
-    public void testDynamicFieldCaption() {
-        VerticalLayoutElement section = getSection(DynamicCaptionWithoutButtonPmo.class);
-        TextFieldElement text = getField(section, DynamicCaptionWithoutButtonPmo.PROPERTY_FIELD_CAPTION);
-        ButtonElement button = section.$(ButtonElement.class).first();
-        CheckBoxElement checkbox = section.$(CheckBoxElement.class).first();
-
-        assertThat(text.getCaption(), is("even more captions"));
-
-        text.setValue("bar");
-        assertThat(text.getCaption(), is("bar"));
-        assertThat(button.getText(), is("bar"));
-        assertThat(checkbox.getText(), is("bar"));
-
-        text.setValue("");
-        assertThat(text.getCaption(), is(" "));
-    }
 }
