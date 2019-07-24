@@ -34,7 +34,6 @@ import com.vaadin.ui.Component;
  * 
  * @see Component#setStyleName(String)
  */
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE, ElementType.FIELD, ElementType.METHOD })
 @LinkkiAspect(BindStyleNamesAspectDefinitionCreator.class)

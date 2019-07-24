@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitest;
+package org.linkki.samples.playground.bugs.uitest;
 
 import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.is;
@@ -21,8 +21,9 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.linkki.samples.playground.lin1486.ComboBoxVanishingValueLayout;
-import org.linkki.samples.playground.lin1486.ComboBoxVanishingValuePmo;
+import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
+import org.linkki.samples.playground.uitest.AbstractUiTest;
 
 import com.vaadin.testbench.elements.ComboBoxElement;
 
@@ -33,7 +34,7 @@ public class ComboBoxVanishingValueTest extends AbstractUiTest {
 
     @Test
     public void testValueOnRefreshWithSameAvailbleValues() {
-        clickButton(ComboBoxVanishingValueLayout.ID);
+        clickButton(BugCollectionLayout.ID);
 
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(ComboBoxVanishingValuePmo.PROPERTY_CHOICE);
         assertThat(comboBox.getValue(), is(not(nullValue())));

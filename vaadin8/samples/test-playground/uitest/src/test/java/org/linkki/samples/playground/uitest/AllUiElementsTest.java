@@ -169,5 +169,4 @@ public class AllUiElementsTest extends AbstractUiTest {
 
         assertThat(integerField.getValue(), is("43"));
     }
-
 }

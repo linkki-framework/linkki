@@ -114,9 +114,10 @@ public class PmoBasedTableSectionFactoryTest {
         AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
 
         assertThat(tableSection, is(notNullValue()));
-        assertThat(tableSection.getComponentCount(), is(1)); // only table
-        assertThat(tableSection.getComponent(0), is(instanceOf(com.vaadin.v7.ui.Table.class)));
-        com.vaadin.v7.ui.Table table = (com.vaadin.v7.ui.Table)tableSection.getComponent(0);
+        assertThat(tableSection.getComponentCount(), is(2)); // invisible header, table
+        assertThat(tableSection.getComponent(0).isVisible(), is(false));
+        assertThat(tableSection.getComponent(1), is(instanceOf(com.vaadin.v7.ui.Table.class)));
+        com.vaadin.v7.ui.Table table = (com.vaadin.v7.ui.Table)tableSection.getComponent(1);
         assertThat(table.getContainerDataSource(), is(instanceOf(LinkkiInMemoryContainer.class)));
         LinkkiInMemoryContainer<?> container = (LinkkiInMemoryContainer<?>)table.getContainerDataSource();
         assertThat(bindingContext, hasBindingWith(container));

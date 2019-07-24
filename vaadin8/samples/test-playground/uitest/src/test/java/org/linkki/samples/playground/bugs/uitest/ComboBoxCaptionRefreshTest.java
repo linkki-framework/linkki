@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitest;
+package org.linkki.samples.playground.bugs.uitest;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -22,8 +22,9 @@ import static org.junit.Assert.assertThat;
 import java.util.List;
 
 import org.junit.Test;
-import org.linkki.samples.playground.lin1442.ComboBoxCaptionRefreshLayout;
-import org.linkki.samples.playground.lin1442.ComboBoxCaptionRefreshPmo;
+import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.bugs.lin1442.ComboBoxCaptionRefreshPmo;
+import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.Keys;
 
 import com.vaadin.testbench.elements.ComboBoxElement;
@@ -35,7 +36,7 @@ public class ComboBoxCaptionRefreshTest extends AbstractUiTest {
 
     @Test
     public void testValueOnResettingListItemValues() {
-        clickButton(ComboBoxCaptionRefreshLayout.ID);
+        clickButton(BugCollectionLayout.ID);
 
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(ComboBoxCaptionRefreshPmo.PROPERTY_CHOICE);
         assertThat(comboBox.getValue(), is(not(nullValue())));

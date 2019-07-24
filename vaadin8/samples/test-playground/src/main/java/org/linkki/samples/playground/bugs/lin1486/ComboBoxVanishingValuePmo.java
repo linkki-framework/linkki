@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.lin1486;
+package org.linkki.samples.playground.bugs.lin1486;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,8 +23,10 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionPr
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.util.handler.Handler;
 
+@UISection(caption = "LIN-1486")
 public class ComboBoxVanishingValuePmo {
 
     public static final String PROPERTY_CHOICE = "choice";

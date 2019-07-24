@@ -57,7 +57,8 @@ public class CustomLayoutSection extends BaseSection {
      */
     @Deprecated
     public CustomLayoutSection(String pmoClassName, String caption, boolean closeable, Optional<Button> editButton) {
-        super(caption, closeable, editButton);
+        super(caption, closeable);
+        editButton.ifPresent(this::addHeaderButton);
         customLayout = new CustomLayout(pmoClassName);
         addComponent(customLayout);
     }

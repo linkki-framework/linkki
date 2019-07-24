@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.lin1442;
+package org.linkki.samples.playground.dynamiccaption;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
@@ -22,16 +22,20 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.VerticalLayout;
 
-public class ComboBoxCaptionRefreshLayout extends VerticalLayout implements SidebarSheetDefinition {
+public class DynamicCaptionLayout extends VerticalLayout implements SidebarSheetDefinition {
 
-    public static final String ID = "LIN-1442";
+    public static final String ID = "DynamicCaption";
 
-    private static final long serialVersionUID = 5943058450629856446L;
+    private static final long serialVersionUID = 1L;
 
-    public ComboBoxCaptionRefreshLayout() {
+    public DynamicCaptionLayout() {
         BindingContext bindingContext = new BindingContext();
         addComponent(PmoBasedSectionFactory
-                .createAndBindSection(new ComboBoxCaptionRefreshPmo(), bindingContext));
+                .createAndBindSection(new DynamicCaptionWithoutButtonPmo(), bindingContext));
+        addComponent(PmoBasedSectionFactory
+                .createAndBindSection(new DynamicCaptionWithEditButtonPmo(), bindingContext));
+        addComponent(PmoBasedSectionFactory
+                .createAndBindSection(new DynamicCaptionWithCloseButtonPmo(), bindingContext));
     }
 
     @Override
@@ -41,7 +45,7 @@ public class ComboBoxCaptionRefreshLayout extends VerticalLayout implements Side
 
     @Override
     public Resource getSidebarSheetIcon() {
-        return VaadinIcons.REFRESH;
+        return VaadinIcons.FLIGHT_TAKEOFF;
     }
 
     @Override

@@ -50,12 +50,17 @@ public abstract class BaseSection extends AbstractSection {
     /**
      * Creates a new section with the given caption.
      * 
+     * @deprecated Use {@link #BaseSection(String, boolean)} and a call to
+     *             {@link #addHeaderButton(Button)} instead.
+     * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
      * @param editButton If present the section has an edit button in the header.
      */
+    @Deprecated
     public BaseSection(String caption, boolean closeable, Optional<Button> editButton) {
-        super(caption, closeable, editButton);
+        super(caption, closeable);
+        editButton.ifPresent(this::addHeaderButton);
     }
 
     /**

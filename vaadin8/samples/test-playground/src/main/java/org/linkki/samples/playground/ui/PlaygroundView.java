@@ -16,8 +16,8 @@ package org.linkki.samples.playground.ui;
 
 import org.linkki.framework.ui.component.sidebar.SidebarLayout;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
-import org.linkki.samples.playground.lin1442.ComboBoxCaptionRefreshLayout;
-import org.linkki.samples.playground.lin1486.ComboBoxVanishingValueLayout;
+import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.dynamiccaption.DynamicCaptionLayout;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -30,8 +30,8 @@ public class PlaygroundView extends SidebarLayout implements View {
 
     public PlaygroundView() {
         addSidebarSheet(new AllUiElementsPage());
-        addSidebarSheet(new ComboBoxVanishingValueLayout());
-        addSidebarSheet(new ComboBoxCaptionRefreshLayout());
+        addSidebarSheet(new DynamicCaptionLayout());
+        addSidebarSheet(new BugCollectionLayout());
     }
 
     private void addSidebarSheet(SidebarSheetDefinition sidebarSheetDef) {

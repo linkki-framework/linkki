@@ -32,6 +32,11 @@
 
 === {dversion}
 
-==== Bugfixes
+==== `@BindCaption`
 
-* The `LabelValueAspectDefinition` now uses the `LinkkiConverterRegistry` to find converters for non-String values before defaulting to `Objects.toString`.
+Section and field captions can now be bound via <<bind-caption,`@BindCaption`>>. In preparation for this, the `AbstractSection` was refactored to allow setting (and removing) a caption after construction.
+
+
+==== `LinkkiConverterRegistry` for `UILabel`
+
+The `LabelValueAspectDefinition` now uses the `LinkkiConverterRegistry` to find converters for non-String values before defaulting to `Objects.toString`.
