@@ -248,6 +248,7 @@
                         <path>${project.basedir}/api-changes.json</path>
                         <roots>
                             <root>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</root>
+                            <root>all-versions</root>
                         </roots>
                     </configurationFile>
                 </analysisConfigurationFiles>
@@ -432,6 +433,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.1.0</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

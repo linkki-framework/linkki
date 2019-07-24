@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.linkki-framework</groupId>
+        <artifactId>linkki-vaadin8</artifactId>
+        <version>1.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>linkki-ips-vaadin8</artifactId>
+    <name>linkki Extension for Faktor-IPS with Vaadin 8</name>
+
+    <properties>
+        <faktorips.version>19.7.0</faktorips.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.faktorips</groupId>
+            <artifactId>faktorips-runtime-client</artifactId>
+            <version>${faktorips.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-core-vaadin8</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+</project>

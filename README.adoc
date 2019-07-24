@@ -88,7 +88,7 @@ image::{readme-images}02_getting_started/report_disabled.png[]
 image::{readme-images}02_getting_started/report_enabled.png[]
 
 
-NOTE: The complete example can be found at http://doc.linkki-framework.org/linkki-1.0-SNAPSHOT/02_getting-started/01_error_report.html[Getting Started - 'Error report' tutorial].
+NOTE: The complete example can be found at http://doc.linkki-framework.org/latest/02_getting_started/01_linkki_example.html[Getting Started - 'Error report' tutorial].
 
 
 ==== Installation

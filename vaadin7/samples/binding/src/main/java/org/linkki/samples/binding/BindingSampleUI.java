@@ -40,7 +40,7 @@ public class BindingSampleUI extends UI {
     private static final long serialVersionUID = 42L;
 
     // can be switched with URL parameters:
-    // http://localhost:8080/linkki-binding-sample-1.0-SNAPSHOT/?editMode=READ_ONLY
+    // http://localhost:8080/linkki-binding-sample/?editMode=READ_ONLY
     private EditMode editMode = EditMode.EDIT;
 
     private static final List<Contact> PERSON_STORAGE = new ArrayList<>();

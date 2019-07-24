@@ -1,0 +1,15 @@
+{
+  "all-versions": {
+    "revapi": {
+        "ignore": [
+            {
+              "regex": true,
+              "code": "java\\.missing\\.(old|new)Class",
+              "old": "missing-class javax\\.servlet\\.http.*",
+              "new": "missing-class javax\\.servlet\\.http.*",
+              "justification": "servlet api is provided by transitive dependency"
+            }
+      ]
+    }
+  }
+}
