@@ -27,8 +27,8 @@ automate processing, leaving the UI only for those use cases that
 require manual interaction by back-office staff.
 * You prefer to code both domain logic and UI in Java.
 
-You can use *linkki* with https://spring.io/projects/spring-boot[Spring Boot],
-Spring inside an application server or pure JEE.
+You can use *linkki* with plain Java, with https://spring.io/projects/spring-boot[Spring Boot],
+Spring inside an application server or JEE.
 
 === Conceptual Overview
 
@@ -143,7 +143,7 @@ is defined by one PMO. If you name your PMO classes after the section
 headlines, you can find the relating code of any given section in seconds even
  if you are unfamiliar with the code base.
 
-==== Testable UI Code
+==== Testable UI logic
 
 PMOs are plain old Java objects. Except for *linkki* annotations, they
 don't need any dependency to infrastructure code. So it is very simple
@@ -151,11 +151,9 @@ and straightforward to write tests for your PMOs.
 
 === What else?
 
-Up to now we have covered *linkki*’s core features. There is a lot more
-that helps you to build a whole business application such as:
+There is a lot more that helps you to build a whole business application such as:
 
 * Simple API to create tables with dynamic content
 * Automatic highlighting of inputs based on validation logic defined in the business layer
 * Support of PMO based creation of sections in dialogs
 * An overall application layout with an application menu
-* A good looking sidebar component that allows you to organize data in your UI

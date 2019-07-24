@@ -32,6 +32,10 @@
 
 === {dversion}
 
+==== `@BindStyleNames` for sections
+
+The aspect annotation `@BindStyleNames` can now also be annotated on classes to use it for sections.
+
 ==== `@BindCaption`
 
 Section and field captions can now be bound via <<bind-caption,`@BindCaption`>>. In preparation for this, the `AbstractSection` was refactored to allow setting (and removing) a caption after construction.

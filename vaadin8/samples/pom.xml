@@ -84,12 +84,14 @@
                 <artifactId>linkki-core-vaadin8</artifactId>
                 <version>1.1-SNAPSHOT</version>
             </dependency>
+			<!-- end::linkki-core-vaadin8[] -->
+			<!-- tag::linkki-application-framework-vaadin8[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-application-framework-vaadin8</artifactId>
                 <version>1.1-SNAPSHOT</version>
             </dependency>
-            <!-- end::linkki-core-vaadin8[] -->
+			<!-- end::linkki-application-framework-vaadin8[] -->
 
             <dependency>
                 <groupId>com.github.spotbugs</groupId>

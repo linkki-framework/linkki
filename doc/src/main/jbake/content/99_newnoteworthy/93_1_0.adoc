@@ -1,4 +1,4 @@
-:jbake-title: Latest
+:jbake-title: 1.0
 :jbake-type: section
 :jbake-status: published
 :jbake-order: 93
