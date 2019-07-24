@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PolicyCmptType abstract="false" configurableByProductCmptType="false" forceExtensionCompilationUnitGeneration="false" productCmptType="" supertype="" xml:space="preserve">
+ <Label id="ce3a050f-dcd7-479e-a6b6-d716496b223c" locale="en" pluralValue="" value=""/>
+ <Label id="9c6f96ed-5e92-4ea1-91a9-ed3edcbede11" locale="de" pluralValue="" value=""/>
+ <Description id="6e6091df-a83d-47bc-b3e2-978a234219c8" locale="en"/>
+ <Description id="3504a2ab-ae8d-4957-83e7-6136e6317700" locale="de"/>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="Decimal" id="9683d705-002e-450a-a18e-f1604c01111b" modifier="published" name="decimal" overwrite="false" productRelevant="false">
+  <DefaultValue>42</DefaultValue>
+  <Label id="b20c732d-fe82-410b-a497-a6cbbd80ff66" locale="en" pluralValue="" value=""/>
+  <Label id="fa16a992-2d16-499f-b951-17b61eea39f2" locale="de" pluralValue="" value=""/>
+  <Description id="ad35101b-5c76-40ba-b2b5-65099c65cb4d" locale="en"/>
+  <Description id="d9ad637d-2b6b-47ae-b349-fb1cdb13655f" locale="de"/>
+  <ValueSet abstract="false" id="9ebd08ea-e602-4c26-98e3-72a2af617791">
+   <Range containsNull="false">
+    <LowerBound>0</LowerBound>
+    <UpperBound>100</UpperBound>
+    <Step>0.5</Step>
+   </Range>
+  </ValueSet>
+ </Attribute>
+ <ValidationRuleDef activatedByDefault="true" appliedForAllBusinessFunctions="true" category="" changingOverTime="false" checkValueAgainstValueSetRule="true" configurableByProductComponent="false" id="bfbbd3bc-d99c-496a-8425-233c8b08c71b" messageCode="INVALID_DECIMAL" messageSeverity="error" modifier="published" name="checkDecimal" validatedAttrSpecifiedInSrc="false">
+  <ValidatedAttribute name="decimal"/>
+  <Markers>
+   <Marker name="T"/>
+  </Markers>
+  <MessageText>
+   <InternationalString>
+    <LocalizedString locale="en" text="The decimal value must be in the range {range} but is {actual}."/>
+    <LocalizedString locale="de" text="Der Wert von decimal muss im Bereich {range} liegen, ist aber {actual}."/>
+   </InternationalString>
+  </MessageText>
+  <Label id="e2a2ace1-a8e9-41a8-9e5a-8cf0cdbf02b5" locale="en" pluralValue="" value=""/>
+  <Label id="34aa6ea7-5daf-4b13-8a5f-e837b875da18" locale="de" pluralValue="" value=""/>
+  <Description id="bf540e2e-1826-432e-8d63-cb6310c5e401" locale="en"/>
+  <Description id="ddb2c6f7-e17c-47da-ad07-9e441bac8f0e" locale="de"/>
+ </ValidationRuleDef>
+</PolicyCmptType>

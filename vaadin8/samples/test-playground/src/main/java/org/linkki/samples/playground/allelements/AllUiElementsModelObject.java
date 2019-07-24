@@ -16,6 +16,8 @@ package org.linkki.samples.playground.allelements;
 
 import java.time.LocalDate;
 
+import org.faktorips.values.Decimal;
+
 public class AllUiElementsModelObject {
 
     public static final String PROPERTY_TEXT = "text";
@@ -34,6 +36,8 @@ public class AllUiElementsModelObject {
 
     public static final String PROPERTY_SECRET = "secret";
 
+    public static final String PROPERTY_DECIMALVALUE = "decimalValue";
+
 
     private String text = "foo";
 
@@ -50,6 +54,8 @@ public class AllUiElementsModelObject {
     private boolean booleanValue = true;
 
     private String secret = "secret";
+
+    private Decimal decimalValue = Decimal.valueOf(1234567890L, 5);
 
     public String getText() {
         return text;
@@ -113,5 +119,13 @@ public class AllUiElementsModelObject {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public Decimal getDecimalValue() {
+        return decimalValue;
+    }
+
+    public void setDecimalValue(Decimal decimalValue) {
+        this.decimalValue = decimalValue;
     }
 }

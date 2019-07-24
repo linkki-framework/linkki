@@ -26,6 +26,7 @@ import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.ips.decimalfield.UIDecimalField;
 import org.linkki.samples.playground.nls.NlsText;
 
 import com.vaadin.ui.PasswordField;
@@ -88,6 +89,11 @@ public class AllUiElementsPmo {
     @UIButton(position = 100, caption = NlsText.I18n)
     public void action() {
         getModelObject().setIntValue(getModelObject().getIntValue() + 1);
+    }
+
+    @UIDecimalField(position = 110, label = NlsText.I18n)
+    public void decimalValue() {
+        // model binding
     }
 
 }

@@ -162,4 +162,28 @@ public class AllUiElementsTest extends AbstractUiTest {
         assertThat(integerField.getValue(), is("43"));
     }
 
+    @Test
+    public void testDecimalField() {
+        TextFieldElement decimalField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DECIMALVALUE);
+        assertThat(decimalField.getValue(), is("12.345,6789"));
+
+        decimalField.sendKeys("6");
+        assertThat(decimalField.getValue(), is("12.345,67896"));
+
+        decimalField.sendKeys("x");
+        assertThat(decimalField.getValue(), is("12.345,67896x"));
+        // tab out to lose focus
+        decimalField.sendKeys("\t");
+        // Rounding, because NumberFormat#parse returns Double and we use it in the
+        // FormattedNumberToStringConverter...
+        assertThat(decimalField.getValue(), is("12.345,679"));
+
+        decimalField.clear();
+        decimalField.sendKeys("1.2345");
+        assertThat(decimalField.getValue(), is("1.2345"));
+        // tab out to lose focus
+        decimalField.sendKeys("\t");
+        assertThat(decimalField.getValue(), is("12.345,00"));
+    }
+
 }
