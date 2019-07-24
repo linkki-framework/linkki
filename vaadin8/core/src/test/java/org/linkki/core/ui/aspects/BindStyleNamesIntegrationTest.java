@@ -14,9 +14,12 @@
 
 package org.linkki.core.ui.aspects;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,9 +28,12 @@ import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
+import org.linkki.core.vaadin.component.section.AbstractSection;
 
 import com.vaadin.ui.Component;
 
@@ -146,6 +152,51 @@ public class BindStyleNamesIntegrationTest {
                 .collect(Collectors.toList());
     }
 
+    @Test
+    public void testSection_static() {
+        AbstractSection section = PmoBasedSectionFactory
+                .createAndBindSection(new TestSectionPmoWithStaticClassStyleNames(),
+                                      new BindingContext());
+        assertThat(section.getStyleName(), containsString(TestSectionPmoWithStaticClassStyleNames.STYLE_1));
+        assertThat(section.getStyleName(), containsString(TestSectionPmoWithStaticClassStyleNames.STYLE_2));
+    }
+
+    @Test
+    public void testSection_dynamic() {
+        TestSectionPmoWithDynamicClassStyleNames pmo = new TestSectionPmoWithDynamicClassStyleNames();
+        BindingContext bindingContext = new BindingContext();
+        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
+
+        pmo.setStyleNames(Arrays.asList("gucci", "versace"));
+        bindingContext.modelChanged();
+        assertThat(section.getStyleName(), containsString("gucci"));
+        assertThat(section.getStyleName(), containsString("versace"));
+
+        pmo.setStyleNames(Arrays.asList("chanel"));
+        bindingContext.modelChanged();
+        String styleNamesAfterUpdate = section.getStyleName();
+        assertThat(styleNamesAfterUpdate, not(containsString("gucci")));
+        assertThat(styleNamesAfterUpdate, not(containsString("versace")));
+        assertThat(styleNamesAfterUpdate, containsString("chanel"));
+    }
+
+    @Test
+    public void testSection_dynamic_inherited() {
+        TestChildSectionPmoWithDynamicClassStyleNames pmo = new TestChildSectionPmoWithDynamicClassStyleNames();
+        BindingContext bindingContext = new BindingContext();
+        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
+
+        pmo.setStyleNames(Arrays.asList("ml"));
+        bindingContext.modelChanged();
+        assertThat(section.getStyleName(), containsString("ml"));
+
+        pmo.setStyleNames(Arrays.asList("lisp"));
+        bindingContext.modelChanged();
+        String styleNamesAfterUpdate = section.getStyleName();
+        assertThat(styleNamesAfterUpdate, not(containsString("ml")));
+        assertThat(styleNamesAfterUpdate, containsString("lisp"));
+    }
+
     public static class TestPmoWithStaticStyleName {
 
         public static final String STYLE_NAME = "sample";
@@ -226,5 +277,33 @@ public class BindStyleNamesIntegrationTest {
         public String[] getPropertyStyleNames() {
             return new String[] {};
         }
+    }
+
+    @UISection
+    @BindStyleNames
+    public static class TestSectionPmoWithDynamicClassStyleNames {
+
+        private List<String> styleNames = new ArrayList<>();
+
+        public List<String> getStyleNames() {
+            return styleNames;
+        }
+
+        public void setStyleNames(List<String> styleNames) {
+            this.styleNames = styleNames;
+        }
+    }
+
+    @UISection
+    @BindStyleNames({ TestSectionPmoWithStaticClassStyleNames.STYLE_1,
+            TestSectionPmoWithStaticClassStyleNames.STYLE_2 })
+    public static class TestSectionPmoWithStaticClassStyleNames {
+        public static final String STYLE_1 = "gucci";
+        public static final String STYLE_2 = "versace";
+    }
+
+    @UISection
+    public static class TestChildSectionPmoWithDynamicClassStyleNames extends TestSectionPmoWithDynamicClassStyleNames {
+        // nothing to do as everything should be inherited
     }
 }
