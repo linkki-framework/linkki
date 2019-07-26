@@ -32,10 +32,12 @@ import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.CheckBoxElement;
 import com.vaadin.testbench.elements.ComboBoxElement;
 import com.vaadin.testbench.elements.DateFieldElement;
+import com.vaadin.testbench.elements.HorizontalLayoutElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.PasswordFieldElement;
 import com.vaadin.testbench.elements.TextAreaElement;
 import com.vaadin.testbench.elements.TextFieldElement;
+import com.vaadin.testbench.elements.VerticalLayoutElement;
 
 public class AllUiElementsTest extends AbstractUiTest {
 
@@ -168,5 +170,17 @@ public class AllUiElementsTest extends AbstractUiTest {
         button.click();
 
         assertThat(integerField.getValue(), is("43"));
+    }
+
+    @Test
+    public void testHorizontalLayout_Id() {
+        boolean layoutExists = $(HorizontalLayoutElement.class).state("id", "HorizontalLayoutPmo").exists();
+        assertThat(layoutExists, is(true));
+    }
+
+    @Test
+    public void testVerticalLayout_Id() {
+        boolean layoutExists = $(VerticalLayoutElement.class).state("id", "VerticalLayoutPmo").exists();
+        assertThat(layoutExists, is(true));
     }
 }

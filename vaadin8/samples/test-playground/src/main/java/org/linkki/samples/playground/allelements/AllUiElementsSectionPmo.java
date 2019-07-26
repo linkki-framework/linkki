@@ -32,8 +32,8 @@ import org.linkki.samples.playground.nls.NlsText;
 import com.vaadin.ui.PasswordField;
 
 @UISection(caption = NlsText.I18n)
-@BindStyleNames(AllUiElementsPmo.CSS_NAME)
-public class AllUiElementsPmo {
+@BindStyleNames(AllUiElementsSectionPmo.CSS_NAME)
+public class AllUiElementsSectionPmo {
 
     public static final String CSS_NAME = "playground";
 
@@ -98,5 +98,4 @@ public class AllUiElementsPmo {
     public void action() {
         getModelObject().setIntValue(getModelObject().getIntValue() + 1);
     }
-
 }

@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.linkki.samples.playground.allelements.AllUiElementsPmo;
+import org.linkki.samples.playground.allelements.AllUiElementsSectionPmo;
 
 import com.vaadin.testbench.elements.VerticalLayoutElement;
 
@@ -30,9 +30,9 @@ public class BindStyleNamesTest extends AbstractUiTest {
 
     @Test
     public void testDynamicSectionCaption() {
-        VerticalLayoutElement allElements = getSection(AllUiElementsPmo.class);
+        VerticalLayoutElement allElements = getSection(AllUiElementsSectionPmo.class);
 
-        assertThat(allElements.hasClassName(AllUiElementsPmo.CSS_NAME), is(true));
+        assertThat(allElements.hasClassName(AllUiElementsSectionPmo.CSS_NAME), is(true));
     }
 
 }

@@ -46,8 +46,8 @@ import org.linkki.util.Optionals;
  * <li>Creating a component from a class-level annotation (such as {@code @UISection}) with
  * {@link #createComponent(Object, BindingContext)}. Depending on a {@link LinkkiLayout @LinkkiLayout}
  * annotation accompanying the {@link LinkkiComponent @LinkkiComponent}, the first option,
- * {@link #createUiElements(Object, BindingContext, Function)}, will be called as well (as is the case for
- * {@code @UISection's SectionLayoutDefinition}).</li>
+ * {@link #createUiElements(Object, BindingContext, Function)}, will be called as well (as is the case
+ * for {@code @UISection's SectionLayoutDefinition}).</li>
  * </ol>
  */
 public class UiCreator {
@@ -106,7 +106,6 @@ public class UiCreator {
             return componentWrapper;
         });
     }
-
 
     /**
      * Creates a UI component by way of the {@link LinkkiComponent @LinkkiComponent} annotated
