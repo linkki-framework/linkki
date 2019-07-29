@@ -112,11 +112,14 @@ $linkki-sidebar-width: 56px !default;
   
     .v-button {
         background-color: inherit;
+        background-image: none;
         border: none;
+        border-radius: 0;
         font-size: 150%;
         line-height: 2.5;
         height: 2.5em;
         width: 100%;
+        @include box-shadow(none);
   
         &:focus:after{
             @include box-shadow(none);
@@ -131,6 +134,7 @@ $linkki-sidebar-width: 56px !default;
   .linkki-sidebar-content {
     height: 100%;
     width: 100%;  
+    overflow: auto;
   }
   
   /*

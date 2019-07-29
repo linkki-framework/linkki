@@ -40,6 +40,7 @@ public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefin
         addSection(new AllUiElementsSectionPmo());
         add((Component)(UiCreator.createComponent(new HorizontalLayoutPmo(), getBindingContext()).getComponent()));
         add((Component)(UiCreator.createComponent(new VerticalLayoutPmo(), getBindingContext()).getComponent()));
+        add((Component)(UiCreator.createComponent(new FormLayoutPmo(), getBindingContext()).getComponent()));
     }
 
     @Override

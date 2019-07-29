@@ -17,7 +17,6 @@ package org.linkki.samples.playground.uitest;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
-import static org.linkki.test.matcher.Matchers.assertThat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -32,6 +31,7 @@ import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.CheckBoxElement;
 import com.vaadin.testbench.elements.ComboBoxElement;
 import com.vaadin.testbench.elements.DateFieldElement;
+import com.vaadin.testbench.elements.FormLayoutElement;
 import com.vaadin.testbench.elements.HorizontalLayoutElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.PasswordFieldElement;
@@ -128,7 +128,7 @@ public class AllUiElementsTest extends AbstractUiTest {
     @Test
     public void testCheckBox() {
         CheckBoxElement checkBox = $(CheckBoxElement.class).id(AllUiElementsModelObject.PROPERTY_BOOLEANVALUE);
-        assertThat(checkBox.isChecked());
+        assertThat(checkBox.isChecked(), is(true));
 
         checkBox.click();
         assertThat(checkBox.isChecked(), is(false));
@@ -174,15 +174,37 @@ public class AllUiElementsTest extends AbstractUiTest {
 
     @Test
     public void testHorizontalLayout_Id() {
-        boolean layoutExists = $(HorizontalLayoutElement.class).state("id", "HorizontalLayoutPmo").exists();
-        assertThat(layoutExists, is(true));
+        HorizontalLayoutElement horizontalLayout = $(HorizontalLayoutElement.class).id("HorizontalLayoutPmo");
+        assertThat("Caption of UIHorizontalLayout is bindable", horizontalLayout.getCaption(),
+                   is("UIHorizontalLayout"));
+        assertThat(horizontalLayout.$(TextFieldElement.class).all().size(), is(1));
+        assertThat(horizontalLayout.$(LabelElement.class).all().size(), is(1));
+        assertThat(horizontalLayout.$(ButtonElement.class).all().size(), is(1));
+        assertThat(horizontalLayout.$(CheckBoxElement.class).all().size(), is(1));
     }
 
     @Test
     public void testVerticalLayout_Id() {
-        boolean layoutExists = $(VerticalLayoutElement.class).state("id", "VerticalLayoutPmo").exists();
-        assertThat(layoutExists, is(true));
+        VerticalLayoutElement verticalLayout = $(VerticalLayoutElement.class).id("VerticalLayoutPmo");
+        assertThat("Caption of UIVerticalLayout is bindable", verticalLayout.getCaption(),
+                   is("UIVerticalLayout"));
+        assertThat(verticalLayout.$(TextFieldElement.class).all().size(), is(1));
+        assertThat(verticalLayout.$(LabelElement.class).all().size(), is(1));
+        assertThat(verticalLayout.$(ButtonElement.class).all().size(), is(1));
+        assertThat(verticalLayout.$(CheckBoxElement.class).all().size(), is(1));
     }
+
+    @Test
+    public void testFormLayout() {
+        FormLayoutElement formLayout = $(FormLayoutElement.class).id("FormLayoutPmo");
+        assertThat("Caption of UIFormLayout is bindable", formLayout.getCaption(),
+                   is("UIFormLayout"));
+        assertThat(formLayout.$(TextFieldElement.class).all().size(), is(2));
+        assertThat(formLayout.$(LabelElement.class).all().size(), is(1));
+        assertThat(formLayout.$(LabelElement.class).all().size(), is(1));
+    }
+
+    @Test
     public void testDecimalField() {
         TextFieldElement decimalField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DECIMALVALUE);
         assertThat(decimalField.getValue(), is("12.345,6789"));

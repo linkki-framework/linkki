@@ -44,3 +44,7 @@ Section and field captions can now be bound via <<bind-caption,`@BindCaption`>>.
 ==== `LinkkiConverterRegistry` for `UILabel`
 
 The `LabelValueAspectDefinition` now uses the `LinkkiConverterRegistry` to find converters for non-String values before defaulting to `Objects.toString`.
+
+==== New annotations for layouts
+
+In addition to `@UISection`, linkki now provides `@UIHorizontalLayout`, `@UIVerticalLayout` and `@UIFormLayout`. These annotations can be used for PMO classes in the same way as `@UISection`. In those layouts, labels are presented in the Vaadin default way. In a `HorizontalLayout`, for example, labels for fields are displayed above the field and not beside the field. For more information on the Vaadin layout components, consult the Vaadin docucmentation on https://vaadin.com/docs/v8/framework/layout/layout-orderedlayout.html[VerticalLayout and HorizontalLayout] as well as https://vaadin.com/docs/v8/framework/layout/layout-formlayout.html[FormLayout].
