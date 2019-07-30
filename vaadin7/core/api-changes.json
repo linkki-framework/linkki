@@ -1,8 +1,14 @@
 {
-  "1.0.1": {
+  "all-versions": {
     "revapi": {
         "ignore": [
-
+          {
+          "regex": true,
+          "code": "java\\.missing\\.(old|new)Class",
+          "old": "missing-class org\\.joda\\.time\\..*",
+          "new": "missing-class org\\.joda\\.time\\..*",
+          "justification": "joda is optional"
+        }
       ]
     }
   }

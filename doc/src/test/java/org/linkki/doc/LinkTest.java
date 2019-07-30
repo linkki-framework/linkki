@@ -20,7 +20,6 @@ import static org.junit.Assert.fail;
 import static org.linkki.doc.PathExistsMatcher.exists;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;

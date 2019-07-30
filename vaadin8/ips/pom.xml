@@ -5,11 +5,10 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin8</artifactId>
-        <version>1.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>linkki-ips-vaadin8</artifactId>
-    <version>1.0</version>
     <name>linkki Extension for Faktor-IPS with Vaadin 8</name>
 
     <properties>
