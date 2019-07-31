@@ -36,6 +36,7 @@ public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefin
     @Override
     public final void createContent() {
         addSection(new AllUiElementsPmo());
+        addSection(new DynamicTooltipPmo());
     }
 
     @Override

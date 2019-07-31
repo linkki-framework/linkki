@@ -20,9 +20,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class StreamUtil {
 
-    /** Utility class that should not be instantiated. */
     private StreamUtil() {
-        super();
+        // prevent instantiation
     }
 
     public static <T> Stream<T> stream(@CheckForNull Iterable<T> iterable) {

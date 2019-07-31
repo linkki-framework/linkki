@@ -59,7 +59,7 @@ public class LookupProvider {
     }
 
     private LookupProvider() {
-        // util
+        // prevent instantiation
     }
 
     private static Constructor<Lookup> getPackagePrivateLookupConstructor() {

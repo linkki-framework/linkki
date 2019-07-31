@@ -37,7 +37,9 @@ import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.server.UserError;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.ErrorLevel;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
@@ -131,4 +133,16 @@ public class LabelComponentWrapperTest {
         selectBinding.displayMessages(null);
     }
 
+    @Test
+    public void testSetTooltip() {
+        AbstractComponent component = mock(AbstractComponent.class);
+        LabelComponentWrapper wrapper = new LabelComponentWrapper(component);
+
+        wrapper.setTooltip("testTip");
+        verify(component).setDescription("testTip", ContentMode.HTML);
+        wrapper.setTooltip("<script>");
+        verify(component).setDescription("&lt;script&gt;", ContentMode.HTML);
+        wrapper.setTooltip("<div>");
+        verify(component).setDescription("<div>", ContentMode.HTML);
+    }
 }

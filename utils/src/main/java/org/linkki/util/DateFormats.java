@@ -39,7 +39,7 @@ public final class DateFormats {
     }
 
     private DateFormats() {
-        // util
+        // prevent instantiation
     }
 
     /**

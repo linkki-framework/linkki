@@ -26,7 +26,7 @@ public class TwoDigitYearUtil {
     static final TwoDigitYearUtil INSTANCE = new TwoDigitYearUtil();
 
     private TwoDigitYearUtil() {
-        // do not instantiate outside
+        // prevent instantiation
     }
 
     /**

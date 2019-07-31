@@ -27,7 +27,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public final class Objects {
 
     private Objects() {
-        // Utility class
+        // prevent instantiation
     }
 
     /**

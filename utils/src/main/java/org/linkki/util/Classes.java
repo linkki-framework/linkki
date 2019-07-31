@@ -22,7 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 public class Classes {
 
     private Classes() {
-        // don't instantiate
+        // prevent instantiation
     }
 
     /**
