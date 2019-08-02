@@ -14,11 +14,10 @@
 
 package org.linkki.core.ui.wrapper;
 
-import static org.apache.commons.lang3.ObjectUtils.isEmpty;
-
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
@@ -75,7 +74,7 @@ public class CaptionComponentWrapper implements ComponentWrapper {
      */
     @Override
     public void setLabel(String labelText) {
-        component.setCaption(isEmpty(labelText) ? null : labelText);
+        component.setCaption(StringUtils.isEmpty(labelText) ? null : labelText);
     }
 
     @Override
