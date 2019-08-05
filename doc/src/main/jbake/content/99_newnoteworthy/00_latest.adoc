@@ -67,6 +67,10 @@ The `BindingManager`'s `startNewContext` method has been deprecated, as it is no
 
 To benefit from bugfixes in the latest patch releases of Vaadin, the dependency of `linkki-vaadin8` has been updated to Vaadin 8.8.5. You can read the change logs for Vaadin https://github.com/vaadin/framework/releases/tag/8.8.3[8.8.3], https://github.com/vaadin/framework/releases/tag/8.8.4[8.8.4] and https://github.com/vaadin/framework/releases/tag/8.8.5[8.8.5].
 
+==== New module `linkki-ips-vaadin8`
+
+A new module `linkki-ips-vaadin8` provides linkki components and utilities for projects using http://www.faktorips.org[Faktor-IPS]. This modules contains an UI annotation for the data type `Decimal`, as well as converters to create linkki validation messages from Faktor-IPS messages.
+
 ==== Bugfixes
 
 * When using a PMO property with <<dynamicfield,dynamic fields>> with different bound model attributes, every field was bound to the first annotation's model attribute.
