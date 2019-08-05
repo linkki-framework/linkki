@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -14,7 +15,7 @@
     <packaging>war</packaging>
 
     <name>linkki Vaadin 8 Samples :: Faktor-IPS</name>
-    
+
     <properties>
         <faktorips.version>19.7.0</faktorips.version>
     </properties>
@@ -22,9 +23,41 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <resources>
-            <resource><directory>src/main/resources</directory></resource>
-            <resource><directory>src/main/webapp</directory></resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/webapp</directory>
+            </resource>
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <tags>
+                        <tag>
+                            <name>generated</name>
+                            <placement>a</placement>
+                            <head>Faktor-IPS Generated</head>
+                        </tag>
+                        <tag>
+                            <name>customizedAnnotations</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>implements</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>restrainedmodifiable</name>
+                            <placement>a</placement>
+                            <head>Customized Faktor-IPS generated Code</head>
+                        </tag>
+                    </tags>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <dependencies>
@@ -48,5 +81,4 @@
             <version>${faktorips.version}</version>
         </dependency>
     </dependencies>
-
 </project>
