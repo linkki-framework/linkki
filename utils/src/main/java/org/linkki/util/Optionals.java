@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 public final class Optionals {
 
     private Optionals() {
-        // utility class
+        // prevent instantiation
     }
 
     /**

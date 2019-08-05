@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.dynamiccaption;
+package org.linkki.samples.playground.dynamicannotations;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
@@ -22,13 +22,13 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.VerticalLayout;
 
-public class DynamicCaptionLayout extends VerticalLayout implements SidebarSheetDefinition {
+public class DynamicAnnotationsLayout extends VerticalLayout implements SidebarSheetDefinition {
 
-    public static final String ID = "DynamicCaption";
+    public static final String ID = "Dynamic Annotations";
 
     private static final long serialVersionUID = 1L;
 
-    public DynamicCaptionLayout() {
+    public DynamicAnnotationsLayout() {
         BindingContext bindingContext = new BindingContext();
         addComponent(PmoBasedSectionFactory
                 .createAndBindSection(new DynamicCaptionWithoutButtonPmo(), bindingContext));
@@ -36,6 +36,9 @@ public class DynamicCaptionLayout extends VerticalLayout implements SidebarSheet
                 .createAndBindSection(new DynamicCaptionWithEditButtonPmo(), bindingContext));
         addComponent(PmoBasedSectionFactory
                 .createAndBindSection(new DynamicCaptionWithCloseButtonPmo(), bindingContext));
+
+        addComponent(PmoBasedSectionFactory
+                .createAndBindSection(new DynamicTooltipPmo(), bindingContext));
     }
 
     @Override

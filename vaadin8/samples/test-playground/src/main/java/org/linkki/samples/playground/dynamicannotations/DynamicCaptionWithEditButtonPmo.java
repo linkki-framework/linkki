@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.dynamiccaption;
+package org.linkki.samples.playground.dynamicannotations;
 
 import java.util.Collections;
 import java.util.List;

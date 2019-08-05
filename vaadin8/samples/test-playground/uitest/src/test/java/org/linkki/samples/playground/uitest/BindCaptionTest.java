@@ -19,10 +19,10 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.linkki.samples.playground.dynamiccaption.DynamicCaptionLayout;
-import org.linkki.samples.playground.dynamiccaption.DynamicCaptionWithCloseButtonPmo;
-import org.linkki.samples.playground.dynamiccaption.DynamicCaptionWithEditButtonPmo;
-import org.linkki.samples.playground.dynamiccaption.DynamicCaptionWithoutButtonPmo;
+import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
+import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithCloseButtonPmo;
+import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithEditButtonPmo;
+import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithoutButtonPmo;
 
 import com.vaadin.testbench.elements.HorizontalLayoutElement;
 import com.vaadin.testbench.elements.LabelElement;
@@ -49,7 +49,7 @@ public class BindCaptionTest extends AbstractUiTest {
 
     @Before
     public void setup() {
-        clickButton(DynamicCaptionLayout.ID);
+        clickButton(DynamicAnnotationsLayout.ID);
     }
 
     @Test

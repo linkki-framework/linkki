@@ -22,6 +22,7 @@ import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.validation.message.SeverityErrorLevelConverter;
+import org.linkki.util.HtmlSanitizer;
 import org.linkki.util.StreamUtil;
 
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
@@ -83,10 +84,11 @@ public class LabelComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setTooltip(String text) {
+        String tooltip = HtmlSanitizer.sanitize(text);
         if (component instanceof AbstractComponent) {
-            ((AbstractComponent)component).setDescription(text);
+            ((AbstractComponent)component).setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML);
         }
-        getLabelComponent().ifPresent(l -> l.setDescription(text));
+        getLabelComponent().ifPresent(l -> l.setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML));
     }
 
     public Optional<Label> getLabelComponent() {

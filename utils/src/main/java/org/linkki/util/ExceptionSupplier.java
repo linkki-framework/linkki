@@ -21,9 +21,8 @@ import java.util.function.Supplier;
  */
 public final class ExceptionSupplier {
 
-    // Helper class that should not be initialized
     private ExceptionSupplier() {
-        super();
+        // prevent instantiation
     }
 
     /** Returns a supplier for an {@link IllegalArgumentException} with the given message. */

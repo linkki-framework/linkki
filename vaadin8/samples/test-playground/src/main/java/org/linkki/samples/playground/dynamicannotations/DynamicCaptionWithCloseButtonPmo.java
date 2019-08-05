@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.dynamiccaption;
+package org.linkki.samples.playground.dynamicannotations;
 
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.pmo.PresentationModelObject;

@@ -33,7 +33,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public class BeanUtils {
 
     private BeanUtils() {
-
+        // prevent instantiation
     }
 
     /**

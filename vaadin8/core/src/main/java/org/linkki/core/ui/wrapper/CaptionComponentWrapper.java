@@ -14,16 +14,16 @@
 
 package org.linkki.core.ui.wrapper;
 
-import static org.apache.commons.lang3.ObjectUtils.isEmpty;
-
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.validation.message.SeverityErrorLevelConverter;
+import org.linkki.util.HtmlSanitizer;
 
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
@@ -74,7 +74,7 @@ public class CaptionComponentWrapper implements ComponentWrapper {
      */
     @Override
     public void setLabel(String labelText) {
-        component.setCaption(isEmpty(labelText) ? null : labelText);
+        component.setCaption(StringUtils.isEmpty(labelText) ? null : labelText);
     }
 
     @Override
@@ -89,8 +89,9 @@ public class CaptionComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setTooltip(String text) {
+        String tooltip = HtmlSanitizer.sanitize(text);
         if (component instanceof AbstractComponent) {
-            ((AbstractComponent)component).setDescription(text);
+            ((AbstractComponent)component).setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML);
         }
     }
 

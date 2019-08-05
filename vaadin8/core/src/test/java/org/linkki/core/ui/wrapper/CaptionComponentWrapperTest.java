@@ -30,6 +30,7 @@ import org.linkki.core.binding.wrapper.WrapperType;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.server.ErrorMessage;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.ErrorLevel;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
@@ -122,8 +123,11 @@ public class CaptionComponentWrapperTest {
                 WrapperType.FIELD);
 
         wrapper.setTooltip("testTip");
-
-        verify(component).setDescription("testTip");
+        verify(component).setDescription("testTip", ContentMode.HTML);
+        wrapper.setTooltip("<script>");
+        verify(component).setDescription("&lt;script&gt;", ContentMode.HTML);
+        wrapper.setTooltip("<div>");
+        verify(component).setDescription("<div>", ContentMode.HTML);
     }
 
     @Test
