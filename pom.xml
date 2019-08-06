@@ -92,7 +92,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <!-- at the moment we do not check missing javadoc like missing @param or @return -->
-                    <doclint>accessibility,html,reference,syntax,-missing</doclint>
+                    <doclint>accessibility,html,reference,syntax</doclint>
                     <links>
                         <link>http://vaadin.com/api/framework/${vaadin.version}/</link>
                     </links>

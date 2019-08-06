@@ -2,7 +2,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- * no parent because we want to be able to build the samples without * any defined global dependencies or code-analysis -->
+    <!-- no parent because we want to be able to build the samples without any defined global dependencies or code-analysis -->
 
     <groupId>org.linkki-framework.samples</groupId>
     <artifactId>linkki-samples-vaadin8</artifactId>
@@ -148,7 +148,34 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <!-- at the moment we do not check missing javadoc like missing @param or @return -->
+                    <doclint>accessibility,html,reference,syntax</doclint>
+                    <links>
+                        <link>http://vaadin.com/api/framework/${vaadin.version}/</link>
+                    </links>
+                    <tags>
+                        <tag>
+                            <name>apiNote</name>
+                            <placement>a</placement>
+                            <head>API Note:</head>
+                        </tag>
+                        <tag>
+                            <name>implSpec</name>
+                            <placement>a</placement>
+                            <head>Implementation Requirements:</head>
+                        </tag>
+                        <tag>
+                            <name>implNote</name>
+                            <placement>a</placement>
+                            <head>Implementation Note:</head>
+                        </tag>
+                    </tags>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.tomee.maven</groupId>
                 <artifactId>tomee-maven-plugin</artifactId>
