@@ -89,8 +89,8 @@ public class CaptionComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setTooltip(String text) {
-        String tooltip = HtmlSanitizer.sanitize(text);
         if (component instanceof AbstractComponent) {
+            String tooltip = HtmlSanitizer.sanitize(text);
             ((AbstractComponent)component).setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML);
         }
     }

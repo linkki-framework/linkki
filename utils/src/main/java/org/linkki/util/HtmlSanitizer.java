@@ -14,6 +14,10 @@
 
 package org.linkki.util;
 
+import org.apache.commons.lang3.StringUtils;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * Utility class for sanitizing HTML text.
  */
@@ -29,12 +33,16 @@ public class HtmlSanitizer {
      * Escapes all {@literal <} and {@literal >} symbols that do not belong to an allowed HTML tag.
      * Allowed tags are p, div, span, br, b, strong, i, em and u.
      * 
-     * @param text the input text
-     * @return the sanitized text
+     * @param text the input text, may be {@code null}
+     * @return the sanitized text, or {@code null} if the input is {@code null}
      */
-    public static String sanitize(String text) {
-        return text.replaceAll("<(?!\\/?" + ALLOWED_TAGS + ">)", "&lt;")
-                .replaceAll("(?<!<\\/?" + ALLOWED_TAGS + ")>", "&gt;");
+    public static @CheckForNull String sanitize(@CheckForNull String text) {
+        if (StringUtils.isEmpty(text)) {
+            return text;
+        } else {
+            return text.replaceAll("<(?!\\/?" + ALLOWED_TAGS + ">)", "&lt;")
+                    .replaceAll("(?<!<\\/?" + ALLOWED_TAGS + ")>", "&gt;");
+        }
     }
 
 }

@@ -15,6 +15,7 @@
 package org.linkki.util;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
@@ -23,6 +24,9 @@ public class HtmlSanitizerTest {
 
     @Test
     public void testSanitize() {
+        // null handling
+        assertThat(HtmlSanitizer.sanitize(null), is(nullValue()));
+
         // allowed tags
         assertThat(HtmlSanitizer.sanitize("<p>"), is("<p>"));
         assertThat(HtmlSanitizer.sanitize("</p>"), is("</p>"));
