@@ -16,45 +16,92 @@ package org.linkki.core.defaults.ui.element;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.Locale;
+
 import org.junit.Test;
+import org.linkki.core.uiframework.UiFramework;
 
 public class ItemCaptionProviderTest {
 
     @Test
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void testDefaultCaptionProvider_canHandleAnonymousClasses() {
-        ItemCaptionProvider provider = new ItemCaptionProvider.DefaultCaptionProvider();
-        assertThat(provider.getCaption(TestEnum.VALUE1), is("name1"));
+    public void testDefaultCaptionProvider_AnonymousClass() {
+        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
+
+        assertThat(provider.getCaption(NamedEnum.VALUE1), is("name1"));
+        assertThat(provider.getCaption(NamedEnum.VALUE2), is("anonymous"));
     }
 
     @Test
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void testIdAndNameCaptionProvider_canHandleAnonymousClasses() {
-        ItemCaptionProvider provider = new ItemCaptionProvider.IdAndNameCaptionProvider();
-        assertThat(provider.getCaption(TestEnum.VALUE1), is("name1 [id1]"));
+    public void testDefaultCaptionProvider_Localization() {
+        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
+        Locale locale = UiFramework.getLocale();
+
+        assertThat(provider.getCaption(LocalizedEnum.VALUE), is(locale.toString()));
     }
 
-    enum TestEnum {
+    @Test
+    public void testDefaultCaptionProvider_Unnamed() {
+        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
 
-        VALUE1("id1", "name1") {
+        assertThat(provider.getCaption(UnnamedEnum.VALUE), is(UnnamedEnum.VALUE.toString()));
+    }
+
+    @Test
+    public void testDefaultCaptionProvider_AllMethods() {
+        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.DefaultCaptionProvider();
+
+        assertThat(provider.getCaption(AllMethodsEnum.VALUE), is("getName(Locale)"));
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    public void testIdAndNameCaptionProvider_AllMethods() {
+        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.IdAndNameCaptionProvider();
+        assertThat(provider.getCaption(AllMethodsEnum.VALUE), is("getName [id]"));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    @SuppressWarnings("deprecation")
+    public void testIdAndNameCaptionProvider_MissingGetIdMethod() {
+        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.IdAndNameCaptionProvider();
+        provider.getCaption(UnnamedEnum.VALUE);
+    }
+
+    enum LocalizedEnum {
+        VALUE;
+
+        public String getName(Locale locale) {
+            return locale.toString();
+        }
+    }
+
+    enum UnnamedEnum {
+        VALUE;
+    }
+
+    enum NamedEnum {
+        VALUE1("name1") {
+            @Override
+            public void doSomething() {
+                // do foo
+            }
+        },
+        VALUE2("name2") {
+            @Override
+            public String getName() {
+                return "anonymous";
+            }
 
             @Override
             public void doSomething() {
                 // do foo
             }
-
         };
 
-        private String id;
         private String name;
 
-        private TestEnum(String id, String name) {
-            this.id = id;
+        private NamedEnum(String name) {
             this.name = name;
-        }
-
-        public String getId() {
-            return id;
         }
 
         public String getName() {
@@ -62,5 +109,27 @@ public class ItemCaptionProviderTest {
         }
 
         public abstract void doSomething();
+    }
+
+    enum AllMethodsEnum {
+        VALUE;
+
+        @SuppressWarnings("unused")
+        public String getName(Locale locale) {
+            return "getName(Locale)";
+        }
+
+        public String getName() {
+            return "getName";
+        }
+
+        @Override
+        public String toString() {
+            return "toString";
+        }
+
+        public String getId() {
+            return "id";
+        }
     }
 }

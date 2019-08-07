@@ -15,9 +15,11 @@ package org.linkki.core.defaults.ui.element;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.uiframework.UiFramework;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -39,7 +41,11 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public interface ItemCaptionProvider<T> {
 
     /**
-     * Get the text that should be displayed for the specified value.
+     * Returns the text that should be displayed for the specified value. Depending on the
+     * implementation, this value may be localized.
+     * 
+     * @implNote {@link UiFramework#getLocale()} can be used to determine the current locale, if this
+     *           caption provider supports localization.
      * 
      * @param value The value for which we need a caption
      * @return The caption for the specified value
@@ -84,8 +90,9 @@ public interface ItemCaptionProvider<T> {
     }
 
     /**
-     * A caption provider that returns a string in the format "name" and invokes the method
-     * {@code getName} to obtain these values.
+     * A caption provider that invokes the first existing method of {@code getName(Locale)},
+     * {@code getName()} and {@code toString()} to obtain the caption. The locale is determined by
+     * {@link UiFramework#getLocale()}.
      */
     public class DefaultCaptionProvider implements ItemCaptionProvider<Object> {
 
@@ -96,28 +103,51 @@ public interface ItemCaptionProvider<T> {
         }
 
         @CheckForNull
-        private String getName(Object value) {
-            return getPropertyValue(value, "getName");
+        private static String getName(Object value) {
+            Optional<Method> getLocalizedNameMethod = getMethod(value, "getName", Locale.class);
+            if (getLocalizedNameMethod.isPresent()) {
+                return invokeStringMethod(getLocalizedNameMethod.get(), value, UiFramework.getLocale());
+            }
+
+            Optional<Method> getNameMethod = getMethod(value, "getName");
+            if (getNameMethod.isPresent()) {
+                return invokeStringMethod(getNameMethod.get(), value);
+            }
+
+            Method toStringMethod = getMethod(value, "toString").get();
+            return invokeStringMethod(toStringMethod, value);
         }
 
-        @CheckForNull
-        private String getPropertyValue(Object value, String methodName) {
+        private static Optional<Method> getMethod(Object value, String name, Class<?>... parameters) {
             try {
-                Method method = value.getClass().getMethod(methodName);
-                return (String)method.invoke(value);
-            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e) {
-                throw new IllegalStateException(
-                        "Can't get value from method " + value.getClass() + "#" + methodName + " of " + value, e);
+                Method method = value.getClass().getMethod(name, parameters);
+                return Optional.of(method);
+            } catch (NoSuchMethodException e) {
+                return Optional.empty();
             }
         }
 
+        @CheckForNull
+        private static String invokeStringMethod(Method method, Object value, Object... parameters) {
+            try {
+                return (String)method.invoke(value, parameters);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new IllegalStateException(
+                        "Can't get value from method " + value.getClass() + "#" + method.getName() + " of " + value);
+            }
+        }
     }
 
     /**
      * A caption provider that returns a String in the format "name [id]" and invokes the methods
      * {@code getName} and {@code getId} to obtain these values.
+     * 
+     * @deprecated since 1.1, use org.linkki.ips.ui.element.IdAndNameCaptionProvider from
+     *             org.linkki-framework:linkki-ips-vaadin8 instead. This class has been moved to the
+     *             Faktor-IPS-specific linkki module, due to there being no general use-case if linkki
+     *             is not used with Faktor-IPS.
      */
+    @Deprecated
     public class IdAndNameCaptionProvider implements ItemCaptionProvider<Object> {
 
         @Override

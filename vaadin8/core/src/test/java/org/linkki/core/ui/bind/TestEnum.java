@@ -13,6 +13,8 @@
  */
 package org.linkki.core.ui.bind;
 
+import java.util.Locale;
+
 public enum TestEnum {
     ONE("1") {
         @Override
@@ -35,6 +37,10 @@ public enum TestEnum {
 
     public String getName() {
         return name();
+    }
+
+    public String getName(Locale locale) {
+        return name() + " " + locale.toLanguageTag();
     }
 
 }

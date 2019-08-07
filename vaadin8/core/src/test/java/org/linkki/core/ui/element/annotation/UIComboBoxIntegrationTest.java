@@ -34,6 +34,7 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionPr
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.element.annotation.UIComboBoxIntegrationTest.ComboBoxTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.uiframework.UiFramework;
 
 import com.vaadin.ui.ComboBox;
 
@@ -83,7 +84,8 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     @Test
     public void testCaptionProvider() {
         assertThat(getDynamicComponent().getItemCaptionGenerator().apply(TestEnum.ONE), is("Oans"));
-        assertThat(getStaticComponent().getItemCaptionGenerator().apply(TestEnum.ONE), is("ONE"));
+        assertThat(getStaticComponent().getItemCaptionGenerator().apply(TestEnum.ONE),
+                   is("ONE " + UiFramework.getLocale().toLanguageTag()));
     }
 
     @Test

@@ -32,13 +32,17 @@
 
 === {dversion}
 
+==== Changes to ItemCaptionProvider implementations
+
+`DefaultCaptionProvider` now supports localization by calling `getName(Locale)` to determine the caption, falling back to `getName()` or `toString()` (in order) if the method is not present. Additionally, `IdAndNameCaptionProvider` has been moved to the Faktor-IPS-specific linkki module (now `org.linkki.ips.ui.element.IdAndNameCaptionProvider` in `org.linkki-framework:linkki-ips-vaadin8`), due to there being no general use-case if linkki is not used with Faktor-IPS. A deprecated version is still available, but will be removed in a future version.
+
 ==== HTML content in @BindTooltip
 
 Before migrating to Vaadin 8, the annotation `BindTooltip` supported HTML content by default. However, this behavior has been changed in Vaadin 8 due to security concerns. To mitigate this change for our users, `BindTooltip` now supports selected HTML tags that are commonly considered safe, such as `<strong>` and `<em>`. For a full list of supported tags, see JavaDoc of the annotation.
 
 ==== Bugfix: dialogs opened in View#open are closed immediately
 
-`OkCancelDialogs` are closed automatically when the URL changes. While this features still works as intended, the timing of when the URL change event is fired has changed in Vaadin 8. The changed timing lead to the bug that `OkCancelDialogs` that are opened in the enter method of a `View` are closed immediately, thus are never visible to the user. This bug is fixed now.
+`OkCancelDialogs` are closed automatically when the URL changes. While this feature still works as intended, the timing of when the URL change event is fired has changed in Vaadin 8. The changed timing lead to the bug that `OkCancelDialogs` that are opened in the enter method of a `View` are closed immediately, thus are never visible to the user. This bug is fixed now.
 
 
 === 1.0
