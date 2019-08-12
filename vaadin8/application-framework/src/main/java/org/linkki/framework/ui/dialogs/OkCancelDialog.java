@@ -31,7 +31,6 @@ import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.server.Page.PopStateListener;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -407,12 +406,14 @@ public class OkCancelDialog extends Window {
     }
 
     /**
-     * Add {@link PopStateListener} to the dialog. By default, the dialog is closed upon uri change by
-     * calling {@link #close()}.
+     * Adds a listener to the dialog, which is triggered when the URI changes. The default behavior is
+     * closing the dialog by calling {@link #close()}.
      */
+    // addPopStateListener is triggered after View#enter, thus cannot be used.
+    @SuppressWarnings("deprecation")
     protected void initURIChangeListener() {
         UI current = UI.getCurrent();
-        current.getPage().addPopStateListener(e -> close());
+        current.getPage().addUriFragmentChangedListener(e -> close());
     }
 
     /**
