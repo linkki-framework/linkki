@@ -15,6 +15,7 @@ package org.linkki.samples.playground.ui;
 
 import org.linkki.framework.ui.application.LinkkiUi;
 import org.linkki.samples.playground.state.PlaygroundApplicationConfig;
+import org.linkki.samples.playground.ui.dialogs.DialogView;
 
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -36,6 +37,7 @@ public class PlaygroundApplicationUI extends LinkkiUi {
     protected void init(VaadinRequest request) {
         super.init(request);
         addView(PlaygroundView.NAME, PlaygroundView.class);
+        addView(DialogView.NAME, DialogView.class);
     }
 
 }

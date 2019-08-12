@@ -32,6 +32,17 @@
 
 === {dversion}
 
+==== HTML content in @BindTooltip
+
+Before migrating to Vaadin 8, the annotation `BindTooltip` supported HTML content by default. However, this behavior has been changed in Vaadin 8 due to security concerns. To mitigate this change for our users, `BindTooltip` now supports selected HTML tags that are commonly considered safe, such as `<strong>` and `<em>`. For a full list of supported tags, see JavaDoc of the annotation.
+
+==== Bugfix: dialogs opened in View#open are closed immediately
+
+`OkCancelDialogs` are closed automatically when the URL changes. While this features still works as intended, the timing of when the URL change event is fired has changed in Vaadin 8. The changed timing lead to the bug that `OkCancelDialogs` that are opened in the enter method of a `View` are closed immediately, thus are never visible to the user. This bug is fixed now.
+
+
+=== 1.0
+
 ==== `@BindStyleNames` for sections
 
 The aspect annotation `@BindStyleNames` can now also be annotated on classes to use it for sections.
@@ -39,7 +50,6 @@ The aspect annotation `@BindStyleNames` can now also be annotated on classes to 
 ==== `@BindCaption`
 
 Section and field captions can now be bound via <<bind-caption,`@BindCaption`>>. In preparation for this, the `AbstractSection` was refactored to allow setting (and removing) a caption after construction.
-
 
 ==== `LinkkiConverterRegistry` for `UILabel`
 

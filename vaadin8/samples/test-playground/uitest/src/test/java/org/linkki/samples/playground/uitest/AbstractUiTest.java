@@ -152,4 +152,8 @@ public class AbstractUiTest extends TestBenchTestCase {
     public WebElement findElement(By locator) {
         return getDriver().findElement(locator);
     }
+
+    public void navigateToView(String viewName) {
+        getDriver().get(DriverProperties.getTestUrl(urlPath) + viewName);
+    }
 }
