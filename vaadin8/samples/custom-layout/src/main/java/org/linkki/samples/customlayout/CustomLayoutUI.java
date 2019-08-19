@@ -14,8 +14,8 @@
 package org.linkki.samples.customlayout;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.uicreation.UiCreator;
 import org.linkki.samples.customlayout.pmo.AddressSectionPmo;
 import org.linkki.samples.customlayout.pmo.HotelSearchPmo;
 
@@ -23,7 +23,6 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -68,7 +67,7 @@ public class CustomLayoutUI extends UI {
         content.addComponent(uiHorizontalLayoutInfo);
         // tag::CustomLayoutAnnotation[]
         HotelSearchPmo zipCityPmo = new HotelSearchPmo();
-        content.addComponent((Component)UiCreator.createComponent(zipCityPmo, bindingContext).getComponent());
+        content.addComponent(VaadinUiCreator.createComponent(zipCityPmo, bindingContext));
         // end::CustomLayoutAnnotation[]
     }
 

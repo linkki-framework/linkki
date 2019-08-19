@@ -42,22 +42,22 @@ import org.linkki.core.defaults.section.TestSectionPmo;
 public class UiCreatorTest {
 
     @Test
-            public void testCreateUiElements() {
-                TestSectionPmo testSectionPmo = new TestSectionPmo();
-                BindingContext bindingContext = new BindingContext();
-                List<TestComponentWrapper> wrappers = UiCreator
-                        .createUiElements(testSectionPmo, bindingContext, TestComponentWrapper::new)
-                        .collect(Collectors.toList());
-        
-                assertThat(wrappers, hasSize(2));
-                List<String> componentIds = wrappers.stream().map(TestComponentWrapper::getComponent)
-                        .map(TestUiComponent::getId).collect(Collectors.toList());
-                assertThat(componentIds, contains(TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP));
-        
-                List<String> boundIds = bindingContext.getBindings().stream().map(Binding::getBoundComponent)
-                        .map(TestUiComponent.class::cast).map(TestUiComponent::getId).collect(Collectors.toList());
-                assertThat(boundIds, containsInAnyOrder(TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP));
-            }
+    public void testCreateUiElements() {
+        TestSectionPmo testSectionPmo = new TestSectionPmo();
+        BindingContext bindingContext = new BindingContext();
+        List<TestComponentWrapper> wrappers = UiCreator
+                .createUiElements(testSectionPmo, bindingContext, TestComponentWrapper::new)
+                .collect(Collectors.toList());
+
+        assertThat(wrappers, hasSize(2));
+        List<String> componentIds = wrappers.stream().map(TestComponentWrapper::getComponent)
+                .map(TestUiComponent::getId).collect(Collectors.toList());
+        assertThat(componentIds, contains(TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP));
+
+        List<String> boundIds = bindingContext.getBindings().stream().map(Binding::getBoundComponent)
+                .map(TestUiComponent.class::cast).map(TestUiComponent::getId).collect(Collectors.toList());
+        assertThat(boundIds, containsInAnyOrder(TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP));
+    }
 
     @Test
     public void testCreateUiComponent_Method() throws NoSuchMethodException, SecurityException {
@@ -66,8 +66,8 @@ public class UiCreatorTest {
         Method method = TestSectionPmo.class.getMethod("getValue");
 
         ComponentWrapper componentWrapper = UiCreator.createComponent(method, testSectionPmo, bindingContext,
-                                                                             ComponentAnnotationReader::findComponentDefinition,
-                                                                             c -> Optional.empty());
+                                                                      ComponentAnnotationReader::findComponentDefinition,
+                                                                      c -> Optional.empty());
 
         assertThat(componentWrapper.getComponent(), is(instanceOf(TestUiComponent.class)));
         TestUiComponent testUiComponent = (TestUiComponent)componentWrapper.getComponent();
@@ -85,13 +85,13 @@ public class UiCreatorTest {
         BindingContext bindingContext = new BindingContext();
 
         ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext,
-                                                                             c -> Optional
-                                                                                     .of(TestLinkkiComponentDefinition
-                                                                                             .create(TestUiLayoutComponent::new)),
-                                                                             c -> Optional.of((parent,
-                                                                                     pmo,
-                                                                                     bc) -> ((TestUiLayoutComponent)parent)
-                                                                                             .addChild(new TestUiComponent())));
+                                                                      c -> Optional
+                                                                              .of(TestLinkkiComponentDefinition
+                                                                                      .create(TestUiLayoutComponent::new)),
+                                                                      c -> Optional.of((parent,
+                                                                              pmo,
+                                                                              bc) -> ((TestUiLayoutComponent)parent)
+                                                                                      .addChild(new TestUiComponent())));
 
         assertThat(componentWrapper.getComponent(), is(instanceOf(TestUiLayoutComponent.class)));
         TestUiLayoutComponent testUiLayoutComponent = (TestUiLayoutComponent)componentWrapper.getComponent();
@@ -107,9 +107,9 @@ public class UiCreatorTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateUiComponent_NoComponentDefinition() {
         UiCreator.createComponent(new TestSectionPmo(),
-                                         new BindingContext(),
-                                         c -> Optional.empty(),
-                                         c -> Optional.empty());
+                                  new BindingContext(),
+                                  c -> Optional.empty(),
+                                  c -> Optional.empty());
     }
 
     @Test
@@ -118,10 +118,10 @@ public class UiCreatorTest {
         BindingContext bindingContext = new BindingContext();
 
         ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext,
-                                                                             c -> Optional
-                                                                                     .of(TestLinkkiComponentDefinition
-                                                                                             .create(TestUiLayoutComponent::new)),
-                                                                             c -> Optional.empty());
+                                                                      c -> Optional
+                                                                              .of(TestLinkkiComponentDefinition
+                                                                                      .create(TestUiLayoutComponent::new)),
+                                                                      c -> Optional.empty());
 
         assertThat(componentWrapper.getComponent(), is(instanceOf(TestUiLayoutComponent.class)));
         TestUiLayoutComponent testUiLayoutComponent = (TestUiLayoutComponent)componentWrapper.getComponent();

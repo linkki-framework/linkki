@@ -32,6 +32,10 @@
 
 === {dversion}
 
+==== VaadinUiCreator in linkki-core-vaadin8
+
+Obtaining a Vaadin `Component` from `UiCreator.createComponent` requires an additional cast and method call. The new `VaadinUiCreator` directly returns a `Component`, but works the same otherwise.
+
 ==== Changes to ItemCaptionProvider implementations
 
 `DefaultCaptionProvider` now supports localization by calling `getName(Locale)` to determine the caption, falling back to `getName()` or `toString()` (in order) if the method is not present. Additionally, `IdAndNameCaptionProvider` has been moved to the Faktor-IPS-specific linkki module (now `org.linkki.ips.ui.element.IdAndNameCaptionProvider` in `org.linkki-framework:linkki-ips-vaadin8`), due to there being no general use-case if linkki is not used with Faktor-IPS. A deprecated version is still available, but will be removed in a future version.

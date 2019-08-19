@@ -17,13 +17,12 @@ package org.linkki.samples.playground.allelements;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.uicreation.UiCreator;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Component;
 
 public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefinition {
 
@@ -38,9 +37,9 @@ public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefin
     @Override
     public final void createContent() {
         addSection(new AllUiElementsSectionPmo());
-        add((Component)(UiCreator.createComponent(new HorizontalLayoutPmo(), getBindingContext()).getComponent()));
-        add((Component)(UiCreator.createComponent(new VerticalLayoutPmo(), getBindingContext()).getComponent()));
-        add((Component)(UiCreator.createComponent(new FormLayoutPmo(), getBindingContext()).getComponent()));
+        add(VaadinUiCreator.createComponent(new HorizontalLayoutPmo(), getBindingContext()));
+        add(VaadinUiCreator.createComponent(new VerticalLayoutPmo(), getBindingContext()));
+        add(VaadinUiCreator.createComponent(new FormLayoutPmo(), getBindingContext()));
     }
 
     @Override

@@ -20,6 +20,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.VerticalAlignment;
 import org.linkki.core.uicreation.UiCreator;
@@ -36,8 +37,7 @@ public class UIHorizontalLayoutIntegrationTest {
         BindingContext bindingContext = new BindingContext();
         HorizontalLayoutPmo pmo = new HorizontalLayoutPmo();
 
-        Component component = (Component)UiCreator.createComponent(pmo, bindingContext)
-                .getComponent();
+        Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
         assertThat("UiCreator should be able to create a HorizontalLayout", component,
                    is(instanceOf(HorizontalLayout.class)));
 
@@ -70,7 +70,7 @@ public class UIHorizontalLayoutIntegrationTest {
     @UIHorizontalLayout
     public static class HorizontalLayoutPmo {
 
-        private String text;
+        private String text = "";
 
         @UITextField(label = "", position = 0)
         public String getText() {
