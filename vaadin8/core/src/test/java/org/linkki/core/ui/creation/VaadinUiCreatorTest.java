@@ -20,30 +20,45 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.junit.Test;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.vaadin.component.section.FormSection;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
 
 public class VaadinUiCreatorTest {
 
-    private class TestComponentDefinition implements LinkkiComponentDefinition {
+    @Test
+    public void testCreateComponent() {
+        TestPmo pmo = new TestPmo();
+        BindingContext bindingContext = new BindingContext();
 
-        @Override
-        public Object createComponent(Object pmo) {
-            return new Label("test");
-        }
+        Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
 
+        assertThat(component, instanceOf(FormSection.class));
+        assertThat(bindingContext.getBindings(), hasSize(1));
+
+        Binding binding = bindingContext.getBindings().iterator().next();
+        assertThat(binding.getBoundComponent(), is(component));
+        assertThat(binding, is(instanceOf(BindingContext.class)));
+
+        Collection<Binding> elementBindings = ((BindingContext)binding).getBindings();
+        assertThat(elementBindings.size(), is(1));
+        assertThat(elementBindings.iterator().next().getBoundComponent(), is(instanceOf(TextField.class)));
     }
 
     @Test
-    public void testCreateComponent() {
-        Object pmo = new Object();
+    public void testCreateComponent_WithFinders() {
+        TestPmo pmo = new TestPmo();
         BindingContext bindingContext = new BindingContext();
 
         Component component = VaadinUiCreator.createComponent(pmo, bindingContext,
@@ -55,5 +70,23 @@ public class VaadinUiCreatorTest {
         Binding binding = bindingContext.getBindings().iterator().next();
         assertThat(binding.getBoundComponent(), is(component));
         assertThat(binding, is(not(instanceOf(BindingContext.class))));
+    }
+
+    private static class TestComponentDefinition implements LinkkiComponentDefinition {
+
+        @Override
+        public Object createComponent(Object pmo) {
+            return new Label("test");
+        }
+
+    }
+
+    @UISection
+    private static class TestPmo {
+
+        @UITextField(position = 0, label = "test")
+        public String getText() {
+            return "text";
+        }
     }
 }
