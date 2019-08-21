@@ -8,6 +8,7 @@ package org.linkki.framework.ui.dialogs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -34,6 +35,7 @@ import org.mockito.Mockito;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HasComponents;
+import com.vaadin.ui.TextField;
 
 public class PmoBasedDialogFactoryTest {
 
@@ -116,6 +118,30 @@ public class PmoBasedDialogFactoryTest {
         getAllFields(readOnlyDialog).forEach(c -> {
             assertTrue(c.isReadOnly());
         });
+    }
+
+    @Test
+    public void testNewOkDialog() {
+        OkCancelDialog dialog = new PmoBasedDialogFactory().newOkDialog("title", new TestPmo());
+        List<AbstractField<?>> fields = getAllFields(dialog);
+        assertThat(fields, hasSize(1));
+        assertThat(fields.get(0), is(instanceOf(TextField.class)));
+        assertThat(dialog.getCaption(), is("title"));
+    }
+
+    @Test
+    public void testNewOkDialog_noPmo() {
+        OkCancelDialog dialog = new PmoBasedDialogFactory().newOkDialog("title");
+        assertThat(getAllFields(dialog), hasSize(0));
+    }
+
+    @Test
+    public void testNewOkDialog_MultiplePmos() {
+        OkCancelDialog dialog = new PmoBasedDialogFactory().newOkDialog("title", new TestPmo(), new TestPmo());
+        List<AbstractField<?>> fields = getAllFields(dialog);
+        assertThat(fields, hasSize(2));
+        fields.forEach(f -> assertThat(f, is(instanceOf(TextField.class))));
+        assertThat(dialog.getCaption(), is("title"));
     }
 
     private static List<AbstractField<?>> getAllFields(OkCancelDialog dialog) {
