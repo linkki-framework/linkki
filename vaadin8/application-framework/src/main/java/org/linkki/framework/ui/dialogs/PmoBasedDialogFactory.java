@@ -104,7 +104,7 @@ public class PmoBasedDialogFactory {
      * @return A dialog with the content defined by the given PMO.
      */
     public OkCancelDialog newOkDialog(String title, Object... pmos) {
-        return newOkCancelDialog(title, Handler.NOP_HANDLER, ButtonOption.OK_ONLY, pmos);
+        return newOkCancelDialog(title, Handler.NOP_HANDLER, Handler.NOP_HANDLER, ButtonOption.OK_ONLY, pmos);
     }
 
     /**
