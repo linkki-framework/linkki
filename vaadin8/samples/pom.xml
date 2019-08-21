@@ -6,7 +6,7 @@
 
     <groupId>org.linkki-framework.samples</groupId>
     <artifactId>linkki-samples-vaadin8</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
 
     <packaging>pom</packaging>
 
@@ -83,12 +83,12 @@
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core-vaadin8</artifactId>
-                <version>1.0.2-SNAPSHOT</version>
+                <version>1.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-application-framework-vaadin8</artifactId>
-                <version>1.0.2-SNAPSHOT</version>
+                <version>1.0.2</version>
             </dependency>
             <!-- end::linkki-core-vaadin8[] -->
 
