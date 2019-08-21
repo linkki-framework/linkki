@@ -32,6 +32,12 @@
 
 === {dversion}
 
+==== Bug Fixes
+
+* `PmoBasedDialogFactory#newOkDialog` throws `NullPointerException`
+
+=== 1.0.1
+
 ==== HTML content in @BindTooltip
 
 Before migrating to Vaadin 8, the annotation `BindTooltip` supported HTML content by default. However, this behavior has been changed in Vaadin 8 due to security concerns. To mitigate this change for our users, `BindTooltip` now supports selected HTML tags that are commonly considered safe, such as `<strong>` and `<em>`. For a full list of supported tags, see JavaDoc of the annotation.
