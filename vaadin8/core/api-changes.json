@@ -3,11 +3,11 @@
     "revapi": {
         "ignore": [
         {
-          "code": "java.annotation.nowInherited",
+          "code": "java.annotation.added",
           "old": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
           "new": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
-          "annotationType": "java.lang.annotation.Inherited",
-          "justification": "FCOM-153"
+          "annotationType": "org.linkki.core.binding.descriptor.aspect.annotation.InheritedAspect",
+          "justification": "LIN-1574"
         },
         {
           "code": "java.annotation.attributeValueChanged",

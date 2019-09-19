@@ -15,7 +15,6 @@
 package org.linkki.core.ui.aspects.annotation;
 
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -23,6 +22,7 @@ import java.util.Collection;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
+import org.linkki.core.binding.descriptor.aspect.annotation.InheritedAspect;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.ui.aspects.BindStyleNamesAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames.BindStyleNamesAspectDefinitionCreator;
@@ -37,7 +37,7 @@ import com.vaadin.ui.Component;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE, ElementType.FIELD, ElementType.METHOD })
-@Inherited
+@InheritedAspect
 @LinkkiAspect(BindStyleNamesAspectDefinitionCreator.class)
 public @interface BindStyleNames {
     /**
