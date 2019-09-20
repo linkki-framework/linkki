@@ -53,5 +53,4 @@ public interface ColumnBasedComponentWrapper<ROW> extends ComponentWrapper {
      * Sets the items displayed in the component.
      */
     void setItems(List<ROW> actualItems);
-
 }
