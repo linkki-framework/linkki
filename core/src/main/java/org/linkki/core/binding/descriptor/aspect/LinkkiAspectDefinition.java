@@ -79,9 +79,9 @@ import org.linkki.util.handler.Handler;
  * method, or to return any other value depending on other context.
  * <p>
  * A {@link LinkkiAspectDefinition} might be specified with the annotation {@link LinkkiAspect} using a
- * {@link org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator}. The creator reads the properties of
- * the annotation and provides them for the {@link LinkkiAspectDefinition}. The annotation
- * {@link LinkkiAspect} is defined as meta-annotation for example on a UI field annotation.
+ * {@link org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator}. The creator
+ * reads the properties of the annotation and provides them for the {@link LinkkiAspectDefinition}. The
+ * annotation {@link LinkkiAspect} is defined as meta-annotation for example on a UI field annotation.
  * <p>
  * A {@link LinkkiAspectDefinition} is instantiated for every property in the PMO. But the same PMO
  * might be used multiple times for example for every row in a table. That means it is not allowed to
@@ -96,6 +96,13 @@ public interface LinkkiAspectDefinition {
      * {@code get<Property>()} method.
      */
     public static final String VALUE_ASPECT_NAME = "";
+
+    /**
+     * This value is used as default value for aspects for which linkki can derive a value, for example
+     * using the property name as a label when no label is given - this is the default value for the
+     * label property in linkki's {@code @UI~} annotations.
+     */
+    public static final String DERIVED_BY_LINKKI = "derived.by.linkki";
 
     /**
      * This method is called after the aspect was created and is meant to register a listener at the UI

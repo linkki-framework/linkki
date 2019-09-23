@@ -53,7 +53,7 @@ public @interface TestUIField {
     int position();
 
     /** Provides a description label next to the UI element */
-    String label();
+    String label() default LinkkiAspectDefinition.DERIVED_BY_LINKKI;
 
     /**
      * Name of the model object that is to be bound if multiple model objects are included for model

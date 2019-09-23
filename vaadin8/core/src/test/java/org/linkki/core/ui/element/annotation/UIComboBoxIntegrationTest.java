@@ -145,6 +145,11 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
         assertThat(comboBox.isReadOnly(), is(true));
     }
 
+    @Test
+    public void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    }
+
     @Override
     protected ComboBoxTestModelObject getDefaultModelObject() {
         return (ComboBoxTestModelObject)super.getDefaultModelObject();
@@ -182,6 +187,11 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
         @UIComboBox(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
         public void staticValue() {
             // model binding
+        }
+
+        @UIComboBox(position = 3)
+        public TestEnum getFoo() {
+            return TestEnum.THREE;
         }
     }
 

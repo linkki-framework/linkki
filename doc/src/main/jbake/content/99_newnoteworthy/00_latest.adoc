@@ -36,11 +36,11 @@
 
 Obtaining a Vaadin `Component` from `UiCreator.createComponent` requires an additional cast and method call. The new `VaadinUiCreator` directly returns a `Component`, but works the same otherwise.
 
-==== Changes to ItemCaptionProvider implementations
+==== Changes to ItemCaptionProvider Implementations
 
 `DefaultCaptionProvider` now supports localization by calling `getName(Locale)` to determine the caption, falling back to `getName()` or `toString()` (in order) if the method is not present. Additionally, `IdAndNameCaptionProvider` has been moved to the Faktor-IPS-specific linkki module (now `org.linkki.ips.ui.element.IdAndNameCaptionProvider` in `org.linkki-framework:linkki-ips-vaadin8`), due to there being no general use-case if linkki is not used with Faktor-IPS. A deprecated version is still available, but will be removed in a future version.
 
-==== `@BindStyleNames` for sections
+==== `@BindStyleNames` for Sections
 
 The aspect annotation `@BindStyleNames` can now also be annotated on classes to use it for sections.
 
@@ -52,6 +52,10 @@ Section and field captions can now be bound via <<bind-caption,`@BindCaption`>>.
 
 The `LabelValueAspectDefinition` now uses the `LinkkiConverterRegistry` to find converters for non-String values before defaulting to `Objects.toString`.
 
-==== New annotations for layouts
+==== New Annotations for Layouts
 
 In addition to `@UISection`, linkki now provides `@UIHorizontalLayout`, `@UIVerticalLayout` and `@UIFormLayout`. These annotations can be used for PMO classes in the same way as `@UISection`. In those layouts, labels are presented in the Vaadin default way. In a `HorizontalLayout`, for example, labels for fields are displayed above the field and not beside the field. For more information on the Vaadin layout components, consult the Vaadin docucmentation on https://vaadin.com/docs/v8/framework/layout/layout-orderedlayout.html[VerticalLayout and HorizontalLayout] as well as https://vaadin.com/docs/v8/framework/layout/layout-formlayout.html[FormLayout].
+
+==== Defaults for Labels and Captions
+
+Previously, a value had to be set for all `@UI~` annotations' label/caption attributes. Now, the default value is `"derived.by.linkki"`, which prompts **linkki** to use the capitalized property name as a label/caption. This is especially useful for rapid prototyping scenarios.

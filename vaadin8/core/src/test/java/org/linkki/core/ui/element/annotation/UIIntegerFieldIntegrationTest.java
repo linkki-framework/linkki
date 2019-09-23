@@ -125,6 +125,11 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
+    @Test
+    public void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    }
+
     @Override
     protected TestModelObjectWithObjectInteger getDefaultModelObject() {
         return (TestModelObjectWithObjectInteger)super.getDefaultModelObject();
@@ -149,6 +154,11 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         @UIIntegerField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
+        }
+
+        @UIIntegerField(position = 3)
+        public int getFoo() {
+            return 42;
         }
     }
 

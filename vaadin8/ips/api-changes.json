@@ -1,14 +1,23 @@
 {
   "all-versions": {
     "revapi": {
-        "ignore": [
-            {
-              "regex": true,
-              "code": "java\\.missing\\.(old|new)Class",
-              "old": "missing-class javax\\.servlet\\.http.*",
-              "new": "missing-class javax\\.servlet\\.http.*",
-              "justification": "servlet api is provided by transitive dependency"
-            }
+      "ignore": [
+        {
+          "regex": true,
+          "code": "java\\.missing\\.(old|new)Class",
+          "old": "missing-class javax\\.servlet\\.http.*",
+          "new": "missing-class javax\\.servlet\\.http.*",
+          "justification": "servlet api is provided by transitive dependency"
+        },
+        {
+          "code": "java.method.defaultValueChanged",
+          "old": "method java.lang.String org.linkki.ips.decimalfield.UIDecimalField::label()",
+          "new": "method java.lang.String org.linkki.ips.decimalfield.UIDecimalField::label()",
+          "justification": "LIN7",
+          "oldValue": "\"\"",
+          "newValue": "\"derived.by.linkki\"",
+          "methodName": "label"
+        }
       ]
     }
   }

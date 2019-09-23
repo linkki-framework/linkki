@@ -13,7 +13,9 @@
  */
 package org.linkki.core.binding.dispatcher.staticvalue;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.AbstractPropertyDispatcherDecorator;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.nls.PmoNlsService;
@@ -45,11 +47,13 @@ public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
             Object boundObject = getBoundObject();
             if (staticValue instanceof String && boundObject != null) {
                 Class<?> pmoClass = getTypeForKey(boundObject);
-                return (T)PmoNlsService.get()
+                staticValue = (T)PmoNlsService.get()
                         .getLabel(pmoClass, getProperty(), aspect.getName(), (String)staticValue);
-            } else {
-                return staticValue;
             }
+            if (staticValue instanceof String && LinkkiAspectDefinition.DERIVED_BY_LINKKI.equals(staticValue)) {
+                return (T)StringUtils.capitalize(getProperty());
+            }
+            return staticValue;
         } else {
             return super.pull(aspect);
         }

@@ -1,7 +1,7 @@
 {
   "1.1.0": {
     "revapi": {
-        "ignore": [
+      "ignore": [
         {
           "code": "java.annotation.nowInherited",
           "old": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
@@ -31,7 +31,23 @@
           "new": "parameter .*",
           "annotationType": "edu\\.umd\\.cs\\.findbugs\\.annotations\\.CheckForNull",
           "justification": "@CheckForNull for parameters is compatible"
-        }       
+        },
+        {
+          "regex": true,
+          "code": "java.method.defaultValueChanged",
+          "justification": "LIN7",
+          "oldValue": "\"\"",
+          "newValue": "\"derived\\.by\\.linkki\"",
+          "methodName": "caption"
+        },
+        {
+          "regex": true,
+          "code": "java.method.defaultValueChanged",
+          "justification": "LIN7",
+          "oldValue": "\"\"",
+          "newValue": "\"derived\\.by\\.linkki\"",
+          "methodName": "label"
+        }
       ]
     }
   }

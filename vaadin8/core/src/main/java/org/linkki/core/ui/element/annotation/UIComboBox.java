@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
 import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
 import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
@@ -65,7 +66,7 @@ public @interface UIComboBox {
     int position();
 
     /** Provides a description label next to the UI element */
-    String label();
+    String label() default DERIVED_BY_LINKKI;
 
     /**
      * Specifies the source of the available values, the content of the combo box.

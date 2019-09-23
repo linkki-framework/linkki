@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
 import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
 import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
 import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
@@ -78,7 +79,7 @@ public @interface UICheckBox {
      * in the column header while the {@link #caption()} will be displayed inside the table cell
      * together with the check box.
      */
-    String caption();
+    String caption() default DERIVED_BY_LINKKI;
 
     /** Defines if an UI-Component is editable, using values of {@link EnabledType}. */
     EnabledType enabled() default ENABLED;

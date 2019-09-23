@@ -66,6 +66,8 @@ Usually there is a label text for each UI element, that describes the element. T
 
 Exceptions to this are <<ui-button, buttons>> and <<ui-checkbox, checkboxes>>. These UI elements usually do not need a preceding label. Instead, the description of a button is displayed on the button itself while the description of the checkbox is commonly displayed at the right of the checkbox. This kind of describing element can be configured with the property `caption` in both annotations respectively. Buttons and checkboxes can still be configured with a label additionally by overwriting the `label` property.
 
+If not label/caption is set, the default value `"derived.by.linkki"` kicks in and *linkki* uses the capitalized property name as label/caption.
+
 NOTE: If an independent label is needed, the UI element <<ui-label, UILabel>> can be used.
 
 [[enabled]]

@@ -13,8 +13,11 @@
  */
 package org.linkki.core.binding.dispatcher.staticvalue;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -25,6 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.defaults.section.annotations.TestUIField;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
@@ -67,6 +71,13 @@ public class StaticValueDispatcherTest {
     }
 
     @Test
+    public void testGetDerivedValue() {
+        Aspect<String> derived = Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI);
+        when(uiAnnotationFallbackDispatcher.getProperty()).thenReturn("foo");
+        assertThat(pull("foo", derived), is("Foo"));
+    }
+
+    @Test
     public void testPull_static() {
         Aspect<ArrayList<Object>> staticAspect = Aspect.of(EnabledAspectDefinition.NAME,
                                                            new ArrayList<>());
@@ -82,10 +93,10 @@ public class StaticValueDispatcherTest {
         verify(uiAnnotationFallbackDispatcher).pull(dynamicAspect);
     }
 
-    private void pull(String property, Aspect<?> aspect) {
+    private <T> T pull(String property, Aspect<T> aspect) {
         @NonNull
         StaticValueDispatcher staticValueDispatcher = uiAnnotationDispatchers.get(property);
-        staticValueDispatcher.pull(aspect);
+        return staticValueDispatcher.pull(aspect);
     }
 
     public class TestObjectWithUIAnnotations {
@@ -103,6 +114,11 @@ public class StaticValueDispatcherTest {
         @TestUIField(position = 3, modelAttribute = DYNAMIC_ENUM_ATTR, label = DYNAMIC_ENUM_ATTR, enabled = EnabledType.DYNAMIC)
         public void dynamicEnumAttr() {
             // nothing to do
+        }
+
+        @TestUIField(position = 4)
+        public String getFoo() {
+            return "bar";
         }
 
     }
