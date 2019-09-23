@@ -17,12 +17,14 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.framework.state.ApplicationConfig;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.vaadin.navigator.Navigator.EmptyView;
@@ -35,31 +37,31 @@ import com.vaadin.ui.UI;
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicationLayoutTest {
 
-    
+
     @Mock
     private UI ui;
 
-    
+
     @Mock
     private Page page;
 
-    
+
     @Mock
     private ApplicationHeader header;
 
-    
+
     @Mock
     private ApplicationFooter footer;
 
-    
+
     @Mock
     private ApplicationConfig config;
 
-    
+
     @Mock
     private ViewProvider viewProvider;
 
-    
+
     private ApplicationLayout applicationLayout;
 
     private void setUpApplicationLayout() {
@@ -78,7 +80,8 @@ public class ApplicationLayoutTest {
     @Test
     public void testGetCurrentView() {
         setUpApplicationLayout();
-        View view = mock(View.class, withSettings().extraInterfaces(Component.class));
+        View view = mock(View.class,
+                         withSettings().extraInterfaces(Component.class).defaultAnswer(Mockito.CALLS_REAL_METHODS));
         applicationLayout.showView(view);
 
         Component currentView = applicationLayout.getCurrentView();
@@ -92,17 +95,44 @@ public class ApplicationLayoutTest {
         assertThat(applicationLayout.getComponentCount(), is(3));
         assertThat(applicationLayout.getComponent(1), is(instanceOf(EmptyView.class)));
 
-        View view = mock(View.class, withSettings().extraInterfaces(Component.class));
+        View view = mock(View.class,
+                         withSettings().extraInterfaces(Component.class).defaultAnswer(Mockito.CALLS_REAL_METHODS));
         applicationLayout.showView(view);
 
         assertThat(applicationLayout.getComponentCount(), is(3));
         assertThat(applicationLayout.getComponent(1), is(view));
 
-        View view2 = mock(View.class, withSettings().extraInterfaces(Component.class));
+        View view2 = mock(View.class,
+                          withSettings().extraInterfaces(Component.class).defaultAnswer(Mockito.CALLS_REAL_METHODS));
         applicationLayout.showView(view2);
 
         assertThat(applicationLayout.getComponentCount(), is(3));
         assertThat(applicationLayout.getComponent(1), is(view2));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testShowView_NotAComponent() {
+        setUpApplicationLayout();
+        assertThat(applicationLayout.getComponentCount(), is(3));
+        assertThat(applicationLayout.getComponent(1), is(instanceOf(EmptyView.class)));
+
+        View view = mock(View.class, withSettings().defaultAnswer(Mockito.CALLS_REAL_METHODS));
+        applicationLayout.showView(view);
+    }
+
+    @Test
+    public void testShowView_WithViewComponent() {
+        setUpApplicationLayout();
+        assertThat(applicationLayout.getComponentCount(), is(3));
+        assertThat(applicationLayout.getComponent(1), is(instanceOf(EmptyView.class)));
+
+        View view = mock(View.class);
+        Component component = mock(Component.class);
+        when(view.getViewComponent()).thenReturn(component);
+        applicationLayout.showView(view);
+
+        assertThat(applicationLayout.getComponentCount(), is(3));
+        assertThat(applicationLayout.getComponent(1), is(component));
     }
 
     @Test
@@ -112,13 +142,15 @@ public class ApplicationLayoutTest {
         assertThat(applicationLayout.getComponentCount(), is(2));
         assertThat(applicationLayout.getComponent(1), is(instanceOf(EmptyView.class)));
 
-        View view = mock(View.class, withSettings().extraInterfaces(Component.class));
+        View view = mock(View.class,
+                         withSettings().extraInterfaces(Component.class).defaultAnswer(Mockito.CALLS_REAL_METHODS));
         applicationLayout.showView(view);
 
         assertThat(applicationLayout.getComponentCount(), is(2));
         assertThat(applicationLayout.getComponent(1), is(view));
 
-        View view2 = mock(View.class, withSettings().extraInterfaces(Component.class));
+        View view2 = mock(View.class,
+                          withSettings().extraInterfaces(Component.class).defaultAnswer(Mockito.CALLS_REAL_METHODS));
         applicationLayout.showView(view2);
 
         assertThat(applicationLayout.getComponentCount(), is(2));

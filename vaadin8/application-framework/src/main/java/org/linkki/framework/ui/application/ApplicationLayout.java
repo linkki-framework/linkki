@@ -52,14 +52,17 @@ public class ApplicationLayout extends VerticalLayout implements ViewDisplay {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @implNote Uses {@link View#getViewComponent()} to get the {@link Component} to be displayed,
+     *           which defaults to the {@link View} itself if it also is a {@link Component}.
+     * @throws IllegalStateException if the {@link View} is not a {@link Component} and does not
+     *             override {@link View#getViewComponent()}.
+     */
     @Override
     public void showView(View view) {
-        if (view instanceof Component) {
-            setMainArea((Component)view);
-        } else {
-            throw new IllegalArgumentException(
-                    "View is not a component: " + view);
-        }
+        setMainArea(view.getViewComponent());
     }
 
     private void setMainArea(Component newMainArea) {
