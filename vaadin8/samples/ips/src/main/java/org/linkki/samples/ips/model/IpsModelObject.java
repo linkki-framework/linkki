@@ -44,7 +44,7 @@ import org.w3c.dom.Element;
  * @generated
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
-@IpsAttributes({ "decimal" })
+@IpsAttributes({ "decimal", "string" })
 @IpsDocumented(bundleName = "org.linkki.samples.ips.model.model-label-and-descriptions", defaultLocale = "en")
 public class IpsModelObject extends AbstractModelObject {
 
@@ -68,11 +68,24 @@ public class IpsModelObject extends AbstractModelObject {
     public static final DecimalRange MAX_ALLOWED_RANGE_FOR_DECIMAL = DecimalRange
             .valueOf(Decimal.valueOf("0"), Decimal.valueOf("100"), Decimal.valueOf("0.5"), false);
     /**
+     * The name of the property string.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_STRING = "string";
+    /**
      * Member variable for decimal.
      * 
      * @generated
      */
     private Decimal decimal = Decimal.valueOf("42");
+
+    /**
+     * Member variable for string.
+     * 
+     * @generated
+     */
+    private String string = null;
 
     /**
      * Creates a new IpsModelObject.
@@ -117,6 +130,28 @@ public class IpsModelObject extends AbstractModelObject {
     }
 
     /**
+     * Returns the string.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "string", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    public String getString() {
+        return string;
+    }
+
+
+    /**
+     * Sets the value of attribute string.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("string")
+    public void setString(String newValue) {
+        this.string = newValue;
+    }
+
+
+    /**
      * Initializes the object with the configured defaults.
      *
      * @restrainedmodifiable
@@ -136,6 +171,7 @@ public class IpsModelObject extends AbstractModelObject {
     protected void initPropertiesFromXml(Map<String, String> propMap, IRuntimeRepository productRepository) {
         super.initPropertiesFromXml(propMap, productRepository);
         doInitDecimal(propMap);
+        doInitString(propMap);
     }
 
     /**
@@ -146,6 +182,16 @@ public class IpsModelObject extends AbstractModelObject {
             this.decimal = Decimal.valueOf(propMap.get(PROPERTY_DECIMAL));
         }
     }
+
+    /**
+     * @generated
+     */
+    private void doInitString(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_STRING)) {
+            this.string = propMap.get(PROPERTY_STRING);
+        }
+    }
+
 
     /**
      * {@inheritDoc}

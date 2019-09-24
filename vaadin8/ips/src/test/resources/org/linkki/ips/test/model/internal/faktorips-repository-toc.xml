@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<FaktorIps-TableOfContents xmlversion="3.0">
+ <PolicyCmptType implementationClass="org.linkki.ips.test.model.TestIpsObject" ipsObjectId="TestIpsObject" ipsObjectQualifiedName="TestIpsObject"/>
+ <PolicyCmptType implementationClass="org.linkki.ips.test.model.TestIpsObject2" ipsObjectId="TestIpsObject2" ipsObjectQualifiedName="TestIpsObject2"/>
+</FaktorIps-TableOfContents>

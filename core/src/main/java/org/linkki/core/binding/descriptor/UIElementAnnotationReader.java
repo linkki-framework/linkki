@@ -147,7 +147,8 @@ public class UIElementAnnotationReader {
      *         the field value
      *
      * @throws ModelObjectAnnotationException if no matching method or field is found, the method has no
-     *             return value or the field has the type {@link Void}.
+     *             return value, the field has the type {@link Void} or multiple annotations for the
+     *             same model object name are present.
      */
     public static Supplier<?> getModelObjectSupplier(Object pmo, String modelObjectName) {
         requireNonNull(pmo, "pmo must not be null");
@@ -211,6 +212,8 @@ public class UIElementAnnotationReader {
      *
      * @return whether the object has a method annotated with {@link ModelObject @ModelObject} using the
      *         given name
+     * @throws ModelObjectAnnotationException if multiple annotations for the model object name are
+     *             present
      */
     public static boolean hasModelObjectAnnotation(Object pmo, String modelObjectName) {
         return getModelObjectField(pmo, modelObjectName).isPresent()
@@ -218,10 +221,13 @@ public class UIElementAnnotationReader {
     }
 
     private static Optional<Method> getModelObjectMethod(Object pmo, String modelObjectName) {
-        return BeanUtils.getMethod(requireNonNull(pmo, "pmo must not be null").getClass(),
-                                   (m) -> m.isAnnotationPresent(ModelObject.class)
-                                           && requireNonNull(m.getAnnotation(ModelObject.class)).name()
-                                                   .equals(modelObjectName));
+        return BeanUtils.getMethods(requireNonNull(pmo, "pmo must not be null").getClass(),
+                                    (m) -> m.isAnnotationPresent(ModelObject.class)
+                                            && requireNonNull(m.getAnnotation(ModelObject.class)).name()
+                                                    .equals(modelObjectName))
+                .reduce((f1, f2) -> {
+                    throw ModelObjectAnnotationException.multipleMembersAnnotated(pmo, modelObjectName, f1, f2);
+                });
     }
 
     private static Optional<Field> getModelObjectField(Object pmo, String modelObjectName) {

@@ -50,7 +50,7 @@ public class StaticValueDispatcher extends AbstractPropertyDispatcherDecorator {
                 staticValue = (T)PmoNlsService.get()
                         .getLabel(pmoClass, getProperty(), aspect.getName(), (String)staticValue);
             }
-            if (staticValue instanceof String && LinkkiAspectDefinition.DERIVED_BY_LINKKI.equals(staticValue)) {
+            if (LinkkiAspectDefinition.DERIVED_BY_LINKKI.equals(staticValue)) {
                 return (T)StringUtils.capitalize(getProperty());
             }
             return staticValue;

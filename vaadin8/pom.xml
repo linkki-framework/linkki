@@ -13,6 +13,7 @@
     <description>Vaadin 8 Modules for linkki</description>
 
     <modules>
+        <module>test</module>
         <module>core</module>
         <module>application-framework</module>
         <module>ips</module>

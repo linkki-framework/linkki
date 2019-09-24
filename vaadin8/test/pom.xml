@@ -1,34 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin8</artifactId>
         <version>1.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>linkki-core-vaadin8</artifactId>
-    <packaging>jar</packaging>
-    <name>linkki Databinding and Core Framework for Vaadin 8</name>
+    <artifactId>linkki-vaadin8-test</artifactId>
+    <name>linkki Vaadin 8 Test</name>
+    <description>linkki Test Utilities for Vaadin 8</description>
 
     <dependencies>
         <dependency>
             <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-core</artifactId>
-            <version>1.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-test</artifactId>
             <version>1.1-SNAPSHOT</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-vaadin8-test</artifactId>
-            <version>1.1-SNAPSHOT</version>
-            <scope>test</scope>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -41,7 +33,7 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
-
 </project>

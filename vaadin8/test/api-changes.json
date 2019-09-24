@@ -1,0 +1,38 @@
+{
+  "1.1.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",
+          "new": ".* com\\.vaadin\\..*",
+          "justification": "new test module"
+        },
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",
+          "new": ".* javax\\.servlet\\..*",
+          "justification": "new test module"
+        },
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",
+          "new": ".* org\\.jsoup\\..*",
+          "justification": "new test module"
+        },
+        {
+          "regex": true,
+          "code": "java.class.nonPublicPartOfAPI",
+          "new": ".* org\\.jsoup\\..*",
+          "justification": "new test module"
+        },
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",
+          "new": ".* elemental\\.json\\..*",
+          "justification": "new test module"
+        }
+      ]
+    }
+  }
+}

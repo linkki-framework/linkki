@@ -12,23 +12,30 @@
  * License.
  */
 
-package org.linkki.core.ui.bind;
+package org.linkki.core.ui.mock;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.Locale;
 
 import org.mockito.Mockito;
 
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
+/**
+ * Utility to mock Vaadin's {@link UI}.
+ */
 public class MockUi {
     private MockUi() {
         // utility
     }
 
     /**
-     * Remember to call {@link UI#setCurrent(UI) UI#setCurrent(null)} after your tests.
+     * Creates a deep mock of {@link UI} and sets it as Vaadin's current UI.
+     * <p>
+     * <em>Remember to call {@link UI#setCurrent(UI) UI#setCurrent(null)} after your tests.</em>
      */
     public static UI mockUi() {
         UI ui = mock(UI.class, Mockito.RETURNS_DEEP_STUBS);
@@ -37,5 +44,14 @@ public class MockUi {
         when(ui.getSession()).thenReturn(session);
         when(session.hasLock()).thenReturn(true);
         return ui;
+    }
+
+    /**
+     * "Sets" the locale by mocking {@link UI#getLocale()} on the current {@link UI}, which must have
+     * been created by a previous call to {@link #mockUi()}.
+     */
+    public static void setLocale(Locale locale) {
+        UI ui = UI.getCurrent();
+        when(ui.getLocale()).thenReturn(locale);
     }
 }
