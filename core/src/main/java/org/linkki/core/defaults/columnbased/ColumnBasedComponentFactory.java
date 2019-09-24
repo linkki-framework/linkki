@@ -16,9 +16,13 @@ package org.linkki.core.defaults.columnbased;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
@@ -44,10 +48,11 @@ public class ColumnBasedComponentFactory {
     public Object createContainerComponent(ContainerPmo<?> containerPmo, BindingContext bindingContext) {
         ComponentWrapper tableWrapper = containerComponentCreator
                 .createComponent(requireNonNull(containerPmo, "containerPmo must not be null"));
-        ContainerBinding binding = requireNonNull(bindingContext, "bindingContext must not be null")
-                .bindContainer(containerPmo, BoundProperty.of(""),
-                               containerComponentCreator.getContainerAspects(),
-                               tableWrapper);
+        requireNonNull(bindingContext, "bindingContext must not be null");
+        List<LinkkiAspectDefinition> tableAspects = AspectAnnotationReader
+                .createAspectDefinitionsFor(containerPmo.getClass());
+        ContainerBinding binding = bindingContext.bindContainer(containerPmo, BoundProperty.empty(), tableAspects,
+                                                                tableWrapper);
         createColumns(containerPmo, tableWrapper, binding);
         // need to update binding after columns are created because the footer content cannot be updated
         // without columns
