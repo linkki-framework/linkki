@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>org.linkki-framework.samples</groupId>
-	<artifactId>linkki-samples-vaadin7</artifactId>
+        <artifactId>linkki-samples-vaadin7</artifactId>
         <version>1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -14,6 +14,10 @@
     <packaging>war</packaging>
 
     <name>linkki Vaadin 7 Samples :: Dynamic Fields</name>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
 
     <dependencies>
 
