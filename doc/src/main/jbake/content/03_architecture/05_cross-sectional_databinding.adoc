@@ -35,6 +35,8 @@ image::{images}{images-folder-name}/vertical_binding.png[]
 
 Custom dispatchers can be created via a `PropertyDispatcherFactory` (in its own `BindingContext`). There the method `createCustomDispatchers` must be overwritten to create one or more custom dispatchers. These dispatchers are inserted between `BehaviorDependentDispatcher` and `BindingAnnotationDispatcher`.
 
+The `DefaultBindingManager` offers a constructor to pass a custom `PropertyDispatcherFactory`. If set, the `DefaultBindingManager` uses this custom `PropertyDispatcherFacotry` for all `BindingContexts` that are created by using 'getContext()'.   
+
 [[property-behavior]]
 ==== PropertyBehaviors
 
