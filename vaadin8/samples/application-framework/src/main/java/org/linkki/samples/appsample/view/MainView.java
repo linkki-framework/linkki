@@ -69,7 +69,7 @@ public class MainView extends SidebarLayout implements View {
 
     private VerticalLayout createReportListLayout() {
         ReportListPage reportListPage = new ReportListPage(reports);
-        reportListPage.createContent();
+        reportListPage.init();
         listPage = reportListPage;
         return reportListPage;
     }

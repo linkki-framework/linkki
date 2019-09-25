@@ -116,7 +116,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * Creates sections based on the given PMOs and adds them horizontally, each taking up equal part of
      * the page width. If a PMO is a {@link ContainerPmo} a table section is created.
      * <p>
-     * To add sections vertically, call {@link #addSection(Object)} for each pmo instead.
+     * To add sections vertically, call {@link #addSection(Object)} for each PMO instead.
      * 
      * @throws NullPointerException if one of the given PMOs is <code>null</code>.
      */

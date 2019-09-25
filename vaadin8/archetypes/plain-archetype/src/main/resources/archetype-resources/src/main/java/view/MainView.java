@@ -17,7 +17,7 @@ public class MainView extends VerticalLayout implements View {
     public MainView() {
         addComponent(new Headline("linkki Example Web Application"));
         \${ApplicationName}Page page = new ${ApplicationName}Page();
-        page.createContent();
+        page.init();
         addComponent(page);
 
         setSizeFull();
