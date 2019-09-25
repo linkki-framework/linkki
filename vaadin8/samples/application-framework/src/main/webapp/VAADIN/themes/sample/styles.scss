@@ -7,10 +7,9 @@ $v-shadow: false !default;
 /* The actual styles should be defined in ipm.scss */
 
 .sample {
-
+  @include valo;
   // Include linkki theme styles
   @include linkki;
-  @include valo;
   
   #ChildrenSectionPmo {
     padding-left: 37px;

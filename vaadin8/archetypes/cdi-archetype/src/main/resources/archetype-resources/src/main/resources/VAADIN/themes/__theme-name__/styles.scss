@@ -5,8 +5,7 @@ $v-shadow: false !default;
 
 
 .${theme-name} {
-
+  @include valo;
   // Include linkki theme styles
   @include linkki;
-  @include valo;
 }

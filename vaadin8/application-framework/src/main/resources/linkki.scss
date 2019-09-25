@@ -1,8 +1,10 @@
 /*
 * Styles for linkki application framework
 *
-* Some variables from valo are redefined to make this mixin usable standalone. 
+* Some variables from valo are redefined to make this mixin usable standalone.
 * Make sure to import this linkki.scss first if you want to use linkki defaults.
+* The linkki mixin should then be included after valo, otherwise some styles may 
+* be overriden and thus not applied.
 */
 
 $v-app-background-color: #fdfdfd !default;

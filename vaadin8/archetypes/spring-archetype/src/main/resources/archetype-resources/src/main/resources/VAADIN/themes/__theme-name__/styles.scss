@@ -4,8 +4,7 @@ $v-shadow: false !default;
 @import "../valo/valo.scss";
 
 .${theme-name} {
-
+  @include valo;
   // Include linkki theme styles
   @include linkki;
-  @include valo;
 }
