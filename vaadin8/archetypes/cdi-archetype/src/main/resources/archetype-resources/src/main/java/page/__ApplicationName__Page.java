@@ -13,7 +13,7 @@ public class \${ApplicationName}Page extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
-    private BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
+    private BindingManager bindingManager = new DefaultBindingManager();
     private HelloPmo helloPmo;
 
     public \${ApplicationName}Page() {
