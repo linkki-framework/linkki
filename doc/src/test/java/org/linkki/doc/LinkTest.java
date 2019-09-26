@@ -13,7 +13,7 @@
  */
 package org.linkki.doc;
 
-import static org.hamcrest.Matchers.either;
+import static org.hamcrest.CoreMatchers.either;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -81,10 +81,11 @@ public class LinkTest {
                 int responseCode = 0;
                 try {
                     responseCode = connectTo(url, 2_000);
-                    if(responseCode==HttpURLConnection.HTTP_CLIENT_TIMEOUT || responseCode==HttpURLConnection.HTTP_GATEWAY_TIMEOUT) {
+                    if (responseCode == HttpURLConnection.HTTP_CLIENT_TIMEOUT
+                            || responseCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT) {
                         responseCode = connectTo(url, 10_000);
                     }
-                } catch (SocketException | SocketTimeoutException e ) {
+                } catch (SocketException | SocketTimeoutException e) {
                     responseCode = connectTo(url, 10_000);
                 }
                 assertThat("external link '" + link + "' in '" + from + "' returns wrong http status",

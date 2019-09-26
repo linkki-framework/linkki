@@ -42,10 +42,12 @@ public class ContractSectionPmo {
 
     @UITextField(position = 10, label = "First Name PH", modelAttribute = "firstname")
     public void firstNamePolicyHolder() {
+        // model binding
     }
 
     @UITextField(position = 20, label = "First Name IP", modelAttribute = "firstname", modelObject = "IP")
     public void firstNameInsuredPerson() {
+        // model binding
     }
 
 }

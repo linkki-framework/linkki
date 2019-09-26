@@ -1,0 +1,28 @@
+{
+  "1.1.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",  
+          "new": "class org.apache.commons.lang3.tuple.Pair<L extends java.lang.Object, R extends java.lang.Object>",
+          "justification": "because Java still has no Pair"
+        },
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",
+          "new":".* org\\.linkki\\.core\\..*",
+          "justification": "linkki types are safe to be exposed",
+          "classQualifiedName": "org\\.linkki\\.core\\..*"
+        },
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",
+          "new":".* org\\.linkki\\.util\\..*",
+          "justification": "linkki types are safe to be exposed",
+          "classQualifiedName": "org\\.linkki\\.util\\..*"
+        }
+      ]
+    }
+  }
+}

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework</groupId>
@@ -35,6 +36,7 @@
         <module>core</module>
         <module>vaadin7</module>
         <module>vaadin8</module>
+        <module>apt</module>
         <module>doc</module>
     </modules>
 
@@ -44,6 +46,7 @@
         <junit.version>5.5.2</junit.version>
         <mockito.version>3.0.0</mockito.version>
         <commons-lang3.version>3.9</commons-lang3.version>
+        <commons-io.version>2.6</commons-io.version>
         <doc.user>${user.name}</doc.user>
         <spotbugs.version>3.1.11</spotbugs.version>
         <checkstyle.version>8.20</checkstyle.version>
@@ -232,51 +235,51 @@
                 </executions>
             </plugin>
             <plugin>
-              <groupId>org.revapi</groupId>
-              <artifactId>revapi-maven-plugin</artifactId>
-              <dependencies>
-                <dependency>
-                  <groupId>org.revapi</groupId>
-                  <artifactId>revapi-java</artifactId>
-                  <version>0.19.1</version>
-                </dependency>
-              </dependencies>
-              <configuration>
-                <versionFormat>\d+\.\d+(\.\d+)?</versionFormat>
-                <analysisConfigurationFiles>
-                    <configurationFile>
-                        <path>${project.basedir}/api-changes.json</path>
-                        <roots>
-                            <root>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</root>
-                            <root>all-versions</root>
-                        </roots>
-                    </configurationFile>
-                </analysisConfigurationFiles>
-                <failOnMissingConfigurationFiles>false</failOnMissingConfigurationFiles>
-                <analysisConfiguration>
-                    <!-- over all configuration - https://revapi.org/modules/revapi-java/index.html -->
-                    <revapi.java>
-                      <checks>
-                        <nonPublicPartOfAPI>
-                          <reportUnchanged>false</reportUnchanged>
-                        </nonPublicPartOfAPI>
-                      </checks>
-                    </revapi.java>
-                    <revapi.semver.ignore>
-                        <enabled>true</enabled>
-                        <passThroughDifferences>
-                          <item>java.class.nonPublicPartOfAPI</item>
-                        </passThroughDifferences>
-                    </revapi.semver.ignore>
-                </analysisConfiguration>
-              </configuration>
-              <executions>
-                <execution>
-                  <goals>
-                    <goal>check</goal>
-                  </goals>
-                </execution>
-              </executions>
+                <groupId>org.revapi</groupId>
+                <artifactId>revapi-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.revapi</groupId>
+                        <artifactId>revapi-java</artifactId>
+                        <version>0.19.1</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <versionFormat>\d+\.\d+(\.\d+)?</versionFormat>
+                    <analysisConfigurationFiles>
+                        <configurationFile>
+                            <path>${project.basedir}/api-changes.json</path>
+                            <roots>
+                                <root>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</root>
+                                <root>all-versions</root>
+                            </roots>
+                        </configurationFile>
+                    </analysisConfigurationFiles>
+                    <failOnMissingConfigurationFiles>false</failOnMissingConfigurationFiles>
+                    <analysisConfiguration>
+                        <!-- over all configuration - https://revapi.org/modules/revapi-java/index.html -->
+                        <revapi.java>
+                            <checks>
+                                <nonPublicPartOfAPI>
+                                    <reportUnchanged>false</reportUnchanged>
+                                </nonPublicPartOfAPI>
+                            </checks>
+                        </revapi.java>
+                        <revapi.semver.ignore>
+                            <enabled>true</enabled>
+                            <passThroughDifferences>
+                                <item>java.class.nonPublicPartOfAPI</item>
+                            </passThroughDifferences>
+                        </revapi.semver.ignore>
+                    </analysisConfiguration>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>
@@ -316,7 +319,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>3.8.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -349,9 +352,9 @@
                     <version>3.0.0</version>
                 </plugin>
                 <plugin>
-                  <groupId>org.revapi</groupId>
-                  <artifactId>revapi-maven-plugin</artifactId>
-                  <version>0.11.1</version>
+                    <groupId>org.revapi</groupId>
+                    <artifactId>revapi-maven-plugin</artifactId>
+                    <version>0.11.1</version>
                 </plugin>
 
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
@@ -445,6 +448,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
