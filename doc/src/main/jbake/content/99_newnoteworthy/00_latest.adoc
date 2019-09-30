@@ -60,4 +60,4 @@ In addition to `@UISection`, linkki now provides `@UIHorizontalLayout`, `@UIVert
 
 Previously, a value had to be set for all `@UI~` annotations' label/caption attributes. Now, the default value is `"derived.by.linkki"`, which prompts *linkki* to use the capitalized property name as a label/caption. This is especially useful for rapid prototyping scenarios.
 
-When using *linkki* with Faktor-IPS, the `IpsPropertyDispatcherFactory` can be used. It creates a `IpsPropertyDispatcher` for Faktor-IPS model objects and uses the labels defined in the Faktor-IPS model for labels/captions marked with `"derived.by.linkki"`.
+When using *linkki* with Faktor-IPS, the `IpsPropertyDispatcherFactory` can now be used. It creates a `IpsPropertyDispatcher` for Faktor-IPS model objects and uses the labels defined in the Faktor-IPS model for labels/captions marked with `"derived.by.linkki"`. Note that this feature is not yet supported for component labels in row PMOs that are used as table columns.
