@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,8 +15,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <asciidoctor.maven.plugin.version>1.5.7.1</asciidoctor.maven.plugin.version>
         <asciidoctorj.pdf.version>1.5.0-alpha.17</asciidoctorj.pdf.version>
-        <asciidoctorj.version>1.5.2<!-- Newer version collides with asciidoctor-maven-plugin --></asciidoctorj.version>
-        <jbake.version>2.5.1<!-- Newer version collides with our hacks --></jbake.version>
+        <asciidoctorj.version>
+            1.5.2<!-- Newer version collides with asciidoctor-maven-plugin -->
+        </asciidoctorj.version>
+        <jbake.version>
+            2.5.1<!-- Newer version collides with our hacks -->
+        </jbake.version>
         <jbake.outputDirectory>${project.build.directory}/${project.build.finalName}</jbake.outputDirectory>
         <documentation.dtitle>linkki documentation</documentation.dtitle>
         <basedir.parent>${project.parent.basedir}</basedir.parent>
@@ -108,9 +114,8 @@
                         </goals>
                         <configuration>
                             <backend>pdf</backend>
-                            <!-- Since 1.5.0-alpha.9 PDF back-end can use 'rouge' 
-                                as well as 'coderay'
-                                source highlighting -->
+                            <!-- Since 1.5.0-alpha.9 PDF back-end can use 
+                                'rouge' as well as 'coderay' source highlighting -->
                             <sourceHighlighter>coderay</sourceHighlighter>
                             <attributes>
                                 <icons>font</icons>
@@ -140,7 +145,7 @@
                         <goals>
                             <goal>upload</goal>
                         </goals>
-                        <configuration>  
+                        <configuration>
                             <serverId>linkkidoc</serverId>
                             <fromDir>${jbake.outputDirectory}</fromDir>
                             <includes>**/*</includes>
@@ -153,8 +158,15 @@
         </plugins>
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings 
-                    only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.revapi</groupId>
+                    <artifactId>revapi-maven-plugin</artifactId>
+                    <configuration>
+                      <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>

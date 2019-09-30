@@ -36,7 +36,7 @@ import org.linkki.core.pmo.ButtonPmo;
  * 
  * @implSpec if you want to create a hierarchical table, either your PMO class must implement
  *           {@link HierarchicalRowPmo} or you must override {@link #isHierarchical()} to return
- *           {@code true} and have only the non-leaf-nodes implement {@link HierarchicalRowPmo}
+ *           {@code true} and have only the non-leaf nodes implement {@link HierarchicalRowPmo}
  */
 @BindTableFooter
 @BindTableItems

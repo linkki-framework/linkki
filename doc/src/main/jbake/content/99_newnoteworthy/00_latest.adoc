@@ -55,3 +55,11 @@ The `LabelValueAspectDefinition` now uses the `LinkkiConverterRegistry` to find 
 ==== New annotations for layouts
 
 In addition to `@UISection`, linkki now provides `@UIHorizontalLayout`, `@UIVerticalLayout` and `@UIFormLayout`. These annotations can be used for PMO classes in the same way as `@UISection`. In those layouts, labels are presented in the Vaadin default way. In a `HorizontalLayout`, for example, labels for fields are displayed above the field and not beside the field. For more information on the Vaadin layout components, consult the Vaadin docucmentation on https://vaadin.com/docs/v8/framework/layout/layout-orderedlayout.html[VerticalLayout and HorizontalLayout] as well as https://vaadin.com/docs/v8/framework/layout/layout-formlayout.html[FormLayout].
+
+==== Inherited aspects
+
+Aspect types can now be annotated with `@InheritedAspect` to indicate that aspects should also apply to subclasses (for classes) or implementing classes (for interfaces). Only one aspect of each type can apply to a class, additional aspects are ignored. If the same aspect annotation appears in the super class as well as in an interface, only the annotation coming from the super calls will be respected.
+
+==== Selection of table rows
+
+Table classes can now implement the `SelectableTable` interface, and receive callbacks when the user selects a table row. Updating the current selection programmatically is also possible.
