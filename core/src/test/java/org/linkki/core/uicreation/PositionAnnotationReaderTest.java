@@ -15,14 +15,15 @@
 package org.linkki.core.uicreation;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.defaults.section.annotations.TestUIField;
@@ -46,9 +47,12 @@ public class PositionAnnotationReaderTest {
         assertThat(position, is(42));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetPositionAnnotatedElement_DiffPos() throws Exception {
-        PositionAnnotationReader.getPosition(PosTestPmo.class.getMethod("testDiffPos"));
+    @Test
+    public void testGetPositionAnnotatedElement_DiffPos() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            PositionAnnotationReader.getPosition(PosTestPmo.class.getMethod("testDiffPos"));
+        });
+
     }
 
     @Test

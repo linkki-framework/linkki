@@ -13,14 +13,15 @@
  */
 package org.linkki.core.defaults.columnbased.pmo;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ContainerPmoTest {
 
@@ -42,11 +43,13 @@ public class ContainerPmoTest {
         assertThat(itemPmoClass, is(SubTestRow.class));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetItemPmoClass_exception() {
         RawContainerPmo rawContainerPmo = new RawContainerPmo();
 
-        rawContainerPmo.getItemPmoClass();
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            rawContainerPmo.getItemPmoClass();
+        });
     }
 
     @SuppressWarnings("rawtypes")

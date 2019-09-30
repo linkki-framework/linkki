@@ -15,11 +15,11 @@ package org.linkki.core.binding.validation;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.linkki.core.binding.validation.ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS;
 import static org.linkki.core.binding.validation.ValidationDisplayState.SHOW_ALL;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;

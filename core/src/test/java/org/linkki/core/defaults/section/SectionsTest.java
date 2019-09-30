@@ -15,11 +15,11 @@
 package org.linkki.core.defaults.section;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.linkki.test.matcher.Matchers.absent;
 import static org.linkki.test.matcher.Matchers.hasValue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.TestButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 

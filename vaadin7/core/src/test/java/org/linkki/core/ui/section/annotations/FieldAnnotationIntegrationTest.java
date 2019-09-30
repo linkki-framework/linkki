@@ -15,12 +15,12 @@
 package org.linkki.core.ui.section.annotations;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.section.annotations.aspect.FieldValueAspectDefinition;
 
 import com.vaadin.ui.AbstractField;

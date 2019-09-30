@@ -1,8 +1,8 @@
 package org.linkki.doc;
 
 import static org.hamcrest.Matchers.containsInRelativeOrder;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -20,13 +20,9 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(value = Parameterized.class)
 public class UnusedTagsTest {
 
     // include::{source-dir-custom}/org/linkki/samples/customlayout/pmo/AddressSectionPmo.java[tags=declaration]
@@ -41,12 +37,6 @@ public class UnusedTagsTest {
 
     private static Map<Path, Set<String>> usedTags = new HashMap<>();
 
-    @Parameter(0)
-    public Path sourceFile;
-    @Parameter(1)
-    public String tag;
-
-    @Parameters
     public static Collection<Object[]> data() throws IOException {
         usedTags = Files.walk(Paths.get("src/main/jbake")).filter(p -> p.getFileName().toString().endsWith(".adoc"))
                 .flatMap(p -> {
@@ -101,8 +91,9 @@ public class UnusedTagsTest {
         return referencedPath.toAbsolutePath().normalize();
     }
 
-    @Test
-    public void testUnusedTags() {
+    @ParameterizedTest
+    @MethodSource("data") 
+    public void testUnusedTags(Path sourceFile, String tag) {
         Set<String> usedTagsInSourceFile = usedTags.getOrDefault(sourceFile, Collections.emptySet());
         assertThat("the tag '" + tag + "' in '" + sourceFile + "' should be referenced in an .adoc file",
                    usedTagsInSourceFile, containsInRelativeOrder(tag));

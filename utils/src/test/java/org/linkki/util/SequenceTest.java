@@ -14,17 +14,18 @@
 
 package org.linkki.util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SequenceTest {
     private static final String DUMMY_ARG = "dummy";
@@ -82,10 +83,14 @@ public class SequenceTest {
         assertThat(sequence.list(), hasItems(DUMMY_ARG, FAKE_ARG));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testList_returnsUnmodifiableList() {
         Sequence<String> sequence = Sequence.of(DUMMY_ARG, FAKE_ARG);
-        sequence.list().add("foo");
+
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+            sequence.list().add("foo");
+        });
+
     }
 
     @Test

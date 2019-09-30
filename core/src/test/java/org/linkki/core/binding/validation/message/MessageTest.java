@@ -16,12 +16,12 @@ package org.linkki.core.binding.validation.message;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.util.validation.ValidationMarker;
 
 import edu.umd.cs.findbugs.annotations.NonNull;

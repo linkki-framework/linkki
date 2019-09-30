@@ -13,7 +13,8 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.layout.annotation.UISection;
 
@@ -94,10 +95,13 @@ public class UiIntegerFieldTest {
         TestUiUtil.setUserOriginatedValue(textField, "0");
     }
 
-    @Test(expected = ListenerMethod.MethodException.class)
+    @Test
     public void testSetValueWithPrimitiveIntegerInModelObjectFailsForNull() {
         TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
-        TestUiUtil.setUserOriginatedValue(textField, null);
+
+        Assertions.assertThrows(ListenerMethod.MethodException.class, () -> {
+            TestUiUtil.setUserOriginatedValue(textField, null);
+        });
     }
 
     @Test

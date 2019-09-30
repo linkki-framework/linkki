@@ -17,10 +17,10 @@ import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.nls.PmoNlsService;
@@ -43,7 +43,7 @@ public class PmoNlsServiceTableSectionTest {
     
     private String translatedCaption;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         // test nls setup
         translatedCaption = PmoNlsService.get().getSectionCaption(NlsTablePmo.class, NlsTablePmo.TABLE_CAPTION);

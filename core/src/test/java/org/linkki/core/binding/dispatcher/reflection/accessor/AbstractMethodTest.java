@@ -13,18 +13,18 @@
  */
 package org.linkki.core.binding.dispatcher.reflection.accessor;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.linkki.util.LazyCachingSupplier.lazyCaching;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AbstractMethodTest {
     @Mock
     private PropertyAccessDescriptor<?, ?> descriptor;

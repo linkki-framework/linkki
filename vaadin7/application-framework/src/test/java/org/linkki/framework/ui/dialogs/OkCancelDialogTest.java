@@ -17,8 +17,8 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -28,9 +28,9 @@ import java.util.stream.Stream;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
@@ -56,13 +56,13 @@ public class OkCancelDialogTest {
     
     private LinkkiUi linkkiUi;
 
-    @Before
+    @BeforeEach
     public void initCurrentUi() {
         linkkiUi = new LinkkiUi(new TestApplicationConfig());
         UI.setCurrent(linkkiUi);
     }
 
-    @After
+    @AfterEach
     public void cleanUpCurrentUi() {
         UI.setCurrent(null);
     }

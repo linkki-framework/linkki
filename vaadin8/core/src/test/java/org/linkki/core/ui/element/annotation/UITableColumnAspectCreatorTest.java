@@ -14,11 +14,12 @@
 
 package org.linkki.core.ui.element.annotation;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.lang.reflect.Method;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 
@@ -33,14 +34,16 @@ public class UITableColumnAspectCreatorTest {
         assertNotNull(create("methodWithEmptyAnnotation"));
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testWidthAndExpandRatioAreExclusive_Fail() throws NoSuchMethodException, SecurityException {
-        create("methodWithWidthAndExpandRatioAnnotation");
+    @Test
+    public void testWidthAndExpandRatioAreExclusive_Fail() throws SecurityException {
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            create("methodWithWidthAndExpandRatioAnnotation");
+        });
     }
 
     private static LinkkiAspectDefinition create(String methodName) throws NoSuchMethodException, SecurityException {
         Method method = TestClassWithAnnotations.class.getDeclaredMethod(methodName, new Class<?>[] {});
-        
+
         @NonNull
         UITableColumn annotation = method.getAnnotation(UITableColumn.class);
         return new UITableColumn.TableColumnAspectDefinitionCreator().create(annotation);

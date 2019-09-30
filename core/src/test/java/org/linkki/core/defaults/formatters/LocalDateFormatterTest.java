@@ -16,15 +16,15 @@ package org.linkki.core.defaults.formatters;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.oneOf;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Locale;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.uiframework.TestUiFramework;
 
 public class LocalDateFormatterTest {
@@ -45,12 +45,12 @@ public class LocalDateFormatterTest {
         assertThat(formatter.format(DATE_2019_02_20, Locale.US), is("2/20/19"));
     }
 
-    @Before
+    @BeforeEach
     public void rememberLocale() {
         defaultLocale = TestUiFramework.get().getLocale();
     }
 
-    @After
+    @AfterEach
     public void restoreLocale() {
         TestUiFramework.get().setUiLocale(defaultLocale);
     }

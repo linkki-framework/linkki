@@ -17,7 +17,7 @@ package org.linkki.core.binding.validation.message;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.linkki.core.binding.validation.message.MessageListCollector.toMessageList;
 import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 import static org.linkki.core.matcher.MessageMatchers.hasErrorMessage;
@@ -27,7 +27,7 @@ import static org.linkki.core.matcher.MessageMatchers.hasSize;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MessageListCollectorTest {
 

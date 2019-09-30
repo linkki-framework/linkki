@@ -13,12 +13,12 @@
  */
 package org.linkki.core.binding.validation.message;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertThat;
 import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 import static org.linkki.core.matcher.MessageMatchers.hasSize;
 import static org.linkki.test.matcher.Matchers.absent;
@@ -29,8 +29,9 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.util.validation.ValidationMarker;
 
 public class MessageListTest {
@@ -46,7 +47,7 @@ public class MessageListTest {
     private ObjectProperty invalidObjectProperty2;
     private ObjectProperty invalidObjectProperty3;
 
-    @Before
+    @BeforeEach
     public void setUp() {
 
         invalidObjectProperty1 = new ObjectProperty("A", "testProperty");
@@ -120,9 +121,12 @@ public class MessageListTest {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetMessagesByMarker_predicateNull_shouldThrowNullPointerException() {
-        new MessageList().getMessagesByMarker((Predicate)null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            new MessageList().getMessagesByMarker((Predicate)null);
+        });
+
     }
 
     @Test
@@ -149,9 +153,12 @@ public class MessageListTest {
     }
 
     @SuppressWarnings({ "unused" })
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNewMessageList_null_shouldThrowNullPointerException() {
-        new MessageList((Message[])null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            new MessageList((Message[])null);
+        });
+
     }
 
     @Test
@@ -212,13 +219,12 @@ public class MessageListTest {
         assertThat(messages, is(emptyMessageList()));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetMessagesFor_objectNull_shouldThrowNullPointerException() {
-        MessageList messages = new MessageList(Message.newError("code", "msg"),
-                Message.newWarning("code", "msg"))
-                        .getMessagesFor(null);
-
-        assertThat(messages, is(emptyMessageList()));
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            new MessageList(Message.newError("code", "msg"), Message.newWarning("code", "msg"))
+                    .getMessagesFor(null);
+        });
     }
 
     @Test

@@ -16,10 +16,10 @@ package org.linkki.samples.playground.uitest;
 
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicTooltipPmo;
 import org.openqa.selenium.By;
@@ -29,7 +29,7 @@ import com.vaadin.testbench.elements.TextFieldElement;
 
 public class BindTooltipTest extends AbstractUiTest {
 
-    @Before
+    @BeforeEach
     public void setup() {
         clickButton(DynamicAnnotationsLayout.ID);
     }

@@ -15,6 +15,7 @@
 package org.linkki.util;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -24,7 +25,7 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.linkki.test.matcher.Matchers.absent;
 import static org.linkki.test.matcher.Matchers.assertThat;
 import static org.linkki.test.matcher.Matchers.present;
@@ -39,7 +40,7 @@ import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MetaAnnotationTest {
 
@@ -154,7 +155,6 @@ public class MetaAnnotationTest {
         assertThat(annotatedAnnotations, contains(instanceOf(AnnotatedAnnotation.class)));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testFindAnnotatedAnnotationsOn_Multiple() {
         List<Annotation> annotatedAnnotations = MetaAnnotation.of(MetaMarkerAnnotation.class)
@@ -223,10 +223,10 @@ public class MetaAnnotationTest {
     @Test
     public void testOf_WrongTarget() {
         try {
-            MetaAnnotation.of(Test.class);
+            MetaAnnotation.of(MethodAnnotation.class);
             fail("expected a " + IllegalArgumentException.class.getSimpleName());
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), containsString(Test.class.getSimpleName()));
+            assertThat(e.getMessage(), containsString(MethodAnnotation.class.getSimpleName()));
             assertThat(e.getMessage(), containsString(Target.class.getSimpleName()));
             assertThat(e.getMessage(), containsString(ElementType.METHOD.toString()));
             assertThat(e.getMessage(), containsString(ElementType.ANNOTATION_TYPE.toString()));
@@ -234,6 +234,12 @@ public class MetaAnnotationTest {
     }
 
     public @interface NoTargetAnnotation {
+        // test
+    }
+
+    @Retention(RUNTIME)
+    @Target(METHOD)
+    public @interface MethodAnnotation {
         // test
     }
 

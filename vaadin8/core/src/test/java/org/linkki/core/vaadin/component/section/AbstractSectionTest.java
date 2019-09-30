@@ -15,9 +15,9 @@ package org.linkki.core.vaadin.component.section;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.ui.Button;

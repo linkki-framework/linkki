@@ -14,22 +14,21 @@
 
 package org.linkki.core.defaults.ui.aspects;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
 
 import java.util.function.Consumer;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
-import org.linkki.core.defaults.ui.aspects.TooltipAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.TooltipType;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class TooltipAspectDefinitionTest {
 
     private TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());

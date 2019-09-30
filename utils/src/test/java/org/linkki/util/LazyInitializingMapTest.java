@@ -13,14 +13,15 @@
  */
 package org.linkki.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.function.Function;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class LazyInitializingMapTest {
 
@@ -34,20 +35,23 @@ public class LazyInitializingMapTest {
         assertNull(value);
     }
 
-    
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGet_null() {
         LazyInitializingMap<String, Object> lazyInitializingMap = new LazyInitializingMap<>(initializer);
 
-        lazyInitializingMap.get(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            lazyInitializingMap.get(null);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGet_initializerFunctionReturnsNull() {
         LazyInitializingMap<String, Object> lazyInitializingMap = new LazyInitializingMap<>(
                 (String key) -> null);
 
-        lazyInitializingMap.get("string");
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            lazyInitializingMap.get("string");
+        });
     }
 
     @Test

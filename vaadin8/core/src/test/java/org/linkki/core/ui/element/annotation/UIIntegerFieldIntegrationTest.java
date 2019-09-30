@@ -13,16 +13,17 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -76,10 +77,14 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         assertThat(modelObject.getValue(), is(0));
     }
 
-    @Test(expected = ListenerMethod.MethodException.class)
+    @Test
     public void testSetValueWithPrimitiveIntegerInModelObjectFailsForNull() {
         TextField textField = createFirstComponent(new TestModelObjectWithPrimitiveInteger());
-        TestUiUtil.setUserOriginatedValue(textField, null);
+
+        Assertions.assertThrows(ListenerMethod.MethodException.class, () -> {
+            TestUiUtil.setUserOriginatedValue(textField, null);
+        });
+
     }
 
 

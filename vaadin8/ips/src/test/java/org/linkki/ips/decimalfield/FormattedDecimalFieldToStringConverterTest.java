@@ -7,34 +7,22 @@
 package org.linkki.ips.decimalfield;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
 import org.faktorips.values.Decimal;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
-import org.linkki.ips.decimalfield.FormattedDecimalFieldToStringConverter;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.vaadin.data.ValueContext;
 
-@RunWith(value = Parameterized.class)
 public class FormattedDecimalFieldToStringConverterTest {
-
-    @Parameter(value = 0)
-    public Decimal decimalValue;
-
-    @Parameter(value = 1)
-    public String stringValue;
 
     private FormattedDecimalFieldToStringConverter converter = new FormattedDecimalFieldToStringConverter("#,##0.00##");
 
-    @Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
                 { Decimal.valueOf(123888383838888.0), "123.888.383.838.888,00" },
@@ -45,16 +33,18 @@ public class FormattedDecimalFieldToStringConverterTest {
         });
     }
 
-    @Test
-    public void testConvertToPresentation() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testConvertToPresentation(Decimal decimalValue, String stringValue) {
         ValueContext context = new ValueContext(Locale.GERMAN);
 
         String numberString = converter.convertToPresentation(decimalValue, context);
         assertThat(numberString, is(stringValue));
     }
 
-    @Test
-    public void testConvertToModel() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testConvertToModel(Decimal decimalValue, String stringValue) {
         ValueContext context = new ValueContext(Locale.GERMAN);
         assertThat(converter.convertToModel(stringValue, context).getOrThrow(s -> new AssertionError(s)),
                    is(decimalValue));
@@ -63,8 +53,9 @@ public class FormattedDecimalFieldToStringConverterTest {
     /**
      * Special case only for convertToModel
      */
-    @Test
-    public void testConvertToModelWithoutSeparators() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testConvertToModelWithoutSeparators(Decimal decimalValue, String stringValue) {
         assertThat(converter.convertToModel("17385,89", new ValueContext(Locale.GERMAN))
                 .getOrThrow(s -> new AssertionError(s)), is(Decimal.valueOf(17385.89)));
     }
@@ -72,8 +63,9 @@ public class FormattedDecimalFieldToStringConverterTest {
     /**
      * Special case only for convertToModel
      */
-    @Test
-    public void testConvertToModelWithNull() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testConvertToModelWithNull(Decimal decimalValue, String stringValue) {
         assertThat(converter.convertToModel(null, new ValueContext())
                 .getOrThrow(s -> new AssertionError(s)), is(Decimal.NULL));
     }
@@ -81,8 +73,9 @@ public class FormattedDecimalFieldToStringConverterTest {
     /**
      * Special case only for convertToPresentation
      */
-    @Test
-    public void testConvertToPresentationWithNull() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testConvertToPresentationWithNull(Decimal decimalValue, String stringValue) {
         assertThat(converter.convertToPresentation(null, new ValueContext()), is(""));
     }
 

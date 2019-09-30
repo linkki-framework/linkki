@@ -14,8 +14,8 @@
 
 package org.linkki.core.binding.descriptor.aspect.base;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,8 +23,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.function.Consumer;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -33,12 +34,12 @@ import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ModelToUiAspectDefinitionTest {
 
-    
+
     @Mock
     private PropertyDispatcher propertyDispatcher;
 
@@ -62,11 +63,14 @@ public class ModelToUiAspectDefinitionTest {
         verify(propertyDispatcher, times(2)).pull(any(Aspect.class));
     }
 
-    @Test(expected = LinkkiBindingException.class)
+    @Test
     public void testCreateUiUpdater_WrapsExceptionInPull() {
         when(propertyDispatcher.pull(any())).thenThrow(RuntimeException.class);
         Handler handler = aspectDefinition.createUiUpdater(propertyDispatcher, componentWrapper);
-        handler.apply();
+
+        Assertions.assertThrows(LinkkiBindingException.class, () -> {
+            handler.apply();
+        });
     }
 
     @Test

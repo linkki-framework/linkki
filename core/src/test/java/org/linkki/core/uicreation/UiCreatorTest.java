@@ -14,20 +14,21 @@
 
 package org.linkki.core.uicreation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestModelObject;
@@ -104,12 +105,14 @@ public class UiCreatorTest {
         assertThat(binding, is(instanceOf(BindingContext.class)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateUiComponent_NoComponentDefinition() {
-        UiCreator.createComponent(new TestSectionPmo(),
-                                  new BindingContext(),
-                                  c -> Optional.empty(),
-                                  c -> Optional.empty());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            UiCreator.createComponent(new TestSectionPmo(),
+                                      new BindingContext(),
+                                      c -> Optional.empty(),
+                                      c -> Optional.empty());
+        });
     }
 
     @Test

@@ -15,21 +15,21 @@
 package org.linkki.util;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TwoDigitYearUtilTest {
 
     
     private TwoDigitYearUtil convertInternaler;
 
-    @Before
+    @BeforeEach
     public void setup() {
         convertInternaler = spy(TwoDigitYearUtil.INSTANCE);
     }

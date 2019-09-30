@@ -14,14 +14,15 @@
 
 package org.linkki.core.ui.aspects;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
@@ -60,13 +61,16 @@ public class BindTooltipIntegrationTest {
         assertThat(uiElements.get(0).getComponent().getDescription(), is(nullValue()));
     }
 
-
-    @Test(expected = LinkkiBindingException.class)
+    @Test
     public void testCreateAspect_Dynamic_MethodMissing() {
         BindingContext bindingContext = new BindingContext();
         TestPmoMissingDynamicMethod pmo = new TestPmoMissingDynamicMethod();
-        UiCreator.createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
-                .collect(Collectors.toList());
+
+        Assertions.assertThrows(LinkkiBindingException.class, () -> {
+            UiCreator.createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
+                    .collect(Collectors.toList());
+        });
+
     }
 
     public static class TestPmoWithStaticTooltip {

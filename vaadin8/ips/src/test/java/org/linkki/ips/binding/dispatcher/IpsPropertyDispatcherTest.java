@@ -19,9 +19,9 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.Locale;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
@@ -46,12 +46,12 @@ public class IpsPropertyDispatcherTest {
     private PropertyDispatcherFactory propertyDispatcherFactory = new PropertyDispatcherFactory();
 
 
-    @Before
+    @BeforeEach
     public void setUp() {
         ui = MockUi.mockUi();
     }
 
-    @After
+    @AfterEach
     public void cleanUpUi() {
         UI.setCurrent(null);
     }

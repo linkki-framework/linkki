@@ -14,9 +14,9 @@
 package org.linkki.core.binding.descriptor.bindingdefinition;
 
 import static java.util.Objects.requireNonNull;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
@@ -24,7 +24,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -70,7 +71,7 @@ public class BindingDefinitionTest {
 
     private <T extends Annotation> T annotation(Class<T> annotationClass) {
         try {
-            
+
             T annotation = getClass().getMethod("annotatedMethod", new Class<?>[] {}).getAnnotation(annotationClass);
             return requireNonNull(annotation, () -> "Missing annotation @" + annotationClass.getSimpleName());
         } catch (NoSuchMethodException | SecurityException e) {
@@ -110,20 +111,28 @@ public class BindingDefinitionTest {
         //@formatter:on
     }
 
-    
-    @Test(expected = NullPointerException.class)
+
+    @Test
     public void testFrom_ThrowsExceptionForNullAnnotation() {
-        BindingDefinition.from(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            BindingDefinition.from(null);
+        });
+
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFrom_ThrowsExceptionForNonLinkkiElementAnnotation() {
-        BindingDefinition.from(annotation(FooBar.class));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            BindingDefinition.from(annotation(FooBar.class));
+        });
+
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testFrom_ThrowsRuntimeExceptionIfInstantiationFails() {
-        BindingDefinition.from(annotation(UIFooBar.class));
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            BindingDefinition.from(annotation(UIFooBar.class));
+        });
     }
 
 }

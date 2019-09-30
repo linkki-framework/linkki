@@ -14,10 +14,10 @@
 
 package org.linkki.framework.ui.component.sidebar;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -25,7 +25,8 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.icons.VaadinIcons;
@@ -140,11 +141,14 @@ public class SidebarLayoutTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSelect_NotRegistered() {
         SidebarLayout sidebarLayout = new SidebarLayout();
         SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
 
-        sidebarLayout.select(sheet1);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            sidebarLayout.select(sheet1);
+        });
+
     }
 }

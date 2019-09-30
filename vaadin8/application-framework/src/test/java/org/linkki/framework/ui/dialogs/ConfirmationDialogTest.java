@@ -16,7 +16,7 @@ package org.linkki.framework.ui.dialogs;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.Label;

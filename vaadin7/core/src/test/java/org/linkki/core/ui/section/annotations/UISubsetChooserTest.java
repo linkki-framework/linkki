@@ -16,7 +16,7 @@ package org.linkki.core.ui.section.annotations;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.components.SubsetChooser;

@@ -14,11 +14,11 @@
 
 package org.linkki.core.ui.aspects;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -31,7 +31,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
@@ -54,9 +55,10 @@ public class AvailableValuesAspectDefinitionTest {
     };
 
     @SuppressWarnings("unused")
-    @Test(expected = NullPointerException.class)
     public void testConstructorWithoutAvailableValuesType() {
-        new AvailableValuesAspectDefinition<>(null, NOP);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            new AvailableValuesAspectDefinition<>(null, NOP);
+        });
     }
 
     @Test
@@ -66,10 +68,12 @@ public class AvailableValuesAspectDefinitionTest {
         }
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetValuesDerivedFromDatatype_NonEnumDatatype() {
-        new AvailableValuesAspectDefinition<>(AvailableValuesType.DYNAMIC, NOP)
-                .getValuesDerivedFromDatatype("foo", String.class);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            new AvailableValuesAspectDefinition<>(AvailableValuesType.DYNAMIC, NOP)
+                    .getValuesDerivedFromDatatype("foo", String.class);
+        });
     }
 
     @Test

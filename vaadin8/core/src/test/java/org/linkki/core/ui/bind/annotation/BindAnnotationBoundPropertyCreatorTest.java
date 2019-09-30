@@ -16,11 +16,11 @@ package org.linkki.core.ui.bind.annotation;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.lang.reflect.Method;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.bind.annotation.Bind.BindAnnotationBoundPropertyCreator;

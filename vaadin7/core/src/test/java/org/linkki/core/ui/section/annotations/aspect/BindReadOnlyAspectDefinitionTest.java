@@ -15,12 +15,12 @@
 package org.linkki.core.ui.section.annotations.aspect;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.behavior.BehaviorDependentDispatcher;
 import org.linkki.core.ui.components.LabelComponentWrapper;
@@ -37,7 +37,7 @@ public class BindReadOnlyAspectDefinitionTest {
     
     private @NonNull BehaviorDependentDispatcher dispatcher;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         dispatcher = mock(BehaviorDependentDispatcher.class);
     }

@@ -18,7 +18,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ClassesTest {
 
@@ -27,14 +28,18 @@ public class ClassesTest {
         assertThat(Classes.instantiate(NoArg.class), is(instanceOf(NoArg.class)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInstantiate_NoNoArgs() {
-        Classes.instantiate(WithArg.class);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Classes.instantiate(WithArg.class);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInstantiate_PrivateConstructor() {
-        Classes.instantiate(PrivateConstructor.class);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Classes.instantiate(PrivateConstructor.class);
+        });
     }
 
     public static class NoArg {

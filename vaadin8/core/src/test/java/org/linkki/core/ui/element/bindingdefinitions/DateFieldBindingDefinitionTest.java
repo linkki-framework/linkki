@@ -15,11 +15,11 @@ package org.linkki.core.ui.element.bindingdefinitions;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.DateFormats;

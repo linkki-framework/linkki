@@ -14,11 +14,11 @@
 package org.linkki.core.ui.element.annotation;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.math.BigDecimal;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UILabelIntegrationTest.LabelTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;

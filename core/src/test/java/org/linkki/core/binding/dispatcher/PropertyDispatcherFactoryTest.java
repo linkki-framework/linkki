@@ -13,22 +13,22 @@
  */
 package org.linkki.core.binding.dispatcher;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.TestModelObject;
 import org.linkki.core.binding.TestPmo;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.pmo.ModelObject;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
-
+@ExtendWith(MockitoExtension.class)
 public class PropertyDispatcherFactoryTest {
 
     private static final String ANY_VALUE = "ukztu7kxju76r";
@@ -133,7 +133,7 @@ public class PropertyDispatcherFactoryTest {
 
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testCreateDispatcherChain_nullCustomDispatchers() {
         propertyDispatcherFactory = new PropertyDispatcherFactory() {
             @Override
@@ -144,8 +144,10 @@ public class PropertyDispatcherFactoryTest {
             }
         };
 
-        propertyDispatcherFactory.createDispatcherChain(pmo, BoundProperty.of((String)null),
-                                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            propertyDispatcherFactory.createDispatcherChain(pmo, BoundProperty.of((String)null),
+                                                            PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+        });
     }
 
     private static class PmoWithModelObjectField {

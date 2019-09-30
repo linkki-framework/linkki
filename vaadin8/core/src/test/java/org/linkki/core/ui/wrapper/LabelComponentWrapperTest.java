@@ -14,7 +14,7 @@
 
 package org.linkki.core.ui.wrapper;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -25,8 +25,9 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -70,7 +71,7 @@ public class LabelComponentWrapperTest {
 
     private PropertyDispatcher propertyDispatcherEnumValue;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         propertyDispatcherValue = mock(PropertyDispatcher.class);
         when(propertyDispatcherValue.getProperty()).thenReturn("value");
@@ -128,9 +129,12 @@ public class LabelComponentWrapperTest {
     }
 
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testDisplayMessages_noMessageList() {
-        selectBinding.displayMessages(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            selectBinding.displayMessages(null);
+        });
+
     }
 
     @Test

@@ -16,15 +16,15 @@ package org.linkki.core.ui.section.annotations;
 
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
@@ -55,7 +55,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
         this.pmoCreator = pmoCreator;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         defaultModelObject = newDefaultModelObject();
         defaultPmo = newPmo(defaultModelObject);

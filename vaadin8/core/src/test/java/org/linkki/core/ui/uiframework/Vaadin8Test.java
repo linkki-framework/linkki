@@ -17,14 +17,14 @@ package org.linkki.core.ui.uiframework;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.Locale;
 import java.util.stream.Stream;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.mock.MockUi;
 import org.linkki.core.uiframework.UiFramework;
 
@@ -36,7 +36,7 @@ import com.vaadin.ui.VerticalLayout;
 
 public class Vaadin8Test {
 
-    @After
+    @AfterEach
     public void cleanUpUi() {
         UI.setCurrent(null);
     }

@@ -13,8 +13,8 @@
  */
 package org.linkki.core.binding.dispatcher.staticvalue;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
@@ -34,11 +34,11 @@ import org.linkki.core.defaults.section.annotations.TestUIField;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class StaticValueDispatcherTest {
 
     private static final String DYNAMIC_ENUM_ATTR = "dynamicEnumAttr";
@@ -53,7 +53,7 @@ public class StaticValueDispatcherTest {
     @Mock
     private PropertyDispatcher bindAnnotationFallbackDispatcher;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         objectWithUIAnnotations = new TestObjectWithUIAnnotations();
         UIElementAnnotationReader uiAnnotationReader = new UIElementAnnotationReader(

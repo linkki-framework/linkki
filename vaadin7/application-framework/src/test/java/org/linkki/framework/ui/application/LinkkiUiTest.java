@@ -15,18 +15,18 @@
 package org.linkki.framework.ui.application;
 
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.ui.converters.LinkkiConverterFactory;
 import org.linkki.core.ui.converters.LocalDateToDateConverter;
 import org.linkki.core.ui.converters.LocalDateToStringConverter;
@@ -34,7 +34,7 @@ import org.linkki.util.Sequence;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.ConverterFactory;
@@ -45,18 +45,18 @@ import com.vaadin.ui.UI;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class LinkkiUiTest {
 
-    
+
     @Mock
     private VaadinRequest request;
 
-    
+
     @Mock
     private VaadinSession vaadinSession;
 
-    
+
     @Captor
     private ArgumentCaptor<ConverterFactory> converterFactoryCaptor;
 
@@ -72,13 +72,13 @@ public class LinkkiUiTest {
         linkkiUi.init(request);
     }
 
-    @After
+    @AfterEach
     public void cleanUpCurrentUi() {
         UI.setCurrent(null);
         VaadinSession.setCurrent(null);
     }
 
-    
+
     @Test
     public void testInit() {
         initUi();
@@ -92,7 +92,7 @@ public class LinkkiUiTest {
         initUi();
 
         verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        
+
         @NonNull
         ConverterFactory converterFactory = converterFactoryCaptor.getValue();
         assertThat(converterFactory, is(instanceOf(LinkkiConverterFactory.class)));
@@ -114,7 +114,7 @@ public class LinkkiUiTest {
         initUi();
 
         verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        
+
         @NonNull
         ConverterFactory converterFactory = converterFactoryCaptor.getValue();
         assertThat(converterFactory, is(instanceOf(LinkkiConverterFactory.class)));
@@ -136,7 +136,7 @@ public class LinkkiUiTest {
         initUi();
 
         verify(vaadinSession).setConverterFactory(converterFactoryCaptor.capture());
-        
+
         @NonNull
         ConverterFactory converterFactory = converterFactoryCaptor.getValue();
         assertThat(converterFactory, is(instanceOf(LinkkiConverterFactory.class)));

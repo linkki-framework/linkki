@@ -14,11 +14,13 @@
 package org.linkki.core.defaults.ui.element;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.linkki.core.defaults.ui.element.ItemCaptionProviderTest.UnnamedEnum;
 import org.linkki.core.uiframework.UiFramework;
 
 public class ItemCaptionProviderTest {
@@ -60,11 +62,14 @@ public class ItemCaptionProviderTest {
         assertThat(provider.getCaption(AllMethodsEnum.VALUE), is("getName [id]"));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     @SuppressWarnings("deprecation")
     public void testIdAndNameCaptionProvider_MissingGetIdMethod() {
         ItemCaptionProvider<Object> provider = new ItemCaptionProvider.IdAndNameCaptionProvider();
-        provider.getCaption(UnnamedEnum.VALUE);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            provider.getCaption(UnnamedEnum.VALUE);
+        });
+
     }
 
     enum LocalizedEnum {

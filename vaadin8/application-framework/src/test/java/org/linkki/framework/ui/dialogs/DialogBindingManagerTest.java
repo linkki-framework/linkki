@@ -14,7 +14,7 @@
 package org.linkki.framework.ui.dialogs;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;

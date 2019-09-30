@@ -14,9 +14,9 @@
 package org.linkki.core.binding.descriptor.bindingdefinition;
 
 import static java.util.Objects.requireNonNull;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
@@ -24,7 +24,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
@@ -115,19 +116,26 @@ public class BindingDefinitionTest {
     }
 
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testFrom_ThrowsExceptionForNullAnnotation() {
-        BindingDefinition.from(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            BindingDefinition.from(null);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFrom_ThrowsExceptionForNonLinkkiElementAnnotation() {
-        BindingDefinition.from(annotation(FooBar.class));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            BindingDefinition.from(annotation(FooBar.class));
+        });
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testFrom_ThrowsRuntimeExceptionIfInstantiationFails() {
-        BindingDefinition.from(annotation(UIFooBar.class));
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            BindingDefinition.from(annotation(UIFooBar.class));
+        });
+
     }
 
 }

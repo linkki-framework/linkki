@@ -9,11 +9,11 @@ package org.linkki.ips.decimalfield;
 import static java.util.Objects.requireNonNull;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.lang.annotation.Annotation;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;

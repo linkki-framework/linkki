@@ -19,6 +19,7 @@
     <properties>
         <vaadin.testbench.version>5.1.2</vaadin.testbench.version>
         <surefire.version>2.22.2</surefire.version>
+        <junit.version>5.5.2</junit.version>
     </properties>
 
     <dependencies>
@@ -28,7 +29,7 @@
             <version>${project.version}</version>
             <classifier>classes</classifier>
         </dependency>
-    
+
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
@@ -44,7 +45,13 @@
             <artifactId>vaadin-testbench-api</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
-        
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-test</artifactId>

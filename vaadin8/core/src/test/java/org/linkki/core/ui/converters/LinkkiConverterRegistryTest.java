@@ -13,13 +13,14 @@
  */
 package org.linkki.core.ui.converters;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.util.Date;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
@@ -36,9 +37,12 @@ public class LinkkiConverterRegistryTest {
                    is(instanceOf(StringToDateConverter.class)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFindConverter_NotFound() {
-        new LinkkiConverterRegistry().findConverter(String.class, java.time.LocalDate.class);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new LinkkiConverterRegistry().findConverter(String.class, java.time.LocalDate.class);
+        });
+
     }
 
     @Test
@@ -49,7 +53,7 @@ public class LinkkiConverterRegistryTest {
                    is(instanceOf(MyStringToDateConverter.class)));
     }
 
-    
+
     public static class MyStringToDateConverter implements Converter<String, Date> {
 
         private static final long serialVersionUID = 1L;

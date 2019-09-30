@@ -13,10 +13,10 @@
  */
 package org.linkki.core.ui.table;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.linkki.test.matcher.Matchers.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -25,18 +25,18 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.container.LinkkiInMemoryContainer;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.vaadin.data.Container.ItemSetChangeListener;
 import com.vaadin.ui.Table;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PmoBasedTableFactoryTest {
 
     private BindingContext bindingContext = spy(new BindingContext());

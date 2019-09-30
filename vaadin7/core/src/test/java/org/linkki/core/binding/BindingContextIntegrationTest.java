@@ -16,11 +16,11 @@ package org.linkki.core.binding;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
@@ -54,9 +54,7 @@ import com.vaadin.ui.UI;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-@SuppressWarnings("unchecked")
 public class BindingContextIntegrationTest {
-
 
     private UI ui;
 
@@ -68,12 +66,12 @@ public class BindingContextIntegrationTest {
 
     private BindingContext bindingContext;
 
-    @Before
+    @BeforeEach
     public void mockUi() {
         ui = MockUi.mockUi();
     }
 
-    @After
+    @AfterEach
     public void cleanUpUi() {
         UI.setCurrent(null);
     }

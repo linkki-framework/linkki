@@ -15,10 +15,10 @@ package org.linkki.core.nls.pmo;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.nls.pmo.sample.SamplePmo;
@@ -58,7 +58,7 @@ public class PmoNlsServiceSectionTest {
     private Button buttonWithoutTranslatedCaption;
 
     
-    @Before
+    @BeforeEach
     public void setUp() {
         BindingContext context = new BindingContext();
         AbstractSection section = new PmoBasedSectionFactory().createSection(new SamplePmo(), context);

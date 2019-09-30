@@ -14,8 +14,8 @@
 
 package org.linkki.core.binding.descriptor.aspect.base;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -23,8 +23,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
@@ -32,20 +32,20 @@ import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ApplicableTypeAspectDefinitionTest {
 
-    
+
     @Mock
     private PropertyDispatcher propertyDispatcher;
 
-    
+
     @Mock
     private LinkkiAspectDefinition aspectDefinition;
 
-    
+
     @Mock
     private Handler modelUpdated;
 

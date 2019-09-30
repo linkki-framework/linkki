@@ -13,20 +13,20 @@
  */
 package org.linkki.core.ui.section.annotations.adapters;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.ui.section.annotations.UIButton;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
@@ -38,17 +38,17 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ButtonBindingDefinitionTest {
 
-    
+
     @Captor
     private ArgumentCaptor<ClickShortcut> clickShortcutCaptor;
 
     private UIButton getAnnotation(String name) {
         try {
             @NonNull
-            
+
             UIButton annotation = getClass().getMethod(name, new Class<?>[] {})
                     .getAnnotation(UIButton.class);
             return annotation;
@@ -108,7 +108,7 @@ public class ButtonBindingDefinitionTest {
         Button buttonSpy = spy(button);
         buttonSpy.setClickShortcut(KeyCode.ENTER);
         verify(buttonSpy).removeShortcutListener(clickShortcutCaptor.capture());
-        
+
         @NonNull
         ClickShortcut value = clickShortcutCaptor.getValue();
         assertThat(value.getKeyCode(), is(KeyCode.E));

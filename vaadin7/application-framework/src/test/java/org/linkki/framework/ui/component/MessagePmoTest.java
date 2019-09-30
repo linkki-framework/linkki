@@ -13,12 +13,11 @@
  */
 package org.linkki.framework.ui.component;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.ObjectProperty;
 import org.linkki.core.binding.validation.message.Severity;
@@ -27,30 +26,8 @@ import com.vaadin.server.FontAwesome;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-@RunWith(Parameterized.class)
 public class MessagePmoTest {
 
-    
-    @Parameterized.Parameter(value = 0)
-    public Severity severity;
-
-    @CheckForNull
-    @Parameterized.Parameter(value = 1)
-    public ObjectProperty objectProperty;
-
-    
-    @Parameterized.Parameter(value = 2)
-    public FontAwesome icon;
-
-    
-    @Parameterized.Parameter(value = 3)
-    public String tooltip;
-
-    
-    @Parameterized.Parameter(value = 4)
-    public String stylename;
-
-    @Parameterized.Parameters
     public static Object[][] data() {
         return new Object[][] {
                 { Severity.ERROR, new ObjectProperty(new Object(), "foo"),
@@ -62,8 +39,14 @@ public class MessagePmoTest {
         };
     }
 
-    @Test
-    public void testMessagePmo() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testMessagePmo(Severity severity,
+            @CheckForNull ObjectProperty objectProperty,
+            FontAwesome icon,
+            String tooltip,
+            String stylename) {
+
         Message.Builder messageBuilder = Message.builder("text", severity);
         if (objectProperty != null) {
             messageBuilder.invalidObject(objectProperty);

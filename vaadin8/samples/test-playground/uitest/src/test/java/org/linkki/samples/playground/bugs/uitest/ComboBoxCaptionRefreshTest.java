@@ -17,11 +17,11 @@ package org.linkki.samples.playground.bugs.uitest;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.bugs.lin1442.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.uitest.AbstractUiTest;

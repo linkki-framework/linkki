@@ -13,17 +13,17 @@
  */
 package org.linkki.framework.ui.application;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.framework.state.ApplicationConfig;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.vaadin.navigator.Navigator.EmptyView;
 import com.vaadin.navigator.View;
@@ -32,34 +32,33 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ApplicationLayoutTest {
 
-    
     @Mock
     private UI ui;
 
-    
+
     @Mock
     private Page page;
 
-    
+
     @Mock
     private ApplicationHeader header;
 
-    
+
     @Mock
     private ApplicationFooter footer;
 
-    
+
     @Mock
     private ApplicationConfig config;
 
-    
+
     @Mock
     private ViewProvider viewProvider;
 
-    
+
     private ApplicationLayout applicationLayout;
 
     private void setUpApplicationLayout() {

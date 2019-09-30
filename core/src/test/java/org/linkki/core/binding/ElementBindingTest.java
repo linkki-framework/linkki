@@ -14,9 +14,9 @@
 
 package org.linkki.core.binding;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 import static org.linkki.core.matcher.MessageMatchers.hasErrorMessage;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,8 +29,9 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
@@ -48,19 +49,19 @@ public class ElementBindingTest {
     private TestUiComponent field = spy(new TestUiComponent());
     private TestUiComponent selectField = spy(new TestUiComponent());
 
-    
+
     private ElementBinding selectBinding;
 
-    
+
     private PropertyDispatcher propertyDispatcherValue;
 
-    
+
     private MessageList messageList;
 
-    
+
     private PropertyDispatcher propertyDispatcherEnumValue;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         propertyDispatcherValue = mock(PropertyDispatcher.class);
         when(propertyDispatcherValue.getProperty()).thenReturn("value");
@@ -98,7 +99,7 @@ public class ElementBindingTest {
 
         selectBinding.displayMessages(messageList);
 
-        
+
         @NonNull
         MessageList validationMessages = selectField.getValidationMessages();
 
@@ -115,10 +116,12 @@ public class ElementBindingTest {
         assertThat(selectField.getValidationMessages(), is(emptyMessageList()));
     }
 
-    
-    @Test(expected = NullPointerException.class)
+
+    @Test
     public void testDisplayMessages_noMessageList() {
-        selectBinding.displayMessages(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            selectBinding.displayMessages(null);
+        });
     }
 
 }

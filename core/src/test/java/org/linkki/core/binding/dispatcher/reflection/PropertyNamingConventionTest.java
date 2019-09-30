@@ -13,10 +13,11 @@
  */
 package org.linkki.core.binding.dispatcher.reflection;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * @deprecated since Jan. 23rd 2019, because PropertyNamingConvention is also deprecated
@@ -32,9 +33,11 @@ public class PropertyNamingConventionTest {
         assertEquals("test", namingConvention.getValueProperty("test"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetValueProperty_null() {
-        namingConvention.getValueProperty(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            namingConvention.getValueProperty(null);
+        });
     }
 
     @Test
@@ -47,9 +50,11 @@ public class PropertyNamingConventionTest {
         assertEquals("enabled", namingConvention.getEnabledProperty(StringUtils.EMPTY));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetEnabledProperty_null() {
-        namingConvention.getEnabledProperty(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            namingConvention.getEnabledProperty(null);
+        });
     }
 
     @Test
@@ -62,9 +67,11 @@ public class PropertyNamingConventionTest {
         assertEquals("visible", namingConvention.getVisibleProperty(StringUtils.EMPTY));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetVisibleProperty_null() {
-        namingConvention.getVisibleProperty(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            namingConvention.getVisibleProperty(null);
+        });
     }
 
     @Test
@@ -72,9 +79,11 @@ public class PropertyNamingConventionTest {
         assertEquals("testMessages", namingConvention.getMessagesProperty("test"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetMessagesProperty_null() {
-        namingConvention.getMessagesProperty(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            namingConvention.getMessagesProperty(null);
+        });
     }
 
     @Test
@@ -82,9 +91,11 @@ public class PropertyNamingConventionTest {
         assertEquals("testRequired", namingConvention.getRequiredProperty("test"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetRequiredProperty_null() {
-        namingConvention.getRequiredProperty(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            namingConvention.getRequiredProperty(null);
+        });
     }
 
     @Test
@@ -92,9 +103,11 @@ public class PropertyNamingConventionTest {
         assertEquals("testAvailableValues", namingConvention.getAvailableValuesProperty("test"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetAvailableValuesProperty_null() {
-        namingConvention.getAvailableValuesProperty(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            namingConvention.getAvailableValuesProperty(null);
+        });
     }
 
 }

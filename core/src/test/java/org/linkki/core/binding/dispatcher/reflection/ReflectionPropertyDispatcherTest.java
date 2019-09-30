@@ -13,9 +13,9 @@
  */
 package org.linkki.core.binding.dispatcher.reflection;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 import static org.linkki.core.matcher.MessageMatchers.hasSize;
 import static org.mockito.Mockito.never;
@@ -26,8 +26,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
@@ -47,7 +48,7 @@ public class ReflectionPropertyDispatcherTest {
     private TestModelObject testModelObject;
     private TestPMO testPmo;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         testModelObject = new TestModelObject();
         testPmo = new TestPMO(testModelObject);
@@ -61,25 +62,33 @@ public class ReflectionPropertyDispatcherTest {
         return testPmo.getModelObject();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testConstructor_NoSupplier() {
-        @SuppressWarnings("unused")
-        ReflectionPropertyDispatcher reflectionPropertyDispatcher = new ReflectionPropertyDispatcher(null, "null",
-                new ExceptionPropertyDispatcher("null", testModelObject, testPmo));
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            @SuppressWarnings("unused")
+            ReflectionPropertyDispatcher reflectionPropertyDispatcher = new ReflectionPropertyDispatcher(null, "null",
+                    new ExceptionPropertyDispatcher("null", testModelObject, testPmo));
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testConstructor_NoFallback() {
-        @SuppressWarnings("unused")
-        ReflectionPropertyDispatcher reflectionPropertyDispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
-                "foo", null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            @SuppressWarnings("unused")
+            ReflectionPropertyDispatcher reflectionPropertyDispatcher = new ReflectionPropertyDispatcher(
+                    this::getTestPmo,
+                    "foo", null);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testConstructor_NoProperty() {
-        @SuppressWarnings("unused")
-        ReflectionPropertyDispatcher reflectionPropertyDispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
-                null, new ExceptionPropertyDispatcher("null", testModelObject, testPmo));
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            @SuppressWarnings("unused")
+            ReflectionPropertyDispatcher reflectionPropertyDispatcher = new ReflectionPropertyDispatcher(
+                    this::getTestPmo,
+                    null, new ExceptionPropertyDispatcher("null", testModelObject, testPmo));
+        });
     }
 
     @Test
@@ -134,7 +143,7 @@ public class ReflectionPropertyDispatcherTest {
         assertEquals("newAbcValue", setupPmoDispatcher(ABC).pull(Aspect.of("")));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetValue_IllegalProperty() {
         ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher("doesNotExist",
                 testModelObject, testPmo);
@@ -143,12 +152,19 @@ public class ReflectionPropertyDispatcherTest {
         ReflectionPropertyDispatcher pmoDispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
                 "doesNotExist",
                 modelObjectDispatcher);
-        pmoDispatcher.pull(Aspect.of(""));
+
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            pmoDispatcher.pull(Aspect.of(""));
+        });
+
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetValue_NullProperty() {
-        setupPmoDispatcher(null).pull(Aspect.of(""));
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            setupPmoDispatcher(null).pull(Aspect.of(""));
+        });
+
     }
 
     @Test
@@ -215,12 +231,15 @@ public class ReflectionPropertyDispatcherTest {
         assertEquals("890", setupModelObjectDispatcher("xyz").pull(Aspect.of("")));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testPull_Static() {
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> testPmo,
                 TestModelObject.PROPERTY_ABC,
                 new ExceptionPropertyDispatcher(TestModelObject.PROPERTY_ABC));
-        dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
+
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            dispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
+        });
     }
 
     @Test
@@ -268,14 +287,16 @@ public class ReflectionPropertyDispatcherTest {
         verify(spyPmo, never()).buttonClick();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testPush_Dynamic_NoMethod() {
         TestPMO spyPmo = spy(testPmo);
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyPmo,
                 TestPMO.PROPERTY_BUTTON_CLICK,
                 new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
 
-        dispatcher.push(Aspect.of("NoMethod"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            dispatcher.push(Aspect.of("NoMethod"));
+        });
     }
 
     private ReflectionPropertyDispatcher setupPmoDispatcher(String property) {

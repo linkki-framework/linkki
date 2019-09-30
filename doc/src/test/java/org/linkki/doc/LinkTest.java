@@ -16,8 +16,8 @@ package org.linkki.doc;
 import static org.hamcrest.Matchers.either;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.linkki.doc.PathExistsMatcher.exists;
 
 import java.io.IOException;
@@ -35,13 +35,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(value = Parameterized.class)
 public class LinkTest {
 
     private static final String GITHUB_PREFIX = "https://github.com/linkki-framework/linkki/blob/master";
@@ -51,12 +47,6 @@ public class LinkTest {
             .compile("^((http|https)://)?[-a-zA-Z0-9+&@#/%?=~_|,!:\\.;]*[-a-zA-Z0-9+@#/%=&_|]");
     private static final Pattern LOCAL_REF = Pattern.compile("^([-_a-zA-Z0-9/\\.]+)?(#[-a-zA-Z0-9]+)?");
 
-    @Parameter(0)
-    public Path from;
-    @Parameter(1)
-    public String link;
-
-    @Parameters
     public static Collection<Object[]> data() throws IOException {
         return Files.walk(Paths.get("target")).filter(LinkTest::isHtmlFileInDocumentation).flatMap(p -> {
             try {
@@ -75,8 +65,9 @@ public class LinkTest {
         return string.contains("linkki-core-documentation") && string.endsWith(".html");
     }
 
-    @Test
-    public void testLink() {
+    @ParameterizedTest
+    @MethodSource("data") 
+    public void testLink(Path from, String link) {
         assertThat("should be a valid URL", link, matchesPattern(URL));
         if (link.startsWith(GITHUB_PREFIX)) {
             // we can't test the github links because for new/moved files they won't exist until the

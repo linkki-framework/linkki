@@ -16,12 +16,12 @@ package org.linkki.core.ui.table;
 
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;

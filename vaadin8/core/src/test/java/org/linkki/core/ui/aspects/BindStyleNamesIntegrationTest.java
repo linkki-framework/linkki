@@ -14,17 +14,18 @@
 
 package org.linkki.core.ui.aspects;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
@@ -144,12 +145,16 @@ public class BindStyleNamesIntegrationTest {
         assertThat(uiElements.get(0).getComponent().getStyleName(), is(MY_STYLE + " new-style1 new-style2"));
     }
 
-    @Test(expected = LinkkiBindingException.class)
+    @Test
     public void testCreateAspect_dynamic_methodMissing() {
         BindingContext bindingContext = new BindingContext();
         TestPmoMissingDynamicStyleNamesMethod pmo = new TestPmoMissingDynamicStyleNamesMethod();
-        UiCreator.createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
-                .collect(Collectors.toList());
+
+        Assertions.assertThrows(LinkkiBindingException.class, () -> {
+            UiCreator.createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
+                    .collect(Collectors.toList());
+        });
+
     }
 
     @Test

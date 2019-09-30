@@ -21,9 +21,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.ElementBinding.AspectUpdaters;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -31,42 +31,40 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.util.handler.Handler;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ElementBinding_AspectUpdatersTest {
 
     @Mock
-    
     private LinkkiAspectDefinition aspect1;
+
     @Mock
-    
     private LinkkiAspectDefinition aspect2NotSupported;
+
     @Mock
-    
     private LinkkiAspectDefinition aspect3;
+
     @Mock
-    
     private Handler updater1;
+
     @Mock
-    
     private Handler updater2;
+
     @Mock
-    
     private Handler updater3;
+
     @Mock
-    
     private PropertyDispatcher propertyDispatcher;
+
     @Mock
-    
     private ComponentWrapper componentWrapper;
 
     private Handler modelChanged = Handler.NOP_HANDLER;
 
-    
     private AspectUpdaters aspectUpdaters;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         when(aspect1.supports(WrapperType.FIELD)).thenReturn(true);
         when(aspect3.supports(WrapperType.FIELD)).thenReturn(true);

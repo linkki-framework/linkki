@@ -13,34 +13,38 @@
  */
 package org.linkki.core.binding.dispatcher;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AbstractPropertyDispatcherDecoratorTest {
+
     @Mock
     private PropertyDispatcher wrappedDispatcher;
 
     private TestDecorator decorator;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         decorator = new TestDecorator(wrappedDispatcher);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     @SuppressWarnings("unused")
     // warning suppressed as object is created to test the constructor, not to use it
     public void testConstructor() {
-        new TestDecorator(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            new TestDecorator(null);
+        });
     }
 
     @Test

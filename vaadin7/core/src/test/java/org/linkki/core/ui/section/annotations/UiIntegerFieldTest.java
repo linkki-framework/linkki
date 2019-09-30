@@ -13,10 +13,11 @@
  */
 package org.linkki.core.ui.section.annotations;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.pmo.ModelObject;
 
-import com.vaadin.data.Buffered;
+import com.vaadin.data.Buffered.SourceException;
 import com.vaadin.ui.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -93,10 +94,13 @@ public class UiIntegerFieldTest {
         textField.setValue("0");
     }
 
-    @Test(expected = Buffered.SourceException.class)
+    @Test
     public void testSetValueWithPrimitiveIntegerInModelObjectFailsForNull() {
         TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
-        textField.setValue(null);
+
+        Assertions.assertThrows(SourceException.class, () -> {
+            textField.setValue(null);
+        });
     }
 
     @Test

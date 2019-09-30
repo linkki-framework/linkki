@@ -16,12 +16,12 @@ package org.linkki.core.ui.element.annotation;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.layout.annotation.UISection;

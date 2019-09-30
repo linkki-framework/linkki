@@ -13,17 +13,18 @@
  */
 package org.linkki.core.ui.bind;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
@@ -112,24 +113,32 @@ public class DynamicFieldBindingTest {
         assertThat(textArea, is(instanceOf(TextArea.class)));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testDynamicField_missingMethod_shouldThrowIllegalStateException() {
-        TestUiUtil.createFirstComponentOf(new PmoWithoutMethod());
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            TestUiUtil.createFirstComponentOf(new PmoWithoutMethod());
+        });
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testDynamicField_illegalClass_shouldThrowIllegalStateException() {
-        TestUiUtil.createFirstComponentOf(new PmoWithWrongClass());
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            TestUiUtil.createFirstComponentOf(new PmoWithWrongClass());
+        });
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testDynamicField_inconsistentPmoPropertyNames_shouldThrowIllegalStateException() {
-        TestUiUtil.createFirstComponentOf(new PmoWith2MethodsAnnotated());
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            TestUiUtil.createFirstComponentOf(new PmoWith2MethodsAnnotated());
+        });
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testDynamicFiled_inconsistentLabelText_shouldThrowIllegalArgumentException() {
-        TestUiUtil.createFirstComponentOf(new PmoWithInconsistentLabelText());
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            TestUiUtil.createFirstComponentOf(new PmoWithInconsistentLabelText());
+        });
     }
 
 

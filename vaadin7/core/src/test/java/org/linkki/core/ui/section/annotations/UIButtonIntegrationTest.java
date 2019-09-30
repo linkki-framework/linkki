@@ -14,10 +14,10 @@
 package org.linkki.core.ui.section.annotations;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.linkki.test.matcher.Matchers.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;

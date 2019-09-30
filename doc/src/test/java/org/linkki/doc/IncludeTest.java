@@ -2,8 +2,8 @@ package org.linkki.doc;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.linkki.doc.PathExistsMatcher.exists;
 
 import java.io.IOException;
@@ -20,13 +20,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(value = Parameterized.class)
 public class IncludeTest {
 
     // include::{source-dir-custom}/org/linkki/samples/customlayout/pmo/AddressSectionPmo.java[tags=declaration]
@@ -41,16 +37,6 @@ public class IncludeTest {
     // lines=45..56
     private static final Pattern LINES = Pattern.compile("lines=(\\d+)\\.\\.(\\d+)");
 
-    @Parameter(0)
-    public Path from;
-    @Parameter(1)
-    public String source;
-    @Parameter(2)
-    public String resolvedSource;
-    @Parameter(3)
-    public Optional<String> constraints;
-
-    @Parameters
     public static Collection<Object[]> data() throws IOException {
         return Files.walk(Paths.get("src/main/jbake")).filter(p -> p.getFileName().toString().endsWith(".adoc"))
                 .flatMap(p -> {
@@ -81,8 +67,9 @@ public class IncludeTest {
         return sourceDir;
     }
 
-    @Test
-    public void testInclude() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testInclude(Path from, String source, String resolvedSource, Optional<String> constraints) {
         Path referencedPath = from;
         if (StringUtils.isNotBlank(resolvedSource)) {
             Path parent = from.getParent();
@@ -92,10 +79,10 @@ public class IncludeTest {
         }
         assertThat("the include '" + source + "' from '" + from
                 + "' should reference an existing file", referencedPath, exists());
-        checkConstraints(from, referencedPath);
+        checkConstraints(from, referencedPath, constraints);
     }
 
-    private void checkConstraints(Path from, Path referencedPath) {
+    private void checkConstraints(Path from, Path referencedPath,  Optional<String> constraints) {
         constraints.ifPresent(c -> checkConstraints(from, referencedPath, c));
     }
 

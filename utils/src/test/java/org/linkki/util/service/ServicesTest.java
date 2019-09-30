@@ -14,11 +14,12 @@
 
 package org.linkki.util.service;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.util.service.ServicesTest.InterfaceWithSingleImplementation.SingleImplementation;
 
 public class ServicesTest {
@@ -28,14 +29,20 @@ public class ServicesTest {
         assertThat(Services.get(InterfaceWithSingleImplementation.class), is(instanceOf(SingleImplementation.class)));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetNoImplementation() {
-        Services.get(InterfaceWithoutImplementation.class);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            Services.get(InterfaceWithoutImplementation.class);
+        });
+
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetMultipleImplementations() {
-        Services.get(InterfaceWithMultipleImplementations.class);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            Services.get(InterfaceWithMultipleImplementations.class);
+        });
+
     }
 
     public interface InterfaceWithoutImplementation {

@@ -15,7 +15,7 @@
 package org.linkki.core.ui.aspects;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.linkki.test.matcher.Matchers.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.withSettings;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;

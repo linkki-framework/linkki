@@ -14,16 +14,16 @@
 
 package org.linkki.framework.ui.application;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 import java.util.Locale;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.util.Sequence;
@@ -31,7 +31,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.vaadin.data.Converter;
 import com.vaadin.data.converter.StringToBigDecimalConverter;
@@ -41,7 +41,7 @@ import com.vaadin.ui.UI;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class LinkkiUiTest {
 
     @Mock

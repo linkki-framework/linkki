@@ -15,13 +15,13 @@
 package org.linkki.core.ui.converters;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.LocalDate;
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.util.TwoDigitYearUtil;
 
 import com.vaadin.data.ValueContext;

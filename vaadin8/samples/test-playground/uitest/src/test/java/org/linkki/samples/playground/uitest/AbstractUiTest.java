@@ -16,8 +16,8 @@ package org.linkki.samples.playground.uitest;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -54,7 +54,7 @@ public class AbstractUiTest extends TestBenchTestCase {
         this.urlPath = urlPath;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         BrowserType browserType = DriverProperties.isHeadless() ? BrowserType.CHROME_HEADLESS : BrowserType.CHROME;
         WebDriver webDriver = browserType.getWebdriver();
@@ -80,7 +80,7 @@ public class AbstractUiTest extends TestBenchTestCase {
     /**
      * Closes the browser
      */
-    @After
+    @AfterEach
     public void closeBrowser() {
         getDriver().quit();
     }

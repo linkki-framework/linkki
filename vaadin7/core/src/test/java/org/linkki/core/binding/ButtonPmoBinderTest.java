@@ -14,7 +14,7 @@
 package org.linkki.core.binding;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,8 +22,8 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.ButtonPmoBinder.ButtonPmoAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -41,7 +41,7 @@ public class ButtonPmoBinderTest {
     private final BindingContext bindingContext = new BindingContext();
     private final Button button = new Button();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         when(wrappedDispatcher.getProperty()).thenReturn(StringUtils.EMPTY);
     }

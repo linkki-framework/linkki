@@ -14,7 +14,7 @@
 
 package org.linkki.core.ui.components;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -25,8 +25,9 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.ElementBinding;
 import org.linkki.core.binding.TestEnum;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
@@ -56,19 +57,19 @@ public class LabelComponentWrapperTest {
     private AbstractField<String> field = spy(new TextField());
     private ComboBox selectField = spy(new ComboBox());
 
-    
+
     private ElementBinding selectBinding;
 
-    
+
     private PropertyDispatcher propertyDispatcherValue;
 
-    
+
     private MessageList messageList;
 
-    
+
     private PropertyDispatcher propertyDispatcherEnumValue;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         propertyDispatcherValue = mock(PropertyDispatcher.class);
         when(propertyDispatcherValue.getProperty()).thenReturn("value");
@@ -111,7 +112,7 @@ public class LabelComponentWrapperTest {
         ArgumentCaptor<UserError> captor = ArgumentCaptor.forClass(UserError.class);
         verify(selectField).setComponentError(captor.capture());
 
-        
+
         @NonNull
         UserError userError = captor.getValue();
         assertEquals(userError.getMessage(), "text");
@@ -125,10 +126,13 @@ public class LabelComponentWrapperTest {
         verify(selectField).setComponentError(null);
     }
 
-    
-    @Test(expected = NullPointerException.class)
+
+    @Test
     public void testDisplayMessages_noMessageList() {
-        selectBinding.displayMessages(null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            selectBinding.displayMessages(null);
+        });
+
     }
 
 }

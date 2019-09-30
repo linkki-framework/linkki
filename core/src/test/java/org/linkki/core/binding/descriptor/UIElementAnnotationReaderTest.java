@@ -13,19 +13,20 @@
  */
 package org.linkki.core.binding.descriptor;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.UIElementAnnotationReader.ModelObjectAnnotationException;
 import org.linkki.core.defaults.section.annotations.TestUIField;
 import org.linkki.core.defaults.section.annotations.TestUIField2;
@@ -46,23 +47,28 @@ public class UIElementAnnotationReaderTest {
         assertThat(reader.getUiElements().count(), is(3L));
     }
 
-    @Test(expected = ModelObjectAnnotationException.class)
+    @Test
     public void testGetModelObjectSupplier_noAnnotation() {
-        Supplier<?> modelObjectSupplier = UIElementAnnotationReader.getModelObjectSupplier(new TestObject(),
-                                                                                           ModelObject.DEFAULT_NAME);
+        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+            Supplier<?> modelObjectSupplier = UIElementAnnotationReader.getModelObjectSupplier(new TestObject(),
+                                                                                               ModelObject.DEFAULT_NAME);
+        });
 
-        assertThat(modelObjectSupplier, is(notNullValue()));
-        modelObjectSupplier.get();
     }
 
-    @Test(expected = ModelObjectAnnotationException.class)
+    @Test
     public void testGetModelObjectSupplier_ThrowsExceptionIfNoMatchingAnnotationExists() {
-        UIElementAnnotationReader.getModelObjectSupplier(new PmoWithNamedModelObject(), "someOtherName");
+        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+            UIElementAnnotationReader.getModelObjectSupplier(new PmoWithNamedModelObject(), "someOtherName");
+        });
     }
 
-    @Test(expected = ModelObjectAnnotationException.class)
+    @Test
     public void testGetModelObjectSupplier_ThrowsExceptionIfAnnotatedMethodReturnsVoid() {
-        UIElementAnnotationReader.getModelObjectSupplier(new PmoWithVoidModelObjectMethod(), ModelObject.DEFAULT_NAME);
+        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+            UIElementAnnotationReader.getModelObjectSupplier(new PmoWithVoidModelObjectMethod(),
+                                                             ModelObject.DEFAULT_NAME);
+        });
     }
 
     @Test
@@ -139,16 +145,24 @@ public class UIElementAnnotationReaderTest {
         assertThat(namedModelObject, instanceOf(TestObject.class));
     }
 
-    @Test(expected = ModelObjectAnnotationException.class)
+    @Test
     public void testTwoDefaultModelObjectAnnotations() {
         PmoWithTwoDefaultModelObjects pmoWithTwoDefaultModelObjects = new PmoWithTwoDefaultModelObjects();
-        UIElementAnnotationReader.getModelObjectSupplier(pmoWithTwoDefaultModelObjects, ModelObject.DEFAULT_NAME).get();
+
+        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+            UIElementAnnotationReader.getModelObjectSupplier(pmoWithTwoDefaultModelObjects, ModelObject.DEFAULT_NAME)
+                    .get();
+        });
     }
 
-    @Test(expected = ModelObjectAnnotationException.class)
+    @Test
     public void testTwoDefaultModelObjectMethodAnnotations() {
         PmoWithTwoDefaultModelObjectMethods pmoWithTwoDefaultModelObjects = new PmoWithTwoDefaultModelObjectMethods();
-        UIElementAnnotationReader.getModelObjectSupplier(pmoWithTwoDefaultModelObjects, ModelObject.DEFAULT_NAME).get();
+
+        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+            UIElementAnnotationReader.getModelObjectSupplier(pmoWithTwoDefaultModelObjects, ModelObject.DEFAULT_NAME)
+                    .get();
+        });
     }
 
     @Test

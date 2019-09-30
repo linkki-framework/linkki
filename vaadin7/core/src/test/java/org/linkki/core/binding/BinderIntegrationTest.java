@@ -13,19 +13,20 @@
  */
 package org.linkki.core.binding;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.annotations.Bind;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
@@ -50,7 +51,7 @@ public class BinderIntegrationTest {
 
     private BindingContext bindingContext;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
         bindingContext = bindingManager.getContext("");
@@ -130,7 +131,7 @@ public class BinderIntegrationTest {
         assertThat(view.textField.isRequired(), is(false));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testSetupBindings_ThrowsExceptionForNullField() {
         TestView view = new TestView();
 
@@ -138,10 +139,12 @@ public class BinderIntegrationTest {
         assertThat(view.textField, is(nullValue()));
 
         Binder binder = new Binder(view, new TestPmo());
-        binder.setupBindings(bindingContext);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            binder.setupBindings(bindingContext);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testSetupBindings_ThrowsExceptionForMethodReturningNull() {
         TestView view = new TestView();
 
@@ -149,31 +152,40 @@ public class BinderIntegrationTest {
         assertThat(view.getNumberField(), is(nullValue()));
 
         Binder binder = new Binder(view, new TestPmo());
-        binder.setupBindings(bindingContext);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            binder.setupBindings(bindingContext);
+        });
+
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testSetupBindings_ThrowsExceptionForAnnotatedNonComponentField() {
         IllegalFieldAnnotationView view = new IllegalFieldAnnotationView();
 
         Binder binder = new Binder(view, new TestPmo());
-        binder.setupBindings(bindingContext);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            binder.setupBindings(bindingContext);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithParameters() {
         IllegalMethodParamtersView view = new IllegalMethodParamtersView();
 
         Binder binder = new Binder(view, new TestPmo());
-        binder.setupBindings(bindingContext);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            binder.setupBindings(bindingContext);
+        });
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testSetupBindings_ThrowsExceptionForAnnotatedMethodWithNonComponentReturnType() {
         IllegalMethodReturnTypeView view = new IllegalMethodReturnTypeView();
 
         Binder binder = new Binder(view, new TestPmo());
-        binder.setupBindings(bindingContext);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            binder.setupBindings(bindingContext);
+        });
     }
 
     @Test

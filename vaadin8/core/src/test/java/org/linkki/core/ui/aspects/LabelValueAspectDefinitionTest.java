@@ -14,15 +14,15 @@
 package org.linkki.core.ui.aspects;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Locale;
 import java.util.function.Consumer;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.mock.MockUi;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
@@ -36,7 +36,7 @@ import com.vaadin.ui.UI;
 
 public class LabelValueAspectDefinitionTest {
 
-    @After
+    @AfterEach
     public void cleanUpUi() {
         UI.setCurrent(null);
         VaadinSession.setCurrent(null);

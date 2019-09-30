@@ -13,19 +13,20 @@
  */
 package org.linkki.framework.ui.application;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.framework.state.ApplicationConfig;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.vaadin.navigator.Navigator.EmptyView;
 import com.vaadin.navigator.View;
@@ -34,9 +35,8 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ApplicationLayoutTest {
-
 
     @Mock
     private UI ui;
@@ -110,14 +110,16 @@ public class ApplicationLayoutTest {
         assertThat(applicationLayout.getComponent(1), is(view2));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testShowView_NotAComponent() {
         setUpApplicationLayout();
         assertThat(applicationLayout.getComponentCount(), is(3));
         assertThat(applicationLayout.getComponent(1), is(instanceOf(EmptyView.class)));
 
         View view = mock(View.class, withSettings().defaultAnswer(Mockito.CALLS_REAL_METHODS));
-        applicationLayout.showView(view);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            applicationLayout.showView(view);
+        });
     }
 
     @Test

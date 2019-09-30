@@ -15,7 +15,7 @@ package org.linkki.core.ui.section.annotations;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -23,9 +23,9 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -51,7 +51,7 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
     }
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() {
         super.setUp();
 
@@ -63,7 +63,7 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
         VaadinSession.setCurrent(vaadinSession);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         VaadinSession.setCurrent(null);
     }

@@ -14,11 +14,11 @@
 
 package org.linkki.core.binding.descriptor.property.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,7 +26,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.TestBind;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReaderTest.AnnotationWithDefectBoundPropertyCreator.DefectBoundPropertyCreator;
@@ -80,10 +81,13 @@ public class BoundPropertyAnnotationReaderTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetBoundProperty_FailsWithMultipleBoundProperties() throws Exception {
-        BoundPropertyAnnotationReader.getBoundProperty(ClassWithBoundPropertyAnnotations.class
-                .getField("componentWithMultipleBoundProperties"));
+    @Test
+    public void testGetBoundProperty_FailsWithMultipleBoundProperties() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            BoundPropertyAnnotationReader.getBoundProperty(ClassWithBoundPropertyAnnotations.class
+                    .getField("componentWithMultipleBoundProperties"));
+        });
+
     }
 
     @Test
@@ -92,16 +96,21 @@ public class BoundPropertyAnnotationReaderTest {
                 .getField("componentWithMultipleSameBoundProperties"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetBoundProperty_FailsIfCreatorCantBeCreated() throws Exception {
-        BoundPropertyAnnotationReader.getBoundProperty(ClassWithBoundPropertyAnnotations.class
-                .getField("componentWithUninstatiableBoundPropertyCreator"));
+    @Test
+    public void testGetBoundProperty_FailsIfCreatorCantBeCreated() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            BoundPropertyAnnotationReader.getBoundProperty(ClassWithBoundPropertyAnnotations.class
+                    .getField("componentWithUninstatiableBoundPropertyCreator"));
+        });
+
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testGetBoundProperty_PropagatesExceptionFromCreator() throws Exception {
-        BoundPropertyAnnotationReader.getBoundProperty(ClassWithBoundPropertyAnnotations.class
-                .getField("componentWithDefectBoundPropertyCreator"));
+    @Test
+    public void testGetBoundProperty_PropagatesExceptionFromCreator() {
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            BoundPropertyAnnotationReader.getBoundProperty(ClassWithBoundPropertyAnnotations.class
+                    .getField("componentWithDefectBoundPropertyCreator"));
+        });
     }
 
     @Test

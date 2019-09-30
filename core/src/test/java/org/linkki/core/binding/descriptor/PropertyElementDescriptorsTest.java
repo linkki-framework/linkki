@@ -14,13 +14,13 @@
 
 package org.linkki.core.binding.descriptor;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
 import static org.linkki.test.matcher.Matchers.assertThat;
 
 import java.lang.annotation.Annotation;
@@ -31,7 +31,8 @@ import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.base.TestComponentClickAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
@@ -69,18 +70,23 @@ public class PropertyElementDescriptorsTest {
         assertThat(descriptors.getPmoPropertyName(), is(TestPmo.SINGLE_PMO_PROPERTY));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetDescriptor_WithoutDescriptor_NoComponentTypeMethod() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.SINGLE_PMO_PROPERTY);
 
-        descriptors.getDescriptor(new TestPmo());
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            descriptors.getDescriptor(new TestPmo());
+        });
+
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetDescriptor_WithoutDescriptor_WithComponentTypeMethod() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.DUAL_PMO_PROPERTY);
 
-        descriptors.getDescriptor(new TestPmo());
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            descriptors.getDescriptor(new TestPmo());
+        });
     }
 
     @Test
@@ -139,54 +145,64 @@ public class PropertyElementDescriptorsTest {
         assertThat(descriptors.getDescriptor(new TestPmo()).getAspectDefinitions(), contains(enabledAspectDefinition));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testAddDescriptor_DualDifferentPosition() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(
                 TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION);
 
-        descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(30,
-                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
-                                          BoundProperty.of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION),
-                                          Collections.emptyList()),
-                                  TestPmo.class);
-        descriptors.addDescriptor(AnotherTestUIAnnotation.class,
-                                  new ElementDescriptor(31,
-                                          TestLinkkiComponentDefinition.create(() -> "AnotherTestUIAnnotation"),
-                                          BoundProperty.of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION),
-                                          Collections.emptyList()),
-                                  TestPmo.class);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            descriptors.addDescriptor(TestUIAnnotation.class,
+                                      new ElementDescriptor(30,
+                                              TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
+                                              BoundProperty
+                                                      .of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION),
+                                              Collections.emptyList()),
+                                      TestPmo.class);
+            descriptors.addDescriptor(AnotherTestUIAnnotation.class,
+                                      new ElementDescriptor(31,
+                                              TestLinkkiComponentDefinition.create(() -> "AnotherTestUIAnnotation"),
+                                              BoundProperty
+                                                      .of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION),
+                                              Collections.emptyList()),
+                                      TestPmo.class);
+        });
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testAddDescriptor_NoComponentTypeMethod() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(
                 TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR);
 
-        descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(30,
-                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
-                                          BoundProperty.of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR),
-                                          Collections.emptyList()),
-                                  TestPmo.class);
-        descriptors.addDescriptor(AnotherTestUIAnnotation.class,
-                                  new ElementDescriptor(30,
-                                          TestLinkkiComponentDefinition.create(() -> "AnotherTestUIAnnotation"),
-                                          BoundProperty
-                                                  .of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR),
-                                          Collections.emptyList()),
-                                  TestPmo.class);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            descriptors.addDescriptor(TestUIAnnotation.class,
+                                      new ElementDescriptor(30,
+                                              TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
+                                              BoundProperty
+                                                      .of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR),
+                                              Collections.emptyList()),
+                                      TestPmo.class);
+            descriptors.addDescriptor(AnotherTestUIAnnotation.class,
+                                      new ElementDescriptor(30,
+                                              TestLinkkiComponentDefinition.create(() -> "AnotherTestUIAnnotation"),
+                                              BoundProperty
+                                                      .of(TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR),
+                                              Collections.emptyList()),
+                                      TestPmo.class);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAddDescriptor_DifferentProperty() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.SINGLE_PMO_PROPERTY);
-        descriptors.addDescriptor(TestUIAnnotation.class,
-                                  new ElementDescriptor(30,
-                                          TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
-                                          BoundProperty.of(TestPmo.DUAL_PMO_PROPERTY),
-                                          Collections.emptyList()),
-                                  TestPmo.class);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            descriptors.addDescriptor(TestUIAnnotation.class,
+                                      new ElementDescriptor(30,
+                                              TestLinkkiComponentDefinition.create(() -> "TestUIAnnotation"),
+                                              BoundProperty.of(TestPmo.DUAL_PMO_PROPERTY),
+                                              Collections.emptyList()),
+                                      TestPmo.class);
+        });
     }
 
     @Test

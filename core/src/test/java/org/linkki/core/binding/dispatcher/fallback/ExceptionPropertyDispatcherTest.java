@@ -15,11 +15,11 @@
 package org.linkki.core.binding.dispatcher.fallback;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.defaults.nls.TestUiComponent;
@@ -33,7 +33,7 @@ public class ExceptionPropertyDispatcherTest {
 
     private ExceptionPropertyDispatcher dispatcher;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         dispatcher = new ExceptionPropertyDispatcher(PROPERTY_NAME, OBJ1, OBJ2);
     }

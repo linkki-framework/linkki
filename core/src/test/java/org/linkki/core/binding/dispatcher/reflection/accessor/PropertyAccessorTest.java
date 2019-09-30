@@ -13,15 +13,16 @@
  */
 package org.linkki.core.binding.dispatcher.reflection.accessor;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.linkki.test.matcher.Matchers.assertThat;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.dispatcher.accessor.other.OtherPackageTestObject;
 import org.linkki.core.binding.dispatcher.accessor.other.TestPublicSubclass;
@@ -33,7 +34,7 @@ public class PropertyAccessorTest {
     private TestObject testObject;
     private PropertyAccessor<TestObject, String> stringAccessor;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         testObject = new TestObject();
         testObject.setStringProperty(STRING_PROPERTY_INITIAL_VALUE);
@@ -54,9 +55,11 @@ public class PropertyAccessorTest {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testWriteWrongType() {
-        ((PropertyAccessor)stringAccessor).setPropertyValue(testObject, 5);
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            ((PropertyAccessor)stringAccessor).setPropertyValue(testObject, 5);
+        });
     }
 
     @Test
@@ -73,21 +76,28 @@ public class PropertyAccessorTest {
     }
 
     @SuppressWarnings({ "unused" })
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testConstructor_nullObject() {
-        PropertyAccessor<?, ?> propertyAccessor = new PropertyAccessor<>(null, "anyProperty");
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            PropertyAccessor<?, ?> propertyAccessor = new PropertyAccessor<>(null, "anyProperty");
+        });
+
     }
 
     @SuppressWarnings({ "unused" })
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testConstructor_nullPropertyName() {
-        PropertyAccessor<TestObject, ?> propertyAccessor = new PropertyAccessor<>(TestObject.class, null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            PropertyAccessor<TestObject, ?> propertyAccessor = new PropertyAccessor<>(TestObject.class, null);
+        });
     }
 
     @SuppressWarnings({ "unused" })
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testConstructor_nullArguments() {
-        PropertyAccessor<?, ?> propertyAccessor = new PropertyAccessor<>(null, null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            PropertyAccessor<?, ?> propertyAccessor = new PropertyAccessor<>(null, null);
+        });
     }
 
     @Test
@@ -119,12 +129,15 @@ public class PropertyAccessorTest {
         assertEquals(42, propertyValue.longValue());
     }
 
-    @Test(expected = LinkkiBindingException.class)
+    @Test
     public void testSetPropertyValue_readOnlyProperty() {
         TestObject testObject2 = new TestObject();
         PropertyAccessor<TestObject, Long> accessor = new PropertyAccessor<>(TestObject.class,
                 TestObject.READ_ONLY_LONG_PROPERTY);
-        accessor.setPropertyValue(testObject2, 5L);
+
+        Assertions.assertThrows(LinkkiBindingException.class, () -> {
+            accessor.setPropertyValue(testObject2, 5L);
+        });
     }
 
     @Test
@@ -141,10 +154,13 @@ public class PropertyAccessorTest {
         assertEquals(boolean.class, accessor.getValueClass());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetValueClassIllegalProperty() {
         PropertyAccessor<TestObject, ?> accessor = new PropertyAccessor<>(TestObject.class, "illegalProperty");
-        accessor.getValueClass();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            accessor.getValueClass();
+        });
     }
 
     @Test
@@ -251,7 +267,7 @@ public class PropertyAccessorTest {
      * <li>1000000000 set/get-calls took 21279ms</li>
      * </ul>
      */
-    @Ignore
+    @Disabled
     @Test
     public void testPerformance() {
         PropertyAccessor<TestObject, Integer> accessor = new PropertyAccessor<>(TestObject.class,

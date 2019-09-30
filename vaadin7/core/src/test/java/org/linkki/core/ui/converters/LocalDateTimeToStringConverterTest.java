@@ -13,20 +13,24 @@
  */
 package org.linkki.core.ui.converters;
 
-import static junit.framework.TestCase.assertNotNull;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class LocalDateTimeToStringConverterTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testConvertToModel() {
-        new LocalDateTimeToStringConverter().convertToModel(null, null, null);
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+            new LocalDateTimeToStringConverter().convertToModel(null, null, null);
+        });
+
     }
 
     @Test

@@ -13,38 +13,22 @@
  */
 package org.linkki.core.ui.converters;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-@RunWith(Parameterized.class)
 public class LocalDateToDateConverterTest {
 
-    @Parameterized.Parameter(value = 0)
-
-    public String date;
-
-    @Parameterized.Parameter(value = 1)
-
-    public String pattern;
-
-    @Parameterized.Parameter(value = 2)
-
-    public LocalDate localDate;
-
-
-    @Parameterized.Parameters
-    public static Object[][] parameters() {
+    public static Object[][] data() {
         final String shortYearPattern = "yy.MM.dd";
         final String longYearPattern = "yyyy.MM.dd";
         final String germanLongPattern = "dd.MM.yyyy";
@@ -85,19 +69,18 @@ public class LocalDateToDateConverterTest {
 
 
     private static final LocalDate getDateFromNow(int days) {
-
         return LocalDate.now().plusDays(days);
-
     }
 
-
-    @Test
-    public void testConvertToModel() throws Exception {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testConvertToModel(String date, String pattern, LocalDate localDate) throws Exception {
         assertThat(convert(date, pattern), is(localDate));
     }
 
-    @Test
-    public void testConvertToPresentation() throws Exception {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testConvertToPresentation(String date, String pattern, LocalDate localDate) throws Exception {
         assertThat(convert(localDate), is(convertToDate(getDateToConvert(date, pattern), pattern)));
     }
 

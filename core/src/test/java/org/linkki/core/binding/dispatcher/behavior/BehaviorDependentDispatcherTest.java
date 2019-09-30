@@ -13,13 +13,14 @@
  */
 package org.linkki.core.binding.dispatcher.behavior;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.AbstractPropertyDispatcherDecorator;
 import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
@@ -38,7 +39,7 @@ public class BehaviorDependentDispatcherTest {
     private BehaviorDependentDispatcher behaviorDispatcher;
 
 
-    @Before
+    @BeforeEach
     public void setUp() {
         behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher,
                 PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
@@ -49,43 +50,44 @@ public class BehaviorDependentDispatcherTest {
         assertThat(behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME)), is(true));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNullProvider() {
-        behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, null);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testNullList() {
-        behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher, null);
-
-        behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
-    }
-
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNullBoundObject_visible() {
         wrappedDispatcher.setBoundObject(null);
         behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher,
                 PropertyBehaviorProvider.with(PropertyBehavior.visible(() -> false)));
 
-        behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNullBoundObject_writable() {
         wrappedDispatcher.setBoundObject(null);
         behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher,
                 PropertyBehaviorProvider.with(PropertyBehavior.writable(() -> false)));
 
-        behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            behaviorDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNullBoundObject_messages() {
         wrappedDispatcher.setBoundObject(null);
         behaviorDispatcher = new BehaviorDependentDispatcher(wrappedDispatcher,
                 PropertyBehaviorProvider.with(PropertyBehavior.showValidationMessages(() -> false)));
 
-        behaviorDispatcher.getMessages(new MessageList());
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            behaviorDispatcher.getMessages(new MessageList());
+        });
     }
 
     @Test

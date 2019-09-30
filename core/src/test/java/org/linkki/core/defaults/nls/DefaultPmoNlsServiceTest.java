@@ -14,14 +14,14 @@
 
 package org.linkki.core.defaults.nls;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.util.Locale;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.uiframework.TestUiFramework;
 import org.linkki.core.uiframework.UiFramework;
 
@@ -31,13 +31,13 @@ public class DefaultPmoNlsServiceTest {
     public static final String PROPERTY_NOT_PRESENT = "notPresent";
     private Locale defaultLocale;
 
-    @Before
+    @BeforeEach
     public void setLocaleToEnglish() {
         defaultLocale = UiFramework.getLocale();
         TestUiFramework.get().setUiLocale(Locale.ENGLISH);
     }
 
-    @After
+    @AfterEach
     public void resetLocale() {
         TestUiFramework.get().setUiLocale(defaultLocale);
     }

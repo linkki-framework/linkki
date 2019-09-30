@@ -13,12 +13,13 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -114,12 +115,14 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
         assertThat(checkBoxWithDerivedCaption.getCaption(), is("Foo"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     @Override
     public void testNullInputIfRequired() {
         CheckBox checkBox = getDynamicComponent();
 
-        TestUiUtil.setUserOriginatedValue(checkBox, null);
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            TestUiUtil.setUserOriginatedValue(checkBox, null);
+        });
     }
 
     @Override

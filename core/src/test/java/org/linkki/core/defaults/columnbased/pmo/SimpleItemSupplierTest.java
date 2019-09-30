@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.linkki.test.matcher.Matchers.assertThat;
 
 import java.util.Arrays;
@@ -31,7 +31,7 @@ import java.util.function.UnaryOperator;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.pmo.ModelObject;
 
 public class SimpleItemSupplierTest {

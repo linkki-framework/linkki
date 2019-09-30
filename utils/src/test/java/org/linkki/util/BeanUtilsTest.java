@@ -13,16 +13,17 @@
  */
 package org.linkki.util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 import static org.linkki.test.matcher.Matchers.present;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class BeanUtilsTest {
 
@@ -50,9 +51,11 @@ public class BeanUtilsTest {
         assertThat(method, is(present()));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testgetMethod_oneMatchingMethodIsFound() {
-        BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("baz"));
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("baz"));
+        });
     }
 
     @Test

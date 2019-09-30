@@ -15,12 +15,12 @@
 package org.linkki.core.binding.descriptor;
 
 import static java.util.Objects.requireNonNull;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
 import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
 import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 import static org.linkki.test.matcher.Matchers.assertThat;
@@ -33,7 +33,8 @@ import java.lang.annotation.Target;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptorsBindingDefinitionTest.AnotherTestUIField.AnotherTestUIFieldAspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
@@ -78,18 +79,22 @@ public class PropertyElementDescriptorsBindingDefinitionTest {
         assertThat(descriptors.getPmoPropertyName(), is(TestPmo.SINGLE_PMO_PROPERTY));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetDescriptor_WithoutDescriptor_NoComponentTypeMethod() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.SINGLE_PMO_PROPERTY);
 
-        descriptors.getDescriptor(new TestPmo());
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            descriptors.getDescriptor(new TestPmo());
+        });
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetDescriptor_WithoutDescriptor_WithComponentTypeMethod() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.DUAL_PMO_PROPERTY);
 
-        descriptors.getDescriptor(new TestPmo());
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            descriptors.getDescriptor(new TestPmo());
+        });
     }
 
     @Test
@@ -148,33 +153,40 @@ public class PropertyElementDescriptorsBindingDefinitionTest {
         assertThat(descriptors.getPosition(), is(20));
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testAddDescriptor_DualDifferentPosition() throws NoSuchMethodException {
+    @Test
+    public void testAddDescriptor_DualDifferentPosition() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(
                 TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION);
 
-        createElementDescriptorWith(descriptors, TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION,
-                                    TestUIField.class);
-        createElementDescriptorWith(descriptors, TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION,
-                                    AnotherTestUIField.class);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            createElementDescriptorWith(descriptors, TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION,
+                                        TestUIField.class);
+            createElementDescriptorWith(descriptors, TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITH_DIFFERENT_POSITION,
+                                        AnotherTestUIField.class);
+        });
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testAddDescriptor_NoComponentTypeMethod() throws NoSuchMethodException {
+    @Test
+    public void testAddDescriptor_NoComponentTypeMethod() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(
                 TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR);
 
-        createElementDescriptorWith(descriptors, TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR,
-                                    TestUIField.class);
-        createElementDescriptorWith(descriptors, TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR,
-                                    AnotherTestUIField.class);
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            createElementDescriptorWith(descriptors, TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR,
+                                        TestUIField.class);
+            createElementDescriptorWith(descriptors, TestPmo.ILLEGAL_DUAL_PMO_PROPERTY_WITHOUT_DIFFERENTIATOR,
+                                        AnotherTestUIField.class);
+        });
+
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddDescriptor_DifferentProperty() throws NoSuchMethodException {
+    @Test
+    public void testAddDescriptor_DifferentProperty() {
         PropertyElementDescriptors descriptors = new PropertyElementDescriptors(TestPmo.SINGLE_PMO_PROPERTY);
 
-        createElementDescriptorWith(descriptors, TestPmo.DUAL_PMO_PROPERTY, TestUIField.class);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            createElementDescriptorWith(descriptors, TestPmo.DUAL_PMO_PROPERTY, TestUIField.class);
+        });
     }
 
     @Test

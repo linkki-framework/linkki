@@ -13,7 +13,7 @@
  */
 package org.linkki.core.binding.dispatcher.reflection.accessor;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

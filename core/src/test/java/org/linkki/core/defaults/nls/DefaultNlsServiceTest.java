@@ -13,21 +13,20 @@
  */
 package org.linkki.core.defaults.nls;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Locale;
 import java.util.Optional;
 
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.linkki.core.nls.NlsService;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-
-@RunWith(Enclosed.class)
 public class DefaultNlsServiceTest {
     private static final String KEY2 = "Key2";
 
@@ -50,23 +49,11 @@ public class DefaultNlsServiceTest {
     private static final NlsService service = new DefaultNlsService();
 
     @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
-    @RunWith(Parameterized.class)
+    @Nested
     public static class BasicTests {
 
-        @Parameterized.Parameter(value = 0)
-        public String key;
-
-        @Parameterized.Parameter(value = 1)
-        public Locale locale;
-
-        @Parameterized.Parameter(value = 2)
-        public Optional<String> result;
-
-        @Parameterized.Parameters
-        public static Object[][] parameters() {
-
+        public static Object[][] data() {
             return new Object[][] {
-
                 // @formatter:off
                     /* [0] */ { KEY2, RUSSIAN_LOCALE, Optional.of("Ок") },
                     /* [1] */ { KEY1, RUSSIAN_LOCALE, Optional.of("Отмена") },
@@ -78,69 +65,70 @@ public class DefaultNlsServiceTest {
                     /* [7] */ { KEY1, CHINESE_LOCALE, Optional.of("Cancel") }, // not existing locale
                     /* [8] */ { KEY1 + KEY2, CHINESE_LOCALE, Optional.empty() }// not existing key
                 // @formatter:on
-
-
             };
         }
 
-        @Test
-        public void testBundleExists() {
+        @ParameterizedTest
+        @MethodSource("data")
+        public void testBundleExists(String key, Locale locale, Optional<String> result) {
             assertEquals(result, service.getString(BUNDLE_NAME, key, locale));
         }
 
-        @Test
-        public void testBundleNotExists() {
+        @ParameterizedTest
+        @MethodSource("data")
+        public void testBundleNotExists(String key, Locale locale, Optional<String> result) {
             assertEquals(Optional.empty(), service.getString(BUNDLE_NAME_NOT_EXISTS, key, locale));
         }
     }
 
+    @Nested
     public static class NullTests {
-        @Test(expected = NullPointerException.class)
+        @Test
         public void nullBundleTest() {
-            service.getString(null, KEY1, RUSSIAN_LOCALE);
+            Assertions.assertThrows(NullPointerException.class, () -> {
+                service.getString(null, KEY1, RUSSIAN_LOCALE);
+            });
         }
 
-        @Test(expected = NullPointerException.class)
+        @Test
         public void nullKeyTest() {
-            service.getString(BUNDLE_NAME, null, RUSSIAN_LOCALE);
+            Assertions.assertThrows(NullPointerException.class, () -> {
+                service.getString(BUNDLE_NAME, null, RUSSIAN_LOCALE);
+            });
         }
 
-        @Test(expected = NullPointerException.class)
+        @Test
         public void nullLocaleTest() {
             Locale l = null;
-            service.getString(BUNDLE_NAME, KEY1, l);
+            Assertions.assertThrows(NullPointerException.class, () -> {
+                service.getString(BUNDLE_NAME, KEY1, l);
+            });
+
         }
 
-        @Test(expected = NullPointerException.class)
+        @Test
         public void nullDefaultTest() {
-            service.getString(BUNDLE_NAME, "foo", null, RUSSIAN_LOCALE);
+            Assertions.assertThrows(NullPointerException.class, () -> {
+                service.getString(BUNDLE_NAME, "foo", null, RUSSIAN_LOCALE);
+            });
         }
 
-        @Test(expected = NullPointerException.class)
+        @Test
         public void nullDefaultTest2() {
             String s = null;
-            service.getString(BUNDLE_NAME, "foo", s);
+            Assertions.assertThrows(NullPointerException.class, () -> {
+                service.getString(BUNDLE_NAME, "foo", s);
+            });
+
         }
     }
 
     @SuppressFBWarnings("NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
-    @RunWith(Parameterized.class)
+    @Nested
     public static class DefaultValuesTests {
 
-        @Parameterized.Parameter(value = 0)
-        public String key;
-
-        @Parameterized.Parameter(value = 1)
-        public Locale locale;
-
-        @Parameterized.Parameter(value = 2)
-        public String result;
-
-        @Parameterized.Parameters
-        public static Object[][] parameters() {
-
+        public static Object[][] data() {
             return new Object[][] {
-
                 // @formatter:off
                     /* [0] */ { KEY2, RUSSIAN_LOCALE, "Ок" },
                     /* [1] */ { KEY1, RUSSIAN_LOCALE, "Отмена" },
@@ -152,27 +140,20 @@ public class DefaultNlsServiceTest {
                     /* [7] */ { KEY1, CHINESE_LOCALE, "Cancel" }, // not existing locale
                     /* [8] */ { KEY1 + KEY2, CHINESE_LOCALE, defaultValue }// not existing key
                 // @formatter:on
-
-
             };
         }
 
-        @Test
-        public void testBundleExists() {
-
-
+        @ParameterizedTest
+        @MethodSource("data")
+        public void testBundleExists(String key, Locale locale, String result) {
             assertEquals(result, service.getString(BUNDLE_NAME, key, defaultValue, locale));
-
         }
 
-        @Test
-        public void testBundleNotExists() {
-
-
+        @ParameterizedTest
+        @MethodSource("data")
+        public void testBundleNotExists(String key, Locale locale, String result) {
             assertEquals(defaultValue, service.getString(BUNDLE_NAME_NOT_EXISTS, key, defaultValue, locale));
-
         }
     }
-
 
 }
