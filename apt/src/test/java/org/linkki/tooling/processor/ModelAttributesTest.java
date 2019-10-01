@@ -16,6 +16,8 @@
 package org.linkki.tooling.processor;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -46,9 +48,9 @@ public class ModelAttributesTest extends BaseAnnotationProcessorTest {
             assertEquals(1, logs.size());
 
             String log = logs.get(0);
-            assertTrue(log.contains("UILabel"));
-            assertTrue(log.contains(ModelBindingValidator.MISSING_MODEL_ATTRIBUTE));
-            assertTrue(log.contains("does not have property \"not present\""));
+            assertThat(log, containsString("UILabel"));
+            assertThat(log, containsString(ModelBindingValidator.MISSING_MODEL_ATTRIBUTE));
+            assertThat(log, containsString("does not have property \"not present\""));
         }
 
         @Test

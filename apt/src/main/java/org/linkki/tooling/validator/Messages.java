@@ -16,8 +16,12 @@ package org.linkki.tooling.validator;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import javax.lang.model.element.AnnotationMirror;
+
 public final class Messages {
+
     private static final String BUNDLE_NAME = "org.linkki.tooling.validator.messages"; //$NON-NLS-1$
+    private static final String MESSAGE_KEY = "Message"; //$NON-NLS-1$
 
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
@@ -31,5 +35,10 @@ public final class Messages {
         } catch (MissingResourceException e) {
             return '!' + key + '!';
         }
+    }
+
+    public static String format(String messageCode, AnnotationMirror annotation, Object... args) {
+        String message = String.format(getString(messageCode), args);
+        return String.format(getString(MESSAGE_KEY), message, annotation, messageCode);
     }
 }

@@ -15,9 +15,13 @@
 
 package org.linkki.tooling.util;
 
+import static org.linkki.util.BeanUtils.GET_PREFIX;
+import static org.linkki.util.BeanUtils.IS_PREFIX;
+
 import javax.lang.model.element.ExecutableElement;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.util.BeanUtils;
 
 public class MethodNameUtils {
 
@@ -33,17 +37,11 @@ public class MethodNameUtils {
      * @return property name or the method name itself if no getter.
      */
     public static String toPropertyName(String methodName) {
-        if (methodName.startsWith("get")) {
-            return StringUtils.uncapitalize(methodName.substring(3));
-        } else if (methodName.startsWith("is")) {
-            return StringUtils.uncapitalize(methodName.substring(2));
-        } else {
-            return methodName;
-        }
+        return BeanUtils.getPropertyName(methodName);
     }
 
     public static boolean isGetter(String methodName) {
-        return methodName.startsWith("get") || methodName.startsWith("is");
+        return methodName.startsWith(GET_PREFIX) || methodName.startsWith(IS_PREFIX);
     }
 
     public static String getPropertyName(ExecutableElement method) {

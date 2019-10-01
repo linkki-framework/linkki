@@ -110,7 +110,7 @@ public class CompilerOptionsTest extends BaseAnnotationProcessorTest {
             String methodName = "type";
             DynamicAspectMethodName dynamicMethod = new DynamicAspectMethodName(methodName,
                     EnabledAspectDefinition.NAME, true);
-            String msg = Messages.getString("MissingMethod_error");
+            String msg = Messages.getString(AspectMethodValidator.MISSING_METHOD);
             return hasMessage(log, String.format(msg, dynamicMethod.getExpectedMethodName(), methodName));
         }
     }
@@ -140,7 +140,7 @@ public class CompilerOptionsTest extends BaseAnnotationProcessorTest {
             }
 
             private boolean isBadStyleLog(String log, String propertyName) {
-                String msg = Messages.getString("DirectModelBindingAttributeNotSpecified_warning");
+                String msg = Messages.getString(ModelBindingValidator.IMPLICIT_MODEL_BINDING);
                 return hasMessage(log, String.format(msg, propertyName, propertyName));
             }
 

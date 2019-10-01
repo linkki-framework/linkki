@@ -41,10 +41,6 @@ public class ModelObjectValidator implements Validator {
 
     public static final String MODEL_OBJECT_CLASH = "MODEL_OBJECT_CLASH";
 
-    private static final String MSG_TEMPLATE = Messages.getString("ModelObjectNameAlreadyUsed_error")
-            + Messages.getString("AnnotationInfo") //$NON-NLS-1$
-            + Messages.getString("MSG_CODE");
-
     private final Kind modelObjectClashSeverity;
 
     public ModelObjectValidator(Map<String, String> options) {
@@ -91,19 +87,18 @@ public class ModelObjectValidator implements Validator {
                             .forEach(otherModelObject -> {
                                 String otherMember = otherModelObject.getMember().getSimpleName().toString();
 
-                                String msg = String.format(MSG_TEMPLATE,
-                                                           modelObjetNameValuePair,
-                                                           otherMember,
-                                                           currentAnnotationMirror,
-                                                           MODEL_OBJECT_CLASH);
+                                String message = Messages.format(MODEL_OBJECT_CLASH,
+                                                                 currentAnnotationMirror,
+                                                                 modelObjetNameValuePair,
+                                                                 otherMember);
                                 Optionals.ifPresentOrElse(annotationValue,
                                                           it -> messager.printMessage(modelObjectClashSeverity,
-                                                                                      msg,
+                                                                                      message,
                                                                                       member,
                                                                                       currentAnnotationMirror,
                                                                                       it),
                                                           () -> messager.printMessage(modelObjectClashSeverity,
-                                                                                      msg,
+                                                                                      message,
                                                                                       member,
                                                                                       currentAnnotationMirror));
                             });

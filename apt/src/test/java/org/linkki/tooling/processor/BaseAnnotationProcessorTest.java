@@ -39,6 +39,9 @@ import javax.annotation.processing.Messager;
 import javax.annotation.processing.Processor;
 import javax.tools.Diagnostic.Kind;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.linkki.tooling.compiler.SourceFile;
 import org.linkki.tooling.compiler.TestCompiler;
@@ -157,8 +160,38 @@ public abstract class BaseAnnotationProcessorTest {
         return log.contains("kind=ERROR");
     }
 
+    public static Matcher<List<String>> containsError() {
+        return new TypeSafeMatcher<List<String>>() {
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("a log statement of kind=ERROR");
+            }
+
+            @Override
+            protected boolean matchesSafely(List<String> logs) {
+                return logs.stream().anyMatch(BaseAnnotationProcessorTest::isError);
+            }
+        };
+    }
+
     protected static boolean hasMessage(String log, String msg) {
         return log.contains("msg=" + msg);
+    }
+
+    public static Matcher<List<String>> hasMessage(String msg) {
+        return new TypeSafeMatcher<List<String>>() {
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("a log statement containing " + msg);
+            }
+
+            @Override
+            protected boolean matchesSafely(List<String> logs) {
+                return logs.stream().anyMatch(it -> hasMessage(it, msg));
+            }
+        };
     }
 
     protected final void addOption(String option, String value) {

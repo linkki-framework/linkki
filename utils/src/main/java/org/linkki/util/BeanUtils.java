@@ -32,6 +32,10 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class BeanUtils {
 
+    public static final String GET_PREFIX = "get";
+    public static final String SET_PREFIX = "set";
+    public static final String IS_PREFIX = "is";
+
     private BeanUtils() {
         // prevent instantiation
     }
@@ -170,14 +174,25 @@ public class BeanUtils {
      * </ul>
      */
     public static String getPropertyName(Method method) {
-        if (method.getReturnType() == Void.TYPE) {
-            return method.getName();
-        } else if (method.getName().startsWith("is")) {
-            return StringUtils.uncapitalize(method.getName().substring(2));
-        } else if (method.getName().startsWith("get")) {
-            return StringUtils.uncapitalize(method.getName().substring(3));
+        return getPropertyName(method.getName());
+    }
+
+
+    /**
+     * Returns the property name from the given method name:
+     * <ul>
+     * <li>{@code getFoo} -&gt; "foo"</li>
+     * <li>{@code isBar} -&gt; "bar"</li>
+     * <li>{@code fooBar} -&gt; "fooBar"</li>
+     * </ul>
+     */
+    public static String getPropertyName(String methodName) {
+        if (methodName.startsWith(IS_PREFIX)) {
+            return StringUtils.uncapitalize(methodName.substring(2));
+        } else if (methodName.startsWith(GET_PREFIX)) {
+            return StringUtils.uncapitalize(methodName.substring(3));
         } else {
-            return method.getName();
+            return methodName;
         }
     }
 }

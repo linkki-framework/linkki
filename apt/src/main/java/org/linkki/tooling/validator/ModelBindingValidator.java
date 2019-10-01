@@ -38,22 +38,8 @@ import org.linkki.tooling.util.Constants;
 public class ModelBindingValidator implements Validator {
 
     public static final String IMPLICIT_MODEL_BINDING = "IMPLICIT_MODEL_BINDING";
-    public static final String MISSING_MODEL_ATTRIBUTE = "MISSING__MODEL_ATTRIBUTE";
+    public static final String MISSING_MODEL_ATTRIBUTE = "MISSING_MODEL_ATTRIBUTE";
     public static final String MISSING_MODEL_OBJECT = "MISSING_MODEL_OBJECT";
-
-    private static final String MISSING_MODEL_OBJECT_MSG_TEMPLATE = Messages.getString("ModelObjectNotFound_error")
-            + Messages.getString("AnnotationInfo")
-            + Messages.getString("MSG_CODE");
-
-    private static final String MISSING_MODEL_ATTRIBUTE_MSG_TEMPLATE = Messages
-            .getString("PropertyNotFoundInModelObject_error")
-            + Messages.getString("AnnotationInfo")
-            + Messages.getString("MSG_CODE");
-
-    private static final String IMPLICIT_MODEL_BINDING_MSG_TEMPLATE = Messages
-            .getString("DirectModelBindingAttributeNotSpecified_warning")
-            + Messages.getString("AnnotationInfo")
-            + Messages.getString("MSG_CODE");
 
     private Kind missingModelObjectSeverity;
     private Kind missingModelAttributeSeverity;
@@ -139,13 +125,12 @@ public class ModelBindingValidator implements Validator {
 
         String modelObjectName = modelObject.getValue().toString();
 
-        String msg = String.format(MISSING_MODEL_OBJECT_MSG_TEMPLATE,
-                                   modelObjectName,
-                                   componentDeclaration.getAnnotationMirror(),
-                                   MISSING_MODEL_OBJECT);
+        String message = Messages.format(MISSING_MODEL_OBJECT,
+                                         componentDeclaration.getAnnotationMirror(),
+                                         modelObjectName);
 
         messager.printMessage(missingModelObjectSeverity,
-                              msg,
+                              message,
                               componentDeclaration.getElement(),
                               componentDeclaration.getAnnotationMirror(),
                               modelObject.getAnnotationValue());
@@ -163,19 +148,19 @@ public class ModelBindingValidator implements Validator {
                                                                     "expected \"" + Constants.MODEL_ATTRIBUTE
                                                                             + "\" to be present in annotation"));
 
-
-        Function<String, String> invalidAttributeMessage = attriubteName -> String
-                .format(MISSING_MODEL_ATTRIBUTE_MSG_TEMPLATE,
-                        componentDeclaration.getModelObject()
-                                .get()
-                                .getAnnotation().name(),
-                        componentDeclaration.getModelObject()
-                                .get().getType()
-                                .toString(),
-                        attriubteName,
-                        componentDeclaration
-                                .getAnnotationMirror(),
-                        MISSING_MODEL_ATTRIBUTE);
+        Function<String, String> invalidAttributeMessage = attributeName -> Messages.format(MISSING_MODEL_ATTRIBUTE,
+                                                                                            componentDeclaration
+                                                                                                    .getAnnotationMirror(),
+                                                                                            componentDeclaration
+                                                                                                    .getModelObject()
+                                                                                                    .get()
+                                                                                                    .getAnnotation()
+                                                                                                    .name(),
+                                                                                            componentDeclaration
+                                                                                                    .getModelObject()
+                                                                                                    .get().getType()
+                                                                                                    .toString(),
+                                                                                            attributeName);
 
         String modelAttributeName = modelAttribute.getValue().toString();
         String attributeName = modelAttributeName.isEmpty()
@@ -207,14 +192,13 @@ public class ModelBindingValidator implements Validator {
                 && !isSuppressed(componentDeclaration.getElement(), implicitModelBindingSeverity)) {
 
             String propertyName = componentDeclaration.getPropertyName();
-            String msg = String.format(IMPLICIT_MODEL_BINDING_MSG_TEMPLATE,
-                                       propertyName,
-                                       propertyName,
-                                       componentDeclaration.getAnnotationMirror(),
-                                       IMPLICIT_MODEL_BINDING);
+            String message = Messages.format(IMPLICIT_MODEL_BINDING,
+                                             componentDeclaration.getAnnotationMirror(),
+                                             propertyName,
+                                             propertyName);
 
             messager.printMessage(implicitModelBindingSeverity,
-                                  msg,
+                                  message,
                                   componentDeclaration.getElement(),
                                   componentDeclaration.getAnnotationMirror());
         }

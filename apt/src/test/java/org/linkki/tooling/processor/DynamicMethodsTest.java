@@ -16,7 +16,7 @@
 package org.linkki.tooling.processor;
 
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
@@ -26,6 +26,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.compiler.SourceFile;
+import org.linkki.tooling.validator.AspectMethodValidator;
 import org.linkki.tooling.validator.Messages;
 
 public class DynamicMethodsTest extends BaseAnnotationProcessorTest {
@@ -44,9 +45,9 @@ public class DynamicMethodsTest extends BaseAnnotationProcessorTest {
 
             compile(sources);
             List<String> logs = getLogs();
-            String msg = Messages.getString("MissingMethod_error");
-            assertTrue(logs.stream().anyMatch(log -> log.contains("kind=ERROR")));
-            assertTrue(logs.stream().anyMatch(log -> hasMessage(log, String.format(msg, "isTypeVisible", "type"))));
+            String msg = Messages.getString(AspectMethodValidator.MISSING_METHOD);
+            assertThat(logs, containsError());
+            assertThat(logs, hasMessage(String.format(msg, "isTypeVisible", "type")));
         }
     }
 

@@ -52,10 +52,6 @@ public class AspectMethodValidator implements Validator {
     public static final String MISSING_METHOD = "MISSING_METHOD";
     public static final String MISSING_METHOD_ABSTRACT_TYPE = "MISSING_METHOD_ABSTRACT_TYPE";
 
-    private static final String MSG_TEMPLATE = Messages.getString("MissingMethod_error") //$NON-NLS-1$
-            + Messages.getString("AnnotationInfo")
-            + Messages.getString("MSG_CODE");
-
 
     private final Kind missingAspectMethodSeverity;
     private final Kind missingAspectMethodAbstractTypeSeverity;
@@ -151,11 +147,10 @@ public class AspectMethodValidator implements Validator {
                 .forEach(it -> {
                     String propertyName = MethodNameUtils.toPropertyName(methodName);
 
-                    String message = String.format(MSG_TEMPLATE,
-                                                   it.getExpectedMethodName(),
-                                                   propertyName,
-                                                   aspectSubject.getAnnotationMirror(),
-                                                   messageCode);
+                    String message = Messages.format(messageCode,
+                                                     aspectSubject.getAnnotationMirror(),
+                                                     it.getExpectedMethodName(),
+                                                     propertyName);
 
                     messager.printMessage(kind,
                                           message,

@@ -37,10 +37,6 @@ public class PositionValidator implements Validator {
 
     public static final String POSITION_CLASH = "POSITION_CLASH";
 
-    private static final String MSG_TEMPLATE = Messages.getString("PositionAlreadyUsed_error") //$NON-NLS-1$
-            + Messages.getString("AnnotationInfo")
-            + Messages.getString("MSG_CODE");
-
     private final Kind positionClashSeverity;
 
     public PositionValidator(Map<String, String> options) {
@@ -75,17 +71,16 @@ public class PositionValidator implements Validator {
                     .stream()
                     .filter(it -> !isSuppressed(it.getElement(), positionClashSeverity))
                     .forEach(componentDeclaration -> {
-                        String printMessage = String.format(MSG_TEMPLATE,
-                                                            component.getPosition(),
-                                                            collidingPropertyNames,
-                                                            componentDeclaration.getAnnotationMirror(),
-                                                            POSITION_CLASH);
+                        String message = Messages.format(POSITION_CLASH,
+                                                         componentDeclaration.getAnnotationMirror(),
+                                                         component.getPosition(),
+                                                         collidingPropertyNames);
 
                         AnnotationValue positionValue = findPositionAttributeValue(componentDeclaration
                                 .getAnnotationMirror());
 
                         messager.printMessage(positionClashSeverity,
-                                              printMessage,
+                                              message,
                                               componentDeclaration.getElement(),
                                               componentDeclaration.getAnnotationMirror(),
                                               positionValue);

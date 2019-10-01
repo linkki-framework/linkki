@@ -50,9 +50,6 @@ public class PublicModifierValidator implements Validator {
 
     public static final String NON_PUBLIC_METHOD = "NON_PUBLIC_METHOD";
 
-    private static final String MSG_TEMPLATE = Messages.getString("MethodNotPublic_error")
-            + Messages.getString("MSG_CODE"); //$NON-NLS-1$
-
     private final Kind nonPulbicMethodSeverity;
 
     private final ElementUtils elementUtils;
@@ -162,7 +159,7 @@ public class PublicModifierValidator implements Validator {
     }
 
     private void printMethodNotPulic(Messager messager, ExecutableElement method) {
-        String msg = String.format(MSG_TEMPLATE, method.getSimpleName(), NON_PUBLIC_METHOD);
+        String msg = String.format(Messages.getString(NON_PUBLIC_METHOD), method.getSimpleName(), NON_PUBLIC_METHOD);
         messager.printMessage(nonPulbicMethodSeverity, msg, method);
     }
 }

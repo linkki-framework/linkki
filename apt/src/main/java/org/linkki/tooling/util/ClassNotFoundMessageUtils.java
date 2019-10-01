@@ -44,13 +44,13 @@ public final class ClassNotFoundMessageUtils {
             Messager messager,
             ExecutableElement methodElement,
             AnnotationMirror annotationMirror) {
-        String msg = Messages.getString("ClassNotFound_warning") + Messages.getString("AnnotationInfo"); //$NON-NLS-1$
+
         messager.printMessage(Kind.NOTE,
                               String.format(
-                                            msg,
+                                            Messages.getString("ClassNotFound_warning"),
                                             ((TypeElement)annotationMirror.getAnnotationType().asElement())
                                                     .getQualifiedName().toString(),
-                                            annotationMirror), // $NON-NLS-1$
+                                            annotationMirror),
                               methodElement,
                               annotationMirror);
     }

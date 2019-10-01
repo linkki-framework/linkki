@@ -16,7 +16,7 @@
 package org.linkki.tooling.processor;
 
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ import javax.annotation.processing.Processor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.linkki.tooling.validator.DynamicFieldValidator;
 import org.linkki.tooling.validator.Messages;
 
 public class DynamicFieldTest extends BaseAnnotationProcessorTest {
@@ -38,10 +39,10 @@ public class DynamicFieldTest extends BaseAnnotationProcessorTest {
             compile(asList(getSourceFile("dynamicFieldsValidator/DynamicFieldsWithDifferentPositionsPmo.java")));
 
             List<String> logs = getLogs();
-            String msg = Messages.getString("MultiComponentsDifferentPositions_error");
+            String msg = Messages.getString(DynamicFieldValidator.DYNAMIC_FIELD_MISMATCH);
             String propertyName = "component";
-            assertTrue(logs.stream().anyMatch(BaseAnnotationProcessorTest::isError));
-            assertTrue(logs.stream().anyMatch(it -> hasMessage(it, String.format(msg, propertyName))));
+            assertThat(logs, containsError());
+            assertThat(logs, hasMessage(String.format(msg, propertyName)));
         }
 
     }

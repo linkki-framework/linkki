@@ -15,7 +15,7 @@
 package org.linkki.tooling.processor;
 
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.validator.Messages;
+import org.linkki.tooling.validator.PositionValidator;
 
 public class CollidingPositionsTest extends BaseAnnotationProcessorTest {
 
@@ -38,11 +39,10 @@ public class CollidingPositionsTest extends BaseAnnotationProcessorTest {
             compile(asList(getSourceFile("Person.java"),
                            getSourceFile("componentPositionValidator/CollidingPositionsPmo.java")));
 
-            String msg = Messages.getString("PositionAlreadyUsed_error");
+            String msg = Messages.getString(PositionValidator.POSITION_CLASH);
             List<String> logs = getLogs();
-            assertTrue(logs.stream().anyMatch(BaseAnnotationProcessorTest::isError));
-            assertTrue(logs.stream()
-                    .anyMatch(it -> hasMessage(it, String.format(msg.substring(0, msg.indexOf("property")), 10))));
+            assertThat(logs, containsError());
+            assertThat(logs, hasMessage(String.format(msg.substring(0, msg.indexOf("property")), 10)));
         }
 
     }

@@ -28,46 +28,66 @@ import org.junit.jupiter.api.Test;
 public class BeanUtilsTest {
 
     @Test
-    public void testgetMethod_publicMethodIsFound() {
+    public void testGetMethod_PublicMethodIsFound() {
         Optional<Method> method = BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("foo"));
         assertThat(method, is(present()));
     }
 
     @Test
-    public void testgetMethod_interfaceMethodIsFound() {
+    public void testGetMethod_InterfaceMethodIsFound() {
         Optional<Method> method = BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("iFoo"));
         assertThat(method, is(present()));
     }
 
     @Test
-    public void testgetMethod_superTypeMethodIsFound() {
+    public void testGetMethod_SuperTypeMethodIsFound() {
         Optional<Method> method = BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("superFoo"));
         assertThat(method, is(present()));
     }
 
     @Test
-    public void testgetMethod_privateMethodIsFound() {
+    public void testGetMethod_PrivateMethodIsFound() {
         Optional<Method> method = BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("bar"));
         assertThat(method, is(present()));
     }
 
     @Test
-    public void testgetMethod_oneMatchingMethodIsFound() {
+    public void testGetMethod_OneMatchingMethodIsFound() {
         Assertions.assertThrows(IllegalStateException.class, () -> {
             BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("baz"));
         });
     }
 
     @Test
-    public void testgetMethods_allMatchingMethodsAreFound() {
+    public void testGetMethods_AllMatchingMethodsAreFound() {
         Stream<Method> declaredMethods = BeanUtils.getMethods(Foo.class, (m) -> m.getName().equals("baz"));
         assertThat(declaredMethods.count(), is(2L));
     }
 
     @Test
-    public void testgetMethod_NoMethodIsFound() {
+    public void testGetMethod_NoMethodIsFound() {
         Optional<Method> method = BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("hammaned"));
         assertThat(method, is(not(present())));
+    }
+
+    @Test
+    public void testGetPropertyName_Method_Void() throws NoSuchMethodException, SecurityException {
+        assertThat(BeanUtils.getPropertyName(IFoo.class.getMethod("iFoo")), is("iFoo"));
+    }
+
+    @Test
+    public void testGetPropertyName_String_Get() {
+        assertThat(BeanUtils.getPropertyName("getFoo"), is("foo"));
+    }
+
+    @Test
+    public void testGetPropertyName_String_Is() {
+        assertThat(BeanUtils.getPropertyName("isFoo"), is("foo"));
+    }
+
+    @Test
+    public void testGetPropertyName_String_FullName() {
+        assertThat(BeanUtils.getPropertyName("fooBar"), is("fooBar"));
     }
 
     private static interface IFoo {

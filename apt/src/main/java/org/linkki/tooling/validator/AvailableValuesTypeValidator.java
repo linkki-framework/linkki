@@ -64,11 +64,6 @@ public class AvailableValuesTypeValidator implements Validator {
                                                                                                                    AvailableValuesType.ENUM_VALUES_EXCL_NULL,
                                                                                                                    AvailableValuesType.ENUM_VALUES_INCL_NULL));
 
-    private static final String MSG_TEMPLATE = Messages.getString("AvailableValuesType_error") //$NON-NLS-1$
-            + Messages.getString("AnnotationInfo")
-            + Messages.getString("MSG_CODE");
-
-
     private final Kind wrongContentTypeSeverity;
     private final ElementUtils elementUtils;
 
@@ -172,11 +167,10 @@ public class AvailableValuesTypeValidator implements Validator {
                 .filter(it -> !isEnumOrBoolean(it.getReturnType()))
                 .findFirst()
                 .ifPresent(attributeMethod -> {
-                    String message = String.format(MSG_TEMPLATE,
-                                                   propertyName,
-                                                   availableValuesType,
-                                                   componentDeclaration.getAnnotationMirror(),
-                                                   WRONG_CONTENT_TYPE);
+                    String message = Messages.format(WRONG_CONTENT_TYPE,
+                                                     componentDeclaration.getAnnotationMirror(),
+                                                     propertyName,
+                                                     availableValuesType);
 
                     Optional<AnnotationValue> attribute = ModelUtils.findAttribute(componentDeclaration.getAttributes(),
                                                                                    CONTENT)

@@ -15,7 +15,7 @@
 package org.linkki.tooling.processor;
 
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.validator.Messages;
+import org.linkki.tooling.validator.PublicModifierValidator;
 
 public class PublicModifierTest extends BaseAnnotationProcessorTest {
 
@@ -32,16 +33,17 @@ public class PublicModifierTest extends BaseAnnotationProcessorTest {
     @DisplayName(TESTS_THAT_EXPECT_A_COMPILATION_FAILURE)
     class CompilationFailure {
 
+        String msg = Messages.getString(PublicModifierValidator.NON_PUBLIC_METHOD);
+
         @Test
         @DisplayName("caused by missing public modifier")
         void shouldFailWhenPublicModifierIsMissing() {
             compile(asList(getSourceFile("publicModifierValidator/PublicModifierMissingOnAnnotatedMethodPmo.java"),
                            getSourceFile("Person.java")));
             List<String> logs = getLogs();
-            assertTrue(logs.stream().anyMatch(it -> isError(it)));
-            String msg = Messages.getString("MethodNotPublic_error");
-            assertTrue(logs.stream().anyMatch(it -> hasMessage(it, String.format(msg, "label"))));
-            assertTrue(logs.stream().anyMatch(it -> hasMessage(it, String.format(msg, "getPerson"))));
+            assertThat(logs, containsError());
+            assertThat(logs, hasMessage(String.format(msg, "label", PublicModifierValidator.NON_PUBLIC_METHOD)));
+            assertThat(logs, hasMessage(String.format(msg, "getPerson", PublicModifierValidator.NON_PUBLIC_METHOD)));
         }
 
         @Test
@@ -51,9 +53,9 @@ public class PublicModifierTest extends BaseAnnotationProcessorTest {
                            getSourceFile("Person.java")));
 
             List<String> logs = getLogs();
-            assertTrue(logs.stream().anyMatch(it -> isError(it)));
-            String msgTemplate = Messages.getString("MethodNotPublic_error");
-            assertTrue(logs.stream().anyMatch(it -> hasMessage(it, String.format(msgTemplate, "isFirstnameEnabled"))));
+            assertThat(logs, containsError());
+            assertThat(logs,
+                       hasMessage(String.format(msg, "isFirstnameEnabled", PublicModifierValidator.NON_PUBLIC_METHOD)));
         }
 
         @Test
@@ -63,10 +65,9 @@ public class PublicModifierTest extends BaseAnnotationProcessorTest {
                            getSourceFile("Person.java")));
 
             List<String> logs = getLogs();
-            assertTrue(logs.stream().anyMatch(it -> isError(it)));
-            String msgTemplate = Messages.getString("MethodNotPublic_error");
-            assertTrue(logs.stream()
-                    .anyMatch(it -> hasMessage(it, String.format(msgTemplate, "getFirstnameComponentType"))));
+            assertThat(logs, containsError());
+            assertThat(logs, hasMessage(String.format(msg, "getFirstnameComponentType",
+                                                      PublicModifierValidator.NON_PUBLIC_METHOD)));
         }
 
     }
