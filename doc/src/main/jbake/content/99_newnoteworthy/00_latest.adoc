@@ -60,8 +60,14 @@ In addition to `@UISection`, linkki now provides `@UIHorizontalLayout`, `@UIVert
 
 Previously, `ApplicationLayout#showView` threw an `IllegalArgumentException` if the given `View` was not itself a `Component`. Now, a `View` overwriting `View#getViewComponent()` can also be used. A `View` that is neither a `Component` nor overwrites `getViewComponent()` will lead to an `IllegalStateException`.
 
+=== Custom `PropertyDispatcherFactory` in `DefaultBindingManager`
+
+The `DefaultBindingManager` provides a new constructor that allows to set a custom `PropertyDispatcherFactory`. If set, the `DefaultBindingManager` uses this custom `PropertyDispatcherFacotry` for all `BindingContexts` that are created by using 'getContext()'. Read the section about <<property-dispatcher,PropertyDispatcher>> to get more information.
+
 ==== Defaults for Labels and Captions
 
 Previously, a value had to be set for all `@UI~` annotations' label/caption attributes. Now, the default value is `"derived.by.linkki"`, which prompts *linkki* to use the capitalized property name as a label/caption. This is especially useful for rapid prototyping scenarios.
 
 When using *linkki* with Faktor-IPS, the `IpsPropertyDispatcherFactory` can now be used. It creates a `IpsPropertyDispatcher` for Faktor-IPS model objects and uses the labels defined in the Faktor-IPS model for labels/captions marked with `"derived.by.linkki"`. Note that this feature is not yet supported for component labels in row PMOs that are used as table columns.
+
+To get more information we introduced a new section in the documentation about the <<fips-extension,Faktor-IPS extension module>>.

@@ -21,6 +21,7 @@ In browse mode all form fields should be read-only. This global editing state of
 
 *linkki* provides two technical means to implement cross-sectional data binding: `PropertyDispatcher` and `PropertyBehaviors`.
 
+[[property-dispatcher]]
 ==== PropertyDispatcher
 
 The `BindingContext` (see <<binding-basics,BindingContext Basics - BindingManager>>) uses a `PropertyDispatcherFactory`, which creates multiple linked `PropertyDispatchers`. These dispatchers in turn are used to bind PMO properties (see <<binding-ui-element-properties,Binding of further UI element properties>>). `PropertyDispatchers` have methods to determine the data type and value of a property. By default *linkki* creates four linked dispatchers, where each delegates to the next if it can't provide the value:
@@ -33,9 +34,9 @@ The `BindingContext` (see <<binding-basics,BindingContext Basics - BindingManage
 .Example for PropertyDispatcher
 image::{images}{images-folder-name}/vertical_binding.png[]
 
-Custom dispatchers can be created via a `PropertyDispatcherFactory` (in its own `BindingContext`). There the method `createCustomDispatchers` must be overwritten to create one or more custom dispatchers. These dispatchers are inserted between `BehaviorDependentDispatcher` and `BindingAnnotationDispatcher`.
+Custom dispatchers can be created via a `PropertyDispatcherFactory`. There, the method `createCustomDispatchers` can be overridden to create one or more custom dispatchers. These dispatchers are inserted between `BehaviorDependentDispatcher` and `BindingAnnotationDispatcher`.
 
-The `DefaultBindingManager` offers a constructor to pass a custom `PropertyDispatcherFactory`. If set, the `DefaultBindingManager` uses this custom `PropertyDispatcherFacotry` for all `BindingContexts` that are created by using 'getContext()'.   
+The `DefaultBindingManager` offers a constructor to pass a custom `PropertyDispatcherFactory`. If set, the `DefaultBindingManager` uses this custom `PropertyDispatcherFacotry` for all `BindingContexts` that are created by using 'getContext()'.
 
 [[property-behavior]]
 ==== PropertyBehaviors

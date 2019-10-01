@@ -46,9 +46,11 @@ public class IpsUI extends UI {
         IpsModelObject ipsModelObject = new IpsModelObject();
         IpsPmo pmo = new IpsPmo(ipsModelObject);
 
+        // tag::createBindingManager[]
         BindingManager bindingManager = new DefaultBindingManager(
                 () -> MessageConverter.convert(ipsModelObject.validate(new ValidationContext())),
                 PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, new IpsPropertyDispatcherFactory());
+        // end::createBindingManager[]
 
         AbstractSection section = new PmoBasedSectionFactory().createSection(pmo,
                                                                              bindingManager.getContext(getClass()));

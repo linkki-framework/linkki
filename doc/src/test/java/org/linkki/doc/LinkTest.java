@@ -13,6 +13,7 @@
  */
 package org.linkki.doc;
 
+import static org.hamcrest.Matchers.either;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.Assert.assertThat;
@@ -96,7 +97,8 @@ public class LinkTest {
                     responseCode = connectTo(url, 10_000);
                 }
                 assertThat("external link '" + link + "' in '" + from + "' returns wrong http status",
-                           responseCode, is(HttpURLConnection.HTTP_OK));
+                           responseCode,
+                           either(is(HttpURLConnection.HTTP_OK)).or(is(HttpURLConnection.HTTP_MOVED_TEMP)));
             } catch (IOException e) {
                 fail("external link '" + link + "' in '" + from + "' could not be resolved:\n" + e);
             }
