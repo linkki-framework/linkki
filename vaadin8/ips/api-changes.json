@@ -1,14 +1,47 @@
 {
   "all-versions": {
     "revapi": {
-        "ignore": [
-            {
-              "regex": true,
-              "code": "java\\.missing\\.(old|new)Class",
-              "old": "missing-class javax\\.servlet\\.http.*",
-              "new": "missing-class javax\\.servlet\\.http.*",
-              "justification": "servlet api is provided by transitive dependency"
-            }
+      "ignore": [
+        {
+          "regex": true,
+          "code": "java\\.missing\\.(old|new)Class",
+          "old": "missing-class javax\\.servlet\\.http.*",
+          "new": "missing-class javax\\.servlet\\.http.*",
+          "justification": "servlet api is provided by transitive dependency"
+        },
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI","new":".* org\\.linkki\\.core\\..*",
+          "justification": "linkki types are safe to be exposed",
+          "classQualifiedName": "org\\.linkki\\.core\\..*"
+        }
+      ]
+    }
+  },
+  "1.1.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.method.defaultValueChanged",
+          "old": "method java.lang.String org.linkki.ips.decimalfield.UIDecimalField::label()",
+          "new": "method java.lang.String org.linkki.ips.decimalfield.UIDecimalField::label()",
+          "justification": "LIN7",
+          "oldValue": "\"\"",
+          "newValue": "\"derived.by.linkki\"",
+          "methodName": "label"
+        },
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",
+          "new": ".* org\\.faktorips\\.runtime\\..*",
+          "justification": "LIN-7 :: Upgrade from runtime-client to runtime because we need the IpsModel"
+        },
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",
+          "new": ".* org\\.faktorips\\.valueset\\..*",
+          "justification": "LIN-7 :: Upgrade from runtime-client to runtime because we need the IpsModel"
+        }
       ]
     }
   }

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    This XML file contains the properties of the enclosing IPS project. It contains the following 
+     information:
+    The generator used to transform the model to Java sourcecode and the product definition into the runtime format.
+    The path where to search for model and product definition files. This is basically the same concept as the  Java 
+    classpath. A strategy that defines how to name product components and what names are valid.
+    The datatypes that can be used in the model. Datatypes used in the model fall into two categeories:
+     * Predefined datatype
+       Predefined datatypes are defined by the datatype definition extension. Faktor-IPS predefines datatypes for
+       the standard Java classes like Boolean, String, Integer, etc. and some additional types, for example Money.
+       You can add you own datatype be providing an extension and then use it from every IPS project.
+     * User defined datatype (or dynamic datatype)
+       If you want to use a Java class that represents a value as datatype, but do not want to provide an extension for
+       it, you can register this class as datatype in this file. See the details in the description of the datatype 
+       section below how to register the class. Naturally, the class must be available via the project's Java classpath.
+       It is strongly recommended to provide the class via a JAR file or in a separate Java project.
+     
+    <IpsProject>
+        productDefinitionProject                           True if this project contains elements of the product definition.
+        modelProject                                       True if this project contains the model or part of it.
+        runtimeIdPrefix                                    
+        changesInTimeNamingConvention                      Specifies the naming conventions for changes in time that 
+                                                           are used throughout the system. Possible values are VAA and PM
+        <IpsArtefactBuilderSet/>                           The generator used. Details below.
+        <IpsObjectPath/>                                   The object path to search for model and product definition
+                                                           objects. Details below.
+        <ProductCmptNamingStrategy/>                       The strategy used for product component names. Details below.
+        <Datatypes/>                                       The datatypes used in the model. Details below.
+        <OptionalConstraints/>                             Definition of optional constraints. Details below.
+        <SupportedLanguages/>                              List of supported natural languages. Details below.
+    </IpsProject>
+--><IpsProject changesInTimeNamingConvention="FIPS" modelProject="true" persistentProject="false" productDefinitionProject="false" runtimeIdPrefix="linkki.">
+
+ <!--
+        Required Ips-Features
+         
+        In this section, all required features are listed with the minimum version for these features.
+        By default, the feature with id "org.faktorips.feature" is always required (because this is the core 
+        feature of Faktor-IPS. Other features can be required if plugins providing extensions for any extension points
+        defined by Faktor-IPS are used.
+        If a required feature is missing or a required feature has a version less than the minimum version number 
+        this project will not be build (an error is created).
+         
+        <RequiredIpsFeatures>
+            <RequiredIpsFeature id="org.faktorips.feature"    The id of the required feature.
+                minVersion="0.9.38"                           The minimum version number of this feature
+        </RequiredIpsFeatures>
+    -->
+ <RequiredIpsFeatures>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="19.7.0"/>
+ </RequiredIpsFeatures>
+
+ <!--
+        Artefact builder set
+         
+        In this section the artefact builder set (code generator) is defined. Faktor-IPS comes with a standard builder set.
+        However the build and generation mechanism is completly decoupled from the modeling and product definition capabilities
+        and you can write your own builders and generators. A different builder set is defined by providing an extension for
+        the extension point "org.faktorips.devtools.core.artefactbuilderset" defined by Faktor-IPS plugin
+        A builder set is activated for an IPS project by defining the IpsArtefactBuilderSet tag. The attribute "id" specifies
+        the builder set implementation that is registered as an extension. Note: The unique identifier of the extension is to specify.
+        <IpsArtefactBuilderSet id="org.faktorips.devtools.stdbuilder.ipsstdbuilderset"/> A builder set can be configured by specifing a 
+        nested tag <IpsArtefactBuilderSetConfig/>. A configuration contains a set of properties which are specified by nested
+        <Property name="" value=""/> tags. The possible properties and their values is specific to the selected builder set.
+        The initially generated .ipsproject file contains the set of possible configuration properties for the selected builder set
+        including their descriptions.
+    -->
+ <IpsArtefactBuilderSet id="org.faktorips.devtools.stdbuilder.ipsstdbuilderset">
+  <IpsArtefactBuilderSetConfig>
+
+   <!--Enables the generation of JAXB support-->
+   <Property name="generateJaxbSupport" value="false"/>
+
+   <!--Generate the published interfaces (true) or only implementation classes (false)-->
+   <Property name="generatePublishedInterfaces" value="false"/>
+
+   <!--Define the qualified names of annotations which are added for every generated method (for example java.lang.SuppressWarnings or javax.annotation.Generated("org.faktorips.devtools.stdbuilder")). Multiple annotations are separated by semicolon.-->
+   <Property name="additionalAnnotations" value=""/>
+
+   <!--Separate constant names for camel case properties with an underscore-->
+   <Property name="camelCaseSeparated" value="true"/>
+
+   <!--Defines the qualified name of the base class of all policy components. Leave the value empty if the default base class should be used.-->
+   <Property name="baseClassPolicyComponent" value=""/>
+
+   <!--The logging connector that is used for the generation of logging code. The generation of logging code is disabled if the value "None" is specified. Possible values are the IDs of extensions of the extension point "org.faktorips.devtools.core.loggingFrameworkConnector". Two extension come with the standard "org.faktorips.devtools.core.javaUtilLoggingConnector" and "org.faktorips.devtools.core.log4jLoggingConnector"-->
+   <Property name="loggingFrameworkConnector" value="None"/>
+
+   <!--Mark none mergeable resources as derived-->
+   <Property name="markNoneMergeableResourcesAsDerived" value="false"/>
+
+   <!--Define the names of annotations which are retained if manually added to a generated method (for example Override). Multiple annotations are separated by semicolon. The name must be written as used in the annotation - if the annotation is qualified (for example because there are several annotations with the same unqualified names), the qualified name must be used here, otherwise the unqualified name. -->
+   <Property name="retainAnnotations" value=""/>
+
+   <!--Specifies the kind of formula compiling.-->
+   <Property name="formulaCompiling" value="Both"/>
+
+   <!--The language in which the code and documentation is generated. Currently supported are the values de and en.-->
+   <Property name="generatorLocale" value="en"/>
+
+   <!--Generates toXml() methods into Product Component and Generation classes-->
+   <Property name="toXMLSupport" value="false"/>
+
+   <!--Enables the generation of a model copy mechanism-->
+   <Property name="generateCopySupport" value="false"/>
+
+   <!--Enables the generation of visitor code-->
+   <Property name="generateVisitorSupport" value="false"/>
+
+   <!--The persistence provider, which will be used to generate special vendor specific features. Currently supported provider are 'EclipseLink 1.1', 'EclipseLink 2.5', 'Generic JPA 2.0' and 'Generic JPA 2.1'.-->
+   <Property name="persistenceProvider" value="Generic JPA 2.0"/>
+
+   <!--Enables the generation of a delta determining mechanism for model objects-->
+   <Property name="generateDeltaSupport" value="false"/>
+
+   <!--Defines the qualified name of the base class of all product components. Leave the value empty if the default base class should be used.-->
+   <Property name="baseClassProductComponent" value=""/>
+
+   <!--Enables the generation of getter methods of ProductComponentType attributes in the according PolicyCmptType class.-->
+   <Property name="generateConvenienceGetters" value="false"/>
+
+   <!--Define what helper variant is used for local date data types (LocalDate, LocalDateTime, LocalTime), i.e. Joda or Java8-->
+   <Property name="localDateDatatypeHelperVariant" value="java8"/>
+
+   <!--Builders simplify the process of instantiating test structures.-->
+   <Property name="builderClasses" value="None"/>
+
+   <!--Enables the generation of a notification mechanism-->
+   <Property name="generateChangeListener" value="false"/>
+
+   <!--Enables the generation of Serializable support on policy components-->
+   <Property name="serializablePolicyCmpts" value="false"/>
+  </IpsArtefactBuilderSetConfig>
+ </IpsArtefactBuilderSet>
+
+ <!--
+        Product Component Naming Strategy
+         
+        The naming strategy defines the structure of product component names and how characters that are not allowed
+        in Java identifiers are replaced by the code generator. In order to deal with different versions of 
+        a product you need a strategy to derive the version from the product component name. 
+         
+        Currently Faktor-IPS includes the following strategy:
+         * DateBasedProductCmptNamingStrategy
+           The product component name is made up of a "unversioned" name and a date format for the version id.
+           <ProductCmptNamingStrategy id="org.faktorips.devtools.core.DateBasedProductCmptNamingStrategy">
+               <DateBasedProductCmptNamingStrategy 
+                   dateFormatPattern="yyyy-MM"                           Format of the version id according to
+                                                                           java.text.DateFormat
+                   postfixAllowed="true"                                 True if the date format can be followed by
+                                                                           an optional postfix.
+                   versionIdSeparator=" ">                               The separator between "unversioned name"
+                                                                           and version id.
+                   <JavaIdentifierCharReplacements>                        Definition replacements for charcacters invalid 
+                                                                           in Java identifiers.
+                       <Replacement replacedChar=" " replacement="___"/> Example: Replace Blank with three underscores
+                       <Replacement replacedChar="-" replacement="__"/>  Example: Replace Hyphen with two underscores
+                   </JavaIdentifierCharReplacements>
+               </DateBasedProductCmptNamingStrategy>
+            </ProductCmptNamingStrategy>
+    -->
+ <ProductCmptNamingStrategy id="org.faktorips.devtools.core.DateBasedProductCmptNamingStrategy">
+  <DateBasedProductCmptNamingStrategy dateFormatPattern="yyyy-MM" postfixAllowed="true" versionIdSeparator=" ">
+   <JavaIdentifierCharReplacements>
+    <Replacement replacedChar=" " replacement="___"/>
+    <Replacement replacedChar="-" replacement="__"/>
+   </JavaIdentifierCharReplacements>
+  </DateBasedProductCmptNamingStrategy>
+ </ProductCmptNamingStrategy>
+
+ <!--
+        IpsObjectPath : 
+        The IpsObjectPath defines where Faktor-IPS searches for model and product definition files/objects for this project.
+        Basically it is the same concept as the Java classpath.
+        <IpsObjectPath 
+         useManifest                             Boolean flag that indicates whether the IpsObjectPath is managed within the manifest.mf. If this optional attribute is set to "true", then no other Attribute oder Child is allowed.
+         outputDefinedPerSrcFolder               Boolean flag that indicates if there are separate output folders for each source folder
+         outputFolderMergableSources             The output folder for the generated artefacts that will not be deleted during a clean build cycle but may be merged with the generated content during a build cycle
+         basePackageMergable                     The base package for generated and merable java files
+         outputFolderDerivedSources              The output folder for the generated artefacts that will be deleted during a clean build cycle and newly generated during each build cycle
+         basePackageDerived                      The base package for generated derived java files
+        The IpsObjectPath is defined through one or more entries.
+        Currently the following entry types are supported:
+         
+        Sourcefolder:
+          <Entry
+            type="src"
+            sourceFolder="model"            Folder in the project that contains the Faktor-IPS model and product definition files.
+            outputFolderMergable="src"      Folder in the project where the generator puts the java source files which content will be merged with the newly generated content during each build cycle.
+            basePackageMergable="org.foo"   The package prefix for all generated but mergable java files.
+            tocPath="motor/motor-reposiory-toc.xml" 
+                                              The partial path of the resource containing the runtime repository table of content (toc).
+                                              The full path is derived from the basePackageMergeable by adding this partial path.
+                                              The file is not part of the published interface so it is places in the internal package.
+            validationMessagesBundle="motor.validation-messages" 
+                                              The partial name of the resource bundle containing the validation messages.
+                                              The full resource bundle name is derived from basePackageDerived adding this parial name.
+                                              For getting the name of the resulting property file, the resource bundle algorithm adds the locale and '.properties' to the bundle name.
+            outputFolderDerived=""          Folder within the project where the generator puts java source files that will be overridden during each build cycle and delete and regenerated during a clean build cycle.
+                                              Other builders can choose to maintain user code in a separate folder which is defined here.
+                                              If you use the standard builder, leave the atribute empty.
+            basePackageDerived=""          Package prefix for all generated derived Java classes in the output folder for derived sources. See above.
+            uniqueQualifier="">            Optional argument if the basePackage names are not unique for all referencing source folders.
+         </Entry>
+         
+        Project Reference:
+          <Entry
+             type="project"
+             referencedIpsProject="base">      The other project used by this project.
+          </Entry>
+         
+        Archive:
+          <Entry
+             type="archive"
+             file="base.ipsar">      The archive file.
+          </Entry>
+    -->
+ <IpsObjectPath basePackageDerived="org.linkki.ips.test.model" basePackageMergable="org.linkki.ips.test.model" outputDefinedPerSrcFolder="false" outputFolderDerivedSources="src/test/resources" outputFolderMergableSources="src/test/java">
+  <Entry basePackageDerived="" basePackageMergable="" outputFolderDerived="" outputFolderMergable="" reexported="true" sourceFolder="testmodel" tocPath="faktorips-repository-toc.xml" type="src" validationMessagesBundle="validation-messages"/>
+ </IpsObjectPath>
+
+ <!--
+        Datatypes
+         
+        In the datatypes section the value datatypes allowed in the model are defined.
+        See also the discussion at the top this file.
+         
+        <UsedPredefinedDatatypes>
+            <Datatype id="Money"\>                                 The id of the datatype that should be used.
+        </UsedPredefinedDatatypes>
+         
+        <DatatypeDefinitions>
+            <Datatype id="PaymentMode"                             The datatype's id used in the model to refer to it.
+                javaClass="org.faktorips.sample.PaymentMode"       The Java class the datatype represents
+                valueObject="true|false"                           True indicates this is a value object (according to the value object pattern.) 
+                - - - the following attributes are only needed for value objects - - -
+                isEnumType="true|false"                            True if this is an enumeration of values.
+                valueOfMethod="getPaymentMode"                     Name of the method that takes a String and returns an
+                                                                     object instance/value.
+                isParsableMethod="isPaymentMode"                   Name of the method that evaluates if a given string
+                                                                     can be parsed to an instance.
+                valueToStringMethod="toString"                     Name of the method that transforms an object instance
+                                                                      to a String (that can be parsed via the valueOfMethod)
+                getAllValuesMethod="getAllPaymentModes"            For enums only: The name of the method that returns all values
+                isSupportingNames="true"                           For enums only: True indicates that a string
+                                                                     representation for the user other than the one defined by the valueToStringMethod exists.
+                getNameMethod="getName">                           For enums only: The name of the method that returns
+                                                                     the string representation for the user, if
+                                                                     isSupportingNames=true
+                <NullObjectId isNull="false">n</NullObjectId>      Marks a value as a NullObject. This has to be used,
+                                                                     if the Java class implements the null object pattern,
+                                                                     otherwise omitt this element. The element's text
+                                                                     defines the null object's id. Calling the valueOfMethod
+                                                                     with this name must return the null object instance. If
+                                                                     the null object's id is null, leave the text empty
+                                                                     and set the isNull attribute to true.
+            </Datatype>
+        </DatatypeDefinitions>
+    -->
+ <Datatypes>
+  <UsedPredefinedDatatypes>
+   <Datatype id="LocalDateTime"/>
+   <Datatype id="LocalTime"/>
+   <Datatype id="GregorianCalendar"/>
+   <Datatype id="MonthDay"/>
+   <Datatype id="String"/>
+   <Datatype id="Double"/>
+   <Datatype id="LocalDate"/>
+   <Datatype id="Date"/>
+   <Datatype id="int"/>
+   <Datatype id="long"/>
+   <Datatype id="BigDecimal"/>
+   <Datatype id="Integer"/>
+   <Datatype id="Money"/>
+   <Datatype id="boolean"/>
+   <Datatype id="Decimal"/>
+   <Datatype id="Long"/>
+   <Datatype id="Boolean"/>
+  </UsedPredefinedDatatypes>
+  <DatatypeDefinitions/>
+ </Datatypes>
+
+ <!--
+        Resources excluded from the product definition
+         
+        In this section, all resources which will be excluded (hidden) in the product definition are listed.
+        The resource must be identified by its full path, relative to the project the resource belongs to.
+         
+        <ResourcesExcludedFromProductDefinition>
+            <Resource path="src"/>              Example: The 1st excluded resource, identified by its path.
+            <Resource path="build/build.xml"/>  Example: The 2nd excluded resource, identified by its path.
+        </ResourcesExcludedFromProductDefinition>
+    -->
+ <ResourcesExcludedFromProductDefinition/>
+
+ <!--
+        Product Release
+         
+        In this section, the product defintion release is configured. You could reference an release extension
+        by specifying the releaseExtensionId. This extension is used by the release builder wizard.
+        The version for the latest release is configured in a separate element below.The version of the latest release is also configured in this element. If you use the release builder wizard
+        you should not set this version manually but using the release builder wizard.
+         
+        <ProductRelease releaseExtensionId="id-of-the-extension"/>
+    -->
+
+ <!--
+        Version
+         
+        In this section, the version for this project is specified. In alternativ to directly see a version
+        it is possible to configure a version provider.
+        Examples:
+        <Version version="1.2.3"/>
+        or
+        <Version versionProvider="org.faktorips.devtools.core.bundleVersionProvider"/>
+    -->
+
+ <!--
+        AdditionalSettings
+         
+        Some of the settings defined in the Faktor-IPS metamodel are optional.
+        In this section you can enable or disable these additional settings.
+         
+        <AdditionalSettings>
+            <!- - True if Faktor-IPS checks if all derived unions are implemented in none abstract classes. - ->
+            <Setting enabled="true" name="derivedUnionIsImplemented"/>
+            <!- - True if Faktor-IPS checks if referenced product components are valid on the effective date 
+                of the referencing product component generation. - ->
+            <Setting enabled="true" name="referencedProductComponentsAreValidOnThisGenerationsValidFromDate"/>
+            <!- - True to allow rules without references - ->
+            <Setting enabled="true" name="rulesWithoutReferencesAllowed"/>
+            <!- - True to allow shared associations. Shared associations are detail-to-master associationis that can be used
+                by multiple master-to-detail associations- ->
+            <Setting enabled="true" name="sharedDetailToMasterAssociations"/>
+            <!- - True to allow navigation via associations in formulas. - ->
+            <Setting enabled="true" name="associationsInFormulas"/>
+            <!- - Set the language in which the expression language's functions are used. E.g. the 'if' function is called IF in English, but WENN in German.
+                Only English (en) and German (de) are supported at the moment. - ->
+            <Setting name="formulaLanguageLocale" value="en"/>
+            <!- - Represents the qualified name of the marker enums seperated by ";". For further processing only the first entered qualified name will be considered - ->
+                True to allow usage of marker enums. - ->
+            <Setting enabled="true" name="markerEnums" value="markerEnumName"/>
+            <!- - True to allow business functions for validation rules. - ->
+            <Setting enabled="true" name="businessFunctionsForValidationRules"/>
+            <!- - False to set the default state of changing over time flag on product component types to disabled. - ->
+            <Setting enabled="false" name="changingOverTimeDefault"/>
+            <!- - When inferring a template from multiple product components, Faktor-IPS checks whether a link is used in all or at least many of those product components.
+                This setting determines, which ratio is considered 'many'. The default value of 1.0 only considers links used by all selected product components.- ->
+            <Setting name="inferredTemplateLinkThreshold" value="1.0"/>
+            <!- - When inferring a template from multiple product components, Faktor-IPS checks whether a property value is used in all or at least many of those product components.
+                This setting determines, which ratio is considered 'many'. The default value of 0.8 only considers values used in at least 80% of all selected product components.- ->
+            <Setting name="inferredTemplatePropertyValueThreshold" value="0.8"/>
+        </AdditionalSettings>
+    -->
+ <AdditionalSettings>
+  <Setting enabled="true" name="derivedUnionIsImplemented"/>
+  <Setting enabled="true" name="referencedProductComponentsAreValidOnThisGenerationsValidFromDate"/>
+  <Setting enabled="false" name="rulesWithoutReferencesAllowed"/>
+  <Setting enabled="false" name="sharedDetailToMasterAssociations"/>
+  <Setting enabled="false" name="associationsInFormulas"/>
+  <Setting name="formulaLanguageLocale" value="en"/>
+  <Setting enabled="true" name="markerEnums" value=""/>
+  <Setting enabled="false" name="businessFunctionsForValidationRules"/>
+  <Setting enabled="false" name="changingOverTimeDefault"/>
+  <Setting name="inferredTemplateLinkThreshold" value="1"/>
+  <Setting name="inferredTemplatePropertyValueThreshold" value="0.8"/>
+ </AdditionalSettings>
+
+ <!--
+        PersistenceOptions
+         
+        In this section you can adjust parameters relating the persistence of IPolicyCmptTypes.
+        The table and column naming strategies define how identifier names are transformed into
+        database table and column names. The attributes maxTableNameLength and maxColumnNameLength
+        constrain the maximum possible length of a table or column name.
+        The attribute allowLazyFetchForSingleValuedAssociations defines if is is allowed to use lazy fetching 
+        on the association side which holds a single value (to-one relationship side).
+         
+        <PersistenceOptions maxColumnNameLength="255" maxTableNameLength="255">
+            <TableNamingStrategy id="org.faktorips.devtools.core.CamelCaseToUpperUnderscoreTableNamingStrategy">
+            <TableColumnNamingStrategy id="org.faktorips.devtools.core.CamelCaseToUpperUnderscoreColumnNamingStrategy">
+        </PersistenceOptions>
+         
+        Currently Faktor-IPS includes the strategies CamelCaseToUpperUnderscoreTableNamingStrategy
+        for tables and CamelCaseToUpperUnderscoreColumnNamingStrategy for columns, examples:
+            IdentifierName1 -> IDENTIFIER_NAME1
+    -->
+ <PersistenceOptions allowLazyFetchForSingleValuedAssociations="true" maxColumnNameLength="255" maxTableColumnPrecision="255" maxTableColumnScale="255" maxTableColumnSize="255" maxTableNameLength="255">
+  <TableNamingStrategy id="org.faktorips.devtools.core.CamelCaseToUpperUnderscoreTableNamingStrategy"/>
+  <TableColumnNamingStrategy id="org.faktorips.devtools.core.CamelCaseToUpperUnderscoreColumnNamingStrategy"/>
+ </PersistenceOptions>
+
+ <!--
+        Supported Languages
+         
+        This section lists all natural languages that are supported by this IPS project.
+        Each language is identified by it's locale which is the ISO 639 language code, 
+        e.g. 'en' for English.
+        Exactly one supported language must be marked as default language. The default language 
+        will be used if a language is requested that is not supported by this IPS project.
+         
+        <SupportedLanguages>
+            <SupportedLanguage locale="en" defaultLanguage="true"/>
+            <SupportedLanguage locale="de"/>
+        </SupportedLanguages>
+    -->
+ <SupportedLanguages>
+  <SupportedLanguage defaultLanguage="true" locale="en"/>
+  <SupportedLanguage locale="de"/>
+ </SupportedLanguages>
+
+ <!--
+        Setting the default currency for this project using the ISO 4217 code of the currency (e.g. EUR for euro or USD for US Dollar)
+    -->
+ <DefaultCurrency value="EUR"/>
+</IpsProject>

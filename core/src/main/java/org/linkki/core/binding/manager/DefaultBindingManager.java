@@ -16,6 +16,7 @@ package org.linkki.core.binding.manager;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationService;
 
@@ -26,48 +27,73 @@ import org.linkki.core.binding.validation.ValidationService;
 public class DefaultBindingManager extends BindingManager {
 
     private final PropertyBehaviorProvider defaultBehaviorProvider;
+    private PropertyDispatcherFactory propertyDispatcherFactory;
 
     /**
-     * Creates a {@link BindingManager} that returns standard {@link BindingContext BindingContexts}
-     * with {@link PropertyBehaviorProvider#NO_BEHAVIOR_PROVIDER} and
-     * {@link ValidationService#NOP_VALIDATION_SERVICE}.
+     * Creates a {@link BindingManager} that returns {@link BindingContext BindingContexts} with
+     * {@link PropertyBehaviorProvider#NO_BEHAVIOR_PROVIDER},
+     * {@link ValidationService#NOP_VALIDATION_SERVICE} and the default {@link PropertyDispatcherFactory
+     * PropertyDispatcherFactory}.
      */
     public DefaultBindingManager() {
         this(ValidationService.NOP_VALIDATION_SERVICE);
     }
 
     /**
-     * Creates a {@link BindingManager} that returns standard {@link BindingContext BindingContexts}
-     * with {@link PropertyBehaviorProvider#NO_BEHAVIOR_PROVIDER}.
+     * Creates a {@link BindingManager} that returns {@link BindingContext BindingContexts} with the
+     * given {@link ValidationService ValidationService},
+     * {@link PropertyBehaviorProvider#NO_BEHAVIOR_PROVIDER} and the default
+     * {@link PropertyDispatcherFactory}.
      */
     public DefaultBindingManager(ValidationService validationService) {
         this(validationService, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
     }
 
     /**
-     * Creates a {@link BindingManager} that returns standard {@link BindingContext BindingContexts}
-     * with the given {@link PropertyBehaviorProvider}, as long as no other
-     * {@link PropertyBehaviorProvider} is specified in an explicit call to
-     * {@link #createContext(Class, PropertyBehaviorProvider)}.
+     * Creates a {@link BindingManager} that returns {@link BindingContext BindingContexts} with the
+     * given {@link ValidationService}, {@link PropertyBehaviorProvider} and the default
+     * {@link PropertyDispatcherFactory PropertyDispatcherFactory}.
+     *
+     * @implNote The {@link PropertyBehaviorProvider} used for context creation can be overruled by
+     *           specifying the {@link PropertyBehaviorProvider} explicitly in
+     *           {@link #createContext(Class, PropertyBehaviorProvider)} or
+     *           {@link #createContext(String, PropertyBehaviorProvider)}.
      */
     public DefaultBindingManager(ValidationService validationService,
             PropertyBehaviorProvider defaultBehaviorProvider) {
+        this(validationService, defaultBehaviorProvider, new PropertyDispatcherFactory());
+    }
+
+    /**
+     * Creates a {@link BindingManager} that returns standard {@link BindingContext BindingContexts}
+     * with the given {@link ValidationService}, {@link PropertyBehaviorProvider} and
+     * {@link PropertyDispatcherFactory}.
+     * 
+     * @implNote The {@link PropertyBehaviorProvider} used for context creation can be overruled by
+     *           specifying the {@link PropertyBehaviorProvider} explicitly in
+     *           {@link #createContext(Class, PropertyBehaviorProvider)} or
+     *           {@link #createContext(String, PropertyBehaviorProvider)}.
+     */
+    public DefaultBindingManager(ValidationService validationService,
+            PropertyBehaviorProvider defaultBehaviorProvider, PropertyDispatcherFactory propertyDispatcherFactory) {
         super(validationService);
         this.defaultBehaviorProvider = requireNonNull(defaultBehaviorProvider,
                                                       "defaultBehaviorProvider must not be null");
+        this.propertyDispatcherFactory = requireNonNull(propertyDispatcherFactory,
+                                                        "propertyDispatcherFactory must not be null");
     }
 
     @Override
     protected BindingContext newBindingContext(String name) {
         requireNonNull(name, "name must not be null");
-        return new BindingContext(name, getDefaultBehaviorProvider(), this::afterUpdateUi);
+        return new BindingContext(name, getDefaultBehaviorProvider(), propertyDispatcherFactory, this::afterUpdateUi);
     }
 
     @Override
     protected BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider) {
         requireNonNull(name, "name must not be null");
         requireNonNull(behaviorProvider, "behaviorProvider must not be null");
-        return new BindingContext(name, behaviorProvider, this::afterUpdateUi);
+        return new BindingContext(name, behaviorProvider, propertyDispatcherFactory, this::afterUpdateUi);
     }
 
     /**

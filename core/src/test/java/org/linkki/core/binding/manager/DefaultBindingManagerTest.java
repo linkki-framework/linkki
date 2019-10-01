@@ -15,13 +15,25 @@ package org.linkki.core.binding.manager;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.TestPmo;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.defaults.nls.TestComponentWrapper;
+import org.linkki.core.defaults.nls.TestUiComponent;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -31,6 +43,10 @@ public class DefaultBindingManagerTest {
     PropertyBehaviorProvider behaviorProvider1;
     @Mock
     PropertyBehaviorProvider behaviorProvider2;
+    @Spy
+    PropertyDispatcherFactory dispatcherFactory;
+    @Mock
+    List<LinkkiAspectDefinition> aspectDefs;
 
     @Test
     public void testStartNewContext_BindingContextUsesManagersPropertyBehaviorProvider() {
@@ -50,4 +66,14 @@ public class DefaultBindingManagerTest {
         assertThat(bindingContext.getBehaviorProvider(), is(behaviorProvider2));
     }
 
+    @Test
+    public void testStartNewContext_BindingContextUsesCustomPropertyDispatcherFactory() {
+        DefaultBindingManager defaultBindingManager = new DefaultBindingManager(() -> new MessageList(),
+                behaviorProvider1, dispatcherFactory);
+        BindingContext bindingContext = defaultBindingManager.getContext("foo");
+        bindingContext.bind(new TestPmo(), BoundProperty.of(""), aspectDefs,
+                            new TestComponentWrapper(new TestUiComponent()));
+
+        verify(dispatcherFactory, times(1)).createDispatcherChain(any(), any(), any());
+    }
 }

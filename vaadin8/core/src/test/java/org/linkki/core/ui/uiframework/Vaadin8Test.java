@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 
 import org.junit.After;
 import org.junit.Test;
-import org.linkki.core.ui.bind.MockUi;
+import org.linkki.core.ui.mock.MockUi;
 import org.linkki.core.uiframework.UiFramework;
 
 import com.vaadin.ui.Component;

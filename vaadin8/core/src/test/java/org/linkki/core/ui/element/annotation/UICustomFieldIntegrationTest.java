@@ -70,6 +70,11 @@ public class UICustomFieldIntegrationTest
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
+    @Test
+    public void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    }
+
     @Override
     protected ComponentAnnotationTestModelObject getDefaultModelObject() {
         return (ComponentAnnotationTestModelObject)super.getDefaultModelObject();
@@ -107,6 +112,11 @@ public class UICustomFieldIntegrationTest
         @UICustomField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, uiControl = ComboBox.class)
         public void staticValue() {
             // model binding
+        }
+
+        @UICustomField(position = 3, uiControl = ComboBox.class)
+        public TestEnum getFoo() {
+            return TestEnum.THREE;
         }
     }
 

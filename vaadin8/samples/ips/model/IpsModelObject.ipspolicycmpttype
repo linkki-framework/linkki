@@ -18,6 +18,16 @@
    </Range>
   </ValueSet>
  </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" id="ad1111f6-870a-48a1-8ced-244b302e65f8" modifier="published" name="string" overwrite="false" productRelevant="false">
+  <DefaultValue isNull="true"/>
+  <Label id="397b92d2-ee11-4615-bdaf-e5390e557931" locale="en" pluralValue="" value="A String attribute"/>
+  <Label id="ab358a04-a604-4261-b23c-c0c7bd4cd0db" locale="de" pluralValue="" value="Ein String-Attribut"/>
+  <Description id="be827fde-8355-4abe-91b2-dd1fc8af6083" locale="en"/>
+  <Description id="1c1bb28f-8edd-4ccc-bc63-88405b8a991b" locale="de"/>
+  <ValueSet abstract="false" id="61ca5764-015a-48ae-998d-19dd62e8ed62">
+   <AllValues containsNull="true"/>
+  </ValueSet>
+ </Attribute>
  <ValidationRuleDef activatedByDefault="true" appliedForAllBusinessFunctions="true" category="" changingOverTime="false" checkValueAgainstValueSetRule="true" configurableByProductComponent="false" id="bfbbd3bc-d99c-496a-8425-233c8b08c71b" messageCode="INVALID_DECIMAL" messageSeverity="error" modifier="published" name="checkDecimal" validatedAttrSpecifiedInSrc="false">
   <ValidatedAttribute name="decimal"/>
   <Markers>

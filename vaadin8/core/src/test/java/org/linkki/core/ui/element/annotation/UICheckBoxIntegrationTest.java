@@ -109,6 +109,9 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
 
         CheckBox checkBox = getStaticComponent();
         assertThat(checkBox.getCaption(), is(AnnotationTestPmo.TEST_CAPTION));
+
+        CheckBox checkBoxWithDerivedCaption = getComponentById("foo");
+        assertThat(checkBoxWithDerivedCaption.getCaption(), is("Foo"));
     }
 
     @Test(expected = NullPointerException.class)
@@ -143,6 +146,11 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
         @UICheckBox(position = 2, caption = TEST_CAPTION, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
+        }
+
+        @UICheckBox(position = 3)
+        public boolean getFoo() {
+            return true;
         }
     }
 

@@ -72,6 +72,12 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
         assertTrue(getDefaultPmo().isClicked());
     }
 
+    @Test
+    public void testDerivedCaption() {
+        Button button = getComponentById("doFoo");
+        assertThat(button.getCaption(), is("DoFoo"));
+    }
+
     @UISection
     protected static class ButtonTestPmo extends AnnotationTestPmo {
 
@@ -106,6 +112,11 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
 
         @UIButton(position = 30)
         public void getButton() {
+            // does nothing
+        }
+
+        @UIButton(position = 3)
+        public void doFoo() {
             // does nothing
         }
 

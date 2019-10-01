@@ -124,6 +124,11 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
+    @Test
+    public void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    }
+
     @Override
     protected TestModelObjectWithObjectDouble getDefaultModelObject() {
         return (TestModelObjectWithObjectDouble)super.getDefaultModelObject();
@@ -148,6 +153,11 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         @UIDoubleField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
+        }
+
+        @UIDoubleField(position = 3)
+        public double getFoo() {
+            return 23.45;
         }
     }
 

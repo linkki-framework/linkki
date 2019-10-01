@@ -37,7 +37,7 @@ public class IdAndNameCaptionProviderTest {
 
     @Test(expected = IllegalStateException.class)
     public void testIdAndNameCaptionProvider_MissingGetIdMethod() {
-        ItemCaptionProvider<Object> provider = new ItemCaptionProvider.IdAndNameCaptionProvider();
+        ItemCaptionProvider<Object> provider = new IdAndNameCaptionProvider();
         provider.getCaption(UnnamedEnum.VALUE);
     }
 

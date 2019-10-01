@@ -137,6 +137,11 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
+    @Test
+    public void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    }
+
     @Override
     protected TestModelObjectWithDate getDefaultModelObject() {
         return (TestModelObjectWithDate)super.getDefaultModelObject();
@@ -161,6 +166,11 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
         @UIDateField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
+        }
+
+        @UIDateField(position = 3)
+        public LocalDate getFoo() {
+            return LocalDate.now();
         }
     }
 

@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
 import static org.linkki.core.binding.descriptor.aspect.base.ApplicableTypeAspectDefinition.ifComponentTypeIs;
 import static org.linkki.core.defaults.ui.aspects.types.EnabledType.ENABLED;
 import static org.linkki.core.defaults.ui.aspects.types.RequiredType.NOT_REQUIRED;
@@ -68,7 +69,7 @@ public @interface UICustomField {
     int position();
 
     /** Provides a description label next to the UI-Element */
-    String label();
+    String label() default DERIVED_BY_LINKKI;
 
     /**
      * Name of the model object that is to be bound if multiple model objects are included for model

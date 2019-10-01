@@ -76,6 +76,11 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
+    @Test
+    public void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    }
+
     @Override
     protected TestModelObjectWithString getDefaultModelObject() {
         return (TestModelObjectWithString)super.getDefaultModelObject();
@@ -100,6 +105,11 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
         @UITextField(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
+        }
+
+        @UITextField(position = 3)
+        public String getFoo() {
+            return "bar";
         }
 
     }

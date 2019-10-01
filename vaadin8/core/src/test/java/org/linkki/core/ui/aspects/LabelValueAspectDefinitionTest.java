@@ -23,8 +23,8 @@ import java.util.function.Consumer;
 
 import org.junit.After;
 import org.junit.Test;
-import org.linkki.core.ui.bind.MockUi;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
+import org.linkki.core.ui.mock.MockUi;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 
 import com.vaadin.data.Converter;

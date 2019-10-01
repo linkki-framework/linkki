@@ -101,6 +101,11 @@ public class UIYesNoComboBoxIntegrationTest
         assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
+    @Test
+    public void testDerivedLabel() {
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    }
+
     @Override
     protected YesNoComboBoxTestModelObject getDefaultModelObject() {
         return (YesNoComboBoxTestModelObject)super.getDefaultModelObject();
@@ -125,6 +130,11 @@ public class UIYesNoComboBoxIntegrationTest
         @UIYesNoComboBox(position = 2, label = TEST_LABEL, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED, visible = VisibleType.INVISIBLE)
         public void staticValue() {
             // model binding
+        }
+
+        @UIYesNoComboBox(position = 3)
+        public boolean getFoo() {
+            return true;
         }
     }
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PolicyCmptType abstract="false" configurableByProductCmptType="false" forceExtensionCompilationUnitGeneration="false" productCmptType="" supertype="TestIpsObject" xml:space="preserve">
+ <Label id="4fb2eebf-c13c-4416-961e-db28714c1dad" locale="en" pluralValue="" value="A test object overwriting the label"/>
+ <Label id="38ee9424-8d93-4d37-8273-687c9193f8cc" locale="de" pluralValue="" value=""/>
+ <Description id="6fe3110c-46e6-4fb0-9219-79642408cc8d" locale="en"/>
+ <Description id="ed0789fc-7903-4133-9842-3f5eaf1afd65" locale="de"/>
+</PolicyCmptType>
