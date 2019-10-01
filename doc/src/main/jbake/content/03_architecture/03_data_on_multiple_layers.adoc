@@ -41,7 +41,7 @@ In this case the getter method ensures a direct delegation to the model attribut
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=model-binding]
+include::{source-dir}/org/linkki/doc/PersonSectionPmo_modelBinding.java[tags=model-binding]
 ----
 Model binding avoids unnecessary code dealing with delegation and is thus a "shortcut".
 

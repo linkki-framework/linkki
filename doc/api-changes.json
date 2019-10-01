@@ -1,0 +1,18 @@
+{
+  "1.1.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.method.removed",
+          "old": "method void org.linkki.doc.PersonSectionPmo::firstName()",
+          "justification": "Moved to PersonSectionPmo_modelBinding"
+        },
+        {
+          "code": "java.method.removed",
+          "old": "method void org.linkki.doc.PersonSectionPmo_fieldModelObject::firstName()",
+          "justification": "Moved to PersonSectionPmo_modelBinding"
+        }
+      ]
+    }
+  }
+}

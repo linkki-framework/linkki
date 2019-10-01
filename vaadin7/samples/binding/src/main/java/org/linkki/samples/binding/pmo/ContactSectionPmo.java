@@ -66,7 +66,7 @@ public class ContactSectionPmo {
     }
 
     @UIComboBox(position = 30, label = "Gender", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, //
-            itemCaptionProvider = GenderCaptionProvider.class)
+            itemCaptionProvider = GenderCaptionProvider.class, modelAttribute = Contact.PROPERTY_GENDER)
     public void gender() {
         /* model binding only */ }
 
@@ -84,7 +84,7 @@ public class ContactSectionPmo {
                 .collect(Collectors.toList());
     }
 
-    @UICheckBox(position = 50, caption = "Add to favorites")
+    @UICheckBox(position = 50, caption = "Add to favorites", modelAttribute = Contact.PROPERTY_FAVORITE)
     public void favorite() {
         /* model binding only */
     }

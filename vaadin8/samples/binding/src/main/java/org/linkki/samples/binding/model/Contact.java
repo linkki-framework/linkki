@@ -23,6 +23,8 @@ public class Contact {
     public static final String PROPERTY_LASTNAME = "lastname";
     public static final String PROPERTY_COUNTRY_OF_BIRTH = "countryOfBirth";
     public static final String PROPERTY_NO_OF_CHILDREN = "noOfChildren";
+    public static final String PROPERTY_GENDER = "gender";
+    public static final String PROPERTY_FAVORITE = "favorite";
 
     private String firstname;
     private String lastname;

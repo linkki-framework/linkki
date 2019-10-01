@@ -1,9 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- no parent because we want to be able to build the samples without 
-        any defined global dependencies or code-analysis -->
+    <!-- no parent because we want to be able to build the samples without any defined global dependencies or code-analysis -->
 
     <groupId>org.linkki-framework.samples</groupId>
     <artifactId>linkki-samples-vaadin7</artifactId>
@@ -87,11 +87,21 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- otherwise we get warnings in eclipse that annotations can not 
-            be resolved -->
+        <!-- otherwise we get warnings in eclipse that annotations can not be resolved -->
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
+        </dependency>
+
+        <!-- This is included as a provided dependency to allow the maven compiler to pick up the current version of the 
+            annotation processor in the build. Using the regular way of including it as annotation processor for the maven-compiler-plugin 
+            depends on the annotation processor being installed in the Maven repository beforehand and as such fails when increasing 
+            the version number or changing the annotation processor. -->
+        <dependency>
+            <groupId>org.linkki-framework.tooling</groupId>
+            <artifactId>linkki-core-apt</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
@@ -105,6 +115,13 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    <compilerArgs>
+                        <arg>-Xlint</arg>
+                        <!-- Because the eclipse compiler and javac differ: https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
+                        <arg>-Xlint:-varargs</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
@@ -153,7 +170,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.3</version>
+                    <version>3.8.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

@@ -17,7 +17,7 @@ public class IpsPmo {
         this.modelObject = modelObject;
     }
 
-    @UIDecimalField(position = 10, label = "In Range [0..100/0.5]", required = RequiredType.REQUIRED)
+    @UIDecimalField(position = 10, label = "In Range [0..100/0.5]", required = RequiredType.REQUIRED, modelAttribute = IpsModelObject.PROPERTY_DECIMAL)
     public void decimal() {
         // model binding
     }

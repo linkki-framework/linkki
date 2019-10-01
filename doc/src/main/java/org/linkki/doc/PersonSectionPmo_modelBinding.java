@@ -18,20 +18,23 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
 @UISection
-public class PersonSectionPmo_fieldModelObject {
+public class PersonSectionPmo_modelBinding {
 
-    // tag::modelobject[]
-    @ModelObject
     private final Person person;
-    // end::modelobject[]
 
-    public PersonSectionPmo_fieldModelObject(Person person) {
+    public PersonSectionPmo_modelBinding(Person person) {
         this.person = person;
     }
 
-    @UITextField(position = 10, label = "First Name")
-    public String getFirstName() {
-        return person.getFirstname();
+    @ModelObject
+    public Person getPerson() {
+        return person;
     }
 
+    // tag::model-binding[]
+    @UITextField(position = 10, label = "First Name", modelAttribute = "firstname")
+    public void firstName() {
+        // model binding
+    }
+    // end::model-binding[]
 }
