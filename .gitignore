@@ -1,8 +1,6 @@
-**/.settings/edu.umd.cs.findbugs.core.prefs
-**/.checkstyle
-**/.fbExcludeFilterFile
 **/bin/
 target
+**/target
 .idea
 **/.idea
 **/*.iml
