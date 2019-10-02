@@ -1,8 +1,0 @@
-#SpotBugs User Preferences
-#Tue Jan 29 22:31:55 CET 2019
-detector_threshold=3
-effort=default
-excludefilter0=.fbExcludeFilterFile|true
-filter_settings=Low|BAD_PRACTICE,CORRECTNESS,EXPERIMENTAL,I18N,MALICIOUS_CODE,MT_CORRECTNESS,PERFORMANCE,SECURITY,STYLE|false|15
-filter_settings_neg=NOISE|
-run_at_full_build=false
