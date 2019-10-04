@@ -79,9 +79,9 @@ public class IpsPropertyDispatcherTest {
         IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(
                 pmo::getIpsObject,
                 TestIpsObject.PROPERTY_FOO, propertyDispatcherFactory.createDispatcherChain(pmo,
-                                                                BoundProperty.of("bar")
-                                                                        .withModelAttribute(TestIpsObject.PROPERTY_FOO),
-                                                                PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER));
+                                                                                            BoundProperty.of("bar")
+                                                                                                    .withModelAttribute(TestIpsObject.PROPERTY_FOO),
+                                                                                            PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER));
 
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
@@ -102,7 +102,16 @@ public class IpsPropertyDispatcherTest {
 
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
-        assertThat(string, is("Foo in English"));
+        Locale systemDefaultLocale = Locale.getDefault();
+        switch (systemDefaultLocale.getLanguage()) {
+            case "de":
+                // because system locale trumps IPS default locale
+                assertThat(string, is("Foo auf Deutsch"));
+                break;
+
+            default:
+                assertThat(string, is("Foo in English"));
+        }
     }
 
     @Test
