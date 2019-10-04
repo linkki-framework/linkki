@@ -19,6 +19,7 @@ import static org.junit.Assert.assertThat;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -27,13 +28,13 @@ import java.util.List;
 import org.junit.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 
-public class AnnotationTest {
+public class AspectAnnotationReaderTest_InheritedAspectsTest {
 
     @Test
     public void testGetAnnotations_Class() {
 
-        @InheritedAnnotation(value = "first")
-        @NormalAnnotation(value = "second")
+        @InheritedAspectAnnotation("first")
+        @NormalAnnotation("second")
         class BaseClass {
             // empty
         }
@@ -41,8 +42,8 @@ public class AnnotationTest {
         List<Annotation> annotations = AspectAnnotationReader.getUniqueLinkkiAnnotations(BaseClass.class);
 
         assertThat(annotations.size(), is(2));
-        assertThat(annotations.get(0).annotationType(), is(InheritedAnnotation.class));
-        assertThat(((InheritedAnnotation)annotations.get(0)).value(), is("first"));
+        assertThat(annotations.get(0).annotationType(), is(InheritedAspectAnnotation.class));
+        assertThat(((InheritedAspectAnnotation)annotations.get(0)).value(), is("first"));
         assertThat(annotations.get(1).annotationType(), is(NormalAnnotation.class));
         assertThat(((NormalAnnotation)annotations.get(1)).value(), is("second"));
     }
@@ -57,14 +58,14 @@ public class AnnotationTest {
         List<Annotation> annotations = AspectAnnotationReader.getUniqueLinkkiAnnotations(BaseClass.class);
 
         assertThat(annotations.size(), is(1));
-        assertThat(annotations.get(0).annotationType(), is(InheritedAnnotation.class));
-        assertThat(((InheritedAnnotation)annotations.get(0)).value(), is("interface"));
+        assertThat(annotations.get(0).annotationType(), is(InheritedAspectAnnotation.class));
+        assertThat(((InheritedAspectAnnotation)annotations.get(0)).value(), is("interface"));
     }
 
     @Test
     public void testGetAnnotations_OverrideInterface() {
 
-        @InheritedAnnotation(value = "class")
+        @InheritedAspectAnnotation("class")
         class BaseClass implements AnnotatedInterface {
             // empty
         }
@@ -72,20 +73,20 @@ public class AnnotationTest {
         List<Annotation> annotations = AspectAnnotationReader.getUniqueLinkkiAnnotations(BaseClass.class);
 
         assertThat(annotations.size(), is(1));
-        assertThat(annotations.get(0).annotationType(), is(InheritedAnnotation.class));
-        assertThat(((InheritedAnnotation)annotations.get(0)).value(), is("class"));
+        assertThat(annotations.get(0).annotationType(), is(InheritedAspectAnnotation.class));
+        assertThat(((InheritedAspectAnnotation)annotations.get(0)).value(), is("class"));
     }
 
 
     @Test
     public void testGetAnnotations_InheritParent() {
 
-        @InheritedAnnotation(value = "parent")
+        @InheritedAspectAnnotation("parent")
         class ParentClass {
             // empty
         }
 
-        @NormalAnnotation(value = "base")
+        @NormalAnnotation("base")
         class BaseClass extends ParentClass {
             // empty
         }
@@ -95,8 +96,8 @@ public class AnnotationTest {
 
 
         assertThat(annotations.size(), is(2));
-        assertThat(annotations.get(0).annotationType(), is(InheritedAnnotation.class));
-        assertThat(((InheritedAnnotation)annotations.get(0)).value(), is("parent"));
+        assertThat(annotations.get(0).annotationType(), is(InheritedAspectAnnotation.class));
+        assertThat(((InheritedAspectAnnotation)annotations.get(0)).value(), is("parent"));
         assertThat(annotations.get(1).annotationType(), is(NormalAnnotation.class));
         assertThat(((NormalAnnotation)annotations.get(1)).value(), is("base"));
     }
@@ -104,12 +105,12 @@ public class AnnotationTest {
     @Test
     public void testGetAnnotations_OverrideParent() {
 
-        @InheritedAnnotation(value = "parent")
+        @InheritedAspectAnnotation("parent")
         class ParentClass {
             // empty
         }
 
-        @InheritedAnnotation(value = "base")
+        @InheritedAspectAnnotation("base")
         class BaseClass extends ParentClass {
             // empty
         }
@@ -117,8 +118,8 @@ public class AnnotationTest {
         List<Annotation> annotations = AspectAnnotationReader.getUniqueLinkkiAnnotations(BaseClass.class);
 
         assertThat(annotations.size(), is(1));
-        assertThat(annotations.get(0).annotationType(), is(InheritedAnnotation.class));
-        assertThat(((InheritedAnnotation)annotations.get(0)).value(), is("base"));
+        assertThat(annotations.get(0).annotationType(), is(InheritedAspectAnnotation.class));
+        assertThat(((InheritedAspectAnnotation)annotations.get(0)).value(), is("base"));
     }
 
     @Test
@@ -135,11 +136,35 @@ public class AnnotationTest {
         List<Annotation> annotations = AspectAnnotationReader.getUniqueLinkkiAnnotations(BaseClass.class);
 
         assertThat(annotations.size(), is(1));
-        assertThat(annotations.get(0).annotationType(), is(InheritedAnnotation.class));
-        assertThat(((InheritedAnnotation)annotations.get(0)).value(), is("interface"));
+        assertThat(annotations.get(0).annotationType(), is(InheritedAspectAnnotation.class));
+        assertThat(((InheritedAspectAnnotation)annotations.get(0)).value(), is("interface"));
     }
 
-    @InheritedAnnotation(value = "interface")
+    /** "Normal" = Java's {@link Inherited @Inherited} **/
+    @Test
+    public void testGetAnnotations_NormalInheritance() {
+
+        @NormalInheritedAnnotation("parent")
+        class ParentClass implements AnnotatedInterface {
+            // empty
+        }
+
+        class BaseClass extends ParentClass {
+            // empty
+        }
+
+        List<Annotation> annotations = AspectAnnotationReader.getUniqueLinkkiAnnotations(BaseClass.class);
+
+        assertThat(annotations.size(), is(2));
+        assertThat(annotations.get(0).annotationType(), is(InheritedAspectAnnotation.class));
+        assertThat(annotations.get(1).annotationType(), is(NormalInheritedAnnotation.class));
+        assertThat(((InheritedAspectAnnotation)annotations.get(0)).value(), is("interface"));
+        assertThat(((NormalInheritedAnnotation)annotations.get(1)).value(), is("parent"));
+    }
+
+    @InheritedAspectAnnotation("interface")
+    @NormalAnnotation("interface")
+    @NormalInheritedAnnotation("interface")
     interface AnnotatedInterface {
         // empty
     }
@@ -147,14 +172,23 @@ public class AnnotationTest {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     @InheritedAspect
-    @LinkkiAspect(value = Creator.class)
-    private @interface InheritedAnnotation {
+    @LinkkiAspect(Creator.class)
+    private @interface InheritedAspectAnnotation {
+        String value();
+    }
+
+    /** "Normal" = Java's {@link Inherited @Inherited} **/
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    @Inherited
+    @LinkkiAspect(Creator.class)
+    private @interface NormalInheritedAnnotation {
         String value();
     }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
-    @LinkkiAspect(value = Creator.class)
+    @LinkkiAspect(Creator.class)
     private @interface NormalAnnotation {
         String value();
     }

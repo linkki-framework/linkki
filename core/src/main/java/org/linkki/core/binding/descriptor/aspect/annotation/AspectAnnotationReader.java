@@ -125,7 +125,7 @@ public class AspectAnnotationReader {
         }
 
         for (Class<?> ifcace : cls.getInterfaces()) {
-            annotations.addAll(0, getAnnotations(ifcace, false));
+            annotations.addAll(0, getAnnotations(ifcace, true));
         }
 
         return annotations;

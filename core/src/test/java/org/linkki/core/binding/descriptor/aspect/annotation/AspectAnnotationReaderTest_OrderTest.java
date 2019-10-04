@@ -31,7 +31,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.util.handler.Handler;
 
-public class AnnotationOrderTest {
+public class AspectAnnotationReaderTest_OrderTest {
 
     // @formatter:off
     /*

@@ -23,6 +23,7 @@ import java.lang.annotation.Target;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
+import org.linkki.core.binding.descriptor.aspect.annotation.InheritedAspect;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.ui.table.BindTableSelection.TableSelectionAspectDefinitionCreator;
 
@@ -31,6 +32,7 @@ import org.linkki.core.ui.table.BindTableSelection.TableSelectionAspectDefinitio
  * {@value TableSelectionAspectDefinition#SELECTION_ASPECT_NAME}. In addition, the double click invokes
  * the aspect {@value TableSelectionAspectDefinition#DOUBLE_CLICK_ASPECT_NAME}.
  */
+@InheritedAspect
 @LinkkiAspect(TableSelectionAspectDefinitionCreator.class)
 @Documented
 @Target(ElementType.TYPE)
