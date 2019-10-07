@@ -23,7 +23,7 @@ To include *linkki-apt* in the compile process you need to add it as an annotati
 		<annotationProcessorPaths>
 			<annotationProcessorPath>
 				<groupId>org.linkki-framework.tooling</groupId>
-				<artifactId>core-apt</artifactId>
+				<artifactId>linkki-apt</artifactId>
 				<version>${linkki.version}</version>
 			</annotationProcessorPath>
 		</annotationProcessorPaths>

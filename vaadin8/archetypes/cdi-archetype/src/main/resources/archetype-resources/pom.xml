@@ -118,7 +118,7 @@
                     <annotationProcessorPaths>
                         <annotationProcessorPath>
                             <groupId>org.linkki-framework.tooling</groupId>
-                            <artifactId>linkki-core-apt</artifactId>
+                            <artifactId>linkki-apt</artifactId>
                             <version>${linkki.version}</version>
                         </annotationProcessorPath>
                     </annotationProcessorPaths>
