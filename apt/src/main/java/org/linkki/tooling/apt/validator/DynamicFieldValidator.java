@@ -30,9 +30,8 @@ import org.linkki.tooling.apt.model.AptAttribute;
 import org.linkki.tooling.apt.model.AptComponent;
 import org.linkki.tooling.apt.model.AptComponentDeclaration;
 import org.linkki.tooling.apt.model.AptPmo;
-import org.linkki.tooling.apt.util.Constants;
 import org.linkki.tooling.apt.util.ElementUtils;
-import org.linkki.tooling.apt.util.ModelUtils;
+import org.linkki.tooling.apt.util.PositionUtil;
 
 /**
  * A {@link Validator} to ensure that dynamic fields have the same positions.
@@ -109,11 +108,10 @@ public class DynamicFieldValidator implements Validator {
                 .filter(it -> !isSuppressed(it.getElement(), positionMismatchSeverity))
                 .forEach(it -> {
                     String message = Messages.format(DYNAMIC_FIELD_MISMATCH,
-                                                 it.getAnnotationMirror(),
-                                                 it.getPropertyName());
+                                                     it.getAnnotationMirror(),
+                                                     it.getPropertyName());
 
-                    Optional<AptAttribute> positionAttribute = ModelUtils.findAttribute(it.getAttributes(),
-                                                                                        Constants.POSITION);
+                    Optional<AptAttribute> positionAttribute = PositionUtil.findPositionAttribute(it.getAttributes());
 
                     if (positionAttribute.isPresent()) {
                         messager.printMessage(positionMismatchSeverity,

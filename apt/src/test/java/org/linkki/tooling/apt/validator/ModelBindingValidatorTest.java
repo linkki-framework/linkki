@@ -30,7 +30,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
-import org.linkki.tooling.apt.validator.ModelBindingValidator;
 
 public class ModelBindingValidatorTest extends BaseAnnotationProcessorTest {
 
@@ -42,7 +41,7 @@ public class ModelBindingValidatorTest extends BaseAnnotationProcessorTest {
         @DisplayName("caused by no getter and model attribute not present on model object")
         void shouldFailIfAttributeNotPresentOnModelObject() {
             List<SourceFile> sources = asList(getSourceFile("ReportType.java"), getSourceFile("Report.java"),
-                                              getSourceFile("modelAttributeValidator/ModelAttributeMissingPmo.java"));
+                                              getSourceFile("modelBindingValidator/ModelAttributeMissingPmo.java"));
 
             compile(sources);
             List<String> logs = getLogs();
@@ -59,7 +58,7 @@ public class ModelBindingValidatorTest extends BaseAnnotationProcessorTest {
         void shouldFailIfModelObjectCouldNotBeFound() {
             List<SourceFile> sourceFiles = getSourceFiles("ReportType.java",
                                                           "Report.java",
-                                                          "modelAttributeValidator/ModelObjectMissingPmo.java");
+                                                          "modelBindingValidator/ModelObjectMissingPmo.java");
 
             compile(sourceFiles);
 
@@ -81,7 +80,7 @@ public class ModelBindingValidatorTest extends BaseAnnotationProcessorTest {
         @DisplayName("getter is not present but ModelAttribute is present")
         void shouldSucceedFindingModelAttribute() {
             List<SourceFile> sources = asList(getSourceFile("ReportType.java"), getSourceFile("Report.java"),
-                                              getSourceFile("modelAttributeValidator/ModelAttributeNotMissingPmo.java"));
+                                              getSourceFile("modelBindingValidator/ModelAttributeNotMissingPmo.java"));
 
             compile(sources);
             verifyNoErrors();

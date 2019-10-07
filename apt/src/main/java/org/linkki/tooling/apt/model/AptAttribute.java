@@ -14,6 +14,10 @@
 
 package org.linkki.tooling.apt.model;
 
+import java.lang.annotation.Annotation;
+import java.util.List;
+import java.util.Optional;
+
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
 
@@ -53,6 +57,43 @@ public class AptAttribute {
 
     public AnnotationValue getAnnotationValue() {
         return annotationValue;
+    }
+
+
+    @Override
+    public String toString() {
+        return "AptAttribute[" + name + "=" + annotationValue + "]";
+    }
+
+    /**
+     * Tries to find an {@link AptAttribute} with a given name in a list of {@link AptAttribute
+     * AptAttributes}.
+     * 
+     * @param attributes the attributes
+     * @param name the name of the attribute
+     * @return the attribute with the given name, or {@link Optional#empty()}
+     */
+    public static Optional<AptAttribute> findByName(List<AptAttribute> attributes, String name) {
+        return attributes.stream()
+                .filter(it -> it.getName().equals(name))
+                .findFirst();
+    }
+
+    /**
+     * Tries to find an {@link AptAttribute} annotated with a given annotation in a list of
+     * {@link AptAttribute AptAttributes}.
+     * 
+     * @param attributes the attributes
+     * @param metaAnnotation an annotation expected on an attribute
+     * @return the attribute with the given name, or {@link Optional#empty()}
+     */
+    public static Optional<AptAttribute> findByMetaAnnotation(List<AptAttribute> attributes,
+            Class<? extends Annotation> metaAnnotation) {
+        return attributes.stream()
+                .filter(it -> {
+                    return it.getElement().getAnnotation(metaAnnotation) != null;
+                })
+                .findFirst();
     }
 
 }

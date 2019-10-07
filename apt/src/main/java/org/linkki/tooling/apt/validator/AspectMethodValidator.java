@@ -15,7 +15,6 @@
 package org.linkki.tooling.apt.validator;
 
 import static java.util.Objects.requireNonNull;
-import static org.linkki.tooling.apt.util.ModelUtils.isAbstractType;
 import static org.linkki.tooling.apt.util.SuppressedWarningsUtils.isSuppressed;
 
 import java.lang.annotation.Annotation;
@@ -66,7 +65,7 @@ public class AspectMethodValidator implements Validator {
 
     @Override
     public void validate(AptPmo pmo, Messager messager) {
-        if (isAbstractType(pmo)) {
+        if (pmo.isAbstractType()) {
             if (missingAspectMethodAbstractTypeSeverity == Kind.OTHER) {
                 return;
             }

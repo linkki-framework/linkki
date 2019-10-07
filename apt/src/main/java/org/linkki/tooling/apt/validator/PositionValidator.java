@@ -14,7 +14,6 @@
 
 package org.linkki.tooling.apt.validator;
 
-import static org.linkki.tooling.apt.util.AnnotationMirrorUtils.findPositionAttributeValue;
 import static org.linkki.tooling.apt.util.SuppressedWarningsUtils.isSuppressed;
 
 import java.util.List;
@@ -28,6 +27,7 @@ import javax.tools.Diagnostic.Kind;
 
 import org.linkki.tooling.apt.model.AptComponent;
 import org.linkki.tooling.apt.model.AptPmo;
+import org.linkki.tooling.apt.util.PositionUtil;
 
 /**
  * This {@link Validator} ensures that there are no components with the same position in the PMO.
@@ -76,8 +76,9 @@ public class PositionValidator implements Validator {
                                                          component.getPosition(),
                                                          collidingPropertyNames);
 
-                        AnnotationValue positionValue = findPositionAttributeValue(componentDeclaration
-                                .getAnnotationMirror());
+                        AnnotationValue positionValue = PositionUtil
+                                .findPositionAttribute(componentDeclaration.getAttributes())
+                                .get().getAnnotationValue();
 
                         messager.printMessage(positionClashSeverity,
                                               message,

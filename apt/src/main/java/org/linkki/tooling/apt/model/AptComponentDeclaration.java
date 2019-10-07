@@ -16,8 +16,6 @@ package org.linkki.tooling.apt.model;
 
 import static org.linkki.tooling.apt.util.Constants.CAPTION;
 import static org.linkki.tooling.apt.util.Constants.LABEL;
-import static org.linkki.tooling.apt.util.Constants.POSITION;
-import static org.linkki.tooling.apt.util.ModelUtils.findAttribute;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +24,10 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.TypeKind;
 
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
+import org.linkki.tooling.apt.util.Constants;
 import org.linkki.tooling.apt.util.MethodNameUtils;
+import org.linkki.tooling.apt.util.PositionUtil;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -56,21 +57,21 @@ public class AptComponentDeclaration implements AptAspectSubject {
     }
 
     public int getPosition() {
-        return findAttribute(this.getAttributes(), POSITION)
+        return PositionUtil.findPositionAttribute(this.getAttributes())
                 .map(AptAttribute::getValue)
                 .map(it -> (Integer)it)
                 .orElseThrow(() -> new IllegalStateException("expected position to be an int"));
     }
 
     public Optional<String> getLabel() {
-        return findAttribute(this.getAttributes(), LABEL)
+        return AptAttribute.findByName(this.getAttributes(), LABEL)
                 .map(AptAttribute::getValue)
                 .map(it -> (String)it);
     }
 
     @NonNull
     public Optional<String> getCaption() {
-        return findAttribute(this.getAttributes(), CAPTION)
+        return AptAttribute.findByName(this.getAttributes(), CAPTION)
                 .map(AptAttribute::getValue)
                 .map(it -> (String)it);
     }
@@ -79,7 +80,7 @@ public class AptComponentDeclaration implements AptAspectSubject {
         return MethodNameUtils.toPropertyName(element.getSimpleName().toString());
     }
 
-    public boolean isModelBinding() {
+    public boolean isDirectModelBinding() {
         return element.getReturnType().getKind() == TypeKind.VOID;
     }
 
@@ -103,5 +104,15 @@ public class AptComponentDeclaration implements AptAspectSubject {
     @Override
     public AnnotationMirror getAnnotationMirror() {
         return annotationMirror;
+    }
+
+    /**
+     * Returns whether the annotation uses the standard names for the {@value Constants#MODEL_OBJECT}
+     * and {@value Constants#MODEL_ATTRIBUTE} annotation attributes. Only then can we validate their
+     * values, because we can't instantiate the {@link BoundPropertyCreator}.
+     */
+    public boolean isUsingStandardModelBindingAttributes() {
+        return AptAttribute.findByName(getAttributes(), Constants.MODEL_OBJECT).isPresent() &&
+                AptAttribute.findByName(getAttributes(), Constants.MODEL_ATTRIBUTE).isPresent();
     }
 }

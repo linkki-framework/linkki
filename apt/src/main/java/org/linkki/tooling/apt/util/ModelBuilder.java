@@ -15,7 +15,6 @@
 package org.linkki.tooling.apt.util;
 
 import static org.linkki.tooling.apt.util.MethodNameUtils.getPropertyName;
-import static org.linkki.tooling.apt.util.ModelUtils.findAttribute;
 
 import java.util.List;
 import java.util.Map;
@@ -270,7 +269,7 @@ public class ModelBuilder {
     private @NonNull Optional<AptModelObject> getModelObject(
             @NonNull List<AptAttribute> attributes,
             List<AptModelObject> modelObjects) {
-        return findAttribute(attributes, Constants.MODEL_OBJECT)
+        return AptAttribute.findByName(attributes, Constants.MODEL_OBJECT)
                 .flatMap(modelObjectAttribute -> {
                     String modelObjectName = (String)modelObjectAttribute.getValue();
                     return modelObjects.stream()
@@ -283,7 +282,7 @@ public class ModelBuilder {
             @NonNull List<AptAttribute> attributes,
             @NonNull Optional<AptModelObject> modelObject,
             String fallback) {
-        return findAttribute(attributes, Constants.MODEL_ATTRIBUTE)
+        return AptAttribute.findByName(attributes, Constants.MODEL_ATTRIBUTE)
                 .flatMap(modelAttributeAttribute -> modelObject.flatMap(mo -> {
                     String modelAttributeName = modelAttributeAttribute.getValue().toString();
                     String attributeName = modelAttributeName.isEmpty() ? fallback : modelAttributeName;
