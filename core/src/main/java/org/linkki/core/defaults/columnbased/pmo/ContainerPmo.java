@@ -22,6 +22,9 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.defaults.columnbased.aspects.BindTableFooter;
+import org.linkki.core.defaults.columnbased.aspects.BindTableItems;
+import org.linkki.core.defaults.columnbased.aspects.BindTablePageLength;
 import org.linkki.core.pmo.ButtonPmo;
 
 /**
@@ -33,8 +36,11 @@ import org.linkki.core.pmo.ButtonPmo;
  * 
  * @implSpec if you want to create a hierarchical table, either your PMO class must implement
  *           {@link HierarchicalRowPmo} or you must override {@link #isHierarchical()} to return
- *           {@code true} and have only the no-leave-nodes implement {@link HierarchicalRowPmo}
+ *           {@code true} and have only the non-leaf nodes implement {@link HierarchicalRowPmo}
  */
+@BindTableFooter
+@BindTableItems
+@BindTablePageLength
 public interface ContainerPmo<ROW> {
 
     /** Default page length to use when no other page length is set. */

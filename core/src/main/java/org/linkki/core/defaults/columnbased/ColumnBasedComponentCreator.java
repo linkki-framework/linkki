@@ -14,13 +14,9 @@
 
 package org.linkki.core.defaults.columnbased;
 
-import java.util.List;
-
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
-import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.defaults.columnbased.aspects.ColumnBasedComponentAspectDefinitions;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 
 /**
@@ -58,19 +54,4 @@ public interface ColumnBasedComponentCreator {
             ComponentWrapper parentWrapper,
             BindingContext bindingContext,
             PropertyElementDescriptors elementDesc);
-
-    /**
-     * Returns {@link LinkkiAspectDefinition definitions for aspects} that should be bound to the
-     * {@link ComponentWrapper} {@link #createComponent(ContainerPmo) created} by this
-     * {@link ColumnBasedComponentCreator}.
-     * 
-     * @implNote the default implementation returns
-     *           {@link ColumnBasedComponentAspectDefinitions#createAll()}
-     * 
-     * @return all container {@link LinkkiAspectDefinition aspect definitions}
-     */
-    default List<LinkkiAspectDefinition> getContainerAspects() {
-        return ColumnBasedComponentAspectDefinitions.createAll();
-    }
-
 }

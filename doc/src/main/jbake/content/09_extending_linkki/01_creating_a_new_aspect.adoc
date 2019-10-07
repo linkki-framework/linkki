@@ -1,17 +1,46 @@
-:jbake-title: Creating a new aspect
+:jbake-title: Custom aspects
 :jbake-type: section
 :jbake-status: published
 
 :source-dir: ../../../java
 
+[[aspects]]
+=== Aspects
+
+A primary functionality of *linkki* is the data binding. Most data binding frameworks only concentrate on synchronizing the value between model and UI. *linkki* can bind more than just the value. In fact, almost every part of the UI state can be taken into account for data binding with *linkki*. The most common parts of the UI state are for example the enabled state or the visibility. But there are also additional data that may be bound to a component such as the tooltip, available values for selection or CSS class names. For a property, every such UI state part is a so called *aspect* of the property.
+
+==== Using an Apsect in a PMO
+
+The following example shows two aspects for the property "name". 
+
+.Value and enabled aspect
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/dynamic/PartnerSectionPmo.java[tags=aspects]
+----
+
+The most important aspect is the value aspect. It is also mandatory for the data binding to function. The value aspect is dynamically determined by the getter and setter methods of the property. 
+
+The second aspect that can be seen is the enabled aspect. This state is defined by the method `isNameEnabled`.
+
+Each aspect has a name. The enabled aspect has the name "enabled" whereas the value aspect has the empty String as name. In general, the state of the aspect "aspect" for property "property" is determined by the method `is/get<Property><Aspect>` and `set<Property><Aspect>`.
+
+Aspects can also apply to the whole PMO if it is also bound to a UI component. In this case, the property name is the empty string.
+
+.Aspect on PMO class
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/dynamic/PartnerSectionPmo.java[tags=aspectOnClass]
+----
+
 [[creating-aspects]]
-=== Creating a New Aspect
+==== Creating a New Aspect
 
 In addition to built-in aspects, you can easily create your own. This guide walks you through the process of implementing a simple aspect that allows components to show a dynamically bound tooltip. In this example, you will build the aspect as a standalone annotation that can be used in addition to any `BindingDefinition`.
 
 TIP: A similar aspect is already included in *linkki*. It is only used as an example due to its simplicity.
 
-==== AspectDefinition
+===== AspectDefinition
 
 An aspect definition defines how an aspect is created. To define your own definition you have to implement `LinkkiAspectDefinition` with the following two methods:
 
@@ -20,6 +49,7 @@ An aspect definition defines how an aspect is created. To define your own defini
 
 We want to define an aspect that can either have a static value or read a value from a `get<Property>Tooltip()` method, depending on a `TooltipType` enumeration:
 
+.BindTooltipAspectDefinition
 [source, java]
 ----
 include::{source-dir}/org/linkki/doc/BindTooltipAspectDefinition.java[tags=BindTooltipAspectDefinition]
@@ -29,7 +59,7 @@ include::{source-dir}/org/linkki/doc/BindTooltipAspectDefinition.java[tags=BindT
 * In the method `createUiUpdater`,  the `propertyDispatcher` is asked for the tooltip value which is then set in the component using `ComponentWrapper#setTooltip`. The `propertyDispatcher` needs an aspect to know which value it should retrieve, and how. This aspect is created in the method `createAspect()`.
 * `createAspect()` creates the aspect depending on the values given in the annotation.
 
-==== Create a New Aspect Annotation
+===== Create a New Aspect Annotation
 
 We first create a new annotation that later links the annotated component to our aspect definition:
 
@@ -58,5 +88,12 @@ include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspe
 include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspectCreator]
 ----
 
-==== Summary
-Congratulations! You have implemented a new tooltip aspect that can be used with any other *linkki* UI annotation. With this aspect, you can add a static or dynamic tooltip to a UI element that is bound by *linkki*.
+==== Inheritance
+
+Aspects are defined in annotations. In general, annotations on methods are not inherited. Thus, an aspect annotation has to be annotated again for a overridden method, if the aspect should also be effective in the subclass.
+
+*linkki* provides a meta annotation for aspect annotations that can be annotated on classes and interfaces to be inherited: `@InheritedAspect`. If an aspect annotation is annotated with `@InheritedAspect`, the aspect annotation is also taken into account although it is only annotated on one of the super classes or interfaces.
+
+Note that this mechanism is not without limitations. For the entire inheritance hierarchy, only one annotation per annotation type is taken into account. If the annotation type appears multiple times, the annotation on the PMO class itself is preferred over the one on the super class, which is preferred over annotations of any of the implemented interfaces. 
+
+As the inheritance structure can be very complex, the usage of `@InheritedAspect` should be carefully evaluated when defining your own aspect.

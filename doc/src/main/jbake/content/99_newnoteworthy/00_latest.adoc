@@ -71,3 +71,11 @@ Previously, a value had to be set for all `@UI~` annotations' label/caption attr
 When using *linkki* with Faktor-IPS, the `IpsPropertyDispatcherFactory` can now be used. It creates a `IpsPropertyDispatcher` for Faktor-IPS model objects and uses the labels defined in the Faktor-IPS model for labels/captions marked with `"derived.by.linkki"`. Note that this feature is not yet supported for component labels in row PMOs that are used as table columns.
 
 To get more information we introduced a new section in the documentation about the <<fips-extension,Faktor-IPS extension module>>.
+
+==== Inherited aspects
+
+Aspect types can now be annotated with `@InheritedAspect` to indicate that aspects should also apply to subclasses (for classes) or implementing classes (for interfaces). Only one aspect of each type can apply to a class, additional aspects are ignored. If the same aspect annotation appears in the super class as well as in an interface, only the annotation coming from the super calls will be respected.
+
+==== Selection of table rows
+
+Table PMO classes can now implement the `SelectableTable` interface to receive callbacks when the user selects a table row. Updating the current selection programmatically is also possible.

@@ -37,7 +37,7 @@ public abstract class ColumnBasedComponentAspectDefinition<ROW, VALUE, WRAPPER e
     private final BiConsumer<WRAPPER, VALUE> valueSetter;
 
     /**
-     * Creates a new {@link ColumnBasedComponentAspectDefinitions} with the given name using the
+     * Creates a new {@link ColumnBasedComponentAspectDefinition} with the given name using the
      * {@code valueSetter} to update the value.
      */
     public ColumnBasedComponentAspectDefinition(String name, BiConsumer<WRAPPER, VALUE> valueSetter) {
