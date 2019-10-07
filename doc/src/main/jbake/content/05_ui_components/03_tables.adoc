@@ -11,7 +11,7 @@
 [[ui-tables]]
 === Tables
 
-The basics of table creation were already mentioned in the chapter <<binding-table, binding of a table>>. This section details the <<ui-row-pmo,definition of table structure>>, the <<ui-container-pmo, `ContainerPmo<T>`>>, the <<ui-simple-item-supplier, `SimpleItemSupplier<PMO, MO>`>> and the <<ui-table-footer, `TableFooter`>>.
+The basics of table creation were already mentioned in the chapter <<binding-table, binding of a table>>. This section details the <<ui-row-pmo,definition of table structure>> and the <<ui-container-pmo, Container PMO>>.
 
 WARNING: For compatibility and performance reasons, *linkki* uses the Vaadin 7 `Table` implementation (from the Vaadin 7 compatibility layer included in Vaadin 8). 
 
@@ -43,9 +43,13 @@ NOTE: If both properties are set, an `IllegalStateException` will be thrown when
 
 Additionally, with the property `collapsible`, you could specify a `CollapseMode` to let the column be collapsible or initially collapsed.
 
+[[ui-container-pmo]]
+==== Container PMO
+
+In addition to a row PMO, a container PMO is needed to provide the row PMOs that should be rendered in the table. The container PMO can be optionally annotated with `@UISection` to display the table in a `TableSection`. For most cases, the standard implementation <<ui-simple-table-pmo,`SimpleTablePmo`>> can be used as super class.
 
 [[ui-simple-table-pmo]]
-==== SimpleTablePmo
+===== SimpleTablePmo
 
 Most commonly, the row PMO objects are converted from a list of model objects. In this case, the abstract class `org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo<MO, ROW>` may be extended. It defines a constructor that requires the list or the supplier for the list of model objects. Additionally the method `createRow(MO)` needs to be implemented. This method simply takes a model object and creates a row PMO for it and is only called once for every model object. A simple example may look like this:
 
@@ -54,16 +58,16 @@ Most commonly, the row PMO objects are converted from a list of model objects. I
 include::{source-dir-binding}/org/linkki/samples/binding/pmo/SimpleContactTablePmo.java[tags=simpleContactTablePmo]
 ----
 
-The `SimpleTablePmo` is an abstract convenience implementation of the `ContainerPmo`.
+The `SimpleTablePmo` is an abstract convenience implementation of the `ContainerPmo<ROW>` interface.
 
-[[ui-container-pmo]]
-==== ContainerPmo
+[[ui-container-pmo-interface]]
+===== ContainerPmo Interface
 
-A `ContainerPmo` is a class that implements the interface `ContainerPmo<ROW>` and might be annotated with `@UISection` to show the table in a `TableSection`. The main function of a `ContainerPmo` is providing the PMOs to be rendered in the table.
+In general, a container PMO have to implement the interface `ContainerPmo<ROW>`. The type parameter `ROW` is the row PMO class that defines the table structure.
 
 The method `List<ROW> getItems()` is called by the `ContainerBinding` to add the elements to the table. It should always return the same instance of `List<ROW>` as long as the items do not change. The <<ui-simple-item-supplier, `SimpleItemSupplier`>> offers support for that.
 
-By overwriting the default method `int getPageLength()` the number of lines shown can be controlled. By default 15 lines are shown. It is a common tactic to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
+By overriding the default method `int getPageLength()` the number of rows shown can be controlled. By default 15 rows are shown. It is a common tactic to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
 
 [source, java]
 ----
@@ -75,11 +79,11 @@ The column structure of the table is determined by the <<ui-row-pmo, row PMO>> c
 If the table should support the adding of items, the `default` method `Optional<ButtonPmo> getAddItemButtonPmo` must be overwritten. How a `ButtonPmo` is created is described in the chapter <<button-pmo, ButtonPmo>>.
 
 [[ui-simple-item-supplier]]
-==== SimpleItemSupplier
+===== SimpleItemSupplier
 
-The `SimpleItemSupplier<PMO, MO>` is used to only create a new `List<PMO>`, if a row was changed.
+The `SimpleItemSupplier<PMO, MO>` is used to only create a new `List<PMO>`, if a row was changed. When using `ContainerPmo` interface directly, `SimpleItemSupplier` should be used if the displayed rows may change dynamically.
 
-The instancing is done with two parameters
+The instantiating is done with two parameters
 
 * `modelObjectSupplier` of type `Supplier<List<MO>>` is called to access a list of the model objects
 * `mo2pmoMapping` of type `Function<MO, PMO>` is called for the creation of a PMO for a model object
@@ -91,7 +95,7 @@ include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactTablePmo.jav
 ----
 
 [[ui-hierarchical-table]]
-==== HierarchicalRowPmo
+==== Hierarchical Tables
 
 Sometimes, the data in a table should be grouped for presentation, for example when summarizing values over certain categories. In that case, the data represents a tree-like structure with parent-child-relationships between rows. The resulting table will be a Vaadin `TreeTable` which allows collapsing and showing the child-rows of a row.
 
@@ -112,6 +116,16 @@ If the order of the rows might change due to user input, you should use a <<ui-s
 include::{source-dir-treetable}/org/linkki/samples/treetable/dynamic/pmo/CategoryRowPmo.java[tags=hierarchical-row-pmo-with-simple-item-supplier]
 ----
 
+[[ui-selectable-table]]
+==== Row selection in tables
+
+By default, table rows are not selectable. If table row selection should be possible, the `ContainerPmo` implementation should also implement the interface `SelectableTablePmo`. This interface requires three methods:
+
+* `ROW getSelection()`: returns the selected row
+* `setSelection(ROW)`: sets the new selected row
+* `onDoubleClick()`: executes action when a double click is made on the selected row. It is safe to assume that `setSelection(ROW)` is already called.
+
+Note that it is not possible to nullify the selection once a row is selected.
 
 [[ui-table-footer]]
 ==== TableFooterPmo
