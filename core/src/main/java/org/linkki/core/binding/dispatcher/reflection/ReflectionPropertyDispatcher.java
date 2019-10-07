@@ -15,12 +15,14 @@ package org.linkki.core.binding.dispatcher.reflection;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessor;
 import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessorCache;
 import org.linkki.core.binding.validation.message.MessageList;
@@ -129,10 +131,16 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     private <V> void callSetter(Aspect<V> aspect) {
         String propertyAspectName = getPropertyAspectName(aspect);
-        if (hasWriteMethod(propertyAspectName)) {
-            @SuppressWarnings("unchecked")
-            PropertyAccessor<Object, V> accessor = (PropertyAccessor<Object, V>)getAccessor(propertyAspectName);
-            accessor.setPropertyValue(getExistingBoundObject(), aspect.getValue());
+        if (hasReadMethod(propertyAspectName)) {
+            if (hasWriteMethod(propertyAspectName)) {
+                @SuppressWarnings("unchecked")
+                PropertyAccessor<Object, V> accessor = (PropertyAccessor<Object, V>)getAccessor(propertyAspectName);
+                accessor.setPropertyValue(getExistingBoundObject(), aspect.getValue());
+            } else {
+                throw new IllegalArgumentException(
+                        ExceptionPropertyDispatcher.missingMethodMessage("set",
+                                                                         Arrays.asList(getBoundObject())));
+            }
         } else {
             fallbackDispatcher.push(aspect);
         }
@@ -153,8 +161,22 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
     public <V> boolean isPushable(Aspect<V> aspect) {
         @CheckForNull
         Object boundObject = getBoundObject();
-        return (boundObject != null && hasWriteMethod(getPropertyAspectName(aspect)))
-                || fallbackDispatcher.isPushable(aspect);
+
+        if (boundObject == null) {
+            return fallbackDispatcher.isPushable(aspect);
+        }
+
+        String propertyAspectName = getPropertyAspectName(aspect);
+        if (aspect.isValuePresent()) {
+            // the FallbackDispatcher should only be called if the BoundObject has no read method.
+            // Otherwise a #push() could result in a #write() to the ModelObject even if it is not
+            // declared within the PMO
+            return (hasReadMethod(propertyAspectName) && hasWriteMethod(propertyAspectName))
+                    || (!hasReadMethod(propertyAspectName) && fallbackDispatcher.isPushable(aspect));
+        } else {
+            return hasInvokeMethod(propertyAspectName)
+                    || fallbackDispatcher.isPushable(aspect);
+        }
     }
 
     /**
@@ -191,8 +213,8 @@ public class ReflectionPropertyDispatcher implements PropertyDispatcher {
 
     /**
      * Returns the messages stating the {@link #getBoundObject() bound object} as
-     * {@link org.linkki.core.binding.validation.message.Message#getInvalidObjectProperties() invalid} and those the
-     * {@code fallbackDispatcher} returns.
+     * {@link org.linkki.core.binding.validation.message.Message#getInvalidObjectProperties() invalid}
+     * and those the {@code fallbackDispatcher} returns.
      */
     @Override
     public MessageList getMessages(MessageList messageList) {

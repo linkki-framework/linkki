@@ -20,6 +20,7 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.linkki.core.binding.TestEnum;
 import org.linkki.core.binding.TestModelObject;
 import org.linkki.core.binding.TestPmo;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
@@ -27,6 +28,8 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.pmo.ModelObject;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 @ExtendWith(MockitoExtension.class)
 public class PropertyDispatcherFactoryTest {
@@ -59,6 +62,25 @@ public class PropertyDispatcherFactoryTest {
 
         assertThat(pmo.getValue(), is(ANY_VALUE));
     }
+
+    @Test
+    // For the given situation: PMO has a getter only, while the model object has getter and setter, is
+    // #isPushable() as well as push() shall prevent a call to the setter of the model object
+    public void testCreateDispatcherChain_pushToPmoReadonly() {
+        pmo.setModelObject(new ModelObjectWithPmoReadOnlyProperty());
+        PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
+                .createDispatcherChain(pmo,
+                                       BoundProperty.of("readonlyEnumValue")
+                                               .withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
+                                       PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+
+        assertThat(defaultDispatcher.isPushable(Aspect.of("", ANY_VALUE)), is(false));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            defaultDispatcher.push(Aspect.of("", ANY_VALUE));
+        });
+    }
+
 
     @Test
     public void testCreateDispatcherChain_getValueFromModelObject() {
@@ -155,5 +177,16 @@ public class PropertyDispatcherFactoryTest {
         @ModelObject
         private TestModelObject modelObject = new TestModelObject();
 
+    }
+
+    private static class ModelObjectWithPmoReadOnlyProperty extends TestModelObject {
+        @CheckForNull
+        public TestEnum getReadonlyEnumValue() {
+            return TestEnum.ONE;
+        }
+
+        public void setReadonlyEnumValue(TestEnum testEnum) {
+            // do nothing
+        }
     }
 }

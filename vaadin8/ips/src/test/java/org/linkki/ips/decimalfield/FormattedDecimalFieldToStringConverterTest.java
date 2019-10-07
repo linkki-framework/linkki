@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.faktorips.values.Decimal;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -53,9 +54,8 @@ public class FormattedDecimalFieldToStringConverterTest {
     /**
      * Special case only for convertToModel
      */
-    @ParameterizedTest
-    @MethodSource("data")
-    public void testConvertToModelWithoutSeparators(Decimal decimalValue, String stringValue) {
+    @Test
+    public void testConvertToModelWithoutSeparators() {
         assertThat(converter.convertToModel("17385,89", new ValueContext(Locale.GERMAN))
                 .getOrThrow(s -> new AssertionError(s)), is(Decimal.valueOf(17385.89)));
     }
@@ -63,9 +63,8 @@ public class FormattedDecimalFieldToStringConverterTest {
     /**
      * Special case only for convertToModel
      */
-    @ParameterizedTest
-    @MethodSource("data")
-    public void testConvertToModelWithNull(Decimal decimalValue, String stringValue) {
+    @Test
+    public void testConvertToModelWithNull() {
         assertThat(converter.convertToModel(null, new ValueContext())
                 .getOrThrow(s -> new AssertionError(s)), is(Decimal.NULL));
     }
@@ -73,9 +72,8 @@ public class FormattedDecimalFieldToStringConverterTest {
     /**
      * Special case only for convertToPresentation
      */
-    @ParameterizedTest
-    @MethodSource("data")
-    public void testConvertToPresentationWithNull(Decimal decimalValue, String stringValue) {
+    @Test
+    public void testConvertToPresentationWithNull() {
         assertThat(converter.convertToPresentation(null, new ValueContext()), is(""));
     }
 
