@@ -6,3 +6,5 @@
 
 *linkki-apt* creates warnings when a bad style is being used, for example using implicit model binding where a model attribute name is not given in the annotation but derived from the annotated method's name. 
 It is possible to suppress those warnings by annotating the affected method with the `@SuppressWarnings` annotation and passing the value "linkki" or "all" (which would also ignore other warnings by the Java compiler) to it.
+
+TIP: Eclipse marks any value for `@SuppressWarnings` that is unknown to its own compiler with another warning, which may only be removed by setting the project to ignore all unsupported values. Using "all" works, but also suppresses other warnings. 

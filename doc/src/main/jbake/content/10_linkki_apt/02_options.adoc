@@ -42,7 +42,6 @@ Passing compiler options to the annotation processor requires a prefix `-A` in a
 <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-compiler-plugin</artifactId>
-	<version>3.5.1</version>
 	<configuration>
 		...
 		<annotationProcessorPaths>...</annotationProcessorPaths>
