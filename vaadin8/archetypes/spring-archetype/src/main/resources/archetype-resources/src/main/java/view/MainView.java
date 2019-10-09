@@ -14,9 +14,9 @@ import ${package}.page.${ApplicationName}Page;
 @SpringView(name = MainView.NAME)
 public class MainView extends VerticalLayout implements View {
 
-    private static final long serialVersionUID = 1L;
-
     public static final String NAME = "";
+
+    private static final long serialVersionUID = 1L;
 
     @Autowired
     public MainView() {

@@ -23,6 +23,7 @@ import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.navigator.ViewProvider;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
@@ -44,11 +45,9 @@ public class LinkkiUi extends UI {
 
     private ApplicationConfig applicationConfig;
 
-    private ApplicationLayout applicationLayout;
-
     /**
      * Default constructor for dependency injection. Make sure to call
-     * {@link #configure(ApplicationConfig)} before the UI is initialized.
+     * {@link #configure(ApplicationConfig)} after instantiation before the UI is initialized.
      */
     @SuppressFBWarnings(value = "NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR", justification = "applicationConfig/Layout will be non-null once configure was called")
     protected LinkkiUi() {
@@ -67,19 +66,27 @@ public class LinkkiUi extends UI {
         this.applicationConfig = requireNonNull(config, "config must not be null");
     }
 
-    @Override
-    public ApplicationNavigator getNavigator() {
-        return (ApplicationNavigator)super.getNavigator();
-    }
-
+    /**
+     * {@inheritDoc}
+     * <p>
+     * The {@link ApplicationLayout} and {@link LinkkiConverterRegistry} are created by the
+     * {@link ApplicationConfig}. Thus, adjust the {@link ApplicationConfig} implementation for
+     * customization.
+     * <p>
+     * The {@link ErrorHandler} and the {@link Navigator} can be customized by overriding the methods
+     * {@link #configureErrorHandler()} and {@link #configureNavigator(ViewDisplay)} respectively.
+     */
     @Override
     protected void init(VaadinRequest request) {
         requireNonNull(applicationConfig,
                        "configure must be called before executing any initialization to set an ApplicationConfig");
-        this.applicationLayout = applicationConfig.createApplicationLayout();
-        setNavigator(applicationConfig.createApplicationNavigator(this, applicationLayout));
 
-        setErrorHandler(createErrorHandler());
+        ApplicationLayout applicationLayout = applicationConfig.createApplicationLayout();
+
+        setContent(applicationLayout);
+        configureNavigator(applicationLayout);
+        configureErrorHandler();
+
         // init converters
         VaadinSession vaadinSession = VaadinSession.getCurrent();
         if (vaadinSession != null) {
@@ -88,15 +95,46 @@ public class LinkkiUi extends UI {
         }
 
         Page.getCurrent().setTitle(getPageTitle());
-
-        setContent(applicationLayout);
     }
 
+    /**
+     * Configures the error handling. Override to use a different {@link ErrorHandler}.
+     * 
+     * @implSpec This method should call {@link #setErrorHandler(ErrorHandler)} with an instance of
+     *           {@link ErrorHandler} that may be created and/or configured here.
+     * @implNote linkki uses a {@link DialogErrorHandler} creating a new {@link DefaultErrorDialog} by
+     *           default.
+     */
+    protected void configureErrorHandler() {
+        setErrorHandler(createErrorHandler());
+    }
+
+    /**
+     * @deprecated since 1.1. Create and set the error handler in {@link #configureErrorHandler()}
+     *             instead.
+     */
+    @Deprecated
     protected ErrorHandler createErrorHandler() {
         return new DialogErrorHandler(getNavigator(), DefaultErrorDialog::new);
     }
 
     /**
+     * Configures the navigator for this UI. The navigator should use the given
+     * <code>applicationLayout</code> as {@link ViewDisplay}.
+     * 
+     * @implSpec This method should call {@link #setNavigator(Navigator)} with a matching
+     *           {@link Navigator} instance. If you use CDI, you should inject an instance of
+     *           {@code CdiNavigator}, for Spring autowire a {@code SpringNavigator}, calling
+     *           {@code init(this, applicationLayout)} in this method before
+     *           {@link #setNavigator(Navigator)} in both cases.
+     */
+    @SuppressWarnings("deprecation")
+    protected void configureNavigator(ViewDisplay applicationLayout) {
+        setNavigator(applicationConfig.createApplicationNavigator(this, (ApplicationLayout)applicationLayout));
+    }
+
+    /**
+     * 
      * Add a view to the configured navigator.
      * 
      * @implNote This method must be called after the navigator is configured either by
@@ -115,9 +153,8 @@ public class LinkkiUi extends UI {
     /**
      * Add a view provider to the configured navigator.
      * 
-     * @implNote This method must be called after the navigator is configured either by
-     *           {@link #LinkkiUi(ApplicationConfig)} constructor or by calling
-     *           {@link #configure(ApplicationConfig)}.
+     * @implNote This method must be called after the navigator is configured by
+     *           {@link #configureNavigator(ViewDisplay)}.
      * 
      * @param provider the view provider that should be configured
      * 
@@ -141,18 +178,17 @@ public class LinkkiUi extends UI {
     }
 
     public ApplicationLayout getApplicationLayout() {
-        return applicationLayout;
+        return (ApplicationLayout)getContent();
     }
 
     @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "when called from the constructor before configure")
     @Override
     public void setContent(@CheckForNull Component content) {
-        // if applicationLayout == null, configure was not yet called and this is just the call from the
+        // if getContent() == null, configure was not yet called and this is just the call from the
         // super constructor; Otherwise only an ApplicationLayout is accepted
-        if (applicationLayout != null && !(content instanceof ApplicationLayout)) {
+        if (getContent() != null && !(content instanceof ApplicationLayout)) {
             throw new IllegalArgumentException("content must be an " + ApplicationLayout.class.getSimpleName());
         }
-        applicationLayout = (ApplicationLayout)content;
         super.setContent(content);
     }
 
@@ -175,11 +211,23 @@ public class LinkkiUi extends UI {
     }
 
     /**
-     * Returns the navigator of the current UI.
+     * Returns the ApplicationNavigator of the current UI.
+     * 
+     * @return ApplicationNavigator of {@link #getCurrent()}.
+     * @deprecated since 1.1, as the navigator no longer needs to be an ApplicationNavigator.
+     * @throws ClassCastException if the navigator is not an ApplicationNavigator.
+     */
+    @Deprecated
+    public static ApplicationNavigator getCurrentApplicationNavigator() {
+        return (ApplicationNavigator)getCurrent().getNavigator();
+    }
+
+    /**
+     * Returns the {@link Navigator} of the current UI.
      * 
      * @return Navigator of {@link #getCurrent()}.
      */
-    public static ApplicationNavigator getCurrentApplicationNavigator() {
+    public static Navigator getCurrentNavigator() {
         return getCurrent().getNavigator();
     }
 
