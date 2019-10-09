@@ -1,7 +1,7 @@
 package org.linkki.doc;
 
-import static org.hamcrest.Matchers.containsInRelativeOrder;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInRelativeOrder;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
@@ -38,7 +38,8 @@ public class UnusedTagsTest {
     private static Map<Path, Set<String>> usedTags = new HashMap<>();
 
     public static Collection<Object[]> data() throws IOException {
-        usedTags = Files.walk(Paths.get("src/main/jbake")).filter(p -> p.getFileName().toString().endsWith(".adoc"))
+        usedTags = Files.walk(Paths.get("src/main/jbake"))
+                .filter(p -> p.getFileName().toString().endsWith(".adoc"))
                 .flatMap(p -> {
                     try {
                         Map<String, String> properties = Files.lines(p, StandardCharsets.UTF_8).map(PROPERTY::matcher)
@@ -56,7 +57,8 @@ public class UnusedTagsTest {
                 })
                 .collect(Collectors.groupingBy(Pair::getLeft, Collectors.mapping(Pair::getRight, Collectors.toSet())));
         return Files.walk(Paths.get(".."))
-                .filter(p -> p.getFileName().toString().endsWith(".java") && p.toString().contains("src/main/java"))
+                .filter(p -> p.getFileName().toString().endsWith(".java")
+                        && p.toString().contains(Paths.get("src/main/java").toString()))
                 .flatMap(p -> {
                     try {
                         return Files.lines(p, StandardCharsets.UTF_8).map(TAG_END::matcher)
@@ -92,7 +94,7 @@ public class UnusedTagsTest {
     }
 
     @ParameterizedTest
-    @MethodSource("data") 
+    @MethodSource("data")
     public void testUnusedTags(Path sourceFile, String tag) {
         Set<String> usedTagsInSourceFile = usedTags.getOrDefault(sourceFile, Collections.emptySet());
         assertThat("the tag '" + tag + "' in '" + sourceFile + "' should be referenced in an .adoc file",

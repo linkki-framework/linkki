@@ -34,7 +34,4 @@ public class PersonSectionPmo_fieldModelObject {
         return person.getFirstname();
     }
 
-    @UITextField(position = 10, label = "First Name", modelAttribute = "firstname")
-    public void firstName() {
-    }
 }

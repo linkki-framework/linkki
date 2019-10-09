@@ -1,8 +1,8 @@
 package org.linkki.doc;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.linkki.doc.PathExistsMatcher.exists;
 
@@ -46,7 +46,7 @@ public class IncludeTest {
                                 .collect(Collectors.toMap(m -> m.group(1), m -> m.group(2).trim()));
                         return Files.lines(p, StandardCharsets.UTF_8).map(INCLUDE::matcher).filter(Matcher::find)
                                 .map(matcher -> new Object[] { p, matcher.group(1), getSource(properties, matcher),
-                                                Optional.ofNullable(matcher.group(2)) });
+                                        Optional.ofNullable(matcher.group(2)) });
                     } catch (Exception e) {
                         e.printStackTrace();
                         fail("Could not initialize " + p + ":\n" + e.getMessage());
@@ -82,11 +82,11 @@ public class IncludeTest {
         checkConstraints(from, referencedPath, constraints);
     }
 
-    private void checkConstraints(Path from, Path referencedPath,  Optional<String> constraints) {
-        constraints.ifPresent(c -> checkConstraints(from, referencedPath, c));
+    private void checkConstraints(Path fromPath, Path referencedPath, Optional<String> constraints) {
+        constraints.ifPresent(c -> checkConstraints(fromPath, referencedPath, c));
     }
 
-    private void checkConstraints(Path from, Path referencedPath, String constraint) {
+    private void checkConstraints(Path fromPath, Path referencedPath, String constraint) {
         String fileName = referencedPath.getFileName().toString();
         String fileType = fileName.substring(fileName.lastIndexOf('.') + 1);
         Charset charset = "properties".equals(fileType) ? StandardCharsets.ISO_8859_1 : StandardCharsets.UTF_8;
@@ -98,14 +98,15 @@ public class IncludeTest {
                         .collect(Collectors.groupingBy(m -> m.group(2),
                                                        Collectors.groupingBy(m -> m.group(1), Collectors.counting())));
                 assertThat("the include '" + referencedPath + "' does not include the tag '" + tag + "' referenced in '"
-                        + from + '"', tags.containsKey(tag), is(true));
+                        + fromPath + '"', tags.containsKey(tag), is(true));
                 assertThat("the include '" + referencedPath
                         + "' does not include the same number of 'tag' and 'end' entries for '" + tag
                         + "' referenced in '"
-                        + from + '"', tags.get(tag).getOrDefault("tag", 0l), is(tags.get(tag).getOrDefault("end", 0l)));
+                        + fromPath + '"', tags.get(tag).getOrDefault("tag", 0l),
+                           is(tags.get(tag).getOrDefault("end", 0l)));
             } catch (Exception e) {
                 e.printStackTrace();
-                fail("Could not read " + referencedPath + " included in '" + from + "':\n" + e.getMessage());
+                fail("Could not read " + referencedPath + " included in '" + fromPath + "':\n" + e.getMessage());
             }
         } else if (constraint.startsWith("lines=")) {
             Matcher lines = LINES.matcher(constraint);
@@ -113,18 +114,19 @@ public class IncludeTest {
             long min = Long.parseLong(lines.group(1));
             long max = Long.parseLong(lines.group(2));
             assertThat("Illegal lines constraint '" + constraint + "' for include '" + referencedPath + "' from '"
-                    + from + "'", min,
+                    + fromPath + "'", min,
                        is(lessThanOrEqualTo(max)));
             try {
                 long lineCount = Files.lines(referencedPath, charset).count();
-                assertThat("the include '" + referencedPath + "[" + constraint + "]' referenced in '" + from
+                assertThat("the include '" + referencedPath + "[" + constraint + "]' referenced in '" + fromPath
                         + "' only has " + lineCount + " lines", max, is(lessThanOrEqualTo(lineCount)));
             } catch (Exception e) {
                 e.printStackTrace();
                 fail("Could not read " + referencedPath + ":\n" + e.getMessage());
             }
         } else {
-            fail("unknown constraints '" + constraint + "' for include '" + referencedPath + "' from '" + from + "'");
+            fail("unknown constraints '" + constraint + "' for include '" + referencedPath + "' from '" + fromPath
+                    + "'");
         }
     }
 

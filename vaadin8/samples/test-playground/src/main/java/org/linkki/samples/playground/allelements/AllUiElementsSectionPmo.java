@@ -45,37 +45,37 @@ public class AllUiElementsSectionPmo {
         return modelObject;
     }
 
-    @UITextField(position = 10, label = NlsText.I18n)
+    @UITextField(position = 10, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_TEXT)
     public void text() {
         // model binding
     }
 
-    @UITextArea(position = 20, label = NlsText.I18n)
+    @UITextArea(position = 20, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_LONGTEXT)
     public void longText() {
         // model binding
     }
 
-    @UIIntegerField(position = 30, label = NlsText.I18n)
+    @UIIntegerField(position = 30, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_INTVALUE)
     public void intValue() {
         // model binding
     }
 
-    @UIDoubleField(position = 40, label = NlsText.I18n)
+    @UIDoubleField(position = 40, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DOUBLEVALUE)
     public void doubleValue() {
         // model binding
     }
 
-    @UIDateField(position = 50, label = NlsText.I18n)
+    @UIDateField(position = 50, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DATE)
     public void date() {
         // model binding
     }
 
-    @UIComboBox(position = 60, label = NlsText.I18n)
+    @UIComboBox(position = 60, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE)
     public void enumValue() {
         // model binding
     }
 
-    @UICheckBox(position = 70, caption = NlsText.I18n)
+    @UICheckBox(position = 70, caption = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_BOOLEANVALUE)
     public void booleanValue() {
         // model binding
     }
@@ -90,7 +90,7 @@ public class AllUiElementsSectionPmo {
         // model binding
     }
 
-    @UICustomField(position = 90, label = NlsText.I18n, uiControl = PasswordField.class)
+    @UICustomField(position = 90, label = NlsText.I18n, uiControl = PasswordField.class, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET)
     public void secret() {
         // model binding
     }
@@ -100,7 +100,7 @@ public class AllUiElementsSectionPmo {
         getModelObject().setIntValue(getModelObject().getIntValue() + 1);
     }
 
-    @UIDecimalField(position = 110, label = NlsText.I18n)
+    @UIDecimalField(position = 110, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DECIMALVALUE)
     public void decimalValue() {
         // model binding
     }

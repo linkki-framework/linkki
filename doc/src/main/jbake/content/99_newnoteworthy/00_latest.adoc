@@ -60,7 +60,7 @@ In addition to `@UISection`, linkki now provides `@UIHorizontalLayout`, `@UIVert
 
 Previously, `ApplicationLayout#showView` threw an `IllegalArgumentException` if the given `View` was not itself a `Component`. Now, a `View` overwriting `View#getViewComponent()` can also be used. A `View` that is neither a `Component` nor overwrites `getViewComponent()` will lead to an `IllegalStateException`.
 
-=== Custom `PropertyDispatcherFactory` in `DefaultBindingManager`
+==== Custom `PropertyDispatcherFactory` in `DefaultBindingManager`
 
 The `DefaultBindingManager` provides a new constructor that allows to set a custom `PropertyDispatcherFactory`. If set, the `DefaultBindingManager` uses this custom `PropertyDispatcherFacotry` for all `BindingContexts` that are created by using 'getContext()'. Read the section about <<property-dispatcher,PropertyDispatcher>> to get more information.
 
@@ -79,3 +79,7 @@ Aspect types can now be annotated with `@InheritedAspect` to indicate that aspec
 ==== Selection of table rows
 
 Table PMO classes can now implement the `SelectableTable` interface to receive callbacks when the user selects a table row. Updating the current selection programmatically is also possible.
+
+==== Annotation Processor for *linkki*
+
+The annotation processor previously developed separately from *linkki* has become part of *linkki* core. The Maven `artifactId` has been changed to `linkki-apt` to mark this inclusion. The documentation can now be found at <<linkki-apt, linkki-apt>>. If you have been using the old annotation processor before its 1.0-RC01-Release, please also consider the changes documented in https://doc.linkki-framework.org/tools/apt/02_New_And_Noteworthy/index.html[the corresponding New&Noteworthy].

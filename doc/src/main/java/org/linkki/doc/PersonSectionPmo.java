@@ -39,10 +39,4 @@ public class PersonSectionPmo {
         return getPerson().getFirstname();
     }
     // end::pojo-binding[]
-
-    // tag::model-binding[]
-    @UITextField(position = 10, label = "First Name", modelAttribute = "firstname")
-    public void firstName() {
-    }
-    // end::model-binding[]
 }

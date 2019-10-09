@@ -14,6 +14,9 @@
 package org.linkki.core.binding.dispatcher.reflection.accessor;
 
 import static java.util.Objects.requireNonNull;
+import static org.linkki.util.BeanUtils.GET_PREFIX;
+import static org.linkki.util.BeanUtils.IS_PREFIX;
+import static org.linkki.util.BeanUtils.SET_PREFIX;
 import static org.linkki.util.LazyCachingSupplier.lazyCaching;
 
 import java.beans.PropertyDescriptor;
@@ -33,10 +36,6 @@ import org.apache.commons.lang3.reflect.MethodUtils;
  * @param <V> the property's type
  */
 public class PropertyAccessDescriptor<T, V> {
-
-    private static final String GET_PREFIX = "get";
-    private static final String SET_PREFIX = "set";
-    private static final String IS_PREFIX = "is";
 
     private final Class<? extends T> boundClass;
     private final String propertyName;

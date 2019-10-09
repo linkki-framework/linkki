@@ -11,6 +11,7 @@
 **/.project
 **/.checkstyle
 **/.fbExcludeFilterFile
+**/.factorypath
 **/bin/
 target
 **/target
