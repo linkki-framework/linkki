@@ -214,7 +214,8 @@ public class LinkkiUi extends UI {
      * Returns the ApplicationNavigator of the current UI.
      * 
      * @return ApplicationNavigator of {@link #getCurrent()}.
-     * @deprecated since 1.1, as the navigator no longer needs to be an ApplicationNavigator.
+     * @deprecated since 1.1, as the navigator no longer needs to be an ApplicationNavigator. Use
+     *             {@link #getCurrentNavigator()} instead.
      * @throws ClassCastException if the navigator is not an ApplicationNavigator.
      */
     @Deprecated

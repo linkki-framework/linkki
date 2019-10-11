@@ -77,7 +77,7 @@ In the previous versions, a `ValidationService` is required to create a `Default
 [role="api-change"]
 ===== `startNewContext` deprecated
 
-The `BindingManager`'s `startNewContext` method has been deprecated, as it is no longer necessary to explicitly start a context. When `getContext` is called, a new context is created as necessary. Existing calls can be refactored with link:../migration_scripts/0.9.20190528_to_latest/migrate.sed[0.9.20190528_to_latest/migrate.sed].
+The `BindingManager`'s `startNewContext` method has been deprecated, as it is no longer necessary to explicitly start a context. When `getContext` is called, a new context is created as necessary. Existing calls can be refactored with link:../migration_scripts/0.9.20190528_to_1.0/migrate.sed[0.9.20190528_to_1.0/migrate.sed].
 
 ==== Update to Vaadin 8.8.5
 
