@@ -89,15 +89,16 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
     @Override
 
     public <T> T pull(Aspect<T> aspect) {
-        throw new IllegalStateException(missingMethod(getPropertyAspectName("is/get", aspect)));
+        throw new IllegalStateException(missingMethodMessage(getPropertyAspectName("is/get", aspect), objects));
     }
 
     @Override
     public <T> void push(Aspect<T> aspect) {
         if (aspect.isValuePresent()) {
-            throw new IllegalArgumentException(missingMethod("set" + StringUtils.capitalize(getProperty())));
+            throw new IllegalArgumentException(
+                    missingMethodMessage("set" + StringUtils.capitalize(getProperty()), objects));
         } else {
-            throw new IllegalArgumentException(missingMethod("void " + property + "()"));
+            throw new IllegalArgumentException(missingMethodMessage("void " + property + "()", objects));
         }
     }
 
@@ -107,7 +108,14 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
                         + StringUtils.capitalize(aspect.getName()));
     }
 
-    private String missingMethod(String methodSignature) {
+    /***
+     * Creates a message that indicates a missing Method in certain classes
+     * 
+     * @param methodSignature the method signature of the missing method
+     * @param objects in whose class the method is missing
+     * @return the message that indicates missing methods
+     */
+    public static String missingMethodMessage(String methodSignature, List<Object> objects) {
         return MessageFormat.format("Cannot find method \"{0}\"  in any of the classes {1}",
                                     methodSignature,
                                     objects.stream().map(t -> t == null ? null : t.getClass().toGenericString())

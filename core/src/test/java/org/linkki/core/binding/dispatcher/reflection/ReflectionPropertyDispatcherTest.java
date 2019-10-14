@@ -18,8 +18,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.linkki.core.matcher.MessageMatchers.emptyMessageList;
 import static org.linkki.core.matcher.MessageMatchers.hasSize;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -30,12 +33,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
+import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.pmo.ModelObject;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -266,6 +271,30 @@ public class ReflectionPropertyDispatcherTest {
     }
 
     @Test
+    public void testPush_Static_PmoWithoutReadMethod() {
+        PropertyDispatcher mockedDispatcher = noActionInPushMockedDispatcher();
+
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
+                TestPMO.INVALID_PROPERTY_MISSING_GETTER_PMO, mockedDispatcher);
+
+        dispatcher.push(Aspect.of("", "something"));
+
+        verify(mockedDispatcher, times(1)).push(ArgumentMatchers.<Aspect<?>> any());
+    }
+
+    @Test
+    public void testPush_Static_PmoWithoutWriteMethod() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
+                TestPMO.PROPERTY_PMO_GETTER_ONLY, noActionInPushMockedDispatcher());
+
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            dispatcher.push(Aspect.of("", "something"));
+        });
+    }
+
+
+    @Test
     public void testPush_Dynamic() {
         TestPMO spyPmo = spy(testPmo);
         ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> spyPmo,
@@ -299,6 +328,66 @@ public class ReflectionPropertyDispatcherTest {
         });
     }
 
+    @Test
+    public void testIsPushable_WithReadWithoutWrite() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
+                TestPMO.PROPERTY_PMO_GETTER_ONLY,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_GETTER_ONLY));
+
+        assertThat(dispatcher.isPushable(Aspect.of("", "something")), is(false));
+    }
+
+    @Test
+    public void testIsPushable_WithReadAndWrite() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
+                TestPMO.PROPERTY_PMO_PROP,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_PROP));
+
+        assertThat(dispatcher.isPushable(Aspect.of("", "something")), is(true));
+    }
+
+    @Test
+    public void testIsPushable_WithReadAndWriteNoBoundObject() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> null,
+                TestPMO.PROPERTY_PMO_PROP,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_PROP));
+
+        assertThat(dispatcher.isPushable(Aspect.of("", "something")), is(false));
+    }
+
+    @Test
+    public void testIsPushable_NoInvokeMethod() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
+                TestPMO.PROPERTY_PMO_GETTER_ONLY,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_PMO_GETTER_ONLY));
+
+        assertThat(dispatcher.isPushable(Aspect.of("")), is(false));
+    }
+
+    @Test
+    public void testIsPushable_InvokeMethod() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(this::getTestPmo,
+                TestPMO.PROPERTY_BUTTON_CLICK,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
+
+        assertThat(dispatcher.isPushable(Aspect.of("")), is(true));
+    }
+
+    @Test
+    public void testIsPushable_InvokeMethodNoBoundObject() {
+        ReflectionPropertyDispatcher dispatcher = new ReflectionPropertyDispatcher(() -> null,
+                TestPMO.PROPERTY_BUTTON_CLICK,
+                new ExceptionPropertyDispatcher(TestPMO.PROPERTY_BUTTON_CLICK));
+
+        assertThat(dispatcher.isPushable(Aspect.of("")), is(false));
+    }
+
+    private static PropertyDispatcher noActionInPushMockedDispatcher() {
+        PropertyDispatcher mockedDispatcher = mock(PropertyDispatcher.class);
+        doNothing().when(mockedDispatcher).push(ArgumentMatchers.<Aspect<?>> any());
+        return mockedDispatcher;
+    }
+
     private ReflectionPropertyDispatcher setupPmoDispatcher(String property) {
         ExceptionPropertyDispatcher exceptionDispatcher = new ExceptionPropertyDispatcher(property, testModelObject,
                 testPmo);
@@ -320,6 +409,8 @@ public class ReflectionPropertyDispatcherTest {
     public static class TestPMO {
 
         public static final String PROPERTY_PMO_PROP = "pmoProp";
+        public static final String PROPERTY_PMO_GETTER_ONLY = "pmoGetterOnly";
+        public static final String INVALID_PROPERTY_MISSING_GETTER_PMO = "missingGetterProp";
         public static final String PROPERTY_XYZ = "xyz";
         public static final String PROPERTY_BUTTON_CLICK = "buttonClick";
 
@@ -376,6 +467,14 @@ public class ReflectionPropertyDispatcherTest {
 
         public void setPmoProp(String pmoProp) {
             this.pmoProp = pmoProp;
+        }
+
+        public String getPmoGetterOnly() {
+            return "";
+        }
+
+        public void setMissingGetterProp() {
+            // Nothing to do
         }
 
         public void buttonClick() {
@@ -445,6 +544,14 @@ public class ReflectionPropertyDispatcherTest {
 
         public List<?> getAbcAvailableValues() {
             return Collections.emptyList();
+        }
+
+        public void setPmoSet(String pmoSet) {
+            // do nothing
+        }
+
+        public String getPmoSet() {
+            return "";
         }
 
     }

@@ -12,21 +12,21 @@
  * License.
  */
 
-package org.linkki.tooling.apt.util;
+import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UISection;
 
-/**
- * Constants for typically used properties in annotations.
- */
-public final class Constants {
+@UISection
+public class NoSetterPmo {
 
-    public static final String LABEL = "label";
-    public static final String CAPTION = "caption";
+    @ModelObject
+    public Report getReport() {
+        return null;
+    }
 
-    public static final String CONTENT = "content";
-    public static final String MODEL_OBJECT = "modelObject";
-    public static final String MODEL_ATTRIBUTE = "modelAttribute";
-
-    private Constants() {
-        // util
+    @UITextField(position = 10, modelAttribute = Report.PROPERTY_DESCRIPTION)
+    public String getDescription() {
+        return getReport().getDescription();
     }
 }

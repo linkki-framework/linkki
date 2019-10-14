@@ -16,6 +16,8 @@ package org.linkki.tooling.apt.model;
 
 import java.util.List;
 
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
 
@@ -44,6 +46,15 @@ public class AptPmo {
 
     public TypeElement getElement() {
         return element;
+    }
+
+    /**
+     * Returns whether the {@link #getElement() element} is an {@link ElementKind#INTERFACE interface}
+     * or {@link Modifier#ABSTRACT abstract} class.
+     */
+    public boolean isAbstractType() {
+        return getElement().getKind() == ElementKind.INTERFACE
+                || getElement().getModifiers().contains(Modifier.ABSTRACT);
     }
 
     public static class AptModelBinding {

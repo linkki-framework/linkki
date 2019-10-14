@@ -47,7 +47,6 @@ import org.linkki.tooling.apt.model.AptComponentDeclaration;
 import org.linkki.tooling.apt.model.AptModelAttribute;
 import org.linkki.tooling.apt.model.AptPmo;
 import org.linkki.tooling.apt.util.ElementUtils;
-import org.linkki.tooling.apt.util.ModelUtils;
 import org.linkki.tooling.apt.util.ReflectionUtils;
 
 /**
@@ -86,7 +85,7 @@ public class AvailableValuesTypeValidator implements Validator {
 
         pmo.getComponents().stream()
                 .flatMap(it -> it.getComponentDeclarations().stream())
-                .filter(it -> it.isModelBinding())
+                .filter(it -> it.isDirectModelBinding())
                 .filter(it -> !isSuppressed(it.getElement(), wrongContentTypeSeverity))
                 .forEach(componentDeclaration -> {
                     try {
@@ -172,8 +171,8 @@ public class AvailableValuesTypeValidator implements Validator {
                                                      propertyName,
                                                      availableValuesType);
 
-                    Optional<AnnotationValue> attribute = ModelUtils.findAttribute(componentDeclaration.getAttributes(),
-                                                                                   CONTENT)
+                    Optional<AnnotationValue> attribute = AptAttribute
+                            .findByName(componentDeclaration.getAttributes(), CONTENT)
                             .map(AptAttribute::getAnnotationValue);
 
                     if (attribute.isPresent()) {

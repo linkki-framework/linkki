@@ -35,13 +35,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
-import org.linkki.tooling.apt.validator.AspectMethodValidator;
-import org.linkki.tooling.apt.validator.AvailableValuesTypeValidator;
-import org.linkki.tooling.apt.validator.DynamicFieldValidator;
-import org.linkki.tooling.apt.validator.ModelBindingValidator;
-import org.linkki.tooling.apt.validator.ModelObjectValidator;
-import org.linkki.tooling.apt.validator.PositionValidator;
-import org.linkki.tooling.apt.validator.PublicModifierValidator;
 
 public class SuppressedWarningsTest extends BaseAnnotationProcessorTest {
 
@@ -134,7 +127,10 @@ public class SuppressedWarningsTest extends BaseAnnotationProcessorTest {
                                      ModelObjectValidator.MODEL_OBJECT_CLASH),
                              new FileToCode(SUPPRESSED_WARNINGS + it
                                      + "/PublicModifier_NonPublicMethod.java",
-                                     PublicModifierValidator.NON_PUBLIC_METHOD));
+                                     PublicModifierValidator.NON_PUBLIC_METHOD),
+                             new FileToCode(SUPPRESSED_WARNINGS + it
+                                     + "/BoundProperty_SetterOnlyInModelObject.java",
+                                     BoundPropertyValidator.SETTER_ONLY_IN_MODEL_OBJECT));
         }
 
         private DynamicNode testFileIsOk(FileToCode it) {

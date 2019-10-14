@@ -49,6 +49,7 @@ import org.linkki.tooling.apt.util.ElementUtils;
 import org.linkki.tooling.apt.util.ModelBuilder;
 import org.linkki.tooling.apt.validator.AspectMethodValidator;
 import org.linkki.tooling.apt.validator.AvailableValuesTypeValidator;
+import org.linkki.tooling.apt.validator.BoundPropertyValidator;
 import org.linkki.tooling.apt.validator.DynamicFieldValidator;
 import org.linkki.tooling.apt.validator.ModelBindingValidator;
 import org.linkki.tooling.apt.validator.ModelObjectValidator;
@@ -116,7 +117,8 @@ public class LinkkiAnnotationProcessor extends AbstractProcessor {
                             new AspectMethodValidator(options, elementUtils),
                             new ModelBindingValidator(options),
                             new DynamicFieldValidator(options, elementUtils),
-                            new AvailableValuesTypeValidator(options, elementUtils));
+                            new AvailableValuesTypeValidator(options, elementUtils),
+                            new BoundPropertyValidator(options, types));
     }
 
     private ClassLoader getClassLoader(Map<String, String> options) {
