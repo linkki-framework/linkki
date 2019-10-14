@@ -24,7 +24,10 @@ import com.vaadin.ui.UI;
 
 /**
  * Extends {@link Navigator} with some convenient methods.
+ * 
+ * @deprecated since 1.1. Use {@link Navigator} directly instead.
  */
+@Deprecated
 public class ApplicationNavigator extends Navigator {
 
     private static final long serialVersionUID = 1L;
@@ -67,7 +70,10 @@ public class ApplicationNavigator extends Navigator {
      * 
      * @param newViewName the name of the view, may be derived from view class using a convention
      *            utility
+     * @deprecated since 1.1. Use {@link Navigator#navigateTo(String)} with {@link UI#getNavigator()}
+     *             instead.
      */
+    @Deprecated
     public <T extends View> void showView(String newViewName) {
         showView(newViewName, StringUtils.EMPTY);
     }
@@ -91,7 +97,10 @@ public class ApplicationNavigator extends Navigator {
      *            utility
      * @param pathAndParameters A string containing a URL-like path as well as URL parameters. Must not
      *            start with &quot;/&quot;. Example: &quot;part1/part2/arg1=23&amp;arg2=42&quot;.
+     * @deprecated since 1.1. Use {@link Navigator#navigateTo(String)} with {@link UI#getNavigator()}
+     *             instead.
      */
+    @Deprecated
     public <T extends View> void showView(String newViewName, String pathAndParameters) {
         String newFragment = newViewName + "/" + pathAndParameters;
         navigateTo(newFragment);
@@ -99,7 +108,11 @@ public class ApplicationNavigator extends Navigator {
 
     /**
      * Navigates to the same view as the current view. The complete URL will be preserved.
+     * 
+     * @deprecated since 1.1. Use {@link Navigator#navigateTo(String)
+     *             navigator.navigateTo(navigator.getState())} with {@link UI#getNavigator()} instead.
      */
+    @Deprecated
     public void refreshCurrentView() {
         navigateTo(getState());
     }

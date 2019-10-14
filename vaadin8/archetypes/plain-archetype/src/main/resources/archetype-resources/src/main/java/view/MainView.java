@@ -10,9 +10,9 @@ import \${package}.page.${ApplicationName}Page;
 
 public class MainView extends VerticalLayout implements View {
 
-    private static final long serialVersionUID = 1L;
-
     public static final String NAME = "";
+
+    private static final long serialVersionUID = 1L;
 
     public MainView() {
         addComponent(new Headline("linkki Example Web Application"));

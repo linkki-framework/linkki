@@ -21,7 +21,6 @@ import java.util.Locale;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
-import org.linkki.ips.ui.element.IdAndNameCaptionProviderTest.UnnamedEnum;
 
 public class IdAndNameCaptionProviderTest {
 

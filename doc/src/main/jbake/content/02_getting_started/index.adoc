@@ -30,7 +30,7 @@ include::{sample-parent-dir}/pom.xml[tags=linkki-application-framework-vaadin8]
 
 * Dialogs
 * Sidebar sheets
-* LinkkiUi with `ApplicationLayout`, using a custom `ApplicationNavigator` and `ApplicationConfig` for the layout and a adjusted theme
+* `LinkkiUi` with `ApplicationLayout` and `ApplicationConfig` as well as an adjusted theme
 * UI Components to display validation messages
 
 

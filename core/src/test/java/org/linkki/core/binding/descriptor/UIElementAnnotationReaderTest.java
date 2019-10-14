@@ -50,8 +50,8 @@ public class UIElementAnnotationReaderTest {
     @Test
     public void testGetModelObjectSupplier_noAnnotation() {
         Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
-            Supplier<?> modelObjectSupplier = UIElementAnnotationReader.getModelObjectSupplier(new TestObject(),
-                                                                                               ModelObject.DEFAULT_NAME);
+            UIElementAnnotationReader.getModelObjectSupplier(new TestObject(),
+                                                             ModelObject.DEFAULT_NAME);
         });
 
     }

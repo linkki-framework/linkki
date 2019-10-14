@@ -20,7 +20,6 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.linkki.core.defaults.ui.element.ItemCaptionProviderTest.UnnamedEnum;
 import org.linkki.core.uiframework.UiFramework;
 
 public class ItemCaptionProviderTest {

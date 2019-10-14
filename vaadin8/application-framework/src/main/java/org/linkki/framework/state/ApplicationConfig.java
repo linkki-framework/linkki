@@ -20,13 +20,13 @@ import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationLayout;
-import org.linkki.framework.ui.application.ApplicationNavigator;
 import org.linkki.framework.ui.application.LinkkiUi;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.util.Sequence;
 
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
@@ -95,11 +95,20 @@ public interface ApplicationConfig {
     }
 
     /**
-     * The {@link ApplicationNavigator} used to navigate the {@link View Views} displayed in the
-     * {@link ApplicationLayout}.
+     * The {@link org.linkki.framework.ui.application.ApplicationNavigator} used to navigate the
+     * {@link View Views} displayed in the {@link ApplicationLayout}.
+     * 
+     * @deprecated since 1.1. This method is no longer needed. Instead, the {@link LinkkiUi} should
+     *             configure an existing {@link Navigator} in
+     *             {@code LinkkiUi#configureNavigator(ViewDisplay)}. If you use CDI, this should be an
+     *             injected instance of {@code CdiNavigator}; if you use Spring, an autowired instance
+     *             of {@code SpringNavigator}. If you use neither but want to use your own subclass of
+     *             {@link Navigator}, you can create one in this method.
      */
-    default ApplicationNavigator createApplicationNavigator(UI ui, ApplicationLayout applicationLayout) {
-        return new ApplicationNavigator(ui, applicationLayout);
+    @Deprecated
+    default org.linkki.framework.ui.application.ApplicationNavigator createApplicationNavigator(UI ui,
+            ApplicationLayout applicationLayout) {
+        return new org.linkki.framework.ui.application.ApplicationNavigator(ui, applicationLayout);
     }
 
     /**

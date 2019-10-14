@@ -1,9 +1,6 @@
 package \${package};
-/*******************************************************************************
- * Copyright (c) Faktor Zehn GmbH - www.faktorzehn.de
- * 
- * All Rights Reserved - Alle Rechte vorbehalten.
- *******************************************************************************/
+
+import javax.inject.Inject;
 
 import org.linkki.framework.ui.application.LinkkiUi;
 
@@ -11,12 +8,9 @@ import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.cdi.CDIUI;
-import com.vaadin.navigator.View;
+import com.vaadin.cdi.CDINavigator;
 import com.vaadin.navigator.ViewDisplay;
-import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
-
-import ${package}.view.MainView;
 
 /**
  * Base class for {@link UI} implementations.
@@ -26,23 +20,21 @@ import ${package}.view.MainView;
 @Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
 @CDIUI(\${ApplicationName}UI.URL)
 @PreserveOnRefresh
-public class \${ApplicationName}UI extends LinkkiUi implements ViewDisplay {
+public class \${ApplicationName}UI extends LinkkiUi {
 
     public static final String URL = ""; //$NON-NLS-1$
 
-    public \${ApplicationName}UI() {
+    private final CDINavigator cdiNavigator;
+
+    @Inject
+    public \${ApplicationName}UI(CDINavigator cdiNavigator) {
         super(new \${ApplicationName}ApplicationConfig());
+        this.cdiNavigator = cdiNavigator;
     }
 
     @Override
-    protected void init(VaadinRequest request) {
-        super.init(request);
-        addView(MainView.NAME, MainView.class);
+    protected void configureNavigator(ViewDisplay applicationLayout) {
+        cdiNavigator.init(this, applicationLayout);
+        setNavigator(cdiNavigator);
     }
-
-    @Override
-    public void showView(View view) {
-        getApplicationLayout().showView(view);
-    }
-
 }

@@ -18,10 +18,10 @@ import java.util.function.BiFunction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.linkki.framework.ui.application.ApplicationNavigator;
 import org.linkki.framework.ui.application.LinkkiUi;
 import org.linkki.util.handler.Handler;
 
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.server.ErrorEvent;
 import com.vaadin.server.ErrorHandler;
@@ -35,8 +35,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <p>
  * By default, {@link DefaultErrorDialog} is used to display the exception and the {@link View} named ""
  * (empty String) is shown upon confirmation. To use another dialog or a different {@link View} to
- * navigate to, use the constructor
- * {@link #DialogErrorHandler(ApplicationNavigator, BiFunction, String)}.
+ * navigate to, use the constructor {@link #DialogErrorHandler(Navigator, BiFunction, String)}.
  * <p>
  * Register this handler in your main UI-class in order to report all exceptions:
  * 
@@ -56,22 +55,44 @@ public class DialogErrorHandler implements ErrorHandler {
     private static final Logger LOGGER = Logger.getLogger(DialogErrorHandler.class.getName());
     private static final String DEFAULT_START_VIEW = "";
 
-    private final ApplicationNavigator applicationNavigator;
+    private final Navigator navigator;
 
     private final String startView;
     private final BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator;
 
-    public DialogErrorHandler(ApplicationNavigator applicationNavigator,
+    public DialogErrorHandler(Navigator navigator,
             BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator) {
-        this(applicationNavigator, dialogCreator, DEFAULT_START_VIEW);
+        this(navigator, dialogCreator, DEFAULT_START_VIEW);
     }
 
-    public DialogErrorHandler(ApplicationNavigator applicationNavigator,
-            BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator,
+    public DialogErrorHandler(Navigator navigator, BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator,
             String startView) {
-        this.applicationNavigator = applicationNavigator;
+        this.navigator = navigator;
         this.dialogCreator = dialogCreator;
         this.startView = startView;
+    }
+
+    /**
+     * @deprecated since 1.1. The navigator can now be any {@link Navigator}. This constructor was
+     *             retained for binary compatibility. Use
+     *             {@link #DialogErrorHandler(Navigator, BiFunction)} instead.
+     */
+    @Deprecated
+    public DialogErrorHandler(org.linkki.framework.ui.application.ApplicationNavigator applicationNavigator,
+            BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator) {
+        this((Navigator)applicationNavigator, dialogCreator);
+    }
+
+    /**
+     * @deprecated since 1.1. The navigator can now be any {@link Navigator}. This constructor was
+     *             retained for binary compatibility. Use
+     *             {@link #DialogErrorHandler(Navigator, BiFunction, String)} instead.
+     */
+    @Deprecated
+    public DialogErrorHandler(org.linkki.framework.ui.application.ApplicationNavigator applicationNavigator,
+            BiFunction<ErrorEvent, Handler, ConfirmationDialog> dialogCreator,
+            String startView) {
+        this((Navigator)applicationNavigator, dialogCreator, startView);
     }
 
     @Override
@@ -91,6 +112,6 @@ public class DialogErrorHandler implements ErrorHandler {
         UI ui = UI.getCurrent();
         // need to copy to new array list to avoid concurrent modification
         new ArrayList<>(ui.getWindows()).forEach(ui::removeWindow);
-        applicationNavigator.showView(startView);
+        navigator.navigateTo(startView);
     }
 }

@@ -30,7 +30,7 @@ public class StartMenuItemDefinition extends ApplicationMenuItemDefinition {
     @Override
     protected MenuItem internalCreateItem(ApplicationMenu menu) {
         return menu.addItem("Start",
-                            e -> LinkkiUi.getCurrentApplicationNavigator().showView(MainView.NAME));
+                            e -> LinkkiUi.getCurrentNavigator().navigateTo(MainView.NAME));
     }
 
 }

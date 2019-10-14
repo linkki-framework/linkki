@@ -1,0 +1,14 @@
+{
+  "1.1.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.method.returnTypeChanged",
+          "old": "method org.linkki.framework.ui.application.ApplicationNavigator org.linkki.framework.ui.application.LinkkiUi::getNavigator()",
+          "new": "method com.vaadin.navigator.Navigator com.vaadin.ui.UI::getNavigator() @ org.linkki.framework.ui.application.LinkkiUi",
+          "justification": "LIN-1603 :: Deprecate ApplicationNavigator"
+        }
+      ]
+    }
+  }
+}

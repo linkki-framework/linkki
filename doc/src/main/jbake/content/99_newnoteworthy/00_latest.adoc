@@ -36,9 +36,80 @@
 
 Obtaining a Vaadin `Component` from `UiCreator#createComponent` requires an additional cast and method call. The new `VaadinUiCreator` directly returns a `Component`, but works the same otherwise.
 
+[role="api-change"]
 ==== Changes to ItemCaptionProvider Implementations
 
 `DefaultCaptionProvider` now supports localization by calling `getName(Locale)` to determine the caption, falling back to `getName()` or `toString()` (in order) if the method is not present. Additionally, `IdAndNameCaptionProvider` has been moved to the Faktor-IPS-specific linkki module (now `org.linkki.ips.ui.element.IdAndNameCaptionProvider` in `org.linkki-framework:linkki-ips-vaadin8`), due to there being no general use-case if linkki is not used with Faktor-IPS. A deprecated version is still available, but will be removed in a future version.
+
+[role="api-change"]
+==== New Navigator Configuration Concept
+ 
+View changes in Vaadin are handled by the navigators. Previously, the **linkki** application framework provided an `ApplicationNavigator` which extends the Vaadin `Navigator` with convenient methods such as `showView(String)`. The navigator of a `LinkkiUI` is then configured by the `ApplicationConfig` to use an `ApplicationLayout` to display the views.
+
+However, the concept of `ApplicationNavigator` turns out to be inconvenient when using **linkki** with CDI or Spring, as both injection frameworks provide their own `Navigators` that automatically discover views. In those cases, the **linkki** user is in the dilemma that the navigator must extend both `ApplicationNavigator` and `SpringNavigator`/`CdiNavigator`. 
+
+To solve this problem, `ApplicationNavigator` is now deprecated as well as the method `ApplicationConfig#createApplicationNavigator`. Instead, a new method `configureNavigator(ViewDisplay)` is provided in `LinkkiUI` to configure the `Navigator`. To make the API of `LinkkiUI` more consistent, the existing method `createErrorHandler` is also deprecated in favor of the new method `configureErrorHandler`.
+
+.Navigating
+[options="header"]
+|===
+| Until now | New 
+| `applicationNavigator.showView(viewName)` | `navigator.navigateTo(viewName)` 
+| `applicationNavigator.refreshCurrentView()` | `navigator.navigateTo(navigator.getState())`  
+|===
+
+.Configuring Navigator
+[cols="a,a", options="header"]
+|===
+| Until now | New 
+| Override `ApplicationConfig#createApplicationNavigator(UI, ApplicationLayout)` | Override `LinkkiUi#configureNavigator(ViewDisplay)`, e.g.
+
+[source,java]
+----
+@Override
+protected void configureNavigator(ViewDisplay applicationLayout) {
+  setNavigator(new MyNavigator(this, applicationLayout));
+}
+---- 
+
+.Using CDI
+----
+@Inject
+private CDINavigator cdiNavigator; 
+
+@Override
+protected void configureNavigator(ViewDisplay applicationLayout) {
+  cdiNavigator.init(this, applicationLayout);
+  setNavigator(cdiNavigator);
+}
+---- 
+
+.Using Spring
+----
+private final SpringNavigator springNavigator;
+
+@Autowired
+public MyUI(SpringNavigator springNavigator) {
+  super(new MyApplicationConfig());
+  this.springNavigator = springNavigator;
+}
+
+@Override
+protected void configureNavigator(ViewDisplay applicationLayout) {
+  springNavigator.init(this, applicationLayout);
+  // no need to set the navigator as that is done by Vaadin-Spring	
+}
+---- 
+
+|===
+
+.API Changes in LinkkiUi
+[options="header"]
+|===
+| Until now | New | Notes
+| `static ApplicationNavigator getCurrentApplicationNavigator()` | `static Navigator getCurrentNavigator()` | Old method is directly removed as it is no longer guaranteed that the configured navigator is an `ApplicationNavigator`.
+| `createErrorHandler` | __deprecated__ | The error handler should be created and set in `configureErrorHandler` instead.
+|===
 
 ==== `@BindStyleNames` for Sections
 
@@ -60,6 +131,7 @@ In addition to `@UISection`, linkki now provides `@UIHorizontalLayout`, `@UIVert
 
 Previously, `ApplicationLayout#showView` threw an `IllegalArgumentException` if the given `View` was not itself a `Component`. Now, a `View` overwriting `View#getViewComponent()` can also be used. A `View` that is neither a `Component` nor overwrites `getViewComponent()` will lead to an `IllegalStateException`.
 
+[role="api-change"]
 ==== Custom `PropertyDispatcherFactory` in `DefaultBindingManager`
 
 The `DefaultBindingManager` provides a new constructor that allows to set a custom `PropertyDispatcherFactory`. If set, the `DefaultBindingManager` uses this custom `PropertyDispatcherFacotry` for all `BindingContexts` that are created by using 'getContext()'. Read the section about <<property-dispatcher,PropertyDispatcher>> to get more information.

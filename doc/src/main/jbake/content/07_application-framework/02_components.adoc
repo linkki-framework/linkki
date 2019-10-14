@@ -45,10 +45,6 @@ Between `ApplicationHeader` and `ApplicationFooter` is the main area that displa
 The `ApplicationLayout` is created using  the `ApplicationConfig`'s `createApplicationLayout()` method, which by default includes an `ApplicationHeader`(created using `getHeaderDefinition()`) with an `ApplicationMenu` containing all items provided by `getMenuItemDefinitions()`. The per default hidden `ApplicationFooter` can be created using `getFooterDefinition()`.
 
 
-==== Application Navigator
-
-The `ApplicationNavigator` is a subclass of Vaadin's `Navigator` that has some convenience methods for initialization and navigation. It is instantiated by the `ApplicationConfig`. The navigator handles the different views and instructs the `ApplicationLayout` to show the view in the main area.
-
 [[sidebarlayout]]
 ==== Sidebar Layout
 
