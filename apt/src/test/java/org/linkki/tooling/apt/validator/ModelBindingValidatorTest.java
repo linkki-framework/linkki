@@ -50,7 +50,7 @@ public class ModelBindingValidatorTest extends BaseAnnotationProcessorTest {
             String log = logs.get(0);
             assertThat(log, containsString("UILabel"));
             assertThat(log, containsString(ModelBindingValidator.MISSING_MODEL_ATTRIBUTE));
-            assertThat(log, containsString("does not have property \"not present\""));
+            assertThat(log, containsString("does not have the property \"not present\""));
         }
 
         @Test

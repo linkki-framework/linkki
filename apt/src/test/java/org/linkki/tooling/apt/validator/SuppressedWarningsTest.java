@@ -165,7 +165,7 @@ public class SuppressedWarningsTest extends BaseAnnotationProcessorTest {
             assertTrue(log.contains(ModelBindingValidator.MISSING_MODEL_ATTRIBUTE));
             assertTrue(log.contains("UITextArea"));
             assertTrue(log
-                    .contains("Model object \"modelObject\" of type Report does not have property \"not present\"."));
+                    .contains("Model object \"modelObject\" of type Report does not have the property \"not present\"."));
         }
     }
 
