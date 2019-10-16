@@ -26,10 +26,12 @@ import org.linkki.samples.playground.table.MinimalSelectableTableSectionPmo.Mini
 import com.vaadin.ui.Notification;
 
 @UISection(caption = "Selectable Table")
+// tag::selectable-table[]
 public class MinimalSelectableTableSectionPmo implements SelectableTablePmo<MinimalSelectableTableRowPmo> {
 
-    public static final int INITAL_SELECTED_ROW = 2;
     public static final String NOTIFICATION_DOUBLE_CLICK = "Double clicked on ";
+    // end::selectable-table[]
+    public static final int INITAL_SELECTED_ROW = 2;
     public static final String ROW_1 = "row1";
     public static final String ROW_2 = "row2";
     public static final String ROW_3 = "row3";
@@ -38,9 +40,19 @@ public class MinimalSelectableTableSectionPmo implements SelectableTablePmo<Mini
     private MinimalSelectableTableRowPmo selected;
 
     public MinimalSelectableTableSectionPmo() {
-        this.rows = Arrays.asList(ROW_1, ROW_2, ROW_3).stream().map(MinimalSelectableTableRowPmo::new)
+        this(createSampleRows(), createSampleRows().get(INITAL_SELECTED_ROW));
+    }
+
+    private static List<MinimalSelectableTableRowPmo> createSampleRows() {
+        return Arrays.asList(ROW_1, ROW_2, ROW_3).stream().map(MinimalSelectableTableRowPmo::new)
                 .collect(Collectors.toList());
-        this.selected = rows.get(INITAL_SELECTED_ROW);
+    }
+    // tag::selectable-table[]
+
+    public MinimalSelectableTableSectionPmo(List<MinimalSelectableTableRowPmo> rows,
+            MinimalSelectableTableRowPmo initiallySelectedRow) {
+        this.rows = rows;
+        this.selected = initiallySelectedRow;
     }
 
     @Override
@@ -63,6 +75,7 @@ public class MinimalSelectableTableSectionPmo implements SelectableTablePmo<Mini
         return rows;
     }
 
+    // end::selectable-table[]
     public static class MinimalSelectableTableRowPmo {
 
         private String value;
@@ -76,4 +89,7 @@ public class MinimalSelectableTableSectionPmo implements SelectableTablePmo<Mini
             return value;
         }
     }
+
+    // tag::selectable-table[]
 }
+// end::selectable-table[]

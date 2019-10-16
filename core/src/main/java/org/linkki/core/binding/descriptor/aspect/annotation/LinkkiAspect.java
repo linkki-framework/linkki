@@ -54,7 +54,7 @@ import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
  * For further information see {@link Aspect} and {@link LinkkiAspectDefinition}.
  * 
  * @see InheritedAspect Use {@link InheritedAspect @InheritedAspect} alongside this annotation to make
- *      the aspect inheitable from superclasses and interfaces.
+ *      the aspect inheritable from superclasses and interfaces.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

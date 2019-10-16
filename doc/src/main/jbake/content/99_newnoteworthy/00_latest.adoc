@@ -6,10 +6,9 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy
 
+// Should be created as a separate CSS file for a custom jbake-type
 ++++
 <style>
-// Should be created as a separate CSS file for a custom jbake-type
-
 .api-change > h5:after,
 .api-change > h4:after,
 .api-change > h3:after {
@@ -17,10 +16,10 @@
   color: white;
 	margin-left: 1em;
 	font-weight: bold;
-	border-radius: 2px;
+	border-radius: 5px;
 	background: #009fe3;
 	padding: .3em 1em;
-	font-size: .8em;
+	font-size: .7em;
 	box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
 }
 
@@ -32,37 +31,81 @@
 
 === {dversion}
 
-==== VaadinUiCreator in linkki-core-vaadin8
+==== Annotation Processor for *linkki*
 
-Obtaining a Vaadin `Component` from `UiCreator#createComponent` requires an additional cast and method call. The new `VaadinUiCreator` directly returns a `Component`, but works the same otherwise.
+The annotation processor previously developed separately from *linkki* has become part of *linkki* core. The Maven `artifactId` has been changed to `linkki-apt` to mark this inclusion. The documentation can now be found at <<linkki-apt, linkki-apt>>. If you have been using the old annotation processor before its 1.0-RC01-Release, please also consider the changes documented in https://doc.linkki-framework.org/tools/apt/02_New_And_Noteworthy/index.html[the corresponding New&Noteworthy].
+
+==== New Annotations for Layouts
+
+In addition to `@UISection`, **linkki** now provides `@UIHorizontalLayout`, `@UIVerticalLayout` and `@UIFormLayout`. These annotations can be used for PMO classes in the same way as `@UISection`. In those layouts, labels are presented in the Vaadin default way. In a `HorizontalLayout`, for example, labels for fields are displayed above the field and not beside the field. For more information on the Vaadin layout components, consult the Vaadin docucmentation on https://vaadin.com/docs/v8/framework/layout/layout-orderedlayout.html[VerticalLayout and HorizontalLayout] as well as https://vaadin.com/docs/v8/framework/layout/layout-formlayout.html[FormLayout].
+
+==== `@BindStyleNames` for Sections
+
+The aspect annotation `@BindStyleNames` can now also be annotated on classes to use it for sections.
+
+==== New Apsect: `@BindCaption`
+
+Section and field captions can now be bound via <<bind-caption,`@BindCaption`>>. In preparation for this, the `AbstractSection` was refactored to allow setting (and removing) a caption after construction.
+
+==== Selection of Table Rows
+
+Table PMO classes can now implement the `SelectableTable` interface to receive callbacks when the user selects a table row. Updating the current selection programmatically is also possible. Example can be found in the section <<ui-selectable-table, Row Selection in Tables>>.
 
 [role="api-change"]
-==== Changes to ItemCaptionProvider Implementations
+==== Defaults for Labels and Captions
 
-`DefaultCaptionProvider` now supports localization by calling `getName(Locale)` to determine the caption, falling back to `getName()` or `toString()` (in order) if the method is not present. Additionally, `IdAndNameCaptionProvider` has been moved to the Faktor-IPS-specific linkki module (now `org.linkki.ips.ui.element.IdAndNameCaptionProvider` in `org.linkki-framework:linkki-ips-vaadin8`), due to there being no general use-case if linkki is not used with Faktor-IPS. A deprecated version is still available, but will be removed in a future version.
+Previously, a value had to be set for all `@UI~` annotations' label/caption attributes. Now, the default value is `"derived.by.linkki"`, which prompts *linkki* to use the capitalized property name as a label/caption. This is especially useful for rapid prototyping scenarios.
+
+When using *linkki* with Faktor-IPS, the `IpsPropertyDispatcherFactory` can now be used. It creates a `IpsPropertyDispatcher` for Faktor-IPS model objects and uses the labels defined in the Faktor-IPS model for labels/captions marked with `"derived.by.linkki"`. Note that this feature is not yet supported for component labels in row PMOs that are used as table columns.
+
+To get more information we introduced a new section in the documentation about the <<fips-extension,Faktor-IPS extension module>>.
+
+==== `LinkkiConverterRegistry` for `UILabel`
+
+The `LabelValueAspectDefinition` now uses the `LinkkiConverterRegistry` to find converters for non-String values before defaulting to `Objects#toString`.
+
+[role="api-change"]
+==== Localized Captions with ItemCaptionProvider
+
+`DefaultCaptionProvider` now supports localization by calling `getName(Locale)` to determine the caption, falling back to `getName()` or `toString()` (in order) if the method is not present. Additionally, `IdAndNameCaptionProvider` has been moved to the Faktor-IPS-specific linkki module (now `org.linkki.ips.ui.element.IdAndNameCaptionProvider` in `org.linkki-framework:linkki-ips-vaadin8`), due to there being no general use-case if **linkki** is not used with Faktor-IPS. A deprecated version is still available, but will be removed in a future version.
+
+==== Inherited aspects
+
+Aspect annotation types can now be annotated with `@InheritedAspect` to indicate that the aspect should also apply to subclasses (for classes) or implementing classes (for interfaces). Only one aspect of each annotation type can apply to a class, additional aspects are ignored. If the same aspect annotation appears in the super class as well as in an interface, only the annotation coming from the super calls will be respected.
+
+This feature can be used when creating your own aspect, but also serves as documentation on aspects provided by **linkki**.
+
+[role="api-change"]
+==== Custom `PropertyDispatcherFactory` in `DefaultBindingManager`
+
+The `DefaultBindingManager` provides a new constructor that allows to set a custom `PropertyDispatcherFactory`. If set, the `DefaultBindingManager` uses this custom `PropertyDispatcherFacotry` for all `BindingContexts` that are created by using 'getContext()'. Read the section about <<property-dispatcher,PropertyDispatcher>> to get more information.
+
+==== VaadinUiCreator in linkki-core-vaadin8
+
+Obtaining a Vaadin `Component` from `UiCreator#createComponent` requires an additional cast and method call. The new `VaadinUiCreator` directly returns a
+`Component`, but works the same otherwise.
 
 [role="api-change"]
 ==== New Navigator Configuration Concept
- 
+
 View changes in Vaadin are handled by the navigators. Previously, the **linkki** application framework provided an `ApplicationNavigator` which extends the Vaadin `Navigator` with convenient methods such as `showView(String)`. The navigator of a `LinkkiUI` is then configured by the `ApplicationConfig` to use an `ApplicationLayout` to display the views.
 
-However, the concept of `ApplicationNavigator` turns out to be inconvenient when using **linkki** with CDI or Spring, as both injection frameworks provide their own `Navigators` that automatically discover views. In those cases, the **linkki** user is in the dilemma that the navigator must extend both `ApplicationNavigator` and `SpringNavigator`/`CdiNavigator`. 
+However, the concept of `ApplicationNavigator` turns out to be inconvenient when using **linkki** with CDI or Spring, as both injection frameworks provide their own `Navigators` that automatically discover views. In those cases, the **linkki** user is in the dilemma that the navigator must extend both `ApplicationNavigator` and `SpringNavigator`/`CdiNavigator`.
 
 To solve this problem, `ApplicationNavigator` is now deprecated as well as the method `ApplicationConfig#createApplicationNavigator`. Instead, a new method `configureNavigator(ViewDisplay)` is provided in `LinkkiUI` to configure the `Navigator`. To make the API of `LinkkiUI` more consistent, the existing method `createErrorHandler` is also deprecated in favor of the new method `configureErrorHandler`.
 
-.Navigating
+===== Navigating using `Navigator`
+
 [options="header"]
 |===
-| Until now | New 
-| `applicationNavigator.showView(viewName)` | `navigator.navigateTo(viewName)` 
-| `applicationNavigator.refreshCurrentView()` | `navigator.navigateTo(navigator.getState())`  
+| Until now | New
+| `applicationNavigator.showView(viewName)` | `navigator.navigateTo(viewName)`
+| `applicationNavigator.refreshCurrentView()` | `navigator.navigateTo(navigator.getState())`
 |===
 
-.Configuring Navigator
-[cols="a,a", options="header"]
-|===
-| Until now | New 
-| Override `ApplicationConfig#createApplicationNavigator(UI, ApplicationLayout)` | Override `LinkkiUi#configureNavigator(ViewDisplay)`, e.g.
+===== Configuring Navigator
+
+To configure the navigator to use `ApplicationLayout`, override `LinkkiUi#configureNavigator(ViewDisplay)`, e.g.
 
 [source,java]
 ----
@@ -70,21 +113,23 @@ To solve this problem, `ApplicationNavigator` is now deprecated as well as the m
 protected void configureNavigator(ViewDisplay applicationLayout) {
   setNavigator(new MyNavigator(this, applicationLayout));
 }
----- 
+----
 
 .Using CDI
+[source,java]
 ----
 @Inject
-private CDINavigator cdiNavigator; 
+private CDINavigator cdiNavigator;
 
 @Override
 protected void configureNavigator(ViewDisplay applicationLayout) {
   cdiNavigator.init(this, applicationLayout);
   setNavigator(cdiNavigator);
 }
----- 
+----
 
 .Using Spring
+[source,java]
 ----
 private final SpringNavigator springNavigator;
 
@@ -97,60 +142,18 @@ public MyUI(SpringNavigator springNavigator) {
 @Override
 protected void configureNavigator(ViewDisplay applicationLayout) {
   springNavigator.init(this, applicationLayout);
-  // no need to set the navigator as that is done by Vaadin-Spring	
+  // no need to set the navigator as that is done by Vaadin-Spring
 }
----- 
+----
 
-|===
+===== API Changes in `LinkkiUi`
 
-.API Changes in LinkkiUi
 [options="header"]
 |===
 | Until now | New | Notes
 | `static ApplicationNavigator getCurrentApplicationNavigator()` | `static Navigator getCurrentNavigator()` | Old method is directly removed as it is no longer guaranteed that the configured navigator is an `ApplicationNavigator`.
 | `createErrorHandler` | __deprecated__ | The error handler should be created and set in `configureErrorHandler` instead.
 |===
-
-==== `@BindStyleNames` for Sections
-
-The aspect annotation `@BindStyleNames` can now also be annotated on classes to use it for sections.
-
-==== `@BindCaption`
-
-Section and field captions can now be bound via <<bind-caption,`@BindCaption`>>. In preparation for this, the `AbstractSection` was refactored to allow setting (and removing) a caption after construction.
-
-==== `LinkkiConverterRegistry` for `UILabel`
-
-The `LabelValueAspectDefinition` now uses the `LinkkiConverterRegistry` to find converters for non-String values before defaulting to `Objects#toString`.
-
-==== New Annotations for Layouts
-
-In addition to `@UISection`, linkki now provides `@UIHorizontalLayout`, `@UIVerticalLayout` and `@UIFormLayout`. These annotations can be used for PMO classes in the same way as `@UISection`. In those layouts, labels are presented in the Vaadin default way. In a `HorizontalLayout`, for example, labels for fields are displayed above the field and not beside the field. For more information on the Vaadin layout components, consult the Vaadin docucmentation on https://vaadin.com/docs/v8/framework/layout/layout-orderedlayout.html[VerticalLayout and HorizontalLayout] as well as https://vaadin.com/docs/v8/framework/layout/layout-formlayout.html[FormLayout].
-
-==== `ApplicationLayout#showView` for Views that are not Components
-
-Previously, `ApplicationLayout#showView` threw an `IllegalArgumentException` if the given `View` was not itself a `Component`. Now, a `View` overwriting `View#getViewComponent()` can also be used. A `View` that is neither a `Component` nor overwrites `getViewComponent()` will lead to an `IllegalStateException`.
-
-[role="api-change"]
-==== Custom `PropertyDispatcherFactory` in `DefaultBindingManager`
-
-The `DefaultBindingManager` provides a new constructor that allows to set a custom `PropertyDispatcherFactory`. If set, the `DefaultBindingManager` uses this custom `PropertyDispatcherFacotry` for all `BindingContexts` that are created by using 'getContext()'. Read the section about <<property-dispatcher,PropertyDispatcher>> to get more information.
-
-==== Defaults for Labels and Captions
-
-Previously, a value had to be set for all `@UI~` annotations' label/caption attributes. Now, the default value is `"derived.by.linkki"`, which prompts *linkki* to use the capitalized property name as a label/caption. This is especially useful for rapid prototyping scenarios.
-
-When using *linkki* with Faktor-IPS, the `IpsPropertyDispatcherFactory` can now be used. It creates a `IpsPropertyDispatcher` for Faktor-IPS model objects and uses the labels defined in the Faktor-IPS model for labels/captions marked with `"derived.by.linkki"`. Note that this feature is not yet supported for component labels in row PMOs that are used as table columns.
-
-To get more information we introduced a new section in the documentation about the <<fips-extension,Faktor-IPS extension module>>.
-
-==== Inherited aspects
-
-Aspect types can now be annotated with `@InheritedAspect` to indicate that aspects should also apply to subclasses (for classes) or implementing classes (for interfaces). Only one aspect of each type can apply to a class, additional aspects are ignored. If the same aspect annotation appears in the super class as well as in an interface, only the annotation coming from the super calls will be respected.
-
-==== Selection of table rows
-
-Table PMO classes can now implement the `SelectableTable` interface to receive callbacks when the user selects a table row. Updating the current selection programmatically is also possible.
 
 [[nn-setter-in-mo]]
 ==== Setter Calls in Model Object
@@ -159,6 +162,6 @@ Previously, *linkki* was also using the setter of the property in the model obje
 
 Cases where the old behavior was implicitly used can be detected with the <<apt-compiler-options, *linkki-apt* compiler option>> `SETTER_ONLY_IN_MODEL_OBJECT`.
 
-==== Annotation Processor for *linkki*
+==== Allow `ApplicationLayout#showView` for Views that are not Components
 
-The annotation processor previously developed separately from *linkki* has become part of *linkki* core. The Maven `artifactId` has been changed to `linkki-apt` to mark this inclusion. The documentation can now be found at <<linkki-apt, linkki-apt>>. If you have been using the old annotation processor before its 1.0-RC01-Release, please also consider the changes documented in https://doc.linkki-framework.org/tools/apt/02_New_And_Noteworthy/index.html[the corresponding New&Noteworthy].
+Previously, `ApplicationLayout#showView` threw an `IllegalArgumentException` if the given `View` was not itself a `Component`. Now, a `View` overwriting `View#getViewComponent()` can also be used. A `View` that is neither a `Component` nor overwrites `getViewComponent()` will lead to an `IllegalStateException`.

@@ -5,6 +5,7 @@
 :source-dir-binding: ../../../../../../vaadin8/samples/binding/src/main/java
 :source-dir-dynamic: ../../../../../../vaadin8/samples/dynamic-fields/src/main/java
 :source-dir-treetable: ../../../../../../vaadin8/samples/tree-table/src/main/java
+:source-dir-playground: ../../../../../../vaadin8/samples/test-playground/src/main/java
 
 :images-folder-name: 05_ui_components
 
@@ -117,7 +118,7 @@ include::{source-dir-treetable}/org/linkki/samples/treetable/dynamic/pmo/Categor
 ----
 
 [[ui-selectable-table]]
-==== Row selection in tables
+==== Row selection in Tables
 
 By default, table rows are not selectable. If table row selection should be possible, the `ContainerPmo` implementation should also implement the interface `SelectableTablePmo`. This interface requires three methods:
 
@@ -126,6 +127,16 @@ By default, table rows are not selectable. If table row selection should be poss
 * `onDoubleClick()`: executes action when a double click is made on the selected row. It is safe to assume that `setSelection(ROW)` is already called.
 
 Note that it is not possible to nullify the selection once a row is selected.
+
+.Example for a selectable table
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/table/MinimalSelectableTableSectionPmo.java[tags=selectable-table]
+----
+
+.Example result
+image::{images}{images-folder-name}/selectable_table.png[Selectable table, align="center"]
+
 
 [[ui-table-footer]]
 ==== TableFooterPmo
