@@ -22,9 +22,9 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.defaults.columnbased.aspects.BindTableFooter;
-import org.linkki.core.defaults.columnbased.aspects.BindTableItems;
-import org.linkki.core.defaults.columnbased.aspects.BindTablePageLength;
+import org.linkki.core.defaults.columnbased.aspects.annotation.BindTableFooter;
+import org.linkki.core.defaults.columnbased.aspects.annotation.BindTableItems;
+import org.linkki.core.defaults.columnbased.aspects.annotation.BindTablePageLength;
 import org.linkki.core.pmo.ButtonPmo;
 
 /**

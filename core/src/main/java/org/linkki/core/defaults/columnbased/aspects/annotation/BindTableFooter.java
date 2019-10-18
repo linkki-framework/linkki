@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.core.defaults.columnbased.aspects;
+package org.linkki.core.defaults.columnbased.aspects.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,22 +23,24 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.InheritedAspect;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.defaults.columnbased.aspects.BindTableItems.TableItemsAspectDefinitionCreator;
+import org.linkki.core.defaults.columnbased.aspects.ColumnBasedComponentFooterAspectDefinition;
+import org.linkki.core.defaults.columnbased.aspects.annotation.BindTableFooter.TableFooterAspectDefinitionCreator;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 
 /**
- * Binds the items that should be shown in the table.
+ * Binds the {@link TableFooterPmo} for a table dynamically.
  */
 @InheritedAspect
-@LinkkiAspect(TableItemsAspectDefinitionCreator.class)
+@LinkkiAspect(TableFooterAspectDefinitionCreator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindTableItems {
+public @interface BindTableFooter {
 
-    public class TableItemsAspectDefinitionCreator implements AspectDefinitionCreator<BindTableItems> {
+    public class TableFooterAspectDefinitionCreator implements AspectDefinitionCreator<BindTableFooter> {
 
         @Override
-        public LinkkiAspectDefinition create(BindTableItems annotation) {
-            return new ColumnBasedComponentItemsAspectDefinition<>();
+        public LinkkiAspectDefinition create(BindTableFooter annotation) {
+            return new ColumnBasedComponentFooterAspectDefinition<>();
         }
     }
 }

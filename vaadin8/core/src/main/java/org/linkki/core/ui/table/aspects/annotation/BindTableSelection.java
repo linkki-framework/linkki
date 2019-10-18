@@ -12,8 +12,10 @@
  * License.
  */
 
-package org.linkki.core.defaults.columnbased.aspects;
+package org.linkki.core.ui.table.aspects.annotation;
 
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -23,25 +25,26 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.InheritedAspect;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.defaults.columnbased.aspects.BindTablePageLength.TablePageLengthAspectDefinitionCreator;
+import org.linkki.core.ui.table.aspects.TableSelectionAspectDefinition;
+import org.linkki.core.ui.table.aspects.annotation.BindTableSelection.TableSelectionAspectDefinitionCreator;
 
 /**
- * Binds the page length of a table dynamically.
- * <p>
- * The page length determines how many rows are shown in the table. A page length of 0 deactivates the
- * paging, causing the table to show as many rows as possible.
+ * Binds the selection of a table row to the aspect
+ * {@value TableSelectionAspectDefinition#SELECTION_ASPECT_NAME}. In addition, the double click invokes
+ * the aspect {@value TableSelectionAspectDefinition#DOUBLE_CLICK_ASPECT_NAME}.
  */
 @InheritedAspect
-@LinkkiAspect(TablePageLengthAspectDefinitionCreator.class)
+@LinkkiAspect(TableSelectionAspectDefinitionCreator.class)
+@Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindTablePageLength {
+public @interface BindTableSelection {
 
-    public class TablePageLengthAspectDefinitionCreator implements AspectDefinitionCreator<BindTablePageLength> {
+    class TableSelectionAspectDefinitionCreator implements AspectDefinitionCreator<Annotation> {
 
         @Override
-        public LinkkiAspectDefinition create(BindTablePageLength annotation) {
-            return new ColumnBasedComponentPageLengthAspectDefinition<>();
+        public LinkkiAspectDefinition create(Annotation annotation) {
+            return new TableSelectionAspectDefinition();
         }
     }
 }

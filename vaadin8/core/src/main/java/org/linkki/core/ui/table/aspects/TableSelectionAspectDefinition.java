@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.core.ui.table;
+package org.linkki.core.ui.table.aspects;
 
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;

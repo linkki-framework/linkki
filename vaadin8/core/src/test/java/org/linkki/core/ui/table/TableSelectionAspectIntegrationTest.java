@@ -27,6 +27,7 @@ import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 import org.mockito.Mockito;
 
 @SuppressWarnings("deprecation")

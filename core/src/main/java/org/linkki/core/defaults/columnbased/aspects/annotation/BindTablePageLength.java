@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.core.defaults.columnbased.aspects;
+package org.linkki.core.defaults.columnbased.aspects.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,23 +23,26 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.InheritedAspect;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.defaults.columnbased.aspects.BindTableFooter.TableFooterAspectDefinitionCreator;
-import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
+import org.linkki.core.defaults.columnbased.aspects.ColumnBasedComponentPageLengthAspectDefinition;
+import org.linkki.core.defaults.columnbased.aspects.annotation.BindTablePageLength.TablePageLengthAspectDefinitionCreator;
 
 /**
- * Binds the {@link TableFooterPmo} for a table dynamically.
+ * Binds the page length of a table dynamically.
+ * <p>
+ * The page length determines how many rows are shown in the table. A page length of 0 deactivates the
+ * paging, causing the table to show as many rows as possible.
  */
 @InheritedAspect
-@LinkkiAspect(TableFooterAspectDefinitionCreator.class)
+@LinkkiAspect(TablePageLengthAspectDefinitionCreator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindTableFooter {
+public @interface BindTablePageLength {
 
-    public class TableFooterAspectDefinitionCreator implements AspectDefinitionCreator<BindTableFooter> {
+    public class TablePageLengthAspectDefinitionCreator implements AspectDefinitionCreator<BindTablePageLength> {
 
         @Override
-        public LinkkiAspectDefinition create(BindTableFooter annotation) {
-            return new ColumnBasedComponentFooterAspectDefinition<>();
+        public LinkkiAspectDefinition create(BindTablePageLength annotation) {
+            return new ColumnBasedComponentPageLengthAspectDefinition<>();
         }
     }
 }

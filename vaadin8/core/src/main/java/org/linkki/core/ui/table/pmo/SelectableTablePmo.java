@@ -11,9 +11,10 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.core.ui.table;
+package org.linkki.core.ui.table.pmo;
 
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.ui.table.aspects.annotation.BindTableSelection;
 
 /**
  * PMO for a table whose rows can be selected. In addition, a double click action can be bound to the

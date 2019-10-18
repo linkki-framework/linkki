@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.ui.table.SelectableTablePmo;
+import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 import org.linkki.samples.playground.table.MinimalSelectableTableSectionPmo.MinimalSelectableTableRowPmo;
 
 import com.vaadin.ui.Notification;
