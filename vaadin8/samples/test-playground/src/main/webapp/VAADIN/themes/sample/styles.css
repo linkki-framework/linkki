@@ -15308,6 +15308,14 @@ div.v-layout.v-horizontal.v-widget {
 	box-shadow: none;
 }
 
+.sample .v-tooltip .v-tooltip-text {
+	line-height: 1.5em;
+}
+
+.sample .v-errorindicator {
+	display: none;
+}
+
 .sample .linkki-application-header {
 	color: white;
 	background-color: #005596;
