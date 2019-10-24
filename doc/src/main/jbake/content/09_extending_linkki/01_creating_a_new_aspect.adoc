@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir: ../../../java
+:source-dir: ../../../../src/main/java
 
 [[aspects]]
 === Aspects

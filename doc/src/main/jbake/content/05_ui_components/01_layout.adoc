@@ -2,8 +2,8 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/java
-:resource-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/webapp
+:source-dir-custom: ../../../../../vaadin8/samples/custom-layout/src/main/java
+:resource-dir-custom: ../../../../../vaadin8/samples/custom-layout/src/main/webapp
 
 :images-folder-name: 05_ui_components
 

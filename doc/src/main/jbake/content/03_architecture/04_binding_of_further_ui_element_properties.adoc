@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir: ../../../java
+:source-dir: ../../../../src/main/java
 
 [[binding-ui-element-properties]]
 === Binding of Further UI Element Properties

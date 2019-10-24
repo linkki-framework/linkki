@@ -1,7 +1,7 @@
 :jbake-title: Custom UI element annotations
 :jbake-type: section
 :jbake-status: published
-:source-dir-binding-sample: ../../../../../../vaadin8/samples/binding/src/main
+:source-dir-binding-sample: ../../../../../vaadin8/samples/binding/src/main
 :image-dir: {images}09_extending_linkki
 :github-linkki: https://github.com/linkki-framework/linkki/blob/master
 

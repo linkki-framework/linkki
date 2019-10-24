@@ -3,7 +3,7 @@
 :jbake-status: published
 
 :images-folder-name: 03_architecture
-:base-dir: ../../../../../../vaadin8/samples/binding
+:base-dir: ../../../../../vaadin8/samples/binding
 :source-dir: {base-dir}/src/main/java
 
 [[cross-sectional-binding]]

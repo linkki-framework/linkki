@@ -2,8 +2,8 @@
 :jbake-type: section
 :jbake-status: published
 
-:vaadin7-dir: ../../../../../../vaadin7
-:vaadin8-dir: ../../../../../../vaadin8
+:vaadin7-dir: ../../../../../vaadin7
+:vaadin8-dir: ../../../../../vaadin8
 
 [[dependencies]]
 === Dependencies

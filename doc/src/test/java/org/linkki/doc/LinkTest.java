@@ -14,9 +14,9 @@
 package org.linkki.doc;
 
 import static org.hamcrest.CoreMatchers.either;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.linkki.doc.PathExistsMatcher.exists;
 
@@ -45,7 +45,7 @@ public class LinkTest {
     private static final Pattern HREF = Pattern.compile("<a href=\"([^\"]+)\">");
     private static final Pattern URL = Pattern
             .compile("^((http|https)://)?[-a-zA-Z0-9+&@#/%?=~_|,!:\\.;]*[-a-zA-Z0-9+@#/%=&_|]");
-    private static final Pattern LOCAL_REF = Pattern.compile("^([-_a-zA-Z0-9/\\.]+)?(#[-a-zA-Z0-9]+)?");
+    private static final Pattern LOCAL_REF = Pattern.compile("^([-_a-zA-Z0-9/\\.]+)?(#[-a-zA-Z0-9_]+)?");
 
     public static Collection<Object[]> data() throws IOException {
         return Files.walk(Paths.get("target")).filter(LinkTest::isHtmlFileInDocumentation).flatMap(p -> {
@@ -66,7 +66,7 @@ public class LinkTest {
     }
 
     @ParameterizedTest
-    @MethodSource("data") 
+    @MethodSource("data")
     public void testLink(Path from, String link) {
         assertThat("should be a valid URL", link, matchesPattern(URL));
         if (link.startsWith(GITHUB_PREFIX)) {

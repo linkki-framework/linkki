@@ -2,9 +2,9 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-binding: ../../../../../../vaadin8/samples/binding/src/main/java
-:source-dir-messages: ../../../../../../vaadin8/samples/messages/src/main/java
-:source-dir-dynamic: ../../../../../../vaadin8/samples/dynamic-fields/src/main/java
+:source-dir-binding: ../../../../../vaadin8/samples/binding/src/main/java
+:source-dir-messages: ../../../../../vaadin8/samples/messages/src/main/java
+:source-dir-dynamic: ../../../../../vaadin8/samples/dynamic-fields/src/main/java
 
 [[ui-element]]
 === UI Element

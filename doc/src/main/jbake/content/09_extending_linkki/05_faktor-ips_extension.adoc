@@ -1,7 +1,7 @@
 :jbake-title: Faktor-IPS Extension
 :jbake-type: section
 :jbake-status: published
-:source-dir-ips-sample: ../../../../../../vaadin8/samples/ips/src/main/java/
+:source-dir-ips-sample: ../../../../../vaadin8/samples/ips/src/main/java/
 :image-dir: {images}09_extending_linkki
 
 

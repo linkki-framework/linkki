@@ -3,7 +3,7 @@
 :jbake-status: published
 :jbake-order: 30
 
-:source-dir: ../../../java
+:source-dir: ../../../../src/main/java
 :images-folder-name: 03_architecture
 
 [[Architecture]]

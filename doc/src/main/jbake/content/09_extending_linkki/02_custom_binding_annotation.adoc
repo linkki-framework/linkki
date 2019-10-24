@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-binding-sample: ../../../../../../vaadin8/samples/binding/src/main
+:source-dir-binding-sample: ../../../../../vaadin8/samples/binding/src/main
 
 [[custom-binding-annotation]]
 === Custom Annotation with `Binder`

@@ -61,14 +61,14 @@ If you want to continue using *linkki* with Vaadin 7, you need to replace the *l
 <dependency>
   <groupId>org.linkki-framework</groupId>
   <artifactId>linkki-core-vaadin7</artifactId>
-  <version>{dversion}</version>
+  <version>{projectVersion}</version>
 </dependency>
 
 <!-- Replacement for the exsiting linkki-application-framework dependency -->
 <dependency>
   <groupId>org.linkki-framework</groupId>
   <artifactId>linkki-application-framework-vaadin7</artifactId>
-  <version>{dversion}</version>
+  <version>{projectVersion}</version>
 </dependency>
 ----
 
@@ -101,14 +101,14 @@ The very first step for the migration is to include the new *linkki* Vaadin 8 de
 <dependency>
   <groupId>org.linkki-framework</groupId>
   <artifactId>linkki-core-vaadin8</artifactId>
-  <version>{dversion}</version>
+  <version>{projectVersion}</version>
 </dependency>
 
 <!-- Replacement for the exsiting linkki-application-framework dependency -->
 <dependency>
   <groupId>org.linkki-framework</groupId>
   <artifactId>linkki-application-framework-vaadin8</artifactId>
-  <version>{dversion}</version>
+  <version>{projectVersion}</version>
 </dependency>
 ----
 
