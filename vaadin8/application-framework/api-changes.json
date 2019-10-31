@@ -7,6 +7,12 @@
           "old": "method org.linkki.framework.ui.application.ApplicationNavigator org.linkki.framework.ui.application.LinkkiUi::getNavigator()",
           "new": "method com.vaadin.navigator.Navigator com.vaadin.ui.UI::getNavigator() @ org.linkki.framework.ui.application.LinkkiUi",
           "justification": "LIN-1603 :: Deprecate ApplicationNavigator"
+        },
+        {
+          "code": "java.class.defaultSerializationChanged",
+          "old": "class com.vaadin.navigator.Navigator",
+          "new": "class com.vaadin.navigator.Navigator",
+          "justification": "LIN-1595 :: Update Vaadin version to 8.9.2"
         }
       ]
     }

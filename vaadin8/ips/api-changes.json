@@ -41,6 +41,12 @@
           "code": "java.class.externalClassExposedInAPI",
           "new": ".* org\\.faktorips\\.valueset\\..*",
           "justification": "LIN-7 :: Upgrade from runtime-client to runtime because we need the IpsModel"
+        },
+        {
+          "code": "java.class.defaultSerializationChanged",
+          "old": "class com.vaadin.navigator.Navigator",
+          "new": "class com.vaadin.navigator.Navigator",
+          "justification": "LIN-1595 :: Update Vaadin version to 8.9.2"
         }
       ]
     }

@@ -58,6 +58,12 @@
           "oldValue": "\"\"",
           "newValue": "\"derived\\.by\\.linkki\"",
           "methodName": "label"
+        },
+        {
+          "code": "java.class.defaultSerializationChanged",
+          "old": "class com.vaadin.navigator.Navigator",
+          "new": "class com.vaadin.navigator.Navigator",
+          "justification": "LIN-1595 :: Update Vaadin version to 8.9.2"
         }
       ]
     }

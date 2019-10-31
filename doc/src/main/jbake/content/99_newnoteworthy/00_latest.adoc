@@ -165,3 +165,7 @@ Cases where the old behavior was implicitly used can be detected with the <<apt-
 ==== Allow `ApplicationLayout#showView` for Views that are not Components
 
 Previously, `ApplicationLayout#showView` threw an `IllegalArgumentException` if the given `View` was not itself a `Component`. Now, a `View` overwriting `View#getViewComponent()` can also be used. A `View` that is neither a `Component` nor overwrites `getViewComponent()` will lead to an `IllegalStateException`.
+
+==== Update Vaadin to 8.9.2
+
+linkki now uses Vaadin version 8.9.2 to include the latest bug fixes and patches.
