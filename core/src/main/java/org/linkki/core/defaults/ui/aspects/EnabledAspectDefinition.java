@@ -22,7 +22,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 
 /**
- * Asepct definition for {@link EnabledType}
+ * Aspect definition for {@link EnabledType}
  */
 public class EnabledAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 

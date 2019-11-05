@@ -14,34 +14,27 @@
 
 package org.linkki.core.ui.aspects;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.is;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
-import org.linkki.core.binding.dispatcher.behavior.BehaviorDependentDispatcher;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
-import org.mockito.Mockito;
 
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextArea;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
 public class BindReadOnlyAspectDefinitionTest {
 
-    
-    private @NonNull BehaviorDependentDispatcher dispatcher;
-
-    @BeforeEach
-    public void setUp() {
-        dispatcher = mock(BehaviorDependentDispatcher.class);
-    }
+    private PropertyDispatcher dispatcher = new PropertyDispatcherFactory()
+            .createDispatcherChain(new TestObject(), BoundProperty.empty(),
+                                   PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
     @Test
     public void testReadOnlyType_Always() {
@@ -54,8 +47,7 @@ public class BindReadOnlyAspectDefinitionTest {
 
 
     @Test
-    public void testReadOnlyType_Dynamic_writableComponent() {
-        when(dispatcher.pull(Mockito.any())).thenReturn(true);
+    public void testReadOnlyType_Dynamic_WritableComponent() {
         HasValue<?> field = createWritableComponent();
 
         createUiUpdaterAndApplyIt_BindReadOnlyAspect(field, ReadOnlyType.DYNAMIC);
@@ -65,7 +57,6 @@ public class BindReadOnlyAspectDefinitionTest {
 
     @Test
     public void testReadOnlyType_Dynamic_NonWritableComponent() {
-        when(dispatcher.pull(Mockito.any())).thenReturn(true);
         HasValue<?> field = createWritableComponent();
         field.setReadOnly(true);
 
@@ -73,7 +64,6 @@ public class BindReadOnlyAspectDefinitionTest {
 
         assertThat(field.isReadOnly(), is(true));
     }
-
 
     @Test
     public void testReadOnlyType_Derived() {
@@ -105,6 +95,15 @@ public class BindReadOnlyAspectDefinitionTest {
 
     private void createUiUpdaterAndApplyIt(HasValue<?> field, LinkkiAspectDefinition aspectDefinition) {
         aspectDefinition.createUiUpdater(dispatcher, new LabelComponentWrapper((Component)field)).apply();
+    }
+
+    private static class TestObject {
+
+        @SuppressWarnings("unused")
+        public boolean isReadOnly() {
+            return true;
+        }
+
     }
 
 }

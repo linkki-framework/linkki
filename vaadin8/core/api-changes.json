@@ -64,6 +64,12 @@
           "old": "class com.vaadin.navigator.Navigator",
           "new": "class com.vaadin.navigator.Navigator",
           "justification": "LIN-1595 :: Update Vaadin version to 8.9.2"
+        },
+		{
+          "code": "java.class.nonFinalClassInheritsFromNewClass",
+          "old": "class org.linkki.core.ui.aspects.BindReadOnlyAspectDefinition",
+          "new": "class org.linkki.core.ui.aspects.BindReadOnlyAspectDefinition",
+          "justification": "LIN-1658 :: Make BindReadOnlyAspectDefinition extend ModelToUiAspectDefinition"
         }
       ]
     }

@@ -14,20 +14,19 @@
 
 package org.linkki.core.ui.aspects;
 
-import org.apache.commons.lang3.BooleanUtils;
+import java.util.function.Consumer;
+
 import org.linkki.core.binding.descriptor.aspect.Aspect;
-import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
-import org.linkki.util.handler.Handler;
 
 import com.vaadin.data.HasValue;
 
 /**
  * Aspect definition for read-only state.
  */
-public class BindReadOnlyAspectDefinition implements LinkkiAspectDefinition {
+public class BindReadOnlyAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
     public static final String NAME = "readOnly";
 
@@ -38,19 +37,24 @@ public class BindReadOnlyAspectDefinition implements LinkkiAspectDefinition {
     }
 
     @Override
-    public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
-        HasValue<?> field = (HasValue<?>)componentWrapper.getComponent();
-
+    public Aspect<Boolean> createAspect() {
         switch (value) {
             case ALWAYS:
-                return () -> field.setReadOnly(true);
+                return Aspect.of(NAME, true);
             case DYNAMIC:
-                Aspect<Boolean> aspect = Aspect.of(NAME);
-                return () -> field.setReadOnly(field.isReadOnly()
-                        || BooleanUtils.toBoolean(propertyDispatcher.pull(aspect)));
+                return Aspect.of(NAME);
+            case DERIVED:
+                // field is set read-only by DerivedReadOnlyAspectDefinition, so || evaluates to true
+                return Aspect.of(NAME, false);
             default:
-                return Handler.NOP_HANDLER;
+                throw new IllegalStateException("Unknown read-only type: " + value);
         }
+    }
+
+    @Override
+    public Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
+        HasValue<?> field = (HasValue<?>)componentWrapper.getComponent();
+        return readOnly -> field.setReadOnly(field.isReadOnly() || readOnly);
     }
 
 }
