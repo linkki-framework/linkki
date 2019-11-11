@@ -14,10 +14,8 @@
 package org.linkki.core.ui.creation.section;
 
 import static java.util.Objects.requireNonNull;
-import static org.linkki.util.Optionals.either;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
@@ -84,20 +82,19 @@ public class PmoBasedSectionFactory {
     public static AbstractSection createAndBindSection(Object pmo, BindingContext bindingContext) {
         requireNonNull(pmo, "pmo must not be null");
         requireNonNull(bindingContext, "bindingContext must not be null");
-        Function<Class<?>, Optional<LinkkiComponentDefinition>> componentDefinitionFinder = c -> {
-            return ContainerPmo.class.isAssignableFrom(c)
-                    ? Optional.of(TableSectionDefinition::createTableSection)
-                    : either(ComponentAnnotationReader.findComponentDefinition(c))
-                            .or(() -> Optional.of(SectionComponentDefiniton.DEFAULT));
-        };
-        Function<Class<?>, Optional<LinkkiLayoutDefinition>> layoutDefinitionFinder = c -> {
-            return ContainerPmo.class.isAssignableFrom(c)
-                    ? Optional.of(TableSectionDefinition::createTable)
-                    : either(LayoutAnnotationReader.findLayoutDefinition(c))
-                            .or(() -> Optional.of(SectionLayoutDefinition.DEFAULT));
-        };
+        Class<? extends Object> pmoClass = pmo.getClass();
+        LinkkiComponentDefinition componentDefinition = ContainerPmo.class.isAssignableFrom(pmoClass)
+                ? TableSectionDefinition::createTableSection
+                : ComponentAnnotationReader.findComponentDefinition(pmoClass)
+                        .orElse(SectionComponentDefiniton.DEFAULT);
+
+        LinkkiLayoutDefinition layoutDefinition = ContainerPmo.class.isAssignableFrom(pmoClass)
+                ? TableSectionDefinition::createTable
+                : LayoutAnnotationReader.findLayoutDefinition(pmoClass)
+                        .orElse(SectionLayoutDefinition.DEFAULT);
+
         ComponentWrapper componentWrapper = UiCreator
-                .createComponent(pmo, bindingContext, componentDefinitionFinder, layoutDefinitionFinder);
+                .createComponent(pmo, bindingContext, componentDefinition, Optional.of(layoutDefinition));
         return (AbstractSection)componentWrapper.getComponent();
     }
 
@@ -110,8 +107,9 @@ public class PmoBasedSectionFactory {
 
         /* Static implementation of {@link LinkkiComponentDefinition} */
         public static TableSection createTableSection(Object pmo) {
-            UISection sectionDefinition = pmo.getClass().getAnnotation(UISection.class);
-            String nlsCaption = PmoNlsService.get().getSectionCaption(pmo.getClass(), sectionDefinition != null
+            Class<? extends Object> pmoClass = pmo.getClass();
+            UISection sectionDefinition = pmoClass.getAnnotation(UISection.class);
+            String nlsCaption = PmoNlsService.get().getSectionCaption(pmoClass, sectionDefinition != null
                     ? sectionDefinition.caption()
                     : "");
             return new TableSection(nlsCaption, sectionDefinition != null ? sectionDefinition.closeable() : false);

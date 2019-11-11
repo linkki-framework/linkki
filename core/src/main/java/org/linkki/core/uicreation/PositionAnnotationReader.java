@@ -19,10 +19,13 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.logging.Logger;
 
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
 import org.linkki.core.uicreation.LinkkiPositioned.Position;
+import org.linkki.util.BeanUtils;
 
 /**
  * Reads the position from an annotated element.
@@ -70,8 +73,8 @@ public class PositionAnnotationReader {
      * @throws ClassCastException if the position property is not of type {@link Integer#TYPE int}
      */
     public static int getPosition(Annotation annotation) {
-        return Arrays.stream(annotation.annotationType().getMethods())
-                .filter(m -> m.isAnnotationPresent(LinkkiPositioned.Position.class))
+        return BeanUtils
+                .getMethods(annotation.annotationType(), m -> m.isAnnotationPresent(LinkkiPositioned.Position.class))
                 .map(m -> getPosition(m, annotation))
                 .map(Integer.class::cast)
                 .reduce(($1, $2) -> {
@@ -119,6 +122,31 @@ public class PositionAnnotationReader {
                         + " using deprecated BindingDefinition#position. Use @LinkkiPositioned instead!");
         BindingDefinition bindingDefinition = BindingDefinition.from(a);
         return bindingDefinition.position();
+    }
+
+    /**
+     * Returns a {@link Comparator} for {@link AnnotatedElement AnnotatedElements} with annotations that
+     * are {@link LinkkiPositioned}.
+     * 
+     * @param pmoClass the presentation model class containing the {@link AnnotatedElement
+     *            AnnotatedElements}; used for error handling only
+     * @throws IllegalStateException if {@link AnnotatedElement AnnotatedElements} with the same
+     *             {@link #getPosition(AnnotatedElement) position} are compared
+     */
+    public static Comparator<AnnotatedElement> comparingUniquePositions(Class<?> pmoClass) {
+        return (e1, e2) -> {
+            int p1 = getPosition(e1);
+            int p2 = getPosition(e2);
+            if (p1 == p2) {
+                throw new IllegalStateException(
+                        String.format("Duplicate position in properties %s and %s of pmo class %s",
+                                      BoundPropertyAnnotationReader.getBoundProperty(e1).getPmoProperty(),
+                                      BoundPropertyAnnotationReader.getBoundProperty(e2).getPmoProperty(),
+                                      pmoClass));
+            } else {
+                return p1 - p2;
+            }
+        };
     }
 
 }
