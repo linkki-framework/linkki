@@ -19,6 +19,7 @@ import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.vaadin.component.page.AbstractPage;
+import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
@@ -30,6 +31,10 @@ public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefin
 
     private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
 
+    private DynamicFieldPmo dynamicFieldPmo;
+
+    private AbstractSection dynamicFieldSection;
+
     public AllUiElementsPage() {
         init();
     }
@@ -40,6 +45,11 @@ public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefin
         add(VaadinUiCreator.createComponent(new HorizontalLayoutPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new VerticalLayoutPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new FormLayoutPmo(), getBindingContext()));
+        dynamicFieldPmo = new DynamicFieldPmo(() -> {
+            removeComponent(dynamicFieldSection);
+            dynamicFieldSection = addSection(dynamicFieldPmo);
+        });
+        dynamicFieldSection = addSection(dynamicFieldPmo);
     }
 
     @Override
