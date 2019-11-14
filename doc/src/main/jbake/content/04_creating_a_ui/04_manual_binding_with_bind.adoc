@@ -10,7 +10,7 @@
 [[manual-binding]]
 === Manual Binding With `@Bind`
 
-Due to special requirements or custom `Fields` it is sometimes not possible to use the <<pmo-uisection, automatic creation via `@UISection`>>. For this case *linkki* offers the option of 'only' using the data binding. This way, control over creation, arrangement and configuration (e.g. `setNullRepresentation()` or `setConverter()`) of the component is kept.
+Due to special requirements or custom `Fields` it is sometimes not possible to use the <<pmo-create-ui, automatic creation via `@UISection`>>. For this case *linkki* offers the option of 'only' using the data binding. This way, control over creation, arrangement and configuration (e.g. `setNullRepresentation()` or `setConverter()`) of the component is kept.
 
 To activate the manual binding the component must be marked with the `@Bind` annotation. Both fields and methods can be annotated. Manual binding with `@Bind` supports different component types depending on the Vaadin Framework version. Components based on the following classes and interfaces can be used with `@Bind`:
 
@@ -60,7 +60,7 @@ You can find a sample project with the different binding options on {github-tree
 ====
 Binding summary:
 
-* <<pmo-uisection, @UISection>> -> simple and quick template with limited configuration options
+* <<layout, Layout annotations>> like `@UISection` -> simple and quick template with limited configuration options
 * <<manual-section-creation, UiElementCreator>> -> automated creation and binding of UI components with control over the layout
 * <<manual-binding, manual binding>> -> full control, but more effort and direct UI framework dependencies
 

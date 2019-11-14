@@ -1,25 +1,25 @@
-:jbake-title: PMO with UI Section
+:jbake-title: Create a UI from the Presentation Model Object
 :jbake-type: section
 :jbake-status: published
 :source-dir: ../../../../../../vaadin8/samples/binding/src/main/java
 :github: https://github.com/linkki-framework/linkki
 :github-blob: {github}/blob/master
 
-[[pmo-uisection]]
-=== PresentationModelObject with `@UISection`
+[[pmo-create-ui]]
+=== Create a UI from the Presentation Model Object (PMO)
 
-When a class is annotated with `@UISection`, *linkki* takes control over the creation and arrangement of the defined components. Using annotations for the <<ui-element, UI elements>>, certain aspects can be defined or controlled. The sections are created via a {github-blob}/vaadin8/core/src/main/java/org/linkki/core/ui/creation/section/PmoBasedSectionFactory.java[`PmoBasedSectionFactory`].
+A UI is built using different component containers, in HTML typically represented by a `<div>`. In *linkki* as in Vaadin we call these component containers _layouts_. Every layout is represented by a PMO, short for _presentation model object_. A PMO is primarily a simple POJO that is annotated with special *linkki* annotations. For every component in the layout, a bean property (represented by a getter and setter method) is defined within this PMO.
+
+When a class is annotated with a <<layout,layout annotation>> like `@UISection`, *linkki* takes control over the creation and arrangement of the defined components. Using annotations for the <<ui-element, UI elements>>, certain aspects can be defined or controlled. The layouts are created using the {github-blob}/vaadin8/core/src/main/java/org/linkki/core/ui/creation/VaadinUiCreator.java[`VaadinUiCreator`].
 
 The <<ui-element, `UI elements`>> are bound either to the 'properties' of a `ModelObject` or a PMO. A detailed description can be found in the chapter <<domain-model-binding, `Data on Multiple Layers`>>.
 
 TIP: In all cases, if the `ModelObject` or PMO doesn't have a corresponding setter, the field is `readOnly`.
 
-In the <<form-binding, first section>> the creation of a section for a 'standard' form is exemplified. In the <<binding-table, second section>> the creation of a section with a table is detailed.
-
-TIP: The annotation `@UISection` can be omitted. The `SectionCreationContext` created for a PMO class without that annotation treats that class as having a `@UISection` annotation with default values.
+The following examples describe how to create a standard forms section, followed by an example of how to create a table section. There are some more available <<layout, layout annotations>> and it is quite easy to write a <<custom-ui-layout-annotation,custom layout annotation>>.
 
 [[form-binding]]
-==== Binding of a Form
+==== Creating a Form Section
 
 [[binding-model-object]]
 .Binding with `@ModelObject`
@@ -33,7 +33,7 @@ TIP: The definition of `modelAttribute` is optional if the property name in the 
 is recommended to specify the `modelAttribute` to make it explicit. The value should be externalized to a constant in the target model object as seen for the `lastname` property.
 
 [[binding-table]]
-==== Binding of a Table
+==== Creating a Table Section
 
 To create a section with a table the PMO class must implement <<ui-container-pmo, `org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW>`>>. The generic parameter `ROW` represents the type of the PMO to create a row in this table.
 

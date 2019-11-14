@@ -1,28 +1,48 @@
-:jbake-title: Layout of Sections 
+:jbake-title: Layout of Sections
 :jbake-type: section
 :jbake-status: published
 
 :source-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/java
 :resource-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/webapp
+:source-dir-doc: ../../../java
 
 :images-folder-name: 05_ui_components
 
 [[layout]]
-=== Layout of Sections
+=== Layouts
 
-The section defines a layout for all the components within the section. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, COLUMN or CUSTOM.
+*linkki* provides some standard layout annotations which are described here. If you need another layout it is quite easy to <<custom-ui-layout-annotation,create custom layout annotations>>.
 
-[[horizontal-layout]]
-==== Horizontal Layout
+[[layout-section]]
+==== Section
+
+A group of input fields is called _section_. A section usually has a descriptive title defined by the `caption` attribute. A line in the title bar visually separates the title from the content. Without a title, a section is not directly recognizable as such, but looks like a simple layout. Instead of input fields, the content can also consist of a table.
+
+The section layout is defined by annotating a PMO with the annotation `@UISection`.
+
+The section may be closable that means its content can be collapsed to give a better overview about the whole page. Simply configure this feature using the annotation attribute `closeable`.
+
+[source, java]
+----
+include::{source-dir-doc}/org/linkki/doc/CommonDataSectionPmo.java[tags=class]
+----
+
+The layout for all the components within the section can be defined with the attribute `layout`. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, COLUMN or CUSTOM.
+
+If a section contains a table instead of multiple input fields it is called _TableSection_.
+
+[[horizontal-section-layout]]
+===== Horizontal Section Layout
 
 With the horizontal layout all input fields are displayed on a line, side by side in the order of their position. The attribute `columns` is ignored.
 
-==== Column Layout
+[[column-section-layout]]
+===== Column Section Layout
 
 With the column layout fields are displayed one below the other. If additionally a number of columns are defined with the property `columns`, a kind of grid layout is produced. The grid is filled in the order of the field's position from left to right, row by row. 
 
-[[custom-layout]]
-==== Custom Layout
+[[custom-section-layout]]
+===== Custom Section Layout
 
 Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v8/framework/layout/layout-customlayout.html[CustomLayout] from Vaadin.
 
@@ -48,4 +68,30 @@ The corresponding part of the html file may looks like this. The used css classe
 include::{resource-dir-custom}/VAADIN/themes/valo/layouts/AddressSectionPmo.html[lines=45..56]
 ----
 
- 
+===== Button in Section Header
+
+Sometimes it is useful to have a button in the sections header, for example to open a special edit dialog. This can be achieved by implementing the interface `PresentationModelObject` with the method `getEditButtonPmo()`. The returned `ButtonPmo` defines the button and its behavior.
+
+==== Simple Vaadin Layouts
+
+Beside the section there are some simple Vaadin layouts that can be created with the corresponding annotations:
+
+ * @UIHorizontalLayout
+ * @UIVerticalLayout
+ * @UIFormLayout
+
+Some of these annotations may have special parameters to configure the alignment of the contained components.
+
+TIP: To create the UI from a PMO with these layouts you should use `VaadinUiCreator`. The `PmoBasedSectionFactory` is only usable for `@UISection` whereas the `VaadinUiCreator` could be used for all kinds of layouts.
+
+
+[[section-id]]
+==== SectionID
+
+Each HTML element of a layout may define an ID. This can be used, for instance, to identify a section for UI testing. By default the simple name of the class is used as the ID. Alternatively the annotation '@SectionID' can be used to specify a method that returns the ID for the section.
+
+A method annotated with '@SectionID' is called by *linkki* when the section is created. The ID remains the same for the duration of the session and is not updated dynamically.
+
+To access the section ID, the helper method `Sections.getSectionId(Object)` may be used.
+
+NOTE: Although the concept is named _SectionID_ it is also applied to all kinds of layouts.
