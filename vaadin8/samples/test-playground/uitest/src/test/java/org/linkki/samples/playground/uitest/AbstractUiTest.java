@@ -19,6 +19,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -61,6 +62,8 @@ public class AbstractUiTest extends TestBenchTestCase {
         setDriver(TestBench.createDriver(webDriver));
         String url = DriverProperties.getTestUrl(urlPath);
         startApplication(url);
+        waitUntil(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
+                .toString().equals("complete"));
     }
 
     /**
