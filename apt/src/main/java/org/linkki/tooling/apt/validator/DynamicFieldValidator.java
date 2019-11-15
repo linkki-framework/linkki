@@ -70,7 +70,7 @@ public class DynamicFieldValidator implements Validator {
     }
 
     /**
-     * Checks if required "get<propertyName>ComponentType" method is present.
+     * Checks if required {@code "get<propertyName>ComponentType"} method is present.
      * 
      * @param messager the messager
      * @param pmo the pmo

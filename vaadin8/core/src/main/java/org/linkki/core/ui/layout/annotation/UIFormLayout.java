@@ -22,6 +22,8 @@ import java.lang.reflect.AnnotatedElement;
 
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.ComponentContainerLayoutDefinition.ComponentContainerLayoutDefinitionCreateor;
 import org.linkki.core.ui.layout.annotation.UIFormLayout.FormLayoutComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
@@ -29,6 +31,15 @@ import org.linkki.core.uicreation.layout.LinkkiLayout;
 
 import com.vaadin.ui.FormLayout;
 
+/**
+ * Marks a group of components vertically placed below each other in a two-column {@link FormLayout}
+ * with captions to the left of the input fields.
+ * <p>
+ * To use this, annotate a class with {@link UIFormLayout @UIFormLayout} that includes regular UI
+ * element annotations like {@link UITextField @UITextField} on its methods. Call
+ * {@link VaadinUiCreator#createComponent(Object, org.linkki.core.binding.BindingContext)} with an
+ * instance of that class to create the {@link FormLayout} and its children.
+ */
 @LinkkiLayout(ComponentContainerLayoutDefinitionCreateor.class)
 @LinkkiComponent(FormLayoutComponentDefinitionCreator.class)
 @Retention(RetentionPolicy.RUNTIME)

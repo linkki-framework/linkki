@@ -546,7 +546,7 @@ public class ReflectionPropertyDispatcherTest {
             return Collections.emptyList();
         }
 
-        public void setPmoSet(String pmoSet) {
+        public void setPmoSet(@SuppressWarnings("unused") String pmoSet) {
             // do nothing
         }
 

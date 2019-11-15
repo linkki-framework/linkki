@@ -16,6 +16,9 @@ package org.linkki.core.ui.layout;
 
 import com.vaadin.shared.ui.AlignmentInfo;
 
+/**
+ * Defines how the child components should be vertically aligned in the parent component.
+ */
 public enum VerticalAlignment {
     TOP(AlignmentInfo.TOP),
     MIDDLE(AlignmentInfo.MIDDLE),

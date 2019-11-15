@@ -22,6 +22,8 @@ import java.lang.reflect.AnnotatedElement;
 
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.ComponentContainerLayoutDefinition.ComponentContainerLayoutDefinitionCreateor;
 import org.linkki.core.ui.layout.HorizontalLayoutComponentDefinition;
 import org.linkki.core.ui.layout.VerticalAlignment;
@@ -29,12 +31,29 @@ import org.linkki.core.ui.layout.annotation.UIHorizontalLayout.HorizontalLayoutC
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
+import com.vaadin.ui.HorizontalLayout;
+
+/**
+ * Marks a group of components horizontally placed next to each other in a {@link HorizontalLayout}.
+ * <p>
+ * To use this, annotate a class with {@link UIHorizontalLayout @UIHorizontalLayout} that includes
+ * regular UI element annotations like {@link UITextField @UITextField} on its methods. Call
+ * {@link VaadinUiCreator#createComponent(Object, org.linkki.core.binding.BindingContext)} with an
+ * instance of that class to create the {@link HorizontalLayout} and its children.
+ * <p>
+ * You can adjust the {@link VerticalAlignment vertical alignment} of the children relative to each
+ * other with the {@link #alignment()} attribute.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @LinkkiLayout(ComponentContainerLayoutDefinitionCreateor.class)
 @LinkkiComponent(HorizontalLayoutComponentDefinitionCreator.class)
 public @interface UIHorizontalLayout {
 
+    /**
+     * The {@link VerticalAlignment vertical alignment} of the {@link HorizontalLayout}'s children
+     * relative to each other.
+     */
     VerticalAlignment alignment() default VerticalAlignment.MIDDLE;
 
     class HorizontalLayoutComponentDefinitionCreator implements ComponentDefinitionCreator<UIHorizontalLayout> {

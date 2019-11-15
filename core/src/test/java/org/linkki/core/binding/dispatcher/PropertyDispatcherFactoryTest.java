@@ -185,6 +185,7 @@ public class PropertyDispatcherFactoryTest {
             return TestEnum.ONE;
         }
 
+        @SuppressWarnings("unused")
         public void setReadonlyEnumValue(TestEnum testEnum) {
             // do nothing
         }

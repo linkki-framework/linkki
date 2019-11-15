@@ -22,6 +22,8 @@ import java.lang.reflect.AnnotatedElement;
 
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.ComponentContainerLayoutDefinition.ComponentContainerLayoutDefinitionCreateor;
 import org.linkki.core.ui.layout.HorizontalAlignment;
 import org.linkki.core.ui.layout.VerticalLayoutComponentDefinition;
@@ -29,12 +31,30 @@ import org.linkki.core.ui.layout.annotation.UIVerticalLayout.VerticalLayoutCompo
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
+import com.vaadin.ui.VerticalLayout;
+
+/**
+ * Marks a group of components vertically placed below each other in a {@link VerticalLayout}, labels
+ * above their corresponding input fields.
+ * <p>
+ * To use this, annotate a class with {@link UIVerticalLayout @UIVerticalLayout} that includes regular
+ * UI element annotations like {@link UITextField @UITextField} on its methods. Call
+ * {@link VaadinUiCreator#createComponent(Object, org.linkki.core.binding.BindingContext)} with an
+ * instance of that class to create the {@link VerticalLayout} and its children.
+ * <p>
+ * You can adjust the {@link HorizontalAlignment horizontal alignment} of the children relative to each
+ * other with the {@link #alignment()} attribute.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @LinkkiLayout(ComponentContainerLayoutDefinitionCreateor.class)
 @LinkkiComponent(VerticalLayoutComponentDefinitionCreator.class)
 public @interface UIVerticalLayout {
 
+    /**
+     * The {@link HorizontalAlignment horizontal alignment} of the {@link VerticalLayout}'s children
+     * relative to each other.
+     */
     HorizontalAlignment alignment() default HorizontalAlignment.LEFT;
 
     class VerticalLayoutComponentDefinitionCreator implements ComponentDefinitionCreator<UIVerticalLayout> {

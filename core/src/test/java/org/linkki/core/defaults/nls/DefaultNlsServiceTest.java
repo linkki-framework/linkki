@@ -76,11 +76,14 @@ public class DefaultNlsServiceTest {
 
         @ParameterizedTest
         @MethodSource("data")
-        public void testBundleNotExists(String key, Locale locale, Optional<String> result) {
+        public void testBundleNotExists(String key,
+                Locale locale,
+                @SuppressWarnings("unused") Optional<String> result) {
             assertEquals(Optional.empty(), service.getString(BUNDLE_NAME_NOT_EXISTS, key, locale));
         }
     }
 
+    @SuppressFBWarnings(value = "NP_NONNULL_PARAM_VIOLATION", justification = "because we test this here")
     @Nested
     public static class NullTests {
         @Test
@@ -151,7 +154,7 @@ public class DefaultNlsServiceTest {
 
         @ParameterizedTest
         @MethodSource("data")
-        public void testBundleNotExists(String key, Locale locale, String result) {
+        public void testBundleNotExists(String key, Locale locale, @SuppressWarnings("unused") String result) {
             assertEquals(defaultValue, service.getString(BUNDLE_NAME_NOT_EXISTS, key, defaultValue, locale));
         }
     }
