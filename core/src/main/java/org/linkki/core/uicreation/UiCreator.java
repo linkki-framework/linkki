@@ -7,7 +7,6 @@ package org.linkki.core.uicreation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -88,22 +87,25 @@ public class UiCreator {
                 .map(m -> createComponent(m, pmo, bindingContext, componentWrapperCreator));
     }
 
-    private static <C, W extends ComponentWrapper> W createComponent(Method method,
+    private static <C, W extends ComponentWrapper> W createComponent(AnnotatedElement annotatedElement,
             Object pmo,
             BindingContext bindingContext,
             Function<C, W> componentWrapperCreator) {
 
-        Annotation componentDefAnnotation = ComponentAnnotationReader.getComponentDefinitionAnnotation(method, pmo);
-        List<LinkkiAspectDefinition> aspects = AspectAnnotationReader.createAspectDefinitionsFor(componentDefAnnotation,
-                                                                                                 method);
-        BoundProperty boundProperty = BoundPropertyAnnotationReader.getBoundProperty(componentDefAnnotation, method);
+        Annotation componentDefAnnotation = ComponentAnnotationReader
+                .getComponentDefinitionAnnotation(annotatedElement, pmo);
+        List<LinkkiAspectDefinition> aspects = AspectAnnotationReader
+                .createAspectDefinitionsFor(componentDefAnnotation, annotatedElement);
+        BoundProperty boundProperty = BoundPropertyAnnotationReader
+                .getBoundProperty(componentDefAnnotation, annotatedElement);
 
         return createComponent(pmo, bindingContext,
                                boundProperty,
-                               ComponentAnnotationReader.getComponentDefinition(componentDefAnnotation, method),
+                               ComponentAnnotationReader
+                                       .getComponentDefinition(componentDefAnnotation, annotatedElement),
                                componentWrapperCreator,
                                aspects,
-                               LayoutAnnotationReader.findLayoutDefinition(method));
+                               LayoutAnnotationReader.findLayoutDefinition(annotatedElement));
     }
 
     /**

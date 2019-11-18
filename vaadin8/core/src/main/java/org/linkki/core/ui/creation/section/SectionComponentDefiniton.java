@@ -15,12 +15,15 @@
 package org.linkki.core.ui.creation.section;
 
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.CustomLayoutSection;
 import org.linkki.core.vaadin.component.section.FormSection;
 import org.linkki.core.vaadin.component.section.HorizontalSection;
+import org.linkki.core.vaadin.component.section.TableSection;
 
 /**
  * Defines how {@link BaseSection} instances are created.
@@ -49,16 +52,29 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
     @Override
     public Object createComponent(Object pmo) {
         String nlsCaption = PmoNlsService.get().getSectionCaption(pmo.getClass(), this.caption);
-        switch (layout) {
-            case COLUMN:
-                return new FormSection(nlsCaption, closeable, columns);
-            case HORIZONTAL:
-                return new HorizontalSection(nlsCaption, closeable);
-            case CUSTOM:
-                return new CustomLayoutSection(pmo.getClass().getSimpleName(), nlsCaption, closeable);
-            default:
-                throw new IllegalStateException("unknown SectionLayout#" + layout);
+        if (ContainerPmo.class.isAssignableFrom(pmo.getClass())) {
+            return createTableSection(pmo);
+        } else {
+            switch (layout) {
+                case COLUMN:
+                    return new FormSection(nlsCaption, closeable, columns);
+                case HORIZONTAL:
+                    return new HorizontalSection(nlsCaption, closeable);
+                case CUSTOM:
+                    return new CustomLayoutSection(pmo.getClass().getSimpleName(), nlsCaption, closeable);
+                default:
+                    throw new IllegalStateException("unknown SectionLayout#" + layout);
+            }
         }
+    }
+
+    private TableSection createTableSection(Object pmo) {
+        Class<? extends Object> pmoClass = pmo.getClass();
+        UISection sectionDefinition = pmoClass.getAnnotation(UISection.class);
+        String nlsCaption = PmoNlsService.get().getSectionCaption(pmoClass, sectionDefinition != null
+                ? sectionDefinition.caption()
+                : "");
+        return new TableSection(nlsCaption, sectionDefinition != null ? sectionDefinition.closeable() : false);
     }
 
 }
