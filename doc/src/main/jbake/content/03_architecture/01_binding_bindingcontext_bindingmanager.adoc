@@ -7,22 +7,22 @@
 [[binding-basics]]
 === Binding, BindingContext, BindingManager
 
-For each UI component bound to a PMO, *linkki* creates a so called `binding`. The methods of this `binding` ensure that subsequent changes in the PMO lead to an update of the UI component.
+For each UI component bound to a PMO, *linkki* creates a so called `binding`. The methods of this `binding` ensure that subsequent changes in the PMO lead to an update of the UI component, and vice versa.
 
-All bindings in *linkki* are part of a `BindingContext`. Typically a `BindingContext` contains all bindings of a page or a section with independent content. Changes to a bound object (PMO or UI) trigger an update of all bindings in the same context. Multiple PMOs can be bound to the same `BindingContext`.
+All bindings in *linkki* are part of a `BindingContext`. Typically a `BindingContext` contains all bindings of a page or a section with independent content. Changes to a bound object (PMO or UI) trigger an update of all bindings in the same context. A single `BindingContext` can contain `bindings` linked to different PMOs.
 
 .BindingContext and ~Manager
 image::{images}{images-folder-name}/binding_context_manager.png[]
 
-To manage one or more `BindingContexts`, a `BindingManager` is used. Each `BindingContext` in a `BindingManager` is identified by a name. `BindingManager` offers the methods `getBindingContext(String)` that either return the managed context with the given identifier, or creates a new one. Alternatively, a `Class` can be passed as identifier, from which the name will be derived.
+To manage one or more `BindingContexts`, a `BindingManager` is used. Each `BindingContext` in a `BindingManager` is identified by its name. `BindingManager` offers the methods `getBindingContext(String)` that either return the managed context with the given identifier, or creates a new one. Alternatively, a `Class` can be passed as identifier, from which the name will be derived.
 
 `BindingManager` also provides `createBindingContext(String/Class, PropertyBehaviorProvider)` methods to create a `BindingContext` with a specific set of <<property-behavior, behaviors>>.
 
-In addition to the creation of `BindingContexts`, a `BindingManager` is also linked to a <<`ValidationService`, validation-service>> that is evoked upon changes in a `BindingContext`. The results are then propagated to all managed `BindingContexts`.
+In addition to the creation of `BindingContexts`, a `BindingManager` is also linked to a <<validation-service,ValidationService>> that is invoked upon changes in a `BindingContext`. The results are then propagated to all managed `BindingContexts`.
 
 ==== The Scope of UI Updates
 
-A `BindingContext` ensures that all fields bound to it get updated if one of them changes. Thus a BindingContext defines the "scope" of UI updates for it's fields.
+A `BindingContext` ensures that all contained bindings are updated if one of them changes. The bindings in turn update their respective UI fields. Thus, a BindingContext defines the "scope" of UI updates for its fields.
 
 It is common practice to use a BindingContext for all fields visible to the user at a time. For example a single binding context for a big form. On the other hand, if there are multiple tab sheets it's best to use a separate binding context for each of them, as only one of the tabs is visible at a time. This also avoids unnecessary updates of fields that aren't even visible.
 
