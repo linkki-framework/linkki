@@ -59,4 +59,9 @@ public class TestObject implements TestInterface {
     public void doSomething() {
         // do nothing :)
     }
+
+    public void getVoid() {
+        // do nothing
+    }
+
 }

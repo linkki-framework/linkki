@@ -56,7 +56,11 @@ public class PropertyAccessDescriptor<T, V> {
         if (foundMethod == null) {
             foundMethod = MethodUtils.getMatchingAccessibleMethod(boundClass, IS_PREFIX + capitalizedPropertyName);
         }
-        return Optional.ofNullable(foundMethod);
+        if (foundMethod != null && Void.TYPE.equals(foundMethod.getReturnType())) {
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(foundMethod);
+        }
     }
 
 

@@ -135,16 +135,14 @@ public class AspectMethodValidator implements Validator {
         Annotation annotation = requireNonNull(aspectSubject.getElement().getAnnotation(annotationType),
                                                "annotation was null");
 
-        String methodName = aspectSubject.getElement().getSimpleName().toString();
-
         List<LinkkiAspectDefinition> aspectDefinitions = AspectAnnotationReader.createAspectDefinitionsFrom(annotation);
-        Set<DynamicAspectMethodName> expectedMethods = DynamicMethodUtils.getExpectedMethods(methodName,
+        Set<DynamicAspectMethodName> expectedMethods = DynamicMethodUtils.getExpectedMethods(aspectSubject.getElement(),
                                                                                              aspectDefinitions);
 
         expectedMethods.stream()
                 .filter(expectedMethod -> isMissing(allMethods, expectedMethod))
                 .forEach(it -> {
-                    String propertyName = MethodNameUtils.toPropertyName(methodName);
+                    String propertyName = MethodNameUtils.getPropertyName(aspectSubject.getElement());
 
                     String message = Messages.format(messageCode,
                                                      aspectSubject.getAnnotationMirror(),

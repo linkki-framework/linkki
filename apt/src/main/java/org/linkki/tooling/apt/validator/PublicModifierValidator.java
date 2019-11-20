@@ -133,7 +133,7 @@ public class PublicModifierValidator implements Validator {
             requireNonNull(annotation, "annotation was null");
 
             Set<String> expectedMethods = DynamicMethodUtils
-                    .getExpectedMethods(aspectSubject.getElement().getSimpleName().toString(),
+                    .getExpectedMethods(aspectSubject.getElement(),
                                         annotation)
                     .stream()
                     .map(DynamicAspectMethodName::getExpectedMethodName)

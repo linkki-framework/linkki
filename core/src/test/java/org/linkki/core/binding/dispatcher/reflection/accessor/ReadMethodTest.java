@@ -14,36 +14,44 @@
 package org.linkki.core.binding.dispatcher.reflection.accessor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.linkki.util.LazyCachingSupplier.lazyCaching;
-import static org.mockito.Mockito.when;
-
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class ReadMethodTest {
-    @Mock
-    PropertyAccessDescriptor<TestObject, Long> descriptor;
-
-    @Test
-    @SuppressWarnings("unused")
-    // warning suppressed as object is created to test the constructor, not to use it
-    public void testConstructor() {
-        when(descriptor.getReflectionReadMethod()).thenReturn(lazyCaching(Optional::empty));
-        new ReadMethod<>(descriptor);
-    }
 
     @Test
     public void testReadValue() {
         TestObject testObject = new TestObject();
-        descriptor = new PropertyAccessDescriptor<>(TestObject.class, TestObject.READ_ONLY_LONG_PROPERTY);
+        PropertyAccessDescriptor<TestObject, Long> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
+                TestObject.READ_ONLY_LONG_PROPERTY);
 
         ReadMethod<TestObject, Long> readMethod = descriptor.createReadMethod();
+
         assertEquals(42, readMethod.readValue(testObject).longValue());
+    }
+
+    @Test
+    public void testReadValue_NoGetterMethod() {
+        PropertyAccessDescriptor<?, ?> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
+                TestObject.DO_SOMETHING_METHOD);
+
+        ReadMethod<?, ?> readMethod = descriptor.createReadMethod();
+
+        assertFalse(readMethod.canRead());
+    }
+
+    @Test
+    public void testReadValue_VoidGetterMethod() {
+        PropertyAccessDescriptor<?, ?> descriptor = new PropertyAccessDescriptor<>(TestObject.class,
+                "void");
+
+        ReadMethod<?, ?> readMethod = descriptor.createReadMethod();
+
+        assertFalse(readMethod.canRead());
     }
 
 }

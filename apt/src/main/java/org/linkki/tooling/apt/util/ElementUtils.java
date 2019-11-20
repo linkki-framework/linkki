@@ -17,7 +17,6 @@ package org.linkki.tooling.apt.util;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
-import static org.linkki.tooling.apt.util.MethodNameUtils.toPropertyName;
 
 import java.lang.annotation.Annotation;
 import java.util.Optional;
@@ -243,7 +242,7 @@ public final class ElementUtils {
                 .filter(it -> it.getModelObject().name().equals(modelObjectName))
                 .findFirst()
                 .flatMap(it -> it.getAttributes().stream()
-                        .filter(attribute -> toPropertyName(attribute.getSimpleName().toString())
+                        .filter(attribute -> MethodNameUtils.getPropertyName(attribute)
                                 .equals(modelAttributeName))
                         .findFirst());
     }

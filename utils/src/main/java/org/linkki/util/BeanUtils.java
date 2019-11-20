@@ -18,6 +18,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.MessageFormat;
@@ -174,7 +175,7 @@ public class BeanUtils {
      * </ul>
      */
     public static String getPropertyName(Method method) {
-        return getPropertyName(method.getName());
+        return getPropertyName(method.getReturnType(), method.getName());
     }
 
 
@@ -186,8 +187,10 @@ public class BeanUtils {
      * <li>{@code fooBar} -&gt; "fooBar"</li>
      * </ul>
      */
-    public static String getPropertyName(String methodName) {
-        if (methodName.startsWith(IS_PREFIX)) {
+    public static String getPropertyName(Type returnType, String methodName) {
+        if (returnType.equals(Void.TYPE)) {
+            return methodName;
+        } else if (methodName.startsWith(IS_PREFIX)) {
             return StringUtils.uncapitalize(methodName.substring(2));
         } else if (methodName.startsWith(GET_PREFIX)) {
             return StringUtils.uncapitalize(methodName.substring(3));

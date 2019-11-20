@@ -29,13 +29,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
-import org.linkki.tooling.apt.util.DynamicAspectMethodName;
-import org.linkki.tooling.apt.validator.AspectMethodValidator;
-import org.linkki.tooling.apt.validator.Messages;
-import org.linkki.tooling.apt.validator.ModelBindingValidator;
 
 public class CompilerOptionsTest extends BaseAnnotationProcessorTest {
 
@@ -108,11 +103,9 @@ public class CompilerOptionsTest extends BaseAnnotationProcessorTest {
         }
 
         private boolean isMissingDynamicMethodLog(String log) {
-            String methodName = "type";
-            DynamicAspectMethodName dynamicMethod = new DynamicAspectMethodName(methodName,
-                    EnabledAspectDefinition.NAME, true);
+            String dynamicMethodName = "isTypeEnabled";
             String msg = Messages.getString(AspectMethodValidator.MISSING_METHOD);
-            return hasMessage(log, String.format(msg, dynamicMethod.getExpectedMethodName(), methodName));
+            return hasMessage(log, String.format(msg, dynamicMethodName, "type"));
         }
     }
 

@@ -18,6 +18,8 @@ import static java.util.Objects.requireNonNull;
 import static org.linkki.util.BeanUtils.GET_PREFIX;
 import static org.linkki.util.BeanUtils.IS_PREFIX;
 
+import javax.lang.model.element.ExecutableElement;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -27,11 +29,11 @@ public class DynamicAspectMethodName {
 
     private final String expectedMethodName;
 
-    public DynamicAspectMethodName(String propertyName, String suffix, boolean isBoolean) {
-        requireNonNull(propertyName, "propertyName must not be null");
+    public DynamicAspectMethodName(ExecutableElement method, String suffix, boolean isBoolean) {
+        requireNonNull(method, "method must not be null");
         requireNonNull(suffix, "suffix must not be null");
         String prefix = isBoolean ? IS_PREFIX : GET_PREFIX;
-        this.expectedMethodName = prefix + StringUtils.capitalize(MethodNameUtils.toPropertyName(propertyName))
+        this.expectedMethodName = prefix + StringUtils.capitalize(MethodNameUtils.getPropertyName(method))
                 + StringUtils.capitalize(suffix);
     }
 

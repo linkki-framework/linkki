@@ -77,7 +77,7 @@ public class AptComponentDeclaration implements AptAspectSubject {
     }
 
     public String getPropertyName() {
-        return MethodNameUtils.toPropertyName(element.getSimpleName().toString());
+        return MethodNameUtils.getPropertyName(element);
     }
 
     public boolean isDirectModelBinding() {

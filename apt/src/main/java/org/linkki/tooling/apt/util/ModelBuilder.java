@@ -164,7 +164,7 @@ public class ModelBuilder {
         Set<ExecutableElement> modelObjectAttributes = elementUtils.getModelObjectAttributes(type);
 
         return modelObjectAttributes.stream()
-                .map(method -> new AptModelAttribute(MethodNameUtils.toPropertyName(method.getSimpleName().toString()),
+                .map(method -> new AptModelAttribute(MethodNameUtils.getPropertyName(method),
                         method))
                 .collect(Collectors.toList());
     }

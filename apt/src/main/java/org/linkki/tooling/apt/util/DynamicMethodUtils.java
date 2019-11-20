@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import javax.lang.model.element.ExecutableElement;
+
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
@@ -49,47 +51,46 @@ public final class DynamicMethodUtils {
 
     /**
      *
-     * @param methodName name of the annotated method
+     * @param method The model element that represents the annotated method
      * @param annotation the annotation that has the aspects
      * @return a set of all dynamic methods that are required.
      */
     public static Set<DynamicAspectMethodName> getExpectedMethods(
-            String methodName,
+            ExecutableElement method,
             Annotation annotation) {
         List<LinkkiAspectDefinition> aspectDefinitions = AspectAnnotationReader
                 .createAspectDefinitionsFrom(annotation);
-        return getExpectedMethods(methodName, aspectDefinitions);
+        return getExpectedMethods(method, aspectDefinitions);
     }
 
     /**
      *
-     * @param methodName name of the annotated method
+     * @param method the model element that represents the annotated method
      * @param aspectDefinitions the aspect definitions of the annotation
      * @return a set of all dynamic methods that are required.
      */
     public static Set<DynamicAspectMethodName> getExpectedMethods(
-            String methodName,
+            ExecutableElement method,
             List<LinkkiAspectDefinition> aspectDefinitions) {
 
-        Set<DynamicAspectMethodName> expectedMethodsFromAvailableValuesAspectDefinitions = getExpectedMethodsFromAvailableValuesAspectDefinition(methodName,
+        Set<DynamicAspectMethodName> expectedMethodsFromAvailableValuesAspectDefinitions = getExpectedMethodsFromAvailableValuesAspectDefinition(method,
                                                                                                                                                  aspectDefinitions);
 
-        Set<DynamicAspectMethodName> expectedMethodsFromModelToUiAspectDefinition = getExpectedMethodsFromModelToUiAspectDefinition(methodName,
+        Set<DynamicAspectMethodName> expectedMethodsFromModelToUiAspectDefinition = getExpectedMethodsFromModelToUiAspectDefinition(method,
                                                                                                                                     aspectDefinitions);
 
-        Set<DynamicAspectMethodName> expectedMethodsFromCompositeAspectDefinition = getExpectedMethodsFromCompositeAspectDefinition(methodName,
+        Set<DynamicAspectMethodName> expectedMethodsFromCompositeAspectDefinition = getExpectedMethodsFromCompositeAspectDefinition(method,
                                                                                                                                     aspectDefinitions);
 
-        return Stream.concat(
-                             Stream.concat(
-                                           expectedMethodsFromAvailableValuesAspectDefinitions.stream(),
-                                           expectedMethodsFromModelToUiAspectDefinition.stream()),
-                             expectedMethodsFromCompositeAspectDefinition.stream())
+        return Stream.of(expectedMethodsFromAvailableValuesAspectDefinitions,
+                         expectedMethodsFromModelToUiAspectDefinition,
+                         expectedMethodsFromCompositeAspectDefinition)
+                .flatMap(Set::stream)
                 .collect(toSet());
     }
 
     private static Set<DynamicAspectMethodName> getExpectedMethodsFromCompositeAspectDefinition(
-            String methodName,
+            ExecutableElement method,
             List<LinkkiAspectDefinition> aspectDefinitions) {
         return aspectDefinitions.stream()
                 .filter(it -> it instanceof CompositeAspectDefinition)
@@ -102,7 +103,7 @@ public final class DynamicMethodUtils {
                         @SuppressWarnings("unchecked")
                         List<LinkkiAspectDefinition> innerAspectDefinitions = (List<LinkkiAspectDefinition>)field
                                 .get(it);
-                        return getExpectedMethods(methodName, innerAspectDefinitions).stream();
+                        return getExpectedMethods(method, innerAspectDefinitions).stream();
                     } catch (NoSuchFieldException | SecurityException | IllegalArgumentException
                             | IllegalAccessException e) {
                         throw new RuntimeException(e);
@@ -112,7 +113,7 @@ public final class DynamicMethodUtils {
     }
 
     private static Set<DynamicAspectMethodName> getExpectedMethodsFromModelToUiAspectDefinition(
-            String methodName,
+            ExecutableElement method,
             List<LinkkiAspectDefinition> aspectDefinitions) {
 
         class AspectInfo {
@@ -171,23 +172,23 @@ public final class DynamicMethodUtils {
                 .filter(it -> !it.getAspect().isValuePresent())
                 .filter(it -> !it.getAspect().getName().isEmpty())
                 .map(it -> new DynamicAspectMethodName(
-                        methodName,
+                        method,
                         it.getAspect().getName(),
                         it.isBooleanModelToUiAspectDefinition()))
                 .collect(toSet());
     }
 
     private static Set<DynamicAspectMethodName> getExpectedMethodsFromAvailableValuesAspectDefinition(
-            String methodName,
+            ExecutableElement method,
             List<LinkkiAspectDefinition> aspectDefinitions) {
         Class<? extends Enum<?>> valueClass = VisibleType.class;
         return aspectDefinitions.stream()
                 .filter(it -> it instanceof AvailableValuesAspectDefinition<?>)
                 .map(it -> (AvailableValuesAspectDefinition<?>)it)
-                .map(it -> it.createAspect(MethodNameUtils.toPropertyName(methodName), valueClass))
+                .map(it -> it.createAspect(MethodNameUtils.getPropertyName(method), valueClass))
                 .filter(it -> !it.isValuePresent())
                 .filter(it -> !it.getName().isEmpty())
-                .map(it -> new DynamicAspectMethodName(methodName, it.getName(), false))
+                .map(it -> new DynamicAspectMethodName(method, it.getName(), false))
                 .collect(toSet());
     }
 
@@ -216,12 +217,12 @@ public final class DynamicMethodUtils {
     }
 
     public static List<Aspect<?>> getAspects(
-            String methodName,
+            ExecutableElement method,
             LinkkiAspectDefinition aspectDefinition) {
         if (aspectDefinition instanceof ModelToUiAspectDefinition<?>) {
             return asList(((ModelToUiAspectDefinition<?>)aspectDefinition).createAspect());
         } else if (aspectDefinition instanceof AvailableValuesAspectDefinition<?>) {
-            String propertyName = MethodNameUtils.toPropertyName(methodName);
+            String propertyName = MethodNameUtils.getPropertyName(method);
             return asList(((AvailableValuesAspectDefinition<?>)aspectDefinition).createAspect(propertyName,
                                                                                               VisibleType.class));
         } else if (aspectDefinition instanceof CompositeAspectDefinition) {
@@ -236,7 +237,7 @@ public final class DynamicMethodUtils {
                         List<LinkkiAspectDefinition> innerAspectDefinitions = (List<LinkkiAspectDefinition>)field
                                 .get(aspectDefinition);
                         return innerAspectDefinitions.stream()
-                                .flatMap(it -> getAspects(methodName, it).stream())
+                                .flatMap(it -> getAspects(method, it).stream())
                                 .collect(toList());
                     } catch (NoSuchFieldException | SecurityException | IllegalArgumentException
                             | IllegalAccessException e) {

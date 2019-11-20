@@ -76,18 +76,28 @@ public class BeanUtilsTest {
     }
 
     @Test
+    public void testGetPropertyName_String_Void() {
+        assertThat(BeanUtils.getPropertyName(Void.TYPE, "getFoo"), is("getFoo"));
+        assertThat(BeanUtils.getPropertyName(Void.TYPE, "isFoo"), is("isFoo"));
+        assertThat(BeanUtils.getPropertyName(Void.TYPE, "foo"), is("foo"));
+    }
+
+    @Test
     public void testGetPropertyName_String_Get() {
-        assertThat(BeanUtils.getPropertyName("getFoo"), is("foo"));
+        assertThat(BeanUtils.getPropertyName(String.class, "getFoo"), is("foo"));
+        assertThat(BeanUtils.getPropertyName(Boolean.TYPE, "getFoo"), is("foo"));
     }
 
     @Test
     public void testGetPropertyName_String_Is() {
-        assertThat(BeanUtils.getPropertyName("isFoo"), is("foo"));
+        assertThat(BeanUtils.getPropertyName(String.class, "isFoo"), is("foo"));
+        assertThat(BeanUtils.getPropertyName(Boolean.TYPE, "isFoo"), is("foo"));
     }
 
     @Test
     public void testGetPropertyName_String_FullName() {
-        assertThat(BeanUtils.getPropertyName("fooBar"), is("fooBar"));
+        assertThat(BeanUtils.getPropertyName(String.class, "fooBar"), is("fooBar"));
+        assertThat(BeanUtils.getPropertyName(Boolean.TYPE, "fooBar"), is("fooBar"));
     }
 
     private static interface IFoo {

@@ -18,7 +18,10 @@ package org.linkki.tooling.apt.util;
 import static org.linkki.util.BeanUtils.GET_PREFIX;
 import static org.linkki.util.BeanUtils.IS_PREFIX;
 
+import java.lang.reflect.Type;
+
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.type.TypeKind;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.util.BeanUtils;
@@ -36,8 +39,8 @@ public class MethodNameUtils {
      * @param methodName the name of the method
      * @return property name or the method name itself if no getter.
      */
-    public static String toPropertyName(String methodName) {
-        return BeanUtils.getPropertyName(methodName);
+    public static String toPropertyName(Type returnType, String methodName) {
+        return BeanUtils.getPropertyName(returnType, methodName);
     }
 
     public static boolean isGetter(String methodName) {
@@ -45,10 +48,18 @@ public class MethodNameUtils {
     }
 
     public static String getPropertyName(ExecutableElement method) {
-        return toPropertyName(method.getSimpleName().toString());
+        return toPropertyName(method.getReturnType().getKind(), method.getSimpleName().toString());
     }
 
     public static String getAspectMethodRegex(String propertyName, String aspectName) {
         return "(is|get)" + StringUtils.capitalize(propertyName) + StringUtils.capitalize(aspectName);
+    }
+
+    public static String toPropertyName(TypeKind kind, String methodName) {
+        if (TypeKind.VOID.equals(kind)) {
+            return toPropertyName(Void.TYPE, methodName);
+        } else {
+            return toPropertyName(Object.class, methodName);
+        }
     }
 }
