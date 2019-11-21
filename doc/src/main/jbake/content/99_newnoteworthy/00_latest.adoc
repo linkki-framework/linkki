@@ -58,7 +58,7 @@ Previously, a value had to be set for all `@UI~` annotations' label/caption attr
 
 When using *linkki* with Faktor-IPS, the `IpsPropertyDispatcherFactory` can now be used. It creates a `IpsPropertyDispatcher` for Faktor-IPS model objects and uses the labels defined in the Faktor-IPS model for labels/captions marked with `"derived.by.linkki"`. Note that this feature is not yet supported for component labels in row PMOs that are used as table columns.
 
-To get more information we introduced a new section in the documentation about the <<fips-extension,Faktor-IPS extension module>>.
+The documentation has been expanded with a new section about the <<fips-extension,Faktor-IPS extension module>>.
 
 ==== `LinkkiConverterRegistry` for `UILabel`
 
@@ -165,6 +165,10 @@ Cases where the old behavior was implicitly used can be detected with the <<apt-
 ==== Allow `ApplicationLayout#showView` for Views that are not Components
 
 Previously, `ApplicationLayout#showView` threw an `IllegalArgumentException` if the given `View` was not itself a `Component`. Now, a `View` overwriting `View#getViewComponent()` can also be used. A `View` that is neither a `Component` nor overwrites `getViewComponent()` will lead to an `IllegalStateException`.
+
+==== Fix notification of UiUpdateObservers
+
+In cases where a `UiUpdateObserver` modified the list of bindings, for example by adding a binding, the validation messages were not propagated to the new bindings because the observers were notified after validation messages were propagated. Now all `UiUpdateObservers` are correctly notified first, after which the validation messages are propagated to all `BindingContexts`.
 
 ==== Update Vaadin to 8.9.2
 

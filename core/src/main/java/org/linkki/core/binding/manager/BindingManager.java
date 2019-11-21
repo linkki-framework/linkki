@@ -276,25 +276,21 @@ public abstract class BindingManager {
     }
 
     /**
-     * Retrieves the current messages from the validation service and uses them to update the messages
-     * in all registered contexts using {@link #updateMessages(MessageList)}. The
-     * {@link UiUpdateObserver}s are then notified by {@link #notifyUiUpdateObservers()}.
+     * After a {@link BindingContext} updated the UI this method is called to trigger necessary updates.
+     * This includes the update of registered {@link UiUpdateObserver update observers} as well as the
+     * update of all validation messages in all {@link BindingContext binding contexts}.
      * <p>
-     * Should be called by all binding contexts after they updated their UI. Will be passed as the
-     * after-update handler to the {@link BindingContext} constructor by the
-     * {@link DefaultBindingManager}.
+     * The {@link UiUpdateObserver}s are then notified by {@link #notifyUiUpdateObservers()}.
+     * <p>
+     * Current messages are retrieved from the validation service and are forwarded to all registered
+     * binding contexts using {@link #updateMessages(MessageList)}.
      * <p>
      * All overriding methods should call {@link #notifyUiUpdateObservers()} to notify registered
      * {@link UiUpdateObserver}s properly.
      */
     public void afterUpdateUi() {
-        MessageList messages = this.validationService.getFilteredMessages();
-
-
-        MessageList sortedMessages = messages.sortBySeverity();
-        updateMessages(sortedMessages);
-
         notifyUiUpdateObservers();
+        updateMessages(validationService.getFilteredMessages().sortBySeverity());
     }
 
     /**

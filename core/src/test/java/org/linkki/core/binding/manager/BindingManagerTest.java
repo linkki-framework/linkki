@@ -13,14 +13,15 @@
  */
 package org.linkki.core.binding.manager;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.ValidationDisplayState;
@@ -88,6 +89,21 @@ public class BindingManagerTest {
     }
 
     @Test
+    public void testAfterUpdateUi_UpdateObserverChangesMessageRelevantField() {
+        Message e1 = Message.newError("e1", "E1");
+        MessageList messageList = new MessageList(e1);
+        TestBinding binding = new TestBinding();
+        validationService = () -> messageList;
+        TestBindingManager bindingManager = new TestBindingManager(validationService);
+        TestBindingContext context = bindingManager.getContext("foo");
+        bindingManager.addUiUpdateObserver(() -> context.add(binding));
+
+        bindingManager.afterUpdateUi();
+
+        assertThat(binding.getMessages(), is(messageList));
+    }
+
+    @Test
     public void testRegisterUiUpdateObserver() {
         TestBindingManager bindingManager = new TestBindingManager(() -> new MessageList());
         UiUpdateObserver observer = mock(UiUpdateObserver.class);
@@ -125,6 +141,7 @@ public class BindingManagerTest {
 
         @Override
         public MessageList displayMessages(MessageList newMessages) {
+            super.displayMessages(newMessages);
             return this.messages = newMessages;
         }
 
@@ -158,4 +175,44 @@ public class BindingManagerTest {
 
     }
 
+    private static class TestBinding implements Binding {
+
+        private final Object boundObject;
+
+        private final Object pmo;
+
+        private MessageList messages = new MessageList();
+
+        public TestBinding() {
+            boundObject = new Object();
+            pmo = new Object();
+        }
+
+        @Override
+        public Object getBoundComponent() {
+            return boundObject;
+        }
+
+        @Override
+        public Object getPmo() {
+            return pmo;
+        }
+
+        @Override
+        public void updateFromPmo() {
+            // do nothing
+
+        }
+
+        @Override
+        public MessageList displayMessages(MessageList messagesToDisplay) {
+            this.messages = messagesToDisplay;
+            return messagesToDisplay;
+        }
+
+        public MessageList getMessages() {
+            return messages;
+        }
+
+    }
 }
