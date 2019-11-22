@@ -24,8 +24,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.util.Classes;
 import org.linkki.util.MetaAnnotation;
 
@@ -49,6 +51,12 @@ public class AspectAnnotationReader {
      */
     public static <UI_ANNOTATION extends Annotation> List<LinkkiAspectDefinition> createAspectDefinitionsFrom(
             UI_ANNOTATION uiAnnotation) {
+        return createAspectDefinitionsStreamFrom(uiAnnotation)
+                .collect(Collectors.toList());
+    }
+
+    private static <UI_ANNOTATION extends Annotation> Stream<LinkkiAspectDefinition> createAspectDefinitionsStreamFrom(
+            UI_ANNOTATION uiAnnotation) {
         return LINKKI_ASPECT_ANNOTATION.findAllOn(uiAnnotation)
                 .map(t -> {
                     @SuppressWarnings("unchecked")
@@ -57,8 +65,7 @@ public class AspectAnnotationReader {
                     return creator;
                 })
                 .map(Classes::instantiate)
-                .map(c -> c.create(uiAnnotation))
-                .collect(Collectors.toList());
+                .map(c -> c.create(uiAnnotation));
     }
 
     /**
@@ -71,24 +78,56 @@ public class AspectAnnotationReader {
      * supertypes, which take precedence over those from interfaces. There is no guarantee about the
      * order of annotations from different (super-)interfaces.
      * 
+     * <em>Note:</em> If the annotated element supports multiple component definition annotations it
+     * might be wrong to just use all available aspects. Instead it might be necessary to select the
+     * aspects from only one component definition annotation. In this case
+     * {@link #createAspectDefinitionsFor(Annotation, AnnotatedElement)} is the correct option.
+     * 
+     * 
      * @param annotatedElement an element with annotations
      * @return list of aspect definitions that apply to the given element's annotations
      */
     public static List<LinkkiAspectDefinition> createAspectDefinitionsFor(AnnotatedElement annotatedElement) {
-        List<Annotation> annotations = annotatedElement instanceof Class<?>
-                ? getUniqueLinkkiAnnotations((Class<?>)annotatedElement)
-                : Arrays.asList(annotatedElement.getAnnotations());
-
-        return annotations.stream()
+        return getAllAnnotations(annotatedElement)
                 .map(a -> AspectAnnotationReader.createAspectDefinitionsFrom(a))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 
+    private static Stream<Annotation> getAllAnnotations(AnnotatedElement annotatedElement) {
+        List<Annotation> annotations = annotatedElement instanceof Class<?>
+                ? getUniqueLinkkiAnnotations((Class<?>)annotatedElement)
+                : Arrays.asList(annotatedElement.getAnnotations());
+
+        return annotations.stream();
+    }
+
+    /**
+     * Creates a list of {@link LinkkiAspectDefinition LinkkiAspectDefinitions} from the component
+     * definition annotation and additionally all aspects from annotations that are not defining
+     * component definitions. This must be used if the {@link AnnotatedElement} allows multiple
+     * component definitions.
+     * 
+     * @param componentDefAnnotation the selected component definition annotation
+     * @param annotatedElement the annotated element that provides annotations with additional aspects
+     * @return The list of {@link LinkkiAspectDefinition aspect definitions} that are used for the field
+     *         created for the given annotation.
+     */
+    public static List<LinkkiAspectDefinition> createAspectDefinitionsFor(Annotation componentDefAnnotation,
+            AnnotatedElement annotatedElement) {
+        Stream<LinkkiAspectDefinition> componentDefAspects = AspectAnnotationReader
+                .createAspectDefinitionsStreamFrom(componentDefAnnotation);
+        Stream<LinkkiAspectDefinition> additionalAspects = getAllAnnotations(annotatedElement)
+                .filter(a -> !ComponentAnnotationReader.isComponentDefinition(a))
+                .map(AspectAnnotationReader::createAspectDefinitionsFrom)
+                .flatMap(List::stream);
+        return Stream.concat(componentDefAspects, additionalAspects).collect(Collectors.toList());
+    }
+
     /**
      * Returns linkki annotations present on the given class, as well as annotations on superclasses and
-     * interfaces marked with {@link InheritedAspect}. Only the first occurrence of an annotation type
-     * is included in the result.
+     * interfaces marked with {@link InheritedAspect @InheritedAspect}. Only the first occurrence of an
+     * annotation type is included in the result.
      * 
      * Accessible for testing purposes only.
      * 

@@ -10,18 +10,22 @@
 [[manual-section-creation]]
 === Manual Section Creation
 
-If you do not use a standard `@UISection` or UI layout, you may still use the same mechanisms employed by the {github-blob}/vaadin8/core/src/main/java/org/linkki/core/ui/creation/section/PmoBasedSectionFactory.java[`PmoBasedSectionFactory`] to read UI annotations, create and bind UI components by way of the {github-blob}/core/src/main/java/org/linkki/core/defaults/ui/element/UiElementCreator.java[`UiElementCreator`].
+If you do not use a standard layout annotation you should consider writing a <<custom-ui-layout-annotation,custom layout annotation>>.
 
-In this example the UI elements of a PMO are directly added to a Vaadin `FormLayout`. In this case the @UISection annotation of the PMO is ignored.
+Even if you might need to have more control over this custom layout, you may still use the same mechanisms to read UI annotations, create and bind UI components by way of the {github-blob}/core/src/main/java/org/linkki/core/uicreation/UiCreator.java[`UiCreator`].
+
+In the following example, the UI elements of a PMO are directly added to a Vaadin `FormLayout`. In this case, the possibly existing annotation of the PMO class is ignored, only annotations on methods are respected.
 
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/customlayout/FormLayoutCreator.java[tags=FormLayoutCreator-class]
 ----
 
-The created `FormLayout` could simply be used with other UI components:
+The created `FormLayout` can simply be used with other UI components:
 
 [source,java]
 ----
 include::{source-dir}/org/linkki/samples/customlayout/CustomLayoutUI.java[tags=CustomLayoutUI-create]
 ----
+
+TIP: If the layout is as simple as in this example it would be much more convenience to write a <<custom-ui-layout-annotation,custom layout annotation>>. Only use this approach to get more control over special cases of the layout.

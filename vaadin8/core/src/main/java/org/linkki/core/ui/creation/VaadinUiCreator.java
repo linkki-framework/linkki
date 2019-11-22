@@ -14,14 +14,9 @@
 
 package org.linkki.core.ui.creation;
 
-import java.util.Optional;
-import java.util.function.Function;
-
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
-import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
 import com.vaadin.ui.Component;
 
@@ -35,25 +30,12 @@ public class VaadinUiCreator {
     }
 
     /**
-     * Calls {@link UiCreator#createComponent(Object, BindingContext, Function, Function)} and returns
-     * the component of the returned wrapper.
+     * Calls {@link UiCreator#createComponent(Object, BindingContext)} and returns the component of the
+     * returned wrapper as a Vaadin component.
      */
     public static Component createComponent(Object pmo, BindingContext bindingContext) {
         ComponentWrapper wrapper = UiCreator.createComponent(pmo, bindingContext);
         return (Component)wrapper.getComponent();
     }
 
-    /**
-     * Calls {@link UiCreator#createComponent(Object, BindingContext, Function, Function)} and returns
-     * the component of the returned wrapper.
-     */
-    public static Component createComponent(Object pmo,
-            BindingContext bindingContext,
-            Function<Class<?>, Optional<LinkkiComponentDefinition>> componentDefinitionFinder,
-            Function<Class<?>, Optional<LinkkiLayoutDefinition>> layoutDefinitionFinder) {
-
-        ComponentWrapper wrapper = UiCreator.createComponent(pmo, bindingContext, componentDefinitionFinder,
-                                                             layoutDefinitionFinder);
-        return (Component)wrapper.getComponent();
-    }
 }

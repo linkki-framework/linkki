@@ -14,17 +14,13 @@
 package org.linkki.core.ui.creation.section;
 
 import static java.util.Objects.requireNonNull;
-import static org.linkki.util.Optionals.either;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.core.nls.PmoNlsService;
-import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIDateField;
@@ -84,50 +80,16 @@ public class PmoBasedSectionFactory {
     public static AbstractSection createAndBindSection(Object pmo, BindingContext bindingContext) {
         requireNonNull(pmo, "pmo must not be null");
         requireNonNull(bindingContext, "bindingContext must not be null");
-        Function<Class<?>, Optional<LinkkiComponentDefinition>> componentDefinitionFinder = c -> {
-            return ContainerPmo.class.isAssignableFrom(c)
-                    ? Optional.of(TableSectionDefinition::createTableSection)
-                    : either(ComponentAnnotationReader.findComponentDefinition(c))
-                            .or(() -> Optional.of(SectionComponentDefiniton.DEFAULT));
-        };
-        Function<Class<?>, Optional<LinkkiLayoutDefinition>> layoutDefinitionFinder = c -> {
-            return ContainerPmo.class.isAssignableFrom(c)
-                    ? Optional.of(TableSectionDefinition::createTable)
-                    : either(LayoutAnnotationReader.findLayoutDefinition(c))
-                            .or(() -> Optional.of(SectionLayoutDefinition.DEFAULT));
-        };
+        Class<? extends Object> pmoClass = pmo.getClass();
+        LinkkiComponentDefinition componentDefinition = ComponentAnnotationReader.findComponentDefinition(pmoClass)
+                .orElse(SectionComponentDefiniton.DEFAULT);
+
+        LinkkiLayoutDefinition layoutDefinition = LayoutAnnotationReader.findLayoutDefinition(pmoClass)
+                .orElse(SectionLayoutDefinition.DEFAULT);
+
         ComponentWrapper componentWrapper = UiCreator
-                .createComponent(pmo, bindingContext, componentDefinitionFinder, layoutDefinitionFinder);
+                .createComponent(pmo, bindingContext, componentDefinition, Optional.of(layoutDefinition));
         return (AbstractSection)componentWrapper.getComponent();
     }
 
-    // private to contain this hack here
-    private static final class TableSectionDefinition {
-
-        private TableSectionDefinition() {
-            // do not instantiate
-        }
-
-        /* Static implementation of {@link LinkkiComponentDefinition} */
-        public static TableSection createTableSection(Object pmo) {
-            UISection sectionDefinition = pmo.getClass().getAnnotation(UISection.class);
-            String nlsCaption = PmoNlsService.get().getSectionCaption(pmo.getClass(), sectionDefinition != null
-                    ? sectionDefinition.caption()
-                    : "");
-            return new TableSection(nlsCaption, sectionDefinition != null ? sectionDefinition.closeable() : false);
-        }
-
-        /* Static implementation of {@link LinkkiLayoutDefinition} */
-        public static void createTable(Object parentComponent, Object pmo, BindingContext bindingContext) {
-            TableSection tableSection = (TableSection)parentComponent;
-            ((ContainerPmo<?>)pmo).getAddItemButtonPmo()
-                    .map(b -> ButtonPmoBinder.createBoundButton(bindingContext, b))
-                    .ifPresent(tableSection::addHeaderButton);
-            @SuppressWarnings("deprecation")
-            com.vaadin.v7.ui.Table table = new PmoBasedTableFactory((ContainerPmo<?>)pmo, bindingContext)
-                    .createTable();
-            tableSection.setTable(table);
-
-        }
-    }
 }

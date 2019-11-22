@@ -16,10 +16,8 @@ import java.util.stream.Stream;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.ContainerBinding;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
-import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
@@ -32,10 +30,11 @@ import org.linkki.core.uicreation.layout.LayoutAnnotationReader;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.uiframework.UiFramework;
+import org.linkki.util.BeanUtils;
 import org.linkki.util.Optionals;
 
 /**
- * A utility class that creates UI components from presentation model objects. These PMOs must be
+ * A utility class that creates UI components from presentation model objects (PMOs). These PMOs must be
  * annotated with annotations which are themselves annotated with the meta-annotation
  * {@link LinkkiComponent @LinkkiComponent}.
  * <p>
@@ -45,10 +44,10 @@ import org.linkki.util.Optionals;
  * {@link #createUiElements(Object, BindingContext, Function)}</li>
  * <li>Creating a component from a class-level annotation (such as {@code @UISection}) with
  * {@link #createComponent(Object, BindingContext)}. Depending on a {@link LinkkiLayout @LinkkiLayout}
- * annotation accompanying the {@link LinkkiComponent @LinkkiComponent}, the first option,
- * {@link #createUiElements(Object, BindingContext, Function)}, will be called as well (as is the case
- * for {@code @UISection's SectionLayoutDefinition}).</li>
+ * annotation accompanying the {@link LinkkiComponent @LinkkiComponent}</li>
  * </ol>
+ * Normally the first method is called from a {@link LinkkiLayoutDefinition} when populating the layout
+ * with components.
  */
 public class UiCreator {
 
@@ -68,20 +67,6 @@ public class UiCreator {
      * {@code componentWrapperCreator} {@link Function} or afterwards retrieve the components from their
      * {@link ComponentWrapper#getComponent() ComponentWrappers}.</em>
      * 
-     * @implNote UI element annotations like {@code @UITextField} are identified by the meta-annotation
-     *           {@link LinkkiBindingDefinition @LinkkiBindingDefinition}. This utility simply uses the
-     *           {@link UIElementAnnotationReader} to find these UI elements. For every
-     *           {@link ElementDescriptor element},
-     *           <ul>
-     *           <li>a new UI component is {@link ElementDescriptor#newComponent(Object) created},</li>
-     *           <li>passed to the {@code componentWrapperCreator} {@link Function} to wrap it into an
-     *           appropriate {@link ComponentWrapper}</li>
-     *           <li>on which the {@link ElementDescriptor#getPmoPropertyName() bound property name} is
-     *           {@link ComponentWrapper#setId(String) set as ID}</li>
-     *           <li>after which it is handed over to the {@link BindingContext} for
-     *           {@link BindingContext#bind(Object, org.linkki.core.binding.descriptor.BindingDescriptor, ComponentWrapper)
-     *           binding}.</li>
-     *           </ul>
      * @param <C> the UI component class created by {@link ElementDescriptor#newComponent(Object)} and
      *            handed to the {@code componentWrapperCreator}
      * @param <W> the {@link ComponentWrapper} class created by the {@code componentWrapperCreator}
@@ -95,20 +80,36 @@ public class UiCreator {
     public static <C, W extends ComponentWrapper> Stream<W> createUiElements(Object pmo,
             BindingContext bindingContext,
             Function<C, W> componentWrapperCreator) {
-        UIElementAnnotationReader annotationReader = new UIElementAnnotationReader(pmo.getClass());
-        return annotationReader.getUiElements().map(elementDescriptors -> {
-            ElementDescriptor uiElement = elementDescriptors.getDescriptor(pmo);
-            @SuppressWarnings("unchecked")
-            C component = (C)uiElement.newComponent(pmo);
-            W componentWrapper = componentWrapperCreator.apply(component);
-            componentWrapper.setId(uiElement.getPmoPropertyName());
-            bindingContext.bind(pmo, uiElement.getBoundProperty(), uiElement.getAspectDefinitions(), componentWrapper);
-            return componentWrapper;
-        });
+        Class<?> pmoClass = pmo.getClass();
+        return BeanUtils
+                .getMethods(pmoClass, ComponentAnnotationReader::isComponentDefinitionPresent)
+                .sorted(PositionAnnotationReader.comparingUniquePositions(pmoClass))
+                .map(m -> createComponent(m, pmo, bindingContext, componentWrapperCreator));
+    }
+
+    private static <C, W extends ComponentWrapper> W createComponent(AnnotatedElement annotatedElement,
+            Object pmo,
+            BindingContext bindingContext,
+            Function<C, W> componentWrapperCreator) {
+
+        Annotation componentDefAnnotation = ComponentAnnotationReader
+                .getComponentDefinitionAnnotation(annotatedElement, pmo);
+        List<LinkkiAspectDefinition> aspects = AspectAnnotationReader
+                .createAspectDefinitionsFor(componentDefAnnotation, annotatedElement);
+        BoundProperty boundProperty = BoundPropertyAnnotationReader
+                .getBoundProperty(componentDefAnnotation, annotatedElement);
+
+        return createComponent(pmo, bindingContext,
+                               boundProperty,
+                               ComponentAnnotationReader
+                                       .getComponentDefinition(componentDefAnnotation, annotatedElement),
+                               componentWrapperCreator,
+                               aspects,
+                               LayoutAnnotationReader.findLayoutDefinition(annotatedElement));
     }
 
     /**
-     * Creates a UI component by way of the {@link LinkkiComponent @LinkkiComponent} annotated
+     * Creates a UI component via the {@link LinkkiComponent @LinkkiComponent} annotated
      * {@link Annotation} on the given presentation model object. The {@link LinkkiLayout @LinkkiLayout}
      * is then used to create all children for the component.
      * 
@@ -128,8 +129,8 @@ public class UiCreator {
 
 
     /**
-     * Creates a UI component by way of the {@link LinkkiComponentDefinition} found on the PMO class by
-     * way of the {@code componentDefinitionFinder}. The {@link LinkkiLayoutDefinition} found via the
+     * Creates a UI component via the {@link LinkkiComponentDefinition} found on the PMO class by way of
+     * the {@code componentDefinitionFinder}. The {@link LinkkiLayoutDefinition} found via the
      * {@code layoutDefinitionFinder} is then used to create all children for the component.
      * 
      * @param pmo a presentation model object
@@ -142,23 +143,63 @@ public class UiCreator {
      *            {@link LayoutAnnotationReader#findLayoutDefinition(AnnotatedElement)}
      * @return a {@link ComponentWrapper} containing the created UI component
      * 
-     * @throws IllegalArgumentException if a {@link LinkkiComponentDefinition} or
-     *             {@link LinkkiLayoutDefinition} cannot be found
+     * @throws IllegalArgumentException if a {@link LinkkiComponentDefinition} cannot be found
+     * 
+     * @deprecated since 1.1.0 this method is deprecated, use
+     *             {@link #createComponent(Object, BindingContext, LinkkiComponentDefinition, Optional)}
+     *             instead. The functions are simply applied before calling the method because they take
+     *             the PMO given as first parameter.
      */
+    @Deprecated
     public static ComponentWrapper createComponent(Object pmo,
             BindingContext bindingContext,
             Function<Class<?>, Optional<LinkkiComponentDefinition>> componentDefinitionFinder,
             Function<Class<?>, Optional<LinkkiLayoutDefinition>> layoutDefinitionFinder) {
-        Class<?> annotatedElement = pmo.getClass();
-        return UiCreator.createComponent(annotatedElement,
-                                         pmo,
-                                         bindingContext,
-                                         componentDefinitionFinder,
-                                         layoutDefinitionFinder);
+        Class<?> pmoClass = pmo.getClass();
+        return createComponent(pmo,
+                               bindingContext,
+                               componentDefinitionFinder.apply(pmoClass)
+                                       .orElseThrow(noDefinitionFound(LinkkiComponentDefinition.class,
+                                                                      pmoClass)),
+                               layoutDefinitionFinder.apply(pmoClass));
     }
 
     /**
-     * Creates a UI component by way of the {@link LinkkiComponentDefinition} found on the
+     * Creates a UI component via the {@link LinkkiComponentDefinition} found on the PMO class by way of
+     * the {@code componentDefinition}. The optional {@link LinkkiLayoutDefinition} is then used to
+     * create all children for the component if it exists. Otherwise a component binding without
+     * children is created.
+     * 
+     * @param pmo a presentation model object
+     * @param bindingContext used to bind the component and its children
+     * @param componentDefinition a {@link LinkkiComponentDefinition}, for example found via
+     *            {@link ComponentAnnotationReader#findComponentDefinition(AnnotatedElement)}
+     * @param layoutDefinition a {@link LinkkiLayoutDefinition} from an, for example found via
+     *            {@link LayoutAnnotationReader#findLayoutDefinition(AnnotatedElement)}
+     * @return a {@link ComponentWrapper} containing the created UI component
+     * 
+     * @throws IllegalArgumentException if a {@link LinkkiComponentDefinition} cannot be found
+     */
+    public static ComponentWrapper createComponent(Object pmo,
+            BindingContext bindingContext,
+            LinkkiComponentDefinition componentDefinition,
+            Optional<LinkkiLayoutDefinition> layoutDefinition) {
+        Class<?> annotatedElement = pmo.getClass();
+        List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader.createAspectDefinitionsFor(annotatedElement);
+        BoundProperty boundProperty = BoundPropertyAnnotationReader
+                .findBoundProperty(annotatedElement)
+                .orElseGet(BoundProperty::empty);
+        return createComponent(pmo,
+                               bindingContext,
+                               boundProperty,
+                               componentDefinition,
+                               COMPONENT_WRAPPER_FACTORY::createComponentWrapper,
+                               aspectDefs,
+                               layoutDefinition);
+    }
+
+    /**
+     * Creates a UI component via the {@link LinkkiComponentDefinition} found on the
      * {@link AnnotatedElement} from the given presentation model object by way of the
      * {@code componentDefinitionFinder}. The {@link LinkkiLayoutDefinition} found via the
      * {@code layoutDefinitionFinder} is then used to create all children for the component.
@@ -179,25 +220,23 @@ public class UiCreator {
      * @throws IllegalArgumentException if a {@link LinkkiComponentDefinition} or
      *             {@link LinkkiLayoutDefinition} cannot be found
      */
-    /* Package private for test. If/when we make this method public, it must consider dynamic fields. */
-    /* private */ static <E extends AnnotatedElement> ComponentWrapper createComponent(E annotatedElement,
+    /* Package private for test */
+    /* private */ static <E extends AnnotatedElement, C, W extends ComponentWrapper> W createComponent(
             Object pmo,
             BindingContext bindingContext,
-            Function<? super E, Optional<LinkkiComponentDefinition>> componentDefinitionFinder,
-            Function<? super E, Optional<LinkkiLayoutDefinition>> layoutDefinitionFinder) {
-        LinkkiComponentDefinition componentDefinition = componentDefinitionFinder.apply(annotatedElement)
-                .orElseThrow(noDefinitionFound(LinkkiComponentDefinition.class, annotatedElement));
-        Object component = componentDefinition.createComponent(pmo);
+            BoundProperty boundProperty,
+            LinkkiComponentDefinition componentDefinition,
+            Function<C, W> componentWrapperCreator,
+            List<LinkkiAspectDefinition> aspectDefs,
+            Optional<LinkkiLayoutDefinition> optionalLayoutDefinitionFinder) {
 
-        ComponentWrapper componentWrapper = COMPONENT_WRAPPER_FACTORY.createComponentWrapper(component);
-        componentWrapper.setId(Sections.getSectionId(pmo));
+        @SuppressWarnings("unchecked")
+        C component = (C)componentDefinition.createComponent(pmo);
 
-        BoundProperty boundProperty = BoundPropertyAnnotationReader
-                .findBoundProperty(annotatedElement)
-                .orElseGet(BoundProperty::empty);
-        List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader.createAspectDefinitionsFor(annotatedElement);
+        W componentWrapper = componentWrapperCreator.apply(component);
+        componentWrapper.setId(getComponentId(boundProperty, pmo));
 
-        Optionals.ifPresentOrElse(layoutDefinitionFinder.apply(annotatedElement),
+        Optionals.ifPresentOrElse(optionalLayoutDefinitionFinder,
                                   layoutDefinition -> {
                                       ContainerBinding containerBinding = bindingContext
                                               .bindContainer(pmo, boundProperty, aspectDefs,
@@ -207,6 +246,12 @@ public class UiCreator {
                                   () -> bindingContext.bind(pmo, boundProperty, aspectDefs, componentWrapper));
 
         return componentWrapper;
+    }
+
+    private static String getComponentId(BoundProperty boundProperty, Object pmo) {
+        return boundProperty.getPmoProperty().isEmpty()
+                ? Sections.getSectionId(pmo)
+                : boundProperty.getPmoProperty();
     }
 
     private static Supplier<? extends IllegalArgumentException> noDefinitionFound(Class<?> definitionClass,

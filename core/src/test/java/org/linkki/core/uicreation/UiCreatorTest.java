@@ -28,7 +28,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.TestModelObject;
@@ -39,6 +42,10 @@ import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.nls.TestUiLayoutComponent;
 import org.linkki.core.defaults.section.TestSectionPmo;
+import org.linkki.core.defaults.section.annotations.TestUIField;
+import org.linkki.core.defaults.section.annotations.TestUIField2;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class UiCreatorTest {
 
@@ -60,15 +67,53 @@ public class UiCreatorTest {
         assertThat(boundIds, containsInAnyOrder(TestPmo.PROPERTY_VALUE, TestModelObject.PROPERTY_MODEL_PROP));
     }
 
+    @DisplayName("Given a dynamic field annotated with both @TestUIField and @TestUIField2,")
+    @ParameterizedTest(name = "when the get~ComponentType method returns {0}")
+    @ValueSource(classes = { TestUIField.class, TestUIField2.class })
+    public void testCreateUiElements_DynamicField(Class<?> componentType) {
+        class DynamicFieldTestPmo {
+
+            @SuppressFBWarnings("UMAC_UNCALLABLE_METHOD_OF_ANONYMOUS_CLASS")
+            @TestUIField(position = 10)
+            @TestUIField2(position = 10)
+            public String getDynamic() {
+                return "dyn";
+            }
+
+            @SuppressFBWarnings("UMAC_UNCALLABLE_METHOD_OF_ANONYMOUS_CLASS")
+            public Class<?> getDynamicComponentType() {
+                return componentType;
+            }
+        }
+
+        DynamicFieldTestPmo testPmo = new DynamicFieldTestPmo();
+        BindingContext bindingContext = new BindingContext();
+
+        List<TestUiComponent> components = UiCreator
+                .createUiElements(testPmo, bindingContext, TestComponentWrapper::new)
+                .map(TestComponentWrapper::getComponent)
+                .collect(Collectors.toList());
+
+        assertThat(components, hasSize(1));
+        if (componentType.equals(TestUIField.class)) {
+            assertThat(components.get(0), is(not(instanceOf(TestUIField2.TestUiComponent2.class))));
+        } else if (componentType.equals(TestUIField2.class)) {
+            assertThat(components.get(0), is(instanceOf(TestUIField2.TestUiComponent2.class)));
+        }
+
+    }
+
     @Test
     public void testCreateUiComponent_Method() throws NoSuchMethodException, SecurityException {
         TestSectionPmo testSectionPmo = new TestSectionPmo();
         BindingContext bindingContext = new BindingContext();
         Method method = TestSectionPmo.class.getMethod("getValue");
 
-        ComponentWrapper componentWrapper = UiCreator.createComponent(method, testSectionPmo, bindingContext,
-                                                                      ComponentAnnotationReader::findComponentDefinition,
-                                                                      c -> Optional.empty());
+        ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo,
+                                                                      bindingContext,
+                                                                      ComponentAnnotationReader
+                                                                              .findComponentDefinition(method).get(),
+                                                                      Optional.empty());
 
         assertThat(componentWrapper.getComponent(), is(instanceOf(TestUiComponent.class)));
         TestUiComponent testUiComponent = (TestUiComponent)componentWrapper.getComponent();
@@ -86,9 +131,34 @@ public class UiCreatorTest {
         BindingContext bindingContext = new BindingContext();
 
         ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext,
-                                                                      c -> Optional
-                                                                              .of(TestLinkkiComponentDefinition
-                                                                                      .create(TestUiLayoutComponent::new)),
+                                                                      TestLinkkiComponentDefinition
+                                                                              .create(TestUiLayoutComponent::new),
+                                                                      Optional.of((parent,
+                                                                              pmo,
+                                                                              bc) -> ((TestUiLayoutComponent)parent)
+                                                                                      .addChild(new TestUiComponent())));
+
+        assertThat(componentWrapper.getComponent(), is(instanceOf(TestUiLayoutComponent.class)));
+        TestUiLayoutComponent testUiLayoutComponent = (TestUiLayoutComponent)componentWrapper.getComponent();
+        assertThat(testUiLayoutComponent.getId(), is(testSectionPmo.getId()));
+        assertThat(testUiLayoutComponent.getChildren(), hasSize(1));
+
+        assertThat(bindingContext.getBindings(), hasSize(1));
+        Binding binding = bindingContext.getBindings().iterator().next();
+        assertThat(binding.getBoundComponent(), is(componentWrapper.getComponent()));
+        assertThat(binding, is(instanceOf(BindingContext.class)));
+    }
+
+    @Test
+    @Deprecated
+    public void testCreateUiComponent_Deprecated() {
+        TestSectionPmo testSectionPmo = new TestSectionPmo();
+        BindingContext bindingContext = new BindingContext();
+
+        @SuppressWarnings("deprecation")
+        ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext,
+                                                                      c -> Optional.of(TestLinkkiComponentDefinition
+                                                                              .create(TestUiLayoutComponent::new)),
                                                                       c -> Optional.of((parent,
                                                                               pmo,
                                                                               bc) -> ((TestUiLayoutComponent)parent)
@@ -106,6 +176,8 @@ public class UiCreatorTest {
     }
 
     @Test
+    @Deprecated
+    @SuppressWarnings("deprecation")
     public void testCreateUiComponent_NoComponentDefinition() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             UiCreator.createComponent(new TestSectionPmo(),
@@ -116,10 +188,12 @@ public class UiCreatorTest {
     }
 
     @Test
+    @Deprecated
     public void testCreateUiComponent_NoLayoutDefinition() {
         TestSectionPmo testSectionPmo = new TestSectionPmo();
         BindingContext bindingContext = new BindingContext();
 
+        @SuppressWarnings("deprecation")
         ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext,
                                                                       c -> Optional
                                                                               .of(TestLinkkiComponentDefinition

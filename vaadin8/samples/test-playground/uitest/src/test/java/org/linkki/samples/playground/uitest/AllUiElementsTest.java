@@ -14,9 +14,9 @@
 
 package org.linkki.samples.playground.uitest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -24,7 +24,10 @@ import java.time.format.FormatStyle;
 import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.ui.element.annotation.UIComboBox;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
+import org.linkki.samples.playground.allelements.DynamicFieldPmo;
 import org.linkki.samples.playground.allelements.Suit;
 
 import com.vaadin.testbench.elements.ButtonElement;
@@ -226,6 +229,31 @@ public class AllUiElementsTest extends AbstractUiTest {
         // tab out to lose focus
         decimalField.sendKeys("\t");
         assertThat(decimalField.getValue(), is("12.345,00"));
+    }
+
+    @Test
+    public void testDynamicField() {
+        DynamicFieldPmo.FieldTypeCaptionProvider fieldTypeCaptionProvider = new DynamicFieldPmo.FieldTypeCaptionProvider();
+        ComboBoxElement typeComboBox = $(ComboBoxElement.class).id(DynamicFieldPmo.PROPERTY_TYPE);
+        assertThat(typeComboBox.getValue(), is(fieldTypeCaptionProvider.getCaption(UIComboBox.class)));
+
+        ComboBoxElement valueComboBox = $(ComboBoxElement.class).id(DynamicFieldPmo.PROPERTY_VALUE);
+        assertThat(valueComboBox.getValue(), is("foo"));
+
+
+        typeComboBox.selectByText(fieldTypeCaptionProvider.getCaption(UITextField.class));
+
+        TextFieldElement valueTextField = $(TextFieldElement.class).id(DynamicFieldPmo.PROPERTY_VALUE);
+        assertThat(valueTextField.getValue(), is("foo"));
+
+        valueTextField.sendKeys("bar");
+        assertThat(valueTextField.getValue(), is("foobar"));
+
+        typeComboBox = $(ComboBoxElement.class).id(DynamicFieldPmo.PROPERTY_TYPE);
+        typeComboBox.selectByText(fieldTypeCaptionProvider.getCaption(UIComboBox.class));
+
+        valueComboBox = $(ComboBoxElement.class).id(DynamicFieldPmo.PROPERTY_VALUE);
+        assertThat(valueComboBox.getValue(), is("foobar"));
     }
 
 }

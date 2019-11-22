@@ -14,25 +14,21 @@
 
 package org.linkki.core.ui.creation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.section.FormSection;
 
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
 public class VaadinUiCreatorTest {
@@ -56,30 +52,6 @@ public class VaadinUiCreatorTest {
         assertThat(elementBindings.iterator().next().getBoundComponent(), is(instanceOf(TextField.class)));
     }
 
-    @Test
-    public void testCreateComponent_WithFinders() {
-        TestPmo pmo = new TestPmo();
-        BindingContext bindingContext = new BindingContext();
-
-        Component component = VaadinUiCreator.createComponent(pmo, bindingContext,
-                                                              c -> Optional.of(new TestComponentDefinition()),
-                                                              c -> Optional.empty());
-
-        assertThat(component, instanceOf(Label.class));
-        assertThat(bindingContext.getBindings(), hasSize(1));
-        Binding binding = bindingContext.getBindings().iterator().next();
-        assertThat(binding.getBoundComponent(), is(component));
-        assertThat(binding, is(not(instanceOf(BindingContext.class))));
-    }
-
-    private static class TestComponentDefinition implements LinkkiComponentDefinition {
-
-        @Override
-        public Object createComponent(Object pmo) {
-            return new Label("test");
-        }
-
-    }
 
     @UISection
     private static class TestPmo {

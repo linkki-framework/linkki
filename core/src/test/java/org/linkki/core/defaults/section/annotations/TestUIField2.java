@@ -57,8 +57,12 @@ public @interface TestUIField2 {
     class TestUIField2ComponentDefinition implements LinkkiComponentDefinition {
         @Override
         public Object createComponent(Object pmo) {
-            return new TestUiComponent();
+            return new TestUiComponent2();
         }
+    }
+
+    class TestUiComponent2 extends TestUiComponent {
+        // just to be different
     }
 
     class TestUIField2ComponentDefinitionCreator implements ComponentDefinitionCreator<TestUIField2> {
