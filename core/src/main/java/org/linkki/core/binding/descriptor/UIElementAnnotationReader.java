@@ -17,7 +17,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -26,21 +25,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
+import org.linkki.core.binding.descriptor.modelobject.ModelObjects;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.PositionAnnotationReader;
-import org.linkki.util.BeanUtils;
 
 /**
  * Reads UI field annotations, e.g. {@code @UITextField}, {@code @UIComboBox}, etc. from a given
@@ -149,58 +145,17 @@ public class UIElementAnnotationReader {
      * @throws ModelObjectAnnotationException if no matching method or field is found, the method has no
      *             return value, the field has the type {@link Void} or multiple annotations for the
      *             same model object name are present.
+     * 
+     * @deprecated Since 1.1 there is a dedicated class called {@link ModelObjects} to retrieve the
+     *             model object supplier.
      */
+    @Deprecated
     public static Supplier<?> getModelObjectSupplier(Object pmo, String modelObjectName) {
-        requireNonNull(pmo, "pmo must not be null");
-        requireNonNull(modelObjectName, "modelObjectName must not be null");
-
-        Optional<Method> annotatedMethod = getModelObjectMethod(pmo, modelObjectName);
-        Optional<Field> annotatedField = getModelObjectField(pmo, modelObjectName);
-
-        if (annotatedMethod.isPresent() && annotatedField.isPresent()) {
-            throw ModelObjectAnnotationException.multipleMembersAnnotated(pmo, modelObjectName, annotatedMethod.get(),
-                                                                          annotatedField.get());
+        try {
+            return ModelObjects.supplierFor(pmo, modelObjectName);
+        } catch (org.linkki.core.binding.descriptor.modelobject.ModelObjects.ModelObjectAnnotationException e) {
+            throw new ModelObjectAnnotationException(e.getMessage());
         }
-
-        return annotatedMethod
-                .map(m -> getModelObjectSupplier(pmo, m))
-                .orElseGet(() -> annotatedField
-                        .map(f -> getModelObjectSupplier(pmo, f))
-                        .orElseThrow(() -> ModelObjectAnnotationException.noAnnotatedMember(pmo, modelObjectName)));
-    }
-
-    @SuppressWarnings("rawtypes")
-    private static Supplier getModelObjectSupplier(Object pmo, Method method) {
-        if (Void.TYPE.equals(method.getReturnType())) {
-            throw ModelObjectAnnotationException.voidMethod(pmo, method);
-        }
-        return () -> {
-            try {
-                return method.invoke(pmo);
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                throw new LinkkiBindingException(
-                        "Cannot call method to get model object " + pmo.getClass().getName() + "#"
-                                + method.getName(),
-                        e);
-            }
-        };
-    }
-
-    private static Supplier<?> getModelObjectSupplier(Object pmo, Field field) {
-        if (Void.TYPE.equals(field.getType())) {
-            throw ModelObjectAnnotationException.voidField(pmo, field);
-        }
-        return () -> {
-            field.setAccessible(true);
-            try {
-                return field.get(pmo);
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                throw new LinkkiBindingException(
-                        "Cannot get field value to get model object " + pmo.getClass().getName() + "#"
-                                + field.getName(),
-                        e);
-            }
-        };
     }
 
     /**
@@ -214,36 +169,27 @@ public class UIElementAnnotationReader {
      *         given name
      * @throws ModelObjectAnnotationException if multiple annotations for the model object name are
      *             present
+     * 
+     * @deprecated Since 1.1 there is a dedicated class called {@link ModelObjects} to retrieve the
+     *             model object supplier.
      */
+    @Deprecated
     public static boolean hasModelObjectAnnotation(Object pmo, String modelObjectName) {
-        return getModelObjectField(pmo, modelObjectName).isPresent()
-                || getModelObjectMethod(pmo, modelObjectName).isPresent();
-    }
-
-    private static Optional<Method> getModelObjectMethod(Object pmo, String modelObjectName) {
-        return BeanUtils.getMethods(requireNonNull(pmo, "pmo must not be null").getClass(),
-                                    (m) -> m.isAnnotationPresent(ModelObject.class)
-                                            && requireNonNull(m.getAnnotation(ModelObject.class)).name()
-                                                    .equals(modelObjectName))
-                .reduce((f1, f2) -> {
-                    throw ModelObjectAnnotationException.multipleMembersAnnotated(pmo, modelObjectName, f1, f2);
-                });
-    }
-
-    private static Optional<Field> getModelObjectField(Object pmo, String modelObjectName) {
-        return FieldUtils.getFieldsListWithAnnotation(requireNonNull(pmo, "pmo must not be null").getClass(),
-                                                      ModelObject.class)
-                .stream()
-                .filter(f -> requireNonNull(f.getAnnotation(ModelObject.class)).name().equals(modelObjectName))
-                .reduce((f1, f2) -> {
-                    throw ModelObjectAnnotationException.multipleMembersAnnotated(pmo, modelObjectName, f1, f2);
-                });
+        try {
+            return ModelObjects.isAccessible(pmo, modelObjectName);
+        } catch (org.linkki.core.binding.descriptor.modelobject.ModelObjects.ModelObjectAnnotationException e) {
+            throw new ModelObjectAnnotationException(e.getMessage());
+        }
     }
 
     /**
      * Thrown when trying to get a method annotated with {@link ModelObject @ModelObject} via
      * {@link UIElementAnnotationReader#getModelObjectSupplier(Object, String)} fails.
+     * 
+     * @deprecated since 1.1 it is replaced by
+     *             {@link org.linkki.core.binding.descriptor.modelobject.ModelObjects.ModelObjectAnnotationException}
      */
+    @Deprecated
     public static final class ModelObjectAnnotationException extends IllegalArgumentException {
         private static final long serialVersionUID = 1L;
 

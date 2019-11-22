@@ -17,7 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Supplier;
 
-import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
+import org.linkki.core.binding.descriptor.modelobject.ModelObjects;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.behavior.BehaviorDependentDispatcher;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
@@ -75,8 +75,8 @@ public class PropertyDispatcherFactory {
             String modelObjectName,
             String modelObjectProperty,
             PropertyDispatcher wrappedDispatcher) {
-        if (UIElementAnnotationReader.hasModelObjectAnnotation(pmo, modelObjectName)) {
-            Supplier<?> modelObject = UIElementAnnotationReader.getModelObjectSupplier(pmo, modelObjectName);
+        if (ModelObjects.isAccessible(pmo, modelObjectName)) {
+            Supplier<?> modelObject = ModelObjects.supplierFor(pmo, modelObjectName);
             ReflectionPropertyDispatcher modelObjectDispatcher = new ReflectionPropertyDispatcher(modelObject,
                     modelObjectProperty, wrappedDispatcher);
             return new ReflectionPropertyDispatcher(() -> pmo, pmoPropertyName, modelObjectDispatcher);
@@ -86,9 +86,9 @@ public class PropertyDispatcherFactory {
     }
 
     private ExceptionPropertyDispatcher newExceptionDispatcher(Object pmo, String modelObjectName, String property) {
-        if (UIElementAnnotationReader.hasModelObjectAnnotation(pmo, modelObjectName)) {
+        if (ModelObjects.isAccessible(pmo, modelObjectName)) {
             return new ExceptionPropertyDispatcher(property,
-                    UIElementAnnotationReader.getModelObjectSupplier(pmo, modelObjectName).get(), pmo);
+                    ModelObjects.supplierFor(pmo, modelObjectName).get(), pmo);
         } else {
             return new ExceptionPropertyDispatcher(property, pmo);
         }

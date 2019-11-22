@@ -49,7 +49,6 @@ public class BindingSampleUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-
         editMode = Optional.ofNullable(request
                 .getParameter("editMode"))
                 .flatMap(EditMode::read)

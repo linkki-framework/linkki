@@ -22,9 +22,9 @@ import org.faktorips.runtime.model.IpsModel;
 import org.faktorips.runtime.model.type.Attribute;
 import org.faktorips.runtime.model.type.ModelElement;
 import org.faktorips.runtime.model.type.Type;
-import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.modelobject.ModelObjects;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.AbstractPropertyDispatcherDecorator;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
@@ -104,9 +104,9 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
     public static PropertyDispatcher createIpsPropertyDispatcher(Object pmo,
             BoundProperty boundProperty,
             PropertyDispatcher standardDispatchers) {
-        if (UIElementAnnotationReader.hasModelObjectAnnotation(pmo, boundProperty.getModelObject())) {
+        if (ModelObjects.isAccessible(pmo, boundProperty.getModelObject())) {
             return new IpsPropertyDispatcher(
-                    UIElementAnnotationReader.getModelObjectSupplier(pmo, boundProperty.getModelObject()),
+                    ModelObjects.supplierFor(pmo, boundProperty.getModelObject()),
                     boundProperty.getModelAttribute(),
                     standardDispatchers);
         } else {

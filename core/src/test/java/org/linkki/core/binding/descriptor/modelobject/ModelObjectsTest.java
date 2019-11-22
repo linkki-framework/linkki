@@ -11,7 +11,8 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.core.binding.descriptor;
+
+package org.linkki.core.binding.descriptor.modelobject;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
@@ -19,196 +20,135 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.descriptor.modelobject.ModelObjects.ModelObjectAnnotationException;
 import org.linkki.core.defaults.section.annotations.TestUIField;
 import org.linkki.core.defaults.section.annotations.TestUIField2;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.pmo.ModelObject;
 
-public class UIElementAnnotationReaderTest {
+public class ModelObjectsTest {
 
-    private UIElementAnnotationReader reader = new UIElementAnnotationReader(TestPmo.class);
-
-    @Test
-    public void testReadAnnotations() {
-        assertNotNull(reader.findDescriptors("abc"));
-        assertNotNull(reader.findDescriptors("test"));
-        assertNotNull(reader.findDescriptors("test3"));
-
-        assertThat(reader.getUiElements().count(), is(3L));
-    }
-
-    @SuppressWarnings("deprecation")
     @Test
     public void testGetModelObjectSupplier_noAnnotation() {
-        Assertions
-                .assertThrows(org.linkki.core.binding.descriptor.UIElementAnnotationReader.ModelObjectAnnotationException.class,
-                              () -> {
-                                  UIElementAnnotationReader.getModelObjectSupplier(new TestObject(),
-                                                                                   ModelObject.DEFAULT_NAME);
-                              });
+        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+            ModelObjects.supplierFor(new TestObject(), ModelObject.DEFAULT_NAME);
+        });
 
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testGetModelObjectSupplier_ThrowsExceptionIfNoMatchingAnnotationExists() {
-        Assertions
-                .assertThrows(org.linkki.core.binding.descriptor.UIElementAnnotationReader.ModelObjectAnnotationException.class,
-                              () -> {
-                                  UIElementAnnotationReader.getModelObjectSupplier(new PmoWithNamedModelObject(),
-                                                                                   "someOtherName");
-                              });
+        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+            ModelObjects.supplierFor(new PmoWithNamedModelObject(), "someOtherName");
+        });
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testGetModelObjectSupplier_ThrowsExceptionIfAnnotatedMethodReturnsVoid() {
-        Assertions
-                .assertThrows(org.linkki.core.binding.descriptor.UIElementAnnotationReader.ModelObjectAnnotationException.class,
-                              () -> {
-                                  UIElementAnnotationReader.getModelObjectSupplier(new PmoWithVoidModelObjectMethod(),
-                                                                                   ModelObject.DEFAULT_NAME);
-                              });
+        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+            ModelObjects.supplierFor(new PmoWithVoidModelObjectMethod(),
+                                     ModelObject.DEFAULT_NAME);
+        });
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testGetModelObjectSupplier() {
-        Supplier<?> modelObjectSupplier = UIElementAnnotationReader
-                .getModelObjectSupplier(new PmoWithNamedModelObject(), PmoWithNamedModelObject.MODEL_OBJECT);
+        Supplier<?> modelObjectSupplier = ModelObjects
+                .supplierFor(new PmoWithNamedModelObject(), PmoWithNamedModelObject.MODEL_OBJECT);
 
         assertThat(modelObjectSupplier, is(notNullValue()));
         assertThat(modelObjectSupplier.get(), is(instanceOf(TestObject.class)));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testHasModelObjectAnnotatedMethod() {
-        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new TestPmo(), ModelObject.DEFAULT_NAME),
+        assertThat(ModelObjects.isAccessible(new TestPmo(), ModelObject.DEFAULT_NAME),
                    is(true));
-        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new PmoWithNamedModelObject(),
-                                                                      PmoWithNamedModelObject.MODEL_OBJECT),
+        assertThat(ModelObjects.isAccessible(new PmoWithNamedModelObject(),
+                                             PmoWithNamedModelObject.MODEL_OBJECT),
                    is(true));
-        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new PmoWithNamedModelObject(),
-                                                                      ModelObject.DEFAULT_NAME),
+        assertThat(ModelObjects.isAccessible(new PmoWithNamedModelObject(),
+                                             ModelObject.DEFAULT_NAME),
                    is(true));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testHasModelObjectAnnotatedMethod_noAnnotation() {
-        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new Object(), ModelObject.DEFAULT_NAME),
+        assertThat(ModelObjects.isAccessible(new Object(), ModelObject.DEFAULT_NAME),
                    is(false));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testHasModelObjectAnnotatedMethod_noMatchingAnnotation() {
-        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new PmoWithNamedModelObject(), "someOtherName"),
+        assertThat(ModelObjects.isAccessible(new PmoWithNamedModelObject(), "someOtherName"),
                    is(false));
-        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(new Object(), "FooBar"), is(false));
+        assertThat(ModelObjects.isAccessible(new Object(), "FooBar"), is(false));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testModelObjectAnnotatedMethod_OverrideMethodInSubclass() {
         PmoWithOverridenModelObjectMethod testSubclassPmo = new PmoWithOverridenModelObjectMethod();
 
-        assertThat(UIElementAnnotationReader.hasModelObjectAnnotation(testSubclassPmo,
-                                                                      ModelObject.DEFAULT_NAME),
+        assertThat(ModelObjects.isAccessible(testSubclassPmo,
+                                             ModelObject.DEFAULT_NAME),
                    is(true));
-        assertThat(UIElementAnnotationReader.getModelObjectSupplier(testSubclassPmo, ModelObject.DEFAULT_NAME).get(),
+        assertThat(ModelObjects.supplierFor(testSubclassPmo, ModelObject.DEFAULT_NAME).get(),
                    is(testSubclassPmo.testSub));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testModelObjectAnnotatedField() {
         PmoWithModelObjectField pmoWithModelObjectField = new PmoWithModelObjectField();
-        assertThat(UIElementAnnotationReader.getModelObjectSupplier(pmoWithModelObjectField, ModelObject.DEFAULT_NAME)
+        assertThat(ModelObjects.supplierFor(pmoWithModelObjectField, ModelObject.DEFAULT_NAME)
                 .get(),
                    is(pmoWithModelObjectField.testSub));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testPrivateModelObjectAnnotatedFieldInSuperclass() {
         PmoWithModelObjectFieldInSuperclass pmoWithModelObjectFieldInSuperclass = new PmoWithModelObjectFieldInSuperclass();
-        Object modelObject = UIElementAnnotationReader
-                .getModelObjectSupplier(pmoWithModelObjectFieldInSuperclass, ModelObject.DEFAULT_NAME).get();
+        Object modelObject = ModelObjects
+                .supplierFor(pmoWithModelObjectFieldInSuperclass, ModelObject.DEFAULT_NAME).get();
         assertThat(modelObject, is(not(nullValue())));
         assertThat(modelObject, instanceOf(TestSub.class));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testMixedModelObjectFieldAndMethod() {
         PmoWithNamedModelObject pmoWithNamedModelObject = new PmoWithNamedModelObject();
-        Object defaultModelObject = UIElementAnnotationReader
-                .getModelObjectSupplier(pmoWithNamedModelObject, ModelObject.DEFAULT_NAME).get();
-        Object namedModelObject = UIElementAnnotationReader
-                .getModelObjectSupplier(pmoWithNamedModelObject, PmoWithNamedModelObject.MODEL_OBJECT).get();
+        Object defaultModelObject = ModelObjects
+                .supplierFor(pmoWithNamedModelObject, ModelObject.DEFAULT_NAME).get();
+        Object namedModelObject = ModelObjects
+                .supplierFor(pmoWithNamedModelObject, PmoWithNamedModelObject.MODEL_OBJECT).get();
 
         assertThat(defaultModelObject, instanceOf(TestSub.class));
         assertThat(namedModelObject, instanceOf(TestObject.class));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testTwoDefaultModelObjectAnnotations() {
         PmoWithTwoDefaultModelObjects pmoWithTwoDefaultModelObjects = new PmoWithTwoDefaultModelObjects();
 
-        Assertions
-                .assertThrows(org.linkki.core.binding.descriptor.UIElementAnnotationReader.ModelObjectAnnotationException.class,
-                              () -> {
-                                  UIElementAnnotationReader
-                                          .getModelObjectSupplier(pmoWithTwoDefaultModelObjects,
-                                                                  ModelObject.DEFAULT_NAME)
-                                          .get();
-                              });
+        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+            ModelObjects.supplierFor(pmoWithTwoDefaultModelObjects, ModelObject.DEFAULT_NAME)
+                    .get();
+        });
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testTwoDefaultModelObjectMethodAnnotations() {
         PmoWithTwoDefaultModelObjectMethods pmoWithTwoDefaultModelObjects = new PmoWithTwoDefaultModelObjectMethods();
 
-        Assertions
-                .assertThrows(org.linkki.core.binding.descriptor.UIElementAnnotationReader.ModelObjectAnnotationException.class,
-                              () -> {
-                                  UIElementAnnotationReader
-                                          .getModelObjectSupplier(pmoWithTwoDefaultModelObjects,
-                                                                  ModelObject.DEFAULT_NAME)
-                                          .get();
-                              });
-    }
-
-    @Test
-    public void testGetUiElements_DynamicFields() {
-        UIElementAnnotationReader uiElementAnnotationReader = new UIElementAnnotationReader(DynamicFieldPmo.class);
-
-        List<PropertyElementDescriptors> uiElements = uiElementAnnotationReader.getUiElements()
-                .collect(Collectors.toList());
-
-        assertThat(uiElements.size(), is(1));
-        PropertyElementDescriptors elementDescriptors = uiElements.get(0);
-        ElementDescriptor fooDescriptor = elementDescriptors
-                .getDescriptor(new DynamicFieldPmo(Type.FOO));
-        assertThat(fooDescriptor, is(notNullValue()));
-        assertThat(fooDescriptor.getBoundProperty().getModelAttribute(), is("foo"));
-        ElementDescriptor barDescriptor = elementDescriptors
-                .getDescriptor(new DynamicFieldPmo(Type.BAR));
-        assertThat(barDescriptor, is(notNullValue()));
-        assertThat(barDescriptor.getBoundProperty().getModelAttribute(), is("bar"));
+        Assertions.assertThrows(ModelObjectAnnotationException.class, () -> {
+            ModelObjects.supplierFor(pmoWithTwoDefaultModelObjects, ModelObject.DEFAULT_NAME)
+                    .get();
+        });
     }
 
     enum Type {
