@@ -3,6 +3,7 @@
 :jbake-status: published
 
 :images-folder-name: 03_architecture
+:source-dir: ../../../java
 
 [[binding-basics]]
 === Binding, BindingContext, BindingManager
@@ -30,8 +31,13 @@ The `BindingManager` is responsible for everything that is beyond that aspect of
 
 ==== UiUpdateObserver
 
-If UI components depend on information inside a different `BindingContext`, a `UiUpdateObserver` can be used to ensure updates are triggered when the referenced content changes. The `UiUpdateObserver` is attached to a `BindingManager`, which calls the `uiUpdated()` method each time a UI update occurs (e.g. when a `BindingContext` belonging to the `BindingManager` updates). Since class `BindingContext` implements `UiUpdateObserver`, it can be directly added as such. Using this mechanism, UI created by *linkki* would be updated with every change inside the same `BindingManager`.
+If UI components depend on information inside a different `BindingContext`, a `UiUpdateObserver` can be used to ensure updates are triggered when the referenced content changes. The `UiUpdateObserver` is attached to a `BindingManager`, which calls the `uiUpdated()` method each time a UI update occurs (e.g. when a `BindingContext` belonging to the `BindingManager` updates). Since the class `BindingContext` implements `UiUpdateObserver`, it can be directly added as such. Using this mechanism, UI created by *linkki* would be updated with every change inside the same `BindingManager`.
 
 A possible use case might look like this: A `TabSheetArea` consists of several tab sheets with each using its own, separate binding context. This ensures that a change to the currently visible tab is propagated to other fields inside the same tab, while not affecting non-visible fields contained in different tabs to improve performance. These updates can freely be skipped, since a tab sheet's binding context always receives an update when the tab is selected and becomes visible.
 
 Adding a permanently visible summary section (referencing data from multiple tab sheets) to the page would require an update whenever a change is made to an arbitrary binding context. Otherwise, it would display outdated data since changes of referenced data are not propagated. This can be achieved by adding the new section's binding context as a `UiUpdateObserver` to the `BindingManager` of the page.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/UseUiUpdateObserver.java[tags=addUiUpdateObserver]
+----

@@ -4,7 +4,7 @@
 
 === Eclipse Integration (Maven)
 
-Ensure the apt plugin for Maven __(http://marketplace.eclipse.org/content/m2e-apt[m2e-apt])__ is installed.
+Ensure the apt plugin for Maven __(https://marketplace.eclipse.org/content/m2e-apt[m2e-apt])__ is installed.
 
 Adjust the settings under `Project -> Properties -> Maven -> Annotation Processing` as shown:
 
