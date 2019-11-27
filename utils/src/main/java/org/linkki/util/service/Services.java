@@ -38,15 +38,15 @@ public final class Services {
      */
     public static <S> S get(Class<S> serviceClass) {
         @SuppressWarnings("unchecked")
-        S service = (S)INSTANCES.computeIfAbsent(serviceClass, s -> {
-            ServiceLoader<S> serviceLoader = ServiceLoader.load(serviceClass);
+        S service = (S)INSTANCES.computeIfAbsent(serviceClass, sc -> {
+            ServiceLoader<?> serviceLoader = ServiceLoader.load(sc);
             return StreamSupport.stream(serviceLoader.spliterator(), false).reduce((f1, f2) -> {
                 throw new IllegalStateException(
-                        "Multiple implementations of " + serviceClass.getName() + " found on the classpath: "
+                        "Multiple implementations of " + sc.getName() + " found on the classpath: "
                                 + f1.getClass()
                                 + " and " + f2.getClass());
             }).orElseThrow(() -> new IllegalStateException(
-                    "No implementation of " + serviceClass.getName() + " found on the classpath."));
+                    "No implementation of " + sc.getName() + " found on the classpath."));
         });
         return service;
     }

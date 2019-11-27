@@ -108,7 +108,7 @@ public class MemberAccessors {
             return (T)getFieldValue(object, fieldOrMethod);
         } else if (fieldOrMethod instanceof Method) {
             Function<Object, Object> accessor = ACCESSOR_CACHE
-                    .computeIfAbsent(fieldOrMethod, key -> new MemberAccessors((Method)fieldOrMethod).createFunction());
+                    .computeIfAbsent(fieldOrMethod, key -> new MemberAccessors((Method)key).createFunction());
             return (T)accessor.apply(object);
         } else {
             throw new IllegalArgumentException("Only field or method is supported, found "
