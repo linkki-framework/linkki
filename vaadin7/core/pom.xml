@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin7</artifactId>
-        <version>1.1.0-rc01</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>linkki-core-vaadin7</artifactId>
@@ -16,12 +16,12 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core</artifactId>
-            <version>1.1.0-rc01</version>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-test</artifactId>
-            <version>1.1.0-rc01</version>
+            <version>1.1.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <dependency>
