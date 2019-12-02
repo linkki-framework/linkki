@@ -6,30 +6,6 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy
 
-++++
-<style>
-// Should be created as a separate CSS file for a custom jbake-type
-
-.api-change > h5:after,
-.api-change > h4:after,
-.api-change > h3:after {
-  content: 'api-change';
-  color: white;
-	margin-left: 1em;
-	font-weight: bold;
-	border-radius: 2px;
-	background: #009fe3;
-	padding: .3em 1em;
-	font-size: .8em;
-	box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
-}
-
-.sect3 {
-	margin-bottom: 4em;
-}
-</style>
-++++
-
 === 0.9.20190418
 
 With this version, *linkki* now supports both Vaadin Framework 7 and Vaadin Framework 8. If you intend to use *linkki* with Vaadin Framework 8, we highly recommend migrating to the previous *linkki* version first as Vaadin Framework 8 includes several major changes that also leads to changes in the *linkki* API. Also, it is best to first free your project from deprecated warnings related to linkki. Although we tried our best to keep the API stable, some concepts had to be reworked fundamentally, making it impossible to carry the existing API over to the new version.
