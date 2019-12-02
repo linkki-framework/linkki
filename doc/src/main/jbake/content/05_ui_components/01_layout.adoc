@@ -79,6 +79,7 @@ Beside the section there are some simple Vaadin layouts that can be created with
  * @UIHorizontalLayout
  * @UIVerticalLayout
  * @UIFormLayout
+ * @UICssLayout
 
 Some of these annotations may have special parameters to configure the alignment of the contained components.
 

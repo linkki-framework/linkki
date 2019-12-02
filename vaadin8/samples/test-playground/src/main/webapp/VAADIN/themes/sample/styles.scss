@@ -11,3 +11,22 @@ $v-shadow: false !default;
   // Include linkki theme styles
   @include linkki;
 }
+
+.borderLayout {
+	padding:5px;
+	border-style: dotted;
+	border-radius:20px;
+	text-align: center;
+}
+
+.borderLayout div {
+	margin:5px;
+}
+
+.borderLayout .v-button {
+	width:80%;
+}
+
+.extraClass {
+	background-color: seashell;
+}

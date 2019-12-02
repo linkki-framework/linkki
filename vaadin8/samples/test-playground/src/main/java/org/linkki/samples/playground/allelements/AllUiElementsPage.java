@@ -45,6 +45,7 @@ public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefin
         add(VaadinUiCreator.createComponent(new HorizontalLayoutPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new VerticalLayoutPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new FormLayoutPmo(), getBindingContext()));
+        add(VaadinUiCreator.createComponent(new CssLayoutPmo(), getBindingContext()));
         dynamicFieldPmo = new DynamicFieldPmo(() -> {
             removeComponent(dynamicFieldSection);
             dynamicFieldSection = addSection(dynamicFieldPmo);
