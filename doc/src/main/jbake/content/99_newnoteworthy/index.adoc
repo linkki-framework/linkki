@@ -7,11 +7,4 @@
 
 == New & Noteworthy
 
-ifdef::backend-html5[]
-[subs="attributes"]
-++++
-<script language="javascript">
-    window.location.href = "./00_latest.html";
-</script>
-++++
-endif::[]
+include::00_latest.adoc[]
