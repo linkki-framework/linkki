@@ -2,7 +2,7 @@
 <div class="book font-size-2 font-family-1 with-summary">
   <div class="book-summary">
     <% if(config.logo != "false"){%>
-<a class="navbar-brand" href="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>index.html"><img src="<%if (content.rootpath.length() > 0) {%>${content.rootpath}<% } else { %><% }%>images/${config.logo}" style="padding-top:8px;padding-right:20px;padding-left:20px"></a>
+<a class="navbar-brand" href="${config.homelink}"><img src="<%if (content.rootpath.length() > 0) {%>${content.rootpath}<% } else { %><% }%>images/${config.logo}" style="padding-top:8px;padding-right:20px;padding-left:20px"></a>
     <%}%>
     <form  id="book-search-input" role="search" action="<%if (content.rootpath) {%>${content.rootpath}<% } else { %><% }%>search/search.html">
       <input type="text" name="q" id="tipue_search_input" placeholder="Type to search" pattern=".{3,}" title="At least 3 characters" required>

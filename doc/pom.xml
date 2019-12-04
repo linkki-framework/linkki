@@ -88,6 +88,7 @@
                                 <readmepath>${basedir.parent}</readmepath>
                                 <vspotbugs>${spotbugs.version}</vspotbugs>
                                 <vcommonslang>${commons-lang3.version}</vcommonslang>
+                                <homelink>https://doc.linkki-framework.org</homelink>
                             </properties>
                         </configuration>
                     </execution>

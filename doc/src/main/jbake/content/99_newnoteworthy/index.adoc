@@ -2,16 +2,9 @@
 :jbake-type: chapter
 :jbake-status: published
 :jbake-order: 0
-// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT ITS TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy
 
 == New & Noteworthy
 
-ifdef::backend-html5[]
-[subs="attributes"]
-++++
-<script language="javascript">
-    window.location.href = "./00_latest.html";
-</script>
-++++
-endif::[]
+include::92_1_1_0.adoc[]
