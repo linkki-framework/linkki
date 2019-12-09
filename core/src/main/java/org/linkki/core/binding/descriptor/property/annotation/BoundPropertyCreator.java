@@ -17,6 +17,7 @@ package org.linkki.core.binding.descriptor.property.annotation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 
@@ -69,6 +70,32 @@ public interface BoundPropertyCreator<T extends Annotation> {
         @Override
         public BoundProperty createBoundProperty(Annotation annotation, AnnotatedElement annotatedElement) {
             return BoundProperty.empty();
+        }
+
+    }
+
+    /**
+     * Creates a {@link BoundProperty}, using only a property name derived from the
+     * {@link AnnotatedElement}'s name with no {@linkplain BoundProperty#getModelObject() model object}
+     * or {@linkplain BoundProperty#getModelAttribute() attribute}.
+     */
+    static class SimpleMemberNameBoundPropertyCreator implements BoundPropertyCreator<Annotation> {
+
+        @Override
+        public BoundProperty createBoundProperty(Annotation annotation, AnnotatedElement annotatedElement) {
+            return createBoundProperty(annotatedElement);
+        }
+
+        public static BoundProperty createBoundProperty(AnnotatedElement annotatedElement) {
+            if (annotatedElement instanceof Field) {
+                return BoundProperty.of((Field)annotatedElement);
+            }
+            if (annotatedElement instanceof Method) {
+                return BoundProperty.of((Method)annotatedElement);
+            }
+            throw new IllegalArgumentException("The " + AnnotatedElement.class.getSimpleName() + " must be either a "
+                    + Field.class.getSimpleName() + " or a " + Method.class.getSimpleName() + " but is a "
+                    + annotatedElement.getClass().getName());
         }
 
     }

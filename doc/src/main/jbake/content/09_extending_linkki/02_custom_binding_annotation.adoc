@@ -30,6 +30,7 @@ include::{source-dir-binding-sample}/java/org/linkki/samples/binding/annotation/
 ----
 
 The example above works quite similar to the existing `@Bind` annotation. But it is also possible to define the bound property in a different way. For example, the model attribute and model object might be specified by another annotation.
+If the model object is irrelevant, a simple `SimpleMemberNameBoundPropertyCreator` might be used which only uses the name of the annotated field or method.
 
 Finally, the `@BindValue` annotation needs to define `BindFieldValueAspectDefinition` as a `@LinkkiAspect` (see <<creating-aspects, Aspects>>).
 

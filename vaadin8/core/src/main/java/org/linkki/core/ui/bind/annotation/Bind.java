@@ -18,8 +18,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.Binder;
@@ -116,15 +114,7 @@ public @interface Bind {
         private BoundProperty getPmoProperty(Bind annotation, AnnotatedElement annotatedElement) {
             String pmoPropertyName = annotation.pmoProperty();
             if (StringUtils.isEmpty(pmoPropertyName)) {
-                if (annotatedElement instanceof Method) {
-                    return BoundProperty.of((Method)annotatedElement);
-                } else if (annotatedElement instanceof Field) {
-                    return BoundProperty.of((Field)annotatedElement);
-                } else {
-                    throw new IllegalArgumentException("The @" + Bind.class.getSimpleName()
-                            + " annotation only supports reading the property name from " + Field.class.getSimpleName()
-                            + "s and " + Method.class.getSimpleName() + "s");
-                }
+                return SimpleMemberNameBoundPropertyCreator.createBoundProperty(annotatedElement);
             } else {
                 return BoundProperty.of(pmoPropertyName);
             }
