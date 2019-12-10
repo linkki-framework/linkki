@@ -1,0 +1,14 @@
+{
+  "1.1.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.annotation.added",
+          "old": "parameter void org.linkki.framework.ui.application.ApplicationLayout::<init>(org.linkki.framework.ui.application.ApplicationHeader, ===org.linkki.framework.ui.application.ApplicationFooter===)",
+          "new": "parameter void org.linkki.framework.ui.application.ApplicationLayout::<init>(org.linkki.framework.ui.application.ApplicationHeader, ===org.linkki.framework.ui.application.ApplicationFooter===)",
+          "justification": "Parameter is optional"
+        }
+      ]
+    }
+  }
+}

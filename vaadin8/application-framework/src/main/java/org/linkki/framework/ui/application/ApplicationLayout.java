@@ -19,6 +19,8 @@ import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * Overall layout frame for the application. Contains the application header, the main work area, and a
  * footer.
@@ -33,7 +35,7 @@ public class ApplicationLayout extends VerticalLayout implements ViewDisplay {
      * Creates a new {@link ApplicationLayout} with the given {@link ApplicationHeader header} and
      * (optional) {@link ApplicationFooter footer}.
      */
-    public ApplicationLayout(ApplicationHeader header, ApplicationFooter footer) {
+    public ApplicationLayout(ApplicationHeader header, @CheckForNull ApplicationFooter footer) {
         setMargin(false);
         setSpacing(false);
         setSizeFull();

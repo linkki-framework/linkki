@@ -13,6 +13,12 @@
           "old": "class com.vaadin.navigator.Navigator",
           "new": "class com.vaadin.navigator.Navigator",
           "justification": "LIN-1595 :: Update Vaadin version to 8.9.2"
+        },
+        {
+          "code": "java.annotation.added",
+          "old": "parameter void org.linkki.framework.ui.application.ApplicationLayout::<init>(org.linkki.framework.ui.application.ApplicationHeader, ===org.linkki.framework.ui.application.ApplicationFooter===)",
+          "new": "parameter void org.linkki.framework.ui.application.ApplicationLayout::<init>(org.linkki.framework.ui.application.ApplicationHeader, ===org.linkki.framework.ui.application.ApplicationFooter===)",
+          "justification": "Parameter is optional"
         }
       ]
     }
