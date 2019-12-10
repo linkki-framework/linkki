@@ -29,7 +29,7 @@ public class UnusedTagsTest {
     private static final Pattern INCLUDE = Pattern.compile("include::(\\{[^\\}]+\\}[/\\w\\.\\-]+)(?:\\[([^\\]]+)\\])?");
     // {source-dir-custom}
     private static final Pattern REF = Pattern.compile("\\{([^\\}]+)\\}");
-    // :source-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/java
+    // :source-dir-custom: ../../../../../vaadin8/samples/custom-layout/src/main/java
     private static final Pattern PROPERTY = Pattern.compile("^:([^:]+):(.+)");
     // tag::declaration[]
     // end::declaration[]
@@ -38,7 +38,7 @@ public class UnusedTagsTest {
     private static Map<Path, Set<String>> usedTags = new HashMap<>();
 
     public static Collection<Object[]> data() throws IOException {
-        usedTags = Files.walk(Paths.get("src/main/jbake"))
+        usedTags = Files.walk(Paths.get("target/jade-resources/content"))
                 .filter(p -> p.getFileName().toString().endsWith(".adoc"))
                 .flatMap(p -> {
                     try {

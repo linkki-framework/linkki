@@ -29,7 +29,7 @@ public class IncludeTest {
     private static final Pattern INCLUDE = Pattern.compile("include::(\\{[^\\}]+\\}[/\\w\\.\\-]+)(?:\\[([^\\]]+)\\])?");
     // {source-dir-custom}
     private static final Pattern REF = Pattern.compile("\\{([^\\}]+)\\}");
-    // :source-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/java
+    // :source-dir-custom: ../../../../../vaadin8/samples/custom-layout/src/main/java
     private static final Pattern PROPERTY = Pattern.compile("^:([^:]+):(.+)");
     // tag::declaration[]
     // end::declaration[]
@@ -38,7 +38,7 @@ public class IncludeTest {
     private static final Pattern LINES = Pattern.compile("lines=(\\d+)\\.\\.(\\d+)");
 
     public static Collection<Object[]> data() throws IOException {
-        return Files.walk(Paths.get("src/main/jbake")).filter(p -> p.getFileName().toString().endsWith(".adoc"))
+        return Files.walk(Paths.get("target/jade-resources/content")).filter(p -> p.getFileName().toString().endsWith(".adoc"))
                 .flatMap(p -> {
                     try {
                         Map<String, String> properties = Files.lines(p, StandardCharsets.UTF_8).map(PROPERTY::matcher)

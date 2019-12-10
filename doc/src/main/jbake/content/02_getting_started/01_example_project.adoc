@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:base-dir: ../../../../../../vaadin8/samples/getting-started
+:base-dir: ../../../../../vaadin8/samples/getting-started
 :source-dir: {base-dir}/src/main/java
 :images-folder-name: 02_getting_started
 

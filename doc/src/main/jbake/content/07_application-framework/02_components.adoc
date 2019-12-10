@@ -3,7 +3,7 @@
 :jbake-status: published
 
 :image-dir: {images}07_application-framework
-:source-dir-application: ../../../../../../vaadin8/samples/application-framework/src/main/java
+:source-dir-application: ../../../../../vaadin8/samples/application-framework/src/main/java
 
 === UI
 

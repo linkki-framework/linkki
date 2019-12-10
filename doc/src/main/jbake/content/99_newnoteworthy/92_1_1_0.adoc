@@ -1,33 +1,11 @@
+:jbake-type: referenced
 :jbake-status: referenced
-:jbake-type: section
+:jbake-order: 0
 
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy
 
-// Should be created as a separate CSS file for a custom jbake-type
-++++
-<style>
-.api-change > h5:after,
-.api-change > h4:after,
-.api-change > h3:after {
-  content: 'api-change';
-  color: white;
-	margin-left: 1em;
-	font-weight: bold;
-	border-radius: 5px;
-	background: #009fe3;
-	padding: .3em 1em;
-	font-size: .7em;
-	box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
-}
-
-.sect3 {
-	margin-bottom: 4em;
-}
-</style>
-++++
-
-=== {dversion}
+=== {projectVersion}
 
 ==== Annotation Processor for *linkki*
 

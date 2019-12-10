@@ -1,7 +1,7 @@
 :jbake-title: Custom UI layout annotations
 :jbake-type: section
 :jbake-status: published
-:source-dir-binding-sample: ../../../../../../vaadin8/samples/custom-layout/src/main
+:source-dir-binding-sample: ../../../../../vaadin8/samples/custom-layout/src/main
 :image-dir: {images}09_extending_linkki
 
 

@@ -2,10 +2,10 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-binding: ../../../../../../vaadin8/samples/binding/src/main/java
-:source-dir-dynamic: ../../../../../../vaadin8/samples/dynamic-fields/src/main/java
-:source-dir-treetable: ../../../../../../vaadin8/samples/tree-table/src/main/java
-:source-dir-playground: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:source-dir-binding: ../../../../../vaadin8/samples/binding/src/main/java
+:source-dir-dynamic: ../../../../../vaadin8/samples/dynamic-fields/src/main/java
+:source-dir-treetable: ../../../../../vaadin8/samples/tree-table/src/main/java
+:source-dir-playground: ../../../../../vaadin8/samples/test-playground/src/main/java
 
 :images-folder-name: 05_ui_components
 

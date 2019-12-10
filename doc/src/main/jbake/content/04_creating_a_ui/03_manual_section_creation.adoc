@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir: ../../../../../../vaadin8/samples/custom-layout/src/main/java
+:source-dir: ../../../../../vaadin8/samples/custom-layout/src/main/java
 :github: https://github.com/linkki-framework/linkki
 :github-tree: {github}/tree/master
 :github-blob: {github}/blob/master

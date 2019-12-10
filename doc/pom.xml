@@ -11,17 +11,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <asciidoctor.maven.plugin.version>1.5.7.1</asciidoctor.maven.plugin.version>
-        <asciidoctorj.pdf.version>1.5.0-alpha.17</asciidoctorj.pdf.version>
-        <asciidoctorj.version>
-            1.5.2<!-- Newer version collides with asciidoctor-maven-plugin -->
-        </asciidoctorj.version>
-        <jbake.version>
-            2.5.1<!-- Newer version collides with our hacks -->
-        </jbake.version>
-        <jbake.outputDirectory>${project.build.directory}/${project.build.finalName}</jbake.outputDirectory>
         <documentation.dtitle>linkki documentation</documentation.dtitle>
         <basedir.parent>${project.parent.basedir}</basedir.parent>
+        <jade.outputDirectory>${project.build.directory}/${project.build.finalName}</jade.outputDirectory>
     </properties>
 
     <artifactId>linkki-core-documentation</artifactId>
@@ -66,94 +58,28 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>com.blazebit</groupId>
-                <artifactId>jbake-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <outputDirectory>${jbake.outputDirectory}</outputDirectory>
-                </configuration>
+                <groupId>de.faktorzehn.doc</groupId>
+                <artifactId>jade-maven-plugin</artifactId>
+                <version>1.0.0-ms12</version>
                 <executions>
                     <execution>
+                        <id>generate-docs</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>build</goal>
+                            <goal>generate-docs</goal>
                         </goals>
                         <configuration>
+                            <htmlOutputDirectory>${jade.outputDirectory}/html</htmlOutputDirectory>
+                            <pdfOutputDirectory>${jade.outputDirectory}/pdf</pdfOutputDirectory>
                             <properties>
-                                <site.url>http://localhost:8820/</site.url>
-                                <project.basedir>${project.basedir}</project.basedir>
-                                <jbake.outputDirectory>${jbake.outputDirectory}</jbake.outputDirectory>
-                                <dtitle>${documentation.dtitle}</dtitle>
-                                <dversion>${project.version}</dversion>
+                                <title>${documentation.dtitle}</title>
                                 <readmepath>${basedir.parent}</readmepath>
                                 <vspotbugs>${spotbugs.version}</vspotbugs>
                                 <vcommonslang>${commons-lang3.version}</vcommonslang>
                                 <homelink>https://doc.linkki-framework.org</homelink>
+                                <logo>logo.png</logo>
+                                <projectVersion>${project.version}</projectVersion>
                             </properties>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jbake</groupId>
-                        <artifactId>jbake-core</artifactId>
-                        <version>${jbake.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctorj</artifactId>
-                        <version>${asciidoctorj.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.summitsystemsinc.maven</groupId>
-                        <artifactId>groovy-template-maven-plugin</artifactId>
-                        <version>1.0.0</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>${asciidoctor.maven.plugin.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctorj-pdf</artifactId>
-                        <version>${asciidoctorj.pdf.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <sourceDirectory>target/pdf-index</sourceDirectory>
-                    <sourceDocumentName>documentation.adoc</sourceDocumentName>
-                    <!-- Attributes common to all output formats -->
-                    <attributes>
-                        <sourcedir>${project.build.sourceDirectory}</sourcedir>
-                    </attributes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>generate-pdf-doc</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>process-asciidoc</goal>
-                        </goals>
-                        <configuration>
-                            <backend>pdf</backend>
-                            <!-- Since 1.5.0-alpha.9 PDF back-end can use 'rouge' as well as 'coderay' source highlighting -->
-                            <sourceHighlighter>coderay</sourceHighlighter>
-                            <attributes>
-                                <icons>font</icons>
-                                <pagenums />
-                                <toc />
-                                <idprefix />
-                                <idseparator>-</idseparator>
-                                <pdf-stylesdir>${project.basedir}/src/theme</pdf-stylesdir>
-                                <pdf-style>base</pdf-style>
-                                <allow-uri-read>true</allow-uri-read>
-                                <dtitle>${documentation.dtitle}</dtitle>
-                                <dversion>${project.version}</dversion>
-                                <readmepath>${basedir.parent}</readmepath>
-                            </attributes>
                         </configuration>
                     </execution>
                 </executions>
@@ -187,51 +113,6 @@
                     <artifactId>revapi-maven-plugin</artifactId>
                     <configuration>
                       <skip>true</skip>
-                    </configuration>
-                </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
-                    build itself. -->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>com.blazebit</groupId>
-                                        <artifactId>
-                                            jbake-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.0.0,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>build</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.asciidoctor</groupId>
-                                        <artifactId>
-                                            asciidoctor-maven-plugin
-                                        </artifactId>
-                                        <versionRange>[1.5.6,)</versionRange>
-                                        <goals>
-                                            <goal>process-asciidoc</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>
             </plugins>

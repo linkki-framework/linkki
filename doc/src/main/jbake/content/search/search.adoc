@@ -1,3 +1,0 @@
-:jbake-title: Search
-:jbake-type: search
-:jbake-status: published
