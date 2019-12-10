@@ -15510,21 +15510,22 @@ div.v-layout.v-horizontal.v-widget {
 	background: transparent;
 }
 
-.borderLayout {
+.sample .borderLayout {
 	padding: 5px;
 	border-style: dotted;
 	border-radius: 20px;
 	text-align: center;
 }
 
-.borderLayout div {
+.sample .borderLayout div {
 	margin: 5px;
 }
 
-.borderLayout .v-button {
+.sample .borderLayout .v-button {
 	width: 80%;
 }
 
-.extraClass {
-	background-color: seashell;
+.sample .extraClass {
+	background-color: #009fe3;
+	color: white;
 }
