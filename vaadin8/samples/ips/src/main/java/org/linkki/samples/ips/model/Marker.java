@@ -122,6 +122,39 @@ public enum Marker implements IMarker {
     }
 
     /**
+     * Returns the enumeration value for the specified parameter <code>id</code>. If no corresponding enum
+     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     *
+     * @throws IllegalArgumentException if no corresponding enum value is found
+     *
+     * @generated
+     */
+    public static final Marker getExistingValueById(String id) {
+        if (ID_MAP.containsKey(id)) {
+            return ID_MAP.get(id);
+        } else {
+            throw new IllegalArgumentException("No enum value with id " + id);
+        }
+    }
+
+    /**
+     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding enum
+     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     *
+     * @throws IllegalArgumentException if no corresponding enum value is found
+     *
+     * @generated
+     */
+    public static final Marker getExistingValueByName(String name) {
+        for (Marker currentValue : values()) {
+            if (currentValue.name.equals(name)) {
+                return currentValue;
+            }
+        }
+        throw new IllegalArgumentException("No enum value with name " + name);
+    }
+
+    /**
      * Returns <code>true</code> if the provided parameter value identifies a value of this enumeration.
      *
      * @generated

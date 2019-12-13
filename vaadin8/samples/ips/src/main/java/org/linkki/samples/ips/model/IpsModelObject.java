@@ -22,6 +22,8 @@ import org.faktorips.runtime.IRuntimeRepository;
 import org.faktorips.runtime.IValidationContext;
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
+import org.faktorips.runtime.Severity;
+import org.faktorips.runtime.model.annotation.IpsValidationRule;
 import org.faktorips.runtime.MsgReplacementParameter;
 import org.faktorips.runtime.ObjectProperty;
 import org.faktorips.runtime.internal.AbstractModelObject;
@@ -29,6 +31,7 @@ import org.faktorips.runtime.model.annotation.IpsAllowedValues;
 import org.faktorips.runtime.model.annotation.IpsAttribute;
 import org.faktorips.runtime.model.annotation.IpsAttributeSetter;
 import org.faktorips.runtime.model.annotation.IpsAttributes;
+import org.faktorips.runtime.model.annotation.IpsValidationRules;
 import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
 import org.faktorips.runtime.model.type.AttributeKind;
@@ -45,6 +48,7 @@ import org.w3c.dom.Element;
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
 @IpsAttributes({ "decimal", "string" })
+@IpsValidationRules({ "checkDecimal" })
 @IpsDocumented(bundleName = "org.linkki.samples.ips.model.model-label-and-descriptions", defaultLocale = "en")
 public class IpsModelObject extends AbstractModelObject {
 
@@ -245,6 +249,7 @@ public class IpsModelObject extends AbstractModelObject {
      * 
      * @restrainedmodifiable
      */
+    @IpsValidationRule(name = "checkDecimal", msgCode = MSG_CODE_CHECK_DECIMAL, severity = Severity.ERROR)
     protected boolean checkDecimal(MessageList ml, IValidationContext context) {
         if (!getRangeForDecimal(context).contains(getDecimal())) {
 
@@ -271,7 +276,7 @@ public class IpsModelObject extends AbstractModelObject {
                 getClass().getClassLoader(), Locale.ENGLISH);
         String msgText = messageHelper.getMessage("IpsModelObject-checkDecimal", context.getLocale(), range, actual);
 
-        Message.Builder builder = new Message.Builder(msgText, Message.ERROR)
+        Message.Builder builder = new Message.Builder(msgText, Severity.ERROR)
                 .code(MSG_CODE_CHECK_DECIMAL)
                 .invalidObjects(invalidObjectProperties)
                 .replacements(replacementParameters)

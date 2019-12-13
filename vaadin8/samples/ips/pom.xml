@@ -15,7 +15,7 @@
     <name>linkki Vaadin 8 Samples :: Faktor-IPS</name>
 
     <properties>
-        <faktorips.version>19.7.0</faktorips.version>
+        <faktorips.version>19.12.0</faktorips.version>
     </properties>
 
     <build>
