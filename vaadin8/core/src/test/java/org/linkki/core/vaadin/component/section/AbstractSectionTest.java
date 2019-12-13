@@ -13,11 +13,13 @@
  */
 package org.linkki.core.vaadin.component.section;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.ui.Button;
@@ -65,11 +67,24 @@ public class AbstractSectionTest {
     @Test
     public void testHeader_CloseButton() {
         TestSection section = new TestSection("", true);
+
         HorizontalLayout header = section.getHeader();
         Label captionLabel = (Label)header.getComponent(0);
+        Button closeButton = (Button)header.getComponent(1);
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(false));
+        assertThat(closeButton.isVisible(), is(true));
+    }
+
+    @Test
+    public void testHeader_CloseButtonStyle() {
+        TestSection section = new TestSection("", true);
+
+        HorizontalLayout header = section.getHeader();
+        Button closeButton = (Button)header.getComponent(1);
+
+        assertThat(closeButton.getStyleName(), containsString(LinkkiTheme.BUTTON_TEXT));
     }
 
     @Test
@@ -163,6 +178,16 @@ public class AbstractSectionTest {
         assertThat(header.getComponentCount(), is(5));
         assertThat(header.getComponent(1), is(button2));
         assertThat(header.getComponent(2), is(button1));
+    }
+
+    @Test
+    public void testHeaderButton_Style() {
+        TestSection section = new TestSection("CAP", true);
+        Button button1 = new Button();
+
+        section.addHeaderButton(button1);
+
+        assertThat(button1.getStyleName(), containsString(LinkkiTheme.BUTTON_TEXT));
     }
 
 }

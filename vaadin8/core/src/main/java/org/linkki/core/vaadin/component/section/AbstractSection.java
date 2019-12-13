@@ -167,6 +167,7 @@ public abstract class AbstractSection extends VerticalLayout {
      * caption text.
      */
     public void addHeaderButton(Button button) {
+        button.addStyleName(LinkkiTheme.BUTTON_TEXT);
         this.headerComponents.add(button);
         header.addComponent(button, 1);
 
