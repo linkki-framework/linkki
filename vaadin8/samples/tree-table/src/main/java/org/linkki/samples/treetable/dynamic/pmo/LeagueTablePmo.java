@@ -19,12 +19,18 @@ import java.util.stream.Collectors;
 
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
+import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 import org.linkki.samples.treetable.dynamic.model.League;
 import org.linkki.samples.treetable.dynamic.model.Player;
+import org.linkki.samples.treetable.dynamic.pmo.PlayerTableRowPmo.PositionCaptionProvider;
 
-public class LeagueTablePmo extends SimpleTablePmo<String, PlayerTableRowPmo> {
+import com.vaadin.ui.Notification;
+
+public class LeagueTablePmo extends SimpleTablePmo<String, PlayerTableRowPmo>
+        implements SelectableTablePmo<PlayerTableRowPmo> {
 
     private League league;
+    private PlayerTableRowPmo selected;
 
     public LeagueTablePmo(League league) {
         super(() -> league
@@ -70,6 +76,28 @@ public class LeagueTablePmo extends SimpleTablePmo<String, PlayerTableRowPmo> {
                     return "";
             }
         });
+    }
+
+    @Override
+    public PlayerTableRowPmo getSelection() {
+        return selected;
+    }
+
+    @Override
+    public void setSelection(PlayerTableRowPmo selectedRow) {
+        this.selected = selectedRow;
+        Notification.show("Selected: " + getDisplayLine(selectedRow));
+    }
+
+    @Override
+    public void onDoubleClick() {
+        Notification.show("DoubleClick: " + getDisplayLine(selected));
+    }
+
+    private String getDisplayLine(PlayerTableRowPmo row) {
+        return row.getTeam() + " "
+                + PositionCaptionProvider.getName(row.getPosition()) + " "
+                + row.getFirstName();
     }
 
 }

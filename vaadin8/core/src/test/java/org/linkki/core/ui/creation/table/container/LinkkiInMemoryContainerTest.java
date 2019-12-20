@@ -13,12 +13,12 @@
  */
 package org.linkki.core.ui.creation.table.container;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -290,6 +290,37 @@ public class LinkkiInMemoryContainerTest {
         container.setItems(Collections.singletonList(testItem));
 
         assertThat(container.hasChildren(testItem), is(true));
+    }
+
+    @Test
+    public void testContainsId() {
+        LinkkiInMemoryContainer<TestItem> container = new LinkkiInMemoryContainer<>();
+        HierarchicalTestItem child1 = new HierarchicalTestItem(6);
+        HierarchicalTestItem child2 = new HierarchicalTestItem(9);
+        HierarchicalTestItem testItem = new HierarchicalTestItem(42, child1, child2);
+
+        container.setItems(Collections.singletonList(testItem));
+        container.getChildren(testItem);
+
+        assertThat(container.containsId(testItem), is(true));
+        assertThat(container.containsId(child1), is(true));
+        assertThat(container.containsId(child2), is(true));
+    }
+
+    @Test
+    public void testGetItemIds() {
+        LinkkiInMemoryContainer<TestItem> container = new LinkkiInMemoryContainer<>();
+        HierarchicalTestItem child1 = new HierarchicalTestItem(6);
+        HierarchicalTestItem child2 = new HierarchicalTestItem(9);
+        HierarchicalTestItem testItem = new HierarchicalTestItem(42, child1, child2);
+        container.setItems(Collections.singletonList(testItem));
+
+        List<?> itemIds = container.getItemIds();
+        container.getChildren(testItem);
+
+        assertThat(itemIds.contains(testItem), is(true));
+        assertThat(itemIds.contains(child1), is(true));
+        assertThat(itemIds.contains(child2), is(true));
     }
 
 

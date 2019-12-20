@@ -89,7 +89,7 @@ public class TableComponentWrapper<ROW> extends CaptionComponentWrapper
     }
 
     private boolean hasItemListChanged(List<ROW> actualItems) {
-        return !tableContainer.getItemIds().equals(actualItems);
+        return !tableContainer.rootItemIds().equals(actualItems);
     }
 
     private boolean hasItemChanged(List<? extends ROW> items) {

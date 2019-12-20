@@ -36,9 +36,17 @@ public class PlayerRowPmo extends PlayerTableRowPmo {
         return player.getTeam();
     }
 
+    public void setTeam(String team) {
+        player.setTeam(team);
+    }
+
     @Override
     public Position getPosition() {
         return player.getPosition();
+    }
+
+    public void setPosition(Position position) {
+        player.setPosition(position);
     }
 
     @Override
@@ -46,9 +54,17 @@ public class PlayerRowPmo extends PlayerTableRowPmo {
         return player.getFirstName();
     }
 
+    public void setFirstName(String firstName) {
+        player.setFirstName(firstName);
+    }
+
     @Override
     public String getLastName() {
         return player.getLastName();
+    }
+
+    public void setLastName(String lastName) {
+        player.setLastName(lastName);
     }
 
     @Override

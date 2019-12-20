@@ -15,6 +15,7 @@ package org.linkki.core.ui.creation.table.container;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +47,8 @@ public class LinkkiInMemoryContainer<T>
     private Map<T, T> parents = new WeakHashMap<>();
     private Map<T, List<T>> children = new WeakHashMap<>();
 
+    private ArrayList<T> roots = new ArrayList<>();
+
     @Override
     public Collection<?> getContainerPropertyIds() {
         return Collections.emptyList();
@@ -58,6 +61,8 @@ public class LinkkiInMemoryContainer<T>
      */
     public void setItems(Collection<? extends T> items) {
         requireNonNull(items, "items must not be null");
+
+        this.roots = new ArrayList<>(items);
 
         getAllItemIds().clear();
         getAllItemIds().addAll(items);
@@ -76,6 +81,8 @@ public class LinkkiInMemoryContainer<T>
     public boolean removeAllItems() {
         getAllItemIds().clear();
         parents.clear();
+        children.clear();
+        roots.clear();
         return true;
     }
 
@@ -85,6 +92,7 @@ public class LinkkiInMemoryContainer<T>
      */
     @Deprecated
     public void addAllItems(Collection<T> items) {
+        this.roots.addAll(items);
         getAllItemIds().addAll(items);
         fireItemSetChange();
     }
@@ -120,7 +128,13 @@ public class LinkkiInMemoryContainer<T>
     @Override
     @SuppressWarnings({ "unchecked" })
     public Collection<T> getChildren(Object itemId) {
-        return children.computeIfAbsent((T)itemId, this::getChildrenTypesafe);
+        List<T> newChildren = children.computeIfAbsent((T)itemId, this::getChildrenTypesafe);
+        newChildren.forEach(c -> {
+            if (!containsId(c)) {
+                getAllItemIds().add(c);
+            }
+        });
+        return newChildren;
     }
 
     public Collection<T> getExistingChildren(T parent) {
@@ -128,7 +142,11 @@ public class LinkkiInMemoryContainer<T>
     }
 
     public boolean removeExistingChildren(T item) {
-        return children.remove(item) != null;
+        boolean result = children.remove(item) != null;
+        if (result) {
+            getAllItemIds().remove(item);
+        }
+        return result;
     }
 
     private List<T> getChildrenTypesafe(T parent) {
@@ -154,7 +172,7 @@ public class LinkkiInMemoryContainer<T>
 
     @Override
     public Collection<?> rootItemIds() {
-        return getItemIds();
+        return roots;
     }
 
     @Override
@@ -164,7 +182,7 @@ public class LinkkiInMemoryContainer<T>
 
     @Override
     public boolean isRoot(Object itemId) {
-        return containsId(itemId);
+        return roots.contains(itemId);
     }
 
     @Override

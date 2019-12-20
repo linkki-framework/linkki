@@ -33,7 +33,7 @@ public abstract class PlayerTableRowPmo {
     @UITextField(position = 10, label = "Team")
     public abstract String getTeam();
 
-    @UITableColumn(width = 100)
+    @UITableColumn(width = 200)
     @UIComboBox(position = 20, label = "Position", content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = PositionCaptionProvider.class)
     public abstract Position getPosition();
 
@@ -62,6 +62,13 @@ public abstract class PlayerTableRowPmo {
 
         @Override
         public String getCaption(Position value) {
+            return getName(value);
+        }
+
+        public static String getName(Position value) {
+            if (value == null) {
+                return "";
+            }
             switch (value) {
                 case TW:
                     return "goalkeeper";
