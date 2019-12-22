@@ -94,6 +94,7 @@ public class ButtonPmoBinder {
                 ComponentWrapper componentWrapper,
                 Handler modelUpdated) {
             Button button = (Button)componentWrapper.getComponent();
+            button.setDisableOnClick(true);
             button.addClickListener(e -> {
                 propertyDispatcher.push(Aspect.of(NAME));
                 modelUpdated.apply();
