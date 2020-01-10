@@ -163,13 +163,23 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     /**
-     * Adds a new button to the header using the given button PMO. The new button is added after the
-     * caption text.
+     * Adds a button to the header using the given button PMO. The new button is added on the left, in
+     * front of any components added earlier. The caption text will however always be the leftmost item,
+     * if it is present.
      */
     public void addHeaderButton(Button button) {
         button.addStyleName(LinkkiTheme.BUTTON_TEXT);
-        this.headerComponents.add(button);
-        header.addComponent(button, 1);
+        addHeaderComponent(button);
+    }
+
+    /**
+     * Adds a component to the header. The new component is added on the left, in front of any
+     * components added earlier. The caption text will however always be the leftmost item, if it is
+     * present.
+     */
+    public void addHeaderComponent(Component component) {
+        headerComponents.add(component);
+        header.addComponent(component, 1);
 
         updateHeader();
     }
