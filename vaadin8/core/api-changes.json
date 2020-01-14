@@ -65,7 +65,7 @@
           "new": "class com.vaadin.navigator.Navigator",
           "justification": "LIN-1595 :: Update Vaadin version to 8.9.2"
         },
-		{
+        {
           "code": "java.class.nonFinalClassInheritsFromNewClass",
           "old": "class org.linkki.core.ui.aspects.BindReadOnlyAspectDefinition",
           "new": "class org.linkki.core.ui.aspects.BindReadOnlyAspectDefinition",
@@ -73,21 +73,5 @@
         }
       ]
     }
-  },
-  "1.1.2": {
-    "revapi": {
-      "ignore": [
-        {
-          "code": "java.class.added",
-          "new": "@interface org.linkki.core.ui.layout.annotation.SectionHeader",
-          "justification": "LIN-128"
-        },
-        {
-          "code": "java.method.added",
-          "new": "method void org.linkki.core.vaadin.component.section.AbstractSection::addHeaderComponent(com.vaadin.ui.Component)",
-          "justification": "LIN-128"
-        }
-      ]
-	}
   }
 }

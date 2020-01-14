@@ -46,7 +46,7 @@ public abstract class AbstractSection extends VerticalLayout {
     private final HorizontalLayout header;
     private final List<Component> headerComponents = new ArrayList<>();
     private final Label captionLabel;
-    private final Optional<Button> closeButton;
+    private final Button closeButton;
 
     private boolean open = true;
 
@@ -73,13 +73,8 @@ public abstract class AbstractSection extends VerticalLayout {
         setStyleName(LinkkiTheme.SECTION);
 
         captionLabel = createCaption();
-
-        if (closeable) {
-            Button openCloseButton = createOpenCloseButton(this::switchOpenStatus);
-            closeButton = Optional.of(openCloseButton);
-        } else {
-            closeButton = Optional.empty();
-        }
+        closeButton = createOpenCloseButton(this::switchOpenStatus);
+        closeButton.setVisible(closeable);
 
         header = createHeader();
         updateHeader();
@@ -112,8 +107,7 @@ public abstract class AbstractSection extends VerticalLayout {
         headerLayout.addStyleName(LinkkiTheme.SECTION_CAPTION);
 
         headerLayout.addComponent(captionLabel);
-
-        closeButton.ifPresent(headerLayout::addComponent);
+        headerLayout.addComponent(closeButton);
 
         Label line = new Label("<hr/>", ContentMode.HTML);
         line.setWidth("100%");
@@ -140,7 +134,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
     private boolean shouldHeaderBePresent() {
         return !StringUtils.isEmpty(captionLabel.getValue())
-                || this.closeButton.isPresent()
+                || this.closeButton.isVisible()
                 || !this.headerComponents.isEmpty();
     }
 
@@ -164,23 +158,24 @@ public abstract class AbstractSection extends VerticalLayout {
 
     /**
      * Adds a button to the header using the given button PMO. The new button is added on the left, in
-     * front of any components added earlier. The caption text will however always be the leftmost item,
-     * if it is present.
+     * front of the components added earlier. However, the caption text will always be the leftmost
+     * item, if it is present.
      */
     public void addHeaderButton(Button button) {
         button.addStyleName(LinkkiTheme.BUTTON_TEXT);
-        addHeaderComponent(button);
+        headerComponents.add(button);
+        header.addComponent(button, 1);
+        updateHeader();
     }
 
     /**
-     * Adds a component to the header. The new component is added on the left, in front of any
-     * components added earlier. The caption text will however always be the leftmost item, if it is
+     * Adds a component to the header. The new component is added on the right, after the components
+     * added earlier. However, the hide/expand arrow will always be the rightmost item, if it is
      * present.
      */
     public void addHeaderComponent(Component component) {
         headerComponents.add(component);
-        header.addComponent(component, 1);
-
+        header.addComponent(component, header.getComponentCount() - 1);
         updateHeader();
     }
 
@@ -199,10 +194,10 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     /**
-     * Opens the sections.
+     * Opens the section.
      */
     public void open() {
-        if (open) {
+        if (isOpen()) {
             return;
         }
         switchOpenStatus();
@@ -220,9 +215,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
     protected void switchOpenStatus() {
         open = !open;
-        if (closeButton.isPresent()) {
-            closeButton.get().setIcon(open ? VaadinIcons.ANGLE_DOWN : VaadinIcons.ANGLE_RIGHT);
-        }
+        closeButton.setIcon(open ? VaadinIcons.ANGLE_DOWN : VaadinIcons.ANGLE_RIGHT);
         getSectionContent().setVisible(open);
     }
 
