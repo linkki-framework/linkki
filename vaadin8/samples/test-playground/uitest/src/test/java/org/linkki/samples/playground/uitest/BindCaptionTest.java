@@ -14,14 +14,15 @@
 
 package org.linkki.samples.playground.uitest;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithEditButtonPmo;
+import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithoutButtonPmo;
 
 import com.vaadin.testbench.elements.HorizontalLayoutElement;
@@ -60,7 +61,8 @@ public class BindCaptionTest extends AbstractUiTest {
 
         assertThat(caption.getText(), is("Dynamic caption"));
 
-        TextFieldElement captionField = getTextFieldById(section, DynamicCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
+        TextFieldElement captionField = getTextFieldById(section,
+                                                         DynamicCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
         captionField.setValue("bar");
         assertThat(caption.getText(), is("bar"));
 
@@ -77,7 +79,27 @@ public class BindCaptionTest extends AbstractUiTest {
 
         assertThat(caption.getText(), is("Dynamic caption with edit button"));
 
-        TextFieldElement captionField = getTextFieldById(section, DynamicCaptionWithEditButtonPmo.PROPERTY_SECTION_CAPTION);
+        TextFieldElement captionField = getTextFieldById(section,
+                                                         DynamicCaptionWithEditButtonPmo.PROPERTY_SECTION_CAPTION);
+        captionField.setValue("bar");
+        assertThat(caption.getText(), is("bar"));
+
+        assertThat(header.$(LabelElement.class).all().size(), is(2));
+        captionField.setValue("");
+        assertThat(hasHeader(section), is(true));
+        assertThat(header.$(LabelElement.class).all().size(), is(1));
+    }
+
+    @Test
+    public void testDynamicSectionCaption_SectionHeaderButton() {
+        VerticalLayoutElement section = getSection(DynamicCaptionWithSectionHeaderButtonPmo.class);
+        HorizontalLayoutElement header = getHeader(section);
+        LabelElement caption = header.$(LabelElement.class).first();
+
+        assertThat(caption.getText(), is("Dynamic caption with section header button"));
+
+        TextFieldElement captionField = getTextFieldById(section,
+                                                         DynamicCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
         captionField.setValue("bar");
         assertThat(caption.getText(), is("bar"));
 
@@ -95,7 +117,8 @@ public class BindCaptionTest extends AbstractUiTest {
 
         assertThat(caption.getText(), is("Dynamic caption with close button"));
 
-        TextFieldElement captionField = getTextFieldById(section, DynamicCaptionWithCloseButtonPmo.PROPERTY_SECTION_CAPTION);
+        TextFieldElement captionField = getTextFieldById(section,
+                                                         DynamicCaptionWithCloseButtonPmo.PROPERTY_SECTION_CAPTION);
         captionField.setValue("☃");
         assertThat(caption.getText(), is("☃"));
 

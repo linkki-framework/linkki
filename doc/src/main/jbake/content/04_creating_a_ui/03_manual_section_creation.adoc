@@ -28,4 +28,8 @@ The created `FormLayout` can simply be used with other UI components:
 include::{source-dir}/org/linkki/samples/customlayout/CustomLayoutUI.java[tags=CustomLayoutUI-create]
 ----
 
-TIP: If the layout is as simple as in this example it would be much more convenience to write a <<custom-ui-layout-annotation,custom layout annotation>>. Only use this approach to get more control over special cases of the layout.
+TIP: If the layout is as simple as in this example it would be much more convenient to write a <<custom-ui-layout-annotation,custom layout annotation>>. Only use this approach to get more control over special cases of the layout.
+
+==== Filtering of Components
+
+When using the `UiCreator` you can choose to create all <<ui-element, UI elements>> from a PMO object (via the `createUiElements(Object, BindingContext, Function<C, W>)` method) or choose the elements you want to display yourself, for example by reading additional annotations (like <<section-header-annotation, `@SectionHeader`>>), by way of the method `createUiElement(AnnotatedElement, Object, BindingContext, Function<C, W>)` which takes a single annotated element as an additional argument and creates only the UI elements from that annotated element. You can obtain all annotated elements from `ComponentAnnotationReader#getComponentDefinitionMethods(Class<?>)`.

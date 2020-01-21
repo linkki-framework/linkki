@@ -3,6 +3,7 @@
 :jbake-status: published
 
 :source-dir-custom: ../../../../../vaadin8/samples/custom-layout/src/main/java
+:source-dir-playground: ../../../../../vaadin8/samples/test-playground/src/main/java
 :resource-dir-custom: ../../../../../vaadin8/samples/custom-layout/src/main/webapp
 :source-dir-doc: ../../../../src/main/java
 :images-folder-name: 05_ui_components
@@ -67,9 +68,17 @@ The corresponding part of the html file may looks like this. The used css classe
 include::{resource-dir-custom}/VAADIN/themes/valo/layouts/AddressSectionPmo.html[lines=45..56]
 ----
 
-===== Button in Section Header
+[[section-header-annotation]]
+===== Adding UI Elements to the Section Header
 
-Sometimes it is useful to have a button in the sections header, for example to open a special edit dialog. This can be achieved by implementing the interface `PresentationModelObject` with the method `getEditButtonPmo()`. The returned `ButtonPmo` defines the button and its behavior.
+To add more elements, for example an edit button, to the section's header than just the caption, you can annotate regular <<ui-element, UI elements>> in the section's PMO with the `@SectionHeader` annotation. They will then be placed in the header instead of in the section's content area.
+
+[source, java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/dynamicannotations/DynamicCaptionWithSectionHeaderButtonPmo.java[tags=section-header]
+----
+
+TIP: The same effect could previously be achieved by implementing the interface `PresentationModelObject` with the method `getEditButtonPmo()` where the returned `ButtonPmo` defines the button and its behavior. As this allows only limited control over the button and no other elements, using a `@SectionHeader` annotated `@UiButton` like shown above is to be preferred.
 
 ==== Simple Vaadin Layouts
 

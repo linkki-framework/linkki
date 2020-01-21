@@ -35,6 +35,8 @@ public class DynamicAnnotationsLayout extends VerticalLayout implements SidebarS
         addComponent(PmoBasedSectionFactory
                 .createAndBindSection(new DynamicCaptionWithEditButtonPmo(), bindingContext));
         addComponent(PmoBasedSectionFactory
+                .createAndBindSection(new DynamicCaptionWithSectionHeaderButtonPmo(), bindingContext));
+        addComponent(PmoBasedSectionFactory
                 .createAndBindSection(new DynamicCaptionWithCloseButtonPmo(), bindingContext));
 
         addComponent(PmoBasedSectionFactory
