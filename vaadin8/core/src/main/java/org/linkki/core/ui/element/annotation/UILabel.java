@@ -39,7 +39,7 @@ import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
- * Provides a single UI-element to display text content. It is equal to {@link com.vaadin.ui.Label}.
+ * Provides a single UI-element to display text content. Creates a {@link com.vaadin.ui.Label}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -84,9 +84,9 @@ public @interface UILabel {
     boolean htmlContent() default false;
 
     /**
-     * Aspect definition for {@link UILabel} annotation.
+     * Aspect definition creator for the {@link UILabel} annotation.
      */
-    class LabelAspectDefinitionCreator implements AspectDefinitionCreator<UILabel> {
+    static class LabelAspectDefinitionCreator implements AspectDefinitionCreator<UILabel> {
 
         @Override
         public LinkkiAspectDefinition create(UILabel annotation) {

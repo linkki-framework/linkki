@@ -108,7 +108,7 @@ public @interface UIYesNoComboBox {
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default BooleanCaptionProvider.class;
 
-    public class BooleanCaptionProvider implements ItemCaptionProvider<Object> {
+    public static class BooleanCaptionProvider implements ItemCaptionProvider<Object> {
 
         @Override
         @NonNull
@@ -122,7 +122,10 @@ public @interface UIYesNoComboBox {
         }
     }
 
-    class YesNoComboBoxAvailableValuesAspectCreator implements AspectDefinitionCreator<UIYesNoComboBox> {
+    /**
+     * Aspect definition creator for the {@link UIYesNoComboBox} annotation.
+     */
+    static class YesNoComboBoxAvailableValuesAspectCreator implements AspectDefinitionCreator<UIYesNoComboBox> {
 
         @Override
         public LinkkiAspectDefinition create(UIYesNoComboBox annotation) {

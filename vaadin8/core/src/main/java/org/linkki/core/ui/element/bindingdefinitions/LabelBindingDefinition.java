@@ -32,7 +32,7 @@ import com.vaadin.ui.Label;
  */
 public class LabelBindingDefinition implements BindingDefinition {
 
-    private UILabel labelAnnotation;
+    private final UILabel labelAnnotation;
 
     public LabelBindingDefinition(UILabel labelAnnotation) {
         this.labelAnnotation = requireNonNull(labelAnnotation, "labelAnnotation must not be null");

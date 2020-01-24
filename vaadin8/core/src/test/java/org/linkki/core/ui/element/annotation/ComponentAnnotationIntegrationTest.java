@@ -14,9 +14,9 @@
 
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;

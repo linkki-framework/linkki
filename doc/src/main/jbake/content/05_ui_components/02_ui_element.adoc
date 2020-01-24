@@ -22,6 +22,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 |<<ui-datefield,`UIDateField`>> |Field for date entry with date picker
 |<<ui-combobox,`UIComboBox`>> |Dropdown field with predefined options
 |<<ui-yesnocombobox,`UIYesNoCombobox`>> |Dropdown field for boolean choices
+|<<ui-radiobutton,`UIRadioButtons`>> |Radio buttons for selecting a single choice
 |===
 
 [[ui-buttons]]
@@ -223,6 +224,14 @@ A `@UIYesNoComboBox` allows selection of a boolean value from a dropdown list li
 
 * <<ui-combobox-width,`width: String`>>
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> with a default implementation `BooleanCaptionProvider` that uses common names in the current locale like "Yes"/"No" or "Ja"/"Nein".
+
+[[ui-radiobutton]]
+==== UIRadioButtons
+`@UIRadioButtons` allow selection of a single value using a group of buttons. Multiple values cannot be selected at the same time.
+
+* <<ui-combobox-content,`content: AvailableValuesType`>>
+* <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> with a default implementation `DefaultCaptionProvider` that delegates to `getName` or `toString`
+* `buttonAlignment: AlignmentType`
 
 [[ui-subsetchooser]]
 ==== UISubsetChooser

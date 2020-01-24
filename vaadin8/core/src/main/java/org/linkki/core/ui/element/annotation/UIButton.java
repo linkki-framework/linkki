@@ -113,9 +113,9 @@ public @interface UIButton {
     int[] shortcutModifierKeys() default {};
 
     /**
-     * Aspect definition for {@link UIButton} annotation.
+     * Aspect definition creator for the {@link UIButton} annotation.
      */
-    class UIButtonAspectDefinitionCreator implements AspectDefinitionCreator<UIButton> {
+    static class UIButtonAspectDefinitionCreator implements AspectDefinitionCreator<UIButton> {
 
         @Override
         public LinkkiAspectDefinition create(UIButton annotation) {

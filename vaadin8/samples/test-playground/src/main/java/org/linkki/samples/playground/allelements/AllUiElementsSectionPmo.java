@@ -14,6 +14,8 @@
 
 package org.linkki.samples.playground.allelements;
 
+import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UIButton;
@@ -24,6 +26,7 @@ import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UIDoubleField;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UIRadioButtons;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
@@ -71,7 +74,7 @@ public class AllUiElementsSectionPmo {
     }
 
     @UIComboBox(position = 60, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE)
-    public void enumValue() {
+    public void enumValueComboBox() {
         // model binding
     }
 
@@ -102,6 +105,11 @@ public class AllUiElementsSectionPmo {
 
     @UIDecimalField(position = 110, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DECIMALVALUE)
     public void decimalValue() {
+        // model binding
+    }
+
+    @UIRadioButtons(position = 120, label = NlsText.I18n, buttonAlignment = AlignmentType.HORIZONTAL, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE)
+    public void enumValueRadioButton() {
         // model binding
     }
 

@@ -105,7 +105,10 @@ public @interface UIIntegerField {
      */
     String modelAttribute() default "";
 
-    class IntegerValueAspectCreator implements AspectDefinitionCreator<UIIntegerField> {
+    /**
+     * Aspect definition creator for the {@link UIIntegerField} annotation.
+     */
+    static class IntegerValueAspectCreator implements AspectDefinitionCreator<UIIntegerField> {
 
 
         @Override

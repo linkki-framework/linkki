@@ -16,6 +16,7 @@ package org.linkki.samples.playground.uitest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.startsWith;
 
 import java.time.LocalDate;
@@ -38,6 +39,7 @@ import com.vaadin.testbench.elements.FormLayoutElement;
 import com.vaadin.testbench.elements.HorizontalLayoutElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.PasswordFieldElement;
+import com.vaadin.testbench.elements.RadioButtonGroupElement;
 import com.vaadin.testbench.elements.TextAreaElement;
 import com.vaadin.testbench.elements.TextFieldElement;
 import com.vaadin.testbench.elements.VerticalLayoutElement;
@@ -116,8 +118,9 @@ public class AllUiElementsTest extends AbstractUiTest {
 
     @Test
     public void testComboBox() {
-        ComboBoxElement comboBox = $(ComboBoxElement.class).id(AllUiElementsModelObject.PROPERTY_ENUMVALUE);
-        assertThat(comboBox.getValue(), is(Suit.SPADES.getName()));
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id("enumValueComboBox");
+
+        assertThat(comboBox.getValue(), is(""));
 
         comboBox.selectByText(Suit.HEARTS.getName());
         assertThat(comboBox.getValue(), is(Suit.HEARTS.getName()));
@@ -173,6 +176,17 @@ public class AllUiElementsTest extends AbstractUiTest {
         button.click();
 
         assertThat(integerField.getValue(), is("43"));
+    }
+
+    @Test
+    public void testRadioButton() {
+        RadioButtonGroupElement radioButtons = $(RadioButtonGroupElement.class).id("enumValueRadioButton");
+
+        assertThat(radioButtons.getValue(), is(nullValue()));
+
+        radioButtons.selectByText(Suit.HEARTS.getName());
+
+        assertThat(radioButtons.getValue(), is(Suit.HEARTS.getName()));
     }
 
     @Test

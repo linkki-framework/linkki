@@ -105,8 +105,10 @@ public @interface UIDoubleField {
      */
     String modelAttribute() default "";
 
-    class DoubleValueAspectCreator implements AspectDefinitionCreator<UIDoubleField> {
-
+    /**
+     * Aspect definition creator for the {@link UIDoubleField} annotation.
+     */
+    static class DoubleValueAspectCreator implements AspectDefinitionCreator<UIDoubleField> {
 
         @Override
         public LinkkiAspectDefinition create(UIDoubleField annotation) {

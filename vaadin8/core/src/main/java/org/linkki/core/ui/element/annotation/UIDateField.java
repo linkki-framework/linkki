@@ -94,7 +94,10 @@ public @interface UIDateField {
      */
     String dateFormat() default "";
 
-    class DateFieldValueAspectCreator implements AspectDefinitionCreator<UIDateField> {
+    /**
+     * Aspect definition creator for the {@link UIDateField} annotation.
+     */
+    static class DateFieldValueAspectCreator implements AspectDefinitionCreator<UIDateField> {
 
         @Override
         public LinkkiAspectDefinition create(UIDateField annotation) {

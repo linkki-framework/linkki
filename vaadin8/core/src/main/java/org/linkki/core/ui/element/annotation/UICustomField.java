@@ -116,7 +116,10 @@ public @interface UICustomField {
      */
     Class<? extends Component> uiControl();
 
-    class CustomFieldAvailableValuesAspectDefinitionCreator implements AspectDefinitionCreator<UICustomField> {
+    /**
+     * Aspect definition creator for the {@link UICustomField} annotation.
+     */
+    static class CustomFieldAvailableValuesAspectDefinitionCreator implements AspectDefinitionCreator<UICustomField> {
 
         @Override
         public LinkkiAspectDefinition create(UICustomField annotation) {

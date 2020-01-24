@@ -51,7 +51,7 @@ public class AllUiElementsModelObject {
 
     private LocalDate date = LocalDate.now();
 
-    private Suit enumValue = Suit.SPADES;
+    private Suit enumValue = null;
 
     private boolean booleanValue = true;
 

@@ -103,7 +103,10 @@ public @interface UICheckBox {
      */
     String modelAttribute() default "";
 
-    class CheckBoxCaptionAspectDefinitionCreator implements AspectDefinitionCreator<UICheckBox> {
+    /**
+     * Aspect definition creator for the {@link UICheckBox} annotation.
+     */
+    static class CheckBoxCaptionAspectDefinitionCreator implements AspectDefinitionCreator<UICheckBox> {
 
         @Override
         public LinkkiAspectDefinition create(UICheckBox annotation) {

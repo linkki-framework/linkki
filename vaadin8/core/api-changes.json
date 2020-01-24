@@ -73,5 +73,16 @@
         }
       ]
     }
+  },
+  "1.2.0": {
+    "revapi": {
+      "ignore": [
+		{
+          "code": "java.class.externalClassExposedInAPI",
+          "new": "enum org.linkki.core.defaults.ui.aspects.types.AlignmentType",
+          "justification": "LIN-245"
+        }
+      ]
+	}
   }
 }

@@ -113,7 +113,10 @@ public @interface UIComboBox {
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultCaptionProvider.class;
 
-    class ComboBoxAvailableValuesAspectDefinitionCreator implements AspectDefinitionCreator<UIComboBox> {
+    /**
+     * Aspect definition creator for the {@link UIComboBox} annotation.
+     */
+    static class ComboBoxAvailableValuesAspectDefinitionCreator implements AspectDefinitionCreator<UIComboBox> {
 
         @Override
         public LinkkiAspectDefinition create(UIComboBox annotation) {

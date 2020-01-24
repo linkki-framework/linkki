@@ -13,6 +13,8 @@
  */
 package org.linkki.core.ui.element.bindingdefinitions;
 
+import static java.util.Objects.requireNonNull;
+
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
@@ -31,8 +33,8 @@ public class SubsetChooserBindingDefinition implements BindingDefinition {
 
     private final UISubsetChooser uiSubsetChooser;
 
-    public SubsetChooserBindingDefinition(UISubsetChooser uiTwinColSelect) {
-        this.uiSubsetChooser = uiTwinColSelect;
+    public SubsetChooserBindingDefinition(UISubsetChooser uiSubsetChooser) {
+        this.uiSubsetChooser = requireNonNull(uiSubsetChooser, "uiSubsetChooser must not be null");
     }
 
     @Override

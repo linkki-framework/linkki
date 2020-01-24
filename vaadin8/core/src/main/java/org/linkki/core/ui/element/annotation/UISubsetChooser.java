@@ -124,7 +124,10 @@ public @interface UISubsetChooser {
     /** Caption of the right column */
     String rightColumnCaption() default "";
 
-    class SubsetChooserAvailableValuesAspectCreator implements AspectDefinitionCreator<UISubsetChooser> {
+    /**
+     * Aspect definition creator for the {@link UISubsetChooser} annotation.
+     */
+    static class SubsetChooserAvailableValuesAspectCreator implements AspectDefinitionCreator<UISubsetChooser> {
 
         @Override
         public LinkkiAspectDefinition create(UISubsetChooser annotation) {
