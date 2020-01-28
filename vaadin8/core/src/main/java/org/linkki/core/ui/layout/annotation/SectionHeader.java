@@ -25,6 +25,9 @@ import com.vaadin.ui.Component;
 /**
  * Places the component into the section header. This annotation can only be used inside a
  * {@link UISection}.
+ * <p>
+ * It is recommended to use negative numbers for the position of elements marked with this annotation to
+ * avoid conflicts with elements placed in the section's content area.
  * 
  * @implNote Components will be added using {@link AbstractSection#addHeaderComponent(Component)}.
  */

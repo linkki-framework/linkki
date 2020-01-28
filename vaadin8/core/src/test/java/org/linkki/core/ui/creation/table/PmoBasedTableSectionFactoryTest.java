@@ -13,10 +13,10 @@
  */
 package org.linkki.core.ui.creation.table;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +98,10 @@ public class PmoBasedTableSectionFactoryTest {
         assertThat(tableSection.getComponentCount(), is(2)); // header and table
         assertThat(tableSection.getComponent(0), is(instanceOf(HorizontalLayout.class)));
         HorizontalLayout header = (HorizontalLayout)tableSection.getComponent(0);
-        assertThat(header.getComponentCount(), is(3)); // caption, add button and close button
+        // caption, add button, close button, hidden show/expand button and @SectionHeader button
+        assertThat(header.getComponentCount(), is(5));
+        assertThat(header.getComponent(2), is(instanceOf(Button.class)));
+        assertThat(header.getComponent(2).isVisible(), is(false));
         assertThat(header.getComponent(1), is(instanceOf(Button.class)));
         Button addButton = (Button)header.getComponent(1);
         assertThat(addButton.getIcon(), is(VaadinIcons.PLUS));
@@ -130,5 +133,18 @@ public class PmoBasedTableSectionFactoryTest {
             return new ArrayList<>();
         }
 
+    }
+
+    @Test
+    public void testCreateSectionHeader() {
+        TestTablePmo containerPmo = new TestTablePmo();
+        BindingContext bindingContext = new BindingContext();
+        PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
+
+        AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
+        HorizontalLayout header = (HorizontalLayout)tableSection.getComponent(0);
+
+        assertThat(header.getComponent(3), instanceOf(Button.class));
+        assertThat(header.getComponent(3).getCaption(), is("header button"));
     }
 }

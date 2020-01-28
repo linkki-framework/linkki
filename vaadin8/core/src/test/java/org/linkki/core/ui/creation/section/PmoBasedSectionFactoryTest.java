@@ -13,16 +13,18 @@
  */
 package org.linkki.core.ui.creation.section;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.pmo.SectionID;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
+import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.section.AbstractSection;
@@ -30,12 +32,12 @@ import org.linkki.core.vaadin.component.section.CustomLayoutSection;
 import org.linkki.core.vaadin.component.section.FormSection;
 import org.linkki.core.vaadin.component.section.HorizontalSection;
 
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
-public class Vaadin8PmoBasedSectionFactoryTest {
+public class PmoBasedSectionFactoryTest {
 
     private BindingContext bindingContext = new BindingContext("testBindingContext");
 
@@ -54,12 +56,9 @@ public class Vaadin8PmoBasedSectionFactoryTest {
     @Test
     public void testSetComponentId() {
         AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(), bindingContext);
-        assertThat(section.getComponentCount(), is(2));
-        assertThat(section.getComponent(0).isVisible(), is(false)); // invisible header
         GridLayout gridLayout = TestUiUtil.getContentGrid((FormSection)section);
-
-        @NonNull
         Component textField = gridLayout.getComponent(1, 0);
+
         assertThat(textField.getId(), is("testProperty"));
     }
 
@@ -94,7 +93,19 @@ public class Vaadin8PmoBasedSectionFactoryTest {
         assertThat(((FormSection)section).getNumberOfColumns(), is(1));
     }
 
-    @UISection
+    @Test
+    public void testCreateSectionHeader() {
+        SCCPmoWithID containerPmo = new SCCPmoWithID();
+        PmoBasedSectionFactory factory = new PmoBasedSectionFactory();
+
+        AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
+        HorizontalLayout header = (HorizontalLayout)tableSection.getComponent(0);
+
+        assertThat(header.getComponent(2), instanceOf(Button.class));
+        assertThat(header.getComponent(2).getCaption(), is("header button"));
+    }
+
+    @UISection(caption = "Test")
     public static class SCCPmoWithID {
 
         @SectionID
@@ -105,6 +116,12 @@ public class Vaadin8PmoBasedSectionFactoryTest {
         @UITextField(position = 0, label = "")
         public String getTestProperty() {
             return "some_value";
+        }
+
+        @SectionHeader
+        @UIButton(position = 10, caption = "header button")
+        public void click() {
+            // nothing to do
         }
     }
 

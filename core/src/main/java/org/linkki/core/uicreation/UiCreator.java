@@ -30,7 +30,6 @@ import org.linkki.core.uicreation.layout.LayoutAnnotationReader;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.uiframework.UiFramework;
-import org.linkki.util.BeanUtils;
 import org.linkki.util.Optionals;
 
 /**
@@ -63,9 +62,12 @@ public class UiCreator {
      * {@link LinkkiBoundProperty @LinkkiBoundProperty} and {@link LinkkiComponent @LinkkiComponent}
      * annotation.
      * <p>
-     * <em>The created UI components are not added to any parent. You can do that in the
+     * The created UI components are not added to any parent. You can do that in the
      * {@code componentWrapperCreator} {@link Function} or afterwards retrieve the components from their
-     * {@link ComponentWrapper#getComponent() ComponentWrappers}.</em>
+     * {@link ComponentWrapper#getComponent() ComponentWrappers}.
+     * <p>
+     * If the given {@link AnnotatedElement} provides a {@link LinkkiLayout @LinkkiLayout} annotation,
+     * its layout definition will be called. This might create further child elements.
      * 
      * @param <C> the UI component class created by {@link ElementDescriptor#newComponent(Object)} and
      *            handed to the {@code componentWrapperCreator}
@@ -80,14 +82,34 @@ public class UiCreator {
     public static <C, W extends ComponentWrapper> Stream<W> createUiElements(Object pmo,
             BindingContext bindingContext,
             Function<C, W> componentWrapperCreator) {
-        Class<?> pmoClass = pmo.getClass();
-        return BeanUtils
-                .getMethods(pmoClass, ComponentAnnotationReader::isComponentDefinitionPresent)
-                .sorted(PositionAnnotationReader.comparingUniquePositions(pmoClass))
-                .map(m -> createComponent(m, pmo, bindingContext, componentWrapperCreator));
+        return ComponentAnnotationReader.getComponentDefinitionMethods(pmo.getClass())
+                .map(m -> createUiElement(m, pmo, bindingContext, componentWrapperCreator));
     }
 
-    private static <C, W extends ComponentWrapper> W createComponent(AnnotatedElement annotatedElement,
+    /**
+     * Creates and binds a UI element for the given {@link AnnotatedElement}, which will usually be a
+     * method or a class. It must provide a {@link LinkkiBoundProperty @LinkkiBoundProperty} and
+     * {@link LinkkiComponent @LinkkiComponent} annotation.
+     * <p>
+     * The created UI component is not added to any parent. You can do that in the
+     * {@code componentWrapperCreator} {@link Function} or afterwards retrieve the component from its
+     * {@link ComponentWrapper#getComponent() ComponentWrapper}.
+     * <p>
+     * If the given {@link AnnotatedElement} provides a {@link LinkkiLayout @LinkkiLayout} annotation,
+     * its layout definition will be called. This might create further child elements.
+     * 
+     * @param <C> the UI component class created by {@link ElementDescriptor#newComponent(Object)} and
+     *            handed to the {@code componentWrapperCreator}
+     * @param <W> the {@link ComponentWrapper} class created by the {@code componentWrapperCreator}
+     * @param annotatedElement the element for which to create a component
+     * @param pmo the PMO that contains the UI element annotations
+     * @param bindingContext a {@link BindingContext} that is used to register the bindings for the
+     *            created UI elements
+     * @param componentWrapperCreator a function that wraps the given component in an appropriate
+     *            {@link ComponentWrapper} for the binding
+     * @return the created {@link ComponentWrapper}
+     */
+    public static <C, W extends ComponentWrapper> W createUiElement(AnnotatedElement annotatedElement,
             Object pmo,
             BindingContext bindingContext,
             Function<C, W> componentWrapperCreator) {

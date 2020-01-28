@@ -16,9 +16,11 @@ package org.linkki.core.uicreation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
@@ -26,6 +28,7 @@ import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessor;
 import org.linkki.core.binding.dispatcher.reflection.accessor.PropertyAccessorCache;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.util.BeanUtils;
 import org.linkki.util.Classes;
 import org.linkki.util.MetaAnnotation;
 
@@ -70,6 +73,21 @@ public final class ComponentAnnotationReader {
     public static boolean isComponentDefinitionPresent(AnnotatedElement annotatedElement) {
         return LINKKI_COMPONENT_ANNOTATION
                 .isPresentOnAnyAnnotationOn(annotatedElement);
+    }
+
+    /***
+     * Returns all methods of the given class with a component definition. All components must have a
+     * valid {@link LinkkiPositioned position}, by which the stream is sorted.
+     * 
+     * @param pmoClass the class to search
+     * @return a sorted stream of methods with a component definition
+     * 
+     * @see #isComponentDefinitionPresent(AnnotatedElement)
+     * @see PositionAnnotationReader#comparingUniquePositions(Class)
+     */
+    public static Stream<Method> getComponentDefinitionMethods(Class<?> pmoClass) {
+        return BeanUtils.getMethods(pmoClass, ComponentAnnotationReader::isComponentDefinitionPresent)
+                .sorted(PositionAnnotationReader.comparingUniquePositions(pmoClass));
     }
 
     /**

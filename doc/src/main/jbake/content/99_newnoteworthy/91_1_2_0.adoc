@@ -1,0 +1,12 @@
+:jbake-type: referenced
+:jbake-status: referenced
+:jbake-order: 0
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_newnoteworthy
+
+=== 1.2.0
+
+==== Buttons and Arbitrary UI Elements in Section Headers
+
+Using the annotation <<section-header-annotation,@SectionHeader>>, any UI element can now be added to a section's header instead of its content area. This should be used instead of a button PMO returned from `PresentationModelObject#getEditButtonPmo()`.

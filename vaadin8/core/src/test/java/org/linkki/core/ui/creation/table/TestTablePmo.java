@@ -21,6 +21,8 @@ import java.util.Optional;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.pmo.ButtonPmo;
+import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.pmo.ButtonPmoBuilder;
 
@@ -61,6 +63,12 @@ public class TestTablePmo implements ContainerPmo<TestRowPmo> {
     @Override
     public List<TestRowPmo> getItems() {
         return pmos;
+    }
+
+    @SectionHeader
+    @UIButton(position = 10, caption = "header button")
+    public void click() {
+        // nothing to do
     }
 
     @Override
