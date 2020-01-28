@@ -78,6 +78,8 @@ To add more elements, for example an edit button, to the section's header than j
 include::{source-dir-playground}/org/linkki/samples/playground/dynamicannotations/DynamicCaptionWithSectionHeaderButtonPmo.java[tags=section-header]
 ----
 
+TIP: The position is validated by linkki to be unique in the PMO independent of where the element will be placed in a section, so it is recommended to use negative numbers for the elements marked with `@SectionHeader` to avoid conflicts with the regular elements.
+
 TIP: The same effect could previously be achieved by implementing the interface `PresentationModelObject` with the method `getEditButtonPmo()` where the returned `ButtonPmo` defines the button and its behavior. As this allows only limited control over the button and no other elements, using a `@SectionHeader` annotated `@UiButton` like shown above is to be preferred.
 
 ==== Simple Vaadin Layouts

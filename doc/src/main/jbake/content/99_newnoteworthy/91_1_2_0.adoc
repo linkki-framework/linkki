@@ -9,4 +9,4 @@
 
 ==== Buttons and Arbitrary UI Elements in Section Headers
 
-Using the annotation <<section-header-annotation,@SectionHeader>>, any UI element can now be added to a section's header instead of it's content area. This should be used instead of a button-PMO.
+Using the annotation <<section-header-annotation,@SectionHeader>>, any UI element can now be added to a section's header instead of its content area. This should be used instead of a button PMO returned from `PresentationModelObject#getEditButtonPmo()`.
