@@ -19,6 +19,7 @@ import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.table.TablesLayout;
+import org.linkki.samples.playground.incubator.IncubatorPage;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -34,6 +35,7 @@ public class PlaygroundView extends SidebarLayout implements View {
         addSidebarSheet(new DynamicAnnotationsLayout());
         addSidebarSheet(new BugCollectionLayout());
         addSidebarSheet(new TablesLayout());
+        addSidebarSheet(new IncubatorPage());
     }
 
     private void addSidebarSheet(SidebarSheetDefinition sidebarSheetDef) {

@@ -1,0 +1,14 @@
+{
+  "1.2.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",
+          "justification": "LIN-1718",
+          "new": ".* org\\.linkki\\..*"
+        }
+      ]
+    }
+  }
+}

@@ -84,7 +84,7 @@ public @interface UITextField {
     /**
      * Specifies the width of the field using a number and a CSS unit, for example "5em" or "50%".
      * <p>
-     * This value is set to 100% by default which means it grabs the available space.
+     * This value is set to 100% by default, which means it takes up all available space.
      * 
      * @see Sizeable#setWidth(String)
      */

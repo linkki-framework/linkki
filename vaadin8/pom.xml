@@ -19,6 +19,7 @@
         <module>ips</module>
         <module>samples</module>
         <module>archetypes</module>
+		<module>incubator</module>
     </modules>
 
     <properties>

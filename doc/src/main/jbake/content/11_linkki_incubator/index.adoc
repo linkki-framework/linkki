@@ -1,0 +1,59 @@
+:jbake-title: linkki Incubator
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 96
+
+[[linkki-incubator]]
+== linkki Incubator
+
+*linkki-incubator* contains the bleeding edge features of *linkki*, which might be incomplete and change drastically during development. We use this module to gather feedback before including them in the main release.
+
+Expect things to break!
+
+.Use this to include linkki-incubator in your project:
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-incubator</artifactId>
+</dependency>
+----
+
+=== Current Features
+
+[[nested-pmos]]
+==== Nested PMOs
+
+Methods annotated with `@UINestedComponent` can return a PMO, which is then included in the page. The resulting component has the same indentation as other components in the section and can be labeled. However, this causes fields inside nested PMOs to be indented further than fields in the nested PMO's parent.
+
+An example for this feature is pictured below, including relevant code snippets of the two classes.
+
+image::{images}/11_linkki_incubator/nested_pmo.png[Nested PMO]
+
+.Outer PMO
+[source,java]
+----
+@UITextField(position = 0)
+public String getName() {
+	return name;
+}
+
+@UINestedComponent(position = 10, label = "Address")
+public AddressPmo getAddressPmo() {
+	return addressPmo;
+}
+----
+
+.Inner PMO (AddressPmo) annotated with @UISection
+[source,java]
+----
+@UITextField(position = 0)
+public String getCity() {
+	return city;
+}
+
+@UITextField(position = 10)
+public String getCountry() {
+	return country;
+}
+----

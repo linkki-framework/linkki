@@ -14,3 +14,7 @@ Using the annotation <<section-header-annotation,@SectionHeader>>, any UI elemen
 ==== Radio Buttons
 
 Vaadin's radio button group, previously only used as an <<custom-ui-element-annotation,example how to create a custom UI element>>, is now also a part of linkki for Vaadin 8 with the <<ui-radiobutton,`@UIRadioButtons`>> annotation.
+
+==== Incubator Project & Nested PMOs
+
+The new incubator module offers access to features in development, such as <<nested-pmos,nested PMOs>>.
