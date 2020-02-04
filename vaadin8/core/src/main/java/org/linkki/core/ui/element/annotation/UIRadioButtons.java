@@ -82,7 +82,7 @@ public @interface UIRadioButtons {
      * 
      * @see AvailableValuesType
      */
-    AvailableValuesType content() default AvailableValuesType.ENUM_VALUES_INCL_NULL;
+    AvailableValuesType content() default AvailableValuesType.ENUM_VALUES_EXCL_NULL;
 
     /** Defines whether an UI-Component is editable, using values of {@link EnabledType} */
     EnabledType enabled() default ENABLED;

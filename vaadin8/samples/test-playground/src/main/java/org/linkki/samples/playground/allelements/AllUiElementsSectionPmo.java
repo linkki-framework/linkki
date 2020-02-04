@@ -15,7 +15,6 @@
 package org.linkki.samples.playground.allelements;
 
 import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
-import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UIButton;
@@ -108,7 +107,7 @@ public class AllUiElementsSectionPmo {
         // model binding
     }
 
-    @UIRadioButtons(position = 120, label = NlsText.I18n, buttonAlignment = AlignmentType.HORIZONTAL, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE)
+    @UIRadioButtons(position = 120, label = NlsText.I18n, buttonAlignment = AlignmentType.HORIZONTAL, modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE)
     public void enumValueRadioButton() {
         // model binding
     }
