@@ -76,7 +76,9 @@ public class IpsModelObject extends AbstractModelObject {
      * 
      * @generated
      */
+    // tag::PROPERTY_STRING[]
     public static final String PROPERTY_STRING = "string";
+    // end::PROPERTY_STRING[]
     /**
      * Member variable for decimal.
      * 
@@ -138,10 +140,12 @@ public class IpsModelObject extends AbstractModelObject {
      * 
      * @generated
      */
+    // tag::getString[]
     @IpsAttribute(name = "string", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
     public String getString() {
         return string;
     }
+    // end::getString[]
 
 
     /**

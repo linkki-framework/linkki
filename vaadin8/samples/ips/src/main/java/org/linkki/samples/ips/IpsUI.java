@@ -17,8 +17,10 @@ import org.faktorips.runtime.ValidationContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
+import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
@@ -46,9 +48,12 @@ public class IpsUI extends UI {
         IpsModelObject ipsModelObject = new IpsModelObject();
         IpsPmo pmo = new IpsPmo(ipsModelObject);
 
+        ValidationService validationService = // tag::createValidationService[]
+                () -> MessageConverter.convert(ipsModelObject.validate(new ValidationContext(UiFramework.getLocale())));
+        // end::createValidationService[]
+
         // tag::createBindingManager[]
-        BindingManager bindingManager = new DefaultBindingManager(
-                () -> MessageConverter.convert(ipsModelObject.validate(new ValidationContext())),
+        BindingManager bindingManager = new DefaultBindingManager(validationService,
                 PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, new IpsPropertyDispatcherFactory());
         // end::createBindingManager[]
 

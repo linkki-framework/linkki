@@ -10,20 +10,24 @@ import org.linkki.samples.ips.model.IpsModelObject;
 @UISection(caption = "Faktor-IPS with linkki")
 public class IpsPmo {
 
+    // tag::ModelObject[]
     @ModelObject
     private final IpsModelObject modelObject;
+    // end::ModelObject[]
 
     public IpsPmo(IpsModelObject modelObject) {
         this.modelObject = modelObject;
     }
 
-    @UIDecimalField(position = 10, label = "In Range [0..100/0.5]", required = RequiredType.REQUIRED, modelAttribute = IpsModelObject.PROPERTY_DECIMAL)
-    public void decimal() {
+    // tag::getString[]
+    @UITextField(position = 0, modelAttribute = IpsModelObject.PROPERTY_STRING)
+    public void getString() {
         // model binding
     }
+    // end::getString[]
 
-    @UITextField(position = 20, modelAttribute = IpsModelObject.PROPERTY_STRING)
-    public void ipsLabelDemo() {
+    @UIDecimalField(position = 10, label = "In Range [0..100/0.5]", required = RequiredType.REQUIRED, modelAttribute = IpsModelObject.PROPERTY_DECIMAL)
+    public void decimal() {
         // model binding
     }
 
