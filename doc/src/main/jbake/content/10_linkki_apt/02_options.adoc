@@ -32,6 +32,7 @@ argument keys have to start with "linkki.apt".
 | **WRONG_CONTENT_TYPE** | Specifying content to be `AvailableValuesType.ENUM_INCL_NULL` or
 `AvailableValuesType.ENUM_VALUES_EXCL_NULL` although the property returns neither `Enum` nor `Boolean` | ERROR
 | **SETTER_ONLY_IN_MODEL_OBJECT** | Reports that a property with corresponding bound model attribute has a getter but no setter in the PMO although there is a setter in the model object. This is a legal case but behavior changed with *linkki* 1.1 (see https://doc.linkki-framework.org/1.1.0/99_newnoteworthy/index.html#nn-setter-in-mo[New&Noteworthy: Setter calls in model object]). | IGNORE
+| **ASPECT_CREATION_FAILED** | An exception was thrown when creating an aspect from an aspect definition. *The severity level of this message cannot be changed.* | WARNING
 |===
 
 ==== Configuring Compiler Options in Maven

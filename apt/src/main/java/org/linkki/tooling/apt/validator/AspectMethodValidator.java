@@ -137,7 +137,8 @@ public class AspectMethodValidator implements Validator {
 
         List<LinkkiAspectDefinition> aspectDefinitions = AspectAnnotationReader.createAspectDefinitionsFrom(annotation);
         Set<DynamicAspectMethodName> expectedMethods = DynamicMethodUtils.getExpectedMethods(aspectSubject.getElement(),
-                                                                                             aspectDefinitions);
+                                                                                             aspectDefinitions,
+                                                                                             messager);
 
         expectedMethods.stream()
                 .filter(expectedMethod -> isMissing(allMethods, expectedMethod))

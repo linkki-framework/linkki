@@ -27,10 +27,14 @@ import java.lang.reflect.Type;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import javax.annotation.processing.Messager;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
+import javax.tools.Diagnostic.Kind;
 
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
@@ -39,11 +43,15 @@ import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
+import org.linkki.tooling.apt.validator.Messages;
+import org.linkki.util.Optionals;
 
 /**
  * Utilities for dealing with dynamic fields.
  */
 public final class DynamicMethodUtils {
+
+    public static final String ASPECT_CREATION_FAILED = "ASPECT_CREATION_FAILED";
 
     private DynamicMethodUtils() {
         // util
@@ -57,10 +65,11 @@ public final class DynamicMethodUtils {
      */
     public static Set<DynamicAspectMethodName> getExpectedMethods(
             ExecutableElement method,
-            Annotation annotation) {
+            Annotation annotation,
+            Messager messager) {
         List<LinkkiAspectDefinition> aspectDefinitions = AspectAnnotationReader
                 .createAspectDefinitionsFrom(annotation);
-        return getExpectedMethods(method, aspectDefinitions);
+        return getExpectedMethods(method, aspectDefinitions, messager);
     }
 
     /**
@@ -71,16 +80,20 @@ public final class DynamicMethodUtils {
      */
     public static Set<DynamicAspectMethodName> getExpectedMethods(
             ExecutableElement method,
-            List<LinkkiAspectDefinition> aspectDefinitions) {
+            List<LinkkiAspectDefinition> aspectDefinitions,
+            Messager messager) {
 
         Set<DynamicAspectMethodName> expectedMethodsFromAvailableValuesAspectDefinitions = getExpectedMethodsFromAvailableValuesAspectDefinition(method,
-                                                                                                                                                 aspectDefinitions);
+                                                                                                                                                 aspectDefinitions,
+                                                                                                                                                 messager);
 
         Set<DynamicAspectMethodName> expectedMethodsFromModelToUiAspectDefinition = getExpectedMethodsFromModelToUiAspectDefinition(method,
-                                                                                                                                    aspectDefinitions);
+                                                                                                                                    aspectDefinitions,
+                                                                                                                                    messager);
 
         Set<DynamicAspectMethodName> expectedMethodsFromCompositeAspectDefinition = getExpectedMethodsFromCompositeAspectDefinition(method,
-                                                                                                                                    aspectDefinitions);
+                                                                                                                                    aspectDefinitions,
+                                                                                                                                    messager);
 
         return Stream.of(expectedMethodsFromAvailableValuesAspectDefinitions,
                          expectedMethodsFromModelToUiAspectDefinition,
@@ -91,7 +104,8 @@ public final class DynamicMethodUtils {
 
     private static Set<DynamicAspectMethodName> getExpectedMethodsFromCompositeAspectDefinition(
             ExecutableElement method,
-            List<LinkkiAspectDefinition> aspectDefinitions) {
+            List<LinkkiAspectDefinition> aspectDefinitions,
+            Messager messager) {
         return aspectDefinitions.stream()
                 .filter(it -> it instanceof CompositeAspectDefinition)
                 .map(it -> (CompositeAspectDefinition)it)
@@ -103,7 +117,7 @@ public final class DynamicMethodUtils {
                         @SuppressWarnings("unchecked")
                         List<LinkkiAspectDefinition> innerAspectDefinitions = (List<LinkkiAspectDefinition>)field
                                 .get(it);
-                        return getExpectedMethods(method, innerAspectDefinitions).stream();
+                        return getExpectedMethods(method, innerAspectDefinitions, messager).stream();
                     } catch (NoSuchFieldException | SecurityException | IllegalArgumentException
                             | IllegalAccessException e) {
                         throw new RuntimeException(e);
@@ -114,61 +128,15 @@ public final class DynamicMethodUtils {
 
     private static Set<DynamicAspectMethodName> getExpectedMethodsFromModelToUiAspectDefinition(
             ExecutableElement method,
-            List<LinkkiAspectDefinition> aspectDefinitions) {
-
-        class AspectInfo {
-            private final Aspect<?> aspect;
-            private final boolean isBooleanModelToUiAspectDefinition;
-
-            public AspectInfo(Aspect<?> aspect, boolean isBooleanModelToUiAspectDefinition) {
-                this.aspect = aspect;
-                this.isBooleanModelToUiAspectDefinition = isBooleanModelToUiAspectDefinition;
-            }
-
-            public Aspect<?> getAspect() {
-                return aspect;
-            }
-
-            public boolean isBooleanModelToUiAspectDefinition() {
-                return isBooleanModelToUiAspectDefinition;
-            }
-
-            @Override
-            public int hashCode() {
-                final int prime = 31;
-                int result = 1;
-                result = prime * result + aspect.hashCode();
-                result = prime * result + (isBooleanModelToUiAspectDefinition ? 1231 : 1237);
-                return result;
-            }
-
-            @Override
-            public boolean equals(Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-                if (obj == null) {
-                    return false;
-                }
-                if (getClass() != obj.getClass()) {
-                    return false;
-                }
-                AspectInfo other = (AspectInfo)obj;
-                if (!aspect.equals(other.aspect)) {
-                    return false;
-                }
-                if (isBooleanModelToUiAspectDefinition != other.isBooleanModelToUiAspectDefinition) {
-                    return false;
-                }
-                return true;
-            }
-
-        }
+            List<LinkkiAspectDefinition> aspectDefinitions,
+            Messager messager) {
 
         return aspectDefinitions.stream()
                 .filter(it -> it instanceof ModelToUiAspectDefinition<?>)
                 .map(it -> (ModelToUiAspectDefinition<?>)it)
-                .map(it -> new AspectInfo(it.createAspect(), isBooleanModelToUiAspectDefinition(it)))
+                .map(it -> createAspect(it, method, messager)
+                        .map(aspect -> new AspectInfo(aspect, isBooleanModelToUiAspectDefinition(it))))
+                .flatMap(Optionals::stream)
                 .filter(it -> !it.getAspect().isValuePresent())
                 .filter(it -> !it.getAspect().getName().isEmpty())
                 .map(it -> new DynamicAspectMethodName(
@@ -180,16 +148,48 @@ public final class DynamicMethodUtils {
 
     private static Set<DynamicAspectMethodName> getExpectedMethodsFromAvailableValuesAspectDefinition(
             ExecutableElement method,
-            List<LinkkiAspectDefinition> aspectDefinitions) {
-        Class<? extends Enum<?>> valueClass = VisibleType.class;
+            List<LinkkiAspectDefinition> aspectDefinitions,
+            Messager messager) {
         return aspectDefinitions.stream()
                 .filter(it -> it instanceof AvailableValuesAspectDefinition<?>)
                 .map(it -> (AvailableValuesAspectDefinition<?>)it)
-                .map(it -> it.createAspect(MethodNameUtils.getPropertyName(method), valueClass))
+                .map(it -> createAspect(it, MethodNameUtils.getPropertyName(method), method, messager))
+                .flatMap(Optionals::stream)
                 .filter(it -> !it.isValuePresent())
                 .filter(it -> !it.getName().isEmpty())
                 .map(it -> new DynamicAspectMethodName(method, it.getName(), false))
                 .collect(toSet());
+    }
+
+    private static Optional<Aspect<?>> createAspect(ModelToUiAspectDefinition<?> aspectDefinition,
+            Element method,
+            Messager messager) {
+        try {
+            return Optional.of(aspectDefinition.createAspect());
+            // CSOFF: IllegalCatch
+        } catch (RuntimeException e) {
+            // CSON: IllegalCatch
+            String msg = String.format(Messages.getString(ASPECT_CREATION_FAILED),
+                                       aspectDefinition.getClass().getSimpleName(), e.getMessage());
+            messager.printMessage(Kind.WARNING, msg, method);
+            return Optional.empty();
+        }
+    }
+
+    private static Optional<Aspect<?>> createAspect(AvailableValuesAspectDefinition<?> aspectDefinition,
+            String propertyName,
+            Element method,
+            Messager messager) {
+        try {
+            return Optional.of(aspectDefinition.createAspect(propertyName, VisibleType.class));
+            // CSOFF: IllegalCatch
+        } catch (RuntimeException e) {
+            // CSON: IllegalCatch
+            String msg = String.format(Messages.getString(ASPECT_CREATION_FAILED),
+                                       aspectDefinition.getClass().getSimpleName(), e.getMessage());
+            messager.printMessage(Kind.WARNING, msg, method);
+            return Optional.empty();
+        }
     }
 
     private static boolean isBooleanModelToUiAspectDefinition(ModelToUiAspectDefinition<?> aspectDefinition) {
@@ -251,5 +251,53 @@ public final class DynamicMethodUtils {
         }
     }
 
+    private static class AspectInfo {
+        private final Aspect<?> aspect;
+        private final boolean isBooleanModelToUiAspectDefinition;
+
+        public AspectInfo(Aspect<?> aspect, boolean isBooleanModelToUiAspectDefinition) {
+            this.aspect = aspect;
+            this.isBooleanModelToUiAspectDefinition = isBooleanModelToUiAspectDefinition;
+        }
+
+        public Aspect<?> getAspect() {
+            return aspect;
+        }
+
+        public boolean isBooleanModelToUiAspectDefinition() {
+            return isBooleanModelToUiAspectDefinition;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + aspect.hashCode();
+            result = prime * result + (isBooleanModelToUiAspectDefinition ? 1231 : 1237);
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            AspectInfo other = (AspectInfo)obj;
+            if (!aspect.equals(other.aspect)) {
+                return false;
+            }
+            if (isBooleanModelToUiAspectDefinition != other.isBooleanModelToUiAspectDefinition) {
+                return false;
+            }
+            return true;
+        }
+
+    }
 
 }

@@ -18,3 +18,7 @@ Vaadin's radio button group, previously only used as an <<custom-ui-element-anno
 ==== Incubator Project & Nested PMOs
 
 The new incubator module offers access to features in development, such as <<nested-pmos,nested PMOs>>.
+
+==== APT Exception Handling for Aspect Definitions
+
+Exceptions thrown when APT calls the `createAspect` method of aspect definition no longer abort the build. Instead, an <<apt-compiler-options,ASPECT_CREATION_FAILED warning>> is now emitted.

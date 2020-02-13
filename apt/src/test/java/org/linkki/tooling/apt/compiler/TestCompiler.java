@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.stream.Stream;
 
 import javax.annotation.processing.Processor;
 import javax.tools.JavaCompiler;
@@ -48,8 +49,9 @@ public class TestCompiler {
 
     private final File sourceDir;
     private final File outputDir;
-    private final List<String> options;
-    private final Map<String, String> linkkiOptions;
+
+    private final List<String> compilerOptions;
+    private final Map<String, String> annotationProcessorOptions;
 
     public TestCompiler() throws IOException {
         addClassPathsOf(asList(TestCompiler.class, LinkkiAnnotationProcessor.class));
@@ -57,33 +59,55 @@ public class TestCompiler {
 
         this.sourceDir = createTempDir("sourceDir");
         this.outputDir = createTempDir("outputDir");
-        options = new ArrayList<>(asList(
-                                         "-cp", buildClassPath(),
-                                         "-d", outputDir.getAbsolutePath()));
-        this.linkkiOptions = new HashMap<>();
+
+        compilerOptions = new ArrayList<>(asList(
+                                                 "-cp", buildClassPath(),
+                                                 "-d", outputDir.getAbsolutePath()));
+        this.annotationProcessorOptions = new HashMap<>();
+        annotationProcessorOptions.put("classpath", outputDir.getAbsolutePath());
     }
 
     public void addAnnotationProcessorOption(String option, String value) {
-        this.linkkiOptions.put(LinkkiAnnotationProcessor.LINKKI_OPTION_PREFIX + '.' + option, value);
+        this.annotationProcessorOptions.put(LinkkiAnnotationProcessor.LINKKI_OPTION_PREFIX + '.' + option, value);
     }
 
     public void addOptions(Map<String, String> newOptions) {
-        this.linkkiOptions.putAll(newOptions.entrySet().stream()
+        this.annotationProcessorOptions.putAll(newOptions.entrySet().stream()
                 .collect(toMap(
                                it -> LinkkiAnnotationProcessor.LINKKI_OPTION_PREFIX + '.' + it.getKey(),
                                it -> it.getValue())));
     }
 
     public void cleanUp() {
-        FileUtils.deleteQuietly(outputDir);
         FileUtils.deleteQuietly(sourceDir);
+        FileUtils.deleteQuietly(outputDir);
     }
 
     public boolean compile(Processor processor, SourceFile... sourceFiles) throws IOException {
         return compile(processor, asList(sourceFiles));
     }
 
+    /**
+     * Compiles the given list of source files using the specified Processor. The sources are compiled
+     * twice: The first run compiles all source files to classes - including the annotations. The
+     * annotation processor is not used in this step. In the second compilation run, the annotation
+     * processor is used and can properly analyze the compiled sources.
+     */
     public boolean compile(Processor processor, List<SourceFile> sourceFiles) throws IOException {
+        return runCompilation(null, sourceFiles, compilerOptions) &&
+                runCompilation(processor, sourceFiles, createOptions());
+    }
+
+    private List<String> createOptions() {
+        List<String> formattedLinkkiOptions = annotationProcessorOptions.entrySet().stream()
+                .map(entry -> ANNOTATION_OPTION.apply(entry.getKey(), entry.getValue()))
+                .collect(toList());
+
+        return Stream.concat(compilerOptions.stream(), formattedLinkkiOptions.stream()).collect(toList());
+    }
+
+    private boolean runCompilation(Processor processor, List<SourceFile> sourceFiles, List<String> options)
+            throws IOException {
         List<File> files = sourceFiles.stream()
                 .map(this::writeSourceFile)
                 .collect(toList());
@@ -92,14 +116,13 @@ public class TestCompiler {
         try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null)) {
             Iterable<? extends JavaFileObject> javaFileObjects = fileManager
                     .getJavaFileObjects(files.toArray(new File[0]));
-            List<String> formatedOptions = linkkiOptions.entrySet().stream()
-                    .map(it -> ANNOTATION_OPTION.apply(it.getKey(), it.getValue()))
-                    .collect(toList());
-            options.addAll(formatedOptions);
+
             CompilationTask compilationTask = compiler.getTask(null, null, null, options, null, javaFileObjects);
-            compilationTask.setProcessors(asList(processor));
-            boolean success = compilationTask.call();
-            return success;
+
+            if (processor != null) {
+                compilationTask.setProcessors(asList(processor));
+            }
+            return compilationTask.call();
         }
     }
 

@@ -134,7 +134,7 @@ public class PublicModifierValidator implements Validator {
 
             Set<String> expectedMethods = DynamicMethodUtils
                     .getExpectedMethods(aspectSubject.getElement(),
-                                        annotation)
+                                        annotation, messager)
                     .stream()
                     .map(DynamicAspectMethodName::getExpectedMethodName)
                     .collect(Collectors.toSet());

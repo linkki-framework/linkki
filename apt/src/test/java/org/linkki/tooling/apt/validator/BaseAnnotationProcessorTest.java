@@ -42,6 +42,7 @@ import javax.tools.Diagnostic.Kind;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.compiler.TestCompiler;
@@ -67,6 +68,11 @@ public abstract class BaseAnnotationProcessorTest {
         processor = createProcessor();
         processorWrapper = new TestProcessor(processor, messager);
         compiler = new TestCompiler();
+    }
+
+    @AfterEach
+    void cleanUp() {
+        compiler.cleanUp();
     }
 
     protected boolean isLogging() {
@@ -156,21 +162,26 @@ public abstract class BaseAnnotationProcessorTest {
     }
 
 
-    protected static boolean isError(String log) {
-        return log.contains("kind=ERROR");
+    protected static boolean isOfKind(String log, Kind kind) {
+        return log.contains("kind=" + kind.toString());
     }
 
     public static Matcher<List<String>> containsError() {
+        return contains(Kind.ERROR);
+    }
+
+    public static Matcher<List<String>> contains(Kind kind) {
         return new TypeSafeMatcher<List<String>>() {
 
             @Override
             public void describeTo(Description description) {
-                description.appendText("a log statement of kind=ERROR");
+                description.appendText("a log statement of kind=" + kind);
+
             }
 
             @Override
             protected boolean matchesSafely(List<String> logs) {
-                return logs.stream().anyMatch(BaseAnnotationProcessorTest::isError);
+                return logs.stream().anyMatch(log -> isOfKind(log, kind));
             }
         };
     }

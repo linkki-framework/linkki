@@ -24,5 +24,23 @@
         }
       ]
     }
+  },
+  "1.2.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.method.numberOfParametersChanged",
+          "old": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.lang.annotation.Annotation)",
+		  "new": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.lang.annotation.Annotation, javax.annotation.processing.Messager)",
+          "justification": "LIN-1796"
+        },
+		{
+          "code": "java.method.numberOfParametersChanged",
+          "old": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
+		  "new": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>, javax.annotation.processing.Messager)",
+          "justification": "LIN-1796"
+        }
+      ]
+    }
   }
 }
