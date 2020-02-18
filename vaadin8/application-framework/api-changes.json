@@ -22,5 +22,28 @@
         }
       ]
     }
+  },
+  "1.2.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "code": "java.class.defaultSerializationChanged",
+          "new": "class com.vaadin.server.VaadinService",
+          "justification": "Vaadin update to 8.10"
+        },
+        {
+          "regex": true,
+          "code": "java\\.method\\.addedToInterface",
+          "new": "method void com\\.vaadin\\.server\\.Sizeable::setHeightFull\\(\\) @ .*",
+          "justification": "Vaadin update to 8.10"
+        },
+        {
+          "regex": true,
+          "code": "java\\.method\\.addedToInterface",
+          "new": "method void com\\.vaadin\\.server\\.Sizeable::setWidthFull\\(\\) @ .*",
+          "justification": "Vaadin update to 8.10"
+        }
+      ]
+    }
   }
 }

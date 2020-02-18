@@ -81,6 +81,23 @@
           "code": "java.class.externalClassExposedInAPI",
           "new": "enum org.linkki.core.defaults.ui.aspects.types.AlignmentType",
           "justification": "LIN-245"
+        },
+        {
+          "code": "java.class.defaultSerializationChanged",
+          "new": "class com.vaadin.server.VaadinService",
+          "justification": "Vaadin update to 8.10"
+        },
+        {
+          "regex": true,
+          "code": "java\\.method\\.addedToInterface",
+          "new": "method void com\\.vaadin\\.server\\.Sizeable::setHeightFull\\(\\) @ .*",
+          "justification": "Vaadin update to 8.10"
+        },
+        {
+          "regex": true,
+          "code": "java\\.method\\.addedToInterface",
+          "new": "method void com\\.vaadin\\.server\\.Sizeable::setWidthFull\\(\\) @ .*",
+          "justification": "Vaadin update to 8.10"
         }
       ]
 	}

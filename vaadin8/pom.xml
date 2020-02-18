@@ -25,7 +25,7 @@
     <properties>
         <vaadin.version>
         <!-- tag::vaadin8[] -->
-        8.9.2
+        8.10.0
         <!-- end::vaadin8[] -->
         </vaadin.version>
     </properties>
