@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.linkki-framework.samples</groupId>
         <artifactId>linkki-samples-vaadin8</artifactId>
-        <version>1.2.0-m02</version>
+        <version>1.2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -22,12 +22,12 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-ips-vaadin8</artifactId>
-            <version>1.2.0-m02</version>
+            <version>1.2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-vaadin8-incubator</artifactId>
-            <version>1.2.0-m02</version>
+            <version>1.2.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
