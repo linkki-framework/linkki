@@ -13,8 +13,8 @@
  */
 package org.linkki.core.binding;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -49,7 +49,7 @@ public class ButtonBindingTest {
         binding = new ElementBinding(new TestComponentWrapper(button), propertyDispatcher,
                 context::modelChanged,
                 Arrays.asList(aspectDefinition));
-        context.add(binding);
+        context.add(binding, TestComponentWrapper.with(binding));
     }
 
     @Test

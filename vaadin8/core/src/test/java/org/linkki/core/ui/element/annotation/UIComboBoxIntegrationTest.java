@@ -13,10 +13,10 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -130,6 +130,7 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     public void testInitReadOnlyField() {
         ComboBox<TestEnum> comboBox = getStaticComponent();
         comboBox.setReadOnly(false);
+        comboBox.setData(null);
         getBindingContext().removeBindingsForPmo(getDefaultPmo());
         bind(getDefaultPmo(), "staticValue", comboBox);
         assertThat(comboBox.isReadOnly(), is(true));
@@ -141,6 +142,9 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
 
         getBindingContext().removeBindingsForComponent(comboBox);
         assertThat(comboBox.isReadOnly(), is(true));
+
+        comboBox.setData(null);
+
         bind(getDefaultPmo(), "staticValue", comboBox);
         assertThat(comboBox.isReadOnly(), is(true));
     }

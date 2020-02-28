@@ -16,7 +16,7 @@ package org.linkki.core.binding;
 import org.linkki.core.binding.validation.message.MessageList;
 
 /**
- * Common interface for bindings handled by the {@link BindingContext}. A binding has a PMO and an UI
+ * Common interface for bindings handled by the {@link BindingContext}. A binding has a PMO and a UI
  * control and is able to update this control when the {@link BindingContext} calls
  * {@link #updateFromPmo()}.
  *

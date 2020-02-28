@@ -14,23 +14,11 @@
 
 package org.linkki.core.ui.wrapper;
 
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.binding.validation.message.Message;
-import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.ui.validation.message.SeverityErrorLevelConverter;
-import org.linkki.util.HtmlSanitizer;
 
-import com.vaadin.server.AbstractErrorMessage.ContentMode;
-import com.vaadin.server.UserError;
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Wraps a vaadin component and uses the vaadin built-in caption instead of an extra label component
@@ -40,26 +28,16 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * {@link WrapperType#COMPONENT} the type is not fixed to {@link WrapperType#COMPONENT} and should be as
  * narrow as possible (for example {@link WrapperType#FIELD} or {@link WrapperType#LAYOUT}.
  */
-public class CaptionComponentWrapper implements ComponentWrapper {
+public class CaptionComponentWrapper extends VaadinComponentWrapper {
 
     private static final long serialVersionUID = 1L;
 
-    private final Component component;
-
-    private final WrapperType wrapperType;
-
     public CaptionComponentWrapper(Component component, WrapperType wrapperType) {
-        this.component = component;
-        this.wrapperType = wrapperType;
+        super(component, wrapperType);
     }
 
     public CaptionComponentWrapper(String id, Component component, WrapperType wrapperType) {
         this(component, wrapperType);
-        component.setId(id);
-    }
-
-    @Override
-    public void setId(String id) {
         component.setId(id);
     }
 
@@ -74,62 +52,12 @@ public class CaptionComponentWrapper implements ComponentWrapper {
      */
     @Override
     public void setLabel(String labelText) {
-        component.setCaption(StringUtils.isEmpty(labelText) ? null : labelText);
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        component.setEnabled(enabled);
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-        component.setVisible(visible);
-    }
-
-    @Override
-    public void setTooltip(String text) {
-        if (component instanceof AbstractComponent) {
-            String tooltip = HtmlSanitizer.sanitize(text);
-            ((AbstractComponent)component).setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML);
-        }
-    }
-
-    @Override
-    public Component getComponent() {
-        return component;
-    }
-
-    @Override
-    public void setValidationMessages(MessageList messagesForProperty) {
-        if (component instanceof AbstractComponent) {
-            AbstractComponent field = (AbstractComponent)component;
-            field.setComponentError(getErrorHandler(messagesForProperty));
-        }
-    }
-
-    @CheckForNull
-    private UserError getErrorHandler(MessageList messages) {
-        return messages.getSeverity()
-                .map(SeverityErrorLevelConverter::convertToErrorLevel)
-                .map(e -> new UserError(formatMessages(messages), ContentMode.PREFORMATTED, e))
-                .orElse(null);
-    }
-
-    private String formatMessages(MessageList messages) {
-        return StreamSupport.stream(messages.spliterator(), false)
-                .map(Message::getText)
-                .collect(Collectors.joining("\n"));
-    }
-
-    @Override
-    public WrapperType getType() {
-        return wrapperType;
+        getComponent().setCaption(StringUtils.isEmpty(labelText) ? null : labelText);
     }
 
     @Override
     public String toString() {
-        return component.getCaption() + "(" + component.getClass().getSimpleName() + ")";
+        return getComponent().getCaption() + "(" + getComponent().getClass().getSimpleName() + ")";
     }
 
 }

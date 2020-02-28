@@ -13,17 +13,21 @@
  */
 package org.linkki.core.binding;
 
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -54,6 +58,8 @@ public class BindingContextTest {
     private TestUiComponent field1 = spy(new TestUiComponent());
     private TestUiComponent field2 = spy(new TestUiComponent());
 
+    private WeakReference<TestUiComponent> weakRefComponent;
+
     private ElementBinding createBinding(BindingContext context) {
         return createBinding(context, new TestPmo(), new TestUiComponent());
     }
@@ -71,7 +77,7 @@ public class BindingContextTest {
         ElementBinding binding = createBinding(context);
 
         assertEquals(0, context.getBindings().size());
-        context.add(binding);
+        context.add(binding, TestComponentWrapper.with(binding));
         assertEquals(1, context.getBindings().size());
     }
 
@@ -81,7 +87,7 @@ public class BindingContextTest {
         BindingContext context = new BindingContext("", PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, afterUpdateUi);
         ElementBinding binding = spy(createBinding(context));
 
-        context.add(binding);
+        context.add(binding, TestComponentWrapper.with(binding));
 
         context.uiUpdated();
         verify(binding).updateFromPmo();
@@ -118,7 +124,7 @@ public class BindingContextTest {
         BindingContext context = new BindingContext("", PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, afterUpdateUi);
         ElementBinding binding = spy(createBinding(context));
 
-        context.add(binding);
+        context.add(binding, TestComponentWrapper.with(binding));
 
         context.modelChanged();
         verify(binding).updateFromPmo();
@@ -133,7 +139,7 @@ public class BindingContextTest {
         context.uiUpdated();
         verify(binding, never()).updateFromPmo();
 
-        context.add(binding);
+        context.add(binding, TestComponentWrapper.with(binding));
 
         context.uiUpdated();
         verify(binding).updateFromPmo();
@@ -145,8 +151,8 @@ public class BindingContextTest {
         TestPmo testPmo = new TestPmo();
         ElementBinding binding1 = createBinding(context, testPmo, field1);
         ElementBinding binding2 = createBinding(context, testPmo, field2);
-        context.add(binding1);
-        context.add(binding2);
+        context.add(binding1, TestComponentWrapper.with(binding1));
+        context.add(binding2, TestComponentWrapper.with(binding2));
 
         assertThat(context.getBindings(), hasSize(2));
 
@@ -227,8 +233,8 @@ public class BindingContextTest {
         TestPmo pmo = new TestPmo();
         ElementBinding binding1 = createBinding(context, pmo, field1);
         ElementBinding binding2 = createBinding(context, pmo, field2);
-        context.add(binding1);
-        context.add(binding2);
+        context.add(binding1, TestComponentWrapper.with(binding1));
+        context.add(binding2, TestComponentWrapper.with(binding2));
 
         assertThat(context.getBindings(), hasSize(2));
 
@@ -277,6 +283,50 @@ public class BindingContextTest {
                      buttonWrapper);
 
         assertThat(button.isEnabled(), is(false));
+    }
+
+    @Test
+    public void testBind_WeakReferencedBinding() {
+        BindingContext context = new BindingContext();
+        ReferenceQueue<TestUiComponent> referenceQueue = new ReferenceQueue<>();
+        Thread refRemoveThread = new Thread(() -> {
+
+            try {
+                TestUiComponent removed = referenceQueue.remove(10_000).get();
+                assertThat(weakRefComponent.get(), is(removed));
+            } catch (IllegalArgumentException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+        refRemoveThread.start();
+
+        weakRefComponent = setupBindingForWeakRefTest(context, referenceQueue);
+
+        System.gc();
+
+        try {
+            refRemoveThread.join(10_000);
+        } catch (InterruptedException e) {
+            fail(e);
+        }
+        assertThat(context.getBindings(), is(empty()));
+    }
+
+    private WeakReference<TestUiComponent> setupBindingForWeakRefTest(BindingContext context,
+            ReferenceQueue<TestUiComponent> referenceQueue) {
+        TestButtonPmo buttonPmo = new TestButtonPmo();
+        TestUiComponent button = new TestUiComponent();
+        buttonPmo.setEnabled(false);
+
+        ComponentWrapper buttonWrapper = new TestComponentWrapper(button);
+        context.bind(buttonPmo, BoundProperty.of(""),
+                     Arrays.asList(new EnabledAspectDefinition(EnabledType.DYNAMIC)),
+                     buttonWrapper);
+        WeakReference<TestUiComponent> weakReference = new WeakReference<>(button, referenceQueue);
+        assertThat(weakReference.get(), is(button));
+        assertThat(context.getBindings(), is(not(empty())));
+        return weakReference;
     }
 
     public static class TestPmoWithButton implements PresentationModelObject {

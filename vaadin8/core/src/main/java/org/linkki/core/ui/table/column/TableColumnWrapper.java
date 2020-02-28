@@ -16,6 +16,9 @@ package org.linkki.core.ui.table.column;
 
 import static java.util.Objects.requireNonNull;
 
+import org.linkki.core.binding.Binding;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
@@ -42,6 +45,7 @@ public class TableColumnWrapper implements ComponentWrapper {
 
     public TableColumnWrapper(com.vaadin.v7.ui.Table table, String propertyName) {
         this.table = requireNonNull(table, "table must not be null");
+
         this.propertyName = requireNonNull(propertyName, "propertyName must not be null");
         // vaadin default is true, our default is false
         table.setColumnCollapsible(propertyName, false);
@@ -116,8 +120,18 @@ public class TableColumnWrapper implements ComponentWrapper {
     }
 
     @Override
+    public void registerBinding(Binding binding) {
+        ((FieldColumnGenerator<?>)getComponent()).setBinding(binding);
+    }
+
+    @Override
     public String toString() {
         return "ColumnHeaderWrapper [" + table.getId() + "#" + propertyName + "]";
+    }
+
+    public static com.vaadin.v7.ui.Table.ColumnGenerator createComponent(PropertyElementDescriptors elementDesc,
+            BindingContext bindingContext) {
+        return new FieldColumnGenerator<>(elementDesc, bindingContext);
     }
 
 }

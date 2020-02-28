@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
+import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
@@ -35,10 +36,12 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.TreeTable;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * A {@link ColumnBasedComponentCreator} that creates a Vaadin {@link Table}.
  */
-class TableCreator implements ColumnBasedComponentCreator {
+public class TableCreator implements ColumnBasedComponentCreator {
 
     /**
      * Creates a new table based on the container PMO.
@@ -77,12 +80,15 @@ class TableCreator implements ColumnBasedComponentCreator {
     }
 
     /** Column generator that generates a column for a field of a PMO. */
-    private static class FieldColumnGenerator<T> implements ColumnGenerator {
+    public static class FieldColumnGenerator<T> implements ColumnGenerator {
 
         private static final long serialVersionUID = 1L;
 
         private final PropertyElementDescriptors elementDescriptors;
         private final BindingContext bindingContext;
+
+        @CheckForNull
+        private Binding binding;
 
         public FieldColumnGenerator(PropertyElementDescriptors elementDescriptors,
                 BindingContext bindingContext) {
@@ -107,6 +113,10 @@ class TableCreator implements ColumnBasedComponentCreator {
             component.addDetachListener($ -> bindingContext.removeBindingsForComponent(component));
 
             return component;
+        }
+
+        public void setBinding(Binding binding) {
+            this.binding = binding;
         }
     }
 

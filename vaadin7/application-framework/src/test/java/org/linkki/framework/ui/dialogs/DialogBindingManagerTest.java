@@ -13,8 +13,8 @@
  */
 package org.linkki.framework.ui.dialogs;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -67,10 +67,11 @@ public class DialogBindingManagerTest {
         when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
         when(propertyDispatcher.getMessages(any())).thenReturn(new MessageList());
 
+        LabelComponentWrapper componentWrapper = new LabelComponentWrapper(new Label(), new Button());
         ElementBinding binding = spy(new ElementBinding(
-                new LabelComponentWrapper(new Label(), new Button()),
+                componentWrapper,
                 propertyDispatcher, Handler.NOP_HANDLER, new ArrayList<>()));
-        ctx.add(binding);
+        ctx.add(binding, componentWrapper);
 
         ctx.modelChanged();
 

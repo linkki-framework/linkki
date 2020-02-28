@@ -15,19 +15,11 @@
 package org.linkki.core.ui.wrapper;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.linkki.core.binding.validation.message.Message;
-import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.ui.validation.message.SeverityErrorLevelConverter;
 import org.linkki.util.HtmlSanitizer;
-import org.linkki.util.StreamUtil;
 
-import com.vaadin.server.AbstractErrorMessage.ContentMode;
-import com.vaadin.server.UserError;
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
@@ -37,26 +29,20 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * Implementation of the {@link ComponentWrapper} with a Vaadin {@link Component} and a {@link Label}
  * component.
  */
-public class LabelComponentWrapper implements ComponentWrapper {
+public class LabelComponentWrapper extends VaadinComponentWrapper {
 
     private static final long serialVersionUID = 1L;
 
     @CheckForNull
     private final Label label;
-    private final Component component;
 
     public LabelComponentWrapper(Component component) {
         this(null, component);
     }
 
     public LabelComponentWrapper(@CheckForNull Label label, Component component) {
+        super(component, WrapperType.FIELD);
         this.label = label;
-        this.component = component;
-    }
-
-    @Override
-    public void setId(String id) {
-        component.setId(id);
     }
 
     @Override
@@ -71,7 +57,7 @@ public class LabelComponentWrapper implements ComponentWrapper {
         if (label != null) {
             label.setEnabled(enabled);
         }
-        component.setEnabled(enabled);
+        super.setEnabled(enabled);
     }
 
     @Override
@@ -79,16 +65,14 @@ public class LabelComponentWrapper implements ComponentWrapper {
         if (label != null) {
             label.setVisible(visible);
         }
-        component.setVisible(visible);
+        super.setVisible(visible);
     }
 
     @Override
     public void setTooltip(String text) {
         String tooltip = HtmlSanitizer.sanitize(text);
-        if (component instanceof AbstractComponent) {
-            ((AbstractComponent)component).setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML);
-        }
         getLabelComponent().ifPresent(l -> l.setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML));
+        super.setTooltip(text);
     }
 
     public Optional<Label> getLabelComponent() {
@@ -96,40 +80,8 @@ public class LabelComponentWrapper implements ComponentWrapper {
     }
 
     @Override
-    public Component getComponent() {
-        return component;
-    }
-
-    @Override
-    public void setValidationMessages(MessageList messagesForProperty) {
-        if (component instanceof AbstractComponent) {
-            AbstractComponent field = (AbstractComponent)component;
-            field.setComponentError(getErrorHandler(messagesForProperty));
-        }
-    }
-
-    @CheckForNull
-    private UserError getErrorHandler(MessageList messages) {
-        return messages.getSeverity()
-                .map(SeverityErrorLevelConverter::convertToErrorLevel)
-                .map(e -> new UserError(formatMessages(messages), ContentMode.PREFORMATTED, e))
-                .orElse(null);
-    }
-
-    private String formatMessages(MessageList messages) {
-        return StreamUtil.stream(messages)
-                .map(Message::getText)
-                .collect(Collectors.joining("\n"));
-    }
-
-    @Override
-    public WrapperType getType() {
-        return WrapperType.FIELD;
-    }
-
-    @Override
     public String toString() {
         return Optional.ofNullable(label).map(Label::getValue).orElse("<no label>") + "("
-                + component.getClass().getSimpleName() + ")";
+                + getComponent().getClass().getSimpleName() + ")";
     }
 }

@@ -29,6 +29,8 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.nls.TestComponentWrapper;
+import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.util.handler.Handler;
 import org.linkki.util.validation.ValidationMarker;
 
@@ -96,7 +98,7 @@ public class BindingManagerTest {
         validationService = () -> messageList;
         TestBindingManager bindingManager = new TestBindingManager(validationService);
         TestBindingContext context = bindingManager.getContext("foo");
-        bindingManager.addUiUpdateObserver(() -> context.add(binding));
+        bindingManager.addUiUpdateObserver(() -> context.add(binding, TestComponentWrapper.with(binding)));
 
         bindingManager.afterUpdateUi();
 
@@ -184,7 +186,7 @@ public class BindingManagerTest {
         private MessageList messages = new MessageList();
 
         public TestBinding() {
-            boundObject = new Object();
+            boundObject = new TestUiComponent();
             pmo = new Object();
         }
 

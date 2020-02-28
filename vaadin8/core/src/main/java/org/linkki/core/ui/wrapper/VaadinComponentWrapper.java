@@ -12,46 +12,41 @@
  * License.
  */
 
-package org.linkki.core.ui.components;
+package org.linkki.core.ui.wrapper;
 
-import java.util.Optional;
+
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.message.SeverityErrorLevelConverter;
-import org.linkki.util.StreamUtil;
+import org.linkki.core.ui.validation.message.SeverityErrorLevelConverter;
+import org.linkki.util.HtmlSanitizer;
 
 import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Implementation of the {@link ComponentWrapper} with a Vaadin {@link Component} and a {@link Label}
- * component.
+ * Base class to wrap vaadin components.
  */
-public class LabelComponentWrapper implements ComponentWrapper {
+public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     private static final long serialVersionUID = 1L;
 
-    @CheckForNull
-    private final Label label;
     private final Component component;
 
-    public LabelComponentWrapper(Component component) {
-        this(null, component);
-    }
+    private final WrapperType type;
 
-    public LabelComponentWrapper(@CheckForNull Label label, Component component) {
-        this.label = label;
+    public VaadinComponentWrapper(Component component, WrapperType type) {
         this.component = component;
+        this.type = type;
     }
 
     @Override
@@ -60,38 +55,21 @@ public class LabelComponentWrapper implements ComponentWrapper {
     }
 
     @Override
-    public void setLabel(String labelText) {
-        if (label != null) {
-            label.setValue(labelText);
-        }
-    }
-
-    @Override
     public void setEnabled(boolean enabled) {
-        if (label != null) {
-            label.setEnabled(enabled);
-        }
         component.setEnabled(enabled);
     }
 
     @Override
     public void setVisible(boolean visible) {
-        if (label != null) {
-            label.setVisible(visible);
-        }
         component.setVisible(visible);
     }
 
     @Override
     public void setTooltip(String text) {
         if (component instanceof AbstractComponent) {
-            ((AbstractComponent)component).setDescription(text);
+            String tooltip = HtmlSanitizer.sanitize(text);
+            ((AbstractComponent)component).setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML);
         }
-        getLabelComponent().ifPresent(l -> l.setDescription(text));
-    }
-
-    public Optional<Label> getLabelComponent() {
-        return Optional.ofNullable(label);
     }
 
     @Override
@@ -116,24 +94,22 @@ public class LabelComponentWrapper implements ComponentWrapper {
     }
 
     private String formatMessages(MessageList messages) {
-        return StreamUtil.stream(messages)
+        return StreamSupport.stream(messages.spliterator(), false)
                 .map(Message::getText)
                 .collect(Collectors.joining("\n"));
     }
 
     @Override
-    public WrapperType getType() {
-        return WrapperType.FIELD;
-    }
-
-    @Override
     public void registerBinding(Binding binding) {
+        if (((AbstractComponent)component).getData() != null) {
+            throw new RuntimeException("Data was not empty, component was already bound or data was used by others.");
+        }
         ((AbstractComponent)component).setData(binding);
     }
 
     @Override
-    public String toString() {
-        return Optional.ofNullable(label).map(Label::getValue).orElse("<no label>") + "("
-                + component.getClass().getSimpleName() + ")";
+    public WrapperType getType() {
+        return type;
     }
+
 }

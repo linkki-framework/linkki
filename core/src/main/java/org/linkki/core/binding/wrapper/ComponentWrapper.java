@@ -15,7 +15,11 @@
 package org.linkki.core.binding.wrapper;
 
 import java.io.Serializable;
+import java.util.WeakHashMap;
 
+import org.apache.commons.lang3.NotImplementedException;
+import org.linkki.core.binding.Binding;
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.validation.message.MessageList;
@@ -32,8 +36,8 @@ public interface ComponentWrapper extends Serializable {
      * Specifies the ID of the component that is wrapped by this {@link ComponentWrapper}. The ID might
      * be specified by the framework and could be used to identify the component.
      * <p>
-     * The {@link UiCreator} sets this ID to the {@link BoundProperty#getPmoProperty() name of
-     * the presentation model property} bound to this component.
+     * The {@link UiCreator} sets this ID to the {@link BoundProperty#getPmoProperty() name of the
+     * presentation model property} bound to this component.
      * 
      * @param id the ID of the component
      */
@@ -48,22 +52,22 @@ public interface ComponentWrapper extends Serializable {
     void setLabel(String labelText);
 
     /**
-     * Delegates to the components method. Defines if a component can be edited.
+     * Delegates to the component's method. Defines whether a component can be edited.
      * 
      * @param enabled true if a component is editable, otherwise false
      */
     void setEnabled(boolean enabled);
 
     /**
-     * Delegates to the components method. It defines if a component can be seen by users or not. If a
-     * label is present, it has to change its visibility too.
+     * Delegates to the component's method. It defines whether a component can be seen by users or not.
+     * If a label is present, it has to change its visibility too.
      * 
      * @param visible if a component is visible to the user or not
      */
     void setVisible(boolean visible);
 
     /**
-     * Delegates to an components method.
+     * Delegates to a component's method.
      *
      * @param text the components description
      */
@@ -101,5 +105,23 @@ public interface ComponentWrapper extends Serializable {
      * @param messagesForProperty the messages that should be bound to the component
      */
     void setValidationMessages(MessageList messagesForProperty);
+
+    /**
+     * Register a binding at the component. The {@link BindingContext} and other objects will only hold
+     * weak references. Thus the component will be holding the only strong reference to the binding.
+     * <p>
+     * 
+     * @implSpec Note that it is not useful to create a {@link WeakHashMap} using the component as key
+     *           and the {@link Binding} as reference because a binding will always have strong
+     *           references to the component itself.
+     *           <p>
+     *           Having a field in {@link ComponentWrapper} itself would be useless because the
+     *           {@link ComponentWrapper} is only referenced by the {@link Binding}.
+     * 
+     * @param binding the binding that must be registered
+     */
+    default void registerBinding(Binding binding) {
+        throw new NotImplementedException("Should be implemented when used with BindingContext");
+    }
 
 }

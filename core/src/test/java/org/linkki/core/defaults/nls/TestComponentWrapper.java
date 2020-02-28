@@ -14,6 +14,7 @@
 
 package org.linkki.core.defaults.nls;
 
+import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
@@ -64,8 +65,17 @@ public class TestComponentWrapper implements ComponentWrapper {
     }
 
     @Override
+    public void registerBinding(Binding binding) {
+        component.setBinding(binding);
+    }
+
+    @Override
     public void setValidationMessages(MessageList messagesForProperty) {
         component.setValidationMessages(messagesForProperty);
+    }
+
+    public static TestComponentWrapper with(Binding binding) {
+        return new TestComponentWrapper((TestUiComponent)binding.getBoundComponent());
     }
 
 }

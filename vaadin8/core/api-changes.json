@@ -98,6 +98,11 @@
           "code": "java\\.method\\.addedToInterface",
           "new": "method void com\\.vaadin\\.server\\.Sizeable::setWidthFull\\(\\) @ .*",
           "justification": "Vaadin update to 8.10"
+        },
+        {
+          "code": "java.class.nonFinalClassInheritsFromNewClass",
+          "superClass": "org.linkki.core.ui.wrapper.VaadinComponentWrapper",
+          "justification": "New subclass to generalize vaadin component wrappers"
         }
       ]
 	}

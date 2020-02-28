@@ -17,6 +17,7 @@ package org.linkki.core.ui.components;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
@@ -113,6 +114,11 @@ public class CaptionComponentWrapper implements ComponentWrapper {
     @Override
     public WrapperType getType() {
         return wrapperType;
+    }
+
+    @Override
+    public void registerBinding(Binding binding) {
+        ((AbstractComponent)component).setData(binding);
     }
 
     @Override

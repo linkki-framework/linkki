@@ -11,15 +11,11 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-
 package org.linkki.core.ui.creation.table;
-
-import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.descriptor.ElementDescriptor;
 import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
@@ -28,13 +24,11 @@ import org.linkki.core.defaults.columnbased.ColumnBasedComponentCreator;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.table.column.TableColumnWrapper;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
-
-import com.vaadin.ui.Component;
 
 /**
  * A {@link ColumnBasedComponentCreator} that creates a Vaadin {@link com.vaadin.v7.ui.Table Table}.
  */
+@SuppressWarnings("javadoc")
 class TableCreator implements ColumnBasedComponentCreator {
 
     /**
@@ -66,49 +60,14 @@ class TableCreator implements ColumnBasedComponentCreator {
             ComponentWrapper tableWrapper,
             BindingContext bindingContext,
             PropertyElementDescriptors elementDesc) {
-        TableCreator.FieldColumnGenerator<?> columnGen = new TableCreator.FieldColumnGenerator<>(
-                elementDesc, bindingContext);
+        com.vaadin.v7.ui.Table.ColumnGenerator columnGen = TableColumnWrapper
+                .createComponent(elementDesc, bindingContext);
         String propertyName = elementDesc.getPmoPropertyName();
         com.vaadin.v7.ui.Table table = (com.vaadin.v7.ui.Table)tableWrapper.getComponent();
         table.addGeneratedColumn(propertyName, columnGen);
         List<LinkkiAspectDefinition> aspectDefs = elementDesc.getAllAspects();
         bindingContext.bind(containerPmo.getItemPmoClass(), BoundProperty.of(propertyName), aspectDefs,
                             new TableColumnWrapper(table, propertyName));
-    }
-
-    /** Column generator that generates a column for a field of a PMO. */
-    @SuppressWarnings("deprecation")
-    private static class FieldColumnGenerator<T> implements com.vaadin.v7.ui.Table.ColumnGenerator {
-
-        private static final long serialVersionUID = 1L;
-
-        private final PropertyElementDescriptors elementDescriptors;
-        private final BindingContext bindingContext;
-
-        public FieldColumnGenerator(PropertyElementDescriptors elementDescriptors,
-                BindingContext bindingContext) {
-            this.elementDescriptors = requireNonNull(elementDescriptors, "elementDescriptors must not be null");
-            this.bindingContext = requireNonNull(bindingContext, "bindingContext must not be null");
-        }
-
-        @Override
-        public Object generateCell(com.vaadin.v7.ui.Table source,
-                Object itemId,
-                Object columnId) {
-            requireNonNull(itemId, "itemId must not be null");
-            ElementDescriptor elementDescriptor = elementDescriptors.getDescriptor(itemId);
-            Component component = (Component)elementDescriptor.newComponent(itemId);
-            component.addStyleName(LinkkiTheme.BORDERLESS);
-            component.addStyleName(LinkkiTheme.TABLE_CELL);
-
-            @SuppressWarnings("unchecked")
-            T itemPmo = (T)itemId;
-            component.addAttachListener($ -> bindingContext.bind(itemPmo, elementDescriptor,
-                                                                 new LabelComponentWrapper(component)));
-            component.addDetachListener($ -> bindingContext.removeBindingsForComponent(component));
-
-            return component;
-        }
     }
 
 }

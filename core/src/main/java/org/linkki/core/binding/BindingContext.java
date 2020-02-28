@@ -14,12 +14,15 @@
 package org.linkki.core.binding;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 
+import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.WeakHashMap;
+import java.util.stream.Stream;
 
 import org.linkki.core.binding.descriptor.BindingDescriptor;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
@@ -56,7 +59,7 @@ public class BindingContext implements UiUpdateObserver {
     private final Handler afterUpdateHandler;
     private final PropertyDispatcherFactory dispatcherFactory;
 
-    private final Map<Object, Binding> bindings = new ConcurrentHashMap<>();
+    private final Map<Object, WeakReference<Binding>> bindings = new WeakHashMap<>();
 
 
     /**
@@ -135,11 +138,31 @@ public class BindingContext implements UiUpdateObserver {
 
     /**
      * Adds a binding to the context.
+     * 
+     * @param binding the Binding that should be added
+     * 
+     * @deprecated Since 1.2 the bindings are weak references. A {@link ComponentWrapper} is necessary
+     *             to register the binding. Use {@link #add(Binding, ComponentWrapper)} to avoid useless
+     *             dummy component wrappers.
      */
+    @Deprecated
     public BindingContext add(Binding binding) {
+        add(binding, UiFramework.getComponentWrapperFactory().createComponentWrapper(binding.getBoundComponent()));
+        return this;
+    }
+
+    /**
+     * Adds a binding to the context.
+     * 
+     * @param binding the Binding that should be added
+     * @param componentWrapper the component wrapper used to register the binding calling
+     *            {@link ComponentWrapper#registerBinding(Binding)}
+     */
+    public BindingContext add(Binding binding, ComponentWrapper componentWrapper) {
         requireNonNull(binding, "binding must not be null");
 
-        bindings.put(binding.getBoundComponent(), binding);
+        bindings.put(binding.getBoundComponent(), new WeakReference<>(binding));
+        componentWrapper.registerBinding(binding);
         return this;
     }
 
@@ -147,7 +170,24 @@ public class BindingContext implements UiUpdateObserver {
      * Returns all bindings in the context.
      */
     public Collection<Binding> getBindings() {
-        return Collections.unmodifiableCollection(bindings.values());
+        return Collections.unmodifiableCollection(getBindingStream()
+                .collect(toList()));
+    }
+
+    private Stream<Binding> getBindingStream() {
+        bindings.entrySet().stream()
+                .filter(entry -> entry.getValue().get() == null)
+                .forEach(entry -> {
+                    System.out.println("****************************************************************************");
+                    System.out.println("Binding for component " + entry.getKey() + " was removed too early");
+                    System.out.println("****************************************************************************");
+                    throw new RuntimeException(
+                            "Binding for component " + entry.getKey() + " for active component was removed too early");
+                });
+        return bindings.values().stream()
+                .map(WeakReference::get)
+                .filter(b -> b != null);
+
     }
 
     /**
@@ -165,7 +205,7 @@ public class BindingContext implements UiUpdateObserver {
         UiFramework.getChildComponents(uiComponent)
                 .iterator()
                 .forEachRemaining(this::removeBindingsForComponent);
-        bindings.values().stream()
+        getBindingStream()
                 .filter(BindingContext.class::isInstance)
                 .map(BindingContext.class::cast)
                 .forEach(bc -> bc.removeBindingsForComponent(uiComponent));
@@ -195,8 +235,11 @@ public class BindingContext implements UiUpdateObserver {
      * @param pmo that is given to find and remove the bindings that refer to it
      */
     public void removeBindingsForPmo(Object pmo) {
-        bindings.values().removeIf(e -> e.getPmo() == pmo);
-        bindings.values().stream()
+        bindings.values().removeIf(ref -> {
+            Binding binding = ref.get();
+            return binding != null && binding.getPmo() == pmo;
+        });
+        getBindingStream()
                 .filter(BindingContext.class::isInstance)
                 .map(BindingContext.class::cast)
                 .forEach(bc -> bc.removeBindingsForPmo(pmo));
@@ -257,7 +300,7 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     void updateFromPmo() {
-        bindings.values().forEach(binding -> binding.updateFromPmo());
+        getBindingStream().forEach(binding -> binding.updateFromPmo());
     }
 
     /**
@@ -282,7 +325,7 @@ public class BindingContext implements UiUpdateObserver {
      * 
      */
     public MessageList displayMessages(MessageList messages) {
-        return bindings.values().stream()
+        return getBindingStream()
                 .map(binding -> binding.displayMessages(messages))
                 .flatMap(MessageList::stream)
                 .distinct()
@@ -341,7 +384,7 @@ public class BindingContext implements UiUpdateObserver {
         requireNonNull(componentWrapper, "componentWrapper must not be null");
         Binding binding = createBinding(pmo, boundProperty, aspectDefs, componentWrapper);
         binding.updateFromPmo();
-        add(binding);
+        add(binding, componentWrapper);
         return binding;
     }
 
@@ -353,7 +396,7 @@ public class BindingContext implements UiUpdateObserver {
         ContainerBinding containerBinding = new ContainerBinding(elementBinding, getBehaviorProvider(),
                 dispatcherFactory, this::modelChanged);
         containerBinding.updateFromPmo();
-        add(containerBinding);
+        add(containerBinding, componentWrapper);
         return containerBinding;
     }
 

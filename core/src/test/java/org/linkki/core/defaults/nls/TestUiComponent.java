@@ -14,6 +14,7 @@
 
 package org.linkki.core.defaults.nls;
 
+import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.util.handler.Handler;
 
@@ -31,6 +32,10 @@ public class TestUiComponent {
     private String tooltipText;
     @CheckForNull
     private MessageList validationMessages;
+
+    // used to hold the reference
+    @CheckForNull
+    private Binding binding;
 
     private Handler clickHandler = Handler.NOP_HANDLER;
 
@@ -96,6 +101,10 @@ public class TestUiComponent {
 
     public void setClickHandler(Handler clickHandler) {
         this.clickHandler = clickHandler;
+    }
+
+    public void setBinding(Binding binding) {
+        this.binding = binding;
     }
 
 }
