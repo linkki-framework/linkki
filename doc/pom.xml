@@ -60,7 +60,7 @@
             <plugin>
                 <groupId>de.faktorzehn.doc</groupId>
                 <artifactId>jade-maven-plugin</artifactId>
-                <version>1.0.0-ms12</version>
+                <version>1.0.1-m05</version>
                 <executions>
                     <execution>
                         <id>generate-docs</id>
@@ -71,6 +71,9 @@
                         <configuration>
                             <htmlOutputDirectory>${jade.outputDirectory}/html</htmlOutputDirectory>
                             <pdfOutputDirectory>${jade.outputDirectory}/pdf</pdfOutputDirectory>
+                            <excludeLinks>
+                                <excludeLink>.*localhost.*</excludeLink>
+                            </excludeLinks>
                             <properties>
                                 <title>${documentation.dtitle}</title>
                                 <readmepath>${basedir.parent}</readmepath>
