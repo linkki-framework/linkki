@@ -14,6 +14,7 @@
         <documentation.dtitle>linkki documentation</documentation.dtitle>
         <basedir.parent>${project.parent.basedir}</basedir.parent>
         <jade.outputDirectory>${project.build.directory}/${project.build.finalName}</jade.outputDirectory>
+        <jade.runExternalLinkTests>true</jade.runExternalLinkTests>
     </properties>
 
     <artifactId>linkki-core-documentation</artifactId>
@@ -74,6 +75,7 @@
                             <excludeLinks>
                                 <excludeLink>.*localhost.*</excludeLink>
                             </excludeLinks>
+                            <runExternalLinkTests>${jade.runExternalLinkTests}</runExternalLinkTests>
                             <properties>
                                 <title>${documentation.dtitle}</title>
                                 <readmepath>${basedir.parent}</readmepath>
@@ -99,7 +101,7 @@
                             <goal>upload</goal>
                         </goals>
                         <configuration>
-                        	<commands>
+                            <commands>
                                 <command>rm -rf \
                                     /var/www/doc.linkki-framework.org/${project.version}/*</command>
                             </commands>
