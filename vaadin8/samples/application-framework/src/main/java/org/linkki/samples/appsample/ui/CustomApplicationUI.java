@@ -23,7 +23,7 @@ import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 
 @Theme(value = "sample")
-@Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
+@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
 @PreserveOnRefresh
 public class CustomApplicationUI extends LinkkiUi {
 

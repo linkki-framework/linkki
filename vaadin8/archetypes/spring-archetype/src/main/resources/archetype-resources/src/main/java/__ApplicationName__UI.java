@@ -10,7 +10,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringNavigator;
 
 @Theme("\${theme-name}")
-@Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
+@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
 @SpringUI
 public class \${ApplicationName}UI extends LinkkiUi {
 

@@ -34,7 +34,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.util.CurrentInstance;
 
 @Theme(value = "valo")
-@Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
+@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
 public class DynamicFieldUI extends UI {
 
     private static final long serialVersionUID = -3028891029288587709L;

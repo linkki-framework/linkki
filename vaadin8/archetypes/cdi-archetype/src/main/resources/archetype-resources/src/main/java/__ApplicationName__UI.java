@@ -17,7 +17,7 @@ import com.vaadin.ui.UI;
  */
 @SuppressWarnings("serial")
 @Theme("\${theme-name}")
-@Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
+@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
 @CDIUI(\${ApplicationName}UI.URL)
 @PreserveOnRefresh
 public class \${ApplicationName}UI extends LinkkiUi {

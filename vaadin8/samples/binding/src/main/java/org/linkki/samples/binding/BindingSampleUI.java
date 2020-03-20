@@ -36,7 +36,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
 @Theme(value = ValoTheme.THEME_NAME)
-@Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
+@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
 public class BindingSampleUI extends UI {
 
     private static final long serialVersionUID = 42L;
