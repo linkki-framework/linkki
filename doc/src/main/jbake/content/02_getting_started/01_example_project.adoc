@@ -140,3 +140,7 @@ $> mvn clean install tomee:run
 ----
 
 and is then reachable at http://localhost:8080/linkki-getting-started.
+
+=== Step 5 (optional): Using the linkki Widgetset
+
+*linkki* comes with a custom Vaadin widgetset. Follow the instructions in the chapter <<widgetset,linkki Widgetset>> to use it and extend your `Report` with a `LocalDate` field and the `ReportSectionPmo` with a <<ui-datefield,@UIDateField>>.
