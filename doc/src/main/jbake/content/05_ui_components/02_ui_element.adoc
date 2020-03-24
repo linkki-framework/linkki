@@ -178,6 +178,7 @@ If no format is specified for a `UIIntegerField`, *linkki* uses the default Java
 [[ui-datefield]]
 ==== UIDateField
 The annotation `@UIDateField` generates a date input field and corresponds to `com.vaadin.ui.DateField`. It allows specifying a date format using the property `dateFormat: String`. If not date format is defined the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
+When the <<widgetset,*linkki* widgetset>> is used, a `MultiformatDateField` is created instead. It allows multiple date formats to be set and by default uses the same date format as the standard Vaadin date field but also allows dates without punctuation to be entered, so that for example `010420` becomes `01.04.2020`.
 
 TIP: With Vaadin 7, the property can return both `java.time.LocalDate` and `org.joda.time.LocalDate` when the matching converters are set in the `LinkkiConverterFactory`.
 

@@ -70,3 +70,26 @@ or
 
 The application framework contains additional classes for building business applications, described in <<application-framework, Application Framework>>.
 See <<maven-dependency-application-framework, Maven Dependency for the linkki Application Framework>>.
+
+[[widgetset-dependency]]
+==== linkki Widgets
+
+*linkki* extends Vaadin with custom widgets in its own widgetset. It is included in the <<maven-dependency-application-framework, Maven Dependency for the linkki Application Framework>> and can be included for plain `linkki-core-vaadin` as a precompiled widgetset from
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-vaadin8-addon-compiled</artifactId>
+</dependency>
+----
+
+or to be included in your own widgetset from 
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-vaadin8-addon-client</artifactId>
+</dependency>
+----

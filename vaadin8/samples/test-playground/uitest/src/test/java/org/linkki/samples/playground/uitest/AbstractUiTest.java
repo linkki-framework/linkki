@@ -14,6 +14,7 @@
 package org.linkki.samples.playground.uitest;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -57,8 +58,12 @@ public class AbstractUiTest extends TestBenchTestCase {
 
     @BeforeEach
     public void setUp() {
+        setUp(Locale.GERMANY);
+    }
+
+    protected void setUp(Locale locale) {
         BrowserType browserType = DriverProperties.isHeadless() ? BrowserType.CHROME_HEADLESS : BrowserType.CHROME;
-        WebDriver webDriver = browserType.getWebdriver();
+        WebDriver webDriver = browserType.getWebdriver(locale);
         setDriver(TestBench.createDriver(webDriver));
         String url = DriverProperties.getTestUrl(urlPath);
         startApplication(url);

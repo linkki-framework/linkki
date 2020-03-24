@@ -27,19 +27,9 @@
     </build>
 
     <dependencies>
-
         <dependency>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-servlet_3.0_spec</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-client-compiled</artifactId>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-vaadin8-addon-compiled</artifactId>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>

@@ -34,7 +34,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
 @Theme(value = "valo")
-@Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
+@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
 public class SampleTreeTableUI extends UI {
 
     private static final long serialVersionUID = 1L;

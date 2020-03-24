@@ -349,7 +349,7 @@ public class ComponentFactory {
     }
 
     public static DateField newDateField() {
-        DateField field = new DateField();
+        MultiformatDateField field = new MultiformatDateField();
         field.setRangeStart(LocalDate.ofYearDay(0, 1));
         field.setRangeEnd(LocalDate.ofYearDay(9999, 1));
         return field;

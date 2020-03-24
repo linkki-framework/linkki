@@ -114,6 +114,12 @@ public class AllUiElementsTest extends AbstractUiTest {
 
         dateField.setValue("2.3.4");
         assertThat(dateField.getValue(), is("02.03.2004"));
+
+        dateField.setValue("01042020");
+        assertThat(dateField.getValue(), is("01.04.2020"));
+
+        dateField.setValue("111111");
+        assertThat(dateField.getValue(), is("11.11.2011"));
     }
 
     @Test

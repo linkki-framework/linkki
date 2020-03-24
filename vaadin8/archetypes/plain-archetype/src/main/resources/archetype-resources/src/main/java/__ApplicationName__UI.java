@@ -11,7 +11,7 @@ import com.vaadin.server.VaadinRequest;
 import \${package}.view.MainView;
 
 @Theme("\${theme-name}")
-@Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
+@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
 public class \${ApplicationName}UI extends LinkkiUi implements ViewDisplay {
 
     private static final long serialVersionUID = 1L;

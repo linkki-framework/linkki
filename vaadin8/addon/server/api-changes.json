@@ -1,0 +1,39 @@
+{
+  "1.2.0": {
+    "revapi": {
+      "ignore": [
+        {
+          "regex": true,
+          "code": "java.class.externalClassExposedInAPI",
+          "new": ".* (com\\.vaadin\\..*|elemental\\.json\\..*|org\\.jsoup\\..*|org\\.linkki\\..*)",
+          "justification": "It is inteded to extend vaadin"
+        },
+        {
+          "code": "java.missing.newClass",
+          "new": "missing-class javax.servlet.http.Cookie",
+          "justification": "Provided API from vaadin"
+        },
+        {
+          "code": "java.missing.newClass",
+          "new": "missing-class javax.servlet.http.HttpSession",
+          "justification": "Provided API from vaadin"
+        },
+        {
+          "code": "java.missing.newClass",
+          "new": "missing-class javax.servlet.http.HttpSessionBindingEvent",
+          "justification": "Provided API from vaadin"
+        },
+        {
+          "code": "java.class.nonPublicPartOfAPI",
+          "new": "class org.jsoup.parser.Token",
+          "justification": "Provided API from vaadin"
+        },
+        {
+          "code": "java.class.nonPublicPartOfAPI",
+          "new": "class org.jsoup.parser.TreeBuilder",
+          "justification": "Provided API from vaadin"
+        }
+      ]
+    }
+  }
+}

@@ -31,12 +31,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-compatibility-server</artifactId>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-vaadin8-addon-server</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
