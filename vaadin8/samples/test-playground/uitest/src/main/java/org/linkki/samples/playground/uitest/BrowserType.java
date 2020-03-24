@@ -17,6 +17,7 @@ import static java.util.Objects.isNull;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -32,11 +33,11 @@ public enum BrowserType {
     CHROME("webdriver.chrome.driver") {
 
         @Override
-        public WebDriver getWebdriver() {
+        public WebDriver getWebdriver(Locale locale) {
             setSystemPropertyForChrome(this.getDriverName());
             ChromeOptions options = new ChromeOptions();
             Map<String, Object> prefs = new HashMap<>();
-            prefs.put("intl.accept_languages", "de");
+            prefs.put("intl.accept_languages", locale.getLanguage());
             options.setExperimentalOption("prefs", prefs);
             return new ChromeDriver(options);
         }
@@ -45,11 +46,11 @@ public enum BrowserType {
     CHROME_HEADLESS("webdriver.chrome.driver") {
 
         @Override
-        public WebDriver getWebdriver() {
+        public WebDriver getWebdriver(Locale locale) {
             setSystemPropertyForChrome(this.getDriverName());
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
-            options.addArguments("--lang=de-DE");
+            options.addArguments("--lang=" + locale.getLanguage() + "-" + locale.getCountry());
             return new ChromeDriver(options);
         }
     };
@@ -82,7 +83,11 @@ public enum BrowserType {
         return driverName;
     }
 
-    public abstract WebDriver getWebdriver();
+    public WebDriver getWebdriver() {
+        return getWebdriver(Locale.GERMANY);
+    }
+
+    public abstract WebDriver getWebdriver(Locale locale);
 
 }
 
