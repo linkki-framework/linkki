@@ -2,6 +2,7 @@ package \${package};
 
 import javax.inject.Inject;
 
+import org.linkki.core.vaadin.component.LinkkiWidgetset;
 import org.linkki.framework.ui.application.LinkkiUi;
 
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -17,7 +18,7 @@ import com.vaadin.ui.UI;
  */
 @SuppressWarnings("serial")
 @Theme("\${theme-name}")
-@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
+@Widgetset(LinkkiWidgetset.NAME)
 @CDIUI(\${ApplicationName}UI.URL)
 @PreserveOnRefresh
 public class \${ApplicationName}UI extends LinkkiUi {

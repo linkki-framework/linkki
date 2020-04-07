@@ -13,6 +13,7 @@
  */
 package org.linkki.samples.appsample.ui;
 
+import org.linkki.core.vaadin.component.LinkkiWidgetset;
 import org.linkki.framework.ui.application.LinkkiUi;
 import org.linkki.samples.appsample.state.SampleApplicationConfig;
 import org.linkki.samples.appsample.view.MainView;
@@ -24,7 +25,7 @@ import com.vaadin.server.VaadinRequest;
 
 // tag::application-sample-ui[]
 @Theme(value = "sample")
-@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
+@Widgetset(LinkkiWidgetset.NAME)
 @PreserveOnRefresh
 public class SampleApplicationUI extends LinkkiUi {
 

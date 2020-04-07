@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.vaadin.component.LinkkiWidgetset;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.samples.dynamicfield.components.NewCarDialog;
 import org.linkki.samples.dynamicfield.model.Car;
@@ -31,10 +32,11 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.server.WrappedSession;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.util.CurrentInstance;
 
-@Theme(value = "valo")
-@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
+@Theme(value = ValoTheme.THEME_NAME)
+@Widgetset(LinkkiWidgetset.NAME)
 public class DynamicFieldUI extends UI {
 
     private static final long serialVersionUID = -3028891029288587709L;

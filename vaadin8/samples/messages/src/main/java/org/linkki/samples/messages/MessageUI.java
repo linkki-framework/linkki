@@ -17,6 +17,7 @@ import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.vaadin.component.LinkkiWidgetset;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.samples.messages.binding.RegistrationBindingManager;
 import org.linkki.samples.messages.components.MessagesPanel;
@@ -25,6 +26,7 @@ import org.linkki.samples.messages.pmo.RegistrationSectionPmo;
 import org.linkki.samples.messages.pmo.RegistrationValidationService;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
@@ -34,6 +36,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @Theme(value = ValoTheme.THEME_NAME)
+@Widgetset(LinkkiWidgetset.NAME)
 public class MessageUI extends UI {
 
     private static final long serialVersionUID = 7735020388489427827L;

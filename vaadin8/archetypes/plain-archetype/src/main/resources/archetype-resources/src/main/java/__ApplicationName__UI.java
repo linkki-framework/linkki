@@ -1,5 +1,6 @@
 package \${package};
 
+import org.linkki.core.vaadin.component.LinkkiWidgetset;
 import org.linkki.framework.ui.application.LinkkiUi;
 
 import com.vaadin.annotations.Theme;
@@ -11,7 +12,7 @@ import com.vaadin.server.VaadinRequest;
 import \${package}.view.MainView;
 
 @Theme("\${theme-name}")
-@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
+@Widgetset(LinkkiWidgetset.NAME)
 public class \${ApplicationName}UI extends LinkkiUi implements ViewDisplay {
 
     private static final long serialVersionUID = 1L;

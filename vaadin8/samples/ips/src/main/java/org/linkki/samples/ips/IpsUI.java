@@ -21,12 +21,14 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.uiframework.UiFramework;
+import org.linkki.core.vaadin.component.LinkkiWidgetset;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.ips.model.IpsModelObject;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
@@ -34,6 +36,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
 @Theme(value = ValoTheme.THEME_NAME)
+@Widgetset(LinkkiWidgetset.NAME)
 public class IpsUI extends UI {
 
     private static final long serialVersionUID = 1L;

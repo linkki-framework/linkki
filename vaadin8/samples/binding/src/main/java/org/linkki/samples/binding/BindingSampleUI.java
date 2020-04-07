@@ -23,6 +23,7 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.vaadin.component.LinkkiWidgetset;
 import org.linkki.samples.binding.components.ContactComponent;
 import org.linkki.samples.binding.components.ContactsTableComponent;
 import org.linkki.samples.binding.model.Contact;
@@ -37,7 +38,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @Theme(value = ValoTheme.THEME_NAME)
 // tag::widgetset[]
-@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
+@Widgetset(LinkkiWidgetset.NAME)
 // end::widgetset[]
 public class BindingSampleUI extends UI {
 

@@ -1,5 +1,6 @@
 package ${package};
 
+import org.linkki.core.vaadin.component.LinkkiWidgetset;
 import org.linkki.framework.ui.application.LinkkiUi;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,7 +11,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringNavigator;
 
 @Theme("\${theme-name}")
-@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
+@Widgetset(LinkkiWidgetset.NAME)
 @SpringUI
 public class \${ApplicationName}UI extends LinkkiUi {
 
