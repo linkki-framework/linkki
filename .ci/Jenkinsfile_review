@@ -1,0 +1,81 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.GIT_BRANCH}-${env.GERRIT_TOPIC}"
+                }
+
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -U -T 6 -Djade.runExternalLinkTests=false clean install javadoc:jar'
+					sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml clean compile'
+                }
+            }
+
+            environment {
+                MAVEN_OPTS = '-Xmx768m'
+            }
+        }
+
+        stage('Docker Deployment') {
+            steps {
+                sh 'bash .ci/docker_setup.sh ${GERRIT_CHANGE_NUMBER}'
+
+                rtp parserName: 'HTML', nullAction: '1', stableText: '''
+                    <h3>Vaadin 8 samples</h3>
+                    <ul>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-binding-vaadin8">binding sample</a></li>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-messages-vaadin8">messages sample</a></li>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-dynamic-fields-vaadin8">dynamic fields sample</a></li>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-custom-layout-vaadin8">custom layout sample</a></li>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-tree-table-vaadin8">tree table sample</a></li>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-application-vaadin8/main">application sample</a></li>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin8">getting started</a></li>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8/main">test playground</a></li>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-ips-vaadin8">IPS sample</a></li>
+                    </ul>
+                '''
+
+                sleep 10
+            }
+
+            environment {
+                DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
+            }
+        }
+
+        stage('UI Test') {
+            when {
+                expression {
+                    currentBuild.currentResult == "SUCCESS"
+                }
+            }
+
+            steps {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
+                }
+            }
+
+            environment {
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
+            }
+        }
+    }
+
+    post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+            recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
+            jacoco sourceInclusionPattern: '**/*.java'
+
+            archiveArtifacts 'doc/target/linkki-core-documentation*/**/*.*'
+        }
+    }
+
+    options {
+        buildDiscarder(logRotator(daysToKeepStr: '10', numToKeepStr: '30'))
+    }
+}

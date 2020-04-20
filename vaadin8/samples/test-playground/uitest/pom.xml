@@ -89,7 +89,7 @@
             </properties>
         </profile>
         <profile>
-            <id>test</id>
+            <id>headless</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
