@@ -4,7 +4,7 @@
  <Label id="ebbc381c-3ab3-4de2-acab-766e3ef2b1f4" locale="de" pluralValue="" value="Ein Testobjekt"/>
  <Description id="1a2c34dd-23cc-44ae-b2d5-6bbb209b5f02" locale="en"/>
  <Description id="06e24522-47d0-4308-b3bb-e759abc57c88" locale="de"/>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" id="3951a057-cad4-40ba-b41e-2a4b94496a6a" modifier="published" name="foo" overwrite="false" productRelevant="false">
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" id="3951a057-cad4-40ba-b41e-2a4b94496a6a" modifier="published" name="foo" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
   <DefaultValue isNull="true"/>
   <Label id="15139ae5-c159-4314-9def-ca50aece98f3" locale="en" pluralValue="" value="Foo in English"/>
   <Label id="790b8dbd-241f-4bcb-8620-af34b62106ba" locale="de" pluralValue="" value="Foo auf Deutsch"/>

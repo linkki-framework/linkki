@@ -4,7 +4,7 @@
  <Label id="9c6f96ed-5e92-4ea1-91a9-ed3edcbede11" locale="de" pluralValue="" value=""/>
  <Description id="6e6091df-a83d-47bc-b3e2-978a234219c8" locale="en"/>
  <Description id="3504a2ab-ae8d-4957-83e7-6136e6317700" locale="de"/>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="Decimal" id="9683d705-002e-450a-a18e-f1604c01111b" modifier="published" name="decimal" overwrite="false" productRelevant="false">
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="Decimal" id="9683d705-002e-450a-a18e-f1604c01111b" modifier="published" name="decimal" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
   <DefaultValue>42</DefaultValue>
   <Label id="b20c732d-fe82-410b-a497-a6cbbd80ff66" locale="en" pluralValue="" value=""/>
   <Label id="fa16a992-2d16-499f-b951-17b61eea39f2" locale="de" pluralValue="" value=""/>
@@ -18,7 +18,7 @@
    </Range>
   </ValueSet>
  </Attribute>
- <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" id="ad1111f6-870a-48a1-8ced-244b302e65f8" modifier="published" name="string" overwrite="false" productRelevant="false">
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" id="ad1111f6-870a-48a1-8ced-244b302e65f8" modifier="published" name="string" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
   <DefaultValue isNull="true"/>
   <Label id="397b92d2-ee11-4615-bdaf-e5390e557931" locale="en" pluralValue="" value="A String attribute"/>
   <Label id="ab358a04-a604-4261-b23c-c0c7bd4cd0db" locale="de" pluralValue="" value="Ein String-Attribut"/>

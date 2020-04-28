@@ -48,7 +48,7 @@
         </RequiredIpsFeatures>
     -->
  <RequiredIpsFeatures>
-  <RequiredIpsFeature id="org.faktorips.feature" minVersion="19.12.0"/>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="20.6.0"/>
  </RequiredIpsFeatures>
 
  <!--
@@ -351,6 +351,12 @@
             <!- - When inferring a template from multiple product components, Faktor-IPS checks whether a property value is used in all or at least many of those product components.
                 This setting determines, which ratio is considered 'many'. The default value of 0.8 only considers values used in at least 80% of all selected product components.- ->
             <Setting name="inferredTemplatePropertyValueThreshold" value="0.8"/>
+            <!- - Severity for validation messages when two product components have the same kindId and versionId.
+                Possible values are ERROR, WARNING, INFO, and NONE. - ->
+            <Setting name="duplicateProductComponentSeverity" value="ERROR"/>
+            <!- - Severity for validation messages when model and persistence constraints don't match.
+                Possible values are ERROR, WARNING, INFO, and NONE. - ->
+            <Setting name="persistenceColumnSizeChecksSeverity" value="ERROR"/>
         </AdditionalSettings>
     -->
  <AdditionalSettings>
@@ -365,6 +371,8 @@
   <Setting enabled="false" name="changingOverTimeDefault"/>
   <Setting name="inferredTemplateLinkThreshold" value="1"/>
   <Setting name="inferredTemplatePropertyValueThreshold" value="0.8"/>
+  <Setting name="duplicateProductComponentSeverity" value="WARNING"/>
+  <Setting name="persistenceColumnSizeChecksSeverity" value="WARNING"/>
  </AdditionalSettings>
 
  <!--
