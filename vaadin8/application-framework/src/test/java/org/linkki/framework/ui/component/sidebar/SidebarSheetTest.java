@@ -14,8 +14,8 @@
 
 package org.linkki.framework.ui.component.sidebar;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Test;
 
@@ -68,6 +68,22 @@ public class SidebarSheetTest {
 
     private static SidebarSheet createSideBarSheet(Component content) {
         return new SidebarSheet(VaadinIcons.STAR_HALF_LEFT, "Test SidebarSheet", content);
+    }
+
+    @Test
+    public void testGetId_DerivedByName() {
+        SidebarSheet sidebarSheet = new SidebarSheet(VaadinIcons.STAR_HALF_LEFT, "Test SidebarSheet",
+                new HorizontalLayout());
+
+        assertThat(sidebarSheet.getId(), is("Test SidebarSheet"));
+    }
+
+    @Test
+    public void testGetId() {
+        SidebarSheet sidebarSheet = new SidebarSheet("sheet1", VaadinIcons.STAR_HALF_LEFT, "Test SidebarSheet",
+                new HorizontalLayout());
+
+        assertThat(sidebarSheet.getId(), is("sheet1"));
     }
 
 }

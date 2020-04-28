@@ -18,6 +18,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.linkki.test.matcher.Matchers.hasValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -27,12 +29,16 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.linkki.framework.ui.component.sidebar.SidebarLayout.SelectionListener;
+import org.linkki.framework.ui.component.sidebar.SidebarLayout.SidebarSelectionEvent;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
+
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 public class SidebarLayoutTest {
 
@@ -151,4 +157,66 @@ public class SidebarLayoutTest {
         });
 
     }
+
+    @Test
+    public void testAddSelectionListener_NewSheetSelectionTriggered() {
+        SidebarLayout sidebarLayout = new SidebarLayout();
+        TestSelectionListener listener = new TestSelectionListener();
+        SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
+
+        sidebarLayout.addSelectionListener(listener);
+        sidebarLayout.addSheet(sheet1);
+
+        assertThat(listener.event.getSelectedSheet(), is(sheet1));
+    }
+
+    @Test
+    public void testAddSelectionListener_NotTriggeredOnSelectAlreadySelectedSheet() {
+        SidebarLayout sidebarLayout = new SidebarLayout();
+        TestSelectionListener listener = new TestSelectionListener();
+        SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
+        SidebarSheet sheet2 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
+        sidebarLayout.addSheet(sheet1);
+        sidebarLayout.addSheet(sheet2);
+
+        sidebarLayout.addSelectionListener(listener);
+        sidebarLayout.select(sheet1);
+
+        assertThat(listener.event, is(nullValue()));
+    }
+
+    @Test
+    public void testAddSelectionListener_CheckNormalSelectEvent() {
+        SidebarLayout sidebarLayout = new SidebarLayout();
+        TestSelectionListener listener = new TestSelectionListener();
+        SidebarSheet sheet1 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
+        SidebarSheet sheet2 = new SidebarSheet(ANY_ICON, ANY_STRING, createNewContent());
+        sidebarLayout.addSheet(sheet1);
+        sidebarLayout.addSheet(sheet2);
+
+        sidebarLayout.addSelectionListener(listener);
+        sidebarLayout.select(sheet2);
+
+        assertThat(listener.event.getSelectedSheet(), is(sheet2));
+        assertThat(listener.event.getFirstSelectedItem(), hasValue(sheet2));
+        assertThat(listener.event.getAllSelectedItems(), hasItem(sheet2));
+        assertThat(listener.event.getSelectedSheet(), is(sheet2));
+        assertThat(listener.event.getOldValue(), is(sheet1));
+        assertThat(listener.event.getSource(), is(sidebarLayout));
+        assertThat(listener.event.isUserOriginated(), is(false));
+    }
+
+    static class TestSelectionListener implements SelectionListener {
+
+        @Nullable
+        SidebarSelectionEvent event;
+
+        @Override
+        public void selectionChange(SidebarSelectionEvent e) {
+            this.event = e;
+        }
+
+    }
+
+
 }

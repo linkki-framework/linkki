@@ -15,6 +15,14 @@ Using the annotation <<section-header-annotation,@SectionHeader>>, any UI elemen
 
 Vaadin's radio button group, previously only used as an <<custom-ui-element-annotation,example how to create a custom UI element>>, is now also a part of linkki for Vaadin 8 with the <<ui-radiobutton,`@UIRadioButtons`>> annotation.
 
+==== SidebarLayout/SidebarSheet
+
+The `SidebarLayout` got a `SelectionListener` to get an event when the selected sidebar sheet changes. To identify the selected sidebar sheet
+for example when the selected sheet is referenced by a URL parameter, the sidebar sheets now have an optional ID. The ID is derived from name if it
+was not specified explicitly but it is recommended to make it explicit.
+
+The `UiUpdateObserver` in `SidebarSheet` is still the recommended way to trigger an update when the sheet gets selected. This way it remains self-contained (the layout does not need to know how to update the sheet). To make the instantiation more flexible, the `UiUpdateObserver` could now be specified after constructor using a setter.
+
 ==== Incubator Project & Nested PMOs
 
 The new incubator module offers access to features in development, such as <<nested-pmos,nested PMOs>>.
