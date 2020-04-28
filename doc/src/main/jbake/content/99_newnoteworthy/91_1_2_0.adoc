@@ -24,8 +24,17 @@ The new incubator module offers access to features in development, such as <<nes
 Exceptions thrown when APT calls the `createAspect` method of aspect definition no longer abort the build. Instead, an <<apt-compiler-options,ASPECT_CREATION_FAILED warning>> is now emitted.
 
 [role="api-change"]
-==== ComponentWrapper now stores reference to Binding
+==== ComponentWrapper now Stores Reference to Binding
 
 The new method `ComponentWrapper.registerBinding(Binding binding)` creates a strong reference from a component to their `Binding`.
 The `BindingContext` is therefore able to keep only weak references to all `Bindings`.
 Likewise, the method `BindingContext.add(Binding binding)` has been deprecated and replaced with the new signature `BindingContext.add(Binding binding, ComponentWrapper componentWrapper)`.
+
+==== New Widgetset Allows Flexible Date Entry
+
+*linkki* now includes its own <<widgetset>> that offers a more flexible <<ui-datefield,date entry field>>. You can switch to it with
+
+[source,java]
+----
+@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
+----
