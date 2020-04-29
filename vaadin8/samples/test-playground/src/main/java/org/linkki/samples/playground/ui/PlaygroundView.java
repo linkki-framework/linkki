@@ -18,13 +18,16 @@ import org.linkki.framework.ui.component.sidebar.SidebarLayout;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
-import org.linkki.samples.playground.table.TablesLayout;
 import org.linkki.samples.playground.incubator.IncubatorPage;
+import org.linkki.samples.playground.table.TablesLayout;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
 
 public class PlaygroundView extends SidebarLayout implements View {
+
+    private static final String PARAMETER_SHEET = "sheet";
 
     public static final String NAME = "";
 
@@ -44,7 +47,11 @@ public class PlaygroundView extends SidebarLayout implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
-        // nothing to do
+        select(event.getParameterMap().get(PARAMETER_SHEET));
+
+        addSelectionListener(e -> Page.getCurrent()
+                .setUriFragment("!" + NAME + "/"
+                        + PARAMETER_SHEET + "=" + e.getSelectedSheet().getId()));
     }
 
 }

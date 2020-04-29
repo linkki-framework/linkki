@@ -31,7 +31,8 @@ public interface SidebarSheetDefinition extends Component {
     String getSidebarSheetId();
 
     default SidebarSheet createSheet() {
-        SidebarSheet sidebarSheet = new SidebarSheet(getSidebarSheetIcon(), getSidebarSheetName(), this);
+        SidebarSheet sidebarSheet = new SidebarSheet(getSidebarSheetId(), getSidebarSheetIcon(), getSidebarSheetName(),
+                this);
         sidebarSheet.getButton().setId(getSidebarSheetId());
         return sidebarSheet;
     }

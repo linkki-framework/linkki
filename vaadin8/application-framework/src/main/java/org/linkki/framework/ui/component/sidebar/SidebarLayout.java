@@ -115,6 +115,17 @@ public class SidebarLayout extends CssLayout {
     }
 
     /**
+     * Selects the sheet with the given ID.
+     * <p>
+     * The method does nothing if there is no sheet with the specified ID.
+     * 
+     * @param id The ID of a sheet contained in this layout
+     */
+    public void select(String id) {
+        getSidebarSheet(id).ifPresent(this::select);
+    }
+
+    /**
      * Selects the given sheet.
      * 
      * @param sheet A sheet contained in this layout
@@ -170,6 +181,16 @@ public class SidebarLayout extends CssLayout {
      */
     public List<SidebarSheet> getSidebarSheets() {
         return Collections.unmodifiableList(sidebarSheets);
+    }
+
+    /**
+     * Returns the sidebar sheet with the specified ID if it exists.
+     * 
+     * @param id The ID of the requested sheet
+     * @return the requested sheet identified by the specified ID
+     */
+    public Optional<SidebarSheet> getSidebarSheet(String id) {
+        return sidebarSheets.stream().filter(s -> s.getId().equals(id)).findFirst();
     }
 
     /**

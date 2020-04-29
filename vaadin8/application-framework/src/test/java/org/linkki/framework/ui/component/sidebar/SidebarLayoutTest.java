@@ -218,5 +218,28 @@ public class SidebarLayoutTest {
 
     }
 
+    @Test
+    public void testSelectString() {
+        SidebarLayout sidebarLayout = new SidebarLayout();
+        SidebarSheet sheet1 = spy(new SidebarSheet("id1", ANY_ICON, ANY_STRING, createNewContent()));
+        SidebarSheet sheet2 = spy(new SidebarSheet("id2", ANY_ICON, ANY_STRING, createNewContent()));
+        sidebarLayout.addSheets(sheet1, sheet2);
+
+        sidebarLayout.select("id2");
+
+        assertThat(sidebarLayout.getSelected(), is(sheet2));
+    }
+
+    @Test
+    public void testSelectString_DoNothingOnInvalidId() {
+        SidebarLayout sidebarLayout = new SidebarLayout();
+        SidebarSheet sheet1 = spy(new SidebarSheet("id1", ANY_ICON, ANY_STRING, createNewContent()));
+        SidebarSheet sheet2 = spy(new SidebarSheet("id2", ANY_ICON, ANY_STRING, createNewContent()));
+        sidebarLayout.addSheets(sheet1, sheet2);
+
+        sidebarLayout.select("xyz");
+
+        assertThat(sidebarLayout.getSelected(), is(sheet1));
+    }
 
 }
