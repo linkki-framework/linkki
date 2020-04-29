@@ -46,3 +46,7 @@ Likewise, the method `BindingContext.add(Binding binding)` has been deprecated a
 ----
 @Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
 ----
+
+==== Update Vaadin to 8.10.4
+
+linkki now uses Vaadin version 8.10.4 to include the latest bug fixes and patches.
