@@ -24,16 +24,15 @@ import com.vaadin.ui.Component;
 @SuppressWarnings("serial")
 public interface SidebarSheetDefinition extends Component {
 
+    String getSidebarSheetId();
+
     String getSidebarSheetName();
 
     Resource getSidebarSheetIcon();
 
-    String getSidebarSheetId();
-
     default SidebarSheet createSheet() {
         SidebarSheet sidebarSheet = new SidebarSheet(getSidebarSheetId(), getSidebarSheetIcon(), getSidebarSheetName(),
                 this);
-        sidebarSheet.getButton().setId(getSidebarSheetId());
         return sidebarSheet;
     }
 }

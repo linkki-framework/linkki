@@ -188,6 +188,7 @@ public class SidebarSheet {
         this.id = id;
         this.name = requireNonNull(name, "name must not be null");
         this.button = new Button("", requireNonNull(icon, "icon must not be null")); // $NON-NLS-1
+        button.setId(id);
         this.contentSupplier = new LazyReference<>(requireNonNull(contentSupplier, "content must not be null"));
         if (StringUtils.isNotEmpty(name)) {
             this.button.setDescription(name);
