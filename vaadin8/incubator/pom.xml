@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin8</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
+        <version>1.2.0-rc01</version>
     </parent>
 
     <artifactId>linkki-core-vaadin8-incubator</artifactId>
@@ -16,18 +16,18 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-vaadin8</artifactId>
-            <version>1.2.0-SNAPSHOT</version>
+            <version>1.2.0-rc01</version>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-test</artifactId>
-            <version>1.2.0-SNAPSHOT</version>
+            <version>1.2.0-rc01</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin8-test</artifactId>
-            <version>1.2.0-SNAPSHOT</version>
+            <version>1.2.0-rc01</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
