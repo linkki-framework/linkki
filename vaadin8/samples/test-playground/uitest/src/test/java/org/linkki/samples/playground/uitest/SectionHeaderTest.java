@@ -15,9 +15,11 @@
 package org.linkki.samples.playground.uitest;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
 import com.vaadin.testbench.elements.ButtonElement;
@@ -26,27 +28,35 @@ import com.vaadin.testbench.elements.VerticalLayoutElement;
 
 public class SectionHeaderTest extends AbstractUiTest {
 
-    @Test
-    public void testButtonLocation() {
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id("SectionHeaderPmo");
-        Point buttonLeft = section.$(ButtonElement.class).id("headerButtonLeft").getLocation();
-        Point buttonRight = section.$(ButtonElement.class).id("headerButtonRight").getLocation();
-
-        assertThat(buttonLeft.getY() == buttonRight.getY(), is(true));
-        assertThat(buttonLeft.getX() < buttonRight.getX(), is(true));
+    @Override
+    public void startApplication(String url) {
+        if (getDriver() != null) {
+            System.out.println("Starting application on " + url);
+            // there appear to be issues running the test with a small resolution
+            driver.manage().window().setSize(new Dimension(1920, 1080));
+            getDriver().get(url);
+        }
     }
 
     @Test
-    public void testButtonPress() {
+    public void testButtons() {
         VerticalLayoutElement section = $(VerticalLayoutElement.class).id("SectionHeaderPmo");
-        ButtonElement buttonLeft = section.$(ButtonElement.class).id("headerButtonLeft");
-        ButtonElement buttonRight = section.$(ButtonElement.class).id("headerButtonRight");
+        ButtonElement leftButton = section.$(ButtonElement.class).id("headerButtonLeft");
+        ButtonElement rightButton = section.$(ButtonElement.class).id("headerButtonRight");
         LabelElement label = section.$(LabelElement.class).id("label");
 
-        buttonLeft.click();
+        testButtonPosition(leftButton.getLocation(), rightButton.getLocation());
+        leftButton.click();
         assertThat(label.getText(), is("left"));
-        buttonRight.click();
+        rightButton.click();
         assertThat(label.getText(), is("right"));
+    }
+
+    private void testButtonPosition(Point leftButton, Point rightButton) {
+        assertThat("Buttons " + leftButton + " and " + rightButton + "should have the same height",
+                   leftButton.getY() == rightButton.getY(), is(true));
+        assertThat("Button " + leftButton + " should be to the left of " + rightButton,
+                   leftButton.getX(), is(lessThan(rightButton.getX())));
     }
 
 }
