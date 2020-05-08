@@ -99,7 +99,6 @@ public final class MessageUiComponents {
         messageLabel.setIcon(getIcon(severity));
         messageLabel.addStyleName(LinkkiApplicationTheme.MESSAGE_LABEL);
         messageLabel.addStyleName(getStyle(severity));
-        messageLabel.setDescription(getInvalidObjectPropertiesAsString(message));
         component.addComponent(messageLabel);
         return component;
     }
