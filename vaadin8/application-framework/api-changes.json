@@ -27,6 +27,12 @@
     "revapi": {
       "ignore": [
         {
+          "code": "java.annotation.removed",
+          "old": "method java.lang.String org.linkki.framework.ui.component.MessageRowPmo::getIcon()",
+          "new": "method java.lang.String org.linkki.framework.ui.component.MessageRowPmo::getIcon()",
+          "justification": "MessageRowPmo icon should not have the invalid property as tooltip"
+        },
+        {
           "code": "java.class.defaultSerializationChanged",
           "new": "class com.vaadin.server.VaadinService",
           "justification": "Vaadin update to 8.10"

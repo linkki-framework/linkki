@@ -20,8 +20,6 @@ import java.util.List;
 
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
-import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
@@ -42,7 +40,6 @@ public class MessageRowPmo {
 
     @UITableColumn(expandRatio = 0)
     @UILabel(position = 10, htmlContent = true)
-    @BindTooltip(tooltipType = TooltipType.DYNAMIC)
     @BindStyleNames
     public String getIcon() {
         return MessageUiComponents.getIcon(message.getSeverity()).getHtml();
@@ -52,6 +49,13 @@ public class MessageRowPmo {
         return Arrays.asList(LinkkiApplicationTheme.MESSAGE_ROW, MessageUiComponents.getStyle(message.getSeverity()));
     }
 
+    /**
+     * @deprecated The invalid object property string was a concatenation of simple class name and
+     *             property name. That was a very technical view of an invalid object property and
+     *             should not be used for describing a property for the end user. If you need this
+     *             representation consider to write your own utility method for this conversion.
+     */
+    @Deprecated
     public String getIconTooltip() {
         return MessageUiComponents.getInvalidObjectPropertiesAsString(message);
     }

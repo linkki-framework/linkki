@@ -68,7 +68,13 @@ public final class MessageUiComponents {
     /**
      * Concatenates the {@link Message#getInvalidObjectProperties() message's invalid object
      * properties}.
+     * 
+     * @deprecated The invalid object property string was a concatenation of simple class name and
+     *             property name. That was a very technical view of an invalid object property and
+     *             should not be used for describing a property for the end user. If you need this
+     *             representation consider to write your own utility method for this conversion.
      */
+    @Deprecated
     public static String getInvalidObjectPropertiesAsString(Message message) {
         String text = message.getInvalidObjectProperties().stream()
                 .map(MessageUiComponents::toString)

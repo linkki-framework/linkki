@@ -21,7 +21,7 @@ import com.vaadin.server.VaadinServlet;
 
 
 @WebServlet(urlPatterns = { "/main/*", "/VAADIN/*", "/UIDL/*", "/HEARTBEAT" }, asyncSupported = true)
-@VaadinServletConfiguration(productionMode = true, ui = PlaygroundApplicationUI.class)
+@VaadinServletConfiguration(productionMode = false, ui = PlaygroundApplicationUI.class)
 public class PlaygroundApplicationServlet extends VaadinServlet {
 
     private static final long serialVersionUID = 1L;
