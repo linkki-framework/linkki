@@ -61,6 +61,7 @@ public class BindingContext implements UiUpdateObserver {
 
     private final Map<Object, WeakReference<Binding>> bindings = new WeakHashMap<>();
 
+    private MessageList currentMessages = new MessageList();
 
     /**
      * Creates a new binding context with an empty name that defines no property behavior and uses no
@@ -160,6 +161,9 @@ public class BindingContext implements UiUpdateObserver {
      */
     public BindingContext add(Binding binding, ComponentWrapper componentWrapper) {
         requireNonNull(binding, "binding must not be null");
+
+        binding.updateFromPmo();
+        binding.displayMessages(currentMessages);
 
         bindings.put(binding.getBoundComponent(), new WeakReference<>(binding));
         componentWrapper.registerBinding(binding);
@@ -325,6 +329,7 @@ public class BindingContext implements UiUpdateObserver {
      * 
      */
     public MessageList displayMessages(MessageList messages) {
+        currentMessages = messages;
         return getBindingStream()
                 .map(binding -> binding.displayMessages(messages))
                 .flatMap(MessageList::stream)
@@ -383,7 +388,6 @@ public class BindingContext implements UiUpdateObserver {
         requireNonNull(aspectDefs, "aspectDefs must not be null");
         requireNonNull(componentWrapper, "componentWrapper must not be null");
         Binding binding = createBinding(pmo, boundProperty, aspectDefs, componentWrapper);
-        binding.updateFromPmo();
         add(binding, componentWrapper);
         return binding;
     }
@@ -395,7 +399,6 @@ public class BindingContext implements UiUpdateObserver {
         Binding elementBinding = createBinding(pmo, boundProperty, aspectDefs, componentWrapper);
         ContainerBinding containerBinding = new ContainerBinding(elementBinding, getBehaviorProvider(),
                 dispatcherFactory, this::modelChanged);
-        containerBinding.updateFromPmo();
         add(containerBinding, componentWrapper);
         return containerBinding;
     }

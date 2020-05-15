@@ -22,11 +22,11 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.linkki.samples.playground.table.MinimalSelectableTableSectionPmo;
-import org.linkki.samples.playground.table.SelectableTableSelectionComparisonPmo;
-import org.linkki.samples.playground.table.TablesLayout;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.table.PlaygroundTablePmo;
+import org.linkki.samples.playground.table.SelectionComparisonSectionPmo;
+import org.linkki.samples.playground.table.TablePage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 
@@ -36,30 +36,33 @@ import com.vaadin.testbench.elements.NotificationElement;
 @SuppressWarnings("deprecation")
 public class SelectableTableTest extends AbstractUiTest {
 
-    @Before
-    public void setup() {
-        clickButton(TablesLayout.ID);
+    @Override
+    @BeforeEach
+    public void setUp() {
+        super.setUp();
+        clickButton(TablePage.ID);
     }
 
     @Test
     public void testSelection() {
         com.vaadin.testbench.elements.TableElement selectableTable = $(com.vaadin.testbench.elements.TableElement.class)
-                .id(MinimalSelectableTableSectionPmo.class.getSimpleName());
+                .id(PlaygroundTablePmo.class.getSimpleName());
 
         // initial selection
-        assertThat(selectableTable.getRow(MinimalSelectableTableSectionPmo.INITAL_SELECTED_ROW).getClassNames(),
+        assertThat(selectableTable.getRow(PlaygroundTablePmo.INITAL_SELECTED_ROW).getClassNames(),
                    hasItem("v-selected"));
 
         // set selection
-        selectableTable.getRow(0).click();
+        selectableTable.getRow(0).click(1, 1);
         assertThat(selectableTable.getRow(0).getClassNames(), hasItem("v-selected"));
 
-        clickButton(SelectableTableSelectionComparisonPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
-        assertThat($(LabelElement.class).id(SelectableTableSelectionComparisonPmo.PROPERTY_PMO_SELECTION).getText(),
-                   is(MinimalSelectableTableSectionPmo.ROW_1));
-        assertThat($(LabelElement.class).id(SelectableTableSelectionComparisonPmo.PROPERTY_TABLE_SELECTION)
+        clickButton(SelectionComparisonSectionPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
+
+        assertThat($(LabelElement.class).id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION).getText(),
+                   is("Name 1"));
+        assertThat($(LabelElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION)
                 .getText(),
-                   is(MinimalSelectableTableSectionPmo.ROW_1));
+                   is("Name 1"));
 
         // change selection with key
         selectableTable.getRow(2).click();
@@ -67,18 +70,18 @@ public class SelectableTableTest extends AbstractUiTest {
         action.sendKeys(Keys.ARROW_UP).perform();
         assertThat(selectableTable.getRow(1).getClassNames(), hasItem("v-selected"));
 
-        clickButton(SelectableTableSelectionComparisonPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
-        assertThat($(LabelElement.class).id(SelectableTableSelectionComparisonPmo.PROPERTY_PMO_SELECTION).getText(),
-                   is(MinimalSelectableTableSectionPmo.ROW_2));
-        assertThat($(LabelElement.class).id(SelectableTableSelectionComparisonPmo.PROPERTY_TABLE_SELECTION)
+        clickButton(SelectionComparisonSectionPmo.PROPERTY_UPDATE_COMPARISON_VALUES);
+        assertThat($(LabelElement.class).id(SelectionComparisonSectionPmo.PROPERTY_PMO_SELECTION).getText(),
+                   is("Name 2"));
+        assertThat($(LabelElement.class).id(SelectionComparisonSectionPmo.PROPERTY_TABLE_SELECTION)
                 .getText(),
-                   is(MinimalSelectableTableSectionPmo.ROW_2));
+                   is("Name 2"));
     }
 
     @Test
     public void testDoubleClick() {
         com.vaadin.testbench.elements.TableElement selectableTable = $(com.vaadin.testbench.elements.TableElement.class)
-                .id(MinimalSelectableTableSectionPmo.class.getSimpleName());
+                .id(PlaygroundTablePmo.class.getSimpleName());
 
         // single click should not trigger the aspect
         selectableTable.getRow(0).click();
@@ -91,8 +94,8 @@ public class SelectableTableTest extends AbstractUiTest {
         List<NotificationElement> notificationsAfterDoubleClick = $(NotificationElement.class).all();
         assertThat(notificationsAfterDoubleClick, hasSize(1));
         assertThat(notificationsAfterDoubleClick.get(0).getCaption(),
-                   containsString(MinimalSelectableTableSectionPmo.NOTIFICATION_DOUBLE_CLICK));
+                   containsString(PlaygroundTablePmo.NOTIFICATION_DOUBLE_CLICK));
         assertThat(notificationsAfterDoubleClick.get(0).getCaption(),
-                   containsString(MinimalSelectableTableSectionPmo.ROW_2));
+                   containsString("Name 2"));
     }
 }

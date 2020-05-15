@@ -121,7 +121,7 @@ public class TableColumnWrapper implements ComponentWrapper {
 
     @Override
     public void registerBinding(Binding binding) {
-        ((FieldColumnGenerator<?>)getComponent()).setBinding(binding);
+        ((FieldColumnGenerator)getComponent()).setBinding(binding);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class TableColumnWrapper implements ComponentWrapper {
 
     public static com.vaadin.v7.ui.Table.ColumnGenerator createComponent(PropertyElementDescriptors elementDesc,
             BindingContext bindingContext) {
-        return new FieldColumnGenerator<>(elementDesc, bindingContext);
+        return new FieldColumnGenerator(elementDesc, bindingContext);
     }
 
 }

@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -38,7 +39,9 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.dispatcher.fallback.ExceptionPropertyDispatcher;
 import org.linkki.core.binding.dispatcher.reflection.ReflectionPropertyDispatcher;
+import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.columnbased.ColumnBasedComponentFactory;
 import org.linkki.core.defaults.columnbased.TestColumnBasedComponentCreator;
@@ -49,12 +52,14 @@ import org.linkki.core.defaults.nls.TestUiComponent;
 import org.linkki.core.defaults.nls.TestUiLayoutComponent;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
+import org.linkki.core.matcher.MessageMatchers;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.util.handler.Handler;
 
 public class BindingContextTest {
 
+    private static final String MSG_CODE = "TEST";
     private TestUiComponent field1 = spy(new TestUiComponent());
     private TestUiComponent field2 = spy(new TestUiComponent());
 
@@ -82,14 +87,31 @@ public class BindingContextTest {
     }
 
     @Test
+    public void testAdd_DisplayCurrentMessages() {
+        BindingContext context = new BindingContext();
+        ElementBinding binding = createBinding(context);
+        Message message = Message.builder("test", Severity.ERROR)
+                .invalidObjectWithProperties(binding.getPmo(), binding.getPropertyDispatcher().getProperty())
+                .code(MSG_CODE)
+                .create();
+        context.displayMessages(new MessageList(message));
+
+        context.add(binding, TestComponentWrapper.with(binding));
+
+        assertThat(((TestUiComponent)binding.getBoundComponent()).getValidationMessages(),
+                   MessageMatchers.hasMessage(MSG_CODE));
+    }
+
+    @Test
     public void testModelChangedBindings() {
         Handler afterUpdateUi = mock(Handler.class);
         BindingContext context = new BindingContext("", PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, afterUpdateUi);
         ElementBinding binding = spy(createBinding(context));
-
         context.add(binding, TestComponentWrapper.with(binding));
+        reset(binding);
 
         context.uiUpdated();
+
         verify(binding).updateFromPmo();
         verify(afterUpdateUi, never()).apply();
     }
@@ -120,13 +142,13 @@ public class BindingContextTest {
     @Test
     public void testModelChangedBindingsAndValidate() {
         Handler afterUpdateUi = mock(Handler.class);
-
         BindingContext context = new BindingContext("", PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, afterUpdateUi);
         ElementBinding binding = spy(createBinding(context));
-
         context.add(binding, TestComponentWrapper.with(binding));
+        reset(binding);
 
         context.modelChanged();
+
         verify(binding).updateFromPmo();
         verify(afterUpdateUi).apply();
     }
@@ -135,13 +157,13 @@ public class BindingContextTest {
     public void testChangeBoundObject() {
         BindingContext context = new BindingContext();
         ElementBinding binding = spy(createBinding(context));
-
         context.uiUpdated();
         verify(binding, never()).updateFromPmo();
-
         context.add(binding, TestComponentWrapper.with(binding));
+        reset(binding);
 
         context.uiUpdated();
+
         verify(binding).updateFromPmo();
     }
 

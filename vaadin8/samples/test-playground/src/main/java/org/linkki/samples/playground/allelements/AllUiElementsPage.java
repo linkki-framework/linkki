@@ -27,6 +27,8 @@ import com.vaadin.server.Resource;
 
 public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefinition {
 
+    public static final String ID = "all";
+
     private static final long serialVersionUID = 1L;
 
     private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
@@ -73,7 +75,7 @@ public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefin
 
     @Override
     public String getSidebarSheetId() {
-        return "all";
+        return ID;
     }
 
 }

@@ -20,22 +20,23 @@ import java.util.function.Supplier;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
-import org.linkki.samples.playground.table.MinimalSelectableTableSectionPmo.MinimalSelectableTableRowPmo;
 import org.linkki.util.handler.Handler;
 
 @UIHorizontalLayout
-public class SelectableTableSelectionComparisonPmo {
+public class SelectionComparisonSectionPmo {
 
     public static final String PROPERTY_TABLE_SELECTION = "tableSelection";
     public static final String PROPERTY_PMO_SELECTION = "pmoSelection";
     public static final String PROPERTY_UPDATE_COMPARISON_VALUES = "updateComparisonValues";
 
-    private final Supplier<MinimalSelectableTableRowPmo> tableSelection;
-    private final Supplier<MinimalSelectableTableRowPmo> pmoSelection;
+    private final Supplier<PlaygroundRowPmo> tableSelection;
+
+    private final Supplier<PlaygroundRowPmo> pmoSelection;
+
     private final Handler updateComparisonValues;
 
-    public SelectableTableSelectionComparisonPmo(Supplier<MinimalSelectableTableRowPmo> tableSelection,
-            Supplier<MinimalSelectableTableRowPmo> pmoSelection, Handler updateComparisonValues) {
+    public SelectionComparisonSectionPmo(Supplier<PlaygroundRowPmo> tableSelection,
+            Supplier<PlaygroundRowPmo> pmoSelection, Handler updateComparisonValues) {
         this.tableSelection = tableSelection;
         this.pmoSelection = pmoSelection;
         this.updateComparisonValues = updateComparisonValues;
@@ -43,12 +44,14 @@ public class SelectableTableSelectionComparisonPmo {
 
     @UILabel(position = 10, label = "Table selection:")
     public String getTableSelection() {
-        return Optional.ofNullable(tableSelection.get()).map(MinimalSelectableTableRowPmo::getValue).orElse("null");
+        return Optional.ofNullable(tableSelection.get()).map(o -> o.getModelObject().getName())
+                .orElse("null");
     }
 
     @UILabel(position = 20, label = "Pmo selection:")
     public String getPmoSelection() {
-        return Optional.ofNullable(pmoSelection.get()).map(MinimalSelectableTableRowPmo::getValue).orElse("null");
+        return Optional.ofNullable(pmoSelection.get()).map(o -> o.getModelObject().getName())
+                .orElse("null");
     }
 
     @UIButton(position = 30, caption = "Update comparison values")

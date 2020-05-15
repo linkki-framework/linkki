@@ -15,7 +15,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 
 /** Column generator that generates a column for a field of a PMO. */
 @SuppressWarnings("deprecation")
-class FieldColumnGenerator<T> implements com.vaadin.v7.ui.Table.ColumnGenerator {
+class FieldColumnGenerator implements com.vaadin.v7.ui.Table.ColumnGenerator {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,9 +41,7 @@ class FieldColumnGenerator<T> implements com.vaadin.v7.ui.Table.ColumnGenerator 
         component.addStyleName(LinkkiTheme.BORDERLESS);
         component.addStyleName(LinkkiTheme.TABLE_CELL);
 
-        @SuppressWarnings("unchecked")
-        T itemPmo = (T)itemId;
-        bindingContext.bind(itemPmo, elementDescriptor, new LabelComponentWrapper(component));
+        bindingContext.bind(itemId, elementDescriptor, new LabelComponentWrapper(component));
 
         return component;
     }

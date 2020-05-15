@@ -19,7 +19,7 @@ import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.incubator.IncubatorPage;
-import org.linkki.samples.playground.table.TablesLayout;
+import org.linkki.samples.playground.table.TablePage;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -37,7 +37,7 @@ public class PlaygroundView extends SidebarLayout implements View {
         addSidebarSheet(new AllUiElementsPage());
         addSidebarSheet(new DynamicAnnotationsLayout());
         addSidebarSheet(new BugCollectionLayout());
-        addSidebarSheet(new TablesLayout());
+        addSidebarSheet(new TablePage());
         addSidebarSheet(new IncubatorPage());
     }
 
@@ -51,7 +51,7 @@ public class PlaygroundView extends SidebarLayout implements View {
 
         addSelectionListener(e -> Page.getCurrent()
                 .setUriFragment("!" + NAME + "/"
-                        + PARAMETER_SHEET + "=" + e.getSelectedSheet().getId()));
+                        + PARAMETER_SHEET + "=" + e.getSelectedSheet().getId(), false));
     }
 
 }

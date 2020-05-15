@@ -15,6 +15,7 @@ package org.linkki.core.binding;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -25,6 +26,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.nls.TestComponentWrapper;
 import org.linkki.core.defaults.nls.TestUiComponent;
@@ -42,6 +44,7 @@ public class ButtonBindingTest {
     private TestAspectDefinition aspectDefinition;
 
     private void setUpDefaultBinding() {
+        when(propertyDispatcher.getMessages(any())).thenReturn(new MessageList());
         aspectDefinition = spy(new TestAspectDefinition());
         Object pmo = mock(Object.class);
         when(propertyDispatcher.getBoundObject()).thenReturn(pmo);

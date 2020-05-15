@@ -131,7 +131,7 @@ Note that it is not possible to nullify the selection once a row is selected.
 .Example for a selectable table
 [source,java]
 ----
-include::{source-dir-playground}/org/linkki/samples/playground/table/MinimalSelectableTableSectionPmo.java[tags=selectable-table]
+include::{source-dir-playground}/org/linkki/samples/playground/table/PlaygroundTablePmo.java[tags=selectable-table]
 ----
 
 .Example result
