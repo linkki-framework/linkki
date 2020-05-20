@@ -111,6 +111,18 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
         assertThat(getDynamicComponent().getValue(), is(TestEnum.THREE));
     }
 
+    @Test
+    public void testEmptyValuesAllowsNull() {
+        ComboBox<TestEnum> comboBox = getDynamicComponent();
+
+        getDefaultPmo().setValueAvailableValues(Collections.emptyList());
+        modelChanged();
+        assertThat(comboBox.isEmptySelectionAllowed(), is(true));
+
+        getDefaultPmo().setValueAvailableValues(Arrays.asList(TestEnum.ONE));
+        modelChanged();
+        assertThat(comboBox.isEmptySelectionAllowed(), is(false));
+    }
 
     @Test
     public void testNullInputIfRequired() {

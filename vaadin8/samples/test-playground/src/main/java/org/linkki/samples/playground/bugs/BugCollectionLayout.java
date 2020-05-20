@@ -22,6 +22,7 @@ import org.linkki.samples.playground.bugs.lin1442.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
 import org.linkki.samples.playground.bugs.lin1608.PmoReadonlyModelNotReadonlyPmo;
 import org.linkki.samples.playground.bugs.lin1738.DoubleClickPmo;
+import org.linkki.samples.playground.bugs.lin1795.ComboBoxPmo;
 import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
@@ -41,6 +42,7 @@ public class BugCollectionLayout extends VerticalLayout implements SidebarSheetD
         addComponentWithSeparateBindingContext(bc -> new ComboBoxVanishingValuePmo(bc::modelChanged));
         addComponentWithSeparateBindingContext(bc -> new PmoReadonlyModelNotReadonlyPmo());
         addComponentWithSeparateBindingContext(bc -> new DoubleClickPmo());
+        addComponentWithSeparateBindingContext(bc -> new ComboBoxPmo());
     }
 
     private void addComponentWithSeparateBindingContext(Function<BindingContext, Object> pmoCreation) {

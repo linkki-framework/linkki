@@ -126,8 +126,10 @@ public @interface UIComboBox {
                 @Override
                 @SuppressWarnings("unchecked")
                 protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
+                    boolean dynamicItemsEmpty = annotation.content() == AvailableValuesType.DYNAMIC && items.isEmpty();
                     boolean hasNullItem = items.removeIf(i -> i == null);
-                    ((ComboBox<Object>)componentWrapper.getComponent()).setEmptySelectionAllowed(hasNullItem);
+                    ((ComboBox<Object>)componentWrapper.getComponent())
+                            .setEmptySelectionAllowed(hasNullItem || dynamicItemsEmpty);
                 }
 
             };

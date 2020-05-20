@@ -4,6 +4,7 @@
 
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy
+:source-dir: ../../../../../vaadin8/samples/binding/src/main/java
 
 === 1.2.0
 
@@ -40,12 +41,17 @@ Likewise, the method `BindingContext.add(Binding binding)` has been deprecated a
 
 ==== New Widgetset Allows Flexible Date Entry
 
-*linkki* now includes its own <<widgetset>> that offers a more flexible <<ui-datefield,date entry field>>. You can switch to it with
+*linkki* now includes its own <<widgetset,widgetset>> that offers a more flexible <<ui-datefield,date entry field>>. You can switch to it with
 
 [source,java]
 ----
-@Widgetset("org.linkki.core.vaadin.component.LinkkiWidgetset")
+include::{source-dir}/org/linkki/samples/binding/BindingSampleUI.java[tags=widgetset]
 ----
+
+==== Empty Selection for Empty Combo Box
+
+If the `getAllowedValues()` method of a dynamic `@UiComboBox` returns an empty list, an empty selection is now automatically allowed on the resulting Vaadin component, *even if null wouldn't normally be allowed*. Otherwise it would not be possible to clear the currently selected value when all previously available values are removed.
+
 
 ==== Update Vaadin to 8.10.4
 
