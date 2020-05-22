@@ -40,6 +40,7 @@ class FieldColumnGenerator implements com.vaadin.v7.ui.Table.ColumnGenerator {
         Component component = (Component)elementDescriptor.newComponent(itemId);
         component.addStyleName(LinkkiTheme.BORDERLESS);
         component.addStyleName(LinkkiTheme.TABLE_CELL);
+        component.setWidthFull();
 
         bindingContext.bind(itemId, elementDescriptor, new LabelComponentWrapper(component));
 
