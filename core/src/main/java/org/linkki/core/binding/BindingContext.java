@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.WeakHashMap;
 import java.util.stream.Stream;
 
@@ -179,19 +180,21 @@ public class BindingContext implements UiUpdateObserver {
     }
 
     private Stream<Binding> getBindingStream() {
-        bindings.entrySet().stream()
-                .filter(entry -> entry.getValue().get() == null)
-                .forEach(entry -> {
-                    System.out.println("****************************************************************************");
-                    System.out.println("Binding for component " + entry.getKey() + " was removed too early");
-                    System.out.println("****************************************************************************");
-                    throw new RuntimeException(
-                            "Binding for component " + entry.getKey() + " for active component was removed too early");
-                });
-        return bindings.values().stream()
-                .map(WeakReference::get)
-                .filter(b -> b != null);
+        return bindings.entrySet().stream()
+                .map(this::getExistingBinding);
+    }
 
+    private Binding getExistingBinding(Entry<Object, WeakReference<Binding>> entry) {
+        Object component = entry.getKey();
+        Binding binding = entry.getValue().get();
+        if (binding == null) {
+            System.out.println("****************************************************************************");
+            System.out.println("Binding for component " + component + " was removed too early");
+            System.out.println("****************************************************************************");
+            throw new RuntimeException(
+                    "Binding for component " + component + " for active component was removed too early");
+        }
+        return binding;
     }
 
     /**
