@@ -15,12 +15,12 @@ package org.linkki.core.binding.dispatcher.fallback;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
@@ -50,15 +50,10 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
         this.objects.addAll(Arrays.asList(objects));
     }
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * If there is no value class this dispatcher returns {@link Void#TYPE} because an exception is not
-     * useful in this case.
-     */
     @Override
     public Class<?> getValueClass() {
-        return Void.TYPE;
+        throw new IllegalStateException(
+                missingMethodMessage("is/get" + StringUtils.capitalize(getProperty()), objects));
     }
 
     /**
@@ -116,10 +111,16 @@ public final class ExceptionPropertyDispatcher implements PropertyDispatcher {
      * @return the message that indicates missing methods
      */
     public static String missingMethodMessage(String methodSignature, List<Object> objects) {
-        return MessageFormat.format("Cannot find method \"{0}\"  in any of the classes {1}",
-                                    methodSignature,
-                                    objects.stream().map(t -> t == null ? null : t.getClass().toGenericString())
-                                            .collect(toList()));
+        String message = MessageFormat.format("Cannot find method \"{0}\" in any of the classes {1}.",
+                                              methodSignature,
+                                              objects.stream()
+                                                      .map(t -> t == null ? "null" : t.getClass().toGenericString())
+                                                      .collect(Collectors.joining(", ")));
+        if (objects.contains(null)) {
+            message += "\nThe model object must not be null when using direct model binding. Either make sure the model object is never null or provide an explicit getter for the property that handles a null model object.";
+        }
+        return message;
+
     }
 
     @Override

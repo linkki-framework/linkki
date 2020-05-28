@@ -10,7 +10,7 @@
 
 You can either add the required dependencies to an existing project or use one of the <<maven-archetypes,Maven archetypes>> to get started.
 
-==== Maven dependencies
+=== Maven dependencies
 
 To create a *linkki* project with Vaadin 8, you need one of the following dependencies depending on the feature set you need:
 
@@ -42,7 +42,7 @@ include::{sample-parent-dir}/pom.xml[tags=vaadin]
 ----
 
 [[maven-archetypes]]
-==== Maven Archetypes
+=== Maven Archetypes
 
 *linkki* can be used for a plain Vaadin web application, with Spring Boot or with CDI. For each of those options, there is a matching Maven archetype that creates a new project with all necessary dependencies and some sample code to get started. They can be created from a command line:
 

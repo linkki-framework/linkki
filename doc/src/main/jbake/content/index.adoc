@@ -13,7 +13,7 @@ endif::[]
 *linkki* is an open source web framework to build great looking business
 applications in pure Java with minimal effort.
 
-=== When to use
+== When to use
 
 *linkki* might be the perfect fit for you if you have the following
 requirements:
@@ -28,25 +28,25 @@ require manual interaction by back-office staff.
 You can use *linkki* with plain Java, with https://spring.io/projects/spring-boot[Spring Boot],
 Spring inside an application server or JEE.
 
-=== Conceptual Overview
+== Conceptual Overview
 
-==== Domain Model
+=== Domain Model
 
 *linkki* is a framework to build the UI layer for a business application.
 The only assumption about the business layer is that you use a domain
 (entity) model to capture the structure of the business data.
 
-==== Vaadin
+=== Vaadin
 
 *linkki* is a server side framework that can support different UI frameworks. Therefore it is divided into an UI framework independent core and UI framework specific modules like `linkki-core-vaadin7` and `linkki-core-vaadin8`. Linkki's core module is UI framework independent, but it needs a UI framework specific implementation to work. We offer such implementations based on https://vaadin.com/[Vaadin], which allows you to write UI in Java. The layouts and widgetsets are provided by Vaadin. It also handles the whole communication between the browser and the server.
 
 However, the code has only very few direct dependencies to Vaadin API when using *linkki*. Most of the interaction with Vaadin is encapsulated by *linkki*.
 
-===== Vaadin versions
+=== Vaadin versions
 
 Vaadin is evolving very quickly. *linkki* contains support for https://vaadin.com/docs/v7/framework/introduction/intro-overview.html[Vaadin 7] and https://vaadin.com/docs/v8/framework/introduction/intro-overview.html[Vaadin 8] with separate modules.
 
-==== Sections
+=== Sections
 The fundamental building blocks for a *linkki* UI are sections. A section is
 defined as a group of related (input) fields/controls. For example, a section
 might contain the data about a person such as name and date of birth. The fields
@@ -57,7 +57,7 @@ screenshot shows the two mentioned example sections.
 
 image::{images-index}section_example.png[640,422]
 
-==== Annotated Presentation Model Objects
+=== Annotated Presentation Model Objects
 
 Presentation model objects (aka view model) as explained by Martin
 Fowler are used to provide data for the UI and to process data changed in the
@@ -76,7 +76,7 @@ For those parts of your application that need a more sophisticated
 layout, you can define the layout in HTML using Vaadin’s `CustomLayout`
 and bind the controls to a PMO.
 
-==== Data binding
+=== Data binding
 
 To move the data from the UI controls through your PMOs to the domain
 model and back, *linkki* provides a data binding mechanism.
@@ -89,7 +89,7 @@ illustrates the interaction between User Interface and Business Layer.
 
 image::{images-index}manual_data_binding.png[]
 
-==== Straight through data binding
+=== Straight through data binding
 
 In the sample code above, the PMO reads and updates the domain model. As
 you can see, the code is already repetitive with only two fields. To reduce
@@ -111,7 +111,7 @@ mechanism also supports more than one model object per section.
 
 image::{images-index}linkki_data_binding.png[]
 
-==== Binding all properties defining visual behavior
+=== Binding all properties defining visual behavior
 
 *linkki* is not only able to bind field values to PMO properties but can also bind
 other typical aspects such as enabled state, visible state and the available values
@@ -134,20 +134,20 @@ the calculation is done in the method `isDateOfBirthEnabled()`.
 
 image::{images-index}dynamically_enabled_field.png[]
 
-==== Well-structured UI Code
+=== Well-structured UI Code
 
 UI code written using *linkki* has a very clear structure. Each section
 is defined by one PMO. If you name your PMO classes after the section
 headlines, you can find the relating code of any given section in seconds even
  if you are unfamiliar with the code base.
 
-==== Testable UI logic
+=== Testable UI logic
 
 PMOs are plain old Java objects. Except for *linkki* annotations, they
 don't need any dependency to infrastructure code. So it is very simple
 and straightforward to write tests for your PMOs.
 
-=== What else?
+== What else?
 
 There is a lot more that helps you to build a whole business application such as:
 

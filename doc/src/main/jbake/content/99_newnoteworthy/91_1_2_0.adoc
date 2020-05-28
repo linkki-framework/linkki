@@ -52,6 +52,11 @@ include::{source-dir}/org/linkki/samples/binding/BindingSampleUI.java[tags=widge
 
 If the `getAllowedValues()` method of a dynamic `@UiComboBox` returns an empty list, an empty selection is now automatically allowed on the resulting Vaadin component, *even if null wouldn't normally be allowed*. Otherwise it would not be possible to clear the currently selected value when all previously available values are removed.
 
+[role="api-change"]
+==== ExceptionPropertyDispatcher Throws IllegalStateException if Model Object Is `null`
+
+If the model object is null and no getter method is provided in the PMO to handle a null model object, the caller previously received an `IllegalArgumentException` stating "Cannot convert presentation type class ... to model type void". This message is now improved,
+because the `ExceptionPropertyDispatcher` now throws an `IllegalStateException` instead of returning `void` when there is no model object, so that the resulting error is easier to track.
 
 ==== Update Vaadin to 8.10.4
 

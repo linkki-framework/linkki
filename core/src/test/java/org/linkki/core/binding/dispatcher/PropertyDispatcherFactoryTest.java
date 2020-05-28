@@ -13,8 +13,10 @@
  */
 package org.linkki.core.binding.dispatcher;
 
+import static org.hamcrest.CoreMatchers.containsStringIgnoringCase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.Assertions;
@@ -41,7 +43,7 @@ public class PropertyDispatcherFactoryTest {
 
 
     @Test
-    public void testCreateDispatcherChain_getValueFromPmo() {
+    public void testCreateDispatcherChain_GetValueFromPmo() {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, BoundProperty.of("value").withModelAttribute("foo"),
                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
@@ -53,7 +55,7 @@ public class PropertyDispatcherFactoryTest {
     }
 
     @Test
-    public void testCreateDispatcherChain_pushToPmo() {
+    public void testCreateDispatcherChain_PushToPmo() {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo, BoundProperty.of("value").withModelAttribute("foo"),
                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
@@ -66,7 +68,7 @@ public class PropertyDispatcherFactoryTest {
     @Test
     // For the given situation: PMO has a getter only, while the model object has getter and setter, is
     // #isPushable() as well as push() shall prevent a call to the setter of the model object
-    public void testCreateDispatcherChain_pushToPmoReadonly() {
+    public void testCreateDispatcherChain_PushToPmoReadonly() {
         pmo.setModelObject(new ModelObjectWithPmoReadOnlyProperty());
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo,
@@ -83,7 +85,7 @@ public class PropertyDispatcherFactoryTest {
 
 
     @Test
-    public void testCreateDispatcherChain_getValueFromModelObject() {
+    public void testCreateDispatcherChain_GetValueFromModelObject() {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo,
                                        BoundProperty.of("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
@@ -96,7 +98,7 @@ public class PropertyDispatcherFactoryTest {
     }
 
     @Test
-    public void testCreateDispatcherChain_push() {
+    public void testCreateDispatcherChain_Push() {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo,
                                        BoundProperty.of("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
@@ -108,7 +110,7 @@ public class PropertyDispatcherFactoryTest {
     }
 
     @Test
-    public void testCreateDispatcherChain_getValueFromChangedModelObject() {
+    public void testCreateDispatcherChain_GetValueFromChangedModelObject() {
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo,
                                        BoundProperty.of("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
@@ -123,7 +125,7 @@ public class PropertyDispatcherFactoryTest {
     }
 
     @Test
-    public void testCreateDispatcherChain_setValueToChangedModelObject() {
+    public void testCreateDispatcherChain_SetValueToChangedModelObject() {
 
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
                 .createDispatcherChain(pmo,
@@ -137,7 +139,7 @@ public class PropertyDispatcherFactoryTest {
     }
 
     @Test
-    public void testCreateDispatcherChain_modelObjectField() {
+    public void testCreateDispatcherChain_ModelObjectField() {
         PmoWithModelObjectField pmoWithModelObjectField = new PmoWithModelObjectField();
 
         PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
@@ -156,7 +158,21 @@ public class PropertyDispatcherFactoryTest {
     }
 
     @Test
-    public void testCreateDispatcherChain_nullCustomDispatchers() {
+    public void testCreateDispatcherChain_NullModelObject() {
+        PmoWithNullModelObject pmoWithNullModelObject = new PmoWithNullModelObject();
+
+        PropertyDispatcher defaultDispatcher = propertyDispatcherFactory
+                .createDispatcherChain(pmoWithNullModelObject,
+                                       BoundProperty.of("foo").withModelAttribute(TestModelObject.PROPERTY_MODEL_PROP),
+                                       PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+
+        IllegalStateException illegalStateException = assertThrows(IllegalStateException.class,
+                                                                   () -> defaultDispatcher.pull(Aspect.of("")));
+        assertThat(illegalStateException.getMessage(), containsStringIgnoringCase("object must not be null"));
+    }
+
+    @Test
+    public void testCreateDispatcherChain_NullCustomDispatchers() {
         propertyDispatcherFactory = new PropertyDispatcherFactory() {
             @Override
             protected PropertyDispatcher createCustomDispatchers(@SuppressWarnings("hiding") Object pmo,
@@ -166,16 +182,23 @@ public class PropertyDispatcherFactoryTest {
             }
         };
 
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            propertyDispatcherFactory.createDispatcherChain(pmo, BoundProperty.of((String)null),
-                                                            PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
-        });
+        assertThrows(NullPointerException.class, () -> propertyDispatcherFactory
+                .createDispatcherChain(pmo, BoundProperty.of((String)null),
+                                       PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER));
     }
 
     private static class PmoWithModelObjectField {
 
         @ModelObject
         private TestModelObject modelObject = new TestModelObject();
+
+    }
+
+    private static class PmoWithNullModelObject {
+
+        @CheckForNull
+        @ModelObject
+        private TestModelObject modelObject = null;
 
     }
 

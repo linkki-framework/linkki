@@ -14,9 +14,11 @@
 
 package org.linkki.core.binding.dispatcher.fallback;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.CoreMatchers.containsStringIgnoringCase;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,22 +41,15 @@ public class ExceptionPropertyDispatcherTest {
     }
 
     public void testPull() {
-        try {
-            dispatcher.pull(Aspect.of(PROPERTY_NAME));
-        } catch (IllegalStateException e) {
-            assertThat(e.getMessage().contains(PROPERTY_NAME), is(true));
-        }
-
-        fail();
+        IllegalStateException illegalStateException = assertThrows(IllegalStateException.class,
+                                                                   () -> dispatcher.pull(Aspect.of(PROPERTY_NAME)));
+        assertThat(illegalStateException.getMessage(), containsStringIgnoringCase(PROPERTY_NAME));
     }
 
     public void testPush() {
-        try {
-            dispatcher.push(Aspect.of(PROPERTY_NAME));
-        } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage().contains(PROPERTY_NAME), is(true));
-        }
-        fail();
+        IllegalStateException illegalStateException = assertThrows(IllegalStateException.class,
+                                                                   () -> dispatcher.push(Aspect.of(PROPERTY_NAME)));
+        assertThat(illegalStateException.getMessage(), containsStringIgnoringCase(PROPERTY_NAME));
     }
 
     @Test
@@ -83,6 +78,24 @@ public class ExceptionPropertyDispatcherTest {
     @Test
     public void testIsPushable() {
         assertThat(dispatcher.isPushable(Aspect.of(PROPERTY_NAME)), is(false));
+    }
+
+    @Test
+    public void testGetValueClass() {
+        IllegalStateException illegalStateException = assertThrows(IllegalStateException.class,
+                                                                   dispatcher::getValueClass);
+        assertThat(illegalStateException.getMessage(), containsStringIgnoringCase(PROPERTY_NAME));
+        assertThat(illegalStateException.getMessage(), not(containsStringIgnoringCase("object must not be null")));
+    }
+
+    @Test
+    public void testGetValueClass_NullModel() {
+        dispatcher = new ExceptionPropertyDispatcher(PROPERTY_NAME, OBJ1, null);
+
+        IllegalStateException illegalStateException = assertThrows(IllegalStateException.class,
+                                                                   dispatcher::getValueClass);
+        assertThat(illegalStateException.getMessage(), containsStringIgnoringCase(PROPERTY_NAME));
+        assertThat(illegalStateException.getMessage(), containsStringIgnoringCase("object must not be null"));
     }
 
 }
