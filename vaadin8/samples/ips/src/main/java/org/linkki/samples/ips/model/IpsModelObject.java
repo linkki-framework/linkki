@@ -246,10 +246,10 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * Executes the rule checkDecimal and adds a message to the given list if the object is invalid.
      * 
-     * @param ml list to which validation errors are added
+     * @param ml      list to which validation errors are added
      * @param context the validation context
-     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should
-     *         be stopped after processing this rule.
+     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should be
+     *         stopped after processing this rule.
      * 
      * @restrainedmodifiable
      */
