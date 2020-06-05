@@ -42,10 +42,10 @@ public abstract class BindingDescriptor {
      * Add the specified list of {@link LinkkiAspectDefinition}. This may be necessary if not all
      * aspects were present when the descriptor was created.
      * 
-     * @param additionalAspectDefinition additional aspect definitions that need to be added.
+     * @param additionalAspectDefinitions additional aspect definitions that need to be added.
      */
-    protected void addAspectDefinitions(List<LinkkiAspectDefinition> additionalAspectDefinition) {
-        aspectDefinitions = aspectDefinitions.with(additionalAspectDefinition);
+    protected void addAspectDefinitions(List<LinkkiAspectDefinition> additionalAspectDefinitions) {
+        aspectDefinitions = aspectDefinitions.withNewElementsFrom(additionalAspectDefinitions);
     }
 
     /**

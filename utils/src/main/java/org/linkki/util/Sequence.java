@@ -90,15 +90,30 @@ public class Sequence<T> implements Iterable<T> {
      * Returns a new {@link Sequence} concatenated with the given elements. This {@link Sequence} is not
      * affected.
      * 
-     * @param newElements the new elements that should be concatenated
+     * @param elements the new elements that should be concatenated
      * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
      *         elements
      */
     @CheckReturnValue
-    public Sequence<T> with(Collection<T> newElements) {
-        ArrayList<T> collection = new ArrayList<>(list.size() + newElements.size());
+    public Sequence<T> with(Collection<T> elements) {
+        ArrayList<T> collection = new ArrayList<>(list.size() + elements.size());
         collection.addAll(list);
-        collection.addAll(newElements);
+        collection.addAll(elements);
+        return new Sequence<>(collection);
+    }
+
+    /**
+     * Returns a new {@link Sequence} concatenated with those of the given elements that are not already
+     * contained in this {@link Sequence}. This {@link Sequence} is not affected.
+     * 
+     * @param elements the new elements that should be concatenated if they are not already contained
+     * @return a new sequence with all elements of this {@link Sequence} concatenated with the new
+     *         elements
+     */
+    public Sequence<T> withNewElementsFrom(Collection<T> elements) {
+        ArrayList<T> collection = new ArrayList<>(list.size() + elements.size());
+        collection.addAll(list);
+        elements.stream().filter(e -> !collection.contains(e)).forEach(collection::add);
         return new Sequence<>(collection);
     }
 

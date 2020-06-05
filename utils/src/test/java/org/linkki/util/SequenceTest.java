@@ -83,6 +83,14 @@ public class SequenceTest {
         assertThat(sequence.list(), hasItems(DUMMY_ARG, FAKE_ARG));
     }
 
+    public void testWithNewElementsFrom() {
+        Sequence<String> sequence = Sequence.of(DUMMY_ARG);
+        sequence = sequence.withNewElementsFrom(Arrays.asList(FAKE_ARG, DUMMY_ARG));
+
+        assertThat(sequence.list().size(), is(2));
+        assertThat(sequence.list(), hasItems(DUMMY_ARG, FAKE_ARG));
+    }
+
     @Test
     public void testList_returnsUnmodifiableList() {
         Sequence<String> sequence = Sequence.of(DUMMY_ARG, FAKE_ARG);

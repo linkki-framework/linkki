@@ -13,10 +13,11 @@
  */
 package org.linkki.util.handler;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import java.util.Stack;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 
@@ -43,6 +44,16 @@ public class HandlerTest {
         assertThat(handlerStack.size(), is(2));
         assertThat(handlerStack.pop(), is(h2));
         assertThat(handlerStack.pop(), is(h1));
+    }
+
+    @Test
+    public void testAndThenDeep() {
+        Handler composed = IntStream.rangeClosed(1, 10)
+                .mapToObj(value -> (Handler)new TestOkHandler())
+                .reduce(Handler.NOP_HANDLER, Handler::andThen);
+
+        composed.apply();
+        assertThat(handlerStack.size(), is(10));
     }
 
 }

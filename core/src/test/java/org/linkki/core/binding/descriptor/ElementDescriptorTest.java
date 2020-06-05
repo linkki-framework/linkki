@@ -13,15 +13,20 @@
  */
 package org.linkki.core.binding.descriptor;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.util.handler.Handler;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,6 +46,34 @@ public class ElementDescriptorTest {
                 BoundProperty.of("test"), new ArrayList<>());
 
         assertEquals("test", elementDescriptor.getModelAttributeName());
+    }
+
+    @Test
+    public void testAddAspectDefinitions() {
+        LinkkiAspectDefinition aspectDefinition1 = (p, w) -> Handler.NOP_HANDLER;
+        LinkkiAspectDefinition aspectDefinition2 = (p, w) -> Handler.NOP_HANDLER;
+        LinkkiAspectDefinition aspectDefinition3 = (p, w) -> Handler.NOP_HANDLER;
+        ElementDescriptor elementDescriptor = new ElementDescriptor(0, mock(LinkkiComponentDefinition.class),
+                BoundProperty.of("test"), Arrays.asList(aspectDefinition1));
+
+        elementDescriptor.addAspectDefinitions(Arrays.asList(aspectDefinition3, aspectDefinition2));
+
+        assertThat(elementDescriptor.getAspectDefinitions(),
+                   contains(aspectDefinition1, aspectDefinition3, aspectDefinition2));
+    }
+
+    @Test
+    public void testAddAspectDefinitions_IgnoresAlreadyContainedAspects() {
+        LinkkiAspectDefinition aspectDefinition1 = (p, w) -> Handler.NOP_HANDLER;
+        LinkkiAspectDefinition aspectDefinition2 = (p, w) -> Handler.NOP_HANDLER;
+        LinkkiAspectDefinition aspectDefinition3 = (p, w) -> Handler.NOP_HANDLER;
+        ElementDescriptor elementDescriptor = new ElementDescriptor(0, mock(LinkkiComponentDefinition.class),
+                BoundProperty.of("test"), Arrays.asList(aspectDefinition1, aspectDefinition2));
+
+        elementDescriptor.addAspectDefinitions(Arrays.asList(aspectDefinition3, aspectDefinition2));
+
+        assertThat(elementDescriptor.getAspectDefinitions(),
+                   contains(aspectDefinition1, aspectDefinition2, aspectDefinition3));
     }
 
 }
