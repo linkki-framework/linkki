@@ -24,6 +24,8 @@ import org.linkki.samples.playground.bugs.lin1608.PmoReadonlyModelNotReadonlyPmo
 import org.linkki.samples.playground.bugs.lin1738.DoubleClickPmo;
 import org.linkki.samples.playground.bugs.lin1795.ComboBoxPmo;
 import org.linkki.samples.playground.bugs.lin1890.Lin1890HierarchicalTablePmo;
+import org.linkki.samples.playground.bugs.lin1797.OnlyTablePmo;
+import org.linkki.samples.playground.bugs.lin1797.SectionTablePmo;
 import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
@@ -45,6 +47,8 @@ public class BugCollectionLayout extends VerticalLayout implements SidebarSheetD
         addComponentWithSeparateBindingContext(bc -> new DoubleClickPmo());
         addComponentWithSeparateBindingContext(bc -> new ComboBoxPmo());
         addComponentWithSeparateBindingContext(bc -> new Lin1890HierarchicalTablePmo());
+        addComponentWithSeparateBindingContext(bc -> new OnlyTablePmo());
+        addComponentWithSeparateBindingContext(bc -> new SectionTablePmo());
     }
 
     private void addComponentWithSeparateBindingContext(Function<BindingContext, Object> pmoCreation) {

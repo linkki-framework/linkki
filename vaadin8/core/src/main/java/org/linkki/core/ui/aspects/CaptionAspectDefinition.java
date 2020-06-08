@@ -19,7 +19,9 @@ import java.util.function.Consumer;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.columnbased.ColumnBasedComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
+import org.linkki.util.Consumers;
 
 import com.vaadin.ui.Component;
 
@@ -53,6 +55,10 @@ public class CaptionAspectDefinition extends ModelToUiAspectDefinition<String> {
 
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
+        // TODO refactor in LIN-1892
+        if (ColumnBasedComponentWrapper.COLUMN_BASED_TYPE.isAssignableFrom(componentWrapper.getType())) {
+            return Consumers.nopConsumer();
+        }
         return caption -> ((Component)componentWrapper.getComponent()).setCaption(caption);
     }
 }
