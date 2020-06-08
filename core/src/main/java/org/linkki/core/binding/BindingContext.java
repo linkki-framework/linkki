@@ -192,7 +192,7 @@ public class BindingContext implements UiUpdateObserver {
             System.out.println("Binding for component " + component + " was removed too early");
             System.out.println("****************************************************************************");
             throw new RuntimeException(
-                    "Binding for component " + component + " for active component was removed too early");
+                    "Binding for component " + component + " was removed too early");
         }
         return binding;
     }

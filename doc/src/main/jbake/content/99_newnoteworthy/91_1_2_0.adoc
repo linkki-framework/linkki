@@ -24,16 +24,8 @@ was not specified explicitly but it is recommended to make it explicit.
 
 The `UiUpdateObserver` in `SidebarSheet` is still the recommended way to trigger an update when the sheet gets selected. This way it remains self-contained (the layout does not need to know how to update the sheet). To make the instantiation more flexible, the `UiUpdateObserver` could now be specified after constructor using a setter.
 
-==== Incubator Project & Nested PMOs
-
-The new incubator module offers access to features in development, such as <<nested-pmos,nested PMOs>>.
-
-==== APT Exception Handling for Aspect Definitions
-
-Exceptions thrown when APT calls the `createAspect` method of aspect definition no longer abort the build. Instead, an <<apt-compiler-options,ASPECT_CREATION_FAILED warning>> is now emitted.
-
 [role="api-change"]
-==== ComponentWrapper now Stores Reference to Binding
+==== ComponentWrapper Now Stores Reference to Binding
 
 The new method `ComponentWrapper.registerBinding(Binding binding)` creates a strong reference from a component to their `Binding`.
 The `BindingContext` is therefore able to keep only weak references to all `Bindings`.
@@ -58,6 +50,20 @@ If the `getAllowedValues()` method of a dynamic `@UiComboBox` returns an empty l
 If the model object is null and no getter method is provided in the PMO to handle a null model object, the caller previously received an `IllegalArgumentException` stating "Cannot convert presentation type class ... to model type void". This message is now improved,
 because the `ExceptionPropertyDispatcher` now throws an `IllegalStateException` instead of returning `void` when there is no model object, so that the resulting error is easier to track.
 
+==== Incubator Project & Nested PMOs
+
+The new incubator module offers access to features in development, such as <<nested-pmos,nested PMOs>>.
+
+==== APT Exception Handling for Aspect Definitions
+
+Exceptions thrown when APT calls the `createAspect` method of aspect definition no longer abort the build. Instead, an <<apt-compiler-options,ASPECT_CREATION_FAILED warning>> is now emitted.
+
 ==== Update Vaadin to 8.10.4
 
 linkki now uses Vaadin version 8.10.4 to include the latest bug fixes and patches.
+
+==== Bugfixes
+
+* Error markers in table cells are now kept when switching tabs
+* Selection of `SidebarSheet` showed old content before updating it
+* Datepicker in tables was too wide for the cell
