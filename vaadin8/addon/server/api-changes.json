@@ -1,5 +1,5 @@
 {
-  "1.2.0": {
+  "all-versions": {
     "revapi": {
       "ignore": [
         {
@@ -9,18 +9,9 @@
           "justification": "It is inteded to extend vaadin"
         },
         {
-          "code": "java.missing.newClass",
-          "new": "missing-class javax.servlet.http.Cookie",
-          "justification": "Provided API from vaadin"
-        },
-        {
-          "code": "java.missing.newClass",
-          "new": "missing-class javax.servlet.http.HttpSession",
-          "justification": "Provided API from vaadin"
-        },
-        {
-          "code": "java.missing.newClass",
-          "new": "missing-class javax.servlet.http.HttpSessionBindingEvent",
+          "regex": true,
+          "code": "java.missing.(old|new)Class",
+          "new": "missing-class javax\\.servlet\\.http\\..*",
           "justification": "Provided API from vaadin"
         },
         {

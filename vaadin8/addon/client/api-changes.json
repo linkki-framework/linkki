@@ -1,5 +1,5 @@
 {
-  "1.2.0": {
+  "all-versions": {
     "revapi": {
       "ignore": [
         {
@@ -10,9 +10,9 @@
         },
         {
           "regex": true,
-          "code": "java.missing.newClass",
-          "new": ".* com\\.google\\.gwt\\..*",
-          "justification": "Seems to be ok and no needed to compile the GWT widget"
+          "code": "java\\.missing\\.(old|new)Class",
+          "new": "missing-class com\\.google\\.gwt\\..*",
+          "justification": "Seems to be ok and not needed to compile the GWT widget"
         }
       ]
     }
