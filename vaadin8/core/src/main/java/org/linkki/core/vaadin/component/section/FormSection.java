@@ -34,7 +34,7 @@ public class FormSection extends BaseSection {
     private final int numberOfColumns;
 
     /**
-     * Creates a new section non-closable section with the given caption and 1 column.
+     * Creates a new non-closable section with the given caption and 1 column.
      */
     public FormSection(String caption) {
         this(caption, false);

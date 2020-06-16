@@ -1,110 +1,148 @@
 {
-  "1.1.0": {
-    "revapi": {
-      "ignore": [
-        {
-          "code": "java.annotation.added",
-          "old": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
-          "new": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
-          "annotationType": "org.linkki.core.binding.descriptor.aspect.annotation.InheritedAspect",
-          "justification": "LIN-1574"
-        },
-        {
-          "code": "java.annotation.attributeValueChanged",
-          "old": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
-          "new": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
-          "annotationType": "java.lang.annotation.Target",
-          "attribute": "value",
-          "oldValue": "{java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.METHOD}",
-          "newValue": "{java.lang.annotation.ElementType.TYPE, java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.METHOD}",
-          "justification": "FCOM-153"
-        },
-        {
-          "code": "java.method.removed",
-          "old": "method boolean org.linkki.core.vaadin.component.section.AbstractSection::isEditButtonAvailable()",
-          "justification": "LIN-434 :: Method was unused and did not work properly for some cases"
-        },
-        {
-          "code": "java.method.removed",
-          "old": "method java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition> org.linkki.core.defaults.columnbased.ColumnBasedComponentCreator::getContainerAspects()",
-          "justification": "LIN-1574 :: Method was intended for internal usage"
-        },
-        {
-          "code": "java.annotation.added",
-          "old": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW extends java.lang.Object>",
-          "new": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW extends java.lang.Object>",
-          "justification": "LIN-1574 :: Use aspect annotations for table aspects"
-        },
-        {
-          "regex": true,
-          "code": "java.annotation.added",
-          "old": "parameter .*",
-          "new": "parameter .*",
-          "annotationType": "edu\\.umd\\.cs\\.findbugs\\.annotations\\.CheckForNull",
-          "justification": "@CheckForNull for parameters is compatible"
-        },
-        {
-          "regex": true,
-          "code": "java.method.defaultValueChanged",
-          "justification": "LIN7",
-          "oldValue": "\"\"",
-          "newValue": "\"derived\\.by\\.linkki\"",
-          "methodName": "caption"
-        },
-        {
-          "regex": true,
-          "code": "java.method.defaultValueChanged",
-          "justification": "LIN7",
-          "oldValue": "\"\"",
-          "newValue": "\"derived\\.by\\.linkki\"",
-          "methodName": "label"
-        },
-        {
-          "code": "java.class.defaultSerializationChanged",
-          "old": "class com.vaadin.navigator.Navigator",
-          "new": "class com.vaadin.navigator.Navigator",
-          "justification": "LIN-1595 :: Update Vaadin version to 8.9.2"
-        },
-        {
-          "code": "java.class.nonFinalClassInheritsFromNewClass",
-          "old": "class org.linkki.core.ui.aspects.BindReadOnlyAspectDefinition",
-          "new": "class org.linkki.core.ui.aspects.BindReadOnlyAspectDefinition",
-          "justification": "LIN-1658 :: Make BindReadOnlyAspectDefinition extend ModelToUiAspectDefinition"
-        }
-      ]
+ "1.1.0": [
+  {
+   "extension": "revapi.ignore",
+   "configuration": [
+    {
+     "code": "java.annotation.added",
+     "old": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
+     "new": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
+     "annotationType": "org.linkki.core.binding.descriptor.aspect.annotation.InheritedAspect",
+     "justification": "LIN-1574"
+    },
+    {
+     "code": "java.annotation.attributeValueChanged",
+     "old": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
+     "new": "@interface org.linkki.core.ui.aspects.annotation.BindStyleNames",
+     "annotationType": "java.lang.annotation.Target",
+     "attribute": "value",
+     "oldValue": "{java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.METHOD}",
+     "newValue": "{java.lang.annotation.ElementType.TYPE, java.lang.annotation.ElementType.FIELD, java.lang.annotation.ElementType.METHOD}",
+     "justification": "FCOM-153"
+    },
+    {
+     "code": "java.method.removed",
+     "old": "method boolean org.linkki.core.vaadin.component.section.AbstractSection::isEditButtonAvailable()",
+     "justification": "LIN-434 :: Method was unused and did not work properly for some cases"
+    },
+    {
+     "code": "java.method.removed",
+     "old": "method java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition> org.linkki.core.defaults.columnbased.ColumnBasedComponentCreator::getContainerAspects()",
+     "justification": "LIN-1574 :: Method was intended for internal usage"
+    },
+    {
+     "code": "java.annotation.added",
+     "old": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW extends java.lang.Object>",
+     "new": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW extends java.lang.Object>",
+     "justification": "LIN-1574 :: Use aspect annotations for table aspects"
+    },
+    {
+     "regex": true,
+     "code": "java.annotation.added",
+     "old": "parameter .*",
+     "new": "parameter .*",
+     "annotationType": "edu\\.umd\\.cs\\.findbugs\\.annotations\\.CheckForNull",
+     "justification": "@CheckForNull for parameters is compatible"
+    },
+    {
+     "regex": true,
+     "code": "java.method.defaultValueChanged",
+     "justification": "LIN7",
+     "oldValue": "\"\"",
+     "newValue": "\"derived\\.by\\.linkki\"",
+     "methodName": "caption"
+    },
+    {
+     "regex": true,
+     "code": "java.method.defaultValueChanged",
+     "justification": "LIN7",
+     "oldValue": "\"\"",
+     "newValue": "\"derived\\.by\\.linkki\"",
+     "methodName": "label"
+    },
+    {
+     "code": "java.class.defaultSerializationChanged",
+     "old": "class com.vaadin.navigator.Navigator",
+     "new": "class com.vaadin.navigator.Navigator",
+     "justification": "LIN-1595 :: Update Vaadin version to 8.9.2"
+    },
+    {
+     "code": "java.class.nonFinalClassInheritsFromNewClass",
+     "old": "class org.linkki.core.ui.aspects.BindReadOnlyAspectDefinition",
+     "new": "class org.linkki.core.ui.aspects.BindReadOnlyAspectDefinition",
+     "justification": "LIN-1658 :: Make BindReadOnlyAspectDefinition extend ModelToUiAspectDefinition"
     }
-  },
-  "1.2.0": {
-    "revapi": {
-      "ignore": [
-		{
-          "code": "java.class.externalClassExposedInAPI",
-          "new": "enum org.linkki.core.defaults.ui.aspects.types.AlignmentType",
-          "justification": "LIN-245"
-        },
-        {
-          "code": "java.class.defaultSerializationChanged",
-          "new": "class com.vaadin.server.VaadinService",
-          "justification": "Vaadin update to 8.10"
-        },
-        {
-          "regex": true,
-          "code": "java\\.method\\.addedToInterface",
-          "new": "method void com\\.vaadin\\.server\\.Sizeable::setHeightFull\\(\\) @ .*",
-          "justification": "Vaadin update to 8.10"
-        },
-        {
-          "regex": true,
-          "code": "java\\.method\\.addedToInterface",
-          "new": "method void com\\.vaadin\\.server\\.Sizeable::setWidthFull\\(\\) @ .*",
-          "justification": "Vaadin update to 8.10"
-        },
-        {
-          "code": "java.class.nonFinalClassInheritsFromNewClass",
-          "superClass": "org.linkki.core.ui.wrapper.VaadinComponentWrapper",
-          "justification": "New subclass to generalize vaadin component wrappers"
-        }
-      ]
-	}
+   ]
   }
+ ],
+ "1.2.0": [
+  {
+   "extension": "revapi.ignore",
+   "configuration": [
+    {
+     "code": "java.class.externalClassExposedInAPI",
+     "new": "enum org.linkki.core.defaults.ui.aspects.types.AlignmentType",
+     "justification": "LIN-245"
+    },
+    {
+     "code": "java.class.defaultSerializationChanged",
+     "new": "class com.vaadin.server.VaadinService",
+     "justification": "Vaadin update to 8.10"
+    },
+    {
+     "regex": true,
+     "code": "java\\.method\\.addedToInterface",
+     "new": "method void com\\.vaadin\\.server\\.Sizeable::setHeightFull\\(\\) @ .*",
+     "justification": "Vaadin update to 8.10"
+    },
+    {
+     "regex": true,
+     "code": "java\\.method\\.addedToInterface",
+     "new": "method void com\\.vaadin\\.server\\.Sizeable::setWidthFull\\(\\) @ .*",
+     "justification": "Vaadin update to 8.10"
+    },
+    {
+     "code": "java.class.nonFinalClassInheritsFromNewClass",
+     "superClass": "org.linkki.core.ui.wrapper.VaadinComponentWrapper",
+     "justification": "New subclass to generalize vaadin component wrappers"
+    }
+   ]
+  }
+ ],
+ "1.3.0": [
+  {
+   "extension": "revapi.ignore",
+   "configuration": [
+    {
+     "regex": true,
+     "code": "java.class.externalClassExposedInAPI",
+     "new": "class com\\.vaadin\\.shared\\.ui\\.orderedlayout\\.FormLayoutState.*",
+     "justification": "LIN-272 added UIFormLayout"
+    },
+    {
+     "regex": true,
+     "code": "java.class.externalClassExposedInAPI",
+     "new": "class com\\.vaadin\\.ui\\.FormLayout.*",
+     "justification": "LIN-272 added UIFormLayout"
+    },
+    {
+     "code": "java.field.addedStaticField",
+     "new": "field org.linkki.core.ui.creation.section.SectionLayoutDefinition.CAPTION_ONLY",
+     "justification": "LIN-272 added UIFormLayout"
+    },
+    {
+     "regex": true,
+     "code": "java\\.class\\.added",
+     "new": "@interface org\\.linkki\\.core\\.ui\\.layout\\.annotation\\.UIFormSection .*",
+     "justification": "LIN-272 added UIFormLayout"
+    },
+    {
+     "regex": true,
+     "code": "java\\.class\\.added",
+     "new": "class org\\.linkki\\.core\\.vaadin\\.component\\.section\\.FormLayoutSection .*",
+     "justification": "LIN-272 added UIFormLayout"
+    }
+   ]
+  }
+ ]
 }
