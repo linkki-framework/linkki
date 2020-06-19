@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 /**
@@ -51,7 +52,13 @@ public enum BrowserType {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
             options.addArguments("--lang=" + locale.getLanguage() + "-" + locale.getCountry());
-            return new ChromeDriver(options);
+
+            Map<String, String> environment = new HashMap<>();
+            environment.put("LANGUAGE", locale.getLanguage() + "_" + locale.getCountry());
+            ChromeDriverService service = new ChromeDriverService.Builder().usingAnyFreePort()
+                    .withEnvironment(environment).build();
+
+            return new ChromeDriver(service, options);
         }
     };
 
