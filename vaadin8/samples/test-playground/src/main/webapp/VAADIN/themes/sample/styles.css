@@ -1077,7 +1077,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "8.10.4";
+	content: "8.11.0";
 }
 
 .v-widget {
@@ -11496,6 +11496,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .sample .v-table-body {
 	border: 1px solid #d7d7d7;
+	overflow-anchor: none;
 	-webkit-user-select: text;
 	-moz-user-select: text;
 	-ms-user-select: text;

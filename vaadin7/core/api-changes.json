@@ -22,5 +22,76 @@
         }
       ]
     }
+  },
+ "1.2.1": {
+  "revapi": {
+   "ignore": [
+    {
+     "code": "java.method.added",
+     "new": "method org.joda.time.DateTime org.joda.time.DateTime::withDate(org.joda.time.LocalDate)",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method org.joda.time.DateTime org.joda.time.DateTime::withTime(org.joda.time.LocalTime)",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method long org.joda.time.DateTimeField::setExtended(long, int)",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.field.addedStaticField",
+     "new": "field org.joda.time.DateTimeZone.DEFAULT_TZ_DATA_PATH",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method org.joda.time.Duration org.joda.time.Duration::abs()",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method org.joda.time.Duration org.joda.time.Duration::dividedBy(long, java.math.RoundingMode)",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.field.addedStaticField",
+     "new": "field org.joda.time.Instant.EPOCH",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method org.joda.time.Instant org.joda.time.Instant::ofEpochMilli(long)",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method org.joda.time.Instant org.joda.time.Instant::ofEpochSecond(long)",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method org.joda.time.Interval org.joda.time.Interval::parseWithOffset(java.lang.String)",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method void org.joda.time.format.DateTimeFormatter::printTo(java.lang.StringBuilder, long)",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method void org.joda.time.format.DateTimeFormatter::printTo(java.lang.StringBuilder, org.joda.time.ReadablePartial)",
+     "justification": "Joda Time update 2.10.6"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method void org.joda.time.format.DateTimeFormatter::printTo(java.lang.StringBuilder, org.joda.time.ReadableInstant)",
+     "justification": "Joda Time update 2.10.6"
+    }
+   ]
   }
+ }
 }

@@ -42,13 +42,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <git.user>${user.name}</git.user>
-        <junit.version>5.6.0</junit.version>
-        <mockito.version>3.2.4</mockito.version>
-        <commons-lang3.version>3.9</commons-lang3.version>
-        <commons-io.version>2.6</commons-io.version>
+        <junit.version>5.6.2</junit.version>
+        <mockito.version>3.3.3</mockito.version>
+        <commons-lang3.version>3.10</commons-lang3.version>
+        <commons-io.version>2.7</commons-io.version>
         <doc.user>${user.name}</doc.user>
-        <spotbugs.version>3.1.12</spotbugs.version>
-        <checkstyle.version>8.29</checkstyle.version>
+        <spotbugs.version>3.1.12</spotbugs.version> <!-- stay at 3.* until the 4.*-Eclipse-Plugin works -->
+        <checkstyle.version>8.33</checkstyle.version>
         <java.version>1.8</java.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
@@ -74,7 +74,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-toolchains-plugin</artifactId>
-                <version>1.1</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -242,7 +242,7 @@
                     <dependency>
                         <groupId>org.revapi</groupId>
                         <artifactId>revapi-java</artifactId>
-                        <version>0.20.1</version>
+                        <version>0.20.2</version> <!-- 0.21 produces java.lang.StackOverflowError -->
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -349,7 +349,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -369,12 +369,12 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.revapi</groupId>
                     <artifactId>revapi-maven-plugin</artifactId>
-                    <version>0.11.3</version>
+                    <version>0.11.5</version>
                 </plugin>
 
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 

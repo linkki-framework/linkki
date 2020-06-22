@@ -1,52 +1,73 @@
 {
-  "all-versions": {
-    "revapi": {
-      "ignore": [
-        {
-          "regex": true,
-          "code": "java.class.externalClassExposedInAPI",
-          "new":".* org\\.linkki\\.core\\..*",
-          "justification": "linkki types are safe to be exposed",
-          "classQualifiedName": "org\\.linkki\\.core\\..*"
-        },
-        {
-          "regex": true,
-          "code": "java.class.externalClassExposedInAPI",
-          "new":".* org\\.linkki\\.util\\..*",
-          "justification": "linkki types are safe to be exposed",
-          "classQualifiedName": "org\\.linkki\\.util\\..*"
-        }
-      ]
+ "all-versions": {
+  "revapi": {
+   "ignore": [
+    {
+     "regex": true,
+     "code": "java.class.externalClassExposedInAPI",
+     "new": ".* org\\.linkki\\.core\\..*",
+     "justification": "linkki types are safe to be exposed",
+     "classQualifiedName": "org\\.linkki\\.core\\..*"
+    },
+    {
+     "regex": true,
+     "code": "java.class.externalClassExposedInAPI",
+     "new": ".* org\\.linkki\\.util\\..*",
+     "justification": "linkki types are safe to be exposed",
+     "classQualifiedName": "org\\.linkki\\.util\\..*"
     }
-  },
-  "1.1.0": {
-    "revapi": {
-      "ignore": [
-        {
-          "regex": true,
-          "code": "java.class.externalClassExposedInAPI",  
-          "new": "class org.apache.commons.lang3.tuple.Pair<L extends java.lang.Object, R extends java.lang.Object>",
-          "justification": "because Java still has no Pair"
-        }
-      ]
-    }
-  },
-  "1.2.0": {
-    "revapi": {
-      "ignore": [
-        {
-          "code": "java.method.numberOfParametersChanged",
-          "old": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.lang.annotation.Annotation)",
-		  "new": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.lang.annotation.Annotation, javax.annotation.processing.Messager)",
-          "justification": "LIN-1796"
-        },
-		{
-          "code": "java.method.numberOfParametersChanged",
-          "old": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
-		  "new": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>, javax.annotation.processing.Messager)",
-          "justification": "LIN-1796"
-        }
-      ]
-    }
+   ]
   }
+ },
+ "1.1.0": {
+  "revapi": {
+   "ignore": [
+    {
+     "regex": true,
+     "code": "java.class.externalClassExposedInAPI",
+     "new": "class org.apache.commons.lang3.tuple.Pair<L extends java.lang.Object, R extends java.lang.Object>",
+     "justification": "because Java still has no Pair"
+    }
+   ]
+  }
+ },
+ "1.2.0": {
+  "revapi": {
+   "ignore": [
+    {
+     "code": "java.method.numberOfParametersChanged",
+     "old": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.lang.annotation.Annotation)",
+     "new": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.lang.annotation.Annotation, javax.annotation.processing.Messager)",
+     "justification": "LIN-1796"
+    },
+    {
+     "code": "java.method.numberOfParametersChanged",
+     "old": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>)",
+     "new": "method java.util.Set<org.linkki.tooling.apt.util.DynamicAspectMethodName> org.linkki.tooling.apt.util.DynamicMethodUtils::getExpectedMethods(javax.lang.model.element.ExecutableElement, java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition>, javax.annotation.processing.Messager)",
+     "justification": "LIN-1796"
+    }
+   ]
+  }
+ },
+ "1.2.1": {
+  "revapi": {
+   "ignore": [
+    {
+     "code": "java.field.addedStaticField",
+     "new": "field org.apache.commons.lang3.tuple.Pair<L, R>.EMPTY_ARRAY",
+     "justification": "commons-lang3 update to 3.10"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method <L, R> org.apache.commons.lang3.tuple.Pair<L, R>[] org.apache.commons.lang3.tuple.Pair<L, R>::emptyArray()",
+     "justification": "commons-lang3 update to 3.10"
+    },
+    {
+     "code": "java.method.added",
+     "new": "method <L, R> org.apache.commons.lang3.tuple.Pair<L, R> org.apache.commons.lang3.tuple.Pair<L, R>::of(java.util.Map.Entry<L, R>)",
+     "justification": "commons-lang3 update to 3.10"
+    }
+   ]
+  }
+ }
 }

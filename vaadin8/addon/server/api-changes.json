@@ -1,30 +1,41 @@
 {
-  "all-versions": {
-    "revapi": {
-      "ignore": [
-        {
-          "regex": true,
-          "code": "java.class.externalClassExposedInAPI",
-          "new": ".* (com\\.vaadin\\..*|elemental\\.json\\..*|org\\.jsoup\\..*|org\\.linkki\\..*)",
-          "justification": "It is inteded to extend vaadin"
-        },
-        {
-          "regex": true,
-          "code": "java.missing.(old|new)Class",
-          "new": "missing-class javax\\.servlet\\.http\\..*",
-          "justification": "Provided API from vaadin"
-        },
-        {
-          "code": "java.class.nonPublicPartOfAPI",
-          "new": "class org.jsoup.parser.Token",
-          "justification": "Provided API from vaadin"
-        },
-        {
-          "code": "java.class.nonPublicPartOfAPI",
-          "new": "class org.jsoup.parser.TreeBuilder",
-          "justification": "Provided API from vaadin"
-        }
-      ]
+ "all-versions": {
+  "revapi": {
+   "ignore": [
+    {
+     "regex": true,
+     "code": "java.class.externalClassExposedInAPI",
+     "new": ".* (com\\.vaadin\\..*|elemental\\.json\\..*|org\\.jsoup\\..*|org\\.linkki\\..*)",
+     "justification": "It is inteded to extend vaadin"
+    },
+    {
+     "regex": true,
+     "code": "java.missing.(old|new)Class",
+     "new": "missing-class javax\\.servlet\\.http\\..*",
+     "justification": "Provided API from vaadin"
+    },
+    {
+     "code": "java.class.nonPublicPartOfAPI",
+     "new": "class org.jsoup.parser.Token",
+     "justification": "Provided API from vaadin"
+    },
+    {
+     "code": "java.class.nonPublicPartOfAPI",
+     "new": "class org.jsoup.parser.TreeBuilder",
+     "justification": "Provided API from vaadin"
     }
+   ]
   }
+ },
+ "1.2.1": {
+  "revapi": {
+   "ignore": [
+    {
+     "code": "java.method.added",
+     "new": "method void com.vaadin.ui.AbstractDateField<T extends java.time.temporal.Temporal, java.time.temporal.TemporalAdjuster, java.io.Serializable, java.lang.Comparable<? super T>, R extends java.lang.Enum<R extends java.lang.Enum<R>>>::setDaylightSavingTimeRange(int, int) @ org.linkki.core.vaadin.component.MultiformatDateField",
+     "justification": "Vaadin update 8.11"
+    }
+   ]
+  }
+ }
 }
