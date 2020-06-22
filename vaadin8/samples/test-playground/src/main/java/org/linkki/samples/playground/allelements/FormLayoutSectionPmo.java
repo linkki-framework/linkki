@@ -17,11 +17,11 @@ package org.linkki.samples.playground.allelements;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.layout.annotation.UIFormLayoutSection;
+import org.linkki.core.ui.layout.annotation.UIFormSection;
 
 import com.vaadin.ui.Notification;
 
-@UIFormLayoutSection(caption = "@UIFormLayoutSection")
+@UIFormSection(caption = "@UIFormSection")
 public class FormLayoutSectionPmo {
 
     @UITextField(label = "Text 1", position = 10)

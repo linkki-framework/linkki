@@ -25,8 +25,8 @@ import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundPropert
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.ui.creation.section.SectionLayoutDefinition;
-import org.linkki.core.ui.layout.annotation.UIFormLayoutSection.SectionComponentDefinitonCreator;
-import org.linkki.core.ui.layout.annotation.UIFormLayoutSection.SectionLayoutDefinitionCreator;
+import org.linkki.core.ui.layout.annotation.UIFormSection.SectionComponentDefinitonCreator;
+import org.linkki.core.ui.layout.annotation.UIFormSection.SectionLayoutDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
@@ -42,7 +42,7 @@ import org.linkki.core.vaadin.component.section.FormLayoutSection;
 @LinkkiBoundProperty(EmptyPropertyCreator.class)
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface UIFormLayoutSection {
+public @interface UIFormSection {
 
     /**
      * Number of columns.
@@ -55,20 +55,20 @@ public @interface UIFormLayoutSection {
     /** Whether or not the section can be collapsed by the user. */
     boolean closeable() default false;
 
-    public static class SectionComponentDefinitonCreator implements ComponentDefinitionCreator<UIFormLayoutSection> {
+    public static class SectionComponentDefinitonCreator implements ComponentDefinitionCreator<UIFormSection> {
 
         @Override
-        public LinkkiComponentDefinition create(UIFormLayoutSection uiFormSection, AnnotatedElement annotatedElement) {
+        public LinkkiComponentDefinition create(UIFormSection uiFormSection, AnnotatedElement annotatedElement) {
             return pmo -> new FormLayoutSection(uiFormSection.caption(), uiFormSection.closeable(),
                     uiFormSection.columns());
         }
 
     }
 
-    public static class SectionLayoutDefinitionCreator implements LayoutDefinitionCreator<UIFormLayoutSection> {
+    public static class SectionLayoutDefinitionCreator implements LayoutDefinitionCreator<UIFormSection> {
 
         @Override
-        public LinkkiLayoutDefinition create(UIFormLayoutSection annotation, AnnotatedElement annotatedElement) {
+        public LinkkiLayoutDefinition create(UIFormSection annotation, AnnotatedElement annotatedElement) {
             return SectionLayoutDefinition.CAPTION_ONLY;
         }
 

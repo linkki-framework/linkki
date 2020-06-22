@@ -21,7 +21,6 @@ import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.CustomLayoutSection;
-import org.linkki.core.vaadin.component.section.FormSection;
 import org.linkki.core.vaadin.component.section.HorizontalSection;
 import org.linkki.core.vaadin.component.section.TableSection;
 
@@ -57,7 +56,10 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
         } else {
             switch (layout) {
                 case COLUMN:
-                    return new FormSection(nlsCaption, closeable, columns);
+                    @SuppressWarnings("deprecation")
+                    org.linkki.core.vaadin.component.section.FormSection formSection = new org.linkki.core.vaadin.component.section.FormSection(
+                            nlsCaption, closeable, columns);
+                    return formSection;
                 case HORIZONTAL:
                     return new HorizontalSection(nlsCaption, closeable);
                 case CUSTOM:

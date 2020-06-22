@@ -27,7 +27,6 @@ import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.FormSection;
 import org.linkki.util.StreamUtil;
 
 import com.vaadin.data.HasItems;
@@ -73,18 +72,21 @@ public final class TestUiUtil {
         return createSectionWith(pmo, new BindingContext());
     }
 
+    @SuppressWarnings("deprecation")
     public static GridLayout createSectionWith(Object pmo, BindingContext bindingContext) {
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         AbstractSection section = sectionFactory.createSection(pmo, bindingContext);
 
         bindingContext.modelChanged();
 
-        return getContentGrid((FormSection)section);
+        return getContentGrid((org.linkki.core.vaadin.component.section.FormSection)section);
     }
 
-    public static GridLayout getContentGrid(FormSection section) {
+    @SuppressWarnings("deprecation")
+    public static GridLayout getContentGrid(org.linkki.core.vaadin.component.section.FormSection section) {
         try {
-            Method getContentGrid = FormSection.class.getDeclaredMethod("getContentGrid");
+            Method getContentGrid = org.linkki.core.vaadin.component.section.FormSection.class
+                    .getDeclaredMethod("getContentGrid");
             getContentGrid.setAccessible(true);
             return (GridLayout)getContentGrid.invoke(section);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
