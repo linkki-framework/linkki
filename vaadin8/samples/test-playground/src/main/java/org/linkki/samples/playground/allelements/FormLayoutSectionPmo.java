@@ -14,7 +14,9 @@
 
 package org.linkki.samples.playground.allelements;
 
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
@@ -26,8 +28,10 @@ public class FormLayoutSectionPmo {
 
     private String text1 = "text1";
     private String text2 = "text2";
+    private String text3 = "text3";
+    private boolean required;
 
-    @UITextField(label = "Text field", position = 10)
+    @UITextField(position = 10, label = "Text field")
     public String getText1() {
         return text1;
     }
@@ -36,7 +40,7 @@ public class FormLayoutSectionPmo {
         this.text1 = text1;
     }
 
-    @UITextField(label = "Text field with long label", position = 20)
+    @UITextField(position = 20, label = "Text-field-with-long-label")
     public String getText2() {
         return text2;
     }
@@ -45,12 +49,30 @@ public class FormLayoutSectionPmo {
         this.text2 = text2;
     }
 
-    @UILabel(position = 30)
+    @UITextField(position = 30, label = "Required field", required = RequiredType.DYNAMIC)
+    public String getText3() {
+        return text3;
+    }
+
+    public void setText3(String text3) {
+        this.text3 = text3;
+    }
+
+    @UICheckBox(position = 40, label = "Checkbox caption")
+    public boolean isText3Required() {
+        return required;
+    }
+
+    public void setText3Required(boolean required) {
+        this.required = required;
+    }
+
+    @UILabel(position = 50, label = "label with label :D")
     public String getLabel() {
         return "label";
     }
 
-    @UIButton(position = 40, caption = "Button")
+    @UIButton(position = 60, caption = "Button caption")
     public void button() {
         Notification.show("Button clicked");
     }

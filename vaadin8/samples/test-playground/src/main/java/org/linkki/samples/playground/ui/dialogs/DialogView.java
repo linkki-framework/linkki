@@ -37,7 +37,7 @@ public class DialogView extends SidebarLayout implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
-        ConfirmationDialog.open("Entering dialog view", "Welcome!");
+        ConfirmationDialog.open("Entering dialog view", "Welcome!").setSize("300px", "250px");
     }
 
 }

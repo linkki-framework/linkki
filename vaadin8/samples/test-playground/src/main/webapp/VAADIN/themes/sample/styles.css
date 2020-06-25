@@ -1717,8 +1717,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .v-caption {
-	font-size: 14px;
-	font-weight: 400;
+	font-size: 16px;
+	font-weight: 300;
 	padding-bottom: 0.3em;
 	padding-left: 1px;
 }
@@ -5515,8 +5515,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .v-caption-inline-icon .v-captiontext {
-	font-size: 14px;
-	font-weight: 400;
+	font-size: 16px;
+	font-weight: 300;
 	padding-bottom: 0.3em;
 	padding-left: 1px;
 	margin: 0;
@@ -5554,8 +5554,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .v-caption-inline-icon.v-caption-tiny .v-captiontext {
-	font-size: 14px;
-	font-weight: 400;
+	font-size: 16px;
+	font-weight: 300;
 	padding-bottom: 0.3em;
 	padding-left: 1px;
 	margin: 0;
@@ -5593,8 +5593,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .v-caption-inline-icon.v-caption-compact .v-captiontext {
-	font-size: 14px;
-	font-weight: 400;
+	font-size: 16px;
+	font-weight: 300;
 	padding-bottom: 0.3em;
 	padding-left: 1px;
 	margin: 0;
@@ -5632,8 +5632,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .v-caption-inline-icon.v-caption-small .v-captiontext {
-	font-size: 14px;
-	font-weight: 400;
+	font-size: 16px;
+	font-weight: 300;
 	padding-bottom: 0.3em;
 	padding-left: 1px;
 	margin: 0;
@@ -5671,8 +5671,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .v-caption-inline-icon.v-caption-large .v-captiontext {
-	font-size: 14px;
-	font-weight: 400;
+	font-size: 16px;
+	font-weight: 300;
 	padding-bottom: 0.3em;
 	padding-left: 1px;
 	margin: 0;
@@ -5710,8 +5710,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .v-caption-inline-icon.v-caption-huge .v-captiontext {
-	font-size: 14px;
-	font-weight: 400;
+	font-size: 16px;
+	font-weight: 300;
 	padding-bottom: 0.3em;
 	padding-left: 1px;
 	margin: 0;
@@ -13026,8 +13026,8 @@ div.v-layout.v-horizontal.v-widget {
 	background-image: -webkit-linear-gradient(top, #fafafa 2%, #f6f6f6 98%);
 	background-image: linear-gradient(to bottom,#fafafa 2%, #f6f6f6 98%);
 	color: #464646;
-	font-weight: 400;
-	font-size: 14px;
+	font-weight: 300;
+	font-size: 16px;
 	-webkit-box-shadow: inset 0 1px 0 white, inset 0 -1px 0 #eeeeee;
 	box-shadow: inset 0 1px 0 white, inset 0 -1px 0 #eeeeee;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -13187,8 +13187,8 @@ div.v-layout.v-horizontal.v-widget {
 	background-image: -webkit-linear-gradient(top, #fafafa 2%, #f6f6f6 98%);
 	background-image: linear-gradient(to bottom,#fafafa 2%, #f6f6f6 98%);
 	color: #464646;
-	font-weight: 400;
-	font-size: 14px;
+	font-weight: 300;
+	font-size: 16px;
 	-webkit-box-shadow: inset 0 1px 0 white, inset 0 -1px 0 #eeeeee;
 	box-shadow: inset 0 1px 0 white, inset 0 -1px 0 #eeeeee;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -13281,8 +13281,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .v-select-twincol-caption-left, .sample .v-select-twincol-caption-right {
-	font-size: 14px;
-	font-weight: 400;
+	font-size: 16px;
+	font-weight: 300;
 	padding-bottom: 0.3em;
 	padding-left: 1px;
 }
@@ -15685,6 +15685,22 @@ div.v-layout.v-horizontal.v-widget {
 .sample .linkki-section-caption .v-slot-linkki-section-caption-text .linkki-section-caption-text {
 	font-size: 110%;
 	font-weight: bold;
+}
+
+.sample .v-formlayout .v-caption {
+	width: 9em;
+	text-align: right;
+	white-space: normal;
+}
+
+.sample .linkki-label-caption {
+	font-size: 16px;
+	font-weight: 300;
+	right: 0;
+}
+
+.sample .linkki-section .v-formlayout .v-required-field-indicator {
+	position: absolute;
 }
 
 .sample .v-button.linkki-button-text {

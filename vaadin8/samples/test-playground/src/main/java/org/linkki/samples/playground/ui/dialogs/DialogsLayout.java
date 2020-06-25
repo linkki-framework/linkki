@@ -23,9 +23,10 @@ import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 
-public class DialogsLayout extends HorizontalLayout implements SidebarSheetDefinition {
+public class DialogsLayout extends VerticalLayout implements SidebarSheetDefinition {
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "dialogs-layout";
@@ -33,6 +34,10 @@ public class DialogsLayout extends HorizontalLayout implements SidebarSheetDefin
     public DialogsLayout() {
         super();
         setMargin(true);
+
+        addComponent(new Label(
+                "The dialogs are created in a different view to test the behavior of dialogs upon view change."));
+
         UiCreator.createUiElements(new DialogButtonsPmo(), new BindingContext(getClass().getName()),
                                    c -> new CaptionComponentWrapper((Component)c, WrapperType.FIELD))
                 .map(CaptionComponentWrapper::getComponent)
