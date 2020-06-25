@@ -44,11 +44,6 @@ import org.linkki.core.vaadin.component.section.FormLayoutSection;
 @Target(TYPE)
 public @interface UIFormSection {
 
-    /**
-     * Number of columns.
-     */
-    int columns() default 1;
-
     /** The caption text for the section. */
     String caption() default "";
 
@@ -59,8 +54,7 @@ public @interface UIFormSection {
 
         @Override
         public LinkkiComponentDefinition create(UIFormSection uiFormSection, AnnotatedElement annotatedElement) {
-            return pmo -> new FormLayoutSection(uiFormSection.caption(), uiFormSection.closeable(),
-                    uiFormSection.columns());
+            return pmo -> new FormLayoutSection(uiFormSection.caption(), uiFormSection.closeable());
         }
 
     }

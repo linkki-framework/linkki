@@ -24,14 +24,25 @@ import com.vaadin.ui.Notification;
 @UIFormSection(caption = "@UIFormSection")
 public class FormLayoutSectionPmo {
 
-    @UITextField(label = "Text 1", position = 10)
+    private String text1 = "text1";
+    private String text2 = "text2";
+
+    @UITextField(label = "Text field", position = 10)
     public String getText1() {
-        return "read-only text";
+        return text1;
     }
 
-    @UITextField(label = "Text 2", position = 20)
+    public void setText1(String text1) {
+        this.text1 = text1;
+    }
+
+    @UITextField(label = "Text field with long label", position = 20)
     public String getText2() {
-        return "read-only text2";
+        return text2;
+    }
+
+    public void setText2(String text2) {
+        this.text2 = text2;
     }
 
     @UILabel(position = 30)

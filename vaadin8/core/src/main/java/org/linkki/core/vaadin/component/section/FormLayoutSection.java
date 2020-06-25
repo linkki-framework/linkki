@@ -22,62 +22,22 @@ public class FormLayoutSection extends BaseSection {
 
     private static final long serialVersionUID = 1L;
 
-    private final FormLayout contentForm;
-
-    private final int numberOfColumns;
-
-    /**
-     * Creates a new non-closable section with the given caption and 1 column.
-     */
-    public FormLayoutSection(String caption) {
-        this(caption, false);
-    }
-
-    /**
-     * Creates a new section with the given caption and 1 column.
-     * 
-     * @param caption the caption
-     * @param closeable <code>true</code> if the section can be closed/opened.
-     */
-    public FormLayoutSection(String caption, boolean closeable) {
-        this(caption, closeable, 1);
-    }
+    private final FormLayout content;
 
     /**
      * Creates a new section with the given caption, closable state, edit button and number of columns.
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param numberOfColumns the number of the section's columns
      */
-    public FormLayoutSection(String caption, boolean closeable, int numberOfColumns) {
+    public FormLayoutSection(String caption, boolean closeable) {
         super(caption, closeable);
-        this.numberOfColumns = numberOfColumns;
         setWidth("100%");
-        contentForm = createContent();
-        addComponent(contentForm);
-        setSpacingInContent(true);
+        content = createContent();
+        addComponent(content);
     }
 
-    /**
-     * Returns the number of "columns" i.e. the caption/control pairs per row.
-     */
-    public int getNumberOfColumns() {
-        return numberOfColumns;
-    }
-
-    /**
-     * Returns the grid containing the labels and controls.
-     */
-    protected FormLayout getContentForm() {
-        return contentForm;
-    }
-
-    protected void setSpacingInContent(boolean spacing) {
-        contentForm.setSpacing(spacing);
-    }
-
-    protected FormLayout createContent() {
+    private FormLayout createContent() {
         FormLayout formLayout = new FormLayout();
         formLayout.setWidth("100%");
         formLayout.setMargin(new MarginInfo(true, true, true, true));
@@ -91,13 +51,13 @@ public class FormLayoutSection extends BaseSection {
      */
     @Override
     public void add(String propertyName, Label label, Component component) {
-        contentForm.addComponent(component);
+        content.addComponent(component);
     }
 
 
     @Override
-    public Component getSectionContent() {
-        return contentForm;
+    public FormLayout getSectionContent() {
+        return content;
     }
 
 }
