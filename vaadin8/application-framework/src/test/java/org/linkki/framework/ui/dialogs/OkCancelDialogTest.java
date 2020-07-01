@@ -13,11 +13,12 @@
  */
 package org.linkki.framework.ui.dialogs;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -54,7 +55,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class OkCancelDialogTest {
 
-    
+
     private LinkkiUi linkkiUi;
 
     @BeforeEach
@@ -90,6 +91,38 @@ public class OkCancelDialogTest {
 
         // should not throw exception
         dialog.cancel();
+    }
+
+    @Test
+    public void testBuilder_OkCaption() {
+        OkCancelDialog dialog = OkCancelDialog.builder("caption").okCaption("confirm it").build();
+
+        assertThat(dialog.getOkCaption(), is("confirm it"));
+        assertThat(DialogTestUtil.getButtons(dialog).get(0).getCaption(), is("confirm it"));
+    }
+
+    @Test
+    public void testBuilder_CancelCaption() {
+        OkCancelDialog dialog = OkCancelDialog.builder("").cancelCaption("cancel it").build();
+
+        assertThat(dialog.getCancelCaption(), is("cancel it"));
+        assertThat(DialogTestUtil.getButtons(dialog).get(1).getCaption(), is("cancel it"));
+    }
+
+    @Test
+    public void testBuilder_CancelCaption_NoCancelButton() {
+        // it shouldn't make a difference whether cancelCaption is set before or after buttonOption
+        OkCancelDialog dialog = OkCancelDialog.builder("")
+                .buttonOption(ButtonOption.OK_ONLY)
+                .cancelCaption("cancel it")
+                .build();
+        OkCancelDialog dialog2 = OkCancelDialog.builder("")
+                .cancelCaption("cancel it")
+                .buttonOption(ButtonOption.OK_ONLY)
+                .build();
+
+        assertThrows(IllegalStateException.class, dialog::getCancelCaption);
+        assertThrows(IllegalStateException.class, dialog2::getCancelCaption);
     }
 
     @Test
@@ -159,6 +192,33 @@ public class OkCancelDialogTest {
 
         verify(cancelHandler).apply();
         verify(okHandler, never()).apply();
+    }
+
+    @Test
+    public void testSetOkCaption() {
+        OkCancelDialog dialog = OkCancelDialog.builder("").build();
+
+        dialog.setOkCaption("confirm it");
+
+        assertThat(dialog.getOkCaption(), is("confirm it"));
+        assertThat(DialogTestUtil.getButtons(dialog).get(0).getCaption(), is("confirm it"));
+    }
+
+    @Test
+    public void testSetCancelCaption() {
+        OkCancelDialog dialog = OkCancelDialog.builder("").build();
+
+        dialog.setCancelCaption("cancel it");
+
+        assertThat(dialog.getCancelCaption(), is("cancel it"));
+        assertThat(DialogTestUtil.getButtons(dialog).get(1).getCaption(), is("cancel it"));
+    }
+
+    @Test
+    public void testSetCancelCaption_NoCancelButton() {
+        OkCancelDialog dialog = OkCancelDialog.builder("").buttonOption(ButtonOption.OK_ONLY).build();
+
+        assertThrows(IllegalStateException.class, () -> dialog.setCancelCaption("cancel it"));
     }
 
     @Test
@@ -274,7 +334,7 @@ public class OkCancelDialogTest {
                 description.appendText("an OkCancelDialog displaying a message");
             }
 
-            
+
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
                 @NonNull
@@ -297,7 +357,7 @@ public class OkCancelDialogTest {
 
             @Override
             protected boolean matchesSafely(OkCancelDialog dialog) {
-                
+
                 @NonNull
                 VerticalLayout layout = (VerticalLayout)dialog.getContent();
                 VerticalLayout nestedLayout = (VerticalLayout)layout.getComponent(0);

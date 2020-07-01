@@ -1,0 +1,13 @@
+:jbake-type: referenced
+:jbake-status: referenced
+:jbake-order: 0
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_newnoteworthy
+:source-dir: ../../../../../vaadin8/samples/binding/src/main/java
+
+=== 1.3.0
+
+==== Customizable button captions for `OkCancelDialog`
+
+The text displayed on the OK and cancel buttons can now be changed using the `okCaption` and `cancelCaption` methods on the builder or the corresponding setters on the dialog.

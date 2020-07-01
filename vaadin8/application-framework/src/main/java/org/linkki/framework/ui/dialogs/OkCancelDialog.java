@@ -82,27 +82,31 @@ public class OkCancelDialog extends Window {
     /** The main area that contains any content that is added by subclasses etc. */
     private final VerticalLayout mainArea;
 
-    /** The OK button that is displayed in the dialog. */
+    /** The OK button that is displayed in the dialog */
     private final Button okButton;
 
-    /** The handler that handles clicks on the OK button. */
+    /** The handler that handles clicks on the OK button */
     private final Handler okHandler;
 
-    /** The handler that handles clicks on the Cancel button. */
+    /** The cancel button that is displayed in the dialog */
+    @CheckForNull
+    private final Button cancelButton;
+
+    /** The handler that handles clicks on the Cancel button */
     private final Handler cancelHandler;
 
-    /** Service to validate data in the dialog, called when the user clicks OK. */
+    /** Service to validate data in the dialog, called when the user clicks OK */
     private ValidationService validationService = ValidationService.NOP_VALIDATION_SERVICE;
 
     /** The state which validation messages are displayed. */
     private ValidationDisplayState validationDisplayState = ValidationDisplayState.HIDE_MANDATORY_FIELD_VALIDATIONS;
 
-    /** Called when the dialog was validated, e.g. after the OK button was clicked. */
+    /** Called when the dialog was validated, e.g. after the OK button was clicked */
     private Handler beforeOkHandler = Handler.NOP_HANDLER;
 
     /**
      * The message row that displays the first message from the message list if there is a message to
-     * display.
+     * display
      */
     private Optional<Component> messageRow = Optional.empty();
 
@@ -129,6 +133,9 @@ public class OkCancelDialog extends Window {
         this.contentArea = new VerticalLayout();
         this.mainArea = new VerticalLayout();
         this.okButton = new Button(NlsText.getString("OkCancelDialog.OkButtonCaption")); //$NON-NLS-1$
+        this.cancelButton = buttonOption == ButtonOption.OK_CANCEL
+                ? new Button(NlsText.getString("OkCancelDialog.CancelButtonCaption")) //$NON-NLS-1$
+                : null;
 
         okButton.setClickShortcut(KeyCode.ENTER);
         okButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -136,7 +143,7 @@ public class OkCancelDialog extends Window {
         initDialogWindow();
         initLayout();
         initMainArea(contentComponents);
-        initButtons(buttonOption);
+        initButtons();
         initCloseListener();
 
         // We want to set the dialog's content, the method is overridden here
@@ -260,23 +267,7 @@ public class OkCancelDialog extends Window {
         }
     }
 
-    private void initButtons(ButtonOption buttonOption) {
-        HorizontalLayout buttons = createButtons(buttonOption);
-        layout.addComponent(buttons);
-        layout.setExpandRatio(buttons, 0f);
-        layout.setComponentAlignment(buttons, Alignment.MIDDLE_CENTER);
-    }
-
-    private void initCloseListener() {
-        addCloseListener(e -> {
-            if (!isOkPressed() && !isCancelPressed()) {
-                // close event was triggered by user clicking on window close icon, not a button
-                cancel();
-            }
-        });
-    }
-
-    private HorizontalLayout createButtons(ButtonOption buttonOption) {
+    private void initButtons() {
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.addStyleName(LinkkiApplicationTheme.DIALOG_BUTTON_BAR);
         buttons.setSpacing(true);
@@ -292,18 +283,31 @@ public class OkCancelDialog extends Window {
             }).apply();
 
         });
+        okButton.setId("okButton");
 
-        if (buttonOption == ButtonOption.OK_CANCEL) {
-            Button cancel = new Button(NlsText.getString("OkCancelDialog.CancelButtonCaption")); //$NON-NLS-1$
-            buttons.addComponent(cancel);
-            buttons.setComponentAlignment(cancel, Alignment.MIDDLE_CENTER);
-            cancel.addClickListener(e -> {
+        if (cancelButton != null) {
+            buttons.addComponent(cancelButton);
+            buttons.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
+            cancelButton.addClickListener(e -> {
                 setCancelPressed(true);
                 cancel();
                 close();
             });
+            cancelButton.setId("cancelButton");
         }
-        return buttons;
+
+        layout.addComponent(buttons);
+        layout.setExpandRatio(buttons, 0f);
+        layout.setComponentAlignment(buttons, Alignment.MIDDLE_CENTER);
+    }
+
+    private void initCloseListener() {
+        addCloseListener(e -> {
+            if (!isOkPressed() && !isCancelPressed()) {
+                // close event was triggered by user clicking on window close icon, not a button
+                cancel();
+            }
+        });
     }
 
     /**
@@ -467,6 +471,48 @@ public class OkCancelDialog extends Window {
     }
 
     /**
+     * Returns the caption of the OK button.
+     */
+    public String getOkCaption() {
+        return okButton.getCaption();
+    }
+
+    /**
+     * Sets caption of the OK button. The text is used directly, no further localization will take
+     * place.
+     */
+    public void setOkCaption(String okCaption) {
+        okButton.setCaption(requireNonNull(okCaption, "okCaption must not be null"));
+    }
+
+    /**
+     * Returns the caption of the cancel button.
+     * 
+     * @throws IllegalStateException if the dialog does not have a cancel button
+     */
+    public String getCancelCaption() {
+        if (cancelButton != null) {
+            return cancelButton.getCaption();
+        } else {
+            throw new IllegalStateException("Dialog does not have a cancel button");
+        }
+    }
+
+    /**
+     * Sets caption of the cancel button. The text is used directly, no further localization will take
+     * place.
+     * 
+     * @throws IllegalStateException if the dialog does not have a cancel button
+     */
+    public void setCancelCaption(String cancelCaption) {
+        if (cancelButton != null) {
+            cancelButton.setCaption(requireNonNull(cancelCaption, "cancelCaption must not be null"));
+        } else {
+            throw new IllegalStateException("Dialog does not have a cancel button");
+        }
+    }
+
+    /**
      * Called when the user clicks the OK button and {@link #validate()} does not return any error
      * messages. Delegates to the dialog's OkHandler.
      */
@@ -528,6 +574,10 @@ public class OkCancelDialog extends Window {
         private String width;
         @CheckForNull
         private String height;
+        @CheckForNull
+        private String okCaption;
+        @CheckForNull
+        private String cancelCaption;
 
         /**
          * Creates a new builder that is able to create a proper {@link Message} with all needed
@@ -605,6 +655,35 @@ public class OkCancelDialog extends Window {
         }
 
         /**
+         * Sets caption of the OK button. The text is used directly, no further localization will take
+         * place.
+         * 
+         * @param okCaption the localized caption to use for the OK button
+         * @return this builder instance to directly add further properties
+         * 
+         * @see OkCancelDialog#setOkCaption(String)
+         */
+        public Builder okCaption(String okCaption) {
+            this.okCaption = requireNonNull(okCaption, "okCaption must not be null");
+            return this;
+        }
+
+        /**
+         * Sets caption of the cancel button. The text is used directly, no further localization will
+         * take place. This setting only takes effect if the builder is configured to use a cancel
+         * button when calling {@link #build()}.
+         * 
+         * @param cancelCaption the localized caption to use for the cancel button
+         * @return this builder instance to directly add further properties
+         * 
+         * @see OkCancelDialog#setCancelCaption(String)
+         */
+        public Builder cancelCaption(String cancelCaption) {
+            this.cancelCaption = requireNonNull(cancelCaption, "cancelCaption must not be null");
+            return this;
+        }
+
+        /**
          * Creates a new {@link OkCancelDialog} with all previously given properties.
          * 
          * @return a new {@link OkCancelDialog} that has the parameters of this builder.
@@ -615,6 +694,14 @@ public class OkCancelDialog extends Window {
             if (StringUtils.isNotBlank(width) && StringUtils.isNotBlank(height)) {
                 createdDialog.setSize(width, height);
             }
+
+            if (okCaption != null) {
+                createdDialog.setOkCaption(okCaption);
+            }
+            if (cancelCaption != null && buttonOption == ButtonOption.OK_CANCEL) {
+                createdDialog.setCancelCaption(cancelCaption);
+            }
+
             return createdDialog;
         }
     }

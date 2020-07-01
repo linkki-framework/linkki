@@ -47,6 +47,7 @@ pipeline {
 
             environment {
                 DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
+                CONTAINER_RETENTION = 'keep'
             }
         }
 
