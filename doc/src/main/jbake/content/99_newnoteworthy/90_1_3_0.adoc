@@ -1,0 +1,44 @@
+:jbake-type: referenced
+:jbake-status: referenced
+:jbake-order: 0
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_newnoteworthy
+
+=== 1.3.0
+
+==== New Kind of Section: @UIFormSection
+
+In this version, we introduce a new section annotation: `@UIFormSection`.
+
+`@UISection` is the most commonly used layout component when using *linkki*. It is characterized by its prominent header, which is followed by elements ordered as a form. While being very useful for most cases, it also brings some problems, both technical as well as practical. The new `@UIFormSection` offers a similar layout while tackling some of the known deficits.
+
+Consistent Alignment:: One of the most frequent complaints about `@UISection` is the inconsistent alignment across different sections. This is due to the fact that the labels are always as wide as the longest label in a `@UISection`. `@UIFormSection` uses the same label width for all sections, resulting in nicely aligned lables and fields.
++
+image::{images}{images-folder-name}/1_3_0_Section_DifferentAlignment.png[title="Field alignment across sections created with @UISection (left) and @UIFormSection (right)"] 
+
+Flexible Styling with CSS:: On the more technical side, `@UISection` creates a `GridLayout` in which all sizes are calculated by javascript and set as inline style. As a consequence, it is almost impossible to change sizes such as the label width with CSS. In contrary, `@UIFormSection` uses a `FormLayout` which is mostly styled with CSS. +
+As a direct implication, the label width in the `@UIFormSection` can be easily changed with CSS as explained in the <<formsection-label-width, documentation of @UIFormSection>>.
+
+Line Break of Longer Labels:: Due to the length of labels being limited, labels that exceed the length will be <<formsection-label-width, broken into multiple lines>>. Consider rewording them to make them shorter, or increasing the label size.
+
+Single Column Layout:: `@UIFormSection` does not yet offer multi column layout. If the columns address different domain objects, consider creating two separate sections that are placed in a horizontal layout. If you are currently using a multicolumn section, please contact us to tell us your use case. To do so, please create a feature request on the https://github.com/linkki-framework/linkki[linkki Github page] or mailto:info@faktorzehn.de[contact us directly]. Thank you very much!
+
+Converting Sections to the new @UIFormSection:: In most cases you can directly change the annotation of your PMO class from `@UISection` to `@UIFormSection`. 
+_Caveat:_ Sections that make use of the `columns` attribute as well as any PMO classes that implement the `ContainerPmo` interface (i.e. `TableSections`) have to continue using the `@UISection` Annotation.
+
+
+[role="visual-change"]
+==== Section Labels Are Now Right Aligned
+
+All labels inside a section are now right aligned by default. A right alignment makes sure that the label and the matching input control are always visually close. In case the length of the labels vary strongly in a section, left alignment can make a label appear far away from the input control itself. This can make the form look less ordered as the affiliation between the label and the input control is broken visually.
+
+If you want to keep the left alignment, define the following variable value in your SCSS theme before importing `linkki.scss`:
+
+[source,css]
+----
+$linkki-caption-alignment: left;
+----
+
+
+==== Bugfixes
