@@ -24,6 +24,7 @@ import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreat
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.creation.section.SectionLayoutDefinition;
 import org.linkki.core.ui.layout.annotation.UIFormSection.SectionComponentDefinitonCreator;
 import org.linkki.core.ui.layout.annotation.UIFormSection.SectionLayoutDefinitionCreator;
@@ -54,9 +55,10 @@ public @interface UIFormSection {
 
         @Override
         public LinkkiComponentDefinition create(UIFormSection uiFormSection, AnnotatedElement annotatedElement) {
-            return pmo -> new FormLayoutSection(uiFormSection.caption(), uiFormSection.closeable());
+            return pmo -> new FormLayoutSection(
+                    PmoNlsService.get().getSectionCaption(pmo.getClass(), uiFormSection.caption()),
+                    uiFormSection.closeable());
         }
-
     }
 
     public static class SectionLayoutDefinitionCreator implements LayoutDefinitionCreator<UIFormSection> {

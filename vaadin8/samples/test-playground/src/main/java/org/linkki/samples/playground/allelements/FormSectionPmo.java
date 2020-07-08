@@ -24,7 +24,7 @@ import org.linkki.core.ui.layout.annotation.UIFormSection;
 import com.vaadin.ui.Notification;
 
 @UIFormSection(caption = "@UIFormSection")
-public class FormLayoutSectionPmo {
+public class FormSectionPmo {
 
     private String text1 = "text1";
     private String text2 = "text2";
