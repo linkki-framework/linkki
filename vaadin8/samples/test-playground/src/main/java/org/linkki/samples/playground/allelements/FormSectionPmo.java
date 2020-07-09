@@ -40,7 +40,7 @@ public class FormSectionPmo {
         this.text1 = text1;
     }
 
-    @UITextField(position = 20, label = "Text-field-with-long-label")
+    @UITextField(position = 20, label = "TextFieldWithLongLabel")
     public String getText2() {
         return text2;
     }
