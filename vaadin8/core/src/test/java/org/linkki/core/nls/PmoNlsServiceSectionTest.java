@@ -13,20 +13,18 @@
  */
 package org.linkki.core.nls;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.nls.sample.SamplePmo;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
 import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.FormSection;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
@@ -36,37 +34,39 @@ import com.vaadin.ui.Label;
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class PmoNlsServiceSectionTest {
-    
+
     Label sectionHeader;
-    
+
     private Label textfieldLabelWithoutTranslation;
-    
+
     private Label textfieldLabelWithTranslation;
-    
+
     private Label buttonLabelWithTranslation;
-    
+
     private Label buttonWithoutLabel;
-    
+
     private Button buttonWithTranslatedCaption;
 
-    
+
     private String textfieldLabelTranslation;
-    
+
     private String buttonLabelTranslation;
-    
+
     private String buttonCaptionTranslation;
-    
+
     private Button buttonWithoutTranslatedCaption;
 
-    
+
     @BeforeEach
     public void setUp() {
         BindingContext context = new BindingContext();
         AbstractSection section = new PmoBasedSectionFactory().createSection(new SamplePmo(), context);
         HorizontalLayout header = (HorizontalLayout)section.getComponent(0);
         sectionHeader = (Label)header.getComponent(0);
+        @SuppressWarnings("deprecation")
         @NonNull
-        GridLayout sectionContent = TestUiUtil.getContentGrid((FormSection)section);
+        GridLayout sectionContent = TestUiUtil
+                .getContentGrid((org.linkki.core.vaadin.component.section.FormSection)section);
         textfieldLabelWithTranslation = (Label)sectionContent.getComponent(0, 0);
         textfieldLabelWithoutTranslation = (Label)sectionContent.getComponent(0, 1);
         buttonLabelWithTranslation = (Label)sectionContent.getComponent(0, 2);

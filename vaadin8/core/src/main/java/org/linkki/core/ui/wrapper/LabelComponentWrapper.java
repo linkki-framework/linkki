@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.util.HtmlSanitizer;
 
 import com.vaadin.ui.Component;
@@ -43,6 +44,9 @@ public class LabelComponentWrapper extends VaadinComponentWrapper {
     public LabelComponentWrapper(@CheckForNull Label label, Component component) {
         super(component, WrapperType.FIELD);
         this.label = label;
+        if (this.label != null) {
+            this.label.addStyleName(LinkkiTheme.COMPONENTWRAPPER_LABEL);
+        }
     }
 
     @Override

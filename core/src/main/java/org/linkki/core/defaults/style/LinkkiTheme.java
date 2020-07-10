@@ -33,6 +33,9 @@ public class LinkkiTheme {
     /** Style for the line separating the section's header/caption from the body/content. */
     public static final String SECTION_CAPTION_LINE = "linkki-section-caption-line";
 
+    /** Style for the label part of a wrapped component */
+    public static final String COMPONENTWRAPPER_LABEL = "linkki-label-caption";
+
     /**
      * Style for components that should be rendered without a border, for example components in tables
      */

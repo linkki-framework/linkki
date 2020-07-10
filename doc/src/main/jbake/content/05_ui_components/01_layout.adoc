@@ -1,4 +1,4 @@
-:jbake-title: Layout of Sections
+:jbake-title: Layouts
 :jbake-type: section
 :jbake-status: published
 
@@ -16,53 +16,109 @@
 [[layout-section]]
 ==== Section
 
-A group of input fields is called _section_. A section usually has a descriptive title defined by the `caption` attribute. A line in the title bar visually separates the title from the content. Without a title, a section is not directly recognizable as such, but looks like a simple layout. Instead of input fields, the content can also consist of a table.
+A group of input fields is called _section_. 
 
-The section layout is defined by annotating a PMO with the annotation `@UISection`.
+[[section-header]]
+Section Header:: A section usually has a _section header_ that contains a descriptive **title** which summarizes the content of the input group. This titled is visually separated from the content by a **separating line** in the header. Without a section header, a section is not directly recognizable as such, but looks like a simple layout. +
+A section may be **closable** with a button in the section header. When closed, its content is collapsed to give a better overview about the whole page.
 
-The section may be closable that means its content can be collapsed to give a better overview about the whole page. Simply configure this feature using the annotation attribute `closeable`.
+Content:: The input fields of a section is typically ordered as a form, field description being on the left of the input elements. Instead of input fields, the content of a section can also be a table. If a section contains a table instead of multiple input fields it is called _TableSection_.
+
+*linkki* offers two annotations to create a section:
+
+* `@UISection`
+* `@UIFormSection`
+
+Both annotations share the attribute to controll the content of the <<section-header, section header>>:
+
+* `caption`: short description of the section
+* `closable`: whether the section can be collapsed
+
+===== Differences between `@UISection` and `@UIFormSection`
+
+* A `@UISection` uses a `GridLayout` while `@UIFormSection` uses a `FormLayout`.
+* `@UISection` can be used to create a `TableSection` if the PMO class is a  <<ui-container-pmo, Container PMO>>. `@UIFormSection` does not have this functionality.
+* `@UISection` has <<layout-uisection, multiple layout options>> including a multi column layout, `@UIFormSection` only offers single column. 
+* In `@UISections`, the labels are as long as the longest label. Thus, the input elements are only aligned inside one section. In a `@UIFormSection`, the labels have a fixed width by default. This makes sure that the input fields in multiple `@UIFormSections` on a page are aligned across the page. 
+* In a `@UISection`, the required indicator is shown on the right of the input field. In a `@UIFormSection`, the required indicator is shown on the right of the label.
++
+image::{images}{images-folder-name}/uisection-required.png[Required indicator in @UISection,align="center"]
++
+image::{images}{images-folder-name}/uiformsection-required.png[Required indicator in an @UIFormSection,align="center"]
+
+[[formsection-label-width]]
+===== Label width in @UIFormSection
+
+The labels in a `@UIFormSection` have a default width of `9em`. This results in long labels being broken into multiple lines. The line breaks at white spaces whenever possible. If your label does not have any white spaces, this may cause a line break at an unexpected place, which may impair readability.
+
+This setting can be changed in multiple ways by modifying CSS. 
+
+Change the fixed width globally:: To set a larger or smaller width, simply declare the variable `$linkki-caption-width` at the beginning of your SCSS, specifically **before** importing `linkki.scss`.
++
+.Change fixed width to 13em
+[source, scss]
+----
+$linkki-caption-width: 13em;
+
+@import("linkki.scss");
+----
++
+
+Change the width by using CSS class:: If there are multiple viable widths in the application, you can create CSS classes for each of the use cases.
++
+.Apply the style name for the PMO
+[source, java]
+----
+@BindStyleNames(["long-label-formsection"])
+@UIFormSection(caption="My Section")
+public class MySectionPmo { ... }
+----
++
+.Set the width in the SCSS theme
+[source, scss]
+----
+.long-label-formsection .v-caption {
+  width: 13em;
+}
+----
+
+[[layout-uisection]]
+===== Layout Options in @UISection
 
 [source, java]
 ----
 include::{source-dir-doc}/org/linkki/doc/CommonDataSectionPmo.java[tags=class]
 ----
 
-The layout for all the components within the section can be defined with the attribute `layout`. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, COLUMN or CUSTOM.
-
-If a section contains a table instead of multiple input fields it is called _TableSection_.
+The layout for all the components within a `UISection` can be defined with the attribute `layout`. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, COLUMN or CUSTOM.
+.
 
 [[horizontal-section-layout]]
-===== Horizontal Section Layout
-
-With the horizontal layout all input fields are displayed on a line, side by side in the order of their position. The attribute `columns` is ignored.
+Horizontal Section Layout:: With the horizontal layout all input fields are displayed on a line, side by side in the order of their position. The attribute `columns` is ignored.
 
 [[column-section-layout]]
-===== Column Section Layout
-
-With the column layout fields are displayed one below the other. If additionally a number of columns are defined with the property `columns`, a kind of grid layout is produced. The grid is filled in the order of the field's position from left to right, row by row. 
+Column Section Layout:: With the column layout fields are displayed one below the other. If additionally a number of columns are defined with the property `columns`, a kind of grid layout is produced. The grid is filled in the order of the field's position from left to right, row by row. 
 
 [[custom-section-layout]]
-===== Custom Section Layout
-
-Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v8/framework/layout/layout-customlayout.html[CustomLayout] from Vaadin.
-
+Custom Section Layout:: Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v8/framework/layout/layout-customlayout.html[CustomLayout] from Vaadin.
++
 All you have to do is to create a HTML file located in the `layouts` folder in your theme folder. The HTML file has to be named with the simple name of your PMO and use the file extension `.html`. Within this HTML file you use `<div location="...">` elements as placeholder for every component. Within the `location` attribute you use the PMO property name to reference the component as needed. If you also want to have the placeholder for the PMO defined label you simply use the PMO property name with the suffix `-label`. In the PMO there are no restrictions. The position will be ignored, as it is determined by the HTML template.
-
-In this sample there is a simple address input section.
-
++
+As an example, custom layout can be used to create a address input section where the fields "Street" and "Number" are shown in the same line with a predefined width, as well as the fields "Zip" and "City".
++
 image::{images}{images-folder-name}/custom_layout.png[Address section with custom layout,align="center"]
-
++
 The relevant code for the class declaration and a part of the field declarations are given in this code snippet.
-
++
 [source, java]
 ----
 include::{source-dir-custom}/org/linkki/samples/customlayout/pmo/AddressSectionPmo.java[tags=declaration]
 ...
 include::{source-dir-custom}/org/linkki/samples/customlayout/pmo/AddressSectionPmo.java[tags=methods]
 ----
-
++
 The corresponding part of the html file may looks like this. The used css classes are not part of the default stylesheet.
-
++
 [source, xml]
 ----
 include::{resource-dir-custom}/VAADIN/themes/valo/layouts/AddressSectionPmo.html[lines=45..56]
@@ -86,10 +142,10 @@ TIP: The same effect could previously be achieved by implementing the interface 
 
 Beside the section there are some simple Vaadin layouts that can be created with the corresponding annotations:
 
- * @UIHorizontalLayout
- * @UIVerticalLayout
- * @UIFormLayout
- * @UICssLayout
+ * `@UIHorizontalLayout`
+ * `@UIVerticalLayout`
+ * `@UIFormLayout`
+ * `@UICssLayout`
 
 Some of these annotations may have special parameters to configure the alignment of the contained components.
 

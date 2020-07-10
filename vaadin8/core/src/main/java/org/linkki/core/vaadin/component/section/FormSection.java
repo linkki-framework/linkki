@@ -15,6 +15,9 @@ package org.linkki.core.vaadin.component.section;
 
 import java.util.Optional;
 
+import org.linkki.core.ui.layout.annotation.SectionLayout;
+import org.linkki.core.ui.layout.annotation.UIFormSection;
+import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.util.UiUtil;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
@@ -25,6 +28,15 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 
+/**
+ * Creates a {@link GridLayout} based pseudo-form-layout with labels and components in neighboring
+ * columns. {@link FormSection} is used when a {@link UISection}'s {@link UISection#layout() layout} is
+ * set to {@link SectionLayout#COLUMN}
+ *
+ * @deprecated since 1.3.0 because {@link FormLayoutSection} created from {@link UIFormSection} is the
+ *             nicer layout.
+ */
+@Deprecated
 public class FormSection extends BaseSection {
 
     private static final long serialVersionUID = 1L;
@@ -34,7 +46,7 @@ public class FormSection extends BaseSection {
     private final int numberOfColumns;
 
     /**
-     * Creates a new section non-closable section with the given caption and 1 column.
+     * Creates a new non-closable section with the given caption and 1 column.
      */
     public FormSection(String caption) {
         this(caption, false);

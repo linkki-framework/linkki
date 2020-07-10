@@ -18,9 +18,15 @@ import java.time.LocalDate;
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
+import org.linkki.framework.ui.application.LinkkiUi;
+import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.samples.playground.ui.PlaygroundView;
+import org.linkki.samples.playground.ui.dialogs.DialogView;
 import org.linkki.util.Sequence;
+
+import com.vaadin.ui.MenuBar.MenuItem;
 
 /**
  * An {@link ApplicationConfig} using the default {@link ApplicationHeader application header} and
@@ -50,7 +56,21 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-        return Sequence.empty();
+        return Sequence.of(new ApplicationMenuItemDefinition("Start", 0) {
+
+            @Override
+            protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                return menu.addItem("Start",
+                                    e -> LinkkiUi.getCurrentNavigator().navigateTo(PlaygroundView.NAME));
+            }
+        }, new ApplicationMenuItemDefinition("Dialogs", 1) {
+
+            @Override
+            protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                return menu.addItem("Dialogs",
+                                    e -> LinkkiUi.getCurrentNavigator().navigateTo(DialogView.NAME));
+            }
+        });
     }
 
 }

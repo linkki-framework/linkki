@@ -29,7 +29,25 @@ import com.vaadin.ui.Label;
  */
 public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
 
-    DEFAULT;
+    /**
+     * The default uses {@link LabelComponentWrapper LabelComponentWrappers} for section content.
+     */
+    DEFAULT,
+
+    /**
+     * Uses {@link CaptionComponentWrapper CaptionComponentWrappers} for section content.
+     */
+    CAPTION_ONLY {
+        @Override
+        void addSectionComponent(Method method, BaseSection section, Object pmo, BindingContext bindingContext) {
+            CaptionComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
+                                                                        c -> new CaptionComponentWrapper((Component)c,
+                                                                                WrapperType.FIELD));
+
+            Component component = wrapper.getComponent();
+            section.add(component.getId(), new Label(), wrapper.getComponent());
+        }
+    };
 
     /**
      * {@inheritDoc}
@@ -83,7 +101,7 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
                 .forEach(method -> addSectionComponent(method, section, pmo, bindingContext));
     }
 
-    private void addSectionComponent(Method method, BaseSection section, Object pmo, BindingContext bindingContext) {
+    void addSectionComponent(Method method, BaseSection section, Object pmo, BindingContext bindingContext) {
         Label label = new Label();
         LabelComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
                                                                   c -> new LabelComponentWrapper(label,
