@@ -15,14 +15,11 @@
 package org.linkki.samples.playground.ui.dialogs;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
-import org.linkki.core.uicreation.UiCreator;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
@@ -34,14 +31,11 @@ public class DialogsLayout extends VerticalLayout implements SidebarSheetDefinit
     public DialogsLayout() {
         super();
         setMargin(true);
-
         addComponent(new Label(
                 "The dialogs are created in a different view to test the behavior of dialogs upon view change."));
 
-        UiCreator.createUiElements(new DialogButtonsPmo(), new BindingContext(getClass().getName()),
-                                   c -> new CaptionComponentWrapper((Component)c, WrapperType.FIELD))
-                .map(CaptionComponentWrapper::getComponent)
-                .forEach(this::addComponent);
+        addComponent(VaadinUiCreator.createComponent(new OkCancelDialogPmo(),
+                                                     new BindingContext(getClass().getName())));
     }
 
     @Override

@@ -43,7 +43,6 @@ import com.vaadin.testbench.elements.RadioButtonGroupElement;
 import com.vaadin.testbench.elements.TextAreaElement;
 import com.vaadin.testbench.elements.TextFieldElement;
 import com.vaadin.testbench.elements.VerticalLayoutElement;
-import com.vaadin.testbench.elements.WindowElement;
 
 public class AllUiElementsTest extends AbstractUiTest {
 
@@ -276,21 +275,4 @@ public class AllUiElementsTest extends AbstractUiTest {
         valueComboBox = $(ComboBoxElement.class).id(DynamicFieldPmo.PROPERTY_VALUE);
         assertThat(valueComboBox.getValue(), is("foobar"));
     }
-
-    @Test
-    public void testOkCancelDialog() {
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id("OkCancelDialogPmo");
-
-        section.$(TextFieldElement.class).id("caption").setValue("Awesome dialog");
-        section.$(TextFieldElement.class).id("content").setValue("This is awesome!");
-        section.$(TextFieldElement.class).id("okCaption").setValue("Hell yeah");
-        section.$(TextFieldElement.class).id("cancelCaption").setValue("Not really");
-        section.$(ButtonElement.class).id("showDialog").click();
-
-        WindowElement dialog = $(WindowElement.class).caption("Awesome dialog").first();
-        assertThat(dialog.$(LabelElement.class).first().getText(), is("This is awesome!"));
-        assertThat(dialog.$(ButtonElement.class).id("okButton").getCaption(), is("Hell yeah"));
-        assertThat(dialog.$(ButtonElement.class).id("cancelButton").getCaption(), is("Not really"));
-    }
-
 }

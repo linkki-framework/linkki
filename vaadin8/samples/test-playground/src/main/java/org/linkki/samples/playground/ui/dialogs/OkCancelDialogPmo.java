@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.allelements;
+package org.linkki.samples.playground.ui.dialogs;
 
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UITextField;
