@@ -37,6 +37,11 @@ public class LinkkiTheme {
     public static final String COMPONENTWRAPPER_LABEL = "linkki-label-caption";
 
     /**
+     * Marks labels of label component wrappers to show a required indicator.
+     */
+    public static final String REQUIRED_LABEL_COMPONENT_WRAPPER = "linkki-required";
+
+    /**
      * Style for components that should be rendered without a border, for example components in tables
      */
     public static final String BORDERLESS = "borderless";

@@ -299,11 +299,11 @@ $linkki-caption-alignment: right !default;
   } //end-linkki-section-caption
 
   /*
-  * Captions
+  * Section Captions
   */
-  .v-formlayout .v-caption {
+  .linkki-section .v-formlayout .v-caption {
     width: $linkki-caption-width;
-    @if($linkki-caption-alignment){
+    @if($linkki-caption-alignment == right){
         text-align: right;
     }
     white-space: normal;
@@ -313,9 +313,29 @@ $linkki-caption-alignment: right !default;
   .linkki-label-caption {
     font-size: $v-caption-font-size;
     font-weight: $v-caption-font-weight;
-    @if($linkki-caption-alignment){
+    @if($linkki-caption-alignment == right){
         right: 0;
     }
+    // additional space to compensate paddings of the required indicator
+    margin-right: 2 * .2em;
+  }
+
+  .linkki-label-caption.linkki-required:after {
+    content: '*';
+    position: absolute;
+    color: $v-required-field-indicator-color;
+    // mimics the required indicator of form layout
+    padding: 0 .2em;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  .v-caption-linkki-required > .v-required-field-indicator{
+    display: none;
+    padding: 0;
   }
 
   .linkki-section .v-formlayout .v-required-field-indicator {
@@ -326,4 +346,5 @@ $linkki-caption-alignment: right !default;
     @include valo-button-borderless-style;
     height: unset;
   }
+
 }

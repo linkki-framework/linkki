@@ -40,11 +40,6 @@ Both annotations share the attribute to controll the content of the <<section-he
 * `@UISection` can be used to create a `TableSection` if the PMO class is a  <<ui-container-pmo, Container PMO>>. `@UIFormSection` does not have this functionality.
 * `@UISection` has <<layout-uisection, multiple layout options>> including a multi column layout, `@UIFormSection` only offers single column. 
 * In `@UISections`, the labels are as long as the longest label. Thus, the input elements are only aligned inside one section. In a `@UIFormSection`, the labels have a fixed width by default. This makes sure that the input fields in multiple `@UIFormSections` on a page are aligned across the page. 
-* In a `@UISection`, the required indicator is shown on the right of the input field. In a `@UIFormSection`, the required indicator is shown on the right of the label.
-+
-image::{images}{images-folder-name}/uisection-required.png[Required indicator in @UISection,align="center"]
-+
-image::{images}{images-folder-name}/uiformsection-required.png[Required indicator in an @UIFormSection,align="center"]
 
 [[formsection-label-width]]
 ===== Label width in @UIFormSection

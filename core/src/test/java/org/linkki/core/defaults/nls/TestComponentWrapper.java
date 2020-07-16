@@ -77,5 +77,4 @@ public class TestComponentWrapper implements ComponentWrapper {
     public static TestComponentWrapper with(Binding binding) {
         return new TestComponentWrapper((TestUiComponent)binding.getBoundComponent());
     }
-
 }

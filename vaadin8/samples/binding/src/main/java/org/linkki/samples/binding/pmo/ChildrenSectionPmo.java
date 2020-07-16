@@ -75,19 +75,43 @@ public class ChildrenSectionPmo {
         return contact.getChildren().size() > 1;
     }
 
-    @UITextField(position = 30, label = "Firstname", modelAttribute = ChildInfo.PROPERTY_FIRSTNAME)
+    @UITextField(position = 30, label = "Firstname", modelAttribute = ChildInfo.PROPERTY_FIRSTNAME, visible = VisibleType.DYNAMIC)
     public String getFirstname() {
         return child != null ? child.getFirstname() : "";
     }
 
-    @UITextField(position = 40, label = "Lastname", modelAttribute = ChildInfo.PROPERTY_LASTNAME)
+    public void setFirstname(String firstname) {
+        child.setFirstname(firstname);
+    }
+
+    public boolean isFirstnameVisible() {
+        return child != null;
+    }
+
+    @UITextField(position = 40, label = "Lastname", modelAttribute = ChildInfo.PROPERTY_LASTNAME, visible = VisibleType.DYNAMIC)
     public String getLastname() {
         return child != null ? child.getLastname() : "";
     }
 
-    @UITextArea(position = 50, label = "Note", modelAttribute = ChildInfo.PROPERTY_NOTE)
+    public void setLastname(String lastname) {
+        child.setLastname(lastname);
+    }
+
+    public boolean isLastnameVisible() {
+        return child != null;
+    }
+
+    @UITextArea(position = 50, label = "Note", modelAttribute = ChildInfo.PROPERTY_NOTE, visible = VisibleType.DYNAMIC)
     public String getNote() {
         return child != null ? child.getNote() : "";
+    }
+
+    public void setNote(String note) {
+        child.setNote(note);
+    }
+
+    public boolean isNoteVisible() {
+        return child != null;
     }
 
     @UIButton(position = 60, showIcon = true, icon = VaadinIcons.TRASH, visible = VisibleType.DYNAMIC)

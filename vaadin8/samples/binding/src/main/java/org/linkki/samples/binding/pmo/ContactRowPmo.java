@@ -84,7 +84,7 @@ public class ContactRowPmo {
     // tag::contactRowPmo-buttonBinding[]
     @UITableColumn(width = 50)
     @BindTooltip("Edit")
-    @UIButton(position = 30, icon = VaadinIcons.EDIT, showIcon = true)
+    @UIButton(position = 30, icon = VaadinIcons.EDIT, showIcon = true, caption = "")
     public void edit() {
         editAction.accept(contact);
     }
@@ -92,7 +92,7 @@ public class ContactRowPmo {
 
     @UITableColumn(width = 50)
     @BindTooltip("Delete")
-    @UIButton(position = 40, icon = VaadinIcons.TRASH, showIcon = true)
+    @UIButton(position = 40, icon = VaadinIcons.TRASH, showIcon = true, caption = "")
     public void delete() {
         deleteAction.accept(contact);
     }
