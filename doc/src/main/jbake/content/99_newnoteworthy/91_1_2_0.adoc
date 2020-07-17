@@ -25,11 +25,15 @@ was not specified explicitly but it is recommended to make it explicit.
 The `UiUpdateObserver` in `SidebarSheet` is still the recommended way to trigger an update when the sheet gets selected. This way it remains self-contained (the layout does not need to know how to update the sheet). To make the instantiation more flexible, the `UiUpdateObserver` could now be specified after constructor using a setter.
 
 [role="api-change"]
-==== ComponentWrapper Now Stores Reference to Binding
+==== Bindings are held in WeakReferences
 
-The new method `ComponentWrapper.registerBinding(Binding binding)` creates a strong reference from a component to their `Binding`.
-The `BindingContext` is therefore able to keep only weak references to all `Bindings`.
-Likewise, the method `BindingContext.add(Binding binding)` has been deprecated and replaced with the new signature `BindingContext.add(Binding binding, ComponentWrapper componentWrapper)`.
+`Bindings` used to be removed only when explicitly calling `BindingContext#removeBindings...`, or in case of tables, when a `DetachEvent` was received. The downside was that bindings were either not removed properly which led to a potential memory leak, or in case of tables they might get removed but added again when vaadin recycled a component and re-attached a previously detached one. This was causing duplicated listeners.
+
+With *linkki* 1.2 the `BindingContext` only holds weak references to `Bindings` while there is only one hard reference from the `Component` to the `Binding`. This allows the GC to effectively clean up any unused Components _together with their `Bindings`_.
+
+The new method `ComponentWrapper#registerBinding(Binding)` creates the hard reference from a component to their `Binding`. The method `BindingContext#add(Binding)` has therefore been deprecated and replaced with the new signature `BindingContext#add(Binding, ComponentWrapper)`.
+
+IMPORTANT: The new behavior also has a critical disadvantage: In tables, the binding was removed immediately with the component's detach event. Accordingly, there was no call of a `RowPmo` after a row was removed in a table. The weak reference on the other hand may be removed later by the garbage collector. This might be problematic in cases where the `RowPmo` relies on a model object, which is part of a composition and was removed from the table by removing the model object from its composition. After removing, the model object might have no parent object any more, which causes a `NullPointerException` in case the parent object is accessed without null checks.
 
 ==== New Widgetset Allows Flexible Date Entry
 
