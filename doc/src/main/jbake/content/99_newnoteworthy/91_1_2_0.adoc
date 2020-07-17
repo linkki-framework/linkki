@@ -27,9 +27,13 @@ The `UiUpdateObserver` in `SidebarSheet` is still the recommended way to trigger
 [role="api-change"]
 ==== ComponentWrapper Now Stores Reference to Binding
 
-The new method `ComponentWrapper.registerBinding(Binding binding)` creates a strong reference from a component to their `Binding`.
-The `BindingContext` is therefore able to keep only weak references to all `Bindings`.
-Likewise, the method `BindingContext.add(Binding binding)` has been deprecated and replaced with the new signature `BindingContext.add(Binding binding, ComponentWrapper componentWrapper)`.
+`Bindings` used to be removed explicitly when a `DetachEvent` was received. However it was possible to remove or disable components without the _detachListener_ triggering, leading to multiple `Bindings` for the same components or "dead" components hanging around, because their `Bindings` were still referenced within the `BindingContext`.
+
+The new method `ComponentWrapper#registerBinding(Binding)` creates a strong reference from a component to their `Binding`, enabling the `BindingContext` to keep only weak references to all `Bindings`. This allows the GC to effectively clean up any unused Components _together with their `Bindings`_.
+
+The method `BindingContext#add(Binding)` has therefore been deprecated and replaced with the new signature `BindingContext#add(Binding, ComponentWrapper)`.
+
+Be aware that this change may lead to `NullPointerExceptions` in your code if you were accessing model objects in dynamically changing components like tables. This is because unused `Bindings` and their components will be removed more frequently and reliably than before. These exceptions should be easily fixed by null-checks when accessing referenced model-objects.
 
 ==== New Widgetset Allows Flexible Date Entry
 
