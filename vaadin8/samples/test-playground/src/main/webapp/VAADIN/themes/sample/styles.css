@@ -15688,8 +15688,19 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .sample .linkki-section .v-formlayout .v-caption {
-	width: 9em;
 	text-align: right;
+	width: 100%;
+	line-height: initial;
+}
+
+.sample .linkki-label-fixed .linkki-section .v-formlayout .v-caption {
+	width: 9em;
+	white-space: normal;
+	word-wrap: break-word;
+}
+
+.sample .linkki-label-fixed-long .linkki-section .v-formlayout .v-caption {
+	width: 12em;
 	white-space: normal;
 	word-wrap: break-word;
 }

@@ -15,7 +15,7 @@
 package org.linkki.samples.playground.ui;
 
 import org.linkki.framework.ui.component.sidebar.SidebarLayout;
-import org.linkki.samples.playground.allelements.AllUiElementsPage;
+import org.linkki.samples.playground.allelements.AllUiElementsTabsheetArea;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.incubator.IncubatorPage;
@@ -34,7 +34,7 @@ public class PlaygroundView extends SidebarLayout implements View {
     private static final long serialVersionUID = 1L;
 
     public PlaygroundView() {
-        addSidebarSheet(new AllUiElementsPage());
+        addSidebarSheet(new AllUiElementsTabsheetArea());
         addSidebarSheet(new DynamicAnnotationsLayout());
         addSidebarSheet(new BugCollectionLayout());
         addSidebarSheet(new TablePage());

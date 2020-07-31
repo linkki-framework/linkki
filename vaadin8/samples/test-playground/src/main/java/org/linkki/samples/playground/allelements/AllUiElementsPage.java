@@ -23,14 +23,8 @@ import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiFormSectionPmo;
 import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiSectionPmo;
-import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.Resource;
-
-public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefinition {
-
-    public static final String ID = "all";
+public class AllUiElementsPage extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
@@ -73,20 +67,4 @@ public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefin
     protected BindingContext getBindingContext() {
         return bindingContext;
     }
-
-    @Override
-    public String getSidebarSheetName() {
-        return "All @UI Elements";
-    }
-
-    @Override
-    public Resource getSidebarSheetIcon() {
-        return VaadinIcons.LIST;
-    }
-
-    @Override
-    public String getSidebarSheetId() {
-        return ID;
-    }
-
 }
