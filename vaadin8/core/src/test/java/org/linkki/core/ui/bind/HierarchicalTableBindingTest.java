@@ -18,7 +18,6 @@ import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -97,7 +96,6 @@ public class HierarchicalTableBindingTest {
         Collection<AbstractCodeRow> itemIds = (Collection<AbstractCodeRow>)table.getItemIds();
         assertThat(itemIds, contains(rowA, rowAa, rowAa1, rowAa2, rowAb, rowB));
         assertThat(itemIds, contains(pmosFor("A", "a", 1, 2, "b", "B")));
-        verifyNoMoreInteractions(listener);
     }
 
     @Test

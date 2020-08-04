@@ -6,6 +6,12 @@
 :images-folder-name: 01_newnoteworthy
 :source-dir: ../../../../../vaadin8/samples/binding/src/main/java
 
+=== 1.2.1
+
+==== Bugfixes
+
+* Adding the first child to a row in a HierarchicalTable does not create a triangle to open the row
+
 === 1.2.0
 
 ==== Buttons and Arbitrary UI Elements in Section Headers
