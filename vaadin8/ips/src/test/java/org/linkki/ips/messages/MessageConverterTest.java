@@ -9,9 +9,9 @@ package org.linkki.ips.messages;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -22,8 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.ips.messages.MessageConverter;
-import org.linkki.ips.messages.ValidationMarkerWrapper;
 import org.linkki.util.validation.ValidationMarker;
 
 public class MessageConverterTest {

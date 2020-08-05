@@ -15692,6 +15692,7 @@ div.v-layout.v-horizontal.v-widget {
 	width: 9em;
 	text-align: right;
 	white-space: normal;
+	word-wrap: break-word;
 }
 
 .sample .linkki-label-caption {

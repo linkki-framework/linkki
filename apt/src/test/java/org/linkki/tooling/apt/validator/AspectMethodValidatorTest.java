@@ -27,8 +27,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
-import org.linkki.tooling.apt.validator.AspectMethodValidator;
-import org.linkki.tooling.apt.validator.Messages;
 
 public class AspectMethodValidatorTest extends BaseAnnotationProcessorTest {
 

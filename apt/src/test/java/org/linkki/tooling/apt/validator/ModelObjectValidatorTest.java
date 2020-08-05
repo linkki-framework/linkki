@@ -29,7 +29,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.compiler.SourceFile;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
-import org.linkki.tooling.apt.validator.ModelObjectValidator;
 import org.linkki.util.Optionals;
 
 public class ModelObjectValidatorTest extends BaseAnnotationProcessorTest {

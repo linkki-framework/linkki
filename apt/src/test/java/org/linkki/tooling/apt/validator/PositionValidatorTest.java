@@ -25,8 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
-import org.linkki.tooling.apt.validator.Messages;
-import org.linkki.tooling.apt.validator.PositionValidator;
 
 public class PositionValidatorTest extends BaseAnnotationProcessorTest {
 

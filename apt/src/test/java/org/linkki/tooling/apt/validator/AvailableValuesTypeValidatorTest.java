@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
-import org.linkki.tooling.apt.validator.AvailableValuesTypeValidator;
 
 public class AvailableValuesTypeValidatorTest extends BaseAnnotationProcessorTest {
 

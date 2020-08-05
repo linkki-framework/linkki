@@ -13,17 +13,16 @@
  */
 package org.linkki.core.nls;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.nls.sample.NlsTablePmo;
 import org.linkki.core.nls.sample.NlsTableRowPmo;
 import org.linkki.core.nls.sample.NoNlsTablePmo;
@@ -38,9 +37,9 @@ public class PmoNlsServiceTableSectionTest {
 
     private BindingContext bindingContext = new BindingContext();
 
-    
+
     private String translatedLabel;
-    
+
     private String translatedCaption;
 
     @BeforeEach

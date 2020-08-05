@@ -22,8 +22,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -69,7 +69,7 @@ public class PmoBasedTableFactoryTest {
         bindingContext.modelChanged();
 
         assertThat(table.getPageLength(), is(25));
-        verifyZeroInteractions(itemSetChangedListener);
+        verifyNoInteractions(itemSetChangedListener);
     }
 
     @Test

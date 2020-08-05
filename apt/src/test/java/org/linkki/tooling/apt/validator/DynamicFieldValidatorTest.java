@@ -26,8 +26,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
-import org.linkki.tooling.apt.validator.DynamicFieldValidator;
-import org.linkki.tooling.apt.validator.Messages;
 
 public class DynamicFieldValidatorTest extends BaseAnnotationProcessorTest {
 

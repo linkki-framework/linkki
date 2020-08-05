@@ -27,7 +27,6 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 
-import org.linkki.tooling.apt.model.AptPmo;
 import org.linkki.tooling.apt.util.ElementUtils;
 import org.linkki.tooling.apt.util.ModelBuilder;
 
