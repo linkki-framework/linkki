@@ -61,7 +61,8 @@ public class LabelComponentWrapper extends VaadinComponentWrapper {
 
     private void updateRequiredIndicator(Label existingLabel) {
         if (getComponent() instanceof HasValue) {
-            if (((HasValue<?>)getComponent()).isRequiredIndicatorVisible()) {
+            if (((HasValue<?>)getComponent()).isRequiredIndicatorVisible()
+                    && !((HasValue<?>)getComponent()).isReadOnly()) {
                 existingLabel.addStyleName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
                 getComponent().addStyleName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
             } else {

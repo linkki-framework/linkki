@@ -14,6 +14,9 @@
 
 package org.linkki.core.ui.wrapper;
 
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -33,6 +36,7 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
@@ -148,5 +152,36 @@ public class LabelComponentWrapperTest {
         verify(component).setDescription("&lt;script&gt;", ContentMode.HTML);
         wrapper.setTooltip("<div>");
         verify(component).setDescription("<div>", ContentMode.HTML);
+    }
+
+    @Test
+    public void testPostUpdate_AddsRequiredIndicatorToLabelIfFieldIsRequired() {
+        LabelComponentWrapper wrapper = new LabelComponentWrapper(label, field);
+        field.setRequiredIndicatorVisible(true);
+
+        wrapper.postUpdate();
+
+        assertThat(label.getStyleName(), containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER));
+    }
+
+    @Test
+    public void testPostUpdate_DoesNotAddRequiredIndicatorToLabelIfFieldIsNotRequired() {
+        LabelComponentWrapper wrapper = new LabelComponentWrapper(label, field);
+        field.setRequiredIndicatorVisible(false);
+
+        wrapper.postUpdate();
+
+        assertThat(label.getStyleName(), not(containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER)));
+    }
+
+    @Test
+    public void testPostUpdate_DoesNotAddRequiredIndicatorToLabelIfFieldIsReadOnly() {
+        LabelComponentWrapper wrapper = new LabelComponentWrapper(label, field);
+        field.setRequiredIndicatorVisible(true);
+        field.setReadOnly(true);
+
+        wrapper.postUpdate();
+
+        assertThat(label.getStyleName(), not(containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER)));
     }
 }

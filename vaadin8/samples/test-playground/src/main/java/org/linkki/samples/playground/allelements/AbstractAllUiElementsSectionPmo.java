@@ -17,6 +17,8 @@ package org.linkki.samples.playground.allelements;
 import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.annotation.BindReadOnly;
+import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
@@ -42,11 +44,14 @@ public abstract class AbstractAllUiElementsSectionPmo {
 
     private final AllUiElementsModelObject modelObject = new AllUiElementsModelObject();
 
+    private boolean readOnly;
+
     @ModelObject
     public AllUiElementsModelObject getModelObject() {
         return modelObject;
     }
 
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UITextField(position = 10, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_TEXT, required = RequiredType.DYNAMIC)
     public void text() {
         // model binding
@@ -56,6 +61,11 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return getModelObject().isBooleanValue();
     }
 
+    public boolean isTextReadOnly() {
+        return isReadOnly();
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UITextArea(position = 20, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_LONGTEXT, required = RequiredType.DYNAMIC)
     public void longText() {
         // model binding
@@ -65,6 +75,11 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return getModelObject().isBooleanValue();
     }
 
+    public boolean isLongTextReadOnly() {
+        return isReadOnly();
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIIntegerField(position = 30, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_INTVALUE, required = RequiredType.DYNAMIC)
     public void intValue() {
         // model binding
@@ -74,6 +89,11 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return getModelObject().isBooleanValue();
     }
 
+    public boolean isIntValueReadOnly() {
+        return isReadOnly();
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIDoubleField(position = 40, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DOUBLEVALUE, required = RequiredType.DYNAMIC)
     public void doubleValue() {
         // model binding
@@ -83,6 +103,11 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return getModelObject().isBooleanValue();
     }
 
+    public boolean isDoubleValueReadOnly() {
+        return isReadOnly();
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIDateField(position = 50, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DATE, required = RequiredType.DYNAMIC)
     public void date() {
         // model binding
@@ -92,6 +117,11 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return getModelObject().isBooleanValue();
     }
 
+    public boolean isDateReadOnly() {
+        return isReadOnly();
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIComboBox(position = 60, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE, required = RequiredType.DYNAMIC)
     public void enumValueComboBox() {
         // model binding
@@ -101,6 +131,11 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return getModelObject().isBooleanValue();
     }
 
+    public boolean isEnumValueComboBoxReadOnly() {
+        return isReadOnly();
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UICheckBox(position = 70, caption = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_BOOLEANVALUE, required = RequiredType.DYNAMIC)
     public void booleanValue() {
         // model binding
@@ -110,19 +145,24 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return getModelObject().isBooleanValue();
     }
 
+    public boolean isBooleanValueReadOnly() {
+        return isReadOnly();
+    }
+
     @UILabel(position = 80, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET)
     public void textLabel() {
         // model binding
     }
 
     /**
-     * No label in Nls to test default behavior of label label
+     * No label in Nls to test default behavior of no label
      */
     @UILabel(position = 81, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_BIG_DECIMAL)
     public void bigDecimalLabel() {
         // model binding
     }
 
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UICustomField(position = 90, label = NlsText.I18n, uiControl = PasswordField.class, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, required = RequiredType.DYNAMIC)
     public void secret() {
         // model binding
@@ -132,11 +172,16 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return getModelObject().isBooleanValue();
     }
 
+    public boolean isSecretReadOnly() {
+        return isReadOnly();
+    }
+
     @UIButton(position = 100, caption = NlsText.I18n)
     public void action() {
         getModelObject().setIntValue(getModelObject().getIntValue() + 1);
     }
 
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIDecimalField(position = 110, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DECIMALVALUE, required = RequiredType.DYNAMIC)
     public void decimalValue() {
         // model binding
@@ -146,6 +191,11 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return getModelObject().isBooleanValue();
     }
 
+    public boolean isDecimalValueReadOnly() {
+        return isReadOnly();
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIRadioButtons(position = 120, label = NlsText.I18n, buttonAlignment = AlignmentType.HORIZONTAL, modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE, required = RequiredType.DYNAMIC)
     public void enumValueRadioButton() {
         // model binding
@@ -153,6 +203,19 @@ public abstract class AbstractAllUiElementsSectionPmo {
 
     public boolean isEnumValueRadioButtonRequired() {
         return getModelObject().isBooleanValue();
+    }
+
+    public boolean isEnumValueRadioButtonReadOnly() {
+        return isReadOnly();
+    }
+
+    @UICheckBox(position = 130, caption = NlsText.I18n)
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 
     @UISection(caption = NlsText.I18n)
