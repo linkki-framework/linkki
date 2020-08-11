@@ -46,7 +46,7 @@ public class CaptionComponentWrapper extends VaadinComponentWrapper {
      * 
      * @implNote Vaadin distinguishes between no caption (caption is {@code null}) and an empty caption.
      *           In second case, some space is reserved for a caption but no text is displayed. In
-     *           annnotations we cannot set the {@code null} value hence we cannot distinguish between
+     *           annotations we cannot set the {@code null} value hence we cannot distinguish between
      *           {@code null} and empty string. That's why this implementation treats the empty string
      *           as no caption and will set {@code null} as the vaadin caption.
      */

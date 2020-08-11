@@ -19,8 +19,8 @@ import java.util.Optional;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.style.LinkkiTheme;
-import org.linkki.util.HtmlSanitizer;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
@@ -50,33 +50,33 @@ public class LabelComponentWrapper extends VaadinComponentWrapper {
     }
 
     @Override
+    public void postUpdate() {
+        getLabelComponent().ifPresent(l -> {
+            l.setEnabled(getComponent().isEnabled());
+            l.setVisible(getComponent().isVisible());
+            l.setDescription(getComponent().getDescription());
+            updateRequiredIndicator(l);
+        });
+    }
+
+    private void updateRequiredIndicator(Label existingLabel) {
+        if (getComponent() instanceof HasValue) {
+            if (((HasValue<?>)getComponent()).isRequiredIndicatorVisible()
+                    && !((HasValue<?>)getComponent()).isReadOnly()) {
+                existingLabel.addStyleName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
+                getComponent().addStyleName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
+            } else {
+                existingLabel.removeStyleName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
+                getComponent().removeStyleName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
+            }
+        }
+    }
+
+    @Override
     public void setLabel(String labelText) {
         if (label != null) {
             label.setValue(labelText);
         }
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        if (label != null) {
-            label.setEnabled(enabled);
-        }
-        super.setEnabled(enabled);
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-        if (label != null) {
-            label.setVisible(visible);
-        }
-        super.setVisible(visible);
-    }
-
-    @Override
-    public void setTooltip(String text) {
-        String tooltip = HtmlSanitizer.sanitize(text);
-        getLabelComponent().ifPresent(l -> l.setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML));
-        super.setTooltip(text);
     }
 
     public Optional<Label> getLabelComponent() {

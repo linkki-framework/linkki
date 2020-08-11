@@ -14,11 +14,12 @@
 
 package org.linkki.samples.playground.uitest;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.allelements.AllUiElementsSectionPmo;
+import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo;
+import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiSectionPmo;
 
 import com.vaadin.testbench.elements.VerticalLayoutElement;
 
@@ -29,10 +30,10 @@ public class BindStyleNamesTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDynamicSectionCaption() {
-        VerticalLayoutElement allElements = getSection(AllUiElementsSectionPmo.class);
+    public void testDynamicSectionStyleNames() {
+        VerticalLayoutElement allElements = getSection(AllUiElementsUiSectionPmo.class);
 
-        assertThat(allElements.hasClassName(AllUiElementsSectionPmo.CSS_NAME), is(true));
+        assertThat(allElements.hasClassName(AbstractAllUiElementsSectionPmo.CSS_NAME), is(true));
     }
 
 }

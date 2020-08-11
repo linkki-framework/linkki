@@ -1,4 +1,4 @@
-$v-shadow: false !default;
+$v-shadow: false;
 
 @import "linkki.scss";
 @import "../valo/valo.scss";
@@ -30,5 +30,4 @@ $v-shadow: false !default;
     background-color: #009fe3;
     color: white;
   }
-    
 }

@@ -76,6 +76,7 @@ public class ElementBinding implements Binding {
     public void updateFromPmo() {
         try {
             aspectUpdaters.updateUI();
+            componentWrapper.postUpdate();
             // CSOFF: IllegalCatch
         } catch (RuntimeException e) {
             throw new LinkkiBindingException(

@@ -35,6 +35,13 @@ public class LinkkiTheme {
 
     /** Style for the label part of a wrapped component */
     public static final String COMPONENTWRAPPER_LABEL = "linkki-label-caption";
+    public static final String LABEL_FIXED_WIDTH = "linkki-label-fixed-width";
+    public static final String LABEL_FIXED_WIDTH_LONG = "linkki-label-fixed-width-long";
+
+    /**
+     * Marks labels of label component wrappers to show a required indicator.
+     */
+    public static final String REQUIRED_LABEL_COMPONENT_WRAPPER = "linkki-required";
 
     /**
      * Style for components that should be rendered without a border, for example components in tables

@@ -15688,9 +15688,20 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: bold;
 }
 
-.sample .v-formlayout .v-caption {
-	width: 9em;
+.sample .linkki-section .v-formlayout .v-caption {
 	text-align: right;
+	width: 100%;
+	line-height: initial;
+}
+
+.sample .linkki-label-fixed-width .linkki-section .v-formlayout .v-caption {
+	width: 9em;
+	white-space: normal;
+	word-wrap: break-word;
+}
+
+.sample .linkki-label-fixed-width-long .linkki-section .v-formlayout .v-caption {
+	width: 12em;
 	white-space: normal;
 	word-wrap: break-word;
 }
@@ -15699,6 +15710,24 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 16px;
 	font-weight: 300;
 	right: 0;
+	margin-right: 0.4em;
+}
+
+.sample .linkki-label-caption.linkki-required:after {
+	content: "*";
+	position: absolute;
+	color: #ed473b;
+	padding: 0 0.2em;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.sample .v-caption-linkki-required > .v-required-field-indicator {
+	display: none;
+	padding: 0;
 }
 
 .sample .linkki-section .v-formlayout .v-required-field-indicator {

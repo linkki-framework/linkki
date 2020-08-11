@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.allelements.AllUiElementsPage;
+import org.linkki.samples.playground.allelements.AllUiElementsTabsheetArea;
 import org.linkki.samples.playground.table.PlaygroundTablePmo;
 import org.linkki.samples.playground.table.TablePage;
 
@@ -48,7 +48,7 @@ public class TableValidationMarkerTest extends AbstractUiTest {
 
         assertThat(textField.getClassNames(), hasItem("v-textfield-error"));
 
-        clickButton(AllUiElementsPage.ID);
+        clickButton(AllUiElementsTabsheetArea.ID);
         clickButton(TablePage.ID);
 
         table = $(com.vaadin.testbench.elements.TableElement.class)

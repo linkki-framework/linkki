@@ -124,4 +124,13 @@ public interface ComponentWrapper extends Serializable {
         throw new NotImplementedException("Should be implemented when used with BindingContext");
     }
 
+    /**
+     * Called by the binding after the component is updated.
+     * 
+     * @implSpec The default implementation does not do anything.
+     */
+    default void postUpdate() {
+        // nothing to be done
+    }
+
 }

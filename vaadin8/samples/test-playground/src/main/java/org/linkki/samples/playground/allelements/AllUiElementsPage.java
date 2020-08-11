@@ -14,27 +14,23 @@
 
 package org.linkki.samples.playground.allelements;
 
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.samples.playground.ui.SidebarSheetDefinition;
+import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiFormSectionPmo;
+import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiSectionPmo;
 
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.Resource;
-
-public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefinition {
-
-    public static final String ID = "all";
+public class AllUiElementsPage extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
-    private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
+    private final BindingContext bindingContext = new BindingContext(getClass().getName());
 
     private DynamicFieldPmo dynamicFieldPmo;
-
     private AbstractSection dynamicFieldSection;
 
     public AllUiElementsPage() {
@@ -43,12 +39,12 @@ public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefin
 
     @Override
     public final void createContent() {
-        addSection(new AllUiElementsSectionPmo());
+        addSection(new AllUiElementsUiSectionPmo());
+        addSection(new AllUiElementsUiFormSectionPmo());
         add(VaadinUiCreator.createComponent(new HorizontalLayoutPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new VerticalLayoutPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new FormLayoutPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new CssLayoutPmo(), getBindingContext()));
-        add(VaadinUiCreator.createComponent(new FormSectionPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new SectionHeaderPmo(), getBindingContext()));
 
         dynamicFieldPmo = new DynamicFieldPmo(() -> {
@@ -58,24 +54,17 @@ public class AllUiElementsPage extends AbstractPage implements SidebarSheetDefin
         dynamicFieldSection = addSection(dynamicFieldPmo);
     }
 
+    /**
+     * Ignored by {@link #getBindingContext()} to make sure that everything works without a
+     * {@link BindingManager}.
+     */
     @Override
     protected BindingManager getBindingManager() {
-        return bindingManager;
+        return new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
     }
 
     @Override
-    public String getSidebarSheetName() {
-        return "All @UI Elements";
+    protected BindingContext getBindingContext() {
+        return bindingContext;
     }
-
-    @Override
-    public Resource getSidebarSheetIcon() {
-        return VaadinIcons.LIST;
-    }
-
-    @Override
-    public String getSidebarSheetId() {
-        return ID;
-    }
-
 }

@@ -28,8 +28,9 @@ $linkki-color-info: #3aaadc !default;
 
 $linkki-border: $v-border !default;
 $linkki-sidebar-width: 56px !default;
-$linkki-caption-width: 9em !default;
-$linkki-caption-alignment: right !default;
+$linkki-label-fixed-width: 9em !default;
+$linkki-label-fixed-width-long: 12em !default;
+$linkki-label-alignment: right !default;
 
 /* Returns predefined foreground color depending on the darkness of the given background color. 
 * To automatically calculate a foreground color with enough constrast use valo-font-color instead
@@ -299,13 +300,24 @@ $linkki-caption-alignment: right !default;
   } //end-linkki-section-caption
 
   /*
-  * Captions
+  * Section Captions
   */
-  .v-formlayout .v-caption {
-    width: $linkki-caption-width;
-    @if($linkki-caption-alignment){
-        text-align: right;
+  .linkki-section .v-formlayout .v-caption {
+    @if($linkki-label-alignment == right){
+      text-align: right;
+      width: 100%;
     }
+    line-height: initial;
+  }
+
+  .linkki-label-fixed-width .linkki-section .v-formlayout .v-caption{
+    width: $linkki-label-fixed-width;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+    
+  .linkki-label-fixed-width-long .linkki-section .v-formlayout .v-caption {
+    width: $linkki-label-fixed-width-long;
     white-space: normal;
     word-wrap: break-word;
   }
@@ -313,9 +325,29 @@ $linkki-caption-alignment: right !default;
   .linkki-label-caption {
     font-size: $v-caption-font-size;
     font-weight: $v-caption-font-weight;
-    @if($linkki-caption-alignment){
+    @if($linkki-label-alignment == right){
         right: 0;
     }
+    // additional space to compensate paddings of the required indicator
+    margin-right: 2 * .2em;
+  }
+
+  .linkki-label-caption.linkki-required:after {
+    content: '*';
+    position: absolute;
+    color: $v-required-field-indicator-color;
+    // mimics the required indicator of form layout
+    padding: 0 .2em;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  .v-caption-linkki-required > .v-required-field-indicator{
+    display: none;
+    padding: 0;
   }
 
   .linkki-section .v-formlayout .v-required-field-indicator {
@@ -326,4 +358,5 @@ $linkki-caption-alignment: right !default;
     @include valo-button-borderless-style;
     height: unset;
   }
+
 }

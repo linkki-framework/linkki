@@ -26,6 +26,7 @@ public class TestUiComponent {
     private String id;
     private boolean visible;
     private boolean enabled;
+    private boolean required;
     @CheckForNull
     private String labelText;
     @CheckForNull
@@ -105,6 +106,14 @@ public class TestUiComponent {
 
     public void setBinding(Binding binding) {
         this.binding = binding;
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
     }
 
 }
