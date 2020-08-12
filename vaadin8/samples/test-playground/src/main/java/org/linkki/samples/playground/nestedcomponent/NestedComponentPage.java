@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.incubator;
+package org.linkki.samples.playground.nestedcomponent;
 
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
@@ -24,13 +24,13 @@ import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 
-public class IncubatorPage extends AbstractPage implements SidebarSheetDefinition {
+public class NestedComponentPage extends AbstractPage implements SidebarSheetDefinition {
 
     private static final long serialVersionUID = 1L;
 
     private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
 
-    public IncubatorPage() {
+    public NestedComponentPage() {
         init();
     }
 
@@ -46,17 +46,17 @@ public class IncubatorPage extends AbstractPage implements SidebarSheetDefinitio
 
     @Override
     public String getSidebarSheetName() {
-        return "Incubator";
+        return "Nested Components";
     }
 
     @Override
     public Resource getSidebarSheetIcon() {
-        return VaadinIcons.CHILD;
+        return VaadinIcons.FILE_TREE;
     }
 
     @Override
     public String getSidebarSheetId() {
-        return "incubator";
+        return "nestedcomponent";
     }
 
 }

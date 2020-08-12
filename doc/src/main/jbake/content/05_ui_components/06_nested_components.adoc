@@ -1,28 +1,22 @@
-:jbake-title: linkki Incubator
-:jbake-type: chapter
+:jbake-title: Nested Components
+:jbake-type: section
 :jbake-status: published
-:jbake-order: 96
 
-[[linkki-incubator]]
-== linkki Incubator
+[[nested-pmos]]
+=== Nested Components
 
-*linkki-incubator* contains the bleeding edge features of *linkki*, which might be incomplete and change drastically during development. We use this module to gather feedback before including them in the main release.
+Nested components are an add-on to linkki-core. 
 
-Expect things to break!
-
-.Use this to include linkki-incubator in your project:
+.Use this to start using nested components in your project:
 [source,xml]
 ----
 <dependency>
     <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-incubator</artifactId>
+    <artifactId>linkki-nestedcomponent</artifactId>
 </dependency>
 ----
 
-=== Current Features
-
-[[nested-pmos]]
-==== Nested PMOs
+=== @UINestedComponent
 
 Methods annotated with `@UINestedComponent` can return a PMO, which is then included in the page. The resulting component has the same indentation as other components in the section and can be labeled. However, this causes fields inside nested PMOs to be indented further than fields in the nested PMO's parent.
 

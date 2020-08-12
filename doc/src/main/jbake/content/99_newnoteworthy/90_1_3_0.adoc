@@ -52,4 +52,10 @@ $linkki-label-alignment: left;
 
 The required indicator is now displayed on the right of the label, instead fo right of the input field. This makes the required indicator more prominent to the user. Also, it is more consistent with components that are directly created with Vaadin. 
 
+==== Nested Components
+
+Using the annoation <<nested-pmos,`@UiNestedComponent`>>, a PMO can include further PMOs. More advanced layouts and a cleaner seperation of PMO classes are thus possible.
+
+This replaces the old incubator project.
+
 ==== Bugfixes
