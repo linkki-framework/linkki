@@ -141,6 +141,31 @@
      "code": "java\\.class\\.added",
      "new": "class org\\.linkki\\.core\\.vaadin\\.component\\.section\\.FormLayoutSection .*",
      "justification": "LIN-272 added UIFormLayout"
+    },
+    {
+     "code": "java.class.externalClassExposedInAPI",
+     "new": "enum org.linkki.core.defaults.ui.aspects.types.HrefType",
+     "justification": "LIN-1872 :: Add @UILink"
+    },
+    {
+     "code": "java.class.externalClassExposedInAPI",
+     "new": "enum org.linkki.core.defaults.ui.aspects.types.IconType",
+     "justification": "LIN-1872 :: Add @UILink"
+    },
+    {
+     "code": "java.class.externalClassExposedInAPI",
+     "new": "enum org.linkki.core.defaults.ui.aspects.types.TargetType",
+     "justification": "LIN-1872 :: Add @UILink"
+    },
+    {
+     "code": "java.class.externalClassExposedInAPI",
+     "new": "class com.vaadin.shared.ui.link.LinkState",
+     "justification": "LIN-1872 :: Add @UILink"
+    },
+    {
+     "code": "java.class.externalClassExposedInAPI",
+     "new": "class com.vaadin.ui.Link",
+     "justification": "LIN-1872 :: Add @UILink"
     }
    ]
   }

@@ -1,24 +1,24 @@
 {
-  "1.1.0": {
-    "revapi": {
-      "ignore": [
-        {
-          "code": "java.method.removed",
-          "old": "method java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition> org.linkki.core.defaults.columnbased.ColumnBasedComponentCreator::getContainerAspects()",
-          "justification": "LIN-1574 :: Method was intended for internal usage"
-        },
-        {
-          "code": "java.annotation.added",
-          "old": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW extends java.lang.Object>",
-          "new": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW extends java.lang.Object>",
-          "justification": "LIN-1574 :: Use aspect annotations for table aspects"
-        },
-        {
-          "code": "java.class.removed",
-          "old": "class org.linkki.core.defaults.columnbased.aspects.ColumnBasedComponentAspectDefinitions",
-          "justification": "LIN-1574 :: Should only have been used internally"
-        }
-      ]
+ "1.1.0": {
+  "revapi": {
+   "ignore": [
+    {
+     "code": "java.method.removed",
+     "old": "method java.util.List<org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition> org.linkki.core.defaults.columnbased.ColumnBasedComponentCreator::getContainerAspects()",
+     "justification": "LIN-1574 :: Method was intended for internal usage"
+    },
+    {
+     "code": "java.annotation.added",
+     "old": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW extends java.lang.Object>",
+     "new": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW extends java.lang.Object>",
+     "justification": "LIN-1574 :: Use aspect annotations for table aspects"
+    },
+    {
+     "code": "java.class.removed",
+     "old": "class org.linkki.core.defaults.columnbased.aspects.ColumnBasedComponentAspectDefinitions",
+     "justification": "LIN-1574 :: Should only have been used internally"
     }
+   ]
   }
+ }
 }

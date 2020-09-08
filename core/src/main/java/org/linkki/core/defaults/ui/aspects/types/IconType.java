@@ -13,18 +13,20 @@
  */
 package org.linkki.core.defaults.ui.aspects.types;
 
-/** Defines whether an UI component is visible. */
-public enum VisibleType {
+/**
+ * Defines whether an icon is defined for a UI component and if so whether it is statically defined or
+ * derived dynamically.
+ */
+public enum IconType {
 
-    /** The UI component is always visible. */
-    VISIBLE,
+    /** No icon. */
+    NO_ICON,
 
-    /** The UI component is never visible. */
-    INVISIBLE,
+    /** A fixed icon. */
+    STATIC,
 
     /**
-     * The visible state is read from the PMO by invoking a method named
-     * {@code is[PropertyName]Visible()}.
+     * The icon is read from the PMO by invoking a method named {@code get[PropertyName]Icon()}.
      */
     DYNAMIC;
 

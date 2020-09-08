@@ -68,11 +68,11 @@ public @interface UIButton {
 
     /**
      * Static text displayed on the button. If the value should be determined dynamically, use
-     * {@link CaptionType#DYNAMIC} instead and ignore this attribute
+     * {@link CaptionType#DYNAMIC} instead and ignore this attribute.
      */
     String caption() default DERIVED_BY_LINKKI;
 
-    /** Defines how the value of caption should be retrieved, using values of {@link EnabledType} */
+    /** Defines how the value of caption should be retrieved, using values of {@link CaptionType} */
     CaptionType captionType() default CaptionType.STATIC;
 
     /**

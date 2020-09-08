@@ -29,7 +29,7 @@ public enum CaptionType {
     NONE,
 
     /**
-     * Caption is bound to the property using the method <code>get&lt;PropertyName&gt;Caption()</code>.
+     * Caption is bound to the property using the method {@code get[PropertyName]Caption()}.
      */
     DYNAMIC;
 }

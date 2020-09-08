@@ -29,7 +29,8 @@ public enum RequiredType {
     NOT_REQUIRED,
 
     /**
-     * The required state is read from the PMO by invoking a method named is[PropertyName]Required().
+     * The required state is read from the PMO by invoking a method named
+     * {@code is[PropertyName]Required()}.
      */
     DYNAMIC,
 
