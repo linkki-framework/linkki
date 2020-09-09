@@ -51,7 +51,7 @@ public class AllUiElementsModelObject {
 
     private LocalDate date = LocalDate.now();
 
-    private Suit enumValue = null;
+    private Direction enumValue = null;
 
     private boolean booleanValue = true;
 
@@ -100,11 +100,11 @@ public class AllUiElementsModelObject {
         this.date = date;
     }
 
-    public Suit getEnumValue() {
+    public Direction getEnumValue() {
         return enumValue;
     }
 
-    public void setEnumValue(Suit enumValue) {
+    public void setEnumValue(Direction enumValue) {
         this.enumValue = enumValue;
     }
 

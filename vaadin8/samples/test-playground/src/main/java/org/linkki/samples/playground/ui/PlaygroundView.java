@@ -27,7 +27,7 @@ import com.vaadin.server.Page;
 
 public class PlaygroundView extends SidebarLayout implements View {
 
-    private static final String PARAMETER_SHEET = "sheet";
+    public static final String PARAMETER_SHEET = "sheet";
 
     public static final String NAME = "";
 
