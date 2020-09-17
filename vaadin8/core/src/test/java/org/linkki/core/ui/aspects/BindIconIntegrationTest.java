@@ -25,39 +25,42 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
-import org.linkki.core.defaults.ui.aspects.types.TooltipType;
+import org.linkki.core.defaults.ui.aspects.types.IconType;
+import org.linkki.core.ui.aspects.annotation.BindIcon;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
+import org.linkki.core.vaadin.component.section.AbstractSection;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Component;
 
-public class BindTooltipIntegrationTest {
+public class BindIconIntegrationTest {
 
     @Test
     public void testCreateAspect_Static() {
         BindingContext bindingContext = new BindingContext();
         List<LabelComponentWrapper> uiElements = UiCreator
-                .createUiElements(new TestPmoWithStaticTooltip(),
+                .createUiElements(new TestPmoWithStaticIcon(),
                                   bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
 
-        assertThat(uiElements.get(0).getComponent().getDescription(), is(TestPmoWithStaticTooltip.TOOLTIP));
+        assertThat(uiElements.get(0).getComponent().getIcon(), is(VaadinIcons.ALARM));
     }
 
     @Test
     public void testCreateAspect_Dynamic() {
         BindingContext bindingContext = new BindingContext();
-        TestPmoWithDynamicTooltip pmo = new TestPmoWithDynamicTooltip("basic tooltip");
+        TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcons.ABACUS);
         List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
-        assertThat(uiElements.get(0).getComponent().getDescription(), is("basic tooltip"));
+        assertThat(uiElements.get(0).getComponent().getIcon(), is(VaadinIcons.ABACUS));
 
-        pmo.setTooltip(null);
+        pmo.setIcon(null);
         bindingContext.modelChanged();
-        assertThat(uiElements.get(0).getComponent().getDescription(), is(nullValue()));
+        assertThat(uiElements.get(0).getComponent().getIcon(), is(nullValue()));
     }
 
     @Test
@@ -72,43 +75,82 @@ public class BindTooltipIntegrationTest {
 
     }
 
-    public static class TestPmoWithStaticTooltip {
+    @Test
+    public void testSectionIcon_Static() {
+        TestPmoWithStaticSectionIcon pmo = new TestPmoWithStaticSectionIcon();
+        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(pmo, new BindingContext());
 
-        public static final String TOOLTIP = "tooltip";
+        assertThat(section.getIcon(), is(VaadinIcons.DATABASE));
+    }
 
-        @BindTooltip(TOOLTIP)
-        @UITextField(label = "static tooltip", position = 0)
-        public String getPropertyWithStaticTooltip() {
+    @Test
+    public void testSectionIcon_Dynamic() {
+        TestPmoWithDynamicSectionIcon pmo = new TestPmoWithDynamicSectionIcon();
+        BindingContext bindingContext = new BindingContext();
+        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
+
+        assertThat(section.getIcon(), is(VaadinIcons.DASHBOARD));
+
+        pmo.setIcon(VaadinIcons.MAILBOX);
+        bindingContext.modelChanged();
+
+        assertThat(section.getIcon(), is(VaadinIcons.MAILBOX));
+    }
+
+    public static class TestPmoWithStaticIcon {
+
+        @BindIcon(value = VaadinIcons.ALARM)
+        @UITextField(label = "static icon", position = 0)
+        public String getPropertyWithStaticIcon() {
             return "";
         }
     }
 
-    public static class TestPmoWithDynamicTooltip {
+    @BindIcon(value = VaadinIcons.DATABASE)
+    public static class TestPmoWithStaticSectionIcon {
+        // no elements
+    }
 
-        private String tooltip;
+    @BindIcon(iconType = IconType.DYNAMIC)
+    public static class TestPmoWithDynamicSectionIcon {
 
-        public TestPmoWithDynamicTooltip(String tooltip) {
-            this.tooltip = tooltip;
+        VaadinIcons icon = VaadinIcons.DASHBOARD;
+
+        public void setIcon(VaadinIcons icon) {
+            this.icon = icon;
         }
 
-        public void setTooltip(String tooltip) {
-            this.tooltip = tooltip;
+        public VaadinIcons getIcon() {
+            return icon;
+        }
+    }
+
+    public static class TestPmoWithDynamicIcon {
+
+        private VaadinIcons icon;
+
+        public TestPmoWithDynamicIcon(VaadinIcons icon) {
+            this.icon = icon;
         }
 
-        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UITextField(label = "dynamic tooltip", position = 0)
+        public void setIcon(VaadinIcons icon) {
+            this.icon = icon;
+        }
+
+        @BindIcon(iconType = IconType.DYNAMIC)
+        @UITextField(label = "dynamic icon", position = 0)
         public String getProperty() {
             return "";
         }
 
-        public String getPropertyTooltip() {
-            return tooltip;
+        public VaadinIcons getPropertyIcon() {
+            return icon;
         }
     }
 
     public static class TestPmoMissingDynamicMethod {
 
-        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
+        @BindIcon(iconType = IconType.DYNAMIC)
         @UITextField(label = "missing dynamic method", position = 0)
         public String getProperty() {
             return "";

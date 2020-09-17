@@ -14,13 +14,9 @@
 package org.linkki.core.defaults.ui.aspects.types;
 
 /**
- * Defines whether an icon is defined for a UI component and if so whether it is statically defined or
- * derived dynamically.
+ * Defines whether an icon for a UI component is statically defined or derived dynamically.
  */
 public enum IconType {
-
-    /** No icon. */
-    NO_ICON,
 
     /** A fixed icon. */
     STATIC,
