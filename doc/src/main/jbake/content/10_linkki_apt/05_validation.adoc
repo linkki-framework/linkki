@@ -27,7 +27,7 @@ Aspect related validations only work for `LinkkiAspectDefinitions` that are eith
 
 IMPORTANT: *linkki-apt* needs to be made aware of custom annotations created in your projects to offer validation for them.
 
-In order to validate annotations that are not part of **linkki**, the classpath containing those annotations needs to be passed to the compiler as an annotation processor parameter like this:
+In order to validate annotations that are not part of *linkki*, the classpath containing those annotations needs to be passed to the compiler as an annotation processor parameter like this:
 
 [source]
 ----

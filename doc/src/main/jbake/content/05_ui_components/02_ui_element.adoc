@@ -15,6 +15,7 @@ Both fields and buttons are "UI elements". The following types are provided:
 .Fields
 |===
 |<<ui-label,`UILabel`>> |Displaying of text
+|<<ui-link, `UILink`>> |Hyperlink
 |<<ui-textfield,`UITextField`>> |Field for single line text entry
 |<<ui-textarea,`UITextArea`>> |Area for multiline text entry
 |<<ui-numberfield,`UIIntegerField`>>, <<ui-numberfield,`UIDoubleField`>> |Entry field for numbers
@@ -40,9 +41,9 @@ Buttons are not bound to a value, but to an annotated method. It represents an e
 
 [[ui-properties]]
 ==== Properties
-All UI elements have the following properties in common:
 
-* <<position, `position: int`>>
+All UI elements have the `position` property. In addition, many of the annotations have some <<embedded-aspects, aspects embedded>>, such as
+
 * <<label, `label: String`>>
 * <<enabled, `enabled: boolean`>> (not configurable for all elements)
 * <<visible, `visible: boolean`>>
@@ -56,66 +57,13 @@ All UI elements have the following properties in common:
 CAUTION: <<position, `position`>> must always be specified. For most annotations, <<label, `label`>> is also mandatory. All other properties have default values.
 
 [[position]]
-===== Position
+Position::
 The "position" property defines the order of elements in the UI. The relative size of the value is deciding. Elements with smaller `position` are added to a section first.
-
++
 TIP: Gaps in the position numbering are allowed and common, to allow adding new UI elements at a later moment without needing to renumber all elements.
- 
-[[label]]
-===== Label
-Usually there is a label text for each UI element, that describes the element. The content of the label is defined by this attribute.
-
-Exceptions to this are <<ui-button, buttons>> and <<ui-checkbox, checkboxes>>. These UI elements usually do not need a preceding label. Instead, the description of a button is displayed on the button itself while the description of the checkbox is commonly displayed at the right of the checkbox. This kind of describing element can be configured with the property `caption` in both annotations respectively. Buttons and checkboxes can still be configured with a label additionally by overwriting the `label` property.
-
-If not label/caption is set, the default value `"derived.by.linkki"` kicks in and *linkki* uses the capitalized property name as label/caption.
-
-NOTE: If an independent label is needed, the UI element <<ui-label, UILabel>> can be used.
-
-[[enabled]]
-===== Enabled
-The property `enabled` controls whether a component is active/editable. The following configuration options are available:
-
-[cols="1,8"]
-.EnabledType
-|===
-|`ENABLED`  |the content of the element is modifiable in the UI (*default*)
-|`DISABLED` |the content of the element is not modifiable in the UI
-|`DYNAMIC`  |whether the content is modifiable is controlled by the return value of the method `boolean is<PropertyName>Enabled()`
-|===
-
-NOTE: A <<ui-label, UILabel>> doesn't offer these options and is always `ENABLED`.
-
-[[visible]]
-===== Visible
-The property `visible` controls whether the component is visible. There are the following configuration options:
-
-[cols="1,7"]
-.VisibleType
-|===
-|`VISIBLE`   |the UI element is visible (*default*)
-|`INVISIBLE` |the UI element is invisible
-|`DYNAMIC`   |whether the UI element is visible is controlled by the return value of thte method `boolean is<PropertyName>Visible()`
-|=== 
-
-[[required]]
-===== Required
-The property `required` visually highlights required fields. The following configuration options are available:
-
-[cols="1,3"]
-.RequiredType
-|===
-|`REQUIRED`              |the UI element requires input (a value must be entered/selected)
-|`REQUIRED_IF_ENABLED`   |the UI element requires input if it is `enabled`
-|`NOT_REQUIRED`          |input in the UI element is optional (*default*)
-|`DYNAMIC`               |whether the element requires input is controlled by the return value of the method `boolean is<PropertyName>Required()`
-|===
-
-NOTE: <<ui-label, UILabels>> und <<ui-button, UIButtons>> do not offer these options and are always `NOT_REQUIRED`.
-
-WARNING: Fields marked as `required` are only visually highlighted. *No* validation is performed.
 
 [[model-attribute]]
-===== ModelObject and -Attribute
+ModelObject and -Attribute::
 A <<ui-field, field>> can be bound to an attribute of an existing model object using <<domain-model-binding, domain model binding>>. For this the properties `modelAttribute` and possibly `modelObject` are required. The function is described in the section <<model-attribute-names, names of model attributes>>.
 
 [[ui-label]]
@@ -124,11 +72,12 @@ The annotation `@UILabel` generates an independent UI element displaying `String
 
 The annotated method must return a value of `String` type. The return value defines what is shown as label.
 
-TIP: A `UILabel` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside the `UILabel`.
+TIP: A `@UILabel` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside the `UILabel`. +
+When used in a table, the `label` is used as the column name while the `caption` is displayed in the table cell.
 
-===== HTML Content
+HTML Content::
 The content of the label can be styled with HTML if `htmlContent=true` is specified.
-
++
 .Example HTML Label Content
 [source, java]
 ----
@@ -136,16 +85,34 @@ include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactRowPmo.java[
 ----
 
 [[label-style-names]]
-===== Styles
+Styles::
 To style labels the property `styleNames` can be used to specify a list (actually a `String[]`) of CSS class names.
+
+[[ui-link]]
+==== UILink
+
+`@UILink` creates a hyperlink. In comparison to a <<ui-button, button>> styled as a link, a link in Vaadin has the advantage that the user can use the context menu to follow the link in a separate browser tab or to copy the link. The caption can also be easily copied.
+
+The annotated method should return the link URL as a string.
+
+The annotation has the following attributes:
+
+* <<caption, `caption: String`>>
+* <<caption, `captionType: CaptionType`>>
+* `target: String`: Defines where to open the link as https://www.w3schools.com/tags/att_a_target.asp[specified by HTML].
+* `targetType: TargetType`: Can be `STATIC` or `DYNAMIC`, in which case the target type is derived from the method `get<PropertyName>Target()`.
+
+TIP: A `@UILink` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside the link. +
+When used in a table, the `label` is used as the column name while the `caption` is displayed as the link text in the table cell.
 
 [[ui-checkbox]]
 ==== UICheckbox
-A `com.vaadin.ui.CheckBox`, bound to a boolean property.
+
+`@UICheckbox` creates a `com.vaadin.ui.CheckBox` that is bound to a `boolean` property.
+
 Instead of a label on the left side of the UI element, checkboxes usually have a caption on the right. This caption must be set with the property `caption`. If no caption is desired, an empty String must be set. 
 
-The usual `label` property is still available if any display text is needed on the left side additionally.
-
+TIP: The usual `label` property is still available if any display text is needed on the left side additionally. +
 When used in a table, the `label` is used as the column name while the `caption` is displayed next to the checkbox in the table cell.
 
 [[ui-textfield]]
@@ -196,9 +163,9 @@ include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarPmo.java[ta
 ----
 
 [[ui-combobox-content]]
-===== Content
+Content::
 The attribute `content` defines which values are available:
-
++
 [cols="4,11"]
 .AvailableValuesType
 |===
@@ -209,13 +176,13 @@ The attribute `content` defines which values are available:
 |===
 
 [[ui-combobox-width]]
-===== Width
+Width::
 The property `width` can be used to define the width of the combobox using CSS syntax (e.g. `"25em"` or `"100%"`). The default value is `-1px`, corresponding to the standard size given by Vaadin.
 
 [[itemCaptionProvider]]
-===== ItemCaptionProvider
+ItemCaptionProvider::
 For displaying the individual values in the combobox a `org.linkki.core.defaults.ui.element.ItemCaptionProvider<T>` is used. By default it is a `DefaultCaptionProvider` that expects a method `getName()`. Via the property `itemCaptionProvider` an alternative implementation class can be specified. *linkki* offers two additional ones: 
-
++
 * `ToStringCaptionProvider`: uses the `toString()`method of the elements
 * `IdAndNameCaptionProvider`: displays name and ID in the format `"name [ID]"` using the methods `getName()` and `getId()`.
 
@@ -325,6 +292,6 @@ Depending on the function buttons must be styled differently. A typical example 
 
 [[button-key-binding]]
 ===== Key Bindings
-Some buttons shouldn't be triggered only by mouse click, but also by key combinations. These can be specified with the properties `shortcutModifierKeys` and `shortcutKeyCode`. `shortcutModifierKeys` defines which keys must be pressed and held before the key in the `shortcutKeyCode` is pressed. For instance, in many applications saving is triggered with the shortcut combination "Ctrl + s". In this case the "Ctrl" key is the modifier and the "s" key is the ShortcutKey.
-
+Some buttons shouldn't be triggered only by mouse click, but also by key combinations. These can be specified with the properties `shortcutModifierKeys` and `shortcutKeyCode`. `shortcutModifierKeys` defines which keys must be pressed and held before the key in the `shortcutKeyCode` is pressed. For instance, in many applications saving is triggered with the shortcut combination "Ctrl + s". In this case the "Ctrl" key is the modifier and the "s" key is the shortcut key.	
+	
 In both properties individual keys are identified by integer values. The appropriate value for each key can be found in the Vaadin classes `ModifierKey` and `KeyCode`.

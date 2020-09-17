@@ -1,13 +1,110 @@
 :jbake-title: Additional Binding
 :jbake-type: section
 :jbake-status: published
-:source-dir: ../../../../../vaadin8/samples/binding/src/main/java
+:source-dir-binding: ../../../../../vaadin8/samples/binding/src/main/java
+:source-dir: ../../../../src/main/java
 
-[[additional-binding]]
-=== Additional Binding
+[[aspects]]
+=== Aspects
+
+*linkki* can bind more than just the value. In fact, almost every part of the UI state can be taken into account for data binding with *linkki*. The most common parts of the UI state are for example the enabled state or the visibility. But there are also additional features that may be bound to a component such as the tooltip, available values for selection or CSS class names. For a property, every such UI state part is a so called __aspect__ of the property.
+
+Some aspects are crucial for the functionality of the <<ui-element, UI element>> and are thus directly <<embedded-aspects, embedded in the annotation>>. Besides those, *linkki* also provides some <<standalone-aspects, standalone aspect annotations>> that can be optionally applied to the <<ui-element, UI elements>>. 
+
+[[aspects-usage]]
+==== Apsects in a PMO
+
+The following example shows two aspects for the property "name". 
+
+.Value and enabled aspect
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/dynamic/PartnerSectionPmo.java[tags=aspects]
+----
+
+The most important aspect is the value aspect. It is also mandatory for the data binding to function. The value aspect is dynamically determined by the getter and setter methods of the property. As the value aspect is critical for the <<ui-element, UI element>> to function, it is always embeded in the UI element annotation.
+
+The second aspect that can be seen is the enabled aspect. This state is defined by the method `isNameEnabled`.
+
+Each aspect has a name. The enabled aspect has the name "enabled" whereas the value aspect has the empty String as name. In general, the state of the aspect "aspect" for property "property" is determined by the method `is/get<Property><Aspect>` and `set<Property><Aspect>`.
+
+Aspects can also apply to the whole PMO if it is also bound to a UI component. In this case, the property name is the empty string.
+
+.Aspect on PMO class
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/dynamic/PartnerSectionPmo.java[tags=aspectOnClass]
+----
+
+[[embedded-aspects]]
+==== Commonly Embedded Aspects
+
+Some aspects are so important or commonly used that they are directly packaged with the <<ui-element, UI annotation>>. Many of those aspects offer configurations that can be set by attributes in the annotation. Most frequently, the attributes share the name of the aspect itself, e.g. `@UITextField(enabled = ...)` in case of the enabled aspect. 
+
+Below are the commonly embedded aspects.
+
+[[label]]
+===== Label
+Usually there is a label text for each UI element, that describes the element. The content of the label is defined by this attribute.
+
+Exceptions to this are elements whose main feature is their text, such as <<ui-button, buttons>>, <<ui-checkbox, checkboxes>> and <<ui-link, links>>. These UI elements usually do not need a preceding label. Instead, the description of a button is displayed on the button itself, the description of a link is displayed as the link text, while the description of the checkbox is commonly displayed at the right of the checkbox. This kind of describing element can be configured with the property `caption` in those annotations. Buttons, links and checkboxes can still be configured with a label additionally by overwriting the `label` property.
+
+If no label/caption is set, the default value `"derived.by.linkki"` kicks in and *linkki* uses the default as determined by the <<property-dispatcher, PropertyDispatchers>> (usually the capitalized property name) as label/caption.
+
+The label is used as the column caption in <<ui-tables, tables>>.
+
+NOTE: If an independent label is needed, the UI element <<ui-label, UILabel>> can be used.
+
+[[enabled]]
+===== Enabled
+The property `enabled` controls whether a component is enabled or disabled. The following configuration options are available:
+
+[cols="1,8"]
+.EnabledType
+|===
+|`ENABLED`  |the content of the element is modifiable in the UI (*default*)
+|`DISABLED` |the content of the element is not modifiable in the UI
+|`DYNAMIC`  |whether the content is modifiable is controlled by the return value of the method `boolean is<PropertyName>Enabled()`
+|===
+
+NOTE: Some components like <<ui-label, UILabel>> and <<ui-link, UILink>> do not offer these options and are always enabled.
+
+[[visible]]
+===== Visible
+The property `visible` controls whether the component is visible. There are the following configuration options:
+
+[cols="1,7"]
+.VisibleType
+|===
+|`VISIBLE`   |the UI element is visible (*default*)
+|`INVISIBLE` |the UI element is invisible
+|`DYNAMIC`   |whether the UI element is visible is controlled by the return value of thte method `boolean is<PropertyName>Visible()`
+|=== 
+
+[[required]]
+===== Required
+The property `required` visually highlights required fields. The following configuration options are available:
+
+[cols="1,3"]
+.RequiredType
+|===
+|`REQUIRED`              |the UI element requires input (a value must be entered/selected)
+|`REQUIRED_IF_ENABLED`   |the UI element requires input if it is `enabled`
+|`NOT_REQUIRED`          |input in the UI element is optional (*default*)
+|`DYNAMIC`               |whether the element requires input is controlled by the return value of the method `boolean is<PropertyName>Required()`
+|===
+
+NOTE: <<ui-label, UILabels>>, <<ui-link, UILinks>> and <<ui-button, UIButtons>> do not offer these options and are never required.
+
+WARNING: Fields marked as `required` are only visually highlighted. *No* validation is performed.
+
+[[standalone-aspects]]
+==== Standalone Apsect Annotations
+
+Aspects can also be represented by a separate annotation. In this case, those annotations follow the naming convention `@Bind[AspectName]`. Several frequently used aspects are packaged with *linkki* as listed below. It is also very easy to create additional <<creating-aspects, custom aspect annotations>>. 
 
 [[tooltips]]
-==== Tooltips
+===== Tooltips
 
 For displaying tooltips on UI elements *linkki* provides the annotation `@BindTooltip`. This annotation can be added in the PMO binding to the method to which the UI element is bound. In the case of binding using the `@Bind` annotation, `@BindTooltip` must be written directly in the field annotated with `@Bind`.
 
@@ -17,14 +114,13 @@ The `@BindTooltip` annotation has two properties:
 * <<tooltip-type, `tooltipType: TooltipType`>>
 
 [[tooltip-text]]
-===== Value
+Value::
 This is the text displayed on <<tooltip-type, `TooltipType.STATIC`>>. Its default value is an empty string (`""`).
 
 [[tooltip-type]]
-
-===== TooltipType
+TooltipType::
 The following configuration options are available for `TooltipType`:
-
++
 [cols="1,9"]
 .TooltipType
 |===
@@ -36,15 +132,15 @@ TIP: Tooltips can only be added to <<ui-field, fields>> and <<ui-button, buttons
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
+include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
 ----
 
 [[bind-read-only]]
-==== Bind Read-Only State
+===== Bind Read-Only State
 
 To change a component's read-only behavior, *linkki* provides the annotation `@BindReadOnly`. This annotation can be used in combination with  @Bind or UI-annotations.
 
-IMPORTANT: The `@BindReadOnly` annotation must be placed after `@Bind` or `@UI-annotations` as the read-only state might have already been affected by these annotations.
+IMPORTANT: The `@BindReadOnly` annotation is evaluated after `@Bind` or `@UI-annotations` which might already have set a read-only state.
 
 TIP: This annotation should be used only in exceptional cases, since most of the behavior is better controlled by a <<cross-sectional-binding, PropertyBehavior>>.
 
@@ -59,7 +155,7 @@ The `@BindReadOnly` Annotation has only one property, `ReadOnlyType`. Per defaul
 |===
 
 [[bind-style-names]]
-==== Style Names
+===== Style Names
 
 Vaadin components get rendered as HTML and styled via CSS. Using the `@BindStyleNames` annotation custom style names can be bound to a component in addition to those provided by Vaadin.
 
@@ -68,7 +164,7 @@ A single style name can be provided as the annotation's value (`@BindStyleNames(
 The value can also be omitted, leading to dynamic resolution via a `get<Property>StyleNames()` method that may return a `String` or any `Collection<String>`.
 
 [[bind-caption]]
-==== Caption
+===== Caption
 
 For sections and applicable fields(e.g. <<ui-checkbox,`UICheckbox`>>, <<ui-button,`UIButton`>>), the caption can be set with the separate `@BindCaption` annotation. 
 
@@ -78,16 +174,43 @@ The `@BindCaption` annotation has two properties:
 * <<caption-type, `captionType: CaptionType`>>
 
 [[caption-text]]
-===== Value
+Value::
 This is the text displayed on <<caption-type, `CaptionType.STATIC`>>. Its default value is an empty string (`""`).
 
 [[caption-type]]
-===== CaptionType
+CaptionType::
 The following configuration options are available for `CaptionType`:
-
++
 [cols="1,9"]
 .CaptionType
 |===
 |`STATIC`   |the caption is read from the attribute `value` (*default*)
-|`DYNAMIC`  |the captionis determined by the return value of the method `String get<PropertyName>Caption()`. The `value` is ignored.
+|`DYNAMIC`  |the caption is determined by the return value of the method `String get<PropertyName>Caption()`. The `value` is ignored.
 |===
+
+[[bind-icon]]
+===== Icon
+
+UI elements such as <<ui-button, `@UIButton`>> or <<ui-link, `@UILink`>> can have an icon that is shown with the component's caption. This can be set with the `@BindIcon` annotation.
+
+The `@BindIcon` annotation has two properties:
+
+* <<icon-value, `value: String`>>:  
+* <<icon-type, `iconType`: IconTypeType`>>
+
+[[icon-value]]
+Value::
+This is the icon displayed on <<icon-type, `IconType.STATIC`>>. Its default value is a smiley that should alarm the user in case of unintentional usage.
+
+[[icon-type]]
+IconType::
+The following configuration options are available for `IconType`:
++
+[cols="1,9"]
+.IconType
+|===
+|`STATIC`   |the icon is read from the attribute `value` (*default*)
+|`DYNAMIC`  |the icon is determined by the return value of the method `Resource get<PropertyName>Icon()`. The `value` is ignored. 
+|=== 
+
+TIP: The class `VaadinIcons` contains many Icons for easy use. The Vaadin documentation includes a https://vaadin.com/components/vaadin-icons/java-examples#all-icons[reference page listing all available icons] as well as documentation how to https://vaadin.com/docs/v8/framework/themes/themes-fonticon.html#themes.fonticon.custom.creating[creating your own FontIcons].
