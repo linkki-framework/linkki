@@ -28,11 +28,10 @@ import org.linkki.core.ui.aspects.annotation.BindIcon.BindIconAspectDefinitionCr
 import com.vaadin.icons.VaadinIcons;
 
 /**
- * Shows an icon for a UI component. The annotation can be added to the method bound to a UI field or to
- * a class bound to a section, where the icon is shown on the header.
+ * Shows an icon for a UI component. The annotation can be added to the method bound to a UI field .
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
+@Target(value = { ElementType.FIELD, ElementType.METHOD })
 @LinkkiAspect(BindIconAspectDefinitionCreator.class)
 public @interface BindIcon {
 

@@ -27,11 +27,9 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
-import org.linkki.core.vaadin.component.section.AbstractSection;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Component;
@@ -75,53 +73,12 @@ public class BindIconIntegrationTest {
 
     }
 
-    @Test
-    public void testSectionIcon_Static() {
-        TestPmoWithStaticSectionIcon pmo = new TestPmoWithStaticSectionIcon();
-        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(pmo, new BindingContext());
-
-        assertThat(section.getIcon(), is(VaadinIcons.DATABASE));
-    }
-
-    @Test
-    public void testSectionIcon_Dynamic() {
-        TestPmoWithDynamicSectionIcon pmo = new TestPmoWithDynamicSectionIcon();
-        BindingContext bindingContext = new BindingContext();
-        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(pmo, bindingContext);
-
-        assertThat(section.getIcon(), is(VaadinIcons.DASHBOARD));
-
-        pmo.setIcon(VaadinIcons.MAILBOX);
-        bindingContext.modelChanged();
-
-        assertThat(section.getIcon(), is(VaadinIcons.MAILBOX));
-    }
-
     public static class TestPmoWithStaticIcon {
 
         @BindIcon(value = VaadinIcons.ALARM)
         @UITextField(label = "static icon", position = 0)
         public String getPropertyWithStaticIcon() {
             return "";
-        }
-    }
-
-    @BindIcon(value = VaadinIcons.DATABASE)
-    public static class TestPmoWithStaticSectionIcon {
-        // no elements
-    }
-
-    @BindIcon(iconType = IconType.DYNAMIC)
-    public static class TestPmoWithDynamicSectionIcon {
-
-        VaadinIcons icon = VaadinIcons.DASHBOARD;
-
-        public void setIcon(VaadinIcons icon) {
-            this.icon = icon;
-        }
-
-        public VaadinIcons getIcon() {
-            return icon;
         }
     }
 
