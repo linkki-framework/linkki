@@ -78,9 +78,9 @@ public @interface UILink {
     CaptionType captionType() default STATIC;
 
     /**
-     * Defines the link's target attribute (whether the link is opened in the same or a new window/tab).
+     * Specifies where to open the link. Might be one of {@link LinkTarget} or a specific frame.
      */
-    String target() default "_self";
+    String target() default LinkTarget.SELF;
 
     /**
      * Defines whether a link's target attribute is determined statically from {@link #target()} or
@@ -110,6 +110,32 @@ public @interface UILink {
                     new LinkValueAspectDefinition(),
                     new CaptionAspectDefinition(annotation.captionType(), annotation.caption()),
                     new LinkTargetAspectDefinition(annotation.target(), TargetType.DYNAMIC == annotation.targetType()));
+        }
+    }
+
+    /**
+     * Common targets used for links.
+     */
+    final class LinkTarget {
+        /**
+         * Opens the linked document in a new window or tab
+         */
+        public static final String BLANK = "_blank";
+        /**
+         * Opens the linked document in the same frame as it was clicked.
+         */
+        public static final String SELF = "_self";
+        /**
+         * Opens the linked document in the parent frame.
+         */
+        public static final String PARENT = "_parent";
+        /**
+         * Opens the linked document in the full body of the window.
+         */
+        public static final String TOP = "_top";
+
+        private LinkTarget() {
+            // prevents instantiation
         }
     }
 }

@@ -63,7 +63,7 @@ Now, *linkki* offers a <<ui-link, `@UILink`>> annotation. The method that is ann
 
 [source, java]
 ----
-@UILink(position = 0, caption = "Finally a link!", target = "_blank")
+@UILink(position = 0, caption = "Finally a link!", target = LinkTarget.BLANK)
 public String getLinkki() {
   return "https://linkki-framework.org/";
 }

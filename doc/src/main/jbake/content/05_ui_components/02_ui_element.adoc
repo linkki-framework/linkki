@@ -99,7 +99,7 @@ The annotation has the following attributes:
 
 * <<caption, `caption: String`>>
 * <<caption, `captionType: CaptionType`>>
-* `target: String`: Defines where to open the link as https://www.w3schools.com/tags/att_a_target.asp[specified by HTML].
+* `target: String`: Defines where to open the link as https://www.w3schools.com/tags/att_a_target.asp[specified by HTML]. The four predefined targets can be found in the constant class `LinkTarget`.
 * `targetType: TargetType`: Can be `STATIC` or `DYNAMIC`, in which case the target type is derived from the method `get<PropertyName>Target()`.
 
 TIP: A `@UILink` also has the additional property <<label,`label`>>. If a value is set to it the text would appear beside the link. +
