@@ -1,20 +1,25 @@
 {
-  "all-versions": {
-    "revapi": {
-      "ignore": [
+  "all-versions": [
+    {
+      "extension": "revapi.filter",
+      "configuration" : {
+        "elements" : {
+          "exclude": ["missing-class com\\.google\\.gwt\\..*"]
+        }
+      }
+    }
+  ],
+  "1.2.0": [
+    {
+    "extension": "revapi.ignore",
+    "configuration": [
         {
           "regex": true,
           "code": "java.class.externalClassExposedInAPI",
           "new": ".* (com\\.vaadin\\..*|elemental\\.json\\..*|com\\.google\\.gwt\\..*|org\\.linkki\\..*)",
           "justification": "It is inteded to extend vaadin"
-        },
-        {
-          "regex": true,
-          "code": "java\\.missing\\.(old|new)Class",
-          "new": "missing-class com\\.google\\.gwt\\..*",
-          "justification": "Seems to be ok and not needed to compile the GWT widget"
         }
       ]
     }
-  }
+  ]
 }
