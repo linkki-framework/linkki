@@ -350,8 +350,9 @@ public class ComponentFactory {
 
     public static DateField newDateField() {
         DateField field = new DateField();
-        field.setRangeStart(LocalDate.ofYearDay(0, 1));
-        field.setRangeEnd(LocalDate.ofYearDay(9999, 1));
+        // there is no year zero https://en.wikipedia.org/wiki/Year_zero
+        field.setRangeStart(LocalDate.ofYearDay(1, 1));
+        field.setRangeEnd(LocalDate.ofYearDay(9999, 365));
         return field;
     }
 
