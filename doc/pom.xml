@@ -14,6 +14,7 @@
         <documentation.dtitle>linkki documentation</documentation.dtitle>
         <basedir.parent>${project.parent.basedir}</basedir.parent>
         <jade.outputDirectory>${project.build.directory}/${project.build.finalName}</jade.outputDirectory>
+        <jade.runExternalLinkTests>true</jade.runExternalLinkTests>
     </properties>
 
     <artifactId>linkki-core-documentation</artifactId>
@@ -60,7 +61,7 @@
             <plugin>
                 <groupId>de.faktorzehn.doc</groupId>
                 <artifactId>jade-maven-plugin</artifactId>
-                <version>1.0.0-ms12</version>
+                <version>1.0.1</version>
                 <executions>
                     <execution>
                         <id>generate-docs</id>
@@ -71,6 +72,10 @@
                         <configuration>
                             <htmlOutputDirectory>${jade.outputDirectory}/html</htmlOutputDirectory>
                             <pdfOutputDirectory>${jade.outputDirectory}/pdf</pdfOutputDirectory>
+                            <excludeLinks>
+                                <excludeLink>.*localhost.*</excludeLink>
+                            </excludeLinks>
+                            <runExternalLinkTests>${jade.runExternalLinkTests}</runExternalLinkTests>
                             <properties>
                                 <title>${documentation.dtitle}</title>
                                 <readmepath>${basedir.parent}</readmepath>

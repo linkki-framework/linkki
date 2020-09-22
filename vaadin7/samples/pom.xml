@@ -137,9 +137,6 @@
                 <configuration>
                     <!-- at the moment we do not check missing javadoc like missing @param or @return -->
                     <doclint>accessibility,html,reference,syntax</doclint>
-                    <links>
-                        <link>http://vaadin.com/api/framework/${vaadin.version}/</link>
-                    </links>
                     <tags>
                         <tag>
                             <name>apiNote</name>
@@ -179,7 +176,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

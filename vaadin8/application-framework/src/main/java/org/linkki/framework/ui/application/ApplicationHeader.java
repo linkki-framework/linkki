@@ -34,16 +34,16 @@ import com.vaadin.ui.themes.ValoTheme;
  * consists of the {@link ApplicationMenu} on the left as well as a right aligned {@link MenuBar}.
  * 
  * @implSpec {@link ApplicationHeader} can be styled with the CSS class
- *           {@link LinkkiApplicationTheme#APPLICATION_HEADER}. The right aligned {@link MenuBar} uses the style
- *           name {@link LinkkiApplicationTheme#APPLICATION_HEADER_RIGHT} additionally.
+ *           {@link LinkkiApplicationTheme#APPLICATION_HEADER}. The right aligned {@link MenuBar} uses
+ *           the style name {@link LinkkiApplicationTheme#APPLICATION_HEADER_RIGHT} additionally.
  * 
  * @implNote The methods {@link #createRightMenuBar()}, {@link #addHelpMenu(MenuBar)} and
- *           {@link #addHelpMenuItems(MenuItem)} can be used to create an {@link ApplicationInfoDialog}
- *           menu item in the right {@link MenuBar}.
+ *           {@link #addHelpMenuItems(MenuBar.MenuItem)} can be used to create an
+ *           {@link ApplicationInfoDialog} menu item in the right {@link MenuBar}.
  *           <p>
  *           The methods {@link #createRightMenuBar()}, {@link #addUserMenu(String, MenuBar)},
- *           {@link #addUserMenuItems(MenuItem)} and {@link #newLogoutCommand()} can be used to create a
- *           user logout menu item in the right {@link MenuBar}.
+ *           {@link #addUserMenuItems(MenuBar.MenuItem)} and {@link #newLogoutCommand()} can be used to
+ *           create a user logout menu item in the right {@link MenuBar}.
  * 
  * @see ApplicationMenu
  */
@@ -147,8 +147,8 @@ public class ApplicationHeader extends HorizontalLayout {
     /**
      * Creates a help menu item in the given parent.
      * 
-     * @implNote Override {@link #addHelpMenuItems(MenuItem)} to add sub menu items to the created
-     *           {@link #addHelpMenu(MenuBar) help menu item}.
+     * @implNote Override {@link #addHelpMenuItems(MenuBar.MenuItem)} to add sub menu items to the
+     *           created {@link #addHelpMenu(MenuBar) help menu item}.
      */
     protected MenuItem addHelpMenu(MenuBar parent) {
         MenuItem helpMenu = parent.addItem("", VaadinIcons.QUESTION_CIRCLE, null); // $NON-NLS-1$
@@ -158,8 +158,8 @@ public class ApplicationHeader extends HorizontalLayout {
 
     /**
      * Adds by default the {@link ApplicationInfoDialog about sub menu item} created by
-     * {@link #addApplicationInfoMenuItem(MenuItem)} to the given <code>helpMenu</code> that is created
-     * in {@link #addHelpMenu(MenuBar)}.
+     * {@link #addApplicationInfoMenuItem(MenuBar.MenuItem)} to the given <code>helpMenu</code> that is
+     * created in {@link #addHelpMenu(MenuBar)}.
      * 
      * @implNote Override to add more sub menu items.
      *           <p>
@@ -193,8 +193,8 @@ public class ApplicationHeader extends HorizontalLayout {
     /**
      * Creates a user menu item in the given parent.
      * 
-     * @implNote Override {@link #addUserMenuItems(MenuItem)} to add sub menu items to the created user
-     *           menu.
+     * @implNote Override {@link #addUserMenuItems(MenuBar.MenuItem)} to add sub menu items to the
+     *           created user menu.
      */
     protected MenuItem addUserMenu(String username, MenuBar parent) {
         MenuItem userMenu = parent.addItem(username, VaadinIcons.USER, null); // $NON-NLS-1$
