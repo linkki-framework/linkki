@@ -101,8 +101,12 @@
                             <goal>upload</goal>
                         </goals>
                         <configuration>
+                            <commands>
+                                <command>rm -rf \
+                                    /var/www/doc.linkki-framework.org/${project.version}/*</command>
+                            </commands>
                             <serverId>linkkidoc</serverId>
-                            <fromDir>${jbake.outputDirectory}</fromDir>
+                            <fromDir>${jade.outputDirectory}/html</fromDir>
                             <includes>**/*</includes>
                             <url>scp://${doc.user}@doc.linkki-framework.org:2004</url>
                             <toDir>/var/www/doc.linkki-framework.org/${project.version}</toDir>
