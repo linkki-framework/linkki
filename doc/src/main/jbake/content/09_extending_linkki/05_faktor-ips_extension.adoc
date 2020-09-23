@@ -8,7 +8,7 @@
 [[fips-extension]]
 === Faktor-IPS Extension
 
-*linkki* is often used in conjunction with https://www.faktorzehn.org/[Faktor-IPS]. The module `linkki-ips-vaadin8` provides some useful functionalities for this combination.
+*linkki* is often used in conjunction with https://www.faktorzehn.org/de[Faktor-IPS]. The module `linkki-ips-vaadin8` provides some useful functionalities for this combination.
 
 To use the extension simply include the following maven dependeny:
 
