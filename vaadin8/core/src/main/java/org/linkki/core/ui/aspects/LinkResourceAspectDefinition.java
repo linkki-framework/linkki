@@ -26,7 +26,7 @@ import com.vaadin.ui.Link;
 /**
  * This aspect sets the href link target of a {@link Link}.
  */
-public class LinkValueAspectDefinition extends ModelToUiAspectDefinition<String> {
+public class LinkResourceAspectDefinition extends ModelToUiAspectDefinition<String> {
 
     @Override
     public Aspect<String> createAspect() {

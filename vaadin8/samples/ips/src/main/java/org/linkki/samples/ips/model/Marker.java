@@ -138,8 +138,8 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding enum
-     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding
+     * enum value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
      *
      * @throws IllegalArgumentException if no corresponding enum value is found
      *
