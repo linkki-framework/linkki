@@ -24,6 +24,8 @@ import org.linkki.core.defaults.ui.aspects.types.IconType;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * Aspect definition to bind the icon of a component.
  */
@@ -33,16 +35,21 @@ public class IconAspectDefinition extends ModelToUiAspectDefinition<Resource> {
 
     private final IconType type;
 
+    @CheckForNull
     private final Resource value;
 
-    public IconAspectDefinition(IconType type, Resource value) {
+    public IconAspectDefinition(IconType type, @CheckForNull Resource value) {
         this.type = type;
         this.value = value;
     }
 
     @Override
     public Aspect<Resource> createAspect() {
-        if (type == IconType.STATIC) {
+        if (type == IconType.AUTO) {
+            return value == null
+                    ? Aspect.of(NAME)
+                    : Aspect.of(NAME, value);
+        } else if (type == IconType.STATIC) {
             return Aspect.of(NAME, value);
         } else {
             return Aspect.of(NAME);

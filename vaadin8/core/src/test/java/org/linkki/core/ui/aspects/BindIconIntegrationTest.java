@@ -48,6 +48,20 @@ public class BindIconIntegrationTest {
     }
 
     @Test
+    public void testCreateAspect_Auto() {
+        BindingContext bindingContext = new BindingContext();
+        TestPmoWithAutoIcon pmo = new TestPmoWithAutoIcon(VaadinIcons.ABACUS);
+        List<LabelComponentWrapper> uiElements = UiCreator
+                .createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
+                .collect(Collectors.toList());
+        assertThat(uiElements.get(0).getComponent().getIcon(), is(VaadinIcons.ABACUS));
+
+        pmo.setIcon(null);
+        bindingContext.modelChanged();
+        assertThat(uiElements.get(0).getComponent().getIcon(), is(nullValue()));
+    }
+
+    @Test
     public void testCreateAspect_Dynamic() {
         BindingContext bindingContext = new BindingContext();
         TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcons.ABACUS);
@@ -75,10 +89,33 @@ public class BindIconIntegrationTest {
 
     public static class TestPmoWithStaticIcon {
 
-        @BindIcon(value = VaadinIcons.ALARM)
+        @BindIcon(VaadinIcons.ALARM)
         @UITextField(label = "static icon", position = 0)
         public String getPropertyWithStaticIcon() {
             return "";
+        }
+    }
+
+    public static class TestPmoWithAutoIcon {
+
+        private VaadinIcons icon;
+
+        public TestPmoWithAutoIcon(VaadinIcons icon) {
+            this.icon = icon;
+        }
+
+        public void setIcon(VaadinIcons icon) {
+            this.icon = icon;
+        }
+
+        @BindIcon
+        @UITextField(label = "dynamic icon", position = 0)
+        public String getProperty() {
+            return "";
+        }
+
+        public VaadinIcons getPropertyIcon() {
+            return icon;
         }
     }
 

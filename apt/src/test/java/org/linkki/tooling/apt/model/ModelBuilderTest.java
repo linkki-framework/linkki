@@ -146,7 +146,7 @@ public class ModelBuilderTest extends BaseAnnotationProcessorTest {
                 AptAttribute attribute2 = aspectBinding.getAttributes().get(1);
                 assertEquals(attribute2.getName(), "tooltipType");
                 assertEquals(((VariableElement)attribute2.getValue()).getSimpleName().toString(),
-                             TooltipType.STATIC.name());
+                             TooltipType.AUTO.name());
             }
         });
     }

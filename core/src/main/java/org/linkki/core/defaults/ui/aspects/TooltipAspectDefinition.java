@@ -16,6 +16,7 @@ package org.linkki.core.defaults.ui.aspects;
 
 import java.util.function.Consumer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
@@ -36,10 +37,20 @@ public class TooltipAspectDefinition extends ModelToUiAspectDefinition<String> {
 
     @Override
     public Aspect<String> createAspect() {
-        if (type == TooltipType.STATIC) {
-            return Aspect.of(NAME, value);
-        } else {
-            return Aspect.of(NAME);
+        switch (type) {
+            case AUTO:
+                return StringUtils.isEmpty(value)
+                        ? Aspect.of(NAME)
+                        : Aspect.of(NAME, value);
+
+            case STATIC:
+                return Aspect.of(NAME, value);
+
+            case DYNAMIC:
+                return Aspect.of(NAME);
+
+            default:
+                throw new IllegalArgumentException("TooltipType " + type + " is not supported.");
         }
     }
 

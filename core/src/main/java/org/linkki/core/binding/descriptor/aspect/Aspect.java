@@ -145,7 +145,7 @@ public class Aspect<V> {
 
     @Override
     public String toString() {
-        return String.format("Aspect: '%s', %s", name.isEmpty() ? "VALUE" : name, value);
+        return String.format("Aspect: '%s', %s", name.isEmpty() ? "PROPERTY_VALUE" : name, value);
     }
 
     /**

@@ -13,8 +13,6 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition.DERIVED_BY_LINKKI;
-import static org.linkki.core.defaults.ui.aspects.types.CaptionType.STATIC;
 import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 
 import java.lang.annotation.ElementType;
@@ -59,22 +57,32 @@ public @interface UILink {
     @LinkkiPositioned.Position
     int position();
 
-    /** Provides the link text */
+    /**
+     * Provides a label for the link. Normally a link does not need a label. The label stands next to
+     * the component and depends on the current layout (may not be visible in every layout). In tables
+     * the label is used for the column header.
+     */
     String label() default "";
 
     /**
-     * Specifies if a component is shown, using values of {@link VisibleType}
+     * Specifies if a component is shown, using values of {@link VisibleType}.
      */
     VisibleType visible() default VISIBLE;
 
     /**
-     * Static text displayed on the button. If the value should be determined dynamically, use
-     * {@link CaptionType#DYNAMIC} instead and ignore this attribute.
+     * Static text displayed on the link. If the value should be determined dynamically either let
+     * caption be empty or set {@link #captionType()} to {@link CaptionType#DYNAMIC} explicitly. In this
+     * case a method named {@code get<PropertyName>Caption} is called.
      */
-    String caption() default DERIVED_BY_LINKKI;
+    String caption() default "";
 
-    /** Defines how the value of caption should be retrieved, using values of {@link CaptionType} */
-    CaptionType captionType() default STATIC;
+    /**
+     * Defines how the value of caption should be retrieved, using values of {@link CaptionType}.
+     * <p>
+     * In case of {@link CaptionType#DYNAMIC} or {@link CaptionType#AUTO} with empty {@link #caption()}
+     * a method named {@code get<PropertyName>Caption} is called.
+     */
+    CaptionType captionType() default CaptionType.AUTO;
 
     /**
      * Specifies where to open the link. Might be one of {@link LinkTarget} or a specific frame.

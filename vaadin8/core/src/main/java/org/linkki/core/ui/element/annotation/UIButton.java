@@ -38,6 +38,7 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.element.annotation.UIButton.UIButtonAspectDefinitionCreator;
 import org.linkki.core.ui.element.bindingdefinitions.ButtonBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
@@ -72,7 +73,14 @@ public @interface UIButton {
      */
     String caption() default DERIVED_BY_LINKKI;
 
-    /** Defines how the value of caption should be retrieved, using values of {@link CaptionType} */
+    /**
+     * Defines how the value of caption should be retrieved, using values of {@link CaptionType}.
+     * <p>
+     * Despite in other annotations like {@link BindCaption} the default here is
+     * {@link CaptionType#STATIC} (and NOT {@link CaptionType#AUTO} because it is a common use case to
+     * have a button with only an icon but no caption.
+     * 
+     */
     CaptionType captionType() default CaptionType.STATIC;
 
     /**

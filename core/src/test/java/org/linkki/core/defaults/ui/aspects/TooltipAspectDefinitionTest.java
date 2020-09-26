@@ -34,6 +34,27 @@ public class TooltipAspectDefinitionTest {
     private TestComponentWrapper componentWrapper = new TestComponentWrapper(new TestUiComponent());
 
     @Test
+    public void testCreateAspect_Default_WithValue() {
+        TooltipAspectDefinition aspectDefinition = new TooltipAspectDefinition(TooltipType.AUTO, "Bar");
+
+        Aspect<String> createdAspect = aspectDefinition.createAspect();
+
+        assertThat(createdAspect.getName(), is(TooltipAspectDefinition.NAME));
+        assertThat(createdAspect.isValuePresent(), is(true));
+        assertThat(createdAspect.getValue(), is("Bar"));
+    }
+
+    @Test
+    public void testCreateAspect_Default_WithoutValue() {
+        TooltipAspectDefinition aspectDefinition = new TooltipAspectDefinition(TooltipType.AUTO, "");
+
+        Aspect<String> createdAspect = aspectDefinition.createAspect();
+
+        assertThat(createdAspect.getName(), is(TooltipAspectDefinition.NAME));
+        assertThat(createdAspect.isValuePresent(), is(false));
+    }
+
+    @Test
     public void testCreateAspect_static() {
         TooltipAspectDefinition aspectDefinition = new TooltipAspectDefinition(TooltipType.STATIC, "Foo");
 

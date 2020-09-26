@@ -35,13 +35,11 @@ import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 @LinkkiAspect(BindTooltipAspectDefinitionCreator.class)
 public @interface BindTooltip {
 
-    /** The displayed text for {@link TooltipType#STATIC} */
-    String value()
-
-    default StringUtils.EMPTY;
+    /** The displayed text for {@link TooltipType#STATIC}. */
+    String value() default StringUtils.EMPTY;
 
     /** Defines how the tooltip text should be retrieved */
-    TooltipType tooltipType() default TooltipType.STATIC;
+    TooltipType tooltipType() default TooltipType.AUTO;
 
 
     class BindTooltipAspectDefinitionCreator implements AspectDefinitionCreator<BindTooltip> {

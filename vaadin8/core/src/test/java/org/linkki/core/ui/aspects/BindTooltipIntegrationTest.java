@@ -15,12 +15,14 @@
 package org.linkki.core.ui.aspects;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -44,6 +46,31 @@ public class BindTooltipIntegrationTest {
                 .collect(Collectors.toList());
 
         assertThat(uiElements.get(0).getComponent().getDescription(), is(TestPmoWithStaticTooltip.TOOLTIP));
+    }
+
+    @Test
+    public void testCreateAspect_StaticEmpty() {
+        BindingContext bindingContext = new BindingContext();
+        List<LabelComponentWrapper> uiElements = UiCreator
+                .createUiElements(new TestPmoWithStaticEmptyTooltip(),
+                                  bindingContext, c -> new LabelComponentWrapper((Component)c))
+                .collect(Collectors.toList());
+
+        assertThat(uiElements.get(0).getComponent().getDescription(), is(emptyString()));
+    }
+
+    @Test
+    public void testCreateAspect_Auto() {
+        BindingContext bindingContext = new BindingContext();
+        TestPmoWithAutoTooltip pmo = new TestPmoWithAutoTooltip("basic tooltip");
+        List<LabelComponentWrapper> uiElements = UiCreator
+                .createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
+                .collect(Collectors.toList());
+        assertThat(uiElements.get(0).getComponent().getDescription(), is("basic tooltip"));
+
+        pmo.setTooltip(null);
+        bindingContext.modelChanged();
+        assertThat(uiElements.get(0).getComponent().getDescription(), is(nullValue()));
     }
 
     @Test
@@ -80,6 +107,38 @@ public class BindTooltipIntegrationTest {
         @UITextField(label = "static tooltip", position = 0)
         public String getPropertyWithStaticTooltip() {
             return "";
+        }
+    }
+
+    public static class TestPmoWithStaticEmptyTooltip {
+
+        @BindTooltip(value = StringUtils.EMPTY, tooltipType = TooltipType.STATIC)
+        @UITextField(label = "static tooltip", position = 0)
+        public String getPropertyWithStaticEmptyTooltip() {
+            return "";
+        }
+    }
+
+    public static class TestPmoWithAutoTooltip {
+
+        private String tooltip;
+
+        public TestPmoWithAutoTooltip(String tooltip) {
+            this.tooltip = tooltip;
+        }
+
+        public void setTooltip(String tooltip) {
+            this.tooltip = tooltip;
+        }
+
+        @BindTooltip
+        @UITextField(label = "dynamic tooltip", position = 0)
+        public String getProperty() {
+            return "";
+        }
+
+        public String getPropertyTooltip() {
+            return tooltip;
         }
     }
 

@@ -144,21 +144,6 @@
     },
     {
      "code": "java.class.externalClassExposedInAPI",
-     "new": "enum org.linkki.core.defaults.ui.aspects.types.HrefType",
-     "justification": "LIN-1872 :: Add @UILink"
-    },
-    {
-     "code": "java.class.externalClassExposedInAPI",
-     "new": "enum org.linkki.core.defaults.ui.aspects.types.IconType",
-     "justification": "LIN-1872 :: Add @UILink"
-    },
-    {
-     "code": "java.class.externalClassExposedInAPI",
-     "new": "enum org.linkki.core.defaults.ui.aspects.types.TargetType",
-     "justification": "LIN-1872 :: Add @UILink"
-    },
-    {
-     "code": "java.class.externalClassExposedInAPI",
      "new": "class com.vaadin.shared.ui.link.LinkState",
      "justification": "LIN-1872 :: Add @UILink"
     },
@@ -166,6 +151,18 @@
      "code": "java.class.externalClassExposedInAPI",
      "new": "class com.vaadin.ui.Link",
      "justification": "LIN-1872 :: Add @UILink"
+    },
+    {
+      "code": "java.method.defaultValueChanged",
+      "old": "method org.linkki.core.defaults.ui.aspects.types.CaptionType org.linkki.core.ui.aspects.annotation.BindCaption::captionType()",
+      "new": "method org.linkki.core.defaults.ui.aspects.types.CaptionType org.linkki.core.ui.aspects.annotation.BindCaption::captionType()",
+      "justification": "compatible new default value"
+    
+    },
+    {
+      "code": "java.class.externalClassExposedInAPI",
+      "new": "enum org.linkki.core.defaults.ui.aspects.types.IconType",
+      "justification": "New type for LIN-1872"
     }
    ]
   }

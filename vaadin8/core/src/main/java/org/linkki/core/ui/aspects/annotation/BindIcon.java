@@ -18,7 +18,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
@@ -26,6 +25,8 @@ import org.linkki.core.ui.aspects.IconAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindIcon.BindIconAspectDefinitionCreator;
 
 import com.vaadin.icons.VaadinIcons;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Shows an icon for a UI component. The annotation can be added to the method bound to a UI field .
@@ -35,17 +36,32 @@ import com.vaadin.icons.VaadinIcons;
 @LinkkiAspect(BindIconAspectDefinitionCreator.class)
 public @interface BindIcon {
 
-    /** The displayed icon for {@link IconType#STATIC} */
-    VaadinIcons value() default VaadinIcons.SMILEY_O;
+    /**
+     * The displayed icon for {@link IconType#STATIC}.
+     * 
+     * @implNote To support the convenient way to just use @BindIcon and directly get a dynamic icon
+     *           binding without specifying the {@link #iconType()} explicitly, we need a default value.
+     *           The icon {@link VaadinIcons#NATIVE_BUTTON} seems to be a quite useless icon. However if
+     *           it is necessary to use exactly this icon it is necessary to specify {@link #iconType()}
+     *           as {@link IconType#STATIC} explicitly.
+     */
+    VaadinIcons value() default VaadinIcons.NATIVE_BUTTON;
 
     /** Defines how the icon should be retrieved */
-    IconType iconType() default IconType.STATIC;
+    IconType iconType() default IconType.AUTO;
 
     class BindIconAspectDefinitionCreator implements AspectDefinitionCreator<BindIcon> {
 
         @Override
-        public LinkkiAspectDefinition create(BindIcon bindIcon) {
-            return new IconAspectDefinition(bindIcon.iconType(), bindIcon.value());
+        public IconAspectDefinition create(BindIcon bindIcon) {
+            return new IconAspectDefinition(bindIcon.iconType(), getValueConsiderDefault(bindIcon));
+        }
+
+        @CheckForNull
+        private VaadinIcons getValueConsiderDefault(BindIcon bindIcon) {
+            return bindIcon.iconType() == IconType.AUTO && VaadinIcons.NATIVE_BUTTON.equals(bindIcon.value())
+                    ? null
+                    : bindIcon.value();
         }
 
     }

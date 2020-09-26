@@ -76,7 +76,7 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
     public void testLinkCaption_Default() {
         Link link = getComponentById("defaultsLink");
 
-        assertThat(link.getCaption(), is("DefaultsLink"));
+        assertThat(link.getCaption(), is(""));
     }
 
     @Test
@@ -168,6 +168,10 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
         @UILink(position = 3)
         public String getDefaultsLink() {
             return READONLY_LINK;
+        }
+
+        public String getDefaultsLinkCaption() {
+            return "";
         }
 
         @Override

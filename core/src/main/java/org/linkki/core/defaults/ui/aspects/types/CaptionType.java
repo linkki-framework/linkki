@@ -31,5 +31,12 @@ public enum CaptionType {
     /**
      * Caption is bound to the property using the method {@code get[PropertyName]Caption()}.
      */
-    DYNAMIC;
+    DYNAMIC,
+
+    /**
+     * Linkki decides whether the caption is {@link #DYNAMIC} or {@link #STATIC}. In case the value is
+     * the empty string it calls a method named {@code get<PropertyName>Caption()}. Otherwise the
+     * specified value is used as caption.
+     */
+    AUTO;
 }

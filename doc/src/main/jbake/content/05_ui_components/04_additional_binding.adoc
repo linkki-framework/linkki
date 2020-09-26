@@ -124,7 +124,8 @@ The following configuration options are available for `TooltipType`:
 [cols="1,9"]
 .TooltipType
 |===
-|`STATIC`   |the text of the tooltip is read from the attribute `value` (*default*)
+|`AUTO`     |the text of the tooltip is read from the attribute `value` if it is not empty, otherwise it reacts like `DYNAMIC` (*default*)
+|`STATIC`   |the text of the tooltip is read from the attribute `value`
 |`DYNAMIC`  |the text of the tooltip is determined by the return value of the method `String get<PropertyName>Tooltip()`. The `value` is ignored.
 |===
 
@@ -180,12 +181,14 @@ This is the text displayed on <<caption-type, `CaptionType.STATIC`>>. Its defaul
 [[caption-type]]
 CaptionType::
 The following configuration options are available for `CaptionType`:
-+
+
 [cols="1,9"]
 .CaptionType
 |===
-|`STATIC`   |the caption is read from the attribute `value` (*default*)
+|`AUTO`     |reacts as `DYNAMIC` if value is empty or `STATIC` if it is not empty (*default*)
+|`STATIC`   |the caption is read from the attribute `value`
 |`DYNAMIC`  |the caption is determined by the return value of the method `String get<PropertyName>Caption()`. The `value` is ignored.
+|`NONE`     |explicitly set the caption to `null`
 |===
 
 [[bind-icon]]
@@ -205,12 +208,16 @@ This is the icon displayed on <<icon-type, `IconType.STATIC`>>. Its default valu
 [[icon-type]]
 IconType::
 The following configuration options are available for `IconType`:
-+
+
 [cols="1,9"]
 .IconType
 |===
-|`STATIC`   |the icon is read from the attribute `value` (*default*)
+|`AUTO`     |reacts as `STATIC` if icon is specified or `DYNAMIC` if not (*default*)
+|`STATIC`   |the icon is read from the attribute `value`
 |`DYNAMIC`  |the icon is determined by the return value of the method `Resource get<PropertyName>Icon()`. The `value` is ignored. 
 |=== 
 
 TIP: The class `VaadinIcons` contains many Icons for easy use. The Vaadin documentation includes a https://vaadin.com/components/vaadin-icons/java-examples#all-icons[reference page listing all available icons] as well as documentation how to https://vaadin.com/docs/v8/framework/themes/themes-fonticon.html#themes.fonticon.custom.creating[creating your own FontIcons].
+
+IMPORTANT: Since annotations do not support a `null` value and `VaadinIcons` do not have a "NO_ICON" we cannot really specify "no icon" to automatically use a dynamic one. Hence we decided to use a quite uncommon icon (NATIVE_BUTTON) as default. If you really need exactly this icon, use `iconType=STATIC` explicitly.
+

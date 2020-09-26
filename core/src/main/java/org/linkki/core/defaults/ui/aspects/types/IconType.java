@@ -18,12 +18,19 @@ package org.linkki.core.defaults.ui.aspects.types;
  */
 public enum IconType {
 
+
     /** A fixed icon. */
     STATIC,
 
     /**
      * The icon is read from the PMO by invoking a method named {@code get[PropertyName]Icon()}.
      */
-    DYNAMIC;
+    DYNAMIC,
 
+    /**
+     * Linkki decides whether the icon is {@link #DYNAMIC} or {@link #STATIC}. In case the value is the
+     * default value it calls a method named {@code get<PropertyName>Icon()}. Otherwise the specified
+     * value is used as icon.
+     */
+    AUTO;
 }
