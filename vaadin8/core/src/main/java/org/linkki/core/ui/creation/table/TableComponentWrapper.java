@@ -15,6 +15,7 @@
 package org.linkki.core.ui.creation.table;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,36 +82,51 @@ public class TableComponentWrapper<ROW> extends CaptionComponentWrapper
      * are not the ones currently displayed.
      */
     @Override
-    public void setItems(List<ROW> actualItems) {
-        boolean hasChildChanged = hasItemChanged(actualItems);
-        if (hasChildChanged || hasItemListChanged(actualItems)) {
-            tableContainer.setItems(actualItems);
+    public void setItems(List<ROW> items) {
+        boolean hasChildChanged = updateChildren(items);
+        if (hasChildChanged || hasItemListChanged(items)) {
+            tableContainer.setItems(items);
         }
     }
 
-    private boolean hasItemListChanged(List<ROW> actualItems) {
-        return !tableContainer.rootItemIds().equals(actualItems);
+    private boolean hasItemListChanged(List<ROW> items) {
+        return !tableContainer.rootItemIds().equals(items);
     }
 
-    private boolean hasItemChanged(List<? extends ROW> items) {
-        return items.stream()
-                .map(this::hasItemChanged)
-                .reduce(false, (anyChanged, thisChanged) -> anyChanged || thisChanged);
+    /**
+     * @see #updateChildren(ROW)
+     */
+    private boolean updateChildren(List<? extends ROW> items) {
+        boolean changed = false;
+        for (ROW item : items) {
+            changed |= updateChildren(item);
+        }
+        return changed;
     }
 
-    private boolean hasItemChanged(ROW item) {
+    /**
+     * Updates the children stored in the underlying container. Stored children that do not match the
+     * ones present on the given item are updated accordingly. Children of items that are not visible
+     * are ignored.
+     * 
+     * A call to {@link LinkkiInMemoryContainer#setItems(Collection)} is required if this method returns
+     * {@code true}.
+     * 
+     * @return {@code true} if the underlying container changed as a result of the call
+     */
+    private boolean updateChildren(ROW item) {
         if (getComponent() instanceof com.vaadin.v7.ui.TreeTable) {
-            boolean collapsed = ((com.vaadin.v7.ui.TreeTable)getComponent()).isCollapsed(item);
-            if (collapsed) {
-                return tableContainer.removeExistingChildren(item);
+            boolean expanded = !((com.vaadin.v7.ui.TreeTable)getComponent()).isCollapsed(item);
+            Collection<ROW> storedChildren = tableContainer.getExistingChildren(item);
+            List<? extends ROW> currentChildren = getCurrentChildren(item);
+            boolean childrenHaveChanged = !currentChildren.equals(storedChildren);
+            boolean subChildrenHaveChanged = expanded && updateChildren(currentChildren);
+
+            if (childrenHaveChanged || subChildrenHaveChanged) {
+                tableContainer.removeExistingChildren(item);
+                tableContainer.getChildren(item);
+                return true;
             } else {
-                Collection<ROW> existingChildren = tableContainer.getExistingChildren(item);
-                List<? extends ROW> currentChildren = getCurrentChildren(item);
-                boolean itemInsideChildrenHasChanged = hasItemChanged(currentChildren);
-                boolean childrenHaveChanged = !currentChildren.equals(existingChildren);
-                if (itemInsideChildrenHasChanged || childrenHaveChanged) {
-                    return tableContainer.removeExistingChildren(item);
-                }
                 return false;
             }
         } else {
@@ -119,6 +135,9 @@ public class TableComponentWrapper<ROW> extends CaptionComponentWrapper
     }
 
     private List<? extends ROW> getCurrentChildren(ROW item) {
+        if (!(item instanceof HierarchicalRowPmo<?>)) {
+            return Collections.emptyList();
+        }
         @SuppressWarnings("unchecked")
         HierarchicalRowPmo<? extends ROW> hierarchicalRowPmo = (HierarchicalRowPmo<? extends ROW>)item;
         return hierarchicalRowPmo.getChildRows();

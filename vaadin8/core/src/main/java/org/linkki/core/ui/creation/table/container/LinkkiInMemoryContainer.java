@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
 
@@ -44,8 +43,8 @@ public class LinkkiInMemoryContainer<T>
     // Use a weak reference to remove mappings of children that have been removed because they are
     // no longer referenced by their former parent. Their bindings are removed automatically when
     // the corresponding Components are detached after their parent's binding was updated.
-    private Map<T, T> parents = new WeakHashMap<>();
-    private Map<T, List<T>> children = new WeakHashMap<>();
+    private WeakHashMap<T, T> parents = new WeakHashMap<>();
+    private WeakHashMap<T, List<T>> children = new WeakHashMap<>();
 
     private ArrayList<T> roots = new ArrayList<>();
 
@@ -55,7 +54,9 @@ public class LinkkiInMemoryContainer<T>
     }
 
     /**
-     * Replaces this container's contents with the given items.
+     * Replaces this container's contents with the given items. Vaadin is notified of the change, and
+     * potentially triggers a redraw. Due to the implementation of this container, this should only be
+     * called if the items have changed.
      * 
      * @param items a collection of items
      */
@@ -152,7 +153,8 @@ public class LinkkiInMemoryContainer<T>
     private List<T> getChildrenTypesafe(T parent) {
         @SuppressWarnings("unchecked")
         List<T> childRows = getHierarchicalItem(parent)
-                .map(t -> (List<T>)t.getChildRows())
+                // create new ArrayList to prevent modification
+                .map(t -> (List<T>)new ArrayList<>(t.getChildRows()))
                 .orElseGet(Collections::emptyList);
         childRows.forEach(child -> parents.put(child, parent));
         return childRows;

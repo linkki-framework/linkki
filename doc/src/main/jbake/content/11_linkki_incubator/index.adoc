@@ -15,7 +15,7 @@ Expect things to break!
 ----
 <dependency>
     <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-incubator</artifactId>
+    <artifactId>linkki-core-vaadin8-incubator</artifactId>
 </dependency>
 ----
 
