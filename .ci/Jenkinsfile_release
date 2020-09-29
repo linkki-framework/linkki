@@ -92,7 +92,7 @@ pipeline {
         stage('Maven Deployment') {
             steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn deploy'
+                    sh 'mvn deploy -PMavenCentralRelease -Ddoc.user=doc'
                 }
             }
         }
