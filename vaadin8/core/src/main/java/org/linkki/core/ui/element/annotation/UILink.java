@@ -33,7 +33,6 @@ import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
-import org.linkki.core.defaults.ui.aspects.types.TargetType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
@@ -79,14 +78,11 @@ public @interface UILink {
 
     /**
      * Specifies where to open the link. Might be one of {@link LinkTarget} or a specific frame.
+     * <p>
+     * To define a dynamic link use {@link LinkTarget#DYNAMIC} and implement a method called
+     * {@code get<PropertyName>Target}
      */
     String target() default LinkTarget.SELF;
-
-    /**
-     * Defines whether a link's target attribute is determined statically from {@link #target()} or
-     * dynamically from a call to the PMO's {@code get[PropertyName]Target()} method.
-     */
-    TargetType targetType() default TargetType.STATIC;
 
     static class LinkComponentDefinitionCreator implements ComponentDefinitionCreator<UILink> {
 
@@ -109,7 +105,8 @@ public @interface UILink {
                     new VisibleAspectDefinition(annotation.visible()),
                     new LinkValueAspectDefinition(),
                     new CaptionAspectDefinition(annotation.captionType(), annotation.caption()),
-                    new LinkTargetAspectDefinition(annotation.target(), TargetType.DYNAMIC == annotation.targetType()));
+                    new LinkTargetAspectDefinition(annotation.target(),
+                            LinkTarget.DYNAMIC.equals(annotation.target())));
         }
     }
 
@@ -117,18 +114,27 @@ public @interface UILink {
      * Common targets used for links.
      */
     final class LinkTarget {
+
+        /**
+         * The empty string indicates that the target is derived dynamically from the PMO.
+         */
+        public static final String DYNAMIC = "";
+
         /**
          * Opens the linked document in a new window or tab
          */
         public static final String BLANK = "_blank";
+
         /**
          * Opens the linked document in the same frame as it was clicked.
          */
         public static final String SELF = "_self";
+
         /**
          * Opens the linked document in the parent frame.
          */
         public static final String PARENT = "_parent";
+
         /**
          * Opens the linked document in the full body of the window.
          */

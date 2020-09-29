@@ -19,13 +19,15 @@ import static org.hamcrest.Matchers.nullValue;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
-import org.linkki.core.defaults.ui.aspects.types.TargetType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
+import org.linkki.core.ui.element.annotation.UILink.LinkTarget;
 import org.linkki.core.ui.element.annotation.UILinkIntegrationTest.LinkTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Link;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Link, LinkTestPmo> {
 
@@ -121,6 +123,7 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
         public static final String READONLY_LINK = "link";
         public static final String STATIC_CAPTION = "caption";
 
+        @CheckForNull
         private String value;
         private String valueCaption;
         private String valueTarget;
@@ -131,7 +134,8 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
             this.valueTarget = "_top";
         }
 
-        @UILink(position = 1, visible = VisibleType.DYNAMIC, captionType = CaptionType.DYNAMIC, targetType = TargetType.DYNAMIC, label = "")
+        @CheckForNull
+        @UILink(position = 1, visible = VisibleType.DYNAMIC, captionType = CaptionType.DYNAMIC, target = LinkTarget.DYNAMIC, label = "")
         public String getValue() {
             return value;
         }
@@ -156,7 +160,7 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
             this.valueTarget = valueTarget;
         }
 
-        @UILink(position = 2, label = TEST_LABEL, visible = VisibleType.INVISIBLE, caption = STATIC_CAPTION, target = "_blank", targetType = TargetType.STATIC)
+        @UILink(position = 2, label = TEST_LABEL, visible = VisibleType.INVISIBLE, caption = STATIC_CAPTION, target = "_blank")
         public String getStaticValue() {
             return READONLY_LINK;
         }
