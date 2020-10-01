@@ -48,10 +48,17 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     private Supplier<Object> modelObjectSupplier;
     private GridLayout defaultSection;
 
-
     public ComponentAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,
             Function<Object, ? extends P> pmoCreator) {
         this.modelObjectSupplier = modelObjectSupplier;
+        this.pmoCreator = pmoCreator;
+    }
+
+    /**
+     * Constructor for annotations that do not support model binding
+     */
+    public ComponentAnnotationIntegrationTest(Function<Object, ? extends P> pmoCreator) {
+        this.modelObjectSupplier = Object::new;
         this.pmoCreator = pmoCreator;
     }
 

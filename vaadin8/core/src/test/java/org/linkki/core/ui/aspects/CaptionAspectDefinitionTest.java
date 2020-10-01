@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.nullValue;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.ui.creation.table.TableComponentWrapper;
@@ -30,6 +31,57 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
 public class CaptionAspectDefinitionTest {
+
+
+    @Test
+    public void testCreateAspect_Static() {
+        CaptionAspectDefinition captionAspectDefinition = new CaptionAspectDefinition(CaptionType.STATIC, "foo");
+
+        Aspect<String> aspect = captionAspectDefinition.createAspect();
+
+        assertThat(aspect.getName(), is(CaptionAspectDefinition.NAME));
+        assertThat(aspect.getValue(), is("foo"));
+    }
+
+    @Test
+    public void testCreateAspect_Auto_WithValue() {
+        CaptionAspectDefinition captionAspectDefinition = new CaptionAspectDefinition(CaptionType.AUTO, "foo");
+
+        Aspect<String> aspect = captionAspectDefinition.createAspect();
+
+        assertThat(aspect.getName(), is(CaptionAspectDefinition.NAME));
+        assertThat(aspect.getValue(), is("foo"));
+    }
+
+    @Test
+    public void testCreateAspect_Auto_WithoutValue() {
+        CaptionAspectDefinition captionAspectDefinition = new CaptionAspectDefinition(CaptionType.AUTO, "");
+
+        Aspect<String> aspect = captionAspectDefinition.createAspect();
+
+        assertThat(aspect.getName(), is(CaptionAspectDefinition.NAME));
+        assertThat(aspect.isValuePresent(), is(false));
+    }
+
+    @Test
+    public void testCreateAspect_Dynamic() {
+        CaptionAspectDefinition captionAspectDefinition = new CaptionAspectDefinition(CaptionType.DYNAMIC, "foo");
+
+        Aspect<String> aspect = captionAspectDefinition.createAspect();
+
+        assertThat(aspect.getName(), is(CaptionAspectDefinition.NAME));
+        assertThat(aspect.isValuePresent(), is(false));
+    }
+
+    @Test
+    public void testCreateAspect_None() {
+        CaptionAspectDefinition captionAspectDefinition = new CaptionAspectDefinition(CaptionType.NONE, "foo");
+
+        Aspect<String> aspect = captionAspectDefinition.createAspect();
+
+        assertThat(aspect.getName(), is(CaptionAspectDefinition.NAME));
+        assertThat(aspect.getValue(), is(nullValue()));
+    }
 
     @Test
     public void testCreateComponentValueSetter() {
@@ -50,10 +102,9 @@ public class CaptionAspectDefinitionTest {
         com.vaadin.v7.ui.Table table = new com.vaadin.v7.ui.Table();
         ComponentWrapper componentWrapper = new TableComponentWrapper<String>("4711", table);
 
-        Consumer<String> componentValueSetter = captionAspectDefinition.createComponentValueSetter(componentWrapper);
+        boolean supported = captionAspectDefinition.supports(componentWrapper.getType());
 
-        componentValueSetter.accept("bar");
-        assertThat(table.getCaption(), is(nullValue()));
+        assertThat(supported, is(false));
     }
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
 import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
-import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
@@ -22,7 +21,7 @@ public class TriangleRowPmo implements HierarchicalRowPmo<TriangleRowPmo> {
 
     @UITableColumn(expandRatio = 1)
     @UITextField(label = "Value", position = 10)
-    @BindTooltip(tooltipType = TooltipType.DYNAMIC)
+    @BindTooltip
     public String getValue() {
         return node.getValue();
     }

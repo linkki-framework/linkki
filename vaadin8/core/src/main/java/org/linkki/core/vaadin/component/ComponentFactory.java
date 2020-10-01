@@ -36,6 +36,7 @@ import com.vaadin.ui.DateField;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TwinColSelect;
@@ -222,6 +223,16 @@ public class ComponentFactory {
     public static Label newLabelUndefinedWidth(String caption) {
         Label label = new Label(caption, ContentMode.TEXT);
         return label;
+    }
+
+    /**
+     * Creates a new {@link Link} with full width.
+     */
+    public static Link newLinkFullWidth(String caption) {
+        Link link = new Link();
+        link.setWidth("100%");
+        link.setCaption(caption);
+        return link;
     }
 
     /**

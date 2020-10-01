@@ -52,6 +52,33 @@ $linkki-label-alignment: left;
 
 The required indicator is now displayed on the right of the label, instead fo right of the input field. This makes the required indicator more prominent to the user. Also, it is more consistent with components that are directly created with Vaadin. 
 
+==== New UI Annotation: @UILink
+
+Up until now, there were two ways to create hyperlinks with *linkki*
+
+* Use a `@UIButton` that is styled as a link. This approach has the disadvantage that the user do not have the context menu to control how to follow the link, or to copy the link. In addition, the displayed text also cannot be easily copied.
+* Use a `@UILabel` with HTML content enabled. This is a relatively technical solution as the implementer has to directly write HTML code.
+
+Now, *linkki* offers a <<ui-link, `@UILink`>> annotation. The method that is annotated should return the link while the displayed text is determined by the caption aspect. The `@UILink` also offers a `target` attribute that specifies where to open the link. More detail can be found in the <<ui-link, documentation>>.
+
+[source, java]
+----
+@UILink(position = 0, caption = "Finally a link!", target = LinkTarget.BLANK)
+public String getLinkki() {
+  return "https://linkki-framework.org/";
+}
+----
+
+==== New Aspect Annotation: @BindIcon
+
+Dynamic icon has been a frequently requested feature for button. Although it is very easy to create such an aspect by oneself, it is so commonly needed that *linkki* now welcomes a new member in its family: the <<bind-icon, @BindIcon>> annotation. Besides buttons, this annotation is also useful for the new <<ui-link, @UILink>> annotation to indicate external links if needed. 
+
+==== More convenient dynamic binding with @Bind... annotations
+
+For the annotations `@BindTooltip` and `@BindCaption` the default of the type was changed to the new type `AUTO`. Using this type it is no longer necessary to specify the type `DYNAMIC` explicitly while specifying no specific value.
+
+For example simply write `@BindTooltip` instead of `@BindTooltip(tooltipType = TooltipType.DYNAMIC)` to get a dynamic tooltip binding.
+
 ==== Nested Components
 
 Using the annoation <<nested-pmos,`@UiNestedComponent`>>, a PMO can include further PMOs. More advanced layouts and a cleaner seperation of PMO classes are thus possible.

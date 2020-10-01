@@ -23,7 +23,8 @@ public enum EnabledType {
     DISABLED,
 
     /**
-     * The enabled state is read from the PMO by invoking a method named is[PropertyName]Enabled().
+     * The enabled state is read from the PMO by invoking a method named
+     * {@code is[PropertyName]Enabled()}.
      */
     DYNAMIC;
 

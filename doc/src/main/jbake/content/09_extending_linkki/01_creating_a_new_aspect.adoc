@@ -4,39 +4,10 @@
 
 :source-dir: ../../../../src/main/java
 
-[[aspects]]
-=== Aspects
-
-A primary functionality of *linkki* is the data binding. Most data binding frameworks only concentrate on synchronizing the value between model and UI. *linkki* can bind more than just the value. In fact, almost every part of the UI state can be taken into account for data binding with *linkki*. The most common parts of the UI state are for example the enabled state or the visibility. But there are also additional data that may be bound to a component such as the tooltip, available values for selection or CSS class names. For a property, every such UI state part is a so called *aspect* of the property.
-
-==== Using an Apsect in a PMO
-
-The following example shows two aspects for the property "name". 
-
-.Value and enabled aspect
-[source,java]
-----
-include::{source-dir}/org/linkki/doc/dynamic/PartnerSectionPmo.java[tags=aspects]
-----
-
-The most important aspect is the value aspect. It is also mandatory for the data binding to function. The value aspect is dynamically determined by the getter and setter methods of the property. 
-
-The second aspect that can be seen is the enabled aspect. This state is defined by the method `isNameEnabled`.
-
-Each aspect has a name. The enabled aspect has the name "enabled" whereas the value aspect has the empty String as name. In general, the state of the aspect "aspect" for property "property" is determined by the method `is/get<Property><Aspect>` and `set<Property><Aspect>`.
-
-Aspects can also apply to the whole PMO if it is also bound to a UI component. In this case, the property name is the empty string.
-
-.Aspect on PMO class
-[source,java]
-----
-include::{source-dir}/org/linkki/doc/dynamic/PartnerSectionPmo.java[tags=aspectOnClass]
-----
-
 [[creating-aspects]]
 ==== Creating a New Aspect
 
-In addition to built-in aspects, you can easily create your own. This guide walks you through the process of implementing a simple aspect that allows components to show a dynamically bound tooltip. In this example, you will build the aspect as a standalone annotation that can be used in addition to any `BindingDefinition`.
+In addition to built-in <<aspects>>, you can easily create your own. This guide walks you through the process of implementing a simple aspect that allows components to show a dynamically bound tooltip. In this example, you will build the aspect as a standalone annotation that can be used in addition to any `BindingDefinition`.
 
 TIP: A similar aspect is already included in *linkki*. It is only used as an example due to its simplicity.
 

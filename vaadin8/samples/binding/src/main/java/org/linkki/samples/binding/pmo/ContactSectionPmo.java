@@ -22,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UICheckBox;
@@ -51,7 +50,7 @@ public class ContactSectionPmo {
         return contact;
     }
 
-    @BindTooltip(tooltipType = TooltipType.DYNAMIC)
+    @BindTooltip
     @UITextField(position = 10, label = "Firstname", required = RequiredType.REQUIRED, modelAttribute = Contact.PROPERTY_FIRSTNAME)
     public void firstname() {
         /* model binding only */
@@ -61,7 +60,7 @@ public class ContactSectionPmo {
         return "First name";
     }
 
-    @BindTooltip(tooltipType = TooltipType.DYNAMIC)
+    @BindTooltip
     @UITextField(position = 20, label = "Lastname", required = RequiredType.REQUIRED, modelAttribute = Contact.PROPERTY_LASTNAME)
     public void lastname() {
         /* model binding only */

@@ -14,9 +14,14 @@
 
 package org.linkki.samples.playground.allelements;
 
+import java.util.Optional;
+
 import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
+import org.linkki.core.defaults.ui.aspects.types.CaptionType;
+import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
@@ -28,14 +33,18 @@ import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UIDoubleField;
 import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UIRadioButtons;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.ips.decimalfield.UIDecimalField;
+import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.samples.playground.ui.PlaygroundView;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.PasswordField;
 
 public abstract class AbstractAllUiElementsSectionPmo {
@@ -216,6 +225,16 @@ public abstract class AbstractAllUiElementsSectionPmo {
 
     public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;
+    }
+
+    @BindIcon(iconType = IconType.DYNAMIC)
+    @UILink(position = 140, label = NlsText.I18n, caption = "Link to Dynamic Annotations", captionType = CaptionType.STATIC)
+    public String getLink() {
+        return "main#!/" + PlaygroundView.PARAMETER_SHEET + "=" + DynamicAnnotationsLayout.ID;
+    }
+
+    public VaadinIcons getLinkIcon() {
+        return Optional.ofNullable(getModelObject().getEnumValue()).map(Direction::getIcon).orElse(null);
     }
 
     @UISection(caption = NlsText.I18n)

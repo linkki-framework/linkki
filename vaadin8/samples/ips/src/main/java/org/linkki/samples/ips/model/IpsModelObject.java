@@ -22,18 +22,18 @@ import org.faktorips.runtime.IRuntimeRepository;
 import org.faktorips.runtime.IValidationContext;
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
-import org.faktorips.runtime.Severity;
-import org.faktorips.runtime.model.annotation.IpsValidationRule;
 import org.faktorips.runtime.MsgReplacementParameter;
 import org.faktorips.runtime.ObjectProperty;
+import org.faktorips.runtime.Severity;
 import org.faktorips.runtime.internal.AbstractModelObject;
 import org.faktorips.runtime.model.annotation.IpsAllowedValues;
 import org.faktorips.runtime.model.annotation.IpsAttribute;
 import org.faktorips.runtime.model.annotation.IpsAttributeSetter;
 import org.faktorips.runtime.model.annotation.IpsAttributes;
-import org.faktorips.runtime.model.annotation.IpsValidationRules;
 import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
+import org.faktorips.runtime.model.annotation.IpsValidationRule;
+import org.faktorips.runtime.model.annotation.IpsValidationRules;
 import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
 import org.faktorips.runtime.util.MessagesHelper;
@@ -246,7 +246,7 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * Executes the rule checkDecimal and adds a message to the given list if the object is invalid.
      * 
-     * @param ml      list to which validation errors are added
+     * @param ml list to which validation errors are added
      * @param context the validation context
      * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should be
      *         stopped after processing this rule.

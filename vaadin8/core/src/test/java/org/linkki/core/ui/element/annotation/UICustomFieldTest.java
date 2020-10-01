@@ -35,7 +35,7 @@ import com.vaadin.ui.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UiCustomFieldTest {
+public class UICustomFieldTest {
 
     private TestModelObject modelObject = new TestModelObject();
 

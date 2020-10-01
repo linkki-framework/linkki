@@ -23,7 +23,7 @@ import com.vaadin.ui.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UiIntegerFieldTest {
+public class UIIntegerFieldTest {
 
     protected static class TestModelObjectWithPrimitiveInteger {
 

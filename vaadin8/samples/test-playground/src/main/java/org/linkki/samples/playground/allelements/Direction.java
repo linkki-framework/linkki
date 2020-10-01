@@ -11,21 +11,28 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.core.defaults.ui.aspects.types;
 
-/** Defines whether an UI component is visible. */
-public enum VisibleType {
+package org.linkki.samples.playground.allelements;
 
-    /** The UI component is always visible. */
-    VISIBLE,
+import com.vaadin.icons.VaadinIcons;
 
-    /** The UI component is never visible. */
-    INVISIBLE,
+public enum Direction {
+    UP(VaadinIcons.ARROW_CIRCLE_UP),
+    DOWN(VaadinIcons.ARROW_CIRCLE_DOWN),
+    LEFT(VaadinIcons.ARROW_CIRCLE_LEFT),
+    RIGHT(VaadinIcons.ARROW_CIRCLE_RIGHT);
 
-    /**
-     * The visible state is read from the PMO by invoking a method named
-     * {@code is[PropertyName]Visible()}.
-     */
-    DYNAMIC;
+    private final VaadinIcons icon;
 
+    private Direction(VaadinIcons icon) {
+        this.icon = icon;
+    }
+
+    public String getName() {
+        return name();
+    }
+
+    public VaadinIcons getIcon() {
+        return icon;
+    }
 }

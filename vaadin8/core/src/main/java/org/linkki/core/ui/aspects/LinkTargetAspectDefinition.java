@@ -12,51 +12,45 @@
  * License.
  */
 
-package org.linkki.core.defaults.ui.aspects;
+package org.linkki.core.ui.aspects;
 
 import java.util.function.Consumer;
 
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 
-public class TooltipAspectDefinition extends ModelToUiAspectDefinition<String> {
+import com.vaadin.ui.Link;
 
-    public static final String NAME = "tooltip";
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-    private final TooltipType type;
+/**
+ * This aspect sets the target attribute of a {@link Link}.
+ */
+public class LinkTargetAspectDefinition extends ModelToUiAspectDefinition<String> {
 
-    private final String value;
+    public static final String NAME = "target";
 
-    public TooltipAspectDefinition(TooltipType type, String value) {
-        this.type = type;
-        this.value = value;
+    @CheckForNull
+    private final String target;
+
+    private final boolean dynamic;
+
+
+    public LinkTargetAspectDefinition(String target, boolean dynamic) {
+        this.target = target;
+        this.dynamic = dynamic;
     }
 
     @Override
     public Aspect<String> createAspect() {
-        switch (type) {
-            case AUTO:
-                return StringUtils.isEmpty(value)
-                        ? Aspect.of(NAME)
-                        : Aspect.of(NAME, value);
-
-            case STATIC:
-                return Aspect.of(NAME, value);
-
-            case DYNAMIC:
-                return Aspect.of(NAME);
-
-            default:
-                throw new IllegalArgumentException("TooltipType " + type + " is not supported.");
-        }
+        return dynamic ? Aspect.of(NAME) : Aspect.of(NAME, target);
     }
 
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        return componentWrapper::setTooltip;
+        Link link = (Link)componentWrapper.getComponent();
+        return link::setTargetName;
     }
 
 }

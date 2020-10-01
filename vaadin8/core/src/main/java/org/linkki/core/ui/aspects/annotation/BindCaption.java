@@ -47,7 +47,7 @@ public @interface BindCaption {
 
 
     /** Defines how the caption text should be retrieved */
-    CaptionType captionType() default CaptionType.STATIC;
+    CaptionType captionType() default CaptionType.AUTO;
 
     class BindCaptionAspectDefinitionCreator implements AspectDefinitionCreator<BindCaption> {
 

@@ -2434,7 +2434,7 @@ div.v-layout.v-horizontal.v-widget {
 	color: inherit;
 	cursor: pointer;
 	color: #005596;
-	text-decoration: underline;
+	text-decoration: none;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -5151,7 +5151,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-grid-editor-save, .sample .v-grid-editor-cancel {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: underline;
+	text-decoration: none;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -8589,7 +8589,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-link {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: underline;
+	text-decoration: none;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -8608,7 +8608,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-link a {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: underline;
+	text-decoration: none;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -9918,7 +9918,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-tree8-editor-save, .sample .v-tree8-editor-cancel {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: underline;
+	text-decoration: none;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -11064,7 +11064,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-treegrid-editor-save, .sample .v-treegrid-editor-cancel {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: underline;
+	text-decoration: none;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -14132,7 +14132,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-popupview {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: underline;
+	text-decoration: none;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -15754,6 +15754,10 @@ div.v-layout.v-horizontal.v-widget {
 
 .sample .v-button.linkki-button-text:active:not(.v-disabled):after {
 	background: transparent;
+}
+
+.sample .v-link:hover, .sample .v-link:active {
+	text-decoration: underline;
 }
 
 .sample .borderLayout {

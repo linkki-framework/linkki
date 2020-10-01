@@ -15,5 +15,5 @@ The components are arranged using the defined position, while the layout is defi
 
 Additionally *linkki* allows the creation of <<ui-container-pmo, tables>>.
 
-Certain additional aspects of the binding, for example the tooltip of a component, are configured by extra <<additional-binding,annotations>>. These annotations are prefixed with "@Bind..." like <<tooltips, `@BindTooltip`>>.
+Certain additional <<aspects, aspects>> of the binding, for example the tooltip of a component, are configured by extra annotations. These annotations are prefixed with "@Bind..." like <<tooltips, `@BindTooltip`>>.
 

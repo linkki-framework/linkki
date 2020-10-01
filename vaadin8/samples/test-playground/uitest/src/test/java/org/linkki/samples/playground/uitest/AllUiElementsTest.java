@@ -15,6 +15,7 @@
 package org.linkki.samples.playground.uitest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.startsWith;
@@ -28,8 +29,9 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
+import org.linkki.samples.playground.allelements.Direction;
 import org.linkki.samples.playground.allelements.DynamicFieldPmo;
-import org.linkki.samples.playground.allelements.Suit;
+import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 
 import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.CheckBoxElement;
@@ -38,6 +40,7 @@ import com.vaadin.testbench.elements.DateFieldElement;
 import com.vaadin.testbench.elements.FormLayoutElement;
 import com.vaadin.testbench.elements.HorizontalLayoutElement;
 import com.vaadin.testbench.elements.LabelElement;
+import com.vaadin.testbench.elements.LinkElement;
 import com.vaadin.testbench.elements.PasswordFieldElement;
 import com.vaadin.testbench.elements.RadioButtonGroupElement;
 import com.vaadin.testbench.elements.TextAreaElement;
@@ -128,13 +131,13 @@ public class AllUiElementsTest extends AbstractUiTest {
 
         assertThat(comboBox.getValue(), is(""));
 
-        comboBox.selectByText(Suit.HEARTS.getName());
-        assertThat(comboBox.getValue(), is(Suit.HEARTS.getName()));
+        comboBox.selectByText(Direction.UP.getName());
+        assertThat(comboBox.getValue(), is(Direction.UP.getName()));
 
         comboBox.sendKeys("x");
-        assertThat(comboBox.getValue(), is(Suit.HEARTS.getName() + "x"));
+        assertThat(comboBox.getValue(), is(Direction.UP.getName() + "x"));
         comboBox.sendKeys("\t");
-        assertThat(comboBox.getValue(), is(Suit.HEARTS.getName()));
+        assertThat(comboBox.getValue(), is(Direction.UP.getName()));
     }
 
     @Test
@@ -190,9 +193,9 @@ public class AllUiElementsTest extends AbstractUiTest {
 
         assertThat(radioButtons.getValue(), is(nullValue()));
 
-        radioButtons.selectByText(Suit.HEARTS.getName());
+        radioButtons.selectByText(Direction.LEFT.getName());
 
-        assertThat(radioButtons.getValue(), is(Suit.HEARTS.getName()));
+        assertThat(radioButtons.getValue(), is(Direction.LEFT.getName()));
     }
 
     @Test
@@ -274,5 +277,26 @@ public class AllUiElementsTest extends AbstractUiTest {
 
         valueComboBox = $(ComboBoxElement.class).id(DynamicFieldPmo.PROPERTY_VALUE);
         assertThat(valueComboBox.getValue(), is("foobar"));
+    }
+
+    @Test
+    public void testLink() {
+        LinkElement link = $(LinkElement.class).id("link");
+        assertThat(link.getText(), is("Link to Dynamic Annotations"));
+
+        link.click();
+
+        assertThat(getDriver().getCurrentUrl(), endsWith(DynamicAnnotationsLayout.ID.replace(" ", "%20")));
+    }
+
+    @Test
+    public void testBindIcon() {
+        LinkElement link = $(LinkElement.class).id("link");
+        assertThat(link.getText(), is("Link to Dynamic Annotations"));
+
+        ComboBoxElement comboBox = $(ComboBoxElement.class).id("enumValueComboBox");
+        comboBox.selectByText(Direction.RIGHT.getName());
+
+        assertThat(link.getText(), is((char)Direction.RIGHT.getIcon().getCodepoint() + "Link to Dynamic Annotations"));
     }
 }

@@ -34,7 +34,6 @@ import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.bind.annotation.Bind;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
@@ -313,7 +312,7 @@ public class BinderIntegrationTest {
         private TextField textField;
 
         @Bind(pmoProperty = TestPmo.METHOD_ON_CLICK)
-        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
+        @BindTooltip
         private Button button = new Button();
 
         @Bind(pmoProperty = TestPmo.PROPERTY_SOMEOTHERTEXT, availableValues = AvailableValuesType.DYNAMIC, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED)
@@ -337,7 +336,7 @@ public class BinderIntegrationTest {
         }
 
         @Bind(pmoProperty = TestPmo.PROPERTY_NUMBER, enabled = EnabledType.DYNAMIC, required = RequiredType.REQUIRED_IF_ENABLED)
-        @BindTooltip(tooltipType = TooltipType.DYNAMIC)
+        @BindTooltip
         public TextField getNumberField() {
             return numberField;
         }

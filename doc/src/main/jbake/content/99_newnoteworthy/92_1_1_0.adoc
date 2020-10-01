@@ -13,7 +13,7 @@ The annotation processor previously developed separately from *linkki* has becom
 
 ==== New Annotations for Layouts
 
-In addition to `@UISection`, **linkki** now provides `@UIHorizontalLayout`, `@UIVerticalLayout` and `@UIFormLayout`. These annotations can be used for PMO classes in the same way as `@UISection`. In those layouts, labels are presented in the Vaadin default way. In a `HorizontalLayout`, for example, labels for fields are displayed above the field and not beside the field. For more information on the Vaadin layout components, consult the Vaadin docucmentation on https://vaadin.com/docs/v8/framework/layout/layout-orderedlayout.html[VerticalLayout and HorizontalLayout] as well as https://vaadin.com/docs/v8/framework/layout/layout-formlayout.html[FormLayout].
+In addition to `@UISection`, *linkki* now provides `@UIHorizontalLayout`, `@UIVerticalLayout` and `@UIFormLayout`. These annotations can be used for PMO classes in the same way as `@UISection`. In those layouts, labels are presented in the Vaadin default way. In a `HorizontalLayout`, for example, labels for fields are displayed above the field and not beside the field. For more information on the Vaadin layout components, consult the Vaadin docucmentation on https://vaadin.com/docs/v8/framework/layout/layout-orderedlayout.html[VerticalLayout and HorizontalLayout] as well as https://vaadin.com/docs/v8/framework/layout/layout-formlayout.html[FormLayout].
 
 ==== `@BindStyleNames` for Sections
 
@@ -43,13 +43,13 @@ The `LabelValueAspectDefinition` now uses the `LinkkiConverterRegistry` to find 
 [role="api-change"]
 ==== Localized Captions with ItemCaptionProvider
 
-`DefaultCaptionProvider` now supports localization by calling `getName(Locale)` to determine the caption, falling back to `getName()` or `toString()` (in order) if the method is not present. Additionally, `IdAndNameCaptionProvider` has been moved to the Faktor-IPS-specific linkki module (now `org.linkki.ips.ui.element.IdAndNameCaptionProvider` in `org.linkki-framework:linkki-ips-vaadin8`), due to there being no general use-case if **linkki** is not used with Faktor-IPS. A deprecated version is still available, but will be removed in a future version.
+`DefaultCaptionProvider` now supports localization by calling `getName(Locale)` to determine the caption, falling back to `getName()` or `toString()` (in order) if the method is not present. Additionally, `IdAndNameCaptionProvider` has been moved to the Faktor-IPS-specific linkki module (now `org.linkki.ips.ui.element.IdAndNameCaptionProvider` in `org.linkki-framework:linkki-ips-vaadin8`), due to there being no general use-case if *linkki* is not used with Faktor-IPS. A deprecated version is still available, but will be removed in a future version.
 
 ==== Inherited aspects
 
 Aspect annotation types can now be annotated with `@InheritedAspect` to indicate that the aspect should also apply to subclasses (for classes) or implementing classes (for interfaces). Only one aspect of each annotation type can apply to a class, additional aspects are ignored. If the same aspect annotation appears in the super class as well as in an interface, only the annotation coming from the super calls will be respected.
 
-This feature can be used when creating your own aspect, but also serves as documentation on aspects provided by **linkki**.
+This feature can be used when creating your own aspect, but also serves as documentation on aspects provided by *linkki*.
 
 [role="api-change"]
 ==== Custom `PropertyDispatcherFactory` in `DefaultBindingManager`
@@ -64,9 +64,9 @@ Obtaining a Vaadin `Component` from `UiCreator#createComponent` requires an addi
 [role="api-change"]
 ==== New Navigator Configuration Concept
 
-View changes in Vaadin are handled by the navigators. Previously, the **linkki** application framework provided an `ApplicationNavigator` which extends the Vaadin `Navigator` with convenient methods such as `showView(String)`. The navigator of a `LinkkiUI` is then configured by the `ApplicationConfig` to use an `ApplicationLayout` to display the views.
+View changes in Vaadin are handled by the navigators. Previously, the *linkki* application framework provided an `ApplicationNavigator` which extends the Vaadin `Navigator` with convenient methods such as `showView(String)`. The navigator of a `LinkkiUI` is then configured by the `ApplicationConfig` to use an `ApplicationLayout` to display the views.
 
-However, the concept of `ApplicationNavigator` turns out to be inconvenient when using **linkki** with CDI or Spring, as both injection frameworks provide their own `Navigators` that automatically discover views. In those cases, the **linkki** user is in the dilemma that the navigator must extend both `ApplicationNavigator` and `SpringNavigator`/`CdiNavigator`.
+However, the concept of `ApplicationNavigator` turns out to be inconvenient when using *linkki* with CDI or Spring, as both injection frameworks provide their own `Navigators` that automatically discover views. In those cases, the *linkki* user is in the dilemma that the navigator must extend both `ApplicationNavigator` and `SpringNavigator`/`CdiNavigator`.
 
 To solve this problem, `ApplicationNavigator` is now deprecated as well as the method `ApplicationConfig#createApplicationNavigator`. Instead, a new method `configureNavigator(ViewDisplay)` is provided in `LinkkiUI` to configure the `Navigator`. To make the API of `LinkkiUI` more consistent, the existing method `createErrorHandler` is also deprecated in favor of the new method `configureErrorHandler`.
 
