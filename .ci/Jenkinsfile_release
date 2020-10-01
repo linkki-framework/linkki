@@ -1,0 +1,140 @@
+pipeline {
+   agent any
+
+    options {
+        skipDefaultCheckout true
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    currentBuild.displayName = "Release ${params.RELEASE_VERSION} (${params.BRANCH})"
+
+                    assert params.RELEASE_VERSION ==~ /(\d+\.)+\d+(-rc\d\d|-m\d\d|-a\d{8}-\d\d|-[A-Z]+)?/
+                    assert params.DEVELOPMENT_VERSION ==~ /(\d+\.)+\d+/
+
+                    def scmVars = checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "${params.BRANCH}"]],
+                        extensions: [[$class: 'WipeWorkspace'], [$class: 'LocalBranch']],
+                        userRemoteConfigs: scm.userRemoteConfigs
+                    ])
+
+                    LOCAL_BRANCH = scmVars.GIT_LOCAL_BRANCH
+                }
+            }
+        }
+
+        stage('Set versions') {
+            steps {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8') {
+                    sh "mvn versions:set -DnewVersion=${params.RELEASE_VERSION} -DgenerateBackupPoms=false"
+                    sh "mvn versions:set -DnewVersion=${params.RELEASE_VERSION} -DgenerateBackupPoms=false -f vaadin8/samples/test-playground/uitest/pom.xml"
+                }
+                sh "git add . && git commit -m '[release] prepare release ${params.RELEASE_VERSION}' && git tag -a -m ${params.RELEASE_VERSION} ${params.RELEASE_VERSION}"
+
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8') {
+                    sh "mvn versions:set -DnewVersion=${params.DEVELOPMENT_VERSION}-SNAPSHOT -DgenerateBackupPoms=false"
+                    sh "mvn versions:set -DnewVersion=${params.DEVELOPMENT_VERSION}-SNAPSHOT -DgenerateBackupPoms=false -f vaadin8/samples/test-playground/uitest/pom.xml"
+                }
+                sh "git add . && git commit -m '[release] prepare for next development iteration'"
+
+                sh "git checkout ${LOCAL_BRANCH}~1"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -U -T 6 clean javadoc:jar source:jar install'
+                }
+
+                junit "**/target/surefire-reports/*.xml"
+                recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
+                jacoco sourceInclusionPattern: '**/*.java'
+            }
+
+            post {
+                unsuccessful {
+                    script {
+                        // Stop even if build is unstable
+                        error 'Build failure'
+                    }
+                }
+            }
+        }
+
+        stage('Docker Deployment') {
+            steps {
+                sh "bash .ci/docker_setup.sh ${params.RELEASE_VERSION}"
+
+                rtp parserName: 'HTML', nullAction: '1', stableText: $/
+                    <h3>Vaadin 8 samples</h3>
+                    <ul>
+                        <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-binding-vaadin8">binding sample</a></li>
+                        <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-messages-vaadin8">messages sample</a></li>
+                        <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-dynamic-fields-vaadin8">dynamic fields sample</a></li>
+                        <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-custom-layout-vaadin8">custom layout sample</a></li>
+                        <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-tree-table-vaadin8">tree table sample</a></li>
+                        <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-application-vaadin8/main">application sample</a></li>
+                        <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin8">getting started</a></li>
+                        <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8/main">test playground</a></li>
+                        <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-ips-vaadin8">IPS sample</a></li>
+                    </ul>
+                /$
+
+                sleep 10
+            }
+
+            environment {
+                DOCKER_HOST = 'ssh://docker@dockerhost.i.faktorzehn.de'
+            }
+        }
+
+        stage('UI Test') {
+            steps {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml clean test'
+                }
+            }
+
+            environment {
+                MAVEN_OPTS = "-Xmx2g -Dtest.hostname=linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8"
+            }
+
+            post {
+                unsuccessful {
+                    script {
+                        // Stop even if build is unstable
+                        error 'UI-Test failure'
+                    }
+                }
+            }
+        }
+
+        stage('Maven Deployment') {
+            steps {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc'
+                }
+            }
+        }
+
+        stage('git push') {
+            steps {
+                sh "git push origin ${LOCAL_BRANCH} --follow-tags"
+            }
+        }
+    }
+
+    post {
+        unsuccessful {
+            emailext to: env.TEAM_EMAIL, mimeType: 'text/html', subject: 'Jenkins Release Failure - $JOB_NAME', body: '''
+                <img src="https://jenkins.io/images/logos/fire/fire.png" style="max-width: 300px;" alt="Jenkins is not happy about it ...">
+                <br>
+                $BUILD_URL
+            '''
+        }
+    }
+}
