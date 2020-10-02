@@ -47,7 +47,7 @@ pipeline {
         stage('Build') {
             steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 clean install javadoc:jar source:jar'
+                    sh 'mvn -U -T 6 clean javadoc:jar source:jar install'
                 }
 
                 junit "**/target/surefire-reports/*.xml"
@@ -90,10 +90,31 @@ pipeline {
             }
         }
 
+        stage('UI Test') {
+            steps {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
+                }
+            }
+
+            environment {
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
+            }
+
+            post {
+                unsuccessful {
+                    script {
+                        // Stop even if build is unstable
+                        error 'UI-Test failure'
+                    }
+                }
+            }
+        }
+
         stage('Maven Deployment') {
             steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn deploy -PMavenCentralRelease -Ddoc.user=doc'
+                    sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc'
                 }
             }
         }
