@@ -83,6 +83,8 @@ pipeline {
                         <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-ips-vaadin8">IPS sample</a></li>
                     </ul>
                 /$
+
+                sleep 10
             }
 
             environment {
