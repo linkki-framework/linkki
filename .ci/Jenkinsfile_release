@@ -98,7 +98,7 @@ pipeline {
             }
 
             environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
+                MAVEN_OPTS = "-Xmx2g -Dtest.hostname=linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8"
             }
 
             post {
