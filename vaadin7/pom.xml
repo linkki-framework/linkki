@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki</artifactId>
-        <version>1.3.0-m01</version>
+        <version>1.3.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>linkki-vaadin7</artifactId>
