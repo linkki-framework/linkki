@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin8</artifactId>
-        <version>1.3.0-SNAPSHOT</version>
+        <version>1.3.0-m01</version>
     </parent>
 
     <artifactId>linkki-ips-vaadin8</artifactId>
@@ -23,12 +23,12 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-vaadin8</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
+            <version>1.3.0-m01</version>
         </dependency>
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin8-test</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
+            <version>1.3.0-m01</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
