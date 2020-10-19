@@ -14,9 +14,9 @@
 
 package org.linkki.core.ui.creation.table;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -38,7 +38,7 @@ public class TableCreatorTest {
         TableCreator creator = new TableCreator();
         com.vaadin.v7.ui.Table table = (com.vaadin.v7.ui.Table)creator.createComponent(new TestTablePmo())
                 .getComponent();
-        assertThat(table.getId(), is("TestTablePmo"));
+        assertThat(table.getId(), is("TestTablePmo_table"));
     }
 
     @Test

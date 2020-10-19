@@ -32,6 +32,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 public class ApplicationMenu extends MenuBar {
 
     private static final long serialVersionUID = 1L;
+    private static final String ID = "linkki-application-menu";
 
     public ApplicationMenu(@NonNull ApplicationMenuItemDefinition... itemDefs) {
         this(Arrays.asList(itemDefs));
@@ -44,6 +45,7 @@ public class ApplicationMenu extends MenuBar {
         SortedSet<ApplicationMenuItemDefinition> sorted = new TreeSet<>();
         itemDefs.forEach(sorted::add);
         sorted.forEach(item -> item.createItem(this));
+        setId(ID);
     }
 
 }

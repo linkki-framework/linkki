@@ -39,7 +39,7 @@ public class TableValidationMarkerTest extends AbstractUiTest {
         clickButton(TablePage.ID);
 
         com.vaadin.testbench.elements.TableElement table = $(com.vaadin.testbench.elements.TableElement.class)
-                .id(PlaygroundTablePmo.class.getSimpleName());
+                .id(PlaygroundTablePmo.class.getSimpleName() + "_table");
 
         String value = "Name 2";
         TextFieldElement textField = findTextFieldByValue(table, value);
@@ -52,7 +52,7 @@ public class TableValidationMarkerTest extends AbstractUiTest {
         clickButton(TablePage.ID);
 
         table = $(com.vaadin.testbench.elements.TableElement.class)
-                .id(PlaygroundTablePmo.class.getSimpleName());
+                .id(PlaygroundTablePmo.class.getSimpleName() + "_table");
         textField = findTextFieldByValue(table, value);
         assertThat(textField.getClassNames(), hasItem("v-textfield-error"));
     }

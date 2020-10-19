@@ -31,6 +31,8 @@ import org.linkki.core.ui.table.column.TableColumnWrapper;
 @SuppressWarnings("javadoc")
 class TableCreator implements ColumnBasedComponentCreator {
 
+    private static final String TABLE_ID_SUFFIX = "_table";
+
     /**
      * Creates a new table based on the container PMO.
      */
@@ -43,7 +45,7 @@ class TableCreator implements ColumnBasedComponentCreator {
         table.setHeightUndefined();
         table.setWidth("100%");
         table.setSortEnabled(false);
-        return new TableComponentWrapper<>(containerPmo.getClass().getSimpleName(), table);
+        return new TableComponentWrapper<>(containerPmo.getClass().getSimpleName() + TABLE_ID_SUFFIX, table);
     }
 
     /**
