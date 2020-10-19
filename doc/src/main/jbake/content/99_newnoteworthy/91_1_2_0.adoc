@@ -6,6 +6,12 @@
 :images-folder-name: 01_newnoteworthy
 :source-dir: ../../../../../vaadin8/samples/binding/src/main/java
 
+=== 1.2.2
+
+==== ID Collision in Table Sections
+
+When creating a table section from a PMO, the HTML elements of the table, as well as the section surrounding it, were both assigned the name of the PMO class as ID. This leads to ID collision. To avoid this, the ID of the table now has the suffix "_table".
+
 === 1.2.1
 
 ==== Bugfixes

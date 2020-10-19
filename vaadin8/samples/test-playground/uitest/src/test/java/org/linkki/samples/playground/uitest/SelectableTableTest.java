@@ -46,7 +46,7 @@ public class SelectableTableTest extends AbstractUiTest {
     @Test
     public void testSelection() {
         com.vaadin.testbench.elements.TableElement selectableTable = $(com.vaadin.testbench.elements.TableElement.class)
-                .id(PlaygroundTablePmo.class.getSimpleName());
+                .id(PlaygroundTablePmo.class.getSimpleName() + "_table");
 
         // initial selection
         assertThat(selectableTable.getRow(PlaygroundTablePmo.INITAL_SELECTED_ROW).getClassNames(),
@@ -81,7 +81,7 @@ public class SelectableTableTest extends AbstractUiTest {
     @Test
     public void testDoubleClick() {
         com.vaadin.testbench.elements.TableElement selectableTable = $(com.vaadin.testbench.elements.TableElement.class)
-                .id(PlaygroundTablePmo.class.getSimpleName());
+                .id(PlaygroundTablePmo.class.getSimpleName() + "_table");
 
         // single click should not trigger the aspect
         selectableTable.getRow(0).click();
