@@ -7,6 +7,11 @@
 
 === 1.3.0
 
+[role="api-change"]
+==== Vaadin 7 modules removed
+
+The modules `vaadin7-core`, `vaadin7-application-framework` and `vaadin7-samples` have been removed, along with any documentation specific to Vaadin 7.
+
 ==== Customizable button captions for `OkCancelDialog`
 
 The text displayed on the OK and cancel buttons can now be changed using the `okCaption` and `cancelCaption` methods on the builder or the corresponding setters on the dialog.

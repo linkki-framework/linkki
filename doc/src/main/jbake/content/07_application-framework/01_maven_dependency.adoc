@@ -5,22 +5,12 @@
 [[maven-dependency-application-framework]]
 === Maven Dependency
 
-To use the application framework you need to use the following dependency for the desired Vaadin version instead of <<maven-dependency-core-vaadin,*linkki* core>>.
+To use the application framework you need to use the following dependency instead of <<maven-dependency-core-vaadin,*linkki* core>>.
 
 [source,xml]
 ----
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-application-framework-vaadin8</artifactId>
-        </dependency>
-----
-
-or
-
-[source,xml]
-----
-        <dependency>
-            <groupId>org.linkki-framework</groupId>
-            <artifactId>linkki-application-framework-vaadin7</artifactId>
         </dependency>
 ----

@@ -38,13 +38,11 @@ The only assumption about the business layer is that you use a domain
 
 === Vaadin
 
-*linkki* is a server side framework that can support different UI frameworks. Therefore it is divided into an UI framework independent core and UI framework specific modules like `linkki-core-vaadin7` and `linkki-core-vaadin8`. Linkki's core module is UI framework independent, but it needs a UI framework specific implementation to work. We offer such implementations based on https://vaadin.com/[Vaadin], which allows you to write UI in Java. The layouts and widgetsets are provided by Vaadin. It also handles the whole communication between the browser and the server.
+*linkki* is a server side framework that can support different UI frameworks. Therefore it is divided into an UI framework independent core and UI framework specific modules like `linkki-core-vaadin8`. Linkki's core module is UI framework independent, but it needs a UI framework specific implementation to work. We offer such implementations based on https://vaadin.com/[Vaadin], which allows you to write UI in Java. The layouts and widgetsets are provided by Vaadin. It also handles the whole communication between the browser and the server.
 
 However, the code has only very few direct dependencies to Vaadin API when using *linkki*. Most of the interaction with Vaadin is encapsulated by *linkki*.
 
-=== Vaadin versions
-
-Vaadin is evolving very quickly. *linkki* contains support for https://vaadin.com/docs/v7/framework/introduction/intro-overview.html[Vaadin 7] and https://vaadin.com/docs/v8/framework/introduction/intro-overview.html[Vaadin 8] with separate modules.
+*linkki* currently only supports https://vaadin.com/docs/v8/framework/introduction/intro-overview.html[Vaadin version 8].
 
 === Sections
 The fundamental building blocks for a *linkki* UI are sections. A section is
