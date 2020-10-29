@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PolicyCmptType abstract="false" configurableByProductCmptType="false" forceExtensionCompilationUnitGeneration="false" productCmptType="" supertype="TestIpsObject" xml:space="preserve">
+<PolicyCmptType abstract="false" configurableByProductCmptType="false" forceExtensionCompilationUnitGeneration="false" generateValidatorClass="false" productCmptType="" supertype="TestIpsObject" xml:space="preserve">
  <Label id="4fb2eebf-c13c-4416-961e-db28714c1dad" locale="en" pluralValue="" value="A test object overwriting the label"/>
  <Label id="38ee9424-8d93-4d37-8273-687c9193f8cc" locale="de" pluralValue="" value=""/>
  <Description id="6fe3110c-46e6-4fb0-9219-79642408cc8d" locale="en"/>
