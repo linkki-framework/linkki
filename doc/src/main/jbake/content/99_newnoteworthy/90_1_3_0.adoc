@@ -90,4 +90,8 @@ Using the annoation <<nested-pmos,`@UiNestedComponent`>>, a PMO can include furt
 
 This replaces the old incubator project.
 
+==== Update Vaadin to 8.12.0
+
+linkki now uses Vaadin version 8.12.0 to include the latest bug fixes and patches.
+
 ==== Bugfixes

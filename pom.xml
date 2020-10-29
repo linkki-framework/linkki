@@ -41,13 +41,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <git.user>${user.name}</git.user>
-        <junit.version>5.6.2</junit.version>
-        <mockito.version>3.3.3</mockito.version>
-        <commons-lang3.version>3.10</commons-lang3.version>
-        <commons-io.version>2.7</commons-io.version>
+        <junit.version>5.7.0</junit.version>
+        <mockito.version>3.6.0</mockito.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
+        <commons-io.version>2.8.0</commons-io.version>
         <doc.user>${user.name}</doc.user>
         <spotbugs.version>3.1.12</spotbugs.version> <!-- stay at 3.* until the 4.*-Eclipse-Plugin works -->
-        <checkstyle.version>8.33</checkstyle.version>
+        <checkstyle.version>8.36.2</checkstyle.version>
         <java.version>1.8</java.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
