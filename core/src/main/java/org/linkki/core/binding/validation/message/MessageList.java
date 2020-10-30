@@ -276,7 +276,7 @@ public class MessageList implements Serializable, Iterable<Message> {
         return StringUtils.isBlank(property);
     }
 
-    private boolean hasSameObjectProperty(String property, String objectProperty) {
+    private boolean hasSameObjectProperty(String property, @CheckForNull String objectProperty) {
         return property.equals(objectProperty);
     }
 

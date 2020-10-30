@@ -176,10 +176,9 @@ public class LinkkiConverterRegistry implements Serializable {
      * <li>One type is Object: this looks like we cannot get the correct type by any reason, better use
      * identity than nothing</li>
      * </ul>
-     * 
-     * @return
      */
-    private boolean isIdentityNecessary(@CheckForNull Class<?> rawPresentationType, Class<?> rawModelType) {
+    private boolean isIdentityNecessary(@CheckForNull Class<?> rawPresentationType,
+            @CheckForNull Class<?> rawModelType) {
         // CSOFF: Complexity
         return rawPresentationType == null
                 || rawModelType == null

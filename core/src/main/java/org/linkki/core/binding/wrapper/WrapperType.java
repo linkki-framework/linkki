@@ -56,7 +56,7 @@ public class WrapperType {
     @CheckForNull
     private final WrapperType parent;
 
-    private WrapperType(String name, WrapperType parent) {
+    private WrapperType(String name, @CheckForNull WrapperType parent) {
         this.name = name;
         this.parent = parent;
     }
