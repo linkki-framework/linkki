@@ -27,8 +27,11 @@ import org.linkki.core.ui.aspects.annotation.BindReadOnly.BindReadOnlyAspectDefi
 import org.linkki.core.ui.bind.annotation.Bind;
 
 /**
- * Binds read-only behavior to UI elements. The annotation can be used in combination with
- * UI-annotations or {@link Bind}
+ * Binds read-only behaviour to UI elements. The annotation can be used in combination with
+ * UI-annotations or {@link Bind}.
+ * 
+ * @see BindReadOnlyBehavior If the component you want to bind does not have a natural read-only
+ *      property (i.e. a {@link com.vaadin.ui.Button}).
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })

@@ -74,6 +74,10 @@ public String getLinkki() {
 }
 ----
 
+==== New Aspect Annotation: @BindReadOnlyBehavior
+
+In previous *linkki* versions, the most common way to disable or hide components in read-only-mode was to determine the value for those aspects manually, often by passing business-objects as parameters. With this new annotation, a component will automatically change to either disabled or invisible when it is set to read-only. Use the values `ReadOnlyBehaviorType.INVISIBLE` or `ReadOnlyBehaviorType.DISABLED`, respectively. Further technical Details can be found in the <<bind-read-only-behavior, documentation>>.
+
 ==== New Aspect Annotation: @BindIcon
 
 Dynamic icon has been a frequently requested feature for button. Although it is very easy to create such an aspect by oneself, it is so commonly needed that *linkki* now welcomes a new member in its family: the <<bind-icon, @BindIcon>> annotation. Besides buttons, this annotation is also useful for the new <<ui-link, @UILink>> annotation to indicate external links if needed. 

@@ -25,20 +25,22 @@ public class AllUiElementsTabsheetArea extends TabSheetArea implements SidebarSh
 
     private static final long serialVersionUID = 1L;
     public static final String ID = "all";
+    private boolean readOnlyMode;
 
-    public AllUiElementsTabsheetArea() {
+    public AllUiElementsTabsheetArea(boolean readOnlyMode) {
+        this.readOnlyMode = readOnlyMode;
         init();
     }
 
     @Override
     public void createContent() {
-        addTab(new AllUiElementsPage(), "default");
+        addTab(new AllUiElementsPage(() -> readOnlyMode), "default");
 
-        AllUiElementsPage fixedWidthPage = new AllUiElementsPage();
+        AllUiElementsPage fixedWidthPage = new AllUiElementsPage(() -> readOnlyMode);
         fixedWidthPage.addStyleName(LinkkiTheme.LABEL_FIXED_WIDTH);
         addTab(fixedWidthPage, "fixed width");
 
-        AllUiElementsPage longWidthPage = new AllUiElementsPage();
+        AllUiElementsPage longWidthPage = new AllUiElementsPage(() -> readOnlyMode);
         longWidthPage.addStyleName(LinkkiTheme.LABEL_FIXED_WIDTH_LONG);
         addTab(longWidthPage, "long width");
     }

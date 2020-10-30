@@ -27,19 +27,13 @@ import com.vaadin.server.Page;
 
 public class PlaygroundView extends SidebarLayout implements View {
 
+    private static final String PARAM_READONLY = "readonly";
+
     public static final String PARAMETER_SHEET = "sheet";
 
     public static final String NAME = "";
 
     private static final long serialVersionUID = 1L;
-
-    public PlaygroundView() {
-        addSidebarSheet(new AllUiElementsTabsheetArea());
-        addSidebarSheet(new DynamicAnnotationsLayout());
-        addSidebarSheet(new BugCollectionLayout());
-        addSidebarSheet(new TablePage());
-        addSidebarSheet(new NestedComponentPage());
-    }
 
     private void addSidebarSheet(SidebarSheetDefinition sidebarSheetDef) {
         addSheet(sidebarSheetDef.createSheet());
@@ -47,6 +41,13 @@ public class PlaygroundView extends SidebarLayout implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
+        boolean readOnlyMode = event.getParameterMap().containsKey(PARAM_READONLY);
+        addSidebarSheet(new AllUiElementsTabsheetArea(readOnlyMode));
+        addSidebarSheet(new DynamicAnnotationsLayout());
+        addSidebarSheet(new BugCollectionLayout());
+        addSidebarSheet(new TablePage());
+        addSidebarSheet(new NestedComponentPage());
+
         select(event.getParameterMap().get(PARAMETER_SHEET));
 
         addSelectionListener(e -> Page.getCurrent()

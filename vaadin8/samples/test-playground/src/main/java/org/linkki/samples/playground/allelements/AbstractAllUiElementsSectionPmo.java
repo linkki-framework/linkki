@@ -24,6 +24,8 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
+import org.linkki.core.ui.aspects.annotation.BindReadOnlyBehavior;
+import org.linkki.core.ui.aspects.annotation.BindReadOnlyBehavior.ReadOnlyBehaviorType;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
@@ -189,6 +191,24 @@ public abstract class AbstractAllUiElementsSectionPmo {
     public void action() {
         getModelObject().setIntValue(getModelObject().getIntValue() + 1);
     }
+
+    @BindReadOnlyBehavior(ReadOnlyBehaviorType.DISABLED)
+    @UIButton(position = 101, caption = NlsText.I18n)
+    public void actionDisabledReadOnly() {
+        getModelObject().setIntValue(getModelObject().getIntValue() + 1);
+    }
+
+    @BindReadOnlyBehavior(ReadOnlyBehaviorType.INVSIBLE)
+    @UIButton(position = 102, caption = NlsText.I18n)
+    public void actionInvisibleReadOnly() {
+        getModelObject().setIntValue(getModelObject().getIntValue() + 1);
+    }
+
+    @UILabel(position = 103)
+    public String getReadOnlyNote() {
+        return NlsText.getString("AllElementsUI_GetReadOnlyNote");
+    }
+
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIDecimalField(position = 110, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DECIMALVALUE, required = RequiredType.DYNAMIC)

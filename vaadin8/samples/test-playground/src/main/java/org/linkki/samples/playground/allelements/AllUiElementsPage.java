@@ -14,7 +14,11 @@
 
 package org.linkki.samples.playground.allelements;
 
+import java.util.function.BooleanSupplier;
+
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
@@ -23,17 +27,20 @@ import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiFormSectionPmo;
 import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiSectionPmo;
+import org.linkki.util.handler.Handler;
 
 public class AllUiElementsPage extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
-    private final BindingContext bindingContext = new BindingContext(getClass().getName());
+    private final BindingContext bindingContext;
 
     private DynamicFieldPmo dynamicFieldPmo;
     private AbstractSection dynamicFieldSection;
 
-    public AllUiElementsPage() {
+    public AllUiElementsPage(BooleanSupplier readOnlySupplier) {
+        bindingContext = new BindingContext(getClass().getName(),
+                PropertyBehaviorProvider.with(PropertyBehavior.readOnly(readOnlySupplier)), Handler.NOP_HANDLER);
         init();
     }
 
