@@ -2,34 +2,13 @@
   "all-versions": [
     {
       "extension": "revapi.filter",
-      "configuration" : {
-        "elements" : {
-          "exclude": ["missing-class javax\\.servlet\\.http\\..*"]
+      "configuration": {
+        "elements": {
+          "exclude": [
+            "missing-class javax\\.servlet\\.http\\..*"
+          ]
         }
       }
-    }
-  ],
-  "1.2.0": [
-    {
-    "extension": "revapi.ignore",
-    "configuration": [
-        {
-          "regex": true,
-          "code": "java.class.externalClassExposedInAPI",
-          "new": ".* (com\\.vaadin\\..*|elemental\\.json\\..*|org\\.jsoup\\..*|org\\.linkki\\..*)",
-          "justification": "It is inteded to extend vaadin"
-        },
-        {
-          "code": "java.class.nonPublicPartOfAPI",
-          "new": "class org.jsoup.parser.Token",
-          "justification": "Provided API from vaadin"
-        },
-        {
-          "code": "java.class.nonPublicPartOfAPI",
-          "new": "class org.jsoup.parser.TreeBuilder",
-          "justification": "Provided API from vaadin"
-        }
-      ]
     }
   ]
 }

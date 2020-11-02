@@ -1,8 +1,8 @@
 {
   "all-versions": {
     "revapi": {
-        "ignore": [
-          {
+      "ignore": [
+        {
           "code": "java.class.added",
           "class": "org.linkki.util.HtmlSanitizer",
           "justification": "not an API break"

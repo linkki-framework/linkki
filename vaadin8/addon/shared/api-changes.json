@@ -1,14 +1,2 @@
 {
-  "1.2.0": {
-    "revapi": {
-      "ignore": [
-        {
-          "regex": true,
-          "code": "java.class.externalClassExposedInAPI",
-          "new": "enum com\\.vaadin\\.shared\\..*",
-          "justification": "It is inteded to extend vaadin"
-        }
-      ]
-    }
-  }
 }
