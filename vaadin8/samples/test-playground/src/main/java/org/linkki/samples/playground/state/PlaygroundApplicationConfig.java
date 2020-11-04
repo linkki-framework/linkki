@@ -51,7 +51,7 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
 
     @Override
     public String getCopyright() {
-        return "Copyright © 2015 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; //$NON-NLS-1$
+        return "Copyright © 2020 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; //$NON-NLS-1$
     }
 
     @Override
@@ -60,8 +60,11 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
 
             @Override
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem("Start",
-                                    e -> LinkkiUi.getCurrentNavigator().navigateTo(PlaygroundView.NAME));
+                MenuItem playgroundItem = menu.addItem("Playground");
+                playgroundItem.addItem("writable", e -> LinkkiUi.getCurrentNavigator().navigateTo(PlaygroundView.NAME));
+                playgroundItem.addItem("read-only", e -> LinkkiUi.getCurrentNavigator()
+                        .navigateTo(PlaygroundView.NAME + "/" + PlaygroundView.PARAM_READONLY));
+                return playgroundItem;
             }
         }, new ApplicationMenuItemDefinition("Dialogs", 1) {
 

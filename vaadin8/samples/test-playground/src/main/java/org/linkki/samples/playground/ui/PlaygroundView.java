@@ -27,9 +27,8 @@ import com.vaadin.server.Page;
 
 public class PlaygroundView extends SidebarLayout implements View {
 
-    private static final String PARAM_READONLY = "readonly";
-
-    public static final String PARAMETER_SHEET = "sheet";
+    public static final String PARAM_READONLY = "readonly";
+    public static final String PARAM_SHEET = "sheet";
 
     public static final String NAME = "";
 
@@ -48,11 +47,11 @@ public class PlaygroundView extends SidebarLayout implements View {
         addSidebarSheet(new TablePage());
         addSidebarSheet(new NestedComponentPage());
 
-        select(event.getParameterMap().get(PARAMETER_SHEET));
+        select(event.getParameterMap().get(PARAM_SHEET));
 
         addSelectionListener(e -> Page.getCurrent()
                 .setUriFragment("!" + NAME + "/"
-                        + PARAMETER_SHEET + "=" + e.getSelectedSheet().getId(), false));
+                        + PARAM_SHEET + "=" + e.getSelectedSheet().getId(), false));
     }
 
 }
