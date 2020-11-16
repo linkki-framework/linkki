@@ -115,8 +115,15 @@ pipeline {
 
         stage('Maven Deployment') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc'
+                script {
+                    withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
+                        // only publish normal releases (no rcs & milestones) on maven central
+                        if(params.RELEASE_VERSION ==~ /(\d+\.)+\d+/) {
+                            sh 'mvn javadoc:jar source:jar deploy -PMavenCentralRelease -Ddoc.user=doc'
+                        } else {
+                            sh 'mvn javadoc:jar source:jar deploy -Ddoc.user=doc'
+                        }
+                    }
                 }
             }
         }
