@@ -14,8 +14,8 @@
 
 package org.linkki.samples.playground.uitest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.linkki.samples.playground.uitest.matchers.WebElementMatchers.disabled;
@@ -27,6 +27,7 @@ import org.linkki.samples.playground.ui.PlaygroundView;
 import org.openqa.selenium.NoSuchElementException;
 
 import com.vaadin.testbench.elements.ButtonElement;
+import com.vaadin.testbench.elements.TextFieldElement;
 
 public class BindReadOnlyBehaviorTest extends AbstractUiTest {
 
@@ -34,13 +35,18 @@ public class BindReadOnlyBehaviorTest extends AbstractUiTest {
     public void testBindReadOnlyBehavior() {
         assertThat($(ButtonElement.class).id(ReadOnlyBehaviorPmo.BUTTON_DISABLED_ON_READ_ONLY),
                    is(enabled()));
+        assertThat($(TextFieldElement.class).id(ReadOnlyBehaviorPmo.TEXTFIELD_ACTIVE_ON_READ_ONLY),
+                   is(enabled()));
         assertDoesNotThrow(() -> $(ButtonElement.class).id(ReadOnlyBehaviorPmo.BUTTON_INVISIBLE_ON_READ_ONLY));
 
         navigateToView(PlaygroundView.NAME + "/" + PlaygroundView.PARAM_READONLY);
 
         assertThat($(ButtonElement.class).id(ReadOnlyBehaviorPmo.BUTTON_DISABLED_ON_READ_ONLY),
                    is(disabled()));
+        assertThat($(TextFieldElement.class).id(ReadOnlyBehaviorPmo.TEXTFIELD_ACTIVE_ON_READ_ONLY),
+                   is(enabled()));
         assertThrows(NoSuchElementException.class,
                      () -> $(ButtonElement.class).id(ReadOnlyBehaviorPmo.BUTTON_INVISIBLE_ON_READ_ONLY));
     }
+
 }

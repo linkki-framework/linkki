@@ -12,12 +12,14 @@ import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.ui.aspects.BindReadOnlyBehaviorAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindReadOnlyBehavior.BindButtonReadOnlyAspectDefinitionCreator;
+import org.linkki.core.ui.aspects.types.ReadOnlyBehaviorType;
 
 /**
  * Binds the application's read-only state to a specific behaviour of the annotated
- * {@link com.vaadin.ui.Component}. The component will automatically be disabled or invisible in
- * read-only-mode. This annotation will override the component's dynamic or static aspects of
- * {@link EnabledAspectDefinition enabled} or {@link VisibleAspectDefinition visible}, respectively.
+ * {@link com.vaadin.ui.Component}. The component will automatically change its visible and enabled
+ * state when it is set to read-only-mode. This annotation will override the component's dynamic or
+ * static aspects of {@link EnabledAspectDefinition enabled} or {@link VisibleAspectDefinition visible},
+ * respectively.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })
@@ -25,19 +27,6 @@ import org.linkki.core.ui.aspects.annotation.BindReadOnlyBehavior.BindButtonRead
 public @interface BindReadOnlyBehavior {
 
     ReadOnlyBehaviorType value() default ReadOnlyBehaviorType.INVSIBLE;
-
-    enum ReadOnlyBehaviorType {
-
-        /**
-         * The button is visible, but not enabled in read-only mode.
-         */
-        DISABLED,
-        /**
-         * The button is not visible in read-only mode.
-         */
-        INVSIBLE;
-
-    }
 
     class BindButtonReadOnlyAspectDefinitionCreator implements AspectDefinitionCreator<BindReadOnlyBehavior> {
 

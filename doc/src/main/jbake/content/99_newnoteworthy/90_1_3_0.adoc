@@ -76,7 +76,13 @@ public String getLinkki() {
 
 ==== New Aspect Annotation: @BindReadOnlyBehavior
 
-In previous *linkki* versions, the most common way to disable or hide components in read-only-mode was to determine the value for those aspects manually, often by passing business-objects as parameters. With this new annotation, a component will automatically change to either disabled or invisible when it is set to read-only. Use the values `ReadOnlyBehaviorType.INVISIBLE` or `ReadOnlyBehaviorType.DISABLED`, respectively. Further technical Details can be found in the <<bind-read-only-behavior, documentation>>.
+By default buttons in *linkki* do not change their state in read-only-mode. This is due to the fact that a button in vaadin has no read-only state. Depending on the usecase, a button in read-only-mode should either be disabled, invisible or it should remain active.
+
+With the new annotation `@BindReadOnlyBehavior`, a component will automatically change its enabled or visible behavior when in read-only mode. This is especially useful for buttons but is also applicable for other components.
+
+In combination with input fields, the annotation can also be used to keep those components active in read-only-mode. For example, an input field that can be used to filter some content should be active even though the user interface is in read-only-mode.
+
+Further details can be found in the <<bind-read-only-behavior, chapter Bind Read-Only Behavior>>.
 
 ==== New Aspect Annotation: @BindIcon
 

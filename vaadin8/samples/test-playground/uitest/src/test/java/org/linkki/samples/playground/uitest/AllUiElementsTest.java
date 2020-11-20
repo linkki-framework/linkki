@@ -289,14 +289,4 @@ public class AllUiElementsTest extends AbstractUiTest {
         assertThat(getDriver().getCurrentUrl(), endsWith(DynamicAnnotationsLayout.ID.replace(" ", "%20")));
     }
 
-    @Test
-    public void testBindIcon() {
-        LinkElement link = $(LinkElement.class).id("link");
-        assertThat(link.getText(), is("Link to Dynamic Annotations"));
-
-        ComboBoxElement comboBox = $(ComboBoxElement.class).id("enumValueComboBox");
-        comboBox.selectByText(Direction.RIGHT.getName());
-
-        assertThat(link.getText(), is((char)Direction.RIGHT.getIcon().getCodepoint() + "Link to Dynamic Annotations"));
-    }
 }

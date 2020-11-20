@@ -150,26 +150,29 @@ The `@BindReadOnly` Annotation has only one property, `ReadOnlyType`. Per defaul
 [cols="1,9"]
 .ReadOnlyType
 |===
-|`ALWAYS`   |the component is always read-only (*default*)
-|`DYNAMIC`  |the read-only behavior of the component is determined by the return value of the method `is<PropertyName>ReadOnly()`
-|`DERIVED`  |behavior as it would be without this annotation
+|`ALWAYS`   |The component is always read-only (*default*).
+|`DYNAMIC`  |The read-only behavior of the component is determined by the return value of the method `is<PropertyName>ReadOnly()`.
+|`DERIVED`  |The component is read-only if no setter method exists or the property dispatcher returns read-only for this property.
 |===
+
+TIP: If a component is supposed to be writable even though the rest of the UI is in read-only-mode, use <<bind-read-only-behavior,`@BindReadOnlyBehavior`>> with value `ACTIVE`, e.g. an input field to filter the content of a table.
 
 [[bind-read-only-behavior]]
 ===== Bind Read-Only Behavior
 
-`@BindReadOnlyBehavior` changes a component's behaviour when it is set to read-only. The read-only status is determined by the <<property-dispatcher, property-dispatcher-chain>>. Therefore there is no need to define additional methods as is usually the case with dynamic aspect definitions. 
-
-TIP: This annotation is particularly useful for components that don't have a native read-only state, such as buttons.
+`@BindReadOnlyBehavior` changes a component's behaviour if it is set to read-only. The read-only status is determined by the <<property-dispatcher, property-dispatcher-chain>>. There is no need to define additional methods as is usually the case with dynamic aspect definitions. 
 
 The aspect has a value of type `ReadOnlyBehaviorType` with the following options available: 
 
 [cols="1,9"]
 .ReadOnlyBehaviorType
 |===
-|`INVISIBLE`   |Component is invisible in read-only-mode
-|`DISABLED`  |Component is visible but disabled in read-only-mode
+|`INVISIBLE`   |Component is invisible in read-only-mode. This type is the default value.
+|`DISABLED`  |Component is visible but disabled in read-only-mode.
+|`WRITABLE` | Component remains writable in read-only-mode.
 |===
+
+TIP: `INVISIBLE` and `DISABLED` are especially useful for buttons which cannot be read-only. The type `WRITABLE` is useful for components which do not change data like an input field that is used to filter the content in the user interface.
 
 [[bind-style-names]]
 ===== Style Names
