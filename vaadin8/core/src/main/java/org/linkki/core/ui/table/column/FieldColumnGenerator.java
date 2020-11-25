@@ -9,6 +9,7 @@ import org.linkki.core.binding.descriptor.PropertyElementDescriptors;
 import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.Component;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -40,7 +41,9 @@ class FieldColumnGenerator implements com.vaadin.v7.ui.Table.ColumnGenerator {
         Component component = (Component)elementDescriptor.newComponent(itemId);
         component.addStyleName(LinkkiTheme.BORDERLESS);
         component.addStyleName(LinkkiTheme.TABLE_CELL);
-        component.setWidthFull();
+        if (component instanceof HasValue) {
+            component.setWidthFull();
+        }
 
         bindingContext.bind(itemId, elementDescriptor, new LabelComponentWrapper(component));
 

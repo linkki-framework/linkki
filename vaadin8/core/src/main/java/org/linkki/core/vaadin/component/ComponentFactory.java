@@ -226,11 +226,10 @@ public class ComponentFactory {
     }
 
     /**
-     * Creates a new {@link Link} with full width.
+     * Creates a new {@link Link} with undefined width.
      */
-    public static Link newLinkFullWidth(String caption) {
+    public static Link newLink(String caption) {
         Link link = new Link();
-        link.setWidth("100%");
         link.setCaption(caption);
         return link;
     }

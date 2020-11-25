@@ -96,7 +96,7 @@ public @interface UILink {
 
         @Override
         public LinkkiComponentDefinition create(UILink annotation, AnnotatedElement annotatedElement) {
-            return pmo -> ComponentFactory.newLinkFullWidth(annotation.caption());
+            return pmo -> ComponentFactory.newLink(annotation.caption());
         }
 
     }

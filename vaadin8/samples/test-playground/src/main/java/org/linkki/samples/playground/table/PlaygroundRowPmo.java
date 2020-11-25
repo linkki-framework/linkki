@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.table;
 
+import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
@@ -22,7 +23,11 @@ import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.samples.playground.allelements.AllUiElementsTabsheetArea;
+import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.samples.playground.ui.PlaygroundView;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.icons.VaadinIcons;
@@ -52,7 +57,6 @@ public class PlaygroundRowPmo {
     public void index() {
         // model binding
     }
-
 
     @UITextField(position = 30, modelAttribute = TableModelObject.PROPERTY_NAME)
     @BindReadOnly(ReadOnlyType.DYNAMIC)
@@ -93,6 +97,11 @@ public class PlaygroundRowPmo {
     @UIButton(position = 60, showIcon = true, icon = VaadinIcons.TRASH, caption = "", label = "Del")
     public void delete() {
         delete.apply();
+    }
+
+    @UILink(position = 140, label = NlsText.I18n, caption = "A UI Link", captionType = CaptionType.STATIC)
+    public String getLink() {
+        return "main#!/" + PlaygroundView.PARAM_SHEET + "=" + AllUiElementsTabsheetArea.ID;
     }
 
 }
