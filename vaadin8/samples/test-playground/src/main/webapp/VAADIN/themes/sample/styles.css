@@ -15760,6 +15760,10 @@ div.v-layout.v-horizontal.v-widget {
 	background: transparent;
 }
 
+.sample .v-gridlayout .v-link {
+	white-space: nowrap;
+}
+
 .sample .v-link:hover, .sample .v-link:active {
 	text-decoration: underline;
 }

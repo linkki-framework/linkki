@@ -355,4 +355,11 @@ $linkki-label-alignment: right !default;
     height: unset;
   }
 
+  /*
+  * Without this fix links in GridLayout may use too much vertical space, see LIN-2029
+  * Seems to be a bug in size calculation of grid layout.
+  */
+  .v-gridlayout .v-link {
+    white-space: nowrap;
+  }
 }

@@ -15760,6 +15760,10 @@ div.v-layout.v-horizontal.v-widget {
 	background: transparent;
 }
 
+.sample .v-gridlayout .v-link {
+	white-space: nowrap;
+}
+
 .sample #ChildrenSectionPmo {
 	padding-left: 37px;
 }
