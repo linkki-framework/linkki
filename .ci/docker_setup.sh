@@ -15,7 +15,7 @@ fi
 LABEL="url=linkki-$BUILD_NAME"
 docker create --cpus=2 --memory=2g --name $WILDFLY_NAME --network $NETWORK_NAME --label $LABEL --label "retention=${CONTAINER_RETENTION:-discard}" f10/wildfly-linkki:8
 
-# Copy war
+# Vaadin 8
 WAR_FILE="vaadin8/samples/binding/target/linkki-sample-binding-vaadin8.war"
 docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-binding-vaadin8.war
 
@@ -42,5 +42,15 @@ docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/link
 
 WAR_FILE="vaadin8/samples/ips/target/linkki-sample-ips-vaadin8.war"
 docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-ips-vaadin8.war
+
+# Vaadin 14
+WAR_FILE="vaadin14/samples/messages/target/linkki-sample-messages-vaadin14.war"
+docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-messages-vaadin14.war
+
+WAR_FILE="vaadin14/samples/getting-started/target/linkki-getting-started-vaadin14.war"
+docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-getting-started-vaadin14.war
+
+WAR_FILE="vaadin14/samples/custom-layout/target/linkki-sample-custom-layout-vaadin14.war"
+docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-custom-layout-vaadin14.war
 
 docker start $WILDFLY_NAME
