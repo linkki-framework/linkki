@@ -21,7 +21,7 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
-                sh 'bash .ci/docker_setup.sh ${GERRIT_CHANGE_NUMBER}'
+                sh 'bash -x .ci/docker_setup.sh ${GERRIT_CHANGE_NUMBER}'
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: '''
                     <h3>Vaadin 8 samples</h3>
