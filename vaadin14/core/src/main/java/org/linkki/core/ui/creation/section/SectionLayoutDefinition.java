@@ -8,7 +8,6 @@ import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
-import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
@@ -17,7 +16,6 @@ import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
-import org.linkki.core.vaadin.component.section.TableSection;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -59,11 +57,7 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
     @Override
     public void createChildren(Object parentComponent, Object pmo, BindingContext bindingContext) {
         createHeaderContent((AbstractSection)parentComponent, pmo, bindingContext);
-        if (pmo instanceof ContainerPmo) {
-            createTable(parentComponent, pmo, bindingContext);
-        } else {
-            createSectionContent(parentComponent, pmo, bindingContext);
-        }
+        createSectionContent(parentComponent, pmo, bindingContext);
     }
 
     private void createHeaderContent(AbstractSection section, Object pmo, BindingContext bindingContext) {
@@ -109,14 +103,6 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
 
         Component component = wrapper.getComponent();
         section.add(component.getId(), label, wrapper.getComponent());
-    }
-
-    private void createTable(Object parentComponent, Object pmo, BindingContext bindingContext) {
-        TableSection section = (TableSection)parentComponent;
-        @SuppressWarnings("deprecation")
-        com.vaadin.v7.ui.Table table = new PmoBasedTableFactory((ContainerPmo<?>)pmo, bindingContext)
-                .createTable();
-        section.setTable(table);
     }
 
 }

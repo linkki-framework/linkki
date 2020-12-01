@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
-import org.linkki.core.ui.creation.table.TableComponentWrapper;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 
 import com.vaadin.ui.Component;
@@ -93,18 +92,6 @@ public class CaptionAspectDefinitionTest {
 
         componentValueSetter.accept("bar");
         assertThat(component.getCaption(), is("bar"));
-    }
-
-    @Test
-    public void testCreateComponentValueSetter_NOPonTable() {
-        CaptionAspectDefinition captionAspectDefinition = new CaptionAspectDefinition(CaptionType.DYNAMIC, "foo");
-        @SuppressWarnings("deprecation")
-        com.vaadin.v7.ui.Table table = new com.vaadin.v7.ui.Table();
-        ComponentWrapper componentWrapper = new TableComponentWrapper<String>("4711", table);
-
-        boolean supported = captionAspectDefinition.supports(componentWrapper.getType());
-
-        assertThat(supported, is(false));
     }
 
 }

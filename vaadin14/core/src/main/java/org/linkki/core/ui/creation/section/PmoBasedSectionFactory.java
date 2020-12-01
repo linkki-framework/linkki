@@ -33,7 +33,6 @@ import org.linkki.core.uicreation.layout.LayoutAnnotationReader;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
-import org.linkki.core.vaadin.component.section.TableSection;
 
 /**
  * Base class for a factory to create sections based on an annotated PMO.
@@ -62,14 +61,6 @@ public class PmoBasedSectionFactory {
      */
     public BaseSection createBaseSection(Object pmo, BindingContext bindingContext) {
         return (BaseSection)createSection(pmo, bindingContext);
-    }
-
-    /**
-     * Creates a new section containing a table based on the given annotated {@link ContainerPmo} and
-     * binds the table via the given binding context to the PMO.
-     */
-    public <T> TableSection createTableSection(ContainerPmo<T> pmo, BindingContext bindingContext) {
-        return (TableSection)createSection(pmo, bindingContext);
     }
 
     /**

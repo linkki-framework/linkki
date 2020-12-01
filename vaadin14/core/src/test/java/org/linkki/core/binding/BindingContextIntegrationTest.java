@@ -14,16 +14,12 @@
 
 package org.linkki.core.binding;
 
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -35,20 +31,16 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.mock.MockUi;
-import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.test.TestButtonPmo;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.ui.UI;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class BindingContextIntegrationTest {
 
@@ -57,8 +49,6 @@ public class BindingContextIntegrationTest {
     private BindingManager bindingManager;
 
     private TestPage testPage;
-
-    private ContainerBinding tableSectionBinding;
 
     private ContainerBinding standardSectionBinding;
 
@@ -90,8 +80,7 @@ public class BindingContextIntegrationTest {
         bindingContext.removeBindingsForPmo(testPage.standardSectionPmo);
 
         List<Binding> bindings = bindings();
-        assertThat(bindings, contains(tableSectionBinding));
-        assertThat(tableSectionBinding.getBindings().size(), is(2));
+        assertThat(bindings.size(), is(0));
     }
 
     @Test
@@ -101,31 +90,8 @@ public class BindingContextIntegrationTest {
         bindingContext.removeBindingsForPmo(testPage.standardSectionPmo.getEditButtonPmo().get());
 
         List<Binding> bindings = bindings();
-        assertThat(bindings, containsInAnyOrder(tableSectionBinding, standardSectionBinding));
-        assertThat(tableSectionBinding.getBindings().size(), is(2));
-        assertThat(standardSectionBinding.getBindings().size(), is(1));
-    }
-
-    @Test
-    public void testRemoveBindingsForPmo_tableWithButton() {
-        setUpBindings();
-
-        bindingContext.removeBindingsForPmo(testPage.tableSectionPmo);
-
-        List<Binding> bindings = bindings();
         assertThat(bindings, contains(standardSectionBinding));
-        assertThat(bindings, not(hasItem(tableSectionBinding)));
-    }
-
-    @Test
-    public void testRemoveBindingsForPmo_tableOnlyButtonPmo() {
-        setUpBindings();
-
-        bindingContext.removeBindingsForPmo(testPage.tableSectionPmo.getAddItemButtonPmo().get());
-
-        List<Binding> bindings = bindings();
-        assertThat(bindings, containsInAnyOrder(tableSectionBinding, standardSectionBinding));
-        assertThat(tableSectionBinding.getBindings().size(), is(1));
+        assertThat(standardSectionBinding.getBindings().size(), is(1));
     }
 
     private void setUpBindings() {
@@ -137,14 +103,9 @@ public class BindingContextIntegrationTest {
 
         bindingContext = testPage.getBindingContext();
         List<Binding> bindings = bindings();
-        // Container for StandardSection, TableSection
-        assertThat(bindings, contains(instanceOf(ContainerBinding.class),
-                                      instanceOf(ContainerBinding.class)));
-        tableSectionBinding = (ContainerBinding)bindings.stream()
-                .filter(b -> b.getPmo().equals(testPage.tableSectionPmo))
-                .findFirst().get();
-        // Table + Button
-        assertThat(tableSectionBinding.getBindings().size(), is(2));
+        // Container for StandardSection
+        assertThat(bindings, contains(instanceOf(ContainerBinding.class)));
+
         standardSectionBinding = (ContainerBinding)bindings.stream()
                 .filter(b -> b.getPmo().equals(testPage.standardSectionPmo))
                 .findFirst().get();
@@ -180,7 +141,6 @@ public class BindingContextIntegrationTest {
         private static final long serialVersionUID = 1L;
         private BindingManager bindingManager;
         TestStandardSectionPmo standardSectionPmo = new TestStandardSectionPmo();
-        TestTableSectionPmo tableSectionPmo = new TestTableSectionPmo("Foo", "Bar");
 
         public TestPage(BindingManager bindingManager) {
             this.bindingManager = bindingManager;
@@ -189,7 +149,6 @@ public class BindingContextIntegrationTest {
         @Override
         public void createContent() {
             addSection(standardSectionPmo);
-            addSection(tableSectionPmo);
         }
 
         @Override
@@ -223,38 +182,5 @@ public class BindingContextIntegrationTest {
         }
     }
 
-    public static class TestTableSectionPmo extends SimpleTablePmo<String, TestTableSectionRowPmo> {
-        private static final ButtonPmo NOP_BUTTON_PMO = new TestButtonPmo();
-
-        protected TestTableSectionPmo(@NonNull String... modelObjects) {
-            super(Arrays.asList(modelObjects));
-        }
-
-        @Override
-        protected TestTableSectionRowPmo createRow(String modelObject) {
-            return new TestTableSectionRowPmo(modelObject);
-        }
-
-        @Override
-        public Optional<ButtonPmo> getAddItemButtonPmo() {
-            return Optional.of(NOP_BUTTON_PMO);
-        }
-
-    }
-
-    public static class TestTableSectionRowPmo {
-
-        private String modelObject;
-
-        public TestTableSectionRowPmo(String modelObject) {
-            this.modelObject = modelObject;
-        }
-
-        @UITableColumn
-        @UILabel(position = 1)
-        public String getCol1() {
-            return modelObject;
-        }
-    }
 
 }

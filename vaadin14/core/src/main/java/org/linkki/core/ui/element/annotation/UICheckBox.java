@@ -38,7 +38,6 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.element.annotation.UICheckBox.CheckBoxCaptionAspectDefinitionCreator;
 import org.linkki.core.ui.element.bindingdefinitions.CheckboxBindingDefinition;
-import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
@@ -74,10 +73,6 @@ public @interface UICheckBox {
      * Use an empty String as caption if no caption is needed.
      * <p>
      * For a label on the left, use {@link #label()} for the label text.
-     * <p>
-     * If the check box is used inside a {@link UITableColumn}, the {@link #label()} will be displayed
-     * in the column header while the {@link #caption()} will be displayed inside the table cell
-     * together with the check box.
      */
     String caption() default DERIVED_BY_LINKKI;
 
