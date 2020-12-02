@@ -13,12 +13,7 @@
  */
 package org.linkki.core.nls.sample;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.element.annotation.UIButton;
-import org.linkki.core.ui.element.annotation.UISubsetChooser;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
@@ -35,8 +30,6 @@ public class SamplePmo {
     public static final String PROPERTY_MYBUTTON = "myButton";
     public static final String PROPERTY_MYBUTTON2 = "myButton2";
     public static final String PROPERTY_FOO = "foo";
-
-    private final Set<TestEnum> foo = new LinkedHashSet<>();
 
 
     @UITextField(position = 1, label = PMO_LABEL)
@@ -59,25 +52,6 @@ public class SamplePmo {
     public void myButton2() {
         // nothing here
     }
-
-    @UISubsetChooser(position = 5, label = "", leftColumnCaption = "Left Column Caption", rightColumnCaption = "Right Column Caption")
-    public Set<TestEnum> getFoo() {
-        return foo;
-    }
-
-    public void setFoo(Set<TestEnum> selectedFoos) {
-        foo.clear();
-        foo.addAll(selectedFoos);
-    }
-
-    public Set<TestEnum> getFooAvailableValues() {
-        LinkedHashSet<TestEnum> someValues = new LinkedHashSet<>();
-        someValues.add(TestEnum.ONE);
-        someValues.add(TestEnum.TWO);
-        someValues.add(TestEnum.THREE);
-        return someValues;
-    }
-
 
 }
 

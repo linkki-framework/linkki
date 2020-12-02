@@ -39,7 +39,6 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.TwinColSelect;
 import com.vaadin.ui.VerticalLayout;
 
 public class ComponentFactory {
@@ -404,10 +403,6 @@ public class ComponentFactory {
         button.setTabIndex(-1);
         styleNames.forEach(style -> button.addStyleName(style));
         return button;
-    }
-
-    public static <T> TwinColSelect<T> newTwinColSelect() {
-        return new TwinColSelect<>();
     }
 
     /**
