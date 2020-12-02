@@ -13,8 +13,8 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -76,6 +76,11 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     public void testDerivedCaption() {
         Button button = getComponentById("doFoo");
         assertThat(button.getCaption(), is("DoFoo"));
+    }
+
+    @Override
+    public void testLabelBinding() {
+        // do nothing
     }
 
     @UISection

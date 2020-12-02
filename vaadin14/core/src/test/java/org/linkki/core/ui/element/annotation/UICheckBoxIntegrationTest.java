@@ -115,6 +115,11 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
         assertThat(checkBoxWithDerivedCaption.getCaption(), is("Foo"));
     }
 
+    @Override
+    public void testLabelBinding() {
+        // do nothing
+    }
+
     @Test
     @Override
     public void testNullInputIfRequired() {

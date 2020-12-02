@@ -32,7 +32,7 @@ import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.FormLayout;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -46,7 +46,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     private BindingContext bindingContext;
     private Function<Object, ? extends P> pmoCreator;
     private Supplier<Object> modelObjectSupplier;
-    private GridLayout defaultSection;
+    private FormLayout defaultSection;
 
     public ComponentAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,
             Function<Object, ? extends P> pmoCreator) {
@@ -91,11 +91,11 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     public void testPosition() {
 
         @NonNull
-        Component component1 = getDefaultSection().getComponent(1, 0);
+        Component component1 = getDefaultSection().getComponent(0);
         assertThat(component1.getId(), is(getDynamicComponent().getId()));
 
         @NonNull
-        Component component2 = getDefaultSection().getComponent(1, 1);
+        Component component2 = getDefaultSection().getComponent(1);
         assertThat(component2.getId(), is(getStaticComponent().getId()));
     }
 
@@ -164,18 +164,18 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
      */
     @SuppressWarnings("unchecked")
     protected C createFirstComponent(Object modelObject) {
-        return (C)createSection(newPmo(modelObject)).getComponent(1, 0);
+        return (C)createSection(newPmo(modelObject)).getComponent(0);
     }
 
     protected C createFirstComponent() {
         return createFirstComponent(newDefaultModelObject());
     }
 
-    protected GridLayout createSection(AnnotationTestPmo pmo) {
+    protected FormLayout createSection(AnnotationTestPmo pmo) {
         return TestUiUtil.createSectionWith(pmo, bindingContext);
     }
 
-    protected GridLayout createSection() {
+    protected FormLayout createSection() {
         return createSection(newPmo(newDefaultModelObject()));
     }
 
@@ -212,7 +212,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
         return defaultModelObject;
     }
 
-    protected GridLayout getDefaultSection() {
+    protected FormLayout getDefaultSection() {
         return defaultSection;
     }
 

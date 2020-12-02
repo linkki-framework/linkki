@@ -111,6 +111,11 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
     }
 
     @Override
+    public void testLabelBinding() {
+        // do nothing
+    }
+
+    @Override
     public void testEnabled() {
         assertThat(getStaticComponent().isEnabled(), is(true));
         assertThat(getDynamicComponent().isEnabled(), is(true));

@@ -13,9 +13,9 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +29,7 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 
@@ -57,8 +57,8 @@ public class UICustomFieldTest {
 
     @Test
     public void testAvailableValues_NotApplicable() {
-        GridLayout section = TestUiUtil.createSectionWith(pmo);
-        TextField textField = TestUiUtil.getComponentAt(section, 1);
+        FormLayout section = TestUiUtil.createSectionWith(pmo);
+        TextField textField = (TextField)section.getComponent(1);
 
         // the real test is that this text field could be created, just check the value to check
         // anything

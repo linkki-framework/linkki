@@ -37,7 +37,6 @@ import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
-import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.element.annotation.UIButton.UIButtonAspectDefinitionCreator;
 import org.linkki.core.ui.element.bindingdefinitions.ButtonBindingDefinition;
@@ -128,7 +127,6 @@ public @interface UIButton {
         @Override
         public LinkkiAspectDefinition create(UIButton annotation) {
             return new CompositeAspectDefinition(
-                    new LabelAspectDefinition(annotation.label()),
                     new EnabledAspectDefinition(annotation.enabled()),
                     new VisibleAspectDefinition(annotation.visible()),
                     new CaptionAspectDefinition(annotation.captionType(), annotation.caption()),

@@ -27,6 +27,7 @@ import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.section.FormLayoutSection;
 import org.linkki.util.StreamUtil;
 
 import com.vaadin.data.HasItems;
@@ -35,8 +36,8 @@ import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractMultiSelect;
 import com.vaadin.ui.AbstractSingleSelect;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 
@@ -68,31 +69,17 @@ public final class TestUiUtil {
      * @param pmo the PMO to which the component is bound is bound
      * @return a {@code Component} that is bound to the model object
      */
-    public static GridLayout createSectionWith(Object pmo) {
+    public static FormLayout createSectionWith(Object pmo) {
         return createSectionWith(pmo, new BindingContext());
     }
 
-    @SuppressWarnings("deprecation")
-    public static GridLayout createSectionWith(Object pmo, BindingContext bindingContext) {
+    public static FormLayout createSectionWith(Object pmo, BindingContext bindingContext) {
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         AbstractSection section = sectionFactory.createSection(pmo, bindingContext);
 
         bindingContext.modelChanged();
 
-        return getContentGrid((org.linkki.core.vaadin.component.section.FormSection)section);
-    }
-
-    @SuppressWarnings("deprecation")
-    public static GridLayout getContentGrid(org.linkki.core.vaadin.component.section.FormSection section) {
-        try {
-            Method getContentGrid = org.linkki.core.vaadin.component.section.FormSection.class
-                    .getDeclaredMethod("getContentGrid");
-            getContentGrid.setAccessible(true);
-            return (GridLayout)getContentGrid.invoke(section);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-                | SecurityException e) {
-            throw new RuntimeException(e);
-        }
+        return ((FormLayoutSection)section).getSectionContent();
     }
 
     @SuppressWarnings("unchecked")
@@ -101,18 +88,14 @@ public final class TestUiUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getComponentById(GridLayout layout, String id) {
+    public static <T> T getComponentById(FormLayout layout, String id) {
         return (T)StreamUtil.stream(layout).filter(c -> Objects.equals(c.getId(), id)).findFirst()
                 .orElseThrow(() -> new IllegalStateException("No component with id " + id));
     }
 
-    public static String getLabelOfComponentAt(GridLayout layout, int row) {
-        Component component = layout.getComponent(0, row);
-        if (!(component instanceof Label)) {
-            throw new IllegalArgumentException("No label found on the left side of the component");
-        } else {
-            return ((Label)component).getValue();
-        }
+    public static String getLabelOfComponentAt(FormLayout layout, int row) {
+        Component component = layout.getComponent(row);
+        return component.getCaption() != null ? component.getCaption() : "";
     }
 
     public static <T> void setUserOriginatedValue(AbstractField<T> field, T value) {

@@ -26,13 +26,13 @@ import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.vaadin.component.section.FormLayoutSection;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 
 public class VaadinUiCreatorTest {
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testCreateComponent() {
         TestPmo pmo = new TestPmo();
@@ -40,7 +40,7 @@ public class VaadinUiCreatorTest {
 
         Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
 
-        assertThat(component, instanceOf(org.linkki.core.vaadin.component.section.FormSection.class));
+        assertThat(component, instanceOf(FormLayoutSection.class));
         assertThat(bindingContext.getBindings(), hasSize(1));
 
         Binding binding = bindingContext.getBindings().iterator().next();

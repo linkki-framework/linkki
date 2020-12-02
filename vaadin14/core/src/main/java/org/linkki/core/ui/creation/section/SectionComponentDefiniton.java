@@ -19,6 +19,7 @@ import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.CustomLayoutSection;
+import org.linkki.core.vaadin.component.section.FormLayoutSection;
 import org.linkki.core.vaadin.component.section.HorizontalSection;
 
 /**
@@ -35,14 +36,17 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
     private final SectionLayout layout;
     private final String caption;
     private final boolean closeable;
-    private final int columns;
 
-    public SectionComponentDefiniton(SectionLayout layout, String caption, boolean closeable, int columns) {
-        super();
+    public SectionComponentDefiniton(SectionLayout layout, String caption, boolean closeable) {
         this.layout = layout;
         this.caption = caption;
         this.closeable = closeable;
-        this.columns = columns;
+    }
+
+    @Deprecated
+    public SectionComponentDefiniton(SectionLayout layout, String caption, boolean closeable,
+            @SuppressWarnings("unused") int columns) {
+        this(layout, caption, closeable);
     }
 
     @Override
@@ -51,10 +55,7 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
 
         switch (layout) {
             case COLUMN:
-                @SuppressWarnings("deprecation")
-                org.linkki.core.vaadin.component.section.FormSection formSection = new org.linkki.core.vaadin.component.section.FormSection(
-                        nlsCaption, closeable, columns);
-                return formSection;
+                return new FormLayoutSection(nlsCaption, closeable);
             case HORIZONTAL:
                 return new HorizontalSection(nlsCaption, closeable);
             case CUSTOM:

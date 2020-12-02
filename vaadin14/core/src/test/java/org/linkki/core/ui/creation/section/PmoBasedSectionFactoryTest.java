@@ -21,7 +21,6 @@ import static org.hamcrest.Matchers.nullValue;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.pmo.SectionID;
-import org.linkki.core.ui.element.annotation.TestUiUtil;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
@@ -29,11 +28,11 @@ import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.CustomLayoutSection;
+import org.linkki.core.vaadin.component.section.FormLayoutSection;
 import org.linkki.core.vaadin.component.section.HorizontalSection;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 
 public class PmoBasedSectionFactoryTest {
@@ -54,20 +53,17 @@ public class PmoBasedSectionFactoryTest {
 
     @Test
     public void testSetComponentId() {
-        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(), bindingContext);
-        @SuppressWarnings("deprecation")
-        GridLayout gridLayout = TestUiUtil
-                .getContentGrid((org.linkki.core.vaadin.component.section.FormSection)section);
-        Component textField = gridLayout.getComponent(1, 0);
+        FormLayoutSection section = (FormLayoutSection)PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithID(),
+                                                                                                   bindingContext);
+        Component textField = section.getSectionContent().getComponent(0);
 
         assertThat(textField.getId(), is("testProperty"));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testSectionWithDefaultLayout_shouldCreateFormSection() {
         AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new SCCPmoWithoutID(), bindingContext);
-        assertThat(section, is(instanceOf(org.linkki.core.vaadin.component.section.FormSection.class)));
+        assertThat(section, is(instanceOf(FormLayoutSection.class)));
     }
 
     @Test
@@ -84,16 +80,13 @@ public class PmoBasedSectionFactoryTest {
         assertThat(section, is(instanceOf(CustomLayoutSection.class)));
     }
 
-
-    @SuppressWarnings("deprecation")
     @Test
     public void testSectionWithoutAnnotation_usesDefaultValues() {
         AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new SectionWithoutAnnotation(),
                                                                               bindingContext);
-        assertThat(section, is(instanceOf(org.linkki.core.vaadin.component.section.FormSection.class)));
+        assertThat(section, is(instanceOf(FormLayoutSection.class)));
         assertThat(section.getId(), is(SectionWithoutAnnotation.class.getSimpleName()));
         assertThat(section.getCaption(), is(nullValue()));
-        assertThat(((org.linkki.core.vaadin.component.section.FormSection)section).getNumberOfColumns(), is(1));
     }
 
     @Test

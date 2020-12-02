@@ -78,7 +78,7 @@ public @interface UISection {
 
         @Override
         public LinkkiLayoutDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
-            return SectionLayoutDefinition.DEFAULT;
+            return SectionLayoutDefinition.CAPTION_ONLY;
         }
 
     }

@@ -25,7 +25,7 @@ public class FormLayoutSection extends BaseSection {
     private final FormLayout content;
 
     /**
-     * Creates a new section with the given caption, closable state, edit button and number of columns.
+     * Creates a new section with the given caption and closable state.
      * 
      * @param caption the caption
      * @param closeable <code>true</code> if the section can be closed and opened.
