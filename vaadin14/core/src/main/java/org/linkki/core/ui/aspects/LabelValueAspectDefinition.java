@@ -23,9 +23,9 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.uiframework.UiFramework;
 
-import com.vaadin.data.Converter;
-import com.vaadin.data.ValueContext;
-import com.vaadin.ui.Label;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
 
 /**
  * The value aspect for label components. The label is a read-only component, hence this aspect only
@@ -42,8 +42,8 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object
 
     @Override
     public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        return v -> ((Label)componentWrapper.getComponent())
-                .setValue(LabelValueAspectDefinition.toString(v));
+        return v -> ((Span)componentWrapper.getComponent())
+                .setText(LabelValueAspectDefinition.toString(v));
     }
 
     private static String toString(Object o) {

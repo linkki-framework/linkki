@@ -24,7 +24,7 @@ import java.util.Locale;
 import org.junit.jupiter.api.Test;
 import org.linkki.util.TwoDigitYearUtil;
 
-import com.vaadin.data.ValueContext;
+import com.vaadin.flow.data.binder.ValueContext;
 
 public class TwoDigitYearLocalDateConverterTest {
 

@@ -14,23 +14,24 @@
 
 package org.linkki.core.ui.layout;
 
-import com.vaadin.shared.ui.AlignmentInfo;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 
 /**
  * Defines how the child components should be horizontally aligned in the parent component.
  */
+// TODO LIN-2058
 public enum HorizontalAlignment {
-    LEFT(AlignmentInfo.LEFT),
-    MIDDLE(AlignmentInfo.CENTER),
-    RIGHT(AlignmentInfo.RIGHT);
+    LEFT(Alignment.START),
+    MIDDLE(Alignment.CENTER),
+    RIGHT(Alignment.END);
 
-    private final AlignmentInfo alignmentInfo;
+    private final Alignment alignment;
 
-    private HorizontalAlignment(AlignmentInfo alignmentInfo) {
-        this.alignmentInfo = alignmentInfo;
+    private HorizontalAlignment(Alignment alignment) {
+        this.alignment = alignment;
     }
 
-    public AlignmentInfo getAlignmentInfo() {
-        return alignmentInfo;
+    public Alignment getAlignment() {
+        return alignment;
     }
 }

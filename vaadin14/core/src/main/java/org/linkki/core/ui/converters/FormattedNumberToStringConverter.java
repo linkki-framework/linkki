@@ -26,9 +26,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.uiframework.UiFramework;
 
-import com.vaadin.data.Converter;
-import com.vaadin.data.Result;
-import com.vaadin.data.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.data.binder.Result;
+import com.vaadin.flow.data.binder.ValueContext;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

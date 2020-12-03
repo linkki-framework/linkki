@@ -45,7 +45,7 @@ import org.linkki.core.ui.element.bindingdefinitions.ComboboxBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
-import com.vaadin.ui.ComboBox;
+import com.vaadin.flow.component.combobox.ComboBox;
 
 /**
  * Creates a ComboBox with the specified parameters.
@@ -124,12 +124,12 @@ public @interface UIComboBox {
                     ComboBox<Object>::setDataProvider) {
 
                 @Override
-                @SuppressWarnings("unchecked")
                 protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
-                    boolean dynamicItemsEmpty = annotation.content() == AvailableValuesType.DYNAMIC && items.isEmpty();
-                    boolean hasNullItem = items.removeIf(i -> i == null);
-                    ((ComboBox<Object>)componentWrapper.getComponent())
-                            .setEmptySelectionAllowed(hasNullItem || dynamicItemsEmpty);
+                    // TODO LIN-2076
+                    if (annotation.content() == AvailableValuesType.DYNAMIC
+                            && items.isEmpty()) {
+                        items.add(null);
+                    }
                 }
 
             };

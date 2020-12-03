@@ -25,8 +25,7 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.messages.model.User;
 
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.ui.PasswordField;
+import com.vaadin.flow.component.textfield.PasswordField;
 
 @UISection
 public class RegistrationSectionPmo implements PresentationModelObject {
@@ -76,7 +75,7 @@ public class RegistrationSectionPmo implements PresentationModelObject {
         // model binding
     }
 
-    @UIButton(position = 60, caption = "Register", shortcutKeyCode = ShortcutAction.KeyCode.ENTER)
+    @UIButton(position = 60, caption = "Register")
     public void register() {
         registerHandler.accept(this);
     }

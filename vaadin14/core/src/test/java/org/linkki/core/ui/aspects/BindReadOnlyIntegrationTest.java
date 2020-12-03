@@ -29,8 +29,8 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasValue;
 
 public class BindReadOnlyIntegrationTest {
 
@@ -38,10 +38,10 @@ public class BindReadOnlyIntegrationTest {
     public void testAspectOverridesDefault_Writable() {
         BindingContext bindingContext = new BindingContext();
         @SuppressWarnings("unchecked")
-        Map<String, HasValue<String>> uiElements = UiCreator
+        Map<String, HasValue<?, String>> uiElements = UiCreator
                 .createUiElements(new TestPmoWithReadOnlyFields(false),
                                   bindingContext, c -> new LabelComponentWrapper((Component)c))
-                .map(e -> (HasValue<String>)e.getComponent())
+                .map(e -> (HasValue<?, String>)e.getComponent())
                 .collect(Collectors.toMap(HasValue::getValue, Function.identity()));
 
         assertThat(uiElements.get("onlyGetter").isReadOnly(), is(true));
@@ -55,10 +55,10 @@ public class BindReadOnlyIntegrationTest {
     public void testAspectOverridesDefault_ReadOnly() {
         BindingContext bindingContext = new BindingContext();
         @SuppressWarnings("unchecked")
-        Map<String, HasValue<String>> uiElements = UiCreator
+        Map<String, HasValue<?, String>> uiElements = UiCreator
                 .createUiElements(new TestPmoWithReadOnlyFields(true),
                                   bindingContext, c -> new LabelComponentWrapper((Component)c))
-                .map(e -> (HasValue<String>)e.getComponent())
+                .map(e -> (HasValue<?, String>)e.getComponent())
                 .collect(Collectors.toMap(HasValue::getValue, Function.identity()));
 
         assertThat(uiElements.get("onlyGetter").isReadOnly(), is(true));

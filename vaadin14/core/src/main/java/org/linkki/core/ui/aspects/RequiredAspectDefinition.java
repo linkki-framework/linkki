@@ -23,8 +23,9 @@ import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.util.Consumers;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.listbox.ListBoxBase;
 
 /**
  * Aspect definition for {@link RequiredType}. Assumes that the given component is an
@@ -71,8 +72,14 @@ public class RequiredAspectDefinition extends ModelToUiAspectDefinition<Boolean>
     @Override
     public Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Object component = componentWrapper.getComponent();
+
+        if (component instanceof ListBoxBase<?, ?, ?>) {
+            // TODO LIN-2070 ListBoxBase does not support setRequiredIndicatorVisible
+            return Consumers.nopConsumer();
+        }
+
         if (component instanceof HasValue) {
-            HasValue<?> field = (HasValue<?>)componentWrapper.getComponent();
+            HasValue<?, ?> field = (HasValue<?, ?>)componentWrapper.getComponent();
             return field::setRequiredIndicatorVisible;
         } else if (requiredType == RequiredType.NOT_REQUIRED) {
             return Consumers.nopConsumer();

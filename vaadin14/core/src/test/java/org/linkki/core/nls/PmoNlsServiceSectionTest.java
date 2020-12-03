@@ -23,24 +23,24 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.nls.sample.SamplePmo;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.element.annotation.TestUiUtil;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class PmoNlsServiceSectionTest {
 
-    Label sectionHeader;
-
-    private String textfieldLabelWithoutTranslation;
-
-    private String textfieldLabelWithTranslation;
+    private Span sectionHeader;
 
     private Button buttonWithTranslatedCaption;
 
+    // TODO LIN-2057
+    // private String textfieldLabelWithoutTranslation;
+    // private String textfieldLabelWithTranslation;
 
     private String textfieldLabelTranslation;
 
@@ -55,13 +55,15 @@ public class PmoNlsServiceSectionTest {
     public void setUp() {
         BindingContext context = new BindingContext();
         AbstractSection section = new PmoBasedSectionFactory().createSection(new SamplePmo(), context);
-        HorizontalLayout header = (HorizontalLayout)section.getComponent(0);
-        sectionHeader = (Label)header.getComponent(0);
+        HorizontalLayout header = (HorizontalLayout)section.getComponentAt(0);
+        sectionHeader = (Span)header.getComponentAt(0);
         FormLayout sectionContent = ((FormLayoutSection)section).getSectionContent();
-        textfieldLabelWithTranslation = sectionContent.getComponent(0).getCaption();
-        textfieldLabelWithoutTranslation = sectionContent.getComponent(1).getCaption();
-        buttonWithTranslatedCaption = (Button)sectionContent.getComponent(2);
-        buttonWithoutTranslatedCaption = (Button)sectionContent.getComponent(3);
+
+        // TODO LIN-2057
+        // textfieldLabelWithTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 0);
+        // textfieldLabelWithoutTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 1);
+        buttonWithTranslatedCaption = (Button)TestUiUtil.getComponentAtIndex(2, sectionContent);
+        buttonWithoutTranslatedCaption = (Button)TestUiUtil.getComponentAtIndex(3, sectionContent);
 
         // test setup
         PmoNlsService.get();
@@ -87,14 +89,19 @@ public class PmoNlsServiceSectionTest {
 
     @Test
     public void testSectionCaption() {
-        assertThat(sectionHeader.getValue(), is("Translated section caption"));
+        assertThat(sectionHeader.getText(), is("Translated section caption"));
     }
 
     @Test
     public void testCaptions() {
-        assertThat(textfieldLabelWithTranslation, is(textfieldLabelTranslation));
-        assertThat(textfieldLabelWithoutTranslation, is(SamplePmo.PMO_LABEL));
-        assertThat(buttonWithTranslatedCaption.getCaption(), is(buttonCaptionTranslation));
-        assertThat(buttonWithoutTranslatedCaption.getCaption(), is(SamplePmo.PMO_CAPTION));
+        assertThat(buttonWithTranslatedCaption.getText(), is(buttonCaptionTranslation));
+        assertThat(buttonWithoutTranslatedCaption.getText(), is(SamplePmo.PMO_CAPTION));
     }
+
+    // TODO LIN-2057
+    // @Test
+    // public void testLabels() {
+    // assertThat(textfieldLabelWithTranslation, is(textfieldLabelTranslation));
+    // assertThat(textfieldLabelWithoutTranslation, is(SamplePmo.PMO_LABEL));
+    // }
 }

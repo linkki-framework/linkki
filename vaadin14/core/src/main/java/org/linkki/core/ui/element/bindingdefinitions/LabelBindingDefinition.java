@@ -23,9 +23,8 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Span;
 
 /**
  * {@link BindingDefinition} for {@link UILabel}.
@@ -55,10 +54,11 @@ public class LabelBindingDefinition implements BindingDefinition {
 
     @Override
     public Component newComponent() {
-        Label label = ComponentFactory.newLabelFullWidth(StringUtils.EMPTY);
-        label.setContentMode(labelAnnotation.htmlContent() ? ContentMode.HTML : ContentMode.TEXT);
+        Span label = ComponentFactory.newLabelFullWidth(StringUtils.EMPTY);
+        // TODO LIN-2053
+        // label.setContentMode(labelAnnotation.htmlContent() ? ContentMode.HTML : ContentMode.TEXT);
         for (String styleName : labelAnnotation.styleNames()) {
-            label.addStyleName(styleName);
+            label.addClassName(styleName);
         }
         return label;
     }

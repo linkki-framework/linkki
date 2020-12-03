@@ -20,9 +20,12 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.style.LinkkiTheme;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasEnabled;
+import com.vaadin.flow.component.HasStyle;
+import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -35,39 +38,38 @@ public class LabelComponentWrapper extends VaadinComponentWrapper {
     private static final long serialVersionUID = 1L;
 
     @CheckForNull
-    private final Label label;
+    private final Span label;
 
     public LabelComponentWrapper(Component component) {
         this(null, component);
     }
 
-    public LabelComponentWrapper(@CheckForNull Label label, Component component) {
+    public LabelComponentWrapper(@CheckForNull Span label, Component component) {
         super(component, WrapperType.FIELD);
         this.label = label;
         if (this.label != null) {
-            this.label.addStyleName(LinkkiTheme.COMPONENTWRAPPER_LABEL);
+            this.label.addClassName(LinkkiTheme.COMPONENTWRAPPER_LABEL);
         }
     }
 
     @Override
     public void postUpdate() {
         getLabelComponent().ifPresent(l -> {
-            l.setEnabled(getComponent().isEnabled());
+            l.setEnabled(((HasEnabled)getComponent()).isEnabled());
             l.setVisible(getComponent().isVisible());
-            l.setDescription(getComponent().getDescription());
             updateRequiredIndicator(l);
         });
     }
 
-    private void updateRequiredIndicator(Label existingLabel) {
+    private void updateRequiredIndicator(Span existingLabel) {
         if (getComponent() instanceof HasValue) {
-            if (((HasValue<?>)getComponent()).isRequiredIndicatorVisible()
-                    && !((HasValue<?>)getComponent()).isReadOnly()) {
-                existingLabel.addStyleName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
-                getComponent().addStyleName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
+            if (((HasValue<?, ?>)getComponent()).isRequiredIndicatorVisible()
+                    && !((HasValue<?, ?>)getComponent()).isReadOnly()) {
+                existingLabel.addClassName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
+                ((HasStyle)getComponent()).addClassName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
             } else {
-                existingLabel.removeStyleName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
-                getComponent().removeStyleName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
+                existingLabel.removeClassName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
+                ((HasStyle)getComponent()).removeClassName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
             }
         }
     }
@@ -75,17 +77,17 @@ public class LabelComponentWrapper extends VaadinComponentWrapper {
     @Override
     public void setLabel(String labelText) {
         if (label != null) {
-            label.setValue(labelText);
+            label.setText(labelText);
         }
     }
 
-    public Optional<Label> getLabelComponent() {
+    public Optional<Span> getLabelComponent() {
         return Optional.ofNullable(label);
     }
 
     @Override
     public String toString() {
-        return Optional.ofNullable(label).map(Label::getValue).orElse("<no label>") + "("
+        return Optional.ofNullable(label).map(Span::getText).orElse("<no label>") + "("
                 + getComponent().getClass().getSimpleName() + ")";
     }
 }

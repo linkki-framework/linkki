@@ -14,7 +14,7 @@
 
 package org.linkki.core.ui.aspects.types;
 
-import com.vaadin.data.HasValue;
+import com.vaadin.flow.component.HasValue;
 
 /**
  * Defines the behavior when setting a component to read only.

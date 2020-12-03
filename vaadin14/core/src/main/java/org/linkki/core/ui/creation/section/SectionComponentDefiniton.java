@@ -30,7 +30,7 @@ import org.linkki.core.vaadin.component.section.HorizontalSection;
 public class SectionComponentDefiniton implements LinkkiComponentDefinition {
 
     public static final SectionComponentDefiniton DEFAULT = new SectionComponentDefiniton(SectionLayout.COLUMN, "",
-            false, 1);
+            false);
 
     private final SectionLayout layout;
     private final String caption;
@@ -40,12 +40,6 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
         this.layout = layout;
         this.caption = caption;
         this.closeable = closeable;
-    }
-
-    @Deprecated
-    public SectionComponentDefiniton(SectionLayout layout, String caption, boolean closeable,
-            @SuppressWarnings("unused") int columns) {
-        this(layout, caption, closeable);
     }
 
     @Override

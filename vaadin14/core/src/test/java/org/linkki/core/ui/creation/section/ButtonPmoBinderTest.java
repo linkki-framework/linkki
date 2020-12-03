@@ -35,7 +35,7 @@ import org.linkki.core.ui.creation.section.ButtonPmoBinder.ButtonPmoAspectDefini
 import org.linkki.core.ui.test.TestButtonPmo;
 import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
 
-import com.vaadin.ui.Button;
+import com.vaadin.flow.component.button.Button;
 
 public class ButtonPmoBinderTest {
 

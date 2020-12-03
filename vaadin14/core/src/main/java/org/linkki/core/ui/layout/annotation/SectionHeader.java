@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
 
 import org.linkki.core.vaadin.component.section.AbstractSection;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
 
 /**
  * Places the component into the section header. This annotation can only be used inside a

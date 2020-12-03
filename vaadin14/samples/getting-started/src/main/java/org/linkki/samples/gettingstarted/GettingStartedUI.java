@@ -19,12 +19,9 @@ import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.samples.gettingstarted.model.Report;
 import org.linkki.samples.gettingstarted.pmo.ReportSectionPmo;
 
-import com.vaadin.annotations.Theme;
-import com.vaadin.server.Page;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.server.VaadinRequest;
 
-@Theme(value = "valo")
 public class GettingStartedUI extends UI {
 
     private static final long serialVersionUID = 1L;
@@ -32,11 +29,11 @@ public class GettingStartedUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
 
-        Page.getCurrent().setTitle("linkki :: Getting Started");
+        UI.getCurrent().getPage().setTitle("linkki :: Getting Started");
         // <2>
         AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new ReportSectionPmo(new Report()),
                                                                               new BindingContext("report-context"));
 
-        setContent(section);
+        add(section);
     }
 }

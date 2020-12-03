@@ -18,7 +18,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.ComponentWrapperFactory;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
 
 /**
  * {@link ComponentWrapperFactory} for Vaadin 8 {@link Component Components}.

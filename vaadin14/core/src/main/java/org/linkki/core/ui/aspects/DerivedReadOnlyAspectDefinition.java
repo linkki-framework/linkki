@@ -20,7 +20,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.data.HasValue;
+import com.vaadin.flow.component.HasValue;
 
 /**
  * Derives the read-only-state from the absence of a setter for the bound property.
@@ -30,7 +30,7 @@ public class DerivedReadOnlyAspectDefinition implements LinkkiAspectDefinition {
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher,
             ComponentWrapper componentWrapper) {
-        HasValue<?> field = (HasValue<?>)componentWrapper.getComponent();
+        HasValue<?, ?> field = (HasValue<?, ?>)componentWrapper.getComponent();
         return () -> field.setReadOnly(!propertyDispatcher
                 .isPushable(Aspect.of(VALUE_ASPECT_NAME, field.getValue())));
     }

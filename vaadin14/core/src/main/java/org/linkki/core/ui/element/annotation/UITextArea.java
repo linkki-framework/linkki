@@ -36,10 +36,11 @@ import org.linkki.core.ui.element.bindingdefinitions.TextAreaBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
-import com.vaadin.server.Sizeable;
+import com.vaadin.flow.component.HasSize;
 
 /**
- * In- and output of texts which exceed a row, in accordance to {@link com.vaadin.ui.TextArea}.
+ * In- and output of texts which exceed a row, in accordance to
+ * {@link com.vaadin.flow.component.textfield.TextArea}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -77,7 +78,7 @@ public @interface UITextArea {
      * <p>
      * This value is set to 100% by default which means it grabs the available space.
      * 
-     * @see Sizeable#setWidth(String)
+     * @see HasSize#setWidth(String)
      */
     String width() default "100%";
 

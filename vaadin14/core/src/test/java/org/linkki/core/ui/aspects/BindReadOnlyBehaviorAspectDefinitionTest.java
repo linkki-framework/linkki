@@ -25,7 +25,7 @@ import org.linkki.core.ui.aspects.types.ReadOnlyBehaviorType;
 import org.linkki.core.ui.uiframework.Vaadin8ComponentWrapperFactory;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

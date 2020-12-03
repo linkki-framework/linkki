@@ -17,9 +17,9 @@ import java.util.Optional;
 
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Span;
 
 /**
  * Base class for sections that are supported by the {@link PmoBasedSectionFactory}.
@@ -72,6 +72,6 @@ public abstract class BaseSection extends AbstractSection {
      * @param component the component that should be added to the section
      * 
      */
-    public abstract void add(String propertyName, Label label, Component component);
+    public abstract void add(String propertyName, Span label, Component component);
 
 }

@@ -42,9 +42,9 @@ import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import com.vaadin.data.HasItems;
-import com.vaadin.data.provider.ListDataProvider;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.component.combobox.ComboBox;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 

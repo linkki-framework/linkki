@@ -33,11 +33,10 @@ import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
-import com.vaadin.shared.ui.grid.GridConstants.Section;
 
 /**
- * Responsible for creating a {@link Section} in the UI from the annotated PMO class that may include
- * other UI-Elements.
+ * Responsible for creating a section in the UI from the annotated PMO class that may include other
+ * UI-Elements.
  */
 @LinkkiComponent(SectionComponentDefinitonCreator.class)
 @LinkkiLayout(SectionLayoutDefinitionCreator.class)
@@ -51,11 +50,13 @@ public @interface UISection {
      */
     SectionLayout layout() default SectionLayout.COLUMN;
 
-    /**
-     * Number of columns if the {@link SectionLayout#COLUMN} layout is used. Ignored if an other layout
-     * is used.
-     */
-    int columns() default 1;
+    // TODO LIN-2072
+    // /**
+    // * Number of columns if the {@link SectionLayout#COLUMN} layout is used. Ignored if an other
+    // layout
+    // * is used.
+    // */
+    // int columns() default 1;
 
     /** The caption text for the section. */
     String caption() default "";
@@ -68,8 +69,7 @@ public @interface UISection {
         @Override
         public LinkkiComponentDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
             UISection uiSection = annotation;
-            return new SectionComponentDefiniton(uiSection.layout(), uiSection.caption(), uiSection.closeable(),
-                    uiSection.columns());
+            return new SectionComponentDefiniton(uiSection.layout(), uiSection.caption(), uiSection.closeable());
         }
 
     }

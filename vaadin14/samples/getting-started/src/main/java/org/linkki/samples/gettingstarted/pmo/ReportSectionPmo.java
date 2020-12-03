@@ -25,8 +25,10 @@ import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.gettingstarted.model.Report;
 
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.Notification;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
 
 @UISection
 public class ReportSectionPmo implements PresentationModelObject {
@@ -41,25 +43,27 @@ public class ReportSectionPmo implements PresentationModelObject {
     public Report getReport() {
         return report;
     }
-	
+
     @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 5, width = "50em")
     public void description() {
         // Use description from report (model object) directly
     }
-	
+
     @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED)
     public void type() {
         // - bind value to the property "type" from report
         // - use enum constants from ReportType as available values
     }
-	
-    @UIButton(position = 30, caption = "Send", icon = VaadinIcons.PAPERPLANE, showIcon = true, enabled = EnabledType.DYNAMIC)
+
+    @UIButton(position = 30, caption = "Send", icon = VaadinIcon.PAPERPLANE, showIcon = true, enabled = EnabledType.DYNAMIC)
     public void send() {
         report.save();
-        Notification.show(
-                          String.format("Report with id %d filed!", report.getId()),
-                          "Thank you for reporting!",
-                          Notification.Type.TRAY_NOTIFICATION);
+
+        Notification notification = new Notification(
+                new Span(String.format("Report with id %d filed!", report.getId())),
+                new Span("Thank you for reporting!"));
+        notification.setPosition(Position.TOP_CENTER);
+        notification.open();
     }
 
     /**

@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.wrapper;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -41,14 +42,9 @@ import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 
-import com.vaadin.server.UserError;
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.shared.ui.ErrorLevel;
-import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -58,9 +54,9 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  **/
 public class LabelComponentWrapperTest {
 
-    private Label label = spy(new Label());
+    private Span label = spy(new Span());
 
-    private AbstractField<String> field = spy(new TextField());
+    private TextField field = spy(new TextField());
     private ComboBox<String> selectField = spy(new ComboBox<>());
 
 
@@ -113,23 +109,23 @@ public class LabelComponentWrapperTest {
 
         selectBinding.displayMessages(messageList);
 
-        verify(selectField).setComponentError(any(UserError.class));
+        verify(selectField).setErrorMessage(any(String.class));
 
-        ArgumentCaptor<UserError> captor = ArgumentCaptor.forClass(UserError.class);
-        verify(selectField).setComponentError(captor.capture());
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(selectField).setErrorMessage(captor.capture());
 
 
         @NonNull
-        UserError userError = captor.getValue();
-        assertEquals(userError.getMessage(), "text");
-        assertEquals(userError.getErrorLevel(), ErrorLevel.ERROR);
+        String userError = captor.getValue();
+        assertEquals(userError, "text");
     }
 
     @Test
     public void testDisplayMessages_noMessages() {
         selectBinding.displayMessages(messageList);
 
-        verify(selectField).setComponentError(null);
+        verify(selectField).setErrorMessage("");
+        assertThat(selectField.isInvalid(), is(false));
     }
 
 
@@ -143,15 +139,7 @@ public class LabelComponentWrapperTest {
 
     @Test
     public void testSetTooltip() {
-        AbstractComponent component = mock(AbstractComponent.class);
-        LabelComponentWrapper wrapper = new LabelComponentWrapper(component);
-
-        wrapper.setTooltip("testTip");
-        verify(component).setDescription("testTip", ContentMode.HTML);
-        wrapper.setTooltip("<script>");
-        verify(component).setDescription("&lt;script&gt;", ContentMode.HTML);
-        wrapper.setTooltip("<div>");
-        verify(component).setDescription("<div>", ContentMode.HTML);
+        // TODO LIN-2054
     }
 
     @Test
@@ -161,7 +149,7 @@ public class LabelComponentWrapperTest {
 
         wrapper.postUpdate();
 
-        assertThat(label.getStyleName(), containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER));
+        assertThat(label.getClassName(), containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER));
     }
 
     @Test
@@ -171,7 +159,7 @@ public class LabelComponentWrapperTest {
 
         wrapper.postUpdate();
 
-        assertThat(label.getStyleName(), not(containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER)));
+        assertThat(label.getClassName(), not(containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER)));
     }
 
     @Test
@@ -182,6 +170,6 @@ public class LabelComponentWrapperTest {
 
         wrapper.postUpdate();
 
-        assertThat(label.getStyleName(), not(containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER)));
+        assertThat(label.getClassName(), not(containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER)));
     }
 }

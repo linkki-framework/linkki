@@ -14,23 +14,21 @@
 package org.linkki.core.vaadin.component.section;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.style.LinkkiTheme;
-import org.linkki.core.ui.pmo.ButtonPmoBuilder;
 import org.linkki.core.vaadin.component.ComponentFactory;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -45,7 +43,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
     private final HorizontalLayout header;
     private final List<Component> headerComponents = new ArrayList<>();
-    private final Label captionLabel;
+    private final Span captionLabel;
     private final Button closeButton;
 
     private boolean open = true;
@@ -70,7 +68,7 @@ public abstract class AbstractSection extends VerticalLayout {
     public AbstractSection(@CheckForNull String caption, boolean closeable) {
         setMargin(false);
         setSpacing(false);
-        setStyleName(LinkkiTheme.SECTION);
+        setClassName(LinkkiTheme.SECTION);
 
         captionLabel = createCaption();
         closeButton = createOpenCloseButton(this::switchOpenStatus);
@@ -78,7 +76,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
         header = createHeader();
         updateHeader();
-        addComponent(header);
+        add(header);
 
         setCaption(caption);
     }
@@ -103,37 +101,34 @@ public abstract class AbstractSection extends VerticalLayout {
     private HorizontalLayout createHeader() {
         HorizontalLayout headerLayout = new HorizontalLayout();
         headerLayout.setWidth("100%");
-        headerLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        headerLayout.addStyleName(LinkkiTheme.SECTION_CAPTION);
+        headerLayout.setDefaultVerticalComponentAlignment(Alignment.CENTER);
+        headerLayout.addClassName(LinkkiTheme.SECTION_CAPTION);
 
-        headerLayout.addComponent(captionLabel);
-        headerLayout.addComponent(closeButton);
+        headerLayout.add(captionLabel);
+        headerLayout.add(closeButton);
 
-        Label line = new Label("<hr/>", ContentMode.HTML);
-        line.setWidth("100%");
-        line.addStyleName(LinkkiTheme.SECTION_CAPTION_LINE);
-        headerLayout.addComponent(line);
-        headerLayout.setExpandRatio(line, 1);
+        headerLayout.add(ComponentFactory.newHorizontalLine());
+        // TODO LIN-2049
+        // headerLayout.setExpandRatio(line, 1);
         headerLayout.setMargin(false);
 
         return headerLayout;
     }
 
-    private static Label createCaption() {
-        Label label = new Label();
-        label.addStyleName(LinkkiTheme.SECTION_CAPTION_TEXT);
-        return label;
+    private static Span createCaption() {
+        return new Span();
     }
 
     private static Button createOpenCloseButton(Handler toggleCloseOpen) {
-        Button button = ComponentFactory.newButton(VaadinIcons.ANGLE_DOWN, ButtonPmoBuilder.DEFAULT_STYLES);
-        button.addStyleName(LinkkiTheme.BUTTON_TEXT);
+        // TODO LIN-2048 ButtonPmoBuilder.DEFAULT_STYLES
+        Button button = ComponentFactory.newButton(VaadinIcon.ANGLE_DOWN.create(), Collections.emptyList());
+        button.addClassName(LinkkiTheme.BUTTON_TEXT);
         button.addClickListener(e -> toggleCloseOpen.apply());
         return button;
     }
 
     private boolean shouldHeaderBePresent() {
-        return !StringUtils.isEmpty(captionLabel.getValue())
+        return !StringUtils.isEmpty(captionLabel.getText())
                 || this.closeButton.isVisible()
                 || !this.headerComponents.isEmpty();
     }
@@ -148,12 +143,15 @@ public abstract class AbstractSection extends VerticalLayout {
      * 
      * @param caption the caption text
      */
-    @Override
     public void setCaption(@CheckForNull String caption) {
-        captionLabel.setValue(caption);
+        captionLabel.setText(caption);
         captionLabel.setVisible(!StringUtils.isEmpty(caption));
 
         updateHeader();
+    }
+
+    public String getCaption() {
+        return captionLabel.getText();
     }
 
     /**
@@ -162,9 +160,9 @@ public abstract class AbstractSection extends VerticalLayout {
      * item, if it is present.
      */
     public void addHeaderButton(Button button) {
-        button.addStyleName(LinkkiTheme.BUTTON_TEXT);
+        button.addClassName(LinkkiTheme.BUTTON_TEXT);
         headerComponents.add(button);
-        header.addComponent(button, 1);
+        header.addComponentAtIndex(1, button);
         updateHeader();
     }
 
@@ -175,7 +173,7 @@ public abstract class AbstractSection extends VerticalLayout {
      */
     public void addHeaderComponent(Component component) {
         headerComponents.add(component);
-        header.addComponent(component, header.getComponentCount() - 1);
+        header.addComponentAtIndex(header.getComponentCount() - 1, component);
         updateHeader();
     }
 
@@ -215,7 +213,7 @@ public abstract class AbstractSection extends VerticalLayout {
 
     protected void switchOpenStatus() {
         open = !open;
-        closeButton.setIcon(open ? VaadinIcons.ANGLE_DOWN : VaadinIcons.ANGLE_RIGHT);
+        closeButton.setIcon(open ? VaadinIcon.ANGLE_DOWN.create() : VaadinIcon.ANGLE_RIGHT.create());
         getSectionContent().setVisible(open);
     }
 

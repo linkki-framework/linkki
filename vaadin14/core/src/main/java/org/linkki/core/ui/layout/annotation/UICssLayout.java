@@ -32,13 +32,13 @@ import org.linkki.core.ui.layout.annotation.UICssLayout.CssLayoutComponentDefini
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
+import com.vaadin.flow.component.HasStyle;
+import com.vaadin.flow.component.html.Div;
 
+// TODO LIN-2060
 /***
- * Marks a group of components in a {@link CssLayout}. It provides a simple DOM structure, which can be
- * freely styled by CSS. There is no predefined layouting information. Notable differences to other
- * layouts are
+ * Marks a group of components in a {@link Div}. It provides a simple DOM structure, which can be freely
+ * styled by CSS. There is no predefined layouting information. Notable differences to other layouts are
  * <ul>
  * <li>Simpler DOM structure.
  * <li>Full developer control without the restriction of templates.
@@ -54,7 +54,7 @@ import com.vaadin.ui.CssLayout;
  * Use the {@link #styleNames()} attribute to designate one or more css classes for this component. If
  * no names are given, the Vaadin default CSS class name is "csslayout".
  * 
- * @implNote Uses {@link Component#setStyleName(String)} to set the style class.
+ * @implNote Uses {@link HasStyle#setClassName(String)} to set the style class.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -74,8 +74,8 @@ public @interface UICssLayout {
 
         @Override
         public LinkkiComponentDefinition create(UICssLayout annotation, AnnotatedElement annotatedElement) {
-            CssLayout layoutCmpt = new CssLayout();
-            layoutCmpt.addStyleNames(annotation.styleNames());
+            Div layoutCmpt = new Div();
+            layoutCmpt.addClassNames(annotation.styleNames());
             return (pmo) -> layoutCmpt;
         }
     }

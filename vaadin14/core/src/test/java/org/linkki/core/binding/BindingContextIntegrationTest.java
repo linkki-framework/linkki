@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
@@ -35,16 +33,11 @@ import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.ui.mock.MockUi;
 import org.linkki.core.ui.test.TestButtonPmo;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.ui.UI;
-
 public class BindingContextIntegrationTest {
-
-    private UI ui;
 
     private BindingManager bindingManager;
 
@@ -53,16 +46,6 @@ public class BindingContextIntegrationTest {
     private ContainerBinding standardSectionBinding;
 
     private BindingContext bindingContext;
-
-    @BeforeEach
-    public void mockUi() {
-        ui = MockUi.mockUi();
-    }
-
-    @AfterEach
-    public void cleanUpUi() {
-        UI.setCurrent(null);
-    }
 
     @Test
     public void testRemoveBindingsForComponent() {
@@ -98,8 +81,6 @@ public class BindingContextIntegrationTest {
         bindingManager = new TestBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
         testPage = new TestPage(bindingManager);
         testPage.init();
-        testPage.setParent(ui);
-        testPage.attach();
 
         bindingContext = testPage.getBindingContext();
         List<Binding> bindings = bindings();
@@ -162,7 +143,7 @@ public class BindingContextIntegrationTest {
         }
 
         protected void removeBindings() {
-            iterator().forEachRemaining(getBindingContext()::removeBindingsForComponent);
+            getChildren().forEach(getBindingContext()::removeBindingsForComponent);
         }
 
     }

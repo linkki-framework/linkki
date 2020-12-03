@@ -29,7 +29,8 @@ import org.linkki.core.ui.layout.annotation.UIFormLayout.FormLayoutComponentDefi
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
-import com.vaadin.ui.FormLayout;
+import com.vaadin.flow.component.formlayout.FormLayout;
+
 
 /**
  * Marks a group of components vertically placed below each other in a two-column {@link FormLayout}

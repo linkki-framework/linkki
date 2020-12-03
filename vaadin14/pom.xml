@@ -20,30 +20,14 @@
 
     <properties>
     <!-- this property must also be updated in samples-vaadin8 and uitest -->
-        <vaadin.version>8.12.0</vaadin.version>
+        <vaadin.version>14.4.4</vaadin.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-server</artifactId>
-                <version>${vaadin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-client-compiled</artifactId>
-                <version>${vaadin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-client</artifactId>
-                <version>${vaadin.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-themes</artifactId>
+                <artifactId>vaadin-core</artifactId>
                 <version>${vaadin.version}</version>
             </dependency>
             <dependency>

@@ -16,9 +16,7 @@ package org.linkki.core.ui.layout;
 
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 
-import com.vaadin.shared.ui.AlignmentInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 /**
  * Defines a {@link VerticalLayout} with the given default horizontal alignment.
@@ -38,8 +36,7 @@ public class VerticalLayoutComponentDefinition implements LinkkiComponentDefinit
     @Override
     public Object createComponent(Object pmo) {
         VerticalLayout layout = new VerticalLayout();
-        layout.setDefaultComponentAlignment(new Alignment(
-                new AlignmentInfo(horizontalAlignment.getAlignmentInfo(), AlignmentInfo.MIDDLE).getBitMask()));
+        layout.setDefaultHorizontalComponentAlignment(horizontalAlignment.getAlignment());
         return layout;
     }
 

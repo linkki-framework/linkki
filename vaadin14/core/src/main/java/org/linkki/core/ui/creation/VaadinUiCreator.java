@@ -18,7 +18,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
 
 /**
  * Wrapper class for {@link UiCreator}, performing casts to {@link Component}

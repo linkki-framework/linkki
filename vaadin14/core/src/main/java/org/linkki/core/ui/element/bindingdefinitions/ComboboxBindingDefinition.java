@@ -24,8 +24,8 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.combobox.ComboBox;
 
 /**
  * {@link BindingDefinition} for {@link UIComboBox}.
@@ -41,11 +41,14 @@ public class ComboboxBindingDefinition implements BindingDefinition {
     @Override
     public Component newComponent() {
         ComboBox<?> comboBox = ComponentFactory.newComboBox();
-        comboBox.setItemCaptionGenerator(getItemCaptionProvider()::getUnsafeCaption);
-        comboBox.setEmptySelectionCaption(getItemCaptionProvider().getNullCaption());
+        comboBox.setItemLabelGenerator(getItemCaptionProvider()::getUnsafeCaption);
+
         comboBox.setWidth(uiComboField.width());
-        comboBox.setPopupWidth(null);
-        comboBox.setPageLength(0);
+
+        // TODO LIN-2061
+        // comboBox.setPopupWidth(null);
+        // comboBox.setPageLength(0);
+
         return comboBox;
     }
 

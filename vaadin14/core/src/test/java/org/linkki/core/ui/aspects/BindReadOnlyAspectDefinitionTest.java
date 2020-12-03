@@ -26,9 +26,9 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.TextArea;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.textfield.TextArea;
 
 public class BindReadOnlyAspectDefinitionTest {
 
@@ -38,7 +38,7 @@ public class BindReadOnlyAspectDefinitionTest {
 
     @Test
     public void testReadOnlyType_Always() {
-        HasValue<?> field = createWritableComponent();
+        HasValue<?, ?> field = createWritableComponent();
 
         createUiUpdaterAndApplyIt_BindReadOnlyAspect(field, ReadOnlyType.ALWAYS);
 
@@ -48,7 +48,7 @@ public class BindReadOnlyAspectDefinitionTest {
 
     @Test
     public void testReadOnlyType_Dynamic_WritableComponent() {
-        HasValue<?> field = createWritableComponent();
+        HasValue<?, ?> field = createWritableComponent();
 
         createUiUpdaterAndApplyIt_BindReadOnlyAspect(field, ReadOnlyType.DYNAMIC);
 
@@ -57,7 +57,7 @@ public class BindReadOnlyAspectDefinitionTest {
 
     @Test
     public void testReadOnlyType_Dynamic_NonWritableComponent() {
-        HasValue<?> field = createWritableComponent();
+        HasValue<?, ?> field = createWritableComponent();
         field.setReadOnly(true);
 
         createUiUpdaterAndApplyIt_BindReadOnlyAspect(field, ReadOnlyType.DYNAMIC);
@@ -67,7 +67,7 @@ public class BindReadOnlyAspectDefinitionTest {
 
     @Test
     public void testReadOnlyType_Derived() {
-        HasValue<?> field = createWritableComponent();
+        HasValue<?, ?> field = createWritableComponent();
 
         assertThat(field.isReadOnly(), is(false));
         createUiUpdaterAndApplyIt_BindReadOnlyAspect(field, ReadOnlyType.DERIVED);
@@ -78,22 +78,22 @@ public class BindReadOnlyAspectDefinitionTest {
         assertThat(field.isReadOnly(), is(true));
     }
 
-    private HasValue<?> createWritableComponent() {
+    private HasValue<?, ?> createWritableComponent() {
         TextArea text = new TextArea();
         text.setReadOnly(false);
         return text;
     }
 
-    private void createUiUpdaterAndApplyIt_ReadOnlyAspect(HasValue<?> field) {
+    private void createUiUpdaterAndApplyIt_ReadOnlyAspect(HasValue<?, ?> field) {
         createUiUpdaterAndApplyIt(field, new DerivedReadOnlyAspectDefinition());
     }
 
-    private void createUiUpdaterAndApplyIt_BindReadOnlyAspect(HasValue<?> field, ReadOnlyType value) {
+    private void createUiUpdaterAndApplyIt_BindReadOnlyAspect(HasValue<?, ?> field, ReadOnlyType value) {
         BindReadOnlyAspectDefinition aspectDefinition = new BindReadOnlyAspectDefinition(value);
         createUiUpdaterAndApplyIt(field, aspectDefinition);
     }
 
-    private void createUiUpdaterAndApplyIt(HasValue<?> field, LinkkiAspectDefinition aspectDefinition) {
+    private void createUiUpdaterAndApplyIt(HasValue<?, ?> field, LinkkiAspectDefinition aspectDefinition) {
         aspectDefinition.createUiUpdater(dispatcher, new LabelComponentWrapper((Component)field)).apply();
     }
 

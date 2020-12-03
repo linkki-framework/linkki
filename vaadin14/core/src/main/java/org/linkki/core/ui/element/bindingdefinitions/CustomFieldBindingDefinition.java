@@ -23,7 +23,8 @@ import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UICustomField;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasSize;
 
 /**
  * {@link BindingDefinition} for {@link UICustomField}.
@@ -40,7 +41,11 @@ public class CustomFieldBindingDefinition implements BindingDefinition {
     public Component newComponent() {
         try {
             Component component = uiCustomField.uiControl().newInstance();
-            component.setWidth(uiCustomField.width());
+
+            if (component instanceof HasSize) {
+                ((HasSize)component).setWidth(uiCustomField.width());
+            }
+
             return component;
         } catch (InstantiationException | IllegalAccessException e) {
             throw new LinkkiBindingException("Cannot instantiate component " + uiCustomField.uiControl().getName()

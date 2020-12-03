@@ -17,30 +17,40 @@ package org.linkki.core.vaadin.component;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.vaadin.ui.DateField;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.datepicker.DatePicker;
 
 public class ComponentFactoryTest {
 
-    private static final String MESSAGE = "Date is out of allowed range";
+    @BeforeEach
+    public void setUp() {
+        UI ui = new UI();
+        ui.setLocale(Locale.ENGLISH);
+        UI.setCurrent(ui);
+    }
 
     @Test
     public void testNewDateField_BelowRange() {
-        DateField dateField = ComponentFactory.newDateField();
-        dateField.setDateOutOfRangeMessage(MESSAGE);
+        DatePicker dateField = ComponentFactory.newDateField();
+        // TODO LIN-2044
+        // dateField.setDateOutOfRangeMessage(MESSAGE);
 
-        assertThrows(IllegalArgumentException.class, () -> dateField.setValue(LocalDate.of(-1, 1, 1)));
+        dateField.setValue(LocalDate.of(-1, 1, 1));
+
+        assertThat(dateField.isInvalid(), is(true));
     }
 
     @Test
     public void testNewDateField_InRangeLowerBound() {
-        DateField dateField = ComponentFactory.newDateField();
-        dateField.setDateOutOfRangeMessage(MESSAGE);
+        DatePicker dateField = ComponentFactory.newDateField();
+        // dateField.setDateOutOfRangeMessage(MESSAGE);
 
         dateField.setValue(LocalDate.of(1, 1, 1));
 
@@ -49,8 +59,8 @@ public class ComponentFactoryTest {
 
     @Test
     public void testNewDateField_InRangeUpperBound() {
-        DateField dateField = ComponentFactory.newDateField();
-        dateField.setDateOutOfRangeMessage(MESSAGE);
+        DatePicker dateField = ComponentFactory.newDateField();
+        // dateField.setDateOutOfRangeMessage(MESSAGE);
 
         dateField.setValue(LocalDate.of(9999, 12, 31));
 
@@ -59,10 +69,12 @@ public class ComponentFactoryTest {
 
     @Test
     public void testNewDateField_AboveRange() {
-        DateField dateField = ComponentFactory.newDateField();
-        dateField.setDateOutOfRangeMessage(MESSAGE);
+        DatePicker dateField = ComponentFactory.newDateField();
+        // dateField.setDateOutOfRangeMessage(MESSAGE);
 
-        assertThrows(IllegalArgumentException.class, () -> dateField.setValue(LocalDate.of(10000, 1, 1)));
+        dateField.setValue(LocalDate.of(10000, 1, 1));
+
+        assertThat(dateField.isInvalid(), is(true));
     }
 
 }

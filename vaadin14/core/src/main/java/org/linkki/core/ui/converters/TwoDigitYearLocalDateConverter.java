@@ -18,9 +18,9 @@ import java.time.LocalDate;
 
 import org.linkki.util.TwoDigitYearUtil;
 
-import com.vaadin.data.Converter;
-import com.vaadin.data.Result;
-import com.vaadin.data.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.data.binder.Result;
+import com.vaadin.flow.data.binder.ValueContext;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

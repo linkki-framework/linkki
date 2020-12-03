@@ -24,10 +24,8 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIButtonIntegrationTest.ButtonTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.event.ShortcutAction.ModifierKey;
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.Button;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.icon.VaadinIcon;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -42,23 +40,24 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     @Test
     public void testStaticButtonProperties() {
         Button button = getDynamicComponent();
-        assertThat(button.getStyleName(), is(STYLES));
-        assertThat(button.getIcon(), is(VaadinIcons.ADJUST));
+        assertThat(button.getClassName(), is(STYLES));
+        assertThat(button.getIcon().getElement().getAttribute("icon"),
+                   is(VaadinIcon.ADJUST.create().getElement().getAttribute("icon")));
 
         // TODO test for shortcut key - I see no possibility to get the configured shortcut
 
         Button staticBindingButton = getStaticComponent();
-        assertThat(staticBindingButton.getCaption(), is("static"));
+        assertThat(staticBindingButton.getText(), is("static"));
     }
 
     @Test
     public void testDynamicCaptionType() {
         Button button = getDynamicComponent();
-        assertThat(button.getCaption(), is("dynamic"));
+        assertThat(button.getText(), is("dynamic"));
 
         getDefaultPmo().setCaption("different caption");
         modelChanged();
-        assertThat(button.getCaption(), is("different caption"));
+        assertThat(button.getText(), is("different caption"));
     }
 
     @Test
@@ -75,7 +74,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     @Test
     public void testDerivedCaption() {
         Button button = getComponentById("doFoo");
-        assertThat(button.getCaption(), is("DoFoo"));
+        assertThat(button.getText(), is("DoFoo"));
     }
 
     @Override
@@ -94,8 +93,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
             super(modelObject);
         }
 
-        @UIButton(position = 1, visible = VisibleType.DYNAMIC, styleNames = STYLES, captionType = CaptionType.DYNAMIC, icon = VaadinIcons.ADJUST, showIcon = true, shortcutKeyCode = KeyCode.ARROW_RIGHT, shortcutModifierKeys = {
-                ModifierKey.ALT }, enabled = EnabledType.DYNAMIC)
+        @UIButton(position = 1, visible = VisibleType.DYNAMIC, styleNames = STYLES, captionType = CaptionType.DYNAMIC, icon = VaadinIcon.ADJUST, showIcon = true, enabled = EnabledType.DYNAMIC)
         @Override
         public void value() {
             clicked = true;

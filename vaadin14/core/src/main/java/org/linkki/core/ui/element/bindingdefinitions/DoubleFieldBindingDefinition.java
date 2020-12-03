@@ -22,9 +22,8 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIDoubleField;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.textfield.TextField;
 
 /**
  * {@link BindingDefinition} for {@link UIDoubleField}.
@@ -40,7 +39,8 @@ public class DoubleFieldBindingDefinition implements BindingDefinition {
     @Override
     public Component newComponent() {
         TextField field = ComponentFactory.newTextField(uiDoubleField.maxLength(), uiDoubleField.width());
-        field.addStyleName(ValoTheme.TEXTFIELD_ALIGN_RIGHT);
+        // TODO LIN-2048
+        // field.addClassName(ValoTheme.TEXTFIELD_ALIGN_RIGHT);
         return field;
     }
 

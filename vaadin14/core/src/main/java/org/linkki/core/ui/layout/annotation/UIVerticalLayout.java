@@ -31,7 +31,7 @@ import org.linkki.core.ui.layout.annotation.UIVerticalLayout.VerticalLayoutCompo
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 /**
  * Marks a group of components vertically placed below each other in a {@link VerticalLayout}, labels

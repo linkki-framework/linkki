@@ -13,12 +13,12 @@
  */
 package org.linkki.core.vaadin.component.page;
 
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.flow.component.HasComponents;
 
 /**
  * A page is a container component displayed in the UI that consists of sections.
  */
-public interface Page extends ComponentContainer {
+public interface Page extends HasComponents {
 
     /** Creates the content (sections) of this page. */
     void createContent();

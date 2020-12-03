@@ -22,54 +22,54 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.checkbox.Checkbox;
 
 /**
  * {@link BindingDefinition} for {@link UICheckBox}.
  */
 public class CheckboxBindingDefinition implements BindingDefinition {
 
-    private final UICheckBox uiCheckBox;
+    private final UICheckBox uiCheckbox;
 
-    public CheckboxBindingDefinition(UICheckBox uiCheckBox) {
-        this.uiCheckBox = requireNonNull(uiCheckBox, "uiCheckBox must not be null");
+    public CheckboxBindingDefinition(UICheckBox uiCheckbox) {
+        this.uiCheckbox = requireNonNull(uiCheckbox, "uiCheckbox must not be null");
     }
 
     @Override
     public Component newComponent() {
-        CheckBox newCheckBox = ComponentFactory.newCheckBox();
-        return newCheckBox;
+        Checkbox newCheckbox = ComponentFactory.newCheckbox();
+        return newCheckbox;
     }
 
     @Override
     public String label() {
-        return uiCheckBox.label();
+        return uiCheckbox.label();
     }
 
     @Override
     public EnabledType enabled() {
-        return uiCheckBox.enabled();
+        return uiCheckbox.enabled();
     }
 
     @Override
     public RequiredType required() {
-        return uiCheckBox.required();
+        return uiCheckbox.required();
     }
 
     @Override
     public VisibleType visible() {
-        return uiCheckBox.visible();
+        return uiCheckbox.visible();
     }
 
     @Override
     public String modelObject() {
-        return uiCheckBox.modelObject();
+        return uiCheckbox.modelObject();
     }
 
     @Override
     public String modelAttribute() {
-        return uiCheckBox.modelAttribute();
+        return uiCheckbox.modelAttribute();
     }
 
 }

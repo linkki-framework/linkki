@@ -28,11 +28,11 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.mock.MockUi;
 import org.linkki.core.uiframework.UiFramework;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasComponents;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class Vaadin8Test {
 

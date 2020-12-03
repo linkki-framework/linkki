@@ -13,33 +13,24 @@
  */
 package org.linkki.core.vaadin.component;
 
-import static org.linkki.core.defaults.style.LinkkiTheme.HORIZONTAL_SPACER;
-
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.pmo.ButtonPmo;
 
-import com.vaadin.server.FontIcon;
-import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.AbstractLayout;
-import com.vaadin.ui.AbstractOrderedLayout;
-import com.vaadin.ui.AbstractTextField;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.Link;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Hr;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextField;
 
 public class ComponentFactory {
 
@@ -53,193 +44,45 @@ public class ComponentFactory {
     }
 
     /**
-     * Creates a non-breaking space that keeps a horizontal space.
-     * <p>
-     * If you just want to skip one cell in a grid layout do not use this method but simply use
-     * {@link GridLayout#space()}.
-     * 
-     * @param layout the layout where the spacer should be added.
-     * @return the Label that is used as spacer component
-     * 
-     * @deprecated never used from linkki internal and will be removed in next version - spacer is bad
-     *             style, better style your margin correctly
-     */
-    @Deprecated
-    public static Label addHorizontalSpacer(AbstractLayout layout) {
-        if (layout instanceof AbstractOrderedLayout) {
-            return addHorizontalFixedSizeSpacer((AbstractOrderedLayout)layout, -1);
-        } else {
-            Label spacer = horizontalSpacer();
-            layout.addComponent(spacer);
-            return spacer;
-        }
-    }
-
-    /**
-     * Creates a non-breaking space that keeps a horizontal space. The width of the spacer is specified
-     * in px.
-     * 
-     * @param layout the layout where the spacer should be added.
-     * @return the Label that is used as spacer component
-     * 
-     * @deprecated never used from linkki internal and will be removed in next version - spacer is bad
-     *             style, better style your margin correctly
-     */
-    @Deprecated
-    public static Label addHorizontalFixedSizeSpacer(AbstractOrderedLayout layout, int px) {
-        Label spacer = horizontalSpacer();
-        if (px > 0) {
-            spacer.setWidth("" + px + "px");
-        }
-        layout.addComponent(spacer);
-        layout.setExpandRatio(spacer, 0);
-        return spacer;
-    }
-
-    private static Label horizontalSpacer() {
-        Label spacer = new Label(NO_BREAK_SPACE, ContentMode.HTML);
-        spacer.addStyleName(HORIZONTAL_SPACER);
-        return spacer;
-    }
-
-    /**
-     * @deprecated use {@link #newLabelFullWidth(String)} and
-     *             {@link Layout#addComponent(com.vaadin.ui.Component)} directly.
-     */
-    @Deprecated
-    public static final Label newLabelWidth100(AbstractOrderedLayout parent, String caption) {
-        Label l = new Label(caption);
-        l.setWidth("100%");
-        parent.addComponent(l);
-        parent.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
-        return l;
-    }
-
-    /**
-     * @deprecated use {@link #newLabelUndefinedWidth(String, ContentMode)} and
-     *             {@link Layout#addComponent(com.vaadin.ui.Component)} directly.
-     */
-    @Deprecated
-    public static final Label sizedLabel(Layout parent, String caption, ContentMode mode) {
-        Label l = new Label(caption, mode);
-        l.setWidthUndefined();
-        parent.addComponent(l);
-        return l;
-    }
-
-    /**
-     * Creates a new label with undefined width in the given parent.
-     * 
-     * @deprecated use {@link #newLabelUndefinedWidth(String)} and
-     *             {@link Layout#addComponent(com.vaadin.ui.Component)} directly.
-     */
-    @Deprecated
-    public static final Label sizedLabel(AbstractOrderedLayout parent, String caption) {
-        Label l = new Label(caption);
-        l.setWidthUndefined();
-        parent.addComponent(l);
-        parent.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
-        return l;
-    }
-
-    /**
-     * @deprecated use {@link #newLabelUndefinedWidth(String)} and
-     *             {@link Layout#addComponent(com.vaadin.ui.Component)} directly.
-     */
-    @Deprecated
-    public static final Label newLabelWidthUndefined(AbstractOrderedLayout parent, String caption) {
-        Label label = newLabelUndefinedWidth(caption);
-        parent.addComponent(label);
-        parent.setComponentAlignment(label, Alignment.MIDDLE_LEFT);
-        return label;
-    }
-
-    /**
-     * @deprecated use {@link #newLabelIcon(FontIcon)} and add to parent using
-     *             {@link Layout#addComponent(com.vaadin.ui.Component)} instead.
-     */
-    @Deprecated
-    public static Label labelIcon(AbstractOrderedLayout parent, FontIcon icon) {
-        Label l = sizedLabel(parent, icon.getHtml());
-        l.setContentMode(ContentMode.HTML);
-        return l;
-    }
-
-    /**
-     * @deprecated use {@link #newLabelUndefinedWidth(String, ContentMode)} with {@link #NO_BREAK_SPACE}
-     *             and {@link ContentMode#HTML}.
-     */
-    @Deprecated
-    public static final Label newEmptyLabel(AbstractOrderedLayout layout) {
-        Label l = newLabelUndefinedWidth(NO_BREAK_SPACE, ContentMode.HTML);
-        layout.addComponent(l);
-        return l;
-    }
-
-    /**
      * Creates a new horizontal line.
      */
-    public static Label newHorizontalLine() {
-        return newLabelFullWidth("<hr/>", ContentMode.HTML);
+    public static Component newHorizontalLine() {
+        Hr component = new Hr();
+        component.setWidth("100%");
+        return component;
     }
 
     /**
-     * Creates a new {@link Label} that only displays an icon.
+     * Creates a new {@link Span} that only displays an icon.
      */
-    public static Label newLabelIcon(FontIcon icon) {
-        return newLabelUndefinedWidth(icon.getHtml(), ContentMode.HTML);
+    public static Span newLabelIcon(Icon icon) {
+        // TODO LIN-2052
+        return new Span(icon);
     }
 
     /**
-     * Creates a new {@link Label} with full width.
+     * Creates a new text mode {@link Span} with full width.
      */
-    public static Label newLabelFullWidth(String caption, ContentMode contentMode) {
-        Label label = new Label(caption, contentMode);
+    public static Span newLabelFullWidth(String caption) {
+        Span label = new Span(caption);
         label.setWidth("100%");
         return label;
     }
 
     /**
-     * Creates a new text mode {@link Label} with full width.
+     * Creates a new {@link Span} with undefined width.
      */
-    public static Label newLabelFullWidth(String caption) {
-        Label label = new Label(caption, ContentMode.TEXT);
-        label.setWidth("100%");
-        return label;
+    public static Span newLabelUndefinedWidth(String caption) {
+        return new Span(caption);
     }
 
     /**
-     * Creates a new {@link Label} with undefined width.
+     * Creates a new {@link Anchor} with undefined width.
      */
-    public static Label newLabelUndefinedWidth(String caption, ContentMode contentMode) {
-        Label label = new Label(caption, contentMode);
-        return label;
-    }
-
-    /**
-     * Creates a new {@link Label} with undefined width.
-     */
-    public static Label newLabelUndefinedWidth(String caption) {
-        Label label = new Label(caption, ContentMode.TEXT);
-        return label;
-    }
-
-    /**
-     * Creates a new {@link Link} with undefined width.
-     */
-    public static Link newLink(String caption) {
-        Link link = new Link();
-        link.setCaption(caption);
+    public static Anchor newLink(String caption) {
+        Anchor link = new Anchor();
+        link.setText(caption);
         return link;
-    }
-
-    /**
-     * @deprecated the name of the method contains a typo. Use {@link #newTextField()} instead. Will be
-     *             removed in the next version.
-     */
-    @Deprecated
-    public static TextField newTextfield() {
-        return newTextField();
     }
 
     public static TextField newTextField() {
@@ -262,7 +105,7 @@ public class ComponentFactory {
         return field;
     }
 
-    private static void setMaxLengthAndWidth(AbstractTextField field, int maxLength, String width) {
+    private static void setMaxLengthAndWidth(TextField field, int maxLength, String width) {
         if (maxLength > 0) {
             field.setMaxLength(maxLength);
 
@@ -300,48 +143,10 @@ public class ComponentFactory {
         textArea.setWidth(width);
 
         if (rows > 0) {
-            textArea.setRows(rows);
+            // TODO LIN-2059
+            textArea.setHeight(rows + "em");
         }
         return textArea;
-    }
-
-    /**
-     * @deprecated use {@link #newTextfield()} and {@link TextField#setReadOnly(boolean)} instead
-     */
-    @Deprecated
-    public static TextField newReadOnlyTextFieldFixedWidth(String value) {
-        return newReadOnlyTextField(value, value.length());
-    }
-
-    /**
-     * @deprecated use {@link #newTextfield()} and {@link TextField#setReadOnly(boolean)} instead
-     */
-    @Deprecated
-    public static TextField newReadOnlyTextField(String value, int columns) {
-        TextField field = newReadOnlyTextField(value);
-        field.setWidth(columns + "em");
-        return field;
-    }
-
-    /**
-     * @deprecated use {@link #newTextfield()} and {@link TextField#setReadOnly(boolean)} instead
-     */
-    @Deprecated
-    public static TextField newReadOnlyTextField100PctWidth(String value) {
-        TextField field = newReadOnlyTextField(value);
-        field.setWidth("100%");
-        return field;
-    }
-
-    /**
-     * @deprecated use {@link #newTextfield()} and {@link TextField#setReadOnly(boolean)} instead
-     */
-    @Deprecated
-    public static TextField newReadOnlyTextField(String value) {
-        TextField field = newTextfield();
-        field.setValue(value);
-        field.setReadOnly(true);
-        return field;
     }
 
     public static <T> ComboBox<T> newComboBox() {
@@ -349,59 +154,31 @@ public class ComponentFactory {
         return linkkiComboBox;
     }
 
-    public static CheckBox newCheckBox() {
-        return new CheckBox();
+    public static Checkbox newCheckbox() {
+        return new Checkbox();
     }
 
     public static Button newButton() {
         return new Button();
     }
 
-    public static DateField newDateField() {
-        DateField field = new DateField();
+    public static DatePicker newDateField() {
+        // TODO LIN-2044
+        if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
+            throw new IllegalStateException("Creating a date field requires a UI with locale");
+        }
+
+        DatePicker field = new DatePicker();
         // there is no year zero https://en.wikipedia.org/wiki/Year_zero
-        field.setRangeStart(LocalDate.ofYearDay(1, 1));
-        field.setRangeEnd(LocalDate.ofYearDay(9999, 365));
+        field.setMin(LocalDate.ofYearDay(1, 1));
+        field.setMax(LocalDate.ofYearDay(9999, 365));
         return field;
     }
 
-    /**
-     * @deprecated use {@link #newTextfield()} instead
-     */
-    @Deprecated
-    public static TextField newIntegerField(@SuppressWarnings("unused") Locale locale) {
-        return new TextField();
-    }
-
-    /**
-     * @deprecated use {@link #newTextfield()} instead
-     */
-    @Deprecated
-    public static TextField newDoubleField(@SuppressWarnings("unused") Locale locale) {
-        return new TextField();
-    }
-
-    /**
-     * Creates a button for the given PMO.
-     * 
-     * @deprecated This method creates a button and installs a click listener for the callback on
-     *             {@link ButtonPmo#onClick()}. This is not the recommended way to handle click events.
-     *             Prefer using a binding context! If you cannot use a binding context call
-     *             {@link #newButton(Resource, Collection)} and create the listener on your own.
-     */
-    @Deprecated
-    public static Button newButton(ButtonPmo buttonPmo) {
-        Button button = new Button((Resource)buttonPmo.getButtonIcon());
-        button.setTabIndex(-1);
-        buttonPmo.getStyleNames().forEach(style -> button.addStyleName(style));
-        button.addClickListener(e -> buttonPmo.onClick());
-        return button;
-    }
-
-    public static Button newButton(Resource icon, Collection<String> styleNames) {
+    public static Button newButton(Icon icon, Collection<String> styleNames) {
         Button button = new Button(icon);
         button.setTabIndex(-1);
-        styleNames.forEach(style -> button.addStyleName(style));
+        styleNames.forEach(style -> button.addClassName(style));
         return button;
     }
 

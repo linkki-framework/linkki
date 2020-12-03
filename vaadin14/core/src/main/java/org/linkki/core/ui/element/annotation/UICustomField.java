@@ -42,9 +42,9 @@ import org.linkki.core.ui.element.bindingdefinitions.CustomFieldBindingDefinitio
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
-import com.vaadin.data.HasItems;
-import com.vaadin.server.Sizeable;
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasSize;
+import com.vaadin.flow.data.binder.HasItems;
 
 /**
  * {@link UICustomField} can include other, more individual controls. The property
@@ -99,7 +99,7 @@ public @interface UICustomField {
      * This value is set to empty String by default which means it is undefined and the actual width
      * depends on the layout.
      * 
-     * @see Sizeable#setWidth(String)
+     * @see HasSize#setWidth(String)
      */
     String width() default "";
 

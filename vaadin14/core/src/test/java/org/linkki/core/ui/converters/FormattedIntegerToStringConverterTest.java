@@ -22,7 +22,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
-import com.vaadin.data.ValueContext;
+import com.vaadin.flow.data.binder.ValueContext;
 
 public class FormattedIntegerToStringConverterTest {
 

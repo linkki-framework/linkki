@@ -29,8 +29,8 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.data.HasItems;
-import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.provider.ListDataProvider;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 

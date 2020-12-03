@@ -43,9 +43,7 @@ import org.linkki.core.ui.element.bindingdefinitions.ButtonBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
-import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.event.ShortcutAction.ModifierKey;
-import com.vaadin.icons.VaadinIcons;
+import com.vaadin.flow.component.icon.VaadinIcon;
 
 /**
  * Marks a method which is carried out when the {@link UIButton} is clicked.
@@ -97,8 +95,8 @@ public @interface UIButton {
      */
     VisibleType visible() default VISIBLE;
 
-    /** Defines the button's icon, using constants in {@link VaadinIcons} */
-    VaadinIcons icon() default VaadinIcons.PLUS;
+    /** Defines the button's icon, using constants in {@link VaadinIcon} */
+    VaadinIcon icon() default VaadinIcon.PLUS;
 
     /** If <code>true</code>, the button will be displayed with the defined {@link #icon()} */
     boolean showIcon() default false;
@@ -108,16 +106,17 @@ public @interface UIButton {
      */
     String[] styleNames() default {};
 
-    /**
-     * Set a short cut for the button, use constants in {@link KeyCode}
-     */
-    int shortcutKeyCode() default -1;
+    // TODO LIN-2050
+    // /**
+    // * Set a short cut for the button, use constants in {@link KeyCode}
+    // */
+    // int shortcutKeyCode() default -1;
 
-    /**
-     * Set a modifier for the short cut. Only useful in combination with a {@link #shortcutKeyCode()}.
-     * Use constants from {@link ModifierKey}.
-     */
-    int[] shortcutModifierKeys() default {};
+    // /**
+    // * Set a modifier for the short cut. Only useful in combination with a {@link #shortcutKeyCode()}.
+    // * Use constants from {@link KeyModifier}.
+    // */
+    // int[] shortcutKeyModifiers() default {};
 
     /**
      * Aspect definition creator for the {@link UIButton} annotation.

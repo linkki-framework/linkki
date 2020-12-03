@@ -14,19 +14,21 @@
 
 package org.linkki.core.ui.aspects;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 
-import com.vaadin.server.ExternalResource;
-import com.vaadin.ui.Link;
+import com.vaadin.flow.component.html.Anchor;
 
 /**
- * This aspect sets the href link target of a {@link Link}.
+ * 
+ * This aspect sets the HREF link target of a {@link Anchor}.
+ * 
  */
-public class LinkResourceAspectDefinition extends ModelToUiAspectDefinition<String> {
+public class LinkHrefAspectDefinition extends ModelToUiAspectDefinition<String> {
 
     @Override
     public Aspect<String> createAspect() {
@@ -35,8 +37,8 @@ public class LinkResourceAspectDefinition extends ModelToUiAspectDefinition<Stri
 
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        Link link = (Link)componentWrapper.getComponent();
-        return url -> link.setResource(url == null ? null : new ExternalResource(url));
+        Anchor link = (Anchor)componentWrapper.getComponent();
+        return href -> link.setHref(Optional.ofNullable(href).orElse(""));
     }
-
 }
+

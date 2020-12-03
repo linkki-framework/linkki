@@ -11,8 +11,8 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.element.annotation.UIYesNoComboBox;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.Component;
 
 /**
  * {@link BindingDefinition} for {@link UIYesNoComboBox}.
@@ -28,8 +28,8 @@ public class YesNoComboBoxBindingDefinition implements BindingDefinition {
     @Override
     public Component newComponent() {
         ComboBox<Object> comboBox = ComponentFactory.newComboBox();
-        comboBox.setItemCaptionGenerator(getItemCaptionProvider()::getUnsafeCaption);
-        comboBox.setEmptySelectionAllowed(false);
+        comboBox.setItemLabelGenerator(getItemCaptionProvider()::getUnsafeCaption);
+        comboBox.setAllowCustomValue(false);
         comboBox.setWidth(uiYesNoComboBox.width());
         return comboBox;
     }

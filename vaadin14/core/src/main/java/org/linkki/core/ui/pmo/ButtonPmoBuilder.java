@@ -17,8 +17,6 @@ package org.linkki.core.ui.pmo;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
@@ -26,26 +24,22 @@ import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.Resource;
-import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.IconFactory;
+import com.vaadin.flow.component.icon.VaadinIcon;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Builder to create a {@link ButtonPmo} with a fluent API. <em>{@link #icon(Resource)} must be called
+ * Builder to create a {@link ButtonPmo} with a fluent API. <em>{@link #icon(Icon)} must be called
  * before {@link #get()} as buttons are not created without an icon</em>
  */
 public class ButtonPmoBuilder {
 
-    public static final List<String> DEFAULT_STYLES = Collections
-            .unmodifiableList(Arrays.asList(ValoTheme.BUTTON_BORDERLESS,
-                                            ValoTheme.BUTTON_ICON_ONLY));
-
     private final Handler action;
 
     @CheckForNull
-    private Resource icon;
+    private Icon icon;
 
     public ButtonPmoBuilder(Handler onClickAction) {
         this.action = requireNonNull(onClickAction, "onClickAction must not be null");
@@ -62,7 +56,7 @@ public class ButtonPmoBuilder {
      *           returning the same instance of {@link ButtonPmo}.
      */
     public static ButtonPmo newEditButton(Handler onClickAction) {
-        return ButtonPmoBuilder.action(onClickAction).icon(VaadinIcons.PENCIL).get();
+        return ButtonPmoBuilder.action(onClickAction).icon(VaadinIcon.PENCIL).get();
     }
 
     /**
@@ -76,7 +70,7 @@ public class ButtonPmoBuilder {
      *           returning the same instance of {@link ButtonPmo}.
      */
     public static ButtonPmo newAddButton(Handler onClickAction) {
-        return ButtonPmoBuilder.action(onClickAction).icon(VaadinIcons.PLUS).get();
+        return ButtonPmoBuilder.action(onClickAction).icon(VaadinIcon.PLUS).get();
     }
 
     /**
@@ -90,15 +84,20 @@ public class ButtonPmoBuilder {
      *           returning the same instance of {@link ButtonPmo}.
      */
     public static ButtonPmo newDeleteButton(Handler onClickAction) {
-        return ButtonPmoBuilder.action(onClickAction).icon(VaadinIcons.TRASH).get();
+        return ButtonPmoBuilder.action(onClickAction).icon(VaadinIcon.TRASH).get();
     }
 
     public static ButtonPmoBuilder action(Handler onClickAction) {
         return new ButtonPmoBuilder(onClickAction);
     }
 
-    public ButtonPmoBuilder icon(Resource buttonIcon) {
+    public ButtonPmoBuilder icon(Icon buttonIcon) {
         this.icon = buttonIcon;
+        return this;
+    }
+
+    public ButtonPmoBuilder icon(IconFactory buttonIconFactory) {
+        this.icon = buttonIconFactory.create();
         return this;
     }
 
@@ -108,7 +107,7 @@ public class ButtonPmoBuilder {
 
     public ButtonPmo get() {
 
-        Resource existingIcon = requireNonNull(icon, "icon must be set before calling get()");
+        Icon existingIcon = requireNonNull(icon, "icon must be set before calling get()");
 
         return new ButtonPmo() {
 
@@ -118,13 +117,13 @@ public class ButtonPmoBuilder {
             }
 
             @Override
-            public Resource getButtonIcon() {
+            public Icon getButtonIcon() {
                 return existingIcon;
             }
 
             @Override
             public List<String> getStyleNames() {
-                return new ArrayList<>(DEFAULT_STYLES);
+                return new ArrayList<>();
             }
 
         };

@@ -21,7 +21,7 @@ import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 
-import com.vaadin.data.HasValue;
+import com.vaadin.flow.component.HasValue;
 
 /**
  * Aspect definition for read-only state.
@@ -53,7 +53,7 @@ public class BindReadOnlyAspectDefinition extends ModelToUiAspectDefinition<Bool
 
     @Override
     public Consumer<Boolean> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        HasValue<?> field = (HasValue<?>)componentWrapper.getComponent();
+        HasValue<?, ?> field = (HasValue<?, ?>)componentWrapper.getComponent();
         return readOnly -> field.setReadOnly(field.isReadOnly() || readOnly);
     }
 

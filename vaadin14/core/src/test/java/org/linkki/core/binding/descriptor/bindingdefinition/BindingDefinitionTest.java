@@ -52,7 +52,7 @@ import org.linkki.core.ui.element.bindingdefinitions.TextAreaBindingDefinition;
 import org.linkki.core.ui.element.bindingdefinitions.TextFieldBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

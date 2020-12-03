@@ -36,7 +36,8 @@ import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasStyle;
 
 public class BindStyleNamesIntegrationTest {
 
@@ -50,7 +51,8 @@ public class BindStyleNamesIntegrationTest {
                                   bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
 
-        assertThat(uiElements.get(0).getComponent().getStyleName(), is(TestPmoWithStaticStyleName.STYLE_NAME));
+        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(),
+                   is(TestPmoWithStaticStyleName.STYLE_NAME));
     }
 
     @Test
@@ -61,7 +63,7 @@ public class BindStyleNamesIntegrationTest {
                                   bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
 
-        assertThat(uiElements.get(0).getComponent().getStyleName(),
+        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(),
                    is(String.join(" ", TestPmoWithStaticStyleNames.STYLE_NAME_1,
                                   TestPmoWithStaticStyleNames.STYLE_NAME_2)));
     }
@@ -72,13 +74,13 @@ public class BindStyleNamesIntegrationTest {
         List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(new TestPmoWithStaticStyleNames(),
                                   bindingContext, c -> {
-                                      ((Component)c).setStyleName(MY_STYLE);
+                                      ((HasStyle)c).setClassName(MY_STYLE);
                                       return new LabelComponentWrapper((Component)c);
                                   })
                 .collect(Collectors.toList());
         bindingContext.modelChanged();
 
-        assertThat(uiElements.get(0).getComponent().getStyleName(),
+        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(),
                    is(String.join(" ", MY_STYLE, TestPmoWithStaticStyleNames.STYLE_NAME_1,
                                   TestPmoWithStaticStyleNames.STYLE_NAME_2)));
     }
@@ -90,11 +92,11 @@ public class BindStyleNamesIntegrationTest {
         List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
-        assertThat(uiElements.get(0).getComponent().getStyleName(), is("style"));
+        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is("style"));
 
-        pmo.setStyleName("new-style");
+        pmo.setClassName("new-style");
         bindingContext.modelChanged();
-        assertThat(uiElements.get(0).getComponent().getStyleName(), is("new-style"));
+        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is("new-style"));
     }
 
     @Test
@@ -104,11 +106,11 @@ public class BindStyleNamesIntegrationTest {
         List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
-        assertThat(uiElements.get(0).getComponent().getStyleName(), is("style1 style2"));
+        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is("style1 style2"));
 
-        pmo.setStyleNames("new-style1", "new-style2");
+        pmo.setClassNames("new-style1", "new-style2");
         bindingContext.modelChanged();
-        assertThat(uiElements.get(0).getComponent().getStyleName(), is("new-style1 new-style2"));
+        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is("new-style1 new-style2"));
     }
 
     @Test
@@ -117,15 +119,15 @@ public class BindStyleNamesIntegrationTest {
         TestPmoWithDynamicStyleName pmo = new TestPmoWithDynamicStyleName("style1");
         List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> {
-                    ((Component)c).setStyleName(MY_STYLE);
+                    ((HasStyle)c).setClassName(MY_STYLE);
                     return new LabelComponentWrapper((Component)c);
                 })
                 .collect(Collectors.toList());
 
-        pmo.setStyleName("new-style1");
+        pmo.setClassName("new-style1");
         bindingContext.modelChanged();
 
-        assertThat(uiElements.get(0).getComponent().getStyleName(), is(MY_STYLE + " new-style1"));
+        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is(MY_STYLE + " new-style1"));
     }
 
     @Test
@@ -134,15 +136,16 @@ public class BindStyleNamesIntegrationTest {
         TestPmoWithDynamicStyleNames pmo = new TestPmoWithDynamicStyleNames("style1", "style2");
         List<LabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> {
-                    ((Component)c).setStyleName(MY_STYLE);
+                    ((HasStyle)c).setClassName(MY_STYLE);
                     return new LabelComponentWrapper((Component)c);
                 })
                 .collect(Collectors.toList());
 
-        pmo.setStyleNames("new-style1", "new-style2");
+        pmo.setClassNames("new-style1", "new-style2");
         bindingContext.modelChanged();
 
-        assertThat(uiElements.get(0).getComponent().getStyleName(), is(MY_STYLE + " new-style1 new-style2"));
+        assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(),
+                   is(MY_STYLE + " new-style1 new-style2"));
     }
 
     @Test
@@ -162,8 +165,8 @@ public class BindStyleNamesIntegrationTest {
         AbstractSection section = PmoBasedSectionFactory
                 .createAndBindSection(new TestSectionPmoWithStaticClassStyleNames(),
                                       new BindingContext());
-        assertThat(section.getStyleName(), containsString(TestSectionPmoWithStaticClassStyleNames.STYLE_1));
-        assertThat(section.getStyleName(), containsString(TestSectionPmoWithStaticClassStyleNames.STYLE_2));
+        assertThat(section.getClassName(), containsString(TestSectionPmoWithStaticClassStyleNames.STYLE_1));
+        assertThat(section.getClassName(), containsString(TestSectionPmoWithStaticClassStyleNames.STYLE_2));
     }
 
     @Test
@@ -174,12 +177,12 @@ public class BindStyleNamesIntegrationTest {
 
         pmo.setStyleNames(Arrays.asList("gucci", "versace"));
         bindingContext.modelChanged();
-        assertThat(section.getStyleName(), containsString("gucci"));
-        assertThat(section.getStyleName(), containsString("versace"));
+        assertThat(section.getClassName(), containsString("gucci"));
+        assertThat(section.getClassName(), containsString("versace"));
 
         pmo.setStyleNames(Arrays.asList("chanel"));
         bindingContext.modelChanged();
-        String styleNamesAfterUpdate = section.getStyleName();
+        String styleNamesAfterUpdate = section.getClassName();
         assertThat(styleNamesAfterUpdate, not(containsString("gucci")));
         assertThat(styleNamesAfterUpdate, not(containsString("versace")));
         assertThat(styleNamesAfterUpdate, containsString("chanel"));
@@ -193,11 +196,11 @@ public class BindStyleNamesIntegrationTest {
 
         pmo.setStyleNames(Arrays.asList("ml"));
         bindingContext.modelChanged();
-        assertThat(section.getStyleName(), containsString("ml"));
+        assertThat(section.getClassName(), containsString("ml"));
 
         pmo.setStyleNames(Arrays.asList("lisp"));
         bindingContext.modelChanged();
-        String styleNamesAfterUpdate = section.getStyleName();
+        String styleNamesAfterUpdate = section.getClassName();
         assertThat(styleNamesAfterUpdate, not(containsString("ml")));
         assertThat(styleNamesAfterUpdate, containsString("lisp"));
     }
@@ -233,7 +236,7 @@ public class BindStyleNamesIntegrationTest {
             this.styleName = styleName;
         }
 
-        public void setStyleName(String styleName) {
+        public void setClassName(String styleName) {
             this.styleName = styleName;
         }
 
@@ -256,7 +259,7 @@ public class BindStyleNamesIntegrationTest {
             this.styleNames = styleNames;
         }
 
-        public void setStyleNames(String... styleNames) {
+        public void setClassNames(String... styleNames) {
             this.styleNames = styleNames;
         }
 

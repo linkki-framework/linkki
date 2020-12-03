@@ -16,7 +16,7 @@ import org.linkki.core.ui.aspects.types.ReadOnlyBehaviorType;
 
 /**
  * Binds the application's read-only state to a specific behaviour of the annotated
- * {@link com.vaadin.ui.Component}. The component will automatically change its visible and enabled
+ * {@link com.vaadin.flow.component.Component}. The component will automatically change its visible and enabled
  * state when it is set to read-only-mode. This annotation will override the component's dynamic or
  * static aspects of {@link EnabledAspectDefinition enabled} or {@link VisibleAspectDefinition visible},
  * respectively.

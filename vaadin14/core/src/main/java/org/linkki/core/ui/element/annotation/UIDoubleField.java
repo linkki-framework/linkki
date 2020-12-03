@@ -42,7 +42,7 @@ import org.linkki.core.ui.element.bindingdefinitions.DoubleFieldBindingDefinitio
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
-import com.vaadin.server.Sizeable;
+import com.vaadin.flow.component.HasSize;
 
 /**
  * A text field for displaying formatted numbers.
@@ -84,7 +84,7 @@ public @interface UIDoubleField {
      * This value is set to empty String by default which means it is undefined and the actual width
      * depends on the layout.
      * 
-     * @see Sizeable#setWidth(String)
+     * @see HasSize#setWidth(String)
      */
     String width() default "";
 

@@ -7,8 +7,9 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.aspects.types.ReadOnlyBehaviorType;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasEnabled;
+import com.vaadin.flow.component.HasValue;
 
 /**
  * Aspect Definition for a {@link Component Component's} behaviour in read-only mode.
@@ -32,14 +33,15 @@ public class BindReadOnlyBehaviorAspectDefinition implements LinkkiAspectDefinit
     private void setComponentStatus(Component component, boolean writable) {
         switch (value) {
             case DISABLED:
-                component.setEnabled(component.isEnabled() && writable);
+                HasEnabled c = (HasEnabled)component;
+                c.setEnabled(c.isEnabled() && writable);
                 break;
             case INVSIBLE:
                 component.setVisible(component.isVisible() && writable);
                 break;
             case WRITABLE:
                 if (component instanceof HasValue) {
-                    HasValue<?> hasValueComponent = (HasValue<?>)component;
+                    HasValue<?, ?> hasValueComponent = (HasValue<?, ?>)component;
                     hasValueComponent.setReadOnly(false);
                 }
         }

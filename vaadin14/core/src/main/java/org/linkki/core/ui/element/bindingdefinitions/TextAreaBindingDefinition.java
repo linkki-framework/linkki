@@ -22,7 +22,7 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
 
 /**
  * {@link BindingDefinition} for {@link UITextArea}.

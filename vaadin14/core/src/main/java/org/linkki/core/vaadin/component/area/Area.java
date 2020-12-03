@@ -15,14 +15,14 @@ package org.linkki.core.vaadin.component.area;
 
 import org.linkki.core.vaadin.component.page.Page;
 
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.flow.component.HasComponents;
 
 /**
  * An area is a container component displayed in the UI that consists of other areas or pages.
  * 
  * @see Page
  */
-public interface Area extends ComponentContainer {
+public interface Area extends HasComponents {
 
     /** Creates the content (children) of this area. */
     void createContent();

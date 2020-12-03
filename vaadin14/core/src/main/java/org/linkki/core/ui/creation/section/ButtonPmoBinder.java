@@ -40,8 +40,8 @@ import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.server.Resource;
-import com.vaadin.ui.Button;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.button.Button;
 
 public class ButtonPmoBinder {
 
@@ -103,19 +103,19 @@ public class ButtonPmoBinder {
 
     }
 
-    private static class ButtonPmoIconAspectDefinition extends ModelToUiAspectDefinition<Resource> {
+    private static class ButtonPmoIconAspectDefinition extends ModelToUiAspectDefinition<Icon> {
 
         ButtonPmoIconAspectDefinition() {
             // to avoid generating synthetic accessor
         }
 
         @Override
-        public Aspect<Resource> createAspect() {
+        public Aspect<Icon> createAspect() {
             return Aspect.of("buttonIcon");
         }
 
         @Override
-        public Consumer<Resource> createComponentValueSetter(ComponentWrapper componentWrapper) {
+        public Consumer<Icon> createComponentValueSetter(ComponentWrapper componentWrapper) {
             return ((Button)componentWrapper.getComponent())::setIcon;
         }
 
@@ -134,7 +134,7 @@ public class ButtonPmoBinder {
 
         @Override
         public Consumer<Collection<String>> createComponentValueSetter(ComponentWrapper componentWrapper) {
-            return l -> l.forEach(((Button)componentWrapper.getComponent())::addStyleName);
+            return l -> l.forEach(((Button)componentWrapper.getComponent())::addClassName);
         }
 
     }

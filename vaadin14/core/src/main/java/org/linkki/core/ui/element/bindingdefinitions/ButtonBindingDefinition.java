@@ -21,7 +21,7 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.ui.Button;
+import com.vaadin.flow.component.button.Button;
 
 /**
  * The adapter to provide access to an {@link UIButton} annotation through the definition interface.
@@ -38,14 +38,16 @@ public class ButtonBindingDefinition implements BindingDefinition {
     public Button newComponent() {
         Button button = ComponentFactory.newButton();
         if (buttonAnnotation.showIcon()) {
-            button.setIcon(buttonAnnotation.icon());
+            button.setIcon(buttonAnnotation.icon().create());
         }
         for (String styleName : buttonAnnotation.styleNames()) {
-            button.addStyleName(styleName);
+            button.addClassName(styleName);
         }
-        if (buttonAnnotation.shortcutKeyCode() != -1) {
-            button.setClickShortcut(buttonAnnotation.shortcutKeyCode(), buttonAnnotation.shortcutModifierKeys());
-        }
+        // TODO LIN-2050
+        // if (buttonAnnotation.shortcutKeyCode() != -1) {
+        // button.setClickShortcut(buttonAnnotation.shortcutKeyCode(),
+        // buttonAnnotation.shortcutKeyModifiers());
+        // }
         return button;
     }
 

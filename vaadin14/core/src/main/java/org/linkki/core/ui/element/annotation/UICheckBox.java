@@ -42,7 +42,7 @@ import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
- * In accordance to {@link com.vaadin.ui.CheckBox}, bound to a boolean property.
+ * In accordance to {@link com.vaadin.flow.component.checkbox.Checkbox}, bound to a boolean property.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

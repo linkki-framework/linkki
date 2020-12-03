@@ -29,10 +29,10 @@ import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindCaption.BindCaptionAspectDefinitionCreator;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.HasText;
 
 /**
- * This aspect sets a user defined caption text using {@link Component#setCaption(String)}.
+ * This aspect sets a user defined caption text using {@link HasText#setText(String)}.
  * <p>
  * If used on a {@link ContainerPmo}, the caption of the surrounding {@link UISection} is set instead of
  * the table's caption.

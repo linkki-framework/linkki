@@ -14,9 +14,7 @@
 
 package org.linkki.core.ui.element.annotation;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.LinkedHashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -28,18 +26,12 @@ import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
-import org.linkki.util.StreamUtil;
 
-import com.vaadin.data.HasItems;
-import com.vaadin.data.provider.Query;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.AbstractMultiSelect;
-import com.vaadin.ui.AbstractSingleSelect;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.Panel;
+import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.AbstractSinglePropertyField;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.data.binder.HasItems;
 
 public final class TestUiUtil {
 
@@ -63,8 +55,6 @@ public final class TestUiUtil {
 
     /**
      * Creates the section defined in the given pmo.
-     * <p>
-     * Note that this method only returns the {@link Layout} inside the {@link Panel} of the section.
      * 
      * @param pmo the PMO to which the component is bound is bound
      * @return a {@code Component} that is bound to the model object
@@ -83,61 +73,43 @@ public final class TestUiUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getComponentAt(GridLayout layout, int row) {
-        return (T)layout.getComponent(1, row);
-    }
-
-    @SuppressWarnings("unchecked")
     public static <T> T getComponentById(FormLayout layout, String id) {
-        return (T)StreamUtil.stream(layout).filter(c -> Objects.equals(c.getId(), id)).findFirst()
+        return (T)layout.getChildren()
+                .filter(c -> c.getId().isPresent())
+                .filter(c -> Objects.equals(c.getId().get(), id))
+                .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No component with id " + id));
     }
 
+    @SuppressWarnings("unused")
     public static String getLabelOfComponentAt(FormLayout layout, int row) {
-        Component component = layout.getComponent(row);
-        return component.getCaption() != null ? component.getCaption() : "";
+        // TODO LIN-2051
+        return "";
     }
 
-    public static <T> void setUserOriginatedValue(AbstractField<T> field, T value) {
-        try {
-            Method setValue = AbstractField.class.getDeclaredMethod("setValue", Object.class, boolean.class);
-            setValue.setAccessible(true);
-            setValue.invoke(field, value, true);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException e) {
-            throw new IllegalStateException("Could not set user originated value '" + value + "'", e);
-        } catch (InvocationTargetException e) {
-            throw (RuntimeException)e.getCause();
-        }
+    @SuppressWarnings("unused")
+    public static <T> void setUserOriginatedValue(AbstractField<?, T> field, T value) {
+        // TODO LIN-2051
     }
 
-    public static <T> void setUserOriginatedValue(AbstractSingleSelect<T> field, T value) {
-        try {
-            Method setSelectedItem = AbstractSingleSelect.class.getDeclaredMethod("setSelectedItem", Object.class,
-                                                                                  boolean.class);
-            setSelectedItem.setAccessible(true);
-            setSelectedItem.invoke(field, value, true);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+    @SuppressWarnings("unused")
+    public static <T> void setUserOriginatedValue(AbstractSinglePropertyField<?, T> field, T value) {
+        // TODO LIN-2051
     }
 
-    public static <T> void setUserOriginatedValue(AbstractMultiSelect<T> field, Set<T> value) {
-        try {
-            Set<T> copy = value.stream().map(Objects::requireNonNull)
-                    .collect(Collectors.toCollection(LinkedHashSet::new));
-
-            Method updateSelection = AbstractMultiSelect.class.getDeclaredMethod("updateSelection", Set.class,
-                                                                                 Set.class, boolean.class);
-            updateSelection.setAccessible(true);
-            updateSelection.invoke(field, copy, new LinkedHashSet<>(field.getSelectedItems()), true);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+    @SuppressWarnings("unused")
+    public static <T> void setUserOriginatedValues(AbstractField<?, T> field, Set<T> value) {
+        // TODO LIN-2051
     }
 
+    @SuppressWarnings("unused")
     public static <T> List<T> getData(HasItems<T> hasDataProvider) {
-        return hasDataProvider.getDataProvider().fetch(new Query<>()).collect(Collectors.toList());
+        // TODO LIN-2051
+        return Collections.emptyList();
+    }
+
+    public static Component getComponentAtIndex(int index, Component component) {
+        List<Component> children = component.getChildren().collect(Collectors.toList());
+        return children.get(index);
     }
 }

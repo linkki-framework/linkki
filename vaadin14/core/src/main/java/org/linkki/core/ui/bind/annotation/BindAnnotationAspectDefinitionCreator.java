@@ -29,12 +29,12 @@ import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
 
-import com.vaadin.data.HasItems;
-import com.vaadin.data.HasValue;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.MultiSelect;
+import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.selection.MultiSelect;
 
 public class BindAnnotationAspectDefinitionCreator implements AspectDefinitionCreator<Bind> {
 

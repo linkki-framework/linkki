@@ -31,12 +31,12 @@ import org.linkki.core.ui.nls.NlsText;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.data.Converter;
-import com.vaadin.data.HasValue;
-import com.vaadin.data.Result;
-import com.vaadin.data.ValueContext;
-import com.vaadin.shared.ui.ValueChangeMode;
-import com.vaadin.ui.HasValueChangeMode;
+import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.data.binder.Result;
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.data.value.HasValueChangeMode;
+import com.vaadin.flow.data.value.ValueChangeMode;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -70,16 +70,16 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
             ComponentWrapper componentWrapper,
             Handler modelUpdated) {
 
-        HasValue<?> field = (HasValue<?>)componentWrapper.getComponent();
+        HasValue<?, ?> field = (HasValue<?, ?>)componentWrapper.getComponent();
 
         if (field instanceof HasValueChangeMode) {
-            ((HasValueChangeMode)field).setValueChangeMode(ValueChangeMode.BLUR);
+            ((HasValueChangeMode)field).setValueChangeMode(ValueChangeMode.ON_BLUR);
         }
 
         Converter<Object, Object> converter = getConverter(propertyDispatcher, field);
 
         field.addValueChangeListener(event -> {
-            if (event.isUserOriginated()) {
+            if (event.isFromClient()) {
                 Result<?> result = converter.convertToModel(event.getValue(), getValueContext());
                 result.ifOk(v -> propertyDispatcher.push(Aspect.of(NAME, v)));
                 modelUpdated.apply();
@@ -95,16 +95,16 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
                                                  value != null ? value.toString() : "null")));
     }
 
-    private Type getTypeOf(HasValue<?> field) {
+    private Type getTypeOf(HasValue<?, ?> field) {
         Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(field.getClass(),
                                                                               HasValue.class);
         @SuppressWarnings("rawtypes")
         TypeVariable<Class<HasValue>>[] typeVariables = HasValue.class.getTypeParameters();
-        return typeArguments.get(typeVariables[0]);
+        return typeArguments.get(typeVariables[1]);
     }
 
     @SuppressWarnings("unchecked")
-    private Converter<Object, Object> getConverter(PropertyDispatcher propertyDispatcher, HasValue<?> field) {
+    private Converter<Object, Object> getConverter(PropertyDispatcher propertyDispatcher, HasValue<?, ?> field) {
         return (Converter<Object, Object>)getConverter(getTypeOf(field),
                                                        propertyDispatcher.getValueClass());
     }
@@ -112,7 +112,7 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
     @Override
     public Handler createUiUpdater(PropertyDispatcher propertyDispatcher, ComponentWrapper componentWrapper) {
         @SuppressWarnings("unchecked")
-        HasValue<Object> field = (HasValue<Object>)componentWrapper.getComponent();
+        HasValue<?, Object> field = (HasValue<?, Object>)componentWrapper.getComponent();
         Converter<Object, Object> converter = getConverter(propertyDispatcher, field);
         return () -> {
             Object value = propertyDispatcher.pull(Aspect.of(NAME));

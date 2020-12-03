@@ -20,12 +20,12 @@ import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 
-import com.vaadin.ui.Link;
+import com.vaadin.flow.component.html.Anchor;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * This aspect sets the target attribute of a {@link Link}.
+ * This aspect sets the target attribute of a {@link Anchor}.
  */
 public class LinkTargetAspectDefinition extends ModelToUiAspectDefinition<String> {
 
@@ -49,8 +49,8 @@ public class LinkTargetAspectDefinition extends ModelToUiAspectDefinition<String
 
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        Link link = (Link)componentWrapper.getComponent();
-        return link::setTargetName;
+        Anchor link = (Anchor)componentWrapper.getComponent();
+        return link::setTarget;
     }
 
 }

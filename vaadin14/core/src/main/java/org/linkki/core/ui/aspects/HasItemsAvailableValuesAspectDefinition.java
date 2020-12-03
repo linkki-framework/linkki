@@ -19,14 +19,14 @@ import java.util.List;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 
-import com.vaadin.data.HasDataProvider;
-import com.vaadin.data.HasFilterableDataProvider;
-import com.vaadin.data.HasItems;
-import com.vaadin.data.provider.ListDataProvider;
-import com.vaadin.server.SerializablePredicate;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.NativeSelect;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.data.binder.HasDataProvider;
+import com.vaadin.flow.data.binder.HasFilterableDataProvider;
+import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.function.SerializablePredicate;
 
 /**
  * An {@link AvailableValuesAspectDefinition} for {@link Component components} that implement
@@ -56,10 +56,10 @@ public class HasItemsAvailableValuesAspectDefinition extends AvailableValuesAspe
         Object component = componentWrapper.getComponent();
         if (component instanceof ComboBox<?>) {
             boolean hasNullItem = items.removeIf(i -> i == null);
-            ((ComboBox<Object>)component).setEmptySelectionAllowed(hasNullItem);
-        } else if (component instanceof NativeSelect<?>) {
+            ((ComboBox<Object>)component).setAllowCustomValue(hasNullItem);
+        } else if (component instanceof Select<?>) {
             boolean hasNullItem = items.removeIf(i -> i == null);
-            ((NativeSelect<Object>)component).setEmptySelectionAllowed(hasNullItem);
+            ((Select<Object>)component).setEmptySelectionAllowed(hasNullItem);
         }
     }
 }

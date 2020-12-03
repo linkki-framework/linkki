@@ -27,13 +27,13 @@ import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.HasStyle;
 
 /**
- * This aspect sets a user defined style name using {@link Component#setStyleName(String)}. This will
+ * This aspect sets a user defined style name using {@link HasStyle#setClassName(String)}. This will
  * overwrite any other user defined style names but not those from Vaadin.
  * 
- * @see Component#setStyleName(String)
+ * @see HasStyle#setClassName(String)
  */
 public class BindStyleNamesAspectDefinition extends ModelToUiAspectDefinition<Object> {
 
@@ -76,20 +76,26 @@ public class BindStyleNamesAspectDefinition extends ModelToUiAspectDefinition<Ob
 
     @Override
     public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        String predefinedStyleNames = ((Component)componentWrapper.getComponent()).getStyleName();
+        String predefinedStyleNames = ((HasStyle)componentWrapper.getComponent()).getClassName();
+
+
         return styleNames -> {
             if (styleNames instanceof String) {
-                setStyleName(componentWrapper, predefinedStyleNames, (String)styleNames);
+                setClassName(componentWrapper, predefinedStyleNames, (String)styleNames);
             } else {
                 @SuppressWarnings("unchecked")
                 String joinedStyleNames = String.join(" ", (Collection<String>)styleNames);
-                setStyleName(componentWrapper, predefinedStyleNames, joinedStyleNames);
+                setClassName(componentWrapper, predefinedStyleNames, joinedStyleNames);
             }
         };
     }
 
-    public void setStyleName(ComponentWrapper componentWrapper, String predefinedStyleNames, String styleNames) {
-        ((Component)componentWrapper.getComponent()).setStyleName(predefinedStyleNames + " " + styleNames);
+    public void setClassName(ComponentWrapper componentWrapper, String predefinedStyleNames, String styleNames) {
+        if (predefinedStyleNames != null) {
+            ((HasStyle)componentWrapper.getComponent()).setClassName(predefinedStyleNames + " " + styleNames);
+        } else {
+            ((HasStyle)componentWrapper.getComponent()).setClassName(styleNames);
+        }
     }
 
 }

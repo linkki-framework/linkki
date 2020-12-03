@@ -18,10 +18,9 @@ import java.util.stream.Stream;
 
 import org.linkki.core.binding.wrapper.ComponentWrapperFactory;
 import org.linkki.core.uiframework.UiFrameworkExtension;
-import org.linkki.util.StreamUtil;
 
-import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 
 /**
  * The Vaadin 8 implementation for {@link org.linkki.core.uiframework.UiFrameworkExtension}.
@@ -47,8 +46,8 @@ public class Vaadin8 implements UiFrameworkExtension {
 
     @Override
     public Stream<?> getChildComponents(Object uiComponent) {
-        if (uiComponent instanceof HasComponents) {
-            return StreamUtil.stream((HasComponents)uiComponent);
+        if (uiComponent instanceof Component) {
+            return ((Component)uiComponent).getChildren();
         }
         return Stream.empty();
     }

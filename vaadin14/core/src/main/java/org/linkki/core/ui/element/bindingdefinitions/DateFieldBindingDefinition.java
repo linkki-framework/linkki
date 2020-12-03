@@ -15,9 +15,6 @@ package org.linkki.core.ui.element.bindingdefinitions;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Locale;
-
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -25,10 +22,9 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.ComponentFactory;
-import org.linkki.util.DateFormats;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.DateField;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.datepicker.DatePicker;
 
 /**
  * {@link BindingDefinition} for {@link UIDateField}.
@@ -43,13 +39,9 @@ public class DateFieldBindingDefinition implements BindingDefinition {
 
     @Override
     public Component newComponent() {
-        DateField dateField = ComponentFactory.newDateField();
-        if (StringUtils.isNotBlank(uiDateField.dateFormat())) {
-            dateField.setDateFormat(uiDateField.dateFormat());
-        } else {
-            Locale locale = UiFramework.getLocale();
-            dateField.setDateFormat(DateFormats.getPattern(locale));
-        }
+        DatePicker dateField = ComponentFactory.newDateField();
+        // TODO LIN-2044
+        dateField.setLocale(UiFramework.getLocale());
         return dateField;
     }
 

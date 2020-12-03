@@ -36,11 +36,11 @@ import org.linkki.core.ui.element.bindingdefinitions.TextFieldBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
-import com.vaadin.server.Sizeable;
+import com.vaadin.flow.component.HasSize;
 
 /**
- * A field for textual input. In accordance with {@link com.vaadin.ui.TextField}. For multiple inputs
- * see {@link UITextArea}
+ * A field for textual input. In accordance with {@link com.vaadin.flow.component.textfield.TextField}.
+ * For multiple inputs see {@link UITextArea}
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -86,7 +86,7 @@ public @interface UITextField {
      * <p>
      * This value is set to 100% by default, which means it takes up all available space.
      * 
-     * @see Sizeable#setWidth(String)
+     * @see HasSize#setWidth(String)
      */
     String width() default "100%";
 

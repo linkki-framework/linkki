@@ -31,20 +31,20 @@ import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.linkki.util.Sequence;
 
-import com.vaadin.data.Converter;
-import com.vaadin.data.converter.DateToLongConverter;
-import com.vaadin.data.converter.DateToSqlDateConverter;
-import com.vaadin.data.converter.LocalDateTimeToDateConverter;
-import com.vaadin.data.converter.LocalDateToDateConverter;
-import com.vaadin.data.converter.StringToBigDecimalConverter;
-import com.vaadin.data.converter.StringToBigIntegerConverter;
-import com.vaadin.data.converter.StringToBooleanConverter;
-import com.vaadin.data.converter.StringToDateConverter;
-import com.vaadin.data.converter.StringToDoubleConverter;
-import com.vaadin.data.converter.StringToFloatConverter;
-import com.vaadin.data.converter.StringToIntegerConverter;
-import com.vaadin.data.converter.StringToLongConverter;
-import com.vaadin.server.VaadinSession;
+import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.data.converter.DateToLongConverter;
+import com.vaadin.flow.data.converter.DateToSqlDateConverter;
+import com.vaadin.flow.data.converter.LocalDateTimeToDateConverter;
+import com.vaadin.flow.data.converter.LocalDateToDateConverter;
+import com.vaadin.flow.data.converter.StringToBigDecimalConverter;
+import com.vaadin.flow.data.converter.StringToBigIntegerConverter;
+import com.vaadin.flow.data.converter.StringToBooleanConverter;
+import com.vaadin.flow.data.converter.StringToDateConverter;
+import com.vaadin.flow.data.converter.StringToDoubleConverter;
+import com.vaadin.flow.data.converter.StringToFloatConverter;
+import com.vaadin.flow.data.converter.StringToIntegerConverter;
+import com.vaadin.flow.data.converter.StringToLongConverter;
+import com.vaadin.flow.server.VaadinSession;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 

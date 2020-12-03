@@ -14,11 +14,11 @@
 
 package org.linkki.core.ui.wrapper;
 
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasText;
 
 /**
  * Wraps a vaadin component and uses the vaadin built-in caption instead of an extra label component
@@ -52,12 +52,23 @@ public class CaptionComponentWrapper extends VaadinComponentWrapper {
      */
     @Override
     public void setLabel(String labelText) {
-        getComponent().setCaption(StringUtils.isEmpty(labelText) ? null : labelText);
+        // TODO LIN-2057
+
+        // attempted fix:
+        // if (getComponent() instanceof HasText) {
+        // ((HasText)getComponent()).setText(labelText);
+        // }
     }
 
     @Override
     public String toString() {
-        return getComponent().getCaption() + "(" + getComponent().getClass().getSimpleName() + ")";
+        // TODO LIN-2057
+        if (getComponent() instanceof HasText) {
+            return ((HasText)getComponent()).getText() + "(" + getComponent().getClass().getSimpleName() + ")";
+        } else {
+            return getComponent().getClass().getSimpleName();
+        }
+
     }
 
 }

@@ -19,17 +19,16 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.linkki.core.vaadin.component.page.Page;
-import org.linkki.util.StreamUtil;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.TabSheet;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs;
 
 /**
- * A base class for all areas that use a {@link TabSheet} containing multiple pages.
+ * A base class for all areas that use a {@link Tabs} containing multiple pages.
  * 
  * By default, the constructor uses {@link #setSizeFull()} to ensure that the tabs are fixed while
- * scrolling. Use {@link #setHeightUndefined()} or {@link #TabSheetArea(boolean)}to overwrite this
- * behavior.
+ * scrolling.
  *
  * Warning: Calling {@link #setSizeFull()} in a page which is added as tab would break the layout of the
  * according page! Setting any defined height creates the same effect.
@@ -39,7 +38,7 @@ import com.vaadin.ui.TabSheet;
  * 
  * Note: If the area is not injected you need to call {@link #init()} manually!
  */
-public abstract class TabSheetArea extends TabSheet implements Area {
+public abstract class TabSheetArea extends Tabs implements Area {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,7 +58,8 @@ public abstract class TabSheetArea extends TabSheet implements Area {
      */
     public TabSheetArea(boolean preserveHeader) {
         super();
-        addSelectedTabChangeListener(e -> reloadBindings());
+        // TODO LIN-2065
+        // addSelectedTabChangeListener(e -> reloadBindings());
         if (preserveHeader) {
             setSizeFull();
         }
@@ -80,21 +80,12 @@ public abstract class TabSheetArea extends TabSheet implements Area {
     }
 
     /**
-     * @deprecated since 20.02.2019 as this class now directly extends {@link TabSheet}. Use this
-     *             instance directly instead.
-     */
-    @Deprecated
-    public TabSheet getTabSheet() {
-        return this;
-    }
-
-    /**
      * Removes the tab that contains the given component.
      * 
      * @param tabPage the component contained in the tab to remove
      */
-    protected void removeTab(Page tabPage) {
-        removeComponent(tabPage);
+    protected void removeTab(Tab tabPage) {
+        remove(tabPage);
     }
 
     /**
@@ -102,10 +93,10 @@ public abstract class TabSheetArea extends TabSheet implements Area {
      * 
      * @return the tab pages that are contained in the tabs of this TabSheet.
      */
-    protected List<Page> getTabs() {
-        return StreamUtil.stream(this)
-                .filter(c -> c instanceof Page)
-                .map(c -> (Page)c)
+    protected List<Tab> getTabs() {
+        return getChildren()
+                .filter(c -> c instanceof Tab)
+                .map(c -> (Tab)c)
                 .collect(Collectors.toList());
     }
 

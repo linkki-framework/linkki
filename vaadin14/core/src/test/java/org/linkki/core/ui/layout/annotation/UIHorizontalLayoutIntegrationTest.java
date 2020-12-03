@@ -14,9 +14,9 @@
 
 package org.linkki.core.ui.layout.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -25,10 +25,10 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.VerticalAlignment;
 import org.linkki.core.uicreation.UiCreator;
 
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 
 public class UIHorizontalLayoutIntegrationTest {
 
@@ -43,14 +43,14 @@ public class UIHorizontalLayoutIntegrationTest {
 
         HorizontalLayout layout = (HorizontalLayout)component;
 
-        assertThat("Default vertical alignment should be middle", layout.getDefaultComponentAlignment(),
-                   is(Alignment.MIDDLE_LEFT));
+        assertThat("Default vertical alignment should be middle", layout.getDefaultVerticalComponentAlignment(),
+                   is(Alignment.CENTER));
 
         assertThat("Child component should be correctly created", layout.getComponentCount(), is(1));
-        assertThat("Child component should be correctly created", layout.getComponent(0),
+        assertThat("Child component should be correctly created", layout.getComponentAt(0),
                    is(instanceOf(TextField.class)));
 
-        TextField textField = (TextField)layout.getComponent(0);
+        TextField textField = (TextField)layout.getComponentAt(0);
         pmo.setText("new text");
         bindingContext.modelChanged();
         assertThat("Child components should be correctly bound", textField.getValue(), is("new text"));
@@ -63,8 +63,8 @@ public class UIHorizontalLayoutIntegrationTest {
                 .getComponent();
 
         assertThat("Default vertical alignment should be as set in the annotation",
-                   layout.getDefaultComponentAlignment(),
-                   is(Alignment.BOTTOM_LEFT));
+                   layout.getDefaultVerticalComponentAlignment(),
+                   is(Alignment.END));
     }
 
     @UIHorizontalLayout

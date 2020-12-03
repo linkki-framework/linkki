@@ -17,8 +17,8 @@ import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Span;
 
 /**
  * Defines how UI components are added to an {@link AbstractSection}.
@@ -43,7 +43,7 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
                                                                                 WrapperType.FIELD));
 
             Component component = wrapper.getComponent();
-            section.add(component.getId(), new Label(), wrapper.getComponent());
+            section.add(component.getId().get(), new Span(), wrapper.getComponent());
         }
     };
 
@@ -96,13 +96,13 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
     }
 
     void addSectionComponent(Method method, BaseSection section, Object pmo, BindingContext bindingContext) {
-        Label label = new Label();
+        Span label = new Span();
         LabelComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
                                                                   c -> new LabelComponentWrapper(label,
                                                                           (Component)c));
 
         Component component = wrapper.getComponent();
-        section.add(component.getId(), label, wrapper.getComponent());
+        section.add(component.getId().get(), label, wrapper.getComponent());
     }
 
 }

@@ -55,11 +55,14 @@ import org.linkki.core.ui.element.annotation.UIRadioButtons.UIRadioButtonsCompon
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
-import com.vaadin.ui.RadioButtonGroup;
-import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.data.renderer.TextRenderer;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Radio buttons for selecting a single value. Creates a {@link com.vaadin.ui.RadioButtonGroup}.
+ * Radio buttons for selecting a single value. Creates a
+ * {@link com.vaadin.flow.component.radiobutton.RadioButtonGroup}.
  */
 @Retention(RUNTIME)
 @Target(METHOD)
@@ -152,6 +155,8 @@ public @interface UIRadioButtons {
     static class UIRadioButtonsDefinition implements LinkkiComponentDefinition {
 
         private ItemCaptionProvider<?> itemCaptionProvider;
+        // TODO LIN-2048
+        @SuppressFBWarnings("URF_UNREAD_FIELD")
         private AlignmentType alignment;
 
         public UIRadioButtonsDefinition(ItemCaptionProvider<?> itemCaptionProvider,
@@ -160,13 +165,16 @@ public @interface UIRadioButtons {
             this.alignment = alignment;
         }
 
+        @SuppressWarnings({ "rawtypes", "unchecked" })
         @Override
         public Object createComponent(Object pmo) {
             RadioButtonGroup<?> radioButtons = new RadioButtonGroup<>();
-            radioButtons.setItemCaptionGenerator(itemCaptionProvider::getUnsafeCaption);
-            if (alignment.equals(AlignmentType.HORIZONTAL)) {
-                radioButtons.addStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
-            }
+            radioButtons.setRenderer(new TextRenderer(itemCaptionProvider::getUnsafeCaption));
+
+            // TODO LIN-2048
+            // if (alignment.equals(AlignmentType.HORIZONTAL)) {
+            // radioButtons.addClassName(ValoTheme.OPTIONGROUP_HORIZONTAL);
+            // }
             return radioButtons;
         }
     }

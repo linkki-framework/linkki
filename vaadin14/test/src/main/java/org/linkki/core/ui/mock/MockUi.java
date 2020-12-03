@@ -21,8 +21,8 @@ import java.util.Locale;
 
 import org.mockito.Mockito;
 
-import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.server.VaadinSession;
+import com.vaadin.flow.component.UI;
 
 /**
  * Utility to mock Vaadin's {@link UI}.

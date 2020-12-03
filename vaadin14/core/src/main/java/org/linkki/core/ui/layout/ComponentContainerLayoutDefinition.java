@@ -26,11 +26,11 @@ import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasComponents;
 
 /**
- * Defines a {@link ComponentContainer} that contains {@link CaptionComponentWrapper
+ * Defines a {@link HasComponents} that contains {@link CaptionComponentWrapper
  * CaptionComponentWrappers}.
  */
 public class ComponentContainerLayoutDefinition implements LinkkiLayoutDefinition {
@@ -47,7 +47,7 @@ public class ComponentContainerLayoutDefinition implements LinkkiLayoutDefinitio
                                                                  c -> componentWrapperCreator.apply(c))//
                 .map(ComponentWrapper::getComponent)
                 .map(Component.class::cast)
-                .forEach(c -> ((ComponentContainer)parentComponent).addComponent(c));
+                .forEach(c -> ((HasComponents)parentComponent).add(c));
     }
 
     public static class ComponentContainerLayoutDefinitionCreateor implements LayoutDefinitionCreator<Annotation> {

@@ -14,8 +14,8 @@
 
 package org.linkki.core.ui.aspects;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.linkki.test.matcher.Matchers.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -23,6 +23,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.withSettings;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 
 import org.junit.jupiter.api.Test;
@@ -30,46 +31,47 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 
-import com.vaadin.data.HasDataProvider;
-import com.vaadin.data.HasFilterableDataProvider;
-import com.vaadin.data.HasItems;
-import com.vaadin.data.provider.ListDataProvider;
-import com.vaadin.server.SerializablePredicate;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.NativeSelect;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.data.binder.HasDataProvider;
+import com.vaadin.flow.data.binder.HasFilterableDataProvider;
+import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.function.SerializablePredicate;
 
 public class HasItemsAvailableValuesAspectDefinitionTest {
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testSetDataProvider_HasDataProvider() {
         HasItemsAvailableValuesAspectDefinition hasItemsAvailableValuesAspectDefinition = new HasItemsAvailableValuesAspectDefinition(
                 AvailableValuesType.DYNAMIC);
 
-        @SuppressWarnings("unchecked")
-        ListDataProvider<Object> dataProvider = mock(ListDataProvider.class);
-        @SuppressWarnings("unchecked")
-        HasDataProvider<Object> component = mock(HasDataProvider.class,
-                                                 withSettings().extraInterfaces(Component.class));
-        hasItemsAvailableValuesAspectDefinition.setDataProvider(new LabelComponentWrapper(component), dataProvider);
+        ListDataProvider<Object> dataProvider = new ListDataProvider<Object>(Collections.emptyList());
+        Component component = mock(Component.class,
+                                   withSettings().extraInterfaces(HasDataProvider.class));
+        hasItemsAvailableValuesAspectDefinition.setDataProvider(new LabelComponentWrapper(component),
+                                                                dataProvider);
 
-        verify(component).setDataProvider(dataProvider);
+        verify((HasDataProvider<Object>)component).setDataProvider(dataProvider);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testSetDataProvider_HasFilterableDataProvider() {
         HasItemsAvailableValuesAspectDefinition hasItemsAvailableValuesAspectDefinition = new HasItemsAvailableValuesAspectDefinition(
                 AvailableValuesType.DYNAMIC);
 
-        @SuppressWarnings("unchecked")
-        ListDataProvider<Object> dataProvider = mock(ListDataProvider.class);
-        @SuppressWarnings("unchecked")
-        HasFilterableDataProvider<Object, SerializablePredicate<Object>> component = mock(HasFilterableDataProvider.class,
-                                                                                          withSettings()
-                                                                                                  .extraInterfaces(Component.class));
-        hasItemsAvailableValuesAspectDefinition.setDataProvider(new LabelComponentWrapper(component), dataProvider);
+        ListDataProvider<Object> dataProvider = new ListDataProvider<Object>(Collections.emptyList());
+        Component component = mock(Component.class,
+                                   withSettings()
+                                           .extraInterfaces(HasFilterableDataProvider.class));
+        hasItemsAvailableValuesAspectDefinition.setDataProvider(new LabelComponentWrapper(component),
+                                                                dataProvider);
 
-        verify(component).setDataProvider(dataProvider);
+        verify((HasFilterableDataProvider<Object, SerializablePredicate<Object>>)component)
+                .setDataProvider(dataProvider);
     }
 
     @Test
@@ -79,7 +81,7 @@ public class HasItemsAvailableValuesAspectDefinitionTest {
 
         @SuppressWarnings("unchecked")
         ListDataProvider<Object> dataProvider = mock(ListDataProvider.class);
-        Component component = mock(HasItems.class, withSettings().extraInterfaces(Component.class));
+        Component component = mock(Component.class, withSettings().extraInterfaces(HasItems.class));
         hasItemsAvailableValuesAspectDefinition.setDataProvider(new LabelComponentWrapper(component), dataProvider);
 
         verifyNoMoreInteractions(component);
@@ -94,12 +96,12 @@ public class HasItemsAvailableValuesAspectDefinitionTest {
         hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(comboBox),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.ONE, null)));
 
-        assertThat(comboBox.isEmptySelectionAllowed());
+        assertThat(comboBox.isAllowCustomValue());
 
         hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(comboBox),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.TWO)));
 
-        assertThat(comboBox.isEmptySelectionAllowed(), is(false));
+        assertThat(comboBox.isAllowCustomValue(), is(false));
     }
 
     @Test
@@ -107,11 +109,11 @@ public class HasItemsAvailableValuesAspectDefinitionTest {
         HasItemsAvailableValuesAspectDefinition hasItemsAvailableValuesAspectDefinition = new HasItemsAvailableValuesAspectDefinition(
                 AvailableValuesType.DYNAMIC);
 
-        NativeSelect<TestEnum> nativeSelect = new NativeSelect<>();
+        Select<TestEnum> nativeSelect = new Select<>();
         hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(nativeSelect),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.ONE, null)));
 
-        assertThat(nativeSelect.isEmptySelectionAllowed());
+        assertThat(nativeSelect.isEmptySelectionAllowed(), is(true));
 
         hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(nativeSelect),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.TWO)));
@@ -124,7 +126,7 @@ public class HasItemsAvailableValuesAspectDefinitionTest {
         HasItemsAvailableValuesAspectDefinition hasItemsAvailableValuesAspectDefinition = new HasItemsAvailableValuesAspectDefinition(
                 AvailableValuesType.DYNAMIC);
 
-        Component component = mock(HasItems.class, withSettings().extraInterfaces(Component.class));
+        Component component = mock(Component.class, withSettings().extraInterfaces(HasItems.class));
         hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(component),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.ONE, null)));
 

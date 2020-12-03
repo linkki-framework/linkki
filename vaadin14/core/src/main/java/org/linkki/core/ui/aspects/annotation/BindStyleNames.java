@@ -27,13 +27,13 @@ import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.ui.aspects.BindStyleNamesAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames.BindStyleNamesAspectDefinitionCreator;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.HasStyle;
 
 /**
- * This aspect sets a user defined style name using {@link Component#setStyleName(String)}. This will
+ * This aspect sets a user defined style name using {@link HasStyle#setClassName(String)}. This will
  * overwrite any other user defined style names but not those from Vaadin.
  * 
- * @see Component#setStyleName(String)
+ * @see HasStyle#setClassName(String)
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.TYPE, ElementType.FIELD, ElementType.METHOD })
@@ -49,7 +49,7 @@ public @interface BindStyleNames {
      * {@code get<PropertyName>StyleNames} which may return a {@link String} or {@link Collection} of
      * {@link String}.
      * 
-     * @see Component#setStyleName(String)
+     * @see HasStyle#setClassName(String)
      */
     String[] value() default {};
 

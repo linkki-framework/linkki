@@ -23,8 +23,11 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.columnbased.ColumnBasedComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
+import org.linkki.util.Consumers;
 
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasText;
+import com.vaadin.flow.component.checkbox.Checkbox;
 
 /**
  * Aspect definition for caption binding. Assumes that the {@link ComponentWrapper} wraps a
@@ -63,7 +66,18 @@ public class CaptionAspectDefinition extends ModelToUiAspectDefinition<String> {
 
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        return caption -> ((Component)componentWrapper.getComponent()).setCaption(caption);
+        // TODO LIN-2057
+        if (componentWrapper.getComponent() instanceof HasText) {
+            return caption -> ((HasText)componentWrapper.getComponent()).setText(caption);
+        }
+
+        if (componentWrapper.getComponent() instanceof Checkbox) {
+            return caption -> ((Checkbox)componentWrapper.getComponent()).setLabel(caption);
+        }
+
+
+        return Consumers.nopConsumer();
+
     }
 
     @Override

@@ -31,7 +31,7 @@ import org.linkki.core.ui.layout.annotation.UIHorizontalLayout.HorizontalLayoutC
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 /**
  * Marks a group of components horizontally placed next to each other in a {@link HorizontalLayout}.

@@ -16,34 +16,21 @@ package org.linkki.core.ui.element.bindingdefinitions;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.linkki.core.ui.element.annotation.UIButton;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.event.ShortcutAction.ModifierKey;
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickShortcut;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.icon.VaadinIcon;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 @ExtendWith(MockitoExtension.class)
 public class ButtonBindingDefinitionTest {
-
-
-    @Captor
-    private ArgumentCaptor<ClickShortcut> clickShortcutCaptor;
 
     private UIButton getAnnotation(String name) {
         try {
@@ -62,12 +49,12 @@ public class ButtonBindingDefinitionTest {
         return getAnnotation("defaultAnnotation");
     }
 
-    @UIButton(position = 0, showIcon = true, icon = VaadinIcons.AMBULANCE, styleNames = ValoTheme.BUTTON_ICON_ONLY)
+    @UIButton(position = 0, showIcon = true, icon = VaadinIcon.AMBULANCE)
     public UIButton customAnnotation() {
         return getAnnotation("customAnnotation");
     }
 
-    @UIButton(position = 0, shortcutKeyCode = KeyCode.E, shortcutModifierKeys = ModifierKey.ALT)
+    @UIButton(position = 0)
     public UIButton shortcutButton() {
         return getAnnotation("shortcutButton");
     }
@@ -84,7 +71,7 @@ public class ButtonBindingDefinitionTest {
         assertThat(component, is(instanceOf(Button.class)));
         Button button = (Button)component;
         assertThat(button.getIcon(), is(nullValue()));
-        assertThat(button.getStyleName(), is(""));
+        assertThat(button.getClassName(), is(nullValue()));
     }
 
     @Test
@@ -93,27 +80,8 @@ public class ButtonBindingDefinitionTest {
         Component component = adapter.newComponent();
         assertThat(component, is(instanceOf(Button.class)));
         Button button = (Button)component;
-        assertThat(button.getIcon(), is(VaadinIcons.AMBULANCE));
-        assertThat(button.getStyleName(), is(ValoTheme.BUTTON_ICON_ONLY));
-    }
-
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testNewComponent_UseShortcutKeyCode() {
-        Button button = new ButtonBindingDefinition(shortcutButton()).newComponent();
-
-        assertThat(button, not(nullValue()));
-        // cannot really test the keycode. But when we set a new shortcut the old one should be
-        // removed - so we caption the previous shortcut when it is removed - very ugly, may fail
-        // when implementation of Vaadin changes :(
-        Button buttonSpy = spy(button);
-        buttonSpy.setClickShortcut(KeyCode.ENTER);
-        verify(buttonSpy).removeShortcutListener(clickShortcutCaptor.capture());
-
-        @NonNull
-        ClickShortcut value = clickShortcutCaptor.getValue();
-        assertThat(value.getKeyCode(), is(KeyCode.E));
-        assertThat(value.getModifiers(), is(new int[] { ModifierKey.ALT }));
+        assertThat(button.getIcon().getElement().getAttribute("icon"),
+                   is(VaadinIcon.AMBULANCE.create().getElement().getAttribute("icon")));
     }
 
 }

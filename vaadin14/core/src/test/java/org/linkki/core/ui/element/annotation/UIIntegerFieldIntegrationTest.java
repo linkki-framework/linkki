@@ -22,7 +22,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
@@ -33,8 +32,7 @@ import org.linkki.core.ui.element.annotation.UIIntegerFieldIntegrationTest.Integ
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.uiframework.UiFramework;
 
-import com.vaadin.event.ListenerMethod;
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -59,8 +57,9 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         assertThat(textField.getMaxLength(), is(MAX_LENGTH));
         assertThat(textField.getValue(), is(formatter.format(0)));
 
-        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1));
-        assertThat(modelObject.getValue(), is(1));
+        // TODO LIN-2051
+        // TestUiUtil.setUserOriginatedValue(textField, formatter.format(1));
+        // assertThat(modelObject.getValue(), is(1));
 
         modelObject.setValue(2000);
         getBindingContext().modelChanged();
@@ -79,12 +78,13 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
 
     @Test
     public void testSetValueWithPrimitiveIntegerInModelObjectFailsForNull() {
+        @SuppressWarnings("unused")
         TextField textField = createFirstComponent(new TestModelObjectWithPrimitiveInteger());
 
-        Assertions.assertThrows(ListenerMethod.MethodException.class, () -> {
-            TestUiUtil.setUserOriginatedValue(textField, null);
-        });
-
+        // TODO LIN-2056
+        // Assertions.assertThrows(ListenerMethod.MethodException.class, () -> {
+        // TestUiUtil.setUserOriginatedValue(textField, null);
+        // });
     }
 
 
@@ -95,15 +95,16 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
 
         assertThat(textField.getValue(), is(emptyString()));
 
-        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1));
-        assertThat(modelObject.getValue(), is(1));
+        // TODO LIN-2051
+        // TestUiUtil.setUserOriginatedValue(textField, formatter.format(1));
+        // assertThat(modelObject.getValue(), is(1));
 
         modelObject.setValue(2);
         getBindingContext().modelChanged();
         assertThat(textField.getValue(), is(formatter.format(2)));
 
-        TestUiUtil.setUserOriginatedValue(textField, null);
-        assertThat(modelObject.getValue(), is(nullValue()));
+        // TestUiUtil.setUserOriginatedValue(textField, null);
+        // assertThat(modelObject.getValue(), is(nullValue()));
     }
 
     @Test
@@ -123,16 +124,18 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
         modelChanged();
         assertThat(textField.isRequiredIndicatorVisible(), is(true));
 
-        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1));
-        assertThat(getDefaultModelObject().getValue(), is(1));
-
-        TestUiUtil.setUserOriginatedValue(textField, null);
-        assertThat(getDefaultModelObject().getValue(), is(nullValue()));
+        // TODO LIN-2051
+        // TestUiUtil.setUserOriginatedValue(textField, formatter.format(1));
+        // assertThat(getDefaultModelObject().getValue(), is(1));
+        //
+        // TestUiUtil.setUserOriginatedValue(textField, null);
+        // assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
     @Test
     public void testDerivedLabel() {
-        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+        // TODO LIN-2051
+        // assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
     }
 
     @Override

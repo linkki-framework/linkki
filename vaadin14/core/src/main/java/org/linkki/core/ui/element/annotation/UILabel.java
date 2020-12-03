@@ -39,7 +39,7 @@ import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
- * Provides a single UI-element to display text content. Creates a {@link com.vaadin.ui.Label}.
+ * Provides a single UI-element to display text content. Creates a {@link com.vaadin.flow.component.html.Label}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

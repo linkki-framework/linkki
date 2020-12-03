@@ -13,8 +13,8 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import java.math.BigDecimal;
 
@@ -23,12 +23,11 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UILabelIntegrationTest.LabelTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Label;
+import com.vaadin.flow.component.html.Span;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Label, LabelTestPmo> {
+public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Span, LabelTestPmo> {
 
     private static final String STYLES = "blabla";
 
@@ -38,32 +37,32 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
 
     @Test
     public void testLabelFieldValue() {
-        Label label = getDynamicComponent();
-
-        assertThat(label.getContentMode(), is(ContentMode.HTML));
-        assertThat(label.getStyleName(), is(STYLES));
-        assertThat(label.getValue(), is(""));
+        Span label = getDynamicComponent();
+        // TODO LIN-2052
+        // assertThat(label.getContentMode(), is(ContentMode.HTML));
+        assertThat(label.getClassName(), is(STYLES));
+        assertThat(label.getText(), is(""));
 
         ((TestModelObjectWithString)getDefaultModelObject()).setValue("fdsa");
         modelChanged();
-        assertThat(label.getValue(), is("fdsa"));
+        assertThat(label.getText(), is("fdsa"));
     }
 
     @Test
     public void testLabelFieldValue_Integer_UsesConverter() {
         setModelObjectSupplier(TestModelObjectWithInteger::new);
-        Label label = getDynamicComponent();
+        Span label = getDynamicComponent();
 
-        assertThat(label.getContentMode(), is(ContentMode.HTML));
-        assertThat(label.getStyleName(), is(STYLES));
-        assertThat(label.getValue(), is(""));
+        // TODO LIN-2052
+        // assertThat(label.getContentMode(), is(ContentMode.HTML));
+        assertThat(label.getClassName(), is(STYLES));
+        assertThat(label.getText(), is(""));
 
         ((TestModelObjectWithInteger)getDefaultModelObject()).setValue(123456);
         modelChanged();
-        assertThat(label.getValue(), is("123.456"));
+        assertThat(label.getText(), is("123.456"));
     }
 
-    @Override
     public void testEnabled() {
         assertThat(getStaticComponent().isEnabled(), is(true));
         assertThat(getDynamicComponent().isEnabled(), is(true));

@@ -25,9 +25,9 @@ import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
@@ -106,13 +106,6 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     }
 
     /**
-     * Adds the given component / section to the page taking 100% of the page width.
-     */
-    protected void add(Component section) {
-        addComponent(section);
-    }
-
-    /**
      * Creates sections based on the given PMOs and adds them horizontally, each taking up equal part of
      * the page width. If a PMO is a {@link ContainerPmo} a table section is created.
      * <p>
@@ -130,17 +123,14 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * Adds the components / sections horizontally, each section taking up an equal part of the page
      * width.
      * <p>
-     * To add components vertically, call {@link #add(Component)} for each component instead.
+     * To add components vertically, call {@link #add(Component...)} for each component instead.
      */
-    protected void add(Component... sections) {
+    public void addHorizontally(Component... sections) {
         HorizontalLayout wrapper = new HorizontalLayout();
         wrapper.setWidth("100%");
         wrapper.setSpacing(true);
-        addComponent(wrapper);
-        wrapper.addComponents(sections);
-        for (Component component : wrapper) {
-            wrapper.setExpandRatio(component, 1f / sections.length);
-        }
+        add(wrapper);
+        wrapper.addAndExpand(sections);
     }
 
     /**

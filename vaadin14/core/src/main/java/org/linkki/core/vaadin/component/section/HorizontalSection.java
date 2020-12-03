@@ -13,17 +13,15 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import java.util.Iterator;
 import java.util.Optional;
 
-import org.linkki.core.ui.util.UiUtil;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 /**
  * A horizontal section is a section that contains label / control pairs one after another.
@@ -66,11 +64,11 @@ public class HorizontalSection extends BaseSection {
         super(caption, closeable);
         editButton.ifPresent(this::addHeaderButton);
         content = new HorizontalLayout();
-        addComponent(content);
+        super.add(content);
     }
 
     @Override
-    public void add(String propertyName, Label label, Component component) {
+    public void add(String propertyName, Span label, Component component) {
         add(label, component);
     }
 
@@ -80,40 +78,42 @@ public class HorizontalSection extends BaseSection {
         return l;
     }
 
-    private void add(Label l, Component component) {
-        l.setWidthUndefined();
-        content.addComponent(l);
-        content.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
+    private void add(Span l, Component component) {
+        // l.setWidthUndefined();
+        content.add(l);
+        content.setVerticalComponentAlignment(Alignment.CENTER, l);
         add(component);
     }
 
     public void add(Component component) {
-        content.addComponent(component);
-        content.setComponentAlignment(component, Alignment.MIDDLE_LEFT);
-        if (UiUtil.isWidth100Pct(component)) {
-            updateExpandRatio();
-        }
+        content.add(component);
+        content.setVerticalComponentAlignment(Alignment.CENTER, component);
+
+        // TODO LIN-2064
+        // if (UiUtil.isWidth100Pct((HasSize)component)) {
+        // updateExpandRatio();
+        // }
     }
 
-    private void updateExpandRatio() {
-        float ratio = 1f / getNumOfComponentsWith100PctWidth();
-        for (Iterator<Component> it = content.iterator(); it.hasNext();) {
-            Component c = it.next();
-            if (UiUtil.isWidth100Pct(c)) {
-                content.setExpandRatio(c, ratio);
-            }
-        }
-    }
-
-    private int getNumOfComponentsWith100PctWidth() {
-        int num = 0;
-        for (Iterator<Component> it = content.iterator(); it.hasNext();) {
-            if (UiUtil.isWidth100Pct(it.next())) {
-                num++;
-            }
-        }
-        return num;
-    }
+    // private void updateExpandRatio() {
+    // float ratio = 1f / getNumOfComponentsWith100PctWidth();
+    // for (Iterator<Component> it = content.iterator(); it.hasNext();) {
+    // Component c = it.next();
+    // if (UiUtil.isWidth100Pct(c)) {
+    // content.setExpandRatio(c, ratio);
+    // }
+    // }
+    // }
+    //
+    // private int getNumOfComponentsWith100PctWidth() {
+    // int num = 0;
+    // for (Iterator<Component> it = content.iterator(); it.hasNext();) {
+    // if (UiUtil.isWidth100Pct(it.next())) {
+    // num++;
+    // }
+    // }
+    // return num;
+    // }
 
     @Override
     public Component getSectionContent() {

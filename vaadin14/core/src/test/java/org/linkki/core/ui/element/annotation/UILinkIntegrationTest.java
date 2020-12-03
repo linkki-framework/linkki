@@ -24,12 +24,11 @@ import org.linkki.core.ui.element.annotation.UILink.LinkTarget;
 import org.linkki.core.ui.element.annotation.UILinkIntegrationTest.LinkTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-import com.vaadin.server.ExternalResource;
-import com.vaadin.ui.Link;
+import com.vaadin.flow.component.html.Anchor;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Link, LinkTestPmo> {
+public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Anchor, LinkTestPmo> {
 
     public UILinkIntegrationTest() {
         super(LinkTestPmo::new);
@@ -37,85 +36,80 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
 
     @Test
     public void testValue_Dynamic() {
-        Link link = getDynamicComponent();
+        Anchor link = getDynamicComponent();
 
         assertThat(getDefaultPmo().getValue(), is(nullValue()));
-        assertThat(link.getResource(), is(nullValue()));
+        // TODO LIN-2052
+        // assertThat(link.getIcon(), is(nullValue()));
 
         getDefaultPmo().setValue("https://faktorzehn.org");
         modelChanged();
 
-        assertThat(((ExternalResource)link.getResource()).getURL(), is("https://faktorzehn.org"));
+        assertThat(link.getHref(), is("https://faktorzehn.org"));
 
         getDefaultPmo().setValue("");
         modelChanged();
 
-        assertThat(((ExternalResource)link.getResource()).getURL(), is(""));
+        assertThat(link.getHref(), is(""));
     }
 
     @Test
     public void testLinkCaption() {
-        Link link = getDynamicComponent();
+        Anchor anchor = getDynamicComponent();
 
-        assertThat(link.getCaption(), is(LinkTestPmo.INITIAL_CAPTION));
+        assertThat(anchor.getText(), is(LinkTestPmo.INITIAL_CAPTION));
 
         getDefaultPmo().setValueCaption("caption");
         modelChanged();
 
-        assertThat(link.getCaption(), is("caption"));
+        assertThat(anchor.getText(), is("caption"));
     }
 
     @Test
     public void testLinkCaption_Static() {
-        Link link = getStaticComponent();
+        Anchor anchor = getStaticComponent();
 
-        assertThat(link.getCaption(), is(LinkTestPmo.STATIC_CAPTION));
+        assertThat(anchor.getText(), is(LinkTestPmo.STATIC_CAPTION));
     }
 
     @Test
     public void testLinkCaption_Default() {
-        Link link = getComponentById("defaultsLink");
+        Anchor anchor = getComponentById("defaultsLink");
 
-        assertThat(link.getCaption(), is(""));
+        assertThat(anchor.getText(), is(""));
     }
 
     @Test
     public void testTarget_Dynamic() {
-        Link link = getDynamicComponent();
+        Anchor anchor = getDynamicComponent();
 
-        assertThat(link.getTargetName(), is("_top"));
+        assertThat(anchor.getTarget().get(), is("_top"));
 
         getDefaultPmo().setValueTarget("_parent");
         modelChanged();
 
-        assertThat(link.getTargetName(), is("_parent"));
+        assertThat(anchor.getTarget().get(), is("_parent"));
 
         getDefaultPmo().setValueTarget("");
         modelChanged();
 
-        assertThat(link.getTargetName(), is(""));
+        assertThat(anchor.getTarget().isPresent(), is(false));
     }
 
     @Test
     public void testTarget_Static() {
-        Link link = getStaticComponent();
+        Anchor anchor = getStaticComponent();
 
-        assertThat(link.getTargetName(), is("_blank"));
+        assertThat(anchor.getTarget().get(), is("_blank"));
     }
 
     @Test
     public void testTarget_Default() {
-        Link link = getComponentById("defaultsLink");
+        Anchor anchor = getComponentById("defaultsLink");
 
-        assertThat(link.getTargetName(), is("_self"));
+        assertThat(anchor.getTarget().get(), is("_self"));
     }
 
-    @Override
-    public void testLabelBinding() {
-        // do nothing
-    }
-
-    @Override
     public void testEnabled() {
         assertThat(getStaticComponent().isEnabled(), is(true));
         assertThat(getDynamicComponent().isEnabled(), is(true));

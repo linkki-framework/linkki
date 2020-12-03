@@ -24,16 +24,13 @@ import org.linkki.samples.messages.model.User;
 import org.linkki.samples.messages.pmo.RegistrationSectionPmo;
 import org.linkki.samples.messages.pmo.RegistrationValidationService;
 
-import com.vaadin.annotations.Theme;
-import com.vaadin.server.Page;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.flow.component.page.Page;
+import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.server.VaadinSession;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-@Theme(value = ValoTheme.THEME_NAME)
 public class MessageUI extends UI {
 
     private static final long serialVersionUID = 7735020388489427827L;
@@ -43,12 +40,12 @@ public class MessageUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
 
-        Page.getCurrent().setTitle("linkki Samples :: Validation Messages");
+        UI.getCurrent().getPage().setTitle("linkki Samples :: Validation Messages");
 
         VaadinSession.getCurrent().setAttribute(LinkkiConverterRegistry.class, new LinkkiConverterRegistry());
 
         MessagesPanel messagesPanel = new MessagesPanel();
-        messagesPanel.setVisible(false);
+        // messagesPanel.setVisible(false);
 
         User user = new User();
         RegistrationSectionPmo registrationPmo = new RegistrationSectionPmo(user,
@@ -60,9 +57,10 @@ public class MessageUI extends UI {
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         AbstractSection section = sectionFactory.createSection(registrationPmo, bindingManager.getContext(getClass()));
 
-        VerticalLayout layout = new VerticalLayout(messagesPanel, section);
+        VerticalLayout layout = new VerticalLayout();
+        layout.add(messagesPanel, section);
         layout.setMargin(false);
-        setContent(layout);
+        add(layout);
     }
 
     private void handleRegistration(MessagesPanel messagesPanel, RegistrationSectionPmo userPmo) {

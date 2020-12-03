@@ -16,9 +16,8 @@ package org.linkki.core.ui.util;
 import java.util.Arrays;
 import java.util.Collection;
 
-import com.vaadin.data.HasItems;
-import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.HasSize;
+import com.vaadin.flow.data.binder.HasItems;
 
 public class UiUtil {
 
@@ -37,8 +36,8 @@ public class UiUtil {
         select.setItems(values);
     }
 
-    public static boolean isWidth100Pct(Component component) {
-        return component.getWidth() == 100.0f && component.getWidthUnits() == Unit.PERCENTAGE;
+    public static boolean isWidth100Pct(HasSize component) {
+        return component.getWidth().equals("100%") || component.getWidth().equals("100 %");
     }
 
 }

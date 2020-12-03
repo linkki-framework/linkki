@@ -18,7 +18,8 @@ import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.validation.message.Severity;
 
-import com.vaadin.shared.ui.ErrorLevel;
+import com.vaadin.flow.data.binder.ErrorLevel;
+
 
 public class SeverityErrorLevelConverter {
 

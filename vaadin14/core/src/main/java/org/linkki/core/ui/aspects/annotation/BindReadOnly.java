@@ -31,7 +31,7 @@ import org.linkki.core.ui.bind.annotation.Bind;
  * UI-annotations or {@link Bind}.
  * 
  * @see BindReadOnlyBehavior If the component you want to bind does not have a natural read-only
- *      property (i.e. a {@link com.vaadin.ui.Button}).
+ *      property (i.e. a {@link com.vaadin.flow.component.button.Button}).
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD, ElementType.METHOD })

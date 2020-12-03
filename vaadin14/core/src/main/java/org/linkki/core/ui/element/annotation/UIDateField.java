@@ -44,10 +44,10 @@ import org.linkki.core.ui.element.bindingdefinitions.DateFieldBindingDefinition;
 import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
-import com.vaadin.data.Converter;
+import com.vaadin.flow.data.converter.Converter;
 
 /**
- * A field for date input, in accordance with {@link com.vaadin.ui.DateField}.
+ * A field for date input, in accordance with {@link com.vaadin.flow.component.datepicker.DatePicker}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -40,7 +40,7 @@ public class AbstractSectionTest {
         private static final long serialVersionUID = 1L;
 
         public HorizontalLayout getHeader() {
-            HorizontalLayout header = (HorizontalLayout)getComponent(0);
+            HorizontalLayout header = (HorizontalLayout)getComponentAt(0);
             assertThat(header, is(notNullValue()));
             return header;
         }
@@ -57,11 +57,11 @@ public class AbstractSectionTest {
     public void testHeader_Caption() {
         TestSection section = new TestSection("CAP", false);
         HorizontalLayout header = section.getHeader();
-        Label captionLabel = (Label)header.getComponent(0);
+        Span captionLabel = (Span)header.getComponentAt(0);
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(true));
-        assertThat(captionLabel.getValue(), is("CAP"));
+        assertThat(captionLabel.getText(), is("CAP"));
     }
 
     @Test
@@ -69,8 +69,8 @@ public class AbstractSectionTest {
         TestSection section = new TestSection("", true);
 
         HorizontalLayout header = section.getHeader();
-        Label captionLabel = (Label)header.getComponent(0);
-        Button closeButton = (Button)header.getComponent(1);
+        Span captionLabel = (Span)header.getComponentAt(0);
+        Button closeButton = (Button)header.getComponentAt(1);
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(false));
@@ -82,16 +82,16 @@ public class AbstractSectionTest {
         TestSection section = new TestSection("", true);
 
         HorizontalLayout header = section.getHeader();
-        Button closeButton = (Button)header.getComponent(1);
+        Button closeButton = (Button)header.getComponentAt(1);
 
-        assertThat(closeButton.getStyleName(), containsString(LinkkiTheme.BUTTON_TEXT));
+        assertThat(closeButton.getClassName(), containsString(LinkkiTheme.BUTTON_TEXT));
     }
 
     @Test
     public void testHeader_AddHeaderButton() {
         TestSection section = new TestSection("", false);
         HorizontalLayout header = section.getHeader();
-        Label captionLabel = (Label)header.getComponent(0);
+        Span captionLabel = (Span)header.getComponentAt(0);
 
         assertThat(header.isVisible(), is(false));
         assertThat(captionLabel.isVisible(), is(false));
@@ -107,28 +107,28 @@ public class AbstractSectionTest {
     public void testSetCaption() {
         TestSection section = new TestSection("CAP", false);
         HorizontalLayout header = section.getHeader();
-        Label captionLabel = (Label)header.getComponent(0);
+        Span captionLabel = (Span)header.getComponentAt(0);
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(true));
-        assertThat(captionLabel.getValue(), is("CAP"));
+        assertThat(captionLabel.getText(), is("CAP"));
 
         section.setCaption("TION");
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(true));
-        assertThat(captionLabel.getValue(), is("TION"));
+        assertThat(captionLabel.getText(), is("TION"));
     }
 
     @Test
     public void testSetCaption_Null() {
         TestSection section = new TestSection("CAP", false);
         HorizontalLayout header = section.getHeader();
-        Label captionLabel = (Label)header.getComponent(0);
+        Span captionLabel = (Span)header.getComponentAt(0);
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(true));
-        assertThat(captionLabel.getValue(), is("CAP"));
+        assertThat(captionLabel.getText(), is("CAP"));
 
         section.setCaption(null);
 
@@ -140,11 +140,11 @@ public class AbstractSectionTest {
     public void testSetCaption_Empty() {
         TestSection section = new TestSection("CAP", false);
         HorizontalLayout header = section.getHeader();
-        Label captionLabel = (Label)header.getComponent(0);
+        Span captionLabel = (Span)header.getComponentAt(0);
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(true));
-        assertThat(captionLabel.getValue(), is("CAP"));
+        assertThat(captionLabel.getText(), is("CAP"));
 
         section.setCaption("");
 
@@ -164,20 +164,20 @@ public class AbstractSectionTest {
         section.addHeaderButton(button1);
 
         assertThat(header.getComponentCount(), is(4));
-        assertThat(header.getComponent(1), is(button1));
+        assertThat(header.getComponentAt(1), is(button1));
 
         Button button2 = new Button();
         section.addHeaderButton(button2);
 
         assertThat(header.getComponentCount(), is(5));
-        assertThat(header.getComponent(1), is(button2));
-        assertThat(header.getComponent(2), is(button1));
+        assertThat(header.getComponentAt(1), is(button2));
+        assertThat(header.getComponentAt(2), is(button1));
 
         section.setCaption("UPDATE");
 
         assertThat(header.getComponentCount(), is(5));
-        assertThat(header.getComponent(1), is(button2));
-        assertThat(header.getComponent(2), is(button1));
+        assertThat(header.getComponentAt(1), is(button2));
+        assertThat(header.getComponentAt(2), is(button1));
     }
 
     @Test
@@ -187,7 +187,7 @@ public class AbstractSectionTest {
 
         section.addHeaderButton(button1);
 
-        assertThat(button1.getStyleName(), containsString(LinkkiTheme.BUTTON_TEXT));
+        assertThat(button1.getClassName(), containsString(LinkkiTheme.BUTTON_TEXT));
     }
 
 }

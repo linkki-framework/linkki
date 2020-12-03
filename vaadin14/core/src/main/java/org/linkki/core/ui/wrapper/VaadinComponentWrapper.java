@@ -23,15 +23,11 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.ui.validation.message.SeverityErrorLevelConverter;
-import org.linkki.util.HtmlSanitizer;
 
-import com.vaadin.server.AbstractErrorMessage.ContentMode;
-import com.vaadin.server.UserError;
-import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Component;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentUtil;
+import com.vaadin.flow.component.HasEnabled;
+import com.vaadin.flow.component.HasValidation;
 
 /**
  * Base class to wrap vaadin components.
@@ -56,7 +52,10 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setEnabled(boolean enabled) {
-        component.setEnabled(enabled);
+        if (component instanceof HasEnabled) {
+            HasEnabled field = (HasEnabled)component;
+            field.setEnabled(enabled);
+        }
     }
 
     @Override
@@ -66,10 +65,7 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setTooltip(String text) {
-        if (component instanceof AbstractComponent) {
-            String tooltip = HtmlSanitizer.sanitize(text);
-            ((AbstractComponent)component).setDescription(tooltip, com.vaadin.shared.ui.ContentMode.HTML);
-        }
+        // TODO LIN-2054
     }
 
     @Override
@@ -79,18 +75,11 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setValidationMessages(MessageList messagesForProperty) {
-        if (component instanceof AbstractComponent) {
-            AbstractComponent field = (AbstractComponent)component;
-            field.setComponentError(getErrorHandler(messagesForProperty));
+        if (component instanceof HasValidation) {
+            HasValidation field = (HasValidation)component;
+            field.setErrorMessage(formatMessages(messagesForProperty));
+            field.setInvalid(messagesForProperty.containsErrorMsg());
         }
-    }
-
-    @CheckForNull
-    private UserError getErrorHandler(MessageList messages) {
-        return messages.getSeverity()
-                .map(SeverityErrorLevelConverter::convertToErrorLevel)
-                .map(e -> new UserError(formatMessages(messages), ContentMode.PREFORMATTED, e))
-                .orElse(null);
     }
 
     private String formatMessages(MessageList messages) {
@@ -101,10 +90,11 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     @Override
     public void registerBinding(Binding binding) {
-        if (((AbstractComponent)component).getData() != null) {
-            throw new RuntimeException("Data was not empty, component was already bound or data was used by others.");
+        if (ComponentUtil.getData(component, Binding.class) != null) {
+            throw new RuntimeException("Data was not empty, component was already bound");
         }
-        ((AbstractComponent)component).setData(binding);
+
+        ComponentUtil.setData(component, Binding.class, binding);
     }
 
     @Override

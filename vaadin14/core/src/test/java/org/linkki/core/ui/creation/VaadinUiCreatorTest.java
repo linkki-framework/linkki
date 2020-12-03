@@ -28,8 +28,8 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.textfield.TextField;
 
 public class VaadinUiCreatorTest {
 

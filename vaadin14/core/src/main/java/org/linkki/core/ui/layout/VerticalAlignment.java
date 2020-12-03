@@ -14,23 +14,24 @@
 
 package org.linkki.core.ui.layout;
 
-import com.vaadin.shared.ui.AlignmentInfo;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 
 /**
  * Defines how the child components should be vertically aligned in the parent component.
  */
+// TODO LIN-2058
 public enum VerticalAlignment {
-    TOP(AlignmentInfo.TOP),
-    MIDDLE(AlignmentInfo.MIDDLE),
-    BOTTOM(AlignmentInfo.BOTTOM);
+    TOP(Alignment.START),
+    MIDDLE(Alignment.CENTER),
+    BOTTOM(Alignment.END);
 
-    private final AlignmentInfo alignmentInfo;
+    private final Alignment alignment;
 
-    private VerticalAlignment(AlignmentInfo alignmentInfo) {
-        this.alignmentInfo = alignmentInfo;
+    private VerticalAlignment(Alignment alignment) {
+        this.alignment = alignment;
     }
 
-    public AlignmentInfo getAlignmentInfo() {
-        return alignmentInfo;
+    public Alignment getAlignment() {
+        return alignment;
     }
 }

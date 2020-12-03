@@ -13,8 +13,8 @@
  */
 package org.linkki.core.ui.aspects;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -27,12 +27,12 @@ import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.mock.MockUi;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 
-import com.vaadin.data.Converter;
-import com.vaadin.data.Result;
-import com.vaadin.data.ValueContext;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.data.binder.Result;
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.server.VaadinSession;
 
 public class LabelValueAspectDefinitionTest {
 
@@ -44,18 +44,18 @@ public class LabelValueAspectDefinitionTest {
 
     @Test
     public void testCreateComponentValueSetter_SetsString() {
-        Label label = new Label();
+        Span label = new Span();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new LabelComponentWrapper(label));
 
         valueSetter.accept("foo");
 
-        assertThat(label.getValue(), is("foo"));
+        assertThat(label.getText(), is("foo"));
     }
 
     @Test
     public void testCreateComponentValueSetter_UsesToString() {
-        Label label = new Label();
+        Span label = new Span();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new LabelComponentWrapper(label));
 
@@ -66,24 +66,24 @@ public class LabelValueAspectDefinitionTest {
             }
         });
 
-        assertThat(label.getValue(), is("bar"));
+        assertThat(label.getText(), is("bar"));
     }
 
     @Test
     public void testCreateComponentValueSetter_UsesStandardConverter() {
-        Label label = new Label();
+        Span label = new Span();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new LabelComponentWrapper(label));
 
         valueSetter.accept(Integer.valueOf(123456));
 
         // default is Locale.GERMAN
-        assertThat(label.getValue(), is("123.456"));
+        assertThat(label.getText(), is("123.456"));
     }
 
     @Test
     public void testCreateComponentValueSetter_UsesStandardConverter_DependingOnUiLocale() {
-        Label label = new Label();
+        Span label = new Span();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new LabelComponentWrapper(label));
 
@@ -92,12 +92,12 @@ public class LabelValueAspectDefinitionTest {
 
         valueSetter.accept(Integer.valueOf(123456));
 
-        assertThat(label.getValue(), is("123,456"));
+        assertThat(label.getText(), is("123,456"));
     }
 
     @Test
     public void testCreateComponentValueSetter_UsesCustomConverter() {
-        Label label = new Label();
+        Span label = new Span();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition()
                 .createComponentValueSetter(new LabelComponentWrapper(label));
 
@@ -125,7 +125,7 @@ public class LabelValueAspectDefinitionTest {
 
         valueSetter.accept(FooBar.FOO);
 
-        assertThat(label.getValue(), is("Foo"));
+        assertThat(label.getText(), is("Foo"));
     }
 
     private enum FooBar {

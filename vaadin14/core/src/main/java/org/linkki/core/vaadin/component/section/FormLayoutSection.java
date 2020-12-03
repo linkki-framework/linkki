@@ -13,10 +13,9 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Span;
 
 public class FormLayoutSection extends BaseSection {
 
@@ -34,14 +33,15 @@ public class FormLayoutSection extends BaseSection {
         super(caption, closeable);
         setWidth("100%");
         content = createContent();
-        addComponent(content);
+        add(content);
     }
 
     private FormLayout createContent() {
         FormLayout formLayout = new FormLayout();
         formLayout.setWidth("100%");
-        formLayout.setMargin(new MarginInfo(true, true, true, true));
-        formLayout.setSpacing(true);
+        // TODO LIN-2049
+        // formLayout.setMargin(new MarginInfo(true, true, true, true));
+        // formLayout.setSpacing(true);
         return formLayout;
     }
 
@@ -50,8 +50,8 @@ public class FormLayoutSection extends BaseSection {
      * {@link FormLayout} uses the {@link Component}'s caption.
      */
     @Override
-    public void add(String propertyName, Label label, Component component) {
-        content.addComponent(component);
+    public void add(String propertyName, Span label, Component component) {
+        content.add(component);
     }
 
 
