@@ -13,8 +13,6 @@
  */
 package org.linkki.core.ui.layout.annotation;
 
-import org.linkki.core.vaadin.component.section.CustomLayoutSection;
-
 /**
  * The options for the layout pattern of a section
  */
@@ -29,19 +27,5 @@ public enum SectionLayout {
      * <em>Consider using {@link UIFormSection} instead.</em>
      **/
     COLUMN,
-
-    /**
-     * Displays the section using a {@link CustomLayoutSection}.
-     * <p>
-     * With the {@link CustomLayoutSection} you need to specify a HTML file that defines the layout.
-     * <p>
-     * The name of the HTML file is the simple name of your PMO class. It has to be located in your
-     * theme folder in the subfolder layouts, for example
-     * <code>src/main/webapp/VAADIN/themes/valo/layouts</code>. The HTML file should contain
-     * <code>div</code> elements with the attribute <code>location</code> as placeholder for the labels
-     * and components. Use the PMO property name as placeholder name for the component and the PMO
-     * property name with the suffix <code>-label</code> as placeholder name for the label.
-     */
-    CUSTOM;
 
 }

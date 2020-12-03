@@ -18,7 +18,6 @@ import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.vaadin.component.section.BaseSection;
-import org.linkki.core.vaadin.component.section.CustomLayoutSection;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
 import org.linkki.core.vaadin.component.section.HorizontalSection;
 
@@ -58,8 +57,6 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
                 return new FormLayoutSection(nlsCaption, closeable);
             case HORIZONTAL:
                 return new HorizontalSection(nlsCaption, closeable);
-            case CUSTOM:
-                return new CustomLayoutSection(pmo.getClass().getSimpleName(), nlsCaption, closeable);
             default:
                 throw new IllegalStateException("unknown SectionLayout#" + layout);
         }

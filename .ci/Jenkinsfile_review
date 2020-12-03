@@ -40,7 +40,6 @@ pipeline {
                     <h3>Vaadin 14 samples</h3>
                     <ul>
                         <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-messages-vaadin14">messages sample</a></li>
-                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-custom-layout-vaadin14">custom layout sample</a></li>
                         <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin14">getting started</a></li>
                     </ul>
                 '''

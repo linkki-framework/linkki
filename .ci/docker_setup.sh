@@ -50,7 +50,4 @@ docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/link
 WAR_FILE="vaadin14/samples/getting-started/target/linkki-getting-started-vaadin14.war"
 docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-getting-started-vaadin14.war
 
-WAR_FILE="vaadin14/samples/custom-layout/target/linkki-sample-custom-layout-vaadin14.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-custom-layout-vaadin14.war
-
 docker start $WILDFLY_NAME

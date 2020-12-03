@@ -27,7 +27,6 @@ import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.core.vaadin.component.section.CustomLayoutSection;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
 import org.linkki.core.vaadin.component.section.HorizontalSection;
 
@@ -71,13 +70,6 @@ public class PmoBasedSectionFactoryTest {
         AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new SectionWithHorizontalLayout(),
                                                                               bindingContext);
         assertThat(section, is(instanceOf(HorizontalSection.class)));
-    }
-
-    @Test
-    public void testSectionWithCustomLayout_shouldCreateCustomLayoutSection() {
-        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new SectionWithCustomLayout(),
-                                                                              bindingContext);
-        assertThat(section, is(instanceOf(CustomLayoutSection.class)));
     }
 
     @Test
@@ -128,11 +120,6 @@ public class PmoBasedSectionFactoryTest {
 
     @UISection(layout = SectionLayout.HORIZONTAL)
     private static class SectionWithHorizontalLayout {
-        // no content required
-    }
-
-    @UISection(layout = SectionLayout.CUSTOM)
-    private static class SectionWithCustomLayout {
         // no content required
     }
 

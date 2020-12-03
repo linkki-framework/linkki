@@ -22,7 +22,6 @@
     <modules>
         <module>getting-started</module>
         <module>messages</module>
-        <module>custom-layout</module>
     </modules>
 
 
