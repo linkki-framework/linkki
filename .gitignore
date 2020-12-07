@@ -20,3 +20,4 @@ target
 .idea
 **/.idea
 **/*.iml
+**/node_modules

@@ -20,17 +20,20 @@ import org.linkki.samples.gettingstarted.model.Report;
 import org.linkki.samples.gettingstarted.pmo.ReportSectionPmo;
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 
-public class GettingStartedUI extends UI {
+@Theme(Lumo.class)
+@Route("")
+public class GettingStartedUI extends Div {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    protected void init(VaadinRequest request) {
-
+    public GettingStartedUI() {
         UI.getCurrent().getPage().setTitle("linkki :: Getting Started");
-        // <2>
+
         AbstractSection section = PmoBasedSectionFactory.createAndBindSection(new ReportSectionPmo(new Report()),
                                                                               new BindingContext("report-context"));
 

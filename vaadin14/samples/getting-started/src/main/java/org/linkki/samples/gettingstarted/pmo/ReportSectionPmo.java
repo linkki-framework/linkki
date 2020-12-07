@@ -15,6 +15,7 @@ package org.linkki.samples.gettingstarted.pmo;
 
 import static java.util.Objects.requireNonNull;
 
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
@@ -49,7 +50,7 @@ public class ReportSectionPmo implements PresentationModelObject {
         // Use description from report (model object) directly
     }
 
-    @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED)
+    @UIComboBox(position = 20, label = "Type", modelAttribute = "type", required = RequiredType.REQUIRED, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL)
     public void type() {
         // - bind value to the property "type" from report
         // - use enum constants from ReportType as available values
@@ -63,6 +64,7 @@ public class ReportSectionPmo implements PresentationModelObject {
                 new Span(String.format("Report with id %d filed!", report.getId())),
                 new Span("Thank you for reporting!"));
         notification.setPosition(Position.TOP_CENTER);
+        notification.setDuration(3000);
         notification.open();
     }
 

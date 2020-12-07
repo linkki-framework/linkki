@@ -24,22 +24,24 @@ import org.linkki.samples.messages.model.User;
 import org.linkki.samples.messages.pmo.RegistrationSectionPmo;
 import org.linkki.samples.messages.pmo.RegistrationValidationService;
 
-import com.vaadin.flow.component.page.Page;
-import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class MessageUI extends UI {
+@Theme(Lumo.class)
+@Route("")
+public class MessageUI extends Div {
 
     private static final long serialVersionUID = 7735020388489427827L;
     private BindingManager bindingManager;
     private RegistrationValidationService validationService;
 
-    @Override
-    protected void init(VaadinRequest request) {
-
+    public MessageUI() {
         UI.getCurrent().getPage().setTitle("linkki Samples :: Validation Messages");
 
         VaadinSession.getCurrent().setAttribute(LinkkiConverterRegistry.class, new LinkkiConverterRegistry());

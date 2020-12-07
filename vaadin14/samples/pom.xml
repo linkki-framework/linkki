@@ -1,8 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- no parent because we want to be able to build the samples without any defined global dependencies or code-analysis -->
+    <!-- no parent because we want to be able to build the samples without 
+        any defined global dependencies or code-analysis -->
 
     <groupId>org.linkki-framework.samples</groupId>
     <artifactId>linkki-samples-vaadin14</artifactId>
@@ -17,6 +20,9 @@
         <java.version>1.8</java.version>
         <vaadin.version>14.4.4</vaadin.version>
         <spotbugs.version>3.1.12</spotbugs.version>
+
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <vaadin.productionMode>true</vaadin.productionMode>
     </properties>
 
     <modules>
@@ -24,20 +30,21 @@
         <module>messages</module>
     </modules>
 
-
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <type>pom</type>
+                <scope>import</scope>
+                <version>${vaadin.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>3.1.0</version>
                 <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-core</artifactId>
-                <version>${vaadin.version}</version>
             </dependency>
 
             <dependency>
@@ -63,7 +70,8 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- otherwise we get warnings in eclipse that annotations can not be resolved -->
+        <!-- otherwise we get warnings in eclipse that annotations can not 
+            be resolved -->
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
@@ -73,7 +81,6 @@
 
 
     <build>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -85,7 +92,8 @@
                     <showDeprecation>true</showDeprecation>
                     <compilerArgs>
                         <arg>-Xlint</arg>
-                        <!-- Because the eclipse compiler and javac differ: https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
+                        <!-- Because the eclipse compiler and javac differ: 
+                            https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
                         <arg>-Xlint:-varargs</arg>
                     </compilerArgs>
                 </configuration>
@@ -98,11 +106,13 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <!-- at the moment we do not check missing javadoc like missing @param or @return -->
+                    <!-- at the moment we do not check missing javadoc like 
+                        missing @param or @return -->
                     <doclint>accessibility,html,reference,syntax</doclint>
                     <tags>
                         <tag>
@@ -123,12 +133,13 @@
                     </tags>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.tomee.maven</groupId>
                 <artifactId>tomee-maven-plugin</artifactId>
             </plugin>
-
         </plugins>
+        
         <pluginManagement>
             <plugins>
                 <plugin>
