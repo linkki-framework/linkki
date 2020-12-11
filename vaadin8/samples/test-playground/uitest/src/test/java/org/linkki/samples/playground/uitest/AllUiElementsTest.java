@@ -203,7 +203,7 @@ public class AllUiElementsTest extends AbstractUiTest {
         HorizontalLayoutElement horizontalLayout = $(HorizontalLayoutElement.class).id("HorizontalLayoutPmo");
         assertThat("Caption of UIHorizontalLayout is bindable", horizontalLayout.getCaption(),
                    is("UIHorizontalLayout"));
-        assertThat(horizontalLayout.$(TextFieldElement.class).all().size(), is(1));
+        assertThat(horizontalLayout.$(TextFieldElement.class).all().size(), is(2));
         assertThat(horizontalLayout.$(LabelElement.class).all().size(), is(1));
         assertThat(horizontalLayout.$(ButtonElement.class).all().size(), is(1));
         assertThat(horizontalLayout.$(CheckBoxElement.class).all().size(), is(1));

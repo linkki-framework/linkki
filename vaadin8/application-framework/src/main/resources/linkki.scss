@@ -325,7 +325,7 @@ $linkki-label-alignment: right !default;
         right: 0;
     }
     // additional space to compensate paddings of the required indicator
-    margin-right: 2 * .2em;
+    margin-right: .3em;
   }
 
   .linkki-label-caption.linkki-required:after {
@@ -333,21 +333,25 @@ $linkki-label-alignment: right !default;
     position: absolute;
     color: $v-required-field-indicator-color;
     // mimics the required indicator of form layout
-    padding: 0 .2em;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    padding: 0 .1em;
+    margin-top: -0.5em;
   }
 
   .v-caption-linkki-required > .v-required-field-indicator{
     display: none;
     padding: 0;
   }
+  
+  /* 
+   * Required-indicators are moved closer to their labels and moved up
+   */
+  .v-required-field-indicator {
+    padding: 0 0.1em;
+    margin-top: -0.5em;
+  }
 
-  .linkki-section .v-formlayout .v-required-field-indicator {
-    position: absolute; 
+  .v-formlayout .v-required-field-indicator {
+    position: absolute;
   }
 
   .v-button.linkki-button-text {

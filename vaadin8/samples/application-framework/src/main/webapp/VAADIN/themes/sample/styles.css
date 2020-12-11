@@ -15714,19 +15714,15 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 16px;
 	font-weight: 300;
 	right: 0;
-	margin-right: 0.4em;
+	margin-right: 0.3em;
 }
 
 .sample .linkki-label-caption.linkki-required:after {
 	content: "*";
 	position: absolute;
 	color: #ed473b;
-	padding: 0 0.2em;
-	top: 50%;
-	-webkit-transform: translateY(-50%);
-	-moz-transform: translateY(-50%);
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
+	padding: 0 0.1em;
+	margin-top: -0.5em;
 }
 
 .sample .v-caption-linkki-required > .v-required-field-indicator {
@@ -15734,7 +15730,12 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0;
 }
 
-.sample .linkki-section .v-formlayout .v-required-field-indicator {
+.sample .v-required-field-indicator {
+	padding: 0 0.1em;
+	margin-top: -0.5em;
+}
+
+.sample .v-formlayout .v-required-field-indicator {
 	position: absolute;
 }
 
