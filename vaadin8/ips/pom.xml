@@ -11,7 +11,7 @@
     <name>linkki Extension for Faktor-IPS with Vaadin 8</name>
 
     <properties>
-        <faktorips.version>20.12.0-rc01</faktorips.version>
+        <faktorips.version>20.12.0</faktorips.version>
     </properties>
 
     <dependencies>

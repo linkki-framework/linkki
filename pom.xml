@@ -259,7 +259,8 @@
                     </analysisConfigurationFiles>
                     <failOnMissingConfigurationFiles>false</failOnMissingConfigurationFiles>
                     <analysisConfiguration>
-                        <!-- over all configuration - https://revapi.org/modules/revapi-java/index.html -->
+                        <!-- over all configuration - https://revapi.org/revapi-maven-plugin/configuring-revapi.html
+                        and https://revapi.org/revapi-java/differences.html -->
                         <revapi.java>
                             <checks>
                                 <nonPublicPartOfAPI>
@@ -267,6 +268,14 @@
                                 </nonPublicPartOfAPI>
                             </checks>
                         </revapi.java>
+                        <revapi.differences>
+                            <differences>
+                                <difference>
+                                    <ignore>true</ignore>
+                                    <code>java.class.defaultSerializationChanged</code>
+                                </difference>
+                            </differences>
+                        </revapi.differences>
                         <revapi.semver.ignore>
                             <enabled>true</enabled>
                             <passThroughDifferences>
