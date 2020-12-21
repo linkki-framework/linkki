@@ -13,12 +13,7 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import java.util.Optional;
-
-import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
-
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -30,7 +25,7 @@ public class HorizontalSection extends BaseSection {
 
     private static final long serialVersionUID = 1L;
 
-    private HorizontalLayout content;
+    private final HorizontalLayout content;
 
     /**
      * Creates a new section with the given caption that is not closable.
@@ -46,23 +41,7 @@ public class HorizontalSection extends BaseSection {
      * @param closeable <code>true</code> if the section can be closed/opened.
      */
     public HorizontalSection(String caption, boolean closeable) {
-        this(caption, closeable, Optional.empty());
-    }
-
-    /**
-     * Creates a new section with the given caption.
-     * 
-     * @param caption the caption
-     * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param editButton If present the section has an edit button in the header.
-     * @deprecated since 2019-04-09; Use {@link HorizontalSection#HorizontalSection(String, boolean)}
-     *             instead, as the {@code editButton} should be added by the
-     *             {@link LinkkiLayoutDefinition} via {@link #addHeaderButton(Button)}.
-     */
-    @Deprecated
-    public HorizontalSection(String caption, boolean closeable, Optional<Button> editButton) {
         super(caption, closeable);
-        editButton.ifPresent(this::addHeaderButton);
         content = new HorizontalLayout();
         super.add(content);
     }

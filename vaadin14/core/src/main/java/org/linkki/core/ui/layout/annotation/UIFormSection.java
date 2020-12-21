@@ -57,7 +57,7 @@ public @interface UIFormSection {
         public LinkkiComponentDefinition create(UIFormSection uiFormSection, AnnotatedElement annotatedElement) {
             return pmo -> new FormLayoutSection(
                     PmoNlsService.get().getSectionCaption(pmo.getClass(), uiFormSection.caption()),
-                    uiFormSection.closeable());
+                    1, uiFormSection.closeable());
         }
     }
 
@@ -65,7 +65,7 @@ public @interface UIFormSection {
 
         @Override
         public LinkkiLayoutDefinition create(UIFormSection annotation, AnnotatedElement annotatedElement) {
-            return SectionLayoutDefinition.CAPTION_ONLY;
+            return SectionLayoutDefinition.DEFAULT;
         }
 
     }

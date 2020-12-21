@@ -23,6 +23,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -44,7 +45,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     private Object defaultModelObject;
     private P defaultPmo;
     private BindingContext bindingContext;
-    private Function<Object, ? extends P> pmoCreator;
+    private final Function<Object, ? extends P> pmoCreator;
     private Supplier<Object> modelObjectSupplier;
     private FormLayout defaultSection;
 
@@ -74,6 +75,11 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
 
         bindingContext = new BindingContext();
         defaultSection = TestUiUtil.createSectionWith(defaultPmo, bindingContext);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        UI.setCurrent(null);
     }
 
     BindingContext getBindingContext() {

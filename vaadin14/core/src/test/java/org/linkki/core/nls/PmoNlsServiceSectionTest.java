@@ -38,9 +38,9 @@ public class PmoNlsServiceSectionTest {
 
     private Button buttonWithTranslatedCaption;
 
-    // TODO LIN-2057
-    // private String textfieldLabelWithoutTranslation;
-    // private String textfieldLabelWithTranslation;
+    private String textfieldLabelWithoutTranslation;
+
+    private String textfieldLabelWithTranslation;
 
     private String textfieldLabelTranslation;
 
@@ -59,9 +59,8 @@ public class PmoNlsServiceSectionTest {
         sectionHeader = (Span)header.getComponentAt(0);
         FormLayout sectionContent = ((FormLayoutSection)section).getSectionContent();
 
-        // TODO LIN-2057
-        // textfieldLabelWithTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 0);
-        // textfieldLabelWithoutTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 1);
+        textfieldLabelWithTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 0);
+        textfieldLabelWithoutTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 1);
         buttonWithTranslatedCaption = (Button)TestUiUtil.getComponentAtIndex(2, sectionContent);
         buttonWithoutTranslatedCaption = (Button)TestUiUtil.getComponentAtIndex(3, sectionContent);
 
@@ -98,10 +97,9 @@ public class PmoNlsServiceSectionTest {
         assertThat(buttonWithoutTranslatedCaption.getText(), is(SamplePmo.PMO_CAPTION));
     }
 
-    // TODO LIN-2057
-    // @Test
-    // public void testLabels() {
-    // assertThat(textfieldLabelWithTranslation, is(textfieldLabelTranslation));
-    // assertThat(textfieldLabelWithoutTranslation, is(SamplePmo.PMO_LABEL));
-    // }
+    @Test
+    public void testLabels() {
+        assertThat(textfieldLabelWithTranslation, is(textfieldLabelTranslation));
+        assertThat(textfieldLabelWithoutTranslation, is(SamplePmo.PMO_LABEL));
+    }
 }

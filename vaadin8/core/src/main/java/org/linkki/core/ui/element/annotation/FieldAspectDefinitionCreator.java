@@ -42,7 +42,8 @@ public class FieldAspectDefinitionCreator implements AspectDefinitionCreator<Ann
                 bindingDefinition.required(),
                 enabledAspectDefinition);
 
-        return new CompositeAspectDefinition(new LabelAspectDefinition(bindingDefinition.label()),
+        return new CompositeAspectDefinition(
+                new LabelAspectDefinition(bindingDefinition.label()),
                 enabledAspectDefinition,
                 requiredAspectDefinition,
                 new VisibleAspectDefinition(bindingDefinition.visible()),

@@ -51,12 +51,11 @@ public @interface UISection {
     SectionLayout layout() default SectionLayout.COLUMN;
 
     // TODO LIN-2072
-    // /**
-    // * Number of columns if the {@link SectionLayout#COLUMN} layout is used. Ignored if an other
-    // layout
-    // * is used.
-    // */
-    // int columns() default 1;
+    /**
+     * Number of columns if the {@link SectionLayout#COLUMN} layout is used. Ignored if an other layout
+     * is used.
+     */
+    int columns() default 1;
 
     /** The caption text for the section. */
     String caption() default "";
@@ -69,7 +68,8 @@ public @interface UISection {
         @Override
         public LinkkiComponentDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
             UISection uiSection = annotation;
-            return new SectionComponentDefiniton(uiSection.layout(), uiSection.caption(), uiSection.closeable());
+            return new SectionComponentDefiniton(uiSection.layout(), uiSection.columns(), uiSection.caption(),
+                    uiSection.closeable());
         }
 
     }
@@ -78,7 +78,7 @@ public @interface UISection {
 
         @Override
         public LinkkiLayoutDefinition create(UISection annotation, AnnotatedElement annotatedElement) {
-            return SectionLayoutDefinition.CAPTION_ONLY;
+            return SectionLayoutDefinition.DEFAULT;
         }
 
     }

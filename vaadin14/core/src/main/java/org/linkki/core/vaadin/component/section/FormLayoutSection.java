@@ -15,6 +15,8 @@ package org.linkki.core.vaadin.component.section;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
+import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep.LabelsPosition;
 import com.vaadin.flow.component.html.Span;
 
 public class FormLayoutSection extends BaseSection {
@@ -23,14 +25,18 @@ public class FormLayoutSection extends BaseSection {
 
     private final FormLayout content;
 
+    private final int columns;
+
     /**
      * Creates a new section with the given caption and closable state.
      * 
      * @param caption the caption
+     * @param columns number of columns that should be used by default
      * @param closeable <code>true</code> if the section can be closed and opened.
      */
-    public FormLayoutSection(String caption, boolean closeable) {
+    public FormLayoutSection(String caption, int columns, boolean closeable) {
         super(caption, closeable);
+        this.columns = columns;
         setWidth("100%");
         content = createContent();
         add(content);
@@ -38,6 +44,7 @@ public class FormLayoutSection extends BaseSection {
 
     private FormLayout createContent() {
         FormLayout formLayout = new FormLayout();
+        formLayout.setResponsiveSteps(new ResponsiveStep("0", columns, LabelsPosition.ASIDE));
         formLayout.setWidth("100%");
         // TODO LIN-2049
         // formLayout.setMargin(new MarginInfo(true, true, true, true));
@@ -51,7 +58,7 @@ public class FormLayoutSection extends BaseSection {
      */
     @Override
     public void add(String propertyName, Span label, Component component) {
-        content.add(component);
+        content.addFormItem(component, label);
     }
 
 

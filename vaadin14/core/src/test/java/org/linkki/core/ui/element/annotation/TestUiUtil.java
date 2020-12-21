@@ -31,6 +31,8 @@ import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.AbstractSinglePropertyField;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.data.binder.HasItems;
 
 public final class TestUiUtil {
@@ -75,6 +77,8 @@ public final class TestUiUtil {
     @SuppressWarnings("unchecked")
     public static <T> T getComponentById(FormLayout layout, String id) {
         return (T)layout.getChildren()
+                .map(c -> (FormItem)c)
+                .map(fi -> fi.getChildren().findFirst().get())
                 .filter(c -> c.getId().isPresent())
                 .filter(c -> Objects.equals(c.getId().get(), id))
                 .findFirst()
@@ -83,8 +87,9 @@ public final class TestUiUtil {
 
     @SuppressWarnings("unused")
     public static String getLabelOfComponentAt(FormLayout layout, int row) {
-        // TODO LIN-2051
-        return "";
+        List<Component> children = layout.getChildren().collect(Collectors.toList());
+        FormItem formItem = (FormItem)children.get(row);
+        return ((Span)formItem.getChildren().collect(Collectors.toList()).get(1)).getText();
     }
 
     @SuppressWarnings("unused")
@@ -110,6 +115,12 @@ public final class TestUiUtil {
 
     public static Component getComponentAtIndex(int index, Component component) {
         List<Component> children = component.getChildren().collect(Collectors.toList());
-        return children.get(index);
+        Component componentAtIndex = children.get(index);
+        if (componentAtIndex instanceof FormItem) {
+            FormItem formItem = (FormItem)componentAtIndex;
+            return formItem.getChildren().collect(Collectors.toList()).get(0);
+        } else {
+            return componentAtIndex;
+        }
     }
 }

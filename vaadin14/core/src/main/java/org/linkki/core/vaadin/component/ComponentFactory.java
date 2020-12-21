@@ -144,7 +144,7 @@ public class ComponentFactory {
 
         if (rows > 0) {
             // TODO LIN-2059
-            textArea.setHeight(rows + "em");
+            textArea.setHeight((rows + 2) + "em");
         }
         return textArea;
     }
