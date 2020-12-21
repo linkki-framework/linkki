@@ -28,6 +28,7 @@
     <modules>
         <module>getting-started</module>
         <module>messages</module>
+        <module>test-playground</module>
     </modules>
 
     <dependencyManagement>

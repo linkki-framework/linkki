@@ -40,6 +40,13 @@ pipeline {
                         <li><a href="http://linkki-master.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8/main">test playground</a></li>
                         <li><a href="http://linkki-master.dockerhost.i.faktorzehn.de/linkki-sample-ips-vaadin8">IPS sample</a></li>
                     </ul>
+                    <br>
+                    <h3>Vaadin 14 samples</h3>
+                    <ul>
+                        <li><a href="http://linkki-master.dockerhost.i.faktorzehn.de/linkki-sample-messages-vaadin14">messages sample</a></li>
+                        <li><a href="http://linkki-master.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin14">getting started</a></li>
+                        <li><a href="http://linkki-master.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14">test playground</a></li>
+                    </ul>
                 '''
 
                 sleep 10
