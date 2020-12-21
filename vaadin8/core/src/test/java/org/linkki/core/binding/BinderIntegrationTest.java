@@ -35,6 +35,7 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.annotation.BindVisible;
 import org.linkki.core.ui.bind.annotation.Bind;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
 
@@ -68,7 +69,7 @@ public class BinderIntegrationTest {
         // Precondition
         assertThat(pmo.getClickCount(), is(0));
 
-        assertThat(bindingContext.getBindings(), hasSize(4));
+        assertThat(bindingContext.getBindings(), hasSize(5));
 
         // Binding pmo -> view
         assertThat(view.textField.getDescription(), is(TestPmo.TEST_TOOLTIP));
@@ -99,6 +100,12 @@ public class BinderIntegrationTest {
         assertThat(pmo.getNumber(), is(42));
         assertThat(pmo.getText(), is("bar"));
         assertThat(pmo.getClickCount(), is(2));
+
+        // Default true, change to false
+        assertThat(view.visibleButton.isVisible(), is(true));
+        pmo.setVisibleButtonVisible(false);
+        bindingContext.modelChanged();
+        assertThat(view.visibleButton.isVisible(), is(false));
     }
 
     @Test
@@ -315,6 +322,10 @@ public class BinderIntegrationTest {
         @BindTooltip
         private Button button = new Button();
 
+        @Bind(pmoProperty = TestPmo.VISIBLE_BUTTON)
+        @BindVisible
+        private Button visibleButton = new Button();
+
         @Bind(pmoProperty = TestPmo.PROPERTY_SOMEOTHERTEXT, availableValues = AvailableValuesType.DYNAMIC, enabled = EnabledType.DISABLED, required = RequiredType.REQUIRED)
         private ListSelect<String> listSelect = new ListSelect<>();
 
@@ -414,6 +425,7 @@ public class BinderIntegrationTest {
 
         public static final String METHOD_ON_CLICK = "onClick";
         public static final String TEST_TOOLTIP = "test";
+        public static final String VISIBLE_BUTTON = "visibleButton";
 
         private TestModelObject modelObject = new TestModelObject();
         private TestModelObject modelObject2 = new TestModelObject();
@@ -428,6 +440,7 @@ public class BinderIntegrationTest {
         private boolean numberEnabled;
         private boolean numberRequired;
         private boolean textFieldRequired;
+        private boolean visibleButtonVisible = true;
 
         private boolean modelPropertyEnabled;
         private boolean requiredOnlyPropertyRequired;
@@ -456,6 +469,14 @@ public class BinderIntegrationTest {
 
         public void setTextRequired(boolean required) {
             this.textFieldRequired = required;
+        }
+
+        public boolean isVisibleButtonVisible() {
+            return visibleButtonVisible;
+        }
+
+        public void setVisibleButtonVisible(boolean visible) {
+            this.visibleButtonVisible = visible;
         }
 
         public String getSomeothertext() {

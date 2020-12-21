@@ -31,6 +31,7 @@ import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
+import org.linkki.core.ui.aspects.annotation.BindVisible;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.tooling.apt.compiler.SourceFile;
@@ -107,7 +108,7 @@ public class ModelBuilderTest extends BaseAnnotationProcessorTest {
                 AptComponent component = components.get(1);
                 assertTrue(component.isDynamicField());
                 assertEquals(component.getComponentDeclarations().size(), 2);
-                assertEquals(component.getAspectBindings().size(), 1);
+                assertEquals(component.getAspectBindings().size(), 2);
 
                 {
                     AptComponentDeclaration componentDeclaration1 = component.getComponentDeclarations().get(0);
@@ -147,6 +148,13 @@ public class ModelBuilderTest extends BaseAnnotationProcessorTest {
                 assertEquals(attribute2.getName(), "tooltipType");
                 assertEquals(((VariableElement)attribute2.getValue()).getSimpleName().toString(),
                              TooltipType.AUTO.name());
+
+                AptAspectBinding aspectBindingVisible = component.getAspectBindings().get(1);
+                assertEquals(aspectBindingVisible.getName(), BindVisible.class.getSimpleName());
+                assertEquals(aspectBindingVisible.getAttributes().size(), 0);
+                assertTrue(aspectBindingVisible.getElement().getSimpleName().contentEquals("lastname"));
+                assertTrue(pmo.getElement().getEnclosedElements().stream()
+                        .filter(e -> e.getSimpleName().contentEquals("isLastnameVisible")).findFirst().isPresent());
             }
         });
     }

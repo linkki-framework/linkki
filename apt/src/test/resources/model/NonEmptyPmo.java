@@ -16,6 +16,7 @@
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
+import org.linkki.core.ui.aspects.annotation.BindVisible;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
@@ -37,15 +38,19 @@ public class NonEmptyPmo {
     }
 
     @BindTooltip("lastname")
+    @BindVisible
     @UITextField(position = 20, label = "lastname", modelAttribute = Person.PROPERTY_LASTNAME)
     public void lastname() {
         // model binding
     }
 
-
     @UITextArea(position = 20, label = "lastname")
     public String getLastname() {
         return getModelObject().getLastname();
+    }
+    
+    public boolean isLastnameVisible() {
+        return true;
     }
 
 }

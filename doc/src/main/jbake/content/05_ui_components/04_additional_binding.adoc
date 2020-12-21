@@ -12,7 +12,7 @@
 Some aspects are crucial for the functionality of the <<ui-element, UI element>> and are thus directly <<embedded-aspects, embedded in the annotation>>. Besides those, *linkki* also provides some <<standalone-aspects, standalone aspect annotations>> that can be optionally applied to the <<ui-element, UI elements>>. 
 
 [[aspects-usage]]
-==== Apsects in a PMO
+==== Aspects in a PMO
 
 The following example shows two aspects for the property "name". 
 
@@ -103,6 +103,18 @@ WARNING: Fields marked as `required` are only visually highlighted. *No* validat
 
 Aspects can also be represented by a separate annotation. In this case, those annotations follow the naming convention `@Bind[AspectName]`. Several frequently used aspects are packaged with *linkki* as listed below. It is also very easy to create additional <<creating-aspects, custom aspect annotations>>. 
 
+[options="header"]
+|===
+| Standalone Annotation | Description
+| `<<tooltips, @BindTooltip>>` | `Tooltip handling, using default TooltipType.AUTO`
+| `<<bind-read-only, @BindReadOnly>>` | `Bind a component's read-only property. Exclusive to Components of type HasValue`
+| `<<bind-read-only-behavior, @BindReadOnlyBehavior>>` | `Automatically change enabled or visible behavior when in read-only mode.`
+| `<<bind-visible, @BindVisible>>` | `Visiblity handling, using default VisibleType.DYNAMIC`
+| `<<bind-style-names, @BindStyleNames>>` | `Provide style class names for a component`
+| `<<bind-caption, @BindCaption>>` | `Caption handling, using default CaptionType.AUTO`
+| `<<bind-icon, @BindIcon>>` | `Icon handling, using default IconType.AUTO`
+|===
+
 [[tooltips]]
 ===== Tooltips
 
@@ -173,6 +185,13 @@ The aspect has a value of type `ReadOnlyBehaviorType` with the following options
 |===
 
 TIP: `INVISIBLE` and `DISABLED` are especially useful for buttons which cannot be read-only. The type `WRITABLE` is useful for components which do not change data like an input field that is used to filter the content in the user interface.
+
+[[bind-visible]]
+===== Bind Visible
+
+`@BindVisible` changes a component's visibility from the PMO by invoking a method named `is[PropertyName]Visible()`.
+
+The aspect has a value of type `VisibiltyType` with the option `DYNAMIC`. Using this annotation, it is no longer necessary to specify the `visible` property with `VisibleType.DYNAMIC` in components, e.g. `@UILabel`.
 
 [[bind-style-names]]
 ===== Style Names

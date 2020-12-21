@@ -27,6 +27,7 @@ import javax.tools.ToolProvider;
 import org.apache.commons.io.FileUtils;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
+import org.linkki.core.ui.aspects.annotation.BindVisible;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
@@ -182,6 +183,7 @@ public class TestCompiler {
                       UITextField.class,
                       BindTooltip.class,
                       BindReadOnly.class,
+                      BindVisible.class,
                       UIYesNoComboBox.class);
     }
 }
