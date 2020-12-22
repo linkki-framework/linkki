@@ -67,7 +67,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
     public AbstractPage(PmoBasedSectionFactory sectionFactory) {
         super();
         this.sectionFactory = requireNonNull(sectionFactory, "sectionFactory must not be null");
-        setMargin(true);
+        setPadding(true);
     }
 
     /**

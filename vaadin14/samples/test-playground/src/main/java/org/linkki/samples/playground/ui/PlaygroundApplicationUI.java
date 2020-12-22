@@ -25,6 +25,7 @@ public class PlaygroundApplicationUI extends Div {
     private static final long serialVersionUID = 1L;
 
     public PlaygroundApplicationUI() {
+        setSizeFull();
         add(new PlaygroundView());
     }
 

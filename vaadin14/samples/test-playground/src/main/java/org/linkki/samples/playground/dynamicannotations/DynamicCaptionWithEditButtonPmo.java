@@ -71,7 +71,7 @@ public class DynamicCaptionWithEditButtonPmo implements PresentationModelObject 
 
             @Override
             public Object getButtonIcon() {
-                return VaadinIcon.AMBULANCE;
+                return VaadinIcon.AMBULANCE.create();
             }
         };
 

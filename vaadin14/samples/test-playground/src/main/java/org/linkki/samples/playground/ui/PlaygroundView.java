@@ -14,9 +14,19 @@
 
 package org.linkki.samples.playground.ui;
 
-import org.linkki.samples.playground.allelements.AllUiElementsTabsheetArea;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
+import org.linkki.samples.playground.allelements.AllUiElementsPage;
+import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
+
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.component.tabs.Tabs.Orientation;
 
 public class PlaygroundView extends Div {
 
@@ -27,9 +37,28 @@ public class PlaygroundView extends Div {
 
     private static final long serialVersionUID = 1L;
 
+    private final Tabs sidebarTabs;
+    private final Map<Tab, Component> sheetMap = new HashMap<>();
+    private final Div content = new Div();
+
     public PlaygroundView() {
-        add(new AllUiElementsTabsheetArea(false));
-        // add(new Tab(new AllUiElementsTabsheetArea(false)));
+        setSizeFull();
+        getStyle().set("overflow", "hidden");
+        this.sidebarTabs = new Tabs();
+        sidebarTabs.setOrientation(Orientation.VERTICAL);
+        sidebarTabs.getElement().getStyle().set("float", "left");
+        add(sidebarTabs);
+        sidebarTabs.addSelectedChangeListener(e -> {
+            content.removeAll();
+            Optional.ofNullable(sheetMap.get(e.getSelectedTab()))
+                    .ifPresent(c -> content.add(c));
+        });
+        add(content);
+        content.setHeight("100%");
+        content.getStyle().set("overflow", "auto");
+
+        createSheets();
+
         // TODO
         // boolean readOnlyMode = event.getParameterMap().containsKey(PARAM_READONLY);
         // addSidebarSheet(new AllUiElementsTabsheetArea(readOnlyMode));
@@ -43,6 +72,19 @@ public class PlaygroundView extends Div {
         // addSelectionListener(e -> Page.getCurrent()
         // .setUriFragment("!" + NAME + "/"
         // + PARAM_SHEET + "=" + e.getSelectedSheet().getId(), false));
+    }
+
+    public Tab addSheet(Component c, String caption) {
+        Tab tab = new Tab(caption);
+        sheetMap.put(tab, c);
+        sidebarTabs.add(tab);
+        return tab;
+    }
+
+    public void createSheets() {
+        addSheet(new AllUiElementsPage(() -> false), "All");
+        addSheet(new DynamicAnnotationsLayout(), "Dynamic");
+        addSheet(new BugCollectionLayout(), "Bugs");
     }
 
 }
