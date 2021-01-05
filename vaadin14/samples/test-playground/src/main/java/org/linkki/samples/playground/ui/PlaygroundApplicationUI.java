@@ -15,10 +15,9 @@ package org.linkki.samples.playground.ui;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
 
-@Theme(Lumo.class)
+// LIN-2013
+// @Theme(Lumo.class)
 @Route("")
 public class PlaygroundApplicationUI extends Div {
 

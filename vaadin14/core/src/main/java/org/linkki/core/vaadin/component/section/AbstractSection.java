@@ -25,7 +25,8 @@ import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -37,13 +38,14 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * and edit data. Optionally the section can be closed and opened. When the section is closed only the
  * header is shown.
  */
+@CssImport("./styles/styles.css")
 public abstract class AbstractSection extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
     private final HorizontalLayout header;
     private final List<Component> headerComponents = new ArrayList<>();
-    private final Span captionLabel;
+    private final H4 captionLabel;
     private final Button closeButton;
 
     private boolean open = true;
@@ -107,7 +109,6 @@ public abstract class AbstractSection extends VerticalLayout {
         headerLayout.add(captionLabel);
         headerLayout.add(closeButton);
 
-        headerLayout.add(ComponentFactory.newHorizontalLine());
         // TODO LIN-2049
         // headerLayout.setExpandRatio(line, 1);
         headerLayout.setMargin(false);
@@ -115,8 +116,8 @@ public abstract class AbstractSection extends VerticalLayout {
         return headerLayout;
     }
 
-    private static Span createCaption() {
-        return new Span();
+    private static H4 createCaption() {
+        return new H4();
     }
 
     private static Button createOpenCloseButton(Handler toggleCloseOpen) {
@@ -128,7 +129,7 @@ public abstract class AbstractSection extends VerticalLayout {
     }
 
     private boolean shouldHeaderBePresent() {
-        return !StringUtils.isEmpty(captionLabel.getText())
+        return !StringUtils.isEmpty(getCaption())
                 || this.closeButton.isVisible()
                 || !this.headerComponents.isEmpty();
     }

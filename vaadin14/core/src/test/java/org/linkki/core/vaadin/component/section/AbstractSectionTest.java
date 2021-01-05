@@ -24,7 +24,7 @@ import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -57,7 +57,7 @@ public class AbstractSectionTest {
     public void testHeader_Caption() {
         TestSection section = new TestSection("CAP", false);
         HorizontalLayout header = section.getHeader();
-        Span captionLabel = (Span)header.getComponentAt(0);
+        H4 captionLabel = getCaptionLabel(header);
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(true));
@@ -69,7 +69,7 @@ public class AbstractSectionTest {
         TestSection section = new TestSection("", true);
 
         HorizontalLayout header = section.getHeader();
-        Span captionLabel = (Span)header.getComponentAt(0);
+        H4 captionLabel = getCaptionLabel(header);
         Button closeButton = (Button)header.getComponentAt(1);
 
         assertThat(header.isVisible(), is(true));
@@ -91,7 +91,7 @@ public class AbstractSectionTest {
     public void testHeader_AddHeaderButton() {
         TestSection section = new TestSection("", false);
         HorizontalLayout header = section.getHeader();
-        Span captionLabel = (Span)header.getComponentAt(0);
+        H4 captionLabel = getCaptionLabel(header);
 
         assertThat(header.isVisible(), is(false));
         assertThat(captionLabel.isVisible(), is(false));
@@ -103,11 +103,16 @@ public class AbstractSectionTest {
         assertThat(captionLabel.isVisible(), is(false));
     }
 
+    private H4 getCaptionLabel(HorizontalLayout header) {
+        H4 captionLabel = (H4)header.getComponentAt(0);
+        return captionLabel;
+    }
+
     @Test
     public void testSetCaption() {
         TestSection section = new TestSection("CAP", false);
         HorizontalLayout header = section.getHeader();
-        Span captionLabel = (Span)header.getComponentAt(0);
+        H4 captionLabel = getCaptionLabel(header);
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(true));
@@ -124,7 +129,7 @@ public class AbstractSectionTest {
     public void testSetCaption_Null() {
         TestSection section = new TestSection("CAP", false);
         HorizontalLayout header = section.getHeader();
-        Span captionLabel = (Span)header.getComponentAt(0);
+        H4 captionLabel = getCaptionLabel(header);
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(true));
@@ -140,7 +145,7 @@ public class AbstractSectionTest {
     public void testSetCaption_Empty() {
         TestSection section = new TestSection("CAP", false);
         HorizontalLayout header = section.getHeader();
-        Span captionLabel = (Span)header.getComponentAt(0);
+        H4 captionLabel = getCaptionLabel(header);
 
         assertThat(header.isVisible(), is(true));
         assertThat(captionLabel.isVisible(), is(true));
@@ -157,25 +162,25 @@ public class AbstractSectionTest {
         TestSection section = new TestSection("CAP", true);
         HorizontalLayout header = section.getHeader();
 
-        assertThat(header.getComponentCount(), is(3)); // caption label, close button, line
+        assertThat(header.getComponentCount(), is(2)); // caption label and close button. line is css
         assertThat(header.isVisible(), is(true));
 
         Button button1 = new Button();
         section.addHeaderButton(button1);
 
-        assertThat(header.getComponentCount(), is(4));
+        assertThat(header.getComponentCount(), is(3));
         assertThat(header.getComponentAt(1), is(button1));
 
         Button button2 = new Button();
         section.addHeaderButton(button2);
 
-        assertThat(header.getComponentCount(), is(5));
+        assertThat(header.getComponentCount(), is(4));
         assertThat(header.getComponentAt(1), is(button2));
         assertThat(header.getComponentAt(2), is(button1));
 
         section.setCaption("UPDATE");
 
-        assertThat(header.getComponentCount(), is(5));
+        assertThat(header.getComponentCount(), is(4));
         assertThat(header.getComponentAt(1), is(button2));
         assertThat(header.getComponentAt(2), is(button1));
     }

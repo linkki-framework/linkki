@@ -29,12 +29,12 @@ import org.linkki.core.vaadin.component.section.FormLayoutSection;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class PmoNlsServiceSectionTest {
 
-    private Span sectionHeader;
+    private H4 sectionHeader;
 
     private Button buttonWithTranslatedCaption;
 
@@ -56,7 +56,7 @@ public class PmoNlsServiceSectionTest {
         BindingContext context = new BindingContext();
         AbstractSection section = new PmoBasedSectionFactory().createSection(new SamplePmo(), context);
         HorizontalLayout header = (HorizontalLayout)section.getComponentAt(0);
-        sectionHeader = (Span)header.getComponentAt(0);
+        sectionHeader = (H4)header.getComponentAt(0);
         FormLayout sectionContent = ((FormLayoutSection)section).getSectionContent();
 
         textfieldLabelWithTranslation = TestUiUtil.getLabelOfComponentAt(sectionContent, 0);

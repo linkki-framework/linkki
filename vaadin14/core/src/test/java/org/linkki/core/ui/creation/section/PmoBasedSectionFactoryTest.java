@@ -37,7 +37,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class PmoBasedSectionFactoryTest {
 
-    private BindingContext bindingContext = new BindingContext("testBindingContext");
+    private final BindingContext bindingContext = new BindingContext("testBindingContext");
 
     @Test
     public void testSetSectionId() {
@@ -90,8 +90,8 @@ public class PmoBasedSectionFactoryTest {
         AbstractSection tableSection = factory.createSection(containerPmo, bindingContext);
         HorizontalLayout header = (HorizontalLayout)TestUiUtil.getComponentAtIndex(0, tableSection);
 
-        assertThat(TestUiUtil.getComponentAtIndex(2, header), instanceOf(Button.class));
-        assertThat(((Button)TestUiUtil.getComponentAtIndex(2, header)).getText(), is("header button"));
+        assertThat(header.getComponentAt(1), instanceOf(Button.class));
+        assertThat(((Button)header.getComponentAt(1)).getText(), is("header button"));
     }
 
     @UISection(caption = "Test")
