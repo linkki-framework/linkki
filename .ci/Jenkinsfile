@@ -11,6 +11,7 @@ pipeline {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 -Ddoc.user=doc clean source:jar javadoc:jar deploy'
                     sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml clean compile'
+                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml clean compile'
                 }
 
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
@@ -68,11 +69,12 @@ pipeline {
             steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
+                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
                 }
             }
 
             environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-master.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de -Dtest.port=80'
             }
         }
     }
