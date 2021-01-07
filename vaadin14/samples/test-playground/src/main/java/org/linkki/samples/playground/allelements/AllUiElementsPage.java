@@ -54,6 +54,7 @@ public class AllUiElementsPage extends AbstractPage {
         add(VaadinUiCreator.createComponent(new CssLayoutPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new SectionHeaderPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new ReadOnlyBehaviorPmo(), getBindingContext()));
+        add(VaadinUiCreator.createComponent(new BindVisibleSectionPmo(), getBindingContext()));
 
         dynamicFieldPmo = new DynamicFieldPmo(() -> {
             remove(dynamicFieldSection);
