@@ -13,8 +13,6 @@
  */
 package org.linkki.samples.playground.uitest;
 
-import java.awt.MenuBar;
-import java.awt.TextField;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -27,6 +25,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;

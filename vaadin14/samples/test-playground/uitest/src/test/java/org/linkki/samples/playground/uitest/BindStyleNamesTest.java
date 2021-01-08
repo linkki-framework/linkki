@@ -15,21 +15,26 @@
 package org.linkki.samples.playground.uitest;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo;
+import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiSectionPmo;
 
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
-import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class SampleTest extends AbstractUiTest {
+
+public class BindStyleNamesTest extends AbstractUiTest {
+
+    private <T> VerticalLayoutElement getSection(Class<T> cls) {
+        return $(VerticalLayoutElement.class).id(cls.getSimpleName());
+    }
 
     @Test
-    public void sampleTest() {
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id("AllUiElementsUiSectionPmo");
-        TextFieldElement textField = section.$(TextFieldElement.class).id("text");
+    public void testDynamicSectionStyleNames() {
+        VerticalLayoutElement allElements = getSection(AllUiElementsUiSectionPmo.class);
 
-        assertThat(textField.getValue(), is("foo"));
+        assertThat(allElements.hasClassName(AbstractAllUiElementsSectionPmo.CSS_NAME), is(true));
     }
 
 }
