@@ -42,13 +42,7 @@ public class ComboboxBindingDefinition implements BindingDefinition {
     public Component newComponent() {
         ComboBox<?> comboBox = ComponentFactory.newComboBox();
         comboBox.setItemLabelGenerator(getItemCaptionProvider()::getUnsafeCaption);
-
         comboBox.setWidth(uiComboField.width());
-
-        // TODO LIN-2061
-        // comboBox.setPopupWidth(null);
-        // comboBox.setPageLength(0);
-
         return comboBox;
     }
 

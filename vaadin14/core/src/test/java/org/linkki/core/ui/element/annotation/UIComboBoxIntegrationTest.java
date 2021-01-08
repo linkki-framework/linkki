@@ -16,7 +16,6 @@ package org.linkki.core.ui.element.annotation;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.Binding;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
@@ -65,7 +65,7 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
         modelChanged();
         assertThat(getAllowedValues(comboBox), contains(TestEnum.ONE,
                                                         TestEnum.TWO,
-                                                        TestEnum.THREE, null));
+                                                        TestEnum.THREE));
     }
 
     @Test
@@ -127,7 +127,7 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
 
         getDefaultPmo().setValueAvailableValues(Collections.emptyList());
         modelChanged();
-        assertThat(getAllowedValues(comboBox), contains(nullValue()));
+        assertThat(getAllowedValues(comboBox), is(IsEmptyCollection.empty()));
 
         getDefaultPmo().setValueAvailableValues(Arrays.asList(TestEnum.ONE));
         modelChanged();

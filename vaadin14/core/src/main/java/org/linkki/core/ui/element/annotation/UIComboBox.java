@@ -23,6 +23,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.List;
+import java.util.Objects;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
@@ -125,16 +126,14 @@ public @interface UIComboBox {
 
                 @Override
                 protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
-                    // TODO LIN-2076
-                    if (annotation.content() == AvailableValuesType.DYNAMIC
-                            && items.isEmpty()) {
-                        items.add(null);
-                    }
+                    boolean dynamicItemsEmpty = annotation.content() == AvailableValuesType.DYNAMIC && items.isEmpty();
+                    boolean hasNullItem = items.removeIf(Objects::isNull);
+                    ((ComboBox<?>)componentWrapper.getComponent())
+                            .setClearButtonVisible(hasNullItem || dynamicItemsEmpty);
                 }
 
             };
         }
-
     }
 
 }
