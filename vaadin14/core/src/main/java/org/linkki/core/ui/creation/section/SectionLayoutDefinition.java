@@ -9,8 +9,8 @@ import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
-import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
@@ -30,22 +30,7 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
     /**
      * The default uses {@link LabelComponentWrapper LabelComponentWrappers} for section content.
      */
-    DEFAULT,
-
-    /**
-     * Uses {@link CaptionComponentWrapper CaptionComponentWrappers} for section content.
-     */
-    CAPTION_ONLY {
-        @Override
-        void addSectionComponent(Method method, BaseSection section, Object pmo, BindingContext bindingContext) {
-            CaptionComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
-                                                                        c -> new CaptionComponentWrapper((Component)c,
-                                                                                WrapperType.FIELD));
-
-            Component component = wrapper.getComponent();
-            section.add(component.getId().get(), new Span(), wrapper.getComponent());
-        }
-    };
+    DEFAULT;
 
     /**
      * {@inheritDoc}
@@ -81,9 +66,9 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
     }
 
     private void addHeaderComponent(Method method, AbstractSection section, Object pmo, BindingContext bindingContext) {
-        CaptionComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
-                                                                    c -> new CaptionComponentWrapper((Component)c,
-                                                                            WrapperType.COMPONENT));
+        NoLabelComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
+                                                                   c -> new NoLabelComponentWrapper((Component)c,
+                                                                           WrapperType.COMPONENT));
 
         section.addHeaderComponent(wrapper.getComponent());
     }
@@ -101,8 +86,7 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
                                                                   c -> new LabelComponentWrapper(label,
                                                                           (Component)c));
 
-        Component component = wrapper.getComponent();
-        section.add(component.getId().get(), label, wrapper.getComponent());
+        section.add(label, wrapper.getComponent());
     }
 
 }

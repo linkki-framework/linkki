@@ -25,7 +25,7 @@ import com.vaadin.flow.component.UI;
 /**
  * The Vaadin 8 implementation for {@link org.linkki.core.uiframework.UiFrameworkExtension}.
  */
-public class Vaadin8 implements UiFrameworkExtension {
+public class Vaadin14 implements UiFrameworkExtension {
 
     @Override
     public Locale getLocale() {

@@ -57,7 +57,7 @@ public class FormLayoutSection extends BaseSection {
      * {@link FormLayout} uses the {@link Component}'s caption.
      */
     @Override
-    public void add(String propertyName, Span label, Component component) {
+    public void add(Span label, Component component) {
         content.addFormItem(component, label);
     }
 

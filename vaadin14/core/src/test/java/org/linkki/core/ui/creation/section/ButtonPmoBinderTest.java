@@ -13,27 +13,20 @@
  */
 package org.linkki.core.ui.creation.section;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.linkki.test.matcher.Matchers.hasValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.core.binding.Binding;
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
-import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.pmo.ButtonPmo;
-import org.linkki.core.ui.creation.section.ButtonPmoBinder.ButtonPmoAspectDefinition;
 import org.linkki.core.ui.test.TestButtonPmo;
-import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
 
 import com.vaadin.flow.component.button.Button;
 
@@ -41,7 +34,6 @@ public class ButtonPmoBinderTest {
 
     private final PropertyDispatcher wrappedDispatcher = mock(PropertyDispatcher.class);
     private final BindingContext bindingContext = new BindingContext();
-    private final Button button = new Button();
 
     @BeforeEach
     public void setUp() {
@@ -52,35 +44,42 @@ public class ButtonPmoBinderTest {
     public void testButtonClickIsForwaredToPmo() {
         ButtonPmo pmo = mock(ButtonPmo.class);
         when(pmo.isEnabled()).thenReturn(true);
-        bind(pmo);
+        Button boundButton = ButtonPmoBinder.createBoundButton(bindingContext, pmo);
 
-        button.click();
+        boundButton.click();
 
         verify(pmo).onClick();
-    }
-
-    private Binding bind(ButtonPmo pmo) {
-        ComponentWrapper buttonWrapper = new CaptionComponentWrapper("buttonPmo", button, WrapperType.FIELD);
-        return bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
-                                   buttonWrapper);
     }
 
     @Test
     public void testUpdateFromPmo_PmoSublass() {
         TestButtonPmo pmo = new TestButtonPmo();
-        Binding binding = bind(pmo);
+        Button button = ButtonPmoBinder.createBoundButton(bindingContext, pmo);
 
         pmo.setEnabled(true);
         pmo.setVisible(true);
-        binding.updateFromPmo();
+
+        bindingContext.modelChanged();
+
         assertThat(button.isVisible(), is(true));
         assertThat(button.isEnabled(), is(true));
 
         pmo.setEnabled(false);
         pmo.setVisible(false);
-        binding.updateFromPmo();
+
+        bindingContext.modelChanged();
+
         assertThat(button.isVisible(), is(false));
         assertThat(button.isEnabled(), is(false));
+    }
+
+    @Test
+    public void testCreateBoundButton_Id() {
+        ButtonPmo pmo = mock(ButtonPmo.class);
+
+        Button boundButton = ButtonPmoBinder.createBoundButton(bindingContext, pmo);
+
+        assertThat(boundButton.getId(), hasValue("buttonPmo"));
     }
 
 }

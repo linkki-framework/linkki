@@ -36,12 +36,12 @@ import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.aspects.ButtonInvokeAspectDefinition;
-import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.icon.Icon;
 
 public class ButtonPmoBinder {
 
@@ -54,7 +54,8 @@ public class ButtonPmoBinder {
         requireNonNull(pmo, "pmo must not be null");
 
         Button button = ComponentFactory.newButton();
-        ComponentWrapper buttonWrapper = new CaptionComponentWrapper("buttonPmo", button, WrapperType.FIELD);
+        ComponentWrapper buttonWrapper = new NoLabelComponentWrapper(button, WrapperType.FIELD);
+        buttonWrapper.setId("buttonPmo");
         bindingContext.bind(pmo, BoundProperty.of(""), Arrays.asList(new ButtonPmoAspectDefinition()),
                             buttonWrapper);
         return button;

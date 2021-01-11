@@ -14,7 +14,6 @@
 package org.linkki.core.vaadin.component.section;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -47,20 +46,8 @@ public class HorizontalSection extends BaseSection {
     }
 
     @Override
-    public void add(String propertyName, Span label, Component component) {
-        add(label, component);
-    }
-
-    public Label add(String label, Component component) {
-        Label l = new Label(label);
-        add(l, component);
-        return l;
-    }
-
-    private void add(Span l, Component component) {
-        // l.setWidthUndefined();
-        content.add(l);
-        content.setVerticalComponentAlignment(Alignment.CENTER, l);
+    public void add(Span label, Component component) {
+        add(label);
         add(component);
     }
 

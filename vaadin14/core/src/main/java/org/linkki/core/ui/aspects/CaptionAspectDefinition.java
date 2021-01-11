@@ -66,18 +66,13 @@ public class CaptionAspectDefinition extends ModelToUiAspectDefinition<String> {
 
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        // TODO LIN-2057
         if (componentWrapper.getComponent() instanceof HasText) {
             return caption -> ((HasText)componentWrapper.getComponent()).setText(caption);
-        }
-
-        if (componentWrapper.getComponent() instanceof Checkbox) {
+        } else if (componentWrapper.getComponent() instanceof Checkbox) {
             return caption -> ((Checkbox)componentWrapper.getComponent()).setLabel(caption);
+        } else {
+            return Consumers.nopConsumer();
         }
-
-
-        return Consumers.nopConsumer();
-
     }
 
     @Override

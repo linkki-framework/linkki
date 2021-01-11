@@ -36,15 +36,13 @@ import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-public class CaptionComponentWrapperTest {
+public class NoLabelComponentWrapperTest {
 
     @Test
     public void testSetId() {
         Span component = spy(new Span());
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component,
+        NoLabelComponentWrapper wrapper = new NoLabelComponentWrapper(component,
                 WrapperType.FIELD);
-
-        verify(component).setId("testID");
 
         wrapper.setId("anotherId");
 
@@ -52,33 +50,9 @@ public class CaptionComponentWrapperTest {
     }
 
     @Test
-    public void testSetLabel() {
-        Span component = spy(new Span());
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component,
-                WrapperType.FIELD);
-
-        wrapper.setLabel("testLabel");
-
-        // TODO LIN-2057
-        // verify(component).setText("testLabel");
-    }
-
-    @Test
-    public void testSetLabel_EmptyString() {
-        Span component = new Span();
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component,
-                WrapperType.FIELD);
-
-        wrapper.setLabel("");
-
-        assertThat(component.getText(), is(""));
-    }
-
-    @Test
     public void testSetEnabled() {
         Button button = spy(new Button());
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", button,
-                WrapperType.FIELD);
+        NoLabelComponentWrapper wrapper = new NoLabelComponentWrapper(button, WrapperType.FIELD);
 
         wrapper.setEnabled(true);
 
@@ -92,7 +66,7 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetVisible() {
         Button button = spy(new Button());
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", button,
+        NoLabelComponentWrapper wrapper = new NoLabelComponentWrapper(button,
                 WrapperType.FIELD);
 
         wrapper.setVisible(true);
@@ -104,38 +78,10 @@ public class CaptionComponentWrapperTest {
         verify(button).setVisible(false);
     }
 
-    // TODO LIN-2054
-    // @Test
-    // public void testSetTooltip_NotOnVanillaComponent() {
-    // Component component = mock(Component.class);
-    // CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component,
-    // WrapperType.FIELD);
-    // verify(component).setId("testID");
-    // verifyNoMoreInteractions(component);
-    //
-    // wrapper.setTooltip("testTip");
-    // }
-
-    // TODO LIN-2054
-    // @Test
-    // public void testSetTooltip() {
-    // AbstractComponent component = mock(AbstractComponent.class);
-    // CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component,
-    // WrapperType.FIELD);
-    //
-    // wrapper.setTooltip("testTip");
-    // verify(component).setDescription("testTip", ContentMode.HTML);
-    //
-    // wrapper.setTooltip("<script>");
-    // verify(component).setDescription("&lt;script&gt;", ContentMode.HTML);
-    //
-    // wrapper.setTooltip("<div>");
-    // }
-
     @Test
     public void testGetComponent() {
         Component component = mock(Component.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component,
+        NoLabelComponentWrapper wrapper = new NoLabelComponentWrapper(component,
                 WrapperType.FIELD);
 
         assertThat(wrapper.getComponent(), is(sameInstance(component)));
@@ -144,9 +90,8 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetValidationMessages_NotOnVanillaComponent() {
         Component component = mock(Component.class);
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component,
+        NoLabelComponentWrapper wrapper = new NoLabelComponentWrapper(component,
                 WrapperType.FIELD);
-        verify(component).setId("testID");
 
         MessageList messages = new MessageList(Message.newError("e", "testError"));
         verifyNoMoreInteractions(component);
@@ -156,7 +101,7 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetValidationMessages() {
         TextField component = spy(new TextField());
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component,
+        NoLabelComponentWrapper wrapper = new NoLabelComponentWrapper(component,
                 WrapperType.FIELD);
         ArgumentCaptor<String> errorMessageCaptor = ArgumentCaptor.forClass(String.class);
 
@@ -175,7 +120,7 @@ public class CaptionComponentWrapperTest {
     @Test
     public void testSetValidationMessages_Empty() {
         TextField component = spy(new TextField());
-        CaptionComponentWrapper wrapper = new CaptionComponentWrapper("testID", component,
+        NoLabelComponentWrapper wrapper = new NoLabelComponentWrapper(component,
                 WrapperType.FIELD);
 
         MessageList messages = new MessageList();
@@ -188,9 +133,9 @@ public class CaptionComponentWrapperTest {
     public void testGetType() {
         Span component = new Span();
 
-        assertThat(new CaptionComponentWrapper("testID", component, WrapperType.FIELD).getType(),
+        assertThat(new NoLabelComponentWrapper(component, WrapperType.FIELD).getType(),
                    is(WrapperType.FIELD));
-        assertThat(new CaptionComponentWrapper("testID", component, WrapperType.LAYOUT).getType(),
+        assertThat(new NoLabelComponentWrapper(component, WrapperType.LAYOUT).getType(),
                    is(WrapperType.LAYOUT));
     }
 

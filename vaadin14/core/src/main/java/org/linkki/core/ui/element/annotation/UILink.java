@@ -33,6 +33,7 @@ import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.LinkHrefAspectDefinition;
 import org.linkki.core.ui.aspects.LinkTargetAspectDefinition;
 import org.linkki.core.ui.element.annotation.UILink.LinkAspectDefinitionCreator;
@@ -110,6 +111,7 @@ public @interface UILink {
         @Override
         public LinkkiAspectDefinition create(UILink annotation) {
             return new CompositeAspectDefinition(
+                    new LabelAspectDefinition(annotation.label()),
                     new LinkHrefAspectDefinition(),
                     new VisibleAspectDefinition(annotation.visible()),
                     new CaptionAspectDefinition(annotation.captionType(), annotation.caption()),

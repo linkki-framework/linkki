@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.is;
 import java.time.LocalDate;
 import java.util.Locale;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,6 +35,11 @@ public class ComponentFactoryTest {
         UI ui = new UI();
         ui.setLocale(Locale.ENGLISH);
         UI.setCurrent(ui);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        UI.setCurrent(null);
     }
 
     @Test

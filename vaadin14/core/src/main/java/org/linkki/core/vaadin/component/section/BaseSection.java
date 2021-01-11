@@ -65,13 +65,10 @@ public abstract class BaseSection extends AbstractSection {
 
     /**
      * Adds the given label / component pair to the section.
-     * 
-     * @param propertyName the property name that may be used to place the label and the component in
-     *            the correct place.
      * @param label the label that should be placed beside the component.
      * @param component the component that should be added to the section
      * 
      */
-    public abstract void add(String propertyName, Span label, Component component);
+    public abstract void add(Span label, Component component);
 
 }

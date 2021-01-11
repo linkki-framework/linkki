@@ -21,7 +21,7 @@ import java.util.function.Function;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
-import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
@@ -30,7 +30,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 
 /**
- * Defines a {@link HasComponents} that contains {@link CaptionComponentWrapper
+ * Defines a {@link HasComponents} that contains {@link NoLabelComponentWrapper
  * CaptionComponentWrappers}.
  */
 public class ComponentContainerLayoutDefinition implements LinkkiLayoutDefinition {
@@ -38,7 +38,7 @@ public class ComponentContainerLayoutDefinition implements LinkkiLayoutDefinitio
     private final Function<Component, ComponentWrapper> componentWrapperCreator;
 
     public ComponentContainerLayoutDefinition() {
-        this.componentWrapperCreator = c -> new CaptionComponentWrapper(c, WrapperType.FIELD);
+        this.componentWrapperCreator = c -> new NoLabelComponentWrapper(c, WrapperType.FIELD);
     }
 
     @Override
