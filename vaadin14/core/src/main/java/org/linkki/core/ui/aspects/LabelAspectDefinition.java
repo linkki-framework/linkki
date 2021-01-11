@@ -21,6 +21,7 @@ import org.linkki.core.binding.descriptor.aspect.base.StaticModelToUiAspectDefin
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
+import org.linkki.core.ui.creation.table.GridColumnWrapper;
 
 /**
  * Aspect definition to bind the label of a component.
@@ -53,7 +54,7 @@ public class LabelAspectDefinition extends StaticModelToUiAspectDefinition<Strin
 
     @Override
     public boolean supports(WrapperType type) {
-        return WrapperType.COMPONENT.isAssignableFrom(type);
+        return WrapperType.COMPONENT.isAssignableFrom(type) || GridColumnWrapper.COLUMN_TYPE.isAssignableFrom(type);
     }
 
 }

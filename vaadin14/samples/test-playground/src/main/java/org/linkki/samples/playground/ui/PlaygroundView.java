@@ -22,6 +22,7 @@ import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.locale.LocaleInfoPage;
+import org.linkki.samples.playground.table.TablePage;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
@@ -86,6 +87,7 @@ public class PlaygroundView extends Div {
         addSheet(new AllUiElementsPage(() -> false), "All");
         addSheet(new DynamicAnnotationsLayout(), "Dynamic");
         addSheet(new BugCollectionLayout(), "Bugs");
+        addSheet(new TablePage(), "Tables");
         addSheet(new LocaleInfoPage(), "Locale");
     }
 

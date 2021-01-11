@@ -27,12 +27,10 @@ import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 
 @UISection(caption = "Selectable Table")
-// tag::selectable-table[]
 public class PlaygroundTablePmo extends SimpleTablePmo<TableModelObject, PlaygroundRowPmo>
         implements SelectableTablePmo<PlaygroundRowPmo> {
 
@@ -40,12 +38,7 @@ public class PlaygroundTablePmo extends SimpleTablePmo<TableModelObject, Playgro
 
     private PlaygroundRowPmo selected;
 
-    // ...
-
-    // end::selectable-table[]
-
-    public static final int INITAL_SELECTED_ROW = 2;
-
+    public static final int INITAL_SELECTED_ROW = 0;
 
     private Handler addHandler;
 
@@ -65,18 +58,16 @@ public class PlaygroundTablePmo extends SimpleTablePmo<TableModelObject, Playgro
         return new PlaygroundRowPmo(modelObject, () -> deleteConsumer.accept(modelObject));
     }
 
-    @Override
-    public Optional<TableFooterPmo> getFooterPmo() {
-        return Optional.of(c -> c + "Footer");
-    }
-
-    @UIButton(position = 10, showIcon = true, icon = VaadinIcons.PLUS, caption = "", styleNames = ValoTheme.BUTTON_BORDERLESS)
+    @UIButton(position = 10, showIcon = true, icon = VaadinIcon.PLUS, caption = "")
     @SectionHeader
     public void add() {
         addHandler.apply();
     }
 
-    // tag::selectable-table[]
+    @Override
+    public Optional<TableFooterPmo> getFooterPmo() {
+        return Optional.of(c -> c + "Footer");
+    }
 
     @Override
     public PlaygroundRowPmo getSelection() {
@@ -93,5 +84,9 @@ public class PlaygroundTablePmo extends SimpleTablePmo<TableModelObject, Playgro
         Notification.show(NOTIFICATION_DOUBLE_CLICK + selected.getModelObject().getName());
     }
 
+    @Override
+    public int getPageLength() {
+        return 7;
+    }
+
 }
-// end::selectable-table[]

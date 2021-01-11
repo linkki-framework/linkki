@@ -8,6 +8,7 @@ import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
+import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
@@ -16,8 +17,10 @@ import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.GridSection;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Span;
 
 /**
@@ -42,7 +45,11 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
     @Override
     public void createChildren(Object parentComponent, Object pmo, BindingContext bindingContext) {
         createHeaderContent((AbstractSection)parentComponent, pmo, bindingContext);
-        createSectionContent(parentComponent, pmo, bindingContext);
+        if (pmo instanceof ContainerPmo) {
+            createTable(parentComponent, pmo, bindingContext);
+        } else {
+            createSectionContent(parentComponent, pmo, bindingContext);
+        }
     }
 
     private void createHeaderContent(AbstractSection section, Object pmo, BindingContext bindingContext) {
@@ -87,6 +94,13 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
                                                                           (Component)c));
 
         section.add(label, wrapper.getComponent());
+    }
+
+    private void createTable(Object parentComponent, Object pmo, BindingContext bindingContext) {
+        GridSection section = (GridSection)parentComponent;
+        Grid<?> grid = new PmoBasedTableFactory((ContainerPmo<?>)pmo, bindingContext)
+                .createTable();
+        section.setGrid(grid);
     }
 
 }

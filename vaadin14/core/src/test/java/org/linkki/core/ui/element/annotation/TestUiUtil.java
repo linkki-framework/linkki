@@ -85,7 +85,6 @@ public final class TestUiUtil {
                 .orElseThrow(() -> new IllegalStateException("No component with id " + id));
     }
 
-    @SuppressWarnings("unused")
     public static String getLabelOfComponentAt(FormLayout layout, int row) {
         List<Component> children = layout.getChildren().collect(Collectors.toList());
         FormItem formItem = (FormItem)children.get(row);

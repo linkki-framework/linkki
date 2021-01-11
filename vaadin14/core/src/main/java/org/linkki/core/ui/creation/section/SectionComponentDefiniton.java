@@ -15,14 +15,16 @@
 package org.linkki.core.ui.creation.section;
 
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.nls.PmoNlsService;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
-import org.linkki.core.vaadin.component.section.BaseSection;
+import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
+import org.linkki.core.vaadin.component.section.GridSection;
 import org.linkki.core.vaadin.component.section.HorizontalSection;
 
 /**
- * Defines how {@link BaseSection} instances are created.
+ * Defines how {@link AbstractSection sections} are created.
  * 
  * @see SectionLayoutDefinition SectionLayoutDefinition for how the section is poulated with UI
  *      components
@@ -46,15 +48,28 @@ public class SectionComponentDefiniton implements LinkkiComponentDefinition {
 
     @Override
     public Object createComponent(Object pmo) {
-        String nlsCaption = PmoNlsService.get().getSectionCaption(pmo.getClass(), this.caption);
+        return createComponent(pmo.getClass());
+    }
 
-        switch (layout) {
-            case COLUMN:
-                return new FormLayoutSection(nlsCaption, columns, closeable);
-            case HORIZONTAL:
-                return new HorizontalSection(nlsCaption, closeable);
-            default:
-                throw new IllegalStateException("unknown SectionLayout#" + layout);
+    private Object createComponent(Class<?> pmoClass) {
+        String nlsCaption = PmoNlsService.get().getSectionCaption(pmoClass, this.caption);
+
+        if (ContainerPmo.class.isAssignableFrom(pmoClass)) {
+            return createTableSection(nlsCaption);
+        } else {
+            switch (layout) {
+                case COLUMN:
+                    return new FormLayoutSection(nlsCaption, columns, closeable);
+                case HORIZONTAL:
+                    return new HorizontalSection(nlsCaption, closeable);
+                default:
+                    throw new IllegalStateException("unknown SectionLayout#" + layout);
+            }
         }
     }
+
+    private GridSection createTableSection(String nlsCaption) {
+        return new GridSection(nlsCaption, closeable);
+    }
+
 }
