@@ -38,7 +38,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * and edit data. Optionally the section can be closed and opened. When the section is closed only the
  * header is shown.
  */
-@CssImport("./styles/styles.css")
+@CssImport(value = "./styles/linkki-section.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
 public abstract class AbstractSection extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
