@@ -165,6 +165,16 @@ public abstract class AbstractAllUiElementsSectionPmo {
         // model binding
     }
 
+    @UILabel(position = 82, label = NlsText.I18n, htmlContent = true)
+    public String getHtmlContentLabel() {
+        return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
+    }
+
+    @UILabel(position = 83, label = NlsText.I18n)
+    public String getNotHtmlContentLabel() {
+        return "<b>NOT</b> HTML Content";
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UICustomField(position = 90, label = NlsText.I18n, uiControl = PasswordField.class, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, required = RequiredType.DYNAMIC)
     public void secret() {

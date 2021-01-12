@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.aspects;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
@@ -28,7 +29,7 @@ import org.linkki.core.ui.mock.MockUi;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
@@ -44,19 +45,20 @@ public class LabelValueAspectDefinitionTest {
 
     @Test
     public void testCreateComponentValueSetter_SetsString() {
-        Span label = new Span();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
+        Div label = new Div();
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
                 .createComponentValueSetter(new LabelComponentWrapper(label));
 
         valueSetter.accept("foo");
 
         assertThat(label.getText(), is("foo"));
+        assertThat(label.getElement().getProperty("innerHTML"), is(nullValue()));
     }
 
     @Test
     public void testCreateComponentValueSetter_UsesToString() {
-        Span label = new Span();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
+        Div label = new Div();
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
                 .createComponentValueSetter(new LabelComponentWrapper(label));
 
         valueSetter.accept(new Object() {
@@ -71,8 +73,8 @@ public class LabelValueAspectDefinitionTest {
 
     @Test
     public void testCreateComponentValueSetter_UsesStandardConverter() {
-        Span label = new Span();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
+        Div label = new Div();
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
                 .createComponentValueSetter(new LabelComponentWrapper(label));
 
         valueSetter.accept(Integer.valueOf(123456));
@@ -83,8 +85,8 @@ public class LabelValueAspectDefinitionTest {
 
     @Test
     public void testCreateComponentValueSetter_UsesStandardConverter_DependingOnUiLocale() {
-        Span label = new Span();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
+        Div label = new Div();
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
                 .createComponentValueSetter(new LabelComponentWrapper(label));
 
         UI ui = MockUi.mockUi();
@@ -97,8 +99,8 @@ public class LabelValueAspectDefinitionTest {
 
     @Test
     public void testCreateComponentValueSetter_UsesCustomConverter() {
-        Span label = new Span();
-        Consumer<Object> valueSetter = new LabelValueAspectDefinition()
+        Div label = new Div();
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
                 .createComponentValueSetter(new LabelComponentWrapper(label));
 
 
@@ -126,6 +128,18 @@ public class LabelValueAspectDefinitionTest {
         valueSetter.accept(FooBar.FOO);
 
         assertThat(label.getText(), is("Foo"));
+    }
+
+    @Test
+    public void testCreateComponentValueSetter_HtmlContent() {
+        Div label = new Div();
+        Consumer<Object> valueSetter = new LabelValueAspectDefinition(true)
+                .createComponentValueSetter(new LabelComponentWrapper(label));
+
+        valueSetter.accept("<i>foo</i>");
+
+        assertThat(label.getElement().getProperty("innerHTML"), is("<i>foo</i>"));
+        assertThat(label.getText(), is(""));
     }
 
     private enum FooBar {

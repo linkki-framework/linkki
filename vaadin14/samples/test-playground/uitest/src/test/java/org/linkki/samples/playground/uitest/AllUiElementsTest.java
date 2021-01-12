@@ -29,7 +29,7 @@ import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.formlayout.testbench.FormLayoutElement;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
-import com.vaadin.flow.component.html.testbench.SpanElement;
+import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
@@ -116,7 +116,7 @@ public class AllUiElementsTest extends AbstractUiTest {
 
     @Test
     public void testLabel() {
-        SpanElement label = $(SpanElement.class).id("textLabel");
+        DivElement label = $(DivElement.class).id("textLabel");
         assertThat(label.getText(), is("secret"));
 
         PasswordFieldElement customField = $(PasswordFieldElement.class).id(AllUiElementsModelObject.PROPERTY_SECRET);
@@ -126,7 +126,7 @@ public class AllUiElementsTest extends AbstractUiTest {
 
     @Test
     public void testLabelWithConverter() {
-        SpanElement label = $(SpanElement.class).id("bigDecimalLabel");
+        DivElement label = $(DivElement.class).id("bigDecimalLabel");
         // because Vaadin's StringToBigDecimalConverter uses NumberFormat,
         // which uses BigDecimal#doubleValue(), we get a rounded value
         assertThat(label.getText(), is("12.345,679"));
@@ -160,7 +160,7 @@ public class AllUiElementsTest extends AbstractUiTest {
         // assertThat("Caption of UIHorizontalLayout is bindable", horizontalLayout.getCaption(),
         // is("UIHorizontalLayout"));
         assertThat(horizontalLayout.$(TextFieldElement.class).all().size(), is(1));
-        assertThat(horizontalLayout.$(SpanElement.class).all().size(), is(1));
+        assertThat(horizontalLayout.$(DivElement.class).all().size(), is(1));
         assertThat(horizontalLayout.$(ButtonElement.class).all().size(), is(1));
         assertThat(horizontalLayout.$(CheckboxElement.class).all().size(), is(1));
     }
@@ -171,7 +171,7 @@ public class AllUiElementsTest extends AbstractUiTest {
         // assertThat("Caption of UIVerticalLayout is bindable", verticalLayout.getCaption(),
         // is("UIVerticalLayout"));
         assertThat(verticalLayout.$(TextFieldElement.class).all().size(), is(1));
-        assertThat(verticalLayout.$(SpanElement.class).all().size(), is(1));
+        assertThat(verticalLayout.$(DivElement.class).all().size(), is(1));
         assertThat(verticalLayout.$(ButtonElement.class).all().size(), is(1));
         assertThat(verticalLayout.$(CheckboxElement.class).all().size(), is(1));
     }
@@ -182,8 +182,7 @@ public class AllUiElementsTest extends AbstractUiTest {
         // assertThat("Caption of UIFormLayout is bindable", formLayout.getCaption(),
         // is("UIFormLayout"));
         assertThat(formLayout.$(TextFieldElement.class).all().size(), is(2));
-        assertThat(formLayout.$(SpanElement.class).all().size(), is(1));
-        assertThat(formLayout.$(SpanElement.class).all().size(), is(1));
+        assertThat(formLayout.$(DivElement.class).all().size(), is(2));
     }
 
     @Test

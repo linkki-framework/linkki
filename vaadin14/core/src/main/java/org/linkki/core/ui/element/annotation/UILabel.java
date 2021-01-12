@@ -39,7 +39,8 @@ import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
 /**
- * Provides a single UI-element to display text content. Creates a {@link com.vaadin.flow.component.html.Label}.
+ * Provides a single UI-element to display text content. Creates a
+ * {@link com.vaadin.flow.component.html.Div}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -80,6 +81,7 @@ public @interface UILabel {
 
     /**
      * When set to {@code true}, the label's content will be displayed as HTML, otherwise as plain text.
+     * Be careful when using this feature, no sanitization is performed.
      */
     boolean htmlContent() default false;
 
@@ -93,7 +95,7 @@ public @interface UILabel {
             return new CompositeAspectDefinition(
                     new LabelAspectDefinition(annotation.label()),
                     new VisibleAspectDefinition(annotation.visible()),
-                    new LabelValueAspectDefinition());
+                    new LabelValueAspectDefinition(annotation.htmlContent()));
         }
     }
 }

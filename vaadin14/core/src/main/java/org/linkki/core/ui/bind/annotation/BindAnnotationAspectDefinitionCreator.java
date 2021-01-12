@@ -50,7 +50,7 @@ public class BindAnnotationAspectDefinitionCreator implements AspectDefinitionCr
                 ifApplicable(w -> w.getComponent() instanceof HasValue && !(w.getComponent() instanceof MultiSelect),
                              new ValueAspectDefinition()),
                 ifComponentTypeIs(AbstractField.class, new DerivedReadOnlyAspectDefinition()),
-                ifComponentTypeIs(Label.class, new LabelValueAspectDefinition()),
+                ifComponentTypeIs(Label.class, new LabelValueAspectDefinition(false)),
                 ifComponentTypeIs(Button.class, new ButtonInvokeAspectDefinition()));
     }
 

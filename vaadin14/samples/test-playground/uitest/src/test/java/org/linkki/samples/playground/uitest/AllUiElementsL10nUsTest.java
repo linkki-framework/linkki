@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
 
-import com.vaadin.flow.component.html.testbench.SpanElement;
+import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 
@@ -59,7 +59,7 @@ public class AllUiElementsL10nUsTest extends AbstractUiTest {
 
     @Test
     public void testLabelWithConverter() {
-        SpanElement label = $(SpanElement.class).id("bigDecimalLabel");
+        DivElement label = $(DivElement.class).id("bigDecimalLabel");
         // because Vaadin's StringToBigDecimalConverter uses NumberFormat,
         // which uses BigDecimal#doubleValue(), we get a rounded value
         assertThat(label.getText(), is("12,345.679"));

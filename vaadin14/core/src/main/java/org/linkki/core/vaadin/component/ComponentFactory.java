@@ -26,7 +26,6 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Hr;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -50,30 +49,6 @@ public class ComponentFactory {
         Hr component = new Hr();
         component.setWidth("100%");
         return component;
-    }
-
-    /**
-     * Creates a new {@link Span} that only displays an icon.
-     */
-    public static Span newLabelIcon(Icon icon) {
-        // TODO LIN-2052
-        return new Span(icon);
-    }
-
-    /**
-     * Creates a new text mode {@link Span} with full width.
-     */
-    public static Span newLabelFullWidth(String caption) {
-        Span label = new Span(caption);
-        label.setWidth("100%");
-        return label;
-    }
-
-    /**
-     * Creates a new {@link Span} with undefined width.
-     */
-    public static Span newLabelUndefinedWidth(String caption) {
-        return new Span(caption);
     }
 
     /**

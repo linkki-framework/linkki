@@ -22,7 +22,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
-import com.vaadin.flow.component.html.testbench.SpanElement;
+import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 
 
@@ -43,7 +43,7 @@ public class SectionHeaderTest extends AbstractUiTest {
         VerticalLayoutElement section = $(VerticalLayoutElement.class).id("SectionHeaderPmo");
         ButtonElement leftButton = section.$(ButtonElement.class).id("headerButtonLeft");
         ButtonElement rightButton = section.$(ButtonElement.class).id("headerButtonRight");
-        SpanElement label = section.$(SpanElement.class).id("label");
+        DivElement label = section.$(DivElement.class).id("label");
 
         testButtonPosition(leftButton.getLocation(), rightButton.getLocation());
         leftButton.click();

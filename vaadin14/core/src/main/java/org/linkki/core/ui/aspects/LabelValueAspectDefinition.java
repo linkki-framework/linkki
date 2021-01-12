@@ -23,7 +23,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.uiframework.UiFramework;
 
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
 
@@ -35,6 +35,12 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object
 
     public static final String NAME = LabelAspectDefinition.VALUE_ASPECT_NAME;
 
+    private final boolean htmlContent;
+
+    public LabelValueAspectDefinition(boolean htmlContent) {
+        this.htmlContent = htmlContent;
+    }
+
     @Override
     public Aspect<Object> createAspect() {
         return Aspect.of(NAME);
@@ -42,8 +48,12 @@ public class LabelValueAspectDefinition extends ModelToUiAspectDefinition<Object
 
     @Override
     public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        return v -> ((Span)componentWrapper.getComponent())
-                .setText(LabelValueAspectDefinition.toString(v));
+        Div label = (Div)componentWrapper.getComponent();
+        if (htmlContent) {
+            return v -> label.getElement().setProperty("innerHTML", LabelValueAspectDefinition.toString(v));
+        } else {
+            return v -> label.setText(LabelValueAspectDefinition.toString(v));
+        }
     }
 
     private static String toString(Object o) {

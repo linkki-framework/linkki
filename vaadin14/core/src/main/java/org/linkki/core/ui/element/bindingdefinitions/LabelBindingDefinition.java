@@ -15,16 +15,14 @@ package org.linkki.core.ui.element.bindingdefinitions;
 
 import static java.util.Objects.requireNonNull;
 
-import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UILabel;
-import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.Div;
 
 /**
  * {@link BindingDefinition} for {@link UILabel}.
@@ -54,9 +52,7 @@ public class LabelBindingDefinition implements BindingDefinition {
 
     @Override
     public Component newComponent() {
-        Span label = ComponentFactory.newLabelFullWidth(StringUtils.EMPTY);
-        // TODO LIN-2053
-        // label.setContentMode(labelAnnotation.htmlContent() ? ContentMode.HTML : ContentMode.TEXT);
+        Div label = new Div();
         for (String styleName : labelAnnotation.styleNames()) {
             label.addClassName(styleName);
         }

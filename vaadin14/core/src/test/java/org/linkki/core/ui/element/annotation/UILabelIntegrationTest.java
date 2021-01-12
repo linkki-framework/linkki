@@ -23,11 +23,11 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.element.annotation.UILabelIntegrationTest.LabelTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.Div;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Span, LabelTestPmo> {
+public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Div, LabelTestPmo> {
 
     private static final String STYLES = "blabla";
 
@@ -37,30 +37,29 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<S
 
     @Test
     public void testLabelFieldValue() {
-        Span label = getDynamicComponent();
-        // TODO LIN-2052
-        // assertThat(label.getContentMode(), is(ContentMode.HTML));
+        Div label = getDynamicComponent();
+
         assertThat(label.getClassName(), is(STYLES));
         assertThat(label.getText(), is(""));
 
         ((TestModelObjectWithString)getDefaultModelObject()).setValue("fdsa");
         modelChanged();
-        assertThat(label.getText(), is("fdsa"));
+        // htmlContent = true
+        assertThat(label.getElement().getProperty("innerHTML"), is("fdsa"));
     }
 
     @Test
     public void testLabelFieldValue_Integer_UsesConverter() {
         setModelObjectSupplier(TestModelObjectWithInteger::new);
-        Span label = getDynamicComponent();
+        Div label = getDynamicComponent();
 
-        // TODO LIN-2052
-        // assertThat(label.getContentMode(), is(ContentMode.HTML));
         assertThat(label.getClassName(), is(STYLES));
         assertThat(label.getText(), is(""));
 
         ((TestModelObjectWithInteger)getDefaultModelObject()).setValue(123456);
         modelChanged();
-        assertThat(label.getText(), is("123.456"));
+        // htmlContent = true
+        assertThat(label.getElement().getProperty("innerHTML"), is("123.456"));
     }
 
     public void testEnabled() {
