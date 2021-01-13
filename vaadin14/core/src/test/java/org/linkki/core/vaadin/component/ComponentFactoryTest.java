@@ -14,7 +14,6 @@
 
 package org.linkki.core.vaadin.component;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -45,10 +44,8 @@ public class ComponentFactoryTest {
     @Test
     public void testNewDateField_BelowRange() {
         DatePicker dateField = ComponentFactory.newDateField();
-        // TODO LIN-2044
-        // dateField.setDateOutOfRangeMessage(MESSAGE);
 
-        dateField.setValue(LocalDate.of(-1, 1, 1));
+        dateField.setValue(LocalDate.of(999, 1, 1));
 
         assertThat(dateField.isInvalid(), is(true));
     }
@@ -56,27 +53,24 @@ public class ComponentFactoryTest {
     @Test
     public void testNewDateField_InRangeLowerBound() {
         DatePicker dateField = ComponentFactory.newDateField();
-        // dateField.setDateOutOfRangeMessage(MESSAGE);
 
-        dateField.setValue(LocalDate.of(1, 1, 1));
+        dateField.setValue(LocalDate.of(1000, 1, 1));
 
-        assertThat(dateField.getErrorMessage(), is(nullValue()));
+        assertThat(dateField.isInvalid(), is(false));
     }
 
     @Test
     public void testNewDateField_InRangeUpperBound() {
         DatePicker dateField = ComponentFactory.newDateField();
-        // dateField.setDateOutOfRangeMessage(MESSAGE);
 
         dateField.setValue(LocalDate.of(9999, 12, 31));
 
-        assertThat(dateField.getErrorMessage(), is(nullValue()));
+        assertThat(dateField.isInvalid(), is(false));
     }
 
     @Test
     public void testNewDateField_AboveRange() {
         DatePicker dateField = ComponentFactory.newDateField();
-        // dateField.setDateOutOfRangeMessage(MESSAGE);
 
         dateField.setValue(LocalDate.of(10000, 1, 1));
 

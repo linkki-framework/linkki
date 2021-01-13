@@ -40,7 +40,6 @@ public class DateFieldBindingDefinition implements BindingDefinition {
     @Override
     public Component newComponent() {
         DatePicker dateField = ComponentFactory.newDateField();
-        // TODO LIN-2044
         dateField.setLocale(UiFramework.getLocale());
         return dateField;
     }

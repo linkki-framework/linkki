@@ -23,7 +23,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Type;
-import java.text.DateFormat;
 import java.time.LocalDate;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
@@ -88,11 +87,6 @@ public @interface UIDateField {
      */
     String modelAttribute() default "";
 
-    /**
-     * Defines the date format, default format of the UI locale is used if no format is specified.
-     * linkki uses {@link DateFormat#SHORT} for interpreting.
-     */
-    String dateFormat() default "";
 
     /**
      * Aspect definition creator for the {@link UIDateField} annotation.

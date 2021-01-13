@@ -37,19 +37,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<DatePicker, DateFieldTestPmo> {
 
-    private static final String FANCY_FORMAT = "yyyy#MM#dd";
-
     public UIDateFieldIntegrationTest() {
         super(TestModelObjectWithDate::new, DateFieldTestPmo::new);
-    }
-
-    @Test
-    public void testDateFormat() {
-        @SuppressWarnings("unused")
-        DatePicker dateField = createFirstComponent(new TestModelObjectWithDate());
-
-        // TODO LIN-2044
-        // assertThat(dateField.getDateFormat(), is(FANCY_FORMAT));
     }
 
     @Test
@@ -162,7 +151,7 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UIDateField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, dateFormat = FANCY_FORMAT)
+        @UIDateField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
         public void value() {
             // model binding
         }

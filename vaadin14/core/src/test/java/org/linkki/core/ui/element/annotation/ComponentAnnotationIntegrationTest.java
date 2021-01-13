@@ -65,7 +65,6 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
 
     @BeforeEach
     public void setUp() {
-        // TODO wegen LIN-2044
         UI ui = new UI();
         ui.setLocale(Locale.GERMAN);
         UI.setCurrent(ui);

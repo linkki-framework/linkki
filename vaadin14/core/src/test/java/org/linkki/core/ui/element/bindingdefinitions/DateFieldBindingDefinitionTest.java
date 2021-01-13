@@ -14,19 +14,35 @@
 package org.linkki.core.ui.element.bindingdefinitions;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 import java.util.Locale;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.element.annotation.UIDateField;
-import org.linkki.core.uiframework.UiFramework;
+
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.datepicker.DatePicker;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class DateFieldBindingDefinitionTest {
 
-    private static final String CUSTOM_DATE_FORMAT = "yy.dd.MM";
+    @BeforeEach
+    private void setUp() {
+        UI ui = new UI();
+        ui.setLocale(Locale.ENGLISH);
+        UI.setCurrent(ui);
+    }
+
+    @AfterEach
+    private void tearDown() {
+        UI.setCurrent(null);
+    }
 
     private UIDateField getAnnotation(String name) {
         try {
@@ -45,32 +61,15 @@ public class DateFieldBindingDefinitionTest {
         return getAnnotation("defaultAnnotation");
     }
 
-    @UIDateField(position = 0, label = "", dateFormat = CUSTOM_DATE_FORMAT)
-    public UIDateField customAnnotation() {
-        return getAnnotation("customAnnotation");
-    }
-
     @Test
-    public void testNewComponent_DefaultDateFormatIsUsed() {
-        // Precondition
-        assertThat(UiFramework.getLocale(), is(Locale.GERMAN));
+    public void testNewComponent() {
+        UI ui = new UI();
+        ui.setLocale(Locale.ENGLISH);
+        DateFieldBindingDefinition adapter = new DateFieldBindingDefinition(defaultAnnotation());
 
-        // TODO LIN-2044
-        // DateFieldBindingDefinition adapter = new DateFieldBindingDefinition(defaultAnnotation());
-        // Component component = adapter.newComponent();
-        // assertThat(component, is(instanceOf(DateField.class)));
-        // DateField dateField = (DateField)component;
-        // assertThat(dateField.getDateFormat(), is(DateFormats.PATTERN_DE));
-    }
+        Component component = adapter.newComponent();
 
-    @Test
-    public void testNewComponent_CustomDateFormatIsUsed() {
-        // TODO LIN-2044
-        // DateFieldBindingDefinition adapter = new DateFieldBindingDefinition(customAnnotation());
-        // Component component = adapter.newComponent();
-        // assertThat(component, is(instanceOf(DateField.class)));
-        // DateField dateField = (DateField)component;
-        // assertThat(dateField.getDateFormat(), is(CUSTOM_DATE_FORMAT));
+        assertThat(component, is(instanceOf(DatePicker.class)));
     }
 
 }

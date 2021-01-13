@@ -138,14 +138,13 @@ public class ComponentFactory {
     }
 
     public static DatePicker newDateField() {
-        // TODO LIN-2044
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
             throw new IllegalStateException("Creating a date field requires a UI with locale");
         }
-
         DatePicker field = new DatePicker();
         // there is no year zero https://en.wikipedia.org/wiki/Year_zero
-        field.setMin(LocalDate.ofYearDay(1, 1));
+        // DatePicker gets confused with year numbers below 1000 anyway
+        field.setMin(LocalDate.ofYearDay(1000, 1));
         field.setMax(LocalDate.ofYearDay(9999, 365));
         return field;
     }
