@@ -33,26 +33,30 @@ import org.linkki.core.uicreation.ComponentAnnotationReader;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.Column;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.treegrid.TreeGrid;
 
 /**
  * A {@link ColumnBasedComponentCreator} that creates a {@link Grid} component.
  */
-class GridComponentCreator {
+public class GridComponentCreator {
 
     private static final String TABLE_ID_SUFFIX = "_table";
 
+    private GridComponentCreator() {
+        // utility class
+    }
 
     /**
      * Create a new {@link Grid} component based on the container PMO.
      */
-    public <ROW> Grid<ROW> createGridComponent(ContainerPmo<ROW> containerPmo, BindingContext bindingContext) {
-        GridComponentWrapper<ROW> gridWrapper = createComponent(requireNonNull(containerPmo,
-                                                                               "containerPmo must not be null"));
+    public static <ROW> Grid<ROW> createGrid(ContainerPmo<ROW> containerPmo, BindingContext bindingContext) {
+        requireNonNull(containerPmo, "containerPmo must not be null");
         requireNonNull(bindingContext, "bindingContext must not be null");
+        AbstractGridComponentWrapper<ROW> gridWrapper = createComponent(containerPmo);
         List<LinkkiAspectDefinition> tableAspects = AspectAnnotationReader
                 .createAspectDefinitionsFor(containerPmo.getClass());
-        ContainerBinding binding = bindingContext.bindContainer(containerPmo, BoundProperty.empty(), tableAspects,
-                                                                gridWrapper);
+        ContainerBinding binding = bindingContext
+                .bindContainer(containerPmo, BoundProperty.empty(), tableAspects, gridWrapper);
         createColumns(containerPmo, gridWrapper, binding);
         // need to update binding after columns are created because the footer content cannot be updated
         // without columns
@@ -63,21 +67,28 @@ class GridComponentCreator {
     /**
      * Creates a new table based on the container PMO.
      */
-    private <ROW> GridComponentWrapper<ROW> createComponent(ContainerPmo<ROW> containerPmo) {
+    private static <ROW> AbstractGridComponentWrapper<ROW> createComponent(ContainerPmo<ROW> containerPmo) {
         if (containerPmo.isHierarchical()) {
-            throw new IllegalArgumentException("Hierarchical grid not supported yet!");
+            TreeGrid<ROW> grid = new TreeGrid<>();
+            grid.addClassName("tree-table");
+            grid.setWidth("100%");
+            return new TreeGridComponentWrapper<>(containerPmo.getClass().getSimpleName() + TABLE_ID_SUFFIX, grid);
+        } else {
+            Grid<ROW> grid = new Grid<>();
+            applyStyle(grid);
+            return new GridComponentWrapper<>(containerPmo.getClass().getSimpleName() + TABLE_ID_SUFFIX, grid);
         }
-        Grid<ROW> grid = new Grid<>();
+    }
+
+    private static <ROW> void applyStyle(Grid<ROW> grid) {
         grid.addClassName(LinkkiTheme.TABLE);
         grid.setWidth("100%");
         grid.addThemeVariants(GridVariant.LUMO_NO_ROW_BORDERS,
                               GridVariant.LUMO_ROW_STRIPES);
-
-        return new GridComponentWrapper<>(containerPmo.getClass().getSimpleName() + TABLE_ID_SUFFIX, grid);
     }
 
 
-    private <ROW> void createColumns(ContainerPmo<ROW> containerPmo,
+    private static <ROW> void createColumns(ContainerPmo<ROW> containerPmo,
             ComponentWrapper tableWrapper,
             BindingContext bindingContext) {
         Class<?> rowPmoClass = containerPmo.getItemPmoClass();
@@ -94,7 +105,7 @@ class GridComponentCreator {
      * @param elementDesc the descriptor for the PMO's field
      * @param tableWrapper the {@link ComponentWrapper} that wraps the table
      */
-    private <ROW> void initColumn(ContainerPmo<ROW> containerPmo,
+    private static <ROW> void initColumn(ContainerPmo<ROW> containerPmo,
             ComponentWrapper tableWrapper,
             BindingContext bindingContext,
             Method m) {
@@ -110,10 +121,13 @@ class GridComponentCreator {
                             new GridColumnWrapper(column));
     }
 
-    private <ROW> Column<ROW> createComponentColumn(Method m, Grid<ROW> grid, BindingContext bindingContext) {
+    private static <ROW> Column<ROW> createComponentColumn(Method m, Grid<ROW> grid, BindingContext bindingContext) {
         ComponentColumnProvider<ROW> columnGen = new ComponentColumnProvider<>(m, bindingContext);
-        Column<ROW> column = grid.addComponentColumn(columnGen);
-        return column;
+        if (grid instanceof TreeGrid && grid.getColumns().size() == 0) {
+            return ((TreeGrid<ROW>)grid).addComponentHierarchyColumn(columnGen);
+        } else {
+            return grid.addComponentColumn(columnGen);
+        }
     }
 
 }

@@ -11,7 +11,13 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForMethods(edu.umd.cs.findbugs.annotations.NonNull.class)
-package org.linkki.core.ui.util;
+
+package org.linkki.samples.treetable.dynamic.model;
+
+import java.util.List;
+
+public interface League {
+
+    List<Player> getPlayers();
+
+}

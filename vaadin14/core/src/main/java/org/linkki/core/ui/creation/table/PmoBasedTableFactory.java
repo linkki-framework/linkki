@@ -20,7 +20,11 @@ import com.vaadin.flow.component.grid.Grid;
 
 /**
  * A factory to create a table based on a {@link ContainerPmo}.
+ * 
+ * @deprecated since 1.4, in vaadin 14 we use {@link Grid} instead of table component. Use
+ *             {@link GridComponentCreator#createGrid(ContainerPmo, BindingContext)} instead
  */
+@Deprecated
 public class PmoBasedTableFactory {
 
     private final ContainerPmo<?> containerPmo;
@@ -38,8 +42,7 @@ public class PmoBasedTableFactory {
     }
 
     public Grid<?> createTable() {
-        return new GridComponentCreator().createGridComponent(containerPmo,
-                                                              bindingContext);
+        return GridComponentCreator.createGrid(containerPmo, bindingContext);
     }
 
 }

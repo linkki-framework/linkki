@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground;
+package org.linkki.samples.treetable;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,16 +20,16 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class PlaygroundApplication extends SpringBootServletInitializer {
+public class TreeTableApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(PlaygroundApplication.class);
+        return builder.sources(TreeTableApplication.class);
     }
 
     @SuppressWarnings("resource")
     public static void main(String[] args) {
-        SpringApplication.run(PlaygroundApplication.class, args);
+        SpringApplication.run(TreeTableApplication.class, args);
     }
 
 }

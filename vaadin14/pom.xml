@@ -20,7 +20,7 @@
 
     <properties>
     <!-- this property must also be updated in samples-vaadin8 and uitest -->
-        <vaadin.version>14.4.4</vaadin.version>
+        <vaadin.version>14.4.6</vaadin.version>
     </properties>
 
     <dependencyManagement>

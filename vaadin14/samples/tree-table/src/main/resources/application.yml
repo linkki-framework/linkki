@@ -1,0 +1,14 @@
+logging:
+   level:
+      org.springframework: WARN
+
+spring:
+   profiles:
+      active: dev
+   main:
+      banner-mode: 'off'
+
+server:
+   port: 8080
+   servlet:
+      context-path: '/linkki-sample-tree-table-vaadin14'

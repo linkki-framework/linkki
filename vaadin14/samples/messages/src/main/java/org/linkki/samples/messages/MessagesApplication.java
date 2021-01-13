@@ -27,6 +27,7 @@ public class MessagesApplication extends SpringBootServletInitializer {
         return builder.sources(MessagesApplication.class);
     }
 
+    @SuppressWarnings("resource")
     public static void main(String[] args) {
         SpringApplication.run(MessagesApplication.class, args);
     }

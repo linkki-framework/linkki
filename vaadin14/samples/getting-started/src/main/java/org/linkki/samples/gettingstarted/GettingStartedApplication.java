@@ -27,6 +27,7 @@ public class GettingStartedApplication extends SpringBootServletInitializer {
         return builder.sources(GettingStartedApplication.class);
     }
 
+    @SuppressWarnings("resource")
     public static void main(String[] args) {
         SpringApplication.run(GettingStartedApplication.class, args);
     }
