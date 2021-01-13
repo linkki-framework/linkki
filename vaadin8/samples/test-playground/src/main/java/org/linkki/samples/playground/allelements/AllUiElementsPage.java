@@ -29,13 +29,15 @@ import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo
 import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiSectionPmo;
 import org.linkki.util.handler.Handler;
 
+import com.vaadin.ui.Label;
+
 public class AllUiElementsPage extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
     private final BindingContext bindingContext;
 
-    private DynamicFieldPmo dynamicFieldPmo;
+    private MultipleComponentAnnotationsPmo dynamicFieldPmo;
     private AbstractSection dynamicFieldSection;
 
     public AllUiElementsPage(BooleanSupplier readOnlySupplier) {
@@ -46,6 +48,8 @@ public class AllUiElementsPage extends AbstractPage {
 
     @Override
     public final void createContent() {
+        addComponent(new Label("All @UI... Components"));
+
         addSection(new AllUiElementsUiSectionPmo());
         addSection(new AllUiElementsUiFormSectionPmo());
         add(VaadinUiCreator.createComponent(new HorizontalLayoutPmo(), getBindingContext()));
@@ -54,9 +58,8 @@ public class AllUiElementsPage extends AbstractPage {
         add(VaadinUiCreator.createComponent(new CssLayoutPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new SectionHeaderPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new ReadOnlyBehaviorPmo(), getBindingContext()));
-        add(VaadinUiCreator.createComponent(new BindVisibleSectionPmo(), getBindingContext()));
 
-        dynamicFieldPmo = new DynamicFieldPmo(() -> {
+        dynamicFieldPmo = new MultipleComponentAnnotationsPmo(() -> {
             removeComponent(dynamicFieldSection);
             dynamicFieldSection = addSection(dynamicFieldPmo);
         });

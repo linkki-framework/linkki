@@ -31,6 +31,7 @@ import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 public class BugCollectionLayout extends VerticalLayout implements SidebarSheetDefinition {
@@ -40,6 +41,8 @@ public class BugCollectionLayout extends VerticalLayout implements SidebarSheetD
     private static final long serialVersionUID = 1L;
 
     public BugCollectionLayout() {
+        addComponent(new Label("Setup for verifying that specific bugs do not occur"));
+
         BindingContext bindingContext = new BindingContext();
         addComponent(PmoBasedSectionFactory
                 .createAndBindSection(new ComboBoxCaptionRefreshPmo(), bindingContext));

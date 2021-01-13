@@ -25,8 +25,8 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.util.handler.Handler;
 
-@UISection(caption = "Dynamic Fields")
-public class DynamicFieldPmo {
+@UISection(caption = "Multiple Component Annotations")
+public class MultipleComponentAnnotationsPmo {
 
     public static final String PROPERTY_TYPE = "type";
     public static final String PROPERTY_VALUE = "value";
@@ -38,7 +38,7 @@ public class DynamicFieldPmo {
     private String value = "foo";
     private Handler modelChangedHandler;
 
-    public DynamicFieldPmo(Handler modelChangedHandler) {
+    public MultipleComponentAnnotationsPmo(Handler modelChangedHandler) {
         this.modelChangedHandler = modelChangedHandler;
     }
 

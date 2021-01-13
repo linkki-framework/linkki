@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.allelements;
+package org.linkki.samples.playground.dynamicannotations;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,6 +28,7 @@ import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
+import org.linkki.samples.playground.allelements.FormSectionPmo;
 
 @UIFormSection(caption = "@BindVisibleSectionPmo")
 public class BindVisibleSectionPmo {

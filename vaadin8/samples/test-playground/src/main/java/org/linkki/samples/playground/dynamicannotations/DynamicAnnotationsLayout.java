@@ -20,6 +20,7 @@ import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 public class DynamicAnnotationsLayout extends VerticalLayout implements SidebarSheetDefinition {
@@ -29,6 +30,8 @@ public class DynamicAnnotationsLayout extends VerticalLayout implements SidebarS
     private static final long serialVersionUID = 1L;
 
     public DynamicAnnotationsLayout() {
+        addComponent(new Label("@Bind... Annotations"));
+
         BindingContext bindingContext = new BindingContext();
         addComponent(PmoBasedSectionFactory
                 .createAndBindSection(new DynamicCaptionWithoutButtonPmo(), bindingContext));
@@ -38,9 +41,10 @@ public class DynamicAnnotationsLayout extends VerticalLayout implements SidebarS
                 .createAndBindSection(new DynamicCaptionWithSectionHeaderButtonPmo(), bindingContext));
         addComponent(PmoBasedSectionFactory
                 .createAndBindSection(new DynamicCaptionWithCloseButtonPmo(), bindingContext));
-
         addComponent(PmoBasedSectionFactory
                 .createAndBindSection(new DynamicTooltipPmo(), bindingContext));
+        addComponent(PmoBasedSectionFactory
+                .createAndBindSection(new BindVisibleSectionPmo(), bindingContext));
     }
 
     @Override
