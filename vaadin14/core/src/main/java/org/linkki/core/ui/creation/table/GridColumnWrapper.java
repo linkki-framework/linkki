@@ -50,7 +50,7 @@ public class GridColumnWrapper extends VaadinComponentWrapper {
      * @param collapseMode The {@link CollapseMode} that should be set
      */
     public void setCollapseMode(CollapseMode collapseMode) {
-        // TODO LIN-2088
+        // TODO LIN-2138
         // if (collapseMode.isCollapsible() && !grid.isColumnCollapsingAllowed()) {
         // grid.setColumnCollapsingAllowed(true);
         // }
