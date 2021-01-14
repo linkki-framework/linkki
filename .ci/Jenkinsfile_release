@@ -103,6 +103,7 @@ pipeline {
             steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml clean test'
+                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml clean test'
                 }
             }
 
