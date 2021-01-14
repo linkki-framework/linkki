@@ -23,7 +23,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
 import org.linkki.samples.playground.allelements.Direction;
-import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
@@ -36,7 +35,6 @@ import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.PasswordFieldElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
-
 
 public class AllUiElementsTest extends AbstractUiTest {
 
@@ -110,7 +108,7 @@ public class AllUiElementsTest extends AbstractUiTest {
         PasswordFieldElement customField = $(PasswordFieldElement.class).id(AllUiElementsModelObject.PROPERTY_SECRET);
         assertThat(customField.getValue(), is("secret"));
 
-        customField.sendKeys("!");
+        customField.sendKeys("!\t");
         assertThat(customField.getValue(), is("secret!"));
     }
 
@@ -118,10 +116,6 @@ public class AllUiElementsTest extends AbstractUiTest {
     public void testLabel() {
         DivElement label = $(DivElement.class).id("textLabel");
         assertThat(label.getText(), is("secret"));
-
-        PasswordFieldElement customField = $(PasswordFieldElement.class).id(AllUiElementsModelObject.PROPERTY_SECRET);
-        customField.sendKeys("!\t");
-        assertThat(label.getText(), is("secret!"));
     }
 
     @Test
@@ -136,11 +130,11 @@ public class AllUiElementsTest extends AbstractUiTest {
     public void testButton() {
         ButtonElement button = $(ButtonElement.class).id("action");
         TextFieldElement integerField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_INTVALUE);
-        assertThat(integerField.getValue(), is("42"));
+        integerField.setValue("123");
 
         button.click();
 
-        assertThat(integerField.getValue(), is("43"));
+        assertThat(integerField.getValue(), is("124"));
     }
 
     @Test
@@ -188,11 +182,9 @@ public class AllUiElementsTest extends AbstractUiTest {
     @Test
     public void testLink() {
         AnchorElement link = $(AnchorElement.class).id("link");
+
         assertThat(link.getText(), is("Link to Dynamic Annotations"));
-
-        link.click();
-
-        assertThat(getDriver().getCurrentUrl(), endsWith(DynamicAnnotationsLayout.ID.replace(" ", "%20")));
+        assertThat(link.getAttribute("href"), endsWith("sheet=Dynamic%20Annotations"));
     }
 
 }

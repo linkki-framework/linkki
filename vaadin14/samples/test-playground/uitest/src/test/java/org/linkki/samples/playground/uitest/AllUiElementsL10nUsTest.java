@@ -17,23 +17,14 @@ package org.linkki.samples.playground.uitest;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.util.Locale;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
 
 import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-
+@DriverExtension.Configuration(locale = "en")
 public class AllUiElementsL10nUsTest extends AbstractUiTest {
-
-    @Override
-    @BeforeEach
-    public void setUp() {
-        setUp(Locale.US);
-    }
 
     @Test
     public void testDoubleField() {

@@ -17,6 +17,7 @@ package org.linkki.samples.playground.uitest;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -28,14 +29,9 @@ import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 
 public class SectionHeaderTest extends AbstractUiTest {
 
-    @Override
-    public void startApplication(String url) {
-        if (getDriver() != null) {
-            System.out.println("Starting application on " + url);
-            // there appear to be issues running the test with a small resolution
-            driver.manage().window().setSize(new Dimension(1920, 1080));
-            getDriver().get(url);
-        }
+    @BeforeEach
+    public void setResolution() {
+        driver.manage().window().setSize(new Dimension(1920, 1080));
     }
 
     @Test

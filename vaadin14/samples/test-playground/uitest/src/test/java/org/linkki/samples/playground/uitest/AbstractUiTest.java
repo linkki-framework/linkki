@@ -14,22 +14,24 @@
 package org.linkki.samples.playground.uitest;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.testbench.TabsElement;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
-import com.vaadin.testbench.TestBench;
 import com.vaadin.testbench.TestBenchTestCase;
 
 /**
@@ -39,6 +41,9 @@ import com.vaadin.testbench.TestBenchTestCase;
  * must be called at the beginning of the test.
  */
 public class AbstractUiTest extends TestBenchTestCase {
+
+    @RegisterExtension
+    protected static DriverExtension driverExtension = new DriverExtension();
 
     /** The default application's URL path. */
     public static final String MAIN_URL_PATH = "";
@@ -55,39 +60,7 @@ public class AbstractUiTest extends TestBenchTestCase {
 
     @BeforeEach
     public void setUp() {
-        setUp(Locale.GERMANY);
-    }
-
-    protected void setUp(Locale locale) {
-        BrowserType browserType = DriverProperties.isHeadless() ? BrowserType.CHROME_HEADLESS : BrowserType.CHROME;
-        WebDriver webDriver = browserType.getWebdriver(locale);
-        setDriver(TestBench.createDriver(webDriver));
-        String url = DriverProperties.getTestUrl(urlPath);
-        startApplication(url);
-        waitUntil(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
-                .toString().equals("complete"));
-    }
-
-    /**
-     * Starts the application on the browser with the given URL and maximizes the browser.
-     *
-     * @param url URL of the application
-     * @see DriverProperties#getTestUrl(String)
-     */
-    public void startApplication(String url) {
-        if (getDriver() != null) {
-            System.out.println("Starting application on " + url);
-            getDriver().get(url);
-            maximize();
-        }
-    }
-
-    /**
-     * Closes the browser
-     */
-    @AfterEach
-    public void closeBrowser() {
-        getDriver().quit();
+        setDriver(driverExtension.getDriver());
     }
 
     /**
@@ -97,6 +70,13 @@ public class AbstractUiTest extends TestBenchTestCase {
      */
     public void clickButton(String id) {
         $(ButtonElement.class).id(id).click();
+    }
+
+    /**
+     * Opens the {@link Tab} with the given name.
+     */
+    public void openTab(String name) {
+        $(TabsElement.class).first().getTabElement(name).click();
     }
 
     /**
@@ -155,13 +135,6 @@ public class AbstractUiTest extends TestBenchTestCase {
      */
     public void clickMenuItem(String id) {
         $(MenuBarElement.class).id(id).click();
-    }
-
-    /**
-     * Maximize the browser.
-     */
-    private void maximize() {
-        getDriver().manage().window().maximize();
     }
 
     /**
