@@ -56,4 +56,10 @@ docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/link
 WAR_FILE="vaadin14/samples/tree-table/target/linkki-sample-tree-table-vaadin14.war"
 docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-tree-table-vaadin14.war
 
+WAR_FILE="vaadin14/samples/binding/target/linkki-sample-binding-vaadin14.war"
+docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-binding-vaadin14.war
+
+WAR_FILE="vaadin14/samples/dynamic-fields/target/linkki-sample-dynamic-fields-vaadin14.war"
+docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-dynamic-fields-vaadin14.war
+
 docker start $WILDFLY_NAME

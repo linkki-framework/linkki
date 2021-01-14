@@ -43,6 +43,13 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

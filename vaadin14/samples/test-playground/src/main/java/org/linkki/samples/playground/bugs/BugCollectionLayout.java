@@ -23,6 +23,8 @@ import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
 import org.linkki.samples.playground.bugs.lin1608.PmoReadonlyModelNotReadonlyPmo;
 import org.linkki.samples.playground.bugs.lin1738.DoubleClickPmo;
 import org.linkki.samples.playground.bugs.lin1795.ComboBoxPmo;
+import org.linkki.samples.playground.bugs.lin1797.OnlyTablePmo;
+import org.linkki.samples.playground.bugs.lin1797.SectionTablePmo;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -42,8 +44,8 @@ public class BugCollectionLayout extends VerticalLayout {
         addComponentWithSeparateBindingContext(bc -> new ComboBoxPmo());
         // TODO LIN-2088
         // addComponentWithSeparateBindingContext(bc -> new Lin1890HierarchicalTablePmo());
-        // addComponentWithSeparateBindingContext(bc -> new OnlyTablePmo());
-        // addComponentWithSeparateBindingContext(bc -> new SectionTablePmo());
+        addComponentWithSeparateBindingContext(bc -> new OnlyTablePmo());
+        addComponentWithSeparateBindingContext(bc -> new SectionTablePmo());
         // addComponentWithSeparateBindingContext(bc -> new TriangleTablePmo());
     }
 

@@ -44,6 +44,8 @@ pipeline {
                         <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-tree-table-vaadin14">tree table sample</a></li>
                         <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin14">getting started</a></li>
                         <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14">test playground</a></li>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-binding-vaadin14">binding sample</a></li>
+                        <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-dynamic-fields-vaadin14">dynamic fields sample</a></li>
                     </ul>
                 '''
 
