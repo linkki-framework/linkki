@@ -1,0 +1,20 @@
+:jbake-title: Vaadin 14 Migration
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 1000
+
+== Vaadin 14 Migration
+
+Stichpunkte, die in der Migrationsanleitung geordnet und ausformuliert werden
+
+* GridSection gibts nicht mehr -> UISection erstellt FormLayoutSection, verwendet CaptionComponentWrapper
+* Button, Link, Label, Checkbox können keine Label mehr haben
+* Keine keycodes mehr (com.vaadin.flow.component.Key)
+* Tooltips gibts nicht mehr? https://vaadin.com/forum/thread/17094165/tooltips
+* Vaalo theme gibts nicht mehr: https://vaadin.com/docs/flow/migration/6-theming.html
+* Content mode gibts nicht mehr? https://vaadin.com/forum/thread/17133860/label-contentmode-html
+* Resource -> Icon
+* Component#setIcon gibts nicht mehr
+* Man muss einen I18NProvider setzen, sonst wird die default system locale genommen -> LIN-2123
+* ComponentFactory: Label methoden gelöscht -> Umstellung + LIN-2053
+* UIDateField unterstützt kein custom Date-Format mehr. Das Format ist durch das zugrundeliegende Locale festgelegt (Vaadin benutzt angeblich das hier zum mapping). Das Attribut 'dateFormat' ist dementsprechend rausgeflogen, muss auch in UIDateField dokumentation angepasst werden -> LIN-2044, LIN-2091
