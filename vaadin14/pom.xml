@@ -15,6 +15,7 @@
     <modules>
         <module>test</module>
         <module>core</module>
+        <module>ips</module>
         <module>samples</module>
     </modules>
 

@@ -35,6 +35,7 @@ import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.ips.decimalfield.UIDecimalField;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.nls.NlsText;
 import org.linkki.samples.playground.ui.PlaygroundView;
@@ -194,13 +195,11 @@ public abstract class AbstractAllUiElementsSectionPmo {
         getModelObject().setIntValue(getModelObject().getIntValue() + 1);
     }
 
-    // TODO LIN-2098
-    // @BindReadOnly(ReadOnlyType.DYNAMIC)
-    // @UIDecimalField(position = 110, label = NlsText.I18n, modelAttribute =
-    // AllUiElementsModelObject.PROPERTY_DECIMALVALUE, required = RequiredType.DYNAMIC)
-    // public void decimalValue() {
-    // // model binding
-    // }
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UIDecimalField(position = 110, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DECIMALVALUE, required = RequiredType.DYNAMIC)
+    public void decimalValue() {
+        // model binding
+    }
 
     public boolean isDecimalValueRequired() {
         return getModelObject().isBooleanValue();

@@ -31,6 +31,10 @@
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-vaadin14</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-ips-vaadin14</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.reactivestreams</groupId>

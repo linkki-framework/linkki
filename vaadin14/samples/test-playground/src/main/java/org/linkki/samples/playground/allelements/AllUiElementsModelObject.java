@@ -17,6 +17,8 @@ package org.linkki.samples.playground.allelements;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.faktorips.values.Decimal;
+
 public class AllUiElementsModelObject {
 
     public static final String PROPERTY_TEXT = "text";
@@ -57,8 +59,7 @@ public class AllUiElementsModelObject {
 
     private BigDecimal bigDecimal = BigDecimal.valueOf(1234567890L, 5);
 
-    // TODO LIN-2098
-    // private Decimal decimalValue = Decimal.valueOf(1234567890L, 5);
+    private Decimal decimalValue = Decimal.valueOf(1234567890L, 5);
 
     public String getText() {
         return text;
@@ -132,12 +133,11 @@ public class AllUiElementsModelObject {
         this.bigDecimal = bigDecimal;
     }
 
-    // TODO LIN-2098
-    // public Decimal getDecimalValue() {
-    // return decimalValue;
-    // }
-    //
-    // public void setDecimalValue(Decimal decimalValue) {
-    // this.decimalValue = decimalValue;
-    // }
+    public Decimal getDecimalValue() {
+        return decimalValue;
+    }
+
+    public void setDecimalValue(Decimal decimalValue) {
+        this.decimalValue = decimalValue;
+    }
 }
