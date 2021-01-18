@@ -51,33 +51,22 @@ public class PlaygroundView extends Div {
         sidebarTabs.getElement().getStyle().set("float", "left");
         add(sidebarTabs);
         sidebarTabs.addSelectedChangeListener(e -> {
-            content.removeAll();
+            Optional.ofNullable(sheetMap.get(e.getPreviousTab()))
+                    .ifPresent(c -> c.setVisible(false));
             Optional.ofNullable(sheetMap.get(e.getSelectedTab()))
-                    .ifPresent(c -> content.add(c));
+                    .ifPresent(c -> c.setVisible(true));
         });
         add(content);
         content.setHeight("100%");
         content.getStyle().set("overflow", "auto");
 
         createSheets();
-
-        // TODO
-        // boolean readOnlyMode = event.getParameterMap().containsKey(PARAM_READONLY);
-        // addSidebarSheet(new AllUiElementsTabsheetArea(readOnlyMode));
-        // addSidebarSheet(new DynamicAnnotationsLayout());
-        // addSidebarSheet(new BugCollectionLayout());
-        // addSidebarSheet(new TablePage());
-        // addSidebarSheet(new NestedComponentPage());
-        //
-        // select(event.getParameterMap().get(PARAM_SHEET));
-        //
-        // addSelectionListener(e -> Page.getCurrent()
-        // .setUriFragment("!" + NAME + "/"
-        // + PARAM_SHEET + "=" + e.getSelectedSheet().getId(), false));
     }
 
     public Tab addSheet(Component c, String caption) {
         Tab tab = new Tab(caption);
+        content.add(c);
+        c.setVisible(false);
         sheetMap.put(tab, c);
         sidebarTabs.add(tab);
         return tab;
