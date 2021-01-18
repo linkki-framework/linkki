@@ -37,7 +37,7 @@ public class TextAreaBindingDefinition implements BindingDefinition {
 
     @Override
     public Component newComponent() {
-        return ComponentFactory.newTextArea(uiTextArea.maxLength(), uiTextArea.width(), uiTextArea.rows());
+        return ComponentFactory.newTextArea(uiTextArea.maxLength(), uiTextArea.width(), uiTextArea.height());
     }
 
     @Override

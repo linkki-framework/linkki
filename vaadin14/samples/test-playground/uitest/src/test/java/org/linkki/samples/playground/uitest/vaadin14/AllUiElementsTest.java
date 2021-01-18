@@ -18,10 +18,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.html.testbench.DivElement;
+import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 
 public class AllUiElementsTest extends AbstractUiTest {
 
@@ -42,6 +44,14 @@ public class AllUiElementsTest extends AbstractUiTest {
         assertThat(label.getText(), is("<b>NOT</b> HTML Content"));
         assertThat(label.findElements(By.tagName("b")).size(), is(0));
         assertThat(label.getProperty("innerHTML"), is("&lt;b&gt;NOT&lt;/b&gt; HTML Content"));
+    }
+
+    @Test
+    public void testTextArea_Height() {
+        TextAreaElement textArea = $(TextAreaElement.class).id(AllUiElementsModelObject.PROPERTY_LONGTEXT);
+
+        // custom height defined in annotation
+        assertThat(textArea.getPropertyString("style", "height"), is("5em"));
     }
 
 }

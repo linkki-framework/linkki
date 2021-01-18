@@ -16,6 +16,7 @@ package org.linkki.core.vaadin.component;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -26,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.textfield.TextArea;
 
 public class ComponentFactoryTest {
 
@@ -76,5 +78,22 @@ public class ComponentFactoryTest {
 
         assertThat(dateField.isInvalid(), is(true));
     }
+
+    @Test
+    public void testNewTextArea() {
+        TextArea textArea = ComponentFactory.newTextArea(250, "500px", "100px");
+
+        assertThat(textArea.getMaxLength(), is(250));
+        assertThat(textArea.getWidth(), is("500px"));
+        assertThat(textArea.getHeight(), is("100px"));
+    }
+
+    @Test
+    public void testNewTextArea_EmptyHeight() {
+        TextArea textArea = ComponentFactory.newTextArea(250, "500px", "");
+
+        assertThat(textArea.getHeight(), is(nullValue()));
+    }
+
 
 }

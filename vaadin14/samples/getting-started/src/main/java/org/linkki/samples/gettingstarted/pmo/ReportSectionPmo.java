@@ -45,7 +45,7 @@ public class ReportSectionPmo implements PresentationModelObject {
         return report;
     }
 
-    @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, rows = 5, width = "50em")
+    @UITextArea(position = 10, label = "Description", modelAttribute = "description", required = RequiredType.REQUIRED, height = "8em", width = "50em")
     public void description() {
         // Use description from report (model object) directly
     }

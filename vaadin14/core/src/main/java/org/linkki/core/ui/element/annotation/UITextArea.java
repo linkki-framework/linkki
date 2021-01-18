@@ -70,8 +70,10 @@ public @interface UITextArea {
      */
     VisibleType visible() default VISIBLE;
 
-    /** Defines how many rows are displayed before the user has to start scrolling */
-    int rows() default 1;
+    /**
+     * Specifies the height of the component using a number and a CSS unit, for example "5em".
+     */
+    String height() default "3em";
 
     /**
      * Specifies the width of the field using a number and a CSS unit, for example "5em" or "50%".

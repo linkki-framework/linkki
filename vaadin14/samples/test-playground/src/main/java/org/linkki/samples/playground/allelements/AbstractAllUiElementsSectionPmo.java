@@ -69,7 +69,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UITextArea(position = 20, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_LONGTEXT, required = RequiredType.DYNAMIC)
+    @UITextArea(position = 20, height = "5em", label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_LONGTEXT, required = RequiredType.DYNAMIC)
     public void longText() {
         // model binding
     }

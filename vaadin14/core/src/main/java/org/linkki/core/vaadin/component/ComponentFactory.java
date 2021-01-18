@@ -106,9 +106,10 @@ public class ComponentFactory {
      * If the given width is an empty String and maxLength is greater than 0, the width of the field is
      * inferred by maxLength.
      * <p>
-     * The number of rows is only set if the given number is greater than 0.
+     * The height is only set if the given String is not {@link StringUtils#isEmpty(CharSequence)
+     * empty}.
      */
-    public static TextArea newTextArea(int maxLength, String width, int rows) {
+    public static TextArea newTextArea(int maxLength, String width, String height) {
         TextArea textArea = new TextArea();
 
         if (maxLength > 0) {
@@ -117,9 +118,8 @@ public class ComponentFactory {
 
         textArea.setWidth(width);
 
-        if (rows > 0) {
-            // TODO LIN-2059
-            textArea.setHeight((rows + 2) + "em");
+        if (!StringUtils.isEmpty(height)) {
+            textArea.setHeight(height);
         }
         return textArea;
     }
