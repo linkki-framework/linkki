@@ -21,6 +21,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.vaadin.component.ComponentFactory;
+import org.linkki.core.vaadin.component.annotation.HasCaption;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
@@ -39,7 +40,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * header is shown.
  */
 @CssImport(value = "./styles/linkki-section.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
-public abstract class AbstractSection extends VerticalLayout {
+public abstract class AbstractSection extends VerticalLayout implements HasCaption {
 
     private static final long serialVersionUID = 1L;
 
@@ -144,6 +145,7 @@ public abstract class AbstractSection extends VerticalLayout {
      * 
      * @param caption the caption text
      */
+    @Override
     public void setCaption(@CheckForNull String caption) {
         captionLabel.setText(caption);
         captionLabel.setVisible(!StringUtils.isEmpty(caption));
@@ -151,6 +153,7 @@ public abstract class AbstractSection extends VerticalLayout {
         updateHeader();
     }
 
+    @Override
     public String getCaption() {
         return captionLabel.getText();
     }
