@@ -32,7 +32,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class DriverExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
 
     private final static String DEFAULT_LOCALE = "de";
-    private final static String DEFAULT_URL = "";
+    private final static String DEFAULT_BASE_PATH = "";
+    private final static String DEFAULT_PATH = "";
     private final static boolean DEFAULT_RESTART = false;
 
     @Target(ElementType.TYPE)
@@ -40,14 +41,24 @@ public class DriverExtension implements BeforeAllCallback, AfterAllCallback, Bef
     public @interface Configuration {
 
         /**
+         * The browser locale.
+         * 
          * @see Locale#forLanguageTag(String)
          */
         String locale() default DEFAULT_LOCALE;
 
         /**
+         * The base path of the deployed application. The default of
+         * {@link DriverProperties#getTestPath()} will be used if no value has been set.
+         */
+        String basePath() default DEFAULT_BASE_PATH;
+
+        /**
+         * The path of the page that is getting tested.
+         * 
          * @see DriverProperties#getTestUrl(String)
          */
-        String url() default DEFAULT_URL;
+        String path() default DEFAULT_PATH;
 
         /**
          * Whether to restart the browser after every {@code @Test} method. The default is to use one
@@ -89,7 +100,7 @@ public class DriverExtension implements BeforeAllCallback, AfterAllCallback, Bef
     private void createDriver(String locale, String url) {
         BrowserType browserType = DriverProperties.isHeadless() ? BrowserType.CHROME_HEADLESS : BrowserType.CHROME;
         driver = browserType.getWebdriver(Locale.forLanguageTag(locale));
-        driver.get(DriverProperties.getTestUrl(url));
+        driver.get(url);
         driver.manage().window().maximize();
 
         new WebDriverWait(driver, 10).until(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
@@ -107,7 +118,12 @@ public class DriverExtension implements BeforeAllCallback, AfterAllCallback, Bef
 
     private String getUrl(ExtensionContext context) {
         Configuration config = getConfiguration(context);
-        return config != null ? config.url() : DEFAULT_URL;
+
+        if (config != null && !config.basePath().equals(DEFAULT_BASE_PATH)) {
+            return DriverProperties.getTestUrl(config.basePath(), config.path());
+        } else {
+            return DriverProperties.getTestUrl(config != null ? config.path() : DEFAULT_PATH);
+        }
     }
 
     private String getLocale(ExtensionContext context) {

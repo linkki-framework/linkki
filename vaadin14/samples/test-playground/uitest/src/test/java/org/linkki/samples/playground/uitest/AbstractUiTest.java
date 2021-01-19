@@ -39,24 +39,14 @@ import com.vaadin.testbench.TestBenchTestCase;
  * required web driver to launch the application on specific browser. UI test is done in this browser by
  * accessing various elements within the opened web page and by accessing their properties. SetUp method
  * must be called at the beginning of the test.
+ * <p>
+ * Various browser configuration options are available using the {@link DriverExtension.Configuration}
+ * annotation.
  */
 public class AbstractUiTest extends TestBenchTestCase {
 
     @RegisterExtension
     protected static DriverExtension driverExtension = new DriverExtension();
-
-    /** The default application's URL path. */
-    public static final String MAIN_URL_PATH = "";
-
-    private final String urlPath;
-
-    public AbstractUiTest() {
-        this(MAIN_URL_PATH);
-    }
-
-    public AbstractUiTest(String urlPath) {
-        this.urlPath = urlPath;
-    }
 
     @BeforeEach
     public void setUp() {
@@ -158,9 +148,5 @@ public class AbstractUiTest extends TestBenchTestCase {
     @Override
     public WebElement findElement(By locator) {
         return getDriver().findElement(locator);
-    }
-
-    public void navigateToView(String viewName) {
-        getDriver().get(DriverProperties.getTestUrl(urlPath) + viewName);
     }
 }
