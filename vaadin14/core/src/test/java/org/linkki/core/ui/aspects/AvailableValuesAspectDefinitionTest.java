@@ -42,9 +42,10 @@ import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.data.binder.HasItems;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.dom.Element;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
@@ -174,6 +175,7 @@ public class AvailableValuesAspectDefinitionTest {
         PropertyDispatcher propertyDispatcher = mock(PropertyDispatcher.class);
         when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.THREE));
         ComboBox<Object> component = mock(ComboBox.class);
+        when(component.getElement()).thenReturn(new Element("vaadin-combo-box"));
         Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
                                                                             new LabelComponentWrapper(component));
         ArgumentCaptor<ListDataProvider<?>> dataProviderCaptor = ArgumentCaptor.forClass(ListDataProvider.class);
@@ -196,6 +198,7 @@ public class AvailableValuesAspectDefinitionTest {
         when(propertyDispatcher.pull(any(Aspect.class))).thenReturn(Arrays.asList(TestEnum.ONE, TestEnum.THREE));
         ComboBox<Object> component = mock(ComboBox.class);
         when(component.getValue()).thenReturn(TestEnum.ONE);
+        when(component.getElement()).thenReturn(new Element("vaadin-combo-box"));
         Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
                                                                             new LabelComponentWrapper(component));
         ArgumentCaptor<ListDataProvider<?>> dataProviderCaptor = ArgumentCaptor.forClass(ListDataProvider.class);

@@ -29,6 +29,7 @@ import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
 import org.linkki.util.handler.Handler;
 
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.data.binder.HasItems;
 import com.vaadin.flow.data.provider.ListDataProvider;
 
@@ -76,6 +77,13 @@ public class AvailableValuesAspectDefinition<C extends HasItems<?>> implements L
         }
 
         refreshAll(componentWrapper, items);
+
+        // TODO LIN-2200 remove this workaround once the issue with combobox is fixed in Vaadin
+        if (componentWrapper.getComponent() instanceof ComboBox<?>) {
+            ComboBox<?> component = (ComboBox<?>)componentWrapper.getComponent();
+            component.getElement().callJsFunction("_ensureFirstPage", true);
+        }
+
     }
 
     /**
