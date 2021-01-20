@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki</artifactId>
-        <version>1.3.0-SNAPSHOT</version>
+        <version>1.4.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>linkki-vaadin8</artifactId>
@@ -27,7 +27,7 @@
     <!-- this property must also be updated in samples-vaadin8 and uitest -->
         <vaadin.version>
         <!-- tag::vaadin8[] -->
-        8.12.0
+        8.12.1
         <!-- end::vaadin8[] -->
         </vaadin.version>
     </properties>

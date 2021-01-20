@@ -30,7 +30,7 @@ import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
 import org.linkki.samples.playground.allelements.Direction;
-import org.linkki.samples.playground.allelements.DynamicFieldPmo;
+import org.linkki.samples.playground.allelements.MultipleComponentAnnotationsPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 
 import com.vaadin.testbench.elements.ButtonElement;
@@ -203,7 +203,7 @@ public class AllUiElementsTest extends AbstractUiTest {
         HorizontalLayoutElement horizontalLayout = $(HorizontalLayoutElement.class).id("HorizontalLayoutPmo");
         assertThat("Caption of UIHorizontalLayout is bindable", horizontalLayout.getCaption(),
                    is("UIHorizontalLayout"));
-        assertThat(horizontalLayout.$(TextFieldElement.class).all().size(), is(1));
+        assertThat(horizontalLayout.$(TextFieldElement.class).all().size(), is(2));
         assertThat(horizontalLayout.$(LabelElement.class).all().size(), is(1));
         assertThat(horizontalLayout.$(ButtonElement.class).all().size(), is(1));
         assertThat(horizontalLayout.$(CheckBoxElement.class).all().size(), is(1));
@@ -256,26 +256,26 @@ public class AllUiElementsTest extends AbstractUiTest {
 
     @Test
     public void testDynamicField() {
-        DynamicFieldPmo.FieldTypeCaptionProvider fieldTypeCaptionProvider = new DynamicFieldPmo.FieldTypeCaptionProvider();
-        ComboBoxElement typeComboBox = $(ComboBoxElement.class).id(DynamicFieldPmo.PROPERTY_TYPE);
+        MultipleComponentAnnotationsPmo.FieldTypeCaptionProvider fieldTypeCaptionProvider = new MultipleComponentAnnotationsPmo.FieldTypeCaptionProvider();
+        ComboBoxElement typeComboBox = $(ComboBoxElement.class).id(MultipleComponentAnnotationsPmo.PROPERTY_TYPE);
         assertThat(typeComboBox.getValue(), is(fieldTypeCaptionProvider.getCaption(UIComboBox.class)));
 
-        ComboBoxElement valueComboBox = $(ComboBoxElement.class).id(DynamicFieldPmo.PROPERTY_VALUE);
+        ComboBoxElement valueComboBox = $(ComboBoxElement.class).id(MultipleComponentAnnotationsPmo.PROPERTY_VALUE);
         assertThat(valueComboBox.getValue(), is("foo"));
 
 
         typeComboBox.selectByText(fieldTypeCaptionProvider.getCaption(UITextField.class));
 
-        TextFieldElement valueTextField = $(TextFieldElement.class).id(DynamicFieldPmo.PROPERTY_VALUE);
+        TextFieldElement valueTextField = $(TextFieldElement.class).id(MultipleComponentAnnotationsPmo.PROPERTY_VALUE);
         assertThat(valueTextField.getValue(), is("foo"));
 
         valueTextField.sendKeys("bar");
         assertThat(valueTextField.getValue(), is("foobar"));
 
-        typeComboBox = $(ComboBoxElement.class).id(DynamicFieldPmo.PROPERTY_TYPE);
+        typeComboBox = $(ComboBoxElement.class).id(MultipleComponentAnnotationsPmo.PROPERTY_TYPE);
         typeComboBox.selectByText(fieldTypeCaptionProvider.getCaption(UIComboBox.class));
 
-        valueComboBox = $(ComboBoxElement.class).id(DynamicFieldPmo.PROPERTY_VALUE);
+        valueComboBox = $(ComboBoxElement.class).id(MultipleComponentAnnotationsPmo.PROPERTY_VALUE);
         assertThat(valueComboBox.getValue(), is("foobar"));
     }
 

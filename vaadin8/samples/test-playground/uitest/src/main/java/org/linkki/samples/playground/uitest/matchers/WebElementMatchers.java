@@ -44,7 +44,7 @@ public class WebElementMatchers {
         @Override
         protected void describeMismatchSafely(WebElement item, Description mismatchDescription) {
             mismatchDescription.appendValue(item).appendText(" was ")
-                    .appendText(item.isEnabled() ? "enabled" : "disabled");
+                    .appendText(enabled ? "disabled" : "enabled");
         }
 
         @Override
@@ -53,4 +53,5 @@ public class WebElementMatchers {
         }
 
     }
+
 }

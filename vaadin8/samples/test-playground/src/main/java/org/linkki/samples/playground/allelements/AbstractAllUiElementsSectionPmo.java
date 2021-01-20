@@ -50,6 +50,21 @@ import com.vaadin.ui.PasswordField;
 public abstract class AbstractAllUiElementsSectionPmo {
 
     public static final String CSS_NAME = "playground";
+    public static final String PROPERTY_TEXT = "text";
+    public static final String PROPERTY_LONG_TEXT = "longText";
+    public static final String PROPERTY_INT_VALUE = "intValue";
+    public static final String PROPERTY_DOUBLE_VALUE = "doubleValue";
+    public static final String PROPERTY_DATE = "date";
+    public static final String PROPERTY_ENUM_VALUE_COMBO_BOX = "enumValueComboBox";
+    public static final String PROPERTY_BOOLEAN_VALUE = "booleanValue";
+    public static final String PROPERTY_TEXT_LABEL = "textLabel";
+    public static final String PROPERTY_BIG_DECIMAL_LABEL = "bigDecimalLabel";
+    public static final String PROPERTY_SECRET = "secret";
+    public static final String PROPERTY_ACTION = "action";
+    public static final String PROPERTY_DECIMAL_VALUE = "decimalValue";
+    public static final String PROPERTY_ENUMVALUE_RADIO_BUTTON = "enumValueRadioButton";
+    public static final String PROPERTY_READ_ONLY = "readOnly";
+    public static final String PROPERTY_LINK = "link";
 
     private final AllUiElementsModelObject modelObject = new AllUiElementsModelObject();
 

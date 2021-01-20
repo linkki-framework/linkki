@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.allelements;
 
+import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
@@ -28,19 +29,29 @@ import com.vaadin.ui.Notification;
 public class HorizontalLayoutPmo {
 
     private String text;
+    private String textWithLabel;
 
     @UILabel(position = 10)
     public String getLabel() {
         return "label";
     }
 
-    @UITextField(label = "", position = 20)
+    @UITextField(label = "", position = 20, required = RequiredType.REQUIRED)
     public String getText() {
         return text;
     }
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @UITextField(label = "with label", position = 25, required = RequiredType.REQUIRED)
+    public String getBananas() {
+        return textWithLabel;
+    }
+
+    public void setBananas(String text) {
+        textWithLabel = text;
     }
 
     @UIButton(position = 30, caption = "Button")

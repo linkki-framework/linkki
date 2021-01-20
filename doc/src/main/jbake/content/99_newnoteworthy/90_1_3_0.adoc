@@ -94,14 +94,18 @@ For the annotations `@BindTooltip` and `@BindCaption` the default of the type wa
 
 For example simply write `@BindTooltip` instead of `@BindTooltip(tooltipType = TooltipType.DYNAMIC)` to get a dynamic tooltip binding.
 
+==== ID Collision in Table Sections
+
+When creating a table section from a PMO, the HTML elements of the table, as well as the section surrounding it, were both assigned the name of the PMO class as ID. This leads to ID collision. To avoid this, the ID of the table now has the suffix "_table".
+
+This fix was backported to 1.2.2.
+
 ==== Nested Components
 
 Using the annoation <<nested-pmos,`@UiNestedComponent`>>, a PMO can include further PMOs. More advanced layouts and a cleaner seperation of PMO classes are thus possible.
 
 This replaces the old incubator project.
 
-==== Update Vaadin to 8.12.0
+==== Update Vaadin to 8.12
 
-linkki now uses Vaadin version 8.12.0 to include the latest bug fixes and patches.
-
-==== Bugfixes
+linkki now uses Vaadin version 8.12.1 to include the latest bug fixes and patches. Have a look at the list of <<dependencies, dependencies>>.
