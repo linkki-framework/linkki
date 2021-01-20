@@ -13,7 +13,7 @@ if [ -n "$(docker container ls --filter="name=$WILDFLY_NAME" -a -q)" ]; then
 	docker rm --force $WILDFLY_NAME
 fi
 LABEL="url=linkki-$BUILD_NAME"
-docker create --cpus=2 --memory=2g --name $WILDFLY_NAME --network $NETWORK_NAME --label $LABEL --label "retention=${CONTAINER_RETENTION:-discard}" f10/wildfly-linkki:8
+docker create --cpus=2 --memory=4g --name $WILDFLY_NAME --network $NETWORK_NAME --label $LABEL --label "retention=${CONTAINER_RETENTION:-discard}" f10/wildfly-linkki:8
 
 # Vaadin 8
 WAR_FILE="vaadin8/samples/binding/target/linkki-sample-binding-vaadin8.war"
