@@ -7,7 +7,6 @@
 
 Stichpunkte, die in der Migrationsanleitung geordnet und ausformuliert werden
 
-* GridSection gibts nicht mehr -> UISection erstellt FormLayoutSection, verwendet CaptionComponentWrapper
 * Button, Link, Label, Checkbox können keine Label mehr haben
 * Keine keycodes mehr (com.vaadin.flow.component.Key)
 * Tooltips gibts nicht mehr? https://vaadin.com/forum/thread/17094165/tooltips
@@ -19,3 +18,5 @@ Stichpunkte, die in der Migrationsanleitung geordnet und ausformuliert werden
 * ComponentFactory: Label methoden gelöscht -> Umstellung + LIN-2053
 * UIDateField unterstützt kein custom Date-Format mehr. Das Format ist durch das zugrundeliegende Locale festgelegt (Vaadin benutzt angeblich das hier zum mapping). Das Attribut 'dateFormat' ist dementsprechend rausgeflogen, muss auch in UIDateField dokumentation angepasst werden -> LIN-2044, LIN-2091
 * TextArea hat kein `rows` Attribute mehr. In `UITextArea` wurde der Parameter `rows` deshalb durch `height` ersetzt. Dieser gibt einen String an, der einen CSS-Wert darstellt. (LIN-2059)
+* ColumnExpandRatioAspectDefinition verwendet nun Integer statt bisher Float
+* GridComponentCreator statt PmoBasedTablefactory verwenden. Die Factory wurde auf deprecated gesetzt.
