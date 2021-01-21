@@ -13,7 +13,16 @@
  */
 package org.linkki.samples.playground.ui;
 
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
+import org.linkki.samples.playground.allelements.AllUiElementsPage;
+import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
+import org.linkki.samples.playground.locale.LocaleInfoPage;
+import org.linkki.samples.playground.tablayout.TabLayoutPage;
+import org.linkki.samples.playground.table.TablePage;
+
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
@@ -26,7 +35,17 @@ public class PlaygroundApplicationUI extends Div {
 
     public PlaygroundApplicationUI() {
         setSizeFull();
-        add(new PlaygroundView());
+
+        LinkkiTabLayout tabSheet = new LinkkiTabLayout(Orientation.VERTICAL);
+        tabSheet.addTab("All", "All", new AllUiElementsPage(() -> false));
+        tabSheet.addTab("Dynamic", "Dynamic", new DynamicAnnotationsLayout());
+        tabSheet.addTab("Bugs", "Bugs", new BugCollectionLayout());
+        tabSheet.addTab("Tables", "Tables", new TablePage());
+        tabSheet.addTab("Locale", "Locale", new LocaleInfoPage());
+        tabSheet.addTab("Tab Sheet", "Tab Sheet", new TabLayoutPage());
+
+        tabSheet.getTabsComponent().setWidth("110px");
+        add(tabSheet);
     }
 
 }

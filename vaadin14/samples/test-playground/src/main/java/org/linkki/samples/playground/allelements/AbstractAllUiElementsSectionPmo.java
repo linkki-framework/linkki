@@ -38,7 +38,6 @@ import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.ips.decimalfield.UIDecimalField;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.nls.NlsText;
-import org.linkki.samples.playground.ui.PlaygroundView;
 
 import com.vaadin.flow.component.textfield.PasswordField;
 
@@ -236,7 +235,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     // @BindIcon(iconType = IconType.DYNAMIC)
     @UILink(position = 140, label = NlsText.I18n, caption = "Link to Dynamic Annotations", captionType = CaptionType.STATIC)
     public String getLink() {
-        return "main#!/" + PlaygroundView.PARAM_SHEET + "=" + DynamicAnnotationsLayout.ID;
+        return "main#!/sheet=" + DynamicAnnotationsLayout.ID;
     }
 
     // TODO LIN-2052
