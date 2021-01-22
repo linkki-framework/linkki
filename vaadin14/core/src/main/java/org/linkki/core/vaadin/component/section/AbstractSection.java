@@ -110,8 +110,6 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
         headerLayout.add(captionLabel);
         headerLayout.add(closeButton);
 
-        // TODO LIN-2049
-        // headerLayout.setExpandRatio(line, 1);
         headerLayout.setMargin(false);
 
         return headerLayout;

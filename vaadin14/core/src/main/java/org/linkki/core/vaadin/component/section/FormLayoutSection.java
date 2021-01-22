@@ -37,7 +37,7 @@ public class FormLayoutSection extends BaseSection {
     public FormLayoutSection(String caption, int columns, boolean closeable) {
         super(caption, closeable);
         this.columns = columns;
-        setWidth("100%");
+        setWidthFull();
         content = createContent();
         add(content);
     }
@@ -45,10 +45,7 @@ public class FormLayoutSection extends BaseSection {
     private FormLayout createContent() {
         FormLayout formLayout = new FormLayout();
         formLayout.setResponsiveSteps(new ResponsiveStep("0", columns, LabelsPosition.ASIDE));
-        formLayout.setWidth("100%");
-        // TODO LIN-2049
-        // formLayout.setMargin(new MarginInfo(true, true, true, true));
-        // formLayout.setSpacing(true);
+        formLayout.setWidthFull();
         return formLayout;
     }
 
