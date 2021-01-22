@@ -52,6 +52,16 @@
         <java.version>1.8</java.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
+        
+        <!-- Sonarqube properties -->
+        <sonar.host.url>https://sonarqube.faktorzehn.de</sonar.host.url>
+        <sonar.exclusions>
+            **/VAADIN/themes/**/*.*
+        </sonar.exclusions>
+        <sonar.coverage.exclusions>
+            **/org/linkki/samples/**/*.java
+        </sonar.coverage.exclusions>
+        
     </properties>
 
     <build>
@@ -381,6 +391,11 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.6.0.1398</version>
                 </plugin>
                 <plugin>
                     <groupId>org.revapi</groupId>
