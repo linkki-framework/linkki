@@ -54,7 +54,7 @@ public class PlaygroundApplicationUI extends Div {
         tabLayout.addTab(new LinkkiTabSheet(LOCALE_TAB_ID, "Locale", "Locale", new LocaleInfoPage()));
         tabLayout.addTab(new LinkkiTabSheet(TAB_LAYOUT_TAB_ID, "Tab Layout", "Tab Layout", new TabLayoutPage()));
 
-        tabLayout.getTabsComponent().setWidth("110px");
+        tabLayout.getTabsComponent().setWidth("120px");
         add(tabLayout);
     }
 

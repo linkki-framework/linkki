@@ -1,0 +1,14 @@
+:jbake-title: Vaadin 14 Components
+:jbake-type: section
+:jbake-status: published
+
+:image-dir: {images}12_vaadin14
+
+==== LinkkiTabLayout
+
+A component that allows switching between different contents, using either a horizontal or vertical tab bar. Only a single tab can be active at a time.
+This is a replacement for the linkki Vaadin 8 `TabSheetArea`.
+
+image::{image-dir}/tablayout_combined.png[]
+
+Tabs are added to the layout using a `LinkkiTabSheet`, consisting of the content and its tab caption.

@@ -20,3 +20,4 @@ Stichpunkte, die in der Migrationsanleitung geordnet und ausformuliert werden
 * TextArea hat kein `rows` Attribute mehr. In `UITextArea` wurde der Parameter `rows` deshalb durch `height` ersetzt. Dieser gibt einen String an, der einen CSS-Wert darstellt. (LIN-2059)
 * ColumnExpandRatioAspectDefinition verwendet nun Integer statt bisher Float
 * GridComponentCreator statt PmoBasedTablefactory verwenden. Die Factory wurde auf deprecated gesetzt.
+* TabSheetArea -> LinkkiTabSheet (LIN-2158)
