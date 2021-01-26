@@ -19,23 +19,29 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 
 /**
  * Marks an annotation used to mark a UI element created by linkki, such as {@code @UILabel} or
  * {@code @UITextField}.
  * <p>
- * Every such annotation is accompanied by a {@link BindingDefinition} which in turn is used by the
- * {@link UIElementAnnotationReader} to create the actual UI element based on the annotation.
+ * Every such annotation is accompanied by a
+ * {@link org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition} which in turn is used
+ * by the {@link UIElementAnnotationReader} to create the actual UI element based on the annotation.
+ * 
+ * @deprecated since 1.4.0 because this concept was replaced. See "Custom UI element annotation" at
+ *             <a href="https://doc.linkki-framework.org/">https://doc.linkki-framework.org/</a> for
+ *             more information.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
+@Deprecated
 public @interface LinkkiBindingDefinition {
 
     /**
-     * The {@link BindingDefinition} used to implement the annotated Annotation.
+     * The {@link org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition} used to
+     * implement the annotated Annotation.
      * 
-     * @see BindingDefinition
+     * @see org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition
      */
-    Class<? extends BindingDefinition> value();
+    Class<? extends org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition> value();
 }

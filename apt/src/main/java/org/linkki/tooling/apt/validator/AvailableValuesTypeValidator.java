@@ -23,11 +23,9 @@ import static org.linkki.tooling.apt.util.SuppressedWarningsUtils.isSuppressed;
 
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.AnnotationValue;
@@ -40,6 +38,7 @@ import javax.tools.Diagnostic.Kind;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.tooling.apt.model.AptAttribute;
@@ -97,8 +96,9 @@ public class AvailableValuesTypeValidator implements Validator {
                         Annotation annotation = componentDeclaration.getElement().getAnnotation(annotationType);
                         Objects.requireNonNull(annotation);
 
-                        checkAvailableValues(messager, pmo, componentDeclaration, annotation);
-
+                        if (hasAvailableValuesAspectDefinition(annotation)) {
+                            checkAvailableValues(messager, pmo, componentDeclaration, annotation);
+                        }
                     } catch (ClassNotFoundException e) {
                         printAnnotationNotFoundWarning(messager,
                                                        componentDeclaration.getElement(),
@@ -107,42 +107,42 @@ public class AvailableValuesTypeValidator implements Validator {
                 });
     }
 
+    private boolean hasAvailableValuesAspectDefinition(Annotation annotation) {
+        return AspectAnnotationReader.createAspectDefinitionsFrom(annotation).stream()
+                .anyMatch(this::containsAvailableValuesAspectDefinition);
+    }
+
+    private boolean containsAvailableValuesAspectDefinition(LinkkiAspectDefinition aspectDefinition) {
+        if (aspectDefinition instanceof AvailableValuesAspectDefinition<?>) {
+            return true;
+        } else if (aspectDefinition instanceof CompositeAspectDefinition) {
+            return ((CompositeAspectDefinition)aspectDefinition).getAspectDefinitions().stream()
+                    .anyMatch(this::containsAvailableValuesAspectDefinition);
+        } else {
+            return false;
+        }
+    }
+
     private void checkAvailableValues(
             Messager messager,
             AptPmo pmo,
             AptComponentDeclaration componentDeclaration,
             Annotation annotation) {
-        List<LinkkiAspectDefinition> aspectDefinitions = AspectAnnotationReader
-                .createAspectDefinitionsFrom(annotation);
-
-        aspectDefinitions.stream()
-                .filter(it -> it instanceof AvailableValuesAspectDefinition<?>)
-                .map(it -> (AvailableValuesAspectDefinition<?>)it)
-                .map(it -> ReflectionUtils.getAnnotationProperty(annotation, CONTENT))
-                .flatMap(it -> it.map(Stream::of).orElse(Stream.empty()))
-                .filter(it -> it instanceof AvailableValuesType)
-                .map(it -> (AvailableValuesType)it)
+        ReflectionUtils.getAnnotationProperty(annotation, CONTENT)
+                .filter(AvailableValuesType.class::isInstance)
+                .map(AvailableValuesType.class::cast)
                 .filter(TYPE_SENSITIVE_AVAILABLE_VALUES_TYPES::contains)
-                .forEach(availableValuesType -> {
-                    ReflectionUtils
-                            .getAnnotationProperty(annotation, MODEL_OBJECT)
-                            .filter(it -> it instanceof String)
-                            .map(Object::toString)
-                            .ifPresent(modelObjectName -> {
-                                ReflectionUtils
-                                        .getAnnotationProperty(annotation, MODEL_ATTRIBUTE)
-                                        .filter(it -> it instanceof String)
-                                        .map(Object::toString)
-                                        .ifPresent(modelAttributeName -> {
-                                            checkModelAttribute(messager,
-                                                                pmo,
-                                                                componentDeclaration,
-                                                                availableValuesType,
-                                                                modelObjectName,
-                                                                modelAttributeName);
-                                        });
-                            });
-                });
+                .ifPresent(availableValuesType -> ReflectionUtils.getAnnotationProperty(annotation, MODEL_OBJECT)
+                        .map(Object::toString)
+                        .ifPresent(modelObjectName -> ReflectionUtils
+                                .getAnnotationProperty(annotation, MODEL_ATTRIBUTE)
+                                .map(Object::toString)
+                                .ifPresent(modelAttributeName -> checkModelAttribute(messager,
+                                                                                     pmo,
+                                                                                     componentDeclaration,
+                                                                                     availableValuesType,
+                                                                                     modelObjectName,
+                                                                                     modelAttributeName))));
     }
 
     private void checkModelAttribute(

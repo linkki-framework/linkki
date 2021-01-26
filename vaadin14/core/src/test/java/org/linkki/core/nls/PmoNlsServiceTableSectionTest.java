@@ -26,7 +26,7 @@ import org.linkki.core.nls.sample.NlsTablePmo;
 import org.linkki.core.nls.sample.NlsTableRowPmo;
 import org.linkki.core.nls.sample.NoNlsTablePmo;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
+import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 
 import com.vaadin.flow.component.grid.Grid;
@@ -57,11 +57,9 @@ public class PmoNlsServiceTableSectionTest {
         return PmoNlsService.get().getLabel(NlsTableRowPmo.class, property, "label", NlsTableRowPmo.PMO_LABEL);
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testTableRowLabels() {
-        PmoBasedTableFactory factory = new PmoBasedTableFactory(new NlsTablePmo(), bindingContext);
-        Grid<?> table = factory.createTable();
+        Grid<?> table = GridComponentCreator.createGrid(new NlsTablePmo(), bindingContext);
         assertThat(table, is(notNullValue()));
         // TODO LIN-2088
         // Möglich an den Text der HeaderCell zu kommen?

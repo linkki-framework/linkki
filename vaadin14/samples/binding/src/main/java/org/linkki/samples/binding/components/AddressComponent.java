@@ -29,10 +29,6 @@ public class AddressComponent extends FormLayoutSection {
     public AddressComponent(AddressFields fields) {
         super("", 1, false);
         setSizeFull();
-        // TODO LIN-2088
-        setSizeFull();
-        // setSpacing(true);
-        // setMargin(new MarginInfo(false, true, true, true));
 
         TextField street = fields.getStreetTxt();
         TextField zip = fields.getZipTxt();

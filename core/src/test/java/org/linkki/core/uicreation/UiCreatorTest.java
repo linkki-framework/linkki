@@ -155,7 +155,6 @@ public class UiCreatorTest {
         TestSectionPmo testSectionPmo = new TestSectionPmo();
         BindingContext bindingContext = new BindingContext();
 
-        @SuppressWarnings("deprecation")
         ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext,
                                                                       c -> Optional.of(TestLinkkiComponentDefinition
                                                                               .create(TestUiLayoutComponent::new)),
@@ -193,7 +192,6 @@ public class UiCreatorTest {
         TestSectionPmo testSectionPmo = new TestSectionPmo();
         BindingContext bindingContext = new BindingContext();
 
-        @SuppressWarnings("deprecation")
         ComponentWrapper componentWrapper = UiCreator.createComponent(testSectionPmo, bindingContext,
                                                                       c -> Optional
                                                                               .of(TestLinkkiComponentDefinition

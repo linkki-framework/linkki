@@ -32,22 +32,22 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Link, LinkTestPmo> {
 
     public UILinkIntegrationTest() {
-        super(LinkTestPmo::new);
+        super(mo -> new LinkTestPmo());
     }
 
     @Test
     public void testValue_Dynamic() {
         Link link = getDynamicComponent();
 
-        assertThat(getDefaultPmo().getValue(), is(nullValue()));
+        assertThat(getDefaultPmo().getDynamic(), is(nullValue()));
         assertThat(link.getResource(), is(nullValue()));
 
-        getDefaultPmo().setValue("https://faktorzehn.org");
+        getDefaultPmo().setDynamic("https://faktorzehn.org");
         modelChanged();
 
         assertThat(((ExternalResource)link.getResource()).getURL(), is("https://faktorzehn.org"));
 
-        getDefaultPmo().setValue("");
+        getDefaultPmo().setDynamic("");
         modelChanged();
 
         assertThat(((ExternalResource)link.getResource()).getURL(), is(""));
@@ -59,7 +59,7 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
 
         assertThat(link.getCaption(), is(LinkTestPmo.INITIAL_CAPTION));
 
-        getDefaultPmo().setValueCaption("caption");
+        getDefaultPmo().setDynamicCaption("caption");
         modelChanged();
 
         assertThat(link.getCaption(), is("caption"));
@@ -85,12 +85,12 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
 
         assertThat(link.getTargetName(), is("_top"));
 
-        getDefaultPmo().setValueTarget("_parent");
+        getDefaultPmo().setDynamicTarget("_parent");
         modelChanged();
 
         assertThat(link.getTargetName(), is("_parent"));
 
-        getDefaultPmo().setValueTarget("");
+        getDefaultPmo().setDynamicTarget("");
         modelChanged();
 
         assertThat(link.getTargetName(), is(""));
@@ -128,35 +128,35 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
         private String valueCaption;
         private String valueTarget;
 
-        public LinkTestPmo(Object modelObject) {
-            super(modelObject);
+        public LinkTestPmo() {
+            super(null);
             this.valueCaption = INITIAL_CAPTION;
             this.valueTarget = "_top";
         }
 
         @CheckForNull
         @UILink(position = 1, visible = VisibleType.DYNAMIC, captionType = CaptionType.DYNAMIC, target = LinkTarget.DYNAMIC, label = "")
-        public String getValue() {
+        public String getDynamic() {
             return value;
         }
 
-        public void setValue(String value) {
+        public void setDynamic(String value) {
             this.value = value;
         }
 
-        public String getValueCaption() {
+        public String getDynamicCaption() {
             return valueCaption;
         }
 
-        public void setValueCaption(String valueCaption) {
+        public void setDynamicCaption(String valueCaption) {
             this.valueCaption = valueCaption;
         }
 
-        public String getValueTarget() {
+        public String getDynamicTarget() {
             return valueTarget;
         }
 
-        public void setValueTarget(String valueTarget) {
+        public void setDynamicTarget(String valueTarget) {
             this.valueTarget = valueTarget;
         }
 
@@ -180,7 +180,7 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
         }
 
         @Override
-        public void value() {
+        public void dynamic() {
             // not needed as UI Link does not support model binding
         }
     }

@@ -15,7 +15,6 @@ package org.linkki.core.ui.element.bindingdefinitions;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
@@ -27,9 +26,18 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
- * {@link BindingDefinition} for {@link UIDoubleField}.
+ * {@link org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition} for
+ * {@link UIDoubleField}.
+ * 
+ * @deprecated since 1.4.0 because this concept was replaced and this implementation was moved into
+ *             {@link UIDoubleField}.<br>
+ *             See "Custom UI element annotation" at
+ *             <a href="https://doc.linkki-framework.org/">https://doc.linkki-framework.org/</a> for
+ *             more information.
  */
-public class DoubleFieldBindingDefinition implements BindingDefinition {
+@Deprecated
+public class DoubleFieldBindingDefinition
+        implements org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition {
 
     private final UIDoubleField uiDoubleField;
 

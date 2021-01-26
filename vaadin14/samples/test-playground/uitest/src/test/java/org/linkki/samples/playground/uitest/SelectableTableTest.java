@@ -14,12 +14,9 @@
 
 package org.linkki.samples.playground.uitest;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-
-import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +26,6 @@ import org.linkki.samples.playground.table.SelectionComparisonSectionPmo;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
-import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 
 

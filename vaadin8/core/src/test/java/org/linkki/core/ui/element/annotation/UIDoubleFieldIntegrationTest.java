@@ -147,8 +147,14 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UIDoubleField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, format = FANCY_FORMAT, maxLength = MAX_LENGTH)
-        public void value() {
+        @UIDoubleField(position = 1, //
+                label = "", //
+                enabled = EnabledType.DYNAMIC, //
+                required = RequiredType.DYNAMIC, //
+                visible = VisibleType.DYNAMIC, //
+                format = FANCY_FORMAT, //
+                maxLength = MAX_LENGTH, modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 

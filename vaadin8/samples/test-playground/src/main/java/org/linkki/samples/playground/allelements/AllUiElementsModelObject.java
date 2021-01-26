@@ -33,6 +33,8 @@ public class AllUiElementsModelObject {
 
     public static final String PROPERTY_ENUMVALUE = "enumValue";
 
+    public static final String PROPERTY_YESNOCOMBOBOX = "yesNoComboBox";
+
     public static final String PROPERTY_BOOLEANVALUE = "booleanValue";
 
     public static final String PROPERTY_SECRET = "secret";
@@ -52,6 +54,8 @@ public class AllUiElementsModelObject {
     private LocalDate date = LocalDate.now();
 
     private Direction enumValue = null;
+
+    private Boolean yesNoComboBox = null;
 
     private boolean booleanValue = true;
 
@@ -139,4 +143,13 @@ public class AllUiElementsModelObject {
     public void setDecimalValue(Decimal decimalValue) {
         this.decimalValue = decimalValue;
     }
+
+    public Boolean isYesNoComboBox() {
+        return yesNoComboBox;
+    }
+
+    public void setYesNoComboBox(Boolean yesNoComboBox) {
+        this.yesNoComboBox = yesNoComboBox;
+    }
+
 }

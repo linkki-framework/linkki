@@ -23,7 +23,6 @@ import org.linkki.core.binding.BindingContext;
 
 import com.vaadin.flow.component.grid.Grid;
 
-@SuppressWarnings("deprecation")
 public class GridComponentCreatorTest {
 
     @Test
@@ -33,19 +32,18 @@ public class GridComponentCreatorTest {
         assertThat(table.getId().get(), is("TestTablePmo_table"));
     }
 
-    @Test
-    public void testInitColumn_FieldLabelsAreUsedAsColumnHeaders() {
-        Grid<?> table = createTableWithColumns();
-
-        // TODO LIN-2088
-        // Möglich an den Text der HeaderCell zu kommen?
-        // 1, 2 and 3 are the labels for the fields, the delete button has an no label
-        // assertThat(table.getHeaderRows().get(0).getCells().stream().filter(c -> c instanceof
-        // HeaderCell).map(HeaderCell.class::cast).map(c -> c.getColumn()), is(arrayContaining("1", "2",
-        // "3", "")));
-    }
-
+    // @Test
+    // public void testInitColumn_FieldLabelsAreUsedAsColumnHeaders() {
+    // Grid<?> table = createTableWithColumns();
+    //
     // TODO LIN-2088
+    // Möglich an den Text der HeaderCell zu kommen?
+    // 1, 2 and 3 are the labels for the fields, the delete button has an no label
+    // assertThat(table.getHeaderRows().get(0).getCells().stream().filter(c -> c instanceof
+    // HeaderCell).map(HeaderCell.class::cast).map(c -> c.getColumn()), is(arrayContaining("1", "2",
+    // "3", "")));
+    // }
+
     @Test
     public void testInitColumn_WidthAndExpandRatioIsReadFromAnnotation() {
         Grid<?> table = createTableWithColumns();

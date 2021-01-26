@@ -121,12 +121,16 @@ public class UIRadioButtonsIntegrationTest
         }
 
         @Override
-        @UIRadioButtons(position = 0, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC, content = AvailableValuesType.DYNAMIC)
-        public void value() {
+        @UIRadioButtons(position = 0, //
+                visible = VisibleType.DYNAMIC, //
+                enabled = EnabledType.DYNAMIC, //
+                content = AvailableValuesType.DYNAMIC, //
+                modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 
-        public List<String> getValueAvailableValues() {
+        public List<String> getDynamicAvailableValues() {
             return Arrays.asList("value1", "value2");
         }
 

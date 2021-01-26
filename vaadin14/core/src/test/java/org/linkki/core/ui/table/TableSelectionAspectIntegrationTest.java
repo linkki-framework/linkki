@@ -14,47 +14,60 @@
 
 package org.linkki.core.ui.table;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
+
 import java.util.Arrays;
 
+import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
+import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.pmo.SelectableTablePmo;
+import org.linkki.core.vaadin.component.section.GridSection;
+import org.mockito.Mockito;
 
-@SuppressWarnings("deprecation")
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridSingleSelectionModel;
+
 public class TableSelectionAspectIntegrationTest {
 
-    // TODO LIN-2088
-    // @Test
-    // public void testTableSelectable() {
-    // Grid<?> table = new PmoBasedTableFactory(new TestSelectableTablePmo(), new BindingContext())
-    // .createTable();
-    // table.setPageSize(1);
-    // assertThat("Table is selectable", table.getSelectionModel(), is(not(true)));
-    // }
-    //
-    // @Test
-    // public void testTableSectionSelectable() {
-    // GridSection table = (GridSection)new PmoBasedSectionFactory()
-    // .createSection(new TestSelectableTablePmo(), new BindingContext());
-    // table.getGrid().setPageSize(1);
-    // assertThat("Table is selectable", table.getSectionContent().getSelectionModel(),
-    // is(SingleSelectionModel.class));
-    // }
-    //
-    // @Test
-    // public void testTableGetSelection_initial() {
-    // TestSelectableTablePmo tablePmo = Mockito.spy(new TestSelectableTablePmo());
-    // TestSelectableTableRowPmo secondRow = tablePmo.getItems().get(1);
-    // tablePmo.setSelection(secondRow);
-    //
-    // Grid<?> table = new PmoBasedTableFactory(tablePmo, new BindingContext()).createTable();
-    // table.setPageSize(1);
-    //
-    // // getSelection is actually called twice, once from bindContainer, once in
-    // // ColumnBasedComponentFactory#createContainerComponent
-    // verify(tablePmo, atLeast(1)).getSelection();
-    // assertThat(table.getSelectedItems().stream().findFirst().get(), is(secondRow));
-    // }
+    @Test
+    public void testTableSelectable() {
+        Grid<?> table = GridComponentCreator.createGrid(new TestSelectableTablePmo(), new BindingContext());
+        table.setPageSize(1);
+        assertThat("Table is selectable", table.getSelectionModel(), is(not(true)));
+    }
+
+    @Test
+    public void testTableSectionSelectable() {
+        GridSection table = (GridSection)new PmoBasedSectionFactory()
+                .createSection(new TestSelectableTablePmo(), new BindingContext());
+        table.getGrid().setPageSize(1);
+        assertThat("Table is selectable", table.getSectionContent().getSelectionModel(),
+                   is(instanceOf(GridSingleSelectionModel.class)));
+    }
+
+    @Test
+    public void testTableGetSelection_initial() {
+        TestSelectableTablePmo tablePmo = Mockito.spy(new TestSelectableTablePmo());
+        TestSelectableTableRowPmo secondRow = tablePmo.getItems().get(1);
+        tablePmo.setSelection(secondRow);
+
+        Grid<?> table = GridComponentCreator.createGrid(tablePmo, new BindingContext());
+        table.setPageSize(1);
+
+        // getSelection is actually called twice, once from bindContainer, once in
+        // ColumnBasedComponentFactory#createContainerComponent
+        verify(tablePmo, atLeast(1)).getSelection();
+        assertThat(table.getSelectedItems().stream().findFirst().get(), is(secondRow));
+    }
 
     public static class TestSelectableTablePmo extends SimpleTablePmo<String, TestSelectableTableRowPmo>
             implements SelectableTablePmo<TestSelectableTableRowPmo> {

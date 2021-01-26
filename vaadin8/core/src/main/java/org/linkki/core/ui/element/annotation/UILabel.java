@@ -19,33 +19,36 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.element.annotation.UILabel.LabelAspectDefinitionCreator;
-import org.linkki.core.ui.element.bindingdefinitions.LabelBindingDefinition;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.ui.element.annotation.UILabel.LabelComponentDefinitionCreator;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+
+import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.ui.Label;
 
 /**
  * Provides a single UI-element to display text content. Creates a {@link com.vaadin.ui.Label}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(LabelBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
+@LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+@LinkkiComponent(LabelComponentDefinitionCreator.class)
 @LinkkiAspect(LabelAspectDefinitionCreator.class)
 @LinkkiPositioned
 public @interface UILabel {
@@ -66,11 +69,13 @@ public @interface UILabel {
      * Name of the model object that is to be bound if multiple model objects are included for model
      * binding
      */
+    @LinkkiBoundProperty.ModelObject
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
      * The name of a property in the class of the bound {@link ModelObject} to use model binding
      */
+    @LinkkiBoundProperty.ModelAttribute
     String modelAttribute() default "";
 
     /**
@@ -96,4 +101,19 @@ public @interface UILabel {
                     new LabelValueAspectDefinition());
         }
     }
+
+    static class LabelComponentDefinitionCreator implements ComponentDefinitionCreator<UILabel> {
+
+        @Override
+        public LinkkiComponentDefinition create(UILabel annotation, AnnotatedElement annotatedElement) {
+            return pmo -> {
+                Label label = new Label();
+                label.setContentMode(annotation.htmlContent() ? ContentMode.HTML : ContentMode.TEXT);
+                label.addStyleNames(annotation.styleNames());
+                return label;
+            };
+        }
+
+    }
+
 }

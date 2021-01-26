@@ -17,9 +17,12 @@ package org.linkki.core.binding.descriptor.property.annotation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Optional;
 
 import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.util.BeanUtils;
 
 /**
  * Creates a {@link BoundProperty} from an {@link Annotation} annotated with
@@ -100,4 +103,48 @@ public interface BoundPropertyCreator<T extends Annotation> {
 
     }
 
+    static class ModelBindingBoundPropertyCreator implements BoundPropertyCreator<Annotation> {
+        @Override
+        public BoundProperty createBoundProperty(Annotation annotation, AnnotatedElement annotatedElement) {
+
+            Optional<Method> modelObjectAttribute = BeanUtils
+                    .getMethods(annotation.annotationType(),
+                                m -> m.isAnnotationPresent(LinkkiBoundProperty.ModelObject.class))
+                    .reduce((m1, m2) -> {
+                        throw new IllegalStateException(
+                                "Duplicate definition of @" + LinkkiBoundProperty.ModelObject.class.getSimpleName()
+                                        + " in " + annotation.annotationType().getName());
+                    });
+            Optional<Method> modelAttributeAttribute = BeanUtils
+                    .getMethods(annotation.annotationType(),
+                                m -> m.isAnnotationPresent(LinkkiBoundProperty.ModelAttribute.class))
+                    .reduce((m1, m2) -> {
+                        throw new IllegalStateException(
+                                "Duplicate definition of @"
+                                        + LinkkiBoundProperty.ModelAttribute.class.getSimpleName()
+                                        + " in " + annotation.annotationType().getName());
+                    });
+
+            if (modelObjectAttribute.isPresent() && modelAttributeAttribute.isPresent()) {
+                return SimpleMemberNameBoundPropertyCreator.createBoundProperty(annotatedElement)
+                        .withModelObject(getValue(modelObjectAttribute.get(), annotation))
+                        .withModelAttribute(getValue(modelAttributeAttribute.get(), annotation));
+            } else {
+                throw new IllegalStateException(
+                        String.format("Either %s or %s annotation is missing on the repective attribute in %s",
+                                      LinkkiBoundProperty.ModelObject.class.getName(),
+                                      LinkkiBoundProperty.ModelAttribute.class.getName(),
+                                      annotation.annotationType().getName()));
+            }
+        }
+
+        private static String getValue(Method method, Annotation annotationWithBoundProperty) {
+            try {
+                return (String)method.invoke(annotationWithBoundProperty);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new RuntimeException(
+                        "Cannot get value from " + method + " on " + annotationWithBoundProperty, e);
+            }
+        }
+    }
 }

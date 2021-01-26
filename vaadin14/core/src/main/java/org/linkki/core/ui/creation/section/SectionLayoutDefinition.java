@@ -8,7 +8,7 @@ import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
-import org.linkki.core.ui.creation.table.PmoBasedTableFactory;
+import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
@@ -74,8 +74,8 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
 
     private void addHeaderComponent(Method method, AbstractSection section, Object pmo, BindingContext bindingContext) {
         NoLabelComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
-                                                                   c -> new NoLabelComponentWrapper((Component)c,
-                                                                           WrapperType.COMPONENT));
+                                                                    c -> new NoLabelComponentWrapper((Component)c,
+                                                                            WrapperType.COMPONENT));
 
         section.addHeaderComponent(wrapper.getComponent());
     }
@@ -98,8 +98,7 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
 
     private void createTable(Object parentComponent, Object pmo, BindingContext bindingContext) {
         GridSection section = (GridSection)parentComponent;
-        Grid<?> grid = new PmoBasedTableFactory((ContainerPmo<?>)pmo, bindingContext)
-                .createTable();
+        Grid<?> grid = GridComponentCreator.createGrid((ContainerPmo<?>)pmo, bindingContext);
         section.setGrid(grid);
     }
 

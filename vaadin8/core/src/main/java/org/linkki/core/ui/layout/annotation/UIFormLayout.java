@@ -20,6 +20,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.EmptyPropertyCreator;
+import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.ui.creation.VaadinUiCreator;
@@ -42,6 +44,7 @@ import com.vaadin.ui.FormLayout;
  */
 @LinkkiLayout(ComponentContainerLayoutDefinitionCreateor.class)
 @LinkkiComponent(FormLayoutComponentDefinitionCreator.class)
+@LinkkiBoundProperty(EmptyPropertyCreator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface UIFormLayout {

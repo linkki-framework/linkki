@@ -22,19 +22,31 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
 
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
-import org.linkki.core.ui.element.bindingdefinitions.TextAreaBindingDefinition;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
+import org.linkki.core.ui.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.element.annotation.UITextArea.TextAreaAspectCreator;
+import org.linkki.core.ui.element.annotation.UITextArea.TextAreaComponentDefinitionCreator;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.flow.component.HasSize;
 
@@ -44,11 +56,9 @@ import com.vaadin.flow.component.HasSize;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(TextAreaBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+@LinkkiComponent(TextAreaComponentDefinitionCreator.class)
+@LinkkiAspect(TextAreaAspectCreator.class)
 @LinkkiPositioned
 public @interface UITextArea {
 
@@ -91,11 +101,43 @@ public @interface UITextArea {
      * Name of the model object that is to be bound if multiple model objects are included for model
      * binding
      */
+    @LinkkiBoundProperty.ModelObject
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
      * The name of a property in the class of the bound {@link ModelObject} to use model binding
      */
+    @LinkkiBoundProperty.ModelAttribute
     String modelAttribute() default "";
+
+    /**
+     * Aspect definition creator for the {@link UITextArea} annotation.
+     */
+    static class TextAreaAspectCreator implements AspectDefinitionCreator<UITextArea> {
+
+        @Override
+        public LinkkiAspectDefinition create(UITextArea annotation) {
+            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+                    annotation.required(),
+                    enabledAspectDefinition);
+
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    new VisibleAspectDefinition(annotation.visible()),
+                    new ValueAspectDefinition(),
+                    new DerivedReadOnlyAspectDefinition());
+        }
+
+    }
+
+    static class TextAreaComponentDefinitionCreator implements ComponentDefinitionCreator<UITextArea> {
+
+        @Override
+        public LinkkiComponentDefinition create(UITextArea annotation, AnnotatedElement annotatedElement) {
+            return pmo -> ComponentFactory.newTextArea(annotation.maxLength(), annotation.width(), annotation.height());
+        }
+    }
 
 }

@@ -7,17 +7,17 @@
 package org.linkki.ips.decimalfield;
 
 import static java.util.Objects.requireNonNull;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyArray;
+import static org.hamcrest.Matchers.is;
 
 import java.lang.annotation.Annotation;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 
 import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 
+@SuppressWarnings({ "deprecation", "javadoc" })
 public class UIDecimalFieldTest {
 
 
@@ -36,17 +36,23 @@ public class UIDecimalFieldTest {
         }
     }
 
-
+    /**
+     * {@link org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition} is not used
+     * anymore
+     */
     @Test
     public void testIsLinkkiBindingDefinition() {
-        assertThat(BindingDefinition.isLinkkiBindingDefinition(annotation(UIDecimalField.class)), is(true));
+        assertThat(org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition
+                .isLinkkiBindingDefinition(annotation(UIDecimalField.class)), is(false));
     }
-
 
     @Test
     public void testFrom() {
-        assertThat(BindingDefinition.from(annotation(UIDecimalField.class)),
-                   is(instanceOf(DecimalFieldBindingDefinition.class)));
+        Class<? extends Annotation> annotationClass = requireNonNull(annotation(UIDecimalField.class),
+                                                                     "annotation must not be null").annotationType();
+        org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition[] bindingDefinitions = annotationClass
+                .getAnnotationsByType(org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition.class);
+        assertThat(bindingDefinitions, is(emptyArray()));
     }
 
 }

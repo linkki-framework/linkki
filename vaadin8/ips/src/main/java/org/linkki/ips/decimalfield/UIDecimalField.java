@@ -22,38 +22,49 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 
 import org.faktorips.values.Decimal;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
-import org.linkki.core.ui.element.annotation.FieldAspectDefinitionCreator;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
-import org.linkki.ips.decimalfield.UIDecimalField.DecimalValueAspectCreator;
+import org.linkki.core.vaadin.component.ComponentFactory;
+import org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldAspectCreator;
+import org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldBoundPropertyCreator;
+import org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldComponentDefinitionCreator;
 
 import com.vaadin.server.Sizeable;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * A text field for displaying formatted {@link Decimal} values.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(DecimalFieldBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(DecimalValueAspectCreator.class)
+@LinkkiBoundProperty(DecimalFieldBoundPropertyCreator.class)
+@LinkkiComponent(DecimalFieldComponentDefinitionCreator.class)
+@LinkkiAspect(DecimalFieldAspectCreator.class)
 @LinkkiPositioned
 public @interface UIDecimalField {
 
@@ -70,7 +81,9 @@ public @interface UIDecimalField {
     /** Marks mandatory fields visually */
     RequiredType required() default NOT_REQUIRED;
 
-    /** Specifies whether the component is shown, using values of {@link VisibleType} */
+    /**
+     * Specifies if a component is shown, using values of {@link VisibleType}
+     */
     VisibleType visible() default VISIBLE;
 
     /** Defines the maximal count of characters that can be displayed */
@@ -104,14 +117,50 @@ public @interface UIDecimalField {
      */
     String modelAttribute() default "";
 
-    class DecimalValueAspectCreator implements AspectDefinitionCreator<UIDecimalField> {
+    /**
+     * Aspect definition creator for the {@link UIDecimalField} annotation.
+     */
+    static class DecimalFieldAspectCreator implements AspectDefinitionCreator<UIDecimalField> {
 
         @Override
         public LinkkiAspectDefinition create(UIDecimalField annotation) {
-            FormattedDecimalFieldToStringConverter converter = new FormattedDecimalFieldToStringConverter(
-                    annotation.format());
-            return new ValueAspectDefinition(converter);
+            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+                    annotation.required(),
+                    enabledAspectDefinition);
+
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    new VisibleAspectDefinition(annotation.visible()),
+                    new ValueAspectDefinition(new FormattedDecimalFieldToStringConverter(annotation.format())),
+                    new DerivedReadOnlyAspectDefinition());
         }
 
     }
+
+    static class DecimalFieldBoundPropertyCreator implements BoundPropertyCreator<UIDecimalField> {
+
+        @Override
+        public BoundProperty createBoundProperty(UIDecimalField annotation, AnnotatedElement annotatedElement) {
+            return BoundProperty.of((Method)annotatedElement)
+                    .withModelAttribute(annotation.modelAttribute())
+                    .withModelObject(annotation.modelObject());
+        }
+
+    }
+
+    static class DecimalFieldComponentDefinitionCreator implements ComponentDefinitionCreator<UIDecimalField> {
+
+        @Override
+        public LinkkiComponentDefinition create(UIDecimalField annotation, AnnotatedElement annotatedElement) {
+            return pmo -> {
+                TextField field = ComponentFactory.newTextField(annotation.maxLength(), annotation.width());
+                field.addStyleName(ValoTheme.TEXTFIELD_ALIGN_RIGHT);
+                return field;
+            };
+        }
+
+    }
+
 }

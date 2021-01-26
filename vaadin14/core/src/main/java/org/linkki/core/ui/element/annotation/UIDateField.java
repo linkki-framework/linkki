@@ -22,39 +22,48 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Type;
+import java.text.DateFormat;
 import java.time.LocalDate;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
 import org.linkki.core.ui.converters.TwoDigitYearLocalDateConverter;
-import org.linkki.core.ui.element.annotation.UIDateField.DateFieldValueAspectCreator;
-import org.linkki.core.ui.element.bindingdefinitions.DateFieldBindingDefinition;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.ui.element.annotation.UIDateField.DateFieldAspectCreator;
+import org.linkki.core.ui.element.annotation.UIDateField.DateFieldComponentDefinitionCreator;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.uiframework.UiFramework;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.data.converter.Converter;
 
 /**
- * A field for date input, in accordance with {@link com.vaadin.flow.component.datepicker.DatePicker}.
+ * A field for date input, in accordance with {@link DatePicker}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(DateFieldBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(DateFieldValueAspectCreator.class)
+@LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+@LinkkiComponent(DateFieldComponentDefinitionCreator.class)
+@LinkkiAspect(DateFieldAspectCreator.class)
 @LinkkiPositioned
 public @interface UIDateField {
 
@@ -80,25 +89,29 @@ public @interface UIDateField {
      * Name of the model object that is to be bound if multiple model objects are included for model
      * binding
      */
+    @LinkkiBoundProperty.ModelObject
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
      * The name of a property in the class of the bound {@link ModelObject} to use model binding
      */
+    @LinkkiBoundProperty.ModelAttribute
     String modelAttribute() default "";
 
-
     /**
-     * Aspect definition creator for the {@link UIDateField} annotation.
+     * Defines the date format, default format of the UI locale is used if no format is specified.
+     * linkki uses {@link DateFormat#SHORT} for interpreting.
      */
-    static class DateFieldValueAspectCreator implements AspectDefinitionCreator<UIDateField> {
+    String dateFormat() default "";
+
+    static class DateFieldAspectCreator implements AspectDefinitionCreator<UIDateField> {
 
         @Override
         public LinkkiAspectDefinition create(UIDateField annotation) {
+            ValueAspectDefinition dateFieldValueAspectCreator = new ValueAspectDefinition() {
 
-            TwoDigitYearLocalDateConverter twoDigitYearConverter = new TwoDigitYearLocalDateConverter();
+                private final TwoDigitYearLocalDateConverter twoDigitYearConverter = new TwoDigitYearLocalDateConverter();
 
-            return new ValueAspectDefinition() {
                 @Override
                 protected Converter<?, ?> getConverter(Type presentationType, Type modelType) {
                     @SuppressWarnings("unchecked")
@@ -107,6 +120,32 @@ public @interface UIDateField {
                     return twoDigitYearConverter.chain(superConverter);
                 }
             };
+
+            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+                    annotation.required(),
+                    enabledAspectDefinition);
+
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    new VisibleAspectDefinition(annotation.visible()),
+                    dateFieldValueAspectCreator,
+                    new DerivedReadOnlyAspectDefinition());
         }
+
+    }
+
+    static class DateFieldComponentDefinitionCreator implements ComponentDefinitionCreator<UIDateField> {
+
+        @Override
+        public LinkkiComponentDefinition create(UIDateField annotation, AnnotatedElement annotatedElement) {
+            return pmo -> {
+                DatePicker dateField = ComponentFactory.newDateField();
+                dateField.setLocale(UiFramework.getLocale());
+                return dateField;
+            };
+        }
+
     }
 }

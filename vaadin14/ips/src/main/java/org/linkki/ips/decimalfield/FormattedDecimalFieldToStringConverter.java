@@ -52,7 +52,7 @@ public class FormattedDecimalFieldToStringConverter
     }
 
     @Override
-    public Result<Decimal> convertToModel(String value, ValueContext context) {
+    public Result<Decimal> convertToModel(@CheckForNull String value, ValueContext context) {
         return super.convertToModel(value, context);
     }
 

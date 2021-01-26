@@ -13,8 +13,8 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import java.math.BigDecimal;
 
@@ -77,8 +77,8 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<L
         }
 
         @Override
-        @UILabel(position = 1, visible = VisibleType.DYNAMIC, htmlContent = true, styleNames = STYLES)
-        public void value() {
+        @UILabel(position = 1, visible = VisibleType.DYNAMIC, htmlContent = true, styleNames = STYLES, modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 

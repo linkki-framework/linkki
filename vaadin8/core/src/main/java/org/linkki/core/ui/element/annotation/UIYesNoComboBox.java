@@ -22,17 +22,22 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.nls.NlsText;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -40,10 +45,15 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
-import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxAvailableValuesAspectCreator;
-import org.linkki.core.ui.element.bindingdefinitions.YesNoComboBoxBindingDefinition;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
+import org.linkki.core.ui.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxAspectCreator;
+import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxComponentDefinitionCreator;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.ui.ComboBox;
 
@@ -54,12 +64,9 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(YesNoComboBoxBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(YesNoComboBoxAvailableValuesAspectCreator.class)
-@LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+@LinkkiComponent(YesNoComboBoxComponentDefinitionCreator.class)
+@LinkkiAspect(YesNoComboBoxAspectCreator.class)
 @LinkkiPositioned
 public @interface UIYesNoComboBox {
 
@@ -92,11 +99,13 @@ public @interface UIYesNoComboBox {
      * Name of the model object that is to be bound if multiple model objects are included for model
      * binding
      */
+    @LinkkiBoundProperty.ModelObject
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
      * The name of a property in the class of the bound {@link ModelObject} to use model binding
      */
+    @LinkkiBoundProperty.ModelAttribute
     String modelAttribute() default "";
 
     /**
@@ -107,6 +116,67 @@ public @interface UIYesNoComboBox {
      * or "ja"/nein" in German).
      */
     Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default BooleanCaptionProvider.class;
+
+    /**
+     * Aspect definition creator for the {@link UIYesNoComboBox} annotation.
+     */
+    static class YesNoComboBoxAspectCreator implements AspectDefinitionCreator<UIYesNoComboBox> {
+
+        @Override
+        public LinkkiAspectDefinition create(UIYesNoComboBox annotation) {
+            AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<ComboBox<Object>>(
+                    AvailableValuesType.ENUM_VALUES_INCL_NULL,
+                    ComboBox<Object>::setDataProvider) {
+
+                @Override
+                @SuppressWarnings("unchecked")
+                protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
+                    boolean hasNullItem = items.removeIf(i -> i == null);
+                    ((ComboBox<Object>)componentWrapper.getComponent()).setEmptySelectionAllowed(hasNullItem);
+                }
+
+            };
+
+            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+                    annotation.required(),
+                    enabledAspectDefinition);
+
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    availableValuesAspectDefinition,
+                    new VisibleAspectDefinition(annotation.visible()),
+                    new ValueAspectDefinition(),
+                    new DerivedReadOnlyAspectDefinition());
+        }
+
+    }
+
+    static class YesNoComboBoxComponentDefinitionCreator implements ComponentDefinitionCreator<UIYesNoComboBox> {
+
+        @Override
+        public LinkkiComponentDefinition create(UIYesNoComboBox annotation, AnnotatedElement annotatedElement) {
+            return pmo -> {
+                ComboBox<?> comboBox = ComponentFactory.newComboBox();
+                comboBox.setItemCaptionGenerator(getItemCaptionProvider(annotation)::getUnsafeCaption);
+                comboBox.setWidth(annotation.width());
+                comboBox.setEmptySelectionAllowed(false);
+                return comboBox;
+            };
+        }
+
+        private ItemCaptionProvider<?> getItemCaptionProvider(UIYesNoComboBox uiYesNoComboBox) {
+            try {
+                return uiYesNoComboBox.itemCaptionProvider().newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new LinkkiBindingException(
+                        "Cannot instantiate item caption provider " + uiYesNoComboBox.itemCaptionProvider().getName()
+                                + " using default constructor.",
+                        e);
+            }
+        }
+    }
 
     public static class BooleanCaptionProvider implements ItemCaptionProvider<Object> {
 
@@ -121,28 +191,4 @@ public @interface UIYesNoComboBox {
                     : NlsText.getString("BooleanCaptionProvider.False"); //$NON-NLS-1$
         }
     }
-
-    /**
-     * Aspect definition creator for the {@link UIYesNoComboBox} annotation.
-     */
-    static class YesNoComboBoxAvailableValuesAspectCreator implements AspectDefinitionCreator<UIYesNoComboBox> {
-
-        @Override
-        public LinkkiAspectDefinition create(UIYesNoComboBox annotation) {
-            return new AvailableValuesAspectDefinition<ComboBox<Object>>(AvailableValuesType.ENUM_VALUES_INCL_NULL,
-                    ComboBox<Object>::setDataProvider) {
-
-                @Override
-                @SuppressWarnings("unchecked")
-                protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
-                    boolean hasNullItem = items.removeIf(i -> i == null);
-                    ((ComboBox<Object>)componentWrapper.getComponent()).setEmptySelectionAllowed(hasNullItem);
-                }
-
-            };
-        }
-
-    }
-
 }
-

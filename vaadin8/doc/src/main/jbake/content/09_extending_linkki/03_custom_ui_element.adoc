@@ -55,18 +55,20 @@ In the example the `UIRadioButtonGroupComponentDefinitionCreator` holds a refere
 [#bound-property]
 === Bound Property
 
-The property on the model side (PMO / model object) that is considered for data binding is called `BoundProperty`. In our example the property "gender" inside the PMO that is annotated with `@UIRadioButtonGroup` is the `BoundProperty` for this specific `RadioButtonGroup`.
-A `BoundProperty` needs to have at least the property name of the PMO property. Optionally, it can contain the model object and attribute for model binding.
+The property on the model side (PMO / model object) that is considered for data binding is called `BoundProperty`. In our example the property "gender" inside the PMO that is annotated with `@UIRadioButtonGroup` is the `BoundProperty` for this specific `RadioButtonGroup`. Most notably, `BoundProperty` is used to determine how an <<aspects, aspect value>> is retrieved. For example, the `enabled` aspect of the `@UIRadioButtonGroup` will be retrieved by the method `isGenderEnabled`, as the bound PMO property is named "gender".
 
-The next listing shows the `UIRadioButtonGroupBoundPropertyCreator` that returns the `BoundProperty`:
+NOTE: For UI annotation that are used on methods, a `BoundProperty` needs to have at least the property name of the PMO property. Optionally, it can contain the model object and attribute for model binding. +
+Annotations on classes typically use an empty `BoundProperty`. That way, the aspect methods for the whole PMO do not contain any property name.
 
-.Implementation of the UIRadioButtonGroupBoundPropertyCreator
-[source, java]
-----
-include::{source-dir-binding-sample}/java/org/linkki/samples/binding/annotation/UIRadioButtonGroup.java[tags=bound-property]
-----
+The annotation `LinkkiBoundProperty` points to a `BoundPropertyCreator` that defines how a `BoundProperty` should be created from the annotated annotation. The `UIRadioButtonGroup` uses the existing `ModelBindingBoundPropertyCreator` that derives the `BoundProperty` from the PMO property, and also determines the model object and model attribute from annotation attributes that are annotated with `@LinkkiBoundProperty.@ModelObject` and `@LinkkiBoundProperty.@ModelAttribute` respectively. This enables <<domain-model-binding, binding to the domain model>>.
 
-The `UIRadioButtonGroupBoundPropertyCreator` utilizes a factory method to create the `BoundProperty` passing the annotated method element as required property. Afterwards it adds the model object and the model attribute to the `BoundProperty`. By following this mechanism, the custom UI element annotation now supports the binding to the PMO and the Domain Model as described in <<domain-model-binding, Binding to the Domain Model (Data on Multiple Layers)>>.
+[NOTE] 
+====
+Aside from `ModelBindingBoundPropertyCreator`, *linkki* also provides some other implementations: 
+
+* `EmptyPropertyCreator` - Creates an empty `BoundProperty`
+* `SimpleMemberNameBoundPropertyCreator` - Derives the `BoundProperty` from only the PMO property
+====
 
 [#aspect-definitions]
 ===  Aspect Definitions

@@ -12,6 +12,9 @@
 
     <properties>
         <faktorips.version>20.12.0</faktorips.version>
+        
+        <!-- Ignore duplications due to Vaadin8/14 projects -->
+        <sonar.cpd.exclusions>**/*.java</sonar.cpd.exclusions>
     </properties>
 
     <dependencies>

@@ -173,6 +173,7 @@ public class UiCreator {
      *             the PMO given as first parameter.
      */
     @Deprecated
+    // necessary for javac compiler
     @SuppressWarnings("overloads")
     public static ComponentWrapper createComponent(Object pmo,
             BindingContext bindingContext,
@@ -203,6 +204,7 @@ public class UiCreator {
      * 
      * @throws IllegalArgumentException if a {@link LinkkiComponentDefinition} cannot be found
      */
+    // necessary for javac compiler
     @SuppressWarnings("overloads")
     public static ComponentWrapper createComponent(Object pmo,
             BindingContext bindingContext,

@@ -149,8 +149,15 @@ public class UIIntegerFieldIntegrationTest extends FieldAnnotationIntegrationTes
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UIIntegerField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, format = FANCY_FORMAT, maxLength = MAX_LENGTH)
-        public void value() {
+        @UIIntegerField(position = 1, //
+                label = "", //
+                enabled = EnabledType.DYNAMIC, //
+                required = RequiredType.DYNAMIC, //
+                visible = VisibleType.DYNAMIC, //
+                format = FANCY_FORMAT, //
+                maxLength = MAX_LENGTH, //
+                modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 

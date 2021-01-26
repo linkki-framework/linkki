@@ -16,13 +16,14 @@ package org.linkki.core.binding.descriptor;
 import java.util.List;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 
 /**
- * A {@link BindingDescriptor} using {@link BindingDefinition}.
+ * A {@link BindingDescriptor} using
+ * {@link org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition}.
  */
+@SuppressWarnings("javadoc")
 public class ElementDescriptor extends BindingDescriptor {
 
     private final int position;

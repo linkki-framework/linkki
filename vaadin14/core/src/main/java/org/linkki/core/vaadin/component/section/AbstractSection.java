@@ -16,7 +16,6 @@ package org.linkki.core.vaadin.component.section;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.style.LinkkiTheme;
@@ -82,23 +81,6 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
         add(header);
 
         setCaption(caption);
-    }
-
-    /**
-     * Creates a new section with the given caption. If {@code caption} is {@code null} or empty, no
-     * caption will be shown.
-     * 
-     * @deprecated Use {@link #AbstractSection(String, boolean)} and a call to
-     *             {@link #addHeaderButton(Button)} instead.
-     * 
-     * @param caption the caption to display for this section
-     * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param editButton If present the section has an edit button in the header.
-     */
-    @Deprecated
-    public AbstractSection(@CheckForNull String caption, boolean closeable, Optional<Button> editButton) {
-        this(caption, closeable);
-        editButton.ifPresent(this::addHeaderButton);
     }
 
     private HorizontalLayout createHeader() {

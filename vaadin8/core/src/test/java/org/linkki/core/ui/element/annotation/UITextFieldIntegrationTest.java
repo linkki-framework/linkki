@@ -13,9 +13,9 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
@@ -95,8 +95,15 @@ public class UITextFieldIntegrationTest extends FieldAnnotationIntegrationTest<T
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UITextField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, width = WIDTH, maxLength = MAX_LENGTH)
-        public void value() {
+        @UITextField(position = 1, //
+                label = "", //
+                enabled = EnabledType.DYNAMIC, //
+                required = RequiredType.DYNAMIC, //
+                visible = VisibleType.DYNAMIC, //
+                width = WIDTH, //
+                maxLength = MAX_LENGTH, //
+                modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 

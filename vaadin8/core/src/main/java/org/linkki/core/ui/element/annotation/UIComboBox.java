@@ -22,16 +22,21 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -40,10 +45,15 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
-import org.linkki.core.ui.element.annotation.UIComboBox.ComboBoxAvailableValuesAspectDefinitionCreator;
-import org.linkki.core.ui.element.bindingdefinitions.ComboboxBindingDefinition;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
+import org.linkki.core.ui.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.element.annotation.UIComboBox.ComboBoxAspectCreator;
+import org.linkki.core.ui.element.annotation.UIComboBox.ComboBoxComponentDefinitionCreator;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.ui.ComboBox;
 
@@ -52,12 +62,9 @@ import com.vaadin.ui.ComboBox;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(ComboboxBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(ComboBoxAvailableValuesAspectDefinitionCreator.class)
-@LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+@LinkkiComponent(ComboBoxComponentDefinitionCreator.class)
+@LinkkiAspect(ComboBoxAspectCreator.class)
 @LinkkiPositioned
 public @interface UIComboBox {
 
@@ -97,11 +104,13 @@ public @interface UIComboBox {
      * Name of the model object that is to be bound if multiple model objects are included for model
      * binding
      */
+    @LinkkiBoundProperty.ModelObject
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
      * The name of a property in the class of the bound {@link ModelObject} to use model binding
      */
+    @LinkkiBoundProperty.ModelAttribute
     String modelAttribute() default "";
 
     /**
@@ -116,11 +125,12 @@ public @interface UIComboBox {
     /**
      * Aspect definition creator for the {@link UIComboBox} annotation.
      */
-    static class ComboBoxAvailableValuesAspectDefinitionCreator implements AspectDefinitionCreator<UIComboBox> {
+    static class ComboBoxAspectCreator implements AspectDefinitionCreator<UIComboBox> {
 
         @Override
         public LinkkiAspectDefinition create(UIComboBox annotation) {
-            return new AvailableValuesAspectDefinition<ComboBox<Object>>(annotation.content(),
+            AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<ComboBox<Object>>(
+                    annotation.content(),
                     ComboBox<Object>::setDataProvider) {
 
                 @Override
@@ -133,8 +143,47 @@ public @interface UIComboBox {
                 }
 
             };
+
+            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+                    annotation.required(),
+                    enabledAspectDefinition);
+
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    availableValuesAspectDefinition,
+                    new VisibleAspectDefinition(annotation.visible()),
+                    new ValueAspectDefinition(),
+                    new DerivedReadOnlyAspectDefinition());
         }
 
     }
 
+    static class ComboBoxComponentDefinitionCreator implements ComponentDefinitionCreator<UIComboBox> {
+
+        @Override
+        public LinkkiComponentDefinition create(UIComboBox annotation, AnnotatedElement annotatedElement) {
+            return pmo -> {
+                ComboBox<?> comboBox = ComponentFactory.newComboBox();
+                comboBox.setItemCaptionGenerator(getItemCaptionProvider(annotation)::getUnsafeCaption);
+                comboBox.setEmptySelectionCaption(getItemCaptionProvider(annotation).getNullCaption());
+                comboBox.setWidth(annotation.width());
+                comboBox.setPopupWidth(null);
+                comboBox.setPageLength(0);
+                return comboBox;
+            };
+        }
+
+        private ItemCaptionProvider<?> getItemCaptionProvider(UIComboBox uiComboBox) {
+            try {
+                return uiComboBox.itemCaptionProvider().newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new LinkkiBindingException(
+                        "Cannot instantiate item caption provider " + uiComboBox.itemCaptionProvider().getName()
+                                + " using default constructor.",
+                        e);
+            }
+        }
+    }
 }

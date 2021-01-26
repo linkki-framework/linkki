@@ -38,6 +38,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+@Deprecated
 @ExtendWith(MockitoExtension.class)
 public class ButtonBindingDefinitionTest {
 
@@ -97,7 +98,6 @@ public class ButtonBindingDefinitionTest {
         assertThat(button.getStyleName(), is(ValoTheme.BUTTON_ICON_ONLY));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testNewComponent_UseShortcutKeyCode() {
         Button button = new ButtonBindingDefinition(shortcutButton()).newComponent();

@@ -27,6 +27,7 @@ public class BindingApplication extends SpringBootServletInitializer {
         return builder.sources(BindingApplication.class);
     }
 
+    @SuppressWarnings("resource")
     public static void main(String[] args) {
         SpringApplication.run(BindingApplication.class, args);
     }

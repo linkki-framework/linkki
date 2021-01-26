@@ -13,12 +13,9 @@
  */
 package org.linkki.core.vaadin.component.section;
 
-import java.util.Optional;
-
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Span;
 
 /**
@@ -48,23 +45,8 @@ public abstract class BaseSection extends AbstractSection {
     }
 
     /**
-     * Creates a new section with the given caption.
-     * 
-     * @deprecated Use {@link #BaseSection(String, boolean)} and a call to
-     *             {@link #addHeaderButton(Button)} instead.
-     * 
-     * @param caption the caption
-     * @param closeable <code>true</code> if the section can be closed and opened.
-     * @param editButton If present the section has an edit button in the header.
-     */
-    @Deprecated
-    public BaseSection(String caption, boolean closeable, Optional<Button> editButton) {
-        super(caption, closeable);
-        editButton.ifPresent(this::addHeaderButton);
-    }
-
-    /**
      * Adds the given label / component pair to the section.
+     * 
      * @param label the label that should be placed beside the component.
      * @param component the component that should be added to the section
      * 

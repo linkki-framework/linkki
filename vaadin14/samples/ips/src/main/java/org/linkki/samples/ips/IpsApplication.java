@@ -27,6 +27,7 @@ public class IpsApplication extends SpringBootServletInitializer {
         return builder.sources(IpsApplication.class);
     }
 
+    @SuppressWarnings("resource")
     public static void main(String[] args) {
         SpringApplication.run(IpsApplication.class, args);
     }

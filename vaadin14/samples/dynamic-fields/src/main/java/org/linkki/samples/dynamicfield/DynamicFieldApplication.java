@@ -27,6 +27,7 @@ public class DynamicFieldApplication extends SpringBootServletInitializer {
         return builder.sources(DynamicFieldApplication.class);
     }
 
+    @SuppressWarnings("resource")
     public static void main(String[] args) {
         SpringApplication.run(DynamicFieldApplication.class, args);
     }

@@ -1,4 +1,4 @@
-:jbake-title: Additional Binding
+:jbake-title: Aspects
 :jbake-type: section
 :jbake-status: published
 :source-dir-binding: ../../../../../../vaadin8/samples/binding/src/main/java

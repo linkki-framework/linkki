@@ -54,13 +54,6 @@ public @interface TestUIField2 {
      */
     String modelAttribute() default "";
 
-    class TestUIField2ComponentDefinition implements LinkkiComponentDefinition {
-        @Override
-        public Object createComponent(Object pmo) {
-            return new TestUiComponent2();
-        }
-    }
-
     class TestUiComponent2 extends TestUiComponent {
         // just to be different
     }
@@ -68,7 +61,7 @@ public @interface TestUIField2 {
     class TestUIField2ComponentDefinitionCreator implements ComponentDefinitionCreator<TestUIField2> {
         @Override
         public LinkkiComponentDefinition create(TestUIField2 annotation, AnnotatedElement annotatedElement) {
-            return new TestUIField2ComponentDefinition();
+            return pmo -> new TestUiComponent2();
         }
     }
 

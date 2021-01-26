@@ -1,0 +1,31 @@
+
+{
+	"all-versions": [
+		{
+			"extension": "revapi.filter",
+			"configuration": {
+				"elements": {
+					"exclude": [
+						".* org\\.linkki\\.core\\..*",
+						".* org\\.linkki\\.util\\..*"
+					]
+				}
+			}
+		}
+	],
+	"1.4.0": [
+		{
+			"extension": "revapi.differences",
+			"configuration": {
+				"ignore": true,
+				"justification": "LIN-2093/LIN-2180 :: Deprecate and refactor annotations",
+				"differences": [
+					{
+						"code": "java.method.removed",
+						"old": "method boolean org.linkki.tooling.apt.util.ElementUtils::isLinkkiBindingDefinitionAnnotation(java.lang.Class<? extends java.lang.annotation.Annotation>)"
+					}
+				]
+			}
+		}
+	]
+}

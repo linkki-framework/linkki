@@ -67,7 +67,7 @@ public @interface UILink {
     String label() default "";
 
     /**
-     * Specifies if a component is shown, using values of {@link VisibleType}.
+     * Specifies if a component is shown, using values of {@link VisibleType}
      */
     VisibleType visible() default VISIBLE;
 
@@ -112,8 +112,8 @@ public @interface UILink {
         public LinkkiAspectDefinition create(UILink annotation) {
             return new CompositeAspectDefinition(
                     new LabelAspectDefinition(annotation.label()),
-                    new LinkHrefAspectDefinition(),
                     new VisibleAspectDefinition(annotation.visible()),
+                    new LinkHrefAspectDefinition(),
                     new CaptionAspectDefinition(annotation.captionType(), annotation.caption()),
                     new LinkTargetAspectDefinition(annotation.target(),
                             LinkTarget.DYNAMIC.equals(annotation.target())));

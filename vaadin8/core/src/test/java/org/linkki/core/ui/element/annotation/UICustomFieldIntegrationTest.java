@@ -13,10 +13,10 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,9 +48,9 @@ public class UICustomFieldIntegrationTest
     public void testDynamicAvailableValues() {
         assertThat(TestUiUtil.getData(getDynamicComponent()), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
 
-        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
+        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getDynamicAvailableValues());
         availableValues.remove(TestEnum.ONE);
-        getDefaultPmo().setValueAvailableValues(availableValues);
+        getDefaultPmo().setDynamicAvailableValues(availableValues);
         modelChanged();
         assertThat(TestUiUtil.getData(getDynamicComponent()), contains(TestEnum.TWO, TestEnum.THREE));
     }
@@ -94,16 +94,23 @@ public class UICustomFieldIntegrationTest
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UICustomField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, uiControl = ComboBox.class)
-        public void value() {
+        @UICustomField(position = 1, //
+                label = "", //
+                enabled = EnabledType.DYNAMIC, //
+                required = RequiredType.DYNAMIC, //
+                visible = VisibleType.DYNAMIC, //
+                content = AvailableValuesType.DYNAMIC, //
+                uiControl = ComboBox.class, //
+                modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 
-        public List<TestEnum> getValueAvailableValues() {
+        public List<TestEnum> getDynamicAvailableValues() {
             return Collections.unmodifiableList(availableValues);
         }
 
-        public void setValueAvailableValues(List<TestEnum> values) {
+        public void setDynamicAvailableValues(List<TestEnum> values) {
             this.availableValues = values;
         }
 
