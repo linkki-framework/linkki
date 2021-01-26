@@ -23,23 +23,35 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.aspects.HasItemsAvailableValuesAspectDefinition;
-import org.linkki.core.ui.element.annotation.UICustomField.CustomFieldAvailableValuesAspectDefinitionCreator;
-import org.linkki.core.ui.element.bindingdefinitions.CustomFieldBindingDefinition;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
+import org.linkki.core.ui.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.element.annotation.UICustomField.CustomFieldAspectCreator;
+import org.linkki.core.ui.element.annotation.UICustomField.CustomFieldBoundPropertyCreator;
+import org.linkki.core.ui.element.annotation.UICustomField.CustomFieldComponentDefinitionCreator;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.data.HasItems;
@@ -55,12 +67,9 @@ import com.vaadin.ui.Component;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(CustomFieldBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(CustomFieldAvailableValuesAspectDefinitionCreator.class)
-@LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiBoundProperty(CustomFieldBoundPropertyCreator.class)
+@LinkkiComponent(CustomFieldComponentDefinitionCreator.class)
+@LinkkiAspect(CustomFieldAspectCreator.class)
 @LinkkiPositioned
 public @interface UICustomField {
 
@@ -119,11 +128,55 @@ public @interface UICustomField {
     /**
      * Aspect definition creator for the {@link UICustomField} annotation.
      */
-    static class CustomFieldAvailableValuesAspectDefinitionCreator implements AspectDefinitionCreator<UICustomField> {
+    static class CustomFieldAspectCreator implements AspectDefinitionCreator<UICustomField> {
 
         @Override
         public LinkkiAspectDefinition create(UICustomField annotation) {
-            return ifComponentTypeIs(HasItems.class, new HasItemsAvailableValuesAspectDefinition(annotation.content()));
+            LinkkiAspectDefinition availableValuesAspectDefinition = ifComponentTypeIs(HasItems.class,
+                                                                                       new HasItemsAvailableValuesAspectDefinition(
+                                                                                               annotation.content()));
+
+            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+                    annotation.required(),
+                    enabledAspectDefinition);
+
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    availableValuesAspectDefinition,
+                    new VisibleAspectDefinition(annotation.visible()),
+                    new ValueAspectDefinition(),
+                    new DerivedReadOnlyAspectDefinition());
+        }
+
+    }
+
+    static class CustomFieldBoundPropertyCreator implements BoundPropertyCreator<UICustomField> {
+
+        @Override
+        public BoundProperty createBoundProperty(UICustomField annotation, AnnotatedElement annotatedElement) {
+            return BoundProperty.of((Method)annotatedElement)
+                    .withModelAttribute(annotation.modelAttribute())
+                    .withModelObject(annotation.modelObject());
+        }
+
+    }
+
+    static class CustomFieldComponentDefinitionCreator implements ComponentDefinitionCreator<UICustomField> {
+
+        @Override
+        public LinkkiComponentDefinition create(UICustomField annotation, AnnotatedElement annotatedElement) {
+            return pmo -> {
+                try {
+                    Component component = annotation.uiControl().newInstance();
+                    component.setWidth(annotation.width());
+                    return component;
+                } catch (InstantiationException | IllegalAccessException e) {
+                    throw new LinkkiBindingException("Cannot instantiate component " + annotation.uiControl().getName()
+                            + " using default constructor.", e);
+                }
+            };
         }
 
     }

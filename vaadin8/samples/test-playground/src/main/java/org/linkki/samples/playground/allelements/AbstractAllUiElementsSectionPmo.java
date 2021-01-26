@@ -37,6 +37,7 @@ import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UIRadioButtons;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.element.annotation.UIYesNoComboBox;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.ips.decimalfield.UIDecimalField;
@@ -56,6 +57,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     public static final String PROPERTY_DOUBLE_VALUE = "doubleValue";
     public static final String PROPERTY_DATE = "date";
     public static final String PROPERTY_ENUM_VALUE_COMBO_BOX = "enumValueComboBox";
+    public static final String PROPERTY_YES_NO_COMBO_BOX = "yesNoComboBox";
     public static final String PROPERTY_BOOLEAN_VALUE = "booleanValue";
     public static final String PROPERTY_TEXT_LABEL = "textLabel";
     public static final String PROPERTY_BIG_DECIMAL_LABEL = "bigDecimalLabel";
@@ -250,6 +252,20 @@ public abstract class AbstractAllUiElementsSectionPmo {
 
     public VaadinIcons getLinkIcon() {
         return Optional.ofNullable(getModelObject().getEnumValue()).map(Direction::getIcon).orElse(null);
+    }
+
+    @BindReadOnly(ReadOnlyType.DYNAMIC)
+    @UIYesNoComboBox(position = 150, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_YESNOCOMBOBOX, required = RequiredType.DYNAMIC)
+    public void yesNoComboBox() {
+        // model binding
+    }
+
+    public boolean isYesNoComboBoxRequired() {
+        return getModelObject().isBooleanValue();
+    }
+
+    public boolean isYesNoComboBoxReadOnly() {
+        return isReadOnly();
     }
 
     @UISection(caption = NlsText.I18n)

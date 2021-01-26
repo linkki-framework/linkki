@@ -1,15 +1,66 @@
 {
-  "all-versions": [
-    {
-      "extension": "revapi.filter", 
-      "configuration": {
-        "elements": {
-          "exclude": [
-            "missing-class javax\\.servlet\\.http.*",
-            ".* org\\.linkki\\.core\\..*"
-          ]
-        }
-      }
-    }
-  ]
+	"all-versions": [
+		{
+			"extension": "revapi.filter",
+			"configuration": {
+				"elements": {
+					"exclude": [
+						"missing-class javax\\.servlet\\.http.*",
+						".* org\\.linkki\\.core\\..*"
+					]
+				}
+			}
+		}
+	],
+	"1.4.0": [
+		{
+			"extension": "revapi.differences",
+			"configuration": {
+				"ignore": true,
+				"justification": "LIN-2093/LIN-2180 :: Deprecate and refactor annotations",
+				"differences": [
+					{
+						"code": "java.class.removed",
+						"old": "class org.linkki.ips.decimalfield.UIDecimalField.DecimalValueAspectCreator"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "@interface org.linkki.ips.decimalfield.UIDecimalField",
+						"new": "@interface org.linkki.ips.decimalfield.UIDecimalField",
+						"annotation": "@org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect(org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldAspectCreator.class)"
+					},
+					{
+						"code": "java.annotation.removed",
+						"old": "@interface org.linkki.ips.decimalfield.UIDecimalField",
+						"new": "@interface org.linkki.ips.decimalfield.UIDecimalField",
+						"annotation": "@org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspects({@org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect(org.linkki.core.ui.element.annotation.FieldAspectDefinitionCreator.class), @org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect(org.linkki.ips.decimalfield.UIDecimalField.DecimalValueAspectCreator.class)})"
+					},
+					{
+						"code": "java.annotation.removed",
+						"old": "@interface org.linkki.ips.decimalfield.UIDecimalField",
+						"new": "@interface org.linkki.ips.decimalfield.UIDecimalField",
+						"annotation": "@org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition(org.linkki.ips.decimalfield.DecimalFieldBindingDefinition.class)"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.ips.decimalfield.UIDecimalField",
+						"new": "@interface org.linkki.ips.decimalfield.UIDecimalField",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldBoundPropertyCreator.class"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.ips.decimalfield.UIDecimalField",
+						"new": "@interface org.linkki.ips.decimalfield.UIDecimalField",
+						"annotationType": "org.linkki.core.binding.uicreation.LinkkiComponent",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.uicreation.BindingDefinitionComponentDefinition.Creator.class",
+						"newValue": "org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldComponentDefinitionCreator.class"
+					}
+				]
+			}
+		}
+	]
 }

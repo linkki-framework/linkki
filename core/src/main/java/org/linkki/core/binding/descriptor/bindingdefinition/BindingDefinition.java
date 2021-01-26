@@ -22,7 +22,6 @@ import java.lang.reflect.Method;
 
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.UIElementAnnotationReader;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
@@ -44,8 +43,13 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * be used to check annotations and create {@link BindingDefinition} instances from them.
  * 
  * @see UIElementAnnotationReader
- * @see LinkkiBindingDefinition
+ * @see org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition
+ * 
+ * @deprecated since 1.4.0 because this concept was replaced. See "Custom UI element annotation" at
+ *             <a href="https://doc.linkki-framework.org/">https://doc.linkki-framework.org/</a> for
+ *             more information.
  */
+@Deprecated
 public interface BindingDefinition {
 
     Object newComponent();
@@ -91,31 +95,35 @@ public interface BindingDefinition {
 
     /**
      * Returns {@code true} if the given annotation is a non-null annotation marked as
-     * {@link LinkkiBindingDefinition}.
+     * {@link org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition}.
      */
     public static boolean isLinkkiBindingDefinition(@CheckForNull Annotation annotation) {
         if (annotation == null) {
             return false;
         } else {
-            return annotation.annotationType().isAnnotationPresent(LinkkiBindingDefinition.class);
+            return annotation.annotationType()
+                    .isAnnotationPresent(org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition.class);
         }
     }
 
     /**
      * Returns the {@link BindingDefinition} for the given annotation. Throws an exception if the
-     * annotation is {@code null} or not annotated as a {@link LinkkiBindingDefinition}. In other words,
-     * this method should only be invoked if {@link #isLinkkiBindingDefinition(Annotation)} returns
-     * {@code true} for the given annotation.
+     * annotation is {@code null} or not annotated as a
+     * {@link org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition}.
+     * In other words, this method should only be invoked if
+     * {@link #isLinkkiBindingDefinition(Annotation)} returns {@code true} for the given annotation.
      */
     public static BindingDefinition from(Annotation annotation) {
         Class<? extends Annotation> annotationClass = requireNonNull(annotation, "annotation must not be null")
                 .annotationType();
 
-        LinkkiBindingDefinition[] bindingDefinitions = annotationClass
-                .getAnnotationsByType(LinkkiBindingDefinition.class);
+        org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition[] bindingDefinitions = annotationClass
+                .getAnnotationsByType(org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition.class);
         if (bindingDefinitions.length == 0) {
             throw new IllegalArgumentException(
-                    annotation + " is not annotated as " + LinkkiBindingDefinition.class.getName());
+                    annotation + " is not annotated as "
+                            + org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition.class
+                                    .getName());
         }
         Class<? extends BindingDefinition> bindingDefinitionClass = bindingDefinitions[0].value();
 
@@ -130,7 +138,12 @@ public interface BindingDefinition {
     /**
      * {@link BoundPropertyCreator} that reads {@link BoundProperty bound properties} from a
      * {@link BindingDefinition}.
+     * 
+     * @deprecated since 1.4.0 because this concept was replaced. See "Custom UI element annotation" at
+     *             <a href="https://doc.linkki-framework.org/">https://doc.linkki-framework.org/</a> for
+     *             more information.
      */
+    @Deprecated
     public static class BindingDefinitionBoundPropertyCreator implements BoundPropertyCreator<Annotation> {
 
         @Override

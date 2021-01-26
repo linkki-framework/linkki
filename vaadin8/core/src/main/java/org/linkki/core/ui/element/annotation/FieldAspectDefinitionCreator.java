@@ -19,8 +19,6 @@ import java.lang.annotation.Annotation;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
@@ -29,13 +27,19 @@ import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 
 /**
  * Aspect definition creator for all annotations that are annotated with
- * {@link LinkkiBindingDefinition}.
+ * {@link org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition}.
+ * 
+ * @deprecated since 1.4.0 because this concept was replaced. See "Custom UI element annotation" at
+ *             <a href="https://doc.linkki-framework.org/">https://doc.linkki-framework.org/</a> for
+ *             more information.
  */
+@Deprecated
 public class FieldAspectDefinitionCreator implements AspectDefinitionCreator<Annotation> {
 
     @Override
     public LinkkiAspectDefinition create(Annotation annotation) {
-        BindingDefinition bindingDefinition = BindingDefinition.from(annotation);
+        org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition bindingDefinition = org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition
+                .from(annotation);
 
         EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(bindingDefinition.enabled());
         RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(

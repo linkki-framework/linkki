@@ -31,8 +31,6 @@ import java.util.Comparator;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.defaults.section.annotations.TestUIField;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -40,6 +38,7 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+@SuppressWarnings("deprecation")
 public class PositionAnnotationReaderTest {
 
     @Test
@@ -195,14 +194,15 @@ public class PositionAnnotationReaderTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    @LinkkiBindingDefinition(DeprecatedBindingDefinition.class)
+    @org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition(DeprecatedBindingDefinition.class)
     @interface TestUIFieldDeprecated {
 
         int position();
 
     }
 
-    public static class DeprecatedBindingDefinition implements BindingDefinition {
+    public static class DeprecatedBindingDefinition
+            implements org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition {
 
         private TestUIFieldDeprecated annotation;
 
@@ -210,7 +210,6 @@ public class PositionAnnotationReaderTest {
             this.annotation = annotation;
         }
 
-        @SuppressWarnings("deprecation")
         @Override
         public int position() {
             return annotation.position();

@@ -7,7 +7,7 @@
 [[creating-aspects]]
 ==== Creating a New Aspect
 
-In addition to built-in <<aspects>>, you can easily create your own. This guide walks you through the process of implementing a simple aspect that allows components to show a dynamically bound tooltip. In this example, you will build the aspect as a standalone annotation that can be used in addition to any `BindingDefinition`.
+In addition to built-in <<aspects>>, you can easily create your own. This guide walks you through the process of implementing a simple aspect that allows components to show a dynamically bound tooltip. In this example, you will build the aspect as a standalone annotation that can be used in addition to any <<custom-ui-element-annotation, UI Element Annotation>>. 
 
 TIP: A similar aspect is already included in *linkki*. It is only used as an example due to its simplicity.
 

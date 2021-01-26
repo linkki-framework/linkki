@@ -16,7 +16,6 @@ package org.linkki.core.ui.element.bindingdefinitions;
 import static java.util.Objects.requireNonNull;
 
 import org.linkki.core.binding.LinkkiBindingException;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -26,9 +25,18 @@ import org.linkki.core.ui.element.annotation.UICustomField;
 import com.vaadin.ui.Component;
 
 /**
- * {@link BindingDefinition} for {@link UICustomField}.
+ * {@link org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition} for
+ * {@link UICustomField}.
+ * 
+ * @deprecated since 1.4.0 because this concept was replaced and this implementation was moved into
+ *             {@link UICustomField}.<br>
+ *             See "Custom UI element annotation" at
+ *             <a href="https://doc.linkki-framework.org/">https://doc.linkki-framework.org/</a> for
+ *             more information.
  */
-public class CustomFieldBindingDefinition implements BindingDefinition {
+@Deprecated
+public class CustomFieldBindingDefinition
+        implements org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition {
 
     private final UICustomField uiCustomField;
 

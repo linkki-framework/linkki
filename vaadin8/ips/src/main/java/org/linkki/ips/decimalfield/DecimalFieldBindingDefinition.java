@@ -27,7 +27,12 @@ import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * {@link BindingDefinition} for {@link UIDecimalField}.
+ * 
+ * @deprecated since 1.4.0 because this concept was replaced. See "Custom UI element annotation" at
+ *             <a href="https://doc.linkki-framework.org/">https://doc.linkki-framework.org/</a> for
+ *             more information.
  */
+@Deprecated
 public class DecimalFieldBindingDefinition implements BindingDefinition {
 
     private final UIDecimalField uiDecimalField;

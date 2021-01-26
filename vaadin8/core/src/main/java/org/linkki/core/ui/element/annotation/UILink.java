@@ -65,7 +65,7 @@ public @interface UILink {
     String label() default "";
 
     /**
-     * Specifies if a component is shown, using values of {@link VisibleType}.
+     * Specifies if a component is shown, using values of {@link VisibleType}
      */
     VisibleType visible() default VISIBLE;
 

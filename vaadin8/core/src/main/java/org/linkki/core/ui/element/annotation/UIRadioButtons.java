@@ -49,9 +49,10 @@ import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
 import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
-import org.linkki.core.ui.element.annotation.UIRadioButtons.UIRadioButtonsAspectDefinitionCreator;
-import org.linkki.core.ui.element.annotation.UIRadioButtons.UIRadioButtonsBoundPropertyCreator;
-import org.linkki.core.ui.element.annotation.UIRadioButtons.UIRadioButtonsComponentDefinitionCreator;
+import org.linkki.core.ui.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsAspectDefinitionCreator;
+import org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsBoundPropertyCreator;
+import org.linkki.core.ui.element.annotation.UIRadioButtons.RadioButtonsComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
@@ -64,10 +65,9 @@ import com.vaadin.ui.themes.ValoTheme;
 @Retention(RUNTIME)
 @Target(METHOD)
 @LinkkiPositioned
-@LinkkiAspect(UIRadioButtonsAspectDefinitionCreator.class)
-@LinkkiAspect(ValueAspectDefinitionCreator.class)
-@LinkkiBoundProperty(UIRadioButtonsBoundPropertyCreator.class)
-@LinkkiComponent(UIRadioButtonsComponentDefinitionCreator.class)
+@LinkkiAspect(RadioButtonsAspectDefinitionCreator.class)
+@LinkkiBoundProperty(RadioButtonsBoundPropertyCreator.class)
+@LinkkiComponent(RadioButtonsComponentDefinitionCreator.class)
 public @interface UIRadioButtons {
 
     /** Mandatory attribute that defines the order in which UI-Elements are displayed */
@@ -91,7 +91,7 @@ public @interface UIRadioButtons {
     RequiredType required() default NOT_REQUIRED;
 
     /**
-     * Specifies whether a component is shown, using values of {@link VisibleType}
+     * Specifies if a component is shown, using values of {@link VisibleType}
      */
     VisibleType visible() default VISIBLE;
 
@@ -123,69 +123,9 @@ public @interface UIRadioButtons {
     AlignmentType buttonAlignment() default AlignmentType.VERTICAL;
 
     /**
-     * Component definition for the {@link UIRadioButtons} annotation.
-     */
-    public static class UIRadioButtonsComponentDefinitionCreator
-            implements ComponentDefinitionCreator<UIRadioButtons> {
-
-        @Override
-        public LinkkiComponentDefinition create(UIRadioButtons annotation, AnnotatedElement annotatedElement) {
-            return new UIRadioButtonsDefinition(getItemCaptionProvider(annotation),
-                    annotation.buttonAlignment());
-        }
-
-        private ItemCaptionProvider<?> getItemCaptionProvider(UIRadioButtons uiRadioButtons) {
-            try {
-                return uiRadioButtons.itemCaptionProvider().newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new LinkkiBindingException(
-                        "Cannot instantiate item caption provider " + uiRadioButtons.itemCaptionProvider().getName()
-                                + " using default constructor.",
-                        e);
-            }
-        }
-    }
-
-    /**
-     * Component definition creator for the {@link UIRadioButtons} annotation.
-     */
-    static class UIRadioButtonsDefinition implements LinkkiComponentDefinition {
-
-        private ItemCaptionProvider<?> itemCaptionProvider;
-        private AlignmentType alignment;
-
-        public UIRadioButtonsDefinition(ItemCaptionProvider<?> itemCaptionProvider,
-                AlignmentType alignment) {
-            this.itemCaptionProvider = itemCaptionProvider;
-            this.alignment = alignment;
-        }
-
-        @Override
-        public Object createComponent(Object pmo) {
-            RadioButtonGroup<?> radioButtons = new RadioButtonGroup<>();
-            radioButtons.setItemCaptionGenerator(itemCaptionProvider::getUnsafeCaption);
-            if (alignment.equals(AlignmentType.HORIZONTAL)) {
-                radioButtons.addStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
-            }
-            return radioButtons;
-        }
-    }
-
-    static class UIRadioButtonsBoundPropertyCreator
-            implements BoundPropertyCreator<UIRadioButtons> {
-
-        @Override
-        public BoundProperty createBoundProperty(UIRadioButtons annotation, AnnotatedElement annotatedElement) {
-            return BoundProperty.of((Method)annotatedElement)
-                    .withModelAttribute(annotation.modelAttribute())
-                    .withModelObject(annotation.modelObject());
-        }
-    }
-
-    /**
      * Aspect definition creator for the {@link UIRadioButtons} annotation.
      */
-    static class UIRadioButtonsAspectDefinitionCreator implements AspectDefinitionCreator<UIRadioButtons> {
+    static class RadioButtonsAspectDefinitionCreator implements AspectDefinitionCreator<UIRadioButtons> {
 
         @Override
         public LinkkiAspectDefinition create(UIRadioButtons annotation) {
@@ -203,8 +143,48 @@ public @interface UIRadioButtons {
                     enabledAspectDefinition,
                     requiredAspectDefinition,
                     availableValuesAspectDefinition,
+                    new ValueAspectDefinition(),
                     new VisibleAspectDefinition(annotation.visible()),
                     new DerivedReadOnlyAspectDefinition());
+        }
+    }
+
+    static class RadioButtonsBoundPropertyCreator implements BoundPropertyCreator<UIRadioButtons> {
+
+        @Override
+        public BoundProperty createBoundProperty(UIRadioButtons annotation, AnnotatedElement annotatedElement) {
+            return BoundProperty.of((Method)annotatedElement)
+                    .withModelAttribute(annotation.modelAttribute())
+                    .withModelObject(annotation.modelObject());
+        }
+    }
+
+    /**
+     * Component definition for the {@link UIRadioButtons} annotation.
+     */
+    public static class RadioButtonsComponentDefinitionCreator implements ComponentDefinitionCreator<UIRadioButtons> {
+
+        @Override
+        public LinkkiComponentDefinition create(UIRadioButtons annotation, AnnotatedElement annotatedElement) {
+            return pmo -> {
+                RadioButtonGroup<?> radioButtons = new RadioButtonGroup<>();
+                radioButtons.setItemCaptionGenerator(getItemCaptionProvider(annotation)::getUnsafeCaption);
+                if (annotation.buttonAlignment().equals(AlignmentType.HORIZONTAL)) {
+                    radioButtons.addStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
+                }
+                return radioButtons;
+            };
+        }
+
+        private ItemCaptionProvider<?> getItemCaptionProvider(UIRadioButtons uiRadioButtons) {
+            try {
+                return uiRadioButtons.itemCaptionProvider().newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new LinkkiBindingException(
+                        "Cannot instantiate item caption provider " + uiRadioButtons.itemCaptionProvider().getName()
+                                + " using default constructor.",
+                        e);
+            }
         }
     }
 }

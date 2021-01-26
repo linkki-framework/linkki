@@ -13,9 +13,9 @@
  */
 package org.linkki.core.ui.element.bindingdefinitions;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Locale;
 
@@ -29,6 +29,7 @@ import com.vaadin.ui.DateField;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+@Deprecated
 public class DateFieldBindingDefinitionTest {
 
     private static final String CUSTOM_DATE_FORMAT = "yy.dd.MM";
@@ -36,7 +37,6 @@ public class DateFieldBindingDefinitionTest {
     private UIDateField getAnnotation(String name) {
         try {
             @NonNull
-            
             UIDateField annotation = getClass().getMethod(name, new Class<?>[] {})
                     .getAnnotation(UIDateField.class);
             return annotation;

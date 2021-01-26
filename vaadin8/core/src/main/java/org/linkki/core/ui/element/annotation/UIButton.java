@@ -21,15 +21,16 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.SimpleMemberNameBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
@@ -39,24 +40,25 @@ import org.linkki.core.ui.aspects.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
-import org.linkki.core.ui.element.annotation.UIButton.UIButtonAspectDefinitionCreator;
-import org.linkki.core.ui.element.bindingdefinitions.ButtonBindingDefinition;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.ui.element.annotation.UIButton.ButtonAspectCreator;
+import org.linkki.core.ui.element.annotation.UIButton.ButtonComponentDefinitionCreator;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.ui.Button;
 
 /**
  * Marks a method which is carried out when the {@link UIButton} is clicked.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(ButtonBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(UIButtonAspectDefinitionCreator.class)
+@LinkkiBoundProperty(SimpleMemberNameBoundPropertyCreator.class)
+@LinkkiComponent(ButtonComponentDefinitionCreator.class)
+@LinkkiAspect(ButtonAspectCreator.class)
 @LinkkiPositioned
 public @interface UIButton {
 
@@ -123,7 +125,7 @@ public @interface UIButton {
     /**
      * Aspect definition creator for the {@link UIButton} annotation.
      */
-    static class UIButtonAspectDefinitionCreator implements AspectDefinitionCreator<UIButton> {
+    static class ButtonAspectCreator implements AspectDefinitionCreator<UIButton> {
 
         @Override
         public LinkkiAspectDefinition create(UIButton annotation) {
@@ -134,5 +136,25 @@ public @interface UIButton {
                     new CaptionAspectDefinition(annotation.captionType(), annotation.caption()),
                     new ButtonInvokeAspectDefinition());
         }
+
     }
+
+    static class ButtonComponentDefinitionCreator implements ComponentDefinitionCreator<UIButton> {
+
+        @Override
+        public LinkkiComponentDefinition create(UIButton annotation, AnnotatedElement annotatedElement) {
+            return pmo -> {
+                Button button = ComponentFactory.newButton();
+                if (annotation.showIcon()) {
+                    button.setIcon(annotation.icon());
+                }
+                button.addStyleNames(annotation.styleNames());
+                if (annotation.shortcutKeyCode() != -1) {
+                    button.setClickShortcut(annotation.shortcutKeyCode(), annotation.shortcutModifierKeys());
+                }
+                return button;
+            };
+        }
+    }
+
 }

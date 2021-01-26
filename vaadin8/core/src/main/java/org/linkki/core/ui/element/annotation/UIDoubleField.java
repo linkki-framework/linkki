@@ -22,38 +22,49 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
 import org.linkki.core.ui.converters.FormattedDoubleToStringConverter;
-import org.linkki.core.ui.element.annotation.UIDoubleField.DoubleValueAspectCreator;
-import org.linkki.core.ui.element.bindingdefinitions.DoubleFieldBindingDefinition;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.ui.element.annotation.UIDoubleField.DoubleFieldAspectCreator;
+import org.linkki.core.ui.element.annotation.UIDoubleField.DoubleFieldBoundPropertyCreator;
+import org.linkki.core.ui.element.annotation.UIDoubleField.DoubleFieldComponentDefinitionCreator;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.server.Sizeable;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * A text field for displaying formatted numbers.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(DoubleFieldBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(DoubleValueAspectCreator.class)
+@LinkkiBoundProperty(DoubleFieldBoundPropertyCreator.class)
+@LinkkiComponent(DoubleFieldComponentDefinitionCreator.class)
+@LinkkiAspect(DoubleFieldAspectCreator.class)
 @LinkkiPositioned
 public @interface UIDoubleField {
 
@@ -108,12 +119,45 @@ public @interface UIDoubleField {
     /**
      * Aspect definition creator for the {@link UIDoubleField} annotation.
      */
-    static class DoubleValueAspectCreator implements AspectDefinitionCreator<UIDoubleField> {
+    static class DoubleFieldAspectCreator implements AspectDefinitionCreator<UIDoubleField> {
 
         @Override
         public LinkkiAspectDefinition create(UIDoubleField annotation) {
-            FormattedDoubleToStringConverter converter = new FormattedDoubleToStringConverter(annotation.format());
-            return new ValueAspectDefinition(converter);
+            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+                    annotation.required(),
+                    enabledAspectDefinition);
+
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    new VisibleAspectDefinition(annotation.visible()),
+                    new ValueAspectDefinition(new FormattedDoubleToStringConverter(annotation.format())),
+                    new DerivedReadOnlyAspectDefinition());
+        }
+
+    }
+
+    static class DoubleFieldBoundPropertyCreator implements BoundPropertyCreator<UIDoubleField> {
+
+        @Override
+        public BoundProperty createBoundProperty(UIDoubleField annotation, AnnotatedElement annotatedElement) {
+            return BoundProperty.of((Method)annotatedElement)
+                    .withModelAttribute(annotation.modelAttribute())
+                    .withModelObject(annotation.modelObject());
+        }
+
+    }
+
+    static class DoubleFieldComponentDefinitionCreator implements ComponentDefinitionCreator<UIDoubleField> {
+
+        @Override
+        public LinkkiComponentDefinition create(UIDoubleField annotation, AnnotatedElement annotatedElement) {
+            return pmo -> {
+                TextField field = ComponentFactory.newTextField(annotation.maxLength(), annotation.width());
+                field.addStyleName(ValoTheme.TEXTFIELD_ALIGN_RIGHT);
+                return field;
+            };
         }
 
     }

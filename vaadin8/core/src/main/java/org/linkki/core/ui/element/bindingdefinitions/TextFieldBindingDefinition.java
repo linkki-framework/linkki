@@ -15,7 +15,6 @@ package org.linkki.core.ui.element.bindingdefinitions;
 
 import static java.util.Objects.requireNonNull;
 
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
@@ -25,9 +24,18 @@ import org.linkki.core.vaadin.component.ComponentFactory;
 import com.vaadin.ui.Component;
 
 /**
- * {@link BindingDefinition} for {@link UITextField}.
+ * {@link org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition} for
+ * {@link UITextField}.
+ * 
+ * @deprecated since 1.4.0 because this concept was replaced and this implementation was moved into
+ *             {@link UITextField}.<br>
+ *             See "Custom UI element annotation" at
+ *             <a href="https://doc.linkki-framework.org/">https://doc.linkki-framework.org/</a> for
+ *             more information.
  */
-public class TextFieldBindingDefinition implements BindingDefinition {
+@Deprecated
+public class TextFieldBindingDefinition
+        implements org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition {
 
     private final UITextField uiTextField;
 

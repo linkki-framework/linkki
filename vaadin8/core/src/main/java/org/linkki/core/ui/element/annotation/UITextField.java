@@ -22,19 +22,34 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 
+import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
+import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
-import org.linkki.core.ui.element.bindingdefinitions.TextFieldBindingDefinition;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
+import org.linkki.core.ui.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.element.annotation.UITextField.TextFieldAspectCreator;
+import org.linkki.core.ui.element.annotation.UITextField.TextFieldBoundPropertyCreator;
+import org.linkki.core.ui.element.annotation.UITextField.TextFieldComponentDefinitionCreator;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.server.Sizeable;
 
@@ -44,11 +59,9 @@ import com.vaadin.server.Sizeable;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(TextFieldBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiBoundProperty(TextFieldBoundPropertyCreator.class)
+@LinkkiComponent(TextFieldComponentDefinitionCreator.class)
+@LinkkiAspect(TextFieldAspectCreator.class)
 @LinkkiPositioned
 public @interface UITextField {
 
@@ -92,5 +105,46 @@ public @interface UITextField {
 
     /** Defines the maximal count of characters which can be displayed */
     int maxLength() default 0;
+
+    /**
+     * Aspect definition creator for the {@link UITextField} annotation.
+     */
+    static class TextFieldAspectCreator implements AspectDefinitionCreator<UITextField> {
+
+        @Override
+        public LinkkiAspectDefinition create(UITextField annotation) {
+            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+                    annotation.required(),
+                    enabledAspectDefinition);
+
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    new VisibleAspectDefinition(annotation.visible()),
+                    new ValueAspectDefinition(),
+                    new DerivedReadOnlyAspectDefinition());
+        }
+
+    }
+
+    static class TextFieldBoundPropertyCreator implements BoundPropertyCreator<UITextField> {
+
+        @Override
+        public BoundProperty createBoundProperty(UITextField annotation, AnnotatedElement annotatedElement) {
+            return BoundProperty.of((Method)annotatedElement)
+                    .withModelAttribute(annotation.modelAttribute())
+                    .withModelObject(annotation.modelObject());
+        }
+
+    }
+
+    static class TextFieldComponentDefinitionCreator implements ComponentDefinitionCreator<UITextField> {
+
+        @Override
+        public LinkkiComponentDefinition create(UITextField annotation, AnnotatedElement annotatedElement) {
+            return pmo -> ComponentFactory.newTextField(annotation.maxLength(), annotation.width());
+        }
+    }
 
 }

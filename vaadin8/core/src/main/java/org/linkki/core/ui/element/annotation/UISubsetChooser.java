@@ -22,16 +22,23 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Set;
 
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -40,10 +47,16 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.AvailableValuesAspectDefinition;
-import org.linkki.core.ui.element.annotation.UISubsetChooser.SubsetChooserAvailableValuesAspectCreator;
-import org.linkki.core.ui.element.bindingdefinitions.SubsetChooserBindingDefinition;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
+import org.linkki.core.ui.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.element.annotation.UISubsetChooser.SubsetChooserAspectCreator;
+import org.linkki.core.ui.element.annotation.UISubsetChooser.SubsetChooserBoundPropertyCreator;
+import org.linkki.core.ui.element.annotation.UISubsetChooser.SubsetChooserComponentDefinitionCreator;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.ui.TwinColSelect;
 
@@ -67,12 +80,9 @@ public Set&lt;T&gt; getFooAvailableValues() { ... }
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(SubsetChooserBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(SubsetChooserAvailableValuesAspectCreator.class)
-@LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiBoundProperty(SubsetChooserBoundPropertyCreator.class)
+@LinkkiComponent(SubsetChooserComponentDefinitionCreator.class)
+@LinkkiAspect(SubsetChooserAspectCreator.class)
 @LinkkiPositioned
 public @interface UISubsetChooser {
 
@@ -127,12 +137,65 @@ public @interface UISubsetChooser {
     /**
      * Aspect definition creator for the {@link UISubsetChooser} annotation.
      */
-    static class SubsetChooserAvailableValuesAspectCreator implements AspectDefinitionCreator<UISubsetChooser> {
+    static class SubsetChooserAspectCreator implements AspectDefinitionCreator<UISubsetChooser> {
 
         @Override
         public LinkkiAspectDefinition create(UISubsetChooser annotation) {
-            return new AvailableValuesAspectDefinition<>(AvailableValuesType.DYNAMIC,
+            AvailableValuesAspectDefinition<TwinColSelect<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<TwinColSelect<Object>>(
+                    AvailableValuesType.DYNAMIC,
                     TwinColSelect<Object>::setDataProvider);
+
+
+            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+                    annotation.required(),
+                    enabledAspectDefinition);
+
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    availableValuesAspectDefinition,
+                    new VisibleAspectDefinition(annotation.visible()),
+                    new ValueAspectDefinition(),
+                    new DerivedReadOnlyAspectDefinition());
+        }
+
+    }
+
+    static class SubsetChooserBoundPropertyCreator implements BoundPropertyCreator<UISubsetChooser> {
+
+        @Override
+        public BoundProperty createBoundProperty(UISubsetChooser annotation, AnnotatedElement annotatedElement) {
+            return BoundProperty.of((Method)annotatedElement)
+                    .withModelAttribute(annotation.modelAttribute())
+                    .withModelObject(annotation.modelObject());
+        }
+
+    }
+
+    static class SubsetChooserComponentDefinitionCreator implements ComponentDefinitionCreator<UISubsetChooser> {
+
+        @Override
+        public LinkkiComponentDefinition create(UISubsetChooser annotation, AnnotatedElement annotatedElement) {
+            return pmo -> {
+                TwinColSelect<Object> subsetChooser = ComponentFactory.newTwinColSelect();
+                subsetChooser.setItemCaptionGenerator(getItemCaptionProvider(annotation)::getUnsafeCaption);
+                subsetChooser.setWidth(annotation.width());
+                subsetChooser.setLeftColumnCaption(annotation.leftColumnCaption());
+                subsetChooser.setRightColumnCaption(annotation.rightColumnCaption());
+                return subsetChooser;
+            };
+        }
+
+        private ItemCaptionProvider<?> getItemCaptionProvider(UISubsetChooser annotation) {
+            try {
+                return annotation.itemCaptionProvider().newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new LinkkiBindingException(
+                        "Cannot instantiate item caption provider " + annotation.itemCaptionProvider().getName()
+                                + " using default constructor.",
+                        e);
+            }
         }
     }
 }

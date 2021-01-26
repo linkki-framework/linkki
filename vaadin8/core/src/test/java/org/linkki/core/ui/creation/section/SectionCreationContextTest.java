@@ -13,10 +13,10 @@
  */
 package org.linkki.core.ui.creation.section;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -27,7 +27,6 @@ import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.CustomLayoutSection;
-import org.linkki.core.vaadin.component.section.FormSection;
 import org.linkki.core.vaadin.component.section.HorizontalSection;
 
 import com.vaadin.ui.Component;
@@ -35,7 +34,6 @@ import com.vaadin.ui.GridLayout;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-@SuppressWarnings("deprecation")
 @Deprecated
 public class SectionCreationContextTest {
 
@@ -62,7 +60,8 @@ public class SectionCreationContextTest {
         BaseSection section = createContext(new SCCPmoWithID()).createSection();
         assertThat(section.getComponentCount(), is(2));
         assertThat(section.getComponent(0).isVisible(), is(false)); // invisible header
-        GridLayout gridLayout = TestUiUtil.getContentGrid((FormSection)section);
+        GridLayout gridLayout = TestUiUtil
+                .getContentGrid((org.linkki.core.vaadin.component.section.FormSection)section);
 
         @NonNull
         Component textField = gridLayout.getComponent(1, 0);
@@ -72,7 +71,7 @@ public class SectionCreationContextTest {
     @Test
     public void testSectionWithDefaultLayout_shouldCreateFormLayout() {
         BaseSection section = createContext(new SCCPmoWithoutID()).createSection();
-        assertThat(section, is(instanceOf(FormSection.class)));
+        assertThat(section, is(instanceOf(org.linkki.core.vaadin.component.section.FormSection.class)));
     }
 
     @Test
@@ -91,10 +90,10 @@ public class SectionCreationContextTest {
     @Test
     public void testSectionWithoutAnnotation_usesDefaultValues() {
         BaseSection section = createContext(new SectionWithoutAnnotation()).createSection();
-        assertThat(section, is(instanceOf(FormSection.class)));
+        assertThat(section, is(instanceOf(org.linkki.core.vaadin.component.section.FormSection.class)));
         assertThat(section.getId(), is(SectionWithoutAnnotation.class.getSimpleName()));
         assertThat(section.getCaption(), is(nullValue()));
-        assertThat(((FormSection)section).getNumberOfColumns(), is(1));
+        assertThat(((org.linkki.core.vaadin.component.section.FormSection)section).getNumberOfColumns(), is(1));
     }
 
     @UISection

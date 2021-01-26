@@ -40,7 +40,6 @@ import javax.lang.model.util.Types;
 import org.apache.commons.lang3.tuple.Pair;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspects;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.tooling.apt.processor.LinkkiAnnotationProcessor;
 
@@ -116,10 +115,6 @@ public final class ElementUtils {
     public boolean isLinkkiAspectAnnotation(Class<? extends Annotation> annotation) {
         return annotation.isAnnotationPresent(LinkkiAspect.class)
                 || annotation.isAnnotationPresent(LinkkiAspects.class);
-    }
-
-    public boolean isLinkkiBindingDefinitionAnnotation(Class<? extends Annotation> annotation) {
-        return annotation.isAnnotationPresent(LinkkiBindingDefinition.class);
     }
 
     public AnnotationMirror getAnnotationMirror(

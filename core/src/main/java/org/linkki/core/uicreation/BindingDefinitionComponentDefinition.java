@@ -17,19 +17,24 @@ package org.linkki.core.uicreation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 
 /**
- * Creates a component based on a {@link BindingDefinition}.
+ * Creates a component based on a
+ * {@link org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition}.
+ * 
+ * @deprecated since 1.4.0 because this concept was replaced. See "Custom UI element annotation" at
+ *             <a href="https://doc.linkki-framework.org/">https://doc.linkki-framework.org/</a> for
+ *             more information.
  */
+@Deprecated
 public class BindingDefinitionComponentDefinition implements LinkkiComponentDefinition {
 
-    private BindingDefinition bindingDefinition;
+    private org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition bindingDefinition;
 
     public BindingDefinitionComponentDefinition(Annotation annotation,
             @SuppressWarnings("unused") AnnotatedElement annotatedElement) {
-        bindingDefinition = BindingDefinition.from(annotation);
+        bindingDefinition = org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.from(annotation);
     }
 
     @Override
@@ -37,6 +42,12 @@ public class BindingDefinitionComponentDefinition implements LinkkiComponentDefi
         return bindingDefinition.newComponent();
     }
 
+    /**
+     * @deprecated since 1.4.0 because this concept was replaced. See "Custom UI element annotation" at
+     *             <a href="https://doc.linkki-framework.org/">https://doc.linkki-framework.org/</a> for
+     *             more information.
+     */
+    @Deprecated
     public static class Creator implements ComponentDefinitionCreator<Annotation> {
 
         @Override

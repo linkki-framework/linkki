@@ -22,37 +22,46 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator;
-import org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition;
+import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
+import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
+import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
-import org.linkki.core.ui.element.annotation.UICheckBox.CheckBoxCaptionAspectDefinitionCreator;
-import org.linkki.core.ui.element.bindingdefinitions.CheckboxBindingDefinition;
+import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
+import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
+import org.linkki.core.ui.aspects.ValueAspectDefinition;
+import org.linkki.core.ui.element.annotation.UICheckBox.CheckBoxAspectCreator;
+import org.linkki.core.ui.element.annotation.UICheckBox.CheckBoxBoundPropertyCreator;
+import org.linkki.core.ui.element.annotation.UICheckBox.CheckBoxComponentDefinitionCreator;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
-import org.linkki.core.uicreation.BindingDefinitionComponentDefinition;
+import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.vaadin.component.ComponentFactory;
 
 /**
  * In accordance to {@link com.vaadin.ui.CheckBox}, bound to a boolean property.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBindingDefinition(CheckboxBindingDefinition.class)
-@LinkkiBoundProperty(BindingDefinitionBoundPropertyCreator.class)
-@LinkkiComponent(BindingDefinitionComponentDefinition.Creator.class)
-@LinkkiAspect(CheckBoxCaptionAspectDefinitionCreator.class)
-@LinkkiAspect(FieldAspectDefinitionCreator.class)
-@LinkkiAspect(ValueAspectDefinitionCreator.class)
+@LinkkiBoundProperty(CheckBoxBoundPropertyCreator.class)
+@LinkkiComponent(CheckBoxComponentDefinitionCreator.class)
+@LinkkiAspect(CheckBoxAspectCreator.class)
 @LinkkiPositioned
 public @interface UICheckBox {
 
@@ -88,7 +97,7 @@ public @interface UICheckBox {
     RequiredType required() default NOT_REQUIRED;
 
     /**
-     * Specifies if a component is shown, using values of {@link VisibleType}.
+     * Specifies if a component is shown, using values of {@link VisibleType}
      */
     VisibleType visible() default VISIBLE;
 
@@ -106,13 +115,43 @@ public @interface UICheckBox {
     /**
      * Aspect definition creator for the {@link UICheckBox} annotation.
      */
-    static class CheckBoxCaptionAspectDefinitionCreator implements AspectDefinitionCreator<UICheckBox> {
+    static class CheckBoxAspectCreator implements AspectDefinitionCreator<UICheckBox> {
 
         @Override
         public LinkkiAspectDefinition create(UICheckBox annotation) {
-            return new CaptionAspectDefinition(CaptionType.STATIC, annotation.caption());
+            EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
+            RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
+                    annotation.required(),
+                    enabledAspectDefinition);
+
+            return new CompositeAspectDefinition(new LabelAspectDefinition(annotation.label()),
+                    enabledAspectDefinition,
+                    requiredAspectDefinition,
+                    new CaptionAspectDefinition(CaptionType.STATIC, annotation.caption()),
+                    new VisibleAspectDefinition(annotation.visible()),
+                    new ValueAspectDefinition(),
+                    new DerivedReadOnlyAspectDefinition());
         }
 
     }
 
+    static class CheckBoxBoundPropertyCreator implements BoundPropertyCreator<UICheckBox> {
+
+        @Override
+        public BoundProperty createBoundProperty(UICheckBox annotation, AnnotatedElement annotatedElement) {
+            return BoundProperty.of((Method)annotatedElement)
+                    .withModelAttribute(annotation.modelAttribute())
+                    .withModelObject(annotation.modelObject());
+        }
+
+    }
+
+    static class CheckBoxComponentDefinitionCreator implements ComponentDefinitionCreator<UICheckBox> {
+
+        @Override
+        public LinkkiComponentDefinition create(UICheckBox annotation, AnnotatedElement annotatedElement) {
+            return pmo -> ComponentFactory.newCheckBox();
+        }
+
+    }
 }

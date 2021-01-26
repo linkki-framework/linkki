@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.linkki-framework</groupId>
@@ -45,7 +47,7 @@
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons-io.version>2.8.0</commons-io.version>
         <doc.user>${user.name}</doc.user>
-        <spotbugs.version>4.1.4</spotbugs.version>
+        <spotbugs.version>4.2.0</spotbugs.version>
         <checkstyle.version>8.36.2</checkstyle.version>
         <java.version>1.8</java.version>
 
@@ -64,7 +66,8 @@
                     <showDeprecation>true</showDeprecation>
                     <compilerArgs>
                         <arg>-Xlint</arg>
-                        <!-- Because the eclipse compiler and javac differ: https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
+                        <!-- Because the eclipse compiler and javac differ: 
+                            https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
                         <arg>-Xlint:-varargs</arg>
                     </compilerArgs>
                 </configuration>
@@ -93,8 +96,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <!-- at the moment we do not check missing javadoc like missing @param or @return -->
-                    <doclint>accessibility,html,reference,syntax</doclint>                    
+                    <!-- at the moment we do not check missing javadoc like 
+                        missing @param or @return -->
+                    <doclint>accessibility,html,reference,syntax</doclint>
                     <tags>
                         <tag>
                             <name>apiNote</name>
@@ -145,6 +149,11 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <dependencies>
+                    <dependency>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs</artifactId>
+                        <version>${spotbugs.version}</version>
+                    </dependency>
                     <dependency>
                         <groupId>org.linkki-framework</groupId>
                         <artifactId>linkki-codeanalysis</artifactId>
@@ -258,8 +267,8 @@
                     </analysisConfigurationFiles>
                     <failOnMissingConfigurationFiles>false</failOnMissingConfigurationFiles>
                     <analysisConfiguration>
-                        <!-- over all configuration - https://revapi.org/revapi-maven-plugin/configuring-revapi.html
-                        and https://revapi.org/revapi-java/differences.html -->
+                        <!-- over all configuration - https://revapi.org/revapi-maven-plugin/configuring-revapi.html 
+                            and https://revapi.org/revapi-java/differences.html -->
                         <revapi.java>
                             <checks>
                                 <nonPublicPartOfAPI>
@@ -291,26 +300,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.5</version>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
 
         <pluginManagement>
@@ -331,7 +320,7 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.1.4</version>
+                    <version>4.2.0</version>
                 </plugin>
 
                 <plugin>
@@ -394,8 +383,8 @@
                     </configuration>
                 </plugin>
 
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
-                    build itself. -->
+                <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -473,13 +462,8 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-annotations</artifactId>
                 <version>${spotbugs.version}</version>
-                <scope>provided</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.google.code.findbugs</groupId>
-                        <artifactId>jsr305</artifactId>
-                    </exclusion>
-                </exclusions>
+                <!-- <scope>provided</scope> <exclusions> <exclusion> <groupId>com.google.code.findbugs</groupId> 
+                    <artifactId>jsr305</artifactId> </exclusion> </exclusions> -->
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -495,7 +479,8 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>3.1.0</version>
-                <!-- do not update as long as we need to be compatible to 3.1 -->
+                <!-- do not update as long as we need to be compatible to 
+                    3.1 -->
                 <scope>provided</scope>
             </dependency>
         </dependencies>

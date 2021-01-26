@@ -15,6 +15,7 @@
 package org.linkki.core.binding.descriptor.aspect.base;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.linkki.core.binding.LinkkiBindingException;
@@ -87,4 +88,7 @@ public class CompositeAspectDefinition implements LinkkiAspectDefinition {
                 .anyMatch(d -> d.supports(type));
     }
 
+    public List<LinkkiAspectDefinition> getAspectDefinitions() {
+        return Collections.unmodifiableList(aspectDefinitions);
+    }
 }
