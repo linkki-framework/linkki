@@ -3,8 +3,7 @@
 :jbake-status: published
 
 :images-folder-name: 03_architecture
-:base-dir: ../../../../../../vaadin8/samples/binding
-:source-dir: {base-dir}/src/main/java
+:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
 
 [[cross-sectional-binding]]
 === Cross-Sectional Data Binding
@@ -52,7 +51,7 @@ For custom behaviors the interface `PropertyBehavior` can be implemented. It als
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/BindingSampleUI.java[tags=property-behavior]
+include::{source-dir}/org/linkki/samples/playground/binding/BindingSampleView.java[tags=property-behavior]
 ----
 
 [[property-behavior-binding-manager]]
@@ -62,7 +61,7 @@ If a `BindingContext` should be managed by a `BindingManager`, it can be created
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/BindingSampleUI.java[tags=property-behavior]
+include::{source-dir}/org/linkki/samples/playground/binding/BindingSampleView.java[tags=property-behavior]
 ----
 
 The default implementation `DefaultBindingManager` also provides a constructor in which a default `PropertyBehaviorProvider` can be defined that is then used for all `BindingContexts` created by using `getContext()`. Calling `createContext` with a `PropertyBehaviorProvider` would result in a `BindingContext` that only uses the provided behaviors, ignoring the default property behaviors of the `DefaultBindingManager`. If the default behaviors should not be replaced but only extended, `DefaultBindingManager.getDefaultBehaviorProvider()` allows access to the  `PropertyBehaviorProvider` from which a new one can be created with `PropertyBehaviorProvider.append(PropertyBehavior...)`.

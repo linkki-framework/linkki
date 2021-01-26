@@ -23,7 +23,7 @@
         <!-- end::vaadin[] -->
         <spotbugs.version>3.1.12</spotbugs.version>
         <!-- tag::vaadin[] -->
-        
+        <spring-boot.version>2.4.0</spring-boot.version>
         <!-- Ignore duplications due to Vaadin8/14 projects -->
         <sonar.cpd.exclusions>**/*.java</sonar.cpd.exclusions>
     </properties>
@@ -31,13 +31,6 @@
     <!-- end::vaadin[] -->
     <modules>
         <module>getting-started</module>
-        <module>binding</module>
-        <module>dynamic-fields</module>
-        <module>messages</module>
-        <module>custom-layout</module>
-        <module>application-framework</module>
-        <module>tree-table</module>
-        <module>ips</module>
         <module>test-playground</module>
     </modules>
 
@@ -46,6 +39,23 @@
         <!-- tag::vaadin[] -->
         <dependencies>
             <!-- end::vaadin[] -->
+
+            <!-- Spring boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <type>pom</type>
+                <scope>import</scope>
+                <version>${vaadin.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>javax.servlet</groupId>

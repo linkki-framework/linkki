@@ -1,30 +1,37 @@
 #!/bin/bash
 ###################################################################
-# Deploys all wars that were not necessary for the UI tests and
-# have not been deployed
+# Creates vaadin14 playground for UI tests
 ###################################################################
 
 BUILD_NAME=$1
-WILDFLY_NAME="linkki-$BUILD_NAME"
 
-# Vaadin 8
-WAR_FILE="vaadin8/samples/binding/target/linkki-sample-binding-vaadin8.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-binding-vaadin8.war
+# Create user-defined bridge
+NETWORK_NAME="network-linkki-$BUILD_NAME"
+if [ -z "$(docker network ls --filter="name=$NETWORK_NAME" -q)" ]; then
+    docker network create $NETWORK_NAME
+fi
 
-WAR_FILE="vaadin8/samples/messages/target/linkki-sample-messages-vaadin8.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-messages-vaadin8.war
+# Vaadin 14 with Spring Boot
 
-WAR_FILE="vaadin8/samples/custom-layout/target/linkki-sample-custom-layout-vaadin8.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-custom-layout-vaadin8.war
+# Create spring boot container
+SPRINGBOOT_NAME="linkki-$BUILD_NAME"
+if [ -n "$(docker container ls --filter="name=$SPRINGBOOT_NAME" -a -q)" ]; then
+    docker rm --force $SPRINGBOOT_NAME
+fi
 
-WAR_FILE="vaadin8/samples/tree-table/target/linkki-sample-tree-table-vaadin8.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-tree-table-vaadin8.war
+LABEL="url=linkki-$BUILD_NAME"
+docker create \
+        --cpus=2 --memory=4g \
+        --name $SPRINGBOOT_NAME \
+        --network $NETWORK_NAME \
+        --label $LABEL \
+        --label "entry-path=linkki-sample-test-playground-vaadin14" \
+        --label "retention=${CONTAINER_RETENTION:-discard}" \
+        f10/spring:8
 
-WAR_FILE="vaadin8/samples/application-framework/target/linkki-sample-application-vaadin8.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-application-vaadin8.war
+# Copy war to container
+WAR_FILE="vaadin14/samples/test-playground/target/linkki-sample-test-playground-vaadin14.war"
+docker cp $WAR_FILE $SPRINGBOOT_NAME:/opt/spring/application.war
 
-WAR_FILE="vaadin8/samples/getting-started/target/linkki-getting-started-vaadin8.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-getting-started-vaadin8.war
-
-WAR_FILE="vaadin8/samples/ips/target/linkki-sample-ips-vaadin8.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-ips-vaadin8.war
+# Start the container
+docker start $SPRINGBOOT_NAME

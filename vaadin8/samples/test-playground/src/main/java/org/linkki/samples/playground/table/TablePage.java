@@ -28,6 +28,7 @@ import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.TableSection;
+import org.linkki.samples.playground.table.dynamicfields.DynamicFieldComponent;
 import org.linkki.samples.playground.ui.SidebarSheetDefinition;
 
 import com.vaadin.icons.VaadinIcons;
@@ -52,6 +53,7 @@ public class TablePage extends VerticalLayout implements SidebarSheetDefinition 
                 .mapToObj(TableModelObject::new)
                 .collect(toList());
         addSectionsForSelectableTable();
+        addComponent(new DynamicFieldComponent());
     }
 
     @SuppressWarnings("deprecation")

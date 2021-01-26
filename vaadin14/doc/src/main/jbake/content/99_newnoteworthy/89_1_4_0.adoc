@@ -11,6 +11,8 @@
 
 For the annotation <<bind-visible, @BindVisible>>, the `VisibleType` is set to `DYNAMIC`, determining the visible state from the PMO by invoking a method named `is[PropertyName]Visible()`. Using this annotation, it is no longer necessary to specify the `visible` property with `VisibleType.DYNAMIC` in components, e.g. `@UILabel`. The <<bind-visible, @BindVisible>> can be used on any PMO, including any PMO classes that implement the `ContainerPmo` interface (i.e. `TableSections`). Using <<bind-visible, @BindVisible>> will overrule the existing `visible` property.
 
+==== New `BoundPropertyCreator`: `ModelBindingBoundPropertyCreator`
+
 The annotation `@LinkkiBoundProperty` now has a default value of the type `ModelBindingBoundPropertyCreator`. Using this `BoundPropertyCreator` it is very simple to create a new @UI-Field Annotation with model binding support. For more information read the corresponding documentation about <<bound-property, BoundProperty>>.
 
 ==== Concept of `BindingDefinition` is deprecated
@@ -21,3 +23,5 @@ The concept of `BindingDefinition` is deprecated because it was replaced. Theref
 * `org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition`
 * `org.linkki.core.uicreation.BindingDefinitionComponentDefinition`
 * `org.linkki.core.ui.element.annotation.FieldAspectDefinitionCreator`
+
+If you have built your own custom annotations using `BindingDefinition`, you should consider refactoring them using the new concept described in <<custom-ui-element-annotation,Creating a custom UI element>>

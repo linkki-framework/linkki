@@ -44,7 +44,7 @@ import com.vaadin.ui.TextField;
 public class AbstractUiTest extends TestBenchTestCase {
 
     /** The default application's URL path. */
-    public static final String MAIN_URL_PATH = "main#!";
+    public static final String MAIN_URL_PATH = "#!";
 
     private final String urlPath;
 

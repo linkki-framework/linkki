@@ -3,7 +3,7 @@
 
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_newnoteworthy
-:source-dir: ../../../../../../vaadin8/samples/binding/src/main/java
+:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
 
 === 1.2.2
 
@@ -52,7 +52,7 @@ Be aware that this change may lead to `NullPointerExceptions` in your code if yo
 
 [source,java]
 ----
-include::{source-dir}/org/linkki/samples/binding/BindingSampleUI.java[tags=widgetset]
+include::{source-dir}/org/linkki/samples/playground/ui/PlaygroundApplicationUI.java[tags=widgetset]
 ----
 
 ==== Empty Selection for Empty Combo Box

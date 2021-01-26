@@ -2,9 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-binding: ../../../../../../vaadin8/samples/binding/src/main/java
-:source-dir-messages: ../../../../../../vaadin8/samples/messages/src/main/java
-:source-dir-dynamic: ../../../../../../vaadin8/samples/dynamic-fields/src/main/java
+:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
 
 [[ui-element]]
 === UI Element
@@ -81,7 +79,7 @@ The content of the label can be styled with HTML if `htmlContent=true` is specif
 .Example HTML Label Content
 [source, java]
 ----
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelHtmlContent]
+include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelHtmlContent]
 ----
 
 [[label-style-names]]
@@ -154,7 +152,7 @@ A `@UIComboBox` allows selection of a value from a list. It has three additional
 
 [source, java]
 ----
-include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarPmo.java[tags=ui-combobox]
+include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-combobox]
 ----
 
 [[ui-combobox-content]]
@@ -215,7 +213,7 @@ WARNING: `@UICustomField` only supports controls with a parameter-less construct
 .UICustomField Example: PasswordField
 [source,java]
 ----
-include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationSectionPmo.java[tags=ui-custom-field]
+include::{source-dir}/org/linkki/samples/playground/messages/RegistrationSectionPmo.java[tags=ui-custom-field]
 ----
 
 [[dynamicfield]]
@@ -225,7 +223,7 @@ include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationSecti
 
 [source,java]
 ----
-include::{source-dir-dynamic}/org/linkki/samples/dynamicfield/pmo/CarPmo.java[tags=ui-dynamic-field]
+include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-dynamic-field]
 ----
 The selectable UI elements are defined via annotations on the method, as is customary. They must, however, fulfill the following requirements, to allow the type to be determined dynamically:
 
@@ -245,7 +243,7 @@ Buttons are not bound to values. Since buttons therefore have no corresponding P
 
 [source,java]
 ----
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/ButtonsSectionPmo.java[tags=button]
+include::{source-dir}/org/linkki/samples/playground/binding/pmo/ButtonsSectionPmo.java[tags=button]
 ----
 
 Apart from the <<ui-properties, common properties>>, buttons have these additional ones:

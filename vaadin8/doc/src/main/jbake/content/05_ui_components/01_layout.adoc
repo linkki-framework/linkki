@@ -2,9 +2,8 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/java
-:source-dir-playground: ../../../../../../vaadin8/samples/test-playground/src/main/java
-:resource-dir-custom: ../../../../../../vaadin8/samples/custom-layout/src/main/webapp
+:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:resource-dir: ../../../../../../vaadin8/samples/test-playground/src/main/webapp
 :source-dir-doc: ../../../../src/main/java
 :images-folder-name: 05_ui_components
 
@@ -85,16 +84,16 @@ The relevant code for the class declaration and a part of the field declarations
 +
 [source, java]
 ----
-include::{source-dir-custom}/org/linkki/samples/customlayout/pmo/AddressSectionPmo.java[tags=declaration]
+include::{source-dir}/org/linkki/samples/playground/customlayout/pmo/AddressSectionPmo.java[tags=declaration]
 ...
-include::{source-dir-custom}/org/linkki/samples/customlayout/pmo/AddressSectionPmo.java[tags=methods]
+include::{source-dir}/org/linkki/samples/playground/customlayout/pmo/AddressSectionPmo.java[tags=methods]
 ----
 +
 The corresponding part of the html file may looks like this. The used css classes are not part of the default stylesheet.
 +
 [source, xml]
 ----
-include::{resource-dir-custom}/VAADIN/themes/valo/layouts/AddressSectionPmo.html[lines=45..56]
+include::{resource-dir}/VAADIN/themes/sample/layouts/AddressSectionPmo.html[lines=45..56]
 ----
 
 [[section-label-alignment]]
@@ -111,7 +110,7 @@ To add more elements, for example an edit button, to the section's header than j
 
 [source, java]
 ----
-include::{source-dir-playground}/org/linkki/samples/playground/dynamicannotations/DynamicCaptionWithSectionHeaderButtonPmo.java[tags=section-header]
+include::{source-dir}/org/linkki/samples/playground/dynamicannotations/DynamicCaptionWithSectionHeaderButtonPmo.java[tags=section-header]
 ----
 
 TIP: The position is validated by linkki to be unique in the PMO independent of where the element will be placed in a section, so it is recommended to use negative numbers for the elements marked with `@SectionHeader` to avoid conflicts with the regular elements.

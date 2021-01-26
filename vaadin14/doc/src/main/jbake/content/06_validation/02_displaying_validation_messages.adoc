@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-messages: ../../../../../../vaadin8/samples/messages/src/main/java
+:source-dir-messages: ../../../../../../vaadin8/samples/test-playground/src/main/java
 
 [[displaying-validation-messages]]
 === Displaying Validation Messages
@@ -13,12 +13,12 @@ However, *linkki* does not provide a UI element to display all validation messag
 
 [source, java]
 ----
-include::{source-dir-messages}/org/linkki/samples/messages/binding/RegistrationBindingManager.java[tags=binding-manager-update-messages]
+include::{source-dir-messages}/org/linkki/samples/playground/messages/RegistrationBindingManager.java[tags=binding-manager-update-messages]
 ----
 
 Usage:
 
 [source, java]
 ----
-include::{source-dir-messages}/org/linkki/samples/messages/MessageUI.java[tags=validation-service]
+include::{source-dir-messages}/org/linkki/samples/playground/messages/MessageComponent.java[tags=validation-service]
 ----
