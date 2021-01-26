@@ -36,16 +36,16 @@ public class PlaygroundApplicationUI extends Div {
     public PlaygroundApplicationUI() {
         setSizeFull();
 
-        LinkkiTabLayout tabSheet = new LinkkiTabLayout(Orientation.VERTICAL);
-        tabSheet.addTab("All", "All", new AllUiElementsPage(() -> false));
-        tabSheet.addTab("Dynamic", "Dynamic", new DynamicAnnotationsLayout());
-        tabSheet.addTab("Bugs", "Bugs", new BugCollectionLayout());
-        tabSheet.addTab("Tables", "Tables", new TablePage());
-        tabSheet.addTab("Locale", "Locale", new LocaleInfoPage());
-        tabSheet.addTab("Tab Sheet", "Tab Sheet", new TabLayoutPage());
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.VERTICAL);
+        tabLayout.addTab("All", "All", new AllUiElementsPage(() -> false));
+        tabLayout.addTab("Dynamic", "Dynamic", new DynamicAnnotationsLayout());
+        tabLayout.addTab("Bugs", "Bugs", new BugCollectionLayout());
+        tabLayout.addTab("Tables", "Tables", new TablePage());
+        tabLayout.addTab("Locale", "Locale", new LocaleInfoPage());
+        tabLayout.addTab("Tab Layout", "Tab Layout", new TabLayoutPage());
 
-        tabSheet.getTabsComponent().setWidth("110px");
-        add(tabSheet);
+        tabLayout.getTabsComponent().setWidth("110px");
+        add(tabLayout);
     }
 
 }
