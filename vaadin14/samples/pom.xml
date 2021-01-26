@@ -33,6 +33,7 @@
         <module>binding</module>
         <module>dynamic-fields</module>
         <module>ips</module>
+        <module>application-framework</module>
     </modules>
 
     <dependencyManagement>
@@ -75,6 +76,11 @@
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-vaadin14-component</artifactId>
+                <version>1.4.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.linkki-framework</groupId>
+                <artifactId>linkki-application-framework-vaadin14</artifactId>
                 <version>1.4.0-SNAPSHOT</version>
             </dependency>
 

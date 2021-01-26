@@ -1,0 +1,369 @@
+/*
+* Styles for linkki application framework
+*
+* Some variables from valo are redefined to make this mixin usable standalone.
+* Make sure to import this linkki.scss first if you want to use linkki defaults.
+* The linkki mixin should then be included after valo, otherwise some styles may 
+* be overriden and thus not applied.
+*/
+
+$v-app-background-color: #fdfdfd !default;
+$v-font-color: #474747 !default;
+$v-focus-color: #005596 !default;
+$v-border: 1px solid darken($v-app-background-color, 15%) !default;
+$v-line-height: 1 !default;
+$v-layout-margin-top: 5px !default;
+$v-layout-margin-bottom: 5px !default;
+$v-layout-margin-left: 5px !default;
+$v-layout-margin-right: 5px !default;
+$v-caption-font-size: $v-font-size !default;
+$v-caption-font-weight: $v-font-weight !default;
+
+$linkki-color-primary: $v-focus-color !default;
+$linkki-color-foreground-light: $v-font-color !default;
+$linkki-color-foreground-dark: white !default;
+$linkki-color-error: #ed473b !default;
+$linkki-color-warning: #f29400 !default;
+$linkki-color-info: #3aaadc !default;
+
+$linkki-border: $v-border !default;
+$linkki-sidebar-width: 56px !default;
+$linkki-label-fixed-width: 9em !default;
+$linkki-label-fixed-width-long: 12em !default;
+$linkki-label-alignment: right !default;
+
+/* Returns predefined foreground color depending on the darkness of the given background color. 
+* To automatically calculate a foreground color with enough constrast use valo-font-color instead
+*/
+@function linkki-foreground-color($bg-color) {
+  @if type-of($bg-color) == color {
+    @if is-dark-color($bg-color) {
+      @return $linkki-color-foreground-dark;
+    } @else {
+      @return $linkki-color-foreground-light;
+    }
+  }
+  @return null;
+}
+
+@mixin linkki {
+  /*
+   * error markings in table cells need to be repeated here to overwrite textfield-borderless
+   */
+  @each $control in textfield, filterselect, datefield, select-twincol {
+    .v-table-cell-content .v-#{$control}-error-error {
+      border: 1px solid $linkki-color-error !important;
+      border-radius: 2px;
+      background: #fffbfb;
+      color: #6c2621;
+    }
+    .v-table-cell-content .v-#{$control}-error-warning {
+      border: 1px solid $linkki-color-warning !important;
+      border-radius: 2px;
+      background: #fffdfa;
+      color: #745119;
+    }
+    .v-table-cell-content .v-#{$control}-error-info {
+      border: 1px solid $linkki-color-info !important;
+      border-radius: 2px;
+      background: #fafdff;
+      color: #195774;
+    }
+  }
+
+  /*
+  * Fields and Buttons
+  */
+
+  /* Avoid shadow in borderless buttons, used for example in tables */
+  .v-button-borderless:focus:after {
+    @include box-shadow(none);
+  }
+
+  /* prevent tooltip scrollbar in chrome*/
+  .v-tooltip .v-tooltip-text {
+    line-height: 1.5em;
+  }
+
+  /* Don't show error indicator. Otherwise the layout "jumps" depending on whether an indicator is present or not. */
+  .v-errorindicator {
+    display: none;
+  }
+
+  /*
+  * Header
+  */
+
+  .linkki-application-header {
+    color: linkki-foreground-color($linkki-color-primary);
+    background-color: $linkki-color-primary;
+
+    .v-slot-linkki-application-header-right {
+      padding-right: 10px;
+    }
+
+    .linkki-application-header-right {
+    }
+
+    .v-menubar-menuitem-caption {
+      color: linkki-foreground-color($linkki-color-primary);
+      font-size: 120%;
+    }
+  }
+
+  /*
+  * Sidebar Layout
+  */
+
+  .linkki-sidebar-layout {
+    width: 100%;
+    height: 100%;
+    padding-left: $linkki-sidebar-width;
+  }
+
+  .linkki-sidebar {
+    background-color: darken($v-app-background-color, 4%);
+    height: 100%;
+    width: $linkki-sidebar-width;
+    margin-left: -$linkki-sidebar-width;
+    border-right: $linkki-border;
+
+    .v-button {
+      background-color: inherit;
+      background-image: none;
+      border: none;
+      border-radius: 0;
+      font-size: 150%;
+      line-height: 2.5;
+      height: 2.5em;
+      width: 100%;
+      @include box-shadow(none);
+
+      &:focus:after {
+        @include box-shadow(none);
+      }
+    }
+
+    .v-button.selected {
+      background-color: darken($v-app-background-color, 8%);
+    }
+  }
+
+  .linkki-sidebar-content {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+  }
+
+  /*
+  * Headline
+  */
+
+  .linkki-headline {
+    border-bottom: $linkki-border;
+    padding: 20px 10px;
+
+    .v-slot {
+      vertical-align: middle;
+    }
+  }
+
+  /* 
+  * Dialogs 
+  */
+
+  .linkki-dialog-caption .v-window-outerheader {
+    font-size: 140%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: $linkki-border;
+  }
+
+  .linkki-dialog-content {
+    padding: 10px 20px;
+  }
+
+  .linkki-application-info-dialog .v-label,
+  .v-Notification-caption {
+    line-height: 1.4 !important;
+  }
+
+  /* 
+  * Messages panels
+  */
+
+  .linkki-message-row {
+    padding: 1em 8px;
+    font-size: 90%;
+  }
+
+  .linkki-message-table.v-table {
+    background: none;
+  }
+
+  .v-caption-linkki-message-table.v-caption {
+    font-size: 100%;
+    font-weight: normal;
+  }
+
+  .linkki-message-table .v-table-table {
+    @include box-shadow(none);
+  }
+
+  .linkki-message-table .v-table-body {
+    border: none;
+  }
+
+  .linkki-message-table .v-table-cell-wrapper {
+    padding: 0;
+  }
+
+  .linkki-message-table .v-table-cell-content {
+    border: none;
+    /* for separating lines between the messages:
+    border-right: none;
+    border-left: none;
+    */
+  }
+
+  .v-caption-linkki-message-label {
+    margin-left: 4px;
+    font-weight: lighter;
+  }
+
+  .v-caption-linkki-message-label .v-icon {
+    padding: 0px 4px;
+  }
+
+  /* Styles for messages */
+  .v-caption-linkki-message-error .v-icon {
+    color: $linkki-color-error;
+  }
+
+  .v-label-linkki-message-error .v-icon {
+    color: $linkki-color-error;
+  }
+
+  .v-caption-linkki-message-warning .v-icon {
+    color: $linkki-color-warning;
+  }
+
+  .v-label-linkki-message-warning .v-icon {
+    color: $linkki-color-warning;
+  }
+
+  .v-caption-linkki-message-info .v-icon {
+    color: $linkki-color-info;
+  }
+
+  .v-label-linkki-message-info .v-icon {
+    color: $linkki-color-info;
+  }
+
+  /* 
+  * Tables
+  */
+
+  .linkki-table {
+    width: 100% !important;
+  }
+
+  .v-button-linkki-table-cell {
+    text-align: left;
+  }
+
+  /*
+  * Sections
+  */
+
+  .linkki-section {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .linkki-section-caption {
+    /* Space before section caption and below caption */
+    padding-top: 8px;
+    padding-bottom: 10px;
+
+    /* Styles for the section's captions */
+    .v-slot-linkki-section-caption-text {
+      .linkki-section-caption-text {
+        font-size: 110%;
+        font-weight: bold;
+      }
+    }
+  } //end-linkki-section-caption
+
+  /*
+  * Section Captions
+  */
+  .linkki-section .v-formlayout .v-caption {
+    @if($linkki-label-alignment == right){
+      text-align: right;
+      width: 100%;
+    }
+    line-height: initial;
+  }
+
+  .linkki-label-fixed-width .linkki-section .v-formlayout .v-caption{
+    width: $linkki-label-fixed-width;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+    
+  .linkki-label-fixed-width-long .linkki-section .v-formlayout .v-caption {
+    width: $linkki-label-fixed-width-long;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  .linkki-label-caption {
+    font-size: $v-caption-font-size;
+    font-weight: $v-caption-font-weight;
+    @if($linkki-label-alignment == right){
+        right: 0;
+    }
+    // additional space to compensate paddings of the required indicator
+    margin-right: .3em;
+  }
+
+  .linkki-label-caption.linkki-required:after {
+    content: '*';
+    position: absolute;
+    color: $v-required-field-indicator-color;
+    // mimics the required indicator of form layout
+    padding: 0 .1em;
+    margin-top: -0.5em;
+  }
+
+  .v-caption-linkki-required > .v-required-field-indicator{
+    display: none;
+    padding: 0;
+  }
+  
+  /* 
+   * Required-indicators are moved closer to their labels and moved up
+   */
+  .v-required-field-indicator {
+    padding: 0 0.1em;
+    margin-top: -0.5em;
+  }
+
+  .v-formlayout .v-required-field-indicator {
+    position: absolute;
+  }
+
+  .v-button.linkki-button-text {
+    @include valo-button-borderless-style;
+    height: unset;
+  }
+
+  /*
+  * Without this fix links in GridLayout may use too much vertical space, see LIN-2029
+  * Seems to be a bug in size calculation of grid layout.
+  */
+  .v-gridlayout .v-link {
+    white-space: nowrap;
+  }
+}
