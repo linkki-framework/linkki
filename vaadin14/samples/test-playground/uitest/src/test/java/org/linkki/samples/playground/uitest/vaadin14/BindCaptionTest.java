@@ -23,6 +23,7 @@ import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithCloseB
 import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithoutButtonPmo;
+import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -30,7 +31,6 @@ import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.html.testbench.H4Element;
 import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
-import com.vaadin.flow.component.tabs.testbench.TabsElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 
@@ -38,7 +38,7 @@ public class BindCaptionTest extends AbstractUiTest {
 
     @BeforeEach
     public void setup() {
-        $(TabsElement.class).first().getTabElement("Dynamic").click();
+        openTab(PlaygroundApplicationUI.DYNAMIC_ASPECT_TAB_ID);
     }
 
     @Test

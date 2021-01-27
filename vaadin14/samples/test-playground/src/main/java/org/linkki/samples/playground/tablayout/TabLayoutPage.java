@@ -15,6 +15,7 @@
 package org.linkki.samples.playground.tablayout;
 
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
@@ -26,29 +27,34 @@ public class TabLayoutPage extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String HORIZONTAL_TAB_1 = "horizontalTab1";
-    public static final String HORIZONTAL_TAB_2 = "horizontalTab2";
-    public static final String HORIZONTAL_CONTENT_1 = "horizontalContent1";
-    public static final String HORIZONTAL_CONTENT_2 = "horizontalContent2";
+    public static final String HORIZONTAL_TAB_1_ID = "horizontalTab1";
+    public static final String HORIZONTAL_TAB_2_ID = "horizontalTab2";
+    public static final String HORIZONTAL_CONTENT_1_ID = "horizontalContent1";
+    public static final String HORIZONTAL_CONTENT_2_ID = "horizontalContent2";
 
-    public static final String VERTICAL_TAB_1 = "verticalTab1";
-    public static final String VERTICAL_TAB_2 = "verticalTab2";
+    public static final String VERTICAL_TAB_1_ID = "verticalTab1";
+    public static final String VERTICAL_TAB_2_ID = "verticalTab2";
 
     public TabLayoutPage() {
         setPadding(false);
         LinkkiTabLayout horizontalSheet = new LinkkiTabLayout(Orientation.HORIZONTAL);
 
         Span horizontalContent1 = new Span("This is a horizontal LinkkiTabLayout.");
-        horizontalContent1.setId(HORIZONTAL_CONTENT_1);
-        horizontalSheet.addTab(HORIZONTAL_TAB_1, "Horizontal", horizontalContent1);
+        horizontalContent1.setId(HORIZONTAL_CONTENT_1_ID);
+        horizontalSheet
+                .addTab(new LinkkiTabSheet(HORIZONTAL_TAB_1_ID, "Horizontal", "Horizontal tab with string caption",
+                        () -> horizontalContent1));
         Span horizontalContent2 = new Span("Captions can contain icons and other components.");
-        horizontalContent2.setId(HORIZONTAL_CONTENT_2);
-        horizontalSheet.addTab(HORIZONTAL_TAB_2, VaadinIcon.PLUS.create(), horizontalContent2);
+        horizontalContent2.setId(HORIZONTAL_CONTENT_2_ID);
+        horizontalSheet.addTab(new LinkkiTabSheet(HORIZONTAL_TAB_2_ID, VaadinIcon.PLUS.create(),
+                "Horizontal tab with component caption", () -> horizontalContent2));
 
         LinkkiTabLayout verticalSheet = new LinkkiTabLayout(Orientation.VERTICAL);
-        verticalSheet.addTab(VERTICAL_TAB_1, "Vertical", new Span("This is a vertical LinkkiTabLayout."));
-        verticalSheet.addTab(VERTICAL_TAB_2, VaadinIcon.PICTURE.create(),
-                             new Image("https://linkki-framework.org/images/linkki.png", "linkki"));
+        verticalSheet.addTab(new LinkkiTabSheet(VERTICAL_TAB_1_ID, "Vertical", "Vertical tab with string caption",
+                () -> new Span("This is a vertical LinkkiTabLayout.")));
+        verticalSheet.addTab(new LinkkiTabSheet(VERTICAL_TAB_2_ID, VaadinIcon.PICTURE.create(),
+                "Vertical tab with component caption",
+                () -> new Image("https://linkki-framework.org/images/linkki.png", "linkki logo")));
 
         add(horizontalSheet);
         add(verticalSheet);

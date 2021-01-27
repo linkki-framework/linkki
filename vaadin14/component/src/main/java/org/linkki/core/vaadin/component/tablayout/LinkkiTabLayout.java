@@ -14,10 +14,8 @@
 package org.linkki.core.vaadin.component.tablayout;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -34,27 +32,25 @@ import com.vaadin.flow.shared.Registration;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * Layout component containing multiple tabs that are identified by the {@link Tab} component combined
- * with the component contained on the tab (see {@link #getContent(Tab)}).
+ * Layout component containing multiple {@link LinkkiTabSheet tab sheets}.
  * <p>
  * The component can be created with a vertical or horizontal tab bar layout.
  * <p>
- * {@link Tab Tabs} can be added to this component with the
- * {@link #addTab(String, Component, Component, int)} methods. The {@link Tab tabs} added to it can be
- * selected with the {@link #setSelectedIndex(int)} or {@link #setSelectedTab(Tab)} methods. The first
- * added {@link Tab} component will be automatically selected, firing a {@link SelectedChangeEvent}.
- * {@link #removeTab(Tab) Removing} the selected tab from the component changes the selection to the
- * next available tab.
+ * {@link LinkkiTabSheet Tab sheets} can be added to this component with the
+ * {@link #addTab(LinkkiTabSheet, int)} and {@link #addTab(LinkkiTabSheet)} methods. The
+ * {@link LinkkiTabSheet tab sheets} added to it can be selected with the {@link #setSelectedIndex(int)}
+ * or {@link #setSelectedTab(LinkkiTabSheet)} methods. The first added sheet will be automatically
+ * selected, firing a {@link SelectedChangeEvent}. {@link #removeTab(LinkkiTabSheet) Removing} the
+ * selected sheet from the component changes the selection to the next available tab sheet.
  */
 public class LinkkiTabLayout extends Composite<Component> {
 
     private static final long serialVersionUID = 1L;
 
+    private final Tabs tabsComponent;
     private final HasComponents rootComponent;
 
-    private final Tabs tabs = new Tabs();
-
-    private final Map<Tab, Component> tabComponents = new HashMap<>();
+    private final Map<Tab, LinkkiTabSheet> tabSheets = new HashMap<>();
 
     /**
      * Constructs a tab layout with {@link Orientation#HORIZONTAL horizontal} orientation.
@@ -70,27 +66,40 @@ public class LinkkiTabLayout extends Composite<Component> {
      * {@link Orientation#VERTICAL} orientation, the tabs are placed on the left of the content.
      */
     public LinkkiTabLayout(Orientation orientation) {
+        tabsComponent = new Tabs();
+
         if (orientation == Orientation.HORIZONTAL) {
             VerticalLayout layout = new VerticalLayout();
             layout.setPadding(false);
-            tabs.setWidthFull();
+            tabsComponent.setWidthFull();
             rootComponent = layout;
         } else {
             HorizontalLayout layout = new HorizontalLayout();
             layout.setPadding(false);
-            tabs.setHeightFull();
+            tabsComponent.setHeightFull();
             rootComponent = layout;
         }
 
-        tabs.setOrientation(orientation);
-        tabs.addSelectedChangeListener(e -> {
-            Optional.ofNullable(e.getPreviousTab())
-                    .ifPresent(t -> tabComponents.get(t).setVisible(false));
-            Optional.ofNullable(e.getSelectedTab())
-                    .ifPresent(t -> tabComponents.get(t).setVisible(true));
+        tabsComponent.setOrientation(orientation);
+        tabsComponent.addSelectedChangeListener(e -> {
+            Optional.ofNullable(e.getPreviousTab()).ifPresent(this::unselect);
+            Optional.ofNullable(e.getSelectedTab()).ifPresent(this::select);
         });
 
-        rootComponent.add(tabs);
+        rootComponent.add(tabsComponent);
+    }
+
+    private void unselect(Tab tab) {
+        Component content = tabSheets.get(tab).getContent();
+        content.setVisible(false);
+    }
+
+    private void select(Tab tab) {
+        Component content = tabSheets.get(tab).getContent();
+        if (!content.getParent().isPresent()) {
+            rootComponent.add(content);
+        }
+        content.setVisible(true);
     }
 
     @Override
@@ -102,146 +111,109 @@ public class LinkkiTabLayout extends Composite<Component> {
      * @see Tabs#addSelectedChangeListener(ComponentEventListener)
      */
     public Registration addSelectedTabChangeListener(ComponentEventListener<SelectedChangeEvent> listener) {
-        return tabs.addSelectedChangeListener(listener);
+        return tabsComponent.addSelectedChangeListener(listener);
     }
 
     /**
-     * Creates a new tab and appends it to the tab layout.
+     * Inserts a new sheet at the given index.
      * 
-     * @param id the {@link Tab#getId() ID} of the tab component
-     * @param caption the {@link Tab#getLabel() caption} of the tab
-     * @param tabContent the component displayed when the tab is active
-     * @return the created tab
-     */
-    public Tab addTab(String id, String caption, Component tabContent) {
-        return addTab(id, caption, tabContent, tabs.getComponentCount());
-    }
-
-    /**
-     * Creates a new tab and inserts it at the given index.
-     * 
-     * @param id the {@link Tab#getId() ID} of the tab component
-     * @param caption the {@link Tab#getLabel() caption} of the tab
-     * @param tabContent the component displayed when the tab is active
+     * @param tabSheet the {@link LinkkiTabSheet} to be added
      * @param index the index where the tab is inserted
-     * @return the created tab
      */
-    public Tab addTab(String id, String caption, Component tabContent, int index) {
-        Tab tab = new Tab(caption);
-        tabComponents.put(tab, tabContent);
-        tab.setId(id);
-        tabs.addComponentAtIndex(index, tab);
-
-        if (tabs.getSelectedTab() != tab) {
-            // only hide content if tab is not currently displayed
-            tabContent.setVisible(false);
-        }
-
-        rootComponent.add(tabContent);
-        return tab;
+    public void addTab(LinkkiTabSheet tabSheet, int index) {
+        tabSheets.put(tabSheet.getTab(), tabSheet);
+        tabsComponent.addComponentAtIndex(index, tabSheet.getTab());
     }
 
     /**
-     * Creates a new tab and appends it to the tab layout.
+     * Inserts a new sheet at the end.
      * 
-     * @param id the {@link Tab#getId() ID} of the tab component
-     * @param tabCaption the component used as the tab caption
-     * @param tabContent the component displayed when the tab is active
-     * @return the created tab
+     * @param tabSheet the {@link LinkkiTabSheet} to be added
      */
-    public Tab addTab(String id, Component tabCaption, Component tabContent) {
-        return addTab(id, tabCaption, tabContent, tabs.getComponentCount());
+    public void addTab(LinkkiTabSheet tabSheet) {
+        addTab(tabSheet, tabsComponent.getComponentCount());
     }
 
-    /**
-     * Creates a new tab and appends it to the tab layout.
-     * 
-     * @param id the {@link Tab#getId() ID} of the tab component
-     * @param tabCaption the component used as the tab caption
-     * @param tabContent the component displayed when the tab is active
-     * @param index the index where the tab is inserted
-     * @return the created tab
-     */
-    public Tab addTab(String id, Component tabCaption, Component tabContent, int index) {
-        Tab tab = addTab(id, "", tabContent, index);
-        tab.add(tabCaption);
-        return tab;
-    }
 
     /**
      * Removes a tab from the tab layout. If the removed tab was selected, the next available tab is
      * selected.
+     * 
+     * @param tabSheet tab sheet to be removed
      */
-    public void removeTab(Tab tab) {
-        tabs.remove(tab);
-
-        Component content = tabComponents.remove(tab);
-        rootComponent.remove(content);
+    public void removeTab(LinkkiTabSheet tabSheet) {
+        Tab tab = tabSheet.getTab();
+        tabsComponent.remove(tab);
+        rootComponent.remove(tabSheets.get(tab).getContent());
+        tabSheets.remove(tab);
     }
 
     /**
      * Removes all tabs from the tab layout.
      */
     public void removeAllTabs() {
-        tabs.removeAll();
+        tabsComponent.removeAll();
 
-        for (Component c : tabComponents.values()) {
-            rootComponent.remove(c);
-        }
-        tabComponents.clear();
-    }
-
-    /**
-     * Returns a list of all tabs belonging to this tab layout.
-     */
-    public List<Tab> getTabs() {
-        return tabs.getChildren()
-                .filter(c -> c instanceof Tab)
-                .map(c -> (Tab)c)
-                .collect(Collectors.toList());
-    }
-
-    public Component getContent(Tab tab) {
-        if (tabComponents.containsKey(tab)) {
-            return tabComponents.get(tab);
-        } else {
-            throw new IllegalArgumentException("todo");
-        }
+        tabSheets.values().forEach(tabSheet -> rootComponent.remove(tabSheet.getContent()));
+        tabSheets.clear();
     }
 
     /**
      * @see Tabs#setSelectedIndex(int)
      */
     public void setSelectedIndex(int index) {
-        tabs.setSelectedIndex(index);
+        tabsComponent.setSelectedIndex(index);
     }
 
     /**
      * @see Tabs#getSelectedIndex()
      */
     public int getSelectedIndex() {
-        return tabs.getSelectedIndex();
+        return tabsComponent.getSelectedIndex();
     }
 
+    /**
+     * Selects the given tab sheet. The content of the tab sheet will be created is this is the first
+     * time the tab sheet is selected.
+     *
+     * @param selectedTab the tab sheet to select, {@code null} to unselect all
+     * @throws IllegalArgumentException if {@code selectedTab} is not a child of this component
+     */
     /**
      * @see Tabs#setSelectedTab(Tab)
      */
-    public void setSelectedTab(@CheckForNull Tab tab) {
-        tabs.setSelectedTab(tab);
+    public void setSelectedTab(@CheckForNull LinkkiTabSheet tabSheet) {
+        tabsComponent.setSelectedTab(tabSheet == null ? null : tabSheet.getTab());
     }
 
     /**
-     * @see Tabs#getSelectedTab()
+     * Gets the currently selected tab sheet.
+     *
+     * @return the selected tab sheet, or {@code null} if none is selected
      */
     @CheckForNull
-    public Tab getSelectedTab() {
-        return tabs.getSelectedTab();
+    public LinkkiTabSheet getSelectedTabSheet() {
+        return Optional.ofNullable(tabsComponent.getSelectedTab()).map(tabSheets::get).orElse(null);
+    }
+
+    /**
+     * Gets the tab sheet with the given ID
+     * 
+     * @param id ID of the tab sheet
+     * @return tab sheet with the given id or {@link Optional#empty()} if none of the tab sheets has the
+     *         given ID.
+     */
+    public Optional<LinkkiTabSheet> getTabSheet(String id) {
+        return tabSheets.keySet().stream()
+                .filter(t -> t.getId().get().contentEquals(id))
+                .findFirst()
+                .map(tabSheets::get);
     }
 
     /**
      * Returns the {@link Tabs} component belonging to this tab layout.
      */
     public Tabs getTabsComponent() {
-        return tabs;
+        return tabsComponent;
     }
 }

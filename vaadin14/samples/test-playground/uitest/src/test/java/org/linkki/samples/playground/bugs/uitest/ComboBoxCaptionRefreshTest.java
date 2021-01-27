@@ -24,6 +24,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.lin1442.ComboBoxCaptionRefreshPmo;
+import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.Keys;
 
@@ -37,7 +38,7 @@ public class ComboBoxCaptionRefreshTest extends AbstractUiTest {
 
     @BeforeEach
     public void setTab() {
-        openTab("Bugs");
+        openTab(PlaygroundApplicationUI.BUGS_TAB_ID);
     }
 
     @Test

@@ -29,7 +29,7 @@ import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
 import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.testbench.TabsElement;
+import com.vaadin.flow.component.tabs.testbench.TabElement;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.testbench.TestBenchTestCase;
@@ -65,8 +65,8 @@ public class AbstractUiTest extends TestBenchTestCase {
     /**
      * Opens the {@link Tab} with the given name.
      */
-    public void openTab(String name) {
-        $(TabsElement.class).first().getTabElement(name).click();
+    public void openTab(String id) {
+        $(TabElement.class).id(id).click();
     }
 
     /**

@@ -23,10 +23,9 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.lin1797.OnlyTablePmo;
 import org.linkki.samples.playground.bugs.lin1797.SectionTablePmo;
+import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
-
-import com.vaadin.flow.component.tabs.testbench.TabElement;
 
 
 // LIN-1797
@@ -34,9 +33,7 @@ public class NoDuplicateTableCaptionTest extends AbstractUiTest {
 
     @Test
     public void testValueOnRefreshWithSameAvailbleValues() {
-        TabElement bugsTab = $(TabElement.class).all().stream().filter(t -> "Bugs".equals(t.getText())).findFirst()
-                .get();
-        bugsTab.click();
+        openTab(PlaygroundApplicationUI.BUGS_TAB_ID);
         List<String> sectionCaptions = findElements(By.className("linkki-section-caption")).stream()
                 .map(el -> el.findElement(By.tagName("h4")))
                 .filter(t -> t.getText().contains(OnlyTablePmo.LIN_1797)).map(el -> el.getText())

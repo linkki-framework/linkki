@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.tablayout.TabLayoutPage;
+import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
@@ -33,12 +34,12 @@ public class LinkkiTabLayoutTest extends AbstractUiTest {
 
     @BeforeEach
     public void setTab() {
-        openTab("Tab Layout");
+        openTab(PlaygroundApplicationUI.TAB_LAYOUT_TAB_ID);
     }
 
     @Test
     public void testTabHasIcon() {
-        TabElement tab = $(TabElement.class).id(TabLayoutPage.HORIZONTAL_TAB_2);
+        TabElement tab = $(TabElement.class).id(TabLayoutPage.HORIZONTAL_TAB_2_ID);
 
         WebElement icon = tab.findElement(By.tagName("iron-icon"));
 
@@ -47,15 +48,15 @@ public class LinkkiTabLayoutTest extends AbstractUiTest {
 
     @Test
     public void testContentReplacedInSamePosition() {
-        TabElement tab1 = $(TabElement.class).id(TabLayoutPage.HORIZONTAL_TAB_1);
-        TabElement tab2 = $(TabElement.class).id(TabLayoutPage.HORIZONTAL_TAB_2);
+        TabElement tab1 = $(TabElement.class).id(TabLayoutPage.HORIZONTAL_TAB_1_ID);
+        TabElement tab2 = $(TabElement.class).id(TabLayoutPage.HORIZONTAL_TAB_2_ID);
 
         tab1.click();
-        SpanElement content1 = $(SpanElement.class).id(TabLayoutPage.HORIZONTAL_CONTENT_1);
+        SpanElement content1 = $(SpanElement.class).id(TabLayoutPage.HORIZONTAL_CONTENT_1_ID);
         assertThat(content1.isDisplayed(), is(true));
         Point location1 = content1.getLocation();
         tab2.click();
-        SpanElement content2 = $(SpanElement.class).id(TabLayoutPage.HORIZONTAL_CONTENT_2);
+        SpanElement content2 = $(SpanElement.class).id(TabLayoutPage.HORIZONTAL_CONTENT_2_ID);
         assertThat(content2.isDisplayed(), is(true));
         Point location2 = content2.getLocation();
 
@@ -64,16 +65,16 @@ public class LinkkiTabLayoutTest extends AbstractUiTest {
 
     @Test
     public void testHorizontalTabs() {
-        TabElement tab1 = $(TabElement.class).id(TabLayoutPage.HORIZONTAL_TAB_1);
-        TabElement tab2 = $(TabElement.class).id(TabLayoutPage.HORIZONTAL_TAB_2);
+        TabElement tab1 = $(TabElement.class).id(TabLayoutPage.HORIZONTAL_TAB_1_ID);
+        TabElement tab2 = $(TabElement.class).id(TabLayoutPage.HORIZONTAL_TAB_2_ID);
 
         assertThat(tab1.getLocation().y, is(tab2.getLocation().y));
     }
 
     @Test
     public void testVerticalTabs() {
-        TabElement tab1 = $(TabElement.class).id(TabLayoutPage.VERTICAL_TAB_1);
-        TabElement tab2 = $(TabElement.class).id(TabLayoutPage.VERTICAL_TAB_2);
+        TabElement tab1 = $(TabElement.class).id(TabLayoutPage.VERTICAL_TAB_1_ID);
+        TabElement tab2 = $(TabElement.class).id(TabLayoutPage.VERTICAL_TAB_2_ID);
 
         assertThat(tab1.getLocation().x, is(tab2.getLocation().x));
     }

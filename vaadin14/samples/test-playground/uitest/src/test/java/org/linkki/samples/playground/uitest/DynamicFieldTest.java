@@ -73,8 +73,7 @@ public class DynamicFieldTest extends AbstractUiTest {
 
     @Test
     public void testDynamicTableFooter_carTablePmo() {
-        GridElement selectableTable = $(GridElement.class)
-                .id(CAR_TABLE_PMO);
+        GridElement selectableTable = $(GridElement.class).id(CAR_TABLE_PMO);
         assertThat(selectableTable.getFooterCell(3).getText(), is("15,500.00"));
 
         // Add premium car type
