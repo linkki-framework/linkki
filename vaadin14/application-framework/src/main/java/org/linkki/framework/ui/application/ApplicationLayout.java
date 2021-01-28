@@ -95,7 +95,7 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
      *           default.
      */
     protected ErrorHandler getErrorHandler() {
-        return new DialogErrorHandler();
+        return new DialogErrorHandler(DefaultErrorDialog::new);
     }
 
 }
