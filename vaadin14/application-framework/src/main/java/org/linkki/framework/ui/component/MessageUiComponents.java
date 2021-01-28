@@ -29,6 +29,7 @@ import org.linkki.framework.ui.LinkkiApplicationTheme;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -68,6 +69,22 @@ public final class MessageUiComponents {
     }
 
     /**
+     * Returns an unicode character as icon for the message's {@link Severity}.
+     */
+    // TODO LIN-2052 Vaadin 14: BindIcon für "beliebige" Components
+    // remove and use VaadinIcon in Pmo instead
+    public static String getUnicodeIcon(Severity severity) {
+        switch (severity) {
+            case ERROR:
+                return "&#x2757;";
+            case WARNING:
+                return "&#x26A0;";
+            default:
+                return "&#x2139;";
+        }
+    }
+
+    /**
      * Concatenates the {@link Message#getInvalidObjectProperties() message's invalid object
      * properties}.
      * 
@@ -94,9 +111,10 @@ public final class MessageUiComponents {
     }
 
     /**
-     * Creates a form layout with a label that contains the message's text and an icon representing its
-     * {@link Severity}. The label can be styled with {@link LinkkiApplicationTheme#MESSAGE_LABEL} and a
-     * {@link #getStyle(Severity) style derived from the severity}.
+     * Creates a form layout with a {@link Div} that contains the message's text and an icon
+     * representing its {@link Severity}. The label can be styled with
+     * {@link LinkkiApplicationTheme#MESSAGE_LABEL} and a {@link #getStyle(Severity) style derived from
+     * the severity}.
      */
     public static Component createMessageComponent(Message message) {
         FormLayout component = new FormLayout();
@@ -104,11 +122,9 @@ public final class MessageUiComponents {
         messageLabel.setWidthFull();
         messageLabel.setText(message.getText());
         Severity severity = message.getSeverity();
-        // TODO LIN-2206 Message Icon anzeigen
-        // messageLabel.setIcon(getIcon(severity));
         messageLabel.addClassName(LinkkiApplicationTheme.MESSAGE_LABEL);
         messageLabel.addClassName(getStyle(severity));
-        component.add(messageLabel);
+        component.add(new Div(getIcon(severity).create(), messageLabel));
         return component;
     }
 
