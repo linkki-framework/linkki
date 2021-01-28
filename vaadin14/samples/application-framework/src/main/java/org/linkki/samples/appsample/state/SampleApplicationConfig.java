@@ -19,8 +19,8 @@ import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
-import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.samples.appsample.menu.StartMenuItemDefinition;
+import org.linkki.samples.appsample.nls.NlsText;
 import org.linkki.util.Sequence;
 
 /**

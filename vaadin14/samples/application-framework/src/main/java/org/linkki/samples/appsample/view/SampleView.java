@@ -25,8 +25,8 @@ import com.vaadin.flow.router.Route;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-@Route("")
-public class MainView extends VerticalLayout {
+@Route(value = SampleView.NAME, layout = SampleApplicationLayout.class)
+public class SampleView extends VerticalLayout {
 
     public static final String NAME = "";
 
@@ -37,7 +37,8 @@ public class MainView extends VerticalLayout {
     @CheckForNull
     private ReportListPage listPage;
 
-    public MainView() {
+    public SampleView() {
+
         add(createReportLayout(), createReportListLayout());
         // TODO LIN-2222
         // addSheets(new SidebarSheet(VaadinIcons.STAR_HALF_LEFT_O, "Create Report",

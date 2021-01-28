@@ -16,7 +16,6 @@ package org.linkki.framework.ui.dialogs;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
@@ -28,8 +27,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
  * A dialog to present application information to the user.
  * 
  * @implNote Extend {@link ApplicationInfoPmo} and override
- *           {@link ApplicationHeader#createApplicationInfoPmo(ApplicationConfig applicationConfig)} to
- *           customize the dialog.
+ *           {@link ApplicationHeader#createApplicationInfoPmo()} to customize the dialog.
  */
 @SuppressWarnings("javadoc")
 public class ApplicationInfoDialog extends ConfirmationDialog {

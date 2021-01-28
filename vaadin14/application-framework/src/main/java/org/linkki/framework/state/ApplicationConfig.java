@@ -14,13 +14,13 @@
 package org.linkki.framework.state;
 
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationLayout;
-import org.linkki.framework.ui.application.LinkkiUi;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
@@ -29,8 +29,7 @@ import org.linkki.util.Sequence;
 import com.vaadin.flow.server.VaadinSession;
 
 /**
- * Application configuration used to {@link LinkkiUi#LinkkiUi(ApplicationConfig) configure} the
- * {@link LinkkiUi}.
+ * Application configuration used to configure the {@link ApplicationLayout}.
  */
 public interface ApplicationConfig {
 
@@ -56,19 +55,6 @@ public interface ApplicationConfig {
      * {@link ApplicationInfoDialog}.
      */
     String getCopyright();
-
-    /**
-     * The {@link ApplicationLayout} for the {@link LinkkiUi}.
-     * 
-     * @implSpec Includes an {@link ApplicationHeader} created with the {@link #getHeaderDefinition()}
-     *           from an {@link ApplicationMenu} including the {@link #getMenuItemDefinitions()} and an
-     *           {@link ApplicationFooter} created with the {@link #getFooterDefinition()}.
-     */
-    default ApplicationLayout createApplicationLayout() {
-        ApplicationFooter footer = getFooterDefinition().map(fd -> fd.apply(this)).orElse(null);
-        return new ApplicationLayout(getHeaderDefinition().apply(new ApplicationMenu(getMenuItemDefinitions().list())),
-                footer);
-    }
 
     /**
      * The {@link ApplicationMenuItemDefinition ApplicationMenuItemDefinitions} used to create an
@@ -100,12 +86,15 @@ public interface ApplicationConfig {
     }
 
     @FunctionalInterface
-    public static interface ApplicationHeaderDefinition extends Function<ApplicationMenu, ApplicationHeader> {
-        ApplicationHeader createApplicationHeader(ApplicationMenu applicationMenu);
+    public static interface ApplicationHeaderDefinition
+            extends BiFunction<ApplicationMenu, ApplicationConfig, ApplicationHeader> {
+        ApplicationHeader createApplicationHeader(ApplicationMenu applicationMenu,
+                ApplicationConfig applicationConfig);
 
         @Override
-        default ApplicationHeader apply(ApplicationMenu applicationMenu) {
-            return createApplicationHeader(applicationMenu);
+        default ApplicationHeader apply(ApplicationMenu applicationMenu,
+                ApplicationConfig applicationConfig) {
+            return createApplicationHeader(applicationMenu, applicationConfig);
         }
     }
 

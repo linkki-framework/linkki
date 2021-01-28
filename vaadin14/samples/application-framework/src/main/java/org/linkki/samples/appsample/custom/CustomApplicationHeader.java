@@ -14,11 +14,10 @@
 
 package org.linkki.samples.appsample.custom;
 
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
-import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
+import org.linkki.samples.appsample.nls.NlsText;
 import org.linkki.samples.appsample.pmo.CustomApplicationInfoPmo;
 import org.linkki.samples.appsample.state.CustomApplicationConfig;
 
@@ -35,8 +34,8 @@ public class CustomApplicationHeader extends ApplicationHeader {
 
     private static final long serialVersionUID = 1L;
 
-    public CustomApplicationHeader(ApplicationMenu applicationMenu) {
-        super(applicationMenu);
+    public CustomApplicationHeader(ApplicationMenu applicationMenu, CustomApplicationConfig config) {
+        super(applicationMenu, config);
     }
 
     @Override
@@ -48,8 +47,8 @@ public class CustomApplicationHeader extends ApplicationHeader {
     }
 
     @Override
-    protected ApplicationInfoPmo createApplicationInfoPmo(ApplicationConfig applicationConfig) {
-        return new CustomApplicationInfoPmo((CustomApplicationConfig)applicationConfig);
+    protected ApplicationInfoPmo createApplicationInfoPmo() {
+        return new CustomApplicationInfoPmo((CustomApplicationConfig)getApplicationConfig());
     }
 
 }

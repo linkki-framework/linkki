@@ -54,9 +54,11 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     private static final long serialVersionUID = 1L;
 
     private final ApplicationMenu applicationMenu;
+    private final ApplicationConfig applicationConfig;
 
-    public ApplicationHeader(ApplicationMenu applicationMenu) {
+    public ApplicationHeader(ApplicationMenu applicationMenu, ApplicationConfig applicationConfig) {
         this.applicationMenu = applicationMenu;
+        this.applicationConfig = applicationConfig;
         getContent().addClassName(LinkkiApplicationTheme.APPLICATION_HEADER);
         getContent().setWidthFull();
     }
@@ -160,9 +162,8 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      * 
      * @implNote Override to add more sub menu items.
      *           <p>
-     *           Extend {@link ApplicationInfoPmo} and override
-     *           {@link #createApplicationInfoPmo(ApplicationConfig)} to customize the created
-     *           {@link ApplicationInfoDialog}.
+     *           Extend {@link ApplicationInfoPmo} and override {@link #createApplicationInfoPmo()} to
+     *           customize the created {@link ApplicationInfoDialog}.
      */
     protected void addHelpMenuItems(MenuItem helpMenu) {
         addApplicationInfoMenuItem(helpMenu);
@@ -176,7 +177,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
         helpMenu.getSubMenu()
                 .addItem(new Button(NlsText.getString("ApplicationHeader.Info"), VaadinIcon.INFO_CIRCLE.create()), //$NON-NLS-1$
                          i -> new ApplicationInfoDialog(
-                                 createApplicationInfoPmo(LinkkiUi.getCurrentApplicationConfig())).open());
+                                 createApplicationInfoPmo()).open());
     }
 
     /**
@@ -184,7 +185,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      * 
      * @see ApplicationInfoPmo for further information about its configuration.
      */
-    protected ApplicationInfoPmo createApplicationInfoPmo(ApplicationConfig applicationConfig) {
+    protected ApplicationInfoPmo createApplicationInfoPmo() {
         return new ApplicationInfoPmo(applicationConfig);
     }
 
@@ -215,4 +216,9 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     protected ComponentEventListener<ClickEvent<MenuItem>> newLogoutCommand() {
         return e -> getUI().ifPresent(ui -> ui.getPage().setLocation("./logout"));
     }
+
+    protected ApplicationConfig getApplicationConfig() {
+        return applicationConfig;
+    }
+
 }

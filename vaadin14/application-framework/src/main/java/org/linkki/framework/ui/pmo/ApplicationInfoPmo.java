@@ -24,9 +24,8 @@ import org.linkki.framework.ui.nls.NlsText;
 /**
  * PMO for {@link ApplicationInfoDialog}.
  * 
- * @implSpec Extend this and override
- *           {@link ApplicationHeader#createApplicationInfoPmo(ApplicationConfig applicationConfig)} to
- *           customize the default {@link ApplicationInfoDialog}.
+ * @implSpec Extend this and override {@link ApplicationHeader#createApplicationInfoPmo()} to customize
+ *           the default {@link ApplicationInfoDialog}.
  */
 @SuppressWarnings("javadoc")
 @UISection

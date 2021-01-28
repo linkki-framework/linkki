@@ -35,8 +35,6 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.framework.ui.application.LinkkiUi;
-import org.linkki.framework.ui.application.TestApplicationConfig;
 import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 import org.linkki.util.validation.ValidationMarker;
@@ -51,12 +49,12 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class OkCancelDialogTest {
 
-    private LinkkiUi linkkiUi;
+    private UI testUi;
 
     @BeforeEach
     public void initCurrentUi() {
-        linkkiUi = new LinkkiUi(new TestApplicationConfig());
-        UI.setCurrent(linkkiUi);
+        testUi = new UI();
+        UI.setCurrent(testUi);
     }
 
     @AfterEach

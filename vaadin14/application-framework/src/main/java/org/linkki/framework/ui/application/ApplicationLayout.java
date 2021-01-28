@@ -13,60 +13,89 @@
  */
 package org.linkki.framework.ui.application;
 
+import org.linkki.core.ui.converters.LinkkiConverterRegistry;
+import org.linkki.framework.state.ApplicationConfig;
+import org.linkki.framework.ui.application.menu.ApplicationMenu;
+import org.linkki.framework.ui.dialogs.DefaultErrorDialog;
+import org.linkki.framework.ui.dialogs.DialogErrorHandler;
+
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLayout;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import com.vaadin.flow.server.ErrorHandler;
+import com.vaadin.flow.server.VaadinSession;
 
 /**
  * Overall layout frame for the application. Contains the application header, the main work area, and a
- * footer.
+ * footer. To use this {@link ApplicationLayout} create a subclass and implement the
+ * {@link #getApplicationConfig()}.
+ * <p>
+ * The {@link ErrorHandler} can be customized by overriding the method {@link #getErrorHandler()}.
  */
-public class ApplicationLayout extends VerticalLayout implements RouterLayout {
+public abstract class ApplicationLayout extends VerticalLayout implements RouterLayout {
 
     private static final long serialVersionUID = 1L;
 
     private Component mainArea = new Div();
 
-    /**
-     * Creates a new {@link ApplicationLayout} with the given {@link ApplicationHeader header} and
-     * (optional) {@link ApplicationFooter footer}.
-     */
-    public ApplicationLayout(ApplicationHeader header, @CheckForNull ApplicationFooter footer) {
+    protected ApplicationLayout() {
         setMargin(false);
         setSpacing(false);
         setSizeFull();
 
-        // Header
+        ApplicationConfig config = getApplicationConfig();
+
+        // header
+        ApplicationHeader header = config.getHeaderDefinition()
+                .apply(new ApplicationMenu(config.getMenuItemDefinitions().list()),
+                       config);
         header.init();
         add(header);
 
-        // Set an empty main area. Will be exchanged by showView(View)
-        showView(mainArea);
+        add(mainArea);
+        setFlexGrow(1, mainArea);
 
-        // Footer
-        if (footer != null) {
+        // optional footer
+        config.getFooterDefinition().ifPresent(fd -> {
+            ApplicationFooter footer = fd.apply(config);
             footer.init();
             add(footer);
+        });
+
+        // init linkki converters and the error handler
+        VaadinSession vaadinSession = VaadinSession.getCurrent();
+        if (vaadinSession != null) {
+            vaadinSession.setAttribute(LinkkiConverterRegistry.class, config.getConverterRegistry());
+            vaadinSession.setErrorHandler(getErrorHandler());
         }
+
     }
 
-    public void showView(Component component) {
-        remove(mainArea);
-        mainArea = component;
-        addComponentAtIndex(1, component);
-        setFlexGrow(1, component);
+    @Override
+    public void showRouterLayoutContent(HasElement content) {
+        mainArea.getElement().appendChild(content.getElement());
+    }
+
+    @Override
+    public void removeRouterLayoutContent(HasElement oldContent) {
+        mainArea.getElement().removeAllChildren();
     }
 
     /**
-     * Returns the view that is currently displayed, if there is any.
+     * Returns the {@link ApplicationConfig} to be used to configure this {@link ApplicationLayout}.
      */
-    protected <T extends Component> T getCurrentView() {
-        @SuppressWarnings("unchecked")
-        T view = (T)mainArea;
-        return view;
+    public abstract ApplicationConfig getApplicationConfig();
+
+    /**
+     * Configures the error handling. Override to use a different {@link ErrorHandler}.
+     * 
+     * @implNote linkki uses a {@link DialogErrorHandler} creating a new {@link DefaultErrorDialog} by
+     *           default.
+     */
+    protected ErrorHandler getErrorHandler() {
+        return new DialogErrorHandler();
     }
 
 }

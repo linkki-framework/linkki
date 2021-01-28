@@ -15,8 +15,11 @@ package org.linkki.framework.ui.dialogs;
 
 import javax.swing.text.View;
 
-import org.linkki.framework.ui.application.LinkkiUi;
+import org.linkki.framework.ui.application.ApplicationLayout;
 
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.server.ErrorEvent;
 import com.vaadin.flow.server.ErrorHandler;
 
@@ -33,7 +36,7 @@ import com.vaadin.flow.server.ErrorHandler;
  * </code>
  * </pre>
  * 
- * @implNote The {@link LinkkiUi} already registers this {@link DialogErrorHandler}.
+ * @implNote The {@link ApplicationLayout} already registers this {@link DialogErrorHandler}.
  * 
  */
 // TODO LIN-2203 Error Dialog Handler umstellen
@@ -47,6 +50,8 @@ public class DialogErrorHandler implements ErrorHandler {
     @Override
     public void error(ErrorEvent event) {
         // TODO LIN-2203 Error Dialog Handler umstellen
+        Notification.show(event.getThrowable().getLocalizedMessage(), 3000, Position.MIDDLE)
+                .addThemeVariants(NotificationVariant.LUMO_ERROR);
     }
 
     // TODO LIN-2203 Error Dialog Handler umstellen
