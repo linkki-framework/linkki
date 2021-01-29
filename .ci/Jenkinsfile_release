@@ -95,12 +95,30 @@ pipeline {
                         <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-ips-vaadin14">IPS sample</a></li>
                     </ul>
                 '''
-
-                sleep 10
             }
 
             environment {
                 DOCKER_HOST = 'ssh://docker@dockerhost.i.faktorzehn.de'
+            }
+        }
+
+        stage('Wait for Server') {
+            steps {
+                // wait with the ui tests until the server is ready
+                // since the vaadin8 tests are run first we check if linkki-sample-test-playground-vaadin8 is ready
+                // and assume that the vaadin14 environment will be available afterwards
+                timeout(time: 3, unit: 'MINUTES') {
+                    waitUntil {
+                        script {
+                            try {
+                                sh 'curl --fail http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8/main'
+                                return true
+                            } catch (Exception e) {
+                                return false
+                            }
+                        }
+                    }
+                }
             }
         }
 
