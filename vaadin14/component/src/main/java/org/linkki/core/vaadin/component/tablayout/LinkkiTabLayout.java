@@ -13,9 +13,14 @@
  */
 package org.linkki.core.vaadin.component.tablayout;
 
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -29,19 +34,18 @@ import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
 import com.vaadin.flow.shared.Registration;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Layout component containing multiple {@link LinkkiTabSheet tab sheets}.
  * <p>
  * The component can be created with a vertical or horizontal tab bar layout.
  * <p>
- * {@link LinkkiTabSheet Tab sheets} can be added to this component with the
- * {@link #addTab(LinkkiTabSheet, int)} and {@link #addTab(LinkkiTabSheet)} methods. The
- * {@link LinkkiTabSheet tab sheets} added to it can be selected with the {@link #setSelectedIndex(int)}
- * or {@link #setSelectedTab(LinkkiTabSheet)} methods. The first added sheet will be automatically
- * selected, firing a {@link SelectedChangeEvent}. {@link #removeTab(LinkkiTabSheet) Removing} the
- * selected sheet from the component changes the selection to the next available tab sheet.
+ * The {@link LinkkiTabSheet tab sheets} added to it can be selected with the
+ * {@link #setSelectedIndex(int)} or {@link #setSelectedTabSheet(String)} methods. The first added sheet
+ * will be automatically selected, firing a {@link SelectedChangeEvent}.
+ * {@link #removeTabSheet(LinkkiTabSheet) Removing} the selected sheet from the component changes the
+ * selection to the next available tab sheet.
  */
 public class LinkkiTabLayout extends Composite<Component> {
 
@@ -50,7 +54,7 @@ public class LinkkiTabLayout extends Composite<Component> {
     private final Tabs tabsComponent;
     private final HasComponents rootComponent;
 
-    private final Map<Tab, LinkkiTabSheet> tabSheets = new HashMap<>();
+    private final Map<Tab, LinkkiTabSheet> tabSheets = new LinkedHashMap<>();
 
     /**
      * Constructs a tab layout with {@link Orientation#HORIZONTAL horizontal} orientation.
@@ -95,7 +99,9 @@ public class LinkkiTabLayout extends Composite<Component> {
     }
 
     private void select(Tab tab) {
-        Component content = tabSheets.get(tab).getContent();
+        LinkkiTabSheet selectedTabSheet = tabSheets.get(tab);
+        selectedTabSheet.getOnSelectionHandler().apply();
+        Component content = selectedTabSheet.getContent();
         if (!content.getParent().isPresent()) {
             rootComponent.add(content);
         }
@@ -110,7 +116,7 @@ public class LinkkiTabLayout extends Composite<Component> {
     /**
      * @see Tabs#addSelectedChangeListener(ComponentEventListener)
      */
-    public Registration addSelectedTabChangeListener(ComponentEventListener<SelectedChangeEvent> listener) {
+    public Registration addSelectedChangeListener(ComponentEventListener<SelectedChangeEvent> listener) {
         return tabsComponent.addSelectedChangeListener(listener);
     }
 
@@ -120,7 +126,7 @@ public class LinkkiTabLayout extends Composite<Component> {
      * @param tabSheet the {@link LinkkiTabSheet} to be added
      * @param index the index where the tab is inserted
      */
-    public void addTab(LinkkiTabSheet tabSheet, int index) {
+    public void addTabSheet(LinkkiTabSheet tabSheet, int index) {
         tabSheets.put(tabSheet.getTab(), tabSheet);
         tabsComponent.addComponentAtIndex(index, tabSheet.getTab());
     }
@@ -130,10 +136,30 @@ public class LinkkiTabLayout extends Composite<Component> {
      * 
      * @param tabSheet the {@link LinkkiTabSheet} to be added
      */
-    public void addTab(LinkkiTabSheet tabSheet) {
-        addTab(tabSheet, tabsComponent.getComponentCount());
+    public void addTabSheet(LinkkiTabSheet tabSheet) {
+        addTabSheet(tabSheet, tabsComponent.getComponentCount());
     }
 
+    /**
+     * @see #addTabSheet(LinkkiTabSheet)
+     */
+    public void addTabSheets(Stream<LinkkiTabSheet> sheets) {
+        sheets.forEach(this::addTabSheet);
+    }
+
+    /**
+     * @see #addTabSheet(LinkkiTabSheet)
+     */
+    public void addTabSheets(Iterable<LinkkiTabSheet> sheets) {
+        sheets.forEach(this::addTabSheet);
+    }
+
+    /**
+     * @see #addTabSheet(LinkkiTabSheet)
+     */
+    public void addTabSheets(@NonNull LinkkiTabSheet... sheets) {
+        addTabSheets(Arrays.stream(sheets));
+    }
 
     /**
      * Removes a tab from the tab layout. If the removed tab was selected, the next available tab is
@@ -141,7 +167,7 @@ public class LinkkiTabLayout extends Composite<Component> {
      * 
      * @param tabSheet tab sheet to be removed
      */
-    public void removeTab(LinkkiTabSheet tabSheet) {
+    public void removeTabSheet(LinkkiTabSheet tabSheet) {
         Tab tab = tabSheet.getTab();
         tabsComponent.remove(tab);
         rootComponent.remove(tabSheets.get(tab).getContent());
@@ -151,7 +177,7 @@ public class LinkkiTabLayout extends Composite<Component> {
     /**
      * Removes all tabs from the tab layout.
      */
-    public void removeAllTabs() {
+    public void removeAllTabSheets() {
         tabsComponent.removeAll();
 
         tabSheets.values().forEach(tabSheet -> rootComponent.remove(tabSheet.getContent()));
@@ -173,27 +199,27 @@ public class LinkkiTabLayout extends Composite<Component> {
     }
 
     /**
-     * Selects the given tab sheet. The content of the tab sheet will be created is this is the first
-     * time the tab sheet is selected.
+     * Selects the tab sheet with the given ID. The content of the tab sheet will be created is this is
+     * the first time the tab sheet is selected.
      *
-     * @param selectedTab the tab sheet to select, {@code null} to unselect all
-     * @throws IllegalArgumentException if {@code selectedTab} is not a child of this component
+     * @param id the ID of the tab sheet to select
+     * @throws IllegalArgumentException if none of the tab sheets has the given ID
      */
-    /**
-     * @see Tabs#setSelectedTab(Tab)
-     */
-    public void setSelectedTab(@CheckForNull LinkkiTabSheet tabSheet) {
-        tabsComponent.setSelectedTab(tabSheet == null ? null : tabSheet.getTab());
+    public void setSelectedTabSheet(String id) {
+        tabsComponent.setSelectedTab(getTabSheet(id)
+                .orElseThrow(() -> new IllegalArgumentException("None of the tab sheets has the id " + id)).getTab());
     }
 
     /**
      * Gets the currently selected tab sheet.
      *
-     * @return the selected tab sheet, or {@code null} if none is selected
+     * @return the selected tab sheet
+     * @throws NoSuchElementException if there is no selected tab. This can only happen if no tab sheet
+     *             as been added yet, or all tab sheets was deleted/unselected.
      */
-    @CheckForNull
     public LinkkiTabSheet getSelectedTabSheet() {
-        return Optional.ofNullable(tabsComponent.getSelectedTab()).map(tabSheets::get).orElse(null);
+        return Optional.ofNullable(tabsComponent.getSelectedTab()).map(tabSheets::get)
+                .orElseThrow(() -> new NoSuchElementException("No selected tab"));
     }
 
     /**
@@ -208,6 +234,18 @@ public class LinkkiTabLayout extends Composite<Component> {
                 .filter(t -> t.getId().get().contentEquals(id))
                 .findFirst()
                 .map(tabSheets::get);
+    }
+
+    /**
+     * Returns all sheets in displayed order.
+     * 
+     * @return all {@link LinkkiTabSheet tab sheets}
+     */
+    public List<LinkkiTabSheet> getTabSheets() {
+        return getTabsComponent().getChildren()
+                .filter(Tab.class::isInstance)
+                .map(tabSheets::get)
+                .collect(Collectors.toList());
     }
 
     /**

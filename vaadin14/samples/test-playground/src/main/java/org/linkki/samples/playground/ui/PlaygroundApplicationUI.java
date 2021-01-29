@@ -13,7 +13,7 @@
  */
 package org.linkki.samples.playground.ui;
 
-import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
@@ -52,14 +52,29 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         removeAll();
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.VERTICAL);
-        tabLayout.addTab(new LinkkiTabSheet(ALL_COMPONENTS_TAB_ID, "All", "All UI Components",
-                new AllUiElementsPage(() -> StringUtils.equals(parameter, PARAM_READONLY))));
-        tabLayout.addTab(new LinkkiTabSheet(DYNAMIC_ASPECT_TAB_ID, "Dynamic", "Dynmaic Aspects",
-                new DynamicAnnotationsLayout()));
-        tabLayout.addTab(new LinkkiTabSheet(BUGS_TAB_ID, "Bugs", "Bugs", new BugCollectionLayout()));
-        tabLayout.addTab(new LinkkiTabSheet(TABLES_TAB_ID, "Tables", "Tables", new TablePage()));
-        tabLayout.addTab(new LinkkiTabSheet(LOCALE_TAB_ID, "Locale", "Locale", new LocaleInfoPage()));
-        tabLayout.addTab(new LinkkiTabSheet(TAB_LAYOUT_TAB_ID, "Tab Layout", "Tab Layout", new TabLayoutPage()));
+        tabLayout.addTabSheets(
+                               LinkkiTabSheet.builder(ALL_COMPONENTS_TAB_ID)
+                                       .caption("All")
+                                       .description("All UI Components")
+                                       .content(new AllUiElementsPage(
+                                               () -> StringUtils.equals(parameter, PARAM_READONLY)))
+                                       .build(),
+                               LinkkiTabSheet.builder(DYNAMIC_ASPECT_TAB_ID)
+                                       .caption("Dynamic")
+                                       .description("Dynmaic Aspects")
+                                       .content(new DynamicAnnotationsLayout()).build(),
+                               LinkkiTabSheet.builder(BUGS_TAB_ID)
+                                       .caption("Bugs")
+                                       .content(new BugCollectionLayout()).build(),
+                               LinkkiTabSheet.builder(TABLES_TAB_ID)
+                                       .caption("Tables")
+                                       .content(new TablePage()).build(),
+                               LinkkiTabSheet.builder(LOCALE_TAB_ID)
+                                       .caption("Locale")
+                                       .content(new LocaleInfoPage()).build(),
+                               LinkkiTabSheet.builder(TAB_LAYOUT_TAB_ID)
+                                       .caption("Tab Layout")
+                                       .content(new TabLayoutPage()).build());
 
         tabLayout.getTabsComponent().setWidth("120px");
         add(tabLayout);

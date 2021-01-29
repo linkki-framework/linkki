@@ -24,34 +24,31 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
-public class LinkkiTabSheetTest {
+class LinkkiTabSheetTest {
 
     @Test
-    public void testGetTab_WithCaption() {
-        LinkkiTabSheet tabSheet = new LinkkiTabSheet("id", "caption", "description", new Span("content"));
+    void testGetTab() {
+        Icon captionComponent = VaadinIcon.PLUS.create();
+        LinkkiTabSheet tabSheet = new LinkkiTabSheet("id", "caption", captionComponent, "description",
+                () -> new Span("content"),
+                Handler.NOP_HANDLER);
 
         assertThat(tabSheet.getTab().getLabel(), is("caption"));
-        assertThat(tabSheet.getTab().getId().get(), is("id"));
-    }
-
-    @Test
-    public void testGetTab_WithCaptionComponent() {
-        Icon captionComponent = VaadinIcon.PLUS.create();
-
-        LinkkiTabSheet tabSheet = new LinkkiTabSheet("id", captionComponent, "description", new Span("content"));
-
         assertThat(tabSheet.getTab().getChildren().findFirst().get(), is(captionComponent));
         assertThat(tabSheet.getTab().getId().get(), is("id"));
+        assertThat(tabSheet.getTab().getElement().getAttribute("title"), is("description"));
+        // TODO LIN-2054 description as tooltip
     }
 
     @Test
-    public void testGetComponent_LazyInstantiation() {
+    void testGetComponent_LazyInstantiation() {
         Supplier<Component> contentSupplier = spy(new Supplier<Component>() {
 
             @Override
@@ -60,7 +57,9 @@ public class LinkkiTabSheetTest {
             }
         });
 
-        LinkkiTabSheet tabSheet = new LinkkiTabSheet("id", VaadinIcon.PLUS.create(), "description", contentSupplier);
+        LinkkiTabSheet tabSheet = new LinkkiTabSheet("id", "", VaadinIcon.PLUS.create(), "description",
+                contentSupplier,
+                Handler.NOP_HANDLER);
         verifyNoInteractions(contentSupplier);
 
         Component content = tabSheet.getContent();
@@ -69,5 +68,53 @@ public class LinkkiTabSheetTest {
         // Further calls should return the same instance
         assertThat(tabSheet.getContent(), is(content));
         verifyNoMoreInteractions(contentSupplier);
+    }
+
+
+    @Test
+    void testBuilder_CaptionDefaultsToId() {
+        LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").content(new Span("content")).build();
+        assertThat(tabSheet.getTab().getLabel(), is("id"));
+    }
+
+    @Test
+    void testBuilder_DescriptionDefaultsToBlank() {
+        LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").content(new Span("content")).build();
+        assertThat(tabSheet.getTab().getElement().getAttribute("title"), is(""));
+        // TODO LIN-2054
+    }
+
+    @Test
+    void testBuilder_WithCaption() {
+        Span content = new Span("content");
+        LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").caption("caption").content(content).build();
+        assertThat(tabSheet.getTab().getLabel(), is("caption"));
+    }
+
+    @Test
+    void testBuilder_CaptionOverwritesExistingCaptionComponent() {
+        Span content = new Span("content");
+        LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").caption(VaadinIcon.PLUS.create())
+                .caption("caption").content(content).build();
+        assertThat(tabSheet.getTab().getChildren().count(), is(0l));
+    }
+
+
+    @Test
+    void testBuilder_WithCaptionComponent() {
+        Span content = new Span("content");
+        Icon icon = VaadinIcon.PLUS.create();
+        LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").caption(icon).content(content).build();
+        assertThat(tabSheet.getTab().getLabel(), is(""));
+        assertThat(tabSheet.getTab().getChildren().findFirst().get(), is(icon));
+    }
+
+    @Test
+    void testBuilder_WithCaptionComponent_OverwritesExistingCaption() {
+        Span content = new Span("content");
+        Icon icon = VaadinIcon.PLUS.create();
+        LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").caption("caption").caption(icon)
+                .content(content).build();
+        assertThat(tabSheet.getTab().getLabel(), is(""));
     }
 }

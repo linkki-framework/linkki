@@ -41,20 +41,27 @@ public class TabLayoutPage extends VerticalLayout {
 
         Span horizontalContent1 = new Span("This is a horizontal LinkkiTabLayout.");
         horizontalContent1.setId(HORIZONTAL_CONTENT_1_ID);
-        horizontalSheet
-                .addTab(new LinkkiTabSheet(HORIZONTAL_TAB_1_ID, "Horizontal", "Horizontal tab with string caption",
-                        () -> horizontalContent1));
+        horizontalSheet.addTabSheet(LinkkiTabSheet.builder(HORIZONTAL_TAB_1_ID)
+                .caption("Horizontal")
+                .description("Horizontal tab with string caption")
+                .content(() -> horizontalContent1)
+                .build());
         Span horizontalContent2 = new Span("Captions can contain icons and other components.");
         horizontalContent2.setId(HORIZONTAL_CONTENT_2_ID);
-        horizontalSheet.addTab(new LinkkiTabSheet(HORIZONTAL_TAB_2_ID, VaadinIcon.PLUS.create(),
-                "Horizontal tab with component caption", () -> horizontalContent2));
+        horizontalSheet.addTabSheet(LinkkiTabSheet.builder(HORIZONTAL_TAB_2_ID)
+                .caption(VaadinIcon.PLUS.create())
+                .description("Horizontal tab with component caption")
+                .content(() -> horizontalContent2).build());
 
         LinkkiTabLayout verticalSheet = new LinkkiTabLayout(Orientation.VERTICAL);
-        verticalSheet.addTab(new LinkkiTabSheet(VERTICAL_TAB_1_ID, "Vertical", "Vertical tab with string caption",
-                () -> new Span("This is a vertical LinkkiTabLayout.")));
-        verticalSheet.addTab(new LinkkiTabSheet(VERTICAL_TAB_2_ID, VaadinIcon.PICTURE.create(),
-                "Vertical tab with component caption",
-                () -> new Image("https://linkki-framework.org/images/linkki.png", "linkki logo")));
+        verticalSheet.addTabSheet(LinkkiTabSheet.builder(VERTICAL_TAB_1_ID)
+                .caption("Vertical")
+                .description("Vertical tab with string caption")
+                .content(() -> new Span("This is a vertical LinkkiTabLayout.")).build());
+        verticalSheet.addTabSheet(LinkkiTabSheet.builder(VERTICAL_TAB_2_ID)
+                .caption(VaadinIcon.PICTURE.create())
+                .description("Vertical tab with component caption")
+                .content(() -> new Image("https://linkki-framework.org/images/linkki.png", "linkki logo")).build());
 
         add(horizontalSheet);
         add(verticalSheet);
