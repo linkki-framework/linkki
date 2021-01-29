@@ -50,8 +50,6 @@ pipeline {
                         <li><a href="http://linkki-${ENV:GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-ips-vaadin14">IPS sample</a></li>
                     </ul>
                 '''
-
-                sleep 10
             }
 
             environment {
@@ -59,40 +57,69 @@ pipeline {
             }
         }
 
-        stage('UI Test') {
-            when {
-                expression {
-                    currentBuild.currentResult == "SUCCESS"
-                }
-            }
+		stage('Wait for Server') {
+		    steps {
+		        // wait with the ui tests until the server is ready
+            	// since the vaadin8 tests are run first we check if linkki-sample-test-playground-vaadin8 is ready
+            	// and assume that the vaadin14 environment will be available afterwards
+            	timeout(time: 3, unit: 'MINUTES') {
+	            	waitUntil {
+	            		script {
+							try {         
+			            	    sh 'curl --fail http://linkki-${GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8/main'
+                      			return true
+		                	} catch (Exception e) {
+		                        return false
+		                  	} 	           
+	            		}
+	            	}
+            	}
+		    }
+		}
 
-            steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
-                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
-                }
-            }
-
-            environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de -Dtest.port=80'
-            }
-        }
-        
-        stage('SonarQube Analysis') {
-        	environment {
-        		SONAR_LOGIN = credentials('sonar.login')
-    		}
-	        steps {
-            	withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
-                	sh 'mvn -Dsonar.branch=$GERRIT_CHANGE_NUMBER -Dsonar.login=$SONAR_LOGIN sonar:sonar'
-                }
-                
-                rtp parserName: 'HTML', nullAction: '1', stableText: '''
-                    <h3>SonarQube</h3>
-                    <a href="https://sonarqube.faktorzehn.de/dashboard?id=org.linkki-framework%3Alinkki%3A${ENV:GERRIT_CHANGE_NUMBER}" target="_blank">https://sonarqube.faktorzehn.de/dashboard?id=org.linkki-framework%3Alinkki%3Alinkki-${ENV:GERRIT_CHANGE_NUMBER}</a>
-                '''
+		stage('UI Test and SonarQube Analysis') {
+			parallel {
+	
+		        stage('UI Test') {
+		            when {
+		                expression {
+		                    currentBuild.currentResult == "SUCCESS"
+		                }
+		            }
+		
+		            steps {
+		                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+		                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
+		                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
+		                }
+		            }
+		
+		            environment {
+		                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${GERRIT_CHANGE_NUMBER}.dockerhost.i.faktorzehn.de -Dtest.port=80'
+		            }
+		        }
+		        
+		        stage('SonarQube Analysis') {
+		        	environment {
+		        		SONAR_LOGIN = credentials('sonar.login')
+		    		}
+			        steps {
+			        	catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+			            	withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+			                	sh 'mvn -Dsonar.projectName=linkki-$GERRIT_CHANGE_NUMBER -Dsonar.projectKey=linkki-$GERRIT_CHANGE_NUMBER -Dsonar.login=$SONAR_LOGIN sonar:sonar'
+			                }
+			                
+			                rtp parserName: 'HTML', nullAction: '1', stableText: '''
+			                    <h3>SonarQube</h3>
+			                    <a href="https://sonarqube.faktorzehn.de/dashboard?id=linkki-${ENV:GERRIT_CHANGE_NUMBER}" target="_blank">https://sonarqube.faktorzehn.de/dashboard?id=linkki-${ENV:GERRIT_CHANGE_NUMBER}</a>
+			                '''
+		                }
+			        }
+		        }
+		        
 	        }
         }
+        
     }
 
     post {
