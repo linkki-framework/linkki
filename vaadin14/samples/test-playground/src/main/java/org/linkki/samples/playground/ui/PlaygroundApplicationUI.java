@@ -22,6 +22,7 @@ import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout
 import org.linkki.samples.playground.locale.LocaleInfoPage;
 import org.linkki.samples.playground.tablayout.TabLayoutPage;
 import org.linkki.samples.playground.table.TablePage;
+import org.linkki.samples.playground.ui.dialogs.DialogsLayout;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
@@ -41,6 +42,7 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
     public static final String TABLES_TAB_ID = "tables";
     public static final String LOCALE_TAB_ID = "locale";
     public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
+    public static final String DIALOGS_TAB_ID = "dialogs";
 
     public static final String PARAM_READONLY = "read-only";
 
@@ -60,6 +62,7 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
         tabLayout.addTab(new LinkkiTabSheet(TABLES_TAB_ID, "Tables", "Tables", new TablePage()));
         tabLayout.addTab(new LinkkiTabSheet(LOCALE_TAB_ID, "Locale", "Locale", new LocaleInfoPage()));
         tabLayout.addTab(new LinkkiTabSheet(TAB_LAYOUT_TAB_ID, "Tab Layout", "Tab Layout", new TabLayoutPage()));
+        tabLayout.addTab(new LinkkiTabSheet(DIALOGS_TAB_ID, "Dialogs", "Dialogs", new DialogsLayout()));
 
         tabLayout.getTabsComponent().setWidth("120px");
         add(tabLayout);

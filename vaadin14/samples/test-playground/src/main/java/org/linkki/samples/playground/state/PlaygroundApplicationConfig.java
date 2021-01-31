@@ -23,6 +23,7 @@ import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.nls.NlsText;
 import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.dialogs.DialogsLayout;
 import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.contextmenu.MenuItem;
@@ -73,8 +74,7 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
 
             @Override
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                // TODO LIN-2226 DialogView from V8 sample
-                return menu.addItem(new RouterLink("Dialogs", PlaygroundApplicationUI.class));
+                return menu.addItem(new RouterLink("Dialogs", DialogsLayout.class));
             }
         });
     }
