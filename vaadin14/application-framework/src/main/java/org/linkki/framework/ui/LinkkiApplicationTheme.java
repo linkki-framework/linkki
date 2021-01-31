@@ -15,6 +15,7 @@ package org.linkki.framework.ui;
 
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.component.Headline;
 import org.linkki.framework.ui.component.MessageUiComponents;
@@ -35,6 +36,11 @@ public final class LinkkiApplicationTheme {
      * Style for the top-level items of the application's main menu in the header.
      */
     public static final String APPLICATION_MENU = "linkki-application-menu";
+
+    /**
+     * Style for the {@link ApplicationFooter footer} of the application.
+     */
+    public static final String APPLICATION_FOOTER = "linkki-application-footer";
 
     /** Style for the caption/header of a modal {@link OkCancelDialog dialog}. */
     public static final String DIALOG_CAPTION = "linkki-dialog-caption";

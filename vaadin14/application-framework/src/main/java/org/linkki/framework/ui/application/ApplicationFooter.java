@@ -14,14 +14,16 @@
 package org.linkki.framework.ui.application;
 
 import org.linkki.framework.state.ApplicationConfig;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 
+import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 /**
  * The application footer displaying information about the application version and copyright.
  */
-public class ApplicationFooter extends HorizontalLayout {
+public class ApplicationFooter extends Composite<HorizontalLayout> {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,8 +35,9 @@ public class ApplicationFooter extends HorizontalLayout {
     }
 
     public void init() {
-        setMargin(false);
-        add(new Text(buildText(config)));
+        getContent().setMargin(false);
+        getContent().addClassName(LinkkiApplicationTheme.APPLICATION_FOOTER);
+        getContent().add(new Text(buildText(config)));
     }
 
     /**

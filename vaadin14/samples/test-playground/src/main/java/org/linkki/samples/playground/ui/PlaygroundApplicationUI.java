@@ -13,6 +13,7 @@
  */
 package org.linkki.samples.playground.ui;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
@@ -24,13 +25,13 @@ import org.linkki.samples.playground.table.TablePage;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
 
-@Theme(Lumo.class)
-@Route("")
-public class PlaygroundApplicationUI extends Div {
+@Route(value = "", layout = PlaygroundAppLayout.class)
+public class PlaygroundApplicationUI extends Div implements HasUrlParameter<String> {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,12 +42,18 @@ public class PlaygroundApplicationUI extends Div {
     public static final String LOCALE_TAB_ID = "locale";
     public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
 
+    public static final String PARAM_READONLY = "read-only";
+
     public PlaygroundApplicationUI() {
         setSizeFull();
+    }
 
+    @Override
+    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
+        removeAll();
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.VERTICAL);
         tabLayout.addTab(new LinkkiTabSheet(ALL_COMPONENTS_TAB_ID, "All", "All UI Components",
-                new AllUiElementsPage(() -> false)));
+                new AllUiElementsPage(() -> StringUtils.equals(parameter, PARAM_READONLY))));
         tabLayout.addTab(new LinkkiTabSheet(DYNAMIC_ASPECT_TAB_ID, "Dynamic", "Dynmaic Aspects",
                 new DynamicAnnotationsLayout()));
         tabLayout.addTab(new LinkkiTabSheet(BUGS_TAB_ID, "Bugs", "Bugs", new BugCollectionLayout()));
