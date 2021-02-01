@@ -20,6 +20,7 @@ import org.linkki.framework.ui.dialogs.DefaultErrorDialog;
 import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 
 import com.vaadin.flow.component.HasElement;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLayout;
@@ -27,12 +28,13 @@ import com.vaadin.flow.server.ErrorHandler;
 import com.vaadin.flow.server.VaadinSession;
 
 /**
- * Overall layout frame for the application. Contains the application header, the main work area, and a
+ * Overall router layout for the application. Contains the application header, the main work area, and a
  * footer. To use this {@link ApplicationLayout} create a subclass and implement the
  * {@link #getApplicationConfig()}.
  * <p>
  * The {@link ErrorHandler} can be customized by overriding the method {@link #getErrorHandler()}.
  */
+@CssImport(value = "./styles/linkki-application-layout.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
 public abstract class ApplicationLayout extends VerticalLayout implements RouterLayout {
 
     private static final long serialVersionUID = 1L;
@@ -42,6 +44,7 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
     protected ApplicationLayout() {
         setMargin(false);
         setSpacing(false);
+        setPadding(false);
         setSizeFull();
 
         ApplicationConfig config = getApplicationConfig();

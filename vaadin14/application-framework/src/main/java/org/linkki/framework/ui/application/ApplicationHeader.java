@@ -13,6 +13,7 @@
  */
 package org.linkki.framework.ui.application;
 
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
@@ -88,6 +89,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      */
     protected void addLeftComponents() {
         getContent().add(applicationMenu);
+        getContent().setFlexGrow(1, applicationMenu);
     }
 
     /**
@@ -104,17 +106,11 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
         HorizontalLayout wrapper = new HorizontalLayout();
         wrapper.addClassName(LinkkiApplicationTheme.APPLICATION_HEADER_RIGHT);
         wrapper.setAlignItems(Alignment.END);
-        wrapper.setSizeFull();
         wrapper.setSpacing(true);
 
         addRightComponents(wrapper);
 
         getContent().add(wrapper);
-        getContent().setFlexGrow(1, wrapper);
-
-        if (wrapper.getComponentCount() > 0) {
-            wrapper.setFlexGrow(1, wrapper.getComponentAt(0));
-        }
     }
 
     /**
@@ -138,6 +134,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      */
     protected MenuBar createRightMenuBar() {
         MenuBar rightMenuBar = new MenuBar();
+        rightMenuBar.addClassNames(LinkkiApplicationTheme.APPLICATION_MENU, LinkkiTheme.BORDERLESS);
         addHelpMenu(rightMenuBar);
 
         return rightMenuBar;
@@ -217,6 +214,9 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
         return e -> getUI().ifPresent(ui -> ui.getPage().setLocation("./logout"));
     }
 
+    /**
+     * Returns the {@link ApplicationConfig} of this header component.
+     */
     protected ApplicationConfig getApplicationConfig() {
         return applicationConfig;
     }

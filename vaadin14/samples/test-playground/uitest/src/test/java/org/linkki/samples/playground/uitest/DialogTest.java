@@ -17,33 +17,40 @@ package org.linkki.samples.playground.uitest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.dialog.testbench.DialogElement;
-import com.vaadin.flow.component.html.testbench.LabelElement;
+import com.vaadin.flow.component.html.testbench.H3Element;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class DialogTest extends AbstractUiTest {
 
     @Test
-    public void testDialog_ClosedOnOk() {
-        openTab("dialogs");
-
+    @Order(1)
+    public void testDialogOnEntry() {
+        clickMenuItem("Dialogs");
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("overlay")));
 
         assertThat($(DialogElement.class).all().size(), is(1));
-        $(DialogElement.class).first().$(ButtonElement.class).first().click();
 
+        // close dialog
+        $(DialogElement.class).first().$(ButtonElement.class).first().click();
+    }
+
+    @Test
+    @Order(2)
+    public void testDialog_ClosedOnOk() {
         clickButton("showDialog");
 
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("overlay")));
         assertThat($(DialogElement.class).all().size(), is(1));
 
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("okButton")));
+        waitUntil(ExpectedConditions.elementToBeClickable(By.id("okButton")));
         $(ButtonElement.class).id("okButton").click();
         assertThat($(DialogElement.class).all().size(), is(0));
     }
@@ -51,9 +58,8 @@ public class DialogTest extends AbstractUiTest {
     // TODO LIN-2226: test DialogErrorHandler
 
     @Test
+    @Order(3)
     public void testOkCancelDialog() {
-        openTab("dialogs");
-        $(ButtonElement.class).id("okButton").click();
         VerticalLayoutElement section = $(VerticalLayoutElement.class).id("OkCancelDialogPmo");
 
         section.$(TextFieldElement.class).id("caption").setValue("Awesome dialog");
@@ -65,7 +71,7 @@ public class DialogTest extends AbstractUiTest {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("overlay")));
 
         DialogElement dialog = $(DialogElement.class).first();
-        assertThat(dialog.$(LabelElement.class).first().getText(), is("Awesome dialog"));
+        assertThat(dialog.$(H3Element.class).first().getText(), is("Awesome dialog"));
         assertThat(dialog.$(VerticalLayoutElement.class).attribute("class", "content-area").first().getText(),
                    is("This is awesome!"));
         assertThat(dialog.$(ButtonElement.class).id("okButton").getText(), is("Hell yeah"));

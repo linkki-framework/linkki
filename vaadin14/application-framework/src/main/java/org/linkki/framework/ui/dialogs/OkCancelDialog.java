@@ -34,7 +34,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -113,7 +113,7 @@ public class OkCancelDialog extends Composite<Dialog> {
     private boolean cancelPressed = false;
     private boolean mayProceed = true;
 
-    private Label title;
+    private H3 title;
 
     /**
      * Creates a new dialog.
@@ -147,7 +147,7 @@ public class OkCancelDialog extends Composite<Dialog> {
         getContent().setResizable(false);
         getContent().setDraggable(true);
 
-        title = new Label(caption);
+        title = new H3(caption);
         title.addClassName(LinkkiApplicationTheme.DIALOG_CAPTION);
         layout.setHorizontalComponentAlignment(Alignment.START, title);
         layout.add(title);
@@ -315,10 +315,10 @@ public class OkCancelDialog extends Composite<Dialog> {
      */
     public void setSize(String width, String height) {
         if (width != null) {
-            getContent().setHeight(height);
+            getContent().setWidth(width);
         }
         if (height != null) {
-            getContent().setWidth(width);
+            getContent().setHeight(height);
         }
         layout.setSizeFull();
         contentArea.setSizeFull();

@@ -26,8 +26,8 @@ import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
 import org.linkki.samples.playground.ui.dialogs.DialogsLayout;
 import org.linkki.util.Sequence;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.router.RouterLink;
 
 /**
  * An {@link ApplicationConfig} using the default {@link ApplicationHeader application header} and
@@ -63,18 +63,18 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
                 MenuItem playgroundItem = menu.addItem("Playground");
                 playgroundItem.getSubMenu()
-                        .addItem(new RouterLink("writable", PlaygroundApplicationUI.class));
+                        .addItem("writable", e -> UI.getCurrent().navigate(PlaygroundApplicationUI.class));
 
                 playgroundItem.getSubMenu()
-                        .addItem(new RouterLink("read-only", PlaygroundApplicationUI.class,
-                                PlaygroundApplicationUI.PARAM_READONLY));
+                        .addItem("read-only", e -> UI.getCurrent().navigate(PlaygroundApplicationUI.class,
+                                                                            PlaygroundApplicationUI.PARAM_READONLY));
                 return playgroundItem;
             }
         }, new ApplicationMenuItemDefinition("Dialogs", 1) {
 
             @Override
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem(new RouterLink("Dialogs", DialogsLayout.class));
+                return menu.addItem("Dialogs", e -> UI.getCurrent().navigate(DialogsLayout.class));
             }
         });
     }

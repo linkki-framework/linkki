@@ -16,7 +16,10 @@ package org.linkki.samples.playground.uitest;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -32,6 +35,7 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
+import com.vaadin.testbench.TestBenchElement;
 import com.vaadin.testbench.TestBenchTestCase;
 
 /**
@@ -43,6 +47,7 @@ import com.vaadin.testbench.TestBenchTestCase;
  * Various browser configuration options are available using the {@link DriverExtension.Configuration}
  * annotation.
  */
+@TestMethodOrder(OrderAnnotation.class)
 public class AbstractUiTest extends TestBenchTestCase {
 
     @RegisterExtension
@@ -63,7 +68,7 @@ public class AbstractUiTest extends TestBenchTestCase {
     }
 
     /**
-     * Opens the {@link Tab} with the given name.
+     * Opens the {@link Tab} with the given id.
      */
     public void openTab(String id) {
         $(TabElement.class).id(id).click();
@@ -119,12 +124,15 @@ public class AbstractUiTest extends TestBenchTestCase {
     }
 
     /**
-     * Find the menubar element based on id then click on the first menu item.
+     * Find the menubar element based on the text and click on the first menu item.
      *
-     * @param id ID of the {@link MenuBar}
+     * @param text the text of the {@link MenuBar}
      */
-    public void clickMenuItem(String id) {
-        $(MenuBarElement.class).id(id).click();
+    public void clickMenuItem(String text) {
+        $(MenuBarElement.class).first().getButtons().stream()//
+                .filter(e -> StringUtils.equals(e.getText(), text))//
+                .findFirst()//
+                .ifPresent(TestBenchElement::click);
     }
 
     /**

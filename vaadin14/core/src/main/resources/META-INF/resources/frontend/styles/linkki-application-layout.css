@@ -1,0 +1,17 @@
+.linkki-application-header {
+	background-color: var(--lumo-primary-color);
+	padding: 0;
+}
+
+.linkki-application-footer {
+	align-self: center;
+}
+
+
+.linkki-application-menu {
+    --_lumo-button-color: white;
+    --lumo-primary-text-color: white;
+}
+.linkki-application-menu.borderless {
+    --_lumo-button-background-color: transparent;
+}

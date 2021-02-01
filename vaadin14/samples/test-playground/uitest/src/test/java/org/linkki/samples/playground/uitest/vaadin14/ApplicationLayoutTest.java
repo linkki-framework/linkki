@@ -72,7 +72,7 @@ public class ApplicationLayoutTest extends AbstractUiTest {
 
         List<TestBenchElement> overlays = getAllOverlays();
         final TestBenchElement clickMe = getMenuItem(getMenuItems(overlays.get(0)), "read-only");
-        clickMe.findElement(By.tagName("a")).click();
+        clickMe.click();
 
         assertThat($(TextFieldElement.class).first().hasAttribute("readonly"), is(true));
     }
