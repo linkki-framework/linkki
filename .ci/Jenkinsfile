@@ -26,6 +26,7 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
+                sh 'bash .ci/docker_setup-test.sh vaadin14'
                 sh 'bash .ci/docker_setup.sh vaadin14'
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: '''

@@ -67,6 +67,7 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
+                sh "bash .ci/docker_setup-test.sh ${params.RELEASE_VERSION}"
                 sh "bash .ci/docker_setup.sh ${params.RELEASE_VERSION}"
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: '''
