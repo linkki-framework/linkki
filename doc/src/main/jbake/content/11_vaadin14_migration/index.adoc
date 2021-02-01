@@ -20,4 +20,16 @@ Stichpunkte, die in der Migrationsanleitung geordnet und ausformuliert werden
 * TextArea hat kein `rows` Attribute mehr. In `UITextArea` wurde der Parameter `rows` deshalb durch `height` ersetzt. Dieser gibt einen String an, der einen CSS-Wert darstellt. (LIN-2059)
 * ColumnExpandRatioAspectDefinition verwendet nun Integer statt bisher Float
 * GridComponentCreator statt PmoBasedTablefactory verwenden. Die Factory wurde auf deprecated gesetzt.
-* TabSheetArea -> LinkkiTabSheet (LIN-2158)
+
+=== Application Framework
+* LinkkiUi wurde entfernt
+* ApplicationConfig#createApplicationLayout und ApplicationLayout#createApplicationNavigator wurden entfernt
+* Der ApplicationNavigator wurde entfernt
+* ApplicationHeader und ApplicationFooter wurden auf Composite umgestellt
+* Navigator durch Routing ersetzt. Annotationen direkt an den Komponenten
+* Ableitung von ApplicationLayout als Einsprungspunkt für die Anwendung. ApplicationLayout muss/ kann als RouterLayout für Komponenten verwendet werden zu denen navigiert werden kann
+* Deprecated Message Komponenten wurden entfernt
+* MessageUiComponents auf Grid umgestellt
+* Label durch Text ersetzt
+* Sidebar und TabLayout wurden vereinheitlicht (LIN-2158)
+* Dialoge von Window auf Dialog umgestellt
