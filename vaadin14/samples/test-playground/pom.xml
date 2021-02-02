@@ -68,6 +68,13 @@
         <!-- remove version from artifact so we can always link to http://localhost:8080/linkki-sample-test-playground-vaadin14 -->
         <finalName>${project.artifactId}</finalName>
 
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
