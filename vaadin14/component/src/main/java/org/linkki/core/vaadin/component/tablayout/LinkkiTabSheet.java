@@ -82,6 +82,15 @@ public class LinkkiTabSheet {
         return getTab().getId().get();
     }
 
+    /**
+     * Returns the description of the tab sheet that is shown as tooltip on the tab.
+     * 
+     * @return description of the tab sheet
+     */
+    public String getDescription() {
+        return getTab().getElement().getProperty("title");
+    }
+
     @Override
     public String toString() {
         return String.format("%s [ID: %s])", getClass().getSimpleName(), tab.getId().get());

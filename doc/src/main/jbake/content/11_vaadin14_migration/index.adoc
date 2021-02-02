@@ -22,14 +22,35 @@ Stichpunkte, die in der Migrationsanleitung geordnet und ausformuliert werden
 * GridComponentCreator statt PmoBasedTablefactory verwenden. Die Factory wurde auf deprecated gesetzt.
 
 === Application Framework
+
 * LinkkiUi wurde entfernt
-* ApplicationConfig#createApplicationLayout und ApplicationLayout#createApplicationNavigator wurden entfernt
-* Der ApplicationNavigator wurde entfernt
-* ApplicationHeader und ApplicationFooter wurden auf Composite umgestellt
-* Navigator durch Routing ersetzt. Annotationen direkt an den Komponenten
 * Ableitung von ApplicationLayout als Einsprungspunkt für die Anwendung. ApplicationLayout muss/ kann als RouterLayout für Komponenten verwendet werden zu denen navigiert werden kann
+** ApplicationConfig#createApplicationLayout wurde entfernt
+* Der ApplicationNavigator wurde entfernt
+** Navigator durch Routing ersetzt. Annotationen direkt an den Komponenten
+** ApplicationLayout#createApplicationNavigator wurden entfernt
+* ApplicationHeader und ApplicationFooter wurden auf Composite umgestellt
 * Deprecated Message Komponenten wurden entfernt
 * MessageUiComponents auf Grid umgestellt
 * Label durch Text ersetzt
-* Sidebar und TabLayout wurden vereinheitlicht (LIN-2158)
 * Dialoge von Window auf Dialog umgestellt
+* TabSheetArea -> LinkkiTabLayout (LIN-2158)
+* SidebarSheet -> LinkkiTabSheet
+** getIcon() -> getTab().getChildren().findFirst().get()
+** getName() -> getDescription()
+** SidebarSheet(String id, VaadinIcon icon, String name, Supplier<Component> contentSupplier, Handler uiUpdateObserver) -> LinkkiTabSheet.buildWithId(id)
+                .withCaption(icon.create())
+                .withDescription(name)
+                .withContent(contentSupplier)
+                .withOnSelectHandler(uiUpdateObserver)
+* SidebarLayout -> LinkkiTabLayout(VERTICAL):
+ * addSheets -> addTabSheets
+ * addSheet -> addTabSheet
+ * addSelectionListener -> addSelectedChangeListener
+ * SelectionEvent#getOldValue -> SelectedChangeEvent#getPreviousTab
+ * SelectionEvent#getSelectedSheet -> SelectedChangeEvent#getSelectedTab
+ * select(id) -> setSelectedTabSheet
+ * select(sheet) -> setSelectedTabSheet(sheet.getId())
+ * getSelected -> getSelectedTabSheet
+ * getSidebarSheet(id) -> getTabSheet(id)
+ * getSidebarSheets -> getTabSheets
