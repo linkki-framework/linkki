@@ -7,7 +7,7 @@
 ==== LinkkiTabLayout
 
 A component that allows switching between different contents, using either a horizontal or vertical tab bar. Only a single tab can be active at a time.
-This is a replacement for the linkki Vaadin 8 `TabSheetArea`.
+This is a replacement for the linkki Vaadin 8 `SidebarSheet` and `TabSheetArea`.
 
 image::{image-dir}/tablayout_combined.png[]
 
