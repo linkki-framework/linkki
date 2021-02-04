@@ -35,7 +35,6 @@
         <module>core</module>
         <module>vaadin8</module>
         <module>apt</module>
-        <module>doc</module>
     </modules>
 
     <properties>

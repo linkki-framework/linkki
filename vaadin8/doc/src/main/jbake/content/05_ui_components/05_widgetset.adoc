@@ -1,0 +1,21 @@
+:jbake-title: linkki Widgetset
+:jbake-type: section
+:jbake-status: published
+:source-dir: ../../../../../../vaadin8/samples/binding/src/main/java
+
+[[widgetset]]
+=== linkki Widgetset
+
+*linkki* provides its own Vaadin widgetset, which includes Vaadin's `com.vaadin.v7.Vaadin7WidgetSet` and `com.vaadin.DefaultWidgetSet` as well as a custom multiformat date widget.
+It can be used by annotating the UI class with
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/binding/BindingSampleUI.java[tags=widgetset]
+----
+
+The *linkki* widgetset is included in the <<application-framework,*linkki* application framework>>. For plain *linkki* see the <<widgetset-dependency,linkki widgetset dependency>>.
+
+==== Multiformat Date Field
+
+The multiformat date field replaces Vaadin's standard date field with a date field that can accept dates in multiple formats, described fully in <<ui-datefield,@UIDateField>>.

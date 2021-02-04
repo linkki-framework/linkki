@@ -1,0 +1,35 @@
+:jbake-title: Dependencies
+:jbake-type: section
+:jbake-status: published
+
+:vaadin8-dir: ../../../../../../vaadin8
+
+[[dependencies]]
+=== Dependencies
+
+*linkki-core* depends on the following external libraries:
+  
+|=======
+|groupId | artifactId | version
+
+|com.github.spotbugs |spotbugs-annotations | {vspotbugs}
+|org.apache.commons |commons-lang3 | {vcommonslang}
+|=======
+
+*linkki-core-vaadin8* depends on the following Vaadin 8 modules:
+ 
+|=======
+|groupId | artifactId | version
+
+|com.vaadin |vaadin-server | 
+include::{vaadin8-dir}/pom.xml[tags=vaadin8]
+
+|com.vaadin |vaadin-client-compiled | 
+include::{vaadin8-dir}/pom.xml[tags=vaadin8]
+
+|com.vaadin |vaadin-themes | 
+include::{vaadin8-dir}/pom.xml[tags=vaadin8]
+
+|com.vaadin |vaadin-compatibility-client-compiled | 
+include::{vaadin8-dir}/pom.xml[tags=vaadin8]
+|=======

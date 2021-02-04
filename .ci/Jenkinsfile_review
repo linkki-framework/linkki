@@ -71,7 +71,7 @@ pipeline {
             recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
             jacoco sourceInclusionPattern: '**/*.java'
 
-            archiveArtifacts 'doc/target/linkki-core-documentation*/**/*.*'
+            archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*'
         }
     }
 
