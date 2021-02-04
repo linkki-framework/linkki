@@ -25,6 +25,7 @@ import javax.tools.Diagnostic.Kind;
 import org.linkki.tooling.apt.model.AptAttribute;
 import org.linkki.tooling.apt.model.AptComponent;
 import org.linkki.tooling.apt.model.AptComponentDeclaration;
+import org.linkki.tooling.apt.model.AptModelObject;
 import org.linkki.tooling.apt.model.AptPmo;
 import org.linkki.tooling.apt.util.Constants;
 
@@ -62,7 +63,8 @@ public class ModelBindingValidator implements Validator {
                         if (!componentDeclaration.getModelObject().isPresent()) {
                             reportMissingModelObject(messager, pmo, componentDeclaration);
                         } else {
-                            checkModelAttribute(messager, pmo, componentDeclaration);
+                            checkModelAttribute(messager, pmo, componentDeclaration,
+                                                componentDeclaration.getModelObject().get());
                         }
                     });
         }
@@ -96,7 +98,8 @@ public class ModelBindingValidator implements Validator {
     private void checkModelAttribute(
             Messager messager,
             AptPmo pmo,
-            AptComponentDeclaration componentDeclaration) {
+            AptComponentDeclaration componentDeclaration,
+            AptModelObject modelObject) {
         AptAttribute modelAttribute = AptAttribute
                 .findByName(componentDeclaration.getAttributes(), Constants.MODEL_ATTRIBUTE)
                 .orElseThrow(() -> new IllegalStateException(
@@ -104,45 +107,35 @@ public class ModelBindingValidator implements Validator {
 
         String modelAttributeName = modelAttribute.getValue().toString();
 
-        if (implicitModelBindingSeverity != Kind.OTHER
-                && !isSuppressed(pmo.getElement(), implicitModelBindingSeverity)
-                && !isSuppressed(componentDeclaration.getElement(), implicitModelBindingSeverity)) {
-            if (modelAttributeName.isEmpty()) {
-                reportBadStyleMissingModelAttributeValue(messager, componentDeclaration);
-            }
+        if (isCreateReport(implicitModelBindingSeverity, pmo, componentDeclaration) && modelAttributeName.isEmpty()) {
+            reportBadStyleMissingModelAttributeValue(messager, componentDeclaration);
         }
 
-        if (missingModelAttributeSeverity != Kind.OTHER
-                && !isSuppressed(pmo.getElement(), missingModelAttributeSeverity)
-                && !isSuppressed(componentDeclaration.getElement(), missingModelAttributeSeverity)) {
-            if (!componentDeclaration.getModelAttribute().isPresent()) {
-                String attributeName = modelAttributeName.isEmpty()
-                        // fallback for attribute is propertyName
-                        ? componentDeclaration.getPropertyName()
-                        : modelAttributeName;
+        if (isCreateReport(missingModelAttributeSeverity, pmo, componentDeclaration)
+                && !componentDeclaration.getModelAttribute().isPresent()) {
+            String attributeName = modelAttributeName.isEmpty()
+                    // fallback for attribute is propertyName
+                    ? componentDeclaration.getPropertyName()
+                    : modelAttributeName;
 
-                String invalidAttributeMessage = Messages.format(MISSING_MODEL_ATTRIBUTE,
-                                                                 componentDeclaration
-                                                                         .getAnnotationMirror(),
-                                                                 componentDeclaration
-                                                                         .getModelObject()
-                                                                         .get()
-                                                                         .getAnnotation()
-                                                                         .name(),
-                                                                 componentDeclaration
-                                                                         .getModelObject()
-                                                                         .get().getType()
-                                                                         .toString(),
-                                                                 attributeName);
-                // no model attribute has been found
-                messager.printMessage(missingModelAttributeSeverity,
-                                      invalidAttributeMessage,
-                                      componentDeclaration.getElement(),
-                                      componentDeclaration.getAnnotationMirror(),
-                                      modelAttribute.getAnnotationValue());
-            }
+            String invalidAttributeMessage = Messages.format(MISSING_MODEL_ATTRIBUTE,
+                                                             componentDeclaration.getAnnotationMirror(),
+                                                             modelObject.getAnnotation().name(),
+                                                             modelObject.getType().toString(),
+                                                             attributeName);
+            // no model attribute has been found
+            messager.printMessage(missingModelAttributeSeverity,
+                                  invalidAttributeMessage,
+                                  componentDeclaration.getElement(),
+                                  componentDeclaration.getAnnotationMirror(),
+                                  modelAttribute.getAnnotationValue());
         }
+    }
 
+    private boolean isCreateReport(Kind severity, AptPmo pmo, AptComponentDeclaration componentDeclaration) {
+        return severity != Kind.OTHER
+                && !isSuppressed(pmo.getElement(), severity)
+                && !isSuppressed(componentDeclaration.getElement(), severity);
     }
 
     private void reportBadStyleMissingModelAttributeValue(

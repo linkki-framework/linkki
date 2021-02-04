@@ -45,7 +45,7 @@ public abstract class AbstractMethod<T> {
      * @param methodSupplier the {@link Supplier} for the {@link Method}. May return
      *            {@link Optional#empty()}.
      */
-    public AbstractMethod(PropertyAccessDescriptor<T, ?> descriptor, Supplier<Optional<Method>> methodSupplier) {
+    protected AbstractMethod(PropertyAccessDescriptor<T, ?> descriptor, Supplier<Optional<Method>> methodSupplier) {
         this.methodSupplier = requireNonNull(methodSupplier, "methodSupplier must not be null");
         requireNonNull(descriptor, "descriptor must not be null");
 
@@ -80,11 +80,7 @@ public abstract class AbstractMethod<T> {
      * @return the read method if existent. Otherwise throws an IllegalArgumentException.
      */
     protected Method getMethodWithExceptionHandling() {
-        if (hasMethod()) {
-            return getReflectionMethod().get();
-        } else {
-            throw noMethodFound(this.getClass().getSimpleName()).get();
-        }
+        return getReflectionMethod().orElseThrow(() -> noMethodFound(this.getClass().getSimpleName()).get());
     }
 
     /**
