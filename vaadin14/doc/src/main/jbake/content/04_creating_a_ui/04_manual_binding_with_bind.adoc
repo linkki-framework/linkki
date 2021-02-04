@@ -1,0 +1,61 @@
+:jbake-title: Manual Binding With `@Bind`
+:jbake-type: section
+:jbake-status: published
+
+:source-dir: ../../../../../../vaadin8/samples/binding/src/main/java
+:github: https://github.com/linkki-framework/linkki
+:github-tree: {github}/tree/master
+:github-blob: {github}/blob/master
+
+[[manual-binding]]
+=== Manual Binding With `@Bind`
+
+Due to special requirements or custom `Fields` it is sometimes not possible to use the <<pmo-create-ui, automatic creation via `@UISection`>>. For this case *linkki* offers the option of 'only' using the data binding. This way, control over creation, arrangement and configuration (e.g. `setNullRepresentation()` or `setConverter()`) of the component is kept.
+
+To activate the manual binding the component must be marked with the `@Bind` annotation. Both fields and methods can be annotated. Components based on the following classes and interfaces can be used with `@Bind`:
+
+* `com.vaadin.ui.Component`
+* `com.vaadin.ui.AbstractField<T>`
+* `com.vaadin.ui.Label`
+* `com.vaadin.ui.Button`
+* `com.vaadin.data.HasValue<V>`
+* `com.vaadin.data.HasItems<T>`
+
+
+Then, the data binding can be created via the {github-blob}/core/src/main/java/org/linkki/core/binding/Binder.java[`Binder`].
+
+
+.@Bind on Fields
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/binding/components/AddressFields.java[tags=addressFields-class]
+----
+
+.@Bind on Methods
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/binding/components/AddressFieldsWithBindOnGetters.java[tags=addressFields-methodBinding]
+----
+
+TIP: When the data binding of a Vaadin component of a third party library should be used by *linkki*, it can be activated via inheritance of 'delegate proxies' and `@Bind` on the methods.
+
+.Binding Activation
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/binding/components/ContactComponent.java[tags=manual-binding]
+----
+
+You can find a sample project with the different binding options on {github-tree}/vaadin8/samples/binding[GitHub].
+
+[TIP]
+====
+Binding summary:
+
+* <<layout, Layout annotations>> like `@UISection` -> simple and quick template with limited configuration options
+* <<manual-section-creation, UiElementCreator>> -> automated creation and binding of UI components with control over the layout
+* <<manual-binding, manual binding>> -> full control, but more effort and direct UI framework dependencies
+
+*linkki* uses certain naming conventions. That way sources of errors and refactoring complexity are reduced.
+
+The values used in the annotations for `pmoProperty` and `modelAttribute` should be defined as constants in the corresponding classes.
+====

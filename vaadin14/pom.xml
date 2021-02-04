@@ -21,6 +21,7 @@
         <module>ips</module>
         <module>component</module>
         <module>samples</module>
+        <module>doc</module>
     </modules>
 
     <properties>
