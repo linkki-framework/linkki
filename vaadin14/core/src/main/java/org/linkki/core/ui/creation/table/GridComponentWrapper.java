@@ -50,12 +50,6 @@ public class GridComponentWrapper<ROW> extends AbstractGridComponentWrapper<ROW>
         }
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public Grid<ROW> getComponent() {
-        return super.getComponent();
-    }
-
     @Override
     public void setLabel(String labelText) {
         // label not supported
@@ -80,30 +74,6 @@ public class GridComponentWrapper<ROW> extends AbstractGridComponentWrapper<ROW>
         // else {
         // cannot remove footer https://github.com/vaadin/vaadin-grid/issues/2006
         // }
-    }
-
-    /**
-     * Sets the {@link Grid#setPageSize(int) page size} of the grid.
-     */
-    @Override
-    public void setPageLength(int pageLength) {
-        // TODO LIN-2126
-        if (pageLength < 1 && !getComponent().isHeightByRows()) {
-            getComponent().setHeightByRows(true);
-        } else {
-            if (getComponent().isHeightByRows()) {
-                getComponent().setHeightByRows(false);
-            }
-            if (getComponent().getPageSize() != pageLength) {
-                if (pageLength < 1) {
-                    getComponent().setPageSize(1);
-                } else {
-                    getComponent().setPageSize(pageLength);
-                }
-            }
-            int headerAndFooter = 1 + getComponent().getFooterRows().size();
-            getComponent().setHeight((pageLength + headerAndFooter) * 3 + "em");
-        }
     }
 
     /**
