@@ -1,11 +1,18 @@
 pipeline {
     agent any
 
+    environment {
+        BUILD_NAME = "vaadin14"
+        DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
+        CONTAINER_RETENTION = 'permanent-on'
+    }
+
     stages {
+
         stage('Build') {
             steps {
                 script {
-                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.GIT_BRANCH}"
+                    currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BUILD_NAME}"
                 }
 
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
@@ -26,53 +33,20 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
-                sh 'bash .ci/docker_setup-test.sh vaadin14'
-                sh 'bash .ci/docker_setup.sh vaadin14'
-
-                rtp parserName: 'HTML', nullAction: '1', stableText: '''
-                    <h3>Vaadin 8 samples</h3>
-                    <ul>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-binding-vaadin8">binding sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-messages-vaadin8">messages sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-dynamic-fields-vaadin8">dynamic fields sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-custom-layout-vaadin8">custom layout sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-tree-table-vaadin8">tree table sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-application-vaadin8/main">application sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin8">getting started</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8/main">test playground</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-ips-vaadin8">IPS sample</a></li>
-                    </ul>
-                    <br>
-                    <h3>Vaadin 14 samples</h3>
-                    <ul>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-messages-vaadin14">messages sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-tree-table-vaadin14">tree table sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-application-vaadin14">application sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin14">getting started</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14">test playground</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-binding-vaadin14">binding sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-dynamic-fields-vaadin14">dynamic fields sample</a></li>
-                        <li><a href="http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-ips-vaadin14">IPS sample</a></li>
-                    </ul>
-                '''
-            }
-
-            environment {
-                DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
-                CONTAINER_RETENTION = 'permanent-on'
+                sh 'bash -x .ci/docker_setup-test.sh ${BUILD_NAME}'
             }
         }
-        
+
         stage('Wait for Server') {
             steps {
                 // wait with the ui tests until the server is ready
                 // since the vaadin8 tests are run first we check if linkki-sample-test-playground-vaadin8 is ready
                 // and assume that the vaadin14 environment will be available afterwards
                 timeout(time: 3, unit: 'MINUTES') {
-                   waitUntil {
+                    waitUntil {
                         script {
                             try {
-                                sh 'curl --fail http://linkki-vaadin14.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8/main'
+                                sh 'curl --fail http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8/main'
                                 return true
                             } catch (Exception e) {
                                 return false
@@ -83,22 +57,79 @@ pipeline {
             }
         }
 
-        stage('UI Test') {
-            when {
-                expression {
-                    currentBuild.currentResult == "SUCCESS"
-                }
-            }
+        stage('UI Test and SonarQube Analysis') {
+            parallel {
 
-            steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
-                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
-                }
-            }
+                stage('UI Test') {
+                    when {
+                        expression {
+                            currentBuild.currentResult == "SUCCESS"
+                        }
+                    }
 
-            environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin14.dockerhost.i.faktorzehn.de -Dtest.port=80'
+                    steps {
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                            sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
+                            sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
+                        }
+                    }
+
+                    environment {
+                        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80'
+                    }
+                }
+
+                stage('SonarQube Analysis') {
+                    environment {
+                        SONAR_LOGIN = credentials('sonar.login')
+                    }
+                    steps {
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                                sh 'mvn -Dsonar.projectName=linkki-$GERRIT_CHANGE_NUMBER -Dsonar.projectKey=linkki-$GERRIT_CHANGE_NUMBER -Dsonar.login=$SONAR_LOGIN sonar:sonar'
+                            }
+
+                            rtp parserName: 'HTML', nullAction: '1', stableText: '''
+                                <h3>SonarQube</h3>
+                                <a href="https://sonarqube.faktorzehn.de/dashboard?id=linkki-${ENV:GERRIT_CHANGE_NUMBER}" target="_blank">https://sonarqube.faktorzehn.de/dashboard?id=linkki-${ENV:GERRIT_CHANGE_NUMBER}</a>
+                            '''
+                        }
+                    }
+                }
+                
+                stage('Docker Deployment') {
+                    steps {
+                        sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME}'
+                        
+                        rtp parserName: 'HTML', nullAction: '1', stableText: '''
+                            <h3>Vaadin 8 samples</h3>
+                            <ul>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-binding-vaadin8">binding sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-messages-vaadin8">messages sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-dynamic-fields-vaadin8">dynamic fields sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-custom-layout-vaadin8">custom layout sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-tree-table-vaadin8">tree table sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-application-vaadin8/main">application sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin8">getting started</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8/main">test playground</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-ips-vaadin8">IPS sample</a></li>
+                            </ul>
+                            <br>
+                            <h3>Vaadin 14 samples</h3>
+                            <ul>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-messages-vaadin14">messages sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-tree-table-vaadin14">tree table sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-application-vaadin14">application sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin14">getting started</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14">test playground</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-binding-vaadin14">binding sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-dynamic-fields-vaadin14">dynamic fields sample</a></li>
+                                <li><a href="http://linkki-${ENV:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-ips-vaadin14">IPS sample</a></li>
+                            </ul>
+                        '''
+                    }
+                }
+
             }
         }
     }
