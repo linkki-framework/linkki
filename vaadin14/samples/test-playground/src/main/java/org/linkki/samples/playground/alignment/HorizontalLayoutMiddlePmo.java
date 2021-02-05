@@ -12,25 +12,19 @@
  * License.
  */
 
-package org.linkki.core.ui.layout;
+package org.linkki.samples.playground.alignment;
 
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import org.linkki.core.ui.aspects.annotation.BindCaption;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 
-/**
- * Defines how the child components should be horizontally aligned in the parent component.
- */
-public enum HorizontalAlignment {
-    LEFT(Alignment.START),
-    MIDDLE(Alignment.CENTER),
-    RIGHT(Alignment.END);
+@BindCaption(value = "UIHorizontalLayout Middle")
+@UIHorizontalLayout
+public class HorizontalLayoutMiddlePmo {
 
-    private final Alignment alignment;
-
-    private HorizontalAlignment(Alignment alignment) {
-        this.alignment = alignment;
+    @UITextField(position = 1)
+    public String getText() {
+        return "I should be in the middle";
     }
 
-    public Alignment getAlignment() {
-        return alignment;
-    }
 }

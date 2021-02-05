@@ -19,7 +19,6 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 /**
  * Defines how the child components should be vertically aligned in the parent component.
  */
-// TODO LIN-2058
 public enum VerticalAlignment {
     TOP(Alignment.START),
     MIDDLE(Alignment.CENTER),

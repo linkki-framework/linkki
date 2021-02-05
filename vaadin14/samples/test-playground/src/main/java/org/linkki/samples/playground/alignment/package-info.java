@@ -11,26 +11,8 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-
-package org.linkki.core.ui.layout;
-
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
-
 /**
- * Defines how the child components should be horizontally aligned in the parent component.
+ * Reproductions for UI-Bugs. Kept to test for regressions.
  */
-public enum HorizontalAlignment {
-    LEFT(Alignment.START),
-    MIDDLE(Alignment.CENTER),
-    RIGHT(Alignment.END);
-
-    private final Alignment alignment;
-
-    private HorizontalAlignment(Alignment alignment) {
-        this.alignment = alignment;
-    }
-
-    public Alignment getAlignment() {
-        return alignment;
-    }
-}
+@edu.umd.cs.findbugs.annotations.DefaultAnnotation(edu.umd.cs.findbugs.annotations.NonNull.class)
+package org.linkki.samples.playground.alignment;

@@ -12,25 +12,20 @@
  * License.
  */
 
-package org.linkki.core.ui.layout;
+package org.linkki.samples.playground.alignment;
 
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import org.linkki.core.ui.aspects.annotation.BindCaption;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.HorizontalAlignment;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
-/**
- * Defines how the child components should be horizontally aligned in the parent component.
- */
-public enum HorizontalAlignment {
-    LEFT(Alignment.START),
-    MIDDLE(Alignment.CENTER),
-    RIGHT(Alignment.END);
+@BindCaption(value = "UIVerticalLayout Right")
+@UIVerticalLayout(alignment = HorizontalAlignment.RIGHT)
+public class VerticalLayoutRightPmo {
 
-    private final Alignment alignment;
-
-    private HorizontalAlignment(Alignment alignment) {
-        this.alignment = alignment;
+    @UITextField(position = 1, width = "15em")
+    public String getText() {
+        return "I should be at the right";
     }
 
-    public Alignment getAlignment() {
-        return alignment;
-    }
 }

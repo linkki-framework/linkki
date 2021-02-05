@@ -16,6 +16,7 @@ package org.linkki.samples.playground.ui;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
+import org.linkki.samples.playground.alignment.AlignmentPage;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
@@ -41,6 +42,7 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
     public static final String TABLES_TAB_ID = "tables";
     public static final String LOCALE_TAB_ID = "locale";
     public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
+    public static final String ALIGNMENT_TAB_ID = "alignment";
 
     public static final String PARAM_READONLY = "read-only";
 
@@ -74,7 +76,10 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                        .content(new LocaleInfoPage()).build(),
                                LinkkiTabSheet.builder(TAB_LAYOUT_TAB_ID)
                                        .caption("Tab Layout")
-                                       .content(new TabLayoutPage()).build());
+                                       .content(new TabLayoutPage()).build(),
+                               LinkkiTabSheet.builder(ALIGNMENT_TAB_ID)
+                                       .caption("Alignment")
+                                       .content(new AlignmentPage()).build());
 
         tabLayout.getTabsComponent().setWidth("120px");
         add(tabLayout);
