@@ -11,6 +11,10 @@
 
 For the annotation <<bind-visible, @BindVisible>>, the `VisibleType` is set to `DYNAMIC`, determining the visible state from the PMO by invoking a method named `is[PropertyName]Visible()`. Using this annotation, it is no longer necessary to specify the `visible` property with `VisibleType.DYNAMIC` in components, e.g. `@UILabel`. The <<bind-visible, @BindVisible>> can be used on any PMO, including any PMO classes that implement the `ContainerPmo` interface (i.e. `TableSections`). Using <<bind-visible, @BindVisible>> will overrule the existing `visible` property.
 
+==== New `BoundPropertyCreator`: `ModelBindingBoundPropertyCreator`
+
+
+
 ==== Concept of `BindingDefinition` is deprecated
 
 The concept of `BindingDefinition` is deprecated because it was replaced. Therefore, the following classes and interfaces are deprecated and should not be used anymore. 

@@ -23,7 +23,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import org.linkki.core.binding.LinkkiBindingException;
@@ -31,8 +30,7 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
-import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
@@ -52,7 +50,6 @@ import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.aspects.ValueAspectDefinition;
 import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxAspectCreator;
-import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxBoundPropertyCreator;
 import org.linkki.core.ui.element.annotation.UIYesNoComboBox.YesNoComboBoxComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
@@ -67,7 +64,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBoundProperty(YesNoComboBoxBoundPropertyCreator.class)
+@LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
 @LinkkiComponent(YesNoComboBoxComponentDefinitionCreator.class)
 @LinkkiAspect(YesNoComboBoxAspectCreator.class)
 @LinkkiPositioned
@@ -102,11 +99,13 @@ public @interface UIYesNoComboBox {
      * Name of the model object that is to be bound if multiple model objects are included for model
      * binding
      */
+    @LinkkiBoundProperty.ModelObject
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
      * The name of a property in the class of the bound {@link ModelObject} to use model binding
      */
+    @LinkkiBoundProperty.ModelAttribute
     String modelAttribute() default "";
 
     /**
@@ -150,17 +149,6 @@ public @interface UIYesNoComboBox {
                     new VisibleAspectDefinition(annotation.visible()),
                     new ValueAspectDefinition(),
                     new DerivedReadOnlyAspectDefinition());
-        }
-
-    }
-
-    static class YesNoComboBoxBoundPropertyCreator implements BoundPropertyCreator<UIYesNoComboBox> {
-
-        @Override
-        public BoundProperty createBoundProperty(UIYesNoComboBox annotation, AnnotatedElement annotatedElement) {
-            return BoundProperty.of((Method)annotatedElement)
-                    .withModelAttribute(annotation.modelAttribute())
-                    .withModelObject(annotation.modelObject());
         }
 
     }

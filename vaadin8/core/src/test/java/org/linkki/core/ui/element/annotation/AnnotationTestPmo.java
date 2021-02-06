@@ -15,15 +15,19 @@
 package org.linkki.core.ui.element.annotation;
 
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.element.annotation.ComponentAnnotationIntegrationTest.TestModelObject;
 import org.linkki.core.ui.layout.annotation.UISection;
 
 /**
  * A single column PMO for testing.
  * <p>
- * The methods {@link #value()} and {@link #staticValue()} should be overridden to add UI annotations.
+ * The methods {@link #dynamic()} and {@link #staticValue()} should be overridden to add UI annotations.
  */
 @UISection
 public abstract class AnnotationTestPmo {
+
+    public static final String PROPERTY_DYNAMIC = "dynamic";
+    public static final String PROPERTY_STATIC = "staticValue";
 
     protected static final String TEST_CAPTION = "testCaption";
     protected static final String TEST_LABEL = "testLabel";
@@ -58,23 +62,24 @@ public abstract class AnnotationTestPmo {
      * <li>be dynamically visible</li>
      * <li>be dynamically required</li>
      * <li>have a dynamic tool tip</li>
+     * <li>use {@link TestModelObject#PROPERTY_VALUE} as model attribute</li>
      * </ul>
      */
-    public abstract void value();
+    public abstract void dynamic();
 
-    public boolean isValueEnabled() {
+    public boolean isDynamicEnabled() {
         return enabled;
     }
 
-    public boolean isValueRequired() {
+    public boolean isDynamicRequired() {
         return required;
     }
 
-    public boolean isValueVisible() {
+    public boolean isDynamicVisible() {
         return visible;
     }
 
-    public String getValueTooltip() {
+    public String getDynamicTooltip() {
         return tooltip;
     }
 

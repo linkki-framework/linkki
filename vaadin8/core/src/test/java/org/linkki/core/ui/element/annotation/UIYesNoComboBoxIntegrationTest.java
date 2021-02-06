@@ -13,10 +13,10 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
@@ -120,8 +120,14 @@ public class UIYesNoComboBoxIntegrationTest
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UIYesNoComboBox(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
-        public void value() {
+        @UIYesNoComboBox(position = 1, //
+                label = "", //
+                enabled = EnabledType.DYNAMIC, //
+                required = RequiredType.DYNAMIC, //
+                visible = VisibleType.DYNAMIC, //
+                itemCaptionProvider = ToStringCaptionProvider.class, //
+                modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 

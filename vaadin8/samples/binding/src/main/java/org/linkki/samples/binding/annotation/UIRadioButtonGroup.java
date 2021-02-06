@@ -30,15 +30,13 @@ import static org.linkki.core.defaults.ui.aspects.types.VisibleType.VISIBLE;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
 
 import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
-import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
@@ -58,7 +56,6 @@ import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.element.annotation.ValueAspectDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
-import org.linkki.samples.binding.annotation.UIRadioButtonGroup.UIRadioButtonGroupBoundPropertyCreator;
 import org.linkki.samples.binding.annotation.UIRadioButtonGroup.UIRadioButtonGroupComponentDefinitionCreator;
 import org.linkki.samples.binding.annotation.UIRadioButtonGroup.UIRadioButtonGroupFieldAspectDefinitionCreator;
 
@@ -71,7 +68,7 @@ import com.vaadin.ui.themes.ValoTheme;
 @LinkkiPositioned // <2>
 @LinkkiAspect(UIRadioButtonGroupFieldAspectDefinitionCreator.class) // <3>
 @LinkkiAspect(ValueAspectDefinitionCreator.class) // <3>
-@LinkkiBoundProperty(UIRadioButtonGroupBoundPropertyCreator.class) // <4>
+@LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class) // <4>
 @LinkkiComponent(UIRadioButtonGroupComponentDefinitionCreator.class) // <5>
 public @interface UIRadioButtonGroup {
 
@@ -137,13 +134,15 @@ public @interface UIRadioButtonGroup {
      * 
      * @return the name of the {@code ModelObject}
      */
-    String modelObject() default ModelObject.DEFAULT_NAME; // <4>
+    @LinkkiBoundProperty.ModelObject // <4>
+    String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
      * If provided <b>linkki</b> accesses the given model attribute for model binding.
      * 
      * @return the name of the {@code ModelAttribute}
      */
+    @LinkkiBoundProperty.ModelAttribute // <4>
     String modelAttribute() default "";
 
     /**
@@ -200,19 +199,6 @@ public @interface UIRadioButtonGroup {
         }
     }
     // end::component-definition[]
-
-    // tag::bound-property[]
-    public static class UIRadioButtonGroupBoundPropertyCreator
-            implements BoundPropertyCreator<UIRadioButtonGroup> {
-
-        @Override
-        public BoundProperty createBoundProperty(UIRadioButtonGroup annotation, AnnotatedElement annotatedElement) {
-            return BoundProperty.of((Method)annotatedElement)
-                    .withModelAttribute(annotation.modelAttribute())
-                    .withModelObject(annotation.modelObject());
-        }
-    }
-    // end::bound-property[]
 
     // tag::aspect-definition[]
     public class UIRadioButtonGroupFieldAspectDefinitionCreator implements AspectDefinitionCreator<UIRadioButtonGroup> {

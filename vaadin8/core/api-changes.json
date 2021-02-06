@@ -503,6 +503,315 @@
 					{
 						"code": "java.class.removed",
 						"old": "class org.linkki.core.ui.element.annotation.UIRadioButtons.UIRadioButtonsDefinition"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UIButton",
+						"new": "@interface org.linkki.core.ui.element.annotation.UIButton",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.SimpleMemberNameBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UICheckBox::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UICheckBox::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UICheckBox::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UICheckBox::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UICheckBox",
+						"new": "@interface org.linkki.core.ui.element.annotation.UICheckBox",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIComboBox::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIComboBox::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIComboBox::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIComboBox::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UIComboBox",
+						"new": "@interface org.linkki.core.ui.element.annotation.UIComboBox",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UICustomField::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UICustomField::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UICustomField::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UICustomField::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UICustomField",
+						"new": "@interface org.linkki.core.ui.element.annotation.UICustomField",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIDateField::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIDateField::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIDateField::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIDateField::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UIDateField",
+						"new": "@interface org.linkki.core.ui.element.annotation.UIDateField",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIDoubleField::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIDoubleField::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIDoubleField::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIDoubleField::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UIDoubleField",
+						"new": "@interface org.linkki.core.ui.element.annotation.UIDoubleField",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIIntegerField::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIIntegerField::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIIntegerField::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIIntegerField::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UIIntegerField",
+						"new": "@interface org.linkki.core.ui.element.annotation.UIIntegerField",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UILabel::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UILabel::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UILabel::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UILabel::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIRadioButtons::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIRadioButtons::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIRadioButtons::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIRadioButtons::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UIRadioButtons",
+						"new": "@interface org.linkki.core.ui.element.annotation.UIRadioButtons",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.ui.element.annotation.UIRadioButtons.UIRadioButtonsBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UISubsetChooser::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UISubsetChooser::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UISubsetChooser::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UISubsetChooser::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UISubsetChooser",
+						"new": "@interface org.linkki.core.ui.element.annotation.UISubsetChooser",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UITextArea::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UITextArea::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UITextArea::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UITextArea::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UITextArea",
+						"new": "@interface org.linkki.core.ui.element.annotation.UITextArea",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UITextField::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UITextField::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UITextField::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UITextField::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UITextField",
+						"new": "@interface org.linkki.core.ui.element.annotation.UITextField",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIYesNoComboBox::modelAttribute()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIYesNoComboBox::modelAttribute()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelAttribute",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "method java.lang.String org.linkki.core.ui.element.annotation.UIYesNoComboBox::modelObject()",
+						"new": "method java.lang.String org.linkki.core.ui.element.annotation.UIYesNoComboBox::modelObject()",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty.ModelObject",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.attributeValueChanged",
+						"old": "@interface org.linkki.core.ui.element.annotation.UIYesNoComboBox",
+						"new": "@interface org.linkki.core.ui.element.annotation.UIYesNoComboBox",
+						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
+						"attribute": "value",
+						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
+						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
+						"justification": "LIN-2265/LIN-2268"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "@interface org.linkki.core.ui.layout.annotation.UIFormLayout",
+						"new": "@interface org.linkki.core.ui.layout.annotation.UIFormLayout",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty(org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.EmptyPropertyCreator.class)",
+						"justification": "Was accidentally missing before"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "@interface org.linkki.core.ui.layout.annotation.UIHorizontalLayout",
+						"new": "@interface org.linkki.core.ui.layout.annotation.UIHorizontalLayout",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty(org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.EmptyPropertyCreator.class)",
+						"justification": "Was accidentally missing before"
+					},
+					{
+						"code": "java.annotation.added",
+						"old": "@interface org.linkki.core.ui.layout.annotation.UIVerticalLayout",
+						"new": "@interface org.linkki.core.ui.layout.annotation.UIVerticalLayout",
+						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty(org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.EmptyPropertyCreator.class)",
+						"justification": "Was accidentally missing before"
 					}
 				]
 			}

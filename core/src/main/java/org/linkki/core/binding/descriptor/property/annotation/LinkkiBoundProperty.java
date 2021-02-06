@@ -40,4 +40,23 @@ public @interface LinkkiBoundProperty {
 
     Class<? extends BoundPropertyCreator<?>> value();
 
+    /**
+     * Annotation that marks the model object name within an annotation that is marked with
+     * {@link LinkkiBoundProperty}.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    @interface ModelObject {
+        // no value
+    }
+
+    /**
+     * Annotation that marks the model attribute name within an annotation that is marked with
+     * {@link LinkkiBoundProperty}.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    @interface ModelAttribute {
+        // no value
+    }
 }

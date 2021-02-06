@@ -13,8 +13,8 @@
  */
 package org.linkki.core.ui.element.annotation;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -29,14 +29,12 @@ import com.vaadin.event.ShortcutAction.ModifierKey;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button, ButtonTestPmo> {
 
     private static final String STYLES = "blabla";
 
     public UIButtonIntegrationTest() {
-        super(TestModelObjectWithString::new, ButtonTestPmo::new);
+        super(mo -> new ButtonTestPmo());
     }
 
     @Test
@@ -85,18 +83,18 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
 
         private String caption = "dynamic";
 
-        public ButtonTestPmo(Object modelObject) {
-            super(modelObject);
+        public ButtonTestPmo() {
+            super(null);
         }
 
         @UIButton(position = 1, visible = VisibleType.DYNAMIC, styleNames = STYLES, captionType = CaptionType.DYNAMIC, icon = VaadinIcons.ADJUST, showIcon = true, shortcutKeyCode = KeyCode.ARROW_RIGHT, shortcutModifierKeys = {
                 ModifierKey.ALT }, enabled = EnabledType.DYNAMIC)
         @Override
-        public void value() {
+        public void dynamic() {
             clicked = true;
         }
 
-        public String getValueCaption() {
+        public String getDynamicCaption() {
             return caption;
         }
 
@@ -126,23 +124,6 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
 
         public void setClicked(boolean clicked) {
             this.clicked = clicked;
-        }
-    }
-
-    protected static class TestModelObjectWithString extends TestModelObject<String> {
-
-        @CheckForNull
-        private String value = null;
-
-        @CheckForNull
-        @Override
-        public String getValue() {
-            return value;
-        }
-
-        @Override
-        public void setValue(@CheckForNull String value) {
-            this.value = value;
         }
     }
 }

@@ -139,8 +139,13 @@ public class UICheckBoxIntegrationTest extends FieldAnnotationIntegrationTest<Ch
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UICheckBox(position = 1, caption = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
-        public void value() {
+        @UICheckBox(position = 1, //
+                caption = "", //
+                enabled = EnabledType.DYNAMIC, //
+                required = RequiredType.DYNAMIC, //
+                visible = VisibleType.DYNAMIC, //
+                modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 

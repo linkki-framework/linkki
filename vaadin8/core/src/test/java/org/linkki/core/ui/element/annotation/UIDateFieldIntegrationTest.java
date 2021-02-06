@@ -13,9 +13,9 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -156,8 +156,14 @@ public class UIDateFieldIntegrationTest extends FieldAnnotationIntegrationTest<D
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UIDateField(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, dateFormat = FANCY_FORMAT)
-        public void value() {
+        @UIDateField(position = 1, //
+                label = "", //
+                enabled = EnabledType.DYNAMIC, //
+                required = RequiredType.DYNAMIC, //
+                visible = VisibleType.DYNAMIC, //
+                dateFormat = FANCY_FORMAT, //
+                modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 

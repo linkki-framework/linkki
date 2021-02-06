@@ -50,7 +50,7 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     public void testNullSelection() {
         assertThat(getStaticComponent().isEmptySelectionAllowed(), is(false));
 
-        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
+        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getDynamicAvailableValues());
 
         ComboBox<TestEnum> comboBox = getDynamicComponent();
         assertThat(availableValues.contains(null), is(false));
@@ -58,7 +58,7 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
 
         availableValues.add(null);
         assertThat(availableValues.contains(null), is(true));
-        getDefaultPmo().setValueAvailableValues(availableValues);
+        getDefaultPmo().setDynamicAvailableValues(availableValues);
         modelChanged();
         assertThat(TestUiUtil.getData(comboBox), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
         assertThat(comboBox.isEmptySelectionAllowed(), is(true));
@@ -74,9 +74,9 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     public void testDynamicAvailableValues() {
         assertThat(TestUiUtil.getData(getDynamicComponent()), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
 
-        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
+        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getDynamicAvailableValues());
         availableValues.remove(TestEnum.ONE);
-        getDefaultPmo().setValueAvailableValues(availableValues);
+        getDefaultPmo().setDynamicAvailableValues(availableValues);
         modelChanged();
         assertThat(TestUiUtil.getData(getDynamicComponent()), contains(TestEnum.TWO, TestEnum.THREE));
     }
@@ -106,7 +106,7 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
         getDefaultModelObject().setValue(TestEnum.THREE);
         assertThat(getDynamicComponent().getValue(), is(TestEnum.THREE));
 
-        getDefaultPmo().setValueAvailableValues(Arrays.asList(TestEnum.THREE));
+        getDefaultPmo().setDynamicAvailableValues(Arrays.asList(TestEnum.THREE));
         modelChanged();
         assertThat(getDynamicComponent().getValue(), is(TestEnum.THREE));
     }
@@ -115,11 +115,11 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
     public void testEmptyValuesAllowsNull() {
         ComboBox<TestEnum> comboBox = getDynamicComponent();
 
-        getDefaultPmo().setValueAvailableValues(Collections.emptyList());
+        getDefaultPmo().setDynamicAvailableValues(Collections.emptyList());
         modelChanged();
         assertThat(comboBox.isEmptySelectionAllowed(), is(true));
 
-        getDefaultPmo().setValueAvailableValues(Arrays.asList(TestEnum.ONE));
+        getDefaultPmo().setDynamicAvailableValues(Arrays.asList(TestEnum.ONE));
         modelChanged();
         assertThat(comboBox.isEmptySelectionAllowed(), is(false));
     }
@@ -185,16 +185,22 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UIComboBox(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class)
-        public void value() {
+        @UIComboBox(position = 1, label = "", //
+                enabled = EnabledType.DYNAMIC, //
+                required = RequiredType.DYNAMIC, //
+                visible = VisibleType.DYNAMIC, //
+                content = AvailableValuesType.DYNAMIC, //
+                itemCaptionProvider = ToStringCaptionProvider.class, //
+                modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 
-        public List<TestEnum> getValueAvailableValues() {
+        public List<TestEnum> getDynamicAvailableValues() {
             return Collections.unmodifiableList(availableValues);
         }
 
-        public void setValueAvailableValues(List<TestEnum> values) {
+        public void setDynamicAvailableValues(List<TestEnum> values) {
             this.availableValues = values;
         }
 

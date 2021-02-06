@@ -20,14 +20,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
-import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
@@ -37,7 +35,6 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.element.annotation.UILabel.LabelAspectDefinitionCreator;
-import org.linkki.core.ui.element.annotation.UILabel.LabelBoundPropertyCreator;
 import org.linkki.core.ui.element.annotation.UILabel.LabelComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
@@ -50,7 +47,7 @@ import com.vaadin.ui.Label;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@LinkkiBoundProperty(LabelBoundPropertyCreator.class)
+@LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
 @LinkkiComponent(LabelComponentDefinitionCreator.class)
 @LinkkiAspect(LabelAspectDefinitionCreator.class)
 @LinkkiPositioned
@@ -72,11 +69,13 @@ public @interface UILabel {
      * Name of the model object that is to be bound if multiple model objects are included for model
      * binding
      */
+    @LinkkiBoundProperty.ModelObject
     String modelObject() default ModelObject.DEFAULT_NAME;
 
     /**
      * The name of a property in the class of the bound {@link ModelObject} to use model binding
      */
+    @LinkkiBoundProperty.ModelAttribute
     String modelAttribute() default "";
 
     /**
@@ -101,17 +100,6 @@ public @interface UILabel {
                     new VisibleAspectDefinition(annotation.visible()),
                     new LabelValueAspectDefinition());
         }
-    }
-
-    static class LabelBoundPropertyCreator implements BoundPropertyCreator<UILabel> {
-
-        @Override
-        public BoundProperty createBoundProperty(UILabel annotation, AnnotatedElement annotatedElement) {
-            return BoundProperty.of((Method)annotatedElement)
-                    .withModelAttribute(annotation.modelAttribute())
-                    .withModelObject(annotation.modelObject());
-        }
-
     }
 
     static class LabelComponentDefinitionCreator implements ComponentDefinitionCreator<UILabel> {

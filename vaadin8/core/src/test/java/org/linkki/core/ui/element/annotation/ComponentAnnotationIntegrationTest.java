@@ -38,9 +38,6 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public abstract class ComponentAnnotationIntegrationTest<C extends AbstractComponent, P extends AnnotationTestPmo> {
 
-    protected static final String PROPERTY_VALUE = "value";
-    protected static final String PROPERTY_STATIC_VALUE = "staticValue";
-
     private Object defaultModelObject;
     private P defaultPmo;
     private BindingContext bindingContext;
@@ -184,11 +181,11 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
     }
 
     protected C getDynamicComponent() {
-        return getComponentById(PROPERTY_VALUE);
+        return getComponentById(AnnotationTestPmo.PROPERTY_DYNAMIC);
     }
 
     protected C getStaticComponent() {
-        return getComponentById(PROPERTY_STATIC_VALUE);
+        return getComponentById(AnnotationTestPmo.PROPERTY_STATIC);
     }
 
 
@@ -230,6 +227,9 @@ public abstract class ComponentAnnotationIntegrationTest<C extends AbstractCompo
      * testing.
      */
     protected static abstract class TestModelObject<T> {
+
+        public static final String PROPERTY_VALUE = "value";
+        public static final String PROPERTY_STATIC_VALUE = "staticValue";
 
         public T getStaticValue() {
             return getValue();

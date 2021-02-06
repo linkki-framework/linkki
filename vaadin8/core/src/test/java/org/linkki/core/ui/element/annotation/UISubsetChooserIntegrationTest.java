@@ -59,9 +59,9 @@ public class UISubsetChooserIntegrationTest
     public void testDynamicAvailableValues() {
         assertThat(TestUiUtil.getData(getDynamicComponent()), contains(TestEnum.ONE, TestEnum.TWO, TestEnum.THREE));
 
-        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getValueAvailableValues());
+        List<TestEnum> availableValues = new ArrayList<>(getDefaultPmo().getDynamicAvailableValues());
         availableValues.remove(TestEnum.ONE);
-        getDefaultPmo().setValueAvailableValues(availableValues);
+        getDefaultPmo().setDynamicAvailableValues(availableValues);
         modelChanged();
         assertThat(TestUiUtil.getData(getDynamicComponent()), contains(TestEnum.TWO, TestEnum.THREE));
     }
@@ -106,16 +106,23 @@ public class UISubsetChooserIntegrationTest
 
         @Override
         @BindTooltip(tooltipType = TooltipType.DYNAMIC)
-        @UISubsetChooser(position = 1, label = "", enabled = EnabledType.DYNAMIC, required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, leftColumnCaption = "leftC", rightColumnCaption = "rightC")
-        public void value() {
+        @UISubsetChooser(position = 1, //
+                label = "", //
+                enabled = EnabledType.DYNAMIC, //
+                required = RequiredType.DYNAMIC, //
+                visible = VisibleType.DYNAMIC, //
+                leftColumnCaption = "leftC", //
+                rightColumnCaption = "rightC", //
+                modelAttribute = TestModelObject.PROPERTY_VALUE)
+        public void dynamic() {
             // model binding
         }
 
-        public List<TestEnum> getValueAvailableValues() {
+        public List<TestEnum> getDynamicAvailableValues() {
             return Collections.unmodifiableList(availableValues);
         }
 
-        public void setValueAvailableValues(List<TestEnum> values) {
+        public void setDynamicAvailableValues(List<TestEnum> values) {
             this.availableValues = values;
         }
 
@@ -132,7 +139,6 @@ public class UISubsetChooserIntegrationTest
 
     }
 
-
     protected static class SubsetChooserModelObject {
         @CheckForNull
         private Set<TestEnum> value;
@@ -144,13 +150,11 @@ public class UISubsetChooserIntegrationTest
 
         public void setValue(Set<TestEnum> value) {
             this.value = value;
-
         }
 
         @CheckForNull
         public Set<TestEnum> getStaticValue() {
             return getValue();
         }
-
     }
 }

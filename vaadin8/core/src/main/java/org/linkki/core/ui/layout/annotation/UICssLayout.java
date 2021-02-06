@@ -58,9 +58,9 @@ import com.vaadin.ui.CssLayout;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
+@LinkkiBoundProperty(EmptyPropertyCreator.class)
 @LinkkiComponent(CssLayoutComponentDefinitionCreator.class)
 @LinkkiLayout(ComponentContainerLayoutDefinitionCreateor.class)
-@LinkkiBoundProperty(EmptyPropertyCreator.class)
 public @interface UICssLayout {
 
     /**
