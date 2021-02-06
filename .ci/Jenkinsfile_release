@@ -71,12 +71,14 @@ pipeline {
             }
         }
 
+        // deploy all sample applications that are necessary for the ui tests
         stage('Docker Deployment') {
             steps {
                 sh 'bash -x .ci/docker_setup-test.sh ${BUILD_NAME}'
             }
         }
 
+        // wait for the sample applications to be ready to run the ui tests
         stage('Wait for Server') {
             steps {
                 // wait with the ui tests until the server is ready
@@ -97,9 +99,12 @@ pipeline {
             }
         }
 
+        // parallel run of UI tests, SonarQube analysis and the deployment 
+        // of all other sample applications
         stage('UI Test and SonarQube Analysis') {
             parallel {
 
+                // run all ui tests against the deployed sample application(s)
                 stage('UI Test') {
                     when {
                         expression {
@@ -128,13 +133,16 @@ pipeline {
                     }
                 }
 
+                // run the SonarQube analysis for this change
                 stage('SonarQube Analysis') {
                     environment {
                         SONAR_LOGIN = credentials('sonar.login')
                     }
                     steps {
-                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -Dsonar.projectName=linkki-$BUILD_NAME -Dsonar.projectKey=linkki-$BUILD_NAME -Dsonar.login=$SONAR_LOGIN sonar:sonar'
+                        withSonarQubeEnv('SonarQube') {
+                            withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                                sh 'mvn -Dsonar.projectName=linkki-$BUILD_NAME -Dsonar.projectKey=linkki-$BUILD_NAME -Dsonar.login=$SONAR_LOGIN sonar:sonar'
+                            }
                         }
 
                         rtp parserName: 'HTML', nullAction: '1', stableText: '''
@@ -150,7 +158,8 @@ pipeline {
                         }
                     }
                 }
-                
+
+                // deploy all other sample applications to the dockerhost
                 stage('Docker Deployment') {
                     steps {
                         sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME}'
@@ -184,6 +193,16 @@ pipeline {
                     }
                 }
 
+            } // end parallel
+        } // end stage 'UI Test and SonarQube Analysis'
+
+        // check if the SonarQube quality gate is fulfilled
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // fail the build if quality gate fails
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
 
