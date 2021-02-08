@@ -1,0 +1,10 @@
+:jbake-title: Binding further UI properties
+:jbake-type: section
+:jbake-status: published
+
+:source-dir: ../../../../src/main/java
+
+[[binding-ui-element-properties]]
+=== Binding of Further UI Element Properties
+
+Besides the value to be shown on the UI, further properties of UI elements can be bound to PMO methods via data binding. The function is described in the chapter <<ui-components, UI Components>>.

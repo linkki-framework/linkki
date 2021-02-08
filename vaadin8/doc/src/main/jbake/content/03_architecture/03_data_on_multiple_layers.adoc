@@ -1,0 +1,81 @@
+:jbake-title: Data on Multiple Layers
+:jbake-type: section
+:jbake-status: published
+
+:images-folder-name: 03_architecture
+:source-dir: ../../../../src/main/java
+
+[[domain-model-binding]]
+=== Binding to the Domain Model (Data on Multiple Layers)
+
+As implicated in <<databinding,Data Binding with PMOs>> a *linkki* application usually consists of multiple layers.
+
+image::{images}{images-folder-name}/layers.png[]
+
+This image intends to highlight where the presentation model layer is situated with respect to UI and domain model. 
+
+The rightmost layer is some kind of a persistence layer, for example a database. To the left are the domain model layer, the presentation model layer and finally the UI. The UI data binding works between the UI and the presentation model. It is responsible for keeping them in sync. 
+
+Very often the presentation model and the domain model have similar structure and properties. In that case the "model binding" can be used. "Model Binding", short-hand for Domain Model Binding, is a *linkki* feature for reducing delegate code in PMO classes. It is aimed at the "simple" case of UI binding, in which properties from the domain model are directly presented in the UI, meaning that no special formatting or conversion needs to take place before the value can be shown.
+
+To use this feature, the UI needs to be created using a <<layout, layout annotation>>, and the instance field or the getter method for the model object in the PMO needs to be marked with the `@ModelObject` annotation:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/PersonSectionPmo_fieldModelObject.java[tags=modelobject]
+----
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=modelobject]
+----
+
+For example, the `firstname` property from the model can be used without conversion in the UI:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/PersonSectionPmo.java[tags=pojo-binding]
+----
+
+In this case the getter method ensures a direct delegation to the model attribute. Therefore, the same behavior can be achieved using the model binding:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/PersonSectionPmo_modelBinding.java[tags=model-binding]
+----
+Model binding avoids unnecessary code dealing with delegation and is thus a "shortcut".
+
+.Model Binding
+image::{images}{images-folder-name}/ModelBinding.png[]
+
+[[model-attribute-names]]
+==== Names of Model Attributes
+
+To use the model binding feature, the property `modelAttribute` must be set in the <<ui-element,UI Annotation>>. The data type of the property is `String`. The value of `modelAttribute` defines the name of the corresponding property in the domain model class. If no matching property exists in the domain model class, an exception is thrown during generation of the UI.
+
+If `modelAttribute` is given, *linkki* ignores the return value and the body of the method in the PMO. Therefore the method body can remain empty and the return type be `void`. The data binding will skip the PMO method and call the corresponding method in the domain model directly.
+
+In the example above the method in the `PersonSectionPmo` is called `firstName()`. In the domain model, however, it is called `firstname` or `getFirstname()`. It is possible to name properties in PMO and domain model differently.
+
+TIP: *linkki* searches the model for all required methods. If the setter method exists in the model but needs to be ignored in the UI, the shortcut cannot be used. Model attributes can also be set on annotated getter methods. In that case *linkki* searches for all methods in the model that it can't find in the PMO.
+
+If the `modelAttribute` is set in the annotation of a non getter method, the whole method name is treated as a PMO property. This name is then used to bind <<ui-properties,UI Properties>> such as <<enabled,enabled state>>, <<visible,visibility>> or <<ui-combobox-content,available values>>.
+
+==== Multiple Model Objects
+
+Model binding can also be used if a PMO has multiple model objects. In this case, the property `modelObject` can be set in the UI annotation. The value of `modelObject` defines which model object of the PMO should be used for model binding. As identifier of model objects the name given in the `@ModelObject` annotation is used.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/ContractSectionPmo.java[tags=class]
+----
+
+In the example above the annotation of `firstNameInsuredPerson()` defines that the property `firstname` on model object `IP` shall be called. To determine the value for the presentation on the UI, the data binding proceeds as follows:
+
+* Call the method `getInsuredPerson()` on the PMO, as that method is annotated with `@ModelObject("IP")`
+* Save the returned Person object
+* Call the getter method for `firstname` on the found Person object
+
+If the annotation contains no property `modelObject`, the method annotated with `@ModelObject` (without name) is called. Correspondingly the model object for `firstNamePolicyHolder()` is determined via `getPolicyHolder()`.
+
+For situations where a method annotated with `@ModelObject` returns `null`, further getter method may have to be implemented. These methods must delegate to the existing model object or return default values if the model object is unavailable. The setter methods do not have to be implemented explicitly. The fields are treated as read only as long as no model object exists. As soon as one is available, the model object's setter method is called automatically.

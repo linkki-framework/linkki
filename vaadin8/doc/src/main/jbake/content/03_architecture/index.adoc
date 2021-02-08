@@ -1,0 +1,85 @@
+:jbake-title: Architecture
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 30
+
+:source-dir: ../../../../src/main/java
+:images-folder-name: 03_architecture
+
+[[Architecture]]
+== Architecture
+
+Central aspects of the *linkki* Framework are
+
+* the declarative definition of UIs via annotations
+* the flexible data binding
+
+In the first part of this chapter the <<binding-basics, `BindingContext` and `BindingManager` basics>>, and how they interact, are detailed.
+
+Further on, <<databinding, Data binding with PMOs>> is explained. These can be simple PMOs, in which values are stored, or <<domain-model-binding, PMOs with domain model binding>>, where values are bound directly to the domain model. The binding of <<model-attribute-names, multiple model objects>> in a PMO is also explained.
+
+Which properties of the defined UI elements can be controlled and which possibilities *linkki* provides, is discussed in the section <<binding-ui-element-properties, Binding of further UI element properties>>.
+
+The chapter concludes with <<cross-sectional-binding,Cross-Sectional Data Binding>>.
+
+[[modules]]
+=== Modules
+
+*linkki* is split into several modules from which you can pick what you need:
+
+==== linkki Core
+
+The core module contains UI framework independent code to setup bindings, aspects, `BindingContext` etc. In addition, it provides common usable implementations for reading *linkki* annotations. As a result, `linkki-core` dependent code can stay unmodified when switching to a different UI framework. It also sets up as much as possible to enable the framework specific part to easily create the UI elements and layout components. If you intend to use linkki with Vaadin 8 (instead of writing your own UI framework mapping), you can directly use the dependency below.
+
+To declare the dependency in maven: 
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-core</artifactId>
+</dependency>
+----
+
+[[maven-dependency-core-vaadin]]
+==== linkki Core for Vaadin
+
+To use *linkki* with Vaadin you need to reference a module providing all the Vaadin version specific implementations and all component annotations described in <<ui-components, UI Components>>. 
+
+Use the following dependency:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-core-vaadin8</artifactId>
+</dependency>
+----
+
+==== linkki Application Framework for Vaadin
+
+The application framework contains additional classes for building business applications, described in <<application-framework, Application Framework>>.
+See <<maven-dependency-application-framework, Maven Dependency for the linkki Application Framework>>.
+
+[[widgetset-dependency]]
+==== linkki Widgets
+
+*linkki* extends Vaadin with custom widgets in its own widgetset. It is included in the <<maven-dependency-application-framework, Maven Dependency for the linkki Application Framework>> and can be included for plain `linkki-core-vaadin` as a precompiled widgetset from
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-vaadin8-addon-compiled</artifactId>
+</dependency>
+----
+
+or to be included in your own widgetset from 
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.linkki-framework</groupId>
+    <artifactId>linkki-vaadin8-addon-client</artifactId>
+</dependency>
+----

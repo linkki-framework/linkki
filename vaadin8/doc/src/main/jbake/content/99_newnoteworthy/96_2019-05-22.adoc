@@ -1,0 +1,44 @@
+:jbake-status: referenced
+:jbake-type: archive
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_newnoteworthy
+
+=== 0.9.20190522
+
+[role="api-change"]
+===== BindingManager#get~Context
+
+The `getExistingContext` and `getExistingContextOrStartNewOne` methods of the `BindingManager` have been deprecated in favor of the shorter `getContext` methods, which do the same as the old `getExistingContextOrStartNewOne` methods. It is no longer considered necessary to get an `Optional<BindingContext>` as the creation of the context is rather cheap and would happen sooner or later anyways.
+
+Existing code can be migrated via the migration script link:../migration_scripts/0.9.20190418_to_0.9.20190522/migrate.sed[migrate.sed]. The easiest way to use this migration script is to copy the migration script and the execution script link:../migration_scripts/search_replace.sh[search_replace.sh] into the project directory and run `"./search_replace.sh -s migrate.sed"` in your terminal. The script can be executed in any terminal that supports shell scripts, including the git bash.
+
+===== Updated Dependencies
+*linkki*'s dependency to `org.apache.commons:commons-lang3` was updated to the latest version (3.9). All dependency versions are now listed in the documentation at <<dependencies, Dependencies>>.
+
+===== Cleanup of linkki.scss, LinkkiTheme
+
+*linkki* uses some predefined styles that can be included in client applications. The class names for styles that are relevant for `linkki-core` are defined in `LinkkiTheme`, those relevant for `application-framework` are defined in `LinkkiApplicationTheme`. The styles for these class names are then defined in `linkki.scss`.
+
+Because of some refactorings in the past, there were some unused styles as well as unused style name constants. These are now removed and listed below. If any of those is still used in your client code, please consider to remove the usage of the constants or create your own style/constant.
+
+Removed constants in `LinkkiTheme`:
+
+* `MENU_WRAPPER = "linkki-menu-wrapper"`
+* `FIXED_HORIZONTAL_SPACER = "linkki-fixed-horizontal-spacer"`
+* `LOGIN_PANEL_CAPTION = "linkki-login-panel-caption"`
+* `LOGIN_PANEL = "linkki-login-panel"`
+
+Removed styles from `linkki.scss`
+
+* `.linkki-login-panel`
+* `.linkki-login-panel-caption`
+
+Constants moved from `LinkkiTheme` to `LinkkiApplicationTheme`
+
+* `DIALOG_BUTTON_BAR`
+* `MESSAGE_LABEL`
+* `MESSAGE_TABLE`
+* `MESSAGE_ROW`
+
+The values as well as the SCSS of the moved constants stay unchanged.

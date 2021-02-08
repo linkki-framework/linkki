@@ -21,6 +21,7 @@
         <module>archetypes</module>
         <module>nestedcomponent</module>
         <module>addon</module>
+        <module>doc</module>
     </modules>
 
     <properties>

@@ -1,0 +1,1 @@
+s/startNewContext\(/getContext\(/g

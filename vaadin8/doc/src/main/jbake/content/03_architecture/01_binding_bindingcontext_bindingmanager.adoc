@@ -1,0 +1,43 @@
+:jbake-title: BindingContext Basics
+:jbake-type: section
+:jbake-status: published
+
+:images-folder-name: 03_architecture
+:source-dir: ../../../../src/main/java
+
+[[binding-basics]]
+=== Binding, BindingContext, BindingManager
+
+For each UI component bound to a PMO, *linkki* creates a so called `binding`. The methods of this `binding` ensure that subsequent changes in the PMO lead to an update of the UI component, and vice versa.
+
+All bindings in *linkki* are part of a `BindingContext`. Typically a `BindingContext` contains all bindings of a page or a section with independent content. Changes to a bound object (PMO or UI) trigger an update of all bindings in the same context. A single `BindingContext` can contain `bindings` linked to different PMOs.
+
+.BindingContext and ~Manager
+image::{images}{images-folder-name}/binding_context_manager.png[]
+
+To manage one or more `BindingContexts`, a `BindingManager` is used. Each `BindingContext` in a `BindingManager` is identified by its name. `BindingManager` offers the methods `getBindingContext(String)` that either return the managed context with the given identifier, or creates a new one. Alternatively, a `Class` can be passed as identifier, from which the name will be derived.
+
+`BindingManager` also provides `createBindingContext(String/Class, PropertyBehaviorProvider)` methods to create a `BindingContext` with a specific set of <<property-behavior, behaviors>>.
+
+In addition to the creation of `BindingContexts`, a `BindingManager` is also linked to a <<validation-service,ValidationService>> that is invoked upon changes in a `BindingContext`. The results are then propagated to all managed `BindingContexts`.
+
+==== The Scope of UI Updates
+
+A `BindingContext` ensures that all contained bindings are updated if one of them changes. The bindings in turn update their respective UI fields. Thus, a BindingContext defines the "scope" of UI updates for its fields.
+
+It is common practice to use a BindingContext for all fields visible to the user at a time. For example a single binding context for a big form. On the other hand, if there are multiple tab sheets it's best to use a separate binding context for each of them, as only one of the tabs is visible at a time. This also avoids unnecessary updates of fields that aren't even visible.
+
+The `BindingManager` is responsible for everything that is beyond that aspect of currently visible fields. For example the input of data on one tab sheet may result in a validation violation on another tab sheet. Hence <<validation,validation>> is part of the `BindingManager`.
+
+==== UiUpdateObserver
+
+If UI components depend on information inside a different `BindingContext`, a `UiUpdateObserver` can be used to ensure updates are triggered when the referenced content changes. The `UiUpdateObserver` is attached to a `BindingManager`, which calls the `uiUpdated()` method each time a UI update occurs (e.g. when a `BindingContext` belonging to the `BindingManager` updates). Since the class `BindingContext` implements `UiUpdateObserver`, it can be directly added as such. Using this mechanism, UI created by *linkki* would be updated with every change inside the same `BindingManager`.
+
+A possible use case might look like this: A `TabSheetArea` consists of several tab sheets with each using its own, separate binding context. This ensures that a change to the currently visible tab is propagated to other fields inside the same tab, while not affecting non-visible fields contained in different tabs to improve performance. These updates can freely be skipped, since a tab sheet's binding context always receives an update when the tab is selected and becomes visible.
+
+Adding a permanently visible summary section (referencing data from multiple tab sheets) to the page would require an update whenever a change is made to an arbitrary binding context. Otherwise, it would display outdated data since changes of referenced data are not propagated. This can be achieved by adding the new section's binding context as a `UiUpdateObserver` to the `BindingManager` of the page.
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/UseUiUpdateObserver.java[tags=addUiUpdateObserver]
+----
