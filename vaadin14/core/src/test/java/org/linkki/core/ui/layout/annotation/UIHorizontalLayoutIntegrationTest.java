@@ -57,7 +57,7 @@ public class UIHorizontalLayoutIntegrationTest {
     }
 
     @Test
-    public void testAlignment() {
+    public void testAlignment_Bottom() {
         HorizontalLayout layout = (HorizontalLayout)UiCreator
                 .createComponent(new BottomAlignedHorizontalLayoutPmo(), new BindingContext())
                 .getComponent();
@@ -65,6 +65,28 @@ public class UIHorizontalLayoutIntegrationTest {
         assertThat("Default vertical alignment should be as set in the annotation",
                    layout.getDefaultVerticalComponentAlignment(),
                    is(Alignment.END));
+    }
+
+    @Test
+    public void testAlignment_Top() {
+        HorizontalLayout layout = (HorizontalLayout)UiCreator
+                .createComponent(new TopAlignedHorizontalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat("Default vertical alignment should be as set in the annotation",
+                   layout.getDefaultVerticalComponentAlignment(),
+                   is(Alignment.START));
+    }
+
+    @Test
+    public void testAlignment_Middle() {
+        HorizontalLayout layout = (HorizontalLayout)UiCreator
+                .createComponent(new MiddleAlignedHorizontalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat("Default vertical alignment should be as set in the annotation",
+                   layout.getDefaultVerticalComponentAlignment(),
+                   is(Alignment.CENTER));
     }
 
     @UIHorizontalLayout
@@ -84,6 +106,16 @@ public class UIHorizontalLayoutIntegrationTest {
 
     @UIHorizontalLayout(alignment = VerticalAlignment.BOTTOM)
     public static class BottomAlignedHorizontalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIHorizontalLayout(alignment = VerticalAlignment.TOP)
+    public static class TopAlignedHorizontalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIHorizontalLayout(alignment = VerticalAlignment.MIDDLE)
+    public static class MiddleAlignedHorizontalLayoutPmo {
         // only class annotation is needed
     }
 }

@@ -27,7 +27,6 @@ import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
@@ -40,12 +39,12 @@ public class UIVerticalLayoutIntegrationTest {
 
         Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
         assertThat("UiCreator should be able to create a VerticalLayout", component,
-                   is(instanceOf(HorizontalLayout.class)));
+                   is(instanceOf(VerticalLayout.class)));
 
-        HorizontalLayout layout = (HorizontalLayout)component;
+        VerticalLayout layout = (VerticalLayout)component;
 
-        assertThat("Default vertical alignment should be center", layout.getDefaultVerticalComponentAlignment(),
-                   is(Alignment.CENTER));
+        assertThat("Default vertical alignment should be center", layout.getDefaultHorizontalComponentAlignment(),
+                   is(Alignment.START));
 
         assertThat("Child component should be correctly created", layout.getComponentCount(), is(1));
         assertThat("Child component should be correctly created", layout.getComponentAt(0),
@@ -58,7 +57,7 @@ public class UIVerticalLayoutIntegrationTest {
     }
 
     @Test
-    public void testAlignment() {
+    public void testAlignment_Middle() {
         VerticalLayout layout = (VerticalLayout)UiCreator
                 .createComponent(new MiddleAlignedVerticalLayoutPmo(), new BindingContext())
                 .getComponent();
@@ -68,7 +67,29 @@ public class UIVerticalLayoutIntegrationTest {
                    is(Alignment.CENTER));
     }
 
-    @UIHorizontalLayout
+    @Test
+    public void testAlignment_Left() {
+        VerticalLayout layout = (VerticalLayout)UiCreator
+                .createComponent(new LeftAlignedVerticalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat("Default horizontal alignment should be as set in the annotation",
+                   layout.getDefaultHorizontalComponentAlignment(),
+                   is(Alignment.START));
+    }
+
+    @Test
+    public void testAlignment_Right() {
+        VerticalLayout layout = (VerticalLayout)UiCreator
+                .createComponent(new RightAlignedVerticalLayoutPmo(), new BindingContext())
+                .getComponent();
+
+        assertThat("Default horizontal alignment should be as set in the annotation",
+                   layout.getDefaultHorizontalComponentAlignment(),
+                   is(Alignment.END));
+    }
+
+    @UIVerticalLayout
     public static class VerticalLayoutPmo {
 
         private String text = "";
@@ -85,6 +106,16 @@ public class UIVerticalLayoutIntegrationTest {
 
     @UIVerticalLayout(alignment = HorizontalAlignment.MIDDLE)
     public static class MiddleAlignedVerticalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIVerticalLayout(alignment = HorizontalAlignment.LEFT)
+    public static class LeftAlignedVerticalLayoutPmo {
+        // only class annotation is needed
+    }
+
+    @UIVerticalLayout(alignment = HorizontalAlignment.RIGHT)
+    public static class RightAlignedVerticalLayoutPmo {
         // only class annotation is needed
     }
 }
