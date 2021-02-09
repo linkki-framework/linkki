@@ -1,0 +1,19 @@
+{
+	"1.4.0": [
+		{
+			"extension": "revapi.differences",
+			"configuration": {
+				"ignore": true,
+				"justification": "LIN-2125/LIN-2271 :: NestedComponents for vaadin14",
+				"differences": [
+					{
+						"regex": true,
+						"code": "java.class.externalClassExposedInAPI",
+						"justification": "LIN-1718",
+						"new": ".* org\\.linkki\\..*"
+					}
+				]
+			}
+		}
+	]
+}

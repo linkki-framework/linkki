@@ -38,6 +38,9 @@ public class DynamicAnnotationsLayout extends VerticalLayout {
 
         add(PmoBasedSectionFactory
                 .createAndBindSection(new DynamicTooltipPmo(), bindingContext));
+
+        add(PmoBasedSectionFactory
+                .createAndBindSection(new BindVisibleSectionPmo(), bindingContext));
     }
 
 }

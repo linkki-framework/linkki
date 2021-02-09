@@ -21,6 +21,7 @@ import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.locale.LocaleInfoPage;
+import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.tablayout.TabLayoutPage;
 import org.linkki.samples.playground.table.TablePage;
 
@@ -41,6 +42,7 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
     public static final String BUGS_TAB_ID = "bugs";
     public static final String TABLES_TAB_ID = "tables";
     public static final String LOCALE_TAB_ID = "locale";
+    public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
     public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
     public static final String ALIGNMENT_TAB_ID = "alignment";
 
@@ -63,7 +65,7 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                        .build(),
                                LinkkiTabSheet.builder(DYNAMIC_ASPECT_TAB_ID)
                                        .caption("Dynamic")
-                                       .description("Dynmaic Aspects")
+                                       .description("Dynamic Aspects")
                                        .content(new DynamicAnnotationsLayout()).build(),
                                LinkkiTabSheet.builder(BUGS_TAB_ID)
                                        .caption("Bugs")
@@ -71,6 +73,10 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                LinkkiTabSheet.builder(TABLES_TAB_ID)
                                        .caption("Tables")
                                        .content(new TablePage()).build(),
+                               LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)
+                                       .caption("Nested")
+                                       .description("Nested Components")
+                                       .content(new NestedComponentPage()).build(),
                                LinkkiTabSheet.builder(LOCALE_TAB_ID)
                                        .caption("Locale")
                                        .content(new LocaleInfoPage()).build(),

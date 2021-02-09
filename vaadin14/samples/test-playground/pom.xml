@@ -39,6 +39,11 @@
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin14-component</artifactId>
         </dependency>
+         <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-core-nestedcomponent-vaadin14</artifactId>
+            <version>1.4.0-vaadin14-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.reactivestreams</groupId>

@@ -43,22 +43,19 @@ public class TablePage extends VerticalLayout {
 
     private PlaygroundTablePmo selectableTableSectionPmo;
 
-    private BindingContext bindingContext;
-
     public TablePage() {
         items = IntStream.range(1, 10)
                 .mapToObj(TableModelObject::new)
                 .collect(toList());
-        addSectionsForSelectableTable();
+        DefaultBindingManager bindingManager = new DefaultBindingManager(() -> validate());
+        BindingContext bindingContext = bindingManager.getContext("selectableTable");
+        addSectionsForSelectableTable(bindingContext);
     }
 
-    private void addSectionsForSelectableTable() {
+    private void addSectionsForSelectableTable(BindingContext bindingContext) {
         add(new Label("Validation error for names which do not end with index or dates in the past."));
         add(new Label("Validation markers must be visible after sidebar sheet switched."));
 
-        DefaultBindingManager bindingManager = new DefaultBindingManager(() -> validate());
-
-        bindingContext = bindingManager.getContext("selectableTable");
         selectableTableSectionPmo = new PlaygroundTablePmo(
                 () -> items,
                 () -> items.add(new TableModelObject(items.size() + 1)),

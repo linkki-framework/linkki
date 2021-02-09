@@ -22,6 +22,7 @@
         <module>component</module>
         <module>samples</module>
         <module>doc</module>
+        <module>nestedcomponent</module>
     </modules>
 
     <properties>
