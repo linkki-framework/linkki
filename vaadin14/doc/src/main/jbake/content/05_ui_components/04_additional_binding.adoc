@@ -232,7 +232,7 @@ The following configuration options are available for `CaptionType`:
 [[bind-icon]]
 ===== Icon
 
-UI elements such as <<ui-button, `@UIButton`>> or <<ui-link, `@UILink`>> can have an icon that is shown with the component's caption. This can be set with the `@BindIcon` annotation.
+Showing an additional icon with the component's caption, the <<bind-icon, @BindIcon>> annotation is available for <<ui-button, @UIButton>>.
 
 The `@BindIcon` annotation has two properties:
 

@@ -231,15 +231,15 @@ public abstract class AbstractAllUiElementsSectionPmo {
         this.readOnly = readOnly;
     }
 
-    // TODO LIN-2052
+    // TODO LIN-2287
     // @BindIcon(iconType = IconType.DYNAMIC)
     @UILink(position = 140, label = NlsText.I18n, caption = "Link to Dynamic Annotations", captionType = CaptionType.STATIC)
     public String getLink() {
         return "main#!/sheet=" + DynamicAnnotationsLayout.ID;
     }
 
-    // TODO LIN-2052
-    // public VaadinIcons getLinkIcon() {
+    // TODO LIN-2287
+    // public VaadinIcon getLinkIcon() {
     // return Optional.ofNullable(getModelObject().getEnumValue()).map(Direction::getIcon).orElse(null);
     // }
 

@@ -35,12 +35,12 @@ public class DynamicAnnotationsLayout extends VerticalLayout {
                 .createAndBindSection(new DynamicCaptionWithSectionHeaderButtonPmo(), bindingContext));
         add(PmoBasedSectionFactory
                 .createAndBindSection(new DynamicCaptionWithCloseButtonPmo(), bindingContext));
-
         add(PmoBasedSectionFactory
                 .createAndBindSection(new DynamicTooltipPmo(), bindingContext));
-
         add(PmoBasedSectionFactory
                 .createAndBindSection(new BindVisibleSectionPmo(), bindingContext));
+        add(PmoBasedSectionFactory
+                .createAndBindSection(new BindIconComponentsPmo(), bindingContext));
     }
 
 }
