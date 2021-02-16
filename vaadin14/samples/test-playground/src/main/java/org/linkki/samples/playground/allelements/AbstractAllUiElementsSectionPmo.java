@@ -14,10 +14,14 @@
 
 package org.linkki.samples.playground.allelements;
 
+import java.util.Optional;
+
 import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
+import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
@@ -39,6 +43,7 @@ import org.linkki.ips.decimalfield.UIDecimalField;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.nls.NlsText;
 
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.textfield.PasswordField;
 
 public abstract class AbstractAllUiElementsSectionPmo {
@@ -231,17 +236,15 @@ public abstract class AbstractAllUiElementsSectionPmo {
         this.readOnly = readOnly;
     }
 
-    // TODO LIN-2287
-    // @BindIcon(iconType = IconType.DYNAMIC)
+    @BindIcon(iconType = IconType.DYNAMIC)
     @UILink(position = 140, label = NlsText.I18n, caption = "Link to Dynamic Annotations", captionType = CaptionType.STATIC)
     public String getLink() {
         return "main#!/sheet=" + DynamicAnnotationsLayout.ID;
     }
 
-    // TODO LIN-2287
-    // public VaadinIcon getLinkIcon() {
-    // return Optional.ofNullable(getModelObject().getEnumValue()).map(Direction::getIcon).orElse(null);
-    // }
+    public VaadinIcon getLinkIcon() {
+        return Optional.ofNullable(getModelObject().getEnumValue()).map(Direction::getIcon).orElse(null);
+    }
 
     @UISection(caption = NlsText.I18n)
     @BindStyleNames(AbstractAllUiElementsSectionPmo.CSS_NAME)

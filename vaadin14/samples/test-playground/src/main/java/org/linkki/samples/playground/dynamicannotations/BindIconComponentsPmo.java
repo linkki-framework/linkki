@@ -21,13 +21,10 @@ import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UILink.LinkTarget;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
-import org.linkki.samples.playground.allelements.Direction;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 
-// TODO LIN-2287
-// @BindIcon bisher nur für Buttons
 @UIFormSection(caption = "@BindIconSectionPmo")
 public class BindIconComponentsPmo {
 
@@ -44,7 +41,7 @@ public class BindIconComponentsPmo {
     }
 
     public VaadinIcon getLinkFieldIcon() {
-        return Direction.RIGHT.getIcon();
+        return VaadinIcon.ARROW_CIRCLE_RIGHT;
     }
 
     @BindIcon(iconType = IconType.STATIC, value = VaadinIcon.DOWNLOAD)

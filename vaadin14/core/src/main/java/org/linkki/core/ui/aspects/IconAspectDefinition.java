@@ -20,6 +20,7 @@ import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
+import org.linkki.core.vaadin.component.HasIcon;
 import org.linkki.util.Consumers;
 
 import com.vaadin.flow.component.Component;
@@ -66,8 +67,9 @@ public class IconAspectDefinition extends ModelToUiAspectDefinition<VaadinIcon> 
                 Button button = ((Button)component);
                 button.setIcon(icon != null ? icon.create() : null);
             };
+        } else if (component instanceof HasIcon) {
+            return icon -> ((HasIcon)component).setIcon(icon);
         } else {
-            // TODO LIN-2287
             return Consumers.nopConsumer();
         }
     }

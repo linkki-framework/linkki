@@ -26,6 +26,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
+import com.vaadin.flow.component.html.testbench.AnchorElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.testbench.TestBenchElement;
 
@@ -33,8 +34,12 @@ import com.vaadin.testbench.TestBenchElement;
 public class BindIconTest extends AbstractUiTest {
 
     private static final String VAADIN_ANCHOR_ICON = "vaadin:anchor";
+    private static final String VAADIN_DOWNLOAD_ICON = "vaadin:download";
+    private static final String VAADIN_ARROW_RIGHT_ICON = "vaadin:arrow-circle-right";
 
     private static final String BUTTON_ID = "buttonWithStaticIcon";
+    private static final String DOWNLOAD_LINK_FIELD_ID = "downloadLinkField";
+    private static final String LINK_FIELD_ID = "linkField";
 
     @BeforeEach
     public void setup() {
@@ -48,6 +53,26 @@ public class BindIconTest extends AbstractUiTest {
 
         WebElement icon = getIconElement(button);
         assertThat(icon.getAttribute("icon"), is(VAADIN_ANCHOR_ICON));
+    }
+
+    @Test
+    public void testBindIcon_withLinkAndIconOnly() {
+        VerticalLayoutElement section = getSection(BindIconComponentsPmo.class);
+        AnchorElement anchor = section.$(AnchorElement.class).id(DOWNLOAD_LINK_FIELD_ID);
+
+        WebElement icon = getIconElement(anchor);
+        assertThat(anchor.getText(), is(""));
+        assertThat(icon.getAttribute("icon"), is(VAADIN_DOWNLOAD_ICON));
+    }
+
+    @Test
+    public void testBindIcon_withLinkTextAndIcon() {
+        VerticalLayoutElement section = getSection(BindIconComponentsPmo.class);
+        AnchorElement anchor = section.$(AnchorElement.class).id(LINK_FIELD_ID);
+
+        WebElement icon = getIconElement(anchor);
+        assertThat(anchor.getText(), is("Click to continue"));
+        assertThat(icon.getAttribute("icon"), is(VAADIN_ARROW_RIGHT_ICON));
     }
 
     private VerticalLayoutElement getSection(Class<?> cls) {

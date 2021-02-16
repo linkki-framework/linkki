@@ -11,10 +11,18 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
+
+package org.linkki.core.vaadin.component;
+
+import com.vaadin.flow.component.icon.VaadinIcon;
+
 /**
- * Annotations for linkki UI components.
+ * A component that can have a {@link VaadinIcon}.
  */
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForMethods(edu.umd.cs.findbugs.annotations.NonNull.class)
-package org.linkki.core.vaadin.component.annotation;
+public interface HasIcon {
+
+    public VaadinIcon getIcon();
+
+    public void setIcon(VaadinIcon icon);
+
+}

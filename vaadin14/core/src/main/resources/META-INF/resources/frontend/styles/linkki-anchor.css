@@ -1,0 +1,12 @@
+a.linkki-anchor {
+	display: flex;
+    align-items: center;
+}
+a.linkki-anchor iron-icon {
+	margin-left: 0.2em;
+	height: 1em;
+	min-height: 1em;
+	min-width: 1em;
+	max-height: 1em;
+	max-width: 1em;
+}

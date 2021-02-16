@@ -35,6 +35,7 @@ import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
+import org.linkki.core.vaadin.component.anchor.LinkkiAnchor;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -45,6 +46,7 @@ public class BindIconIntegrationTest {
 
     private static final String ABACUS_ICON_NAME = "vaadin:abacus";
     private static final String AIRPLANE_ICON_NAME = "vaadin:airplane";
+    private static final String ACADEMY_CAP_NAME = "vaadin:academy-cap";
 
     private final BindingContext bindingContext = new BindingContext();
 
@@ -58,6 +60,17 @@ public class BindIconIntegrationTest {
         Component icon = getIcon(button).get();
         assertThat(icon, is(instanceOf(Icon.class)));
         assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
+    }
+
+    @Test
+    public void testAspectBindIconAnnotation_Static_withLink() {
+        List<Component> uiElements = createUiElements(new TestPmoWithStaticIcon());
+
+        Component uiLink = uiElements.get(2);
+        assertThat(uiLink, is(instanceOf(LinkkiAnchor.class)));
+        Component icon = getIcon(uiLink).get();
+        assertThat(icon, is(instanceOf(Icon.class)));
+        assertThat(getIconAttribute(icon), is(ACADEMY_CAP_NAME));
     }
 
     @Test
@@ -77,6 +90,22 @@ public class BindIconIntegrationTest {
     }
 
     @Test
+    public void testAspectBindIconAnnotation_Auto_withLink() {
+        TestPmoWithAutoIcon pmo = new TestPmoWithAutoIcon(VaadinIcon.ABACUS);
+        Component link = createUiElements(pmo).get(2);
+
+        assertThat(link, is(instanceOf(LinkkiAnchor.class)));
+        Component icon = link.getChildren().findFirst().get();
+        assertThat(icon, is(instanceOf(Icon.class)));
+        assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
+
+        pmo.setIcon(null);
+        bindingContext.modelChanged();
+
+        assertThat(getIcon(link).isPresent(), is(false));
+    }
+
+    @Test
     public void testAspectBindIconAnnotation_Dynamic_withButton() {
         TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcon.ABACUS);
 
@@ -91,6 +120,24 @@ public class BindIconIntegrationTest {
 
         // Icon on button changed
         icon = getIcon(button).get();
+        assertThat(getIconAttribute(icon), is(AIRPLANE_ICON_NAME));
+    }
+
+    @Test
+    public void testAspectBindIconAnnotation_Dynamic_withLink() {
+        TestPmoWithDynamicIcon pmo = new TestPmoWithDynamicIcon(VaadinIcon.ABACUS);
+        Component link = createUiElements(pmo).get(2);
+
+        assertThat(link, is(instanceOf(LinkkiAnchor.class)));
+        Component icon = getIcon(link).get();
+        assertThat(icon, is(instanceOf(Icon.class)));
+        assertThat(getIconAttribute(icon), is(ABACUS_ICON_NAME));
+
+        pmo.setIcon(VaadinIcon.AIRPLANE);
+        bindingContext.modelChanged();
+
+        // Icon on link changed
+        icon = getIcon(link).get();
         assertThat(getIconAttribute(icon), is(AIRPLANE_ICON_NAME));
     }
 
@@ -124,6 +171,7 @@ public class BindIconIntegrationTest {
 
     public static class TestPmoWithStaticIcon {
 
+        @BindIcon(VaadinIcon.ALARM)
         @UITextField(label = "static icon", position = 0)
         public String getPropertyWithStaticIcon() {
             return "";
@@ -155,6 +203,7 @@ public class BindIconIntegrationTest {
             this.icon = icon;
         }
 
+        @BindIcon
         @UITextField(label = "dynamic icon", position = 0)
         public String getProperty() {
             return "";
@@ -197,6 +246,7 @@ public class BindIconIntegrationTest {
             this.icon = icon;
         }
 
+        @BindIcon(iconType = IconType.DYNAMIC)
         @UITextField(label = "dynamic icon", position = 0)
         public String getProperty() {
             return "";

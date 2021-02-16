@@ -23,7 +23,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.columnbased.ColumnBasedComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
-import org.linkki.core.vaadin.component.annotation.HasCaption;
+import org.linkki.core.vaadin.component.HasCaption;
 import org.linkki.util.Consumers;
 
 import com.vaadin.flow.component.Component;

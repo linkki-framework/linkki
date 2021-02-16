@@ -54,6 +54,9 @@ public class LinkkiTheme {
     /** Style for a single cell within a linkki table */
     public static final String TABLE_CELL = "linkki-table-cell";
 
+    /** Style for a linkki anchor */
+    public static final String ANCHOR = "linkki-anchor";
+
     /**
      * @deprecated since February 18th 2019, horizontal-section-spacing will not affect linkki vaadin8
      */

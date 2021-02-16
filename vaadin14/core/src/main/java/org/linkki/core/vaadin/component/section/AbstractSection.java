@@ -20,7 +20,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.vaadin.component.ComponentFactory;
-import org.linkki.core.vaadin.component.annotation.HasCaption;
+import org.linkki.core.vaadin.component.HasCaption;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;

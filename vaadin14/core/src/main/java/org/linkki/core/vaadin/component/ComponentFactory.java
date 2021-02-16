@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.vaadin.component.anchor.LinkkiAnchor;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -54,8 +55,8 @@ public class ComponentFactory {
     /**
      * Creates a new {@link Anchor} with undefined width.
      */
-    public static Anchor newLink(String caption) {
-        Anchor link = new Anchor();
+    public static LinkkiAnchor newLink(String caption) {
+        LinkkiAnchor link = new LinkkiAnchor();
         link.setText(caption);
         return link;
     }

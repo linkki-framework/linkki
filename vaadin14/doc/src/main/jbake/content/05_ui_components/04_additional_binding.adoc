@@ -232,12 +232,14 @@ The following configuration options are available for `CaptionType`:
 [[bind-icon]]
 ===== Icon
 
-Showing an additional icon with the component's caption, the <<bind-icon, @BindIcon>> annotation is available for <<ui-button, @UIButton>>.
+Showing an additional icon with the component's caption, the `@BindIcon` annotation can be used.
+
+NOTE: Only <<ui-button, UIButton>> and <<ui-link, UILink>> are currently supported. The `@BindIcon` will override an icon, that has already been set by the @UI-annotation.
 
 The `@BindIcon` annotation has two properties:
 
-* <<icon-value, `value: String`>>:  
-* <<icon-type, `iconType`: IconTypeType`>>
+* <<icon-value, `value: String`>> 
+* <<icon-type, `iconType: IconType`>>
 
 [[icon-value]]
 Value::

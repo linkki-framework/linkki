@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.core.vaadin.component.annotation;
+package org.linkki.core.vaadin.component;
 
 /**
  * A component that has a caption.

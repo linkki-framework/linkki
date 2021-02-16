@@ -15,6 +15,7 @@
 package org.linkki.core.ui.aspects;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.function.Consumer;
@@ -24,6 +25,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
+import org.linkki.core.vaadin.component.anchor.LinkkiAnchor;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -34,15 +36,30 @@ public class IconAspectDefinitionTest {
     @Test
     public void testCreateComponentValueSetter_Button() {
         IconAspectDefinition iconAspectDefinition = new IconAspectDefinition(IconType.STATIC, VaadinIcon.ABACUS);
-        Button component = ComponentFactory.newButton();
-        ComponentWrapper componentWrapper = new LabelComponentWrapper(component);
+        Button button = ComponentFactory.newButton();
+        ComponentWrapper componentWrapper = new LabelComponentWrapper(button);
 
         Consumer<VaadinIcon> componentValueSetter = iconAspectDefinition.createComponentValueSetter(componentWrapper);
 
         componentValueSetter.accept(VaadinIcon.ACADEMY_CAP);
-        assertThat(component.isIconAfterText(), is(false));
-        assertThat(getIconAttribute(component.getIcon().getElement()),
+        assertThat(button.isIconAfterText(), is(false));
+        assertThat(getIconAttribute(button.getIcon().getElement()),
                    is(getIconAttribute(VaadinIcon.ACADEMY_CAP.create().getElement())));
+    }
+
+    @Test
+    public void testCreateComponentValueSetter_Link() {
+        IconAspectDefinition iconAspectDefinition = new IconAspectDefinition(IconType.STATIC, VaadinIcon.ABACUS);
+        LinkkiAnchor anchor = ComponentFactory.newLink("");
+
+        assertThat(anchor.getIcon(), is(nullValue()));
+
+        ComponentWrapper componentWrapper = new LabelComponentWrapper(anchor);
+
+        Consumer<VaadinIcon> componentValueSetter = iconAspectDefinition.createComponentValueSetter(componentWrapper);
+
+        componentValueSetter.accept(VaadinIcon.ACCORDION_MENU);
+        assertThat(anchor.getIcon(), is(VaadinIcon.ACCORDION_MENU));
     }
 
     private String getIconAttribute(Element icon) {
