@@ -290,12 +290,11 @@
 						"annotation": "@org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition(org.linkki.core.ui.element.bindingdefinitions.LabelBindingDefinition.class)"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UILabel",
 						"new": "@interface org.linkki.core.ui.element.annotation.UILabel",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
-						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class"
+						"attribute": "value"
 					},
 					{
 						"code": "java.annotation.attributeValueChanged",
@@ -529,13 +528,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UICheckBox",
 						"new": "@interface org.linkki.core.ui.element.annotation.UICheckBox",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
@@ -553,13 +550,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UIComboBox",
 						"new": "@interface org.linkki.core.ui.element.annotation.UIComboBox",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
@@ -577,13 +572,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UICustomField",
 						"new": "@interface org.linkki.core.ui.element.annotation.UICustomField",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
@@ -601,13 +594,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UIDateField",
 						"new": "@interface org.linkki.core.ui.element.annotation.UIDateField",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
@@ -625,13 +616,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UIDoubleField",
 						"new": "@interface org.linkki.core.ui.element.annotation.UIDoubleField",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
@@ -649,13 +638,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UIIntegerField",
 						"new": "@interface org.linkki.core.ui.element.annotation.UIIntegerField",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
@@ -687,13 +674,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UIRadioButtons",
 						"new": "@interface org.linkki.core.ui.element.annotation.UIRadioButtons",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.ui.element.annotation.UIRadioButtons.UIRadioButtonsBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
@@ -711,13 +696,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UISubsetChooser",
 						"new": "@interface org.linkki.core.ui.element.annotation.UISubsetChooser",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
@@ -735,13 +718,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UITextArea",
 						"new": "@interface org.linkki.core.ui.element.annotation.UITextArea",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
@@ -759,13 +740,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UITextField",
 						"new": "@interface org.linkki.core.ui.element.annotation.UITextField",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
@@ -783,13 +762,11 @@
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{
-						"code": "java.annotation.attributeValueChanged",
+						"code": "java.annotation.attributeRemoved",
 						"old": "@interface org.linkki.core.ui.element.annotation.UIYesNoComboBox",
 						"new": "@interface org.linkki.core.ui.element.annotation.UIYesNoComboBox",
 						"annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
 						"attribute": "value",
-						"oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-						"newValue": "org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator.class",
 						"justification": "LIN-2265/LIN-2268"
 					},
 					{

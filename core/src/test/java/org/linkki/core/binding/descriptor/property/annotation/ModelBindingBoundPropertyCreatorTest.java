@@ -188,7 +188,7 @@ public class ModelBindingBoundPropertyCreatorTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR })
-    @LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+    @LinkkiBoundProperty
     public @interface AnnotatedAnnotation {
 
         @LinkkiBoundProperty.ModelObject
@@ -200,7 +200,7 @@ public class ModelBindingBoundPropertyCreatorTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR })
-    @LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+    @LinkkiBoundProperty
     public @interface MissingModelAttributeAnnotation {
 
         @LinkkiBoundProperty.ModelObject
@@ -210,7 +210,7 @@ public class ModelBindingBoundPropertyCreatorTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR })
-    @LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+    @LinkkiBoundProperty
     public @interface MissingModelObjectAnnotation {
 
         @LinkkiBoundProperty.ModelAttribute
@@ -220,7 +220,7 @@ public class ModelBindingBoundPropertyCreatorTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR })
-    @LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+    @LinkkiBoundProperty
     public @interface DuplicateModelObjectAnnotation {
 
         @LinkkiBoundProperty.ModelObject
@@ -233,7 +233,7 @@ public class ModelBindingBoundPropertyCreatorTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = { ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR })
-    @LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+    @LinkkiBoundProperty
     public @interface DuplicateModelAttributeAnnotation {
 
         @LinkkiBoundProperty.ModelAttribute

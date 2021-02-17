@@ -131,7 +131,7 @@ public interface BoundPropertyCreator<T extends Annotation> {
                         .withModelAttribute(getValue(modelAttributeAttribute.get(), annotation));
             } else {
                 throw new IllegalStateException(
-                        String.format("Either %s or %s annotation is missing on the repective attribute in %s",
+                        String.format("Either %s or %s annotation is missing on the respective attribute in %s",
                                       LinkkiBoundProperty.ModelObject.class.getName(),
                                       LinkkiBoundProperty.ModelAttribute.class.getName(),
                                       annotation.annotationType().getName()));
