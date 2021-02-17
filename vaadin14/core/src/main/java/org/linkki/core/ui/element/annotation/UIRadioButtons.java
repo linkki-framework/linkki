@@ -29,7 +29,6 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
-import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
@@ -64,7 +63,7 @@ import com.vaadin.flow.data.renderer.TextRenderer;
 @Target(METHOD)
 @LinkkiPositioned
 @LinkkiAspect(RadioButtonsAspectDefinitionCreator.class)
-@LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class)
+@LinkkiBoundProperty
 @LinkkiComponent(RadioButtonsComponentDefinitionCreator.class)
 public @interface UIRadioButtons {
 

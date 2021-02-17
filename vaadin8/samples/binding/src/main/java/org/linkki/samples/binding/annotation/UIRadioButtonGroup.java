@@ -36,7 +36,6 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
 import org.linkki.core.binding.descriptor.aspect.base.CompositeAspectDefinition;
-import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 import org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
@@ -68,7 +67,7 @@ import com.vaadin.ui.themes.ValoTheme;
 @LinkkiPositioned // <2>
 @LinkkiAspect(UIRadioButtonGroupFieldAspectDefinitionCreator.class) // <3>
 @LinkkiAspect(ValueAspectDefinitionCreator.class) // <3>
-@LinkkiBoundProperty(ModelBindingBoundPropertyCreator.class) // <4>
+@LinkkiBoundProperty // <4>
 @LinkkiComponent(UIRadioButtonGroupComponentDefinitionCreator.class) // <5>
 public @interface UIRadioButtonGroup {
 

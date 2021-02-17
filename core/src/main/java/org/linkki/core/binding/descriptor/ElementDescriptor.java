@@ -20,10 +20,9 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 
 /**
- * A {@link BindingDescriptor} using
- * {@link org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition}.
+ * Holds information about a bound UI element (such as the PMO and model property name) and on how to
+ * create and display such an UI element.
  */
-@SuppressWarnings("javadoc")
 public class ElementDescriptor extends BindingDescriptor {
 
     private final int position;

@@ -1,0 +1,23 @@
+:jbake-type: referenced
+:jbake-status: referenced
+:jbake-order: 0
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_newnoteworthy
+
+=== 1.4.0
+
+==== New Aspect Annotation: @BindVisible
+
+For the annotation <<bind-visible, @BindVisible>>, the `VisibleType` is set to `DYNAMIC`, determining the visible state from the PMO by invoking a method named `is[PropertyName]Visible()`. Using this annotation, it is no longer necessary to specify the `visible` property with `VisibleType.DYNAMIC` in components, e.g. `@UILabel`. The <<bind-visible, @BindVisible>> can be used on any PMO, including any PMO classes that implement the `ContainerPmo` interface (i.e. `TableSections`). Using <<bind-visible, @BindVisible>> will overrule the existing `visible` property.
+
+The annotation `@LinkkiBoundProperty` now has a default value of the type `ModelBindingBoundPropertyCreator`. Using this `BoundPropertyCreator` it is very simple to create a new @UI-Field Annotation with model binding support. For more information read the corresponding documentation about <<bound-property, BoundProperty>>.
+
+==== Concept of `BindingDefinition` is deprecated
+
+The concept of `BindingDefinition` is deprecated because it was replaced. Therefore, the following classes and interfaces are deprecated and should not be used anymore. 
+
+* `org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition` and all extending classes
+* `org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition`
+* `org.linkki.core.uicreation.BindingDefinitionComponentDefinition`
+* `org.linkki.core.ui.element.annotation.FieldAspectDefinitionCreator`

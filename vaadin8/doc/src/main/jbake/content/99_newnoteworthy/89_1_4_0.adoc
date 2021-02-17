@@ -13,7 +13,7 @@ For the annotation <<bind-visible, @BindVisible>>, the `VisibleType` is set to `
 
 ==== New `BoundPropertyCreator`: `ModelBindingBoundPropertyCreator`
 
-
+The annotation `@LinkkiBoundProperty` now has a default value of the type `ModelBindingBoundPropertyCreator`. Using this `BoundPropertyCreator` it is very simple to create a new @UI-Field Annotation with model binding support. For more information read the corresponding documentation about <<bound-property, BoundProperty>>.
 
 ==== Concept of `BindingDefinition` is deprecated
 

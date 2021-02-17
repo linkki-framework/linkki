@@ -22,14 +22,23 @@ import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
 import org.linkki.core.binding.descriptor.property.BoundProperty;
+import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.ModelBindingBoundPropertyCreator;
 
 /**
  * Defines how a {@link BoundProperty} is derived from an {@link AnnotatedElement}. This is a
  * meta-annotation that means it is applied on another annotation which should be used in client code.
  * <p>
- * For example a {@code @Bind} annotation might be be annotated with this annotation. The defined
- * {@link BoundPropertyCreator} could read the {@code @Bind} annotation to create a
- * {@link BoundProperty} with the value of the appropriate properties of the {@code @Bind} annotation.
+ * For example a {@code @UIField} annotation might be be annotated with this annotation. The defined
+ * {@link BoundPropertyCreator} could read the {@code @UIField} annotation to create a
+ * {@link BoundProperty} with the value of the appropriate properties of the {@code @UIField}
+ * annotation.
+ * <p>
+ * The default {@link BoundPropertyCreator} is {@link ModelBindingBoundPropertyCreator} which uses the
+ * property name of the annotated element (normally the method in a PMO) and defines a model binding
+ * using the annotation properties which are annotated with {@link ModelObject} and
+ * {@link ModelAttribute}. For example a {@code @UIField} annotation has a property
+ * {@code modelObject()} which is annotated with {@link ModelObject} and a property
+ * {@code modelAttribute} which is annotated with {@code ModelAttribute}.
  * 
  * @see BoundPropertyCreator
  */
@@ -38,10 +47,10 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 @Target(ElementType.ANNOTATION_TYPE)
 public @interface LinkkiBoundProperty {
 
-    Class<? extends BoundPropertyCreator<?>> value();
+    Class<? extends BoundPropertyCreator<?>> value() default ModelBindingBoundPropertyCreator.class;
 
     /**
-     * Annotation that marks the model object name within an annotation that is marked with
+     * Annotation that marks the {@code modelObject} property within an annotation that is marked with
      * {@link LinkkiBoundProperty}.
      */
     @Retention(RetentionPolicy.RUNTIME)
@@ -51,8 +60,8 @@ public @interface LinkkiBoundProperty {
     }
 
     /**
-     * Annotation that marks the model attribute name within an annotation that is marked with
-     * {@link LinkkiBoundProperty}.
+     * Annotation that marks the {@code modelAttribute} property within an annotation that is marked
+     * with {@link LinkkiBoundProperty}.
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
