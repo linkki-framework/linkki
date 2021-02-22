@@ -78,7 +78,11 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
 
     @Override
     public void showRouterLayoutContent(HasElement content) {
-        mainArea.getElement().appendChild(content.getElement());
+        if (content != null) {
+            mainArea.getElement().appendChild(content.getElement());
+        } else {
+            mainArea.getElement().removeAllChildren();
+        }
     }
 
     @Override
