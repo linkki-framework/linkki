@@ -1,7 +1,9 @@
 html {
 	--linkki-section-caption-header-color: var(--lumo-header-text-color);
 }
-
+.linkki-section-caption {
+	margin-bottom: 1em;
+}
 .linkki-section-caption > h4 {
 	color: var(--linkki-section-caption-header-color);
 	white-space: nowrap;
@@ -19,4 +21,9 @@ html {
 	flex-grow: 1;
 	content: "";
 	box-shadow: 0 0.5px 0 var(--lumo-contrast-20pct);
+}
+
+vaadin-form-item > .linkki-label-caption {
+	display: block;
+	text-align: right;
 }

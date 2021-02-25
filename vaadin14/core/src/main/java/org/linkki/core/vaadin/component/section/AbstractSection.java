@@ -25,6 +25,7 @@ import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -145,6 +146,7 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
      */
     public void addHeaderButton(Button button) {
         button.addClassName(LinkkiTheme.BUTTON_TEXT);
+        button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         headerComponents.add(button);
         header.addComponentAtIndex(1, button);
         updateHeader();
@@ -156,6 +158,10 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
      * present.
      */
     public void addHeaderComponent(Component component) {
+        if (component instanceof Button) {
+            ((Button)component).addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        }
+
         headerComponents.add(component);
         header.addComponentAtIndex(header.getComponentCount() - 1, component);
         updateHeader();
