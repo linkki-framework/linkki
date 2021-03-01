@@ -219,7 +219,7 @@
              file="base.ipsar">      The archive file.
           </Entry>
     -->
- <IpsObjectPath basePackageDerived="org.linkki.samples.ips.model" basePackageMergable="org.linkki.samples.ips.model" outputDefinedPerSrcFolder="false" outputFolderDerivedSources="src/main/resources" outputFolderMergableSources="src/main/java">
+ <IpsObjectPath basePackageDerived="org.linkki.samples.playground.ips.model" basePackageMergable="org.linkki.samples.playground.ips.model" outputDefinedPerSrcFolder="false" outputFolderDerivedSources="src/main/resources" outputFolderMergableSources="src/main/java">
   <Entry basePackageDerived="" basePackageMergable="" outputFolderDerived="" outputFolderMergable="" reexported="true" sourceFolder="model" tocPath="faktorips-repository-toc.xml" type="src" validationMessagesBundle="validation-messages"/>
  </IpsObjectPath>
 

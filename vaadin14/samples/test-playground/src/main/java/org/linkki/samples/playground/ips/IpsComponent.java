@@ -11,41 +11,31 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.ips;
+package org.linkki.samples.playground.ips;
 
 import org.faktorips.runtime.ValidationContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
-import org.linkki.samples.ips.model.IpsModelObject;
+import org.linkki.samples.playground.ips.model.IpsModelObject;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 
-
-@Route("")
-public class IpsUI extends Div {
+public class IpsComponent extends Div {
 
     private static final long serialVersionUID = 1L;
 
-    public IpsUI() {
+    public IpsComponent() {
         init();
     }
 
     protected void init() {
-
-        UI.getCurrent().getPage().setTitle("linkki Samples :: Validation Messages");
-
-        VaadinSession.getCurrent().setAttribute(LinkkiConverterRegistry.class, new LinkkiConverterRegistry());
 
         IpsModelObject ipsModelObject = new IpsModelObject();
         IpsPmo pmo = new IpsPmo(ipsModelObject);

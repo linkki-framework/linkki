@@ -39,7 +39,7 @@
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin14-component</artifactId>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-nestedcomponent-vaadin14</artifactId>
             <version>1.4.0-vaadin14-SNAPSHOT</version>
@@ -84,6 +84,33 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <tags>
+                        <tag>
+                            <name>generated</name>
+                            <placement>a</placement>
+                            <head>Faktor-IPS Generated</head>
+                        </tag>
+                        <tag>
+                            <name>customizedAnnotations</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>implements</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>restrainedmodifiable</name>
+                            <placement>a</placement>
+                            <head>Customized Faktor-IPS generated Code</head>
+                        </tag>
+                    </tags>
+                </configuration>
             </plugin>
 
             <plugin>

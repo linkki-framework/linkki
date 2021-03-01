@@ -29,7 +29,6 @@
         <module>getting-started</module>
         <module>test-playground</module>
         <module>binding</module>
-        <module>ips</module>
         <module>application-framework</module>
     </modules>
 

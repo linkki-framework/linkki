@@ -20,6 +20,7 @@ import org.linkki.samples.playground.alignment.AlignmentPage;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
+import org.linkki.samples.playground.ips.IpsComponent;
 import org.linkki.samples.playground.locale.LocaleInfoPage;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
@@ -49,6 +50,7 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
     public static final String ALIGNMENT_TAB_ID = "alignment";
     public static final String MESSAGES_TAB_ID = "messages";
     public static final String TREETABLE_TAB_ID = "tree-table";
+    public static final String IPS_TAB_ID = "ips";
 
     public static final String PARAM_READONLY = "read-only";
 
@@ -95,7 +97,10 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                        .content(new MessagesComponent()).build(),
                                LinkkiTabSheet.builder(TREETABLE_TAB_ID)
                                        .caption("Tree Table")
-                                       .content(new SampleTreeTableComponent()).build());
+                                       .content(new SampleTreeTableComponent()).build(),
+                               LinkkiTabSheet.builder(IPS_TAB_ID)
+                                       .caption("IPS")
+                                       .content(new IpsComponent()).build());
 
         tabLayout.getTabsComponent().setWidth("120px");
         add(tabLayout);
