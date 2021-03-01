@@ -107,6 +107,7 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
         Button button = ComponentFactory.newButton(VaadinIcon.ANGLE_DOWN.create(), Collections.emptyList());
         button.addClassName(LinkkiTheme.BUTTON_TEXT);
         button.addClickListener(e -> toggleCloseOpen.apply());
+        button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         return button;
     }
 
