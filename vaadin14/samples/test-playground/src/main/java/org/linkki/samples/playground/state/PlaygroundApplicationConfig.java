@@ -21,6 +21,8 @@ import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.samples.playground.application.SampleView;
+import org.linkki.samples.playground.application.custom.CustomView;
 import org.linkki.samples.playground.nls.NlsText;
 import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
 import org.linkki.samples.playground.ui.dialogs.DialogsLayout;
@@ -75,6 +77,18 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
             @Override
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
                 return menu.addItem("Dialogs", e -> UI.getCurrent().navigate(DialogsLayout.class));
+            }
+        }, new ApplicationMenuItemDefinition("Sample Layout", 2) {
+
+            @Override
+            protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                return menu.addItem("Sample Layout", e -> UI.getCurrent().navigate(SampleView.class));
+            }
+        }, new ApplicationMenuItemDefinition("Custom Layout", 3) {
+
+            @Override
+            protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                return menu.addItem("Custom Layout", e -> UI.getCurrent().navigate(CustomView.class));
             }
         });
     }

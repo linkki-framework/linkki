@@ -25,9 +25,6 @@ WAR_FILE="vaadin8/samples/ips/target/linkki-sample-ips-vaadin8.war"
 docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-ips-vaadin8.war
 
 # Vaadin 14
-WAR_FILE="vaadin14/samples/application-framework/target/linkki-sample-application-vaadin14.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-application-vaadin14.war
-
 WAR_FILE="vaadin14/samples/getting-started/target/linkki-getting-started-vaadin14.war"
 docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-getting-started-vaadin14.war
 
