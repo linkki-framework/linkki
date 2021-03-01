@@ -126,7 +126,6 @@ pipeline {
                             <br>
                             <h3>Vaadin 14 samples</h3>
                             <ul>
-                                <li><a href="http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-tree-table-vaadin14">tree table sample</a></li>
                                 <li><a href="http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-application-vaadin14">application sample</a></li>
                                 <li><a href="http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin14">getting started</a></li>
                                 <li><a href="http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14">test playground</a></li>
