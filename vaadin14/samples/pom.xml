@@ -27,7 +27,6 @@
 
     <modules>
         <module>getting-started</module>
-        <module>messages</module>
         <module>test-playground</module>
         <module>tree-table</module>
         <module>binding</module>

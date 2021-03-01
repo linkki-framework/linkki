@@ -11,13 +11,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.samples.messages.binding;
+package org.linkki.samples.playground.messages;
 
 import java.util.function.Consumer;
 
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.samples.messages.pmo.RegistrationValidationService;
 
 public class RegistrationBindingManager extends DefaultBindingManager {
 

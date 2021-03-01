@@ -21,6 +21,7 @@ import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.locale.LocaleInfoPage;
+import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.tablayout.TabLayoutPage;
 import org.linkki.samples.playground.table.TablePage;
@@ -45,6 +46,7 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
     public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
     public static final String ALIGNMENT_TAB_ID = "alignment";
+    public static final String MESSAGES_TAB_ID = "messages";
 
     public static final String PARAM_READONLY = "read-only";
 
@@ -85,7 +87,10 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                        .content(new TabLayoutPage()).build(),
                                LinkkiTabSheet.builder(ALIGNMENT_TAB_ID)
                                        .caption("Alignment")
-                                       .content(new AlignmentPage()).build());
+                                       .content(new AlignmentPage()).build(),
+                               LinkkiTabSheet.builder(MESSAGES_TAB_ID)
+                                       .caption("Messages")
+                                       .content(new MessagesComponent()).build());
 
         tabLayout.getTabsComponent().setWidth("120px");
         add(tabLayout);

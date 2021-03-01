@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.samples.messages.pmo;
+package org.linkki.samples.playground.messages;
 
 import java.util.function.Consumer;
 
@@ -23,7 +23,6 @@ import org.linkki.core.ui.element.annotation.UICustomField;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.samples.messages.model.User;
 
 import com.vaadin.flow.component.textfield.PasswordField;
 

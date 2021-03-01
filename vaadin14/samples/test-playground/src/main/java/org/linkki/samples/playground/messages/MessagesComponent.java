@@ -11,37 +11,27 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.samples.messages;
+package org.linkki.samples.playground.messages;
 
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.validation.ValidationDisplayState;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.samples.messages.binding.RegistrationBindingManager;
-import org.linkki.samples.messages.components.MessagesPanel;
-import org.linkki.samples.messages.model.User;
-import org.linkki.samples.messages.pmo.RegistrationSectionPmo;
-import org.linkki.samples.messages.pmo.RegistrationValidationService;
 
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.server.VaadinSession;
 
-@Theme(Lumo.class)
-@Route("")
-public class MessageUI extends Div {
+public class MessagesComponent extends Div {
 
     private static final long serialVersionUID = 7735020388489427827L;
     private BindingManager bindingManager;
     private RegistrationValidationService validationService;
 
-    public MessageUI() {
+    public MessagesComponent() {
         UI.getCurrent().getPage().setTitle("linkki Samples :: Validation Messages");
 
         VaadinSession.getCurrent().setAttribute(LinkkiConverterRegistry.class, new LinkkiConverterRegistry());

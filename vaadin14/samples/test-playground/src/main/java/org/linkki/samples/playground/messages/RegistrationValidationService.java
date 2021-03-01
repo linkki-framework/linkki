@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.linkki.samples.messages.pmo;
+package org.linkki.samples.playground.messages;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -23,7 +23,6 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.ObjectProperty;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.samples.messages.model.User;
 import org.linkki.util.validation.ValidationMarker;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
