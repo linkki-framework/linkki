@@ -11,22 +11,21 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.dynamicfield.nls;
+package org.linkki.samples.playground.table.dynamicfields;
 
-import org.linkki.core.nls.NlsService;
+public enum CarType {
 
-public class NlsText {
+    STANDARD,
+    PREMIUM;
 
-    public static final String I18n = "";
 
-    private static final String BUNDLE_NAME = "org/linkki/samples/dynamicfield/nls/messages"; //$NON-NLS-1$
-
-    private NlsText() {
-        // do not instantiate
+    /**
+     * Method is called by linkki for presentation.
+     *
+     * @return captialized name of the enum value
+     */
+    public String getName() {
+        String name = name();
+        return name.substring(0, 1) + name.substring(1).toLowerCase();
     }
-
-    public static String getString(String key) {
-        return NlsService.get().getString(BUNDLE_NAME, key).orElseGet(() -> '!' + key + '!');
-    }
-
 }

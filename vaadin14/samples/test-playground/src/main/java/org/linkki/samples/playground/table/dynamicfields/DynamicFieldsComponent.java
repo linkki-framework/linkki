@@ -11,7 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.dynamicfield;
+package org.linkki.samples.playground.table.dynamicfields;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,28 +19,19 @@ import java.util.List;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.samples.dynamicfield.components.NewCarDialog;
-import org.linkki.samples.dynamicfield.model.Car;
-import org.linkki.samples.dynamicfield.model.CarType;
-import org.linkki.samples.dynamicfield.pmo.CarTablePmo;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.internal.CurrentInstance;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.WrappedSession;
 
-@Route("")
-public class DynamicFieldUI extends Div {
+public class DynamicFieldsComponent extends Div {
 
-    private static final long serialVersionUID = -3028891029288587709L;
+    private static final long serialVersionUID = 7747620148317506269L;
 
     private static final String CAR_STORAGE_ATTRIBUTE = "linkki-sample::car-storage";
 
-    public DynamicFieldUI() {
-
-        UI.getCurrent().getPage().setTitle("Linkki :: Dynamic Fields Sample");
+    public DynamicFieldsComponent() {
 
         List<Car> carStorage = getCarStorage();
 
@@ -51,6 +42,8 @@ public class DynamicFieldUI extends Div {
                         () -> new NewCarDialog(carStorage, bindingContext::modelChanged)),
                                bindingContext);
         add(table);
+
+        setWidthFull();
     }
 
     // some fake persistent storage

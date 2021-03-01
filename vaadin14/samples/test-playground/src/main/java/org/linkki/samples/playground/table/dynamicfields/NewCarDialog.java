@@ -11,18 +11,13 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.dynamicfield.components;
+package org.linkki.samples.playground.table.dynamicfields;
 
 import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.samples.dynamicfield.model.Car;
-import org.linkki.samples.dynamicfield.model.CarType;
-import org.linkki.samples.dynamicfield.model.NewCar;
-import org.linkki.samples.dynamicfield.pmo.CarTypeSectionPmo;
-import org.linkki.samples.dynamicfield.pmo.NewCarSectionPmo;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.dialog.Dialog;

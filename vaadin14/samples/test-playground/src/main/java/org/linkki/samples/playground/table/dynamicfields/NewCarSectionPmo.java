@@ -11,14 +11,13 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.dynamicfield.pmo;
+package org.linkki.samples.playground.table.dynamicfields;
 
 import java.util.List;
 
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.util.handler.Handler;
 
 @UISection

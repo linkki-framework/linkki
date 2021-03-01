@@ -11,12 +11,11 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.dynamicfield.pmo;
+package org.linkki.samples.playground.table.dynamicfields;
 
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
-import org.linkki.samples.dynamicfield.model.Car;
 
 public class CarRowPmo extends CarPmo {
 

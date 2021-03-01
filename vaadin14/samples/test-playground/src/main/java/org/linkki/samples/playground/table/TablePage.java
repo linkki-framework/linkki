@@ -28,6 +28,7 @@ import org.linkki.core.binding.validation.message.Severity;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.GridSection;
+import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsComponent;
 
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -50,6 +51,9 @@ public class TablePage extends VerticalLayout {
         DefaultBindingManager bindingManager = new DefaultBindingManager(() -> validate());
         BindingContext bindingContext = bindingManager.getContext("selectableTable");
         addSectionsForSelectableTable(bindingContext);
+
+        addAndExpand(new DynamicFieldsComponent());
+
     }
 
     private void addSectionsForSelectableTable(BindingContext bindingContext) {

@@ -11,7 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.dynamicfield.pmo;
+package org.linkki.samples.playground.table.dynamicfields;
 
 import java.io.Serializable;
 
@@ -20,7 +20,6 @@ import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.samples.dynamicfield.model.NewCar;
 
 @UISection
 public class CarTypeSectionPmo implements PresentationModelObject, Serializable {

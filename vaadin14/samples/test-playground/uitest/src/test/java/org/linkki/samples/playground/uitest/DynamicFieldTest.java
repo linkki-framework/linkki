@@ -19,19 +19,18 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-@DriverExtension.Configuration(basePath = DynamicFieldTest.URL_PATH, locale = "en", restartAfterEveryTest = true)
+@DriverExtension.Configuration(locale = "en")
 public class DynamicFieldTest extends AbstractUiTest {
-
-    /**
-     * URL-Path for vaadin14 dynamic fields playground sample
-     */
-    public static final String URL_PATH = "linkki-sample-dynamic-fields-vaadin14";
 
     private static final String CAR_TABLE_PMO = "CarTablePmo" + "_table";
     private static final String OK = "ok";
@@ -41,11 +40,20 @@ public class DynamicFieldTest extends AbstractUiTest {
     private static final String CAR_TYPE = "carType";
     private static final String BUTTON_PMO = "buttonPmo";
 
+    @BeforeEach
+    public void before() {
+        openTab(PlaygroundApplicationUI.TABLES_TAB_ID);
+    }
+
     @Test
     public void testDynamicFields_newCarDialog() {
         // Select standard car type
         clickButton(BUTTON_PMO);
+
+        waitUntil(ExpectedConditions.elementToBeClickable(By.id(CAR_TYPE)));
         selectCombobox(CAR_TYPE, "Standard");
+
+        waitUntil(ExpectedConditions.elementToBeClickable(By.id(RETENTION)));
         // Must be a Textfield
         assertThat($(TextFieldElement.class).all().stream().filter(tf -> RETENTION.equals(tf.getAttribute("id")))
                 .findFirst().isPresent(), is(true));

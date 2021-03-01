@@ -11,7 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.samples.dynamicfield.pmo;
+package org.linkki.samples.playground.table.dynamicfields;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,6 @@ import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.pmo.ButtonPmoBuilder;
-import org.linkki.samples.dynamicfield.model.Car;
 import org.linkki.util.handler.Handler;
 
 @UISection(caption = "Cars")

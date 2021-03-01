@@ -11,5 +11,14 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-@edu.umd.cs.findbugs.annotations.DefaultAnnotation(edu.umd.cs.findbugs.annotations.NonNull.class)
-package org.linkki.samples.dynamicfield.nls;
+package org.linkki.samples.playground.table.dynamicfields;
+
+public class NewCar extends Car {
+
+    private static final long serialVersionUID = 4977380506562953332L;
+
+
+    public void setCarType(CarType carType) {
+        this.carType = carType;
+    }
+}

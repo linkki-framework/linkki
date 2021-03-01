@@ -26,7 +26,4 @@ docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/link
 WAR_FILE="vaadin14/samples/test-playground/target/linkki-sample-test-playground-vaadin14.war"
 docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-test-playground-vaadin14.war
 
-WAR_FILE="vaadin14/samples/dynamic-fields/target/linkki-sample-dynamic-fields-vaadin14.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-dynamic-fields-vaadin14.war
-
 docker start $WILDFLY_NAME
