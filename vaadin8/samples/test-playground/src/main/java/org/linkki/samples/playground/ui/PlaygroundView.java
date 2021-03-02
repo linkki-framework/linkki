@@ -17,9 +17,13 @@ package org.linkki.samples.playground.ui;
 import org.linkki.framework.ui.component.sidebar.SidebarLayout;
 import org.linkki.samples.playground.allelements.AllUiElementsTabsheetArea;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.customlayout.CustomLayoutComponent;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
+import org.linkki.samples.playground.ips.IpsComponent;
+import org.linkki.samples.playground.messages.MessageComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.table.TablePage;
+import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -46,6 +50,10 @@ public class PlaygroundView extends SidebarLayout implements View {
         addSidebarSheet(new BugCollectionLayout());
         addSidebarSheet(new TablePage());
         addSidebarSheet(new NestedComponentPage());
+        addSidebarSheet(new MessageComponent());
+        addSidebarSheet(new SampleTreeTableComponent());
+        addSidebarSheet(new IpsComponent());
+        addSidebarSheet(new CustomLayoutComponent());
 
         select(event.getParameterMap().get(PARAM_SHEET));
 

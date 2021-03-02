@@ -15,6 +15,7 @@ package org.linkki.samples.playground.ui;
 
 import org.linkki.core.vaadin.component.LinkkiWidgetset;
 import org.linkki.framework.ui.application.LinkkiUi;
+import org.linkki.samples.playground.binding.BindingSampleView;
 import org.linkki.samples.playground.state.PlaygroundApplicationConfig;
 import org.linkki.samples.playground.ui.dialogs.DialogView;
 
@@ -22,9 +23,13 @@ import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.spring.annotation.SpringUI;
 
+@SpringUI(path = "/")
 @Theme(value = "sample")
+// tag::widgetset[]
 @Widgetset(LinkkiWidgetset.NAME)
+// end::widgetset[]
 @PreserveOnRefresh
 public class PlaygroundApplicationUI extends LinkkiUi {
 
@@ -39,6 +44,7 @@ public class PlaygroundApplicationUI extends LinkkiUi {
         super.init(request);
         addView(PlaygroundView.NAME, PlaygroundView.class);
         addView(DialogView.NAME, DialogView.class);
+        addView(BindingSampleView.NAME, BindingSampleView.class);
     }
 
 }

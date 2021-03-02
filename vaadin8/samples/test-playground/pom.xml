@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,7 +16,22 @@
 
     <name>linkki Vaadin 8 Samples :: Test Playground</name>
 
+    <properties>
+        <faktorips.version>20.12.0-rc01</faktorips.version>
+    </properties>
+
     <dependencies>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-application-framework-vaadin8</artifactId>
@@ -29,33 +46,88 @@
             <artifactId>linkki-core-vaadin8-nestedcomponent</artifactId>
             <version>1.4.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.faktorips</groupId>
+            <artifactId>faktorips-runtime</artifactId>
+            <version>${faktorips.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.faktorips</groupId>
+            <artifactId>faktorips-valuetypes</artifactId>
+            <version>${faktorips.version}</version>
+        </dependency>
+
     </dependencies>
 
-
     <build>
+
         <!-- remove version from artifact so we can always link to http://localhost:8080/linkki-sample-test-playground-vaadin8 -->
         <finalName>${project.artifactId}</finalName>
+
         <resources>
-            <resource>
-                <directory>src/main/webapp</directory>
-            </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
+            <resource>
+                <directory>src/main/webapp/</directory>
+            </resource>
         </resources>
 
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <tags>
+                        <tag>
+                            <name>generated</name>
+                            <placement>a</placement>
+                            <head>Faktor-IPS Generated</head>
+                        </tag>
+                        <tag>
+                            <name>customizedAnnotations</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>implements</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>restrainedmodifiable</name>
+                            <placement>a</placement>
+                            <head>Customized Faktor-IPS generated Code</head>
+                        </tag>
+                    </tags>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
                 <version>${vaadin.version}</version>
                 <configuration>
                     <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
-                    <!-- Most Vaadin apps don't need this stuff, guide that to target -->
+                    <!-- Most Vaadin apps don't need this stuff, guide that 
+                        to target -->
                     <persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
                     <deploy>${project.build.directory}/gwt-deploy</deploy>
-                    <!-- Compile report is not typically needed either, saves hundreds of mb disk -->
+                    <!-- Compile report is not typically needed either, saves 
+                        hundreds of mb disk -->
                     <compileReport>false</compileReport>
                     <noServer>true</noServer>
                     <!-- Remove draftCompile when project is ready -->

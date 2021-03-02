@@ -3,7 +3,7 @@
 :jbake-status: published
 
 :image-dir: {images}08_nls
-:source-dir-binding-sample: ../../../../../../vaadin8/samples/binding/src/main
+:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main
 
 === Location of Resource Bundles
 
@@ -23,14 +23,14 @@ The key is a String that consists of the PMO's class name, the name of the PMO p
 
 [source,java]
 ----
-include::{source-dir-binding-sample}/resources/org/linkki/samples/binding/pmo/linkki-messages.properties[tags=properties]
+include::{source-dir}/resources/org/linkki/samples/playground/binding/pmo/linkki-messages.properties[tags=properties]
 ----
 
 The last entry of the above `.properties` file points to the PMO `ContactRowPmo`, and provides an English translation for the label of its property `name`:
 
 [source,java]
 ----
-include::{source-dir-binding-sample}/java/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
+include::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
 ----
 
 NOTE: *linkki* always tries to retrieve a value from the `linkki-messages.properties`, if the file exists. That means that the label "Name" that is defined directly in the annotation `@UILabel` above will not be used in this constellation. The entry `ContactRowPmo_name_label=name` overrides it as default value if there is no specific `.properties` file for the user's locale. It is useful to include the default label in the annotation to avoid having to look it up in the properties file when viewing the source code.
@@ -42,12 +42,12 @@ All aspects containing String values can be translated. Frequently used examples
 
 [source,java]
 ----
-include::{source-dir-binding-sample}/java/org/linkki/samples/binding/pmo/ChildrenSectionPmo.java[tags=sectionCaption]
+include::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ChildrenSectionPmo.java[tags=sectionCaption]
 ----
 
 With its German translation entry in `linkki-messages_de.properties`:
 
 [source,java]
 ----
-include::{source-dir-binding-sample}/resources/org/linkki/samples/binding/pmo/linkki-messages_de.properties[tags=sectionCaption]
+include::{source-dir}/resources/org/linkki/samples/playground/binding/pmo/linkki-messages_de.properties[tags=sectionCaption]
 ----

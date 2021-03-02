@@ -75,7 +75,15 @@ public enum BrowserType {
 
     protected void setSystemPropertyForChrome(final String webDriverName) {
         if (isNull(System.getProperty(webDriverName))) {
-            File file = new File("drivers/" + (SystemUtils.IS_OS_WINDOWS ? "chromedriver.exe" : "chromedriver"));
+            String drivername;
+            if (SystemUtils.IS_OS_WINDOWS) {
+                drivername = "chromedriver.exe";
+            } else if (SystemUtils.IS_OS_MAC_OSX) {
+                drivername = "chromedriver_osx";
+            } else {
+                drivername = "chromedriver";
+            }
+            File file = new File("drivers/" + drivername);
             System.out.println("Setting " + webDriverName + " to " + file.getAbsolutePath());
             System.setProperty(webDriverName, file.getAbsolutePath());
         }

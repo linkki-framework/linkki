@@ -21,6 +21,9 @@ import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.LinkkiUi;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.samples.playground.application.SampleApplicationUI;
+import org.linkki.samples.playground.application.custom.CustomApplicationUI;
+import org.linkki.samples.playground.binding.BindingSampleView;
 import org.linkki.samples.playground.nls.NlsText;
 import org.linkki.samples.playground.ui.PlaygroundView;
 import org.linkki.samples.playground.ui.dialogs.DialogView;
@@ -72,6 +75,27 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
                 return menu.addItem("Dialogs",
                                     e -> LinkkiUi.getCurrentNavigator().navigateTo(DialogView.NAME));
+            }
+        }, new ApplicationMenuItemDefinition("Sample Layout", 2) {
+
+            @Override
+            protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                return menu.addItem("Sample Layout",
+                                    e -> LinkkiUi.getCurrent().getPage().open(SampleApplicationUI.NAME, ""));
+            }
+        }, new ApplicationMenuItemDefinition("Custom Layout", 3) {
+
+            @Override
+            protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                return menu.addItem("Custom Layout",
+                                    e -> LinkkiUi.getCurrent().getPage().open(CustomApplicationUI.NAME, ""));
+            }
+        }, new ApplicationMenuItemDefinition("Binding", 4) {
+
+            @Override
+            protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                return menu.addItem("Binding",
+                                    e -> LinkkiUi.getCurrentNavigator().navigateTo(BindingSampleView.NAME));
             }
         });
     }

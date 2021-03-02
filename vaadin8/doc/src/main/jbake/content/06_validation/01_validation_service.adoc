@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir-messages: ../../../../../../vaadin8/samples/messages/src/main/java
+:source-dir-playground: ../../../../../../vaadin8/samples/test-playground/src/main/java
 
 [[validation-service]]
 === ValidationService
@@ -31,7 +31,7 @@ The easiest way to create a `Message` is to use its builder (via the `builder()`
 
 [source, java]
 ----
-include::{source-dir-messages}/org/linkki/samples/messages/pmo/RegistrationValidationService.java[tags=message-builder]
+include::{source-dir-playground}/org/linkki/samples/playground/messages/RegistrationValidationService.java[tags=message-builder]
 ----
 
 A `MessageList` is a container for a list of messages and provides an API to access the messages, for example by using filters.
@@ -47,7 +47,7 @@ A *linkki* message uses a set of `ObjectProperty` to identify which properties a
 
 [source, java]
 ----
-include::{source-dir-messages}/org/linkki/samples/messages/components/MessagesPanel.java[tags=mandatory]
+include::{source-dir-playground}/org/linkki/samples/playground/messages/MessagesPanel.java[tags=mandatory]
 ----
 
 Applications can introduce their own specialized validation markers by implementing the `ValidationMarker` interface. That way special meaning can be attached to messages and they can be categorized and processed accordingly, if required.

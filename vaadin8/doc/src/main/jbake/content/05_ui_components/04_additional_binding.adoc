@@ -1,7 +1,7 @@
 :jbake-title: Aspects
 :jbake-type: section
 :jbake-status: published
-:source-dir-binding: ../../../../../../vaadin8/samples/binding/src/main/java
+:source-dir-playground: ../../../../../../vaadin8/samples/test-playground/src/main/java
 :source-dir: ../../../../src/main/java
 
 [[aspects]]
@@ -145,7 +145,7 @@ TIP: Tooltips can only be added to <<ui-field, fields>> and <<ui-button, buttons
 
 [source,java]
 ----
-include::{source-dir-binding}/org/linkki/samples/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
+include::{source-dir-playground}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
 ----
 
 [[bind-read-only]]

@@ -3,7 +3,7 @@
 :jbake-status: published
 
 :image-dir: {images}07_application-framework
-:source-dir-application: ../../../../../../vaadin8/samples/application-framework/src/main/java
+:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
 
 === UI
 
@@ -13,7 +13,7 @@ You can see an example in the following `SampleApplicationUI`:
 
 [source,java]
 ----
-include::{source-dir-application}/org/linkki/samples/appsample/ui/SampleApplicationUI.java[tags=application-sample-ui]
+include::{source-dir}/org/linkki/samples/playground/application/SampleApplicationUI.java[tags=application-sample-ui]
 ----
 
 The `LinkkiUi` offers methods that can be overridden to configure some Vaadin features, such as `configureNavigator` and `configureErrorHandler`.
@@ -102,12 +102,12 @@ Additionally you can supply a `UiUpdateObserver` that is triggered every time th
 
 [source,java]
 ----
-include::{source-dir-application}/org/linkki/samples/appsample/view/MainView.java[tags=sidebar-addSheet]
+include::{source-dir}/org/linkki/samples/playground/application/MainView.java[tags=sidebar-addSheet]
 ----
 
 [source,java]
 ----
-include::{source-dir-application}/org/linkki/samples/appsample/view/MainView.java[tags=sidebar-createReportLayout]
+include::{source-dir}/org/linkki/samples/playground/application/MainView.java[tags=sidebar-createReportLayout]
 ----
 
 ==== Headline
@@ -122,19 +122,19 @@ To use a `Headline` simply instantiate and add the component to your content.
 
 [source,java]
 ----
-include::{source-dir-application}/org/linkki/samples/appsample/view/MainView.java[tags=addHeadline-call]
+include::{source-dir}/org/linkki/samples/playground/application/MainView.java[tags=addHeadline-call]
 ----
 
 If you want the Headline's title to be updated dynamically, you can also bind it to a PMO. To do so, create a PMO containing a corresponding getter method for `Headline#HEADER_TITLE`:
 
 [source,java]
 ----
-include::{source-dir-application}/org/linkki/samples/appsample/pmo/HeadlinePmo.java[tags=HeadlinePmo]
+include::{source-dir}/org/linkki/samples/playground/application/HeadlinePmo.java[tags=HeadlinePmo]
 ----
 
 Then bind it with the headline:
 
 [source,java]
 ----
-include::{source-dir-application}/org/linkki/samples/appsample/view/ReportListPage.java[tags=bind-headline]
+include::{source-dir}/org/linkki/samples/playground/application/ReportListPage.java[tags=bind-headline]
 ----
