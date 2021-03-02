@@ -16,18 +16,10 @@ package org.linkki.samples.playground;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class PlaygroundApplication extends SpringBootServletInitializer {
+public class PlaygroundApplication {
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(PlaygroundApplication.class);
-    }
-
-    @SuppressWarnings("resource")
     public static void main(String[] args) {
         SpringApplication.run(PlaygroundApplication.class, args);
     }

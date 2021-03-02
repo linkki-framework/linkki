@@ -65,7 +65,7 @@ pipeline {
             parallel {
 
                 // run all ui tests against the deployed sample application(s)
-                stage('UI Test') {
+                stage('UI Test v8') {
                     when {
                         expression {
                             currentBuild.currentResult == "SUCCESS"
@@ -75,12 +75,28 @@ pipeline {
                     steps {
                         withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
-                            sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
                         }
                     }
 
                     environment {
                         MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80'
+                    }
+                }
+                stage('UI Test v14') {
+                    when {
+                        expression {
+                            currentBuild.currentResult == "SUCCESS"
+                        }
+                    }
+
+                    steps {
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                            sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
+                        }
+                    }
+
+                    environment {
+                        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}-v14.dockerhost.i.faktorzehn.de -Dtest.port=80'
                     }
                 }
 
@@ -126,8 +142,7 @@ pipeline {
                             <br>
                             <h3>Vaadin 14 samples</h3>
                             <ul>
-                                <li><a href="http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin14">getting started</a></li>
-                                <li><a href="http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14">test playground</a></li>
+                                <li><a href="http://linkki-${env.BUILD_NAME}-v14.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14">test playground</a></li>
                             </ul>
                         """
                     }

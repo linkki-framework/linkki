@@ -1,6 +1,11 @@
 #!/bin/bash
+###################################################################
+# Deploys all wars that were not necessary for the UI tests and
+# have not been deployed
+###################################################################
+
 BUILD_NAME=$1
-WILDFLY_NAME="wildfly-linkki-$BUILD_NAME"
+WILDFLY_NAME="linkki-$BUILD_NAME"
 
 # Vaadin 8
 WAR_FILE="vaadin8/samples/binding/target/linkki-sample-binding-vaadin8.war"
@@ -23,7 +28,3 @@ docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/link
 
 WAR_FILE="vaadin8/samples/ips/target/linkki-sample-ips-vaadin8.war"
 docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-ips-vaadin8.war
-
-# Vaadin 14
-WAR_FILE="vaadin14/samples/getting-started/target/linkki-getting-started-vaadin14.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-getting-started-vaadin14.war
