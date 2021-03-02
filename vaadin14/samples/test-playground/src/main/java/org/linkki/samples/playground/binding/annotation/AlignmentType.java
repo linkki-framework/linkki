@@ -12,22 +12,14 @@
  * License.
  */
 
-package org.linkki.samples.playground.ui;
+package org.linkki.samples.playground.binding.annotation;
 
-import org.linkki.framework.state.ApplicationConfig;
-import org.linkki.framework.ui.application.ApplicationLayout;
-
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
-
-@Theme(Lumo.class)
-public class PlaygroundAppLayout extends ApplicationLayout {
-
-    private static final long serialVersionUID = -5604950024464910529L;
-
-    @Override
-    public ApplicationConfig getApplicationConfig() {
-        return new PlaygroundApplicationConfig();
-    }
+/**
+ * Defines if the elements should align horizontally or vertically.
+ * 
+ */
+public enum AlignmentType {
+    HORIZONTAL,
+    VERTICAL
 
 }

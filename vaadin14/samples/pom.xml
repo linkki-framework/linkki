@@ -28,7 +28,6 @@
     <modules>
         <module>getting-started</module>
         <module>test-playground</module>
-        <module>binding</module>
     </modules>
 
     <dependencyManagement>

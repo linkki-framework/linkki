@@ -11,23 +11,23 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
+package org.linkki.samples.playground.binding.model;
 
-package org.linkki.samples.playground.ui;
+public final class Country {
 
-import org.linkki.framework.state.ApplicationConfig;
-import org.linkki.framework.ui.application.ApplicationLayout;
+    private final String isoA3;
+    private final String name;
 
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
-
-@Theme(Lumo.class)
-public class PlaygroundAppLayout extends ApplicationLayout {
-
-    private static final long serialVersionUID = -5604950024464910529L;
-
-    @Override
-    public ApplicationConfig getApplicationConfig() {
-        return new PlaygroundApplicationConfig();
+    public Country(String isoA3, String name) {
+        this.isoA3 = isoA3;
+        this.name = name;
     }
 
+    public String getIsoA3() {
+        return isoA3;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

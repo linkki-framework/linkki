@@ -27,6 +27,3 @@ docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/link
 # Vaadin 14
 WAR_FILE="vaadin14/samples/getting-started/target/linkki-getting-started-vaadin14.war"
 docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-getting-started-vaadin14.war
-
-WAR_FILE="vaadin14/samples/binding/target/linkki-sample-binding-vaadin14.war"
-docker cp $WAR_FILE $WILDFLY_NAME:/opt/jboss/wildfly/standalone/deployments/linkki-sample-binding-vaadin14.war

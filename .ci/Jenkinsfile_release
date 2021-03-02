@@ -182,7 +182,6 @@ pipeline {
                             <ul>
                                 <li><a href="http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-getting-started-vaadin14">getting started</a></li>
                                 <li><a href="http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14">test playground</a></li>
-                                <li><a href="http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-binding-vaadin14">binding sample</a></li>
                             </ul>
                         """
                     }

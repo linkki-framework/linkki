@@ -11,23 +11,7 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-
-package org.linkki.samples.playground.ui;
-
-import org.linkki.framework.state.ApplicationConfig;
-import org.linkki.framework.ui.application.ApplicationLayout;
-
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
-
-@Theme(Lumo.class)
-public class PlaygroundAppLayout extends ApplicationLayout {
-
-    private static final long serialVersionUID = -5604950024464910529L;
-
-    @Override
-    public ApplicationConfig getApplicationConfig() {
-        return new PlaygroundApplicationConfig();
-    }
-
-}
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)
+@edu.umd.cs.findbugs.annotations.DefaultAnnotationForMethods(edu.umd.cs.findbugs.annotations.NonNull.class)
+package org.linkki.samples.playground.binding.pmo;
