@@ -71,6 +71,7 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
     public AbstractSection(@CheckForNull String caption, boolean closeable) {
         setMargin(false);
         setSpacing(false);
+        setPadding(false);
         setClassName(LinkkiTheme.SECTION);
 
         captionLabel = createCaption();
