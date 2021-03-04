@@ -49,6 +49,7 @@ pipeline {
                         script {
                             try {
                                 sh 'curl --fail http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8/main'
+                                sh 'curl --fail http://linkki-${BUILD_NAME}-v14.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14/'
                                 return true
                             } catch (Exception e) {
                                 return false
