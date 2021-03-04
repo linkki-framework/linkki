@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 

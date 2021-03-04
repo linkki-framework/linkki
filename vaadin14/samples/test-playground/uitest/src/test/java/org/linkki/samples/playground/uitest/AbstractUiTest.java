@@ -21,6 +21,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.linkki.samples.playground.uitest.extensions.DriverExtension;
+import org.linkki.samples.playground.uitest.extensions.ScreenshotOnFailureExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -44,7 +46,8 @@ import com.vaadin.testbench.TestBenchTestCase;
  * accessing various elements within the opened web page and by accessing their properties. SetUp method
  * must be called at the beginning of the test.
  * <p>
- * Various browser configuration options are available using the {@link DriverExtension.Configuration}
+ * Various browser configuration options are available using the
+ * {@link org.linkki.samples.playground.uitest.extensions.DriverExtension.Configuration @DriverExtension.Configuration}
  * annotation.
  */
 @TestMethodOrder(OrderAnnotation.class)
@@ -52,6 +55,9 @@ public class AbstractUiTest extends TestBenchTestCase {
 
     @RegisterExtension
     protected static DriverExtension driverExtension = new DriverExtension();
+
+    @RegisterExtension
+    protected ScreenshotOnFailureExtension screenshotExtension = new ScreenshotOnFailureExtension(this);
 
     @BeforeEach
     public void setUp() {
