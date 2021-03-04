@@ -25,7 +25,7 @@ import org.linkki.core.ui.layout.annotation.UIFormSection;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 
-@UIFormSection(caption = "@BindIconSectionPmo")
+@UIFormSection(caption = "@BindIconComponentsPmo")
 public class BindIconComponentsPmo {
 
     @BindIcon(value = VaadinIcon.ANCHOR)
