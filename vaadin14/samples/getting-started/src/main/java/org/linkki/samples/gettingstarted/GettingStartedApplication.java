@@ -16,20 +16,13 @@ package org.linkki.samples.gettingstarted;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class GettingStartedApplication extends SpringBootServletInitializer {
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(GettingStartedApplication.class);
-    }
+public class GettingStartedApplication {
 
     @SuppressWarnings("resource")
     public static void main(String[] args) {
-        SpringApplication.run(GettingStartedApplication.class, args);
+        SpringApplication.run(GettingStartedApplication.class);
     }
 
 }

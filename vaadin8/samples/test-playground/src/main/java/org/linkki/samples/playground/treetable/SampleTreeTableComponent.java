@@ -32,6 +32,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.VerticalLayout;
 
+@SuppressWarnings({ "java:S110", "java:S2160" })
 public class SampleTreeTableComponent extends VerticalLayout implements SidebarSheetDefinition {
 
     public static final String ID = "TreeTable";

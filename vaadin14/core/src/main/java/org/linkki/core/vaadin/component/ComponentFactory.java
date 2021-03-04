@@ -153,7 +153,7 @@ public class ComponentFactory {
     public static Button newButton(Icon icon, Collection<String> styleNames) {
         Button button = new Button(icon);
         button.setTabIndex(-1);
-        styleNames.forEach(style -> button.addClassName(style));
+        styleNames.forEach(button::addClassName);
         return button;
     }
 

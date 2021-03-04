@@ -25,6 +25,7 @@ import com.vaadin.server.WrappedSession;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.util.CurrentInstance;
 
+@SuppressWarnings("java:S110")
 public class DynamicFieldComponent extends VerticalLayout {
 
     private static final long serialVersionUID = -3028891029288587709L;

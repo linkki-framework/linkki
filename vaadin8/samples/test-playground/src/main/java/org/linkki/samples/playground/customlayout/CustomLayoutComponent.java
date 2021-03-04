@@ -27,6 +27,7 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+@SuppressWarnings("java:S110")
 public class CustomLayoutComponent extends VerticalLayout implements SidebarSheetDefinition {
 
     public static final String ID = "Custom-Layout";

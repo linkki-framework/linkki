@@ -43,6 +43,7 @@ import com.vaadin.ui.themes.ValoTheme;
  *           <p>
  *           This class is intended to be subclassed to add additional components.
  */
+@SuppressWarnings({ "java:S2160", "java:S110" })
 public class Headline extends HorizontalLayout {
 
     public static final String HEADER_TITLE = "headerTitle";

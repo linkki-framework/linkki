@@ -33,21 +33,18 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.VerticalLayout;
 
+@SuppressWarnings({ "java:S2160", "java:S110" })
 public class BindingSampleView extends VerticalLayout implements View {
 
     public static final String NAME = "binding";
 
     private static final long serialVersionUID = 42L;
 
-    // can be switched with URL parameters:
-    // http://localhost:8080/linkki-sample-binding-vaadin8/binding/editMode=READ_ONLY
-    private EditMode editMode = EditMode.EDIT;
-
     private static final List<Contact> PERSON_STORAGE = new ArrayList<>();
 
     @Override
     public void enter(ViewChangeEvent event) {
-        editMode = Optional.ofNullable(event
+        EditMode editMode = Optional.ofNullable(event
                 .getParameterMap().get("editMode"))
                 .flatMap(EditMode::read)
                 .orElse(EditMode.EDIT);

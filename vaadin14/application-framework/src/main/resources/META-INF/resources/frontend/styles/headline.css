@@ -1,0 +1,9 @@
+.linkki-headline {
+	box-shadow: 0 0.5px 0 var(--lumo-contrast-20pct);
+}
+
+.linkki-headline h2 {
+	margin: 0;
+	align-self: center;
+	font-weight: normal;
+}

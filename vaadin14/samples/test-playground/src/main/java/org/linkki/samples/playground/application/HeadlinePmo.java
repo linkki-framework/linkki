@@ -29,5 +29,4 @@ public class HeadlinePmo {
     public String getHeaderTitle() {
         return "Report List - Existing reports: " + reports.size();
     }
-
 }

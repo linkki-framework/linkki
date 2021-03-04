@@ -68,7 +68,7 @@ public class IconAspectDefinition extends ModelToUiAspectDefinition<VaadinIcon> 
                 button.setIcon(icon != null ? icon.create() : null);
             };
         } else if (component instanceof HasIcon) {
-            return icon -> ((HasIcon)component).setIcon(icon);
+            return ((HasIcon)component)::setIcon;
         } else {
             return Consumers.nopConsumer();
         }

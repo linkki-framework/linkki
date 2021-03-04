@@ -32,6 +32,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.VerticalLayout;
 
+@SuppressWarnings("java:S110")
 public class IpsComponent extends VerticalLayout implements SidebarSheetDefinition {
 
     public static final String ID = "Ips";

@@ -21,7 +21,7 @@ public class PlaygroundApplication {
 
     @SuppressWarnings("resource")
     public static void main(String[] args) {
-        SpringApplication.run(PlaygroundApplication.class, args);
+        SpringApplication.run(PlaygroundApplication.class);
     }
 
 }

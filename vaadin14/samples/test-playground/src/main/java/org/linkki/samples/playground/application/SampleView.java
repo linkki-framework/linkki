@@ -17,16 +17,20 @@ package org.linkki.samples.playground.application;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.framework.ui.component.Headline;
 import org.linkki.samples.playground.application.model.Report;
 
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.router.Route;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 @Route(value = SampleView.NAME, layout = SampleApplicationLayout.class)
-public class SampleView extends VerticalLayout {
+public class SampleView extends LinkkiTabLayout {
 
     public static final String NAME = "sample-layout";
 
@@ -38,8 +42,17 @@ public class SampleView extends VerticalLayout {
     private ReportListPage listPage;
 
     public SampleView() {
+        super(Orientation.VERTICAL);
+        addTabSheets(LinkkiTabSheet.builder("CreateReport")
+                .caption(VaadinIcon.STAR_HALF_LEFT_O.create())
+                .content(createReportLayout())
+                .build(),
+                     LinkkiTabSheet.builder("ReportList")
+                             .caption(VaadinIcon.FILE_O.create())
+                             .content(createReportListLayout())
+                             .onSelectionHandler(() -> update())
+                             .build());
 
-        add(createReportLayout(), createReportListLayout());
         // TODO LIN-2222
         // addSheets(new SidebarSheet(VaadinIcons.STAR_HALF_LEFT_O, "Create Report",
         // createReportLayout()),
@@ -49,8 +62,7 @@ public class SampleView extends VerticalLayout {
 
     private VerticalLayout createReportLayout() {
         VerticalLayout layout = new VerticalLayout();
-        layout.setMargin(false);
-        layout.setSpacing(true);
+        layout.setPadding(false);
         layout.add(new Headline("Create Report"));
         ReportPage page = new ReportPage(reports::add);
         page.init();
@@ -59,10 +71,13 @@ public class SampleView extends VerticalLayout {
     }
 
     private VerticalLayout createReportListLayout() {
-        ReportListPage reportListPage = new ReportListPage(reports);
-        reportListPage.init();
-        listPage = reportListPage;
-        return reportListPage;
+        VerticalLayout layout = new VerticalLayout();
+        layout.setPadding(false);
+        listPage = new ReportListPage(reports);
+        listPage.setPadding(false);
+        listPage.init();
+        layout.add(listPage);
+        return layout;
     }
 
     private void update() {

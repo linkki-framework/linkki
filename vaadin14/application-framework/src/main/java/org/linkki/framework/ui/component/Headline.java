@@ -17,6 +17,9 @@ package org.linkki.framework.ui.component;
 import org.linkki.core.ui.bind.annotation.Bind;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
+import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -39,21 +42,22 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
  *           new Binder(headline, new HeadlinePmo()).setupBindings(getBindingContext());
  *           </pre>
  *           <p>
- *           This class is intended to be subclassed to add additional components.
+ *           This class is intended to be extended to add additional components.
  */
-public class Headline extends HorizontalLayout {
+@CssImport(value = "./styles/headline.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
+public class Headline extends Composite<HorizontalLayout> {
 
     public static final String HEADER_TITLE = "headerTitle";
     private static final long serialVersionUID = 1L;
 
     @Bind(pmoProperty = HEADER_TITLE)
-    private final Label headerTitle;
+    private final H2 headerTitle;
 
     /**
      * Creates a new {@link Headline} without a label.
      */
     public Headline() {
-        this(new Label());
+        this(new H2());
     }
 
     /**
@@ -61,7 +65,7 @@ public class Headline extends HorizontalLayout {
      * 
      * @param headerTitle the {@link Label} which holds the {@link Headline}'s title to be shown
      */
-    public Headline(Label headerTitle) {
+    public Headline(H2 headerTitle) {
         super();
         this.headerTitle = headerTitle;
         initHeaderLayout();
@@ -73,7 +77,7 @@ public class Headline extends HorizontalLayout {
      * @param title shown by the {@link Headline}
      */
     public Headline(String title) {
-        this(new Label(title));
+        this(new H2(title));
     }
 
     /**
@@ -82,10 +86,12 @@ public class Headline extends HorizontalLayout {
      * @implNote Override this method to add additional components to the headline.
      */
     protected void initHeaderLayout() {
-        addClassName(LinkkiApplicationTheme.HEADLINE);
-        setWidthFull();
-        setSpacing(true);
-        add(headerTitle);
+        getContent().setSpacing(false);
+        getContent().setPadding(true);
+        getContent().addClassName(LinkkiApplicationTheme.HEADLINE);
+        getContent().add(headerTitle);
+        getContent().setWidthFull();
+        getContent().setFlexGrow(1, headerTitle);
     }
 
     /**

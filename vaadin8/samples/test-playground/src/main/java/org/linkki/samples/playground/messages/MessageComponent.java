@@ -26,6 +26,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
+@SuppressWarnings({ "java:S2160", "java:S110" })
 public class MessageComponent extends VerticalLayout implements SidebarSheetDefinition {
 
     public static final String ID = "Message";
@@ -43,11 +44,11 @@ public class MessageComponent extends VerticalLayout implements SidebarSheetDefi
 
         User user = new User();
         RegistrationSectionPmo registrationPmo = new RegistrationSectionPmo(user,
-                pmo -> handleRegistration(pmo));
+                this::handleRegistration);
 
         // tag::validation-service[]
         validationService = new RegistrationValidationService(registrationPmo);
-        bindingManager = new RegistrationBindingManager(validationService, ml -> messagesPanel.updateMessages(ml));
+        bindingManager = new RegistrationBindingManager(validationService, messagesPanel::updateMessages);
         // end::validation-service[]
 
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();

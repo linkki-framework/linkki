@@ -32,6 +32,7 @@ import org.linkki.core.ui.aspects.ValueAspectDefinition;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.data.binder.HasItems;
 import com.vaadin.flow.data.selection.MultiSelect;
@@ -51,6 +52,7 @@ public class BindAnnotationAspectDefinitionCreator implements AspectDefinitionCr
                              new ValueAspectDefinition()),
                 ifComponentTypeIs(AbstractField.class, new DerivedReadOnlyAspectDefinition()),
                 ifComponentTypeIs(Label.class, new LabelValueAspectDefinition(false)),
+                ifComponentTypeIs(H2.class, new LabelValueAspectDefinition(false)),
                 ifComponentTypeIs(Button.class, new ButtonInvokeAspectDefinition()));
     }
 

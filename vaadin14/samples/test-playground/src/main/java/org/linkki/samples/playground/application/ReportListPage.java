@@ -31,6 +31,8 @@ public class ReportListPage extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
+    private static final String ID = "ReportListPage";
+
     private final BindingManager bindingManager = new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE,
             PropertyBehaviorProvider.with(PropertyBehavior.readOnly(() -> true)));
     private final List<Report> reports;
@@ -41,9 +43,13 @@ public class ReportListPage extends AbstractPage {
 
     @Override
     public void createContent() {
+        setId(ID);
         Headline headline = new Headline();
         add(headline);
-        new Binder(headline, new HeadlinePmo(reports)).setupBindings(getBindingContext());
+
+        HeadlinePmo headlinePmo = new HeadlinePmo(reports);
+
+        new Binder(headline, headlinePmo).setupBindings(getBindingContext());
 
         addSection(new ReportTablePmo(reports));
     }
@@ -61,5 +67,4 @@ public class ReportListPage extends AbstractPage {
     public BindingContext getBindingContext() {
         return super.getBindingContext();
     }
-
 }
