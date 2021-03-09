@@ -15,3 +15,7 @@
 .linkki-application-menu.borderless {
     --_lumo-button-background-color: transparent;
 }
+
+.linkki-main-area {
+	overflow: auto;
+}

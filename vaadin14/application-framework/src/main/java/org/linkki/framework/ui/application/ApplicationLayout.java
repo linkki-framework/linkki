@@ -21,7 +21,6 @@ import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.ErrorHandler;
@@ -39,7 +38,7 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
 
     private static final long serialVersionUID = 1L;
 
-    private Div mainArea = new Div();
+    private VerticalLayout mainArea = new VerticalLayout();
 
     protected ApplicationLayout() {
         setMargin(false);
@@ -56,7 +55,11 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
         header.init();
         add(header);
 
-        mainArea.setWidthFull();
+        mainArea.setPadding(false);
+        mainArea.setMargin(false);
+        mainArea.setSpacing(false);
+        mainArea.setSizeFull();
+        mainArea.addClassName("linkki-main-area");
         add(mainArea);
         setFlexGrow(1, mainArea);
 
