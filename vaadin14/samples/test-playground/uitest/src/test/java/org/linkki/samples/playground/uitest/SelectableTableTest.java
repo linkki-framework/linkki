@@ -18,36 +18,27 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.PlaygroundTablePmo;
 import org.linkki.samples.playground.table.SelectionComparisonSectionPmo;
+import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
-import com.vaadin.flow.component.tabs.testbench.TabElement;
 
 
 public class SelectableTableTest extends AbstractUiTest {
-
-    private TabElement tablesTab;
 
     @Override
     @BeforeEach
     public void setUp() {
         super.setUp();
-        tablesTab = $(TabElement.class).all().stream().filter(t -> "Tables".equals(t.getText())).findFirst().get();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        tablesTab = null;
+        openTab(PlaygroundApplicationUI.TABLES_TAB_ID);
     }
 
     @Test
     public void testSelection() {
-        tablesTab.click();
         GridElement selectableTable = $(GridElement.class)
                 .id(PlaygroundTablePmo.class.getSimpleName() + "_table");
 

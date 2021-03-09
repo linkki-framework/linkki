@@ -3,6 +3,10 @@
 	padding: 0;
 }
 
+.linkki-application-header + div {
+	overflow: hidden;
+}
+
 .linkki-application-footer {
 	align-self: center;
 }

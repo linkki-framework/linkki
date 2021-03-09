@@ -62,6 +62,9 @@
         <sonar.coverage.exclusions>
             **/org/linkki/samples/**/*.java
         </sonar.coverage.exclusions>
+        <sonar.cpd.exclusions>
+            **/org/linkki/samples/**/*.java
+        </sonar.cpd.exclusions>
         
     </properties>
 

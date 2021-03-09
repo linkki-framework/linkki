@@ -25,7 +25,8 @@ import java.util.stream.Stream;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.HasComponents;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -47,17 +48,22 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * {@link #removeTabSheet(LinkkiTabSheet) Removing} the selected sheet from the component changes the
  * selection to the next available tab sheet.
  */
+@CssImport(value = "./styles/linkki-tab-layout.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
 public class LinkkiTabLayout extends Composite<Component> {
+
+    public static final String THEME_VARIANT_SOLID = "solid";
+    public static final String CLASS_NAME = "linkki-tab-layout";
 
     private static final long serialVersionUID = 1L;
 
     private final Tabs tabsComponent;
-    private final HasComponents rootComponent;
+    private final FlexComponent<?> rootComponent;
+    private final VerticalLayout contentWrapper;
 
     private final Map<Tab, LinkkiTabSheet> tabSheets = new LinkedHashMap<>();
 
     /**
-     * Constructs a tab layout with {@link Orientation#HORIZONTAL horizontal} orientation.
+     * Constructs a tab layout with a {@link Orientation#HORIZONTAL horizontal} tab component.
      */
     public LinkkiTabLayout() {
         this(Orientation.HORIZONTAL);
@@ -71,26 +77,33 @@ public class LinkkiTabLayout extends Composite<Component> {
      */
     public LinkkiTabLayout(Orientation orientation) {
         tabsComponent = new Tabs();
-
-        if (orientation == Orientation.HORIZONTAL) {
-            VerticalLayout layout = new VerticalLayout();
-            layout.setPadding(false);
-            tabsComponent.setWidthFull();
-            rootComponent = layout;
-        } else {
-            HorizontalLayout layout = new HorizontalLayout();
-            layout.setPadding(false);
-            tabsComponent.setHeightFull();
-            rootComponent = layout;
-        }
-
         tabsComponent.setOrientation(orientation);
         tabsComponent.addSelectedChangeListener(e -> {
             Optional.ofNullable(e.getPreviousTab()).ifPresent(this::unselect);
             Optional.ofNullable(e.getSelectedTab()).ifPresent(this::select);
         });
 
-        rootComponent.add(tabsComponent);
+        contentWrapper = new VerticalLayout();
+        contentWrapper.setPadding(false);
+
+        if (orientation == Orientation.HORIZONTAL) {
+            VerticalLayout root = new VerticalLayout();
+            root.setPadding(false);
+            root.setSpacing(false);
+            tabsComponent.setWidthFull();
+            rootComponent = root;
+        } else {
+            HorizontalLayout root = new HorizontalLayout();
+            root.setPadding(false);
+            root.setSpacing(false);
+            tabsComponent.setHeightFull();
+            rootComponent = root;
+        }
+
+        rootComponent.setSizeFull();
+        rootComponent.setFlexGrow(1, contentWrapper);
+        rootComponent.add(tabsComponent, contentWrapper);
+        rootComponent.addClassName(CLASS_NAME);
     }
 
     private void unselect(Tab tab) {
@@ -103,7 +116,7 @@ public class LinkkiTabLayout extends Composite<Component> {
         selectedTabSheet.getOnSelectionHandler().apply();
         Component content = selectedTabSheet.getContent();
         if (!content.getParent().isPresent()) {
-            rootComponent.add(content);
+            contentWrapper.add(content);
         }
         content.setVisible(true);
     }
@@ -170,7 +183,7 @@ public class LinkkiTabLayout extends Composite<Component> {
     public void removeTabSheet(LinkkiTabSheet tabSheet) {
         Tab tab = tabSheet.getTab();
         tabsComponent.remove(tab);
-        rootComponent.remove(tabSheets.get(tab).getContent());
+        contentWrapper.remove(tabSheets.get(tab).getContent());
         tabSheets.remove(tab);
     }
 
@@ -180,7 +193,7 @@ public class LinkkiTabLayout extends Composite<Component> {
     public void removeAllTabSheets() {
         tabsComponent.removeAll();
 
-        tabSheets.values().forEach(tabSheet -> rootComponent.remove(tabSheet.getContent()));
+        tabSheets.values().forEach(tabSheet -> contentWrapper.remove(tabSheet.getContent()));
         tabSheets.clear();
     }
 
@@ -253,5 +266,16 @@ public class LinkkiTabLayout extends Composite<Component> {
      */
     public Tabs getTabsComponent() {
         return tabsComponent;
+    }
+
+    /**
+     * Creates a new vertical {@link LinkkiTabLayout} with a solid tab bar on the left. This is
+     * equivalent to adding the theme {@value #THEME_VARIANT_SOLID} to a vertical
+     * {@link LinkkiTabLayout}.
+     */
+    public static LinkkiTabLayout newSidebarLayout() {
+        LinkkiTabLayout sidebarLayout = new LinkkiTabLayout(Orientation.VERTICAL);
+        sidebarLayout.getContent().getElement().getThemeList().add(THEME_VARIANT_SOLID);
+        return sidebarLayout;
     }
 }

@@ -19,19 +19,18 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.PlaygroundTablePmo;
+import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
-import com.vaadin.flow.component.tabs.testbench.TabElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class TableValidationMarkerTest extends AbstractUiTest {
 
     @Test
     public void testMarkersInTable() {
-        $(TabElement.class).all().stream().filter(t -> "Tables".equals(t.getText())).findFirst().get().click();
+        openTab(PlaygroundApplicationUI.TABLES_TAB_ID);
 
-        GridElement table = $(GridElement.class)
-                .id(PlaygroundTablePmo.class.getSimpleName() + "_table");
+        GridElement table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
 
         String value = "Name 2";
         TextFieldElement textField = findTextFieldByValue(table, value);
@@ -40,11 +39,10 @@ public class TableValidationMarkerTest extends AbstractUiTest {
 
         assertThat(textField.getAttribute("invalid"), is("true"));
 
-        $(TabElement.class).all().stream().filter(t -> "All".equals(t.getText())).findFirst().get().click();
-        $(TabElement.class).all().stream().filter(t -> "Tables".equals(t.getText())).findFirst().get().click();
+        openTab(PlaygroundApplicationUI.ALL_COMPONENTS_TAB_ID);
+        openTab(PlaygroundApplicationUI.TABLES_TAB_ID);
 
-        table = $(GridElement.class)
-                .id(PlaygroundTablePmo.class.getSimpleName() + "_table");
+        table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
         textField = findTextFieldByValue(table, value);
         assertThat(textField.getAttribute("invalid"), is("true"));
     }

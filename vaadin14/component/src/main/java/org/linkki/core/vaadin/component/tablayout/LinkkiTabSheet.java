@@ -127,9 +127,9 @@ public class LinkkiTabSheet {
 
         /**
          * Specifies the given {@link Component} as caption of the tab. Any existing caption that is set
-         * by {@link #caption(Component) or #withCaption(String)} is overwritten. The caption of
-         * sheet can be either a text of a component. To use a text caption, call
-         * {@link #caption(String)} instead.
+         * by {@link #caption(Component) or #withCaption(String)} is overwritten. The caption of sheet
+         * can be either a text of a component. To use a text caption, call {@link #caption(String)}
+         * instead.
          * 
          * @param newCaption caption component of the tab
          * @return {@code this} for method chaining

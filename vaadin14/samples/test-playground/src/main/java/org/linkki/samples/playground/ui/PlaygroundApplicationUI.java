@@ -29,7 +29,7 @@ import org.linkki.samples.playground.table.TablePage;
 import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
 
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.tabs.Tabs.Orientation;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
@@ -61,48 +61,55 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         removeAll();
-        LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.VERTICAL);
+        LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.addTabSheets(
                                LinkkiTabSheet.builder(ALL_COMPONENTS_TAB_ID)
-                                       .caption("All")
+                                       .caption(VaadinIcon.FORM.create())
                                        .description("All UI Components")
                                        .content(new AllUiElementsPage(
                                                () -> StringUtils.equals(parameter, PARAM_READONLY)))
                                        .build(),
                                LinkkiTabSheet.builder(DYNAMIC_ASPECT_TAB_ID)
-                                       .caption("Dynamic")
+                                       .caption(VaadinIcon.FLIGHT_TAKEOFF.create())
                                        .description("Dynamic Aspects")
                                        .content(new DynamicAnnotationsLayout()).build(),
                                LinkkiTabSheet.builder(BUGS_TAB_ID)
-                                       .caption("Bugs")
+                                       .caption(VaadinIcon.BUG.create())
+                                       .description("Bugs")
                                        .content(new BugCollectionLayout()).build(),
                                LinkkiTabSheet.builder(TABLES_TAB_ID)
-                                       .caption("Tables")
+                                       .caption(VaadinIcon.TABLE.create())
+                                       .description("Tables")
                                        .content(new TablePage()).build(),
                                LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)
-                                       .caption("Nested")
+                                       .caption(VaadinIcon.ROAD_BRANCHES.create())
                                        .description("Nested Components")
                                        .content(new NestedComponentPage()).build(),
                                LinkkiTabSheet.builder(LOCALE_TAB_ID)
-                                       .caption("Locale")
+                                       .caption(VaadinIcon.MAP_MARKER.create())
+                                       .description("Locale")
                                        .content(new LocaleInfoPage()).build(),
                                LinkkiTabSheet.builder(TAB_LAYOUT_TAB_ID)
-                                       .caption("Tab Layout")
+                                       .caption(VaadinIcon.TABS.create())
+                                       .description("Tab Layout")
                                        .content(new TabLayoutPage()).build(),
                                LinkkiTabSheet.builder(ALIGNMENT_TAB_ID)
-                                       .caption("Alignment")
+                                       .caption(VaadinIcon.ALIGN_CENTER.create())
+                                       .description("Alignment")
                                        .content(new AlignmentPage()).build(),
                                LinkkiTabSheet.builder(MESSAGES_TAB_ID)
-                                       .caption("Messages")
+                                       .caption(VaadinIcon.COMMENT_ELLIPSIS_O.create())
+                                       .description("Messages Component")
                                        .content(new MessagesComponent()).build(),
                                LinkkiTabSheet.builder(TREETABLE_TAB_ID)
-                                       .caption("Tree Table")
+                                       .caption(VaadinIcon.FILE_TREE.create())
+                                       .description("Tree Table")
                                        .content(new SampleTreeTableComponent()).build(),
                                LinkkiTabSheet.builder(IPS_TAB_ID)
-                                       .caption("IPS")
+                                       .caption(VaadinIcon.TWITTER.create())
+                                       .description("IPS")
                                        .content(new IpsComponent()).build());
 
-        tabLayout.getTabsComponent().setWidth("120px");
         add(tabLayout);
     }
 

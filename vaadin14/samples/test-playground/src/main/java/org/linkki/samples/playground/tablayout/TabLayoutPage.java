@@ -66,5 +66,4 @@ public class TabLayoutPage extends VerticalLayout {
         add(horizontalSheet);
         add(verticalSheet);
     }
-
 }
