@@ -30,9 +30,11 @@ import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -65,17 +67,26 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *           between its content and the OK and cancel buttons. (see
  *           {@link MessageList#getFirstMessage(Severity)})
  */
-public class OkCancelDialog extends Composite<Dialog> {
+@CssImport(value = "./styles/ok-cancel-dialog.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
+public class OkCancelDialog extends Composite<Dialog> implements HasSize {
+
+    public static final String CLASS_NAME_CONTENT_AREA = "content-area";
+    public static final String CLASS_NAME_DIALOG_LAYOUT = "linkki-dialog-layout";
+    public static final String OK_BUTTON_ID = "okButton";
+    public static final String CANCEL_BUTTON_ID = "cancelButton";
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * The overall layout of this window. This is the content of the dialog window that contains all
-     * other UI component.
+     * The overall layout of this dialog. This is the content of the dialog that contains all components
+     * including the header.
      */
     private final VerticalLayout layout;
 
-    /** The area that contains any content that is added by subclasses etc. */
+    /**
+     * The area that contains any added content as well as the component displaying the validation
+     * message.
+     */
     private final VerticalLayout contentArea;
 
     /** The area that contains all buttons */
@@ -140,33 +151,35 @@ public class OkCancelDialog extends Composite<Dialog> {
                 ? new Button(NlsText.getString("OkCancelDialog.CancelButtonCaption")) //$NON-NLS-1$
                 : null;
 
-        okButton.addClickShortcut(Key.ENTER);
-        okButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
         getContent().setModal(true);
         getContent().setResizable(false);
         getContent().setDraggable(true);
+        getContent().setMaxWidth("100%");
+        getContent().setMaxHeight("100%");
+
+        layout.setSizeFull();
+        layout.setMargin(false);
+        layout.setPadding(false);
+        layout.addClassName(CLASS_NAME_DIALOG_LAYOUT);
+        getContent().add(layout);
 
         title = new H3(caption);
         title.addClassName(LinkkiApplicationTheme.DIALOG_CAPTION);
         layout.setHorizontalComponentAlignment(Alignment.START, title);
         layout.add(title);
 
-        layout.setWidthFull();
-        layout.setMargin(false);
-        layout.setPadding(false);
-        layout.setFlexGrow(1, contentArea);
-        getContent().add(layout);
-
         contentArea.setPadding(false);
         contentArea.setSpacing(false);
+        contentArea.setSizeFull();
         layout.add(contentArea);
+        layout.setFlexGrow(1, contentArea);
 
         buttonArea.setPadding(false);
         buttonArea.setSpacing(true);
         buttonArea.addClassName(LinkkiApplicationTheme.DIALOG_BUTTON_BAR);
         buttonArea.setAlignItems(Alignment.CENTER);
         layout.add(buttonArea);
+        layout.setHorizontalComponentAlignment(Alignment.END, buttonArea);
         layout.setFlexGrow(0, buttonArea);
 
         initContentArea(contentComponents);
@@ -243,7 +256,7 @@ public class OkCancelDialog extends Composite<Dialog> {
     }
 
     private void initContentArea(Component... contentComponents) {
-        contentArea.addClassName("content-area"); //$NON-NLS-1$
+        contentArea.addClassName(CLASS_NAME_CONTENT_AREA); // $NON-NLS-1$
         contentArea.setWidthFull();
         for (Component contentComponent : contentComponents) {
             contentArea.add(contentComponent);
@@ -253,6 +266,10 @@ public class OkCancelDialog extends Composite<Dialog> {
     private void initButtons() {
 
         buttonArea.add(okButton);
+
+        okButton.addClickShortcut(Key.ENTER);
+        okButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        okButton.setId(OK_BUTTON_ID);
         okButton.addClickListener(e -> {
             setOkPressed();
             beforeOkHandler.andThen(() -> {
@@ -263,16 +280,16 @@ public class OkCancelDialog extends Composite<Dialog> {
             }).apply();
 
         });
-        okButton.setId("okButton");
 
         if (cancelButton != null) {
             buttonArea.add(cancelButton);
+            cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+            cancelButton.setId(CANCEL_BUTTON_ID);
             cancelButton.addClickListener(e -> {
                 setCancelPressed(true);
                 cancel();
                 getContent().close();
             });
-            cancelButton.setId("cancelButton");
         }
 
     }
@@ -302,11 +319,8 @@ public class OkCancelDialog extends Composite<Dialog> {
      * When calculating the correct height always consider that there might be validation messages below
      * your content. If the dialog's height is too small the components may overlap or be cropped.
      * <p>
-     * The dialog will never create scroll bars. If you want scroll bars, add a single panel as root
-     * content, and configure it to use scroll bars. The header, the button(s) and the validation
-     * messages will then always be visible.
-     * <p>
-     * If you need a dialog with dynamic height you must not call this method.
+     * If you need a dialog with dynamic height and only want to set the width, use
+     * {@link #setWidth(String)} instead.
      * 
      * @see FlexComponent#setFlexGrow(double, com.vaadin.flow.component.HasElement...)
      * 

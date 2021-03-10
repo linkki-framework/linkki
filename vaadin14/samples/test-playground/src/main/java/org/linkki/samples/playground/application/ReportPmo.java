@@ -26,6 +26,7 @@ import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UITextArea;
+import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
 import org.linkki.samples.playground.application.model.Report;
@@ -33,6 +34,7 @@ import org.linkki.samples.playground.application.model.ReportType;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+@UIFormSection(caption = "Report")
 public class ReportPmo {
 
     protected Report report;
