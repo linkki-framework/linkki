@@ -45,7 +45,7 @@ Stichpunkte, die in der Migrationsanleitung geordnet und ausformuliert werden
                 .withContent(contentSupplier)
                 .withOnSelectHandler(uiUpdateObserver)
 				
-* SidebarLayout -> LinkkiTabLayout(VERTICAL):
+* SidebarLayout -> LinkkiTabLayout.newSidebarLayout():
 ** addSheets -> addTabSheets
 ** addSheet -> addTabSheet
 ** addSelectionListener -> addSelectedChangeListener
