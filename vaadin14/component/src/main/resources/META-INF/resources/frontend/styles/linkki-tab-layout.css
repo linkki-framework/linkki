@@ -2,8 +2,12 @@ vaadin-horizontal-layout.linkki-tab-layout[theme~="solid"] > vaadin-tabs {
   background: #eee;
 }
 
-vaadin-horizontal-layout.linkki-tab-layout > vaadin-tabs + vaadin-vertical-layout {
+vaadin-horizontal-layout.linkki-tab-layout > vaadin-vertical-layout {
   overflow: auto;
+}
+
+vaadin-horizontal-layout.linkki-tab-layout > vaadin-tabs {
+  overflow: hidden;
 }
 
 vaadin-horizontal-layout.linkki-tab-layout > vaadin-tabs > vaadin-tab {
