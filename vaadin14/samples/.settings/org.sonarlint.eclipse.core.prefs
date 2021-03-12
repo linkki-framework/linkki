@@ -1,6 +1,6 @@
 autoEnabled=true
 eclipse.preferences.version=1
-idePrefixKey=
+idePrefixKey=application-framework/target/m2e-wtp/web-resources/META-INF/maven/org.linkki-framework.samples/linkki-sample-application-vaadin14
 projectKey=linkki-vaadin14
 serverId=sonarqube.faktorzehn.de
 sqPrefixKey=

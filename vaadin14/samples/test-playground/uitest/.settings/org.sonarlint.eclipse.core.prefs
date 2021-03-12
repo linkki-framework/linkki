@@ -3,4 +3,4 @@ eclipse.preferences.version=1
 idePrefixKey=src/test/java/org/linkki/samples/playground/uitest/vaadin14
 projectKey=linkki-vaadin14
 serverId=sonarqube.faktorzehn.de
-sqPrefixKey=vaadin8/application-framework/src/test/java/org/linkki/framework/ui/application
+sqPrefixKey=vaadin14/application-framework/src/test/java/org/linkki/framework/ui/component

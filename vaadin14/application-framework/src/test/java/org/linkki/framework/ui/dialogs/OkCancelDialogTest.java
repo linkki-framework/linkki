@@ -23,7 +23,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -39,10 +38,9 @@ import org.linkki.framework.ui.dialogs.OkCancelDialog.ButtonOption;
 import org.linkki.util.handler.Handler;
 import org.linkki.util.validation.ValidationMarker;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -351,12 +349,8 @@ public class OkCancelDialogTest {
 
                 @NonNull
                 VerticalLayout layout = dialog.getContentArea();
-                FormLayout formLayout = (FormLayout)layout.getComponentAt(0);
-                return formLayout.getChildren()//
-                        .flatMap(Component::getChildren)//
-                        .filter(Label.class::isInstance)//
-                        .map(Label.class::cast)//
-                        .anyMatch(l -> StringUtils.equals(l.getText(), text));
+                Span message = (Span)layout.getComponentAt(0);
+                return text.contentEquals(message.getText());
             }
         };
     }

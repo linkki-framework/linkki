@@ -23,15 +23,16 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.ObjectProperty;
 import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -103,15 +104,13 @@ public final class MessageUiComponents {
      * the severity}.
      */
     public static Component createMessageComponent(Message message) {
-        FormLayout component = new FormLayout();
-        Label messageLabel = new Label();
+        Span messageLabel = new Span();
         messageLabel.setWidthFull();
-        messageLabel.setText(message.getText());
         Severity severity = message.getSeverity();
-        messageLabel.addClassName(LinkkiApplicationTheme.MESSAGE_LABEL);
-        messageLabel.addClassName(getStyle(severity));
-        component.add(new Div(getIcon(severity).create(), messageLabel));
-        return component;
+        messageLabel.add(getIcon(severity).create());
+        messageLabel.add(message.getText());
+        messageLabel.addClassNames(getStyle(severity), LinkkiApplicationTheme.MESSAGE_LABEL, LinkkiTheme.HAS_ICON);
+        return messageLabel;
     }
 
     /**
