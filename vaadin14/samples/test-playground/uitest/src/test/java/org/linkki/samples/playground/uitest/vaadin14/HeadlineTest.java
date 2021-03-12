@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
@@ -76,9 +75,5 @@ public class HeadlineTest extends AbstractUiTest {
 
         ButtonElement buttonElement = section.$(ButtonElement.class).id("send");
         buttonElement.click();
-
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("overlay")));
-        waitUntil(ExpectedConditions.elementToBeClickable(By.id("okButton")));
-        $(ButtonElement.class).id("okButton").click();
     }
 }

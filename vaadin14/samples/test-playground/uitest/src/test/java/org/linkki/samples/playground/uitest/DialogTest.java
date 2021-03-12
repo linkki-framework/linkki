@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.ui.dialogs.SimpleDialogPmo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -60,7 +61,7 @@ public class DialogTest extends AbstractUiTest {
     @Test
     @Order(3)
     public void testOkCancelDialog() {
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id("OkCancelDialogPmo");
+        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(SimpleDialogPmo.class.getSimpleName());
 
         section.$(TextFieldElement.class).id("caption").setValue("Awesome dialog");
         section.$(TextFieldElement.class).id("content").setValue("This is awesome!");

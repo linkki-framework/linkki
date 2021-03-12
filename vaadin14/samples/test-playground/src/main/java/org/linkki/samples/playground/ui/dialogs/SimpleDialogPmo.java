@@ -21,8 +21,8 @@ import org.linkki.framework.ui.dialogs.OkCancelDialog;
 
 import com.vaadin.flow.component.Text;
 
-@UISection(caption = "OkCancelDialog")
-public class OkCancelDialogPmo {
+@UISection(caption = "Simple OkCancelDialog")
+public class SimpleDialogPmo {
 
     private String caption = "Sample Dialog";
     private String content = "Do you really want to do this?";

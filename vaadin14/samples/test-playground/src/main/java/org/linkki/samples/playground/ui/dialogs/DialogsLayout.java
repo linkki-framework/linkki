@@ -34,8 +34,9 @@ public class DialogsLayout extends VerticalLayout {
         add(new Text(
                 "The dialogs are created in a different view to test the behavior of dialogs upon view change."));
 
-        add(VaadinUiCreator.createComponent(new OkCancelDialogPmo(),
-                                            new BindingContext(getClass().getName())));
+        add(VaadinUiCreator.createComponent(new SimpleDialogPmo(), new BindingContext(getClass().getName())));
+        add(VaadinUiCreator.createComponent(new ValidationDialogPmo.ButtonSectionPmo(),
+                                            new BindingContext(ValidationDialogPmo.class.getName())));
     }
 
     @Override

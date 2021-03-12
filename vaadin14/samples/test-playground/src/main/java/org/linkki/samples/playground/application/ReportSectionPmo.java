@@ -16,8 +16,6 @@ package org.linkki.samples.playground.application;
 import java.util.function.Consumer;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.dispatcher.behavior.PropertyBehavior;
-import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
@@ -25,8 +23,6 @@ import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.framework.ui.component.MessageUiComponents;
 import org.linkki.framework.ui.dialogs.ConfirmationDialog;
-import org.linkki.framework.ui.dialogs.OkCancelDialog;
-import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.samples.playground.application.model.Report;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -58,19 +54,7 @@ public class ReportSectionPmo extends ReportPmo {
                     .setSize("20em", null);
         } else {
             getReport().save();
-
-            SendEmailPmo sendEmailPmo = new SendEmailPmo();
-            PropertyBehavior readOnlyBehavior = PropertyBehavior.writable((o, p) -> o == sendEmailPmo);
-            PmoBasedDialogFactory dialogFactory = new PmoBasedDialogFactory(sendEmailPmo::validate,
-                    PropertyBehaviorProvider.with(readOnlyBehavior));
-
-            OkCancelDialog dialog = dialogFactory.newOkCancelDialog("Send the following report?",
-                                                                    this::doSendReport,
-                                                                    () -> Notification.show("Report is not sent."),
-                                                                    new ReportPmo(getReport()), sendEmailPmo);
-
-            dialog.setSize("90%", null);
-            dialog.open();
+            doSendReport();
         }
     }
 
