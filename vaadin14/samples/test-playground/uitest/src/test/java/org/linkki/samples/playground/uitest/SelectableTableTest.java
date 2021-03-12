@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThat;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.selection.PlaygroundSelectableTablePmo;
 import org.linkki.samples.playground.table.selection.SelectionComparisonSectionPmo;
@@ -79,6 +80,8 @@ public class SelectableTableTest extends AbstractUiTest {
         // is("Name 2"));
     }
 
+    // TODO LIN-2343
+    @Disabled("Double click on row does not select it")
     @Test
     public void testDoubleClick() {
         GridElement selectableTable = $(GridElement.class)

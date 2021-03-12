@@ -17,6 +17,7 @@ package org.linkki.samples.playground.allelements;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 public enum Direction {
+
     UP(VaadinIcon.ARROW_CIRCLE_UP),
     DOWN(VaadinIcon.ARROW_CIRCLE_DOWN),
     LEFT(VaadinIcon.ARROW_CIRCLE_LEFT),

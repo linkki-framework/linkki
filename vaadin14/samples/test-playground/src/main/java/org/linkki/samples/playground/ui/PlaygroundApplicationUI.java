@@ -28,6 +28,8 @@ import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.tablayout.TabLayoutPage;
 import org.linkki.samples.playground.table.TablePage;
 import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
+import org.linkki.samples.playground.ts001.BasicElementsLayoutBehaviourPage;
+import org.linkki.samples.playground.ts002.SectionHeaderBehaviorPage;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -65,7 +67,10 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         removeAll();
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
+        tabLayout.setId("test-scenario-selector");
         tabLayout.addTabSheets(
+
+                               // old tab sheets
                                LinkkiTabSheet.builder(ALL_COMPONENTS_TAB_ID)
                                        .caption(VaadinIcon.FORM.create())
                                        .description("All UI Components")
@@ -118,7 +123,19 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                LinkkiTabSheet.builder(IPS_TAB_ID)
                                        .caption(VaadinIcon.TWITTER.create())
                                        .description("IPS")
-                                       .content(new IpsComponent()).build());
+                                       .content(new IpsComponent()).build(),
+
+                               // new test scenarios
+                               LinkkiTabSheet.builder("TS001")
+                                       .caption("TS001")
+                                       .description("Test Scenario 001: Basic Elements Behavior")
+                                       .content(new BasicElementsLayoutBehaviourPage())
+                                       .build(),
+                               LinkkiTabSheet.builder("TS002")
+                                       .caption("TS002")
+                                       .description("Test Scenario 002: Section Header Behavior")
+                                       .content(new SectionHeaderBehaviorPage())
+                                       .build());
 
         add(tabLayout);
     }

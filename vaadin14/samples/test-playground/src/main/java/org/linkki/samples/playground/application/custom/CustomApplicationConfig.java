@@ -20,7 +20,7 @@ import java.util.Optional;
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
-import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.util.Sequence;
 
 /**
@@ -31,17 +31,17 @@ public class CustomApplicationConfig implements ApplicationConfig {
 
     @Override
     public String getApplicationName() {
-        return NlsText.getString("CustomApplicationConfig.Name");
+        return PlaygroundNlsText.getString("CustomApplicationConfig.Name");
     }
 
     @Override
     public String getApplicationVersion() {
-        return NlsText.getString("CustomApplicationConfig.Version");
+        return PlaygroundNlsText.getString("CustomApplicationConfig.Version");
     }
 
     @Override
     public String getApplicationDescription() {
-        return NlsText.getString("CustomApplicationConfig.Description");
+        return PlaygroundNlsText.getString("CustomApplicationConfig.Description");
     }
 
     @Override

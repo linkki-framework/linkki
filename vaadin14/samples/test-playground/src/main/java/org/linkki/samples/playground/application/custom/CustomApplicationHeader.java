@@ -17,7 +17,7 @@ package org.linkki.samples.playground.application.custom;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
-import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.samples.playground.nls.PlaygroundNlsText;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
@@ -39,7 +39,7 @@ public class CustomApplicationHeader extends ApplicationHeader {
     @Override
     protected void addHelpMenuItems(MenuItem helpMenu) {
         helpMenu.getSubMenu()
-                .addItem(new Button(NlsText.getString("ApplicationHeader.Feedback"), VaadinIcon.COMMENT.create()), //$NON-NLS-1$
+                .addItem(new Button(PlaygroundNlsText.getString("ApplicationHeader.Feedback"), VaadinIcon.COMMENT.create()), //$NON-NLS-1$
                          i -> Notification.show("Thank you for customizing me!"));
         addApplicationInfoMenuItem(helpMenu);
     }

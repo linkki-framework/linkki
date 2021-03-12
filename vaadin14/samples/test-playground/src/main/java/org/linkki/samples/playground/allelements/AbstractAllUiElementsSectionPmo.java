@@ -42,7 +42,7 @@ import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 import org.linkki.ips.decimalfield.UIDecimalField;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
-import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.samples.playground.nls.PlaygroundNlsText;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -95,7 +95,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UITextField(position = 10, label = NlsText.I18n, //
+    @UITextField(position = 10, label = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_TEXT, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void text() {
@@ -115,7 +115,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UITextArea(position = 20, height = "5em", label = NlsText.I18n, //
+    @UITextArea(position = 20, height = "5em", label = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_LONGTEXT, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void longText() {
@@ -135,7 +135,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIIntegerField(position = 30, label = NlsText.I18n, //
+    @UIIntegerField(position = 30, label = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_INTVALUE, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void intValue() {
@@ -155,7 +155,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIDoubleField(position = 40, label = NlsText.I18n, //
+    @UIDoubleField(position = 40, label = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_DOUBLEVALUE, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void doubleValue() {
@@ -175,7 +175,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIDateField(position = 50, label = NlsText.I18n, //
+    @UIDateField(position = 50, label = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_DATE, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void date() {
@@ -195,7 +195,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIComboBox(position = 60, label = NlsText.I18n, //
+    @UIComboBox(position = 60, label = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void enumValueComboBox() {
@@ -215,7 +215,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UICheckBox(position = 70, caption = NlsText.I18n, //
+    @UICheckBox(position = 70, caption = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_BOOLEANVALUE, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void booleanValue() {
@@ -234,7 +234,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return isAllElementsVisible();
     }
 
-    @UILabel(position = 80, label = NlsText.I18n, //
+    @UILabel(position = 80, label = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, //
             styleNames = { "firstStyleName", "anotherStyleName" }, visible = VisibleType.DYNAMIC)
     public void textLabel() {
@@ -248,36 +248,36 @@ public abstract class AbstractAllUiElementsSectionPmo {
     /**
      * No label in Nls to test default behavior of no label
      */
-    @UILabel(position = 81, label = NlsText.I18n, //
+    @UILabel(position = 81, label = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_BIG_DECIMAL)
     public void bigDecimalLabel() {
         // model binding
     }
 
-    @UILabel(position = 82, label = NlsText.I18n, htmlContent = true)
+    @UILabel(position = 82, label = PlaygroundNlsText.I18N, htmlContent = true)
     public String getHtmlContentLabel() {
         return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
     }
 
-    @UILabel(position = 83, label = NlsText.I18n)
+    @UILabel(position = 83, label = PlaygroundNlsText.I18N)
     public String getNotHtmlContentLabel() {
         return "<b>NOT</b> HTML Content";
     }
 
     @BindIcon(value = VaadinIcon.ABACUS)
-    @UILabel(position = 84, label = NlsText.I18n, htmlContent = true)
+    @UILabel(position = 84, label = PlaygroundNlsText.I18N, htmlContent = true)
     public String getNotHtmlContentLabelMitIcon() {
         return "<i style=\\\"color: red;\\\">HTML</i> <b>Content</b> mit Icon";
     }
 
     @BindIcon(value = VaadinIcon.ABACUS)
-    @UILabel(position = 85, label = NlsText.I18n)
+    @UILabel(position = 85, label = PlaygroundNlsText.I18N)
     public String getHtmlContentLabelMitIcon() {
         return "<div><b>NOT</b> HTML Content mit Icon</div>";
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UICustomField(position = 90, label = NlsText.I18n, uiControl = PasswordField.class, //
+    @UICustomField(position = 90, label = PlaygroundNlsText.I18N, uiControl = PasswordField.class, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void secret() {
@@ -297,7 +297,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIDecimalField(position = 110, label = NlsText.I18n, //
+    @UIDecimalField(position = 110, label = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_DECIMALVALUE, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void decimalValue() {
@@ -317,7 +317,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIRadioButtons(position = 120, label = NlsText.I18n, //
+    @UIRadioButtons(position = 120, label = PlaygroundNlsText.I18N, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void enumValueRadioButton() {
@@ -337,7 +337,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindIcon(iconType = IconType.DYNAMIC)
-    @UILink(position = 140, label = NlsText.I18n, caption = "Link to Dynamic Annotations", //
+    @UILink(position = 140, label = PlaygroundNlsText.I18N, caption = "Link to Dynamic Annotations", //
             captionType = CaptionType.STATIC, visible = VisibleType.DYNAMIC)
     public String getLink() {
         return "main#!/sheet=" + DynamicAnnotationsLayout.ID;
@@ -351,18 +351,18 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return isAllElementsVisible();
     }
 
-    @UINestedComponent(position = 150, label = NlsText.I18n)
+    @UINestedComponent(position = 150, label = PlaygroundNlsText.I18N)
     public ButtonPmo buttons() {
         return new ButtonPmo();
     }
 
-    @UISection(caption = NlsText.I18n)
+    @UISection(caption = PlaygroundNlsText.I18N)
     @BindStyleNames(AbstractAllUiElementsSectionPmo.CSS_NAME)
     public static class AllUiElementsUiSectionPmo extends AbstractAllUiElementsSectionPmo {
         // no content needed
     }
 
-    @UIFormSection(caption = NlsText.I18n)
+    @UIFormSection(caption = PlaygroundNlsText.I18N)
     public static class AllUiElementsUiFormSectionPmo extends AbstractAllUiElementsSectionPmo {
         // no content needed
     }

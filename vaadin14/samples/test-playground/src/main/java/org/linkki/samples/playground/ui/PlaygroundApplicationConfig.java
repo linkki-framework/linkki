@@ -25,7 +25,7 @@ import org.linkki.samples.playground.application.SampleView;
 import org.linkki.samples.playground.application.custom.CustomView;
 import org.linkki.samples.playground.binding.BindingSampleView;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
-import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.samples.playground.products.ProductsSampleView;
 import org.linkki.samples.playground.ui.dialogs.DialogsLayout;
 import org.linkki.util.Sequence;
@@ -41,17 +41,17 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
 
     @Override
     public String getApplicationName() {
-        return NlsText.getString("PlaygroundApplicationConfig.Name");
+        return PlaygroundNlsText.getString("PlaygroundApplicationConfig.Name");
     }
 
     @Override
     public String getApplicationVersion() {
-        return NlsText.getString("PlaygroundApplicationConfig.Version");
+        return PlaygroundNlsText.getString("PlaygroundApplicationConfig.Version");
     }
 
     @Override
     public String getApplicationDescription() {
-        return NlsText.getString("PlaygroundApplicationConfig.Description");
+        return PlaygroundNlsText.getString("PlaygroundApplicationConfig.Description");
     }
 
     @Override

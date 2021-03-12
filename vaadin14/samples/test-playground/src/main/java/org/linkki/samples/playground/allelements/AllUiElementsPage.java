@@ -23,10 +23,20 @@ import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.samples.playground.TestCaseSection;
 import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiSectionPmo;
 import org.linkki.util.handler.Handler;
+
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+
 
 public class AllUiElementsPage extends AbstractPage {
 
@@ -56,6 +66,41 @@ public class AllUiElementsPage extends AbstractPage {
             dynamicFieldSection = addSection(dynamicFieldPmo);
         });
         dynamicFieldSection = addSection(dynamicFieldPmo);
+
+        add(createLinkkiTextBehaviourTest());
+
+    }
+
+    private Component createLinkkiTextBehaviourTest() {
+
+        VerticalLayout content = new VerticalLayout();
+        content.setPadding(false);
+
+        FormLayout formLayout = new FormLayout();
+        LinkkiText textWithIcon = new LinkkiText();
+        updateIconWithText(textWithIcon);
+        formLayout.add(textWithIcon);
+
+        HorizontalLayout actions = new HorizontalLayout();
+        actions.setPadding(false);
+        actions.add(new Button("Set static text", e -> updateIconWithText(textWithIcon)));
+        actions.add(new Button("Set random text", e -> updateIconWithTextRandom(textWithIcon)));
+        actions.add(new Button("Remove Icon", e -> textWithIcon.setIcon(null)));
+        actions.add(new Button("Set Icon", e -> textWithIcon.setIcon(VaadinIcon.ABACUS)));
+
+        content.add(formLayout, actions);
+
+        return new TestCaseSection("linkkiText", content);
+    }
+
+    private void updateIconWithText(LinkkiText text) {
+        text.setText("Label with Icon");
+        text.setIcon(VaadinIcon.ABACUS);
+    }
+
+    private void updateIconWithTextRandom(LinkkiText text) {
+        text.setText("" + System.currentTimeMillis());
+        text.setIcon(VaadinIcon.TIMER);
     }
 
     /**
