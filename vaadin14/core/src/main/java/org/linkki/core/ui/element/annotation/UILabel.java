@@ -33,12 +33,12 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
+import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.element.annotation.UILabel.LabelAspectDefinitionCreator;
 import org.linkki.core.ui.element.annotation.UILabel.LabelComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
-
-import com.vaadin.flow.component.html.Div;
+import org.linkki.core.vaadin.component.base.LinkkiText;
 
 /**
  * Provides a single UI-element to display text content. Creates a
@@ -84,6 +84,9 @@ public @interface UILabel {
 
     /**
      * When set to {@code true}, the label's content will be displayed as HTML, otherwise as plain text.
+     * <p>
+     * HTML content is not compatible with some annotations that manipulate the resulting component,
+     * like {@link BindIcon}.
      */
     boolean htmlContent() default false;
 
@@ -106,7 +109,7 @@ public @interface UILabel {
         @Override
         public LinkkiComponentDefinition create(UILabel annotation, AnnotatedElement annotatedElement) {
             return pmo -> {
-                Div label = new Div();
+                LinkkiText label = new LinkkiText();
                 for (String styleName : annotation.styleNames()) {
                     label.addClassName(styleName);
                 }

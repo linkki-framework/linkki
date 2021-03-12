@@ -27,6 +27,7 @@ import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -38,6 +39,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
  * Utility class for the creation of different components to display {@link Message Messages} and
  * {@link MessageList MessageLists}.
  */
+@CssImport("./styles/linkki-messages.css")
 public final class MessageUiComponents {
 
     private MessageUiComponents() {
@@ -65,22 +67,6 @@ public final class MessageUiComponents {
                 return VaadinIcon.WARNING;
             default:
                 return VaadinIcon.INFO_CIRCLE;
-        }
-    }
-
-    /**
-     * Returns an unicode character as icon for the message's {@link Severity}.
-     */
-    // TODO LIN-2052 Vaadin 14: BindIcon für "beliebige" Components
-    // remove and use VaadinIcon in Pmo instead
-    public static String getUnicodeIcon(Severity severity) {
-        switch (severity) {
-            case ERROR:
-                return "&#x2757;";
-            case WARNING:
-                return "&#x26A0;";
-            default:
-                return "&#x2139;";
         }
     }
 

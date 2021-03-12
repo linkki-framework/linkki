@@ -12,9 +12,9 @@
  * License.
  */
 /**
- * Annotations for linkki UI {@link com.vaadin.flow.component.html.Anchor} component.
+ * Basic linkki UI components.
  */
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)
 @edu.umd.cs.findbugs.annotations.DefaultAnnotationForMethods(edu.umd.cs.findbugs.annotations.NonNull.class)
-package org.linkki.core.vaadin.component.anchor;
+package org.linkki.core.vaadin.component.base;

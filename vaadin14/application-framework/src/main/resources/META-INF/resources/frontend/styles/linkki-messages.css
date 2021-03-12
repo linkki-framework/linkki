@@ -1,0 +1,11 @@
+.linkki-message-error iron-icon {
+    color: var(--linkki-message-error-color, #D24343);
+}
+
+.linkki-message-warning iron-icon {
+    color: var(--linkki-message-warning-color, #F2AE55);
+}
+
+.linkki-message-info iron-icon {
+    color: var(--linkki-message-info-color, #99C7FF);
+}

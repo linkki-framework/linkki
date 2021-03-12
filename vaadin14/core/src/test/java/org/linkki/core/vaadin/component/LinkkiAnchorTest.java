@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.core.vaadin.component.anchor.LinkkiAnchor;
+import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.icon.Icon;

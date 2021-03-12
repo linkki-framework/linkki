@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
-import org.linkki.core.vaadin.component.anchor.LinkkiAnchor;
+import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;

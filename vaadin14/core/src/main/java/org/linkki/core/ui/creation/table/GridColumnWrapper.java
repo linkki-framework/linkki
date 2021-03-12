@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.creation.table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
@@ -41,7 +42,9 @@ public class GridColumnWrapper extends VaadinComponentWrapper {
 
     @Override
     public void setLabel(String labelText) {
-        getComponent().setHeader(labelText);
+        if (!StringUtils.isEmpty(labelText)) {
+            getComponent().setHeader(labelText);
+        }
     }
 
     /**

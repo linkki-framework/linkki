@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.samples.playground.messages;
 
@@ -67,7 +67,7 @@ public class RegistrationValidationService implements ValidationService {
         if (!Objects.equals(password, pmo.getConfirmPassword())) {
             messages.add(Message.builder("Passwords do not match", Severity.ERROR)
                     .invalidObjects(objectProperty(pmo.getUser(), User.PROPERTY_PASSWORD),
-                            objectProperty(pmo, "confirmPassword"))
+                                    objectProperty(pmo, "confirmPassword"))
                     .create());
         } else if (StringUtils.isEmpty(password)) {
             Message passwordRequiredMessage = Message
@@ -102,14 +102,17 @@ public class RegistrationValidationService implements ValidationService {
         } else if (!email.matches("^[a-zA-Z0-9._\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,4}$")) {
             messages.add(Message.builder("Invalid E-Mail address! (someone@example.com)", Severity.ERROR)
                     .invalidObject(objectProperty(user, User.PROPERTY_EMAIL)).create());
+        } else if ("info@example.com".equals(email)) {
+            messages.add(Message.builder("Please change the default E-Mail", Severity.INFO)
+                    .invalidObject(objectProperty(user, User.PROPERTY_EMAIL)).create());
         }
     }
 
     private void validateBirthday(User user, MessageList messages) {
         LocalDate birthday = user.getBirthday();
         if (birthday == null) {
-            messages.add(Message.builder("Birthday is required", Severity.ERROR)
-                    .invalidObject(objectProperty(user, User.PROPERTY_BIRTHDAY)).markers(ValidationMarker.REQUIRED)
+            messages.add(Message.builder("A birthday should be entered", Severity.WARNING)
+                    .invalidObject(objectProperty(user, User.PROPERTY_BIRTHDAY))
                     .create());
         } else if (birthday.isAfter(LocalDate.now())) {
             messages.add(Message.builder("Birthday must not be in the future", Severity.ERROR)

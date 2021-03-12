@@ -14,7 +14,9 @@ Stichpunkte, die in der Migrationsanleitung geordnet und ausformuliert werden
 * Content mode gibts nicht mehr? https://vaadin.com/forum/thread/17133860/label-contentmode-html
 * Resource -> Icon
 * Component#setIcon gibts nicht mehr
-* @BindIcon -> funktioniert bisher nur für Buttons => LIN-2287
+* @BindIcon
+    ** für Buttons und alle Komponenten die HasIcon implementieren (LinkkiText und LinkkiAnchor)
+    ** Funktioniert nicht in Kombination mit htmlContent am Label. Der htmlContent 'überschreibt' das Icon
 * Man muss einen I18NProvider setzen, sonst wird die default system locale genommen -> LIN-2123
 * ComponentFactory: Label methoden gelöscht -> Umstellung + LIN-2053
 * UIDateField unterstützt kein custom Date-Format mehr. Das Format ist durch das zugrundeliegende Locale festgelegt (Vaadin benutzt angeblich das hier zum mapping). Das Attribut 'dateFormat' ist dementsprechend rausgeflogen, muss auch in UIDateField dokumentation angepasst werden -> LIN-2044, LIN-2091

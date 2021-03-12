@@ -22,9 +22,12 @@ import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 
+import com.vaadin.flow.component.dependency.CssImport;
+
 /**
  * PMO for a {@link MessageList} to be displayed in a table.
  */
+@CssImport("./styles/linkki-messages.css")
 public class MessageTablePmo extends SimpleTablePmo<Message, MessageRowPmo> {
 
     protected MessageTablePmo(Supplier<MessageList> messageList) {

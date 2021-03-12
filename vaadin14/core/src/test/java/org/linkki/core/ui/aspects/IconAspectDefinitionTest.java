@@ -25,7 +25,7 @@ import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
-import org.linkki.core.vaadin.component.anchor.LinkkiAnchor;
+import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;

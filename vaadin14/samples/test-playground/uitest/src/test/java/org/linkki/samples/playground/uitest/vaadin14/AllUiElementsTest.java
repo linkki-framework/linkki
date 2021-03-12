@@ -31,10 +31,11 @@ public class AllUiElementsTest extends AbstractUiTest {
     public void testLabel_HtmlContent() {
         DivElement label = $(DivElement.class).id("htmlContentLabel");
 
-        assertThat(label.getText(), is("HTML Content"));
+        assertThat(label.getText(), is("HTML\nContent"));
         assertThat(label.findElements(By.tagName("i")).size(), is(1));
         assertThat(label.findElements(By.tagName("b")).size(), is(1));
-        assertThat(label.getProperty("innerHTML"), is("<i style=\"color: red;\">HTML</i> <b>Content</b>"));
+        assertThat(label.getProperty("innerHTML"),
+                   is("<i style=\"color: red;\">HTML</i> <b>Content</b>"));
     }
 
     @Test
@@ -43,7 +44,8 @@ public class AllUiElementsTest extends AbstractUiTest {
 
         assertThat(label.getText(), is("<b>NOT</b> HTML Content"));
         assertThat(label.findElements(By.tagName("b")).size(), is(0));
-        assertThat(label.getProperty("innerHTML"), is("&lt;b&gt;NOT&lt;/b&gt; HTML Content"));
+        assertThat(label.findElement(By.tagName("span")).getProperty("innerHTML"),
+                   is("&lt;b&gt;NOT&lt;/b&gt; HTML Content"));
     }
 
     @Test

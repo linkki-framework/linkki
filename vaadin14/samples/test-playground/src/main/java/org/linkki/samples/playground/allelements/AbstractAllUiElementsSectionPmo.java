@@ -180,6 +180,23 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return "<b>NOT</b> HTML Content";
     }
 
+    @BindIcon(value = VaadinIcon.ABACUS)
+    @UILabel(position = 84, label = NlsText.I18n, htmlContent = true)
+    public String getNotHtmlContentLabelMitIcon() {
+        return "<i style=\\\"color: red;\\\">HTML</i> <b>Content</b> mit Icon";
+    }
+
+    @BindIcon(value = VaadinIcon.ABACUS)
+    @UILabel(position = 85, label = NlsText.I18n)
+    public String getHtmlContentLabelMitIcon() {
+        return "<div><b>NOT</b> HTML Content mit Icon</div>";
+    }
+
+    @UIButton(position = 86, label = NlsText.I18n)
+    public void updateLabelIcon() {
+        getModelObject().setIntValue(getModelObject().getIntValue() + 1);
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UICustomField(position = 90, label = NlsText.I18n, uiControl = PasswordField.class, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, required = RequiredType.DYNAMIC)
     public void secret() {

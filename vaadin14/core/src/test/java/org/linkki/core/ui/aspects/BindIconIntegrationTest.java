@@ -35,7 +35,7 @@ import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
-import org.linkki.core.vaadin.component.anchor.LinkkiAnchor;
+import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;

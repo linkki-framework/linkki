@@ -20,10 +20,14 @@ import java.util.List;
 
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.Severity;
+import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
+
+import com.vaadin.flow.component.icon.VaadinIcon;
 
 /**
  * PMO for a {@link Message}, displaying an icon derived from the {@link Severity} and the
@@ -38,23 +42,21 @@ public class MessageRowPmo {
         this.message = requireNonNull(message, "message must not be null");
     }
 
-    // TODO LIN-2052 Vaadin 14: BindIcon für "beliebige" Components
-    @UITableColumn(expandRatio = 0)
-    @UILabel(position = 10, htmlContent = true)
-    @BindStyleNames
-    public String getIcon() {
-        return MessageUiComponents.getUnicodeIcon(message.getSeverity());
-    }
-
-    public List<String> getIconStyleNames() {
-        return Arrays.asList(LinkkiApplicationTheme.MESSAGE_ROW,
-                             MessageUiComponents.getStyle(message.getSeverity()));
-    }
-
     @UITableColumn(expandRatio = 1)
-    @UILabel(position = 20, styleNames = LinkkiApplicationTheme.MESSAGE_ROW)
+    @UILabel(position = 0)
+    @BindIcon
+    @BindStyleNames
     public String getText() {
         return message.getText();
+    }
+
+    public VaadinIcon getTextIcon() {
+        return MessageUiComponents.getIcon(message.getSeverity());
+    }
+
+    public List<String> getTextStyleNames() {
+        return Arrays.asList(LinkkiTheme.HAS_ICON, LinkkiApplicationTheme.MESSAGE_ROW,
+                             MessageUiComponents.getStyle(message.getSeverity()));
     }
 
 }

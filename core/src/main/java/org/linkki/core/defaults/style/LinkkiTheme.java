@@ -54,9 +54,6 @@ public class LinkkiTheme {
     /** Style for a single cell within a linkki table */
     public static final String TABLE_CELL = "linkki-table-cell";
 
-    /** Style for a linkki anchor */
-    public static final String ANCHOR = "linkki-anchor";
-
     /**
      * @deprecated since February 18th 2019, horizontal-section-spacing will not affect linkki vaadin8
      */
@@ -65,6 +62,9 @@ public class LinkkiTheme {
 
     /** A button that is styled as a text, without additional height. **/
     public static final String BUTTON_TEXT = "linkki-button-text";
+
+    /** A component that contains an icon **/
+    public static final String HAS_ICON = "linkki-has-icon";
 
     private LinkkiTheme() {
         // prevent initialization

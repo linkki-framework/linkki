@@ -12,33 +12,51 @@
  * License.
  */
 
-package org.linkki.core.vaadin.component.anchor;
+package org.linkki.core.vaadin.component.base;
 
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.vaadin.component.HasIcon;
 
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
- * An anchor component, that can have an additional {@link VaadinIcon}
+ * A text component that can have an additional {@link VaadinIcon}
  */
-@CssImport(value = "./styles/linkki-anchor.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
-public class LinkkiAnchor extends Anchor implements HasIcon {
+@CssImport(value = "./styles/linkki-has-icon.css")
+@CssImport(value = "./styles/linkki-text.css")
+public class LinkkiText extends Div implements HasIcon {
 
     private static final long serialVersionUID = -1027646873177686722L;
 
     @CheckForNull
-    private VaadinIcon icon;
+    private VaadinIcon icon = null;
 
-    public LinkkiAnchor() {
+    private String text = "";
+
+    public LinkkiText() {
         super();
-        this.icon = null;
-        addClassName(LinkkiTheme.ANCHOR);
+        addClassName("linkki-text");
+    }
+
+    @Override
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public void setText(String text) {
+        if (!StringUtils.equals(text, this.text)) {
+            this.text = text;
+            update();
+        }
     }
 
     @CheckForNull
@@ -49,11 +67,23 @@ public class LinkkiAnchor extends Anchor implements HasIcon {
 
     @Override
     public void setIcon(VaadinIcon icon) {
-        this.icon = icon;
-        getChildren().filter(child -> (child instanceof Icon)).findFirst().ifPresent(i -> remove(i));
+        if (!Objects.equals(this.icon, icon)) {
+            this.icon = icon;
+            if (icon != null) {
+                addClassName(LinkkiTheme.HAS_ICON);
+            } else {
+                removeClassName(LinkkiTheme.HAS_ICON);
+            }
+            update();
+        }
+    }
+
+    private void update() {
+        removeAll();
         if (icon != null) {
             add(icon.create());
         }
+        add(new Span(text));
     }
 
 }

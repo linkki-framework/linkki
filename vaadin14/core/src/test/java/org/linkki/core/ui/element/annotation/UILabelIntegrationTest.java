@@ -13,6 +13,7 @@
  */
 package org.linkki.core.ui.element.annotation;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -39,7 +40,7 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<D
     public void testLabelFieldValue() {
         Div label = getDynamicComponent();
 
-        assertThat(label.getClassName(), is(STYLES));
+        assertThat(label.getClassName(), containsString(STYLES));
         assertThat(label.getText(), is(""));
 
         ((TestModelObjectWithString)getDefaultModelObject()).setValue("fdsa");
@@ -53,7 +54,7 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<D
         setModelObjectSupplier(TestModelObjectWithInteger::new);
         Div label = getDynamicComponent();
 
-        assertThat(label.getClassName(), is(STYLES));
+        assertThat(label.getClassName(), containsString(STYLES));
         assertThat(label.getText(), is(""));
 
         ((TestModelObjectWithInteger)getDefaultModelObject()).setValue(123456);
