@@ -15,10 +15,13 @@
 package org.linkki.core.vaadin.component;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
@@ -30,56 +33,73 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 public class LinkkiAnchorTest {
 
     @Test
-    public void testAnchor_default() {
+    public void testAnchor() {
         LinkkiAnchor anchor = new LinkkiAnchor();
-        assertThat(anchor.getChildren().findAny().isPresent(), is(false));
-        assertThat(anchor.getText(), is(""));
+
+        assertThat(anchor.getElement().getText(), is(""));
+        List<Component> children = anchor.getChildren().collect(Collectors.toList());
+        assertThat(children, hasSize(0));
     }
 
     @Test
-    public void testAnchor_withTextOnly() {
+    public void testSetText() {
         LinkkiAnchor anchor = new LinkkiAnchor();
-        anchor.setText("Click me!");
-        assertThat(anchor.getChildren().findFirst().isPresent(), is(false));
-        assertThat(anchor.getText(), is("Click me!"));
+
+        anchor.setText("test");
+
+        assertThat(anchor.getText(), is("test"));
+        assertThat(anchor.getElement().getText(), is("test"));
+        List<Component> children = anchor.getChildren().collect(Collectors.toList());
+        assertThat(children, hasSize(0));
     }
 
     @Test
-    public void testAnchor_withIconOnly() {
+    public void testSetText_KeepsExistingIcon() {
+        LinkkiAnchor anchor = new LinkkiAnchor();
+        anchor.setIcon(VaadinIcon.ARCHIVE);
+
+        anchor.setText("test");
+
+        assertThat(anchor.getElement().getText(), is("test"));
+        List<Component> children = anchor.getChildren().collect(Collectors.toList());
+        assertThat(children, contains(instanceOf(Icon.class)));
+        assertThat(((Icon)children.get(0)).getElement().getAttribute("icon"), is("vaadin:archive"));
+    }
+
+    @Test
+    public void testSetIcon() {
+        LinkkiAnchor anchor = new LinkkiAnchor();
+
+        anchor.setIcon(VaadinIcon.ABACUS);
+
+        assertThat(anchor.getIcon(), is(VaadinIcon.ABACUS));
+        List<Component> children = anchor.getChildren().collect(Collectors.toList());
+        assertThat(children, contains(instanceOf(Icon.class)));
+        assertThat(((Icon)children.get(0)).getElement().getAttribute("icon"), is("vaadin:abacus"));
+    }
+
+    @Test
+    public void testSetIcon_RemovesPreviousIcon() {
         LinkkiAnchor anchor = new LinkkiAnchor();
         anchor.setIcon(VaadinIcon.ABACUS);
 
-        assertThat(anchor.getText(), is(""));
-        Optional<Component> firstChild = anchor.getChildren().findFirst();
-        assertThat(firstChild.isPresent(), is(true));
-        assertThat(firstChild.get(), is(instanceOf(Icon.class)));
-    }
-
-    @Test
-    public void testAnchor_withTextAndIcon() {
-        LinkkiAnchor anchor = new LinkkiAnchor();
-        anchor.setText("Click here for alarm");
-        anchor.setIcon(VaadinIcon.ALARM);
-
-        assertThat(anchor.getText(), is("Click here for alarm"));
-        Optional<Component> firstChild = anchor.getChildren().findFirst();
-        assertThat(firstChild.isPresent(), is(true));
-        assertThat(firstChild.get(), is(instanceOf(Icon.class)));
-    }
-
-    @Test
-    public void testAnchor_removeIcon() {
-        LinkkiAnchor anchor = new LinkkiAnchor();
-        anchor.setIcon(VaadinIcon.ALARM);
-
-        Optional<Component> firstChild = anchor.getChildren().findFirst();
-        assertThat(firstChild.isPresent(), is(true));
-        assertThat(firstChild.get(), is(instanceOf(Icon.class)));
-
         anchor.setIcon(null);
 
-        Optional<Component> iconComponent = anchor.getChildren().findFirst();
-        assertThat(iconComponent.isPresent(), is(false));
+        List<Component> children = anchor.getChildren().collect(Collectors.toList());
+        assertThat(children, hasSize(0));
+    }
+
+    @Test
+    public void testSetIcon_KeepsExistingText() {
+        LinkkiAnchor anchor = new LinkkiAnchor();
+        anchor.setText("test");
+
+        anchor.setIcon(VaadinIcon.ARCHIVE);
+
+        assertThat(anchor.getElement().getText(), is("test"));
+        List<Component> children = anchor.getChildren().collect(Collectors.toList());
+        assertThat(children, contains(instanceOf(Icon.class)));
+        assertThat(((Icon)children.get(0)).getElement().getAttribute("icon"), is("vaadin:archive"));
     }
 
 }

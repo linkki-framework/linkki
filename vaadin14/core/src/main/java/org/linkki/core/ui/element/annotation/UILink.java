@@ -45,7 +45,7 @@ import org.linkki.core.vaadin.component.ComponentFactory;
 import com.vaadin.flow.component.html.Anchor;
 
 /**
- * Provides a single UI-element to display a link. Creates a {@link Anchor}.
+ * Provides a single UI-element to display a link. Creates an {@link Anchor}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

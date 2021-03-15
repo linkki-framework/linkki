@@ -14,12 +14,14 @@
 
 package org.linkki.core.vaadin.component.base;
 
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.vaadin.component.HasIcon;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -35,9 +37,24 @@ public class LinkkiAnchor extends Anchor implements HasIcon {
     @CheckForNull
     private VaadinIcon icon;
 
+    private String text;
+
     public LinkkiAnchor() {
-        super();
         this.icon = null;
+        this.text = "";
+    }
+
+    @Override
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public void setText(String text) {
+        if (!StringUtils.equals(text, this.text)) {
+            this.text = text;
+            update();
+        }
     }
 
     @CheckForNull
@@ -48,9 +65,21 @@ public class LinkkiAnchor extends Anchor implements HasIcon {
 
     @Override
     public void setIcon(VaadinIcon icon) {
-        this.icon = icon;
-        addClassName(LinkkiTheme.HAS_ICON);
-        getChildren().filter(child -> (child instanceof Icon)).findFirst().ifPresent(LinkkiAnchor.this::remove);
+        if (!Objects.equals(this.icon, icon)) {
+            this.icon = icon;
+            if (icon != null) {
+                addClassName(LinkkiTheme.HAS_ICON);
+            } else {
+                removeClassName(LinkkiTheme.HAS_ICON);
+            }
+            update();
+        }
+    }
+
+    private void update() {
+        removeAll();
+
+        super.setText(text);
         if (icon != null) {
             add(icon.create());
         }

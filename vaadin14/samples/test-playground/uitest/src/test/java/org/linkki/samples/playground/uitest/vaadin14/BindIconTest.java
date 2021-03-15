@@ -27,52 +27,75 @@ import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.testbench.TestBenchElement;
 
 
 public class BindIconTest extends AbstractUiTest {
 
-    private static final String VAADIN_ANCHOR_ICON = "vaadin:anchor";
+    private static final String VAADIN_STATIC_ICON = "vaadin:compile";
+    private static final String VAADIN_MOBILE_ICON = "vaadin:mobile";
     private static final String VAADIN_DOWNLOAD_ICON = "vaadin:download";
-    private static final String VAADIN_ARROW_RIGHT_ICON = "vaadin:arrow-circle-right";
 
-    private static final String BUTTON_ID = "buttonWithStaticIcon";
-    private static final String DOWNLOAD_LINK_FIELD_ID = "downloadLinkField";
-    private static final String LINK_FIELD_ID = "linkField";
+    private static final String ICON_COMBOBOX_ID = "componentIcon";
+    private static final String STATIC_LINK = "staticLink";
+    private static final String DYNAMIC_LINK = "dynamicLink";
 
     @BeforeEach
     public void setup() {
         openTab(PlaygroundApplicationUI.DYNAMIC_ASPECT_TAB_ID);
     }
 
+    /**
+     * Button with @BindIcon should show an icon even if showIcon = false in @UIButton
+     */
     @Test
     public void testBindIcon_withButton() {
         VerticalLayoutElement section = getSection(BindIconComponentsPmo.class);
-        ButtonElement button = section.$(ButtonElement.class).id(BUTTON_ID);
+        ButtonElement button = section.$(ButtonElement.class).id("staticButton");
 
         WebElement icon = getIconElement(button);
-        assertThat(icon.getAttribute("icon"), is(VAADIN_ANCHOR_ICON));
+        assertThat(icon.getAttribute("icon"), is(VAADIN_STATIC_ICON));
+    }
+
+    /**
+     * Dynamic @BindIcon should work and should override icon attribute of @UIButton
+     */
+    @Test
+    public void testBindIcon_withButton_dynamic() {
+        selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
+
+        VerticalLayoutElement section = getSection(BindIconComponentsPmo.class);
+        ButtonElement button = section.$(ButtonElement.class).id("dynamicButton");
+        assertThat(getIconElement(button).getAttribute("icon"), is(VAADIN_MOBILE_ICON));
+
+        selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.DOWNLOAD.toString());
+        assertThat(getIconElement(button).getAttribute("icon"), is(VAADIN_DOWNLOAD_ICON));
     }
 
     @Test
     public void testBindIcon_withLinkAndIconOnly() {
         VerticalLayoutElement section = getSection(BindIconComponentsPmo.class);
-        AnchorElement anchor = section.$(AnchorElement.class).id(DOWNLOAD_LINK_FIELD_ID);
+        AnchorElement anchor = section.$(AnchorElement.class).id(STATIC_LINK);
 
         WebElement icon = getIconElement(anchor);
-        assertThat(anchor.getText(), is(""));
-        assertThat(icon.getAttribute("icon"), is(VAADIN_DOWNLOAD_ICON));
+        assertThat(anchor.getText(), is("Text"));
+        assertThat(icon.getAttribute("icon"), is(VAADIN_STATIC_ICON));
     }
 
     @Test
     public void testBindIcon_withLinkTextAndIcon() {
-        VerticalLayoutElement section = getSection(BindIconComponentsPmo.class);
-        AnchorElement anchor = section.$(AnchorElement.class).id(LINK_FIELD_ID);
+        selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
 
-        WebElement icon = getIconElement(anchor);
-        assertThat(anchor.getText(), is("Click to continue"));
-        assertThat(icon.getAttribute("icon"), is(VAADIN_ARROW_RIGHT_ICON));
+        VerticalLayoutElement section = getSection(BindIconComponentsPmo.class);
+        AnchorElement anchor = section.$(AnchorElement.class).id(DYNAMIC_LINK);
+        assertThat(anchor.getText(), is("Text"));
+        assertThat(getIconElement(anchor).getAttribute("icon"), is(VAADIN_MOBILE_ICON));
+
+
+        selectCombobox(ICON_COMBOBOX_ID, VaadinIcon.MOBILE.toString());
+        assertThat(getIconElement(anchor).getAttribute("icon"), is(VAADIN_MOBILE_ICON));
     }
 
     private VerticalLayoutElement getSection(Class<?> cls) {
