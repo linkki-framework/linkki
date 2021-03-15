@@ -3,19 +3,30 @@
 :jbake-order: 0
 
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
-:images-folder-name: 01_newnoteworthy
+:images-folder-name: 01_releasenotes
 
-=== 1.4.0
+=== Version 1.4.0
 
-==== New Aspect Annotation: @BindVisible
+==== New Features and Improvements
+
+===== New Aspect Annotation: @BindVisible
+////
+https://jira.faktorzehn.de/browse/LIN-2026
+////
 
 For the annotation <<bind-visible, @BindVisible>>, the `VisibleType` is set to `DYNAMIC`, determining the visible state from the PMO by invoking a method named `is[PropertyName]Visible()`. Using this annotation, it is no longer necessary to specify the `visible` property with `VisibleType.DYNAMIC` in components, e.g. `@UILabel`. The <<bind-visible, @BindVisible>> can be used on any PMO, including any PMO classes that implement the `ContainerPmo` interface (i.e. `TableSections`). Using <<bind-visible, @BindVisible>> will overrule the existing `visible` property.
 
-==== New `BoundPropertyCreator`: `ModelBindingBoundPropertyCreator`
+===== New `BoundPropertyCreator`: `ModelBindingBoundPropertyCreator`
+////
+https://jira.faktorzehn.de/browse/LIN-2265
+////
 
 The annotation `@LinkkiBoundProperty` now has a default value of the type `ModelBindingBoundPropertyCreator`. Using this `BoundPropertyCreator` it is very simple to create a new @UI-Field Annotation with model binding support. For more information read the corresponding documentation about <<bound-property, BoundProperty>>.
 
-==== Concept of `BindingDefinition` is deprecated
+===== Concept of `BindingDefinition` is deprecated
+////
+https://jira.faktorzehn.de/browse/LIN-2093
+////
 
 The concept of `BindingDefinition` is deprecated because it was replaced. Therefore, the following classes and interfaces are deprecated and should not be used anymore. 
 
@@ -25,3 +36,5 @@ The concept of `BindingDefinition` is deprecated because it was replaced. Theref
 * `org.linkki.core.ui.element.annotation.FieldAspectDefinitionCreator`
 
 If you have built your own custom annotations using `BindingDefinition`, you should consider refactoring them using the new concept described in <<custom-ui-element-annotation,Creating a custom UI element>>
+
+==== Bugfixes
