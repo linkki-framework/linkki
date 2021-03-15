@@ -19,18 +19,17 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "details", layout = ProductsSampleAppLayout.class)
+@Route(value = "products/details", layout = ProductsSampleAppLayout.class)
 @PageTitle("F10 Products Sample Details")
 public class ProductsSampleDetailView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
     public ProductsSampleDetailView() {
-        LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.VERTICAL);
+        LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
 
         tabLayout.addTabSheets(//
                                LinkkiTabSheet.builder("overview")//

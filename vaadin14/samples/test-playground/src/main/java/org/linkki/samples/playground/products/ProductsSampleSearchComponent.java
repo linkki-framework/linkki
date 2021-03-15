@@ -26,11 +26,17 @@ public class ProductsSampleSearchComponent extends VerticalLayout {
     private static final long serialVersionUID = 1L;
 
     public ProductsSampleSearchComponent() {
+
+        setPadding(false);
+        setSpacing(false);
+        setHeightFull();
+
         Headline headline = new Headline();
         new Binder(headline, new ProductsSampleHeadlinePmo()).setupBindings(new BindingContext());
         add(headline);
 
         AbstractSection tableSection = ProductsSampleUtils.createSampleTableSection(50);
+        tableSection.setPadding(true);
         addAndExpand(tableSection);
     }
 

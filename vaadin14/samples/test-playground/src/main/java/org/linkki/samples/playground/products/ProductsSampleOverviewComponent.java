@@ -24,19 +24,28 @@ public class ProductsSampleOverviewComponent extends VerticalLayout {
     private static final long serialVersionUID = 1L;
 
     public ProductsSampleOverviewComponent() {
+
+        setPadding(false); // headline border should reach sidebar
+        setSpacing(false); // content should scroll underneath headline border
+        setHeightFull();
+
         add(new Headline("Overview"));
 
-        add(ProductsSampleUtils.createSampleSectionVertical());
-        add(ProductsSampleUtils.createSampleSectionHorizontal());
+        VerticalLayout content = new VerticalLayout();
+        content.setSizeFull();
+        content.setPadding(true);
+        content.getStyle().set("overflow", "auto");
+        add(content);
 
-        add(new HorizontalLayout(
+        content.add(ProductsSampleUtils.createSampleSectionVertical());
+        content.add(ProductsSampleUtils.createSampleSectionHorizontal());
+
+        content.add(new HorizontalLayout(
                 ProductsSampleUtils.createSampleSectionVertical(), //
                 ProductsSampleUtils.createSampleSectionVertical()));
 
 
-        add(ProductsSampleUtils.createSampleTableSection(100));
-
-        setSizeFull();
+        content.add(ProductsSampleUtils.createSampleTableSection(100));
     }
 
 }

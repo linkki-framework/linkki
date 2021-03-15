@@ -33,7 +33,18 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
     private static final long serialVersionUID = 1L;
 
     public ProductsSampleDetailsComponent() {
+
+        setPadding(false); // headline border should reach sidebar
+        setSpacing(false); // content should scroll underneath headline border
+        setHeightFull();
+
         add(new Headline("Details"));
+
+        VerticalLayout content = new VerticalLayout();
+        content.setSizeFull();
+        content.setPadding(false); // because the split panel pads
+        content.getStyle().set("overflow", "auto");
+        add(content);
 
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
 
@@ -74,9 +85,7 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
         splitLayout.setSplitterPosition(75);
         splitLayout.setSizeFull();
 
-        add(splitLayout);
-
-        setSizeFull();
+        content.add(splitLayout);
     }
 
 }
