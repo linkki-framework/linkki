@@ -30,6 +30,7 @@ import org.linkki.framework.ui.LinkkiApplicationTheme;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
@@ -121,6 +122,7 @@ public final class MessageUiComponents {
                 .createGrid(new MessageTablePmo(messages), bindingContext);
         messagesGrid.addClassName(LinkkiApplicationTheme.MESSAGE_TABLE);
         messagesGrid.setWidthFull();
+        messagesGrid.setSelectionMode(SelectionMode.NONE);
         return messagesGrid;
     }
 
@@ -132,6 +134,8 @@ public final class MessageUiComponents {
             Supplier<MessageList> messages,
             BindingContext bindingContext) {
         Component messageTable = createMessageTable(messages, bindingContext);
-        return new VerticalLayout(new Label(title), messageTable);
+        VerticalLayout content = new VerticalLayout(new Label(title), messageTable);
+        content.setPadding(false);
+        return content;
     }
 }

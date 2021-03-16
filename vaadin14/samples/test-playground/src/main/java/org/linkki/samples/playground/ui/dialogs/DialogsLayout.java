@@ -37,11 +37,14 @@ public class DialogsLayout extends VerticalLayout {
         add(VaadinUiCreator.createComponent(new SimpleDialogPmo(), new BindingContext(getClass().getName())));
         add(VaadinUiCreator.createComponent(new ValidationDialogPmo.ButtonSectionPmo(),
                                             new BindingContext(ValidationDialogPmo.class.getName())));
+
+        add(VaadinUiCreator.createComponent(new ValidationConfirmationDialog.ButtonSectionPmo(),
+                                            new BindingContext(ValidationDialogPmo.class.getName())));
     }
 
     @Override
     protected void onAttach(AttachEvent attachEvent) {
-        ConfirmationDialog.open("Entering dialog view", "Welcome!").setSize("300px", "250px");
+        ConfirmationDialog.open("Entering dialog view", "Welcome!");
     }
 
 }

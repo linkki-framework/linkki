@@ -68,6 +68,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  *           {@link MessageList#getFirstMessage(Severity)})
  */
 @CssImport(value = "./styles/ok-cancel-dialog.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
+@CssImport(value = "./styles/dialog-overlay.css", themeFor = "vaadin-dialog-overlay")
 public class OkCancelDialog extends Composite<Dialog> implements HasSize {
 
     public static final String CLASS_NAME_CONTENT_AREA = "content-area";

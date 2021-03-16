@@ -1,3 +1,10 @@
+.linkki-message-table {
+	border: none;
+}
+.linkki-message-row span {
+	white-space: normal;
+}
+
 .linkki-message-error iron-icon {
     color: var(--linkki-message-error-color, #D24343);
 }
