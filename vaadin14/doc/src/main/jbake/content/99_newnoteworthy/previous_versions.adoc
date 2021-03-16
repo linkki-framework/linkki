@@ -2,7 +2,7 @@
 :jbake-type: archive
 
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
-:images-folder-name: 01_newnoteworthy
+:images-folder-name: 01_releasenotes
 
 === November 29th, 2018
 

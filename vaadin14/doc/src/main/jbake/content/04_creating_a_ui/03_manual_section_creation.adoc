@@ -4,7 +4,6 @@
 
 :source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
 :github: https://github.com/linkki-framework/linkki
-:github-tree: {github}/tree/master
 :github-blob: {github}/blob/master
 
 [[manual-section-creation]]
