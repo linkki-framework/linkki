@@ -387,30 +387,6 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize {
         this.beforeOkHandler = beforeOkHandler;
     }
 
-    // TODO LIN-2204 Dialog URI Change Listener umstellen
-    // /**
-    // * Opens this dialog in the current window.
-    // */
-    // @Override
-    // public void open() {
-    // UI current = UI.getCurrent();
-    // if (current != null) {
-    // current.addWindow(this);
-    // initURIChangeListener();
-    // }
-    // }
-    //
-    // /**
-    // * Adds a listener to the dialog, which is triggered when the URI changes. The default behavior is
-    // * closing the dialog by calling {@link #close()}.
-    // */
-    // // addPopStateListener is triggered after View#enter, thus cannot be used.
-    // @SuppressWarnings("deprecation")
-    // protected void initURIChangeListener() {
-    // UI current = UI.getCurrent();
-    // current.getPage().addUriFragmentChangedListener(e -> close());
-    // }
-
     /**
      * Adds the given component to be displayed in the dialog. If you have fixed the height of the
      * dialog using {@link #setSize(String, String)} you might want to use
@@ -526,9 +502,24 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize {
         cancelHandler.apply();
     }
 
-    public void open() {
+    public OkCancelDialog open() {
         getContent().open();
+        // initURIChangeListener();
+        return this;
     }
+
+    // TODO LIN-2204 Dialog URI Change Listener umstellen
+    //
+    // /**
+    // * Adds a listener to the dialog, which is triggered when the URI changes. The default behavior is
+    // * closing the dialog by calling {@link #close()}.
+    // */
+    // // addPopStateListener is triggered after View#enter, thus cannot be used.
+    // @SuppressWarnings("deprecation")
+    // protected void initURIChangeListener() {
+    // UI current = UI.getCurrent();
+    // current.getPage().addUriFragmentChangedListener(e -> close());
+    // }
 
     public void close() {
         cancelHandler.apply();
