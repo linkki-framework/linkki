@@ -43,6 +43,8 @@ public class SampleView extends LinkkiTabLayout {
 
     public SampleView() {
         super(Orientation.VERTICAL);
+        getContent().getElement().getThemeList().add(THEME_VARIANT_SOLID);
+
         addTabSheets(LinkkiTabSheet.builder("CreateReport")
                 .caption(VaadinIcon.STAR_HALF_LEFT_O.create())
                 .content(createReportLayout())
@@ -50,14 +52,9 @@ public class SampleView extends LinkkiTabLayout {
                      LinkkiTabSheet.builder("ReportList")
                              .caption(VaadinIcon.FILE_O.create())
                              .content(createReportListLayout())
-                             .onSelectionHandler(() -> update())
+                             .onSelectionHandler(this::update)
                              .build());
 
-        // TODO LIN-2222
-        // addSheets(new SidebarSheet(VaadinIcons.STAR_HALF_LEFT_O, "Create Report",
-        // createReportLayout()),
-        // new SidebarSheet(VaadinIcons.FILE_O, "Report List", this::createReportListLayout,
-        // this::update));
     }
 
     private VerticalLayout createReportLayout() {
