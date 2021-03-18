@@ -33,7 +33,8 @@ import com.vaadin.ui.AbstractField;
 public class RequiredAspectDefinition extends ModelToUiAspectDefinition<Boolean> {
 
     public static final String NAME = "required";
-    private EnabledAspectDefinition enabledAspectDefinition;
+
+    private final EnabledAspectDefinition enabledAspectDefinition;
     private final RequiredType requiredType;
 
     public RequiredAspectDefinition(RequiredType requiredType, EnabledAspectDefinition enabledTypeAspectDefinition) {

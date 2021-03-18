@@ -16,6 +16,7 @@ package org.linkki.ips.binding.dispatcher;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.linkki.test.matcher.Matchers.assertThat;
 
 import java.util.Locale;
 
@@ -25,10 +26,10 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.pmo.ModelObject;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.mock.MockUi;
 import org.linkki.ips.test.model.TestIpsObject;
@@ -59,29 +60,7 @@ public class IpsPropertyDispatcherTest {
     @Test
     public void testPull() {
         MockUi.setLocale(Locale.GERMANY);
-        IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(
-                pmo::getIpsObject,
-                TestIpsObject.PROPERTY_FOO, standardDispatcherChain(TestIpsObject.PROPERTY_FOO));
-
-        String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
-
-        assertThat(string, is("Foo auf Deutsch"));
-
-        MockUi.setLocale(Locale.ENGLISH);
-        string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
-
-        assertThat(string, is("Foo in English"));
-    }
-
-    @Test
-    public void testPull_ModelAttribute() {
-        MockUi.setLocale(Locale.GERMANY);
-        IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(
-                pmo::getIpsObject,
-                TestIpsObject.PROPERTY_FOO, propertyDispatcherFactory.createDispatcherChain(pmo,
-                                                                                            BoundProperty.of("bar")
-                                                                                                    .withModelAttribute(TestIpsObject.PROPERTY_FOO),
-                                                                                            PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER));
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_FOO);
 
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
@@ -96,9 +75,7 @@ public class IpsPropertyDispatcherTest {
     @Test
     public void testPull_DefaultLocale() {
         MockUi.setLocale(Locale.ITALY);
-        IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(
-                pmo::getIpsObject,
-                TestIpsObject.PROPERTY_FOO, standardDispatcherChain(TestIpsObject.PROPERTY_FOO));
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_FOO);
 
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
@@ -117,9 +94,7 @@ public class IpsPropertyDispatcherTest {
     @Test
     public void testPull_Class() {
         MockUi.setLocale(Locale.GERMANY);
-        IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(
-                pmo::getIpsObject,
-                "", standardDispatcherChain(""));
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain("");
 
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
@@ -135,9 +110,7 @@ public class IpsPropertyDispatcherTest {
     public void testPull_Class_OverwritingModelObjectClass() {
         MockUi.setLocale(Locale.ENGLISH);
         pmo.setIpsObject(new TestIpsObject2());
-        IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(
-                pmo::getIpsObject,
-                "", standardDispatcherChain(""));
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain("");
 
         String string = ipsPropertyDispatcher.pull(Aspect.of("", LinkkiAspectDefinition.DERIVED_BY_LINKKI));
 
@@ -150,10 +123,61 @@ public class IpsPropertyDispatcherTest {
         assertThat(string, is("A test object overwriting the label"));
     }
 
-    private PropertyDispatcher standardDispatcherChain(String propertyName) {
-        return propertyDispatcherFactory.createDispatcherChain(pmo,
-                                                               BoundProperty.of(propertyName),
-                                                               PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+    @Test
+    public void testPull_NotRequired_ValueSetExclNull_ShouldBeRequired() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDEXCLNULL);
+
+        Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, false));
+
+        assertThat(required);
+    }
+
+    @Test
+    public void testPull_Required_ValueSetExclNull_ShouldBeRequired() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDEXCLNULL);
+
+        Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, true));
+
+        assertThat(required);
+    }
+
+    @Test
+    public void testPull_NotRequired_ValueSetInclNull_ShouldNotBeRequired() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDINCLNULL);
+
+        Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, false));
+
+        assertThat(required, is(false));
+    }
+
+    @Test
+    public void testPull_Required_ValueSetInclNull_ShouldBeRequired() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDINCLNULL);
+
+        Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, true));
+
+        assertThat(required);
+    }
+
+    @Test
+    public void testPull_DynamicRequired_ValueSetExclNull_ShouldNotBeRequired() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDEXCLNULL);
+
+        Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME));
+
+        assertThat(required, is(false));
+    }
+
+    private IpsPropertyDispatcher ipsDispatcherChain(String modelAttribute) {
+        IpsPropertyDispatcher ipsPropertyDispatcher = new IpsPropertyDispatcher(
+                pmo::getIpsObject,
+                modelAttribute,
+                propertyDispatcherFactory
+                        .createDispatcherChain(pmo,
+                                               BoundProperty.of("bar")
+                                                       .withModelAttribute(modelAttribute),
+                                               PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER));
+        return ipsPropertyDispatcher;
     }
 
     public static class TestPmoWithIpsModelObject {
@@ -163,6 +187,11 @@ public class IpsPropertyDispatcherTest {
         @ModelObject
         public TestIpsObject getIpsObject() {
             return ipsObject;
+        }
+
+        @ModelObject(name = "second")
+        public TestIpsObject2 getIpsObject2() {
+            return new TestIpsObject2();
         }
 
         public void setIpsObject(TestIpsObject ipsObject) {
@@ -177,6 +206,10 @@ public class IpsPropertyDispatcherTest {
         @UITextField(position = 2, modelAttribute = TestIpsObject.PROPERTY_FOO)
         public void bar() {
             // model binding
+        }
+
+        public boolean isBarRequired() {
+            return false;
         }
 
     }

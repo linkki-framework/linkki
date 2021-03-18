@@ -25,6 +25,8 @@ import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
 import org.faktorips.runtime.util.MessagesHelper;
 import org.faktorips.values.Decimal;
+import org.faktorips.valueset.ValueSet;
+import org.faktorips.valueset.UnrestrictedValueSet;
 import org.faktorips.valueset.DecimalRange;
 import org.w3c.dom.Element;
 
@@ -34,7 +36,7 @@ import org.w3c.dom.Element;
  * @generated
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
-@IpsAttributes({ "decimal", "string" })
+@IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull" })
 @IpsValidationRules({ "checkDecimal" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions", defaultLocale = "en")
 public class IpsModelObject extends AbstractModelObject {
@@ -66,6 +68,28 @@ public class IpsModelObject extends AbstractModelObject {
      */
     // tag::PROPERTY_STRING[]
     public static final String PROPERTY_STRING = "string";
+    /**
+     * The name of the property unrestrictedInclNull.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_UNRESTRICTEDINCLNULL = "unrestrictedInclNull";
+
+    /**
+     * The name of the property unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_UNRESTRICTEDEXCLNULL = "unrestrictedExclNull";
+
+    /**
+     * Max allowed values for property unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL = new UnrestrictedValueSet<String>(
+            false);
+
     // end::PROPERTY_STRING[]
 
     /**
@@ -80,6 +104,21 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     private String string = null;
+
+
+    /**
+     * Member variable for unrestrictedInclNull.
+     * 
+     * @generated
+     */
+    private String unrestrictedInclNull = "not required";
+
+    /**
+     * Member variable for unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    private String unrestrictedExclNull = "required";
 
 
     /**
@@ -146,6 +185,61 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
+     * Returns the unrestrictedInclNull.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "unrestrictedInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    public String getUnrestrictedInclNull() {
+        return unrestrictedInclNull;
+    }
+
+
+    /**
+     * Sets the value of attribute unrestrictedInclNull.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("unrestrictedInclNull")
+    public void setUnrestrictedInclNull(String newValue) {
+        this.unrestrictedInclNull = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    @IpsAllowedValues("unrestrictedExclNull")
+    public ValueSet<String> getSetOfAllowedValuesForUnrestrictedExclNull(IValidationContext context) {
+        return MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL;
+    }
+
+
+    /**
+     * Returns the unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "unrestrictedExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    public String getUnrestrictedExclNull() {
+        return unrestrictedExclNull;
+    }
+
+
+    /**
+     * Sets the value of attribute unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("unrestrictedExclNull")
+    public void setUnrestrictedExclNull(String newValue) {
+        this.unrestrictedExclNull = newValue;
+    }
+
+
+    /**
      * Initializes the object with the configured defaults.
      *
      * @restrainedmodifiable
@@ -166,6 +260,8 @@ public class IpsModelObject extends AbstractModelObject {
         super.initPropertiesFromXml(propMap, productRepository);
         doInitDecimal(propMap);
         doInitString(propMap);
+        doInitUnrestrictedInclNull(propMap);
+        doInitUnrestrictedExclNull(propMap);
     }
 
     /**
@@ -185,6 +281,26 @@ public class IpsModelObject extends AbstractModelObject {
             this.string = propMap.get(PROPERTY_STRING);
         }
     }
+
+    /**
+     * @generated
+     */
+    private void doInitUnrestrictedInclNull(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_UNRESTRICTEDINCLNULL)) {
+            this.unrestrictedInclNull = propMap.get(PROPERTY_UNRESTRICTEDINCLNULL);
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    private void doInitUnrestrictedExclNull(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_UNRESTRICTEDEXCLNULL)) {
+            this.unrestrictedExclNull = propMap.get(PROPERTY_UNRESTRICTEDEXCLNULL);
+        }
+    }
+
 
     /**
      * {@inheritDoc}
@@ -232,10 +348,10 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * Executes the rule checkDecimal and adds a message to the given list if the object is invalid.
      * 
-     * @param ml      list to which validation errors are added
+     * @param ml list to which validation errors are added
      * @param context the validation context
-     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should be
-     *         stopped after processing this rule.
+     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should
+     *         be stopped after processing this rule.
      * 
      * @restrainedmodifiable
      */

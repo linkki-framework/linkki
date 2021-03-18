@@ -28,6 +28,26 @@
    <AllValues containsNull="true"/>
   </ValueSet>
  </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" id="4b86cbea-1aa0-4a2e-8754-76950579eb8c" modifier="published" name="unrestrictedInclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue>not required</DefaultValue>
+  <Label id="336e9be2-d3bf-4c85-b8b9-36dc551687f5" locale="en" pluralValue="" value="ValueSet Incl. Null"/>
+  <Label id="28d40865-d59c-48ab-9c58-3ba623c7d88c" locale="de" pluralValue="" value="ValueSet mit Null"/>
+  <Description id="d62c34e1-e766-47ef-a4d9-6768d86bf2f3" locale="en"/>
+  <Description id="065f823f-3595-49c9-a0ad-114f7ceae09d" locale="de"/>
+  <ValueSet abstract="false" id="8abacd99-974c-4d03-8f7a-8a4b59cd3799">
+   <AllValues containsNull="true"/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" id="cb8d8f0b-8097-433a-bc19-46b6762e1f7c" modifier="published" name="unrestrictedExclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue>required</DefaultValue>
+  <Label id="84edbe3a-fd72-405e-bbbf-bd1ae31c7327" locale="en" pluralValue="" value="ValueSet Excl. Null"/>
+  <Label id="eb17960e-68fe-41a2-bb01-fab01fae6799" locale="de" pluralValue="" value="ValueSet ohne Null"/>
+  <Description id="96aacb1f-9b7d-47fb-98e1-125dfd8ff252" locale="en"/>
+  <Description id="a8ed9b51-8780-4c0b-a428-2453059bca14" locale="de"/>
+  <ValueSet abstract="false" id="151365c8-aae7-4027-a04a-29535d68de40">
+   <AllValues containsNull="false"/>
+  </ValueSet>
+ </Attribute>
  <ValidationRuleDef activatedByDefault="true" appliedForAllBusinessFunctions="true" category="" changingOverTime="false" checkValueAgainstValueSetRule="true" configurableByProductComponent="false" id="bfbbd3bc-d99c-496a-8425-233c8b08c71b" messageCode="INVALID_DECIMAL" messageSeverity="error" modifier="published" name="checkDecimal" validatedAttrSpecifiedInSrc="false">
   <ValidatedAttribute name="decimal"/>
   <Markers>

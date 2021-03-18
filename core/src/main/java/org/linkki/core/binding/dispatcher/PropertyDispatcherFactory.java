@@ -26,7 +26,19 @@ import org.linkki.core.binding.dispatcher.reflection.ReflectionPropertyDispatche
 import org.linkki.core.binding.dispatcher.staticvalue.StaticValueDispatcher;
 
 /**
- * Creates Chains of {@link PropertyDispatcher PropertyDispatchers}.
+ * Creates the default Chains of {@link PropertyDispatcher PropertyDispatchers}.
+ * <p>
+ * The property dispatchers are in the following order:
+ * 
+ * <ol>
+ * <li>{@link BehaviorDependentDispatcher}</li>
+ * <li>Custom dispatchers from
+ * {@link #createCustomDispatchers(Object, BoundProperty, PropertyDispatcher)}</li>
+ * <li>{@link StaticValueDispatcher}</li>
+ * <li>{@link ReflectionPropertyDispatcher} for PMO</li>
+ * <li>{@link ReflectionPropertyDispatcher} for model object if it exists</li>
+ * <li>{@link ExceptionPropertyDispatcher}</li>
+ * </ol>
  */
 public class PropertyDispatcherFactory {
 

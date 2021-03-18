@@ -1,7 +1,11 @@
 package org.linkki.ips.test.model;
 
 import org.faktorips.runtime.model.annotation.IpsPolicyCmptType;
+import org.faktorips.runtime.model.annotation.IpsAttributes;
 import org.faktorips.runtime.model.annotation.IpsDocumented;
+import org.faktorips.runtime.model.annotation.IpsAttribute;
+import org.faktorips.runtime.model.type.AttributeKind;
+import org.faktorips.runtime.model.type.ValueSetKind;
 import org.faktorips.runtime.internal.AbstractModelObject;
 import org.w3c.dom.Element;
 import org.faktorips.runtime.MessageList;
@@ -13,6 +17,7 @@ import org.faktorips.runtime.IValidationContext;
  * @generated
  */
 @IpsPolicyCmptType(name = "TestIpsObject2")
+@IpsAttributes({ "foo" })
 @IpsDocumented(bundleName = "org.linkki.ips.test.model.testmodel-label-and-descriptions", defaultLocale = "en")
 public class TestIpsObject2 extends TestIpsObject {
 
@@ -24,6 +29,19 @@ public class TestIpsObject2 extends TestIpsObject {
      */
     public TestIpsObject2() {
         super();
+        setFoo(null);
+    }
+
+
+    /**
+     * Returns the foo.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "foo", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @Override
+    public String getFoo() {
+        return super.getFoo();
     }
 
 

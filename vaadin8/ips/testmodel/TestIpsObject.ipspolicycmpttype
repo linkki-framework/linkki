@@ -14,4 +14,24 @@
    <AllValues containsNull="true"/>
   </ValueSet>
  </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" id="7f742548-cd9b-44e1-976b-f1111883eea5" modifier="published" name="unrestrictedInclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue isNull="true"/>
+  <Label id="554e4bea-36bd-43b2-b379-bdfb48233693" locale="en" pluralValue="" value=""/>
+  <Label id="d19bb4e6-04be-4b88-af58-c6fbb6a1acfc" locale="de" pluralValue="" value=""/>
+  <Description id="f59d0050-fb29-4522-b66e-f4302cb2f56b" locale="en"/>
+  <Description id="93728d09-87e7-43c0-9fab-15d0db9ddf9f" locale="de"/>
+  <ValueSet abstract="false" id="ce7790da-f6a7-45a4-9344-c409c52a852c">
+   <AllValues containsNull="true"/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" id="91b19b5b-b128-48fe-8476-e9c5f034f828" modifier="published" name="unrestrictedExclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue isNull="true"/>
+  <Label id="b07b3980-1926-4bb8-bb35-65806516869d" locale="en" pluralValue="" value=""/>
+  <Label id="d6aa1ce0-ae59-48df-ab43-f26e14952b3d" locale="de" pluralValue="" value=""/>
+  <Description id="fd749e9d-5456-4c91-98a7-5584eaf921fd" locale="en"/>
+  <Description id="dd7699df-e2ce-4ce3-9d3c-a8b6747bd63e" locale="de"/>
+  <ValueSet abstract="false" id="8b32c2ef-0269-4b91-a3d1-e0f25e6922e6">
+   <AllValues containsNull="false"/>
+  </ValueSet>
+ </Attribute>
 </PolicyCmptType>

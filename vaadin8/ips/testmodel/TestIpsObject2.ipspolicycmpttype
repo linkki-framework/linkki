@@ -4,4 +4,14 @@
  <Label id="38ee9424-8d93-4d37-8273-687c9193f8cc" locale="de" pluralValue="" value=""/>
  <Description id="6fe3110c-46e6-4fb0-9219-79642408cc8d" locale="en"/>
  <Description id="ed0789fc-7903-4133-9842-3f5eaf1afd65" locale="de"/>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="String" id="4c7f57e1-cad3-43a7-89c7-4f3f32dad574" modifier="published" name="foo" overwrite="true" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue isNull="true"/>
+  <Label id="15139ae5-c159-4314-9def-ca50aece98f3" locale="en" pluralValue="" value="SubFoo in English"/>
+  <Label id="790b8dbd-241f-4bcb-8620-af34b62106ba" locale="de" pluralValue="" value="SubFoo auf Deutsch"/>
+  <Description id="b63dc971-fe10-4ff7-840e-05d08ee3b0a2" locale="en"/>
+  <Description id="82cdaff4-394f-44e2-a85b-16a8b6d694d7" locale="de"/>
+  <ValueSet abstract="false" id="18fb74ef-eb03-43a3-a1e2-90afc6f3876b">
+   <AllValues containsNull="true"/>
+  </ValueSet>
+ </Attribute>
 </PolicyCmptType>

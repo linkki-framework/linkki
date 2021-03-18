@@ -18,10 +18,14 @@ import java.util.Optional;
 import java.util.WeakHashMap;
 import java.util.function.Supplier;
 
+import org.faktorips.runtime.IModelObject;
 import org.faktorips.runtime.model.IpsModel;
 import org.faktorips.runtime.model.type.Attribute;
 import org.faktorips.runtime.model.type.ModelElement;
+import org.faktorips.runtime.model.type.PolicyAttribute;
 import org.faktorips.runtime.model.type.Type;
+import org.faktorips.valueset.UnrestrictedValueSet;
+import org.faktorips.valueset.ValueSet;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.modelobject.ModelObjects;
@@ -29,11 +33,17 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.AbstractPropertyDispatcherDecorator;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
+import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.uiframework.UiFramework;
 
 /**
- * {@link PropertyDispatcher} that returns Faktor-IPS labels for String valued aspects marked with
+ * {@link PropertyDispatcher} to answer some aspects using Faktor-IPS model information.
+ * <p>
+ * It returns Faktor-IPS labels for String valued aspects marked with
  * {@link LinkkiAspectDefinition#DERIVED_BY_LINKKI} if the bound object is a Faktor-IPS model object.
+ * <p>
+ * It answers the required aspect with <code>true</code> in case of the bound property is a
+ * {@link PolicyAttribute} with a {@link ValueSet} that does not contains <code>null</code>.
  */
 public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
 
@@ -53,18 +63,56 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
         if (aspect.isValuePresent()) {
             T staticValue = aspect.getValue();
             if (LinkkiAspectDefinition.DERIVED_BY_LINKKI.equals(staticValue)) {
-                @SuppressWarnings("unchecked")
-                T label = (T)findModelElement()
-                        .map(this::getLabel)
-                        .orElseGet(() -> (String)super.pull(aspect));
-                return label;
+                return getDerivedByLinkkiValue(aspect);
+            } else if (RequiredAspectDefinition.NAME.equals(aspect.getName())) {
+                return getRequiredValue(aspect);
             }
         }
         return super.pull(aspect);
     }
 
+    @SuppressWarnings("unchecked")
+    private <T> T getDerivedByLinkkiValue(Aspect<T> aspect) {
+        return (T)findModelElement()
+                .map(this::getLabel)
+                .orElseGet(() -> (String)super.pull(aspect));
+    }
+
     private String getLabel(ModelElement modelElement) {
         return modelElement.getLabel(UiFramework.getLocale());
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T getRequiredValue(Aspect<T> aspect) {
+        return (T)getRequiredTyped((Aspect<Boolean>)aspect);
+    }
+
+    /**
+     * Evaluates the required aspect. Ask the other dispatchers first, as they may evaluate more quickly
+     * than to retrieve the value set from Faktor-IPS model.
+     */
+    private Boolean getRequiredTyped(Aspect<Boolean> aspect) {
+        boolean otherDispatcherRequired = Optional.ofNullable(super.pull(aspect)).orElse(false);
+        return otherDispatcherRequired || isRequiredInModel();
+    }
+
+    private boolean isRequiredInModel() {
+        return !findModelElement()
+                .map(this::getValueSet)
+                .map(ValueSet::containsNull)
+                .orElse(true);
+
+    }
+
+    private ValueSet<?> getValueSet(ModelElement modelElement) {
+        if (modelElement instanceof PolicyAttribute) {
+            Object modelObject = modelObjectSupplier.get();
+            if (modelObject instanceof IModelObject) {
+                PolicyAttribute policyAttribute = (PolicyAttribute)modelElement;
+                return policyAttribute.getValueSet((IModelObject)modelObject);
+            }
+        }
+        return new UnrestrictedValueSet<>();
     }
 
     private Optional<ModelElement> findModelElement() {
