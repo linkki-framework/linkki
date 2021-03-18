@@ -31,6 +31,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.TextFieldVariant;
 
 public class ComponentFactory {
 
@@ -165,6 +166,16 @@ public class ComponentFactory {
         layout.setSpacing(false);
         layout.setMargin(false);
         return layout;
+    }
+
+    /**
+     * Creates a new {@link TextField} that only enables characters that follow a given pattern.
+     */
+    public static TextField newTextField(int maxLength, String width, String pattern) {
+        TextField field = newTextField(maxLength, width);
+        field.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT);
+        field.getElement().setProperty("_enabledCharPattern", pattern);
+        return field;
     }
 
 }

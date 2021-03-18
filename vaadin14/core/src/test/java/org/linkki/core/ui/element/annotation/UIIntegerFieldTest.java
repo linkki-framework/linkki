@@ -86,7 +86,7 @@ public class UIIntegerFieldTest {
     }
 
     @Test
-    public void testSetValueWithPrimitiveIntegerInModelObject() {
+    public void testSetValue_WithPrimitiveIntegerInModelObject() {
         TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
 
         // No assertions needed, we just make sure no exception is thrown
@@ -94,7 +94,7 @@ public class UIIntegerFieldTest {
     }
 
     @Test
-    public void testSetValueWithPrimitiveIntegerInModelObjectFailsForNull() {
+    public void testSetValue_WithPrimitiveIntegerInModelObject_FailsForNull() {
         @SuppressWarnings("unused")
         TextField textField = createIntegerTextField(new TestModelObjectWithPrimitiveInteger());
 
@@ -105,11 +105,11 @@ public class UIIntegerFieldTest {
     }
 
     @Test
-    public void testSetValueWithObjectIntegerInModelObject() {
+    public void testSetValue_WithObjectIntegerInModelObject() {
         TextField textField = createIntegerTextField(new TestModelObjectWithObjectInteger());
 
         // No assertions needed, we just make sure no exception is thrown
-        TestUiUtil.setUserOriginatedValue(textField, null);
+        TestUiUtil.setUserOriginatedValue(textField, "");
         TestUiUtil.setUserOriginatedValue(textField, "0");
     }
 }

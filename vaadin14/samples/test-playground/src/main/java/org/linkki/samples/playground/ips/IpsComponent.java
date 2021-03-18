@@ -14,10 +14,12 @@
 package org.linkki.samples.playground.ips;
 
 import org.faktorips.runtime.ValidationContext;
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.section.AbstractSection;
@@ -49,6 +51,10 @@ public class IpsComponent extends Div {
         AbstractSection section = new PmoBasedSectionFactory().createSection(pmo,
                                                                              bindingManager.getContext(getClass()));
 
+
         add(section);
+
+        add(VaadinUiCreator.createComponent(new DecimalFieldPmo(), new BindingContext()));
+
     }
 }

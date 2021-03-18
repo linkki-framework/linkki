@@ -14,6 +14,9 @@
 
 package org.linkki.core.ui.element.annotation;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +36,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.internal.AbstractFieldSupport;
 import com.vaadin.flow.data.binder.HasItems;
 
 public final class TestUiUtil {
@@ -96,9 +100,21 @@ public final class TestUiUtil {
         // TODO LIN-2051
     }
 
-    @SuppressWarnings("unused")
     public static <T> void setUserOriginatedValue(AbstractSinglePropertyField<?, T> field, T value) {
-        // TODO LIN-2051
+        try {
+            Field fieldSupportField = AbstractField.class.getDeclaredField("fieldSupport");
+            fieldSupportField.setAccessible(true);
+            AbstractFieldSupport<?, ?> fieldSupport = (AbstractFieldSupport<?, ?>)fieldSupportField.get(field);
+
+            Method valueSetter = AbstractFieldSupport.class.getDeclaredMethod("setValue", Object.class, boolean.class,
+                                                                              boolean.class);
+            valueSetter.setAccessible(true);
+            valueSetter.invoke(fieldSupport, value, false, true);
+
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
+                | NoSuchMethodException | InvocationTargetException e) {
+            throw new RuntimeException("Failed to set user-originated value", e);
+        }
     }
 
     @SuppressWarnings("unused")

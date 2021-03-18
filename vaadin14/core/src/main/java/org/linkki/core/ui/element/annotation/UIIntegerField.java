@@ -40,8 +40,8 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.DerivedReadOnlyAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
+import org.linkki.core.ui.aspects.PrimitiveAwareValueAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
-import org.linkki.core.ui.aspects.ValueAspectDefinition;
 import org.linkki.core.ui.converters.FormattedIntegerToStringConverter;
 import org.linkki.core.ui.element.annotation.UIIntegerField.IntegerFieldAspectCreator;
 import org.linkki.core.ui.element.annotation.UIIntegerField.IntegerFieldComponentDefinitionCreator;
@@ -50,7 +50,6 @@ import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.flow.component.HasSize;
-import com.vaadin.flow.component.textfield.TextField;
 
 /**
  * A text field for displaying formatted integers.
@@ -129,7 +128,8 @@ public @interface UIIntegerField {
                     enabledAspectDefinition,
                     requiredAspectDefinition,
                     new VisibleAspectDefinition(annotation.visible()),
-                    new ValueAspectDefinition(new FormattedIntegerToStringConverter(annotation.format())),
+                    new PrimitiveAwareValueAspectDefinition(
+                            new FormattedIntegerToStringConverter(annotation.format())),
                     new DerivedReadOnlyAspectDefinition());
         }
 
@@ -139,12 +139,7 @@ public @interface UIIntegerField {
 
         @Override
         public LinkkiComponentDefinition create(UIIntegerField annotation, AnnotatedElement annotatedElement) {
-            return pmo -> {
-                TextField field = ComponentFactory.newTextField(annotation.maxLength(), annotation.width());
-                // TODO LIN-2048
-                // field.addClassName(ValoTheme.TEXTFIELD_ALIGN_RIGHT);
-                return field;
-            };
+            return pmo -> ComponentFactory.newTextField(annotation.maxLength(), annotation.width(), "[-+\\d]");
         }
 
     }

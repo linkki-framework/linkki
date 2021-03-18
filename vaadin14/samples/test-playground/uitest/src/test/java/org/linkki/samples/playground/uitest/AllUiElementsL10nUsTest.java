@@ -28,22 +28,23 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 public class AllUiElementsL10nUsTest extends AbstractUiTest {
 
     @Test
-    public void testDoubleField() {
+    public void testDoubleField_DecimalSeparator() {
         TextFieldElement doubleField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DOUBLEVALUE);
-        assertThat(doubleField.getValue(), is("47.11"));
+        doubleField.setValue("47.11");
 
         doubleField.sendKeys("1");
         assertThat(doubleField.getValue(), is("47.111"));
 
-        doubleField.sendKeys("x");
-        assertThat(doubleField.getValue(), is("47.111x"));
         // tab out to lose focus
         doubleField.sendKeys("\t");
         assertThat(doubleField.getValue(), is("47.111"));
 
-        doubleField.setValue("");
-        doubleField.sendKeys("1,2345");
-        assertThat(doubleField.getValue(), is("1,2345"));
+    }
+
+    @Test
+    public void testDoubleField_ThousandsSeparator() {
+        TextFieldElement doubleField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DOUBLEVALUE);
+        doubleField.setValue("1,2345");
         // tab out to lose focus
         doubleField.sendKeys("\t");
         assertThat(doubleField.getValue(), is("12,345.00"));
@@ -58,21 +59,23 @@ public class AllUiElementsL10nUsTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDecimalField() {
+    public void testDecimalField_DecimalSeparator() {
         TextFieldElement decimalField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DECIMALVALUE);
-        assertThat(decimalField.getValue(), is("12,345.6789"));
+        decimalField.setValue("12,345.6789");
 
         decimalField.sendKeys("6");
         assertThat(decimalField.getValue(), is("12,345.67896"));
 
-        decimalField.sendKeys("x");
-        assertThat(decimalField.getValue(), is("12,345.67896x"));
         // tab out to lose focus
         decimalField.sendKeys("\t");
         // Rounding, because NumberFormat#parse returns Double and we use it in the
         // FormattedNumberToStringConverter...
         assertThat(decimalField.getValue(), is("12,345.679"));
+    }
 
+    @Test
+    public void testDecimalField_ThousandsSeparator() {
+        TextFieldElement decimalField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DECIMALVALUE);
         decimalField.setValue("");
         decimalField.sendKeys("1,2345");
         assertThat(decimalField.getValue(), is("1,2345"));

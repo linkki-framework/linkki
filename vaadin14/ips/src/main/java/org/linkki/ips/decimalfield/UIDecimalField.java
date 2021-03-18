@@ -54,8 +54,6 @@ import org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldBoundPropertyCreat
 import org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldComponentDefinitionCreator;
 
 import com.vaadin.flow.component.HasSize;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.textfield.TextFieldVariant;
 
 /**
  * A text field for displaying formatted {@link Decimal} values.
@@ -154,11 +152,7 @@ public @interface UIDecimalField {
 
         @Override
         public LinkkiComponentDefinition create(UIDecimalField annotation, AnnotatedElement annotatedElement) {
-            return pmo -> {
-                TextField field = ComponentFactory.newTextField(annotation.maxLength(), annotation.width());
-                field.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT);
-                return field;
-            };
+            return pmo -> ComponentFactory.newTextField(annotation.maxLength(), annotation.width(), "[-+,\\.\\d]");
         }
 
     }

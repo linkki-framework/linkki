@@ -16,7 +16,6 @@ package org.linkki.core.ui.element.annotation;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -42,7 +41,7 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
 
     private static final int MAX_LENGTH = 8;
 
-    private NumberFormat formatter;
+    private final NumberFormat formatter;
 
     public UIDoubleFieldIntegrationTest() {
         super(TestModelObjectWithObjectDouble::new, DoubleFieldTestPmo::new);
@@ -50,16 +49,15 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
     }
 
     @Test
-    public void testSetValueWithPrimitiveDoubleInModelObject() {
+    public void testSetValue_WithPrimitiveDoubleInModelObject() {
         TestModelObjectWithPrimitiveDouble modelObject = new TestModelObjectWithPrimitiveDouble();
         TextField textField = createFirstComponent(modelObject);
 
         assertThat(textField.getMaxLength(), is(MAX_LENGTH));
         assertThat(textField.getValue(), is(formatter.format(0.0)));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(textField, formatter.format(1.0));
-        // assertThat(modelObject.getValue(), is(1.0));
+        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1.0));
+        assertThat(modelObject.getValue(), is(1.0));
 
         modelObject.setValue(2.0);
         getBindingContext().modelChanged();
@@ -67,52 +65,35 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
     }
 
     @Test
-    public void testSetValueWithPrimitiveDoubleInModelObject_IllegalNumbers() {
-        TestModelObjectWithPrimitiveDouble modelObject = new TestModelObjectWithPrimitiveDouble();
-        TextField textField = createFirstComponent(modelObject);
-
-        TestUiUtil.setUserOriginatedValue(textField, "asd");
-        assertThat(modelObject.getValue(), is(0.0));
-    }
-
-    @Test
-    public void testSetValueWithPrimitiveDoubleInModelObjectFailsForNull() {
-        @SuppressWarnings("unused")
+    public void testSetValue_WithPrimitiveDoubleInModelObject_RevertsForNull() {
         TextField textField = createFirstComponent(new TestModelObjectWithPrimitiveDouble());
+        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1.0));
+        assertThat(textField.getValue(), is(formatter.format(1.0)));
 
-        // TODO LIN-2056
-        // Assertions.assertThrows(ListenerMethod.MethodException.class, () -> {
-        // TestUiUtil.setUserOriginatedValue(textField, null);
-        // });
+        TestUiUtil.setUserOriginatedValue(textField, "");
+
+        // field reverts to last valid value
+        assertThat(textField.getValue(), is(formatter.format(1.0)));
     }
 
 
     @Test
-    public void testSetValueWithObjectDoubleInModelObject() {
+    public void testSetValue_WithObjectDoubleInModelObject() {
         TestModelObjectWithObjectDouble modelObject = new TestModelObjectWithObjectDouble();
         TextField textField = createFirstComponent(modelObject);
 
         assertThat(textField.getValue(), is(emptyString()));
 
-        // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(textField, formatter.format(1.0));
-        // assertThat(modelObject.getValue(), is(1.0));
+        TestUiUtil.setUserOriginatedValue(textField, formatter.format(1.0));
+        assertThat(modelObject.getValue(), is(1.0));
 
         modelObject.setValue(2.0);
         getBindingContext().modelChanged();
         assertThat(textField.getValue(), is(formatter.format(2.0)));
 
+        // TODO LIN-2051
         // TestUiUtil.setUserOriginatedValue(textField, null);
         // assertThat(modelObject.getValue(), is(nullValue()));
-    }
-
-    @Test
-    public void testSetValueWithObjectDoubleInModelObject_IllegalNumbers() {
-        TestModelObjectWithObjectDouble modelObject = new TestModelObjectWithObjectDouble();
-        TextField textField = createFirstComponent(modelObject);
-
-        TestUiUtil.setUserOriginatedValue(textField, "asd");
-        assertThat(modelObject.getValue(), is(nullValue()));
     }
 
     @Test
@@ -123,18 +104,17 @@ public class UIDoubleFieldIntegrationTest extends FieldAnnotationIntegrationTest
         modelChanged();
         assertThat(doubleField.isRequiredIndicatorVisible(), is(true));
 
+        TestUiUtil.setUserOriginatedValue(doubleField, formatter.format(1.0));
+        assertThat(getDefaultModelObject().getValue(), is(1.0));
+
         // TODO LIN-2051
-        // TestUiUtil.setUserOriginatedValue(doubleField, formatter.format(1.0));
-        // assertThat(getDefaultModelObject().getValue(), is(1.0));
-        //
         // TestUiUtil.setUserOriginatedValue(doubleField, null);
         // assertThat(getDefaultModelObject().getValue(), is(nullValue()));
     }
 
     @Test
     public void testDerivedLabel() {
-        // TODO LIN-2051
-        // assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+        assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
     }
 
     @Override
