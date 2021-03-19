@@ -48,6 +48,36 @@
    <AllValues containsNull="false"/>
   </ValueSet>
  </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="boolean" id="2b55bd15-4b36-475c-b913-1498d6cd5b57" modifier="published" name="valueSetExclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue>true</DefaultValue>
+  <Label id="f490c4a5-7cb0-4958-8b17-d5985e5d6f1d" locale="en" pluralValue="" value="ValueSet excl. null"/>
+  <Label id="b04b94c4-9455-4574-a19f-86f2cedf73a6" locale="de" pluralValue="" value="ValueSet mit null"/>
+  <Description id="5d0f71a3-c2a2-471c-b5a7-aceb34b72736" locale="en"/>
+  <Description id="d2dfa223-7e0e-4b77-9fce-b23b460a0e52" locale="de"/>
+  <ValueSet abstract="false" id="daff4ec1-5fef-46f6-9d92-424b978feed8">
+   <Derived/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="Boolean" id="7b8547bf-13f7-43f5-9307-a61b23bbec38" modifier="published" name="valueSetInclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue isNull="true"/>
+  <Label id="ac2c1da7-e8d7-41cd-8c08-4e54cd3919be" locale="en" pluralValue="" value="ValueSet incl. null"/>
+  <Label id="c8767902-132e-48ab-b4b0-3a259f0c7dd2" locale="de" pluralValue="" value="ValueSet mit null"/>
+  <Description id="c3b2749c-21a1-40df-a0f3-bf4df8631414" locale="en"/>
+  <Description id="9d6eb08e-6bba-466d-9589-0279e30534f6" locale="de"/>
+  <ValueSet abstract="false" id="b700e80b-30be-4662-a124-cb1895810227">
+   <Derived/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="Marker" id="50f8dc6d-4a09-4948-86ad-13d774f2e069" modifier="published" name="emptyValueSet" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue isNull="true"/>
+  <Label id="6bdeb11d-1a6a-4f37-abbc-5219a46209b3" locale="en" pluralValue="" value="Empty ValueSet"/>
+  <Label id="73eddfb0-089c-4194-8e53-9c8a6fa0b34e" locale="de" pluralValue="" value="Leeres ValueSet"/>
+  <Description id="30309b73-6abb-45fb-a490-9c0303fc8bab" locale="en"/>
+  <Description id="a13795c6-a8fe-4abf-a6bd-5f34701f616f" locale="de"/>
+  <ValueSet abstract="false" id="554eae9e-3d12-4419-9c2f-58a78c2c00a8">
+   <Enum/>
+  </ValueSet>
+ </Attribute>
  <ValidationRuleDef activatedByDefault="true" appliedForAllBusinessFunctions="true" category="" changingOverTime="false" checkValueAgainstValueSetRule="true" configurableByProductComponent="false" id="bfbbd3bc-d99c-496a-8425-233c8b08c71b" messageCode="INVALID_DECIMAL" messageSeverity="error" modifier="published" name="checkDecimal" validatedAttrSpecifiedInSrc="false">
   <ValidatedAttribute name="decimal"/>
   <Markers>

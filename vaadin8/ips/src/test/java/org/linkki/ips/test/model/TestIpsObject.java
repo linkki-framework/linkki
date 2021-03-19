@@ -6,6 +6,8 @@ import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.internal.AbstractModelObject;
 import org.faktorips.valueset.ValueSet;
 import org.faktorips.valueset.UnrestrictedValueSet;
+import org.faktorips.valueset.OrderedValueSet;
+import java.time.MonthDay;
 import org.faktorips.runtime.model.annotation.IpsAttribute;
 import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
@@ -13,6 +15,7 @@ import org.faktorips.runtime.model.annotation.IpsAttributeSetter;
 import org.faktorips.runtime.model.annotation.IpsAllowedValues;
 import java.util.Map;
 import org.faktorips.runtime.IRuntimeRepository;
+import org.faktorips.runtime.internal.IpsStringUtils;
 import org.w3c.dom.Element;
 import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.IValidationContext;
@@ -23,7 +26,8 @@ import org.faktorips.runtime.IValidationContext;
  * @generated
  */
 @IpsPolicyCmptType(name = "TestIpsObject")
-@IpsAttributes({ "foo", "unrestrictedInclNull", "unrestrictedExclNull" })
+@IpsAttributes({ "foo", "unrestrictedInclNull", "unrestrictedExclNull", "valueSetInclNull", "valueSetExclNull",
+        "emptyValueSet" })
 @IpsDocumented(bundleName = "org.linkki.ips.test.model.testmodel-label-and-descriptions", defaultLocale = "en")
 public class TestIpsObject extends AbstractModelObject {
 
@@ -62,6 +66,39 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
+     * The name of the property valueSetInclNull.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_VALUESETINCLNULL = "valueSetInclNull";
+
+
+    /**
+     * The name of the property valueSetExclNull.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_VALUESETEXCLNULL = "valueSetExclNull";
+
+
+    /**
+     * The name of the property emptyValueSet.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_EMPTYVALUESET = "emptyValueSet";
+
+
+    /**
+     * Max allowed values for property emptyValueSet.
+     * 
+     * @generated
+     */
+    public static final OrderedValueSet<MonthDay> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<MonthDay>(
+            false, null);
+
+
+    /**
      * Member variable for foo.
      * 
      * @generated
@@ -83,6 +120,30 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     private String unrestrictedExclNull = null;
+
+
+    /**
+     * Member variable for valueSetInclNull.
+     * 
+     * @generated
+     */
+    private Boolean valueSetInclNull = null;
+
+
+    /**
+     * Member variable for valueSetExclNull.
+     * 
+     * @generated
+     */
+    private boolean valueSetExclNull = true;
+
+
+    /**
+     * Member variable for emptyValueSet.
+     * 
+     * @generated
+     */
+    private MonthDay emptyValueSet = null;
 
 
     /**
@@ -172,6 +233,96 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
+     * Returns the valueSetInclNull.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "valueSetInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    public Boolean getValueSetInclNull() {
+        return valueSetInclNull;
+    }
+
+
+    /**
+     * Sets the value of attribute valueSetInclNull.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("valueSetInclNull")
+    public void setValueSetInclNull(Boolean newValue) {
+        this.valueSetInclNull = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property valueSetExclNull.
+     * 
+     * @restrainedmodifiable
+     */
+    @IpsAllowedValues("valueSetExclNull")
+    public ValueSet<Boolean> getSetOfAllowedValuesForValueSetExclNull(IValidationContext context) {
+        // begin-user-code
+        return new UnrestrictedValueSet<Boolean>(false);
+        // end-user-code
+    }
+
+
+    /**
+     * Returns the valueSetExclNull.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "valueSetExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    public boolean isValueSetExclNull() {
+        return valueSetExclNull;
+    }
+
+
+    /**
+     * Sets the value of attribute valueSetExclNull.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("valueSetExclNull")
+    public void setValueSetExclNull(boolean newValue) {
+        this.valueSetExclNull = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property emptyValueSet.
+     * 
+     * @generated
+     */
+    @IpsAllowedValues("emptyValueSet")
+    public OrderedValueSet<MonthDay> getAllowedValuesForEmptyValueSet(IValidationContext context) {
+        return MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET;
+    }
+
+
+    /**
+     * Returns the emptyValueSet.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "emptyValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
+    public MonthDay getEmptyValueSet() {
+        return emptyValueSet;
+    }
+
+
+    /**
+     * Sets the value of attribute emptyValueSet.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("emptyValueSet")
+    public void setEmptyValueSet(MonthDay newValue) {
+        this.emptyValueSet = newValue;
+    }
+
+
+    /**
      * Initializes the object with the configured defaults.
      *
      * @restrainedmodifiable
@@ -193,6 +344,9 @@ public class TestIpsObject extends AbstractModelObject {
         doInitFoo(propMap);
         doInitUnrestrictedInclNull(propMap);
         doInitUnrestrictedExclNull(propMap);
+        doInitValueSetInclNull(propMap);
+        doInitValueSetExclNull(propMap);
+        doInitEmptyValueSet(propMap);
     }
 
     /**
@@ -220,6 +374,38 @@ public class TestIpsObject extends AbstractModelObject {
     private void doInitUnrestrictedExclNull(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_UNRESTRICTEDEXCLNULL)) {
             this.unrestrictedExclNull = propMap.get(PROPERTY_UNRESTRICTEDEXCLNULL);
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    private void doInitValueSetInclNull(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_VALUESETINCLNULL)) {
+            this.valueSetInclNull = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETINCLNULL)) ? null
+                    : Boolean.valueOf(propMap.get(PROPERTY_VALUESETINCLNULL));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    private void doInitValueSetExclNull(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_VALUESETEXCLNULL)) {
+            this.valueSetExclNull = Boolean.valueOf(propMap.get(PROPERTY_VALUESETEXCLNULL)).booleanValue();
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    private void doInitEmptyValueSet(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_EMPTYVALUESET)) {
+            this.emptyValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_EMPTYVALUESET)) ? null
+                    : MonthDay.parse(propMap.get(PROPERTY_EMPTYVALUESET));
         }
     }
 

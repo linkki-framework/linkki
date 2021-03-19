@@ -33,6 +33,8 @@ import org.linkki.core.binding.descriptor.property.BoundProperty;
 import org.linkki.core.binding.dispatcher.AbstractPropertyDispatcherDecorator;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
+import org.linkki.core.defaults.ui.aspects.EnabledAspectDefinition;
+import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.ui.aspects.RequiredAspectDefinition;
 import org.linkki.core.uiframework.UiFramework;
 
@@ -66,6 +68,9 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
                 return getDerivedByLinkkiValue(aspect);
             } else if (RequiredAspectDefinition.NAME.equals(aspect.getName())) {
                 return getRequiredValue(aspect);
+            } else if (VisibleAspectDefinition.NAME.equals(aspect.getName())
+                    || EnabledAspectDefinition.NAME.equals(aspect.getName())) {
+                return getVisibleOrEnabledValue(aspect);
             }
         }
         return super.pull(aspect);
@@ -87,6 +92,11 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
         return (T)getRequiredTyped((Aspect<Boolean>)aspect);
     }
 
+    @SuppressWarnings("unchecked")
+    private <T> T getVisibleOrEnabledValue(Aspect<T> aspect) {
+        return (T)getVisibleOrEnabledTyped((Aspect<Boolean>)aspect);
+    }
+
     /**
      * Evaluates the required aspect. Ask the other dispatchers first, as they may evaluate more quickly
      * than to retrieve the value set from Faktor-IPS model.
@@ -96,12 +106,30 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
         return otherDispatcherRequired || isRequiredInModel();
     }
 
+    private Boolean getVisibleOrEnabledTyped(Aspect<Boolean> aspect) {
+        boolean otherDispatcherValue = Optional.ofNullable(super.pull(aspect)).orElse(true);
+        return otherDispatcherValue ? isVisibleOrEnabledInModel() : otherDispatcherValue;
+    }
+
+    /**
+     * Checks, if the Faktor-IPS attribute needs to be visible or enabled in the UI.<br>
+     * <ul>
+     * <li>Attributes are not visible, if the corresponding value set is null or empty.</li>
+     * <li>Attributes are disabled, if the corresponding value set is null or empty.</li>
+     * </ul>
+     */
+    private boolean isVisibleOrEnabledInModel() {
+        return !findModelElement()
+                .map(this::getValueSet)
+                .map(ValueSet::isEmpty)
+                .orElse(false);
+    }
+
     private boolean isRequiredInModel() {
         return !findModelElement()
                 .map(this::getValueSet)
                 .map(ValueSet::containsNull)
                 .orElse(true);
-
     }
 
     private ValueSet<?> getValueSet(ModelElement modelElement) {

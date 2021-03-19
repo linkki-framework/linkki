@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.faktorips.runtime.IRuntimeRepository;
+import org.faktorips.runtime.internal.IpsStringUtils;
 import org.faktorips.runtime.IValidationContext;
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
@@ -27,6 +28,7 @@ import org.faktorips.runtime.util.MessagesHelper;
 import org.faktorips.values.Decimal;
 import org.faktorips.valueset.ValueSet;
 import org.faktorips.valueset.UnrestrictedValueSet;
+import org.faktorips.valueset.OrderedValueSet;
 import org.faktorips.valueset.DecimalRange;
 import org.w3c.dom.Element;
 
@@ -36,7 +38,8 @@ import org.w3c.dom.Element;
  * @generated
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
-@IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull" })
+@IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull", "valueSetExclNull",
+        "valueSetInclNull", "emptyValueSet" })
 @IpsValidationRules({ "checkDecimal" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions", defaultLocale = "en")
 public class IpsModelObject extends AbstractModelObject {
@@ -90,6 +93,35 @@ public class IpsModelObject extends AbstractModelObject {
     public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL = new UnrestrictedValueSet<String>(
             false);
 
+    /**
+     * The name of the property valueSetExclNull.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_VALUESETEXCLNULL = "valueSetExclNull";
+
+    /**
+     * The name of the property valueSetInclNull.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_VALUESETINCLNULL = "valueSetInclNull";
+
+    /**
+     * The name of the property emptyValueSet.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_EMPTYVALUESET = "emptyValueSet";
+
+    /**
+     * Max allowed values for property emptyValueSet.
+     * 
+     * @generated
+     */
+    public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<Marker>(
+            false, null);
+
     // end::PROPERTY_STRING[]
 
     /**
@@ -120,6 +152,27 @@ public class IpsModelObject extends AbstractModelObject {
      */
     private String unrestrictedExclNull = "required";
 
+
+    /**
+     * Member variable for valueSetExclNull.
+     * 
+     * @generated
+     */
+    private boolean valueSetExclNull = true;
+
+    /**
+     * Member variable for valueSetInclNull.
+     * 
+     * @generated
+     */
+    private Boolean valueSetInclNull = null;
+
+    /**
+     * Member variable for emptyValueSet.
+     * 
+     * @generated
+     */
+    private Marker emptyValueSet = null;
 
     /**
      * Creates a new IpsModelObject.
@@ -240,6 +293,109 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
+     * Returns the set of allowed values for the property valueSetExclNull.
+     * 
+     * @restrainedmodifiable
+     */
+    @IpsAllowedValues("valueSetExclNull")
+    public ValueSet<Boolean> getSetOfAllowedValuesForValueSetExclNull(IValidationContext context) {
+        // begin-user-code
+        return new UnrestrictedValueSet<Boolean>(false);
+        // end-user-code
+    }
+
+
+    /**
+     * Returns the valueSetExclNull.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "valueSetExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    public boolean isValueSetExclNull() {
+        return valueSetExclNull;
+    }
+
+
+    /**
+     * Sets the value of attribute valueSetExclNull.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("valueSetExclNull")
+    public void setValueSetExclNull(boolean newValue) {
+        this.valueSetExclNull = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property valueSetInclNull.
+     * 
+     * @restrainedmodifiable
+     */
+    @IpsAllowedValues("valueSetInclNull")
+    public ValueSet<Boolean> getSetOfAllowedValuesForValueSetInclNull(IValidationContext context) {
+        // begin-user-code
+        return new UnrestrictedValueSet<Boolean>(true);
+        // end-user-code
+    }
+
+
+    /**
+     * Returns the valueSetInclNull.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "valueSetInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    public Boolean getValueSetInclNull() {
+        return valueSetInclNull;
+    }
+
+
+    /**
+     * Sets the value of attribute valueSetInclNull.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("valueSetInclNull")
+    public void setValueSetInclNull(Boolean newValue) {
+        this.valueSetInclNull = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property emptyValueSet.
+     * 
+     * @generated
+     */
+    @IpsAllowedValues("emptyValueSet")
+    public OrderedValueSet<Marker> getAllowedValuesForEmptyValueSet(IValidationContext context) {
+        return MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET;
+    }
+
+
+    /**
+     * Returns the emptyValueSet.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "emptyValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
+    public Marker getEmptyValueSet() {
+        return emptyValueSet;
+    }
+
+
+    /**
+     * Sets the value of attribute emptyValueSet.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("emptyValueSet")
+    public void setEmptyValueSet(Marker newValue) {
+        this.emptyValueSet = newValue;
+    }
+
+
+    /**
      * Initializes the object with the configured defaults.
      *
      * @restrainedmodifiable
@@ -262,6 +418,9 @@ public class IpsModelObject extends AbstractModelObject {
         doInitString(propMap);
         doInitUnrestrictedInclNull(propMap);
         doInitUnrestrictedExclNull(propMap);
+        doInitValueSetExclNull(propMap);
+        doInitValueSetInclNull(propMap);
+        doInitEmptyValueSet(propMap);
     }
 
     /**
@@ -298,6 +457,38 @@ public class IpsModelObject extends AbstractModelObject {
     private void doInitUnrestrictedExclNull(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_UNRESTRICTEDEXCLNULL)) {
             this.unrestrictedExclNull = propMap.get(PROPERTY_UNRESTRICTEDEXCLNULL);
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    private void doInitValueSetExclNull(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_VALUESETEXCLNULL)) {
+            this.valueSetExclNull = Boolean.valueOf(propMap.get(PROPERTY_VALUESETEXCLNULL)).booleanValue();
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    private void doInitValueSetInclNull(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_VALUESETINCLNULL)) {
+            this.valueSetInclNull = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETINCLNULL)) ? null
+                    : Boolean.valueOf(propMap.get(PROPERTY_VALUESETINCLNULL));
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    private void doInitEmptyValueSet(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_EMPTYVALUESET)) {
+            this.emptyValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_EMPTYVALUESET)) ? null
+                    : Marker.getValueById(propMap.get(PROPERTY_EMPTYVALUESET));
         }
     }
 
@@ -348,10 +539,10 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * Executes the rule checkDecimal and adds a message to the given list if the object is invalid.
      * 
-     * @param ml list to which validation errors are added
+     * @param ml      list to which validation errors are added
      * @param context the validation context
-     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should
-     *         be stopped after processing this rule.
+     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should be
+     *         stopped after processing this rule.
      * 
      * @restrainedmodifiable
      */
