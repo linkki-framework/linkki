@@ -65,6 +65,14 @@ To include the `IpsPropertyDispatcher` as a custom dispatcher in the `BindingCon
 include::{source-dir}org/linkki/samples/playground/ips/IpsComponent.java[tags=createBindingManager]
 ----
 
+The `IpsPropertyDispatcher` uses the value set information from a Faktor-IPS model attribute to set field properties state in the UI.
+
+* if the `required` property is set to `false`, the `IpsPropertyDispatcher` checks the corresponding value set and sets `required` to `true` (required marker should be visible), if the value set does not contain `null`
+* if the `visible` property is set to `true`, the `IpsPropertyDispatcher` checks the corresponding value set and sets `visible` to `false`, if the value set is `null` or empty
+* if the `enabled` property is set `true`, the `IpsPropertyDispatcher` checks the corresponding value set and sets `enabled` to `false`, if the value set is `null` or empty
+
+This can be overruled by setting the property type to `DYNAMIC`. E.g. `VisibleType.DYNAMIC` with method `is[PropertyName]Visible()` returning `true`.
+
 ==== PROPERTY Constants as Model Attributes
 
 Faktor-IPS generates constants for defined attributes containing their name. These values can be used as the `modelAttribute` to easily create bound UI components.
