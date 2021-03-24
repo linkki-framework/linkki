@@ -34,41 +34,39 @@ public class VisibleSectionPmo {
                 + "Fields should be visible if value set is not empty.";
     }
 
-    /*
-     * Should be visible
-     */
     @UIComboBox(position = 20, modelAttribute = IpsModelObject.PROPERTY_VALUESETEXCLNULL)
-    public void baz() {
+    public void valueSetExclNull() {
         // model binding
     }
 
-    /*
-     * Should be visible
-     */
     @UIComboBox(position = 30, modelAttribute = IpsModelObject.PROPERTY_VALUESETINCLNULL)
-    public void qux() {
+    public void valueSetInclNull() {
         // model binding
     }
 
     @UILabel(position = 40, htmlContent = true)
-    public String getQuuxDescription() {
-        return "The following field should be invisible and disabled,<br>"
+    public String getVisibleDynamicDescription() {
+        return "The following field would be invisible and disabled,<br>"
                 + "but is overridden with VisibleType.DYNAMIC=true and EnabledType.DYNAMIC=true";
     }
 
-    /*
-     * Should be invisible, but is forced to be visible and enabled
-     */
+    // Should be invisible, but is forced to be visible and enabled
     @UIComboBox(position = 50, modelAttribute = IpsModelObject.PROPERTY_EMPTYVALUESET, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
-    public void quux() {
+    public void emptyValueSet() {
         // model binding
     }
 
-    public boolean isQuuxVisible() {
+    public boolean isEmptyValueSetVisible() {
         return true;
     }
 
-    public boolean isQuuxEnabled() {
+    public boolean isEmptyValueSetEnabled() {
         return true;
+    }
+
+    // Not visible at all
+    @UIComboBox(position = 60, modelAttribute = IpsModelObject.PROPERTY_EMPTYVALUESET)
+    public void invisibleEmptyValueSet() {
+        // model binding
     }
 }

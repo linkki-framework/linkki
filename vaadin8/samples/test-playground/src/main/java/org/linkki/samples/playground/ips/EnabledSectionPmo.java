@@ -33,46 +33,30 @@ public class EnabledSectionPmo {
                 + "Fields should be enabled if value set is not empty.";
     }
 
-    /*
-     * Should be enabled
-     */
     @UIComboBox(position = 20, modelAttribute = IpsModelObject.PROPERTY_VALUESETEXCLNULL)
-    public void corge() {
+    public void valueSetExclNull() {
         // model binding
     }
 
-    /*
-     * Should be enabled
-     */
     @UIComboBox(position = 30, modelAttribute = IpsModelObject.PROPERTY_VALUESETINCLNULL)
-    public void grault() {
+    public void valueSetInclNull() {
         // model binding
     }
 
     @UILabel(position = 40, htmlContent = true)
-    public String getGarplyDescription() {
-        return "The following field should be invisible and disabled,<br>"
-                + "but it's forced to be shown by VisibleType.DYNAMIC=true";
+    public String getVisibleDescription() {
+        return "The following field would be invisible and disabled,<br>"
+                + "but it's forced to be shown by VisibleType.DYNAMIC";
     }
 
-    /*
-     * Should be visible due to VisibleType.DYNAMIC but disabled
-     */
+    // Should be visible due to VisibleType.DYNAMIC but disabled
     @UIComboBox(position = 50, modelAttribute = IpsModelObject.PROPERTY_EMPTYVALUESET, visible = VisibleType.DYNAMIC)
-    public void garply() {
+    public void emptyValueSet() {
         // model binding
     }
 
-    public boolean isGarplyVisible() {
+    public boolean isEmptyValueSetVisible() {
         return true;
-    }
-
-    /*
-     * Should neither be visible nor enabled
-     */
-    @UIComboBox(position = 60, modelAttribute = IpsModelObject.PROPERTY_EMPTYVALUESET)
-    public void waldo() {
-        // model binding
     }
 
 }

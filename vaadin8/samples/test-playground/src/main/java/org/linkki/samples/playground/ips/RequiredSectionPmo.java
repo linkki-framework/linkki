@@ -27,18 +27,18 @@ public class RequiredSectionPmo {
     private final IpsModelObject modelObject = new IpsModelObject();
 
     @UILabel(position = 10, htmlContent = true)
-    public String getDescription() {
+    public String getRequiredDescription() {
         return "Check that the IpsDispatcher uses the value set information:<br>"
                 + "Required marker should be visible if value set does not contains null.";
     }
 
     @UITextField(position = 20, modelAttribute = IpsModelObject.PROPERTY_UNRESTRICTEDEXCLNULL)
-    public void foo() {
+    public void unrestrictedValueSetExclNull() {
         // model binding
     }
 
     @UITextField(position = 30, modelAttribute = IpsModelObject.PROPERTY_UNRESTRICTEDINCLNULL)
-    public void bar() {
+    public void unrestrictedValueSetInclNull() {
         // model binding
     }
 
