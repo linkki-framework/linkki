@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.hasSize;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
@@ -27,6 +28,7 @@ import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.VerticalLayoutElement;
 import com.vaadin.testbench.elements.WindowElement;
 
+@DriverExtension.Configuration(restartAfterEveryTest = true)
 public class ButtonDoubleClickTest extends AbstractUiTest {
 
     @BeforeEach

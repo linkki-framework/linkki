@@ -36,10 +36,8 @@ import com.vaadin.testbench.elements.NotificationElement;
 @SuppressWarnings("deprecation")
 public class SelectableTableTest extends AbstractUiTest {
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    public void selectPage() {
         clickButton(TablePage.ID);
     }
 
@@ -65,7 +63,7 @@ public class SelectableTableTest extends AbstractUiTest {
                    is("Name 1"));
 
         // change selection with key
-        selectableTable.getRow(2).click();
+        selectableTable.getRow(2).click(1, 1);
         Actions action = new Actions(getDriver());
         action.sendKeys(Keys.ARROW_UP).perform();
         assertThat(selectableTable.getRow(1).getClassNames(), hasItem("v-selected"));
@@ -84,12 +82,12 @@ public class SelectableTableTest extends AbstractUiTest {
                 .id(PlaygroundTablePmo.class.getSimpleName() + "_table");
 
         // single click should not trigger the aspect
-        selectableTable.getRow(0).click();
+        selectableTable.getRow(0).click(1, 1);
         List<NotificationElement> notificationsAfterSingleClick = $(NotificationElement.class).all();
         assertThat(notificationsAfterSingleClick, hasSize(0));
 
         // double click should first set selection then trigger the aspect
-        selectableTable.getRow(1).doubleClick();
+        selectableTable.getRow(1).getCell(1).doubleClick();
         assertThat(selectableTable.getRow(1).getClassNames(), hasItem("v-selected"));
         List<NotificationElement> notificationsAfterDoubleClick = $(NotificationElement.class).all();
         assertThat(notificationsAfterDoubleClick, hasSize(1));

@@ -17,7 +17,6 @@ package org.linkki.samples.playground.uitest;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.allelements.AllUiElementsTabsheetArea;
 import org.linkki.samples.playground.table.PlaygroundTablePmo;
@@ -27,12 +26,6 @@ import com.vaadin.testbench.elements.TextFieldElement;
 
 @SuppressWarnings("deprecation")
 public class TableValidationMarkerTest extends AbstractUiTest {
-
-    @Override
-    @BeforeEach
-    public void setUp() {
-        super.setUp();
-    }
 
     @Test
     public void testMarkersInTable() {

@@ -14,17 +14,15 @@
 package org.linkki.samples.playground.uitest;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.linkki.samples.playground.uitest.extensions.DriverExtension;
+import org.linkki.samples.playground.uitest.extensions.ScreenshotOnFailureExtension;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.vaadin.testbench.TestBench;
 import com.vaadin.testbench.TestBenchTestCase;
 import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.ComboBoxElement;
@@ -46,51 +44,15 @@ public class AbstractUiTest extends TestBenchTestCase {
     /** The default application's URL path. */
     public static final String MAIN_URL_PATH = "#!";
 
-    private final String urlPath;
+    @RegisterExtension
+    protected static DriverExtension driverExtension = new DriverExtension();
 
-    public AbstractUiTest() {
-        this(MAIN_URL_PATH);
-    }
-
-    public AbstractUiTest(String urlPath) {
-        this.urlPath = urlPath;
-    }
+    @RegisterExtension
+    protected ScreenshotOnFailureExtension screenshotExtension = new ScreenshotOnFailureExtension(this);
 
     @BeforeEach
     public void setUp() {
-        setUp(Locale.GERMANY);
-    }
-
-    protected void setUp(Locale locale) {
-        BrowserType browserType = DriverProperties.isHeadless() ? BrowserType.CHROME_HEADLESS : BrowserType.CHROME;
-        WebDriver webDriver = browserType.getWebdriver(locale);
-        setDriver(TestBench.createDriver(webDriver));
-        String url = DriverProperties.getTestUrl(urlPath);
-        startApplication(url);
-        waitUntil(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
-                .toString().equals("complete"));
-    }
-
-    /**
-     * Starts the application on the browser with the given URL and maximizes the browser.
-     *
-     * @param url URL of the application
-     * @see DriverProperties#getTestUrl(String)
-     */
-    public void startApplication(String url) {
-        if (getDriver() != null) {
-            System.out.println("Starting application on " + url);
-            getDriver().get(url);
-            maximize();
-        }
-    }
-
-    /**
-     * Closes the browser
-     */
-    @AfterEach
-    public void closeBrowser() {
-        getDriver().quit();
+        setDriver(driverExtension.getDriver());
     }
 
     /**
@@ -132,13 +94,6 @@ public class AbstractUiTest extends TestBenchTestCase {
     }
 
     /**
-     * Maximize the browser.
-     */
-    private void maximize() {
-        getDriver().manage().window().maximize();
-    }
-
-    /**
      * Finds the element within the current page that matches the {@link By locator} and has the
      * caption.
      * <p>
@@ -162,6 +117,6 @@ public class AbstractUiTest extends TestBenchTestCase {
     }
 
     public void navigateToView(String viewName) {
-        getDriver().get(DriverProperties.getTestUrl(urlPath) + viewName);
+        getDriver().get(DriverProperties.getTestUrl(MAIN_URL_PATH) + viewName);
     }
 }

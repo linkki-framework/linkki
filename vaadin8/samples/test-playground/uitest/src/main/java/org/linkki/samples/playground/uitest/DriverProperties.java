@@ -31,6 +31,14 @@ public final class DriverProperties {
     }
 
     /**
+     * Create the URL by appending {@link #getTestHostname() host name}, {@link #getTestPort() port} and
+     * the two given paths.
+     */
+    public static String getTestUrl(String basePath, String path) {
+        return String.format("http://%s:%s/%s/%s", getTestHostname(), getTestPort(), basePath, path);
+    }
+
+    /**
      * Gets the {@code test.port} property, defaults to {@code 8080}.
      */
     public static String getTestPort() {

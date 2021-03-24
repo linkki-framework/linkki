@@ -18,6 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 
 import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.LabelElement;
@@ -25,6 +26,7 @@ import com.vaadin.testbench.elements.TextFieldElement;
 import com.vaadin.testbench.elements.VerticalLayoutElement;
 import com.vaadin.testbench.elements.WindowElement;
 
+@DriverExtension.Configuration(restartAfterEveryTest = true)
 public class DialogTest extends AbstractUiTest {
 
     @Test

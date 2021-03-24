@@ -22,21 +22,16 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
+import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 
 import com.vaadin.testbench.elements.DateFieldElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.TextFieldElement;
 
+@DriverExtension.Configuration(locale = "en")
 public class AllUiElementsL10nUsTest extends AbstractUiTest {
-
-    @Override
-    @BeforeEach
-    public void setUp() {
-        setUp(Locale.US);
-    }
 
     @Test
     public void testDoubleField() {

@@ -32,6 +32,7 @@ import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
 import org.linkki.samples.playground.allelements.Direction;
 import org.linkki.samples.playground.allelements.MultipleComponentAnnotationsPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
+import org.openqa.selenium.By;
 
 import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.CheckBoxElement;
@@ -129,8 +130,6 @@ public class AllUiElementsTest extends AbstractUiTest {
     public void testComboBox() {
         ComboBoxElement comboBox = $(ComboBoxElement.class).id("enumValueComboBox");
 
-        assertThat(comboBox.getValue(), is(""));
-
         comboBox.selectByText(Direction.UP.getName());
         assertThat(comboBox.getValue(), is(Direction.UP.getName()));
 
@@ -152,7 +151,7 @@ public class AllUiElementsTest extends AbstractUiTest {
     @Test
     public void testCustomField() {
         PasswordFieldElement customField = $(PasswordFieldElement.class).id(AllUiElementsModelObject.PROPERTY_SECRET);
-        assertThat(customField.getValue(), is("secret"));
+        customField.setValue("secret");
 
         customField.sendKeys("!");
         assertThat(customField.getValue(), is("secret!"));
@@ -180,7 +179,7 @@ public class AllUiElementsTest extends AbstractUiTest {
     public void testButton() {
         ButtonElement button = $(ButtonElement.class).id("action");
         TextFieldElement integerField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_INTVALUE);
-        assertThat(integerField.getValue(), is("42"));
+        integerField.setValue("42");
 
         button.click();
 
@@ -282,11 +281,11 @@ public class AllUiElementsTest extends AbstractUiTest {
     @Test
     public void testLink() {
         LinkElement link = $(LinkElement.class).id("link");
-        assertThat(link.getText(), is("Link to Dynamic Annotations"));
+        assertThat(link.getText(), endsWith("Link to Dynamic Annotations"));
 
-        link.click();
+        String href = link.findElement(By.tagName("a")).getAttribute("href");
 
-        assertThat(getDriver().getCurrentUrl(), endsWith(DynamicAnnotationsLayout.ID.replace(" ", "%20")));
+        assertThat(href, endsWith(DynamicAnnotationsLayout.ID.replace(" ", "%20")));
     }
 
 }

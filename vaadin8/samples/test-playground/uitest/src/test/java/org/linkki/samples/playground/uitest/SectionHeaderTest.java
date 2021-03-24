@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -28,14 +29,10 @@ import com.vaadin.testbench.elements.VerticalLayoutElement;
 
 public class SectionHeaderTest extends AbstractUiTest {
 
-    @Override
-    public void startApplication(String url) {
-        if (getDriver() != null) {
-            System.out.println("Starting application on " + url);
-            // there appear to be issues running the test with a small resolution
-            driver.manage().window().setSize(new Dimension(1920, 1080));
-            getDriver().get(url);
-        }
+    @BeforeEach
+    public void setResolution() {
+        // there appear to be issues running the test with a small resolution
+        driver.manage().window().setSize(new Dimension(1920, 1080));
     }
 
     @Test
