@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
 import org.linkki.samples.playground.allelements.Direction;
 
-import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
 import com.vaadin.flow.component.html.testbench.DivElement;

@@ -15,14 +15,11 @@
 package org.linkki.samples.playground.ips.uitest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.samples.playground.ips.EnabledSectionPmo;
 import org.linkki.samples.playground.ips.RequiredSectionPmo;
 import org.linkki.samples.playground.ips.VisibleSectionPmo;
@@ -94,7 +91,7 @@ public class IpsPropertyDispatcherTest extends AbstractUiTest {
         VerticalLayoutElement section = getRequiredSection();
         TextFieldElement textField = section.$(TextFieldElement.class).id("unrestrictedValueSetExclNull");
 
-        assertThat(textField.getClassNames(), hasItem(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER));
+        assertThat(textField.hasAttribute("required"), is(true));
     }
 
     @Test
@@ -102,7 +99,7 @@ public class IpsPropertyDispatcherTest extends AbstractUiTest {
         VerticalLayoutElement section = getRequiredSection();
         TextFieldElement textField = section.$(TextFieldElement.class).id("unrestrictedValueSetInclNull");
 
-        assertThat(textField.getClassNames(), not(hasItem(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER)));
+        assertThat(textField.hasAttribute("required"), is(false));
     }
 
     private VerticalLayoutElement getRequiredSection() {

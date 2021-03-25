@@ -13,6 +13,8 @@
  */
 package org.linkki.core.vaadin.component.section;
 
+import org.linkki.core.vaadin.component.base.LinkkiFormLayout;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
@@ -23,7 +25,7 @@ public class FormLayoutSection extends BaseSection {
 
     private static final long serialVersionUID = 1L;
 
-    private final FormLayout content;
+    private final LinkkiFormLayout content;
 
     private final int columns;
 
@@ -42,8 +44,8 @@ public class FormLayoutSection extends BaseSection {
         add(content);
     }
 
-    private FormLayout createContent() {
-        FormLayout formLayout = new FormLayout();
+    private LinkkiFormLayout createContent() {
+        LinkkiFormLayout formLayout = new LinkkiFormLayout();
         formLayout.setResponsiveSteps(new ResponsiveStep("0", columns, LabelsPosition.ASIDE));
         formLayout.setWidthFull();
         return formLayout;

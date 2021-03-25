@@ -17,9 +17,11 @@ package org.linkki.samples.playground.allelements;
 import java.util.Optional;
 
 import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
+import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
@@ -36,6 +38,7 @@ import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UIRadioButtons;
 import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
@@ -49,14 +52,27 @@ import com.vaadin.flow.component.textfield.PasswordField;
 public abstract class AbstractAllUiElementsSectionPmo {
 
     public static final String CSS_NAME = "playground";
+    public static final String PROPERTY_ALL_ELEMENTS_REQUIRED = "allElementsRequired";
 
     private final AllUiElementsModelObject modelObject = new AllUiElementsModelObject();
 
     private boolean readOnly;
+    private boolean required = false;
 
     @ModelObject
     public AllUiElementsModelObject getModelObject() {
         return modelObject;
+    }
+
+    @SectionHeader
+    @UIComboBox(position = -90, label = "", width = "9em", //
+            content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = RequiredCaptionProvider.class)
+    public boolean isAllElementsRequired() {
+        return required;
+    }
+
+    public void setAllElementsRequired(boolean required) {
+        this.required = required;
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
@@ -66,7 +82,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     public boolean isTextRequired() {
-        return getModelObject().isBooleanValue();
+        return required;
     }
 
     public boolean isTextReadOnly() {
@@ -80,7 +96,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     public boolean isLongTextRequired() {
-        return getModelObject().isBooleanValue();
+        return required;
     }
 
     public boolean isLongTextReadOnly() {
@@ -94,7 +110,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     public boolean isIntValueRequired() {
-        return getModelObject().isBooleanValue();
+        return required;
     }
 
     public boolean isIntValueReadOnly() {
@@ -108,7 +124,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     public boolean isDoubleValueRequired() {
-        return getModelObject().isBooleanValue();
+        return required;
     }
 
     public boolean isDoubleValueReadOnly() {
@@ -122,7 +138,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     public boolean isDateRequired() {
-        return getModelObject().isBooleanValue();
+        return required;
     }
 
     public boolean isDateReadOnly() {
@@ -136,7 +152,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     public boolean isEnumValueComboBoxRequired() {
-        return getModelObject().isBooleanValue();
+        return required;
     }
 
     public boolean isEnumValueComboBoxReadOnly() {
@@ -150,7 +166,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     public boolean isBooleanValueRequired() {
-        return getModelObject().isBooleanValue();
+        return required;
     }
 
     public boolean isBooleanValueReadOnly() {
@@ -200,7 +216,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     public boolean isSecretRequired() {
-        return getModelObject().isBooleanValue();
+        return required;
     }
 
     public boolean isSecretReadOnly() {
@@ -219,7 +235,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     public boolean isDecimalValueRequired() {
-        return getModelObject().isBooleanValue();
+        return required;
     }
 
     public boolean isDecimalValueReadOnly() {
@@ -233,7 +249,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     public boolean isEnumValueRadioButtonRequired() {
-        return getModelObject().isBooleanValue();
+        return required;
     }
 
     public boolean isEnumValueRadioButtonReadOnly() {
@@ -268,5 +284,17 @@ public abstract class AbstractAllUiElementsSectionPmo {
     @UIFormSection(caption = NlsText.I18n)
     public static class AllUiElementsUiFormSectionPmo extends AbstractAllUiElementsSectionPmo {
         // no content needed
+    }
+
+    public static class RequiredCaptionProvider implements ItemCaptionProvider<Boolean> {
+
+        public static final String REQUIRED = "required";
+        public static final String NOT_REQUIRED = "not required";
+
+        @Override
+        public String getCaption(Boolean required) {
+            return required ? REQUIRED : NOT_REQUIRED;
+        }
+
     }
 }

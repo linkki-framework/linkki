@@ -34,7 +34,7 @@
 						"regex": true,
 						"code": "java.class.nonPublicPartOfAPI",
 						"newArchive": "org\\.jsoup:jsoup.*:.*"
-					}
+					}	
 				]
 			}
 		}

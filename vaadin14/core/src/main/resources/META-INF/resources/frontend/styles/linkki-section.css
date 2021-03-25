@@ -22,8 +22,3 @@ html {
 	content: "";
 	box-shadow: 0 0.5px 0 var(--lumo-contrast-20pct);
 }
-
-vaadin-form-item > .linkki-label-caption {
-	display: block;
-	text-align: right;
-}

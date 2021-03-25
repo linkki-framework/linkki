@@ -23,8 +23,6 @@ import org.linkki.core.vaadin.component.section.FormLayoutSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasEnabled;
-import com.vaadin.flow.component.HasStyle;
-import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
@@ -59,22 +57,9 @@ public class FormItemComponentWrapper extends VaadinComponentWrapper {
         getLabelComponent().ifPresent(l -> {
             l.setEnabled(((HasEnabled)getComponent()).isEnabled());
             l.setVisible(getComponent().isVisible());
-            updateRequiredIndicator(l);
         });
     }
 
-    private void updateRequiredIndicator(Span existingLabel) {
-        if (getComponent() instanceof HasValue) {
-            if (((HasValue<?, ?>)getComponent()).isRequiredIndicatorVisible()
-                    && !((HasValue<?, ?>)getComponent()).isReadOnly()) {
-                existingLabel.addClassName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
-                ((HasStyle)getComponent()).addClassName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
-            } else {
-                existingLabel.removeClassName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
-                ((HasStyle)getComponent()).removeClassName(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER);
-            }
-        }
-    }
 
     @Override
     public void setLabel(String labelText) {

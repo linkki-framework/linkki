@@ -15,9 +15,7 @@
 package org.linkki.core.ui.wrapper;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -37,7 +35,6 @@ import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
@@ -54,10 +51,10 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  **/
 public class FormItemComponentWrapperTest {
 
-    private Span label = spy(new Span());
+    private final Span label = spy(new Span());
 
-    private TextField field = spy(new TextField());
-    private ComboBox<String> selectField = spy(new ComboBox<>());
+    private final TextField field = spy(new TextField());
+    private final ComboBox<String> selectField = spy(new ComboBox<>());
 
 
     private ElementBinding selectBinding;
@@ -134,42 +131,10 @@ public class FormItemComponentWrapperTest {
         Assertions.assertThrows(NullPointerException.class, () -> {
             selectBinding.displayMessages(null);
         });
-
     }
 
     @Test
     public void testSetTooltip() {
         // TODO LIN-2054
-    }
-
-    @Test
-    public void testPostUpdate_AddsRequiredIndicatorToLabelIfFieldIsRequired() {
-        FormItemComponentWrapper wrapper = new FormItemComponentWrapper(label, field);
-        field.setRequiredIndicatorVisible(true);
-
-        wrapper.postUpdate();
-
-        assertThat(label.getClassName(), containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER));
-    }
-
-    @Test
-    public void testPostUpdate_DoesNotAddRequiredIndicatorToLabelIfFieldIsNotRequired() {
-        FormItemComponentWrapper wrapper = new FormItemComponentWrapper(label, field);
-        field.setRequiredIndicatorVisible(false);
-
-        wrapper.postUpdate();
-
-        assertThat(label.getClassName(), not(containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER)));
-    }
-
-    @Test
-    public void testPostUpdate_DoesNotAddRequiredIndicatorToLabelIfFieldIsReadOnly() {
-        FormItemComponentWrapper wrapper = new FormItemComponentWrapper(label, field);
-        field.setRequiredIndicatorVisible(true);
-        field.setReadOnly(true);
-
-        wrapper.postUpdate();
-
-        assertThat(label.getClassName(), not(containsString(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER)));
     }
 }
