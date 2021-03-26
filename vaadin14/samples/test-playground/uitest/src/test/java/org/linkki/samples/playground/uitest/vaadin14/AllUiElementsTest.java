@@ -16,8 +16,10 @@ package org.linkki.samples.playground.uitest.vaadin14;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
@@ -56,4 +58,11 @@ public class AllUiElementsTest extends AbstractUiTest {
         assertThat(textArea.getPropertyString("style", "height"), is("5em"));
     }
 
+    @Test
+    public void testLabel_StyleNames() {
+        DivElement label = $(DivElement.class).id("textLabel");
+
+        assertThat(label.getClassNames(),
+                   containsInAnyOrder(LinkkiText.CLASS_NAME, "firstStyleName", "anotherStyleName"));
+    }
 }

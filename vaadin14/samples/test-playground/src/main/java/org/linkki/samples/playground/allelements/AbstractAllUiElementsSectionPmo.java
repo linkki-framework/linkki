@@ -157,7 +157,8 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return isReadOnly();
     }
 
-    @UILabel(position = 80, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET)
+    @UILabel(position = 80, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, styleNames = {
+            "firstStyleName", "anotherStyleName" })
     public void textLabel() {
         // model binding
     }

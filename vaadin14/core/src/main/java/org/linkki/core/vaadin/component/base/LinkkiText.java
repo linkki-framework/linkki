@@ -34,6 +34,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 @CssImport(value = "./styles/linkki-text.css")
 public class LinkkiText extends Div implements HasIcon {
 
+    public static final String CLASS_NAME = "linkki-text";
+
     private static final long serialVersionUID = -1027646873177686722L;
 
     @CheckForNull
@@ -43,7 +45,7 @@ public class LinkkiText extends Div implements HasIcon {
 
     public LinkkiText() {
         super();
-        addClassName("linkki-text");
+        addClassName(CLASS_NAME);
     }
 
     @Override
