@@ -21,6 +21,7 @@ import java.util.function.Function;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
+import org.linkki.core.ui.wrapper.LabelComponentWrapper;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LayoutDefinitionCreator;
@@ -38,7 +39,7 @@ public class ComponentContainerLayoutDefinition implements LinkkiLayoutDefinitio
     private final Function<Component, ComponentWrapper> componentWrapperCreator;
 
     public ComponentContainerLayoutDefinition() {
-        this.componentWrapperCreator = c -> new NoLabelComponentWrapper(c, WrapperType.FIELD);
+        this.componentWrapperCreator = c -> new LabelComponentWrapper(c, WrapperType.FIELD);
     }
 
     @Override

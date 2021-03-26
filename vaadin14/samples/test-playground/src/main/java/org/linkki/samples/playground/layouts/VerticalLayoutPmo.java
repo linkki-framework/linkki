@@ -14,27 +14,27 @@
 
 package org.linkki.samples.playground.layouts;
 
-import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
+import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
 import com.vaadin.flow.component.notification.Notification;
 
-@BindCaption(value = "UIVerticalLayout")
 @UIVerticalLayout
 public class VerticalLayoutPmo {
 
     private String text;
+    private int amount;
 
     @UILabel(position = 10)
     public String getLabel() {
-        return "label";
+        return "@UILabel content";
     }
 
-    @UITextField(label = "", position = 20)
+    @UITextField(label = "Text", position = 20)
     public String getText() {
         return text;
     }
@@ -43,12 +43,21 @@ public class VerticalLayoutPmo {
         this.text = text;
     }
 
-    @UIButton(position = 30, caption = "Button")
+    @UIIntegerField(label = "Amount", position = 21)
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    @UIButton(label = "Button", position = 30, caption = "Button")
     public void button() {
         Notification.show("Button clicked");
     }
 
-    @UICheckBox(caption = "Checkbox", position = 40)
+    @UICheckBox(label = "Checkbox", caption = "Checkbox", position = 40)
     public boolean getCheckbox() {
         return true;
     }

@@ -40,9 +40,10 @@ public class LayoutsTest extends AbstractUiTest {
     @Test
     public void testHorizontalLayout_Id() {
         HorizontalLayoutElement horizontalLayout = $(HorizontalLayoutElement.class).id("HorizontalLayoutPmo");
+
         // assertThat("Caption of UIHorizontalLayout is bindable", horizontalLayout.getCaption(),
         // is("UIHorizontalLayout"));
-        assertThat(horizontalLayout.$(TextFieldElement.class).all().size(), is(1));
+        assertThat(horizontalLayout.$(TextFieldElement.class).all().size(), is(2));
         assertThat(horizontalLayout.$(DivElement.class).all().size(), is(1));
         assertThat(horizontalLayout.$(ButtonElement.class).all().size(), is(1));
         assertThat(horizontalLayout.$(CheckboxElement.class).all().size(), is(1));
@@ -51,9 +52,10 @@ public class LayoutsTest extends AbstractUiTest {
     @Test
     public void testVerticalLayout_Id() {
         VerticalLayoutElement verticalLayout = $(VerticalLayoutElement.class).id("VerticalLayoutPmo");
+
         // assertThat("Caption of UIVerticalLayout is bindable", verticalLayout.getCaption(),
         // is("UIVerticalLayout"));
-        assertThat(verticalLayout.$(TextFieldElement.class).all().size(), is(1));
+        assertThat(verticalLayout.$(TextFieldElement.class).all().size(), is(2));
         assertThat(verticalLayout.$(DivElement.class).all().size(), is(1));
         assertThat(verticalLayout.$(ButtonElement.class).all().size(), is(1));
         assertThat(verticalLayout.$(CheckboxElement.class).all().size(), is(1));
@@ -62,6 +64,7 @@ public class LayoutsTest extends AbstractUiTest {
     @Test
     public void testFormLayout() {
         FormLayoutElement formLayout = $(FormLayoutElement.class).id("FormLayoutPmo");
+
         // assertThat("Caption of UIFormLayout is bindable", formLayout.getCaption(),
         // is("UIFormLayout"));
         assertThat(formLayout.$(TextFieldElement.class).all().size(), is(2));

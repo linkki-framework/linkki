@@ -21,6 +21,8 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 
+import com.vaadin.flow.component.html.H4;
+
 public class LayoutsPage extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
@@ -34,9 +36,13 @@ public class LayoutsPage extends AbstractPage {
 
     @Override
     public final void createContent() {
+        add(new H4("HorizontalLayoutPmo"));
         add(VaadinUiCreator.createComponent(new HorizontalLayoutPmo(), getBindingContext()));
+        add(new H4("VerticalLayoutPmo"));
         add(VaadinUiCreator.createComponent(new VerticalLayoutPmo(), getBindingContext()));
+        add(new H4("FormLayoutPmo"));
         add(VaadinUiCreator.createComponent(new FormLayoutPmo(), getBindingContext()));
+        add(new H4("CssLayoutPmo"));
         add(VaadinUiCreator.createComponent(new CssLayoutPmo(), getBindingContext()));
     }
 

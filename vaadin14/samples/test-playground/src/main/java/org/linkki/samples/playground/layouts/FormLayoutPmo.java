@@ -14,7 +14,6 @@
 
 package org.linkki.samples.playground.layouts;
 
-import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
@@ -22,7 +21,6 @@ import org.linkki.core.ui.layout.annotation.UIFormLayout;
 
 import com.vaadin.flow.component.notification.Notification;
 
-@BindCaption("UIFormLayout")
 @UIFormLayout
 public class FormLayoutPmo {
 

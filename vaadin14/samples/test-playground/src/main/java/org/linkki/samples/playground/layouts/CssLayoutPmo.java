@@ -14,7 +14,6 @@
 
 package org.linkki.samples.playground.layouts;
 
-import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
@@ -24,7 +23,6 @@ import org.linkki.core.ui.layout.annotation.UICssLayout;
 
 import com.vaadin.flow.component.notification.Notification;
 
-@BindCaption(value = "UICssLayout")
 @BindStyleNames("extraClass")
 @UICssLayout(styleNames = "borderLayout")
 public class CssLayoutPmo {
@@ -33,10 +31,10 @@ public class CssLayoutPmo {
 
     @UILabel(position = 10)
     public String getLabel() {
-        return "label";
+        return "@UILabel content";
     }
 
-    @UITextField(label = "", position = 20)
+    @UITextField(label = "Text", position = 20)
     public String getText() {
         return text;
     }
