@@ -30,7 +30,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.button.Button;
@@ -67,7 +67,7 @@ public class DialogBindingManagerTest {
         when(propertyDispatcher.getBoundObject()).thenReturn(pmo);
         when(propertyDispatcher.getMessages(any())).thenReturn(new MessageList());
 
-        LabelComponentWrapper componentWrapper = new LabelComponentWrapper(new Span(), new Button());
+        FormItemComponentWrapper componentWrapper = new FormItemComponentWrapper(new Span(), new Button());
         ElementBinding binding = spy(new ElementBinding(
                 componentWrapper,
                 propertyDispatcher, Handler.NOP_HANDLER, new ArrayList<>()));

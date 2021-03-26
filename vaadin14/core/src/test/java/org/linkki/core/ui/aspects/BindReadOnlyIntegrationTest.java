@@ -26,7 +26,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.flow.component.Component;
@@ -40,7 +40,7 @@ public class BindReadOnlyIntegrationTest {
         @SuppressWarnings("unchecked")
         Map<String, HasValue<?, String>> uiElements = UiCreator
                 .createUiElements(new TestPmoWithReadOnlyFields(false),
-                                  bindingContext, c -> new LabelComponentWrapper((Component)c))
+                                  bindingContext, c -> new FormItemComponentWrapper((Component)c))
                 .map(e -> (HasValue<?, String>)e.getComponent())
                 .collect(Collectors.toMap(HasValue::getValue, Function.identity()));
 
@@ -57,7 +57,7 @@ public class BindReadOnlyIntegrationTest {
         @SuppressWarnings("unchecked")
         Map<String, HasValue<?, String>> uiElements = UiCreator
                 .createUiElements(new TestPmoWithReadOnlyFields(true),
-                                  bindingContext, c -> new LabelComponentWrapper((Component)c))
+                                  bindingContext, c -> new FormItemComponentWrapper((Component)c))
                 .map(e -> (HasValue<?, String>)e.getComponent())
                 .collect(Collectors.toMap(HasValue::getValue, Function.identity()));
 

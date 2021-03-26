@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
 
 import com.vaadin.flow.component.html.Label;
 
@@ -85,7 +85,7 @@ public class CaptionAspectDefinitionTest {
     public void testCreateComponentValueSetter() {
         CaptionAspectDefinition captionAspectDefinition = new CaptionAspectDefinition(CaptionType.DYNAMIC, "foo");
         Label component = new Label();
-        ComponentWrapper componentWrapper = new LabelComponentWrapper(component);
+        ComponentWrapper componentWrapper = new FormItemComponentWrapper(component);
 
         Consumer<String> componentValueSetter = captionAspectDefinition.createComponentValueSetter(componentWrapper);
 

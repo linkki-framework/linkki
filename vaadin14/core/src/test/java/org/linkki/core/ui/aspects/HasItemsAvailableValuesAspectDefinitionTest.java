@@ -29,7 +29,7 @@ import java.util.LinkedList;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.bind.TestEnum;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -51,7 +51,7 @@ public class HasItemsAvailableValuesAspectDefinitionTest {
         ListDataProvider<Object> dataProvider = new ListDataProvider<Object>(Collections.emptyList());
         Component component = mock(Component.class,
                                    withSettings().extraInterfaces(HasDataProvider.class));
-        hasItemsAvailableValuesAspectDefinition.setDataProvider(new LabelComponentWrapper(component),
+        hasItemsAvailableValuesAspectDefinition.setDataProvider(new FormItemComponentWrapper(component),
                                                                 dataProvider);
 
         verify((HasDataProvider<Object>)component).setDataProvider(dataProvider);
@@ -67,7 +67,7 @@ public class HasItemsAvailableValuesAspectDefinitionTest {
         Component component = mock(Component.class,
                                    withSettings()
                                            .extraInterfaces(HasFilterableDataProvider.class));
-        hasItemsAvailableValuesAspectDefinition.setDataProvider(new LabelComponentWrapper(component),
+        hasItemsAvailableValuesAspectDefinition.setDataProvider(new FormItemComponentWrapper(component),
                                                                 dataProvider);
 
         verify((HasFilterableDataProvider<Object, SerializablePredicate<Object>>)component)
@@ -82,7 +82,7 @@ public class HasItemsAvailableValuesAspectDefinitionTest {
         @SuppressWarnings("unchecked")
         ListDataProvider<Object> dataProvider = mock(ListDataProvider.class);
         Component component = mock(Component.class, withSettings().extraInterfaces(HasItems.class));
-        hasItemsAvailableValuesAspectDefinition.setDataProvider(new LabelComponentWrapper(component), dataProvider);
+        hasItemsAvailableValuesAspectDefinition.setDataProvider(new FormItemComponentWrapper(component), dataProvider);
 
         verifyNoMoreInteractions(component);
     }
@@ -93,12 +93,12 @@ public class HasItemsAvailableValuesAspectDefinitionTest {
                 AvailableValuesType.DYNAMIC);
 
         ComboBox<TestEnum> comboBox = new ComboBox<>();
-        hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(comboBox),
+        hasItemsAvailableValuesAspectDefinition.handleNullItems(new FormItemComponentWrapper(comboBox),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.ONE, null)));
 
         assertThat(comboBox.isAllowCustomValue());
 
-        hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(comboBox),
+        hasItemsAvailableValuesAspectDefinition.handleNullItems(new FormItemComponentWrapper(comboBox),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.TWO)));
 
         assertThat(comboBox.isAllowCustomValue(), is(false));
@@ -110,12 +110,12 @@ public class HasItemsAvailableValuesAspectDefinitionTest {
                 AvailableValuesType.DYNAMIC);
 
         Select<TestEnum> nativeSelect = new Select<>();
-        hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(nativeSelect),
+        hasItemsAvailableValuesAspectDefinition.handleNullItems(new FormItemComponentWrapper(nativeSelect),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.ONE, null)));
 
         assertThat(nativeSelect.isEmptySelectionAllowed(), is(true));
 
-        hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(nativeSelect),
+        hasItemsAvailableValuesAspectDefinition.handleNullItems(new FormItemComponentWrapper(nativeSelect),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.TWO)));
 
         assertThat(nativeSelect.isEmptySelectionAllowed(), is(false));
@@ -127,12 +127,12 @@ public class HasItemsAvailableValuesAspectDefinitionTest {
                 AvailableValuesType.DYNAMIC);
 
         Component component = mock(Component.class, withSettings().extraInterfaces(HasItems.class));
-        hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(component),
+        hasItemsAvailableValuesAspectDefinition.handleNullItems(new FormItemComponentWrapper(component),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.ONE, null)));
 
         verifyNoMoreInteractions(component);
 
-        hasItemsAvailableValuesAspectDefinition.handleNullItems(new LabelComponentWrapper(component),
+        hasItemsAvailableValuesAspectDefinition.handleNullItems(new FormItemComponentWrapper(component),
                                                                 new LinkedList<>(Arrays.asList(TestEnum.TWO)));
 
         verifyNoMoreInteractions(component);

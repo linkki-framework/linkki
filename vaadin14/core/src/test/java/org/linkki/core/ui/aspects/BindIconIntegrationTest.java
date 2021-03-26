@@ -33,7 +33,7 @@ import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
@@ -146,15 +146,15 @@ public class BindIconIntegrationTest {
         TestPmoMissingDynamicMethod pmo = new TestPmoMissingDynamicMethod();
 
         Assertions.assertThrows(LinkkiBindingException.class, () -> {
-            UiCreator.createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
+            UiCreator.createUiElements(pmo, bindingContext, c -> new FormItemComponentWrapper((Component)c))
                     .collect(Collectors.toList());
         });
 
     }
 
     private List<Component> createUiElements(Object pmo) {
-        return UiCreator.createUiElements(pmo, bindingContext, c -> new LabelComponentWrapper((Component)c))
-                .map(LabelComponentWrapper::getComponent)
+        return UiCreator.createUiElements(pmo, bindingContext, c -> new FormItemComponentWrapper((Component)c))
+                .map(FormItemComponentWrapper::getComponent)
                 .collect(Collectors.toList());
     }
 

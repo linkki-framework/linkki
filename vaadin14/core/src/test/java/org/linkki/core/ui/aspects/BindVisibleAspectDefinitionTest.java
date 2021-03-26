@@ -25,7 +25,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
 
 import com.vaadin.flow.component.textfield.TextArea;
 
@@ -79,7 +79,7 @@ public class BindVisibleAspectDefinitionTest {
     }
 
     private void createUiUpdaterAndApplyIt(TextArea area, LinkkiAspectDefinition aspectDefinition) {
-        aspectDefinition.createUiUpdater(dispatcher, new LabelComponentWrapper(area)).apply();
+        aspectDefinition.createUiUpdater(dispatcher, new FormItemComponentWrapper(area)).apply();
     }
 
     private static class TestObject {

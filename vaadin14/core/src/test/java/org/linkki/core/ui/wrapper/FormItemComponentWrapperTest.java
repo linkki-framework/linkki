@@ -50,9 +50,9 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * basically the same tests as in {@code ElementBindingTest} but focused on the
- * {@link LabelComponentWrapper}
+ * {@link FormItemComponentWrapper}
  **/
-public class LabelComponentWrapperTest {
+public class FormItemComponentWrapperTest {
 
     private Span label = spy(new Span());
 
@@ -83,7 +83,7 @@ public class LabelComponentWrapperTest {
         when(propertyDispatcherValue.getMessages(any(MessageList.class))).thenReturn(messageList);
         when(propertyDispatcherEnumValue.getMessages(any(MessageList.class))).thenReturn(messageList);
 
-        selectBinding = new ElementBinding(new LabelComponentWrapper(label, selectField),
+        selectBinding = new ElementBinding(new FormItemComponentWrapper(label, selectField),
                 propertyDispatcherEnumValue,
                 Handler.NOP_HANDLER,
                 new ArrayList<>());
@@ -95,7 +95,7 @@ public class LabelComponentWrapperTest {
         LinkkiAspectDefinition aspectDefinition = mock(LinkkiAspectDefinition.class);
         when(aspectDefinition.supports(any())).thenReturn(true);
         when(aspectDefinition.createUiUpdater(any(), any())).thenReturn(componentUpdater);
-        ElementBinding fieldBinding = new ElementBinding(new LabelComponentWrapper(label, field),
+        ElementBinding fieldBinding = new ElementBinding(new FormItemComponentWrapper(label, field),
                 propertyDispatcherValue,
                 Handler.NOP_HANDLER, Arrays.asList(aspectDefinition));
         fieldBinding.updateFromPmo();
@@ -144,7 +144,7 @@ public class LabelComponentWrapperTest {
 
     @Test
     public void testPostUpdate_AddsRequiredIndicatorToLabelIfFieldIsRequired() {
-        LabelComponentWrapper wrapper = new LabelComponentWrapper(label, field);
+        FormItemComponentWrapper wrapper = new FormItemComponentWrapper(label, field);
         field.setRequiredIndicatorVisible(true);
 
         wrapper.postUpdate();
@@ -154,7 +154,7 @@ public class LabelComponentWrapperTest {
 
     @Test
     public void testPostUpdate_DoesNotAddRequiredIndicatorToLabelIfFieldIsNotRequired() {
-        LabelComponentWrapper wrapper = new LabelComponentWrapper(label, field);
+        FormItemComponentWrapper wrapper = new FormItemComponentWrapper(label, field);
         field.setRequiredIndicatorVisible(false);
 
         wrapper.postUpdate();
@@ -164,7 +164,7 @@ public class LabelComponentWrapperTest {
 
     @Test
     public void testPostUpdate_DoesNotAddRequiredIndicatorToLabelIfFieldIsReadOnly() {
-        LabelComponentWrapper wrapper = new LabelComponentWrapper(label, field);
+        FormItemComponentWrapper wrapper = new FormItemComponentWrapper(label, field);
         field.setRequiredIndicatorVisible(true);
         field.setReadOnly(true);
 

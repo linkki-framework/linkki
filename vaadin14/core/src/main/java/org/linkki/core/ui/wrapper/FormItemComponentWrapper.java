@@ -19,11 +19,13 @@ import java.util.Optional;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.vaadin.component.section.FormLayoutSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 
@@ -31,20 +33,20 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Implementation of the {@link ComponentWrapper} with a Vaadin {@link Component} and a {@link Label}
- * component.
+ * component. These are merged to a {@link FormItem} in a {@link FormLayoutSection}.
  */
-public class LabelComponentWrapper extends VaadinComponentWrapper {
+public class FormItemComponentWrapper extends VaadinComponentWrapper {
 
     private static final long serialVersionUID = 1L;
 
     @CheckForNull
     private final Span label;
 
-    public LabelComponentWrapper(Component component) {
+    public FormItemComponentWrapper(Component component) {
         this(null, component);
     }
 
-    public LabelComponentWrapper(@CheckForNull Span label, Component component) {
+    public FormItemComponentWrapper(@CheckForNull Span label, Component component) {
         super(component, WrapperType.FIELD);
         this.label = label;
         if (this.label != null) {

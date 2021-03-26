@@ -16,7 +16,7 @@ package org.linkki.core.ui.uiframework;
 
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.ComponentWrapperFactory;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
 
 import com.vaadin.flow.component.Component;
 
@@ -43,7 +43,7 @@ public enum Vaadin8ComponentWrapperFactory implements ComponentWrapperFactory {
 
     @Override
     public ComponentWrapper createComponentWrapper(Object component) {
-        return new LabelComponentWrapper((Component)component);
+        return new FormItemComponentWrapper((Component)component);
     }
 
 }

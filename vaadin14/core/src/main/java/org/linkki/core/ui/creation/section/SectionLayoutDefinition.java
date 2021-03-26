@@ -24,7 +24,7 @@ import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
-import org.linkki.core.ui.wrapper.LabelComponentWrapper;
+import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.UiCreator;
@@ -45,7 +45,7 @@ import com.vaadin.flow.component.html.Span;
 public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
 
     /**
-     * The default uses {@link LabelComponentWrapper LabelComponentWrappers} for section content.
+     * The default uses {@link FormItemComponentWrapper FormItemComponentWrappers} for section content.
      */
     DEFAULT;
 
@@ -103,9 +103,9 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
 
     void addSectionComponent(Method method, BaseSection section, Object pmo, BindingContext bindingContext) {
         Span label = new Span();
-        LabelComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
-                                                                  c -> new LabelComponentWrapper(label,
-                                                                          (Component)c));
+        FormItemComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
+                                                                     c -> new FormItemComponentWrapper(label,
+                                                                             (Component)c));
 
         section.add(label, wrapper.getComponent());
     }
