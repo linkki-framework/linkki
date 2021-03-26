@@ -25,7 +25,6 @@ import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
-import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UICustomField;
@@ -39,6 +38,7 @@ import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.nested.annotation.UINestedComponent;
 import org.linkki.ips.decimalfield.UIDecimalField;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.nls.NlsText;
@@ -193,11 +193,6 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return "<div><b>NOT</b> HTML Content mit Icon</div>";
     }
 
-    @UIButton(position = 86, label = NlsText.I18n)
-    public void updateLabelIcon() {
-        getModelObject().setIntValue(getModelObject().getIntValue() + 1);
-    }
-
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UICustomField(position = 90, label = NlsText.I18n, uiControl = PasswordField.class, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, required = RequiredType.DYNAMIC)
     public void secret() {
@@ -212,9 +207,9 @@ public abstract class AbstractAllUiElementsSectionPmo {
         return isReadOnly();
     }
 
-    @UIButton(position = 100, caption = NlsText.I18n)
-    public void action() {
-        getModelObject().setIntValue(getModelObject().getIntValue() + 1);
+    @UINestedComponent(position = 100, label = NlsText.I18n)
+    public ButtonPmo buttons() {
+        return new ButtonPmo();
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)

@@ -87,17 +87,6 @@ public class AllUiElementsTest extends AbstractUiTest {
     }
 
     @Test
-    public void testButton() {
-        ButtonElement button = $(ButtonElement.class).id("action");
-        TextFieldElement integerField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_INTVALUE);
-        integerField.setValue("123");
-
-        button.click();
-
-        assertThat(integerField.getValue(), is("124"));
-    }
-
-    @Test
     public void testRadioButton() {
         RadioButtonGroupElement radioButtons = $(RadioButtonGroupElement.class).id("enumValueRadioButton");
 

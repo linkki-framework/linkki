@@ -14,6 +14,7 @@
 package org.linkki.core.ui.element.annotation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -25,13 +26,12 @@ import org.linkki.core.ui.element.annotation.UIButtonIntegrationTest.ButtonTestP
 import org.linkki.core.ui.layout.annotation.UISection;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<Button, ButtonTestPmo> {
-
-    private static final String STYLES = "blabla";
 
     public UIButtonIntegrationTest() {
         super(TestModelObjectWithString::new, ButtonTestPmo::new);
@@ -40,7 +40,6 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     @Test
     public void testStaticButtonProperties() {
         Button button = getDynamicComponent();
-        assertThat(button.getClassName(), is(STYLES));
         assertThat(button.getIcon().getElement().getAttribute("icon"),
                    is(VaadinIcon.ADJUST.create().getElement().getAttribute("icon")));
 
@@ -74,7 +73,17 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
     @Test
     public void testDerivedCaption() {
         Button button = getComponentById("doFoo");
+
         assertThat(button.getText(), is("DoFoo"));
+    }
+
+    @Test
+    public void testThemeVariants() {
+        Button button = getComponentById("smallSuccess");
+        String smallVariant = ButtonVariant.LUMO_SMALL.getVariantName();
+        String successVariant = ButtonVariant.LUMO_SUCCESS.getVariantName();
+
+        assertThat(button.getThemeNames(), containsInAnyOrder(smallVariant, successVariant));
     }
 
     @Override
@@ -93,7 +102,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
             super(modelObject);
         }
 
-        @UIButton(position = 1, visible = VisibleType.DYNAMIC, styleNames = STYLES, captionType = CaptionType.DYNAMIC, icon = VaadinIcon.ADJUST, showIcon = true, enabled = EnabledType.DYNAMIC)
+        @UIButton(position = 1, visible = VisibleType.DYNAMIC, captionType = CaptionType.DYNAMIC, icon = VaadinIcon.ADJUST, showIcon = true, enabled = EnabledType.DYNAMIC)
         @Override
         public void value() {
             clicked = true;
@@ -120,6 +129,11 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
 
         @UIButton(position = 3)
         public void doFoo() {
+            // does nothing
+        }
+
+        @UIButton(position = 4, variants = { ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_SMALL })
+        public void smallSuccess() {
             // does nothing
         }
 

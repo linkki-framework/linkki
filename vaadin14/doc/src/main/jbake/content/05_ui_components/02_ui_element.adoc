@@ -3,6 +3,7 @@
 :jbake-status: published
 
 :source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:images-folder-name: 05_ui_components
 
 [[ui-element]]
 === UI Element
@@ -250,9 +251,9 @@ Apart from the <<ui-properties, common properties>>, buttons have these addition
 
 * <<caption, caption: String>>
 * <<caption, captionType: CaptionType>>
-* <<icon, icon: FontAwesome>>
-* <<icon, show-icon: boolean>>
-* <<button-style-names, styleNames: String[]>>
+* <<icon, icon: VaadinIcon>>
+* <<icon, showIcon: boolean>>
+* <<button-theme-variants, variants: ButtonVariant[]>>
 * <<button-key-binding, shortcutKeyCode: int>>
 * <<button-key-binding, shortcutModifierKeys: int[]>>
 
@@ -275,9 +276,10 @@ The text shown on a button is called a caption. It is not to be confused with a 
 ===== Icon
 Apart from captions, buttons can be adorned with icons. For this the constants of the Vaadin class `VaadinIcons` are used. For the icon to be displayed the property `showIcon` must be set `true`.
 
-[[button-style-names]]
-===== Style Names
-Depending on the function buttons must be styled differently. A typical example for this is the link button, a button that looks like a link. For this purpose the annotation `@UIButton` has the property `styleNames`. The value of this property are the CSS class names that should apply to the button.
+[[button-theme-variants]]
+===== Button Variants
+Depending on the function buttons must be styled differently. `com.vaadin.flow.component.button.ButtonVariant` offers different theme variants, such as primary or inline.
+For more information please refer to https://vaadin.com/components/vaadin-button/html-examples/button-theme-variants-demos[Vaadin Button Variants Documentation].
 
 [[button-key-binding]]
 ===== Key Bindings

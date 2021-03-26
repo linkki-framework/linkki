@@ -47,6 +47,7 @@ import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 /**
@@ -98,9 +99,15 @@ public @interface UIButton {
     boolean showIcon() default false;
 
     /**
-     * Defines a list of CSS class names that are added to the created UI component.
+     * Defines the look of the button. The most common variants are:
+     * <ul>
+     * <li>{@link ButtonVariant#LUMO_PRIMARY} for primary buttons</li>
+     * <li>{@link ButtonVariant#LUMO_TERTIARY_INLINE} for inline buttons (no background)</li>
+     * </ul>
+     * 
+     * @see ButtonVariant
      */
-    String[] styleNames() default {};
+    ButtonVariant[] variants() default {};
 
     // TODO LIN-2050
     // /**
@@ -140,9 +147,9 @@ public @interface UIButton {
                 if (annotation.showIcon()) {
                     button.setIcon(annotation.icon().create());
                 }
-                for (String styleName : annotation.styleNames()) {
-                    button.addClassName(styleName);
-                }
+
+                button.addThemeVariants(annotation.variants());
+
                 // TODO LIN-2050
                 // if (buttonAnnotation.shortcutKeyCode() != -1) {
                 // button.setClickShortcut(buttonAnnotation.shortcutKeyCode(),

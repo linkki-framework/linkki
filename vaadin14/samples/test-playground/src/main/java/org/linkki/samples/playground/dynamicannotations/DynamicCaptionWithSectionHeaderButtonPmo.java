@@ -14,7 +14,6 @@
 
 package org.linkki.samples.playground.dynamicannotations;
 
-import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
@@ -54,8 +53,7 @@ public class DynamicCaptionWithSectionHeaderButtonPmo implements PresentationMod
     }
 
     @SectionHeader
-    @UIButton(position = -10, icon = VaadinIcon.AMBULANCE, showIcon = true, //
-            captionType = CaptionType.NONE, styleNames = LinkkiTheme.BUTTON_TEXT)
+    @UIButton(position = -10, icon = VaadinIcon.AMBULANCE, showIcon = true, captionType = CaptionType.NONE)
     public void callAnAmbulance() {
         // not really
     }
