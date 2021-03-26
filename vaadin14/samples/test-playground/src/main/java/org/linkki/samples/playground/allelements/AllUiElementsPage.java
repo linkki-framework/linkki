@@ -48,10 +48,6 @@ public class AllUiElementsPage extends AbstractPage {
     public final void createContent() {
         addSection(new AllUiElementsUiSectionPmo());
         addSection(new AllUiElementsUiFormSectionPmo());
-        add(VaadinUiCreator.createComponent(new HorizontalLayoutPmo(), getBindingContext()));
-        add(VaadinUiCreator.createComponent(new VerticalLayoutPmo(), getBindingContext()));
-        add(VaadinUiCreator.createComponent(new FormLayoutPmo(), getBindingContext()));
-        add(VaadinUiCreator.createComponent(new CssLayoutPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new SectionHeaderPmo(), getBindingContext()));
         add(VaadinUiCreator.createComponent(new ReadOnlyBehaviorPmo(), getBindingContext()));
 

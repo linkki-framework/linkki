@@ -26,11 +26,8 @@ import org.linkki.samples.playground.allelements.Direction;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
-import com.vaadin.flow.component.formlayout.testbench.FormLayoutElement;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
-import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
-import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.PasswordFieldElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
@@ -109,37 +106,6 @@ public class AllUiElementsTest extends AbstractUiTest {
         radioButtons.selectByText(Direction.LEFT.getName());
 
         assertThat(radioButtons.getSelectedText(), is(Direction.LEFT.getName()));
-    }
-
-    @Test
-    public void testHorizontalLayout_Id() {
-        HorizontalLayoutElement horizontalLayout = $(HorizontalLayoutElement.class).id("HorizontalLayoutPmo");
-        // assertThat("Caption of UIHorizontalLayout is bindable", horizontalLayout.getCaption(),
-        // is("UIHorizontalLayout"));
-        assertThat(horizontalLayout.$(TextFieldElement.class).all().size(), is(1));
-        assertThat(horizontalLayout.$(DivElement.class).all().size(), is(1));
-        assertThat(horizontalLayout.$(ButtonElement.class).all().size(), is(1));
-        assertThat(horizontalLayout.$(CheckboxElement.class).all().size(), is(1));
-    }
-
-    @Test
-    public void testVerticalLayout_Id() {
-        VerticalLayoutElement verticalLayout = $(VerticalLayoutElement.class).id("VerticalLayoutPmo");
-        // assertThat("Caption of UIVerticalLayout is bindable", verticalLayout.getCaption(),
-        // is("UIVerticalLayout"));
-        assertThat(verticalLayout.$(TextFieldElement.class).all().size(), is(1));
-        assertThat(verticalLayout.$(DivElement.class).all().size(), is(1));
-        assertThat(verticalLayout.$(ButtonElement.class).all().size(), is(1));
-        assertThat(verticalLayout.$(CheckboxElement.class).all().size(), is(1));
-    }
-
-    @Test
-    public void testFormLayout() {
-        FormLayoutElement formLayout = $(FormLayoutElement.class).id("FormLayoutPmo");
-        // assertThat("Caption of UIFormLayout is bindable", formLayout.getCaption(),
-        // is("UIFormLayout"));
-        assertThat(formLayout.$(TextFieldElement.class).all().size(), is(2));
-        assertThat(formLayout.$(DivElement.class).all().size(), is(2));
     }
 
     @Test

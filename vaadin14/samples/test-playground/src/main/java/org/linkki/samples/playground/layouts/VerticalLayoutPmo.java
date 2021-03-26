@@ -12,37 +12,44 @@
  * License.
  */
 
-package org.linkki.samples.playground.allelements;
+package org.linkki.samples.playground.layouts;
 
 import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.element.annotation.UIButton;
+import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.layout.annotation.UIFormLayout;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
 import com.vaadin.flow.component.notification.Notification;
 
-@BindCaption("UIFormLayout")
-@UIFormLayout
-public class FormLayoutPmo {
+@BindCaption(value = "UIVerticalLayout")
+@UIVerticalLayout
+public class VerticalLayoutPmo {
 
-    @UITextField(label = "Text 1", position = 10)
-    public String getText1() {
-        return "read-only text";
-    }
+    private String text;
 
-    @UITextField(label = "Text 2", position = 20)
-    public String getText2() {
-        return "read-only text2";
-    }
-
-    @UILabel(position = 30)
+    @UILabel(position = 10)
     public String getLabel() {
         return "label";
     }
 
-    @UIButton(position = 40, caption = "Button")
+    @UITextField(label = "", position = 20)
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    @UIButton(position = 30, caption = "Button")
     public void button() {
         Notification.show("Button clicked");
+    }
+
+    @UICheckBox(caption = "Checkbox", position = 40)
+    public boolean getCheckbox() {
+        return true;
     }
 }

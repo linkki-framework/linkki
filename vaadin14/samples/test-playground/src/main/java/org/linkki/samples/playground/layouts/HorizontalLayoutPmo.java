@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.allelements;
+package org.linkki.samples.playground.layouts;
 
 import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.element.annotation.UIButton;
