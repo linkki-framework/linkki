@@ -141,10 +141,6 @@ public class BindCaptionTest extends AbstractUiTest {
         assertThat(checkbox.getText(), is("checkbox caption"));
     }
 
-    private VerticalLayoutElement getSection(Class<?> cls) {
-        return $(VerticalLayoutElement.class).id(cls.getSimpleName());
-    }
-
     private HorizontalLayoutElement getHeader(VerticalLayoutElement section) {
         return section.$(HorizontalLayoutElement.class).first();
     }

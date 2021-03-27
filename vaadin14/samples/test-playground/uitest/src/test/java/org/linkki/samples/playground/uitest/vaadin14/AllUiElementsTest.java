@@ -51,18 +51,18 @@ public class AllUiElementsTest extends AbstractUiTest {
     }
 
     @Test
-    public void testTextArea_Height() {
-        TextAreaElement textArea = $(TextAreaElement.class).id(AllUiElementsModelObject.PROPERTY_LONGTEXT);
-
-        // custom height defined in annotation
-        assertThat(textArea.getPropertyString("style", "height"), is("5em"));
-    }
-
-    @Test
     public void testLabel_StyleNames() {
         DivElement label = $(DivElement.class).id("textLabel");
 
         assertThat(label.getClassNames(),
                    containsInAnyOrder(LinkkiText.CLASS_NAME, "firstStyleName", "anotherStyleName"));
+    }
+
+    @Test
+    public void testTextArea_Height() {
+        TextAreaElement textArea = $(TextAreaElement.class).id(AllUiElementsModelObject.PROPERTY_LONGTEXT);
+
+        // custom height defined in annotation
+        assertThat(textArea.getPropertyString("style", "height"), is("5em"));
     }
 }

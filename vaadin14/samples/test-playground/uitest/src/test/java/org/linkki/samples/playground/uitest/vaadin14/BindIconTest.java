@@ -98,10 +98,6 @@ public class BindIconTest extends AbstractUiTest {
         assertThat(getIconElement(anchor).getAttribute("icon"), is(VAADIN_MOBILE_ICON));
     }
 
-    private VerticalLayoutElement getSection(Class<?> cls) {
-        return $(VerticalLayoutElement.class).id(cls.getSimpleName());
-    }
-
     private WebElement getIconElement(TestBenchElement element) {
         return element.findElement(By.tagName("iron-icon"));
     }

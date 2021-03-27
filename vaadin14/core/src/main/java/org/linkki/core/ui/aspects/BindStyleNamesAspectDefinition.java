@@ -14,7 +14,6 @@
 
 package org.linkki.core.ui.aspects;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -48,11 +47,6 @@ public class BindStyleNamesAspectDefinition extends ModelToUiAspectDefinition<Ob
         this.dynamic = styleNames.length == 0;
     }
 
-    public BindStyleNamesAspectDefinition(List<String> styleNames, boolean dynamic) {
-        this.staticStyleNames = new ArrayList<>(styleNames);
-        this.dynamic = dynamic;
-    }
-
     @Override
     public Aspect<Object> createAspect() {
         return dynamic ? Aspect.of(NAME) : Aspect.of(NAME, staticStyleNames);
@@ -76,25 +70,32 @@ public class BindStyleNamesAspectDefinition extends ModelToUiAspectDefinition<Ob
 
     @Override
     public Consumer<Object> createComponentValueSetter(ComponentWrapper componentWrapper) {
-        String predefinedStyleNames = ((HasStyle)componentWrapper.getComponent()).getClassName();
+        Object wrappedComponent = componentWrapper.getComponent();
+        if (!(wrappedComponent instanceof HasStyle)) {
+            throw new IllegalArgumentException(
+                    String.format("Could not set styles names. Component %s must implement %s interface.",
+                                  wrappedComponent.getClass().getName(), HasStyle.class.getName()));
+        }
 
+        HasStyle component = (HasStyle)wrappedComponent;
+        String predefinedStyleNames = component.getClassName();
 
         return styleNames -> {
             if (styleNames instanceof String) {
-                setClassName(componentWrapper, predefinedStyleNames, (String)styleNames);
+                setClassName(component, predefinedStyleNames, (String)styleNames);
             } else {
                 @SuppressWarnings("unchecked")
                 String joinedStyleNames = String.join(" ", (Collection<String>)styleNames);
-                setClassName(componentWrapper, predefinedStyleNames, joinedStyleNames);
+                setClassName(component, predefinedStyleNames, joinedStyleNames);
             }
         };
     }
 
-    public void setClassName(ComponentWrapper componentWrapper, String predefinedStyleNames, String styleNames) {
+    private void setClassName(HasStyle component, String predefinedStyleNames, String styleNames) {
         if (predefinedStyleNames != null) {
-            ((HasStyle)componentWrapper.getComponent()).setClassName(predefinedStyleNames + " " + styleNames);
+            component.setClassName(predefinedStyleNames + " " + styleNames);
         } else {
-            ((HasStyle)componentWrapper.getComponent()).setClassName(styleNames);
+            component.setClassName(styleNames);
         }
     }
 

@@ -19,14 +19,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.framework.ui.LinkkiApplicationTheme;
+import org.linkki.samples.playground.application.ReportListPage;
+import org.linkki.samples.playground.application.ReportSectionPmo;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.grid.testbench.GridElement;
-import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 
@@ -34,28 +34,27 @@ public class HeadlineTest extends AbstractUiTest {
 
     @BeforeEach
     public void setup() {
-        MenuBarElement menu = $(MenuBarElement.class).id(LinkkiApplicationTheme.APPLICATION_MENU);
-        menu.getButtons().stream().filter(b -> "Sample Layout".equals(b.getText())).findFirst().get().click();
+        clickMenuItem("Sample Layout");
     }
 
     @Test
     public void testHeadline_dynamicTitle() {
-        findElement(By.id("ReportList")).click();
+        openTab("ReportList");
 
-        String reportListHeadline = $(VerticalLayoutElement.class).id("ReportListPage")
+        String reportListHeadline = $(VerticalLayoutElement.class).id(ReportListPage.class.getSimpleName())
                 .findElement(By.className("linkki-headline"))
                 .findElement(By.tagName("h2")).getText();
 
         assertThat(reportListHeadline, containsString("Report List"));
         assertThat(reportListHeadline, containsString(String.valueOf($(GridElement.class).first().getRowCount())));
 
-        findElement(By.id("CreateReport")).click();
+        openTab("CreateReport");
 
         addReport();
 
-        findElement(By.id("ReportList")).click();
+        openTab("ReportList");
 
-        reportListHeadline = $(VerticalLayoutElement.class).id("ReportListPage")
+        reportListHeadline = $(VerticalLayoutElement.class).id(ReportListPage.class.getSimpleName())
                 .findElement(By.className("linkki-headline"))
                 .findElement(By.tagName("h2")).getText();
 
@@ -64,7 +63,7 @@ public class HeadlineTest extends AbstractUiTest {
     }
 
     private void addReport() {
-        VerticalLayoutElement section = $(VerticalLayoutElement.class).id("ReportSectionPmo");
+        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(ReportSectionPmo.class.getSimpleName());
         ComboBoxElement comboBoxElement = section.$(ComboBoxElement.class).id("type");
         comboBoxElement.selectByText("Question");
 

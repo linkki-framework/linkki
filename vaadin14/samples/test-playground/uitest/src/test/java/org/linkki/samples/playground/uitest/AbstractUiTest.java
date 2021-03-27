@@ -33,6 +33,7 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
+import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 import com.vaadin.flow.component.textfield.TextField;
@@ -162,5 +163,15 @@ public class AbstractUiTest extends TestBenchTestCase {
     @Override
     public WebElement findElement(By locator) {
         return getDriver().findElement(locator);
+    }
+
+    /**
+     * Finds and returns {@link VerticalLayoutElement} section by the given {@link Class}
+     * 
+     * @param cls Classname of the Section
+     * @return Section as {@link VerticalLayoutElement}
+     */
+    public VerticalLayoutElement getSection(Class<?> cls) {
+        return $(VerticalLayoutElement.class).id(cls.getSimpleName());
     }
 }

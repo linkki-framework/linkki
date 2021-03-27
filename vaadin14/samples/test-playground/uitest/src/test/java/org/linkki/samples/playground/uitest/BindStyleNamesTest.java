@@ -26,10 +26,6 @@ import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 
 public class BindStyleNamesTest extends AbstractUiTest {
 
-    private <T> VerticalLayoutElement getSection(Class<T> cls) {
-        return $(VerticalLayoutElement.class).id(cls.getSimpleName());
-    }
-
     @Test
     public void testDynamicSectionStyleNames() {
         VerticalLayoutElement allElements = getSection(AllUiElementsUiSectionPmo.class);
