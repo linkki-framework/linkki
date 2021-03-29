@@ -1,4 +1,3 @@
-package org.linkki.samples.playground.binding.annotation;
 /*
  * Copyright Faktor Zehn GmbH.
  *
@@ -13,13 +12,7 @@ package org.linkki.samples.playground.binding.annotation;
  * License.
  */
 
-
-/*******************************************************************************
- * Copyright (c) Faktor Zehn GmbH - www.faktorzehn.de
- * 
- * All Rights Reserved - Alle Rechte vorbehalten.
- *******************************************************************************/
-
+package org.linkki.samples.playground.binding.annotation;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

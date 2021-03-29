@@ -26,7 +26,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 public class SendEmailPmo {
 
     @NonNull
-    public static String PROPERTY_EMAIL = "email";
+    public static final String PROPERTY_EMAIL = "email";
 
     private String email;
 

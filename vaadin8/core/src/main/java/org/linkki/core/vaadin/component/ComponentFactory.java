@@ -213,16 +213,14 @@ public class ComponentFactory {
      * Creates a new {@link Label} with undefined width.
      */
     public static Label newLabelUndefinedWidth(String caption, ContentMode contentMode) {
-        Label label = new Label(caption, contentMode);
-        return label;
+        return new Label(caption, contentMode);
     }
 
     /**
      * Creates a new {@link Label} with undefined width.
      */
     public static Label newLabelUndefinedWidth(String caption) {
-        Label label = new Label(caption, ContentMode.TEXT);
-        return label;
+        return new Label(caption, ContentMode.TEXT);
     }
 
     /**
@@ -234,18 +232,8 @@ public class ComponentFactory {
         return link;
     }
 
-    /**
-     * @deprecated the name of the method contains a typo. Use {@link #newTextField()} instead. Will be
-     *             removed in the next version.
-     */
-    @Deprecated
-    public static TextField newTextfield() {
-        return newTextField();
-    }
-
     public static TextField newTextField() {
-        TextField tf = new TextField();
-        return tf;
+        return new TextField();
     }
 
     /**
@@ -307,7 +295,7 @@ public class ComponentFactory {
     }
 
     /**
-     * @deprecated use {@link #newTextfield()} and {@link TextField#setReadOnly(boolean)} instead
+     * @deprecated use {@link #newTextField()} and {@link TextField#setReadOnly(boolean)} instead
      */
     @Deprecated
     public static TextField newReadOnlyTextFieldFixedWidth(String value) {
@@ -315,7 +303,7 @@ public class ComponentFactory {
     }
 
     /**
-     * @deprecated use {@link #newTextfield()} and {@link TextField#setReadOnly(boolean)} instead
+     * @deprecated use {@link #newTextField()} and {@link TextField#setReadOnly(boolean)} instead
      */
     @Deprecated
     public static TextField newReadOnlyTextField(String value, int columns) {
@@ -325,7 +313,7 @@ public class ComponentFactory {
     }
 
     /**
-     * @deprecated use {@link #newTextfield()} and {@link TextField#setReadOnly(boolean)} instead
+     * @deprecated use {@link #newTextField()} and {@link TextField#setReadOnly(boolean)} instead
      */
     @Deprecated
     public static TextField newReadOnlyTextField100PctWidth(String value) {
@@ -335,11 +323,11 @@ public class ComponentFactory {
     }
 
     /**
-     * @deprecated use {@link #newTextfield()} and {@link TextField#setReadOnly(boolean)} instead
+     * @deprecated use {@link #newTextField()} and {@link TextField#setReadOnly(boolean)} instead
      */
     @Deprecated
     public static TextField newReadOnlyTextField(String value) {
-        TextField field = newTextfield();
+        TextField field = newTextField();
         field.setValue(value);
         field.setReadOnly(true);
         return field;
@@ -367,7 +355,7 @@ public class ComponentFactory {
     }
 
     /**
-     * @deprecated use {@link #newTextfield()} instead
+     * @deprecated use {@link #newTextField()} instead
      */
     @Deprecated
     public static TextField newIntegerField(@SuppressWarnings("unused") Locale locale) {
@@ -375,7 +363,7 @@ public class ComponentFactory {
     }
 
     /**
-     * @deprecated use {@link #newTextfield()} instead
+     * @deprecated use {@link #newTextField()} instead
      */
     @Deprecated
     public static TextField newDoubleField(@SuppressWarnings("unused") Locale locale) {
@@ -394,7 +382,7 @@ public class ComponentFactory {
     public static Button newButton(ButtonPmo buttonPmo) {
         Button button = new Button((Resource)buttonPmo.getButtonIcon());
         button.setTabIndex(-1);
-        buttonPmo.getStyleNames().forEach(style -> button.addStyleName(style));
+        buttonPmo.getStyleNames().forEach(button::addStyleName);
         button.addClickListener(e -> buttonPmo.onClick());
         return button;
     }
@@ -402,7 +390,7 @@ public class ComponentFactory {
     public static Button newButton(Resource icon, Collection<String> styleNames) {
         Button button = new Button(icon);
         button.setTabIndex(-1);
-        styleNames.forEach(style -> button.addStyleName(style));
+        styleNames.forEach(button::addStyleName);
         return button;
     }
 
