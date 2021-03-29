@@ -62,9 +62,11 @@ public class ComponentFactory {
         return link;
     }
 
+    /**
+     * Creates a new {@link TextField} with an unlimited maximal character count and an undefined width.
+     */
     public static TextField newTextField() {
-        TextField tf = new TextField();
-        return tf;
+        return new TextField();
     }
 
     /**
@@ -94,6 +96,16 @@ public class ComponentFactory {
         } else {
             field.setWidth(width);
         }
+    }
+
+    /**
+     * Creates a new {@link TextField} to display numbers.
+     */
+    public static TextField newNumberField(int maxLength, String width, String pattern) {
+        TextField field = newTextField(maxLength, width);
+        field.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT);
+        field.getElement().setProperty("_enabledCharPattern", pattern);
+        return field;
     }
 
     public static TextArea newTextArea() {
@@ -168,14 +180,5 @@ public class ComponentFactory {
         return layout;
     }
 
-    /**
-     * Creates a new {@link TextField} that only enables characters that follow a given pattern.
-     */
-    public static TextField newTextField(int maxLength, String width, String pattern) {
-        TextField field = newTextField(maxLength, width);
-        field.addThemeVariants(TextFieldVariant.LUMO_ALIGN_RIGHT);
-        field.getElement().setProperty("_enabledCharPattern", pattern);
-        return field;
-    }
 
 }

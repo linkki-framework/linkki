@@ -139,7 +139,7 @@ public @interface UIDoubleField {
 
         @Override
         public LinkkiComponentDefinition create(UIDoubleField annotation, AnnotatedElement annotatedElement) {
-            return pmo -> ComponentFactory.newTextField(annotation.maxLength(), annotation.width(),
+            return pmo -> ComponentFactory.newNumberField(annotation.maxLength(), annotation.width(),
                                                         "[-+,\\.\\d]");
         }
 

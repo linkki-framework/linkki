@@ -152,7 +152,7 @@ public @interface UIDecimalField {
 
         @Override
         public LinkkiComponentDefinition create(UIDecimalField annotation, AnnotatedElement annotatedElement) {
-            return pmo -> ComponentFactory.newTextField(annotation.maxLength(), annotation.width(), "[-+,\\.\\d]");
+            return pmo -> ComponentFactory.newNumberField(annotation.maxLength(), annotation.width(), "[-+,\\.\\d]");
         }
 
     }
