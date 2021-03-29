@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.customlayout.pmo;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 
 import org.linkki.core.ui.element.annotation.UIButton;
@@ -63,7 +64,7 @@ public class HotelSearchPmo {
 
     @UIButton(position = 40, caption = "Send", icon = VaadinIcons.PAPERPLANE, showIcon = true)
     public void send() {
-        int numberOfBeds = (int)(Math.random() * 10);
+        int numberOfBeds = new SecureRandom().nextInt() * 10;
         Notification.show(
                           String.format("We have %d bed%s available!", numberOfBeds, numberOfBeds == 1 ? "" : "s"),
                           "Thank you for your request!",

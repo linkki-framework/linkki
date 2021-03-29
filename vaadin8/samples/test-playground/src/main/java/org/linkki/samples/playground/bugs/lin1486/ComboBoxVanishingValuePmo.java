@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.bugs.lin1486;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -34,7 +35,8 @@ public class ComboBoxVanishingValuePmo {
     public static final String PROPERTY_UPDATE_BINDING_CONTEXT = "updateBindingContext";
 
     private final Handler updateBindingContext;
-    private List<Double> choices = IntStream.range(0, 20).mapToObj(i -> Math.random()).collect(Collectors.toList());
+    private List<Double> choices = IntStream.range(0, 20).mapToObj(i -> new SecureRandom().nextDouble())
+            .collect(Collectors.toList());
     private Double choice = choices.get(0);
 
     public ComboBoxVanishingValuePmo(Handler updateBindingContext) {
@@ -62,7 +64,7 @@ public class ComboBoxVanishingValuePmo {
     @UIButton(position = 20, caption = "set new objects as choices")
     public void changeChoices() {
         // must be new objects, else the bug will not appear
-        choices = IntStream.range(0, 20).mapToObj(i -> Math.random()).collect(Collectors.toList());
+        choices = IntStream.range(0, 20).mapToObj(i -> new SecureRandom().nextDouble()).collect(Collectors.toList());
         choice = choices.get(0);
     }
 

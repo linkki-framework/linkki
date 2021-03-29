@@ -1,3 +1,17 @@
+/*
+ * Copyright Faktor Zehn GmbH.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
+ */
+
 package org.linkki.samples.playground.ips.model;
 
 import java.util.HashMap;
@@ -82,9 +96,9 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>id</code>. Returns <code>null</code>
-     * if no corresponding enumeration value is found, or if the parameter <code>id</code> is
-     * <code>null</code>.
+     * Returns the enumeration value for the specified parameter <code>id</code>. Returns
+     * <code>null</code> if no corresponding enumeration value is found, or if the parameter
+     * <code>id</code> is <code>null</code>.
      *
      * @generated
      */
@@ -109,8 +123,8 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>id</code>. If no corresponding enum
-     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     * Returns the enumeration value for the specified parameter <code>id</code>. If no corresponding
+     * enum value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
      *
      * @throws IllegalArgumentException if no corresponding enum value is found
      *
@@ -125,8 +139,8 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding enum
-     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding
+     * enum value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
      *
      * @throws IllegalArgumentException if no corresponding enum value is found
      *
@@ -185,6 +199,7 @@ public enum Marker implements IMarker {
      * 
      * @generated
      */
+    @Override
     @IpsEnumAttribute(name = "requiredInformationMissing")
     public boolean isRequiredInformationMissing() {
         return requiredInformationMissing;
@@ -195,6 +210,7 @@ public enum Marker implements IMarker {
      * 
      * @generated
      */
+    @Override
     @IpsEnumAttribute(name = "technicalConstraintViolated")
     public boolean isTechnicalConstraintViolated() {
         return technicalConstraintViolated;

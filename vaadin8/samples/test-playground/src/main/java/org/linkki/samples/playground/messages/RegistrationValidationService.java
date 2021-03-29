@@ -1,15 +1,15 @@
 /*
  * Copyright Faktor Zehn GmbH.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the
+ * License.
  */
 package org.linkki.samples.playground.messages;
 
@@ -67,7 +67,7 @@ public class RegistrationValidationService implements ValidationService {
         if (!Objects.equals(password, pmo.getConfirmPassword())) {
             messages.add(Message.builder("Passwords do not match", Severity.ERROR)
                     .invalidObjects(objectProperty(pmo.getUser(), User.PROPERTY_PASSWORD),
-                            objectProperty(pmo, "confirmPassword"))
+                                    objectProperty(pmo, "confirmPassword"))
                     .create());
         } else if (StringUtils.isEmpty(password)) {
             // tag::message-builder[]
@@ -78,7 +78,7 @@ public class RegistrationValidationService implements ValidationService {
                     .create();
             // end::message-builder[]
             messages.add(passwordRequiredMessage);
-        } else if (password != null) {
+        } else {
             if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$")) {
                 messages.add(Message
                         .builder("Password must contain at least one uppercase letter, "

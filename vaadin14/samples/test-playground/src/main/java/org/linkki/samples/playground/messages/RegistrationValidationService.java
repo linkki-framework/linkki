@@ -76,7 +76,7 @@ public class RegistrationValidationService implements ValidationService {
                     .markers(ValidationMarker.REQUIRED)
                     .create();
             messages.add(passwordRequiredMessage);
-        } else if (password != null) {
+        } else {
             if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$")) {
                 messages.add(Message
                         .builder("Password must contain at least one uppercase letter, "

@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.bugs.lin1442;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -28,12 +29,13 @@ import org.linkki.core.ui.layout.annotation.UISection;
 @UISection(caption = "LIN-1442")
 public class ComboBoxCaptionRefreshPmo {
 
-    private static AtomicInteger COUNTER = new AtomicInteger(0);
+    private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     public static final String PROPERTY_CHOICE = "choice";
     public static final String PROPERTY_CHANGE_CHOICES_VALUES = "changeChoicesValues";
 
-    private List<Choice> choices = IntStream.range(0, 20).mapToObj(i -> Math.random()).map(Choice::new)
+    private List<Choice> choices = IntStream.range(0, 20).mapToObj(i -> new SecureRandom().nextDouble())
+            .map(Choice::new)
             .collect(Collectors.toList());
     private Choice choice = choices.get(0);
 
@@ -57,7 +59,7 @@ public class ComboBoxCaptionRefreshPmo {
 
     @UIButton(position = 20, caption = "change choices values")
     public void changeChoicesValues() {
-        choices.forEach(c -> c.setValue(Math.random() + COUNTER.getAndIncrement()));
+        choices.forEach(c -> c.setValue(new SecureRandom().nextDouble() + COUNTER.getAndIncrement()));
         choice = choices.get(0);
     }
 

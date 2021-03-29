@@ -789,6 +789,11 @@
 						"new": "@interface org.linkki.core.ui.layout.annotation.UIVerticalLayout",
 						"annotation": "@org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty(org.linkki.core.binding.descriptor.property.annotation.BoundPropertyCreator.EmptyPropertyCreator.class)",
 						"justification": "Was accidentally missing before"
+					},
+					{
+						"code": "java.method.removed",
+						"old": "method com.vaadin.ui.TextField org.linkki.core.vaadin.component.ComponentFactory::newTextfield()",
+						"justification": "LIN-2385/LIN-2386 :: Fix sonar issues"
 					}
 				]
 			}
