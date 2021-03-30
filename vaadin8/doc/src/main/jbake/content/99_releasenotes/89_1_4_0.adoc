@@ -42,12 +42,6 @@ If you have built your own custom annotations using `BindingDefinition`, you sho
 https://jira.faktorzehn.de/browse/LIN-1729
 ////
 
-The `IpsPropertyDispatcher` uses the value set information from a Faktor-IPS model attribute to set field properties state in the UI.
-
-* if the `required` property is set to `false`, the `IpsPropertyDispatcher` checks the corresponding value set and sets `required` to `true` (required marker should be visible), if the value set does not contain `null`
-* if the `visible` property is set to `true`, the `IpsPropertyDispatcher` checks the corresponding value set and sets `visible` to `false`, if the value set is `null` or empty
-* if the `enabled` property is set `true`, the `IpsPropertyDispatcher` checks the corresponding value set and sets `enabled` to `false`, if the value set is `null` or empty
-
-This can be overruled by setting the property type to `DYNAMIC`. E.g. `VisibleType.DYNAMIC` with method `is[PropertyName]Visible()` returning `true`.
+The `IpsPropertyDispatcher` can now derive the `required`, `visible` and `enabled` state of a field based on the value set of its model attribute. This functionality is described in the section about <<ips-property-dispatcher, IpsPropertyDispatcher>>. If the `IpsPropertyDispatcher` is already in use, this new feature will automatically come into effect with the new version.
 
 ==== Bugfixes

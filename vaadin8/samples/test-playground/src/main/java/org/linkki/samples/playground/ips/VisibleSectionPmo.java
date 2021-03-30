@@ -14,59 +14,58 @@
 
 package org.linkki.samples.playground.ips;
 
-import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 
-@UISection(caption = "Section to test IpsDispatcher on visibility")
+@UISection(caption = "IpsDispatcher on visibility")
 public class VisibleSectionPmo {
 
     @ModelObject
     private final IpsModelObject modelObject = new IpsModelObject();
 
-    @UILabel(position = 10, htmlContent = true)
-    public String getVisibleDescription() {
-        return "Check that the IpsDispatcher uses the value set information:<br>"
-                + "Fields should be visible if value set is not empty.";
+    @UILabel(position = 10)
+    public String getSectionDescription() {
+        return "Check that the IpsDispatcher uses the value set information to derive visible state";
     }
 
-    @UIComboBox(position = 20, modelAttribute = IpsModelObject.PROPERTY_VALUESETEXCLNULL)
-    public void valueSetExclNull() {
+    @UILabel(position = 15)
+    public String getNotEmptyValueSetDescription() {
+        return "The following field should be visible as value set is not empty.";
+    }
+
+    @UITextField(position = 20, modelAttribute = IpsModelObject.PROPERTY_UNRESTRICTEDEXCLNULL, label = "Not empty value set")
+    public void notEmptyValueSet() {
         // model binding
     }
 
-    @UIComboBox(position = 30, modelAttribute = IpsModelObject.PROPERTY_VALUESETINCLNULL)
-    public void valueSetInclNull() {
-        // model binding
+    @UILabel(position = 25)
+    public String getEmptyValueSetDescription() {
+        return "The following field should not be visible as the value set is empty.";
     }
 
-    @UILabel(position = 40, htmlContent = true)
-    public String getVisibleDynamicDescription() {
-        return "The following field would be invisible and disabled,<br>"
-                + "but is overridden with VisibleType.DYNAMIC=true and EnabledType.DYNAMIC=true";
-    }
-
-    // Should be invisible, but is forced to be visible and enabled
-    @UIComboBox(position = 50, modelAttribute = IpsModelObject.PROPERTY_EMPTYVALUESET, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
+    @UIComboBox(position = 30, modelAttribute = IpsModelObject.PROPERTY_EMPTYVALUESET, label = "Empty value set")
     public void emptyValueSet() {
         // model binding
     }
 
-    public boolean isEmptyValueSetVisible() {
-        return true;
+    @UILabel(position = 35)
+    public String getDynamicVisibleEmptyValueSetDescription() {
+        return "The following field should be visible although the value set is empty as it is explicitly set to visible with visible = DYNAMIC";
     }
 
-    public boolean isEmptyValueSetEnabled() {
-        return true;
-    }
-
-    // Not visible at all
-    @UIComboBox(position = 60, modelAttribute = IpsModelObject.PROPERTY_EMPTYVALUESET)
-    public void invisibleEmptyValueSet() {
+    @UIComboBox(position = 40, modelAttribute = IpsModelObject.PROPERTY_EMPTYVALUESET, //
+            visible = VisibleType.DYNAMIC, label = "Dynamic visible empty value set")
+    public void dynamicVisibleEmptyValueSet() {
         // model binding
     }
+
+    public boolean isDynamicVisibleEmptyValueSetVisible() {
+        return true;
+    }
+
 }

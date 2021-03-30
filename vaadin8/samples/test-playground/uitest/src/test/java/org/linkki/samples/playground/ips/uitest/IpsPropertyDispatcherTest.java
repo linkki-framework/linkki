@@ -42,62 +42,51 @@ public class IpsPropertyDispatcherTest extends AbstractUiTest {
     }
 
     @Test
-    public void testVisible_ValueSetInclNull_ShouldBeVisible() {
+    public void testVisible_NotEmptyValueSet_ShouldBeVisible() {
         VerticalLayoutElement section = getVisibleSection();
-        ComboBoxElement comboBox = section.$(ComboBoxElement.class).id("valueSetInclNull");
+        TextFieldElement textField = section.$(TextFieldElement.class).id("notEmptyValueSet");
 
-        assertThat(comboBox.isDisplayed(), is(true));
+        textField.scrollIntoView();
+        assertThat(textField.isDisplayed(), is(true));
     }
 
     @Test
-    public void testVisible_ValueSetExclNull_ShouldBeVisible() {
+    public void testVisible_EmptyValueSet_ShouldNotBeVisible() {
         VerticalLayoutElement section = getVisibleSection();
-        ComboBoxElement comboBox = section.$(ComboBoxElement.class).id("valueSetExclNull");
-
-        assertThat(comboBox.isDisplayed(), is(true));
+        assertThrows(NoSuchElementException.class, () -> section.$(ComboBoxElement.class).id("emptyValueSet"));
     }
 
     @Test
-    public void testVisible_EmptyValueSetExclNull_WithDynamicVisibleProperty_ShouldBeVisible() {
+    public void testVisible_DynamicVisibleEmptyValueSet_ShouldBeVisible() {
         VerticalLayoutElement section = getVisibleSection();
-        ComboBoxElement combobox = section.$(ComboBoxElement.class).id("emptyValueSet");
-        // Make sure, combobox is in visible area of the browser window
-        combobox.scrollIntoView();
+        ComboBoxElement textField = section.$(ComboBoxElement.class).id("dynamicVisibleEmptyValueSet");
 
-        // Invisibility is overruled by VisibleType.DYNAMIC
-        assertThat(combobox.isDisplayed(), is(true));
+        textField.scrollIntoView();
+        assertThat(textField.isDisplayed(), is(true));
     }
 
     @Test
-    public void testVisible_EmptyValueSetExclNull_ShouldNotBeVisible() {
-        VerticalLayoutElement section = getVisibleSection();
-
-        assertThrows(NoSuchElementException.class, () -> section.$(ComboBoxElement.class).id("invisibleEmptyValueSet"));
-    }
-
-    @Test
-    public void testEnabled_ValueSetInclNull_ShouldBeEnabled() {
+    public void testEnabled_NotEmptyValueSet_ShouldBeEnabled() {
         VerticalLayoutElement section = getEnabledSection();
-        ComboBoxElement comboBox = section.$(ComboBoxElement.class).id("valueSetInclNull");
+        TextFieldElement textField = section.$(TextFieldElement.class).id("notEmptyValueSet");
 
-        assertThat(comboBox.isEnabled(), is(true));
+        assertThat(textField.isEnabled(), is(true));
     }
 
     @Test
-    public void testEnabled_ValueSetExclNull_ShouldBeEnabled() {
+    public void testEnabled_EmptyValueSet_ShouldBeEnabled() {
         VerticalLayoutElement section = getEnabledSection();
-        ComboBoxElement comboBox = section.$(ComboBoxElement.class).id("valueSetExclNull");
+        ComboBoxElement comboBox = section.$(ComboBoxElement.class).id("emptyValueSet");
 
-        assertThat(comboBox.isEnabled(), is(true));
+        assertThat(comboBox.isEnabled(), is(false));
     }
 
     @Test
-    public void testEnabled_EmptyValueSetExclNull_WithDynamicVisibleProperty_ShouldBeVisibleButDisabled() {
+    public void testEnabled_DynamicEnabledEmptyValueSet_ShouldBeVisibleButDisabled() {
         VerticalLayoutElement section = getEnabledSection();
-        ComboBoxElement combobox = section.$(ComboBoxElement.class).id("emptyValueSet");
+        ComboBoxElement combobox = section.$(ComboBoxElement.class).id("dynamicEnabledEmptyValueSet");
 
-        // Invisibility is overruled by VisibleType.DYNAMIC, but ComboBox should still be disabled
-        assertThat(combobox.isEnabled(), is(false));
+        assertThat(combobox.isEnabled(), is(true));
     }
 
     @Test
@@ -116,15 +105,19 @@ public class IpsPropertyDispatcherTest extends AbstractUiTest {
         assertThat(textField.getClassNames(), not(hasItem(LinkkiTheme.REQUIRED_LABEL_COMPONENT_WRAPPER)));
     }
 
+    private VerticalLayoutElement getSection(Class<?> sectionPmoClass) {
+        return $(VerticalLayoutElement.class).id(sectionPmoClass.getSimpleName());
+    }
+
     private VerticalLayoutElement getRequiredSection() {
-        return $(VerticalLayoutElement.class).id(RequiredSectionPmo.class.getSimpleName());
+        return getSection(RequiredSectionPmo.class);
     }
 
     private VerticalLayoutElement getEnabledSection() {
-        return $(VerticalLayoutElement.class).id(EnabledSectionPmo.class.getSimpleName());
+        return getSection(EnabledSectionPmo.class);
     }
 
     private VerticalLayoutElement getVisibleSection() {
-        return $(VerticalLayoutElement.class).id(VisibleSectionPmo.class.getSimpleName());
+        return getSection(VisibleSectionPmo.class);
     }
 }

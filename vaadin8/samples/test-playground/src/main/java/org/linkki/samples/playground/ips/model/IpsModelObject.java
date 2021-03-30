@@ -38,8 +38,7 @@ import org.w3c.dom.Element;
  * @generated
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
-@IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull", "valueSetExclNull",
-        "valueSetInclNull", "emptyValueSet" })
+@IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull", "emptyValueSet" })
 @IpsValidationRules({ "checkDecimal" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions", defaultLocale = "en")
 public class IpsModelObject extends AbstractModelObject {
@@ -94,20 +93,6 @@ public class IpsModelObject extends AbstractModelObject {
             false);
 
     /**
-     * The name of the property valueSetExclNull.
-     * 
-     * @generated
-     */
-    public static final String PROPERTY_VALUESETEXCLNULL = "valueSetExclNull";
-
-    /**
-     * The name of the property valueSetInclNull.
-     * 
-     * @generated
-     */
-    public static final String PROPERTY_VALUESETINCLNULL = "valueSetInclNull";
-
-    /**
      * The name of the property emptyValueSet.
      * 
      * @generated
@@ -152,20 +137,6 @@ public class IpsModelObject extends AbstractModelObject {
      */
     private String unrestrictedExclNull = "required";
 
-
-    /**
-     * Member variable for valueSetExclNull.
-     * 
-     * @generated
-     */
-    private boolean valueSetExclNull = true;
-
-    /**
-     * Member variable for valueSetInclNull.
-     * 
-     * @generated
-     */
-    private Boolean valueSetInclNull = null;
 
     /**
      * Member variable for emptyValueSet.
@@ -297,7 +268,6 @@ public class IpsModelObject extends AbstractModelObject {
      * 
      * @restrainedmodifiable
      */
-    @IpsAllowedValues("valueSetExclNull")
     public ValueSet<Boolean> getSetOfAllowedValuesForValueSetExclNull(IValidationContext context) {
         // begin-user-code
         return new UnrestrictedValueSet<Boolean>(false);
@@ -306,59 +276,14 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
-     * Returns the valueSetExclNull.
-     * 
-     * @generated
-     */
-    @IpsAttribute(name = "valueSetExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
-    public boolean isValueSetExclNull() {
-        return valueSetExclNull;
-    }
-
-
-    /**
-     * Sets the value of attribute valueSetExclNull.
-     * 
-     * @generated
-     */
-    @IpsAttributeSetter("valueSetExclNull")
-    public void setValueSetExclNull(boolean newValue) {
-        this.valueSetExclNull = newValue;
-    }
-
-
-    /**
      * Returns the set of allowed values for the property valueSetInclNull.
      * 
      * @restrainedmodifiable
      */
-    @IpsAllowedValues("valueSetInclNull")
     public ValueSet<Boolean> getSetOfAllowedValuesForValueSetInclNull(IValidationContext context) {
         // begin-user-code
         return new UnrestrictedValueSet<Boolean>(true);
         // end-user-code
-    }
-
-
-    /**
-     * Returns the valueSetInclNull.
-     * 
-     * @generated
-     */
-    @IpsAttribute(name = "valueSetInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
-    public Boolean getValueSetInclNull() {
-        return valueSetInclNull;
-    }
-
-
-    /**
-     * Sets the value of attribute valueSetInclNull.
-     * 
-     * @generated
-     */
-    @IpsAttributeSetter("valueSetInclNull")
-    public void setValueSetInclNull(Boolean newValue) {
-        this.valueSetInclNull = newValue;
     }
 
 
@@ -418,8 +343,6 @@ public class IpsModelObject extends AbstractModelObject {
         doInitString(propMap);
         doInitUnrestrictedInclNull(propMap);
         doInitUnrestrictedExclNull(propMap);
-        doInitValueSetExclNull(propMap);
-        doInitValueSetInclNull(propMap);
         doInitEmptyValueSet(propMap);
     }
 
@@ -457,27 +380,6 @@ public class IpsModelObject extends AbstractModelObject {
     private void doInitUnrestrictedExclNull(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_UNRESTRICTEDEXCLNULL)) {
             this.unrestrictedExclNull = propMap.get(PROPERTY_UNRESTRICTEDEXCLNULL);
-        }
-    }
-
-
-    /**
-     * @generated
-     */
-    private void doInitValueSetExclNull(Map<String, String> propMap) {
-        if (propMap.containsKey(PROPERTY_VALUESETEXCLNULL)) {
-            this.valueSetExclNull = Boolean.valueOf(propMap.get(PROPERTY_VALUESETEXCLNULL)).booleanValue();
-        }
-    }
-
-
-    /**
-     * @generated
-     */
-    private void doInitValueSetInclNull(Map<String, String> propMap) {
-        if (propMap.containsKey(PROPERTY_VALUESETINCLNULL)) {
-            this.valueSetInclNull = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETINCLNULL)) ? null
-                    : Boolean.valueOf(propMap.get(PROPERTY_VALUESETINCLNULL));
         }
     }
 

@@ -126,7 +126,7 @@ public class IpsPropertyDispatcherTest {
 
     @Test
     public void testPull_NotRequired_ValueSetExclNull_ShouldBeRequired() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDEXCLNULL);
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, false));
 
@@ -134,17 +134,8 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Required_ValueSetExclNull_ShouldBeRequired() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDEXCLNULL);
-
-        Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, true));
-
-        assertThat(required, is(true));
-    }
-
-    @Test
     public void testPull_NotRequired_ValueSetInclNull_ShouldNotBeRequired() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDINCLNULL);
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINCLNULL);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, false));
 
@@ -152,8 +143,8 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Required_ValueSetInclNull_ShouldBeRequired() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDINCLNULL);
+    public void testPull_Required_ValueSetExclNull_ShouldBeRequired() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, true));
 
@@ -161,8 +152,17 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_DynamicRequired_ValueSetExclNull_ShouldNotBeRequired() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDEXCLNULL);
+    public void testPull_Required_ValueSetInclNull_ShouldBeRequired() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINCLNULL);
+
+        Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, true));
+
+        assertThat(required, is(true));
+    }
+
+    @Test
+    public void testPull_DynamicNotRequired_ValueSetExclNull_ShouldNotBeRequired() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME));
 
@@ -170,39 +170,12 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_Visible_ValueSetExclNull_ShouldBeVisible() {
+    public void testPull_Visible_NotEmptyValueSet_ShouldBeVisible() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, true));
 
         assertThat(visible, is(true));
-    }
-
-    @Test
-    public void testPull_Visible_ValueSetInclNull_ShouldBeVisible() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINCLNULL);
-
-        Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, true));
-
-        assertThat(visible, is(true));
-    }
-
-    @Test
-    public void testPull_Invisible_ValueSetExclNull_ShouldBeInvisible() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
-
-        Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
-
-        assertThat(visible, is(false));
-    }
-
-    @Test
-    public void testPull_Invisible_ValueSetInclNull_ShouldBeInvisible() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINCLNULL);
-
-        Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
-
-        assertThat(visible, is(false));
     }
 
     @Test
@@ -210,6 +183,15 @@ public class IpsPropertyDispatcherTest {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_EMPTYVALUESET);
 
         Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, true));
+
+        assertThat(visible, is(false));
+    }
+
+    @Test
+    public void testPull_Invisible_NotEmptyValueSet_ShouldBeInvisible() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
+
+        Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME, false));
 
         assertThat(visible, is(false));
     }
@@ -224,8 +206,8 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_DynamicVisible_ValueSetExclNull_ShouldBeInvisible() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDEXCLNULL);
+    public void testPull_DynamicInvisible_NotEmptyValueSet_ShouldBeInvisible() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
 
@@ -233,48 +215,12 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_DynamicVisible_ValueSetInclNull_ShouldBeInvisible() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINCLNULL);
-
-        Boolean visible = ipsPropertyDispatcher.pull(Aspect.of(VisibleAspectDefinition.NAME));
-
-        assertThat(visible, is(false));
-    }
-
-    @Test
-    public void testPull_Enabled_ValueSetExclNull_ShouldBeEnabled() {
+    public void testPull_Enabled_NotEmptyValueSet_ShouldBeEnabled() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME, true));
 
         assertThat(enabled, is(true));
-    }
-
-    @Test
-    public void testPull_Enabled_ValueSetInclNull_ShouldBeEnabled() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINCLNULL);
-
-        Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME, true));
-
-        assertThat(enabled, is(true));
-    }
-
-    @Test
-    public void testPull_Disabled_ValueSetExclNull_ShouldBeDisabled() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
-
-        Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME, false));
-
-        assertThat(enabled, is(false));
-    }
-
-    @Test
-    public void testPull_Disabled_ValueSetInclNull_ShouldBeDisabled() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINCLNULL);
-
-        Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME, false));
-
-        assertThat(enabled, is(false));
     }
 
     @Test
@@ -282,6 +228,15 @@ public class IpsPropertyDispatcherTest {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_EMPTYVALUESET);
 
         Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME, true));
+
+        assertThat(enabled, is(false));
+    }
+
+    @Test
+    public void testPull_Disabled_NotEmptyValueSet_ShouldBeDisabled() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
+
+        Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME, false));
 
         assertThat(enabled, is(false));
     }
@@ -296,17 +251,8 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
-    public void testPull_DynamicEnabled_ValueSetExclNull_ShouldBeDisabled() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_UNRESTRICTEDEXCLNULL);
-
-        Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME));
-
-        assertThat(enabled, is(false));
-    }
-
-    @Test
-    public void testPull_DynamicEnabled_ValueSetInclNull_ShouldBeDisabled() {
-        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETINCLNULL);
+    public void testPull_DynamicDisabled_NotEmptyValueSet_ShouldBeDisabled() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 
         Boolean enabled = ipsPropertyDispatcher.pull(Aspect.of(EnabledAspectDefinition.NAME));
 
