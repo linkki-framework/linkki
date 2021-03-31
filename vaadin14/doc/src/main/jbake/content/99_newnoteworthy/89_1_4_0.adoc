@@ -37,4 +37,11 @@ The concept of `BindingDefinition` is deprecated because it was replaced. Theref
 
 If you have built your own custom annotations using `BindingDefinition`, you should consider refactoring them using the new concept described in <<custom-ui-element-annotation,Creating a custom UI element>>
 
+===== Faktor-IPS Property Dispatcher uses the value set information to set field properties in the UI
+////
+https://jira.faktorzehn.de/browse/LIN-1729
+////
+
+The `IpsPropertyDispatcher` can now derive the `required`, `visible` and `enabled` state of a field based on the value set of its model attribute. This functionality is described in the section about <<ips-property-dispatcher, IpsPropertyDispatcher>>. If the `IpsPropertyDispatcher` is already in use, this new feature will automatically come into effect with the new version.
+
 ==== Bugfixes

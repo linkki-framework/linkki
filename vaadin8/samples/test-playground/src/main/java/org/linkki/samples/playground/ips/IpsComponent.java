@@ -14,14 +14,14 @@
 package org.linkki.samples.playground.ips;
 
 import org.faktorips.runtime.ValidationContext;
+import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.uiframework.UiFramework;
-import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
@@ -32,7 +32,6 @@ import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.VerticalLayout;
 
-@SuppressWarnings("java:S110")
 public class IpsComponent extends VerticalLayout implements SidebarSheetDefinition {
 
     public static final String ID = "Ips";
@@ -44,7 +43,6 @@ public class IpsComponent extends VerticalLayout implements SidebarSheetDefiniti
         VaadinSession.getCurrent().setAttribute(LinkkiConverterRegistry.class, new LinkkiConverterRegistry());
 
         IpsModelObject ipsModelObject = new IpsModelObject();
-        IpsPmo pmo = new IpsPmo(ipsModelObject);
 
         ValidationService validationService = // tag::createValidationService[]
                 () -> MessageConverter.convert(ipsModelObject.validate(new ValidationContext(UiFramework.getLocale())));
@@ -55,10 +53,12 @@ public class IpsComponent extends VerticalLayout implements SidebarSheetDefiniti
                 PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, new IpsPropertyDispatcherFactory());
         // end::createBindingManager[]
 
-        AbstractSection section = new PmoBasedSectionFactory().createSection(pmo,
-                                                                             bindingManager.getContext(getClass()));
+        BindingContext bindingContext = bindingManager.getContext(getClass());
 
-        addComponent(section);
+        addComponent(VaadinUiCreator.createComponent(new IpsPmo(ipsModelObject), bindingContext));
+        addComponent(VaadinUiCreator.createComponent(new RequiredSectionPmo(), bindingContext));
+        addComponent(VaadinUiCreator.createComponent(new VisibleSectionPmo(), bindingContext));
+        addComponent(VaadinUiCreator.createComponent(new EnabledSectionPmo(), bindingContext));
     }
 
     @Override

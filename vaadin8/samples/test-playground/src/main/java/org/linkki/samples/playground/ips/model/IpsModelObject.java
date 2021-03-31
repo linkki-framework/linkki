@@ -27,6 +27,7 @@ import org.faktorips.runtime.MsgReplacementParameter;
 import org.faktorips.runtime.ObjectProperty;
 import org.faktorips.runtime.Severity;
 import org.faktorips.runtime.internal.AbstractModelObject;
+import org.faktorips.runtime.internal.IpsStringUtils;
 import org.faktorips.runtime.model.annotation.IpsAllowedValues;
 import org.faktorips.runtime.model.annotation.IpsAttribute;
 import org.faktorips.runtime.model.annotation.IpsAttributeSetter;
@@ -40,6 +41,9 @@ import org.faktorips.runtime.model.type.ValueSetKind;
 import org.faktorips.runtime.util.MessagesHelper;
 import org.faktorips.values.Decimal;
 import org.faktorips.valueset.DecimalRange;
+import org.faktorips.valueset.OrderedValueSet;
+import org.faktorips.valueset.UnrestrictedValueSet;
+import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
 
 /**
@@ -48,7 +52,7 @@ import org.w3c.dom.Element;
  * @generated
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
-@IpsAttributes({ "decimal", "string" })
+@IpsAttributes({ "decimal", "string", "unrestrictedInclNull", "unrestrictedExclNull", "emptyValueSet" })
 @IpsValidationRules({ "checkDecimal" })
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions", defaultLocale = "en")
 public class IpsModelObject extends AbstractModelObject {
@@ -80,6 +84,43 @@ public class IpsModelObject extends AbstractModelObject {
      */
     // tag::PROPERTY_STRING[]
     public static final String PROPERTY_STRING = "string";
+    /**
+     * The name of the property unrestrictedInclNull.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_UNRESTRICTEDINCLNULL = "unrestrictedInclNull";
+
+    /**
+     * The name of the property unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_UNRESTRICTEDEXCLNULL = "unrestrictedExclNull";
+
+    /**
+     * Max allowed values for property unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL = new UnrestrictedValueSet<String>(
+            false);
+
+    /**
+     * The name of the property emptyValueSet.
+     * 
+     * @generated
+     */
+    public static final String PROPERTY_EMPTYVALUESET = "emptyValueSet";
+
+    /**
+     * Max allowed values for property emptyValueSet.
+     * 
+     * @generated
+     */
+    public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<Marker>(
+            false, null);
+
     // end::PROPERTY_STRING[]
 
     /**
@@ -95,6 +136,28 @@ public class IpsModelObject extends AbstractModelObject {
      */
     private String string = null;
 
+
+    /**
+     * Member variable for unrestrictedInclNull.
+     * 
+     * @generated
+     */
+    private String unrestrictedInclNull = "not required";
+
+    /**
+     * Member variable for unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    private String unrestrictedExclNull = "required";
+
+
+    /**
+     * Member variable for emptyValueSet.
+     * 
+     * @generated
+     */
+    private Marker emptyValueSet = null;
 
     /**
      * Creates a new IpsModelObject.
@@ -160,6 +223,118 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
+     * Returns the unrestrictedInclNull.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "unrestrictedInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    public String getUnrestrictedInclNull() {
+        return unrestrictedInclNull;
+    }
+
+
+    /**
+     * Sets the value of attribute unrestrictedInclNull.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("unrestrictedInclNull")
+    public void setUnrestrictedInclNull(String newValue) {
+        this.unrestrictedInclNull = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    @IpsAllowedValues("unrestrictedExclNull")
+    public ValueSet<String> getSetOfAllowedValuesForUnrestrictedExclNull(IValidationContext context) {
+        return MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL;
+    }
+
+
+    /**
+     * Returns the unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "unrestrictedExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    public String getUnrestrictedExclNull() {
+        return unrestrictedExclNull;
+    }
+
+
+    /**
+     * Sets the value of attribute unrestrictedExclNull.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("unrestrictedExclNull")
+    public void setUnrestrictedExclNull(String newValue) {
+        this.unrestrictedExclNull = newValue;
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property valueSetExclNull.
+     * 
+     * @restrainedmodifiable
+     */
+    public ValueSet<Boolean> getSetOfAllowedValuesForValueSetExclNull(IValidationContext context) {
+        // begin-user-code
+        return new UnrestrictedValueSet<Boolean>(false);
+        // end-user-code
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property valueSetInclNull.
+     * 
+     * @restrainedmodifiable
+     */
+    public ValueSet<Boolean> getSetOfAllowedValuesForValueSetInclNull(IValidationContext context) {
+        // begin-user-code
+        return new UnrestrictedValueSet<Boolean>(true);
+        // end-user-code
+    }
+
+
+    /**
+     * Returns the set of allowed values for the property emptyValueSet.
+     * 
+     * @generated
+     */
+    @IpsAllowedValues("emptyValueSet")
+    public OrderedValueSet<Marker> getAllowedValuesForEmptyValueSet(IValidationContext context) {
+        return MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET;
+    }
+
+
+    /**
+     * Returns the emptyValueSet.
+     * 
+     * @generated
+     */
+    @IpsAttribute(name = "emptyValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
+    public Marker getEmptyValueSet() {
+        return emptyValueSet;
+    }
+
+
+    /**
+     * Sets the value of attribute emptyValueSet.
+     * 
+     * @generated
+     */
+    @IpsAttributeSetter("emptyValueSet")
+    public void setEmptyValueSet(Marker newValue) {
+        this.emptyValueSet = newValue;
+    }
+
+
+    /**
      * Initializes the object with the configured defaults.
      *
      * @restrainedmodifiable
@@ -180,6 +355,9 @@ public class IpsModelObject extends AbstractModelObject {
         super.initPropertiesFromXml(propMap, productRepository);
         doInitDecimal(propMap);
         doInitString(propMap);
+        doInitUnrestrictedInclNull(propMap);
+        doInitUnrestrictedExclNull(propMap);
+        doInitEmptyValueSet(propMap);
     }
 
     /**
@@ -199,6 +377,37 @@ public class IpsModelObject extends AbstractModelObject {
             this.string = propMap.get(PROPERTY_STRING);
         }
     }
+
+    /**
+     * @generated
+     */
+    private void doInitUnrestrictedInclNull(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_UNRESTRICTEDINCLNULL)) {
+            this.unrestrictedInclNull = propMap.get(PROPERTY_UNRESTRICTEDINCLNULL);
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    private void doInitUnrestrictedExclNull(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_UNRESTRICTEDEXCLNULL)) {
+            this.unrestrictedExclNull = propMap.get(PROPERTY_UNRESTRICTEDEXCLNULL);
+        }
+    }
+
+
+    /**
+     * @generated
+     */
+    private void doInitEmptyValueSet(Map<String, String> propMap) {
+        if (propMap.containsKey(PROPERTY_EMPTYVALUESET)) {
+            this.emptyValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_EMPTYVALUESET)) ? null
+                    : Marker.getValueById(propMap.get(PROPERTY_EMPTYVALUESET));
+        }
+    }
+
 
     /**
      * {@inheritDoc}

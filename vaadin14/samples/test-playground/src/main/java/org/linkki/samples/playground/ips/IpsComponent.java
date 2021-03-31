@@ -20,9 +20,7 @@ import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.ui.creation.VaadinUiCreator;
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.uiframework.UiFramework;
-import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
@@ -40,7 +38,6 @@ public class IpsComponent extends Div {
     protected void init() {
 
         IpsModelObject ipsModelObject = new IpsModelObject();
-        IpsPmo pmo = new IpsPmo(ipsModelObject);
 
         ValidationService validationService = () -> MessageConverter
                 .convert(ipsModelObject.validate(new ValidationContext(UiFramework.getLocale())));
@@ -48,13 +45,13 @@ public class IpsComponent extends Div {
         BindingManager bindingManager = new DefaultBindingManager(validationService,
                 PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, new IpsPropertyDispatcherFactory());
 
-        AbstractSection section = new PmoBasedSectionFactory().createSection(pmo,
-                                                                             bindingManager.getContext(getClass()));
+        BindingContext bindingContext = bindingManager.getContext(getClass());
 
-
-        add(section);
-
+        add(VaadinUiCreator.createComponent(new IpsPmo(ipsModelObject), bindingContext));
         add(VaadinUiCreator.createComponent(new DecimalFieldPmo(), new BindingContext()));
-
+        add(VaadinUiCreator.createComponent(new RequiredSectionPmo(), bindingContext));
+        add(VaadinUiCreator.createComponent(new VisibleSectionPmo(), bindingContext));
+        add(VaadinUiCreator.createComponent(new EnabledSectionPmo(), bindingContext));
     }
+
 }
