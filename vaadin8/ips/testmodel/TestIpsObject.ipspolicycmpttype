@@ -34,4 +34,34 @@
    <AllValues containsNull="false"/>
   </ValueSet>
  </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="Boolean" id="40ce1396-dccc-407e-964b-5696df797e2b" modifier="published" name="valueSetInclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue isNull="true"/>
+  <Label id="37470009-25e2-46af-9f1f-e834952c6231" locale="en" pluralValue="" value="ValueSet incl. null"/>
+  <Label id="8ff4958f-cd76-4640-8021-bf5f5c84be24" locale="de" pluralValue="" value="ValueSet mit null"/>
+  <Description id="96a45bc2-4107-4ecb-b348-a1ace6b42043" locale="en"/>
+  <Description id="0286ca88-d08f-48b2-84ff-bb238a422186" locale="de"/>
+  <ValueSet abstract="false" id="eddf6f86-29dd-465a-8ccb-80ff24f174b3">
+   <AllValues containsNull="true"/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="boolean" id="85cb204e-ef8f-445b-ab42-706ba9d6ce60" modifier="published" name="valueSetExclNull" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue>true</DefaultValue>
+  <Label id="e4ddf54a-eeed-43ca-89ba-e125a29fb52e" locale="en" pluralValue="" value="ValueSet excl. null"/>
+  <Label id="ace7c131-ec1c-4aa8-8a54-62affbe4524b" locale="de" pluralValue="" value="ValueSet ohne null"/>
+  <Description id="37dcde80-e1e5-40bd-be60-bdf5023a408c" locale="en"/>
+  <Description id="6cb25bd0-7acb-44cc-8aaa-7eceeb5bf0a2" locale="de"/>
+  <ValueSet abstract="false" id="a2dbf616-7217-4a96-8f29-bd2c6cd6d83c">
+   <Derived/>
+  </ValueSet>
+ </Attribute>
+ <Attribute attributeType="changeable" category="" changingOverTime="true" computationMethodSignature="" datatype="MonthDay" id="51beae4a-4969-450e-9d45-7326af7a19dd" modifier="published" name="emptyValueSet" overwrite="false" relevanceConfiguredByProduct="false" valueSetConfiguredByProduct="false">
+  <DefaultValue isNull="true"/>
+  <Label id="6f9a8e62-d784-4300-8ab0-0c6db45303aa" locale="en" pluralValue="" value="Empty ValueSet"/>
+  <Label id="8870ba12-64fc-4a84-a2ef-b9c73d682ade" locale="de" pluralValue="" value="Leeres ValueSet"/>
+  <Description id="691d96f6-8599-407b-9ffe-f690f9a3ee31" locale="en"/>
+  <Description id="67bb18d3-227e-40b5-a7b1-c6e62835ed9f" locale="de"/>
+  <ValueSet abstract="false" id="2af79dc4-98a3-4339-9f5f-e4e08231e893">
+   <Enum/>
+  </ValueSet>
+ </Attribute>
 </PolicyCmptType>

@@ -55,7 +55,9 @@ public class IpsComponent extends VerticalLayout implements SidebarSheetDefiniti
         BindingContext bindingContext = bindingManager.getContext(getClass());
 
         addComponent(VaadinUiCreator.createComponent(new IpsPmo(ipsModelObject), bindingContext));
-        addComponent(VaadinUiCreator.createComponent(new RelevanceSectionPmo(), bindingContext));
+        addComponent(VaadinUiCreator.createComponent(new RequiredSectionPmo(), bindingContext));
+        addComponent(VaadinUiCreator.createComponent(new VisibleSectionPmo(), bindingContext));
+        addComponent(VaadinUiCreator.createComponent(new EnabledSectionPmo(), bindingContext));
     }
 
     @Override

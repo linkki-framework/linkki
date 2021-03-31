@@ -20,27 +20,34 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 
-@UISection(caption = "Section to test relevances")
-public class RelevanceSectionPmo {
+@UISection(caption = "IpsDispatcher on required")
+public class RequiredSectionPmo {
 
     @ModelObject
     private final IpsModelObject modelObject = new IpsModelObject();
 
-    @UILabel(position = 10, htmlContent = true)
-    public String getDescription() {
-        return "Check that the IpsDispatcher uses the value set information:"
-                + "<ul>"
-                + "<li>Required marker should be visible if value set does not contains null.</li>"
-                + "</ul>";
+    @UILabel(position = 10)
+    public String getSectionDescription() {
+        return "Check that the IpsDispatcher uses the value set information to derive required state";
+    }
+
+    @UILabel(position = 15)
+    public String getValueSetExclNullDescription() {
+        return "Required marker should be visible if value set does not contain null.";
     }
 
     @UITextField(position = 20, modelAttribute = IpsModelObject.PROPERTY_UNRESTRICTEDEXCLNULL)
-    public void foo() {
+    public void unrestrictedValueSetExclNull() {
         // model binding
     }
 
+    @UILabel(position = 25)
+    public String getValueSetInclNullDescription() {
+        return "Required marker should not be visible if value set contains null.";
+    }
+
     @UITextField(position = 30, modelAttribute = IpsModelObject.PROPERTY_UNRESTRICTEDINCLNULL)
-    public void bar() {
+    public void unrestrictedValueSetInclNull() {
         // model binding
     }
 
