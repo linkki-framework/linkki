@@ -26,8 +26,7 @@ import org.faktorips.runtime.IValidationContext;
  * @generated
  */
 @IpsPolicyCmptType(name = "TestIpsObject")
-@IpsAttributes({ "foo", "unrestrictedInclNull", "unrestrictedExclNull", "valueSetInclNull", "valueSetExclNull",
-        "emptyValueSet" })
+@IpsAttributes({ "foo", "valueSetInclNull", "valueSetExclNull", "emptyValueSet" })
 @IpsDocumented(bundleName = "org.linkki.ips.test.model.testmodel-label-and-descriptions", defaultLocale = "en")
 public class TestIpsObject extends AbstractModelObject {
 
@@ -38,31 +37,6 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     public static final String PROPERTY_FOO = "foo";
-
-
-    /**
-     * The name of the property unrestrictedInclNull.
-     * 
-     * @generated
-     */
-    public static final String PROPERTY_UNRESTRICTEDINCLNULL = "unrestrictedInclNull";
-
-
-    /**
-     * The name of the property unrestrictedExclNull.
-     * 
-     * @generated
-     */
-    public static final String PROPERTY_UNRESTRICTEDEXCLNULL = "unrestrictedExclNull";
-
-
-    /**
-     * Max allowed values for property unrestrictedExclNull.
-     * 
-     * @generated
-     */
-    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL = new UnrestrictedValueSet<String>(
-            false);
 
 
     /**
@@ -104,22 +78,6 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     private String foo = null;
-
-
-    /**
-     * Member variable for unrestrictedInclNull.
-     * 
-     * @generated
-     */
-    private String unrestrictedInclNull = null;
-
-
-    /**
-     * Member variable for unrestrictedExclNull.
-     * 
-     * @generated
-     */
-    private String unrestrictedExclNull = null;
 
 
     /**
@@ -174,61 +132,6 @@ public class TestIpsObject extends AbstractModelObject {
     @IpsAttributeSetter("foo")
     public void setFoo(String newValue) {
         this.foo = newValue;
-    }
-
-
-    /**
-     * Returns the unrestrictedInclNull.
-     * 
-     * @generated
-     */
-    @IpsAttribute(name = "unrestrictedInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
-    public String getUnrestrictedInclNull() {
-        return unrestrictedInclNull;
-    }
-
-
-    /**
-     * Sets the value of attribute unrestrictedInclNull.
-     * 
-     * @generated
-     */
-    @IpsAttributeSetter("unrestrictedInclNull")
-    public void setUnrestrictedInclNull(String newValue) {
-        this.unrestrictedInclNull = newValue;
-    }
-
-
-    /**
-     * Returns the set of allowed values for the property unrestrictedExclNull.
-     * 
-     * @generated
-     */
-    @IpsAllowedValues("unrestrictedExclNull")
-    public ValueSet<String> getSetOfAllowedValuesForUnrestrictedExclNull(IValidationContext context) {
-        return MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL;
-    }
-
-
-    /**
-     * Returns the unrestrictedExclNull.
-     * 
-     * @generated
-     */
-    @IpsAttribute(name = "unrestrictedExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
-    public String getUnrestrictedExclNull() {
-        return unrestrictedExclNull;
-    }
-
-
-    /**
-     * Sets the value of attribute unrestrictedExclNull.
-     * 
-     * @generated
-     */
-    @IpsAttributeSetter("unrestrictedExclNull")
-    public void setUnrestrictedExclNull(String newValue) {
-        this.unrestrictedExclNull = newValue;
     }
 
 
@@ -342,8 +245,6 @@ public class TestIpsObject extends AbstractModelObject {
     protected void initPropertiesFromXml(Map<String, String> propMap, IRuntimeRepository productRepository) {
         super.initPropertiesFromXml(propMap, productRepository);
         doInitFoo(propMap);
-        doInitUnrestrictedInclNull(propMap);
-        doInitUnrestrictedExclNull(propMap);
         doInitValueSetInclNull(propMap);
         doInitValueSetExclNull(propMap);
         doInitEmptyValueSet(propMap);
@@ -357,26 +258,6 @@ public class TestIpsObject extends AbstractModelObject {
             this.foo = propMap.get(PROPERTY_FOO);
         }
     }
-
-    /**
-     * @generated
-     */
-    private void doInitUnrestrictedInclNull(Map<String, String> propMap) {
-        if (propMap.containsKey(PROPERTY_UNRESTRICTEDINCLNULL)) {
-            this.unrestrictedInclNull = propMap.get(PROPERTY_UNRESTRICTEDINCLNULL);
-        }
-    }
-
-
-    /**
-     * @generated
-     */
-    private void doInitUnrestrictedExclNull(Map<String, String> propMap) {
-        if (propMap.containsKey(PROPERTY_UNRESTRICTEDEXCLNULL)) {
-            this.unrestrictedExclNull = propMap.get(PROPERTY_UNRESTRICTEDEXCLNULL);
-        }
-    }
-
 
     /**
      * @generated
