@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.StaticModelToUiAspectDefinition;
-import org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.creation.table.GridColumnWrapper;
@@ -26,9 +25,9 @@ import org.linkki.core.ui.creation.table.GridColumnWrapper;
 /**
  * Aspect definition to bind the label of a component.
  * <p>
- * This definition only supports static labels. It may be directly described by the
- * {@link BindingDefinition} but there might be a dispatcher that overwrites the value for example with
- * a translation from a property file.
+ * This definition only supports static labels. It may be directly described by the annotation, but
+ * there might be a dispatcher that overwrites the value for example with a translation from a property
+ * file.
  */
 public class LabelAspectDefinition extends StaticModelToUiAspectDefinition<String> {
 

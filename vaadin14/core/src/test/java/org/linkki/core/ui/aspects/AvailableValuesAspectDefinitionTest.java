@@ -35,9 +35,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.dispatcher.PropertyDispatcher;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.bind.TestEnum;
-import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -100,7 +101,7 @@ public class AvailableValuesAspectDefinitionTest {
         @SuppressWarnings("unchecked")
         ListDataProvider<Object> dataProvider = mock(ListDataProvider.class);
         ComboBox<Object> component = new ComboBox<>();
-        availableValuesAspectDefinition.setDataProvider(new FormItemComponentWrapper(component), dataProvider);
+        availableValuesAspectDefinition.setDataProvider(new NoLabelComponentWrapper(component), dataProvider);
 
         verify(dataProviderSetter).accept(component, dataProvider);
     }
@@ -114,7 +115,8 @@ public class AvailableValuesAspectDefinitionTest {
         List<Object> items = mock(List.class);
         @SuppressWarnings("unchecked")
         ComboBox<Object> component = mock(ComboBox.class);
-        availableValuesAspectDefinition.handleNullItems(new FormItemComponentWrapper(component), items);
+        availableValuesAspectDefinition
+                .handleNullItems(new NoLabelComponentWrapper(component, WrapperType.FIELD), items);
 
         verifyNoMoreInteractions(component, items);
     }
@@ -177,7 +179,8 @@ public class AvailableValuesAspectDefinitionTest {
         ComboBox<Object> component = mock(ComboBox.class);
         when(component.getElement()).thenReturn(new Element("vaadin-combo-box"));
         Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
-                                                                            new FormItemComponentWrapper(component));
+                                                                            new NoLabelComponentWrapper(
+                                                                                    component));
         ArgumentCaptor<ListDataProvider<?>> dataProviderCaptor = ArgumentCaptor.forClass(ListDataProvider.class);
         verify(dataProviderSetter).accept(eq(component), (ListDataProvider<Object>)dataProviderCaptor.capture());
         @NonNull
@@ -200,7 +203,8 @@ public class AvailableValuesAspectDefinitionTest {
         when(component.getValue()).thenReturn(TestEnum.ONE);
         when(component.getElement()).thenReturn(new Element("vaadin-combo-box"));
         Handler uiUpdater = availableValuesAspectDefinition.createUiUpdater(propertyDispatcher,
-                                                                            new FormItemComponentWrapper(component));
+                                                                            new NoLabelComponentWrapper(
+                                                                                    component));
         ArgumentCaptor<ListDataProvider<?>> dataProviderCaptor = ArgumentCaptor.forClass(ListDataProvider.class);
 
         verify(dataProviderSetter).accept(eq(component), (ListDataProvider<Object>)dataProviderCaptor.capture());

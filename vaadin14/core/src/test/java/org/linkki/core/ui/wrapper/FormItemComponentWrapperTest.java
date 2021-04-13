@@ -36,11 +36,12 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.ui.bind.TestEnum;
+import org.linkki.core.vaadin.component.base.LinkkiFormLayout.LabelComponentFormItem;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
 
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -51,7 +52,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  **/
 public class FormItemComponentWrapperTest {
 
-    private final Span label = spy(new Span());
+    private final Label label = spy(new Label());
 
     private final TextField field = spy(new TextField());
     private final ComboBox<String> selectField = spy(new ComboBox<>());
@@ -80,7 +81,7 @@ public class FormItemComponentWrapperTest {
         when(propertyDispatcherValue.getMessages(any(MessageList.class))).thenReturn(messageList);
         when(propertyDispatcherEnumValue.getMessages(any(MessageList.class))).thenReturn(messageList);
 
-        selectBinding = new ElementBinding(new FormItemComponentWrapper(label, selectField),
+        selectBinding = new ElementBinding(new FormItemComponentWrapper(new LabelComponentFormItem(selectField, label)),
                 propertyDispatcherEnumValue,
                 Handler.NOP_HANDLER,
                 new ArrayList<>());
@@ -92,7 +93,8 @@ public class FormItemComponentWrapperTest {
         LinkkiAspectDefinition aspectDefinition = mock(LinkkiAspectDefinition.class);
         when(aspectDefinition.supports(any())).thenReturn(true);
         when(aspectDefinition.createUiUpdater(any(), any())).thenReturn(componentUpdater);
-        ElementBinding fieldBinding = new ElementBinding(new FormItemComponentWrapper(label, field),
+        ElementBinding fieldBinding = new ElementBinding(
+                new FormItemComponentWrapper(new LabelComponentFormItem(field, label)),
                 propertyDispatcherValue,
                 Handler.NOP_HANDLER, Arrays.asList(aspectDefinition));
         fieldBinding.updateFromPmo();

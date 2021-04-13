@@ -20,7 +20,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.faktorips.runtime.IRuntimeRepository;
-import org.faktorips.runtime.internal.IpsStringUtils;
 import org.faktorips.runtime.IValidationContext;
 import org.faktorips.runtime.Message;
 import org.faktorips.runtime.MessageList;
@@ -28,6 +27,7 @@ import org.faktorips.runtime.MsgReplacementParameter;
 import org.faktorips.runtime.ObjectProperty;
 import org.faktorips.runtime.Severity;
 import org.faktorips.runtime.internal.AbstractModelObject;
+import org.faktorips.runtime.internal.IpsStringUtils;
 import org.faktorips.runtime.model.annotation.IpsAllowedValues;
 import org.faktorips.runtime.model.annotation.IpsAttribute;
 import org.faktorips.runtime.model.annotation.IpsAttributeSetter;
@@ -40,10 +40,10 @@ import org.faktorips.runtime.model.type.AttributeKind;
 import org.faktorips.runtime.model.type.ValueSetKind;
 import org.faktorips.runtime.util.MessagesHelper;
 import org.faktorips.values.Decimal;
-import org.faktorips.valueset.ValueSet;
-import org.faktorips.valueset.UnrestrictedValueSet;
-import org.faktorips.valueset.OrderedValueSet;
 import org.faktorips.valueset.DecimalRange;
+import org.faktorips.valueset.OrderedValueSet;
+import org.faktorips.valueset.UnrestrictedValueSet;
+import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
 
 /**
@@ -172,6 +172,7 @@ public class IpsModelObject extends AbstractModelObject {
      * Returns the range of allowed values for the property decimal.
      *
      * @generated
+     * @param context validation context
      */
     @IpsAllowedValues("decimal")
     public DecimalRange getRangeForDecimal(IValidationContext context) {
@@ -245,6 +246,7 @@ public class IpsModelObject extends AbstractModelObject {
      * Returns the set of allowed values for the property unrestrictedExclNull.
      *
      * @generated
+     * @param context validation context
      */
     @IpsAllowedValues("unrestrictedExclNull")
     public ValueSet<String> getSetOfAllowedValuesForUnrestrictedExclNull(IValidationContext context) {
@@ -278,6 +280,7 @@ public class IpsModelObject extends AbstractModelObject {
      * Returns the set of allowed values for the property emptyValueSet.
      *
      * @generated
+     * @param context validation context
      */
     @IpsAllowedValues("emptyValueSet")
     public OrderedValueSet<Marker> getAllowedValuesForEmptyValueSet(IValidationContext context) {

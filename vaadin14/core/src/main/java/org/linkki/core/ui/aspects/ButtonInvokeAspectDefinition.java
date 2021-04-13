@@ -40,6 +40,8 @@ public class ButtonInvokeAspectDefinition implements LinkkiAspectDefinition {
             ComponentWrapper componentWrapper,
             Handler modelUpdated) {
         Button button = (Button)componentWrapper.getComponent();
+        // Prevents additional calls during binding update. Buttons are enabled again with binding
+        // update.
         button.setDisableOnClick(true);
         button.addClickListener(e -> {
             propertyDispatcher.push(Aspect.of(NAME));

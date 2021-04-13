@@ -30,7 +30,7 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.aspects.annotation.BindVisible;
 import org.linkki.core.ui.bind.annotation.Bind;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.flow.component.Component;
@@ -43,7 +43,8 @@ public class BindVisibleIntegrationTest {
         BindingContext bindingContext = new BindingContext();
         Map<String, Boolean> uiElements = UiCreator
                 .createUiElements(new TestWithBindVisibleFieldsPmo(),
-                                  bindingContext, c -> new FormItemComponentWrapper((Component)c))
+                                  bindingContext,
+                                  c -> new NoLabelComponentWrapper((Component)c))
                 .map(c -> c.getComponent())
                 .collect(Collectors.toMap(k -> k.getId().get(), v -> v.isVisible()));
 
@@ -58,7 +59,8 @@ public class BindVisibleIntegrationTest {
         BindingContext bindingContext = new BindingContext();
         Map<String, Boolean> uiElements = UiCreator
                 .createUiElements(new TestWithBindVisibleFieldsPmo(),
-                                  bindingContext, c -> new FormItemComponentWrapper((Component)c))
+                                  bindingContext,
+                                  c -> new NoLabelComponentWrapper((Component)c))
                 .map(c -> c.getComponent())
                 .collect(Collectors.toMap(k -> k.getId().get(), v -> v.isVisible()));
 
@@ -66,7 +68,8 @@ public class BindVisibleIntegrationTest {
 
         uiElements = UiCreator
                 .createUiElements(new TestWithBindVisibleFieldsPmo(false),
-                                  bindingContext, c -> new FormItemComponentWrapper((Component)c))
+                                  bindingContext,
+                                  c -> new NoLabelComponentWrapper((Component)c))
                 .map(c -> c.getComponent())
                 .collect(Collectors.toMap(k -> k.getId().get(), v -> v.isVisible()));
 

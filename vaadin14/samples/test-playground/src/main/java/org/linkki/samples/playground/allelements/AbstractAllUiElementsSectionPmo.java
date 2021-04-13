@@ -17,11 +17,10 @@ package org.linkki.samples.playground.allelements;
 import java.util.Optional;
 
 import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
-import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
-import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly;
@@ -53,11 +52,13 @@ public abstract class AbstractAllUiElementsSectionPmo {
 
     public static final String CSS_NAME = "playground";
     public static final String PROPERTY_ALL_ELEMENTS_REQUIRED = "allElementsRequired";
+    public static final String PROPERTY_ALL_ELEMENTS_VISIBLE = "allElementsVisible";
 
     private final AllUiElementsModelObject modelObject = new AllUiElementsModelObject();
 
     private boolean readOnly;
-    private boolean required = false;
+    private boolean required;
+    private boolean visible = true;
 
     @ModelObject
     public AllUiElementsModelObject getModelObject() {
@@ -65,8 +66,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @SectionHeader
-    @UIComboBox(position = -90, label = "", width = "9em", //
-            content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, itemCaptionProvider = RequiredCaptionProvider.class)
+    @UICheckBox(position = -90, caption = "required")
     public boolean isAllElementsRequired() {
         return required;
     }
@@ -75,114 +75,182 @@ public abstract class AbstractAllUiElementsSectionPmo {
         this.required = required;
     }
 
+    @SectionHeader
+    @UICheckBox(position = -80, caption = "read-only")
+    public boolean isAllElementsReadOnly() {
+        return readOnly;
+    }
+
+    public void setAllElementsReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
+    @SectionHeader
+    @UICheckBox(position = -70, caption = "visible")
+    public boolean isAllElementsVisible() {
+        return visible;
+    }
+
+    public void setAllElementsVisible(boolean visible) {
+        this.visible = visible;
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UITextField(position = 10, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_TEXT, required = RequiredType.DYNAMIC)
+    @UITextField(position = 10, label = NlsText.I18n, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_TEXT, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void text() {
         // model binding
     }
 
     public boolean isTextRequired() {
-        return required;
+        return isAllElementsRequired();
     }
 
     public boolean isTextReadOnly() {
-        return isReadOnly();
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isTextVisible() {
+        return isAllElementsVisible();
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UITextArea(position = 20, height = "5em", label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_LONGTEXT, required = RequiredType.DYNAMIC)
+    @UITextArea(position = 20, height = "5em", label = NlsText.I18n, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_LONGTEXT, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void longText() {
         // model binding
     }
 
     public boolean isLongTextRequired() {
-        return required;
+        return isAllElementsRequired();
     }
 
     public boolean isLongTextReadOnly() {
-        return isReadOnly();
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isLongTextVisible() {
+        return isAllElementsVisible();
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIIntegerField(position = 30, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_INTVALUE, required = RequiredType.DYNAMIC)
+    @UIIntegerField(position = 30, label = NlsText.I18n, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_INTVALUE, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void intValue() {
         // model binding
     }
 
     public boolean isIntValueRequired() {
-        return required;
+        return isAllElementsRequired();
     }
 
     public boolean isIntValueReadOnly() {
-        return isReadOnly();
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isIntValueVisible() {
+        return isAllElementsVisible();
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIDoubleField(position = 40, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DOUBLEVALUE, required = RequiredType.DYNAMIC)
+    @UIDoubleField(position = 40, label = NlsText.I18n, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_DOUBLEVALUE, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void doubleValue() {
         // model binding
     }
 
     public boolean isDoubleValueRequired() {
-        return required;
+        return isAllElementsRequired();
     }
 
     public boolean isDoubleValueReadOnly() {
-        return isReadOnly();
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isDoubleValueVisible() {
+        return isAllElementsVisible();
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIDateField(position = 50, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DATE, required = RequiredType.DYNAMIC)
+    @UIDateField(position = 50, label = NlsText.I18n, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_DATE, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void date() {
         // model binding
     }
 
     public boolean isDateRequired() {
-        return required;
+        return isAllElementsRequired();
     }
 
     public boolean isDateReadOnly() {
-        return isReadOnly();
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isDateVisible() {
+        return isAllElementsVisible();
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIComboBox(position = 60, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE, required = RequiredType.DYNAMIC)
+    @UIComboBox(position = 60, label = NlsText.I18n, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void enumValueComboBox() {
         // model binding
     }
 
     public boolean isEnumValueComboBoxRequired() {
-        return required;
+        return isAllElementsRequired();
     }
 
     public boolean isEnumValueComboBoxReadOnly() {
-        return isReadOnly();
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isEnumValueComboBoxVisible() {
+        return isAllElementsVisible();
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UICheckBox(position = 70, caption = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_BOOLEANVALUE, required = RequiredType.DYNAMIC)
+    @UICheckBox(position = 70, caption = NlsText.I18n, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_BOOLEANVALUE, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void booleanValue() {
         // model binding
     }
 
     public boolean isBooleanValueRequired() {
-        return required;
+        return isAllElementsRequired();
     }
 
     public boolean isBooleanValueReadOnly() {
-        return isReadOnly();
+        return isAllElementsReadOnly();
     }
 
-    @UILabel(position = 80, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, styleNames = {
-            "firstStyleName", "anotherStyleName" })
+    public boolean isBooleanValueVisible() {
+        return isAllElementsVisible();
+    }
+
+    @UILabel(position = 80, label = NlsText.I18n, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, //
+            styleNames = { "firstStyleName", "anotherStyleName" }, visible = VisibleType.DYNAMIC)
     public void textLabel() {
         // model binding
+    }
+
+    public boolean isTextLabelVisible() {
+        return isAllElementsVisible();
     }
 
     /**
      * No label in Nls to test default behavior of no label
      */
-    @UILabel(position = 81, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_BIG_DECIMAL)
+    @UILabel(position = 81, label = NlsText.I18n, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_BIG_DECIMAL)
     public void bigDecimalLabel() {
         // model binding
     }
@@ -210,69 +278,83 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UICustomField(position = 90, label = NlsText.I18n, uiControl = PasswordField.class, modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, required = RequiredType.DYNAMIC)
+    @UICustomField(position = 90, label = NlsText.I18n, uiControl = PasswordField.class, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void secret() {
         // model binding
     }
 
     public boolean isSecretRequired() {
-        return required;
+        return isAllElementsRequired();
     }
 
     public boolean isSecretReadOnly() {
-        return isReadOnly();
+        return isAllElementsReadOnly();
     }
 
-    @UINestedComponent(position = 100, label = NlsText.I18n)
-    public ButtonPmo buttons() {
-        return new ButtonPmo();
+    public boolean isSecretVisible() {
+        return isAllElementsVisible();
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIDecimalField(position = 110, label = NlsText.I18n, modelAttribute = AllUiElementsModelObject.PROPERTY_DECIMALVALUE, required = RequiredType.DYNAMIC)
+    @UIDecimalField(position = 110, label = NlsText.I18n, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_DECIMALVALUE, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void decimalValue() {
         // model binding
     }
 
     public boolean isDecimalValueRequired() {
-        return required;
+        return isAllElementsRequired();
     }
 
     public boolean isDecimalValueReadOnly() {
-        return isReadOnly();
+        return isAllElementsReadOnly();
+    }
+
+    public boolean isDecimalValueVisible() {
+        return isAllElementsVisible();
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIRadioButtons(position = 120, label = NlsText.I18n, buttonAlignment = AlignmentType.HORIZONTAL, modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE, required = RequiredType.DYNAMIC)
+    @UIRadioButtons(position = 120, label = NlsText.I18n, buttonAlignment = AlignmentType.HORIZONTAL, //
+            modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE, //
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void enumValueRadioButton() {
         // model binding
     }
 
     public boolean isEnumValueRadioButtonRequired() {
-        return required;
+        return isAllElementsRequired();
     }
 
     public boolean isEnumValueRadioButtonReadOnly() {
-        return isReadOnly();
+        return isAllElementsReadOnly();
     }
 
-    @UICheckBox(position = 130, caption = NlsText.I18n)
-    public boolean isReadOnly() {
-        return readOnly;
-    }
-
-    public void setReadOnly(boolean readOnly) {
-        this.readOnly = readOnly;
+    public boolean isEnumValueRadioButtonVisible() {
+        return isAllElementsVisible();
     }
 
     @BindIcon(iconType = IconType.DYNAMIC)
-    @UILink(position = 140, label = NlsText.I18n, caption = "Link to Dynamic Annotations", captionType = CaptionType.STATIC)
+    @UILink(position = 140, label = NlsText.I18n, caption = "Link to Dynamic Annotations", //
+            captionType = CaptionType.STATIC, visible = VisibleType.DYNAMIC)
     public String getLink() {
         return "main#!/sheet=" + DynamicAnnotationsLayout.ID;
     }
 
     public VaadinIcon getLinkIcon() {
         return Optional.ofNullable(getModelObject().getEnumValue()).map(Direction::getIcon).orElse(null);
+    }
+
+    public boolean isLinkVisible() {
+        return isAllElementsVisible();
+    }
+
+    @UINestedComponent(position = 150, label = NlsText.I18n)
+    public ButtonPmo buttons() {
+        return new ButtonPmo();
     }
 
     @UISection(caption = NlsText.I18n)
@@ -284,17 +366,5 @@ public abstract class AbstractAllUiElementsSectionPmo {
     @UIFormSection(caption = NlsText.I18n)
     public static class AllUiElementsUiFormSectionPmo extends AbstractAllUiElementsSectionPmo {
         // no content needed
-    }
-
-    public static class RequiredCaptionProvider implements ItemCaptionProvider<Boolean> {
-
-        public static final String REQUIRED = "required";
-        public static final String NOT_REQUIRED = "not required";
-
-        @Override
-        public String getCaption(Boolean required) {
-            return required ? REQUIRED : NOT_REQUIRED;
-        }
-
     }
 }

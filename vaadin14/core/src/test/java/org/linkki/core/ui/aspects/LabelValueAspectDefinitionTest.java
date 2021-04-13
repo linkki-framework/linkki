@@ -26,7 +26,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.mock.MockUi;
-import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
@@ -47,7 +47,7 @@ public class LabelValueAspectDefinitionTest {
     public void testCreateComponentValueSetter_SetsString() {
         Div label = new Div();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
-                .createComponentValueSetter(new FormItemComponentWrapper(label));
+                .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         valueSetter.accept("foo");
 
@@ -59,7 +59,7 @@ public class LabelValueAspectDefinitionTest {
     public void testCreateComponentValueSetter_UsesToString() {
         Div label = new Div();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
-                .createComponentValueSetter(new FormItemComponentWrapper(label));
+                .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         valueSetter.accept(new Object() {
             @Override
@@ -75,7 +75,7 @@ public class LabelValueAspectDefinitionTest {
     public void testCreateComponentValueSetter_UsesStandardConverter() {
         Div label = new Div();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
-                .createComponentValueSetter(new FormItemComponentWrapper(label));
+                .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         valueSetter.accept(Integer.valueOf(123456));
 
@@ -87,7 +87,7 @@ public class LabelValueAspectDefinitionTest {
     public void testCreateComponentValueSetter_UsesStandardConverter_DependingOnUiLocale() {
         Div label = new Div();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
-                .createComponentValueSetter(new FormItemComponentWrapper(label));
+                .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         UI ui = MockUi.mockUi();
         when(ui.getLocale()).thenReturn(Locale.US);
@@ -101,7 +101,7 @@ public class LabelValueAspectDefinitionTest {
     public void testCreateComponentValueSetter_UsesCustomConverter() {
         Div label = new Div();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition(false)
-                .createComponentValueSetter(new FormItemComponentWrapper(label));
+                .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
 
         LinkkiConverterRegistry converterRegistry = LinkkiConverterRegistry.DEFAULT
@@ -134,7 +134,7 @@ public class LabelValueAspectDefinitionTest {
     public void testCreateComponentValueSetter_HtmlContent() {
         Div label = new Div();
         Consumer<Object> valueSetter = new LabelValueAspectDefinition(true)
-                .createComponentValueSetter(new FormItemComponentWrapper(label));
+                .createComponentValueSetter(new NoLabelComponentWrapper(label));
 
         valueSetter.accept("<i>foo</i>");
 

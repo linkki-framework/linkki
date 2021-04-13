@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
-import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 
@@ -37,7 +37,7 @@ public class IconAspectDefinitionTest {
     public void testCreateComponentValueSetter_Button() {
         IconAspectDefinition iconAspectDefinition = new IconAspectDefinition(IconType.STATIC, VaadinIcon.ABACUS);
         Button button = ComponentFactory.newButton();
-        ComponentWrapper componentWrapper = new FormItemComponentWrapper(button);
+        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(button);
 
         Consumer<VaadinIcon> componentValueSetter = iconAspectDefinition.createComponentValueSetter(componentWrapper);
 
@@ -54,7 +54,7 @@ public class IconAspectDefinitionTest {
 
         assertThat(anchor.getIcon(), is(nullValue()));
 
-        ComponentWrapper componentWrapper = new FormItemComponentWrapper(anchor);
+        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(anchor);
 
         Consumer<VaadinIcon> componentValueSetter = iconAspectDefinition.createComponentValueSetter(componentWrapper);
 

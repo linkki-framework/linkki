@@ -29,13 +29,14 @@ import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.ComponentAnnotationReader;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayoutDefinition;
+import org.linkki.core.vaadin.component.base.LinkkiFormLayout.LabelComponentFormItem;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.BaseSection;
 import org.linkki.core.vaadin.component.section.GridSection;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.Label;
 
 /**
  * Defines how UI components are added to an {@link AbstractSection}.
@@ -102,12 +103,17 @@ public enum SectionLayoutDefinition implements LinkkiLayoutDefinition {
     }
 
     void addSectionComponent(Method method, BaseSection section, Object pmo, BindingContext bindingContext) {
-        Span label = new Span();
-        FormItemComponentWrapper wrapper = UiCreator.createUiElement(method, pmo, bindingContext,
-                                                                     c -> new FormItemComponentWrapper(label,
-                                                                             (Component)c));
+        UiCreator.createUiElement(method, pmo, bindingContext,
+                                  c -> createFormItemAndAddToSection(section, new Label(), (Component)c));
+    }
 
-        section.add(label, wrapper.getComponent());
+    private FormItemComponentWrapper createFormItemAndAddToSection(BaseSection section,
+            Label label,
+            Component component) {
+        LabelComponentFormItem formItem = new LabelComponentFormItem(component, label);
+        FormItemComponentWrapper wrapper = new FormItemComponentWrapper(formItem);
+        section.addContent(formItem);
+        return wrapper;
     }
 
     private void createTable(Object parentComponent, Object pmo, BindingContext bindingContext) {

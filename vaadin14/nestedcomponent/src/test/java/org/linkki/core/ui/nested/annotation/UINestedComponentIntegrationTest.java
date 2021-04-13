@@ -30,6 +30,7 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.VerticalAlignment;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.vaadin.component.base.LinkkiFormLayout.LabelComponentFormItem;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
 
 import com.vaadin.flow.component.Component;
@@ -69,14 +70,14 @@ public class UINestedComponentIntegrationTest {
         BindingContext bindingContext = new BindingContext();
         FormLayoutSection component = (FormLayoutSection)VaadinUiCreator.createComponent(pmo,
                                                                                          bindingContext);
-        Component nestedComponent = getChild(component.getSectionContent(), 1);
+        LabelComponentFormItem nestedComponent = (LabelComponentFormItem)getChild(component.getSectionContent(), 1);
 
-        assertThat(nestedComponent.getChildren().allMatch(Component::isVisible), is(true));
+        assertThat(nestedComponent.isVisible(), is(true));
 
         pmo.setVisible(false);
         bindingContext.modelChanged();
 
-        assertThat(nestedComponent.getChildren().noneMatch(Component::isVisible), is(true));
+        assertThat(nestedComponent.isVisible(), is(false));
     }
 
     private static Component getChild(Component parent, int i) {

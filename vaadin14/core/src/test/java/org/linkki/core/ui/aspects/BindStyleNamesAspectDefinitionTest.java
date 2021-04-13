@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
-import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
 import com.vaadin.flow.component.HasStyle;
@@ -70,7 +70,7 @@ public class BindStyleNamesAspectDefinitionTest {
         String styleName = "bar";
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleName);
         Button button = ComponentFactory.newButton();
-        ComponentWrapper componentWrapper = new FormItemComponentWrapper(button);
+        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(button);
         Consumer<Object> componentValueSetter = aspectDefinition.createComponentValueSetter(componentWrapper);
 
         componentValueSetter.accept(styleName);
@@ -83,7 +83,7 @@ public class BindStyleNamesAspectDefinitionTest {
         String styleNames = "foo bar";
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleNames);
         Button button = ComponentFactory.newButton();
-        ComponentWrapper componentWrapper = new FormItemComponentWrapper(button);
+        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(button);
         Consumer<Object> componentValueSetter = aspectDefinition.createComponentValueSetter(componentWrapper);
 
         componentValueSetter.accept(styleNames);
@@ -97,7 +97,7 @@ public class BindStyleNamesAspectDefinitionTest {
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleNames);
         Button button = ComponentFactory.newButton();
         button.setClassName("predefinedStyleName");
-        ComponentWrapper componentWrapper = new FormItemComponentWrapper(button);
+        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(button);
         Consumer<Object> componentValueSetter = aspectDefinition.createComponentValueSetter(componentWrapper);
 
         componentValueSetter.accept(styleNames);
@@ -109,7 +109,7 @@ public class BindStyleNamesAspectDefinitionTest {
     public void testCreateComponentValueSetter_Button_ClassCastException() {
         String[] styleNames = new String[] { "foo", "bar" };
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleNames);
-        ComponentWrapper componentWrapper = new FormItemComponentWrapper(ComponentFactory.newButton());
+        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(ComponentFactory.newButton());
         Consumer<Object> componentValueSetter = aspectDefinition.createComponentValueSetter(componentWrapper);
 
         // styleNames should be either String or Collection<String>
@@ -120,7 +120,7 @@ public class BindStyleNamesAspectDefinitionTest {
     public void testCreateComponentValueSetter_CustomField_ShouldThrowException() {
         String styleNames = "foo bar";
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleNames);
-        ComponentWrapper componentWrapper = new FormItemComponentWrapper(new CustomNoStyleField());
+        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(new CustomNoStyleField());
 
         Assertions.assertThrows(IllegalArgumentException.class,
                                 () -> aspectDefinition.createComponentValueSetter(componentWrapper));
@@ -131,7 +131,7 @@ public class BindStyleNamesAspectDefinitionTest {
         String styleNames = "foo bar";
         BindStyleNamesAspectDefinition aspectDefinition = new BindStyleNamesAspectDefinition(styleNames);
         CustomHasStyleField customHasStyleField = new CustomHasStyleField();
-        ComponentWrapper componentWrapper = new FormItemComponentWrapper(customHasStyleField);
+        ComponentWrapper componentWrapper = new NoLabelComponentWrapper(customHasStyleField);
         Consumer<Object> componentValueSetter = aspectDefinition.createComponentValueSetter(componentWrapper);
 
         componentValueSetter.accept(styleNames);

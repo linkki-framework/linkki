@@ -48,7 +48,7 @@ import org.w3c.dom.Element;
 
 /**
  * Implementation for IpsModelObject.
- *
+ * 
  * @generated
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
@@ -59,20 +59,20 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Error code for rule checkDecimal.
-     *
+     * 
      * @generated
      */
     public static final String MSG_CODE_CHECK_DECIMAL = "INVALID_DECIMAL";
 
     /**
      * The name of the property decimal.
-     *
+     * 
      * @generated
      */
     public static final String PROPERTY_DECIMAL = "decimal";
     /**
      * Max allowed range for the property decimal.
-     *
+     * 
      * @generated
      */
     public static final DecimalRange MAX_ALLOWED_RANGE_FOR_DECIMAL = DecimalRange

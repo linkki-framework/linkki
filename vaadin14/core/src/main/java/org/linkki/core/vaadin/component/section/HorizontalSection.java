@@ -14,7 +14,7 @@
 package org.linkki.core.vaadin.component.section;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 /**
@@ -46,12 +46,7 @@ public class HorizontalSection extends BaseSection {
     }
 
     @Override
-    public void add(Span label, Component component) {
-        add(label);
-        add(component);
-    }
-
-    public void add(Component component) {
+    public void addContent(FormItem component) {
         content.add(component);
         content.setVerticalComponentAlignment(Alignment.CENTER, component);
 

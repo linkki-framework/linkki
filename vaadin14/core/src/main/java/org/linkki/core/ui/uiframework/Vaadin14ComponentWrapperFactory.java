@@ -16,17 +16,18 @@ package org.linkki.core.ui.uiframework;
 
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.ComponentWrapperFactory;
-import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 
 import com.vaadin.flow.component.Component;
 
 /**
  * {@link ComponentWrapperFactory} for Vaadin 8 {@link Component Components}.
  */
-public enum Vaadin8ComponentWrapperFactory implements ComponentWrapperFactory {
+public enum Vaadin14ComponentWrapperFactory implements ComponentWrapperFactory {
 
     /**
-     * The singleton instance of {@link Vaadin8ComponentWrapperFactory}.
+     * The singleton instance of {@link Vaadin14ComponentWrapperFactory}.
      */
     INSTANCE;
 
@@ -43,7 +44,7 @@ public enum Vaadin8ComponentWrapperFactory implements ComponentWrapperFactory {
 
     @Override
     public ComponentWrapper createComponentWrapper(Object component) {
-        return new FormItemComponentWrapper((Component)component);
+        return new NoLabelComponentWrapper((Component)component, WrapperType.FIELD);
     }
 
 }

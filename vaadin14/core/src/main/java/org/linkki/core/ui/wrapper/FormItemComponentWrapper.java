@@ -14,20 +14,15 @@
 
 package org.linkki.core.ui.wrapper;
 
-import java.util.Optional;
-
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.style.LinkkiTheme;
+import org.linkki.core.vaadin.component.base.LinkkiFormLayout.LabelComponentFormItem;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.Span;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Implementation of the {@link ComponentWrapper} with a Vaadin {@link Component} and a {@link Label}
@@ -37,44 +32,32 @@ public class FormItemComponentWrapper extends VaadinComponentWrapper {
 
     private static final long serialVersionUID = 1L;
 
-    @CheckForNull
-    private final Span label;
+    private final LabelComponentFormItem formItem;
 
-    public FormItemComponentWrapper(Component component) {
-        this(null, component);
+    public FormItemComponentWrapper(LabelComponentFormItem formItem) {
+        super(formItem.getComponent(), WrapperType.FIELD);
+        this.formItem = formItem;
+        formItem.getLabel().addClassName(LinkkiTheme.COMPONENTWRAPPER_LABEL);
     }
-
-    public FormItemComponentWrapper(@CheckForNull Span label, Component component) {
-        super(component, WrapperType.FIELD);
-        this.label = label;
-        if (this.label != null) {
-            this.label.addClassName(LinkkiTheme.COMPONENTWRAPPER_LABEL);
-        }
-    }
-
-    @Override
-    public void postUpdate() {
-        getLabelComponent().ifPresent(l -> {
-            l.setEnabled(((HasEnabled)getComponent()).isEnabled());
-            l.setVisible(getComponent().isVisible());
-        });
-    }
-
 
     @Override
     public void setLabel(String labelText) {
-        if (label != null) {
-            label.setText(labelText);
-        }
+        formItem.setLabel(labelText);
     }
 
-    public Optional<Span> getLabelComponent() {
-        return Optional.ofNullable(label);
+    public Label getLabelComponent() {
+        return formItem.getLabel();
     }
 
     @Override
-    public String toString() {
-        return Optional.ofNullable(label).map(Span::getText).orElse("<no label>") + "("
-                + getComponent().getClass().getSimpleName() + ")";
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        formItem.setVisible(visible);
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        formItem.setEnabled(enabled);
     }
 }

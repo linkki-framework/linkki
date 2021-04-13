@@ -24,7 +24,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.dispatcher.PropertyDispatcherFactory;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.ui.aspects.annotation.BindReadOnly.ReadOnlyType;
-import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValue;
@@ -32,7 +32,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 
 public class BindReadOnlyAspectDefinitionTest {
 
-    private PropertyDispatcher dispatcher = new PropertyDispatcherFactory()
+    private final PropertyDispatcher dispatcher = new PropertyDispatcherFactory()
             .createDispatcherChain(new TestObject(), BoundProperty.empty(),
                                    PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
 
@@ -94,7 +94,7 @@ public class BindReadOnlyAspectDefinitionTest {
     }
 
     private void createUiUpdaterAndApplyIt(HasValue<?, ?> field, LinkkiAspectDefinition aspectDefinition) {
-        aspectDefinition.createUiUpdater(dispatcher, new FormItemComponentWrapper((Component)field)).apply();
+        aspectDefinition.createUiUpdater(dispatcher, new NoLabelComponentWrapper((Component)field)).apply();
     }
 
     private static class TestObject {

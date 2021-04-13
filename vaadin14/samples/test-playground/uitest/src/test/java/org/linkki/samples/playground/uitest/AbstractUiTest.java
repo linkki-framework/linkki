@@ -29,6 +29,7 @@ import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.testbench.ButtonElement;
+import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -128,6 +129,20 @@ public class AbstractUiTest extends TestBenchTestCase {
      */
     public void typeInTextBox(String id, String value) {
         $(TextFieldElement.class).id(id).sendKeys(value);
+    }
+
+    public void selectCheckbox(String id) {
+        CheckboxElement checkboxElement = $(CheckboxElement.class).id(id);
+        if (!checkboxElement.isChecked()) {
+            checkboxElement.click();
+        }
+    }
+
+    public void unselectCheckbox(String id) {
+        CheckboxElement checkboxElement = $(CheckboxElement.class).id(id);
+        if (checkboxElement.isChecked()) {
+            checkboxElement.click();
+        }
     }
 
     /**

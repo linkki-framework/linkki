@@ -41,7 +41,7 @@ public class Vaadin14 implements UiFrameworkExtension {
 
     @Override
     public ComponentWrapperFactory getComponentWrapperFactory() {
-        return Vaadin8ComponentWrapperFactory.INSTANCE;
+        return Vaadin14ComponentWrapperFactory.INSTANCE;
     }
 
     @Override

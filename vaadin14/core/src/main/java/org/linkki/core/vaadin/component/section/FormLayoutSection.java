@@ -17,9 +17,9 @@ import org.linkki.core.vaadin.component.base.LinkkiFormLayout;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep.LabelsPosition;
-import com.vaadin.flow.component.html.Span;
 
 public class FormLayoutSection extends BaseSection {
 
@@ -56,10 +56,9 @@ public class FormLayoutSection extends BaseSection {
      * {@link FormLayout} uses the {@link Component}'s caption.
      */
     @Override
-    public void add(Span label, Component component) {
-        content.addFormItem(component, label);
+    public void addContent(FormItem component) {
+        content.add(component);
     }
-
 
     @Override
     public FormLayout getSectionContent() {

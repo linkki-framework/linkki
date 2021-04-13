@@ -24,8 +24,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
-import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.section.FormLayoutSection;
@@ -35,7 +36,7 @@ import com.vaadin.flow.component.AbstractSinglePropertyField;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.internal.AbstractFieldSupport;
 import com.vaadin.flow.data.binder.HasItems;
 
@@ -55,7 +56,10 @@ public final class TestUiUtil {
     }
 
     public static Component createFirstComponentOf(Object pmo, BindingContext bindingContext) {
-        return UiCreator.createUiElements(pmo, bindingContext, c -> new FormItemComponentWrapper((Component)c)).findFirst()
+        return UiCreator
+                .createUiElements(pmo, bindingContext,
+                                  c -> new NoLabelComponentWrapper((Component)c, WrapperType.FIELD))
+                .findFirst()
                 .get().getComponent();
     }
 
@@ -92,7 +96,7 @@ public final class TestUiUtil {
     public static String getLabelOfComponentAt(FormLayout layout, int row) {
         List<Component> children = layout.getChildren().collect(Collectors.toList());
         FormItem formItem = (FormItem)children.get(row);
-        return ((Span)formItem.getChildren().collect(Collectors.toList()).get(1)).getText();
+        return ((Label)formItem.getChildren().collect(Collectors.toList()).get(1)).getText();
     }
 
     @SuppressWarnings("unused")

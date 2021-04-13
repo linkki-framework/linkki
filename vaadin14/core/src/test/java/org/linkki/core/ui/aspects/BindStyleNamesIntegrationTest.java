@@ -32,7 +32,7 @@ import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.core.ui.wrapper.FormItemComponentWrapper;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 
@@ -46,9 +46,10 @@ public class BindStyleNamesIntegrationTest {
     @Test
     public void testCreateAspect_static_single() {
         BindingContext bindingContext = new BindingContext();
-        List<FormItemComponentWrapper> uiElements = UiCreator
+        List<NoLabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(new TestPmoWithStaticStyleName(),
-                                  bindingContext, c -> new FormItemComponentWrapper((Component)c))
+                                  bindingContext,
+                                  c -> new NoLabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
 
         assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(),
@@ -58,9 +59,10 @@ public class BindStyleNamesIntegrationTest {
     @Test
     public void testCreateAspect_static_multiple() {
         BindingContext bindingContext = new BindingContext();
-        List<FormItemComponentWrapper> uiElements = UiCreator
+        List<NoLabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(new TestPmoWithStaticStyleNames(),
-                                  bindingContext, c -> new FormItemComponentWrapper((Component)c))
+                                  bindingContext,
+                                  c -> new NoLabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
 
         assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(),
@@ -71,11 +73,11 @@ public class BindStyleNamesIntegrationTest {
     @Test
     public void testCreateAspect_KeepPreviouslySpecifiedStaticStyles() {
         BindingContext bindingContext = new BindingContext();
-        List<FormItemComponentWrapper> uiElements = UiCreator
+        List<NoLabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(new TestPmoWithStaticStyleNames(),
                                   bindingContext, c -> {
                                       ((HasStyle)c).setClassName(MY_STYLE);
-                                      return new FormItemComponentWrapper((Component)c);
+                                      return new NoLabelComponentWrapper((Component)c);
                                   })
                 .collect(Collectors.toList());
         bindingContext.modelChanged();
@@ -89,8 +91,9 @@ public class BindStyleNamesIntegrationTest {
     public void testCreateAspect_dynamic_single() {
         BindingContext bindingContext = new BindingContext();
         TestPmoWithDynamicStyleName pmo = new TestPmoWithDynamicStyleName("style");
-        List<FormItemComponentWrapper> uiElements = UiCreator
-                .createUiElements(pmo, bindingContext, c -> new FormItemComponentWrapper((Component)c))
+        List<NoLabelComponentWrapper> uiElements = UiCreator
+                .createUiElements(pmo, bindingContext,
+                                  c -> new NoLabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
         assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is("style"));
 
@@ -103,8 +106,9 @@ public class BindStyleNamesIntegrationTest {
     public void testCreateAspect_dynamic_multiple() {
         BindingContext bindingContext = new BindingContext();
         TestPmoWithDynamicStyleNames pmo = new TestPmoWithDynamicStyleNames("style1", "style2");
-        List<FormItemComponentWrapper> uiElements = UiCreator
-                .createUiElements(pmo, bindingContext, c -> new FormItemComponentWrapper((Component)c))
+        List<NoLabelComponentWrapper> uiElements = UiCreator
+                .createUiElements(pmo, bindingContext,
+                                  c -> new NoLabelComponentWrapper((Component)c))
                 .collect(Collectors.toList());
         assertThat(((HasStyle)uiElements.get(0).getComponent()).getClassName(), is("style1 style2"));
 
@@ -117,10 +121,10 @@ public class BindStyleNamesIntegrationTest {
     public void testCreateAspect_KeepPreviouslySpecifiedDynamicSingleStyle() {
         BindingContext bindingContext = new BindingContext();
         TestPmoWithDynamicStyleName pmo = new TestPmoWithDynamicStyleName("style1");
-        List<FormItemComponentWrapper> uiElements = UiCreator
+        List<NoLabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> {
                     ((HasStyle)c).setClassName(MY_STYLE);
-                    return new FormItemComponentWrapper((Component)c);
+                    return new NoLabelComponentWrapper((Component)c);
                 })
                 .collect(Collectors.toList());
 
@@ -134,10 +138,10 @@ public class BindStyleNamesIntegrationTest {
     public void testCreateAspect_KeepPreviouslySpecifiedDynamicStyles() {
         BindingContext bindingContext = new BindingContext();
         TestPmoWithDynamicStyleNames pmo = new TestPmoWithDynamicStyleNames("style1", "style2");
-        List<FormItemComponentWrapper> uiElements = UiCreator
+        List<NoLabelComponentWrapper> uiElements = UiCreator
                 .createUiElements(pmo, bindingContext, c -> {
                     ((HasStyle)c).setClassName(MY_STYLE);
-                    return new FormItemComponentWrapper((Component)c);
+                    return new NoLabelComponentWrapper((Component)c);
                 })
                 .collect(Collectors.toList());
 
@@ -154,7 +158,8 @@ public class BindStyleNamesIntegrationTest {
         TestPmoMissingDynamicStyleNamesMethod pmo = new TestPmoMissingDynamicStyleNamesMethod();
 
         Assertions.assertThrows(LinkkiBindingException.class, () -> {
-            UiCreator.createUiElements(pmo, bindingContext, c -> new FormItemComponentWrapper((Component)c))
+            UiCreator
+                    .createUiElements(pmo, bindingContext, c -> new NoLabelComponentWrapper((Component)c))
                     .collect(Collectors.toList());
         });
 

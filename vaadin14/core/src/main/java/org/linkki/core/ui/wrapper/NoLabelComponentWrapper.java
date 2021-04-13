@@ -30,6 +30,10 @@ public class NoLabelComponentWrapper extends VaadinComponentWrapper {
         super(component, type);
     }
 
+    public NoLabelComponentWrapper(Component component) {
+        this(component, WrapperType.FIELD);
+    }
+
     @Override
     public void setLabel(String labelText) {
         // no label supported

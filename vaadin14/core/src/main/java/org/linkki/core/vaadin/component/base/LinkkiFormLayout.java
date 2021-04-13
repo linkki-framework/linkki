@@ -14,6 +14,8 @@
 
 package org.linkki.core.vaadin.component.base;
 
+import static java.util.Objects.requireNonNull;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValidation;
 import com.vaadin.flow.component.HasValue;
@@ -33,12 +35,7 @@ public class LinkkiFormLayout extends FormLayout {
 
     @Override
     public LabelComponentFormItem addFormItem(Component field, String label) {
-        return addFormItem(field, new Label(label));
-    }
-
-    @Override
-    public LabelComponentFormItem addFormItem(Component field, Component label) {
-        LabelComponentFormItem formItem = new LabelComponentFormItem(field, label);
+        LabelComponentFormItem formItem = new LabelComponentFormItem(field, new Label(label));
         add(formItem);
         return formItem;
     }
@@ -51,6 +48,9 @@ public class LinkkiFormLayout extends FormLayout {
 
         private static final long serialVersionUID = 1L;
 
+        private final Label label;
+        private final Component component;
+
         /**
          * Constructs a new {@link LabelComponentFormItem} which inherits required status indicator from
          * the component wrapped in it.
@@ -58,7 +58,10 @@ public class LinkkiFormLayout extends FormLayout {
          * @param component The field component
          * @param label The label
          */
-        public LabelComponentFormItem(Component component, Component label) {
+        public LabelComponentFormItem(Component component, Label label) {
+            this.component = requireNonNull(component, "component must not be null");
+            this.label = requireNonNull(label, "label must not be null");
+
             add(component);
             addToLabel(label);
 
@@ -79,6 +82,23 @@ public class LinkkiFormLayout extends FormLayout {
                                                                                                    .isInvalid()));
                 }
             }
+        }
+
+        public Component getComponent() {
+            return component;
+        }
+
+        public Label getLabel() {
+            return label;
+        }
+
+        public void setLabel(String text) {
+            label.setText(text);
+        }
+
+        @Override
+        public String toString() {
+            return label.getText() + "(" + getComponent().getClass().getSimpleName() + ")";
         }
     }
 }

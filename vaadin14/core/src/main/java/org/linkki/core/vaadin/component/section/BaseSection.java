@@ -15,8 +15,7 @@ package org.linkki.core.vaadin.component.section;
 
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
 
 /**
  * Base class for sections that are supported by the {@link PmoBasedSectionFactory}.
@@ -26,7 +25,7 @@ public abstract class BaseSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates a new section with the given caption that is not closeable.
+     * Creates a new section with the given caption that is not closable.
      * 
      * @param caption the caption
      */
@@ -45,12 +44,10 @@ public abstract class BaseSection extends AbstractSection {
     }
 
     /**
-     * Adds the given label / component pair to the section.
+     * Adds the given Component to the content of this section.
      * 
-     * @param label the label that should be placed beside the component.
-     * @param component the component that should be added to the section
-     * 
+     * @param component the component to add
      */
-    public abstract void add(Span label, Component component);
+    public abstract void addContent(FormItem component);
 
 }
