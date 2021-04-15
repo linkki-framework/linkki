@@ -48,7 +48,7 @@ import org.w3c.dom.Element;
 
 /**
  * Implementation for IpsModelObject.
- * 
+ *
  * @generated
  */
 @IpsPolicyCmptType(name = "IpsModelObject")
@@ -59,27 +59,27 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Error code for rule checkDecimal.
-     * 
+     *
      * @generated
      */
     public static final String MSG_CODE_CHECK_DECIMAL = "INVALID_DECIMAL";
 
     /**
      * The name of the property decimal.
-     * 
+     *
      * @generated
      */
     public static final String PROPERTY_DECIMAL = "decimal";
     /**
      * Max allowed range for the property decimal.
-     * 
+     *
      * @generated
      */
     public static final DecimalRange MAX_ALLOWED_RANGE_FOR_DECIMAL = DecimalRange
             .valueOf(Decimal.valueOf("0"), Decimal.valueOf("100"), Decimal.valueOf("0.5"), false);
     /**
      * The name of the property string.
-     * 
+     *
      * @generated
      */
     public static final String PROPERTY_STRING = "string";
@@ -87,50 +87,50 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * The name of the property unrestrictedInclNull.
-     * 
+     *
      * @generated
      */
     public static final String PROPERTY_UNRESTRICTEDINCLNULL = "unrestrictedInclNull";
 
     /**
      * The name of the property unrestrictedExclNull.
-     * 
+     *
      * @generated
      */
     public static final String PROPERTY_UNRESTRICTEDEXCLNULL = "unrestrictedExclNull";
 
     /**
      * Max allowed values for property unrestrictedExclNull.
-     * 
+     *
      * @generated
      */
-    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL = new UnrestrictedValueSet<String>(
+    public static final ValueSet<String> MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL = new UnrestrictedValueSet<>(
             false);
 
     /**
      * The name of the property emptyValueSet.
-     * 
+     *
      * @generated
      */
     public static final String PROPERTY_EMPTYVALUESET = "emptyValueSet";
 
     /**
      * Max allowed values for property emptyValueSet.
-     * 
+     *
      * @generated
      */
-    public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<Marker>(
-            false, null);
+    public static final OrderedValueSet<Marker> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<>(false,
+            null);
 
     /**
      * Member variable for decimal.
-     * 
+     *
      * @generated
      */
     private Decimal decimal = Decimal.valueOf("42");
     /**
      * Member variable for string.
-     * 
+     *
      * @generated
      */
     private String string = null;
@@ -138,21 +138,21 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Member variable for unrestrictedInclNull.
-     * 
+     *
      * @generated
      */
     private String unrestrictedInclNull = "not required";
 
     /**
      * Member variable for unrestrictedExclNull.
-     * 
+     *
      * @generated
      */
     private String unrestrictedExclNull = "required";
 
     /**
      * Member variable for emptyValueSet.
-     * 
+     *
      * @generated
      */
     private Marker emptyValueSet = null;
@@ -160,7 +160,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Creates a new IpsModelObject.
-     * 
+     *
      * @generated
      */
     public IpsModelObject() {
@@ -170,7 +170,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the range of allowed values for the property decimal.
-     * 
+     *
      * @generated
      */
     @IpsAllowedValues("decimal")
@@ -180,7 +180,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the decimal.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "decimal", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Range)
@@ -190,7 +190,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute decimal.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("decimal")
@@ -200,7 +200,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the string.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "string", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
@@ -210,7 +210,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute string.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("string")
@@ -221,7 +221,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the unrestrictedInclNull.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "unrestrictedInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
@@ -232,7 +232,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute unrestrictedInclNull.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("unrestrictedInclNull")
@@ -243,7 +243,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the set of allowed values for the property unrestrictedExclNull.
-     * 
+     *
      * @generated
      */
     @IpsAllowedValues("unrestrictedExclNull")
@@ -254,7 +254,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the unrestrictedExclNull.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "unrestrictedExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
@@ -265,7 +265,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute unrestrictedExclNull.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("unrestrictedExclNull")
@@ -276,7 +276,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the set of allowed values for the property emptyValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAllowedValues("emptyValueSet")
@@ -287,7 +287,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Returns the emptyValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "emptyValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
@@ -298,7 +298,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute emptyValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("emptyValueSet")
@@ -398,8 +398,8 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
-     * Validates the object (but not it's children). Returns <code>true</code> if this object should
-     * continue validating, <code>false</code> else.
+     * Validates the object (but not its children). Returns <code>true</code> if this object should continue
+     * validating, <code>false</code> otherwise.
      *
      * @generated
      */
@@ -432,7 +432,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @param context the validation context
      * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should be
      *         stopped after processing this rule.
-     * 
+     *
      * @restrainedmodifiable
      */
     @IpsValidationRule(name = "checkDecimal", msgCode = MSG_CODE_CHECK_DECIMAL, severity = Severity.ERROR)
@@ -448,7 +448,7 @@ public class IpsModelObject extends AbstractModelObject {
 
     /**
      * Creates a message to indicate that the rule checkDecimal has found an invalid state.
-     * 
+     *
      * @generated
      */
     protected Message createMessageForRuleCheckDecimal(IValidationContext context, Object range, Object actual) {

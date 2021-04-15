@@ -22,7 +22,7 @@ import org.faktorips.runtime.IValidationContext;
 
 /**
  * Implementation for TestIpsObject.
- * 
+ *
  * @generated
  */
 @IpsPolicyCmptType(name = "TestIpsObject")
@@ -33,7 +33,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * The name of the property foo.
-     * 
+     *
      * @generated
      */
     public static final String PROPERTY_FOO = "foo";
@@ -41,7 +41,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * The name of the property valueSetInclNull.
-     * 
+     *
      * @generated
      */
     public static final String PROPERTY_VALUESETINCLNULL = "valueSetInclNull";
@@ -49,7 +49,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * The name of the property valueSetExclNull.
-     * 
+     *
      * @generated
      */
     public static final String PROPERTY_VALUESETEXCLNULL = "valueSetExclNull";
@@ -57,7 +57,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * The name of the property emptyValueSet.
-     * 
+     *
      * @generated
      */
     public static final String PROPERTY_EMPTYVALUESET = "emptyValueSet";
@@ -65,16 +65,16 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Max allowed values for property emptyValueSet.
-     * 
+     *
      * @generated
      */
-    public static final OrderedValueSet<MonthDay> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<MonthDay>(
-            false, null);
+    public static final OrderedValueSet<MonthDay> MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET = new OrderedValueSet<>(false,
+            null);
 
 
     /**
      * Member variable for foo.
-     * 
+     *
      * @generated
      */
     private String foo = null;
@@ -82,7 +82,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Member variable for valueSetInclNull.
-     * 
+     *
      * @generated
      */
     private Boolean valueSetInclNull = null;
@@ -90,7 +90,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Member variable for valueSetExclNull.
-     * 
+     *
      * @generated
      */
     private boolean valueSetExclNull = true;
@@ -98,7 +98,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Member variable for emptyValueSet.
-     * 
+     *
      * @generated
      */
     private MonthDay emptyValueSet = null;
@@ -106,7 +106,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Creates a new TestIpsObject.
-     * 
+     *
      * @generated
      */
     public TestIpsObject() {
@@ -116,7 +116,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Returns the foo.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "foo", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
@@ -126,7 +126,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute foo.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("foo")
@@ -137,7 +137,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Returns the valueSetInclNull.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "valueSetInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
@@ -148,7 +148,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute valueSetInclNull.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("valueSetInclNull")
@@ -159,7 +159,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Returns the set of allowed values for the property valueSetExclNull.
-     * 
+     *
      * @restrainedmodifiable
      */
     @IpsAllowedValues("valueSetExclNull")
@@ -172,7 +172,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Returns the valueSetExclNull.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "valueSetExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
@@ -183,7 +183,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute valueSetExclNull.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("valueSetExclNull")
@@ -194,7 +194,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Returns the set of allowed values for the property emptyValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAllowedValues("emptyValueSet")
@@ -205,7 +205,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Returns the emptyValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "emptyValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
@@ -216,7 +216,7 @@ public class TestIpsObject extends AbstractModelObject {
 
     /**
      * Sets the value of attribute emptyValueSet.
-     * 
+     *
      * @generated
      */
     @IpsAttributeSetter("emptyValueSet")
@@ -307,8 +307,8 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
-     * Validates the object (but not it's children). Returns <code>true</code> if this object should
-     * continue validating, <code>false</code> else.
+     * Validates the object (but not its children). Returns <code>true</code> if this object should continue
+     * validating, <code>false</code> otherwise.
      *
      * @generated
      */

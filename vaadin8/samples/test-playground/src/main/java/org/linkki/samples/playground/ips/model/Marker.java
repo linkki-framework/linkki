@@ -23,6 +23,7 @@ import org.faktorips.runtime.model.annotation.IpsEnumAttribute;
 import org.faktorips.runtime.model.annotation.IpsEnumType;
 
 /**
+ *
  * @generated
  */
 @IpsDocumented(bundleName = "org.linkki.samples.playground.ips.model.model-label-and-descriptions", defaultLocale = "en")
@@ -60,25 +61,29 @@ public enum Marker implements IMarker {
      * @generated
      */
     static {
-        ID_MAP = new HashMap<String, Marker>();
+        ID_MAP = new HashMap<>();
         for (Marker value : values()) {
             ID_MAP.put(value.id, value);
         }
     }
 
     /**
+     *
      * @generated
      */
     private final String id;
     /**
+     *
      * @generated
      */
     private final String name;
     /**
+     *
      * @generated
      */
     private final boolean requiredInformationMissing;
     /**
+     *
      * @generated
      */
     private final boolean technicalConstraintViolated;
@@ -96,9 +101,9 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>id</code>. Returns
-     * <code>null</code> if no corresponding enumeration value is found, or if the parameter
-     * <code>id</code> is <code>null</code>.
+     * Returns the enumeration value for the specified parameter <code>id</code>. Returns <code>null</code>
+     * if no corresponding enumeration value is found, or if the parameter <code>id</code> is
+     * <code>null</code>.
      *
      * @generated
      */
@@ -123,8 +128,8 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>id</code>. If no corresponding
-     * enum value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     * Returns the enumeration value for the specified parameter <code>id</code>. If no corresponding enum
+     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
      *
      * @throws IllegalArgumentException if no corresponding enum value is found
      *
@@ -139,8 +144,8 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding
-     * enum value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding enum
+     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
      *
      * @throws IllegalArgumentException if no corresponding enum value is found
      *
@@ -176,7 +181,7 @@ public enum Marker implements IMarker {
 
     /**
      * Returns the value of the attribute id.
-     * 
+     *
      * @generated
      */
     @IpsEnumAttribute(name = "id", identifier = true, unique = true)
@@ -186,7 +191,7 @@ public enum Marker implements IMarker {
 
     /**
      * Returns the value of the attribute name.
-     * 
+     *
      * @generated
      */
     @IpsEnumAttribute(name = "name", unique = true, displayName = true)
@@ -196,7 +201,7 @@ public enum Marker implements IMarker {
 
     /**
      * Returns the value of the attribute requiredInformationMissing.
-     * 
+     *
      * @generated
      */
     @Override
@@ -207,7 +212,7 @@ public enum Marker implements IMarker {
 
     /**
      * Returns the value of the attribute technicalConstraintViolated.
-     * 
+     *
      * @generated
      */
     @Override
