@@ -48,7 +48,7 @@
         </RequiredIpsFeatures>
     -->
  <RequiredIpsFeatures>
-  <RequiredIpsFeature id="org.faktorips.feature" minVersion="20.12.0"/>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="21.6.0"/>
  </RequiredIpsFeatures>
 
  <!--
@@ -84,7 +84,7 @@
    <!--Defines the qualified name of the base class of all policy components. Leave the value empty if the default base class should be used.-->
    <Property name="baseClassPolicyComponent" value=""/>
 
-   <!--The logging connector that is used for the generation of logging code. The generation of logging code is disabled if the value "None" is specified. Possible values are the IDs of extensions of the extension point "org.faktorips.devtools.core.loggingFrameworkConnector". Two extension come with the standard "org.faktorips.devtools.core.javaUtilLoggingConnector" and "org.faktorips.devtools.core.log4jLoggingConnector"-->
+   <!--The logging connector that is used for the generation of logging code. The generation of logging code is disabled if the value "None" is specified. Possible values are the IDs of extensions of the extension point "org.faktorips.devtools.model.loggingFrameworkConnector". Two extension come with the standard "org.faktorips.devtools.model.javaUtilLoggingConnector" and "org.faktorips.devtools.model.log4jLoggingConnector"-->
    <Property name="loggingFrameworkConnector" value="None"/>
 
    <!--Mark none mergeable resources as derived-->
@@ -163,7 +163,7 @@
                </DateBasedProductCmptNamingStrategy>
             </ProductCmptNamingStrategy>
     -->
- <ProductCmptNamingStrategy id="org.faktorips.devtools.core.DateBasedProductCmptNamingStrategy">
+ <ProductCmptNamingStrategy id="org.faktorips.devtools.model.DateBasedProductCmptNamingStrategy">
   <DateBasedProductCmptNamingStrategy dateFormatPattern="yyyy-MM" postfixAllowed="true" versionIdSeparator=" ">
    <JavaIdentifierCharReplacements>
     <Replacement replacedChar=" " replacement="___"/>
@@ -232,7 +232,6 @@
         <UsedPredefinedDatatypes>
             <Datatype id="Money"\>                                 The id of the datatype that should be used.
         </UsedPredefinedDatatypes>
-         
         <DatatypeDefinitions>
             <Datatype id="PaymentMode"                             The datatype's id used in the model to refer to it.
                 javaClass="org.faktorips.sample.PaymentMode"       The Java class the datatype represents
@@ -384,6 +383,7 @@
   <Setting name="persistenceColumnSizeChecksSeverity" value="WARNING"/>
   <Setting name="tableContentFormat" value="XML"/>
   <Setting enabled="false" name="generateValidatorClassDefault"/>
+  <Setting enabled="false" name="genericValidationDefault"/>
  </AdditionalSettings>
 
  <!--
@@ -406,8 +406,8 @@
             IdentifierName1 -> IDENTIFIER_NAME1
     -->
  <PersistenceOptions allowLazyFetchForSingleValuedAssociations="true" maxColumnNameLength="255" maxTableColumnPrecision="255" maxTableColumnScale="255" maxTableColumnSize="255" maxTableNameLength="255">
-  <TableNamingStrategy id="org.faktorips.devtools.core.CamelCaseToUpperUnderscoreTableNamingStrategy"/>
-  <TableColumnNamingStrategy id="org.faktorips.devtools.core.CamelCaseToUpperUnderscoreColumnNamingStrategy"/>
+  <TableNamingStrategy id="org.faktorips.devtools.model.CamelCaseToUpperUnderscoreTableNamingStrategy"/>
+  <TableColumnNamingStrategy id="org.faktorips.devtools.model.CamelCaseToUpperUnderscoreColumnNamingStrategy"/>
  </PersistenceOptions>
 
  <!--

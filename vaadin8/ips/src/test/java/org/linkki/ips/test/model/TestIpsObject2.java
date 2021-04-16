@@ -13,7 +13,7 @@ import org.faktorips.runtime.IValidationContext;
 
 /**
  * Implementation for TestIpsObject2.
- * 
+ *
  * @generated
  */
 @IpsPolicyCmptType(name = "TestIpsObject2")
@@ -24,7 +24,7 @@ public class TestIpsObject2 extends TestIpsObject {
 
     /**
      * Creates a new TestIpsObject2.
-     * 
+     *
      * @generated
      */
     public TestIpsObject2() {
@@ -35,7 +35,7 @@ public class TestIpsObject2 extends TestIpsObject {
 
     /**
      * Returns the foo.
-     * 
+     *
      * @generated
      */
     @IpsAttribute(name = "foo", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
@@ -74,8 +74,8 @@ public class TestIpsObject2 extends TestIpsObject {
 
 
     /**
-     * Validates the object (but not it's children). Returns <code>true</code> if this object should
-     * continue validating, <code>false</code> else.
+     * Validates the object (but not its children). Returns <code>true</code> if this object should continue
+     * validating, <code>false</code> otherwise.
      *
      * @generated
      */
