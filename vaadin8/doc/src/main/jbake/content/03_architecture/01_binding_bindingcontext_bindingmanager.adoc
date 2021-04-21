@@ -1,4 +1,4 @@
-:jbake-title: BindingContext Basics
+:jbake-title: Binding Basics
 :jbake-type: section
 :jbake-status: published
 

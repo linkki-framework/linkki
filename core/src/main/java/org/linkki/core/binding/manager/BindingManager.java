@@ -311,7 +311,17 @@ public abstract class BindingManager {
      * method has to be called manually.
      */
     public void notifyUiUpdateObservers() {
-        uiUpdateObservers.forEach(o -> o.uiUpdated());
+        uiUpdateObservers.forEach(UiUpdateObserver::uiUpdated);
+    }
+
+    /**
+     * Updates all managed {@link BindingContext}.
+     * <p>
+     * Note that this may be a costly operation thus should be used with caution.
+     */
+    public void updateAll() {
+        contextsByName.values().forEach(BindingContext::uiUpdated);
+        afterUpdateUi();
     }
 
     @Override
