@@ -28,7 +28,10 @@ public enum ReadOnlyBehaviorType {
 
     /**
      * The component is not visible in read-only mode. Enabled attribute is unaffected.
+     * 
+     * @deprecated since 1.4 because of a typo, use {@link #INVISIBLE} instead
      */
+    @Deprecated
     INVSIBLE,
 
     /**
@@ -41,6 +44,11 @@ public enum ReadOnlyBehaviorType {
      * @apiNote This type is only applicable for components of type {@link HasValue}. If the component
      *          is not of type {@link HasValue}, a {@link ClassCastException} is thrown.
      */
-    WRITABLE;
+    WRITABLE,
+
+    /**
+     * The component is not visible in read-only mode. Enabled attribute is unaffected.
+     */
+    INVISIBLE;
 
 }

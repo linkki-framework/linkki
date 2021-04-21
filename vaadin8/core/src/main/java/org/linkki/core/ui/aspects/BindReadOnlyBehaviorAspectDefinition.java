@@ -43,12 +43,14 @@ public class BindReadOnlyBehaviorAspectDefinition implements LinkkiAspectDefinit
         };
     }
 
+    @SuppressWarnings("deprecation")
     private void setComponentStatus(Component component, boolean writable) {
         switch (value) {
             case DISABLED:
                 component.setEnabled(component.isEnabled() && writable);
                 break;
             case INVSIBLE:
+            case INVISIBLE:
                 component.setVisible(component.isVisible() && writable);
                 break;
             case WRITABLE:
