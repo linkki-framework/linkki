@@ -77,6 +77,18 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
 
     @Test
     public void testCreateUiUpdater_ReadOnlyInvisible() {
+        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.INVISIBLE);
+        setDispatcherReadOnly();
+        uiUpdater.apply();
+
+        assertThat(component.isEnabled(), is(true));
+        assertThat(component.isVisible(), is(false));
+        assertThat(component.isReadOnly(), is(false));
+    }
+
+    @Test
+    public void testCreateUiUpdater_ReadOnlyInvsibleTypo() {
+        @SuppressWarnings("deprecation")
         Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.INVSIBLE);
         setDispatcherReadOnly();
         uiUpdater.apply();
@@ -88,7 +100,7 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
 
     @Test
     public void testCreateUiUpdater_WriteableInvisible() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.INVSIBLE);
+        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.INVISIBLE);
         setDispatcherWritable();
         uiUpdater.apply();
 
@@ -99,7 +111,7 @@ public class BindReadOnlyBehaviorAspectDefinitionTest {
 
     @Test
     public void testCreateUiUpdater_WriteableInvisible_StateChanged() {
-        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.INVSIBLE);
+        Handler uiUpdater = createAspectUiUpdater(ReadOnlyBehaviorType.INVISIBLE);
         setDispatcherReadOnly();
         uiUpdater.apply();
         setDispatcherWritable();

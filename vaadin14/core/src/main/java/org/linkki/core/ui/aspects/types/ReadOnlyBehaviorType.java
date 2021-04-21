@@ -29,7 +29,7 @@ public enum ReadOnlyBehaviorType {
     /**
      * The component is not visible in read-only mode. Enabled attribute is unaffected.
      */
-    INVSIBLE,
+    INVISIBLE,
 
     /**
      * The component ignores the read-only status and remains active. Enabled and visible state are

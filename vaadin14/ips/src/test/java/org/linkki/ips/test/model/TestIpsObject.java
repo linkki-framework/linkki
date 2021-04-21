@@ -32,6 +32,30 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
+     * The name of the Faktor-IPS package of this policy component type.
+     *
+     * @generated
+     */
+    public static final String IPS_PACKAGE = "";
+
+
+    /**
+     * The unqualified name of this policy component type.
+     *
+     * @generated
+     */
+    public static final String SIMPLE_NAME = "TestIpsObject";
+
+
+    /**
+     * The qualified name of this policy component type.
+     *
+     * @generated
+     */
+    public static final String QUALIFIED_NAME = IPS_PACKAGE + '.' + SIMPLE_NAME;
+
+
+    /**
      * The name of the property foo.
      *
      * @generated

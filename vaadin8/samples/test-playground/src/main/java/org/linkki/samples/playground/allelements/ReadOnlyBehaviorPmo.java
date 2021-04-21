@@ -39,7 +39,7 @@ public class ReadOnlyBehaviorPmo {
                 .show("You just clicked on the button that will be disabled when the application is in read-only mode");
     }
 
-    @BindReadOnlyBehavior(ReadOnlyBehaviorType.INVSIBLE)
+    @BindReadOnlyBehavior(ReadOnlyBehaviorType.INVISIBLE)
     @UIButton(position = 20, caption = "@BindReadOnlyBehavior(INVISIBLE)")
     public void invisibleOnReadOnly() {
         Notification

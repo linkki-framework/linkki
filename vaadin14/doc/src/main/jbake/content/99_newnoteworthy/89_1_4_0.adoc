@@ -45,3 +45,8 @@ https://jira.faktorzehn.de/browse/LIN-1729
 The `IpsPropertyDispatcher` can now derive the `required`, `visible` and `enabled` state of a field based on the value set of its model attribute. This functionality is described in the section about <<ips-property-dispatcher, IpsPropertyDispatcher>>. If the `IpsPropertyDispatcher` is already in use, this new feature will automatically come into effect with the new version.
 
 ==== Bugfixes
+
+* Fixed typo in ReadOnlyBehaviorType#INVISIBLE
+////
+https://jira.faktorzehn.de/browse/LIN-2095
+////

@@ -40,7 +40,7 @@ import org.linkki.core.ui.aspects.types.ReadOnlyBehaviorType;
 @LinkkiAspect(BindButtonReadOnlyAspectDefinitionCreator.class)
 public @interface BindReadOnlyBehavior {
 
-    ReadOnlyBehaviorType value() default ReadOnlyBehaviorType.INVSIBLE;
+    ReadOnlyBehaviorType value() default ReadOnlyBehaviorType.INVISIBLE;
 
     class BindButtonReadOnlyAspectDefinitionCreator implements AspectDefinitionCreator<BindReadOnlyBehavior> {
 

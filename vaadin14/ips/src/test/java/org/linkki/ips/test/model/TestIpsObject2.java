@@ -18,6 +18,25 @@ public class TestIpsObject2 extends TestIpsObject {
 
 
     /**
+     * The name of the Faktor-IPS package of this policy component type.
+     *
+     * @generated
+     */
+    public static final String IPS_PACKAGE = "";
+    /**
+     * The unqualified name of this policy component type.
+     *
+     * @generated
+     */
+    public static final String SIMPLE_NAME = "TestIpsObject2";
+    /**
+     * The qualified name of this policy component type.
+     *
+     * @generated
+     */
+    public static final String QUALIFIED_NAME = IPS_PACKAGE + '.' + SIMPLE_NAME;
+
+    /**
      * Creates a new TestIpsObject2.
      *
      * @generated
