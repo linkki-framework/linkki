@@ -208,6 +208,8 @@ public class SidebarLayoutTest {
 
     static class TestSelectionListener implements SelectionListener {
 
+        private static final long serialVersionUID = 1L;
+
         @Nullable
         SidebarSelectionEvent event;
 

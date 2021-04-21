@@ -50,3 +50,7 @@ The `IpsPropertyDispatcher` can now derive the `required`, `visible` and `enable
 ////
 https://jira.faktorzehn.de/browse/LIN-2095
 ////
+* Log warnings due to depreacted method call in `SidebarLayout`. SidebarLayout.SelectionListener is now serializable, consider adding a serialVersionUID.
+////
+https://jira.faktorzehn.de/browse/LIN-2286
+////

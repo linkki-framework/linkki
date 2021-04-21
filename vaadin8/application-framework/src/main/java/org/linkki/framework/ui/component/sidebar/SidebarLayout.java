@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
+import com.vaadin.event.SerializableEventListener;
 import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.shared.Registration;
 import com.vaadin.ui.Component;
@@ -110,8 +111,7 @@ public class SidebarLayout extends CssLayout {
      * @return a registration for the listener
      */
     public Registration addSelectionListener(SelectionListener listener) {
-        return addListener(SidebarSelectionEvent.class, listener,
-                           SELECTION_CHANGE_METHOD);
+        return addListener(SidebarSelectionEvent.class, listener, SELECTION_CHANGE_METHOD);
     }
 
     /**
@@ -212,7 +212,7 @@ public class SidebarLayout extends CssLayout {
      * {@link SidebarSheet} gets selected.
      */
     @FunctionalInterface
-    public interface SelectionListener {
+    public interface SelectionListener extends SerializableEventListener {
 
         void selectionChange(SidebarSelectionEvent e);
 
