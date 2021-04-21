@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
@@ -129,6 +130,32 @@ public class BindingManagerTest {
         bindingManager.afterUpdateUi();
 
         verify(observer, never()).uiUpdated();
+    }
+
+    @Test
+    public void testUpdateAll() {
+        BindingManager bindingManager = spy(new BindingManager(() -> new MessageList()) {
+
+            @Override
+            protected BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider) {
+                return spy(new BindingContext(name, behaviorProvider, Handler.NOP_HANDLER));
+            }
+
+            @Override
+            protected BindingContext newBindingContext(String name) {
+                return newBindingContext(name, PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+            }
+        });
+        BindingContext context1 = bindingManager.createContext("context1",
+                                                               PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+        BindingContext context2 = bindingManager.createContext("context2",
+                                                               PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER);
+
+        bindingManager.updateAll();
+
+        verify(context1).uiUpdated();
+        verify(context2).uiUpdated();
+        verify(bindingManager).afterUpdateUi();
     }
 
     private static class TestBindingContext extends BindingContext {
