@@ -21,6 +21,7 @@ import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.style.LinkkiTheme;
 
 import com.vaadin.data.HasValue;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
@@ -54,7 +55,7 @@ public class LabelComponentWrapper extends VaadinComponentWrapper {
         getLabelComponent().ifPresent(l -> {
             l.setEnabled(getComponent().isEnabled());
             l.setVisible(getComponent().isVisible());
-            l.setDescription(getComponent().getDescription());
+            l.setDescription(getComponent().getDescription(), ContentMode.HTML);
             updateRequiredIndicator(l);
         });
     }

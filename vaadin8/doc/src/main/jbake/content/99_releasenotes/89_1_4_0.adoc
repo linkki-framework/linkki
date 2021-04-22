@@ -57,7 +57,11 @@ https://jira.faktorzehn.de/browse/LIN-573
 ////
 https://jira.faktorzehn.de/browse/LIN-2095
 ////
-* Log warnings due to depreacted method call in `SidebarLayout`. SidebarLayout.SelectionListener is now serializable, consider adding a serialVersionUID.
+* Fixed log warnings due to depreacted method call in `SidebarLayout`. SidebarLayout.SelectionListener is now serializable, consider adding a serialVersionUID.
 ////
 https://jira.faktorzehn.de/browse/LIN-2286
+////
+* Fixed tooltip on labels not showing HTML content  
+////
+https://jira.faktorzehn.de/browse/LIN-2274
 ////

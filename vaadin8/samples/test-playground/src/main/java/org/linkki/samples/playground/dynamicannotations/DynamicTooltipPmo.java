@@ -26,8 +26,8 @@ public class DynamicTooltipPmo {
 
     private String tooltipText = "";
 
-    @UITextField(position = 20, label = "Tooltip")
     @BindTooltip(tooltipType = TooltipType.DYNAMIC)
+    @UITextField(position = 20, label = "Tooltip")
     public String getTooltipText() {
         return tooltipText;
     }
