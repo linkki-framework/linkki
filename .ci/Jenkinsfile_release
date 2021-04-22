@@ -1,3 +1,5 @@
+library 'f10-jenkins-library@master'
+
 pipeline {
    agent any
 
