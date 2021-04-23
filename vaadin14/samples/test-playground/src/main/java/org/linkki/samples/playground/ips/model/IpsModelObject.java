@@ -58,27 +58,6 @@ import org.w3c.dom.Element;
 public class IpsModelObject extends AbstractModelObject {
 
     /**
-     * The name of the Faktor-IPS package of this policy component type.
-     *
-     * @generated
-     */
-    public static final String IPS_PACKAGE = "";
-
-    /**
-     * The unqualified name of this policy component type.
-     *
-     * @generated
-     */
-    public static final String SIMPLE_NAME = "IpsModelObject";
-
-    /**
-     * The qualified name of this policy component type.
-     *
-     * @generated
-     */
-    public static final String QUALIFIED_NAME = IPS_PACKAGE + '.' + SIMPLE_NAME;
-
-    /**
      * Error code for rule checkDecimal.
      *
      * @generated

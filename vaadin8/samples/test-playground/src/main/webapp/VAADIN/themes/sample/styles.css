@@ -1077,7 +1077,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "8.12.1";
+	content: "8.13.0";
 }
 
 .v-widget {
@@ -4879,7 +4879,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-right: 9px;
 }
 
-.sample .v-grid-editor-cells  > div input[type="checkbox"] {
+.sample .v-grid-editor-cells  > div :not(.v-assistive-device-only-label).v-widget > input[type="checkbox"] {
 	margin-left: 18px;
 }
 
@@ -5127,15 +5127,15 @@ div.v-layout.v-horizontal.v-widget {
 	padding-right: 9px;
 }
 
-.sample .v-grid-editor-cells > div .v-checkbox {
+.sample .v-grid-editor-cells > div .v-checkbox.v-widget {
 	margin: 0 9px 0 18px;
 }
 
-.sample .v-grid-editor-cells > div .v-checkbox  > input[type="checkbox"] {
+.sample .v-grid-editor-cells > div .v-checkbox.v-widget  > input[type="checkbox"] {
 	margin-left: 0;
 }
 
-.sample .v-grid-editor-cells > div .v-checkbox  > label {
+.sample .v-grid-editor-cells > div .v-checkbox.v-widget  > label {
 	white-space: nowrap;
 }
 
@@ -9646,7 +9646,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-right: 9px;
 }
 
-.sample .v-tree8-editor-cells  > div input[type="checkbox"] {
+.sample .v-tree8-editor-cells  > div :not(.v-assistive-device-only-label).v-widget > input[type="checkbox"] {
 	margin-left: 18px;
 }
 
@@ -9894,15 +9894,15 @@ div.v-layout.v-horizontal.v-widget {
 	padding-right: 9px;
 }
 
-.sample .v-tree8-editor-cells > div .v-checkbox {
+.sample .v-tree8-editor-cells > div .v-checkbox.v-widget {
 	margin: 0 9px 0 18px;
 }
 
-.sample .v-tree8-editor-cells > div .v-checkbox  > input[type="checkbox"] {
+.sample .v-tree8-editor-cells > div .v-checkbox.v-widget  > input[type="checkbox"] {
 	margin-left: 0;
 }
 
-.sample .v-tree8-editor-cells > div .v-checkbox  > label {
+.sample .v-tree8-editor-cells > div .v-checkbox.v-widget  > label {
 	white-space: nowrap;
 }
 
@@ -10792,7 +10792,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-right: 9px;
 }
 
-.sample .v-treegrid-editor-cells  > div input[type="checkbox"] {
+.sample .v-treegrid-editor-cells  > div :not(.v-assistive-device-only-label).v-widget > input[type="checkbox"] {
 	margin-left: 18px;
 }
 
@@ -11040,15 +11040,15 @@ div.v-layout.v-horizontal.v-widget {
 	padding-right: 9px;
 }
 
-.sample .v-treegrid-editor-cells > div .v-checkbox {
+.sample .v-treegrid-editor-cells > div .v-checkbox.v-widget {
 	margin: 0 9px 0 18px;
 }
 
-.sample .v-treegrid-editor-cells > div .v-checkbox  > input[type="checkbox"] {
+.sample .v-treegrid-editor-cells > div .v-checkbox.v-widget  > input[type="checkbox"] {
 	margin-left: 0;
 }
 
-.sample .v-treegrid-editor-cells > div .v-checkbox  > label {
+.sample .v-treegrid-editor-cells > div .v-checkbox.v-widget  > label {
 	white-space: nowrap;
 }
 

@@ -11,7 +11,7 @@
     <name>linkki Extension for Faktor-IPS with Vaadin 14</name>
 
     <properties>
-        <faktorips.version>21.6.0-m04</faktorips.version>
+        <faktorips.version>21.6.0-rc03</faktorips.version>
     </properties>
 
     <dependencies>

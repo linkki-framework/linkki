@@ -389,20 +389,27 @@
  <!--
         PersistenceOptions
          
-        In this section you can adjust parameters relating the persistence of IPolicyCmptTypes.
+        In this section you can adjust parameters relating to the persistence of IPolicyCmptTypes.
         The table and column naming strategies define how identifier names are transformed into
         database table and column names. The attributes maxTableNameLength and maxColumnNameLength
         constrain the maximum possible length of a table or column name.
-        The attribute allowLazyFetchForSingleValuedAssociations defines if is is allowed to use lazy fetching 
+        The attribute maxTableColumnScale limits the scale of columns representing floating point
+        numbers while maxTableColumnPrecision limits their precision. The number of characters in a
+        String column is limited by maxTableColumnSize.
+        All limits are in byte length but are only validated in character length in Faktor-IPS, as the
+        mapping of multi-byte characters depends on the encoding and database used.
+        The attribute allowLazyFetchForSingleValuedAssociations defines if it is allowed to use lazy fetching 
         on the association side which holds a single value (to-one relationship side).
          
-        <PersistenceOptions maxColumnNameLength="255" maxTableNameLength="255">
-            <TableNamingStrategy id="org.faktorips.devtools.core.CamelCaseToUpperUnderscoreTableNamingStrategy">
-            <TableColumnNamingStrategy id="org.faktorips.devtools.core.CamelCaseToUpperUnderscoreColumnNamingStrategy">
+        <PersistenceOptions maxColumnNameLength="30" maxTableNameLength="30"
+                maxTableColumnPrecision="31"  maxTableColumnScale="31" maxTableColumnSize="4000"
+                allowLazyFetchForSingleValuedAssociations="true">
+            <TableNamingStrategy id="org.faktorips.devtools.model.CamelCaseToUpperUnderscoreTableNamingStrategy"/>
+            <TableColumnNamingStrategy id="org.faktorips.devtools.model.CamelCaseToUpperUnderscoreColumnNamingStrategy"/>
         </PersistenceOptions>
          
         Currently Faktor-IPS includes the strategies CamelCaseToUpperUnderscoreTableNamingStrategy
-        for tables and CamelCaseToUpperUnderscoreColumnNamingStrategy for columns, examples:
+        for tables and CamelCaseToUpperUnderscoreColumnNamingStrategy for columns, example:
             IdentifierName1 -> IDENTIFIER_NAME1
     -->
  <PersistenceOptions allowLazyFetchForSingleValuedAssociations="true" maxColumnNameLength="255" maxTableColumnPrecision="255" maxTableColumnScale="255" maxTableColumnSize="255" maxTableNameLength="255">

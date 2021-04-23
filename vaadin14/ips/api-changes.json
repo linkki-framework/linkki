@@ -7,7 +7,7 @@
 					"exclude": [
 						"missing-class javax\\.servlet\\.http.*",
 						".* org\\.linkki\\.core\\..*",
-						"(missing-class|class|interface|field|method .*) org\\.faktorips\\..*"
+						".* org\\.faktorips\\..*"
 					]
 				}
 			}
