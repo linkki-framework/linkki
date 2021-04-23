@@ -65,3 +65,7 @@ https://jira.faktorzehn.de/browse/LIN-2286
 ////
 https://jira.faktorzehn.de/browse/LIN-2274
 ////
+* Fixed an error when entering a year with five or more digits
+////
+https://jira.faktorzehn.de/browse/LIN-2040
+////

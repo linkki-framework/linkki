@@ -33,13 +33,21 @@ public class TwoDigitYearLocalDateConverter implements Converter<LocalDate, Loca
 
     private static final long serialVersionUID = -7168406748935260873L;
 
+    private static final String MSG_YEAR_TOO_LARGE = "The year must not have more than five digits";
+
     @CheckForNull
     @Override
     public Result<LocalDate> convertToModel(@CheckForNull LocalDate value, ValueContext context) {
         if (value == null) {
             return Result.ok(null);
         } else {
-            return Result.ok(TwoDigitYearUtil.convert(value));
+            LocalDate date = TwoDigitYearUtil.convert(value);
+
+            if (date.getYear() <= 9999) {
+                return Result.ok(date);
+            } else {
+                return Result.error(MSG_YEAR_TOO_LARGE);
+            }
         }
     }
 

@@ -127,6 +127,17 @@ public class AllUiElementsTest extends AbstractUiTest {
     }
 
     @Test
+    public void testDateField_FiveDigitYear() {
+        DateFieldElement dateField = $(DateFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DATE);
+        dateField.setValue("01.01.2020");
+
+        dateField.setValue("01.01.12345");
+
+        // invalid value is reset
+        assertThat(dateField.getValue(), is("01.01.2020"));
+    }
+
+    @Test
     public void testComboBox() {
         ComboBoxElement comboBox = $(ComboBoxElement.class).id("enumValueComboBox");
 

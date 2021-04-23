@@ -76,6 +76,17 @@ public class AllUiElementsL10nUsTest extends AbstractUiTest {
     }
 
     @Test
+    public void testDateField_FiveDigitYear() {
+        DateFieldElement dateField = $(DateFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DATE);
+        dateField.setValue("1/1/20");
+
+        dateField.setValue("1/1/12345");
+
+        // invalid value is reset
+        assertThat(dateField.getValue(), is("1/1/20"));
+    }
+
+    @Test
     public void testLabelWithConverter() {
         LabelElement label = $(LabelElement.class).id("bigDecimalLabel");
         // because Vaadin's StringToBigDecimalConverter uses NumberFormat,

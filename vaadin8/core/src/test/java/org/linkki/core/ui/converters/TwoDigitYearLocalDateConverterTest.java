@@ -15,8 +15,8 @@
 package org.linkki.core.ui.converters;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -24,6 +24,7 @@ import java.util.Locale;
 import org.junit.jupiter.api.Test;
 import org.linkki.util.TwoDigitYearUtil;
 
+import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
 
 public class TwoDigitYearLocalDateConverterTest {
@@ -46,8 +47,18 @@ public class TwoDigitYearLocalDateConverterTest {
     @Test
     public void testConvertToModel_MaxTwoDigitYear() {
         LocalDate date = LocalDate.of(39, 12, 31);
+
         assertThat((converter.convertToModel(date, context))
                 .getOrThrow(s -> new AssertionError(s)), is(TwoDigitYearUtil.convert(date)));
+    }
+
+    @Test
+    public void testConvertToModel_FiveDigitYear() {
+        LocalDate date = LocalDate.of(10000, 1, 1);
+
+        Result<LocalDate> result = converter.convertToModel(date, context);
+
+        assertThat(result.isError(), is(true));
     }
 
     @Test
@@ -55,7 +66,7 @@ public class TwoDigitYearLocalDateConverterTest {
         assertThat((converter.convertToPresentation(LocalDate.of(2011, 9, 5), context)), is(LocalDate.of(2011, 9, 5)));
     }
 
-    
+
     @Test
     public void testConvertToPresentation_NullValue() {
         assertNull(converter.convertToPresentation(null, context));
