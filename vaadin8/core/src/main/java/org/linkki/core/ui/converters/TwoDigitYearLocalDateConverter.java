@@ -33,7 +33,7 @@ public class TwoDigitYearLocalDateConverter implements Converter<LocalDate, Loca
 
     private static final long serialVersionUID = -7168406748935260873L;
 
-    private static final String MSG_YEAR_TOO_LARGE = "The year must not have more than five digits";
+    private static final String MSG_YEAR_TOO_LARGE = "The year must not have more than four digits";
 
     @CheckForNull
     @Override
