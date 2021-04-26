@@ -31,6 +31,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.vaadin.testbench.TestBench;
+import com.vaadin.testbench.TestBenchDriverProxy;
+
 public class DriverExtension
         implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
 
@@ -95,6 +98,12 @@ public class DriverExtension
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
+        boolean testFailed = context.getExecutionException().isPresent();
+
+        if (testFailed) {
+            ScreenshotUtil.takeScreenshot(driver, context.getDisplayName());
+        }
+
         if (shouldRestartAfterEveryTest(context)) {
             driver.quit();
         }
@@ -102,12 +111,14 @@ public class DriverExtension
 
     private void createDriver(String locale, String url) {
         BrowserType browserType = DriverProperties.isHeadless() ? BrowserType.CHROME_HEADLESS : BrowserType.CHROME;
-        driver = browserType.getWebdriver(Locale.forLanguageTag(locale));
+        driver = TestBench.createDriver(browserType.getWebdriver(Locale.forLanguageTag(locale)));
         driver.get(url);
         driver.manage().window().maximize();
 
         new WebDriverWait(driver, 10).until(d -> ((JavascriptExecutor)d).executeScript("return document.readyState")
                 .toString().equals("complete"));
+
+        ((TestBenchDriverProxy)driver).waitForVaadin();
     }
 
     public WebDriver getDriver() {

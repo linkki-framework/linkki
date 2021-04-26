@@ -19,7 +19,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension;
-import org.linkki.samples.playground.uitest.extensions.ScreenshotOnFailureExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -46,9 +45,6 @@ public class AbstractUiTest extends TestBenchTestCase {
 
     @RegisterExtension
     protected static DriverExtension driverExtension = new DriverExtension();
-
-    @RegisterExtension
-    protected ScreenshotOnFailureExtension screenshotExtension = new ScreenshotOnFailureExtension(this);
 
     @BeforeEach
     public void setUp() {
