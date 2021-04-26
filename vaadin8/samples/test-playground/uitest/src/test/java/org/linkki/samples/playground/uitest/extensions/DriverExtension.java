@@ -102,6 +102,7 @@ public class DriverExtension
 
         if (testFailed) {
             ScreenshotUtil.takeScreenshot(driver, context.getDisplayName());
+            DomUtil.saveDom(driver, context.getDisplayName());
         }
 
         if (shouldRestartAfterEveryTest(context)) {
