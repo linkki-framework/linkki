@@ -77,6 +77,21 @@ public class DialogTest extends AbstractUiTest {
                    is("This is awesome!"));
         assertThat(dialog.$(ButtonElement.class).id("okButton").getText(), is("Hell yeah"));
         assertThat(dialog.$(ButtonElement.class).id("cancelButton").getText(), is("Not really"));
+        // close dialog
+        $(DialogElement.class).first().$(ButtonElement.class).first().click();
+    }
+
+    @Test
+    @Order(4)
+    public void testDialog_CloseOnViewChange() {
+        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(SimpleDialogPmo.class.getSimpleName());
+        section.$(ButtonElement.class).id("showDialog").click();
+        waitUntil(d -> $(DialogElement.class).exists());
+
+        driver.navigate().back();
+
+        // dialog should close on its own
+        waitUntil(d -> !$(DialogElement.class).exists());
     }
 
 }

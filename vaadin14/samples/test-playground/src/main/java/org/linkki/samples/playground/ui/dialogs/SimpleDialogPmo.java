@@ -74,4 +74,11 @@ public class SimpleDialogPmo {
                 .build()
                 .open();
     }
+
+    @UIButton(position = 50, caption = "Show exception dialog")
+    public void showExceptionDialog() {
+        throw new RuntimeException("Manually triggered exception");
+    }
+
+
 }

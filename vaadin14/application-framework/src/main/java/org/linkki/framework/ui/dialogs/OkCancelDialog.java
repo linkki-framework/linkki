@@ -41,6 +41,8 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeLeaveEvent;
+import com.vaadin.flow.router.BeforeLeaveObserver;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -69,7 +71,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @CssImport(value = "./styles/ok-cancel-dialog.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
 @CssImport(value = "./styles/dialog-overlay.css", themeFor = "vaadin-dialog-overlay")
-public class OkCancelDialog extends Composite<Dialog> implements HasSize {
+public class OkCancelDialog extends Composite<Dialog> implements HasSize, BeforeLeaveObserver {
 
     public static final String CLASS_NAME_CONTENT_AREA = "content-area";
     public static final String CLASS_NAME_DIALOG_LAYOUT = "linkki-dialog-layout";
@@ -504,22 +506,15 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize {
 
     public OkCancelDialog open() {
         getContent().open();
-        // initURIChangeListener();
         return this;
     }
 
-    // TODO LIN-2204 Dialog URI Change Listener umstellen
-    //
-    // /**
-    // * Adds a listener to the dialog, which is triggered when the URI changes. The default behavior is
-    // * closing the dialog by calling {@link #close()}.
-    // */
-    // // addPopStateListener is triggered after View#enter, thus cannot be used.
-    // @SuppressWarnings("deprecation")
-    // protected void initURIChangeListener() {
-    // UI current = UI.getCurrent();
-    // current.getPage().addUriFragmentChangedListener(e -> close());
-    // }
+    @Override
+    public void beforeLeave(BeforeLeaveEvent event) {
+        // cancelHandler may not be called because it causes a stack overflow if it navigates to
+        // another page
+        getContent().close();
+    }
 
     public void close() {
         cancelHandler.apply();
