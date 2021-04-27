@@ -104,7 +104,7 @@ public abstract class AbstractSection extends VerticalLayout implements HasCapti
     }
 
     private static Button createOpenCloseButton(Handler toggleCloseOpen) {
-        // TODO LIN-2048 ButtonPmoBuilder.DEFAULT_STYLES
+        // TODO LIN-2249 ButtonPmoBuilder.DEFAULT_STYLES
         Button button = ComponentFactory.newButton(VaadinIcon.ANGLE_DOWN.create(), Collections.emptyList());
         button.addClassName(LinkkiTheme.BUTTON_TEXT);
         button.addClickListener(e -> toggleCloseOpen.apply());

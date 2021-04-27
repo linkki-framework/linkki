@@ -16,6 +16,7 @@ package org.linkki.samples.playground.nestedcomponent;
 
 import java.time.LocalDate;
 
+import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UILabel;
@@ -56,7 +57,7 @@ public class NestedComponentPmo {
         this.birthday = birthday;
     }
 
-    @UIRadioButtons(position = 30, label = "Lieblingsfarbe")
+    @UIRadioButtons(position = 30, label = "Lieblingsfarbe", buttonAlignment = AlignmentType.HORIZONTAL)
     public Color getFavoriteColor() {
         return favoriteColor;
     }

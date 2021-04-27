@@ -53,6 +53,7 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.data.renderer.TextRenderer;
 
 /**
@@ -159,11 +160,11 @@ public @interface UIRadioButtons {
             return pmo -> {
                 RadioButtonGroup<?> radioButtons = new RadioButtonGroup<>();
                 radioButtons.setRenderer(new TextRenderer(getItemCaptionProvider(annotation)::getUnsafeCaption));
+                AlignmentType alignment = annotation.buttonAlignment();
 
-                // TODO LIN-2048
-                // if (alignment.equals(AlignmentType.HORIZONTAL)) {
-                // radioButtons.addClassName(ValoTheme.OPTIONGROUP_HORIZONTAL);
-                // }
+                if (alignment.equals(AlignmentType.VERTICAL)) {
+                    radioButtons.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
+                }
                 return radioButtons;
             };
         }

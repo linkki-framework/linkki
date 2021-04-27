@@ -16,7 +16,6 @@ package org.linkki.samples.playground.allelements;
 
 import java.util.Optional;
 
-import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
@@ -318,7 +317,7 @@ public abstract class AbstractAllUiElementsSectionPmo {
     }
 
     @BindReadOnly(ReadOnlyType.DYNAMIC)
-    @UIRadioButtons(position = 120, label = NlsText.I18n, buttonAlignment = AlignmentType.HORIZONTAL, //
+    @UIRadioButtons(position = 120, label = NlsText.I18n, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_ENUMVALUE, //
             required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
     public void enumValueRadioButton() {

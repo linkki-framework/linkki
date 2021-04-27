@@ -16,6 +16,7 @@ package org.linkki.core.ui.element.annotation;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,6 +33,7 @@ import org.linkki.core.ui.element.annotation.UIRadioButtonsIntegrationTest.Radio
 import org.linkki.core.ui.layout.annotation.UISection;
 
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.data.provider.ListDataProvider;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -66,20 +68,19 @@ public class UIRadioButtonsIntegrationTest
         assertThat(radioButtons.getOptionalValue(), is(Optional.empty()));
     }
 
-    // TODO LIN-2048
-    // @Test
-    // public void testAlignment_Horizontal() {
-    // RadioButtonGroup<String> radioButtons = getComponentById("valueHorizontal");
-    //
-    // assertThat(radioButtons.getClassName(), containsString(ValoTheme.OPTIONGROUP_HORIZONTAL));
-    // }
-    //
-    // @Test
-    // public void testAlignment_Vertical() {
-    // RadioButtonGroup<String> radioButtons = getComponentById("valueVertical");
-    //
-    // assertThat(radioButtons.getClassName(), not(containsString(ValoTheme.OPTIONGROUP_HORIZONTAL)));
-    // }
+    @Test
+    public void testAlignment_Horizontal() {
+        RadioButtonGroup<String> radioButtons = getComponentById("valueHorizontal");
+
+        assertThat(radioButtons.getThemeNames(), not(contains(RadioGroupVariant.LUMO_VERTICAL.getVariantName())));
+    }
+
+    @Test
+    public void testAlignment_Vertical() {
+        RadioButtonGroup<String> radioButtons = getComponentById("valueVertical");
+
+        assertThat(radioButtons.getThemeNames(), contains(RadioGroupVariant.LUMO_VERTICAL.getVariantName()));
+    }
 
     @Test
     public void testCaptionProvider() {
