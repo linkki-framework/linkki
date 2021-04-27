@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.util.handler.Handler;
 
@@ -52,7 +53,7 @@ public class DefaultErrorDialog extends ConfirmationDialog {
         content.add(createLabelWithTimestamp(timestamp));
         content.add(createRootCauseTextField(errorEvent.getThrowable()));
         content.add(createStackTraceTextArea(errorEvent.getThrowable()));
-        formatContent(content);
+        content.setSizeFull();
 
         return content;
     }
@@ -63,7 +64,8 @@ public class DefaultErrorDialog extends ConfirmationDialog {
         return new Label(NlsText.format("DefaultErrorHandler.errorDialogText", formattedTimestamp));
     }
 
-    private static TextField createRootCauseTextField(@CheckForNull Throwable t) {
+    private static TextField createRootCauseTextField(@CheckForNull
+    Throwable t) {
         TextField textField = new TextField(NlsText.getString("DefaultErrorHandler.errorDialogDescription"));
 
         String message = Optional.ofNullable(ExceptionUtils.getRootCause(t))
@@ -74,23 +76,17 @@ public class DefaultErrorDialog extends ConfirmationDialog {
         return textField;
     }
 
-    private static TextArea createStackTraceTextArea(@CheckForNull Throwable t) {
+    private static TextArea createStackTraceTextArea(@CheckForNull
+    Throwable t) {
         TextArea textArea = new TextArea(NlsText.getString("DefaultErrorHandler.errorDialogDetails"));
         textArea.setValue(ExceptionUtils.getStackTrace(t));
         formatText(textArea);
+        textArea.addClassName(LinkkiApplicationTheme.SCROLLABLE);
         return textArea;
     }
 
     private static <T extends HasValueAndElement<?, ?> & HasSize> void formatText(T textArea) {
         textArea.setReadOnly(true);
-        textArea.setSizeFull();
-    }
-
-    private static void formatContent(VerticalLayout content) {
-        content.setSizeFull();
-        content.setFlexGrow(5, content.getComponentAt(0));
-        content.setFlexGrow(10, content.getComponentAt(1));
-        content.setFlexGrow(85, content.getComponentAt(2));
-        content.setSpacing(true);
+        textArea.setWidthFull();
     }
 }

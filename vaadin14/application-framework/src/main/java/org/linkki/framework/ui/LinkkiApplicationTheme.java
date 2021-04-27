@@ -77,6 +77,11 @@ public final class LinkkiApplicationTheme {
     /** Style class for {@link ApplicationInfoDialog} */
     public static final String APPLICATION_INFO_DIALOG = "linkki-application-info-dialog"; //$NON-NLS-1$
 
+    /**
+     * Style class with overflow auto. This is defined in linkki-utility.css
+     */
+    public static final String SCROLLABLE = "l-scrollable";
+
     private LinkkiApplicationTheme() {
         // This is just a utility class used to list constants and therefore should not be
         // instantiated
