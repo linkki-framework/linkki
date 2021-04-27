@@ -6,6 +6,12 @@ pipeline {
     options {
         skipDefaultCheckout true
     }
+    
+    environment {
+        BUILD_NAME = "${params.RELEASE_VERSION}"
+        DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
+        CONTAINER_RETENTION = 'keep'
+    }
 
     stages {
         stage('Prepare Release') {
@@ -30,20 +36,33 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
-                sh "bash .ci/docker_setup.sh ${params.RELEASE_VERSION}"
+                sh "bash .ci/docker_setup.sh ${BUILD_NAME}"
 
-                rtp parserName: 'HTML', nullAction: '1', stableText: $/
+                rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Vaadin 8 samples</h3>
                     <ul>
-                        <li><a href="http://linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8">test playground</a></li>
+                        <li><a href='http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'>test playground</a></li>
                     </ul>
-                /$
-
-                sleep 10
+                """
             }
-
-            environment {
-                DOCKER_HOST = 'ssh://docker@dockerhost.i.faktorzehn.de'
+        }
+        
+        // wait for the sample applications to be ready to run the tests
+        stage('Wait for Server') {
+            steps {
+                // wait with the ui tests until the server is ready
+                timeout(time: 3, unit: 'MINUTES') {
+                    waitUntil {
+                        script {
+                            try {
+                                sh 'curl --fail http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'
+                                return true
+                            } catch (Exception e) {
+                                return false
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -55,7 +74,7 @@ pipeline {
             }
 
             environment {
-                MAVEN_OPTS = "-Xmx2g -Dtest.hostname=linkki-${params.RELEASE_VERSION}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8"
+                MAVEN_OPTS = "-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8"
             }
         }
 
