@@ -23,9 +23,12 @@ import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import com.vaadin.flow.component.html.testbench.DivElement;
+import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
+import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class AllUiElementsTest extends AbstractUiTest {
 
@@ -64,5 +67,16 @@ public class AllUiElementsTest extends AbstractUiTest {
 
         // custom height defined in annotation
         assertThat(textArea.getPropertyString("style", "height"), is("5em"));
+    }
+
+    @Test
+    public void testButton_ShortcutKey() {
+        TextFieldElement textField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_TEXT);
+
+        // the button shortcut should trigger even when another element is in focus
+        textField.sendKeys(Keys.ENTER);
+
+        NotificationElement notification = $(NotificationElement.class).first();
+        assertThat(notification.getText(), is("Normal Button clicked"));
     }
 }

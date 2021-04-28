@@ -22,6 +22,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
+import java.util.Arrays;
+import java.util.Optional;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
@@ -45,7 +47,10 @@ import org.linkki.core.ui.element.annotation.UIButton.ButtonComponentDefinitionC
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
+import org.linkki.core.vaadin.component.KeyCode;
 
+import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -109,17 +114,17 @@ public @interface UIButton {
      */
     ButtonVariant[] variants() default {};
 
-    // TODO LIN-2050
-    // /**
-    // * Set a short cut for the button, use constants in {@link KeyCode}
-    // */
-    // int shortcutKeyCode() default -1;
+    /**
+     * Set a short cut for the button. Commonly used values are defined in {@link KeyCode}. Consult
+     * {@link Key} to look up all possible values.
+     */
+    String[] shortcutKeyCode() default {};
 
-    // /**
-    // * Set a modifier for the short cut. Only useful in combination with a {@link #shortcutKeyCode()}.
-    // * Use constants from {@link KeyModifier}.
-    // */
-    // int[] shortcutKeyModifiers() default {};
+    /**
+     * Set a modifier for the short cut. Only useful in combination with a {@link #shortcutKeyCode()}.
+     * Use constants from {@link KeyModifier}.
+     */
+    KeyModifier[] shortcutKeyModifiers() default {};
 
     /**
      * Aspect definition creator for the {@link UIButton} annotation.
@@ -149,14 +154,23 @@ public @interface UIButton {
                 }
 
                 button.addThemeVariants(annotation.variants());
-
-                // TODO LIN-2050
-                // if (buttonAnnotation.shortcutKeyCode() != -1) {
-                // button.setClickShortcut(buttonAnnotation.shortcutKeyCode(),
-                // buttonAnnotation.shortcutKeyModifiers());
-                // }
+                createShortcutKey(annotation)
+                        .ifPresent(key -> button.addClickShortcut(key, annotation.shortcutKeyModifiers()));
                 return button;
             };
+        }
+
+        private Optional<Key> createShortcutKey(UIButton annotation) {
+            String[] keys = annotation.shortcutKeyCode();
+
+            if (keys.length == 1) {
+                return Optional.of(Key.of(keys[0]));
+            } else if (keys.length > 1) {
+                String[] additionalKeys = Arrays.copyOfRange(keys, 1, keys.length);
+                return Optional.of(Key.of(keys[0], additionalKeys));
+            } else {
+                return Optional.empty();
+            }
         }
     }
 

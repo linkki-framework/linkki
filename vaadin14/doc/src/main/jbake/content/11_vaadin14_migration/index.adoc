@@ -7,10 +7,8 @@
 
 Stichpunkte, die in der Migrationsanleitung geordnet und ausformuliert werden
 
-* Button, Link, Label, Checkbox können keine Label mehr haben
-* Keine keycodes mehr (com.vaadin.flow.component.Key)
 * Tooltips gibts nicht mehr? https://vaadin.com/forum/thread/17094165/tooltips
-* Vaalo theme gibts nicht mehr: https://vaadin.com/docs/flow/migration/6-theming.html
+* Valo theme gibts nicht mehr: https://vaadin.com/docs/flow/migration/6-theming.html
 * Content mode gibts nicht mehr? https://vaadin.com/forum/thread/17133860/label-contentmode-html
 * Resource -> Icon
 * Component#setIcon gibts nicht mehr
@@ -23,7 +21,9 @@ Stichpunkte, die in der Migrationsanleitung geordnet und ausformuliert werden
 * TextArea hat kein `rows` Attribute mehr. In `UITextArea` wurde der Parameter `rows` deshalb durch `height` ersetzt. Dieser gibt einen String an, der einen CSS-Wert darstellt. (LIN-2059)
 * ColumnExpandRatioAspectDefinition verwendet nun Integer statt bisher Float
 * GridComponentCreator statt PmoBasedTablefactory verwenden. Die Factory wurde auf deprecated gesetzt.
-* UIButton styleNames() entfernt -> ersetzt durch variants() (LIN-2142)
+* @UIButton 
+** styleNames() entfernt -> ersetzt durch variants() (LIN-2142)
+** shortcutKeyCode und shortcutModifierKeys geben nun String Arrays zurück statt int Arrays. Werte, die verwendet werden können, können in der Klasee `Key` von Vaadin nachgeschaut werden. Die Klasse `KeyCode` von linkki enthält gängige Werte und wird bei Anforderungen ergänzt. Für Modifier wird von Vaadin eine Enum Klasse `KeyModifier` angeboten. 
 
 === Application Framework
 

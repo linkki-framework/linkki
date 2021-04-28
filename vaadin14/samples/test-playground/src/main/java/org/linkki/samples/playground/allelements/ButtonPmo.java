@@ -16,6 +16,7 @@ package org.linkki.samples.playground.allelements;
 
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
+import org.linkki.core.vaadin.component.KeyCode;
 
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.notification.Notification;
@@ -24,7 +25,7 @@ import com.vaadin.flow.component.notification.Notification.Position;
 @UIHorizontalLayout
 public class ButtonPmo {
 
-    @UIButton(position = 0, caption = "Normal Button")
+    @UIButton(position = 0, caption = "Normal Button", shortcutKeyCode = KeyCode.ENTER)
     public void normal() {
         Notification.show("Normal Button clicked", 1000, Position.MIDDLE);
     }
