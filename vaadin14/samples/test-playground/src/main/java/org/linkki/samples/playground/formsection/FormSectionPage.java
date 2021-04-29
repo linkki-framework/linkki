@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.allelements;
+package org.linkki.samples.playground.formsection;
 
 import java.util.function.BooleanSupplier;
 
@@ -22,46 +22,27 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
-import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.vaadin.component.page.AbstractPage;
-import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiSectionPmo;
+import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiFormSectionPmo;
 import org.linkki.util.handler.Handler;
 
-public class AllUiElementsPage extends AbstractPage {
+public class FormSectionPage extends AbstractPage {
 
     private static final long serialVersionUID = 1L;
 
     private final BindingContext bindingContext;
 
-    private DynamicFieldPmo dynamicFieldPmo;
-    private AbstractSection dynamicFieldSection;
-
-    public AllUiElementsPage(BooleanSupplier readOnlySupplier) {
+    public FormSectionPage(BooleanSupplier readOnlySupplier) {
         bindingContext = new BindingContext(getClass().getName(),
                 PropertyBehaviorProvider.with(PropertyBehavior.readOnly(readOnlySupplier)), Handler.NOP_HANDLER);
         init();
     }
 
     @Override
-    public final void createContent() {
-        addSection(new AllUiElementsUiSectionPmo());
-        add(VaadinUiCreator.createComponent(new SectionHeaderPmo(), getBindingContext()));
-        add(VaadinUiCreator.createComponent(new ReadOnlyBehaviorPmo(), getBindingContext()));
-
-        addSection(new NumberFieldsPmo());
-
-        dynamicFieldPmo = new DynamicFieldPmo(() -> {
-            remove(dynamicFieldSection);
-            dynamicFieldSection = addSection(dynamicFieldPmo);
-        });
-        dynamicFieldSection = addSection(dynamicFieldPmo);
+    public void createContent() {
+        addSection(new AllUiElementsUiFormSectionPmo());
     }
 
-    /**
-     * Ignored by {@link #getBindingContext()} to make sure that everything works without a
-     * {@link BindingManager}.
-     */
     @Override
     protected BindingManager getBindingManager() {
         return new DefaultBindingManager(ValidationService.NOP_VALIDATION_SERVICE);
@@ -71,4 +52,5 @@ public class AllUiElementsPage extends AbstractPage {
     protected BindingContext getBindingContext() {
         return bindingContext;
     }
+
 }

@@ -20,6 +20,7 @@ import org.linkki.samples.playground.alignment.AlignmentPage;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
+import org.linkki.samples.playground.formsection.FormSectionPage;
 import org.linkki.samples.playground.ips.IpsComponent;
 import org.linkki.samples.playground.layouts.LayoutsPage;
 import org.linkki.samples.playground.locale.LocaleInfoPage;
@@ -42,6 +43,7 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
     private static final long serialVersionUID = 1L;
 
     public static final String ALL_COMPONENTS_TAB_ID = "all";
+    public static final String FORMSECTION_TAB_ID = "formsection";
     public static final String LAYOUTS_TAB_ID = "layouts";
     public static final String DYNAMIC_ASPECT_TAB_ID = "dynamic";
     public static final String BUGS_TAB_ID = "bugs";
@@ -69,6 +71,12 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                        .caption(VaadinIcon.FORM.create())
                                        .description("All UI Components")
                                        .content(new AllUiElementsPage(
+                                               () -> StringUtils.equals(parameter, PARAM_READONLY)))
+                                       .build(),
+                               LinkkiTabSheet.builder(FORMSECTION_TAB_ID)
+                                       .caption(VaadinIcon.FORM.create())
+                                       .description("@UIFormSection")
+                                       .content(new FormSectionPage(
                                                () -> StringUtils.equals(parameter, PARAM_READONLY)))
                                        .build(),
                                LinkkiTabSheet.builder(LAYOUTS_TAB_ID)
