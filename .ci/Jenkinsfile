@@ -2,9 +2,12 @@ pipeline {
     agent any
 
     environment {
+        PROJECT_NAME = 'linkki'
         BUILD_NAME = "vaadin14"
+        PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'permanent-on'
+        MAVEN_OPTS = '-Xmx768m'
     }
 
     stages {
@@ -23,10 +26,6 @@ pipeline {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -T 6 -Dsurefire.directory=surefire-reports-java11 test'
                 }
-            }
-
-            environment {
-                MAVEN_OPTS = '-Xmx768m'
             }
         }
 
@@ -62,7 +61,7 @@ pipeline {
             parallel {
 
                 // run all ui tests against the deployed sample application(s)
-                stage('UI Test v14') {
+                stage('UI Tests v14') {
                     when {
                         expression {
                             currentBuild.currentResult == "SUCCESS"
@@ -89,13 +88,13 @@ pipeline {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             withSonarQubeEnv('SonarQube') {
                                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
-                                    sh 'mvn -Dsonar.projectName=linkki-$BUILD_NAME -Dsonar.projectKey=linkki-$BUILD_NAME -Dsonar.login=$SONAR_LOGIN sonar:sonar'
+                                    sh 'mvn -Dsonar.projectName=${PROJECT_NAME} -Dsonar.projectKey=${PROJECT_NAME} -Dsonar.branch.name=${PROJECT_ID} -Dsonar.login=$SONAR_LOGIN sonar:sonar'
                                 }
                             }
 
                             rtp parserName: 'HTML', nullAction: '1', stableText: """
                                 <h3>SonarQube</h3>
-                                <a href="https://sonarqube.faktorzehn.de/dashboard?id=linkki-${env.BUILD_NAME}" target="_blank">https://sonarqube.faktorzehn.de/dashboard?id=linkki-${env.BUILD_NAME}</a>
+                                <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&branch=${env.PROJECT_ID}' target='_blank'>https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&branch=${env.PROJECT_ID}</a>
                             """
                         }
                     }
@@ -106,7 +105,7 @@ pipeline {
                         rtp parserName: 'HTML', nullAction: '1', stableText: """
                             <h3>Vaadin 14 samples</h3>
                             <ul>
-                                <li><a href="http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14">test playground</a></li>
+                                <li><a href='http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14'>test playground</a></li>
                             </ul>
                         """
                     }
