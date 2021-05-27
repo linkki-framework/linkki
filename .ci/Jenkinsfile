@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
-        BUILD_NAME = "master"
+        PROJECT_NAME = 'linkki'
+        BUILD_NAME = 'master'
+        PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'permanent-on'
     }
@@ -41,7 +43,7 @@ pipeline {
                 """
             }
         }
-        
+
         // wait for the sample applications to be ready to run the tests
         stage('Wait for Server') {
             steps {
@@ -76,6 +78,39 @@ pipeline {
 
             environment {
                 MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-master.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
+            }
+        }
+
+        // run the SonarQube analysis for this change
+        stage('SonarQube Analysis') {
+            environment {
+                SONAR_LOGIN = credentials('sonar.login')
+            }
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    withSonarQubeEnv('SonarQube') {
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                            sh 'mvn -Dsonar.projectName=${PROJECT_NAME} -Dsonar.projectKey=${PROJECT_NAME} -Dsonar.login=$SONAR_LOGIN sonar:sonar'
+                        }
+                    }
+
+                    rtp parserName: 'HTML', nullAction: '1', stableText: """
+                        <h3>SonarQube</h3>
+                        <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}' target='_blank'>https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}</a>
+                    """
+                }
+            }
+        }
+
+        // check if the SonarQube quality gate is fulfilled
+        stage('SonarQube Quality Gate') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // set build to unstable if quality gate fails
+                    catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
             }
         }
     }

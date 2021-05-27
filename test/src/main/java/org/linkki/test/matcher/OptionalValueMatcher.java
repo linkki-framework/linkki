@@ -34,7 +34,7 @@ public class OptionalValueMatcher<T> extends TypeSafeMatcher<Optional<? extends 
 
     @Override
     protected boolean matchesSafely(Optional<? extends T> item) {
-        return Objects.equals(item.get(), expectedValue);
+        return item.map(i -> Objects.equals(i, expectedValue)).orElse(false);
     }
 
 }

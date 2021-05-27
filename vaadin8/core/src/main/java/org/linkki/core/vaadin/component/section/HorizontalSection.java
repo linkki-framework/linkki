@@ -96,11 +96,14 @@ public class HorizontalSection extends BaseSection {
     }
 
     private void updateExpandRatio() {
-        float ratio = 1f / getNumOfComponentsWith100PctWidth();
-        for (Iterator<Component> it = content.iterator(); it.hasNext();) {
-            Component c = it.next();
-            if (UiUtil.isWidth100Pct(c)) {
-                content.setExpandRatio(c, ratio);
+        int numOfComponentsWith100PctWidth = getNumOfComponentsWith100PctWidth();
+        if (numOfComponentsWith100PctWidth > 0) {
+            float ratio = 1f / numOfComponentsWith100PctWidth;
+            for (Iterator<Component> it = content.iterator(); it.hasNext();) {
+                Component c = it.next();
+                if (UiUtil.isWidth100Pct(c)) {
+                    content.setExpandRatio(c, ratio);
+                }
             }
         }
     }

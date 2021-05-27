@@ -72,7 +72,9 @@ public final class PropertyAccessorCache {
                 return false;
             }
             CacheKey other = (CacheKey)obj;
-            if (!clazz.getName().equals(other.clazz.getName())) {
+            @SuppressWarnings("java:S1872")
+            boolean isSameClassName = clazz.getName().equals(other.clazz.getName());
+            if (!isSameClassName) {
                 return false;
             }
             if (!property.equals(other.property)) {
