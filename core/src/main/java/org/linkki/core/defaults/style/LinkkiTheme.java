@@ -63,6 +63,9 @@ public class LinkkiTheme {
     /** A button that is styled as a text, without additional height. **/
     public static final String BUTTON_TEXT = "linkki-button-text";
 
+    /** A component that contains an icon **/
+    public static final String HAS_ICON = "linkki-has-icon";
+
     private LinkkiTheme() {
         // prevent initialization
     }

@@ -1,0 +1,64 @@
+:jbake-title: Options
+:jbake-type: section
+:jbake-status: published
+
+[[apt-compiler-options]]
+=== Compiler-Options
+
+The severity level of any rule violation can be customized by passing compiler arguments. The
+argument keys have to start with "linkki.apt".
+
+==== Possible severity levels
+
+* **ERROR** - Error that lets the compile-process fail
+* **WARNING** - Warning that can also be suppressed
+* **NOTE** - Information for the compile-log
+* **IGNORE** - Ignore the rule completely
+
+==== Message Codes
+
+[%header]
+|===
+| Message Code | Description | default
+| **IMPLICIT_MODEL_BINDING** | Using direct model binding without specifying the `modelAttribute` | WARNING
+| **MISSING_MODEL_OBJECT** | Not providing a model object even though it is required | ERROR
+| **MISSING_MODEL_ATTRIBUTE** | Specifying a `modelAttribute` that cannot be found in the `modelObject` | ERROR
+| **MISSING_METHOD** | Not defining a dynamic method even though it is required by an `LinkkiAspect` | ERROR
+| **MISSING_METHOD_ABSTRACT_TYPE** | Not defining a dynamic method, even though it is required by an `LinkkiAspect` in an abstract class or interface | ERROR
+| **MODEL_OBJECT_CLASH** | Defining multiple model objects with the same name | ERROR
+| **DYNAMIC_FIELD_MISMATCH** | Defining different positions on a dynamic field | ERROR
+| **NON_PUBLIC_METHOD** | Defining an annotated or required method that is not public | ERROR
+| **POSITION_CLASH** | Specifying positions that are not unique in the PMO | ERROR
+| **WRONG_CONTENT_TYPE** | Specifying content to be `AvailableValuesType.ENUM_INCL_NULL` or
+`AvailableValuesType.ENUM_VALUES_EXCL_NULL` although the property returns neither `Enum` nor `Boolean` | ERROR
+| **SETTER_ONLY_IN_MODEL_OBJECT** | Reports that a property with corresponding bound model attribute has a getter but no setter in the PMO although there is a setter in the model object. This is a legal case but behavior changed with *linkki* 1.1 (see https://doc.linkki-framework.org/1.1.0/99_newnoteworthy/index.html#nn-setter-in-mo[New&Noteworthy: Setter calls in model object]). | IGNORE
+| **ASPECT_CREATION_FAILED** | An exception was thrown when creating an aspect from an aspect definition. *The severity level of this message cannot be changed.* | WARNING
+|===
+
+==== Configuring Compiler Options in Maven
+
+Passing compiler options to the annotation processor requires a prefix `-A` in a `<compilerArg>`:
+
+.Maven dependency
+[source, xml]
+----
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<configuration>
+		...
+		<annotationProcessorPaths>...</annotationProcessorPaths>
+		<compilerArgs>
+			<!-- arguments for annotation processor start with "-A" -->
+			<compilerArg>
+				<!-- ignoring all implicit model binding warnings -->
+				-Alinkki.apt.IMPLICIT_MODEL_BINDING=IGNORE
+			</compilerArg>
+			<compilerArg>
+				<!-- rather have a warning than an error -->
+				-Alinkki.apt.MISSING_METHOD_ABSTRACT_TYPE=WARNING
+			</compilerArg>
+		</compilerArgs>
+	</configuration>
+</plugin>
+----

@@ -1,0 +1,19 @@
+:jbake-title: UI Components
+:jbake-type: chapter
+:jbake-status: published
+:jbake-order: 50
+
+[[ui-components]]
+== UI Components
+
+As already described in the section <<pmo-create-ui, how to create a layout>>, UI components are not instantiated directly.
+Instead, they are declared via annotations on the PMO properties.
+When *linkki* is instructed to create a layout based on a PMO, the annotations are read and corresponding UI components are instantiated.
+The components are arranged using the defined position, while the layout is defined by the layout annotation.
+
+*linkki* offers ready-to-use annotations for the most common UI components, which generate standard Vaadin elements or custom subclasses depending on the data type. These are prefixed with "@UI...". These UI components can be divided in two groups: <<ui-field, fields>> and <<ui-button, buttons>>.
+
+Additionally *linkki* allows the creation of <<ui-container-pmo, tables>>.
+
+Certain additional <<aspects, aspects>> of the binding, for example the tooltip of a component, are configured by extra annotations. These annotations are prefixed with "@Bind..." like <<tooltips, `@BindTooltip`>>.
+

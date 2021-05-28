@@ -1,0 +1,47 @@
+{
+	"1.4.0": [
+		{
+			"extension": "revapi.differences",
+			"configuration": {
+				"ignore": true,
+				"differences": [
+					{
+						"regex": true,
+						"code": "java.class.externalClassExposedInAPI",
+						"newArchive": "org\\.linkki-framework:linkki.*:.*"
+					},
+					{
+						"regex": true,
+						"code": "java.class.externalClassExposedInAPI",
+						"newArchive": "com\\.vaadin.*:.*:.*"
+					},
+					{
+						"regex": true,
+						"code": "java.class.externalClassExposedInAPI",
+						"newArchive": "javax\\.servlet:.*:.*"
+					},
+					{
+						"regex": true,
+						"code": "java.missing.newClass",
+						"new": "missing-class javax\\.servlet\\..*"
+					},
+					{
+						"regex": true,
+						"code": "java.class.externalClassExposedInAPI",
+						"newArchive": "org\\.jsoup:jsoup.*:.*"
+					},
+					{
+						"regex": true,
+						"code": "java.class.nonPublicPartOfAPI",
+						"newArchive": "com\\.vaadin.*:.*:.*"
+					},
+					{
+						"regex": true,
+						"code": "java.class.nonPublicPartOfAPI",
+						"newArchive": "org\\.jsoup:jsoup.*:.*"
+					}
+				]
+			}
+		}
+	]
+}

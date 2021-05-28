@@ -1,0 +1,35 @@
+:jbake-title: Data Binding with PMOs
+:jbake-type: section
+:jbake-status: published
+
+:source-dir: ../../../../src/main/java
+:images-folder-name: 03_architecture
+
+[[databinding]]
+=== Data Binding with PMOs
+
+*linkki* enables a declarative definition of UIs, by generating them automatically from annotations. Additionally, content (data) of an UI element and its properties (for instance visibility, editability, ...) can be bound to so called Presentation Model Objects (PMOs). With this, a bi-directional update mechanism is provided, the so called data binding. If a value is changed on the UI by a user, for instance, the corresponding value in the domain model is updated, as well as dependent properties and other UI elements.
+
+.Bidirectional data binding
+image::{images}{images-folder-name}/data_binding.png[]
+
+A Presentation Model Object encapsulates the UI state independently of the concrete UI implementation. The UI interacts exclusively via Data Binding with this PMO. The PMO isn't required to hold all data, it can delegate to existing model objects (see <<domain-model-binding,Data on Multiple Layers>>). This data is then converted into a format suitable for presentation.
+
+In *linkki* PMOs are Plain Old Java Objects (POJOs), in which data for individual UI sections are structured. There has to be a PMO for every UI section.
+
+Of importance for the data binding are the so called "properties" of a PMO. According to the JavaBean convention a PMO class has a property named "something" if and only if that class has a method `getSomething()` (`isSomething()` for boolean). If the value of this property is to be modifiable, the method `setSomething` must exist additionally. The value of the property may be stored in a field `something` but that is not required. Neither does a PMO have to be a JavaBean with zero-argument constructor - only the bound properties are found following the JavaBean conventions.
+
+See the following example class:
+
+[source,java]
+----
+include::{source-dir}/org/linkki/doc/ExamplePmo.java[tags=class]
+----
+
+This class has two properties: "salutation" and "nameForUI". The property "nameForUI" shows, that for a PMO property there doesn't necessarily have to exist a corresponding field. Also, "surname" is no property even though there is a field and a matching setter method, because the required method `String getSurname()` is missing.
+
+There are some optional interfaces that PMO classes may implement:
+
+* `org.linkki.core.pmo.PresentationModelObject` offers a method for the creation of a button PMO. This button is displayed in the section header if the PMO is annotated with <<layout-section, @UISection>>.
+* `org.linkki.core.pmo.ButtonPmo` is a PMO for buttons, see <<ui-button,Buttons>>
+* `org.linkki.core.defaults.columnbased.pmo.ContainerPmo` is a PMO for tables, of which each row is represented by regular PMOs. See <<ui-container-pmo,Container Components>>

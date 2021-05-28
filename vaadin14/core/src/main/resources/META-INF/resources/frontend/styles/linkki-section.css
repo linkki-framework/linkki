@@ -1,0 +1,24 @@
+html {
+	--linkki-section-caption-header-color: var(--lumo-header-text-color);
+}
+.linkki-section-caption {
+	margin-bottom: 1em;
+}
+.linkki-section-caption > h4 {
+	color: var(--linkki-section-caption-header-color);
+	white-space: nowrap;
+	margin: 0 var(--lumo-space-m);
+}
+
+.linkki-section-caption > vaadin-button {
+	margin-left: 0;
+	margin-right: var(--lumo-space-m);
+}
+
+.linkki-section-caption:after {
+	height: 1px;
+	margin-bottom: 1px;
+	flex-grow: 1;
+	content: "";
+	box-shadow: 0 0.5px 0 var(--lumo-contrast-20pct);
+}

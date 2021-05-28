@@ -6,9 +6,11 @@ pipeline {
     options {
         skipDefaultCheckout true
     }
-    
+
     environment {
+        PROJECT_NAME = 'linkki'
         BUILD_NAME = "${params.RELEASE_VERSION}"
+        PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'keep'
     }
@@ -36,17 +38,18 @@ pipeline {
 
         stage('Docker Deployment') {
             steps {
-                sh "bash .ci/docker_setup.sh ${BUILD_NAME}"
+                sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME}'
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
-                    <h3>Vaadin 8 samples</h3>
+                    <h3>Test Playground</h3>
                     <ul>
-                        <li><a href='http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'>test playground</a></li>
+                        <li><a href='http://linkki-vaadin8-${env:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'>Vaadin 8</a></li>
+                        <li><a href='http://linkki-vaadin14-${env:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14'>Vaadin 14</a></li>
                     </ul>
                 """
             }
         }
-        
+
         // wait for the sample applications to be ready to run the tests
         stage('Wait for Server') {
             steps {
@@ -55,7 +58,8 @@ pipeline {
                     waitUntil {
                         script {
                             try {
-                                sh 'curl --fail http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'
+                                sh 'curl --fail http://linkki-vaadin8-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'
+                                sh 'curl --fail http://linkki-vaadin14-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14'
                                 return true
                             } catch (Exception e) {
                                 return false
@@ -66,15 +70,72 @@ pipeline {
             }
         }
 
-        stage('UI Test') {
+        stage('UI Test Vaadin 8') {
+            when {
+                expression {
+                    currentBuild.currentResult == "SUCCESS"
+                }
+            }
+
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml clean test'
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
                 }
             }
 
             environment {
-                MAVEN_OPTS = "-Xmx2g -Dtest.hostname=linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8"
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin8-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
+            }
+        }
+
+        stage('UI Test Vaadin 14') {
+            when {
+                expression {
+                    currentBuild.currentResult == "SUCCESS"
+                }
+            }
+
+            steps {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
+                }
+            }
+
+            environment {
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin14-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin14'
+            }
+        }
+
+        // run the SonarQube analysis for this change
+        stage('SonarQube Analysis') {
+            environment {
+                SONAR_LOGIN = credentials('sonar.login')
+            }
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    withSonarQubeEnv('SonarQube') {
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                            sh 'mvn -Dsonar.projectName=${PROJECT_NAME} -Dsonar.projectKey=${PROJECT_NAME} -Dsonar.branch.name=${PROJECT_ID} -Dsonar.login=$SONAR_LOGIN sonar:sonar'
+                        }
+                    }
+
+                    rtp parserName: 'HTML', nullAction: '1', stableText: """
+                        <h3>SonarQube</h3>
+                        <a href='https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&branch=${env.PROJECT_ID}' target='_blank'>https://sonarqube.faktorzehn.de/dashboard?id=${env.PROJECT_NAME}&branch=${env.PROJECT_ID}</a>
+                    """
+                }
+            }
+        }
+
+        // check if the SonarQube quality gate is fulfilled
+        stage('SonarQube Quality Gate') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // set build to unstable if quality gate fails
+                    catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
             }
         }
 

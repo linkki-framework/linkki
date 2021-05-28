@@ -14,9 +14,9 @@
 
 package org.linkki.core.ui.layout.annotation;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -27,7 +27,6 @@ import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -40,9 +39,9 @@ public class UIVerticalLayoutIntegrationTest {
 
         Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
         assertThat("UiCreator should be able to create a VerticalLayout", component,
-                   is(instanceOf(HorizontalLayout.class)));
+                   is(instanceOf(VerticalLayout.class)));
 
-        HorizontalLayout layout = (HorizontalLayout)component;
+        VerticalLayout layout = (VerticalLayout)component;
 
         assertThat("Default vertical alignment should be middle", layout.getDefaultComponentAlignment(),
                    is(Alignment.MIDDLE_LEFT));
@@ -68,7 +67,7 @@ public class UIVerticalLayoutIntegrationTest {
                    is(Alignment.MIDDLE_CENTER));
     }
 
-    @UIHorizontalLayout
+    @UIVerticalLayout
     public static class VerticalLayoutPmo {
 
         private String text = "";

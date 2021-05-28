@@ -10,6 +10,11 @@
     <name>linkki Vaadin 8 Test</name>
     <description>linkki Test Utilities for Vaadin 8</description>
 
+    <properties>
+        <!-- Ignore duplications due to Vaadin8/14 projects -->
+        <sonar.cpd.exclusions>**/*.java</sonar.cpd.exclusions>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.linkki-framework</groupId>

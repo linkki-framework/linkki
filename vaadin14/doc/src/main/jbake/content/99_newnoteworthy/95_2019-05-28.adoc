@@ -1,0 +1,11 @@
+:jbake-status: referenced
+:jbake-type: archive
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_releasenotes
+
+=== 0.9.20190528
+
+===== Update to Vaadin 8.8.2
+
+Due to an incompatibility with Firefox 67, the Vaadin 8 version included in *linkki* had to be updated to https://github.com/vaadin/framework/releases/tag/8.8.2[8.8.2].

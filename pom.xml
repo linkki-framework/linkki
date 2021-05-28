@@ -36,6 +36,7 @@
         <module>utils</module>
         <module>core</module>
         <module>vaadin8</module>
+        <module>vaadin14</module>
         <module>apt</module>
     </modules>
 
@@ -44,6 +45,7 @@
         <git.user>${user.name}</git.user>
         <junit.version>5.7.0</junit.version>
         <mockito.version>3.6.0</mockito.version>
+        <assertj.version>3.19.0</assertj.version>
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons-io.version>2.8.0</commons-io.version>
         <doc.user>${user.name}</doc.user>
@@ -52,7 +54,7 @@
         <java.version>1.8</java.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
-        
+
         <!-- Sonarqube properties -->
         <sonar.host.url>https://sonarqube.faktorzehn.de</sonar.host.url>
         <sonar.exclusions>
@@ -64,6 +66,7 @@
         <sonar.cpd.exclusions>
             **/org/linkki/samples/**/*.java
         </sonar.cpd.exclusions>
+
     </properties>
 
     <build>
@@ -473,6 +476,12 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

@@ -12,6 +12,11 @@
     <packaging>jar</packaging>
     <name>linkki Nested Components for Vaadin 8</name>
 
+    <properties>
+        <!-- Ignore duplications due to Vaadin8/14 projects -->
+        <sonar.cpd.exclusions>**/*.java</sonar.cpd.exclusions>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.linkki-framework</groupId>

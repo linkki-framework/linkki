@@ -15,10 +15,12 @@
 package org.linkki.samples.playground.table;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
+import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.UISection;
@@ -61,6 +63,11 @@ public class PlaygroundTablePmo extends SimpleTablePmo<TableModelObject, Playgro
     @Override
     protected PlaygroundRowPmo createRow(TableModelObject modelObject) {
         return new PlaygroundRowPmo(modelObject, () -> deleteConsumer.accept(modelObject));
+    }
+
+    @Override
+    public Optional<TableFooterPmo> getFooterPmo() {
+        return Optional.of(c -> c + "Footer");
     }
 
     @UIButton(position = 10, showIcon = true, icon = VaadinIcons.PLUS, caption = "", styleNames = ValoTheme.BUTTON_BORDERLESS)

@@ -36,9 +36,10 @@ pipeline {
                 sh 'bash -x .ci/docker_setup.sh ${BUILD_NAME}'
 
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
-                    <h3>Vaadin 8 samples</h3>
+                    <h3>Test Playground</h3>
                     <ul>
-                        <li><a href='http://linkki-${env.BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'>test playground</a></li>
+                        <li><a href='http://linkki-vaadin8-${env:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'>Vaadin 8</a></li>
+                        <li><a href='http://linkki-vaadin14-${env:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14'>Vaadin 14</a></li>
                     </ul>
                 """
             }
@@ -52,7 +53,8 @@ pipeline {
                     waitUntil {
                         script {
                             try {
-                                sh 'curl --fail http://linkki-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'
+                                sh 'curl --fail http://linkki-vaadin8-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'
+                                sh 'curl --fail http://linkki-vaadin14-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14'
                                 return true
                             } catch (Exception e) {
                                 return false
@@ -63,7 +65,7 @@ pipeline {
             }
         }
 
-        stage('UI Test') {
+        stage('UI Test Vaadin 8') {
             when {
                 expression {
                     currentBuild.currentResult == "SUCCESS"
@@ -77,7 +79,25 @@ pipeline {
             }
 
             environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-master.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin8-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
+            }
+        }
+
+        stage('UI Test Vaadin 14') {
+            when {
+                expression {
+                    currentBuild.currentResult == "SUCCESS"
+                }
+            }
+
+            steps {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
+                }
+            }
+
+            environment {
+                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin14-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin14'
             }
         }
 
@@ -123,7 +143,7 @@ pipeline {
 
             junit '**/target/surefire-reports-java11/*.xml'
 
-            archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*, vaadin8/samples/test-playground/uitest/target/uitest/*.png, vaadin8/samples/test-playground/uitest/target/uitest/*.html'
+            archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*, vaadin8/samples/test-playground/uitest/target/uitest/*.png, vaadin14/samples/test-playground/uitest/target/uitest/*.html'
         }
 
         regression {

@@ -1,0 +1,84 @@
+:jbake-status: archived
+:jbake-type: referenced
+
+// NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
+:images-folder-name: 01_releasenotes
+:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+
+=== 1.2.2
+
+==== ID Collision in Table Sections
+
+When creating a table section from a PMO, the HTML elements of the table, as well as the section surrounding it, were both assigned the name of the PMO class as ID. This leads to ID collision. To avoid this, the ID of the table now has the suffix "_table".
+
+=== 1.2.1
+
+==== Bugfixes
+
+* Adding the first child to a row in a HierarchicalTable does not create a triangle to open the row
+
+=== 1.2.0
+
+==== Buttons and Arbitrary UI Elements in Section Headers
+
+Using the annotation <<section-header-annotation,@SectionHeader>>, any UI element can now be added to a section's header instead of its content area. This should be used instead of a button PMO returned from `PresentationModelObject#getEditButtonPmo()`.
+
+==== Radio Buttons
+
+Vaadin's radio button group, previously only used as an <<custom-ui-element-annotation,example how to create a custom UI element>>, is now also a part of linkki for Vaadin 8 with the <<ui-radiobutton,`@UIRadioButtons`>> annotation.
+
+==== SidebarLayout/SidebarSheet
+
+The `SidebarLayout` got a `SelectionListener` to get an event when the selected sidebar sheet changes. To identify the selected sidebar sheet
+for example when the selected sheet is referenced by a URL parameter, the sidebar sheets now have an optional ID. The ID is derived from name if it
+was not specified explicitly but it is recommended to make it explicit.
+
+The `UiUpdateObserver` in `SidebarSheet` is still the recommended way to trigger an update when the sheet gets selected. This way it remains self-contained (the layout does not need to know how to update the sheet). To make the instantiation more flexible, the `UiUpdateObserver` could now be specified after constructor using a setter.
+
+[role="api-change"]
+==== ComponentWrapper Now Stores Reference to Binding
+
+`Bindings` used to be removed explicitly when a `DetachEvent` was received. However it was possible to remove or disable components without the _detachListener_ triggering, leading to multiple `Bindings` for the same components or "dead" components hanging around, because their `Bindings` were still referenced within the `BindingContext`.
+
+The new method `ComponentWrapper#registerBinding(Binding)` creates a strong reference from a component to their `Binding`, enabling the `BindingContext` to keep only weak references to all `Bindings`. This allows the GC to effectively clean up any unused Components _together with their `Bindings`_.
+
+The method `BindingContext#add(Binding)` has therefore been deprecated and replaced with the new signature `BindingContext#add(Binding, ComponentWrapper)`.
+
+Be aware that this change may lead to `NullPointerExceptions` in your code if you were accessing model objects in dynamically changing components like tables. This is because unused `Bindings` and their components will be removed more frequently and reliably than before. These exceptions should be easily fixed by null-checks when accessing referenced model-objects.
+
+==== New Widgetset Allows Flexible Date Entry
+
+*linkki* now includes its own <<widgetset,widgetset>> that offers a more flexible <<ui-datefield,date entry field>>. You can switch to it with
+
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/ui/PlaygroundApplicationUI.java[tags=widgetset]
+----
+
+==== Empty Selection for Empty Combo Box
+
+If the `getAllowedValues()` method of a dynamic `@UiComboBox` returns an empty list, an empty selection is now automatically allowed on the resulting Vaadin component, *even if null wouldn't normally be allowed*. Otherwise it would not be possible to clear the currently selected value when all previously available values are removed.
+
+[role="api-change"]
+==== ExceptionPropertyDispatcher Throws IllegalStateException if Model Object Is `null`
+
+If the model object is null and no getter method is provided in the PMO to handle a null model object, the caller previously received an `IllegalArgumentException` stating "Cannot convert presentation type class ... to model type void". This message is now improved,
+because the `ExceptionPropertyDispatcher` now throws an `IllegalStateException` instead of returning `void` when there is no model object, so that the resulting error is easier to track.
+
+==== Incubator Project & Nested PMOs
+
+The new incubator module offers access to features in development, such as <<nested-pmos,nested PMOs>>.
+
+==== APT Exception Handling for Aspect Definitions
+
+Exceptions thrown when APT calls the `createAspect` method of aspect definition no longer abort the build. Instead, an <<apt-compiler-options,ASPECT_CREATION_FAILED warning>> is now emitted.
+
+==== Update Vaadin to 8.10.4
+
+linkki now uses Vaadin version 8.10.4 to include the latest bug fixes and patches.
+
+==== Bugfixes
+
+* Error markers in table cells are now kept when switching tabs
+* Selection of `SidebarSheet` showed old content before updating it
+* Datepicker in tables was too wide for the cell

@@ -4,27 +4,49 @@ BUILD_NAME=$1
 # Create user-defined bridge
 NETWORK_NAME="network-linkki-$BUILD_NAME"
 if [ -z "$(docker network ls --filter="name=$NETWORK_NAME" -q)" ]; then
-	docker network create $NETWORK_NAME
+    docker network create $NETWORK_NAME
 fi
 
-# Create spring boot container for playground
-SPRINGBOOT_NAME="linkki-$BUILD_NAME"
-if [ -n "$(docker container ls --filter="name=$SPRINGBOOT_NAME" -a -q)" ]; then
-    docker rm --force $SPRINGBOOT_NAME
+# Create vaadin14 container
+V14_NAME="linkki-vaadin14-$BUILD_NAME"
+if [ -n "$(docker container ls --filter="name=$V14_NAME" -a -q)" ]; then
+    docker rm --force $V14_NAME
 fi
 
-LABEL="url=linkki-$BUILD_NAME"
 docker create \
         --cpus=2 --memory=4g \
-        --name $SPRINGBOOT_NAME \
+        --name $V14_NAME \
         --network $NETWORK_NAME \
-        --label $LABEL \
+        --label "url=$V14_NAME" \
+        --label "entry-path=linkki-sample-test-playground-vaadin14" \
+        --label "retention=${CONTAINER_RETENTION:-discard}" \
+        f10/spring:8
+
+# Copy war to container
+WAR_FILE="vaadin14/samples/test-playground/target/linkki-sample-test-playground-vaadin14.war"
+docker cp $WAR_FILE $V14_NAME:/opt/spring/application.war
+
+# Start the container
+docker start $V14_NAME
+
+# Create vaadin8 container
+V8_NAME="linkki-vaadin8-$BUILD_NAME"
+if [ -n "$(docker container ls --filter="name=$V8_NAME" -a -q)" ]; then
+    docker rm --force $V8_NAME
+fi
+
+docker create \
+        --cpus=2 --memory=4g \
+        --name $V8_NAME \
+        --network $NETWORK_NAME \
+        --label "url=$V8_NAME" \
+        --label "entry-path=linkki-sample-test-playground-vaadin8" \
         --label "retention=${CONTAINER_RETENTION:-discard}" \
         f10/spring:8
 
 # Copy war to container
 WAR_FILE="vaadin8/samples/test-playground/target/linkki-sample-test-playground-vaadin8.war"
-docker cp $WAR_FILE $SPRINGBOOT_NAME:/opt/spring/application.war
+docker cp $WAR_FILE $V8_NAME:/opt/spring/application.war
 
 # Start the container
-docker start $SPRINGBOOT_NAME
+docker start $V8_NAME

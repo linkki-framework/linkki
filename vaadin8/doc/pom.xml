@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +17,11 @@
         <basedir.parent>${project.parent.basedir}</basedir.parent>
         <jade.outputDirectory>${project.build.directory}/${project.build.finalName}</jade.outputDirectory>
         <jade.runExternalLinkTests>true</jade.runExternalLinkTests>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
         <deploymentFolder>${project.version}-vaadin8</deploymentFolder>
+        
+        <!-- Ignore duplications due to Vaadin8/14 projects -->
+        <sonar.cpd.exclusions>**/*.java</sonar.cpd.exclusions>
     </properties>
 
     <artifactId>linkki-core-documentation-vaadin8</artifactId>
@@ -30,10 +36,20 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- This is included as a provided dependency to allow the maven compiler to pick up the current version of the 
-            annotation processor in the build. Using the regular way of including it as annotation processor for the maven-compiler-plugin 
-            depends on the annotation processor being installed in the Maven repository beforehand and as such fails when increasing 
-            the version number or changing the annotation processor. -->
+        <!-- Since JADE is not capable of running in parallel, we need this 
+            dependency to ensure the documentations are built after one another. -->
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-core-documentation-vaadin14</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- This is included as a provided dependency to allow the maven 
+            compiler to pick up the current version of the annotation processor in the 
+            build. Using the regular way of including it as annotation processor for 
+            the maven-compiler-plugin depends on the annotation processor being installed 
+            in the Maven repository beforehand and as such fails when increasing the 
+            version number or changing the annotation processor. -->
         <dependency>
             <groupId>org.linkki-framework.tooling</groupId>
             <artifactId>linkki-apt</artifactId>
@@ -54,7 +70,8 @@
                     <showDeprecation>true</showDeprecation>
                     <compilerArgs>
                         <arg>-Xlint</arg>
-                        <!-- Because the eclipse compiler and javac differ: https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
+                        <!-- Because the eclipse compiler and javac differ: 
+                            https://bugs.eclipse.org/bugs/show_bug.cgi?id=344783 -->
                         <arg>-Xlint:-varargs</arg>
                     </compilerArgs>
                 </configuration>
@@ -125,8 +142,8 @@
                         <skip>true</skip>
                     </configuration>
                 </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
-                    build itself. -->
+                <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
