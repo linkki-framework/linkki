@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.table;
+package org.linkki.samples.playground.table.selection;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
+import org.linkki.samples.playground.table.PlaygroundRowPmo;
 import org.linkki.util.handler.Handler;
 
 @UIHorizontalLayout

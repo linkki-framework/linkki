@@ -115,6 +115,8 @@ public class GridComponentCreator {
         Column<ROW> column = createComponentColumn(m, grid, bindingContext);
         column.setKey(boundProperty.getPmoProperty());
         column.setResizable(true);
+        column.setAutoWidth(true);
+        column.setFlexGrow(0);
         List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader.createAspectDefinitionsFor(m);
         bindingContext.bind(containerPmo.getItemPmoClass(), boundProperty,
                             aspectDefs,

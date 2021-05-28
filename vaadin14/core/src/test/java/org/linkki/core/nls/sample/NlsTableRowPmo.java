@@ -32,7 +32,7 @@ public class NlsTableRowPmo {
         return "1";
     }
 
-    @UITableColumn(expandRatio = 20)
+    @UITableColumn(flexGrow = 20)
     @UITextField(position = 1, label = PMO_LABEL)
     public String getValue2() {
         return "2";

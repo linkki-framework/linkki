@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.lang.reflect.Method;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
@@ -28,17 +27,11 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 public class UITableColumnAspectCreatorTest {
 
     @Test
-    public void testWidthAndExpandRatioAreExclusive_OK() throws NoSuchMethodException, SecurityException {
+    public void testWidthAndExpandRatioCanBeCombined() throws NoSuchMethodException, SecurityException {
         assertNotNull(create("methodWithWidthAnnotation"));
-        assertNotNull(create("methodWithExpandRatioAnnotation"));
+        assertNotNull(create("methodWithFlexGrowAnnotation"));
         assertNotNull(create("methodWithEmptyAnnotation"));
-    }
-
-    @Test
-    public void testWidthAndExpandRatioAreExclusive_Fail() throws SecurityException {
-        Assertions.assertThrows(IllegalStateException.class, () -> {
-            create("methodWithWidthAndExpandRatioAnnotation");
-        });
+        assertNotNull(create("methodWithWidthAndFlexGrowAnnotation"));
     }
 
     private static LinkkiAspectDefinition create(String methodName) throws NoSuchMethodException, SecurityException {
@@ -56,13 +49,13 @@ public class UITableColumnAspectCreatorTest {
             // Noting to do
         }
 
-        @UITableColumn(expandRatio = 1234)
-        public void methodWithExpandRatioAnnotation() {
+        @UITableColumn(flexGrow = 1234)
+        public void methodWithFlexGrowAnnotation() {
             // Noting to do
         }
 
-        @UITableColumn(width = 100, expandRatio = 1234)
-        public void methodWithWidthAndExpandRatioAnnotation() {
+        @UITableColumn(width = 100, flexGrow = 1234)
+        public void methodWithWidthAndFlexGrowAnnotation() {
             // Noting to do
         }
 

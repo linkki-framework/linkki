@@ -42,7 +42,7 @@ public class MessageRowPmo {
         this.message = requireNonNull(message, "message must not be null");
     }
 
-    @UITableColumn(expandRatio = 1)
+    @UITableColumn(flexGrow = 1)
     @UILabel(position = 0)
     @BindIcon
     @BindStyleNames

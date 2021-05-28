@@ -26,7 +26,7 @@ import org.linkki.core.ui.element.annotation.UICheckBox;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.table.column.annotation.UITableColumn.TableColumnAspectDefinitionCreator;
 import org.linkki.core.ui.table.column.aspects.ColumnCollapseAspectDefinition;
-import org.linkki.core.ui.table.column.aspects.ColumnExpandRatioAspectDefinition;
+import org.linkki.core.ui.table.column.aspects.ColumnFlexGrowAspectDefinition;
 import org.linkki.core.ui.table.column.aspects.ColumnWidthAspectDefinition;
 
 import com.vaadin.flow.component.grid.Grid.Column;
@@ -48,30 +48,26 @@ import com.vaadin.flow.component.grid.Grid.Column;
 public @interface UITableColumn {
 
     static final int UNDEFINED_WIDTH = -1;
-    static final int UNDEFINED_EXPAND_RATIO = -1;
+    static final int UNDEFINED_FLEX_GROW = -1;
 
     /**
      * Configures the width in pixels for the column.
      * 
      * @implSpec The default value of -1 means that the column can be sized freely by the layout.
      * 
-     * @implNote This attribute is mutually exclusive with {@link #expandRatio()}.
-     * 
      * @see Column#setWidth(String)
      */
     int width() default UNDEFINED_WIDTH;
 
     /**
-     * Configures the expand ratio for the column.
+     * Configures the flex grow ratio for the column.
      * 
-     * @implSpec The expand ratio defines what part of excess available space the layout allots to this
-     *           column.
-     * 
-     * @implNote This attribute is mutually exclusive with {@link #width()}.
+     * @implSpec The flex grow ratio defines what part of excess available space the layout allots to
+     *           this column.
      * 
      * @see Column#setFlexGrow(int)
      */
-    int expandRatio() default UNDEFINED_EXPAND_RATIO;
+    int flexGrow() default UNDEFINED_FLEX_GROW;
 
     /**
      * Configures whether a column can be collapsed and whether it initially is.
@@ -118,20 +114,12 @@ public @interface UITableColumn {
 
         @Override
         public LinkkiAspectDefinition create(UITableColumn annotation) {
-            int expandRatio = annotation.expandRatio();
+            int flexGrow = annotation.flexGrow();
             int width = annotation.width();
-            if (expandRatio != UNDEFINED_EXPAND_RATIO && width != UNDEFINED_WIDTH) {
-                throw new IllegalStateException("The attributes \"" +
-                        ColumnWidthAspectDefinition.NAME + "\" and \"" + ColumnExpandRatioAspectDefinition.NAME
-                        + "\" should not be both defined in a @" + UITableColumn.class.getSimpleName()
-                        + " annotation.");
-            }
             return new CompositeAspectDefinition(
                     new ColumnCollapseAspectDefinition(annotation.collapsible()),
-                    new ColumnExpandRatioAspectDefinition(expandRatio),
+                    new ColumnFlexGrowAspectDefinition(flexGrow),
                     new ColumnWidthAspectDefinition(width));
         }
-
     }
-
 }

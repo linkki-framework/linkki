@@ -12,35 +12,45 @@
  * License.
  */
 
-package org.linkki.samples.playground.table;
+package org.linkki.samples.playground.table.selection;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
-import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.table.pmo.SelectableTablePmo;
+import org.linkki.samples.playground.table.PlaygroundRowPmo;
+import org.linkki.samples.playground.table.TableModelObject;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 
-@UISection(caption = "Table")
-public class PlaygroundTablePmo extends SimpleTablePmo<TableModelObject, PlaygroundRowPmo> {
+@UISection(caption = "Selectable Table")
+public class PlaygroundSelectableTablePmo extends SimpleTablePmo<TableModelObject, PlaygroundRowPmo>
+        implements SelectableTablePmo<PlaygroundRowPmo> {
+
+    public static final String NOTIFICATION_DOUBLE_CLICK = "Double clicked on ";
+
+    private PlaygroundRowPmo selected;
+
+    public static final int INITAL_SELECTED_ROW = 0;
 
     private Handler addHandler;
+
     private Consumer<TableModelObject> deleteConsumer;
 
-    public PlaygroundTablePmo(Supplier<List<? extends TableModelObject>> modelObjects,
+    public PlaygroundSelectableTablePmo(Supplier<List<? extends TableModelObject>> modelObjects,
             Handler addHandler,
             Consumer<TableModelObject> deleteConsumer) {
         super(modelObjects);
         this.addHandler = addHandler;
         this.deleteConsumer = deleteConsumer;
+        selected = getItems().get(INITAL_SELECTED_ROW);
     }
 
     @Override
@@ -55,18 +65,23 @@ public class PlaygroundTablePmo extends SimpleTablePmo<TableModelObject, Playgro
     }
 
     @Override
-    public Optional<TableFooterPmo> getFooterPmo() {
-        return Optional
-                .of(c -> "index".contentEquals(c)
-                        ? String.valueOf(getItems().stream().map(PlaygroundRowPmo::getModelObject)
-                                .map(TableModelObject::getIndex)
-                                .collect(Collectors.summingInt(i -> i)))
-                        : c + "Footer");
+    public PlaygroundRowPmo getSelection() {
+        return selected;
+    }
+
+    @Override
+    public void setSelection(PlaygroundRowPmo selectedRow) {
+        this.selected = selectedRow;
+    }
+
+    @Override
+    public void onDoubleClick() {
+        Notification.show(NOTIFICATION_DOUBLE_CLICK + selected.getModelObject().getName());
     }
 
     @Override
     public int getPageLength() {
-        return 5;
+        return 7;
     }
 
 }

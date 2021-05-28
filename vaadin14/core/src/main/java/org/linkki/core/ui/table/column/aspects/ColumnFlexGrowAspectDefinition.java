@@ -16,11 +16,11 @@ package org.linkki.core.ui.table.column.aspects;
 
 import org.linkki.core.ui.creation.table.GridColumnWrapper;
 
-public class ColumnExpandRatioAspectDefinition extends StaticColumnAspectDefinition<Integer> {
+public class ColumnFlexGrowAspectDefinition extends StaticColumnAspectDefinition<Integer> {
 
-    public static final String NAME = "expandRatio";
+    public static final String NAME = "flexGrow";
 
-    public ColumnExpandRatioAspectDefinition(int expandRatio) {
-        super(NAME, expandRatio, GridColumnWrapper::setExpandRatio);
+    public ColumnFlexGrowAspectDefinition(int flexGrow) {
+        super(NAME, flexGrow, GridColumnWrapper::setFlexGrow);
     }
 }

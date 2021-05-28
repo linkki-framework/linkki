@@ -25,6 +25,7 @@ public class TestRowPmo {
     public static final String PROPERTY_VALUE_2 = "value2";
     public static final String PROPERTY_VALUE_3 = "value3";
     public static final String PROPERTY_DELETE = "delete";
+    public static final String PROPERTY_WITH_WIDTH_AND_FLEX_GROW = "propertyWithWidthAndFlexGrow";
 
     private final Object modelObject = new Object();
 
@@ -34,7 +35,7 @@ public class TestRowPmo {
         return "1";
     }
 
-    @UITableColumn(expandRatio = 20, collapsible = CollapseMode.INITIALLY_COLLAPSED)
+    @UITableColumn(flexGrow = 20, collapsible = CollapseMode.INITIALLY_COLLAPSED)
     @UITextField(position = 1, label = "2")
     public String getValue2() {
         return "2";
@@ -47,6 +48,12 @@ public class TestRowPmo {
 
     @UIButton(position = 3)
     public void delete() {
+        // does nothing
+    }
+
+    @UITableColumn(flexGrow = 10, width = 20)
+    @UIButton(position = 4)
+    public void propertyWithWidthAndFlexGrow() {
         // does nothing
     }
 

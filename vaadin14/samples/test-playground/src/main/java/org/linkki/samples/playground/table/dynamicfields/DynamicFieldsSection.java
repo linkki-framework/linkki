@@ -20,18 +20,16 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.internal.CurrentInstance;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.WrappedSession;
 
-public class DynamicFieldsComponent extends Div {
-
-    private static final long serialVersionUID = 7747620148317506269L;
+public class DynamicFieldsSection {
 
     private static final String CAR_STORAGE_ATTRIBUTE = "linkki-sample::car-storage";
 
-    public DynamicFieldsComponent() {
+    public static Component create() {
 
         List<Car> carStorage = getCarStorage();
 
@@ -41,15 +39,13 @@ public class DynamicFieldsComponent extends Div {
                 .createSection(new CarTablePmo(carStorage,
                         () -> new NewCarDialog(carStorage, bindingContext::modelChanged)),
                                bindingContext);
-        add(table);
-
-        setWidthFull();
+        return table;
     }
 
     // some fake persistent storage
     // store the cars in the session so it is available after a browser
     // refresh as long as we are in the same session
-    private List<Car> getCarStorage() {
+    private static List<Car> getCarStorage() {
         List<Car> carStorage;
 
         WrappedSession session = CurrentInstance.get(VaadinSession.class).getSession();
@@ -67,7 +63,7 @@ public class DynamicFieldsComponent extends Div {
     }
 
 
-    private void addCars(List<Car> carStorage) {
+    private static void addCars(List<Car> carStorage) {
         carStorage.add(createCar(CarType.STANDARD, "Audi", "A4", 200.0));
         carStorage.add(createCar(CarType.PREMIUM, "Porsche", "911", 5000.0));
         carStorage.add(createCar(CarType.STANDARD, "Mercedes-Benz", "GLA", 300.0));
@@ -75,7 +71,7 @@ public class DynamicFieldsComponent extends Div {
 
     }
 
-    private Car createCar(CarType carType, String make, String model, double retention) {
+    private static Car createCar(CarType carType, String make, String model, double retention) {
         Car car = new Car(carType);
         car.setMake(make);
         car.setModel(model);

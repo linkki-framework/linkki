@@ -68,13 +68,13 @@ public class ContactRowPmo {
         return icon.getElement().getOuterHTML();
     }
 
-    @UITableColumn(expandRatio = 10)
+    @UITableColumn(flexGrow = 10)
     @UILabel(position = 10, label = "Name")
     public String getName() {
         return contact.getName();
     }
 
-    @UITableColumn(expandRatio = 20, collapsible = CollapseMode.INITIALLY_COLLAPSED)
+    @UITableColumn(flexGrow = 20, collapsible = CollapseMode.INITIALLY_COLLAPSED)
     @UILabel(position = 20, label = "Address")
     public String getAddress() {
         return contact.getAddress().asSingleLineString();

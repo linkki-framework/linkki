@@ -65,14 +65,16 @@ public class GridColumnWrapper extends VaadinComponentWrapper {
 
     public void setWidth(int width) {
         if (width != UITableColumn.UNDEFINED_WIDTH) {
-            getComponent().setFlexGrow(0);
             getComponent().setWidth(width + "px");
+            getComponent().setAutoWidth(false);
+        } else {
+            getComponent().setAutoWidth(true);
         }
     }
 
-    public void setExpandRatio(int expandRatio) {
-        if (expandRatio != UITableColumn.UNDEFINED_EXPAND_RATIO) {
-            getComponent().setFlexGrow(expandRatio);
+    public void setFlexGrow(int flexGrow) {
+        if (flexGrow != UITableColumn.UNDEFINED_FLEX_GROW) {
+            getComponent().setFlexGrow(flexGrow);
         }
     }
 

@@ -16,16 +16,21 @@ package org.linkki.samples.playground.uitest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
+
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.table.PlaygroundTablePmo;
-import org.linkki.samples.playground.table.SelectionComparisonSectionPmo;
+import org.linkki.samples.playground.table.selection.PlaygroundSelectableTablePmo;
+import org.linkki.samples.playground.table.selection.SelectionComparisonSectionPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
+import com.vaadin.flow.component.grid.testbench.GridTRElement;
+import com.vaadin.flow.component.notification.testbench.NotificationElement;
 
 
 public class SelectableTableTest extends AbstractUiTest {
@@ -40,15 +45,13 @@ public class SelectableTableTest extends AbstractUiTest {
     @Test
     public void testSelection() {
         GridElement selectableTable = $(GridElement.class)
-                .id(PlaygroundTablePmo.class.getSimpleName() + "_table");
+                .id(PlaygroundSelectableTablePmo.class.getSimpleName() + "_table");
 
         // initial selection
-        assertThat(selectableTable.getRow(PlaygroundTablePmo.INITAL_SELECTED_ROW).getAttribute("selected"),
+        assertThat(selectableTable.getRow(PlaygroundSelectableTablePmo.INITAL_SELECTED_ROW).getAttribute("selected"),
                    is("true"));
 
         // set selection
-        // TODO LIN-2088 click() not working but doubleClick() does!?
-        // selectableTable.getRow(1).click();
         selectableTable.getRow(1).select();
         // first row deselected
         assertThat(selectableTable.getRow(0).getAttribute("selected"), is(nullValue()));
@@ -76,28 +79,26 @@ public class SelectableTableTest extends AbstractUiTest {
         // is("Name 2"));
     }
 
-    // TODO LIN-2088 doubleClick doesn't work as intended: while a textfield has focus a doubleClick on
-    // another
-    // @Test
-    // public void testDoubleClick() {
-    // tablesTab.click();
-    // GridElement selectableTable = $(GridElement.class)
-    // .id(PlaygroundTablePmo.class.getSimpleName() + "_table");
-    //
-    // // single click should not trigger the aspect
-    // selectableTable.getRow(0).click();
-    // selectableTable.getRow(0).select();
-    // List<NotificationElement> notificationsAfterSingleClick = $(NotificationElement.class).all();
-    // assertThat(notificationsAfterSingleClick.isEmpty(), is(true));
-    //
-    // // double click should first set selection then trigger the aspect
-    // selectableTable.getRow(1).doubleClick();
-    // assertThat(selectableTable.getRow(1).getAttribute("selected"), is("true"));
-    // List<NotificationElement> notificationsAfterDoubleClick = $(NotificationElement.class).all();
-    // assertThat(notificationsAfterDoubleClick.size(), is(1));
-    // assertThat(notificationsAfterDoubleClick.get(0).getText(),
-    // containsString(PlaygroundTablePmo.NOTIFICATION_DOUBLE_CLICK));
-    // assertThat(notificationsAfterDoubleClick.get(0).getText(),
-    // containsString("Name 2"));
-    // }
+    @Test
+    public void testDoubleClick() {
+        GridElement selectableTable = $(GridElement.class)
+                .id(PlaygroundSelectableTablePmo.class.getSimpleName() + "_table");
+
+        // single click should not trigger the aspect
+        selectableTable.getRow(0).select();
+        List<NotificationElement> notificationsAfterSingleClick = $(NotificationElement.class).all();
+        assertThat(notificationsAfterSingleClick.isEmpty(), is(true));
+
+        // double click should first set selection then trigger the aspect
+        GridTRElement row = selectableTable.getRow(3);
+        row.scrollIntoView();
+        row.doubleClick();
+        assertThat(row.getAttribute("selected"), is("true"));
+        List<NotificationElement> notificationsAfterDoubleClick = $(NotificationElement.class).all();
+        assertThat(notificationsAfterDoubleClick.size(), is(1));
+        assertThat(notificationsAfterDoubleClick.get(0).getText(),
+                   containsString(PlaygroundSelectableTablePmo.NOTIFICATION_DOUBLE_CLICK));
+        assertThat(notificationsAfterDoubleClick.get(0).getText(),
+                   containsString("Name 4"));
+    }
 }

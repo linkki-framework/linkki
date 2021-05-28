@@ -39,11 +39,9 @@ public class MessagesComponent extends Div {
         VaadinSession.getCurrent().setAttribute(LinkkiConverterRegistry.class, new LinkkiConverterRegistry());
 
         MessagesPanel messagesPanel = new MessagesPanel();
-        // messagesPanel.setVisible(false);
 
         User user = new User();
-        RegistrationSectionPmo registrationPmo = new RegistrationSectionPmo(user,
-                pmo -> handleRegistration(messagesPanel, pmo));
+        RegistrationSectionPmo registrationPmo = new RegistrationSectionPmo(user, pmo -> handleRegistration(pmo));
 
         validationService = new RegistrationValidationService(registrationPmo);
         bindingManager = new RegistrationBindingManager(validationService, ml -> messagesPanel.updateMessages(ml));
@@ -62,7 +60,7 @@ public class MessagesComponent extends Div {
         add(layout);
     }
 
-    private void handleRegistration(MessagesPanel messagesPanel, RegistrationSectionPmo userPmo) {
+    private void handleRegistration(RegistrationSectionPmo userPmo) {
         // validate required fields as well
         validationService.setValidationDisplayState(ValidationDisplayState.SHOW_ALL);
 

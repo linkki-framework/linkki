@@ -32,33 +32,42 @@ public class GridComponentCreatorTest {
         assertThat(table.getId().get(), is("TestTablePmo_table"));
     }
 
-    // @Test
-    // public void testInitColumn_FieldLabelsAreUsedAsColumnHeaders() {
-    // Grid<?> table = createTableWithColumns();
-    //
-    // TODO LIN-2088
-    // Möglich an den Text der HeaderCell zu kommen?
-    // 1, 2 and 3 are the labels for the fields, the delete button has an no label
-    // assertThat(table.getHeaderRows().get(0).getCells().stream().filter(c -> c instanceof
-    // HeaderCell).map(HeaderCell.class::cast).map(c -> c.getColumn()), is(arrayContaining("1", "2",
-    // "3", "")));
-    // }
-
     @Test
-    public void testInitColumn_WidthAndExpandRatioIsReadFromAnnotation() {
+    public void testInitColumn_NoTableColumnAnnotation() {
         Grid<?> table = createTableWithColumns();
 
-        assertThat(table.getColumnByKey("value1").getWidth(), is("100px"));
-        // If fixed width, then FlexGrow == 0
-        assertThat(table.getColumnByKey("value1").getFlexGrow(), is(0));
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_3).isAutoWidth(), is(true));
+        assertThat("Properties without @UITableColumn annotation should not have a defined width",
+                   table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_3).getWidth(), nullValue());
+        assertThat("Properties without @UITableColumn annotation should not take up more space than necessary",
+                   table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_3).getFlexGrow(), is(0));
+    }
 
-        // If UITableColumn.UNDEFINED_WIDTH, then getWidth() == null
-        assertThat(table.getColumnByKey("value2").getWidth(), nullValue());
-        assertThat(table.getColumnByKey("value2").getFlexGrow(), is(20));
+    @Test
+    public void testInitColumn_OnlyWidth() {
+        Grid<?> table = createTableWithColumns();
 
-        // If UITableColumn.UNDEFINED_WIDTH, then getWidth() == null
-        assertThat(table.getColumnByKey("value3").getWidth(), nullValue());
-        assertThat(table.getColumnByKey("value3").getFlexGrow(), is(1));
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_1).isAutoWidth(), is(false));
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_1).getWidth(), is("100px"));
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_1).getFlexGrow(), is(0));
+    }
+
+    @Test
+    public void testInitColumn_OnlyFlexGrow() {
+        Grid<?> table = createTableWithColumns();
+
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_2).isAutoWidth(), is(true));
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_2).getWidth(), nullValue());
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_2).getFlexGrow(), is(20));
+    }
+
+    @Test
+    public void testInitColumn_WidthAndFlexGrow() {
+        Grid<?> table = createTableWithColumns();
+
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_WITH_WIDTH_AND_FLEX_GROW).isAutoWidth(), is(false));
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_WITH_WIDTH_AND_FLEX_GROW).getWidth(), is("20px"));
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_WITH_WIDTH_AND_FLEX_GROW).getFlexGrow(), is(10));
     }
 
     // TODO LIN-2138

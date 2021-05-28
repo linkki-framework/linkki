@@ -20,35 +20,35 @@ import org.linkki.core.ui.table.column.annotation.UITableColumn.CollapseMode;
 
 public abstract class AbstractPersonRowPmo {
 
-    @UITableColumn(expandRatio = 150)
+    @UITableColumn(flexGrow = 150)
     @UILabel(position = 40, label = "Address", htmlContent = true)
     public abstract String getAddress();
 
-    @UITableColumn(expandRatio = 75)
+    @UITableColumn(flexGrow = 75)
     @UILabel(position = 50, label = "Last Name")
     public abstract String getLastName();
 
-    @UITableColumn(expandRatio = 75, collapsible = CollapseMode.COLLAPSIBLE)
+    @UITableColumn(flexGrow = 75, collapsible = CollapseMode.COLLAPSIBLE)
     @UILabel(position = 60, label = "First Name")
     public abstract String getFirstName();
 
-    @UITableColumn(expandRatio = 10, collapsible = CollapseMode.COLLAPSIBLE)
+    @UITableColumn(flexGrow = 10, collapsible = CollapseMode.COLLAPSIBLE)
     @UILabel(position = 70, label = "Company")
     public abstract String getCompany();
 
-    @UITableColumn(expandRatio = 75, collapsible = CollapseMode.COLLAPSIBLE)
+    @UITableColumn(flexGrow = 75, collapsible = CollapseMode.COLLAPSIBLE)
     @UILabel(position = 80, label = "Phone")
     public abstract String getPhone1();
 
-    @UITableColumn(expandRatio = 75, collapsible = CollapseMode.INITIALLY_COLLAPSED)
+    @UITableColumn(flexGrow = 75, collapsible = CollapseMode.INITIALLY_COLLAPSED)
     @UILabel(position = 90, label = "2nd Phone")
     public abstract String getPhone2();
 
-    @UITableColumn(expandRatio = 150)
+    @UITableColumn(flexGrow = 150)
     @UILabel(position = 100, label = "Email")
     public abstract String getEmail();
 
-    @UITableColumn(expandRatio = 20, collapsible = CollapseMode.COLLAPSIBLE)
+    @UITableColumn(flexGrow = 20, collapsible = CollapseMode.COLLAPSIBLE)
     @UILabel(position = 110, label = "Website")
     public abstract String getWeb();
 
