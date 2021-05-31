@@ -230,6 +230,13 @@ https://jira.faktorzehn.de/browse/LIN-573
 
 `BindingManager` now has a new method `updateAll` which updates all `BindingContexts` that are managed by the `BindingManager`. This is a costly operation that should be used with caution.
 
+===== linkki for Vaadin 14
+////
+https://jira.faktorzehn.de/browse/LIN-2426
+////
+
+linkki now includes modules using Vaadin version 14 for a first developer preview.
+
 ==== Bugfixes
 
 * Fixed typo in ReadOnlyBehaviorType#INVISIBLE
