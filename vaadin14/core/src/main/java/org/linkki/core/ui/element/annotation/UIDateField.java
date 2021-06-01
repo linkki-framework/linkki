@@ -24,7 +24,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Type;
-import java.text.DateFormat;
 import java.time.LocalDate;
 
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
@@ -97,9 +96,10 @@ public @interface UIDateField {
     @LinkkiBoundProperty.ModelAttribute
     String modelAttribute() default "";
 
+    // TODO LIN-2453 dateFormat does nothing
     /**
-     * Defines the date format, default format of the UI locale is used if no format is specified.
-     * linkki uses {@link DateFormat#SHORT} for interpreting.
+     * Currently has no effect. The date format is dependent on the {@link UiFramework#getLocale()
+     * locale}.
      */
     String dateFormat() default "";
 

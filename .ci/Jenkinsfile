@@ -144,7 +144,7 @@ pipeline {
 
             junit '**/target/surefire-reports-java11/*.xml'
 
-            archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*, vaadin8/samples/test-playground/uitest/target/uitest/*.png, vaadin14/samples/test-playground/uitest/target/uitest/*.html'
+            archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*, vaadin8/samples/test-playground/uitest/target/uitest/*.png, vaadin14/doc/target/linkki-core-documentation*/**/*.*, vaadin14/samples/test-playground/uitest/target/uitest/*.png'
         }
 
         regression {

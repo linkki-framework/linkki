@@ -135,7 +135,7 @@ pipeline {
             recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
             jacoco sourceInclusionPattern: '**/*.java'
 
-            archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*, vaadin8/samples/test-playground/uitest/target/uitest/*.png, vaadin14/samples/test-playground/uitest/target/uitest/*.png'
+            archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*, vaadin8/samples/test-playground/uitest/target/uitest/*.png, vaadin14/doc/target/linkki-core-documentation*/**/*.*, vaadin14/samples/test-playground/uitest/target/uitest/*.png'
         }
     }
 
