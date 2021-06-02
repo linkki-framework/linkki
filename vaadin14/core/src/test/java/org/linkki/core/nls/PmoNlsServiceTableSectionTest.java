@@ -14,6 +14,7 @@
 package org.linkki.core.nls;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
@@ -27,6 +28,7 @@ import org.linkki.core.nls.sample.NlsTableRowPmo;
 import org.linkki.core.nls.sample.NoNlsTablePmo;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.ui.creation.table.GridComponentCreator;
+import org.linkki.core.ui.element.annotation.TestUiUtil;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 
 import com.vaadin.flow.component.grid.Grid;
@@ -61,10 +63,9 @@ public class PmoNlsServiceTableSectionTest {
     public void testTableRowLabels() {
         Grid<?> table = GridComponentCreator.createGrid(new NlsTablePmo(), bindingContext);
         assertThat(table, is(notNullValue()));
-        // TODO LIN-2088
-        // Möglich an den Text der HeaderCell zu kommen?
-        // assertThat(table.getHeaderRows().get(0).getCells().stream().toArray(),
-        // is(arrayContaining(translatedLabel, translatedLabel, NlsTableRowPmo.PMO_LABEL, "")));
+
+        assertThat(TestUiUtil.getColumnHeaders(table),
+                   contains(translatedLabel, translatedLabel, NlsTableRowPmo.PMO_LABEL, ""));
     }
 
     @Test

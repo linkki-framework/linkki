@@ -36,9 +36,12 @@ import com.vaadin.flow.component.AbstractSinglePropertyField;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.Column;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.internal.AbstractFieldSupport;
 import com.vaadin.flow.data.binder.HasItems;
+import com.vaadin.flow.data.renderer.Renderer;
 
 public final class TestUiUtil {
 
@@ -142,4 +145,30 @@ public final class TestUiUtil {
             return componentAtIndex;
         }
     }
+
+    public static List<String> getColumnHeaders(Grid<?> grid) {
+        Method getHeaderRendererMethod;
+        Field templateField;
+        try {
+            getHeaderRendererMethod = Column.class.getSuperclass().getDeclaredMethod("getHeaderRenderer");
+            getHeaderRendererMethod.setAccessible(true);
+            templateField = Renderer.class.getDeclaredField("template");
+            templateField.setAccessible(true);
+        } catch (NoSuchMethodException | NoSuchFieldException | SecurityException | IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        }
+
+        return grid.getColumns().stream().map(c -> getColumnHeader(c, getHeaderRendererMethod, templateField))
+                .collect(Collectors.toList());
+    }
+
+    private static String getColumnHeader(Column<?> column, Method getHeaderRendererMethod, Field templateField) {
+        try {
+            Renderer<?> renderer = (Renderer<?>)getHeaderRendererMethod.invoke(column);
+            return (String)templateField.get(renderer);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

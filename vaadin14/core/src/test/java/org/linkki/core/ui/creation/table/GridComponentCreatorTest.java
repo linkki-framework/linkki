@@ -15,11 +15,13 @@
 package org.linkki.core.ui.creation.table;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.element.annotation.TestUiUtil;
 
 import com.vaadin.flow.component.grid.Grid;
 
@@ -30,6 +32,13 @@ public class GridComponentCreatorTest {
         BindingContext bindingContext = new BindingContext();
         Grid<?> table = GridComponentCreator.createGrid(new TestTablePmo(), bindingContext);
         assertThat(table.getId().get(), is("TestTablePmo_table"));
+    }
+
+    @Test
+    public void testInitColumn_FieldLabelsAreUsedAsColumnHeaders() {
+        Grid<?> table = createTableWithColumns();
+
+        assertThat(TestUiUtil.getColumnHeaders(table), contains("1", "2", "3", "", ""));
     }
 
     @Test
