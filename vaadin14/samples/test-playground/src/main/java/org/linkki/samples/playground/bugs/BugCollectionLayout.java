@@ -25,6 +25,7 @@ import org.linkki.samples.playground.bugs.lin1738.DoubleClickPmo;
 import org.linkki.samples.playground.bugs.lin1795.ComboBoxPmo;
 import org.linkki.samples.playground.bugs.lin1797.OnlyTablePmo;
 import org.linkki.samples.playground.bugs.lin1797.SectionTablePmo;
+import org.linkki.samples.playground.bugs.lin1917.TriangleTablePmo;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -36,17 +37,16 @@ public class BugCollectionLayout extends VerticalLayout {
 
     public BugCollectionLayout() {
         BindingContext bindingContext = new BindingContext();
-        add(PmoBasedSectionFactory
-                .createAndBindSection(new ComboBoxCaptionRefreshPmo(), bindingContext));
+        add(PmoBasedSectionFactory.createAndBindSection(new ComboBoxCaptionRefreshPmo(), bindingContext));
         addComponentWithSeparateBindingContext(bc -> new ComboBoxVanishingValuePmo(bc::modelChanged));
         addComponentWithSeparateBindingContext(bc -> new PmoReadonlyModelNotReadonlyPmo());
         addComponentWithSeparateBindingContext(bc -> new DoubleClickPmo());
         addComponentWithSeparateBindingContext(bc -> new ComboBoxPmo());
-        // TODO LIN-2088
+        // TODO Tooltips do not work yet LIN-2054
         // addComponentWithSeparateBindingContext(bc -> new Lin1890HierarchicalTablePmo());
         addComponentWithSeparateBindingContext(bc -> new OnlyTablePmo());
         addComponentWithSeparateBindingContext(bc -> new SectionTablePmo());
-        // addComponentWithSeparateBindingContext(bc -> new TriangleTablePmo());
+        addComponentWithSeparateBindingContext(bc -> new TriangleTablePmo());
     }
 
     private void addComponentWithSeparateBindingContext(Function<BindingContext, Object> pmoCreation) {

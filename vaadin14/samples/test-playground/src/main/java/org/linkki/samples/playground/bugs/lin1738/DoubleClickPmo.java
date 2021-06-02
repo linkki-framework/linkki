@@ -22,8 +22,9 @@ import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.pmo.ButtonPmoBuilder;
-
-import com.vaadin.flow.component.notification.Notification;
+import org.linkki.framework.ui.dialogs.OkCancelDialog;
+import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
+import org.linkki.util.handler.Handler;
 
 @UISection(caption = "LIN-1738")
 public class DoubleClickPmo implements PresentationModelObject {
@@ -44,11 +45,10 @@ public class DoubleClickPmo implements PresentationModelObject {
     }
 
     private void openDialog() {
-        Notification.show("TODO Dialoge sind noch nicht implementiert");
-        // OkCancelDialog dialog = new PmoBasedDialogFactory().newOkCancelDialog("LIN-1738 Dialog",
-        // Handler.NOP_HANDLER);
-        // dialog.setWidth("50%");
-        // dialog.open();
+        OkCancelDialog dialog = new PmoBasedDialogFactory().newOkCancelDialog("LIN-1738 Dialog",
+                                                                              Handler.NOP_HANDLER);
+        dialog.setWidth("50%");
+        dialog.open();
     }
 
 }
