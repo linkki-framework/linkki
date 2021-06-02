@@ -18,14 +18,13 @@ import java.util.function.BooleanSupplier;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.ui.element.annotation.UIButton;
-import org.linkki.core.ui.layout.annotation.SectionLayout;
-import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.vaadin.component.KeyCode;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 
-@UISection(layout = SectionLayout.HORIZONTAL)
+@UIHorizontalLayout
 public class ButtonsSectionPmo {
 
     private BooleanSupplier canSaveSupplier;
@@ -39,7 +38,7 @@ public class ButtonsSectionPmo {
     }
 
     // TODO LIN-2142
-    @UIButton(position = 10, showIcon = true, icon = VaadinIcon.CHECK_SQUARE_O, //
+    @UIButton(position = 10, showIcon = true, icon = VaadinIcon.CHECK, //
             captionType = CaptionType.NONE, enabled = EnabledType.DYNAMIC, shortcutKeyCode = KeyCode.ENTER
     // , styleNames = ValoTheme.BUTTON_PRIMARY */
     )

@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 
 import org.linkki.core.binding.Binder;
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.samples.playground.binding.model.Address;
@@ -26,7 +27,9 @@ import org.linkki.samples.playground.binding.pmo.ButtonsSectionPmo;
 import org.linkki.samples.playground.binding.pmo.ChildrenSectionPmo;
 import org.linkki.samples.playground.binding.pmo.ContactSectionPmo;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class ContactComponent extends Div {
@@ -75,14 +78,11 @@ public class ContactComponent extends Div {
         new Binder(addressFields, addressPmo).setupBindings(bindingContext);
 
         AbstractSection childrenSection = sectionFactory.createSection(childrenSectionPmo, bindingContext);
-        AbstractSection buttonsSection = sectionFactory.createSection(buttonsSectionPmo, bindingContext);
-        // TODO LIN-2088
-        // buttonsSection.iterator()
-        // .forEachRemaining(c -> buttonsSection.setComponentAlignment(c, Alignment.MIDDLE_RIGHT));
+        Component buttonsSection = VaadinUiCreator.createComponent(buttonsSectionPmo, bindingContext);
 
         VerticalLayout wrapperLayout = new VerticalLayout(contactSection, addressComponent, childrenSection,
                 buttonsSection);
-        // setContent(wrapperLayout);
+        wrapperLayout.setHorizontalComponentAlignment(Alignment.END, buttonsSection);
         add(wrapperLayout);
     }
 

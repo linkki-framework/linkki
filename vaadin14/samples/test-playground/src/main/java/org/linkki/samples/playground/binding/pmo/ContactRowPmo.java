@@ -41,7 +41,7 @@ public class ContactRowPmo {
     }
 
     @UITableColumn(width = 50)
-    // TODO LIN-2088
+    // TODO LIN-2150
     @UICheckBox(position = 1, label = "&#9733;", caption = "")
     public boolean isFavorite() {
         return contact.isFavorite();
