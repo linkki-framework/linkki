@@ -30,11 +30,13 @@ import java.util.Map;
 public final class DateFormats {
 
     public static final String PATTERN_ISO = "yyyy-MM-dd";
+    public static final String PATTERN_EN = "MM/dd/yyyy";
     public static final String PATTERN_DE = "dd.MM.yyyy";
 
     private static final Map<String, String> LANGUAGE_PATTERNS = new HashMap<>();
 
     static {
+        LANGUAGE_PATTERNS.put(Locale.ENGLISH.getLanguage(), PATTERN_EN);
         LANGUAGE_PATTERNS.put(Locale.GERMAN.getLanguage(), PATTERN_DE);
     }
 

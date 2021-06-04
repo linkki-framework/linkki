@@ -96,12 +96,10 @@ https://jira.faktorzehn.de/browse/LIN-2142
 
 ==== @UIDateField
 ////
-TODO LIN-2091
 https://jira.faktorzehn.de/browse/LIN-2044
 https://jira.faktorzehn.de/browse/LIN-2091
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
 ////
-The date format of a @UIDateField is now controlled by the locale, the attribute `dateFormat` thus currently does nothing.
+The date format of a @UIDateField is now controlled by `DateFormats` and the locale, the attribute `dateFormat` has been removed.
 
 ==== @UITextArea
 ////

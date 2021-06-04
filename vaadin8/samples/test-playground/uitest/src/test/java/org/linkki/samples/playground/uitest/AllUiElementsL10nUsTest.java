@@ -18,9 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
@@ -58,21 +55,18 @@ public class AllUiElementsL10nUsTest extends AbstractUiTest {
     @Test
     public void testDateField() {
         DateFieldElement dateField = $(DateFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DATE);
-        assertThat(dateField.getValue(),
-                   is(LocalDate.now()
-                           .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(Locale.US))));
 
         dateField.setDate(LocalDate.of(2019, 1, 1));
-        assertThat(dateField.getValue(), is("1/1/19"));
+        assertThat(dateField.getValue(), is("01/01/2019"));
 
         dateField.setValue("3/2/4");
-        assertThat(dateField.getValue(), is("3/2/04"));
+        assertThat(dateField.getValue(), is("03/02/2004"));
 
         dateField.setValue("04012020");
-        assertThat(dateField.getValue(), is("4/1/20"));
+        assertThat(dateField.getValue(), is("04/01/2020"));
 
         dateField.setValue("111111");
-        assertThat(dateField.getValue(), is("11/11/11"));
+        assertThat(dateField.getValue(), is("11/11/2011"));
     }
 
     @Test
@@ -83,7 +77,7 @@ public class AllUiElementsL10nUsTest extends AbstractUiTest {
         dateField.setValue("1/1/12345");
 
         // invalid value is reset
-        assertThat(dateField.getValue(), is("1/1/20"));
+        assertThat(dateField.getValue(), is("01/01/2020"));
     }
 
     @Test

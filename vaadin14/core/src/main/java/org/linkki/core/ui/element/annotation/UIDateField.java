@@ -50,6 +50,7 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.ComponentFactory;
+import org.linkki.core.vaadin.component.base.LinkkiDatePicker;
 
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.data.converter.Converter;
@@ -96,13 +97,6 @@ public @interface UIDateField {
     @LinkkiBoundProperty.ModelAttribute
     String modelAttribute() default "";
 
-    // TODO LIN-2453 dateFormat does nothing
-    /**
-     * Currently has no effect. The date format is dependent on the {@link UiFramework#getLocale()
-     * locale}.
-     */
-    String dateFormat() default "";
-
     static class DateFieldAspectCreator implements AspectDefinitionCreator<UIDateField> {
 
         @Override
@@ -140,7 +134,7 @@ public @interface UIDateField {
         @Override
         public LinkkiComponentDefinition create(UIDateField annotation, AnnotatedElement annotatedElement) {
             return pmo -> {
-                DatePicker dateField = ComponentFactory.newDateField();
+                LinkkiDatePicker dateField = ComponentFactory.newDateField();
                 dateField.setLocale(UiFramework.getLocale());
                 return dateField;
             };

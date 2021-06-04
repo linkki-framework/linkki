@@ -14,9 +14,8 @@
 
 package org.linkki.core.defaults.formatters;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.oneOf;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -31,19 +30,17 @@ public class LocalDateTimeFormatterTest {
 
     private static final LocalDateTime DATE_TIME = LocalDateTime.of(2019, Month.FEBRUARY, 20, 15, 28, 35);
 
-    
+
     private Locale defaultLocale;
 
     @Test
     public void testFormat() {
         LocalDateTimeFormatter formatter = new LocalDateTimeFormatter();
-        assertThat(formatter.format(DATE_TIME, Locale.GERMAN),
-                   is("20.02.2019 15:28"));
+        assertThat(formatter.format(DATE_TIME, Locale.GERMAN), is("20.02.2019 15:28"));
         assertThat(formatter.format(DATE_TIME, Locale.GERMANY), is("20.02.2019 15:28"));
-        assertThat(formatter.format(DATE_TIME, Locale.ENGLISH), is("2/20/19 3:28 PM"));
-        // WTF? UK format switches with Java 11
-        assertThat(formatter.format(DATE_TIME, Locale.UK), is(oneOf("20/02/19 15:28", "20/02/2019 15:28")));
-        assertThat(formatter.format(DATE_TIME, Locale.US), is("2/20/19 3:28 PM"));
+        assertThat(formatter.format(DATE_TIME, Locale.ENGLISH), is("02/20/2019 3:28 PM"));
+        assertThat(formatter.format(DATE_TIME, Locale.UK), is("02/20/2019 15:28"));
+        assertThat(formatter.format(DATE_TIME, Locale.US), is("02/20/2019 3:28 PM"));
     }
 
     @BeforeEach
@@ -64,7 +61,7 @@ public class LocalDateTimeFormatterTest {
         TestUiFramework.get().setUiLocale(Locale.GERMANY);
         assertThat(formatter.format(DATE_TIME), is("20.02.2019 15:28"));
         TestUiFramework.get().setUiLocale(Locale.US);
-        assertThat(formatter.format(DATE_TIME, Locale.US), is("2/20/19 3:28 PM"));
+        assertThat(formatter.format(DATE_TIME), is("02/20/2019 3:28 PM"));
     }
 
 }

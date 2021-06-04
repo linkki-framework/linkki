@@ -18,11 +18,10 @@ import static java.util.Locale.GERMAN;
 import static java.util.Locale.GERMANY;
 import static java.util.Locale.UK;
 import static java.util.Locale.US;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.oneOf;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Locale;
 
@@ -41,14 +40,13 @@ public class DateFormatsTest {
         assertThat(DateFormats.getPattern(ENGLISH), is(not(nullValue())));
         assertThat(DateFormats.getPattern(ENGLISH), is(not(DateFormats.PATTERN_DE)));
         assertThat(DateFormats.getPattern(ENGLISH), is(not(DateFormats.PATTERN_ISO)));
-        assertThat(DateFormats.getPattern(ENGLISH), is("M/d/yy"));
+        assertThat(DateFormats.getPattern(ENGLISH), is("MM/dd/yyyy"));
 
         assertThat(DateFormats.getPattern(US), is(not(nullValue())));
         assertThat(DateFormats.getPattern(US), is(not(DateFormats.PATTERN_DE)));
         assertThat(DateFormats.getPattern(US), is(not(DateFormats.PATTERN_ISO)));
-        assertThat(DateFormats.getPattern(US), is("M/d/yy"));
-        // WTF? UK format switches with Java 11
-        assertThat(DateFormats.getPattern(UK), is(oneOf("dd/MM/yy", "dd/MM/y")));
+        assertThat(DateFormats.getPattern(US), is("MM/dd/yyyy"));
+        assertThat(DateFormats.getPattern(UK), is("MM/dd/yyyy"));
     }
 
     @Test

@@ -234,6 +234,13 @@ https://jira.faktorzehn.de/browse/LIN-573
 
 Dependencies used by linkki have been updated.
 
+===== Different date format for English locale
+////
+https://jira.faktorzehn.de/browse/LIN-2091
+////
+The short date format (1/1/21) in `DateFormats` has been replaced with a date format displaying the full year and leading zeroes (01/01/2021).
+
+
 ===== linkki for Vaadin 14
 ////
 https://jira.faktorzehn.de/browse/LIN-2426

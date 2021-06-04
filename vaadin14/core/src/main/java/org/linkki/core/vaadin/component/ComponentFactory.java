@@ -18,13 +18,13 @@ import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
+import org.linkki.core.vaadin.component.base.LinkkiDatePicker;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
@@ -151,11 +151,11 @@ public class ComponentFactory {
         return new Button();
     }
 
-    public static DatePicker newDateField() {
+    public static LinkkiDatePicker newDateField() {
         if (UI.getCurrent() == null || UI.getCurrent().getLocale() == null) {
             throw new IllegalStateException("Creating a date field requires a UI with locale");
         }
-        DatePicker field = new DatePicker();
+        LinkkiDatePicker field = new LinkkiDatePicker();
         // there is no year zero https://en.wikipedia.org/wiki/Year_zero
         // DatePicker gets confused with year numbers below 1000 anyway
         field.setMin(LocalDate.ofYearDay(1000, 1));
