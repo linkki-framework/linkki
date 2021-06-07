@@ -1,3 +1,5 @@
+library 'f10-jenkins-library@master'
+
 pipeline {
     agent any
 
@@ -10,6 +12,13 @@ pipeline {
     }
 
     stages {
+        stage('Gerrit Checks') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'gerrit_rest', passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
+                    verifyIssueType("linkki:merge-task", USER, PASSWORD)
+                }
+            }
+        }
 
         stage('Build') {
             steps {
