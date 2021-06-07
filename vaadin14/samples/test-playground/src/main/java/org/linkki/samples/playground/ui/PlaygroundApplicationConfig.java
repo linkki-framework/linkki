@@ -24,6 +24,7 @@ import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.application.SampleView;
 import org.linkki.samples.playground.application.custom.CustomView;
 import org.linkki.samples.playground.binding.BindingSampleView;
+import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.nls.NlsText;
 import org.linkki.samples.playground.products.ProductsSampleView;
 import org.linkki.samples.playground.ui.dialogs.DialogsLayout;
@@ -97,6 +98,12 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
             @Override
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
                 return menu.addItem("F10 Produkt", e -> UI.getCurrent().navigate(ProductsSampleView.class));
+            }
+        }, new ApplicationMenuItemDefinition(BugCollectionLayout.PAGE_TITLE, 6) {
+            @Override
+            protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                return menu.addItem(BugCollectionLayout.PAGE_TITLE,
+                                    e -> UI.getCurrent().navigate(BugCollectionLayout.class));
             }
         });
     }

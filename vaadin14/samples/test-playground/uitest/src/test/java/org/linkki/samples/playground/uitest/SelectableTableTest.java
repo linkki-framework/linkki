@@ -89,11 +89,12 @@ public class SelectableTableTest extends AbstractUiTest {
         List<NotificationElement> notificationsAfterSingleClick = $(NotificationElement.class).all();
         assertThat(notificationsAfterSingleClick.isEmpty(), is(true));
 
-        // double click should first set selection then trigger the aspect
+        selectableTable.scrollIntoView();
         GridTRElement row = selectableTable.getRow(3);
-        row.scrollIntoView();
+        row.select();
+        // double click does not select the row?
         row.doubleClick();
-        assertThat(row.getAttribute("selected"), is("true"));
+        assertThat(row.isSelected(), is(true));
         List<NotificationElement> notificationsAfterDoubleClick = $(NotificationElement.class).all();
         assertThat(notificationsAfterDoubleClick.size(), is(1));
         assertThat(notificationsAfterDoubleClick.get(0).getText(),

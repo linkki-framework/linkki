@@ -26,8 +26,10 @@ import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(caption = "LIN-1795")
+@UISection(caption = ComboBoxPmo.CAPTION)
 public class ComboBoxPmo implements PresentationModelObject {
+
+    public static final String CAPTION = "LIN-1795";
 
     private String value;
     private String availableValues;

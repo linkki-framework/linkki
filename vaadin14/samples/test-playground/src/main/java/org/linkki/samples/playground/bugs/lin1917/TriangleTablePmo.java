@@ -24,10 +24,13 @@ import org.linkki.core.ui.pmo.ButtonPmoBuilder;
 import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 import org.linkki.util.handler.Handler;
 
-@UISection(caption = "LIN-1917 :: Triangle symbol should appear when adding an item")
+@UISection(caption = TriangleTablePmo.CAPTION)
 public class TriangleTablePmo
         extends SimpleTablePmo<TreeNode, TriangleRowPmo>
         implements SelectableTablePmo<TriangleRowPmo> {
+
+    public static final String CAPTION = "LIN-1917";
+    public static final String DESCRIPTION = CAPTION + " :: Triangle symbol should appear when adding an item";
 
     private static final String ROOT_TEXT = "Select this row and press the add button to create a new child";
     private static final int PAGE_LENGTH = 15;

@@ -18,7 +18,6 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.samples.playground.alignment.AlignmentPage;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
-import org.linkki.samples.playground.bugs.BugCollectionLayout;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.formsection.FormSectionPage;
 import org.linkki.samples.playground.ips.IpsComponent;
@@ -88,10 +87,6 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                        .caption(VaadinIcon.FLIGHT_TAKEOFF.create())
                                        .description("Dynamic Aspects")
                                        .content(new DynamicAnnotationsLayout()).build(),
-                               LinkkiTabSheet.builder(BUGS_TAB_ID)
-                                       .caption(VaadinIcon.BUG.create())
-                                       .description("Bugs")
-                                       .content(new BugCollectionLayout()).build(),
                                LinkkiTabSheet.builder(TABLES_TAB_ID)
                                        .caption(VaadinIcon.TABLE.create())
                                        .description("Tables")
