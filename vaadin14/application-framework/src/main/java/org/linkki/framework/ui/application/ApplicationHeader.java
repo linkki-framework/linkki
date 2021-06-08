@@ -28,6 +28,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.server.Command;
@@ -134,6 +135,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      */
     protected MenuBar createRightMenuBar() {
         MenuBar rightMenuBar = new MenuBar();
+        rightMenuBar.addThemeVariants(MenuBarVariant.LUMO_ICON);
         rightMenuBar.addClassNames(LinkkiApplicationTheme.APPLICATION_MENU, LinkkiTheme.BORDERLESS);
         addHelpMenu(rightMenuBar);
 
@@ -172,9 +174,8 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      */
     protected void addApplicationInfoMenuItem(MenuItem helpMenu) {
         helpMenu.getSubMenu()
-                .addItem(new Button(NlsText.getString("ApplicationHeader.Info"), VaadinIcon.INFO_CIRCLE.create()), //$NON-NLS-1$
-                         i -> new ApplicationInfoDialog(
-                                 createApplicationInfoPmo()).open());
+                .addItem(NlsText.getString("ApplicationHeader.Info"), i -> new ApplicationInfoDialog(
+                        createApplicationInfoPmo()).open());
     }
 
     /**

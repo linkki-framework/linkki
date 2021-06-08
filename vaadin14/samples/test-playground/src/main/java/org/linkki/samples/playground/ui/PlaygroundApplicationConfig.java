@@ -109,6 +109,11 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
     }
 
     @Override
+    public ApplicationHeaderDefinition getHeaderDefinition() {
+        return PlaygroundApplicationHeader::new;
+    }
+
+    @Override
     public Optional<ApplicationFooterDefinition> getFooterDefinition() {
         return Optional.of(ApplicationFooter::new);
     }
