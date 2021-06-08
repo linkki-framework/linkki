@@ -22,7 +22,6 @@ import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout
 import org.linkki.samples.playground.formsection.FormSectionPage;
 import org.linkki.samples.playground.ips.IpsComponent;
 import org.linkki.samples.playground.layouts.LayoutsPage;
-import org.linkki.samples.playground.locale.LocaleInfoPage;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.tablayout.TabLayoutPage;
@@ -30,6 +29,7 @@ import org.linkki.samples.playground.table.TablePage;
 import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
 import org.linkki.samples.playground.ts001.BasicElementsLayoutBehaviourPage;
 import org.linkki.samples.playground.ts002.SectionHeaderBehaviorPage;
+import org.linkki.samples.playground.ts003.I18NLocalizationPage;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -100,10 +100,6 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                        .caption(VaadinIcon.ROAD_BRANCHES.create())
                                        .description("Nested Components")
                                        .content(new NestedComponentPage()).build(),
-                               LinkkiTabSheet.builder(LOCALE_TAB_ID)
-                                       .caption(VaadinIcon.MAP_MARKER.create())
-                                       .description("Locale")
-                                       .content(new LocaleInfoPage()).build(),
                                LinkkiTabSheet.builder(TAB_LAYOUT_TAB_ID)
                                        .caption(VaadinIcon.TABS.create())
                                        .description("Tab Layout")
@@ -135,6 +131,11 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                        .caption("TS002")
                                        .description("Test Scenario 002: Section Header Behavior")
                                        .content(new SectionHeaderBehaviorPage())
+                                       .build(),
+                               LinkkiTabSheet.builder("TS003")
+                                       .caption("TS003")
+                                       .description("Test Scenario 003: I18N Localization")
+                                       .content(new I18NLocalizationPage())
                                        .build());
 
         add(tabLayout);

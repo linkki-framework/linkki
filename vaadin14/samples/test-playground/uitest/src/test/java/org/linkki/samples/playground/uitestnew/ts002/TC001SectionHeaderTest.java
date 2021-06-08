@@ -51,20 +51,22 @@ public class TC001SectionHeaderTest extends BaseUITest {
 
     @Test
     void testSectionHeaderTitle() {
-        assertThat(sectionCaption.getTitle().getText()).isEqualTo("I am a SectionHeader title");
+        assertThat(sectionCaption.getTitle().getText())
+                .isEqualTo("I am a SectionHeader title");
     }
 
     @Test
     void testSectionHeaderButtons() {
-        assertThat(sectionCaption.getHeaderButtons()).extracting(ButtonElement::getText).contains("Button 1",
-                                                                                                  "Button 2");
+        assertThat(sectionCaption.getHeaderButtons())
+                .extracting(ButtonElement::getText)
+                .contains("Button 1", "Button 2");
     }
 
     @Test
     void testSectionHeaderButtonsPosition_SameY() {
         driver.manage().window().setSize(new Dimension(1920, 1080));
 
-        assertThat(button1.getLocation().getY())//
+        assertThat(button1.getLocation().getY())
                 .describedAs("Button 1 and Button 2 should have the same y position")
                 .isEqualTo(button2.getLocation().getY());
     }
@@ -73,7 +75,7 @@ public class TC001SectionHeaderTest extends BaseUITest {
     void testSectionHeaderButtonsPosition_Order() {
         driver.manage().window().setSize(new Dimension(1920, 1080));
 
-        assertThat(button1.getLocation().getX())//
+        assertThat(button1.getLocation().getX())
                 .describedAs("Button 1 should be left of Button 2")
                 .isLessThan(button2.getLocation().getX());
     }

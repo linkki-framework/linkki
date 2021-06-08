@@ -14,7 +14,7 @@
 
 package org.linkki.samples.playground.uitestnew.ts001;
 
-public class TC001UISectionTest extends TS001AbstractBasicElementsLayoutTest {
+class TC001UISectionTest extends TS001AbstractBasicElementsLayoutTest {
 
     @Override
     protected String getTestCaseId() {

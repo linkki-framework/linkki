@@ -47,7 +47,8 @@ public class TestCaseSection extends VerticalLayout {
         description.add(new Span(TestCatalog.getDescription(testId)));
 
         UnorderedList aspectsList = new UnorderedList();
-        Arrays.asList(TestCatalog.getAspects(testId).split("\n"))
+        Arrays.asList(TestCatalog.getAspects(testId)//
+                .split("\n"))
                 .stream()//
                 .map(StringUtils::trim)//
                 .filter(StringUtils::isNotEmpty)//

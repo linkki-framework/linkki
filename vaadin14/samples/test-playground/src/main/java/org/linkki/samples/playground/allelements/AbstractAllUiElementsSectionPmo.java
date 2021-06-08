@@ -248,30 +248,30 @@ public abstract class AbstractAllUiElementsSectionPmo {
     /**
      * No label in Nls to test default behavior of no label
      */
-    @UILabel(position = 81, label = PlaygroundNlsText.I18N, //
+    @UILabel(position = 81, label = "", //
             modelAttribute = AllUiElementsModelObject.PROPERTY_BIG_DECIMAL)
     public void bigDecimalLabel() {
         // model binding
     }
 
-    @UILabel(position = 82, label = PlaygroundNlsText.I18N, htmlContent = true)
+    @UILabel(position = 82, label = "", htmlContent = true)
     public String getHtmlContentLabel() {
         return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
     }
 
-    @UILabel(position = 83, label = PlaygroundNlsText.I18N)
+    @UILabel(position = 83, label = "")
     public String getNotHtmlContentLabel() {
         return "<b>NOT</b> HTML Content";
     }
 
     @BindIcon(value = VaadinIcon.ABACUS)
-    @UILabel(position = 84, label = PlaygroundNlsText.I18N, htmlContent = true)
+    @UILabel(position = 84, label = "", htmlContent = true)
     public String getNotHtmlContentLabelMitIcon() {
         return "<i style=\\\"color: red;\\\">HTML</i> <b>Content</b> mit Icon";
     }
 
     @BindIcon(value = VaadinIcon.ABACUS)
-    @UILabel(position = 85, label = PlaygroundNlsText.I18N)
+    @UILabel(position = 85, label = "")
     public String getHtmlContentLabelMitIcon() {
         return "<div><b>NOT</b> HTML Content mit Icon</div>";
     }
