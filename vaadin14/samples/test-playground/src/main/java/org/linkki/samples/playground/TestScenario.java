@@ -20,6 +20,7 @@ import java.util.List;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 
 public class TestScenario {
@@ -35,6 +36,13 @@ public class TestScenario {
     public TestScenario testCase(String testCaseId, Object pmo) {
         tabSheets.add(LinkkiTabSheet.builder(testCaseId)
                 .content(new TestCaseComponent(scenarioId, testCaseId, pmo))
+                .build());
+        return this;
+    }
+
+    public TestScenario testCase(String testCaseId, Component component) {
+        tabSheets.add(LinkkiTabSheet.builder(testCaseId)
+                .content(new TestCaseComponent(scenarioId, testCaseId, component))
                 .build());
         return this;
     }

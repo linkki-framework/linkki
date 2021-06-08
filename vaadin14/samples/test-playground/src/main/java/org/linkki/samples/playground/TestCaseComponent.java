@@ -42,6 +42,10 @@ public class TestCaseComponent extends VerticalLayout {
                 VaadinUiCreator.createComponent(pmo, new BindingContext(pmo.getClass().getSimpleName())));
     }
 
+    public TestCaseComponent(String sceneId, String testId, Component component) {
+        this(sceneId + "." + testId, component);
+    }
+
     public TestCaseComponent(String testId, Component content) {
         setId(testId);
         setPadding(true);

@@ -12,32 +12,26 @@
  * License.
  */
 
-package org.linkki.samples.playground.ips;
+package org.linkki.samples.playground.ts.ips;
 
-import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.ips.decimalfield.UIDecimalField;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 
-@UISection(caption = "Faktor-IPS with linkki")
-public class IpsPmo {
+@UISection
+public class RequiredSectionPmo {
 
     @ModelObject
-    private final IpsModelObject modelObject;
+    private final IpsModelObject modelObject = new IpsModelObject();
 
-    public IpsPmo(IpsModelObject modelObject) {
-        this.modelObject = modelObject;
-    }
-
-    @UITextField(position = 0, modelAttribute = IpsModelObject.PROPERTY_STRING)
-    public void getString() {
+    @UITextField(position = 20, modelAttribute = IpsModelObject.PROPERTY_UNRESTRICTEDEXCLNULL, label = "ValueSet Without Null - Must be Required")
+    public void unrestrictedValueSetExclNull() {
         // model binding
     }
 
-    @UIDecimalField(position = 10, label = "In Range [0..100/0.5]", required = RequiredType.REQUIRED, modelAttribute = IpsModelObject.PROPERTY_DECIMAL)
-    public void decimal() {
+    @UITextField(position = 30, modelAttribute = IpsModelObject.PROPERTY_UNRESTRICTEDINCLNULL, label = "ValueSet With Null - Must Not be Required")
+    public void unrestrictedValueSetInclNull() {
         // model binding
     }
 

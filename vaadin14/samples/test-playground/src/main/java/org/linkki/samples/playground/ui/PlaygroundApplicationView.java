@@ -14,14 +14,24 @@
 package org.linkki.samples.playground.ui;
 
 import org.apache.commons.lang3.StringUtils;
+import org.faktorips.runtime.ValidationContext;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
+import org.linkki.core.binding.manager.BindingManager;
+import org.linkki.core.binding.manager.DefaultBindingManager;
+import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.ui.creation.VaadinUiCreator;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
+import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
+import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.TestScenario;
 import org.linkki.samples.playground.alignment.AlignmentPage;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.formsection.FormSectionPage;
-import org.linkki.samples.playground.ips.IpsComponent;
+import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.layouts.LayoutsPage;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
@@ -32,6 +42,11 @@ import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehavio
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorUiSectionPmo;
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorVerticalLayoutPmo;
+import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
+import org.linkki.samples.playground.ts.ips.EnabledSectionPmo;
+import org.linkki.samples.playground.ts.ips.IpsPmo;
+import org.linkki.samples.playground.ts.ips.RequiredSectionPmo;
+import org.linkki.samples.playground.ts.ips.VisibleSectionPmo;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
 import org.linkki.samples.playground.ts.sectionheader.SectionHeaderBehaviorPmo;
 
@@ -122,10 +137,6 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .caption(VaadinIcon.FILE_TREE.create())
                                        .description("Tree Table")
                                        .content(new SampleTreeTableComponent()).build(),
-                               LinkkiTabSheet.builder(IPS_TAB_ID)
-                                       .caption(VaadinIcon.TWITTER.create())
-                                       .description("IPS")
-                                       .content(new IpsComponent()).build(),
 
                                // new test scenarios
                                TestScenario.id("TS001").description("Basic Elements Behavior")
@@ -139,8 +150,31 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .createTabSheet(),
                                TestScenario.id("TS003").description("I18N Localization")
                                        .testCase("TC001", new I18NElementsLocalizationPmo())
-                                       .createTabSheet());
+                                       .createTabSheet(),
+                               addIpsTabSheet()
+
+        );
         add(tabLayout);
+    }
+
+    private LinkkiTabSheet addIpsTabSheet() {
+        IpsModelObject ipsModelObject = new IpsModelObject();
+
+        ValidationService validationService = () -> MessageConverter
+                .convert(ipsModelObject.validate(new ValidationContext(UiFramework.getLocale())));
+
+        BindingManager bindingManager = new DefaultBindingManager(validationService,
+                PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER, new IpsPropertyDispatcherFactory());
+
+        BindingContext bc = bindingManager.getContext("IpsBindingContext");
+
+        return TestScenario.id("TS004").description("IPS")
+                .testCase("TC001", VaadinUiCreator.createComponent(new IpsPmo(ipsModelObject), bc))
+                .testCase("TC002", VaadinUiCreator.createComponent(new DecimalFieldPmo(), bc))
+                .testCase("TC003", VaadinUiCreator.createComponent(new RequiredSectionPmo(), bc))
+                .testCase("TC004", VaadinUiCreator.createComponent(new VisibleSectionPmo(), bc))
+                .testCase("TC005", VaadinUiCreator.createComponent(new EnabledSectionPmo(), bc))
+                .createTabSheet();
     }
 
 }
