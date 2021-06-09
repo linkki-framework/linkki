@@ -17,7 +17,6 @@ package org.linkki.samples.playground.uitest;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.PlaygroundTablePmo;
@@ -37,33 +36,5 @@ public class TableTest extends AbstractUiTest {
         GridElement table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
 
         assertThat(table.getHeaderCellContent(0, 0).getText(), is("Editable"));
-    }
-
-    @Test
-    public void testColumnWidthAndFlexGrowWithoutUIColumn() {
-        GridElement table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
-        assertThat(table.getCell(0, 0).getCssValue("flexGrow"), is("0"));
-    }
-
-    @Test
-    public void testFlexGrow() {
-        GridElement table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
-        assertThat(table.getCell("Simple label to select the row").getCssValue("flexGrow"), is("10"));
-    }
-
-    @Test
-    public void testFixedColumnWidth() {
-        GridElement table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
-        assertThat(table.getCell(0, 5).getCssValue("width"), is("160px"));
-    }
-
-    @Test
-    public void testWidthAndFlexGrow() {
-        GridElement table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
-
-        String cssWidth = table.getCell(0, 7).getCssValue("width");
-        double intWidth = Double.valueOf(cssWidth.substring(0, cssWidth.length() - 2));
-
-        assertThat(intWidth, is(Matchers.greaterThanOrEqualTo(300.0)));
     }
 }

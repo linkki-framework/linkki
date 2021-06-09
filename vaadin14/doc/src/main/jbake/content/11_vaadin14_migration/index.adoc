@@ -148,7 +148,7 @@ https://jira.faktorzehn.de/browse/LIN-2088
 In Vaadin 14, `Table` has been replaced by `Grid`
 
 * `PmoBasedTablefactory` has been replaced by `GridComponentCreator`
-* @UITableColumn: expandRatio replaced by flexGrow. See the Vaadin documentation for more information on how it works.
+* `@UITableColumn`: `expandRatio` replaced by `flexGrow`. The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns. If `flexGrow` is set to 0, the column has a fixed `width`.
 
 === Aspect annotations
 

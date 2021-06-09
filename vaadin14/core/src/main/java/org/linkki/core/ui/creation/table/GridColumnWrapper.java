@@ -31,6 +31,8 @@ public class GridColumnWrapper extends VaadinComponentWrapper {
 
     private static final long serialVersionUID = 1L;
 
+    private int flexGrow = UITableColumn.UNDEFINED_FLEX_GROW;
+
     public GridColumnWrapper(Column<?> column) {
         super(column, COLUMN_TYPE);
     }
@@ -63,18 +65,33 @@ public class GridColumnWrapper extends VaadinComponentWrapper {
         // }
     }
 
+    /**
+     * Sets the width of the grid to the given value and set flexGrow to 0 if the flexGrow is undefined.
+     * 
+     * @param width of the grid in pixel
+     */
     public void setWidth(int width) {
         if (width != UITableColumn.UNDEFINED_WIDTH) {
             getComponent().setWidth(width + "px");
-            getComponent().setAutoWidth(false);
-        } else {
-            getComponent().setAutoWidth(true);
+            if (flexGrow == UITableColumn.UNDEFINED_FLEX_GROW) {
+                getComponent().setFlexGrow(0);
+            }
         }
     }
 
+    /**
+     * Sets the flexGrow of the grid to the given value if the flexGrow is not
+     * {@link UITableColumn#UNDEFINED_FLEX_GROW}. If flexGrow is
+     * {@link UITableColumn#UNDEFINED_FLEX_GROW}, the flexGrow is set to 0
+     * 
+     * @param flexGrow of the grid to set
+     */
     public void setFlexGrow(int flexGrow) {
+        this.flexGrow = flexGrow;
         if (flexGrow != UITableColumn.UNDEFINED_FLEX_GROW) {
             getComponent().setFlexGrow(flexGrow);
+        } else {
+            getComponent().setFlexGrow(0);
         }
     }
 

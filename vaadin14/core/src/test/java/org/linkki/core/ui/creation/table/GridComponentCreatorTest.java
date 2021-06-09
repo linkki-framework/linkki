@@ -16,6 +16,7 @@ package org.linkki.core.ui.creation.table;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
@@ -24,6 +25,7 @@ import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
 
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridNoneSelectionModel;
 
 public class GridComponentCreatorTest {
 
@@ -45,11 +47,9 @@ public class GridComponentCreatorTest {
     public void testInitColumn_NoTableColumnAnnotation() {
         Grid<?> table = createTableWithColumns();
 
-        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_3).isAutoWidth(), is(true));
-        assertThat("Properties without @UITableColumn annotation should not have a defined width",
-                   table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_3).getWidth(), nullValue());
-        assertThat("Properties without @UITableColumn annotation should not take up more space than necessary",
-                   table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_3).getFlexGrow(), is(0));
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_3).isAutoWidth(), is(false));
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_3).getWidth(), nullValue());
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_3).getFlexGrow(), is(1));
     }
 
     @Test
@@ -65,8 +65,8 @@ public class GridComponentCreatorTest {
     public void testInitColumn_OnlyFlexGrow() {
         Grid<?> table = createTableWithColumns();
 
-        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_2).isAutoWidth(), is(true));
-        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_2).getWidth(), nullValue());
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_2).isAutoWidth(), is(false));
+        assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_2).getWidth(), is(nullValue()));
         assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_VALUE_2).getFlexGrow(), is(20));
     }
 
@@ -77,6 +77,20 @@ public class GridComponentCreatorTest {
         assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_WITH_WIDTH_AND_FLEX_GROW).isAutoWidth(), is(false));
         assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_WITH_WIDTH_AND_FLEX_GROW).getWidth(), is("20px"));
         assertThat(table.getColumnByKey(TestRowPmo.PROPERTY_WITH_WIDTH_AND_FLEX_GROW).getFlexGrow(), is(10));
+    }
+
+    @Test
+    public void testInitColumn_DefaultNotSelectable() {
+        Grid<?> table = createTableWithColumns();
+
+        assertThat(table.getSelectionModel(), is(instanceOf(GridNoneSelectionModel.class)));
+    }
+
+    @Test
+    public void testInitColumn_DefaultAutoWidth() {
+        Grid<?> table = createTableWithColumns();
+
+        table.getColumns().forEach(c -> assertThat(c.isAutoWidth(), is(false)));
     }
 
     // TODO LIN-2138

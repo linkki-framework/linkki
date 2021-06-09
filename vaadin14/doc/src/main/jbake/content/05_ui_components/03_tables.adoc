@@ -35,9 +35,7 @@ IMPORTANT: The properties of a table column are described using the properties i
 
 By design all properties of a PMO are presented in the table. With the annotation `@UITableColumn` additional properties of a table column could be bound.
 
-To modify the column size you could use the properties `width` (in pixels) or `expandRatio`.
-
-NOTE: If both properties are set, an `IllegalStateException` will be thrown when the UI is constructed.
+To modify the column size you could use the properties `width` (in pixels) and `flexGrow`. The `flexGrow` specifies what amount of the available space inside the table the column should take up and grow (if resized), proportionally to the other columns. If `flexGrow` is set to 0, the column has a fixed `width`.
 
 Additionally, with the property `collapsible`, you could specify a `CollapseMode` to let the column be collapsible or initially collapsed.
 

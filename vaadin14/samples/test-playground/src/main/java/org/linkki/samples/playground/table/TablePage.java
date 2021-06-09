@@ -16,6 +16,7 @@ package org.linkki.samples.playground.table;
 
 import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
 import org.linkki.samples.playground.table.selection.SelectableTableSection;
+import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTableSection;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -28,6 +29,7 @@ public class TablePage extends VerticalLayout {
     public TablePage() {
         add(TableWithValidationSection.create());
         add(SelectableTableSection.create());
+        add(UITableColumnTableSection.create());
         addAndExpand(DynamicFieldsSection.create());
 
     }

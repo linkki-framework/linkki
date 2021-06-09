@@ -29,7 +29,7 @@ import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 
-@UISection(caption = "Table")
+@UISection(caption = "Table With Validation")
 public class PlaygroundTablePmo extends SimpleTablePmo<TableModelObject, PlaygroundRowPmo> {
 
     private Handler addHandler;

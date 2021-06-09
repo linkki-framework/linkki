@@ -63,7 +63,10 @@ public @interface UITableColumn {
      * Configures the flex grow ratio for the column.
      * 
      * @implSpec The flex grow ratio defines what part of excess available space the layout allots to
-     *           this column.
+     *           this column. If not set, the column has flex grow of 1.
+     *           <p>
+     *           If {@link #width()} is set, {@link #flexGrow()} will take effect in additional to
+     *           {@link #width()}.
      * 
      * @see Column#setFlexGrow(int)
      */
@@ -116,6 +119,8 @@ public @interface UITableColumn {
         public LinkkiAspectDefinition create(UITableColumn annotation) {
             int flexGrow = annotation.flexGrow();
             int width = annotation.width();
+            // flexGrow needs to be set before width is set, as the width aspect should set the flexGrow
+            // to 0 if the flexGrow is undefined in the annotation.
             return new CompositeAspectDefinition(
                     new ColumnCollapseAspectDefinition(annotation.collapsible()),
                     new ColumnFlexGrowAspectDefinition(flexGrow),

@@ -32,6 +32,7 @@ import org.linkki.core.uicreation.ComponentAnnotationReader;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.Column;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.treegrid.TreeGrid;
 
@@ -75,6 +76,7 @@ public class GridComponentCreator {
             return new TreeGridComponentWrapper<>(containerPmo.getClass().getSimpleName() + TABLE_ID_SUFFIX, grid);
         } else {
             Grid<ROW> grid = new Grid<>();
+            grid.setSelectionMode(SelectionMode.NONE);
             applyStyle(grid);
             return new GridComponentWrapper<>(containerPmo.getClass().getSimpleName() + TABLE_ID_SUFFIX, grid);
         }
@@ -115,8 +117,6 @@ public class GridComponentCreator {
         Column<ROW> column = createComponentColumn(m, grid, bindingContext);
         column.setKey(boundProperty.getPmoProperty());
         column.setResizable(true);
-        column.setAutoWidth(true);
-        column.setFlexGrow(0);
         List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader.createAspectDefinitionsFor(m);
         bindingContext.bind(containerPmo.getItemPmoClass(), boundProperty,
                             aspectDefs,
