@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.pmo.ButtonPmo;
+import org.linkki.core.ui.nls.NlsText;
 
 import com.vaadin.server.FontIcon;
 import com.vaadin.server.Resource;
@@ -351,6 +352,7 @@ public class ComponentFactory {
         // there is no year zero https://en.wikipedia.org/wiki/Year_zero
         field.setRangeStart(LocalDate.ofYearDay(1, 1));
         field.setRangeEnd(LocalDate.ofYearDay(9999, 365));
+        field.setParseErrorMessage(NlsText.getString("ComponentFactory.invalidDate"));
         return field;
     }
 

@@ -255,3 +255,7 @@ https://jira.faktorzehn.de/browse/LIN-2274
 ////
 https://jira.faktorzehn.de/browse/LIN-2040
 ////
+* Fixed UIDateField always showing english error message
+////
+https://jira.faktorzehn.de/browse/LIN-2427
+////
