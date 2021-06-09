@@ -22,7 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin1442.ComboBoxCaptionRefreshPmo;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.Keys;
@@ -37,7 +37,7 @@ public class ComboBoxCaptionRefreshTest extends AbstractUiTest {
 
     @Test
     public void testValueOnResettingListItemValues() {
-        clickMenuItem(BugCollectionLayout.PAGE_TITLE);
+        clickMenuItem(BugCollectionView.NAME);
         openTab(ComboBoxCaptionRefreshPmo.CAPTION);
 
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(ComboBoxCaptionRefreshPmo.PROPERTY_CHOICE);

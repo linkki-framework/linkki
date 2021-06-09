@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ips.DecimalFieldPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -31,7 +31,7 @@ public class IpsComponentsTest extends AbstractUiTest {
 
     @BeforeEach
     public void setTab() {
-        openTab(PlaygroundApplicationUI.IPS_TAB_ID);
+        openTab(PlaygroundApplicationView.IPS_TAB_ID);
     }
 
     @Test

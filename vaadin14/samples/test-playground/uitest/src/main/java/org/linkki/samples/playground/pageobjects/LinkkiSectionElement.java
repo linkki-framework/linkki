@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitestnew.pageobjects;
+package org.linkki.samples.playground.pageobjects;
 
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.testbench.annotations.Attribute;

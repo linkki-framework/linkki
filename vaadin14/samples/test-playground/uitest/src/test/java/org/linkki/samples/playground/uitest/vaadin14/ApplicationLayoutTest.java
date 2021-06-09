@@ -22,7 +22,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -37,7 +37,7 @@ public class ApplicationLayoutTest extends AbstractUiTest {
 
     @BeforeEach
     public void setup() {
-        openTab(PlaygroundApplicationUI.ALL_COMPONENTS_TAB_ID);
+        openTab(PlaygroundApplicationView.ALL_COMPONENTS_TAB_ID);
     }
 
     @Test

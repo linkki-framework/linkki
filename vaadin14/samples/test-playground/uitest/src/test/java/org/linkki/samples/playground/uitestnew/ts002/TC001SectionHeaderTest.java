@@ -18,10 +18,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionCaptionElement;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.uitestnew.BaseUITest;
-import org.linkki.samples.playground.uitestnew.pageobjects.LinkkiSectionCaptionElement;
-import org.linkki.samples.playground.uitestnew.pageobjects.LinkkiSectionElement;
-import org.linkki.samples.playground.uitestnew.pageobjects.TestCaseSectionElement;
 import org.openqa.selenium.Dimension;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -29,7 +29,7 @@ import com.vaadin.flow.component.html.testbench.DivElement;
 
 public class TC001SectionHeaderTest extends BaseUITest {
 
-    private TestCaseSectionElement testCaseSection;
+    private TestCaseComponentElement testCaseSection;
     private LinkkiSectionElement section;
     private LinkkiSectionCaptionElement sectionCaption;
     private ButtonElement button1;
@@ -38,7 +38,7 @@ public class TC001SectionHeaderTest extends BaseUITest {
 
     @BeforeAll
     void setup() {
-        testCaseSection = gotoTestCaseSection("TS002", "TC001");
+        testCaseSection = goToTestCase("TS002", "TC001");
 
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
         sectionCaption = section.getCaption();

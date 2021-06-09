@@ -12,11 +12,21 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts001;
+package org.linkki.samples.playground.pageobjects;
 
-import org.linkki.core.ui.layout.annotation.UISection;
+import org.openqa.selenium.By;
 
-@UISection
-public class BasicElementsLayoutBehaviorUiSectionPmo extends AbstractBasicElementsLayoutBehaviorPmo {
-    // no content needed
+import com.vaadin.testbench.TestBenchElement;
+import com.vaadin.testbench.elementsbase.Element;
+
+/**
+ * Page object for a test case section
+ */
+@Element("test-case-component")
+public class TestCaseComponentElement extends TestBenchElement {
+
+    public TestBenchElement getContentWrapper() {
+        return findElement(By.id("content-wrapper"));
+    }
+
 }

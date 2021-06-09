@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.dynamicannotations.BindIconComponentsPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -44,7 +44,7 @@ public class BindIconTest extends AbstractUiTest {
 
     @BeforeEach
     public void setup() {
-        openTab(PlaygroundApplicationUI.DYNAMIC_ASPECT_TAB_ID);
+        openTab(PlaygroundApplicationView.DYNAMIC_ASPECT_TAB_ID);
     }
 
     /**

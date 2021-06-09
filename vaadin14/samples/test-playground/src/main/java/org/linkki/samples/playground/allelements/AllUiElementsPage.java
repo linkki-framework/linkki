@@ -26,7 +26,7 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.core.vaadin.component.page.AbstractPage;
 import org.linkki.core.vaadin.component.section.AbstractSection;
-import org.linkki.samples.playground.TestCaseSection;
+import org.linkki.samples.playground.TestCaseComponent;
 import org.linkki.samples.playground.allelements.AbstractAllUiElementsSectionPmo.AllUiElementsUiSectionPmo;
 import org.linkki.util.handler.Handler;
 
@@ -90,7 +90,7 @@ public class AllUiElementsPage extends AbstractPage {
 
         content.add(formLayout, actions);
 
-        return new TestCaseSection("linkkiText", content);
+        return new TestCaseComponent("linkkiText", content);
     }
 
     private void updateIconWithText(LinkkiText text) {

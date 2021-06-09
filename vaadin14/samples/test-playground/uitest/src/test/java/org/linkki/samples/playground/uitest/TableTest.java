@@ -21,7 +21,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.PlaygroundTablePmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
 
@@ -29,7 +29,7 @@ public class TableTest extends AbstractUiTest {
 
     @BeforeEach
     public void openTablesTab() {
-        openTab(PlaygroundApplicationUI.TABLES_TAB_ID);
+        openTab(PlaygroundApplicationView.TABLES_TAB_ID);
     }
 
     @Test

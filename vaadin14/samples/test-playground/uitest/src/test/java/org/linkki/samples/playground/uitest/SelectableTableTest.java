@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.selection.PlaygroundSelectableTablePmo;
 import org.linkki.samples.playground.table.selection.SelectionComparisonSectionPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
@@ -40,7 +40,7 @@ public class SelectableTableTest extends AbstractUiTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        openTab(PlaygroundApplicationUI.TABLES_TAB_ID);
+        openTab(PlaygroundApplicationView.TABLES_TAB_ID);
     }
 
     @Test

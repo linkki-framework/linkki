@@ -24,10 +24,10 @@ import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.application.SampleView;
 import org.linkki.samples.playground.application.custom.CustomView;
 import org.linkki.samples.playground.binding.BindingSampleView;
-import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.bugs.BugCollectionView;
+import org.linkki.samples.playground.dialogs.DialogsView;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.samples.playground.products.ProductsSampleView;
-import org.linkki.samples.playground.ui.dialogs.DialogsLayout;
 import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.UI;
@@ -67,17 +67,17 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
                 MenuItem playgroundItem = menu.addItem("Playground");
                 playgroundItem.getSubMenu()
-                        .addItem("writable", e -> UI.getCurrent().navigate(PlaygroundApplicationUI.class));
+                        .addItem("writable", e -> UI.getCurrent().navigate(PlaygroundApplicationView.class));
 
                 playgroundItem.getSubMenu()
-                        .addItem("read-only", e -> UI.getCurrent().navigate(PlaygroundApplicationUI.class,
-                                                                            PlaygroundApplicationUI.PARAM_READONLY));
+                        .addItem("read-only", e -> UI.getCurrent().navigate(PlaygroundApplicationView.class,
+                                                                            PlaygroundApplicationView.PARAM_READONLY));
                 return playgroundItem;
             }
         }, new ApplicationMenuItemDefinition("Dialogs", 1) {
             @Override
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem("Dialogs", e -> UI.getCurrent().navigate(DialogsLayout.class));
+                return menu.addItem("Dialogs", e -> UI.getCurrent().navigate(DialogsView.class));
             }
         }, new ApplicationMenuItemDefinition("Sample Layout", 2) {
             @Override
@@ -99,11 +99,11 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
                 return menu.addItem("F10 Produkt", e -> UI.getCurrent().navigate(ProductsSampleView.class));
             }
-        }, new ApplicationMenuItemDefinition(BugCollectionLayout.PAGE_TITLE, 6) {
+        }, new ApplicationMenuItemDefinition(BugCollectionView.NAME, 6) {
             @Override
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem(BugCollectionLayout.PAGE_TITLE,
-                                    e -> UI.getCurrent().navigate(BugCollectionLayout.class));
+                return menu.addItem(BugCollectionView.NAME,
+                                    e -> UI.getCurrent().navigate(BugCollectionView.class));
             }
         });
     }

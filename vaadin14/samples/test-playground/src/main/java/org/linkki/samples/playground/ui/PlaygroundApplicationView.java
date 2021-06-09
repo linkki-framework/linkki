@@ -16,6 +16,7 @@ package org.linkki.samples.playground.ui;
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
+import org.linkki.samples.playground.TestScenario;
 import org.linkki.samples.playground.alignment.AlignmentPage;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
@@ -27,19 +28,24 @@ import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.tablayout.TabLayoutPage;
 import org.linkki.samples.playground.table.TablePage;
 import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
-import org.linkki.samples.playground.ts001.BasicElementsLayoutBehaviourPage;
-import org.linkki.samples.playground.ts002.SectionHeaderBehaviorPage;
-import org.linkki.samples.playground.ts003.I18NLocalizationPage;
+import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorFormSectionPmo;
+import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
+import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorUiSectionPmo;
+import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorVerticalLayoutPmo;
+import org.linkki.samples.playground.ts.components.SectionHeaderBehaviorPmo;
+import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "", layout = PlaygroundAppLayout.class)
-public class PlaygroundApplicationUI extends Div implements HasUrlParameter<String> {
+@PageTitle("linkki Sample :: Playground")
+public class PlaygroundApplicationView extends Div implements HasUrlParameter<String> {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,7 +65,7 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
 
     public static final String PARAM_READONLY = "read-only";
 
-    public PlaygroundApplicationUI() {
+    public PlaygroundApplicationView() {
         setSizeFull();
     }
 
@@ -122,22 +128,18 @@ public class PlaygroundApplicationUI extends Div implements HasUrlParameter<Stri
                                        .content(new IpsComponent()).build(),
 
                                // new test scenarios
-                               LinkkiTabSheet.builder("TS001")
-                                       .caption("TS001")
-                                       .description("Test Scenario 001: Basic Elements Behavior")
-                                       .content(new BasicElementsLayoutBehaviourPage())
-                                       .build(),
-                               LinkkiTabSheet.builder("TS002")
-                                       .caption("TS002")
-                                       .description("Test Scenario 002: Section Header Behavior")
-                                       .content(new SectionHeaderBehaviorPage())
-                                       .build(),
-                               LinkkiTabSheet.builder("TS003")
-                                       .caption("TS003")
-                                       .description("Test Scenario 003: I18N Localization")
-                                       .content(new I18NLocalizationPage())
-                                       .build());
-
+                               TestScenario.id("TS001").description("Basic Elements Behavior")
+                                       .testCase("TC001", new BasicElementsLayoutBehaviorUiSectionPmo())
+                                       .testCase("TC002", new BasicElementsLayoutBehaviorFormSectionPmo())
+                                       .testCase("TC003", new BasicElementsLayoutBehaviorHorizontalLayoutPmo())
+                                       .testCase("TC004", new BasicElementsLayoutBehaviorVerticalLayoutPmo())
+                                       .createTabSheet(),
+                               TestScenario.id("TS002").description("Section Header Behavior")
+                                       .testCase("TC001", new SectionHeaderBehaviorPmo())
+                                       .createTabSheet(),
+                               TestScenario.id("TS003").description("I18N Localization")
+                                       .testCase("TC001", new I18NElementsLocalizationPmo())
+                                       .createTabSheet());
         add(tabLayout);
     }
 

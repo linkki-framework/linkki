@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitestnew.pageobjects;
+package org.linkki.samples.playground.pageobjects;
 
 import org.openqa.selenium.NoSuchElementException;
 
@@ -26,13 +26,13 @@ import com.vaadin.testbench.annotations.Attribute;
 @Attribute(name = "id", value = "test-case-selector")
 public class TestCaseSelectorElement extends VerticalLayoutElement {
 
-    public TestCaseSectionElement selectTestCase(String id) {
+    public TestCaseComponentElement selectTestCase(String id) {
         $(TabElement.class).id(id).click();
 
         // all tab layouts are there in the DOM and we need to get the 'selected' (displayed) one
-        return $(TestCaseSectionElement.class).all()//
+        return $(TestCaseComponentElement.class).all()//
                 .stream()//
-                .filter(TestCaseSectionElement::isDisplayed)//
+                .filter(TestCaseComponentElement::isDisplayed)//
                 .findFirst()//
                 .orElseThrow(() -> new NoSuchElementException("No displayed content of <test-case-selector> found!"));
     }

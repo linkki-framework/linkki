@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.ui.dialogs;
+package org.linkki.samples.playground.dialogs;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.validation.message.Message;

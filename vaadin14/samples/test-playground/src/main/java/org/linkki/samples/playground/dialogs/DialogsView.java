@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.ui.dialogs;
+package org.linkki.samples.playground.dialogs;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
@@ -22,14 +22,16 @@ import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "dialogs", layout = PlaygroundAppLayout.class)
-public class DialogsLayout extends VerticalLayout {
+@PageTitle("linkki Sample :: Dialogs")
+public class DialogsView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    public DialogsLayout() {
+    public DialogsView() {
         setPadding(true);
 
         add(new Span(

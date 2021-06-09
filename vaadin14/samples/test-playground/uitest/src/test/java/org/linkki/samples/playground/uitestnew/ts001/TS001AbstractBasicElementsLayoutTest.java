@@ -18,10 +18,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.ts001.BasicElementsLayoutBehaviorModelObject;
-import org.linkki.samples.playground.ts001.BasicElementsLayoutBehaviorModelObject.SampleEnum;
+import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorModelObject;
+import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorModelObject.SampleEnum;
 import org.linkki.samples.playground.uitestnew.BaseUITest;
-import org.linkki.samples.playground.uitestnew.pageobjects.TestCaseSectionElement;
 
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
@@ -32,11 +32,11 @@ import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 abstract class TS001AbstractBasicElementsLayoutTest extends BaseUITest {
 
-    private TestCaseSectionElement testCaseSection;
+    private TestCaseComponentElement testCaseSection;
 
     @BeforeEach
     void setupEach() {
-        testCaseSection = gotoTestCaseSection("TS001", getTestCaseId());
+        testCaseSection = goToTestCase("TS001", getTestCaseId());
     }
 
     protected abstract String getTestCaseId();

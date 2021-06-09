@@ -12,21 +12,21 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitestnew.pageobjects;
+package org.linkki.samples.playground.pageobjects;
 
-import org.openqa.selenium.By;
-
-import com.vaadin.testbench.TestBenchElement;
-import com.vaadin.testbench.elementsbase.Element;
+import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
+import com.vaadin.flow.component.tabs.testbench.TabElement;
+import com.vaadin.testbench.annotations.Attribute;
 
 /**
- * Page object for a test case section
+ * Page object for a test scenario selector
  */
-@Element("testcase-section")
-public class TestCaseSectionElement extends TestBenchElement {
+@Attribute(name = "id", value = "test-scenario-selector")
+public class TestScenarioSelectorElement extends HorizontalLayoutElement {
 
-    public TestBenchElement getContentWrapper() {
-        return findElement(By.id("content-wrapper"));
+    public TestCaseSelectorElement selectTestScenario(String id) {
+        $(TabElement.class).id(id).click();
+        return $(TestCaseSelectorElement.class).onPage().first();
     }
 
 }

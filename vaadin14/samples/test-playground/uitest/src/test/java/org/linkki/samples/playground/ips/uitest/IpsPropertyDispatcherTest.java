@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ips.EnabledSectionPmo;
 import org.linkki.samples.playground.ips.RequiredSectionPmo;
 import org.linkki.samples.playground.ips.VisibleSectionPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.NoSuchElementException;
 
@@ -35,7 +35,7 @@ public class IpsPropertyDispatcherTest extends AbstractUiTest {
 
     @BeforeEach
     public void setup() {
-        openTab(PlaygroundApplicationUI.IPS_TAB_ID);
+        openTab(PlaygroundApplicationView.IPS_TAB_ID);
     }
 
     @Test

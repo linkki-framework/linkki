@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts001;
+package org.linkki.samples.playground.ts.basicelements;
 
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;

@@ -12,21 +12,31 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitestnew.pageobjects;
+package org.linkki.samples.playground.pageobjects;
 
+import java.util.List;
+
+import com.vaadin.flow.component.button.testbench.ButtonElement;
+import com.vaadin.flow.component.html.testbench.H4Element;
 import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
-import com.vaadin.flow.component.tabs.testbench.TabElement;
 import com.vaadin.testbench.annotations.Attribute;
 
 /**
- * Page object for a test scenario selector
+ * Page object for a linkki section caption
  */
-@Attribute(name = "id", value = "test-scenario-selector")
-public class TestScenarioSelectorElement extends HorizontalLayoutElement {
+@Attribute(name = "class", contains = "linkki-section-caption")
+public class LinkkiSectionCaptionElement extends HorizontalLayoutElement {
 
-    public TestCaseSelectorElement selectTestScenario(String id) {
-        $(TabElement.class).id(id).click();
-        return $(TestCaseSelectorElement.class).onPage().first();
+    public H4Element getTitle() {
+        return $(H4Element.class).first();
+    }
+
+    public List<ButtonElement> getHeaderButtons() {
+        return $(ButtonElement.class).all();
+    }
+
+    public ButtonElement getHeaderButton(String id) {
+        return $(ButtonElement.class).id(id);
     }
 
 }

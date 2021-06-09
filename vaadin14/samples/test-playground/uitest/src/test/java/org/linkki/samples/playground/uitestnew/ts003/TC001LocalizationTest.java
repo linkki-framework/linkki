@@ -22,10 +22,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
+import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension.Configuration;
 import org.linkki.samples.playground.uitestnew.BaseUITest;
-import org.linkki.samples.playground.uitestnew.pageobjects.LinkkiSectionElement;
-import org.linkki.samples.playground.uitestnew.pageobjects.TestCaseSectionElement;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.LabelElement;
@@ -52,7 +52,7 @@ class TC001LocalizationTest {
 
     private abstract class BaseTC001LocalizationTest extends BaseUITest {
 
-        protected TestCaseSectionElement testCaseSection;
+        protected TestCaseComponentElement testCaseSection;
         protected LinkkiSectionElement section;
         protected List<TestBenchElement> allFormItems;
 
@@ -66,7 +66,7 @@ class TC001LocalizationTest {
 
         @BeforeAll
         void setup() {
-            testCaseSection = gotoTestCaseSection("TS003", "TC001");
+            testCaseSection = goToTestCase("TS003", "TC001");
 
             section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
             allFormItems = section.$("vaadin-form-item").all();

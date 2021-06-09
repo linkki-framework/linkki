@@ -17,6 +17,8 @@ package org.linkki.samples.playground;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
@@ -30,14 +32,19 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
  * Simple wrapper for a test section containing a title, a description, a list of aspects that are
  * covered by this section and the content with the ui elements to be tested.
  */
-@Tag("testcase-section")
-public class TestCaseSection extends VerticalLayout {
+@Tag("test-case-component")
+public class TestCaseComponent extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    public TestCaseSection(String testId, Component content) {
+    public TestCaseComponent(String sceneId, String testId, Object pmo) {
+        this(sceneId + "." + testId,
+                VaadinUiCreator.createComponent(pmo, new BindingContext(pmo.getClass().getSimpleName())));
+    }
+
+    public TestCaseComponent(String testId, Component content) {
         setId(testId);
-        setPadding(false);
+        setPadding(true);
 
         add(new H3(TestCatalog.getTitle(testId)));
 

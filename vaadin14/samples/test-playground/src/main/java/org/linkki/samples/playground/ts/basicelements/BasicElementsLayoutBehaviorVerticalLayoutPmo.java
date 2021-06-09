@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts001;
+package org.linkki.samples.playground.ts.basicelements;
 
 import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 

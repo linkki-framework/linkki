@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.PlaygroundTablePmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
@@ -28,7 +28,7 @@ public class TableValidationMarkerTest extends AbstractUiTest {
 
     @Test
     public void testMarkersInTable() {
-        openTab(PlaygroundApplicationUI.TABLES_TAB_ID);
+        openTab(PlaygroundApplicationView.TABLES_TAB_ID);
 
         GridElement table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
 
@@ -39,8 +39,8 @@ public class TableValidationMarkerTest extends AbstractUiTest {
 
         assertThat(textField.getAttribute("invalid"), is("true"));
 
-        openTab(PlaygroundApplicationUI.ALL_COMPONENTS_TAB_ID);
-        openTab(PlaygroundApplicationUI.TABLES_TAB_ID);
+        openTab(PlaygroundApplicationView.ALL_COMPONENTS_TAB_ID);
+        openTab(PlaygroundApplicationView.TABLES_TAB_ID);
 
         table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
         textField = findTextFieldByValue(table, value);

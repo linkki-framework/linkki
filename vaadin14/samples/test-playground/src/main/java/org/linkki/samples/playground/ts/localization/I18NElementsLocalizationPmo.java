@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts003;
+package org.linkki.samples.playground.ts.localization;
 
 import java.time.LocalDate;
 

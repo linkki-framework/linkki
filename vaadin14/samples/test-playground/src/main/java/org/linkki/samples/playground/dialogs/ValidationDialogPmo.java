@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.ui.dialogs;
+package org.linkki.samples.playground.dialogs;
 
 import java.util.Arrays;
 import java.util.List;

@@ -36,14 +36,14 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "bugs", layout = PlaygroundAppLayout.class)
-@PageTitle(BugCollectionLayout.PAGE_TITLE)
-public class BugCollectionLayout extends LinkkiTabLayout {
+@PageTitle("linkki Sample :: " + BugCollectionView.NAME)
+public class BugCollectionView extends LinkkiTabLayout {
 
-    public static final String PAGE_TITLE = "Bugs";
+    public static final String NAME = "Bugs";
 
     private static final long serialVersionUID = 5094485819774125238L;
 
-    public BugCollectionLayout() {
+    public BugCollectionView() {
         super(Orientation.VERTICAL);
         getContent().getElement().getThemeList().add(THEME_VARIANT_SOLID);
 

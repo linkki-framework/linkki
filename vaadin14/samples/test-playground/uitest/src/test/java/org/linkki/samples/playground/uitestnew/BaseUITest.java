@@ -20,11 +20,11 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.pageobjects.TestCaseSelectorElement;
+import org.linkki.samples.playground.pageobjects.TestScenarioSelectorElement;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.linkki.samples.playground.uitest.extensions.ScreenshotOnFailureExtension;
-import org.linkki.samples.playground.uitestnew.pageobjects.TestCaseSectionElement;
-import org.linkki.samples.playground.uitestnew.pageobjects.TestCaseSelectorElement;
-import org.linkki.samples.playground.uitestnew.pageobjects.TestScenarioSelectorElement;
 
 import com.vaadin.testbench.TestBenchTestCase;
 
@@ -53,7 +53,7 @@ public abstract class BaseUITest extends TestBenchTestCase {
         setDriver(driverExtension.getDriver());
     }
 
-    protected TestCaseSectionElement gotoTestCaseSection(String testScenarioId, String testCaseId) {
+    protected TestCaseComponentElement goToTestCase(String testScenarioId, String testCaseId) {
         TestScenarioSelectorElement testScenarioSelector = $(TestScenarioSelectorElement.class).first();
         TestCaseSelectorElement testCaseSelector = testScenarioSelector.selectTestScenario(testScenarioId);
         return testCaseSelector.selectTestCase(testCaseId);

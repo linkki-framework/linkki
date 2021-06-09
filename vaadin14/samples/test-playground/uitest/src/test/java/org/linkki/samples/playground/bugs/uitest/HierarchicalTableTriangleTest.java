@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin1917.TriangleTablePmo;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
@@ -35,7 +35,7 @@ public class HierarchicalTableTriangleTest extends AbstractUiTest {
 
     @Test
     public void testTriangleIsShownAfterChildIsAdded() {
-        clickMenuItem(BugCollectionLayout.PAGE_TITLE);
+        clickMenuItem(BugCollectionView.NAME);
         openTab(TriangleTablePmo.CAPTION);
 
         TreeGridElement gridElement = $(TreeGridElement.class).id("TriangleTablePmo_table");

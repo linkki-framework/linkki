@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.bugs.BugCollectionLayout;
+import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin1486.ComboBoxVanishingValuePmo;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 
@@ -34,7 +34,7 @@ public class ComboBoxVanishingValueTest extends AbstractUiTest {
 
     @Test
     public void testValueOnRefreshWithSameAvailbleValues() {
-        clickMenuItem(BugCollectionLayout.PAGE_TITLE);
+        clickMenuItem(BugCollectionView.NAME);
         openTab(ComboBoxVanishingValuePmo.CAPTION);
 
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(ComboBoxVanishingValuePmo.PROPERTY_CHOICE);

@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts002;
+package org.linkki.samples.playground.ts.components;
 
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;

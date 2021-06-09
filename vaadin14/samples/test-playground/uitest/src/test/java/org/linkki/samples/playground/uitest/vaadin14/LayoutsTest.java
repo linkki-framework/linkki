@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -34,7 +34,7 @@ public class LayoutsTest extends AbstractUiTest {
 
     @BeforeEach
     public void setTab() {
-        openTab(PlaygroundApplicationUI.LAYOUTS_TAB_ID);
+        openTab(PlaygroundApplicationView.LAYOUTS_TAB_ID);
     }
 
     @Test

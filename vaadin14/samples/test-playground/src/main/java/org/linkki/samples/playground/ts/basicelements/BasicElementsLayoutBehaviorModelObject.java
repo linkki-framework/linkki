@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts001;
+package org.linkki.samples.playground.ts.basicelements;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
