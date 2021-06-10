@@ -310,9 +310,13 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
-    @UIButton(position = 150, caption = "I am a Button", label = "Button")
-    public void normal() {
+    @UIButton(position = 150, caption = "I am a Button", label = "Button", visible = VisibleType.DYNAMIC)
+    public void button() {
         Notification.show("Button clicked", 1000, Position.MIDDLE);
+    }
+
+    public boolean isButtonVisible() {
+        return isAllElementsVisible();
     }
 
 }

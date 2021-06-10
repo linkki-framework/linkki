@@ -32,8 +32,8 @@ import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehavio
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorUiSectionPmo;
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorVerticalLayoutPmo;
-import org.linkki.samples.playground.ts.components.SectionHeaderBehaviorPmo;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
+import org.linkki.samples.playground.ts.sectionheader.SectionHeaderBehaviorPmo;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
