@@ -33,7 +33,7 @@ class UIDateFieldTest {
     @Configuration(locale = "de")
     class UIDateFieldTestDe extends BaseUIDateFieldTest {
         UIDateFieldTestDe() {
-            super("Der eingegebene Datum ist ungültig.");
+            super("Das eingegebene Datum ist ungültig.");
         }
     }
 
