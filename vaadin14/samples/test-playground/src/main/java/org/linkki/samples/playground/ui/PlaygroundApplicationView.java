@@ -29,6 +29,7 @@ import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.TestScenario;
 import org.linkki.samples.playground.alignment.AlignmentPage;
 import org.linkki.samples.playground.allelements.AllUiElementsPage;
+import org.linkki.samples.playground.allelements.ButtonPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.formsection.FormSectionPage;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
@@ -43,6 +44,16 @@ import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehavio
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorUiSectionPmo;
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorVerticalLayoutPmo;
+import org.linkki.samples.playground.ts.components.ComboBoxPmo;
+import org.linkki.samples.playground.ts.components.CustomFieldPmo;
+import org.linkki.samples.playground.ts.components.DateFieldPmo;
+import org.linkki.samples.playground.ts.components.DoubleFieldPmo;
+import org.linkki.samples.playground.ts.components.IntegerFieldPmo;
+import org.linkki.samples.playground.ts.components.LabelPmo;
+import org.linkki.samples.playground.ts.components.LinkPmo;
+import org.linkki.samples.playground.ts.components.RadioButtonsPmo;
+import org.linkki.samples.playground.ts.components.TextAreaPmo;
+import org.linkki.samples.playground.ts.components.TextFieldPmo;
 import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
 import org.linkki.samples.playground.ts.ips.EnabledSectionPmo;
 import org.linkki.samples.playground.ts.ips.IpsPmo;
@@ -148,9 +159,21 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                TestScenario.id("TS003").description("I18N Localization")
                                        .testCase("TC001", new I18NElementsLocalizationPmo())
                                        .createTabSheet(),
-                               addIpsTabSheet()
+                               addIpsTabSheet(),
+                               TestScenario.id("TS005").description("Components")
+                                       .testCase("TC001", new LabelPmo())
+                                       .testCase("TC002", new IntegerFieldPmo())
+                                       .testCase("TC003", new DoubleFieldPmo())
+                                       .testCase("TC004", new TextAreaPmo())
+                                       .testCase("TC005", new TextFieldPmo())
+                                       .testCase("TC006", new DateFieldPmo())
+                                       .testCase("TC007", new ComboBoxPmo())
+                                       .testCase("TC008", new RadioButtonsPmo())
+                                       .testCase("TC009", new LinkPmo())
+                                       .testCase("TC010", new ButtonPmo())
+                                       .testCase("TC011", new CustomFieldPmo())
+                                       .createTabSheet());
 
-        );
         add(tabLayout);
     }
 

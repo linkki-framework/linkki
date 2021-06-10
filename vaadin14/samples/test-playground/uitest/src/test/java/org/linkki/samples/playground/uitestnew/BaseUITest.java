@@ -49,7 +49,7 @@ public abstract class BaseUITest extends TestBenchTestCase {
     protected ScreenshotOnFailureExtension screenshotExtension = new ScreenshotOnFailureExtension(this);
 
     @BeforeAll
-    void setUp() {
+    void setUpDriver() {
         setDriver(driverExtension.getDriver());
     }
 

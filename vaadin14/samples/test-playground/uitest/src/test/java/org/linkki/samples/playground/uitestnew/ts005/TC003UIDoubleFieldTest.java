@@ -12,75 +12,24 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitest.vaadin14;
+package org.linkki.samples.playground.uitestnew.ts005;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.allelements.AllUiElementsModelObject;
-import org.linkki.samples.playground.allelements.NumberFieldsPmo;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.ts.components.DoubleFieldPmo;
+import org.linkki.samples.playground.uitestnew.BaseUITest;
 
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class NumberFieldTest extends AbstractUiTest {
+public class TC003UIDoubleFieldTest extends BaseUITest {
 
-    @Test
-    public void testIntegerField_PrimitiveInteger() {
-        TextFieldElement field = getTextField("primitiveInteger");
-        field.setValue("123");
-
-        field.setValue("");
-        field.sendKeys("\t");
-
-        // field resets to previous value
-        assertThat(field.getValue(), is("123"));
-    }
-
-    @Test
-    public void testIntegerField_BoxedInteger() {
-        TextFieldElement field = getTextField("boxedInteger");
-        field.setValue("123");
-
-        field.setValue("");
-        field.sendKeys("\t");
-
-        assertThat(field.getValue(), is(""));
-    }
-
-    @Test
-    public void testIntegerField_RestrictedInput() {
-        TextFieldElement field = getTextField("boxedInteger");
-        field.setValue("");
-
-        field.sendKeys("a-bc123!#.xyz456?,q789\t");
-
-        assertThat(field.getValue(), is("-123.456.789"));
-    }
-
-    @Test
-    public void testIntegerField() {
-        TextFieldElement integerField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_INTVALUE);
-        integerField.setValue("42");
-
-        integerField.sendKeys("1");
-        assertThat(integerField.getValue(), is("421"));
-
-        // tab out to lose focus
-        integerField.sendKeys("\t");
-        assertThat(integerField.getValue(), is("421"));
-    }
-
-    @Test
-    public void testIntegerField_RejectsInvalidCharacters() {
-        TextFieldElement integerField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_INTVALUE);
-        integerField.setValue("1");
-
-        integerField.sendKeys("abc2!.,3xyz4");
-
-        assertThat(integerField.getValue(), is("1234"));
+    @BeforeEach
+    public void setUp() {
+        goToTestCase("TS005", "TC003");
     }
 
     @Test
@@ -118,7 +67,7 @@ public class NumberFieldTest extends AbstractUiTest {
 
     @Test
     public void testDoubleField() {
-        TextFieldElement doubleField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DOUBLEVALUE);
+        TextFieldElement doubleField = getTextField("primitiveDouble");
         doubleField.setValue("47,11");
 
         doubleField.sendKeys("1");
@@ -136,7 +85,7 @@ public class NumberFieldTest extends AbstractUiTest {
 
     @Test
     public void testDoubleField_RejectsInvalidCharacters() {
-        TextFieldElement doubleField = $(TextFieldElement.class).id(AllUiElementsModelObject.PROPERTY_DOUBLEVALUE);
+        TextFieldElement doubleField = getTextField("primitiveDouble");
         doubleField.setValue("1,00");
 
         doubleField.sendKeys("abc2!.,3xyz4");
@@ -145,9 +94,8 @@ public class NumberFieldTest extends AbstractUiTest {
     }
 
     private TextFieldElement getTextField(String id) {
-        return $(VerticalLayoutElement.class).id(NumberFieldsPmo.class.getSimpleName()).$(TextFieldElement.class)
-                .id(id);
+        return $(VerticalLayoutElement.class).id(DoubleFieldPmo.class.getSimpleName())
+                .$(TextFieldElement.class).id(id);
     }
-
 
 }

@@ -254,28 +254,6 @@ public abstract class AbstractAllUiElementsSectionPmo {
         // model binding
     }
 
-    @UILabel(position = 82, label = "", htmlContent = true)
-    public String getHtmlContentLabel() {
-        return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
-    }
-
-    @UILabel(position = 83, label = "")
-    public String getNotHtmlContentLabel() {
-        return "<b>NOT</b> HTML Content";
-    }
-
-    @BindIcon(value = VaadinIcon.ABACUS)
-    @UILabel(position = 84, label = "", htmlContent = true)
-    public String getNotHtmlContentLabelMitIcon() {
-        return "<i style=\\\"color: red;\\\">HTML</i> <b>Content</b> mit Icon";
-    }
-
-    @BindIcon(value = VaadinIcon.ABACUS)
-    @UILabel(position = 85, label = "")
-    public String getHtmlContentLabelMitIcon() {
-        return "<div><b>NOT</b> HTML Content mit Icon</div>";
-    }
-
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UICustomField(position = 90, label = PlaygroundNlsText.I18N, uiControl = PasswordField.class, //
             modelAttribute = AllUiElementsModelObject.PROPERTY_SECRET, //

@@ -12,39 +12,18 @@
  * License.
  */
 
-package org.linkki.samples.playground.allelements;
+package org.linkki.samples.playground.ts.components;
 
 import org.linkki.core.ui.element.annotation.UIDoubleField;
-import org.linkki.core.ui.element.annotation.UIIntegerField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(caption = "Number fields")
-public class NumberFieldsPmo {
+@UISection
+public class DoubleFieldPmo {
 
-    private int primitiveInteger;
-    private Integer boxedInteger;
     private double primitiveDouble;
     private Double boxedDouble;
 
-    @UIIntegerField(position = 0, label = "int")
-    public int getPrimitiveInteger() {
-        return primitiveInteger;
-    }
-
-    public void setPrimitiveInteger(int primitiveInteger) {
-        this.primitiveInteger = primitiveInteger;
-    }
-
-    @UIIntegerField(position = 1, label = "Integer")
-    public Integer getBoxedInteger() {
-        return boxedInteger;
-    }
-
-    public void setBoxedInteger(Integer boxedInteger) {
-        this.boxedInteger = boxedInteger;
-    }
-
-    @UIDoubleField(position = 10, label = "double")
+    @UIDoubleField(position = 0, label = "double")
     public double getPrimitiveDouble() {
         return primitiveDouble;
     }
@@ -53,7 +32,7 @@ public class NumberFieldsPmo {
         this.primitiveDouble = primitiveDouble;
     }
 
-    @UIDoubleField(position = 11, label = "Double")
+    @UIDoubleField(position = 1, label = "Double")
     public Double getBoxedDouble() {
         return boxedDouble;
     }
