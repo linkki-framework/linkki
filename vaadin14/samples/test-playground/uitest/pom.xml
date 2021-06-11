@@ -12,10 +12,10 @@
     <name>Automated UI Testing for linkki Vaadin 14 Samples Test Playground</name>
 
     <properties>
-        <vaadin.testbench.version>14.4.6</vaadin.testbench.version>
+        <vaadin.testbench.version>14.6.3</vaadin.testbench.version>
         <surefire.version>2.22.2</surefire.version>
-        <junit.version>5.7.0</junit.version>
-        <commons.version>3.11</commons.version>
+        <junit.version>5.7.2</junit.version>
+        <commons.version>3.12.0</commons.version>
 
         <java.version>1.8</java.version>
     </properties>
