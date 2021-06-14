@@ -78,7 +78,7 @@ pipeline {
             }
 
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
                 }
             }
@@ -96,7 +96,7 @@ pipeline {
             }
 
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
                 }
             }
@@ -114,7 +114,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     withSonarQubeEnv('SonarQube') {
-                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -Dsonar.projectName=${PROJECT_NAME} -Dsonar.projectKey=${PROJECT_NAME} -Dsonar.branch.name=${PROJECT_ID} -Dsonar.login=$SONAR_LOGIN sonar:sonar'
                         }
                     }
