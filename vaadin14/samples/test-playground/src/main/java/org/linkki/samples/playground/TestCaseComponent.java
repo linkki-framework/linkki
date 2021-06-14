@@ -14,6 +14,9 @@
 
 package org.linkki.samples.playground;
 
+import java.util.Arrays;
+
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 
@@ -51,7 +54,12 @@ public class TestCaseComponent extends VerticalLayout {
         description.add(new Span(TestCatalog.getDescription(testId)));
 
         UnorderedList aspectsList = new UnorderedList();
-        TestCatalog.getAspects(testId).forEach(a -> aspectsList.add(new ListItem(a)));
+        Arrays.asList(TestCatalog.getAspects(testId)//
+                .split("\n"))
+                .stream()//
+                .map(StringUtils::trim)//
+                .filter(StringUtils::isNotEmpty)//
+                .forEach(a -> aspectsList.add(new ListItem(a)));
         if (aspectsList.getChildren().count() > 0) {
             description.add(aspectsList);
         }

@@ -13,10 +13,6 @@
  */
 package org.linkki.samples.playground;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.linkki.core.nls.NlsService;
 
 /**
@@ -41,7 +37,7 @@ public class TestCatalog {
     /**
      * List of aspects that are covered by the test separated by a newline
      */
-    public static final String ASPECT_KEY = "aspect";
+    public static final String ASPECTS_KEY = "aspects";
 
     private static final String BUNDLE_NAME = "org/linkki/samples/playground/testcatalogue"; //$NON-NLS-1$
 
@@ -61,21 +57,8 @@ public class TestCatalog {
         return getString(testId + "." + DESCRIPTION_KEY);
     }
 
-    public static List<String> getAspects(String testId) {
-        List<String> aspects = new ArrayList<>();
-
-        for (int i = 0;; i++) {
-            String key = testId + "." + ASPECT_KEY + i;
-            Optional<String> aspect = NlsService.get().getString(BUNDLE_NAME, key);
-
-            if (aspect.isPresent()) {
-                aspects.add(aspect.get());
-            } else {
-                break;
-            }
-        }
-
-        return aspects;
+    public static String getAspects(String testId) {
+        return getString(testId + "." + ASPECTS_KEY);
     }
 
     private static String getString(String key) {
