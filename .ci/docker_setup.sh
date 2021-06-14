@@ -3,7 +3,7 @@ BUILD_NAME=$1
 
 # Create user-defined bridge
 NETWORK_NAME="network-linkki-$BUILD_NAME"
-if [ -z "$(docker network ls --filter="name=$NETWORK_NAME" -q)" ]; then
+if [ -z "$(docker network ls --filter="name=^$NETWORK_NAME$" -q)" ]; then
     docker network create $NETWORK_NAME
 fi
 
