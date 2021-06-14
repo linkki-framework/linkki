@@ -27,19 +27,15 @@ public class TestCatalog {
      */
     public static final String ID_KEY = "id";
     /**
-     * Title of the test
-     */
-    public static final String TITLE_KEY = "title";
-    /**
      * Short description of the test
      */
     public static final String DESCRIPTION_KEY = "description";
     /**
-     * List of aspects that are covered by the test separated by a newline
+     * List of items that are covered by the test separated by a newline
      */
-    public static final String ASPECTS_KEY = "aspects";
+    public static final String ITEMS_KEY = "items";
 
-    private static final String BUNDLE_NAME = "org/linkki/samples/playground/testcatalogue"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME = "org/linkki/samples/playground/testcatalog"; //$NON-NLS-1$
 
     private TestCatalog() {
         // do not instantiate
@@ -49,16 +45,16 @@ public class TestCatalog {
         return getString(testId + "." + ID_KEY);
     }
 
-    public static String getTitle(String testId) {
-        return getString(testId + "." + TITLE_KEY);
+    public static String getCaption(String testId) {
+        return getString(testId);
     }
 
     public static String getDescription(String testId) {
         return getString(testId + "." + DESCRIPTION_KEY);
     }
 
-    public static String getAspects(String testId) {
-        return getString(testId + "." + ASPECTS_KEY);
+    public static String getItems(String testId) {
+        return getString(testId + "." + ITEMS_KEY);
     }
 
     private static String getString(String key) {

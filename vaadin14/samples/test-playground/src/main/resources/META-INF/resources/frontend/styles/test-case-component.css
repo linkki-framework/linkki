@@ -1,0 +1,3 @@
+test-case-component[theme~="padding"] {
+  padding: var(--lumo-space-m);
+}

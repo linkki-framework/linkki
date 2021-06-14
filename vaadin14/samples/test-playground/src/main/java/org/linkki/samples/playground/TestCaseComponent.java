@@ -22,6 +22,7 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Span;
@@ -30,27 +31,28 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 /**
  * Simple wrapper for a test section containing a title, a description, a list of aspects that are
- * covered by this section and the content with the ui elements to be tested.
+ * covered by this section and the content with the UI elements to be tested.
  */
 @Tag("test-case-component")
+@CssImport(value = "./styles/test-case-component.css", //
+        include = "@vaadin/vaadin-ordered-layout/vaadin-vertical-layout")
 public class TestCaseComponent extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    public TestCaseComponent(String sceneId, String testId, Object pmo) {
-        this(sceneId + "." + testId,
+    public TestCaseComponent(String sceneId, String testCaseId, Object pmo) {
+        this(sceneId + "." + testCaseId,
                 VaadinUiCreator.createComponent(pmo, new BindingContext(pmo.getClass().getSimpleName())));
     }
 
-    public TestCaseComponent(String sceneId, String testId, Component component) {
-        this(sceneId + "." + testId, component);
+    public TestCaseComponent(String sceneId, String testCaseId, Component component) {
+        this(sceneId + "." + testCaseId, component);
     }
 
     public TestCaseComponent(String testId, Component content) {
         setId(testId);
-        setPadding(true);
 
-        add(new H3(TestCatalog.getTitle(testId)));
+        add(new H3(TestCatalog.getCaption(testId)));
 
         VerticalLayout description = new VerticalLayout();
         description.getStyle().set("background-color", "rgba(200,200,200,0.2)");
@@ -58,7 +60,7 @@ public class TestCaseComponent extends VerticalLayout {
         description.add(new Span(TestCatalog.getDescription(testId)));
 
         UnorderedList aspectsList = new UnorderedList();
-        Arrays.asList(TestCatalog.getAspects(testId)//
+        Arrays.asList(TestCatalog.getItems(testId)//
                 .split("\n"))
                 .stream()//
                 .map(StringUtils::trim)//
