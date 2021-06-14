@@ -161,27 +161,32 @@ public abstract class BindingManager {
     }
 
     /**
-     * Creates a new {@link BindingContext} with the given name. Does not assign the created context to
-     * this manager.
+     * Creates a new {@link BindingContext} with the given name, without a specific
+     * {@link PropertyBehaviorProvider}. It is up to the implementation to decide which
+     * {@link PropertyBehaviorProvider} should be used.
      * <p>
-     * Note that the created {@linkplain BindingContext} should call {@link #afterUpdateUi()} (e.g. by
-     * providing this::afterUpdateUI as a handler) if it is to be added to a manager, so related binding
-     * contexts can be notified about UI updates.
+     * Note that this method does not assign the created context to this manager. If the created context
+     * should be added to a manager, the created {@link BindingContext} should call
+     * {@link #afterUpdateUi()} (e.g. by providing "{@code this::afterUpdateUI}" as a handler) on the
+     * manager it should be added to. This makes sure that related binding contexts can be notified
+     * about UI updates.
      * 
-     * @see DefaultBindingManager#newBindingContext(String)
+     * @see #newBindingContext(String, PropertyBehaviorProvider)
      * @see BindingManager#afterUpdateUi()
      */
     protected abstract BindingContext newBindingContext(String name);
 
     /**
-     * Creates a new {@link BindingContext} with the given name and {@link PropertyBehaviorProvider}.
-     * Does not assign the created context to this manager.
+     * Creates a new {@link BindingContext} with the given name and the given
+     * {@link PropertyBehaviorProvider}.
      * <p>
-     * Note that the created {@linkplain BindingContext} should call {@link #afterUpdateUi()} (e.g. by
-     * providing "{@code this::afterUpdateUI}" as a handler) if it is to be added to a manager, so
-     * related binding contexts can be notified about UI updates.
+     * Note that this method does not assign the created context to this manager. If the created context
+     * should be added to a manager, the created {@link BindingContext} should call
+     * {@link #afterUpdateUi()} (e.g. by providing "{@code this::afterUpdateUI}" as a handler) on the
+     * manager it should be added to. This makes sure that related binding contexts can be notified
+     * about UI updates.
      * 
-     * @see DefaultBindingManager#newBindingContext(String)
+     * @see #newBindingContext(String)
      * @see BindingManager#afterUpdateUi()
      */
     protected abstract BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider);
