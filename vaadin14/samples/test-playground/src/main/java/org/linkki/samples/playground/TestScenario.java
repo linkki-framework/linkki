@@ -21,12 +21,13 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 
 public class TestScenario {
 
     private String scenarioId;
-    private String description = "";
     private List<LinkkiTabSheet> tabSheets = new ArrayList<>();
 
     private TestScenario(String scenarioId) {
@@ -47,18 +48,28 @@ public class TestScenario {
         return this;
     }
 
-    public TestScenario description(String newDescription) {
-        this.description = newDescription;
-        return this;
-    }
-
     public LinkkiTabSheet createTabSheet() {
         LinkkiTabLayout content = new LinkkiTabLayout(Orientation.HORIZONTAL);
         content.addTabSheets(tabSheets);
         content.setId("test-case-selector");
+
+        VerticalLayout captionComponent = new VerticalLayout();
+        captionComponent.setPadding(false);
+
+        Label titleLabel = new Label(scenarioId);
+        captionComponent.add(titleLabel);
+
+        Label subtitleLabel = new Label(TestCatalog.getScenarioTitle(scenarioId));
+        subtitleLabel.getStyle().set("font-size", "70%");
+        subtitleLabel.getStyle().set("margin", "0");
+
+        captionComponent.add(subtitleLabel);
+
         return LinkkiTabSheet.builder(scenarioId)
-                .description(description)
-                .content(content).build();
+                .caption(captionComponent)
+                .description(TestCatalog.getScenarioTitle(scenarioId))
+                .content(content)
+                .build();
     }
 
     public static TestScenario id(String szenarioId) {

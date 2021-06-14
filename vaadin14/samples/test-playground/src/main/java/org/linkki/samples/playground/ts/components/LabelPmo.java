@@ -14,35 +14,27 @@
 
 package org.linkki.samples.playground.ts.components;
 
-import org.linkki.core.ui.aspects.annotation.BindIcon;
+import java.math.BigDecimal;
+
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
-
-import com.vaadin.flow.component.icon.VaadinIcon;
 
 @UISection
 public class LabelPmo {
 
-    @UILabel(position = 10, label = "", htmlContent = true)
+    @UILabel(position = 10, label = "Label with HTML Content", htmlContent = true)
     public String getHtmlContentLabel() {
         return "<i style=\"color: red;\">HTML</i> <b>Content</b>";
     }
 
-    @UILabel(position = 20, label = "")
+    @UILabel(position = 20, label = "Label without HTML Content")
     public String getNotHtmlContentLabel() {
         return "<b>NOT</b> HTML Content";
     }
 
-    @BindIcon(value = VaadinIcon.ABACUS)
-    @UILabel(position = 30, label = "", htmlContent = true)
-    public String getNotHtmlContentLabelMitIcon() {
-        return "<i style=\\\"color: red;\\\">HTML</i> <b>Content</b> mit Icon";
-    }
-
-    @BindIcon(value = VaadinIcon.ABACUS)
-    @UILabel(position = 40, label = "")
-    public String getHtmlContentLabelMitIcon() {
-        return "<div><b>NOT</b> HTML Content mit Icon</div>";
+    @UILabel(position = 50, label = "Label with a BigDecimal as Value")
+    public BigDecimal getBigDecimalLabel() {
+        return BigDecimal.valueOf(12345.6789);
     }
 
 }

@@ -39,7 +39,6 @@ public class TableValidationMarkerTest extends AbstractUiTest {
 
         assertThat(textField.getAttribute("invalid"), is("true"));
 
-        openTab(PlaygroundApplicationView.ALL_COMPONENTS_TAB_ID);
         openTab(PlaygroundApplicationView.TABLES_TAB_ID);
 
         table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");

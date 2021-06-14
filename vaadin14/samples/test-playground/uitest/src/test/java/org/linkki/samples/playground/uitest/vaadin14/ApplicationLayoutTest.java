@@ -19,26 +19,16 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
 import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
-import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.testbench.ElementQuery;
 import com.vaadin.testbench.TestBenchElement;
 
 public class ApplicationLayoutTest extends AbstractUiTest {
-
-    @BeforeEach
-    public void setup() {
-        openTab(PlaygroundApplicationView.ALL_COMPONENTS_TAB_ID);
-    }
 
     @Test
     public void testApplicationLayout_HeaderExists() {
@@ -61,21 +51,6 @@ public class ApplicationLayoutTest extends AbstractUiTest {
         assertThat(menu.isDisplayed(), is(true));
     }
 
-    @Test
-    public void testApplicationLayout_SwitchToReadOnly() {
-        MenuBarElement menu = $(MenuBarElement.class)
-                .id(LinkkiApplicationTheme.APPLICATION_MENU);
-        menu.getButtons().get(0).click();
-
-        // wait for the overlay
-        waitUntil(ExpectedConditions.presenceOfElementLocated(By.tagName(OVERLAY_TAG)));
-
-        List<TestBenchElement> overlays = getAllOverlays();
-        final TestBenchElement clickMe = getMenuItem(getMenuItems(overlays.get(0)), "read-only");
-        clickMe.click();
-
-        assertThat($(TextFieldElement.class).first().hasAttribute("readonly"), is(true));
-    }
 
     public static final String OVERLAY_TAG = "vaadin-context-menu-overlay";
     public static final String MENU_ITEM_TAG = "vaadin-context-menu-item";

@@ -52,15 +52,15 @@ public class TestCaseComponent extends VerticalLayout {
     public TestCaseComponent(String testId, Component content) {
         setId(testId);
 
-        add(new H3(TestCatalog.getCaption(testId)));
+        add(new H3(TestCatalog.getCaseTitle(testId)));
 
         VerticalLayout description = new VerticalLayout();
         description.getStyle().set("background-color", "rgba(200,200,200,0.2)");
 
-        description.add(new Span(TestCatalog.getDescription(testId)));
+        description.add(new Span(TestCatalog.getCaseDescription(testId)));
 
         UnorderedList aspectsList = new UnorderedList();
-        Arrays.asList(TestCatalog.getItems(testId)//
+        Arrays.asList(TestCatalog.getCaseItems(testId)//
                 .split("\n"))
                 .stream()//
                 .map(StringUtils::trim)//

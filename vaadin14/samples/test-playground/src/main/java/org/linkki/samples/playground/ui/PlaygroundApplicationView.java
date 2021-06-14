@@ -13,7 +13,6 @@
  */
 package org.linkki.samples.playground.ui;
 
-import org.apache.commons.lang3.StringUtils;
 import org.faktorips.runtime.ValidationContext;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
@@ -27,27 +26,22 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.TestScenario;
-import org.linkki.samples.playground.alignment.AlignmentPage;
-import org.linkki.samples.playground.allelements.AllUiElementsPage;
-import org.linkki.samples.playground.allelements.ButtonPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
-import org.linkki.samples.playground.formsection.FormSectionPage;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.tablayout.TabLayoutPage;
 import org.linkki.samples.playground.table.TablePage;
 import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
-import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorCssLayoutPmo;
-import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorFormLayoutPmo;
-import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorFormSectionPmo;
-import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
-import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorUiSectionPmo;
-import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorVerticalLayoutPmo;
+import org.linkki.samples.playground.ts.alignment.HorizontalAlignmentTestComponent;
+import org.linkki.samples.playground.ts.alignment.VerticalAlignmentTestComponent;
+import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
+import org.linkki.samples.playground.ts.components.ButtonPmo;
 import org.linkki.samples.playground.ts.components.ComboBoxPmo;
 import org.linkki.samples.playground.ts.components.CustomFieldPmo;
 import org.linkki.samples.playground.ts.components.DateFieldPmo;
 import org.linkki.samples.playground.ts.components.DoubleFieldPmo;
+import org.linkki.samples.playground.ts.components.DynamicComponentPage;
 import org.linkki.samples.playground.ts.components.IntegerFieldPmo;
 import org.linkki.samples.playground.ts.components.LabelPmo;
 import org.linkki.samples.playground.ts.components.LinkPmo;
@@ -59,6 +53,13 @@ import org.linkki.samples.playground.ts.ips.EnabledSectionPmo;
 import org.linkki.samples.playground.ts.ips.IpsPmo;
 import org.linkki.samples.playground.ts.ips.RequiredSectionPmo;
 import org.linkki.samples.playground.ts.ips.VisibleSectionPmo;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorCssLayoutPmo;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormLayoutPmo;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorFormSectionPmo;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSectionPmo;
+import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
+import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
 import org.linkki.samples.playground.ts.sectionheader.SectionHeaderBehaviorPmo;
 
@@ -76,20 +77,12 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
 
     private static final long serialVersionUID = 1L;
 
-    public static final String ALL_COMPONENTS_TAB_ID = "all";
-    public static final String FORMSECTION_TAB_ID = "formsection";
     public static final String DYNAMIC_ASPECT_TAB_ID = "dynamic";
-    public static final String BUGS_TAB_ID = "bugs";
     public static final String TABLES_TAB_ID = "tables";
-    public static final String LOCALE_TAB_ID = "locale";
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
     public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
-    public static final String ALIGNMENT_TAB_ID = "alignment";
     public static final String MESSAGES_TAB_ID = "messages";
     public static final String TREETABLE_TAB_ID = "tree-table";
-    public static final String IPS_TAB_ID = "ips";
-
-    public static final String PARAM_READONLY = "read-only";
 
     public PlaygroundApplicationView() {
         setSizeFull();
@@ -102,19 +95,48 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
         tabLayout.setId("test-scenario-selector");
         tabLayout.addTabSheets(
 
+                               // new test scenarios
+                               TestScenario.id("TS001")
+                                       .testCase("TC001", new BasicElementsLayoutBehaviorUiSectionPmo())
+                                       .testCase("TC002", new BasicElementsLayoutBehaviorFormSectionPmo())
+                                       .testCase("TC003", new BasicElementsLayoutBehaviorHorizontalLayoutPmo())
+                                       .testCase("TC004", new BasicElementsLayoutBehaviorVerticalLayoutPmo())
+                                       .testCase("TC005", new BasicElementsLayoutBehaviorFormLayoutPmo())
+                                       .testCase("TC006", new BasicElementsLayoutBehaviorCssLayoutPmo())
+                                       .createTabSheet(),
+                               TestScenario.id("TS002")
+                                       .testCase("TC001", new SectionHeaderBehaviorPmo())
+                                       .createTabSheet(),
+                               TestScenario.id("TS003")
+                                       .testCase("TC001", new I18NElementsLocalizationPmo())
+                                       .createTabSheet(),
+                               addIpsTabSheet(),
+                               TestScenario.id("TS005")
+                                       .testCase("TC001", new LabelPmo())
+                                       .testCase("TC002", new IntegerFieldPmo())
+                                       .testCase("TC003", new DoubleFieldPmo())
+                                       .testCase("TC004", new TextAreaPmo())
+                                       .testCase("TC005", new TextFieldPmo())
+                                       .testCase("TC006", new DateFieldPmo())
+                                       .testCase("TC007", new ComboBoxPmo())
+                                       .testCase("TC008", new RadioButtonsPmo())
+                                       .testCase("TC009", new LinkPmo())
+                                       .testCase("TC010", new ButtonPmo())
+                                       .testCase("TC011", new CustomFieldPmo())
+                                       .testCase("TC012", new DynamicComponentPage())
+                                       .createTabSheet(),
+                               TestScenario.id("TS006")
+                                       .testCase("TC001", new LinkkiTextComponent())
+                                       .createTabSheet(),
+                               TestScenario.id("TS007")
+                                       .testCase("TC001", new VerticalAlignmentTestComponent())
+                                       .testCase("TC002", new HorizontalAlignmentTestComponent())
+                                       .createTabSheet(),
+                               TestScenario.id("TS008")
+                                       .testCase("TC001", new BindStyleNamesPmo())
+                                       .createTabSheet(),
+
                                // old tab sheets
-                               LinkkiTabSheet.builder(ALL_COMPONENTS_TAB_ID)
-                                       .caption(VaadinIcon.FORM.create())
-                                       .description("All UI Components")
-                                       .content(new AllUiElementsPage(
-                                               () -> StringUtils.equals(parameter, PARAM_READONLY)))
-                                       .build(),
-                               LinkkiTabSheet.builder(FORMSECTION_TAB_ID)
-                                       .caption(VaadinIcon.FORM.create())
-                                       .description("@UIFormSection")
-                                       .content(new FormSectionPage(
-                                               () -> StringUtils.equals(parameter, PARAM_READONLY)))
-                                       .build(),
                                LinkkiTabSheet.builder(DYNAMIC_ASPECT_TAB_ID)
                                        .caption(VaadinIcon.FLIGHT_TAKEOFF.create())
                                        .description("Dynamic Aspects")
@@ -131,10 +153,6 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .caption(VaadinIcon.TABS.create())
                                        .description("Tab Layout")
                                        .content(new TabLayoutPage()).build(),
-                               LinkkiTabSheet.builder(ALIGNMENT_TAB_ID)
-                                       .caption(VaadinIcon.ALIGN_CENTER.create())
-                                       .description("Alignment")
-                                       .content(new AlignmentPage()).build(),
                                LinkkiTabSheet.builder(MESSAGES_TAB_ID)
                                        .caption(VaadinIcon.COMMENT_ELLIPSIS_O.create())
                                        .description("Messages Component")
@@ -142,37 +160,9 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                LinkkiTabSheet.builder(TREETABLE_TAB_ID)
                                        .caption(VaadinIcon.FILE_TREE.create())
                                        .description("Tree Table")
-                                       .content(new SampleTreeTableComponent()).build(),
+                                       .content(new SampleTreeTableComponent()).build()
 
-                               // new test scenarios
-                               TestScenario.id("TS001").description("Basic Elements Behavior")
-                                       .testCase("TC001", new BasicElementsLayoutBehaviorUiSectionPmo())
-                                       .testCase("TC002", new BasicElementsLayoutBehaviorFormSectionPmo())
-                                       .testCase("TC003", new BasicElementsLayoutBehaviorHorizontalLayoutPmo())
-                                       .testCase("TC004", new BasicElementsLayoutBehaviorVerticalLayoutPmo())
-                                       .testCase("TC005", new BasicElementsLayoutBehaviorFormLayoutPmo())
-                                       .testCase("TC006", new BasicElementsLayoutBehaviorCssLayoutPmo())
-                                       .createTabSheet(),
-                               TestScenario.id("TS002").description("Section Header Behavior")
-                                       .testCase("TC001", new SectionHeaderBehaviorPmo())
-                                       .createTabSheet(),
-                               TestScenario.id("TS003").description("I18N Localization")
-                                       .testCase("TC001", new I18NElementsLocalizationPmo())
-                                       .createTabSheet(),
-                               addIpsTabSheet(),
-                               TestScenario.id("TS005").description("Components")
-                                       .testCase("TC001", new LabelPmo())
-                                       .testCase("TC002", new IntegerFieldPmo())
-                                       .testCase("TC003", new DoubleFieldPmo())
-                                       .testCase("TC004", new TextAreaPmo())
-                                       .testCase("TC005", new TextFieldPmo())
-                                       .testCase("TC006", new DateFieldPmo())
-                                       .testCase("TC007", new ComboBoxPmo())
-                                       .testCase("TC008", new RadioButtonsPmo())
-                                       .testCase("TC009", new LinkPmo())
-                                       .testCase("TC010", new ButtonPmo())
-                                       .testCase("TC011", new CustomFieldPmo())
-                                       .createTabSheet());
+        );
 
         add(tabLayout);
     }
@@ -188,7 +178,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
 
         BindingContext bc = bindingManager.getContext("IpsBindingContext");
 
-        return TestScenario.id("TS004").description("IPS")
+        return TestScenario.id("TS004")
                 .testCase("TC001", VaadinUiCreator.createComponent(new IpsPmo(ipsModelObject), bc))
                 .testCase("TC002", VaadinUiCreator.createComponent(new DecimalFieldPmo(), bc))
                 .testCase("TC003", VaadinUiCreator.createComponent(new RequiredSectionPmo(), bc))

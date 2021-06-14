@@ -12,25 +12,11 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.components;
+package org.linkki.samples.playground.ts.layouts;
 
-import java.time.LocalDate;
+import org.linkki.core.ui.layout.annotation.UIFormLayout;
 
-import org.linkki.core.ui.element.annotation.UIDateField;
-import org.linkki.core.ui.layout.annotation.UISection;
-
-@UISection
-public class DateFieldPmo {
-
-    private LocalDate date;
-
-    @UIDateField(position = 0, label = "@UIDateField")
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
+@UIFormLayout
+public class BasicElementsLayoutBehaviorFormLayoutPmo extends AbstractBasicElementsLayoutBehaviorPmo {
+    // no content needed
 }

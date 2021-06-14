@@ -12,25 +12,13 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.components;
+package org.linkki.samples.playground.uitestnew.ts.layouts;
 
-import java.time.LocalDate;
+class TC005FormLayoutTest extends TC001AbstractLayoutTest {
 
-import org.linkki.core.ui.element.annotation.UIDateField;
-import org.linkki.core.ui.layout.annotation.UISection;
-
-@UISection
-public class DateFieldPmo {
-
-    private LocalDate date;
-
-    @UIDateField(position = 0, label = "@UIDateField")
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    @Override
+    protected String getTestCaseId() {
+        return "TC005";
     }
 
 }

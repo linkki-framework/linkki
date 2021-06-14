@@ -12,25 +12,18 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.components;
+package org.linkki.samples.playground.ts.alignment;
 
-import java.time.LocalDate;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.VerticalAlignment;
+import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 
-import org.linkki.core.ui.element.annotation.UIDateField;
-import org.linkki.core.ui.layout.annotation.UISection;
+@UIHorizontalLayout(alignment = VerticalAlignment.TOP)
+public class HorizontalLayoutTopPmo {
 
-@UISection
-public class DateFieldPmo {
-
-    private LocalDate date;
-
-    @UIDateField(position = 0, label = "@UIDateField")
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    @UITextField(position = 1)
+    public String getText() {
+        return "I should be at the top";
     }
 
 }

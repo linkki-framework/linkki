@@ -12,25 +12,17 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.components;
+package org.linkki.samples.playground.ts.alignment;
 
-import java.time.LocalDate;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
-import org.linkki.core.ui.element.annotation.UIDateField;
-import org.linkki.core.ui.layout.annotation.UISection;
+@UIVerticalLayout
+public class VerticalLayoutLeftPmo {
 
-@UISection
-public class DateFieldPmo {
-
-    private LocalDate date;
-
-    @UIDateField(position = 0, label = "@UIDateField")
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    @UITextField(position = 1, width = "15em")
+    public String getText() {
+        return "I should be at the left";
     }
 
 }

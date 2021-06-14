@@ -23,15 +23,15 @@ import org.linkki.core.nls.NlsService;
 public class TestCatalog {
 
     /**
-     * ID of the test
+     * ID of the testcase
      */
     public static final String ID_KEY = "id";
     /**
-     * Short description of the test
+     * Short description of the testcase
      */
     public static final String DESCRIPTION_KEY = "description";
     /**
-     * List of items that are covered by the test separated by a newline
+     * List of items that are covered by the testcase separated by a newline
      */
     public static final String ITEMS_KEY = "items";
 
@@ -41,19 +41,19 @@ public class TestCatalog {
         // do not instantiate
     }
 
-    public static String getId(String testId) {
-        return getString(testId + "." + ID_KEY);
+    public static String getScenarioTitle(String scenarioId) {
+        return getString(scenarioId);
     }
 
-    public static String getCaption(String testId) {
+    public static String getCaseTitle(String testId) {
         return getString(testId);
     }
 
-    public static String getDescription(String testId) {
+    public static String getCaseDescription(String testId) {
         return getString(testId + "." + DESCRIPTION_KEY);
     }
 
-    public static String getItems(String testId) {
+    public static String getCaseItems(String testId) {
         return getString(testId + "." + ITEMS_KEY);
     }
 

@@ -17,8 +17,11 @@ package org.linkki.samples.playground.ts.components;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.vaadin.component.KeyCode;
 
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 
 @UISection
 public class ButtonPmo {
@@ -35,9 +38,14 @@ public class ButtonPmo {
         counter++;
     }
 
-    @UIButton(position = 11, caption = "Reset Counter", icon = VaadinIcon.MINUS, showIcon = true)
+    @UIButton(position = 20, caption = "Reset Counter", icon = VaadinIcon.ARROW_BACKWARD, showIcon = true, variants = ButtonVariant.LUMO_TERTIARY)
     public void resetCounter() {
         counter = 0;
+    }
+
+    @UIButton(position = 30, caption = "Show Notification on Enter or Click", shortcutKeyCode = KeyCode.ENTER, variants = ButtonVariant.LUMO_PRIMARY)
+    public void onEnterButton() {
+        Notification.show("Button for Notification pressed!");
     }
 
 }

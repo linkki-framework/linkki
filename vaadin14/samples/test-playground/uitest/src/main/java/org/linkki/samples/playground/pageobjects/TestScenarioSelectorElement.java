@@ -14,6 +14,8 @@
 
 package org.linkki.samples.playground.pageobjects;
 
+import org.openqa.selenium.NoSuchElementException;
+
 import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 import com.vaadin.testbench.annotations.Attribute;
@@ -26,7 +28,14 @@ public class TestScenarioSelectorElement extends HorizontalLayoutElement {
 
     public TestCaseSelectorElement selectTestScenario(String id) {
         $(TabElement.class).id(id).click();
-        return $(TestCaseSelectorElement.class).onPage().first();
+
+        // return first displayed test case selector
+        return $(TestCaseSelectorElement.class).all()
+                .stream()
+                .filter(TestCaseSelectorElement::isDisplayed)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException(
+                        "No displayed content of <test-scenario-selector> found!"));
     }
 
 }

@@ -62,17 +62,9 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence.of(new ApplicationMenuItemDefinition("Start", 0) {
-
             @Override
             protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                MenuItem playgroundItem = menu.addItem("Playground");
-                playgroundItem.getSubMenu()
-                        .addItem("writable", e -> UI.getCurrent().navigate(PlaygroundApplicationView.class));
-
-                playgroundItem.getSubMenu()
-                        .addItem("read-only", e -> UI.getCurrent().navigate(PlaygroundApplicationView.class,
-                                                                            PlaygroundApplicationView.PARAM_READONLY));
-                return playgroundItem;
+                return menu.addItem("Playground", e -> UI.getCurrent().navigate(PlaygroundApplicationView.class));
             }
         }, new ApplicationMenuItemDefinition("Dialogs", 1) {
             @Override

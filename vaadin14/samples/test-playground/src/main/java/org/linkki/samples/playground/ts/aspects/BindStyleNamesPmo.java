@@ -12,25 +12,22 @@
  * License.
  */
 
-package org.linkki.samples.playground.ts.components;
+package org.linkki.samples.playground.ts.aspects;
 
-import java.time.LocalDate;
+import org.linkki.core.ui.aspects.annotation.BindStyleNames;
+import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 
-import org.linkki.core.ui.element.annotation.UIDateField;
-import org.linkki.core.ui.layout.annotation.UISection;
+import com.vaadin.flow.component.dependency.CssImport;
 
-@UISection
-public class DateFieldPmo {
+@CssImport("./styles/shared-styles.css")
+@UIVerticalLayout
+@BindStyleNames({ "style1", "style2", "style3" })
+public class BindStyleNamesPmo {
 
-    private LocalDate date;
-
-    @UIDateField(position = 0, label = "@UIDateField")
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    @UILabel(position = 1)
+    public String getString() {
+        return "I am a white text within a blue box with a thick border";
     }
 
 }

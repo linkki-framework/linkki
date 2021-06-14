@@ -28,7 +28,6 @@ import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.UIFormSection;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
-import org.linkki.samples.playground.allelements.FormSectionPmo;
 
 @UIFormSection(caption = "@BindVisibleSectionPmo")
 public class BindVisibleSectionPmo {
