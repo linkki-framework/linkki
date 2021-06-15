@@ -14,12 +14,11 @@
 
 package org.linkki.samples.playground.uitestnew.ts001;
 
-class TC002UIFormSectionTest extends TS001AbstractBasicElementsLayoutTest {
+class TC002UIFormSectionTest extends TC001AbstractSectionTest {
 
     @Override
     protected String getTestCaseId() {
         return "TC002";
     }
-
 
 }

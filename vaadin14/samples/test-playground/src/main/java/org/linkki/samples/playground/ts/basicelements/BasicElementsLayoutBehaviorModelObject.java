@@ -51,10 +51,21 @@ public class BasicElementsLayoutBehaviorModelObject {
     private SampleEnum enumValue;
 
     public enum SampleEnum {
-        VALUE1,
-        VALUE2,
-        VALUE3,
-        VALUE4;
+
+        VALUE1("Value 1"),
+        VALUE2("Value 2"),
+        VALUE3("Value Three"),
+        VALUE4("Value Four");
+
+        private final String name;
+
+        SampleEnum(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
     }
 
     public String getText() {

@@ -14,11 +14,11 @@
 
 package org.linkki.samples.playground.uitestnew.ts001;
 
-class TC003HorizontalLayoutTest extends TC001AbstractLayoutTest {
+class TC006CssLayoutTest extends TC001AbstractLayoutTest {
 
     @Override
     protected String getTestCaseId() {
-        return "TC003";
+        return "TC006";
     }
 
 }

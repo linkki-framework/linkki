@@ -41,15 +41,19 @@ abstract class TS001AbstractBasicElementsLayoutTest extends BaseUITest {
 
     protected abstract String getTestCaseId();
 
+    protected TestCaseComponentElement getTestCaseSection() {
+        return testCaseSection;
+    }
+
     @Test
-    void testLabel() {
+    void testLabel_HasText() {
         DivElement label = testCaseSection.getContentWrapper()//
                 .$(DivElement.class).id("textLabel");
         assertThat(label.getText()).isEqualTo("I am a text");
     }
 
     @Test
-    void testTextField() {
+    void testTextField_SetValue() {
         TextFieldElement textField = testCaseSection.getContentWrapper()//
                 .$(TextFieldElement.class).id("text");
 
@@ -64,7 +68,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends BaseUITest {
     }
 
     @Test
-    void testTextArea() {
+    void testTextArea_SetValue() {
         TextAreaElement textArea = testCaseSection.getContentWrapper()//
                 .$(TextAreaElement.class)
                 .id(BasicElementsLayoutBehaviorModelObject.PROPERTY_LONGTEXT);
@@ -81,7 +85,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends BaseUITest {
     }
 
     @Test
-    void testCheckBox() {
+    void testCheckBox_IsCheckable() {
         CheckboxElement checkBox = testCaseSection.getContentWrapper()//
                 .$(CheckboxElement.class)
                 .id(BasicElementsLayoutBehaviorModelObject.PROPERTY_BOOLEANVALUE);
@@ -97,7 +101,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends BaseUITest {
     }
 
     @Test
-    void testRadioButton() {
+    void testRadioButtons_IsSelectable() {
         RadioButtonGroupElement radioButtons = testCaseSection.getContentWrapper()//
                 .$(RadioButtonGroupElement.class)
                 .id("enumValueRadioButton");
@@ -106,14 +110,14 @@ abstract class TS001AbstractBasicElementsLayoutTest extends BaseUITest {
         assertThat(radioButtons.getSelectedText()).isNull();
 
         // action
-        radioButtons.selectByText(SampleEnum.VALUE3.name());
+        radioButtons.selectByText(SampleEnum.VALUE3.getName());
 
         // postcondition
-        assertThat(radioButtons.getSelectedText()).isEqualTo(SampleEnum.VALUE3.name());
+        assertThat(radioButtons.getSelectedText()).isEqualTo(SampleEnum.VALUE3.getName());
     }
 
     @Test
-    void testLink() {
+    void testLink_HasTextAndHref() {
         AnchorElement link = testCaseSection.getContentWrapper()//
                 .$(AnchorElement.class)
                 .id("link");

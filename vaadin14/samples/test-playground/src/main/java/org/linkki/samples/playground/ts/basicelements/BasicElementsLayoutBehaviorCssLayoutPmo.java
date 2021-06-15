@@ -12,13 +12,13 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitestnew.ts001;
+package org.linkki.samples.playground.ts.basicelements;
 
-class TC003HorizontalLayoutTest extends TC001AbstractLayoutTest {
+import org.linkki.core.ui.aspects.annotation.BindStyleNames;
+import org.linkki.core.ui.layout.annotation.UICssLayout;
 
-    @Override
-    protected String getTestCaseId() {
-        return "TC003";
-    }
-
+@BindStyleNames("extraClass")
+@UICssLayout(styleNames = "borderLayout")
+public class BasicElementsLayoutBehaviorCssLayoutPmo extends AbstractBasicElementsLayoutBehaviorPmo {
+    // no content needed
 }

@@ -32,12 +32,13 @@ import org.linkki.samples.playground.allelements.AllUiElementsPage;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.linkki.samples.playground.formsection.FormSectionPage;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
-import org.linkki.samples.playground.layouts.LayoutsPage;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
 import org.linkki.samples.playground.tablayout.TabLayoutPage;
 import org.linkki.samples.playground.table.TablePage;
 import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
+import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorCssLayoutPmo;
+import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorFormLayoutPmo;
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorFormSectionPmo;
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorHorizontalLayoutPmo;
 import org.linkki.samples.playground.ts.basicelements.BasicElementsLayoutBehaviorUiSectionPmo;
@@ -66,7 +67,6 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
 
     public static final String ALL_COMPONENTS_TAB_ID = "all";
     public static final String FORMSECTION_TAB_ID = "formsection";
-    public static final String LAYOUTS_TAB_ID = "layouts";
     public static final String DYNAMIC_ASPECT_TAB_ID = "dynamic";
     public static final String BUGS_TAB_ID = "bugs";
     public static final String TABLES_TAB_ID = "tables";
@@ -104,11 +104,6 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .content(new FormSectionPage(
                                                () -> StringUtils.equals(parameter, PARAM_READONLY)))
                                        .build(),
-                               LinkkiTabSheet.builder(LAYOUTS_TAB_ID)
-                                       .caption(VaadinIcon.LAYOUT.create())
-                                       .description("Layouts")
-                                       .content(new LayoutsPage())
-                                       .build(),
                                LinkkiTabSheet.builder(DYNAMIC_ASPECT_TAB_ID)
                                        .caption(VaadinIcon.FLIGHT_TAKEOFF.create())
                                        .description("Dynamic Aspects")
@@ -144,6 +139,8 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase("TC002", new BasicElementsLayoutBehaviorFormSectionPmo())
                                        .testCase("TC003", new BasicElementsLayoutBehaviorHorizontalLayoutPmo())
                                        .testCase("TC004", new BasicElementsLayoutBehaviorVerticalLayoutPmo())
+                                       .testCase("TC005", new BasicElementsLayoutBehaviorFormLayoutPmo())
+                                       .testCase("TC006", new BasicElementsLayoutBehaviorCssLayoutPmo())
                                        .createTabSheet(),
                                TestScenario.id("TS002").description("Section Header Behavior")
                                        .testCase("TC001", new SectionHeaderBehaviorPmo())

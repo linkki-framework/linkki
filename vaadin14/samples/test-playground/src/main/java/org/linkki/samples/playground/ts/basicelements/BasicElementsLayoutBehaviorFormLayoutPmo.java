@@ -12,13 +12,11 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitestnew.ts001;
+package org.linkki.samples.playground.ts.basicelements;
 
-class TC003HorizontalLayoutTest extends TC001AbstractLayoutTest {
+import org.linkki.core.ui.layout.annotation.UIFormLayout;
 
-    @Override
-    protected String getTestCaseId() {
-        return "TC003";
-    }
-
+@UIFormLayout
+public class BasicElementsLayoutBehaviorFormLayoutPmo extends AbstractBasicElementsLayoutBehaviorPmo {
+    // no content needed
 }
