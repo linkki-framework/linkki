@@ -164,30 +164,28 @@ public abstract class BindingManager {
      * Creates a new {@link BindingContext} with the given name, without a specific
      * {@link PropertyBehaviorProvider}. It is up to the implementation to decide which
      * {@link PropertyBehaviorProvider} should be used.
-     * <p>
-     * Note that this method does not assign the created context to this manager. If the created context
-     * should be added to a manager, the created {@link BindingContext} should call
-     * {@link #afterUpdateUi()} (e.g. by providing "{@code this::afterUpdateUI}" as a handler) on the
-     * manager it should be added to. This makes sure that related binding contexts can be notified
-     * about UI updates.
+     * 
+     * @implNote Implementations have to ensure that the context calls {@link #afterUpdateUi()} if this
+     *           manager should be notified of UI updates inside the context. This can be achieved by
+     *           passing {@code this::afterUpdateUI} as a
+     *           {@link BindingContext#BindingContext(String, PropertyBehaviorProvider, org.linkki.util.handler.Handler)
+     *           afterUpdateHandler}.
      * 
      * @see #newBindingContext(String, PropertyBehaviorProvider)
-     * @see BindingManager#afterUpdateUi()
      */
     protected abstract BindingContext newBindingContext(String name);
 
     /**
      * Creates a new {@link BindingContext} with the given name and the given
      * {@link PropertyBehaviorProvider}.
-     * <p>
-     * Note that this method does not assign the created context to this manager. If the created context
-     * should be added to a manager, the created {@link BindingContext} should call
-     * {@link #afterUpdateUi()} (e.g. by providing "{@code this::afterUpdateUI}" as a handler) on the
-     * manager it should be added to. This makes sure that related binding contexts can be notified
-     * about UI updates.
+     * 
+     * @implNote Implementations have to ensure that the context calls {@link #afterUpdateUi()} if this
+     *           manager should be notified of UI updates inside the context. This can be achieved by
+     *           passing {@code this::afterUpdateUI} as a
+     *           {@link BindingContext#BindingContext(String, PropertyBehaviorProvider, org.linkki.util.handler.Handler)
+     *           afterUpdateHandler}.
      * 
      * @see #newBindingContext(String)
-     * @see BindingManager#afterUpdateUi()
      */
     protected abstract BindingContext newBindingContext(String name, PropertyBehaviorProvider behaviorProvider);
 
