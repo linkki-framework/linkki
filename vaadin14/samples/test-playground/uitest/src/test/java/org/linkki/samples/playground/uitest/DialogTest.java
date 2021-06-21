@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.ui.dialogs.SimpleDialogPmo;
+import org.linkki.samples.playground.dialogs.SimpleDialogPmo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 

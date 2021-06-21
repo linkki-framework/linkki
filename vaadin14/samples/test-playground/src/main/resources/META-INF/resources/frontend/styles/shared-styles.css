@@ -1,0 +1,12 @@
+#BindStyleNamesPmo.style1 {
+	border: 5px solid black;
+}
+#BindStyleNamesPmo.style1 {
+	background-color: var(--lumo-primary-color);
+}
+#BindStyleNamesPmo.style2 {
+    color: white;
+}
+#BindStyleNamesPmo.style3 {
+    font-weight: bold;
+}

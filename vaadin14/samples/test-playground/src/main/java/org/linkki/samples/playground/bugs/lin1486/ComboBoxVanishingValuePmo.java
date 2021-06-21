@@ -27,8 +27,10 @@ import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.util.handler.Handler;
 
-@UISection(caption = "LIN-1486")
+@UISection(caption = ComboBoxVanishingValuePmo.CAPTION)
 public class ComboBoxVanishingValuePmo {
+
+    public static final String CAPTION = "LIN-1486";
 
     public static final String PROPERTY_CHOICE = "choice";
     public static final String PROPERTY_CHANGE_CHOICES = "changeChoices";

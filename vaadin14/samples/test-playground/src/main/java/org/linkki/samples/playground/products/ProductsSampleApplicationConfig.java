@@ -20,7 +20,7 @@ import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
-import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.UI;
@@ -34,17 +34,17 @@ public class ProductsSampleApplicationConfig implements ApplicationConfig {
 
     @Override
     public String getApplicationName() {
-        return NlsText.getString("ProductsSampleApplicationConfig.Name");
+        return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Name");
     }
 
     @Override
     public String getApplicationVersion() {
-        return NlsText.getString("ProductsSampleApplicationConfig.Version");
+        return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Version");
     }
 
     @Override
     public String getApplicationDescription() {
-        return NlsText.getString("ProductsSampleApplicationConfig.Description");
+        return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Description");
     }
 
     @Override

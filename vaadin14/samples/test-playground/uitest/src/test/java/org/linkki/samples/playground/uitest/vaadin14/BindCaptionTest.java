@@ -23,7 +23,7 @@ import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithCloseB
 import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithSectionHeaderButtonPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithoutButtonPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -38,7 +38,7 @@ public class BindCaptionTest extends AbstractUiTest {
 
     @BeforeEach
     public void setup() {
-        openTab(PlaygroundApplicationUI.DYNAMIC_ASPECT_TAB_ID);
+        openTab(PlaygroundApplicationView.DYNAMIC_ASPECT_TAB_ID);
     }
 
     @Test

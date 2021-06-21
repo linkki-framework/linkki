@@ -21,10 +21,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.bugs.lin1442.ComboBoxCaptionRefreshPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.Keys;
 
@@ -36,13 +35,11 @@ import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
  */
 public class ComboBoxCaptionRefreshTest extends AbstractUiTest {
 
-    @BeforeEach
-    public void setTab() {
-        openTab(PlaygroundApplicationUI.BUGS_TAB_ID);
-    }
-
     @Test
     public void testValueOnResettingListItemValues() {
+        clickMenuItem(BugCollectionView.NAME);
+        openTab(ComboBoxCaptionRefreshPmo.CAPTION);
+
         ComboBoxElement comboBox = $(ComboBoxElement.class).id(ComboBoxCaptionRefreshPmo.PROPERTY_CHOICE);
         assertThat(comboBox.getSelectedText(), is(not(nullValue())));
         String oldValue = comboBox.getSelectedText();

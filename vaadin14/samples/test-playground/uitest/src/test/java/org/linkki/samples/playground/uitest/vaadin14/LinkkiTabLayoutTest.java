@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.tablayout.TabLayoutPage;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
@@ -34,7 +34,7 @@ public class LinkkiTabLayoutTest extends AbstractUiTest {
 
     @BeforeEach
     public void setTab() {
-        openTab(PlaygroundApplicationUI.TAB_LAYOUT_TAB_ID);
+        openTab(PlaygroundApplicationView.TAB_LAYOUT_TAB_ID);
     }
 
     @Test

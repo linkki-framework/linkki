@@ -26,8 +26,10 @@ import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
 import org.linkki.util.handler.Handler;
 
-@UISection(caption = "LIN-1738")
+@UISection(caption = DoubleClickPmo.CAPTION)
 public class DoubleClickPmo implements PresentationModelObject {
+
+    public static final String CAPTION = "LIN-1738";
 
     @UILabel(position = 0)
     public String getDescription() {

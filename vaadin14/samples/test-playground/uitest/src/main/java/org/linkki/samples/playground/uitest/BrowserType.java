@@ -52,6 +52,7 @@ public enum BrowserType {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
             options.addArguments("--lang=" + locale.getLanguage() + "-" + locale.getCountry());
+            options.addArguments("--window-size=1280,800");
 
             Map<String, String> environment = new HashMap<>();
             environment.put("LANGUAGE", locale.getLanguage() + "_" + locale.getCountry());

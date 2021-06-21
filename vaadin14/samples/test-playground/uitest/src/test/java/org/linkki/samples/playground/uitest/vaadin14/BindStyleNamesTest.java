@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.dynamicannotations.BindStyleNamesComponentsPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationUI;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
@@ -31,7 +31,7 @@ public class BindStyleNamesTest extends AbstractUiTest {
 
     @BeforeEach
     public void setup() {
-        openTab(PlaygroundApplicationUI.DYNAMIC_ASPECT_TAB_ID);
+        openTab(PlaygroundApplicationView.DYNAMIC_ASPECT_TAB_ID);
     }
 
     @Test

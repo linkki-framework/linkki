@@ -19,7 +19,7 @@ import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
-import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.util.Sequence;
 
 /**
@@ -30,17 +30,17 @@ public class SampleApplicationConfig implements ApplicationConfig {
 
     @Override
     public String getApplicationName() {
-        return NlsText.getString("SampleApplicationConfig.Name");
+        return PlaygroundNlsText.getString("SampleApplicationConfig.Name");
     }
 
     @Override
     public String getApplicationVersion() {
-        return NlsText.getString("SampleApplicationConfig.Version");
+        return PlaygroundNlsText.getString("SampleApplicationConfig.Version");
     }
 
     @Override
     public String getApplicationDescription() {
-        return NlsText.getString("SampleApplicationConfig.Description");
+        return PlaygroundNlsText.getString("SampleApplicationConfig.Description");
     }
 
     @Override

@@ -25,7 +25,8 @@ import org.linkki.core.ui.element.annotation.UIDateField;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UITextField;
-import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -67,6 +68,7 @@ public class PlaygroundRowPmo {
         return !getModelObject().isActive();
     }
 
+    @UITableColumn(flexGrow = 10)
     @UILabel(position = 35, label = "Placeholder to click")
     public String getText() {
         return "Simple label to select the row";
@@ -83,6 +85,7 @@ public class PlaygroundRowPmo {
         return !getModelObject().isActive();
     }
 
+    @UITableColumn(width = 160)
     @UIDateField(position = 50, modelAttribute = TableModelObject.PROPERTY_DATE)
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     public void date() {
@@ -98,7 +101,8 @@ public class PlaygroundRowPmo {
         delete.apply();
     }
 
-    @UILink(position = 140, label = NlsText.I18n, caption = "A UI Link", captionType = CaptionType.STATIC)
+    @UITableColumn(width = 300, flexGrow = 1)
+    @UILink(position = 140, label = PlaygroundNlsText.I18N, caption = "A UI Link", captionType = CaptionType.STATIC)
     public String getLink() {
         return "";
     }

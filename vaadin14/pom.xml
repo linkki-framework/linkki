@@ -28,7 +28,7 @@
     <properties>
         <!-- this property must also be updated in samples-vaadin14 and uitest -->
         <vaadin.version>14.6.3</vaadin.version>
-        <spring-boot.version>2.5.0</spring-boot.version>
+        <spring-boot.version>2.5.1</spring-boot.version>
     </properties>
 
     <dependencyManagement>

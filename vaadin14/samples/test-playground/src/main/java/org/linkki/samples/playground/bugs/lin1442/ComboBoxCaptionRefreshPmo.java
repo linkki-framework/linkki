@@ -26,8 +26,10 @@ import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(caption = "LIN-1442")
+@UISection(caption = ComboBoxCaptionRefreshPmo.CAPTION)
 public class ComboBoxCaptionRefreshPmo {
+
+    public static final String CAPTION = "LIN-1442";
 
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
