@@ -17,6 +17,7 @@
         <basedir.parent>${project.parent.basedir}</basedir.parent>
         <jade.outputDirectory>${project.build.directory}/${project.build.finalName}</jade.outputDirectory>
         <jade.runExternalLinkTests>true</jade.runExternalLinkTests>
+        <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <deploymentFolder>${project.version}-vaadin14</deploymentFolder>
     </properties>
