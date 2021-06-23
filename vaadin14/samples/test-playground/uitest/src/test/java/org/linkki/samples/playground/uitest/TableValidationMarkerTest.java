@@ -16,10 +16,12 @@ package org.linkki.samples.playground.uitest;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.PlaygroundTablePmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
@@ -29,6 +31,7 @@ public class TableValidationMarkerTest extends AbstractUiTest {
     @Test
     public void testMarkersInTable() {
         openTab(PlaygroundApplicationView.TABLES_TAB_ID);
+        waitUntil(visibilityOfElementLocated(By.id(PlaygroundTablePmo.class.getSimpleName())));
 
         GridElement table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
 
@@ -40,6 +43,7 @@ public class TableValidationMarkerTest extends AbstractUiTest {
         assertThat(textField.getAttribute("invalid"), is("true"));
 
         openTab(PlaygroundApplicationView.TABLES_TAB_ID);
+        waitUntil(visibilityOfElementLocated(By.id(PlaygroundTablePmo.class.getSimpleName())));
 
         table = $(GridElement.class).id(PlaygroundTablePmo.class.getSimpleName() + "_table");
         textField = findTextFieldByValue(table, value);
