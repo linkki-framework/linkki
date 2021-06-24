@@ -12,20 +12,19 @@ pipeline {
     }
 
     stages {
-        stage('Gerrit Checks') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'gerrit_rest', passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
-                    verifyIssueType("linkki:merge-task", USER, PASSWORD)
-                }
-            }
-        }
-
-        stage('Build') {
+        stage('Pre-Build') {
             steps {
                 script {
                     currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BUILD_NAME}"
                 }
 
+                preBuildSteps()
+                verifyChangelog file: 'vaadin8/doc/src/main/jbake/content/99_releasenotes/88_1_5_0.adoc'
+            }
+        }
+
+        stage('Build') {
+            steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 -Pproduction -Djade.runExternalLinkTests=false clean install javadoc:jar'
                     sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml clean compile'
