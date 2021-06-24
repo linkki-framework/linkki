@@ -28,7 +28,6 @@ import org.linkki.core.ui.table.column.TableColumnWrapper;
 /**
  * A {@link ColumnBasedComponentCreator} that creates a Vaadin {@link com.vaadin.v7.ui.Table Table}.
  */
-@SuppressWarnings("javadoc")
 class TableCreator implements ColumnBasedComponentCreator {
 
     private static final String TABLE_ID_SUFFIX = "_table";

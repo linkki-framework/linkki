@@ -20,7 +20,7 @@ docker create \
         --label "url=$V14_NAME" \
         --label "entry-path=linkki-sample-test-playground-vaadin14" \
         --label "retention=${CONTAINER_RETENTION:-discard}" \
-        f10/spring:8
+        f10/spring:11
 
 # Copy war to container
 WAR_FILE="vaadin14/samples/test-playground/target/linkki-sample-test-playground-vaadin14.war"
@@ -42,7 +42,7 @@ docker create \
         --label "url=$V8_NAME" \
         --label "entry-path=linkki-sample-test-playground-vaadin8" \
         --label "retention=${CONTAINER_RETENTION:-discard}" \
-        f10/spring:8
+        f10/spring:11
 
 # Copy war to container
 WAR_FILE="vaadin8/samples/test-playground/target/linkki-sample-test-playground-vaadin8.war"

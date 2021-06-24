@@ -5,13 +5,13 @@
 :source-dir: ../../../../src/main/java
 
 [[creating-aspects]]
-==== Creating a New Aspect
+=== Creating a New Aspect
 
 In addition to built-in <<aspects>>, you can easily create your own. This guide walks you through the process of implementing a simple aspect that allows components to show a dynamically bound tooltip. In this example, you will build the aspect as a standalone annotation that can be used in addition to any <<custom-ui-element-annotation, UI Element Annotation>>. 
 
 TIP: A similar aspect is already included in *linkki*. It is only used as an example due to its simplicity.
 
-===== AspectDefinition
+==== AspectDefinition
 
 An aspect definition defines how an aspect is created. To define your own definition you have to implement `LinkkiAspectDefinition` with the following two methods:
 
@@ -30,7 +30,7 @@ include::{source-dir}/org/linkki/doc/BindTooltipAspectDefinition.java[tags=BindT
 * In the method `createUiUpdater`,  the `propertyDispatcher` is asked for the tooltip value which is then set in the component using `ComponentWrapper#setTooltip`. The `propertyDispatcher` needs an aspect to know which value it should retrieve, and how. This aspect is created in the method `createAspect()`.
 * `createAspect()` creates the aspect depending on the values given in the annotation.
 
-===== Create a New Aspect Annotation
+==== Create a New Aspect Annotation
 
 We first create a new annotation that later links the annotated component to our aspect definition:
 
@@ -45,7 +45,7 @@ include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltip]
 
 TIP: Using the name `value` for an annotation's attribute allows users to omit the attribute name if it is the only attribute: `@BindTooltip("My tooltip")` instead of `@BindTooltip(value="My tooltip")`
 
-==== @LinkkiAspect Annotation
+=== @LinkkiAspect Annotation
 
 Lastly, `BindTooltip` has to be annotated with `@LinkkiAspect` to tell *linkki* how to create the aspect from the annotation. The value for that annotation is a class implementing `AspectDefinitionCreator<BindTooltip>` that can be created as an inner class:
 
@@ -59,7 +59,7 @@ include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspe
 include::{source-dir}/org/linkki/doc/BindTooltip.java[tags=BindTooltipLinkkiAspectCreator]
 ----
 
-==== Inheritance
+=== Inheritance
 
 Aspects are defined in annotations. In general, annotations on methods are not inherited. Thus, an aspect annotation has to be annotated again for a overridden method, if the aspect should also be effective in the subclass.
 

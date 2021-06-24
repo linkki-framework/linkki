@@ -97,9 +97,9 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>id</code>. Returns <code>null</code>
-     * if no corresponding enumeration value is found, or if the parameter <code>id</code> is
-     * <code>null</code>.
+     * Returns the enumeration value for the specified parameter <code>id</code>. Returns
+     * <code>null</code> if no corresponding enumeration value is found, or if the parameter
+     * <code>id</code> is <code>null</code>.
      *
      * @generated
      */
@@ -124,8 +124,8 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>id</code>. If no corresponding enum
-     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     * Returns the enumeration value for the specified parameter <code>id</code>. If no corresponding
+     * enum value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
      *
      * @throws IllegalArgumentException if no corresponding enum value is found
      *
@@ -140,8 +140,8 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding enum
-     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding
+     * enum value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
      *
      * @throws IllegalArgumentException if no corresponding enum value is found
      *

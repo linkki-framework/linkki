@@ -77,37 +77,38 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>de.faktorzehn.doc</groupId>
-                <artifactId>jade-maven-plugin</artifactId>
-                <version>1.0.1</version>
-                <executions>
-                    <execution>
-                        <id>generate-docs</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>generate-docs</goal>
-                        </goals>
-                        <configuration>
-                            <htmlOutputDirectory>${jade.outputDirectory}/html</htmlOutputDirectory>
-                            <pdfOutputDirectory>${jade.outputDirectory}/pdf</pdfOutputDirectory>
-                            <excludeLinks>
-                                <excludeLink>.*localhost.*</excludeLink>
-                            </excludeLinks>
-                            <runExternalLinkTests>${jade.runExternalLinkTests}</runExternalLinkTests>
-                            <properties>
-                                <title>${documentation.dtitle}</title>
-                                <readmepath>${basedir.parent}</readmepath>
-                                <vspotbugs>${spotbugs.version}</vspotbugs>
-                                <vcommonslang>${commons-lang3.version}</vcommonslang>
-                                <homelink>https://doc.linkki-framework.org</homelink>
-                                <logo>logo.png</logo>
-                                <projectVersion>${project.version}</projectVersion>
-                            </properties>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+
+<!--             <plugin> -->
+<!--                 <groupId>de.faktorzehn.doc</groupId> -->
+<!--                 <artifactId>jade-maven-plugin</artifactId> -->
+<!--                 <version>1.0.3</version> -->
+<!--                 <executions> -->
+<!--                     <execution> -->
+<!--                         <id>generate-docs</id> -->
+<!--                         <phase>generate-resources</phase> -->
+<!--                         <goals> -->
+<!--                             <goal>generate-docs</goal> -->
+<!--                         </goals> -->
+<!--                         <configuration> -->
+<!--                             <htmlOutputDirectory>${jade.outputDirectory}/html</htmlOutputDirectory> -->
+<!--                             <pdfOutputDirectory>${jade.outputDirectory}/pdf</pdfOutputDirectory> -->
+<!--                             <excludeLinks> -->
+<!--                                 <excludeLink>.*localhost.*</excludeLink> -->
+<!--                             </excludeLinks> -->
+<!--                             <runExternalLinkTests>${jade.runExternalLinkTests}</runExternalLinkTests> -->
+<!--                             <properties> -->
+<!--                                 <title>${documentation.dtitle}</title> -->
+<!--                                 <readmepath>${basedir.parent}</readmepath> -->
+<!--                                 <vspotbugs>${spotbugs.version}</vspotbugs> -->
+<!--                                 <vcommonslang>${commons-lang3.version}</vcommonslang> -->
+<!--                                 <homelink>https://doc.linkki-framework.org</homelink> -->
+<!--                                 <logo>logo.png</logo> -->
+<!--                                 <projectVersion>${project.version}</projectVersion> -->
+<!--                             </properties> -->
+<!--                         </configuration> -->
+<!--                     </execution> -->
+<!--                 </executions> -->
+<!--             </plugin> -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>wagon-maven-plugin</artifactId>
@@ -186,32 +187,4 @@
         </extensions>
     </build>
 
-
-    <profiles>
-        <profile>
-            <id>generate-readme</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctor-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>generate-readme</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>process-asciidoc</goal>
-                                </goals>
-                                <configuration>
-                                    <sourceDirectory>${basedir.parent}</sourceDirectory>
-                                    <sourceDocumentName>README.adoc</sourceDocumentName>
-                                    <backend>html</backend>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

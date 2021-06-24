@@ -70,7 +70,10 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
             ComponentWrapper componentWrapper,
             Handler modelUpdated) {
 
-        HasValue<?> field = (HasValue<?>)componentWrapper.getComponent();
+        @SuppressWarnings("unchecked")
+        // TODO LIN-2507
+        // undefined typ ? cannot be used because of a bug in javac version 11.0.11
+        HasValue<Object> field = (HasValue<Object>)componentWrapper.getComponent();
 
         if (field instanceof HasValueChangeMode) {
             ((HasValueChangeMode)field).setValueChangeMode(ValueChangeMode.BLUR);

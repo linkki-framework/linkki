@@ -32,6 +32,7 @@ import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.HasValue.ValueChangeEvent;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
@@ -70,7 +71,11 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
             ComponentWrapper componentWrapper,
             Handler modelUpdated) {
 
-        HasValue<?, ?> field = (HasValue<?, ?>)componentWrapper.getComponent();
+        @SuppressWarnings("unchecked")
+        // TODO LIN-2507
+        // undefined typ ? cannot be used because of a bug in javac version 11.0.11
+        HasValue<ValueChangeEvent<Object>, Object> field = (HasValue<ValueChangeEvent<Object>, Object>)componentWrapper
+                .getComponent();
 
         if (field instanceof HasValueChangeMode) {
             ((HasValueChangeMode)field).setValueChangeMode(ValueChangeMode.ON_BLUR);

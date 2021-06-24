@@ -7,28 +7,29 @@ pipeline {
         PROJECT_ID = "${PROJECT_NAME}-${BUILD_NAME}"
         DOCKER_HOST = "ssh://docker@dockerhost.i.faktorzehn.de"
         CONTAINER_RETENTION = 'permanent-on'
+        MAVEN_OPTS = '-Xmx768m'
     }
 
     stages {
-        stage('Build') {
+        stage('Pre-Build') {
             steps {
                 script {
                     currentBuild.displayName = "#${env.BUILD_NUMBER}.${env.BUILD_NAME}"
                 }
-
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 -Pproduction -Ddoc.user=doc clean source:jar javadoc:jar deploy'
-                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml clean compile'
-                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml clean compile'
-                }
-
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -T 6 -Dsurefire.directory=surefire-reports-java11 test'
-                }
             }
+        }
 
-            environment {
-                MAVEN_OPTS = '-Xmx768m'
+        stage('Build') {
+            steps {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                    sh 'mvn -U -T 6 -Pproduction -Ddoc.user=doc clean source:jar javadoc:jar deploy'
+                }
+
+//                TODO LIN-2506
+//                Test next Java LTS
+//                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 17', publisherStrategy: 'EXPLICIT') {
+//                    sh 'mvn -T 6 -Dsurefire.directory=surefire-reports-java11 test'
+//                }
             }
         }
 
@@ -74,7 +75,7 @@ pipeline {
             }
 
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
                 }
             }
@@ -92,7 +93,7 @@ pipeline {
             }
 
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
                 }
             }
@@ -110,7 +111,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     withSonarQubeEnv('SonarQube') {
-                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', publisherStrategy: 'EXPLICIT') {
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -Dsonar.projectName=${PROJECT_NAME} -Dsonar.projectKey=${PROJECT_NAME} -Dsonar.login=$SONAR_LOGIN sonar:sonar'
                         }
                     }
@@ -142,7 +143,8 @@ pipeline {
             recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
             jacoco sourceInclusionPattern: '**/*.java'
 
-            junit '**/target/surefire-reports-java11/*.xml'
+//            TODO LIN-2506
+//            junit '**/target/surefire-reports-java17/*.xml'
 
             archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*, vaadin8/samples/test-playground/uitest/target/uitest/*.png, vaadin14/doc/target/linkki-core-documentation*/**/*.*, vaadin14/samples/test-playground/uitest/target/uitest/*.png'
         }

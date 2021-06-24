@@ -173,8 +173,8 @@ public @interface UIComboBox {
 
         private ItemCaptionProvider<?> getItemCaptionProvider(UIComboBox uiComboBox) {
             try {
-                return uiComboBox.itemCaptionProvider().newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
+                return uiComboBox.itemCaptionProvider().getDeclaredConstructor().newInstance();
+            } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
                 throw new LinkkiBindingException(
                         "Cannot instantiate item caption provider " + uiComboBox.itemCaptionProvider().getName()
                                 + " using default constructor.",

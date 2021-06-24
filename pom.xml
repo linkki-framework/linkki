@@ -51,7 +51,7 @@
         <doc.user>${user.name}</doc.user>
         <spotbugs.version>4.2.0</spotbugs.version>
         <checkstyle.version>8.36.2</checkstyle.version>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
 
         <surefire.directory>surefire-reports</surefire.directory>
 
@@ -264,9 +264,7 @@
                     <dependency>
                         <groupId>org.revapi</groupId>
                         <artifactId>revapi-java</artifactId>
-                        <!-- 0.21 produces java.lang.StackOverflowError -->
-                        <!-- should be fixed with 0.22.1, https://github.com/revapi/revapi/commit/e5231096f085809a3e72107780592de1e1abb5f3 -->
-                        <version>0.20.2</version>
+                        <version>0.24.2</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -397,7 +395,7 @@
                 <plugin>
                     <groupId>org.revapi</groupId>
                     <artifactId>revapi-maven-plugin</artifactId>
-                    <version>0.12.1</version>
+                    <version>0.14.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -512,6 +510,12 @@
                 <version>3.1.0</version>
                 <!-- do not update as long as we need to be compatible to 
                     3.1 -->
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>1.3.2</version>
                 <scope>provided</scope>
             </dependency>
         </dependencies>

@@ -159,8 +159,8 @@ public @interface UIRadioButtonGroup {
 
         private ItemCaptionProvider<?> getItemCaptionProvider(UIRadioButtonGroup uiRadioButtonGroup) {
             try {
-                return uiRadioButtonGroup.itemCaptionProvider().newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
+                return uiRadioButtonGroup.itemCaptionProvider().getDeclaredConstructor().newInstance();
+            } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
                 throw new LinkkiBindingException(
                         "Cannot instantiate item caption provider " + uiRadioButtonGroup.itemCaptionProvider().getName()
                                 + " using default constructor.",

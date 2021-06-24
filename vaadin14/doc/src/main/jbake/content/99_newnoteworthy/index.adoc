@@ -1,5 +1,6 @@
 :jbake-title: Release Notes
-:jbake-type: newAndNoteworthy
+:jbake-type: chapter
+:jbake-tags: release-notes
 :jbake-status: published
 :jbake-order: 0
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT ITS TIME OF ORIGIN, NOT LINK TO CURRENT CODE

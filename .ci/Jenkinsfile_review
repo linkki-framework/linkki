@@ -25,10 +25,8 @@ pipeline {
 
         stage('Build') {
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -U -T 6 -Pproduction -Djade.runExternalLinkTests=false clean install javadoc:jar'
-                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml clean compile'
-                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml clean compile'
                 }
             }
         }
@@ -75,7 +73,7 @@ pipeline {
             }
 
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
                 }
             }
@@ -93,7 +91,7 @@ pipeline {
             }
 
             steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                     sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
                 }
             }
@@ -111,7 +109,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     withSonarQubeEnv('SonarQube') {
-                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 8', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
                             sh 'mvn -Dsonar.projectName=${PROJECT_NAME} -Dsonar.projectKey=${PROJECT_NAME} -Dsonar.branch.name=${PROJECT_ID} -Dsonar.login=$SONAR_LOGIN sonar:sonar'
                         }
                     }

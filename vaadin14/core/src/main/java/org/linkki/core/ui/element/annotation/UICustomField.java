@@ -156,14 +156,14 @@ public @interface UICustomField {
         public LinkkiComponentDefinition create(UICustomField annotation, AnnotatedElement annotatedElement) {
             return pmo -> {
                 try {
-                    Component component = annotation.uiControl().newInstance();
+                    Component component = annotation.uiControl().getDeclaredConstructor().newInstance();
 
                     if (component instanceof HasSize) {
                         ((HasSize)component).setWidth(annotation.width());
                     }
 
                     return component;
-                } catch (InstantiationException | IllegalAccessException e) {
+                } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
                     throw new LinkkiBindingException("Cannot instantiate component " + annotation.uiControl().getName()
                             + " using default constructor.", e);
                 }

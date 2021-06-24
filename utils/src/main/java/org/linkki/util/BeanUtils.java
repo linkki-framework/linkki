@@ -106,8 +106,9 @@ public class BeanUtils {
     }
 
     /**
-     * Returns the class' field with the given name. In contrast to <tt>getDeclaredField</tt> this
-     * method searches the type's hierarchy (if the class extends a super class)
+     * Returns the class' field with the given name. In contrast to
+     * {@link #getDeclaredField(Class, String)} this method searches the type's hierarchy (if the class
+     * extends a super class)
      * 
      * @throws RuntimeException wrapping a NoSuchFieldException if no such field exists.
      * 
@@ -151,7 +152,7 @@ public class BeanUtils {
             @Override
             @CheckForNull
             public Object run() {
-                boolean accessible = field.isAccessible();
+                boolean accessible = field.canAccess(object);
                 if (!accessible) {
                     field.setAccessible(true);
                 }

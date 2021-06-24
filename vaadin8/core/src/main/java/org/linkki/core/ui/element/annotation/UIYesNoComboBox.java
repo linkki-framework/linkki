@@ -167,8 +167,8 @@ public @interface UIYesNoComboBox {
 
         private ItemCaptionProvider<?> getItemCaptionProvider(UIYesNoComboBox uiYesNoComboBox) {
             try {
-                return uiYesNoComboBox.itemCaptionProvider().newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
+                return uiYesNoComboBox.itemCaptionProvider().getDeclaredConstructor().newInstance();
+            } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
                 throw new LinkkiBindingException(
                         "Cannot instantiate item caption provider " + uiYesNoComboBox.itemCaptionProvider().getName()
                                 + " using default constructor.",
