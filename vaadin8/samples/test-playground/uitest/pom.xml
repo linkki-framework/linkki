@@ -12,6 +12,7 @@
     <name>Automated UI Testing for linkki Vaadin 8 Samples Test Playground</name>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vaadin.testbench.version>5.2.0</vaadin.testbench.version>
         <vaadin.version>8.13.1</vaadin.version>
         <surefire.version>2.22.2</surefire.version>
@@ -58,6 +59,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>

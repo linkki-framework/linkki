@@ -202,6 +202,11 @@
                     <artifactId>tomee-maven-plugin</artifactId>
                     <version>7.1.3</version> <!-- TomEE 8 uses Java EE 8 -->
                 </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 

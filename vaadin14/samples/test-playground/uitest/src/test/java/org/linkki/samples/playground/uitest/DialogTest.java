@@ -16,6 +16,9 @@ package org.linkki.samples.playground.uitest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
+import static org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOfElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -48,11 +51,14 @@ public class DialogTest extends AbstractUiTest {
     public void testDialog_ClosedOnOk() {
         clickButton("showDialog");
 
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("overlay")));
+        waitUntil(visibilityOfElementLocated(By.id("overlay")));
         assertThat($(DialogElement.class).all().size(), is(1));
 
-        waitUntil(ExpectedConditions.elementToBeClickable(By.id("okButton")));
+        waitUntil(elementToBeClickable(By.id("okButton")));
         $(ButtonElement.class).id("okButton").click();
+
+        // needed due to dialog closing animation
+        waitUntil(invisibilityOfElementLocated(By.id("overlay")));
         assertThat($(DialogElement.class).all().size(), is(0));
     }
 
@@ -61,6 +67,7 @@ public class DialogTest extends AbstractUiTest {
     @Test
     @Order(3)
     public void testOkCancelDialog() {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.tagName("vaadin-dialog"), 0));
         VerticalLayoutElement section = $(VerticalLayoutElement.class).id(SimpleDialogPmo.class.getSimpleName());
 
         section.$(TextFieldElement.class).id("caption").setValue("Awesome dialog");
