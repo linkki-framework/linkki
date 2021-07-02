@@ -17,13 +17,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.defaults.ui.aspects.types.AlignmentType;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
@@ -31,7 +35,10 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.ui.element.annotation.UIRadioButtonsIntegrationTest.RadioButtonTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
+import org.linkki.core.uicreation.UiCreator;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.data.provider.ListDataProvider;
@@ -90,6 +97,19 @@ public class UIRadioButtonsIntegrationTest
 
         assertThat(caption, is("Enum ENUM_VALUE1"));
     }
+
+    @Test
+    public void testCaptionProvider_NoDefaultConstructor() {
+        NoDefaultConstructorCaptionProviderPmo pmo = new NoDefaultConstructorCaptionProviderPmo();
+
+        BindingContext bindingContext = new BindingContext();
+        Function<Object, NoLabelComponentWrapper> wrapperCreator = c -> new NoLabelComponentWrapper((Component)c);
+
+        assertThrows(LinkkiBindingException.class, () -> UiCreator.createUiElements(pmo, bindingContext,
+                                                                                    wrapperCreator)
+                .count());
+    }
+
 
     @Test
     public void testUpdate() {
@@ -200,5 +220,25 @@ public class UIRadioButtonsIntegrationTest
             return "Enum " + value.toString();
         }
 
+    }
+
+    protected static class NoDefaultConstructorCaptionProviderPmo {
+
+        @UIRadioButtons(position = 3, itemCaptionProvider = PrivateItemCaptionProvider.class)
+        public TestEnum getFoo() {
+            return TestEnum.ENUM_VALUE1;
+        }
+
+        private static class PrivateItemCaptionProvider implements ItemCaptionProvider<TestEnum> {
+
+            private PrivateItemCaptionProvider() {
+                // hide default constructor
+            }
+
+            @Override
+            public String getCaption(TestEnum value) {
+                return value.name();
+            }
+        }
     }
 }

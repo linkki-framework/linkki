@@ -23,7 +23,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.util.Sequence;
 
@@ -34,14 +33,8 @@ public class ApplicationLayoutTest {
 
     @Test
     public void testApplicationLayout() {
-        ApplicationLayout applicationLayout = new ApplicationLayout() {
-
+        ApplicationLayout applicationLayout = new ApplicationLayout(new MinimalApplicationConfig()) {
             private static final long serialVersionUID = 1L;
-
-            @Override
-            public ApplicationConfig getApplicationConfig() {
-                return new MinimalApplicationConfig();
-            }
         };
 
         List<Component> children = applicationLayout.getChildren().collect(Collectors.toList());
@@ -50,14 +43,8 @@ public class ApplicationLayoutTest {
 
     @Test
     public void testApplicationLayout_WithFooter() {
-        ApplicationLayout applicationLayout = new ApplicationLayout() {
-
+        ApplicationLayout applicationLayout = new ApplicationLayout(new ApplicationConfigWithFooter()) {
             private static final long serialVersionUID = 1L;
-
-            @Override
-            public ApplicationConfig getApplicationConfig() {
-                return new ApplicationConfigWithFooter();
-            }
         };
 
         List<Component> children = applicationLayout.getChildren().collect(Collectors.toList());
@@ -73,28 +60,13 @@ public class ApplicationLayoutTest {
         }
 
         @Override
-        public String getApplicationName() {
-            return "name";
-        }
-
-        @Override
-        public String getApplicationVersion() {
-            return "version";
-        }
-
-        @Override
-        public String getApplicationDescription() {
-            return "description";
-        }
-
-        @Override
-        public String getCopyright() {
-            return "";
-        }
-
-        @Override
         public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
             return Sequence.empty();
+        }
+
+        @Override
+        public ApplicationInfo getApplicationInfo() {
+            return new ExampleApplicationInfo();
         }
     }
 
@@ -105,6 +77,24 @@ public class ApplicationLayoutTest {
         }
 
         @Override
+        public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
+            return Sequence.empty();
+        }
+
+        @Override
+        public Optional<ApplicationFooterDefinition> getFooterDefinition() {
+            return Optional.of(ApplicationFooter::new);
+        }
+
+        @Override
+        public ApplicationInfo getApplicationInfo() {
+            return new ExampleApplicationInfo();
+        }
+    }
+
+    static class ExampleApplicationInfo implements ApplicationInfo {
+
+        @Override
         public String getApplicationName() {
             return "name";
         }
@@ -122,16 +112,6 @@ public class ApplicationLayoutTest {
         @Override
         public String getCopyright() {
             return "";
-        }
-
-        @Override
-        public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-            return Sequence.empty();
-        }
-
-        @Override
-        public Optional<ApplicationFooterDefinition> getFooterDefinition() {
-            return Optional.of(ApplicationFooter::new);
         }
     }
 }

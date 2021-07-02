@@ -11,7 +11,14 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields(edu.umd.cs.findbugs.annotations.NonNull.class)
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters(edu.umd.cs.findbugs.annotations.NonNull.class)
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForMethods(edu.umd.cs.findbugs.annotations.NonNull.class)
-package org.linkki.framework.state;
+
+package org.linkki.util;
+
+/**
+ * Test class for {@link BeanUtilsTest}
+ */
+interface IFoo {
+    default void iFoo() {
+        // do nothing
+    }
+}

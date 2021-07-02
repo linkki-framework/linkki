@@ -49,7 +49,9 @@ public class ReportListPage extends AbstractPage {
 
         HeadlinePmo headlinePmo = new HeadlinePmo(reports);
 
+        // tag::bind-headline[]
         new Binder(headline, headlinePmo).setupBindings(getBindingContext());
+        // end::bind-headline[]
 
         addSection(new ReportTablePmo(reports));
     }

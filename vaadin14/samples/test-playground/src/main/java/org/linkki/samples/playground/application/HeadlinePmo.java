@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.linkki.samples.playground.application.model.Report;
 
+// tag::HeadlinePmo[]
 public class HeadlinePmo {
 
     private List<Report> reports;
@@ -30,3 +31,4 @@ public class HeadlinePmo {
         return "Report List - Existing reports: " + reports.size();
     }
 }
+// end::HeadlinePmo[]

@@ -17,12 +17,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.LinkkiBindingException;
+import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
@@ -32,8 +39,12 @@ import org.linkki.core.defaults.ui.aspects.types.VisibleType;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.element.annotation.UICustomFieldIntegrationTest.ComponentAnnotationTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
+import org.linkki.core.uicreation.UiCreator;
 
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -73,6 +84,29 @@ public class UICustomFieldIntegrationTest
     @Test
     public void testDerivedLabel() {
         assertThat(TestUiUtil.getLabelOfComponentAt(getDefaultSection(), 2), is("Foo"));
+    }
+
+    @Test
+    public void testCreateComponent_NoDefaultConstructor() {
+        NoDefaultConstructorComponentPmo pmo = new NoDefaultConstructorComponentPmo();
+        BindingContext bindingContext = new BindingContext();
+        Function<Component, ComponentWrapper> wrapperCreator = c -> new CaptionComponentWrapper(
+                c, WrapperType.FIELD);
+
+        assertThrows(LinkkiBindingException.class,
+                     () -> UiCreator.createUiElements(pmo, bindingContext, wrapperCreator).count());
+    }
+
+    @Test
+    public void testWidth() {
+        ComponentAnnotationTestPmo pmo = new ComponentAnnotationTestPmo(getDefaultModelObject());
+        BindingContext bindingContext = new BindingContext();
+        Function<Component, ComponentWrapper> wrapperCreator = c -> new CaptionComponentWrapper(c, WrapperType.FIELD);
+
+        ComboBox<?> componentWithWidth = (ComboBox<?>)UiCreator.createUiElements(pmo, bindingContext, wrapperCreator)
+                .collect(Collectors.toList()).get(2).getComponent();
+
+        assertThat(componentWithWidth.getWidth(), is(100.0F));
     }
 
     @Override
@@ -121,7 +155,7 @@ public class UICustomFieldIntegrationTest
             // model binding
         }
 
-        @UICustomField(position = 3, uiControl = ComboBox.class)
+        @UICustomField(position = 3, uiControl = ComboBox.class, width = "100px")
         public TestEnum getFoo() {
             return TestEnum.THREE;
         }
@@ -147,5 +181,24 @@ public class UICustomFieldIntegrationTest
             return getValue();
         }
 
+    }
+
+    private static class NoDefaultConstructorComponentPmo {
+
+        @UICustomField(position = 1, label = "", uiControl = NoDefaultConstructorComponent.class)
+        public String getValue() {
+            return "";
+        }
+
+        private static class NoDefaultConstructorComponent extends AbstractComponent {
+
+            private static final long serialVersionUID = 1L;
+
+            @SuppressWarnings("unused")
+            public NoDefaultConstructorComponent(String value) {
+                super();
+            }
+
+        }
     }
 }

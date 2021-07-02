@@ -17,18 +17,28 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.LinkkiBindingException;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.element.annotation.UIYesNoComboBoxIntegrationTest.YesNoComboBoxTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
+import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -70,6 +80,19 @@ public class UIYesNoComboBoxIntegrationTest
     public void testCaptionProvider() {
         ComboBox<Boolean> comboBox = getDynamicComponent();
         assertThat(comboBox.getItemCaptionGenerator().apply(true), is("true"));
+    }
+
+    @Test
+    public void testCaptionProvider_NoDefaultConstructor() {
+        NoDefaultConstructorCaptionProviderPmo pmo = new NoDefaultConstructorCaptionProviderPmo();
+
+        BindingContext bindingContext = new BindingContext();
+        Function<Object, CaptionComponentWrapper> wrapperCreator = c -> new CaptionComponentWrapper((Component)c,
+                WrapperType.FIELD);
+
+        assertThrows(LinkkiBindingException.class, () -> UiCreator.createUiElements(pmo, bindingContext,
+                                                                                    wrapperCreator)
+                .count());
     }
 
     @Test
@@ -164,5 +187,26 @@ public class UIYesNoComboBoxIntegrationTest
             return b == null ? false : b;
         }
 
+    }
+
+    protected static class NoDefaultConstructorCaptionProviderPmo {
+
+        @UIYesNoComboBox(position = 3, itemCaptionProvider = PrivateItemCaptionProvider.class)
+        public boolean getFoo() {
+            return false;
+        }
+
+        private static class PrivateItemCaptionProvider implements ItemCaptionProvider<Boolean> {
+
+            private PrivateItemCaptionProvider() {
+                // hide default constructor
+            }
+
+            @Override
+            public String getCaption(Boolean value) {
+                return String.format("Value: %s", value);
+            }
+
+        }
     }
 }

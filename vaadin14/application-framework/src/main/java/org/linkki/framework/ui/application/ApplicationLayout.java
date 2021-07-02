@@ -14,8 +14,6 @@
 package org.linkki.framework.ui.application;
 
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
-import org.linkki.framework.state.ApplicationConfig;
-import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.dialogs.DefaultErrorDialog;
 import org.linkki.framework.ui.dialogs.DialogErrorHandler;
 
@@ -28,10 +26,13 @@ import com.vaadin.flow.server.VaadinSession;
 
 /**
  * Overall router layout for the application. Contains the application header, the main work area, and a
- * footer. To use this {@link ApplicationLayout} create a subclass and implement the
- * {@link #getApplicationConfig()}.
- * <p>
- * The {@link ErrorHandler} can be customized by overriding the method {@link #getErrorHandler()}.
+ * footer.
+ * 
+ * @implNote To use this {@link ApplicationLayout} create a subclass to pass the
+ *           {@link ApplicationConfig} via constructor.
+ *           <p>
+ *           The {@link ErrorHandler} can be customized by overriding the method
+ *           {@link #getErrorHandler()}.
  */
 @CssImport(value = "./styles/linkki-application-layout.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
 @CssImport(value = "./styles/linkki-utility.css")
@@ -41,18 +42,20 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
 
     private VerticalLayout mainArea = new VerticalLayout();
 
-    protected ApplicationLayout() {
+    /**
+     * Constructor for passing {@link ApplicationConfig}
+     * 
+     * @param config the custom {@link ApplicationConfig} to use
+     */
+    protected ApplicationLayout(ApplicationConfig config) {
         setMargin(false);
         setSpacing(false);
         setPadding(false);
         setSizeFull();
 
-        ApplicationConfig config = getApplicationConfig();
-
         // header
-        ApplicationHeader header = config.getHeaderDefinition()
-                .apply(new ApplicationMenu(config.getMenuItemDefinitions().list()),
-                       config);
+        ApplicationHeader header = config.getHeaderDefinition().create(config.getApplicationInfo(),
+                                                                       config.getMenuItemDefinitions());
         header.init();
         add(header);
 
@@ -66,7 +69,7 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
 
         // optional footer
         config.getFooterDefinition().ifPresent(fd -> {
-            ApplicationFooter footer = fd.apply(config);
+            ApplicationFooter footer = fd.create(config.getApplicationInfo());
             footer.init();
             add(footer);
         });
@@ -93,11 +96,6 @@ public abstract class ApplicationLayout extends VerticalLayout implements Router
     public void removeRouterLayoutContent(HasElement oldContent) {
         mainArea.getElement().removeAllChildren();
     }
-
-    /**
-     * Returns the {@link ApplicationConfig} to be used to configure this {@link ApplicationLayout}.
-     */
-    public abstract ApplicationConfig getApplicationConfig();
 
     /**
      * Configures the error handling. Override to use a different {@link ErrorHandler}.

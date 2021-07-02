@@ -14,7 +14,6 @@
 
 package org.linkki.samples.playground.products;
 
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationLayout;
 
 import com.vaadin.flow.theme.Theme;
@@ -25,9 +24,8 @@ public class ProductsSampleAppLayout extends ApplicationLayout {
 
     private static final long serialVersionUID = -5604950024464910529L;
 
-    @Override
-    public ApplicationConfig getApplicationConfig() {
-        return new ProductsSampleApplicationConfig();
+    public ProductsSampleAppLayout() {
+        super(new ProductsSampleApplicationConfig());
     }
 
 }

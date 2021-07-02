@@ -11,19 +11,13 @@
  * implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
-package org.linkki.framework.state;
+package org.linkki.framework.ui.application;
 
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
-import org.linkki.framework.ui.application.ApplicationFooter;
-import org.linkki.framework.ui.application.ApplicationHeader;
-import org.linkki.framework.ui.application.ApplicationLayout;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
-import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.util.Sequence;
 
 import com.vaadin.flow.server.VaadinSession;
@@ -34,27 +28,9 @@ import com.vaadin.flow.server.VaadinSession;
 public interface ApplicationConfig {
 
     /**
-     * The application name, displayed for example in the {@link ApplicationFooter} and/or the
-     * {@link ApplicationInfoDialog}.
+     * Define the basic information for the application.
      */
-    String getApplicationName();
-
-    /**
-     * The application version, displayed for example in the {@link ApplicationFooter} and/or
-     * {@link ApplicationInfoDialog}.
-     */
-    String getApplicationVersion();
-
-    /**
-     * The application description, displayed for example in the {@link ApplicationInfoDialog}.
-     */
-    String getApplicationDescription();
-
-    /**
-     * The copyright statement displayed for example in the {@link ApplicationFooter} and/or the
-     * {@link ApplicationInfoDialog}.
-     */
-    String getCopyright();
+    ApplicationInfo getApplicationInfo();
 
     /**
      * The {@link ApplicationMenuItemDefinition ApplicationMenuItemDefinitions} used to create an
@@ -86,26 +62,14 @@ public interface ApplicationConfig {
     }
 
     @FunctionalInterface
-    public static interface ApplicationHeaderDefinition
-            extends BiFunction<ApplicationMenu, ApplicationConfig, ApplicationHeader> {
-        ApplicationHeader createApplicationHeader(ApplicationMenu applicationMenu,
-                ApplicationConfig applicationConfig);
-
-        @Override
-        default ApplicationHeader apply(ApplicationMenu applicationMenu,
-                ApplicationConfig applicationConfig) {
-            return createApplicationHeader(applicationMenu, applicationConfig);
-        }
+    public static interface ApplicationHeaderDefinition {
+        ApplicationHeader create(ApplicationInfo applicationInfo,
+                Sequence<ApplicationMenuItemDefinition> menuItemDefinitions);
     }
 
     @FunctionalInterface
-    public static interface ApplicationFooterDefinition extends Function<ApplicationConfig, ApplicationFooter> {
-        ApplicationFooter createApplicationFooter(ApplicationConfig applicationConfig);
-
-        @Override
-        default ApplicationFooter apply(ApplicationConfig applicationConfig) {
-            return createApplicationFooter(applicationConfig);
-        }
+    public static interface ApplicationFooterDefinition {
+        ApplicationFooter create(ApplicationInfo applicationInfo);
     }
 
 }

@@ -15,9 +15,10 @@ package org.linkki.samples.playground.products;
 
 import java.time.LocalDate;
 
-import org.linkki.framework.state.ApplicationConfig;
+import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
+import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
@@ -33,23 +34,28 @@ import com.vaadin.flow.component.contextmenu.MenuItem;
 public class ProductsSampleApplicationConfig implements ApplicationConfig {
 
     @Override
-    public String getApplicationName() {
-        return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Name");
-    }
+    public ApplicationInfo getApplicationInfo() {
+        return new ApplicationInfo() {
+            @Override
+            public String getApplicationName() {
+                return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Name");
+            }
 
-    @Override
-    public String getApplicationVersion() {
-        return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Version");
-    }
+            @Override
+            public String getApplicationVersion() {
+                return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Version");
+            }
 
-    @Override
-    public String getApplicationDescription() {
-        return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Description");
-    }
+            @Override
+            public String getApplicationDescription() {
+                return PlaygroundNlsText.getString("ProductsSampleApplicationConfig.Description");
+            }
 
-    @Override
-    public String getCopyright() {
-        return "Copyright © 2020 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; //$NON-NLS-1$
+            @Override
+            public String getCopyright() {
+                return "Copyright © 2020 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; //$NON-NLS-1$
+            }
+        };
     }
 
     @Override

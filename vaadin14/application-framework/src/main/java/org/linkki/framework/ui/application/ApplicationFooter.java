@@ -13,7 +13,6 @@
  */
 package org.linkki.framework.ui.application;
 
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 
 import com.vaadin.flow.component.Composite;
@@ -27,28 +26,28 @@ public class ApplicationFooter extends Composite<HorizontalLayout> {
 
     private static final long serialVersionUID = 1L;
 
-    private final ApplicationConfig config;
+    private final ApplicationInfo info;
 
-    public ApplicationFooter(ApplicationConfig config) {
+    public ApplicationFooter(ApplicationInfo applicationInfo) {
         super();
-        this.config = config;
+        this.info = applicationInfo;
     }
 
-    public void init() {
+    protected void init() {
         getContent().setMargin(false);
         getContent().addClassName(LinkkiApplicationTheme.APPLICATION_FOOTER);
-        getContent().add(new Text(buildText(config)));
+        getContent().add(new Text(buildText(info)));
     }
 
     /**
      * Returns the text for the footer. May be overwritten by subclasses.
      * 
-     * @param applicationConfig the current application configuration
+     * @param applicationInfo information about an application
      * @return The text that is displayed in the footer.
      */
-    protected String buildText(ApplicationConfig applicationConfig) {
-        return applicationConfig.getApplicationName() + ", " + applicationConfig.getApplicationVersion() + ", "
-                + applicationConfig.getCopyright();
+    protected String buildText(ApplicationInfo applicationInfo) {
+        return applicationInfo.getApplicationName() + ", " + applicationInfo.getApplicationVersion() + ", "
+                + applicationInfo.getCopyright();
     }
 
 }

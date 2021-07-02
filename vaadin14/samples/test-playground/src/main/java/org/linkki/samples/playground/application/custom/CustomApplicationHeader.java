@@ -15,9 +15,12 @@
 package org.linkki.samples.playground.application.custom;
 
 import org.linkki.framework.ui.application.ApplicationHeader;
-import org.linkki.framework.ui.application.menu.ApplicationMenu;
+import org.linkki.framework.ui.application.ApplicationInfo;
+import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
+import org.linkki.samples.playground.application.custom.CustomApplicationConfig.CustomApplicationInfo;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
+import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
@@ -32,21 +35,23 @@ public class CustomApplicationHeader extends ApplicationHeader {
 
     private static final long serialVersionUID = 1L;
 
-    public CustomApplicationHeader(ApplicationMenu applicationMenu, CustomApplicationConfig config) {
-        super(applicationMenu, config);
+    public CustomApplicationHeader(ApplicationInfo applicationInfo,
+            Sequence<ApplicationMenuItemDefinition> menuItemDefinitions) {
+        super(applicationInfo, menuItemDefinitions);
     }
 
     @Override
     protected void addHelpMenuItems(MenuItem helpMenu) {
         helpMenu.getSubMenu()
-                .addItem(new Button(PlaygroundNlsText.getString("ApplicationHeader.Feedback"), VaadinIcon.COMMENT.create()), //$NON-NLS-1$
+                .addItem(new Button(PlaygroundNlsText.getString("ApplicationHeader.Feedback"), //$NON-NLS-1$
+                        VaadinIcon.COMMENT.create()),
                          i -> Notification.show("Thank you for customizing me!"));
         addApplicationInfoMenuItem(helpMenu);
     }
 
     @Override
     protected ApplicationInfoPmo createApplicationInfoPmo() {
-        return new CustomApplicationInfoPmo((CustomApplicationConfig)getApplicationConfig());
+        return new CustomApplicationInfoPmo((CustomApplicationInfo)getApplicationInfo());
     }
 
 }

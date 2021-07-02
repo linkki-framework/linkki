@@ -14,20 +14,20 @@
 
 package org.linkki.samples.playground.ui;
 
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationLayout;
 
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
+// tag::app-layout[]
 @Theme(Lumo.class)
 public class PlaygroundAppLayout extends ApplicationLayout {
 
     private static final long serialVersionUID = -5604950024464910529L;
 
-    @Override
-    public ApplicationConfig getApplicationConfig() {
-        return new PlaygroundApplicationConfig();
+    public PlaygroundAppLayout() {
+        super(new PlaygroundApplicationConfig());
     }
 
 }
+// end::app-layout[]

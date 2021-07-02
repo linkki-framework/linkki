@@ -1,0 +1,83 @@
+{
+  "1.5.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.method.numberOfParametersChanged",
+            "old": ".*org\\.linkki\\.framework\\.ui\\.application\\..*",
+            "new": ".*org\\.linkki\\.framework\\.ui\\.application\\..*",
+            "justification": "LIN-2488 - ApplicationLayout calls getApplicationConfig method in constructor"
+          },
+          {
+            "code": "java.method.removed",
+            "old": "method org.linkki.framework.state.ApplicationConfig org.linkki.framework.ui.application.ApplicationLayout::getApplicationConfig()",
+            "justification": "LIN-2488 - ApplicationLayout calls getApplicationConfig method in constructor"
+          },
+          {
+            "code": "java.class.removed",
+            "old": "interface org.linkki.framework.state.ApplicationConfig",
+            "justification": "LIN-2488 - Package changed"
+          },
+          {
+            "code": "java.method.parameterTypeChanged",
+            "old": "parameter void org.linkki.framework.ui.application.ApplicationFooter::<init>(===org.linkki.framework.state.ApplicationConfig===)",
+            "new": "parameter void org.linkki.framework.ui.application.ApplicationFooter::<init>(===org.linkki.framework.ui.application.ApplicationInfo===)",
+            "parameterIndex": "0",
+            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
+          },
+          {
+            "code": "java.method.parameterTypeChanged",
+            "old": "parameter java.lang.String org.linkki.framework.ui.application.ApplicationFooter::buildText(===org.linkki.framework.state.ApplicationConfig===)",
+            "new": "parameter java.lang.String org.linkki.framework.ui.application.ApplicationFooter::buildText(===org.linkki.framework.ui.application.ApplicationInfo===)",
+            "parameterIndex": "0",
+            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
+          },
+          {
+            "code": "java.method.visibilityReduced",
+            "old": "method void org.linkki.framework.ui.application.ApplicationFooter::init()",
+            "new": "method void org.linkki.framework.ui.application.ApplicationFooter::init()",
+            "oldVisibility": "public",
+            "newVisibility": "protected",
+            "justification": "LIN-2488 - Not intended to be called externally"
+          },
+          {
+            "code": "java.method.visibilityReduced",
+            "old": "method void org.linkki.framework.ui.application.ApplicationHeader::addRightComponents()",
+            "new": "method void org.linkki.framework.ui.application.ApplicationHeader::addRightComponents()",
+            "oldVisibility": "protected",
+            "newVisibility": "private",
+            "justification": "LIN-2488 - Previously deprecated"
+          },
+          {
+            "regex": true,
+            "code": "java.method.parameterTypeChanged",
+            "old": "parameter void org\\.linkki\\.framework\\.ui\\.application\\.ApplicationHeader::<init>.*",
+            "new": "parameter void org\\.linkki\\.framework\\.ui\\.application\\.ApplicationHeader::<init>.*",
+            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
+          },
+          {
+            "code": "java.method.removed",
+            "old": "method org.linkki.framework.state.ApplicationConfig org.linkki.framework.ui.application.ApplicationHeader::getApplicationConfig()",
+            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
+          },
+          {
+            "code": "java.method.parameterTypeChanged",
+            "old": "parameter void org.linkki.framework.ui.pmo.ApplicationInfoPmo::<init>(===org.linkki.framework.state.ApplicationConfig===)",
+            "new": "parameter void org.linkki.framework.ui.pmo.ApplicationInfoPmo::<init>(===org.linkki.framework.ui.application.ApplicationInfo===)",
+            "parameterIndex": "0",
+            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
+          },
+          {
+            "code": "java.method.removed",
+            "old": "method org.linkki.framework.state.ApplicationConfig org.linkki.framework.ui.pmo.ApplicationInfoPmo::getApplicationConfig()",
+            "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
+          }
+        ]
+      }
+    }
+  ]
+}

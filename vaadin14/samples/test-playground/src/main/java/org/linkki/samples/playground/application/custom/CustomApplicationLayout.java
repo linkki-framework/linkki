@@ -14,16 +14,14 @@
 
 package org.linkki.samples.playground.application.custom;
 
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationLayout;
 
 public class CustomApplicationLayout extends ApplicationLayout {
 
     private static final long serialVersionUID = -8825334484740928668L;
 
-    @Override
-    public ApplicationConfig getApplicationConfig() {
-        return new CustomApplicationConfig();
+    public CustomApplicationLayout() {
+        super(new CustomApplicationConfig());
     }
 
 }

@@ -16,16 +16,41 @@ package org.linkki.util;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.linkki.test.matcher.Matchers.absent;
 import static org.linkki.test.matcher.Matchers.present;
 
+import java.beans.BeanInfo;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.linkki.util.SuperFoo.Foo;
 
 public class BeanUtilsTest {
+
+    @Test
+    public void testGetBeanInfo() {
+        BeanInfo beanInfo = BeanUtils.getBeanInfo(IFoo.class);
+
+        assertThat(beanInfo.getMethodDescriptors().length, is(1));
+    }
+
+    @Test
+    public void testGetMethod_WithParams_Varargs() {
+        Method method = BeanUtils.getMethod(Foo.class, "baz", Integer.TYPE);
+
+        assertThat(method.getParameterCount(), is(1));
+    }
+
+    @Test
+    public void testGetMethod_WithParams_NoSuchMethod() {
+        assertThrows(IllegalArgumentException.class, () -> BeanUtils.getMethod(Foo.class, "noSuchMethod"));
+    }
 
     @Test
     public void testGetMethod_PublicMethodIsFound() {
@@ -46,9 +71,9 @@ public class BeanUtilsTest {
     }
 
     @Test
-    public void testGetMethod_PrivateMethodIsFound() {
+    public void testGetMethod_PrivateMethodIsNotFound() {
         Optional<Method> method = BeanUtils.getMethod(Foo.class, (m) -> m.getName().equals("bar"));
-        assertThat(method, is(present()));
+        assertThat(method, is(absent()));
     }
 
     @Test
@@ -100,34 +125,70 @@ public class BeanUtilsTest {
         assertThat(BeanUtils.getPropertyName(Boolean.TYPE, "fooBar"), is("fooBar"));
     }
 
-    private static interface IFoo {
-        default void iFoo() {
-            // do nothing
-        }
+    @Test
+    public void testGetValueFromFieldObjectField_Name_NotAccessible() {
+        Foo object = new Foo();
+        assertThat(BeanUtils.getField(Foo.class, "field").canAccess(object), is(false));
+
+        assertThat(BeanUtils.getValueFromField(object, "field"), is(1));
     }
 
-    public static class SuperFoo implements IFoo {
-        public void superFoo() {
-            // do nothing
-        }
+    @Test
+    public void testGetValueFromFieldObjectField_Name_Accessible() {
+        Foo object = new Foo();
+
+        assertThat(BeanUtils.getValueFromField(object, "publicField"), is(2));
     }
 
-    public static class Foo extends SuperFoo {
-        public void foo() {
-            // do nothing
-        }
+    @Test
+    public void testGetValueFromFieldObjectField_WithField_NotAccessible() {
+        Field field = BeanUtils.getField(Foo.class, "field");
+        Foo object = new Foo();
 
-        public void bar() {
-            // do nothing
-        }
-
-        public int baz() {
-            return 0;
-        }
-
-        public int baz(int foo) {
-            return foo + 1;
-        }
+        assertThat(field.canAccess(object), is(false));
+        assertThat(BeanUtils.getValueFromField(object, field), is(1));
+        assertThat(field.canAccess(object), is(false));
     }
+
+    @Test
+    public void testGetValueFromFieldObjectField_WithField_Accessible() {
+        Field field = BeanUtils.getField(Foo.class, "publicField");
+        Foo object = new Foo();
+
+        assertThat(field.canAccess(object), is(true));
+        assertThat(BeanUtils.getValueFromField(object, field), is(2));
+        assertThat(field.canAccess(object), is(true));
+    }
+
+    @Test
+    public void testGetField() {
+        assertThat(BeanUtils.getField(Foo.class, "publicField"), is(notNullValue()));
+    }
+
+    @Test
+    public void testGetField_SuperClass() {
+        assertThat(BeanUtils.getField(Foo.class, "superField"), is(notNullValue()));
+    }
+
+    @Test
+    public void testGetField_Private() {
+        assertThat(BeanUtils.getField(Foo.class, "field"), is(notNullValue()));
+    }
+
+    @Test
+    public void testGetField_NoSuchField() {
+        assertThrows(RuntimeException.class, () -> BeanUtils.getField(Foo.class, "noSuchField"));
+    }
+
+    @Test
+    public void testGetDeclaredField_Private() {
+        assertThat(BeanUtils.getDeclaredField(Foo.class, "field"), is(notNullValue()));
+    }
+
+    @Test
+    public void testGetDeclaredField_SuperField() {
+        assertThrows(RuntimeException.class, () -> BeanUtils.getDeclaredField(Foo.class, "superField"));
+    }
+
 
 }

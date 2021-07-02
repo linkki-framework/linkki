@@ -18,25 +18,30 @@ import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
+import org.linkki.samples.playground.application.custom.CustomApplicationConfig.CustomApplicationInfo;
 
 import com.vaadin.flow.component.notification.Notification;
 
 @UISection
 public class CustomApplicationInfoPmo extends ApplicationInfoPmo {
 
-    public CustomApplicationInfoPmo(CustomApplicationConfig applicationConfig) {
-        super(applicationConfig);
+    public CustomApplicationInfoPmo(CustomApplicationInfo applicationInfo) {
+        super(applicationInfo);
     }
 
     @UIButton(position = 100, caption = "License")
     public void license() {
         Notification
-                .show(((CustomApplicationConfig)getApplicationConfig())
-                        .getLicense(UiFramework.getLocale()));
+                .show(getApplicationInfo().getLicense(UiFramework.getLocale()));
     }
 
     @Override
     public String getDialogWidth() {
         return "768px";
+    }
+
+    @Override
+    public CustomApplicationInfo getApplicationInfo() {
+        return (CustomApplicationInfo)super.getApplicationInfo();
     }
 }

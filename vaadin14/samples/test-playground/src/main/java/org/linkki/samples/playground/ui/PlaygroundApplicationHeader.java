@@ -14,10 +14,11 @@
 
 package org.linkki.samples.playground.ui;
 
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationHeader;
-import org.linkki.framework.ui.application.menu.ApplicationMenu;
+import org.linkki.framework.ui.application.ApplicationInfo;
+import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.dialogs.PmoBasedDialogFactory;
+import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.contextmenu.MenuItem;
 
@@ -25,8 +26,9 @@ public class PlaygroundApplicationHeader extends ApplicationHeader {
 
     private static final long serialVersionUID = 1L;
 
-    public PlaygroundApplicationHeader(ApplicationMenu applicationMenu, ApplicationConfig applicationConfig) {
-        super(applicationMenu, applicationConfig);
+    public PlaygroundApplicationHeader(ApplicationInfo applicationInfo,
+            Sequence<ApplicationMenuItemDefinition> menuItemDefinitions) {
+        super(applicationInfo, menuItemDefinitions);
     }
 
     @Override

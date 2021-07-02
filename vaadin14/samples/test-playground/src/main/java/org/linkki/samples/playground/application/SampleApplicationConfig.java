@@ -15,9 +15,10 @@ package org.linkki.samples.playground.application;
 
 import java.time.LocalDate;
 
-import org.linkki.framework.state.ApplicationConfig;
+import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
+import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.util.Sequence;
@@ -29,28 +30,32 @@ import org.linkki.util.Sequence;
 public class SampleApplicationConfig implements ApplicationConfig {
 
     @Override
-    public String getApplicationName() {
-        return PlaygroundNlsText.getString("SampleApplicationConfig.Name");
-    }
+    public ApplicationInfo getApplicationInfo() {
+        return new ApplicationInfo() {
+            @Override
+            public String getApplicationName() {
+                return PlaygroundNlsText.getString("SampleApplicationConfig.Name");
+            }
 
-    @Override
-    public String getApplicationVersion() {
-        return PlaygroundNlsText.getString("SampleApplicationConfig.Version");
-    }
+            @Override
+            public String getApplicationVersion() {
+                return PlaygroundNlsText.getString("SampleApplicationConfig.Version");
+            }
 
-    @Override
-    public String getApplicationDescription() {
-        return PlaygroundNlsText.getString("SampleApplicationConfig.Description");
-    }
+            @Override
+            public String getApplicationDescription() {
+                return PlaygroundNlsText.getString("SampleApplicationConfig.Description");
+            }
 
-    @Override
-    public String getCopyright() {
-        return "Copyright © 2015 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; //$NON-NLS-1$
+            @Override
+            public String getCopyright() {
+                return "Copyright © 2015 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; //$NON-NLS-1$
+            }
+        };
     }
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence.of(new StartMenuItemDefinition());
     }
-
 }

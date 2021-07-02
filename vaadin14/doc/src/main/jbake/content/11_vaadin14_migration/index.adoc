@@ -17,10 +17,13 @@
 ==== LinkkiUi
 ////
 https://jira.faktorzehn.de/browse/LIN-2042
+https://jira.faktorzehn.de/browse/LIN-2488
 ////
-`LinkkiUi` has been removed
+* `LinkkiUi` has been removed
+* `ApplicationLayout#getApplicationConfig` has been removed. 
+* `ApplicationLayout` constructor now is taking `ApplicationConfig` as a parameter.
 
-* Create new class `MyApplicationLayout`, extending `ApplicationLayout` and override `ApplicationLayout#getApplicationConfig` to return your `ApplicationConfig`. `ApplicationLayout` itself is implementing `RouterLayout` to be used as a navigation target `Component`.
+* Create new class `MyApplicationLayout`, extending `ApplicationLayout` and pass `ApplicationConfig` to via constructor. `ApplicationLayout` itself is implementing `RouterLayout` to be used as a navigation target `Component`.
 * Create new class `MySampleView`, which should be used as an entry point for navigable view annotated with `@Route(value = MySampleView.NAME, layout = MyApplicationLayout.class)` and add further View-`Components` .
 
 In addition following changes have been made:
@@ -29,12 +32,24 @@ In addition following changes have been made:
 ** `ApplicationNavigator` has been removed
 ** `ApplicationLayout#createApplicationNavigator` has been removed
 
-* `ApplicationConfig#createApplicationLayout` has been removed 
-** Replaced by extending `ApplicationLayout`
+* `ApplicationConfig` moved from `org.linkki.framework.state` to `org.linkki.framework.ui.application` 
+* `ApplicationConfig#createApplicationLayout` has been removed. `ApplicationLayout` should be extended instead.
+* Name, version, description and copyright are moved to `ApplicationInfo`.
+* The return type `ApplicationHeaderDefinition` of `ApplicationConfig#ApplicationHeaderDefinition` has changed. It does not extend `Function<ApplicationMenu, ApplicationHeader>` anymore. Instead, it is now a functional interface that creates an `ApplicationHeader` from an `ApplicationInfo` and a sequence of  `ApplicationMenuItemDefinitions`.
+* `ApplicationConfig#ApplicationFooterDefinition` has changed. It does not extend `Function` anymore. Instead, it creates an `ApplicationFooter` from an `ApplicationInfo`.
 
-* `ApplicationHeader` and `ApplicationFooter` are now extending `Composite<HorizontalLayout>` instead of `HorizontalLayout` directly
+* `ApplicationInfoPmo` uses `ApplicationInfo` as constructor argument instead of `ApplicationConfig` 
+
+* `ApplicationHeader` now extends `Composite<HorizontalLayout>` instead of `HorizontalLayout` directly
+* `ApplicationHeader` uses an `ApplicationInfo` and `Sequence<ApplicationMenuItem>` as arguments instead of `ApplicationMenu`.
+* `ApplicationHeader#addRightComponents()` visibility has changed from `protected` to `private` due to deprecation. Subclasses now should override and move their code to `addRightComponents(HorizontalLayout)` instead.
 * `MessageUiComponents` are now displayed using `Grid` instead of `Table`
 * linkki dialogs  are now extending `Composite<Dialog>` instead of `Window`. See `OkCancelDialog`.
+
+* `ApplicationFooter` now extends `Composite<HorizontalLayout>` instead of `HorizontalLayout` directly
+* `ApplicationFooter` uses `ApplicationInfo` as constructor argument instead of `ApplicationConfig`
+* `ApplicationFooter#buildText` uses `ApplicationInfo` as argument instead of `ApplicationConfig`
+* Visibility of `ApplicationFooter#init` is reduced to protected. Remove external calls.
 
 === Components
 

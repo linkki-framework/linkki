@@ -17,26 +17,35 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.binding.BindingContext;
+import org.linkki.core.binding.LinkkiBindingException;
+import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.element.annotation.UIComboBoxIntegrationTest.ComboBoxTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
+import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uiframework.UiFramework;
 
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -86,6 +95,19 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
         assertThat(getDynamicComponent().getItemCaptionGenerator().apply(TestEnum.ONE), is("Oans"));
         assertThat(getStaticComponent().getItemCaptionGenerator().apply(TestEnum.ONE),
                    is("ONE " + UiFramework.getLocale().toLanguageTag()));
+    }
+
+    @Test
+    public void testCaptionProvider_NoDefaultConstructor() {
+        NoDefaultConstructorCaptionProviderPmo pmo = new NoDefaultConstructorCaptionProviderPmo();
+
+        BindingContext bindingContext = new BindingContext();
+        Function<Object, CaptionComponentWrapper> wrapperCreator = c -> new CaptionComponentWrapper((Component)c,
+                WrapperType.FIELD);
+
+        assertThrows(LinkkiBindingException.class, () -> UiCreator.createUiElements(pmo, bindingContext,
+                                                                                    wrapperCreator)
+                .count());
     }
 
     @Test
@@ -236,5 +258,26 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
             return getValue();
         }
 
+    }
+
+    protected static class NoDefaultConstructorCaptionProviderPmo {
+
+        @UIComboBox(position = 3, itemCaptionProvider = PrivateItemCaptionProvider.class)
+        public TestEnum getFoo() {
+            return TestEnum.THREE;
+        }
+
+        private static class PrivateItemCaptionProvider implements ItemCaptionProvider<TestEnum> {
+
+            private PrivateItemCaptionProvider() {
+                // hide default constructor
+            }
+
+            @Override
+            public String getCaption(TestEnum value) {
+                return value.getName();
+            }
+
+        }
     }
 }

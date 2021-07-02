@@ -19,6 +19,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
@@ -29,6 +30,11 @@ import com.vaadin.testbench.ElementQuery;
 import com.vaadin.testbench.TestBenchElement;
 
 public class ApplicationLayoutTest extends AbstractUiTest {
+
+    @BeforeEach
+    public void setup() {
+        clickMenuItem("Custom Layout");
+    }
 
     @Test
     public void testApplicationLayout_HeaderExists() {

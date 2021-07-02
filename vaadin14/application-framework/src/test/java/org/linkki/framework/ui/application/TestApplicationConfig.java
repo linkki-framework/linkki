@@ -16,7 +16,6 @@ package org.linkki.framework.ui.application;
 
 import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.uiframework.UiFramework;
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.util.Sequence;
@@ -29,23 +28,28 @@ public final class TestApplicationConfig implements ApplicationConfig {
     Sequence<Converter<?, ?>> converters = Sequence.empty();
 
     @Override
-    public String getApplicationName() {
-        return "";
-    }
+    public ApplicationInfo getApplicationInfo() {
+        return new ApplicationInfo() {
+            @Override
+            public String getApplicationName() {
+                return "";
+            }
 
-    @Override
-    public String getApplicationVersion() {
-        return "";
-    }
+            @Override
+            public String getApplicationVersion() {
+                return "";
+            }
 
-    @Override
-    public String getApplicationDescription() {
-        return "";
-    }
+            @Override
+            public String getApplicationDescription() {
+                return "";
+            }
 
-    @Override
-    public String getCopyright() {
-        return "";
+            @Override
+            public String getCopyright() {
+                return "";
+            }
+        };
     }
 
     @Override

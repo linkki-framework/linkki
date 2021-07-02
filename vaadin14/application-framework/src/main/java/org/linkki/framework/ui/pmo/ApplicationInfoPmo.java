@@ -16,8 +16,8 @@ package org.linkki.framework.ui.pmo;
 
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationHeader;
+import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.framework.ui.nls.NlsText;
 
@@ -31,39 +31,39 @@ import org.linkki.framework.ui.nls.NlsText;
 @UISection
 public class ApplicationInfoPmo {
 
-    private ApplicationConfig applicationConfig;
+    private ApplicationInfo applicationInfo;
 
-    public ApplicationInfoPmo(ApplicationConfig applicationConfig) {
-        this.applicationConfig = applicationConfig;
+    public ApplicationInfoPmo(ApplicationInfo applicationInfo) {
+        this.applicationInfo = applicationInfo;
     }
 
     @UILabel(position = 10, htmlContent = true)
     public String getTitle() {
-        return "<h2>" + getApplicationConfig().getApplicationName() + "</h2>";
+        return "<h2>" + getApplicationInfo().getApplicationName() + "</h2>";
     }
 
     @UILabel(position = 20, htmlContent = true)
     public String getVersion() {
         return NlsText.getString("ApplicationInfoPmo.Version") + ": "
-                + getApplicationConfig().getApplicationVersion();
+                + getApplicationInfo().getApplicationVersion();
     }
 
     @UILabel(position = 30, htmlContent = true)
     public String getDescription() {
-        return "<p>" + getApplicationConfig().getApplicationDescription() + "</p>";
+        return "<p>" + getApplicationInfo().getApplicationDescription() + "</p>";
     }
 
     @UILabel(position = 40, htmlContent = true)
     public String getCopyright() {
-        return "<p>" + getApplicationConfig().getCopyright() + "</p>";
+        return "<p>" + getApplicationInfo().getCopyright() + "</p>";
     }
 
-    public ApplicationConfig getApplicationConfig() {
-        return applicationConfig;
+    public ApplicationInfo getApplicationInfo() {
+        return applicationInfo;
     }
 
     public String getDialogCaption() {
-        return NlsText.getString("ApplicationInfoPmo.About") + " " + getApplicationConfig().getApplicationName();
+        return NlsText.getString("ApplicationInfoPmo.About") + " " + getApplicationInfo().getApplicationName();
     }
 
     /**

@@ -17,8 +17,8 @@ package org.linkki.samples.playground.application;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.router.RouterLink;
 
 public class StartMenuItemDefinition extends ApplicationMenuItemDefinition {
 
@@ -28,7 +28,7 @@ public class StartMenuItemDefinition extends ApplicationMenuItemDefinition {
 
     @Override
     protected MenuItem internalCreateItem(ApplicationMenu menu) {
-        return menu.addItem(new RouterLink("Start", SampleView.class));
+        return menu.addItem("Start", e -> UI.getCurrent().navigate(SampleView.class));
     }
 
 }

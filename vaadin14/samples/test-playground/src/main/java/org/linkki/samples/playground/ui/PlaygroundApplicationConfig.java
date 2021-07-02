@@ -14,11 +14,11 @@
 package org.linkki.samples.playground.ui;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
-import org.linkki.framework.state.ApplicationConfig;
+import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
+import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.application.SampleView;
@@ -40,23 +40,29 @@ import com.vaadin.flow.component.contextmenu.MenuItem;
 public class PlaygroundApplicationConfig implements ApplicationConfig {
 
     @Override
-    public String getApplicationName() {
-        return PlaygroundNlsText.getString("PlaygroundApplicationConfig.Name");
-    }
+    public ApplicationInfo getApplicationInfo() {
+        return new ApplicationInfo() {
 
-    @Override
-    public String getApplicationVersion() {
-        return PlaygroundNlsText.getString("PlaygroundApplicationConfig.Version");
-    }
+            @Override
+            public String getApplicationName() {
+                return PlaygroundNlsText.getString("PlaygroundApplicationConfig.Name");
+            }
 
-    @Override
-    public String getApplicationDescription() {
-        return PlaygroundNlsText.getString("PlaygroundApplicationConfig.Description");
-    }
+            @Override
+            public String getApplicationVersion() {
+                return PlaygroundNlsText.getString("PlaygroundApplicationConfig.Version");
+            }
 
-    @Override
-    public String getCopyright() {
-        return "Copyright © 2020 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; //$NON-NLS-1$
+            @Override
+            public String getApplicationDescription() {
+                return PlaygroundNlsText.getString("PlaygroundApplicationConfig.Description");
+            }
+
+            @Override
+            public String getCopyright() {
+                return "Copyright © 2020 - " + LocalDate.now().getYear() + " Faktor Zehn GmbH"; //$NON-NLS-1$
+            }
+        };
     }
 
     @Override
@@ -104,10 +110,4 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
     public ApplicationHeaderDefinition getHeaderDefinition() {
         return PlaygroundApplicationHeader::new;
     }
-
-    @Override
-    public Optional<ApplicationFooterDefinition> getFooterDefinition() {
-        return Optional.of(ApplicationFooter::new);
-    }
-
 }

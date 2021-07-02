@@ -42,6 +42,12 @@
             "code": ".*",
             "newArchive": "org.linkki-framework:linkki-vaadin8-addon-shared:jar:.*",
             "justification": "linkki Vaadin 14 changes"
+          },
+          {
+            "regex": true,
+            "code": ".*",
+            "classQualifiedName": "org\\.linkki\\.core\\.vaadin\\.component\\.client.*",
+            "justifaction": "Indirect change"
           }
         ]
       }

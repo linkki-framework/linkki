@@ -13,13 +13,16 @@
  */
 package org.linkki.framework.ui.application;
 
+import static org.linkki.util.Objects.requireNonNull;
+
 import org.linkki.core.defaults.style.LinkkiTheme;
-import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.application.menu.ApplicationMenu;
+import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.framework.ui.dialogs.ApplicationInfoDialog;
 import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
+import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -55,12 +58,13 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
 
     private static final long serialVersionUID = 1L;
 
-    private final ApplicationMenu applicationMenu;
-    private final ApplicationConfig applicationConfig;
+    private final ApplicationInfo applicationInfo;
+    private final Sequence<ApplicationMenuItemDefinition> menuItemDefinitions;
 
-    public ApplicationHeader(ApplicationMenu applicationMenu, ApplicationConfig applicationConfig) {
-        this.applicationMenu = applicationMenu;
-        this.applicationConfig = applicationConfig;
+    public ApplicationHeader(ApplicationInfo applicationInfo,
+            Sequence<ApplicationMenuItemDefinition> menuItemDefinitions) {
+        this.applicationInfo = requireNonNull(applicationInfo, "applicationInfo must not be null");
+        this.menuItemDefinitions = requireNonNull(menuItemDefinitions, "menuItemDefinitions must not be null");
         getContent().addClassName(LinkkiApplicationTheme.APPLICATION_HEADER);
         getContent().setWidthFull();
     }
@@ -72,9 +76,9 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      *           header consists of a left floating and a right floating group of UI components.
      * 
      * @implSpec These elements are added by {@link #addLeftComponents()} and
-     *           {@link #addRightComponents()} respectively.
+     *           {@link #addRightComponents(HorizontalLayout)} respectively.
      */
-    protected void init() {
+    public void init() {
         addLeftComponents();
         addRightComponents();
     }
@@ -89,21 +93,16 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      * @see ApplicationMenu for further information about its configuration.
      */
     protected void addLeftComponents() {
+        ApplicationMenu applicationMenu = new ApplicationMenu(getMenuItemDefinitions().list());
         getContent().add(applicationMenu);
         getContent().setFlexGrow(1, applicationMenu);
     }
 
     /**
-     * Adds right aligned navigation elements in the header. Adds a {@link MenuBar} and calls
-     * {@link #createRightMenuBar()} to add items by default.
-     * 
-     * @implNote Override {@link #createRightMenuBar()} to add elements to the {@link MenuBar}.
-     * 
-     * @deprecated since November 29th, 2018 as the added components are not automatically right
-     *             aligned. Use {@link #addRightComponents(HorizontalLayout)} instead.
+     * Creates a {@link HorizontalLayout} and calls {@link #addRightComponents(HorizontalLayout)} to add
+     * items to it.
      */
-    @Deprecated
-    protected void addRightComponents() {
+    private void addRightComponents() {
         HorizontalLayout wrapper = new HorizontalLayout();
         wrapper.addClassName(LinkkiApplicationTheme.APPLICATION_HEADER_RIGHT);
         wrapper.setAlignItems(Alignment.END);
@@ -115,8 +114,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     }
 
     /**
-     * Adds right aligned navigation elements in the header. Adds a {@link MenuBar} and calls
-     * {@link #createRightMenuBar()} to add items by default.
+     * Calls {@link #createRightMenuBar()} to add items by default.
      * 
      * @param parent a right aligned layout to which the components should be added
      * 
@@ -128,7 +126,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
 
     /**
      * Creates a right aligned {@link MenuBar} that is added to the {@link ApplicationHeader} by
-     * {@link #addRightComponents()}.
+     * {@link #addRightComponents(HorizontalLayout)}.
      * 
      * @implSpec The created {@link MenuBar} contains a {@link #addHelpMenu(MenuBar) help menu item} by
      *           default.
@@ -179,12 +177,12 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     }
 
     /**
-     * Creates the {@link ApplicationInfoPmo}.
+     * Creates the {@link ApplicationInfoPmo} using {@link #getApplicationInfo()}.
      * 
      * @see ApplicationInfoPmo for further information about its configuration.
      */
     protected ApplicationInfoPmo createApplicationInfoPmo() {
-        return new ApplicationInfoPmo(applicationConfig);
+        return new ApplicationInfoPmo(getApplicationInfo());
     }
 
     /**
@@ -216,10 +214,17 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     }
 
     /**
-     * Returns the {@link ApplicationConfig} of this header component.
+     * Returns the {@link ApplicationMenuItemDefinition menu item definitions} for the
+     * {@link ApplicationMenu}.
      */
-    protected ApplicationConfig getApplicationConfig() {
-        return applicationConfig;
+    protected Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
+        return menuItemDefinitions;
     }
 
+    /**
+     * Returns the {@link ApplicationInfo} that is used in {@link #createApplicationInfoPmo()}.
+     */
+    protected ApplicationInfo getApplicationInfo() {
+        return applicationInfo;
+    }
 }
