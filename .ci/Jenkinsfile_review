@@ -1,4 +1,4 @@
-library 'f10-jenkins-library@master'
+library 'f10-jenkins-library@e2aab1a3d9f2d6a7a7826bceed9851f30174bce0'
 
 pipeline {
     agent any

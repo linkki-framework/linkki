@@ -5,6 +5,15 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 1.4.1
+
+==== Bugfixes
+
+* Fixed the bug in `IpsPropertyDispatcher` that fields with an empty value set are set as required.
+////
+https://jira.faktorzehn.de/browse/LIN-2509
+////
+
 === Version 1.4.0
 
 ==== New Features and Improvements
