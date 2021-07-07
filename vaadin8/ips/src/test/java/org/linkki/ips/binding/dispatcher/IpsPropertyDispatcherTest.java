@@ -161,6 +161,24 @@ public class IpsPropertyDispatcherTest {
     }
 
     @Test
+    public void testPull_Required_ValueSetEmpty_ShouldBeRequired() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_EMPTYVALUESET);
+
+        Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, true));
+
+        assertThat(required, is(true));
+    }
+
+    @Test
+    public void testPull_NotRequired_ValueSetEmpty_ShouldNotBeRequired() {
+        IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_EMPTYVALUESET);
+
+        Boolean required = ipsPropertyDispatcher.pull(Aspect.of(RequiredAspectDefinition.NAME, false));
+
+        assertThat(required, is(false));
+    }
+
+    @Test
     public void testPull_DynamicNotRequired_ValueSetExclNull_ShouldNotBeRequired() {
         IpsPropertyDispatcher ipsPropertyDispatcher = ipsDispatcherChain(TestIpsObject.PROPERTY_VALUESETEXCLNULL);
 

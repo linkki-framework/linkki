@@ -128,8 +128,12 @@ public class IpsPropertyDispatcher extends AbstractPropertyDispatcherDecorator {
     private boolean isRequiredInModel() {
         return !findModelElement()
                 .map(this::getValueSet)
-                .map(ValueSet::containsNull)
+                .map(this::isNotRequired)
                 .orElse(true);
+    }
+
+    private boolean isNotRequired(ValueSet<?> valueSet) {
+        return valueSet.isEmpty() || valueSet.containsNull();
     }
 
     private ValueSet<?> getValueSet(ModelElement modelElement) {

@@ -10,3 +10,8 @@
 ==== New features and improvements
 
 ==== Bugfixes
+
+* Fixed the bug in `IpsPropertyDispatcher` that fields with an empty value set are set as required.
+////
+https://jira.faktorzehn.de/browse/LIN-2509
+////

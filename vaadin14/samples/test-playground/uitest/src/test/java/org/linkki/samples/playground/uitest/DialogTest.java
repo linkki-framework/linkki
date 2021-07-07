@@ -16,7 +16,6 @@ package org.linkki.samples.playground.uitest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOfElementLocated;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
@@ -44,17 +43,19 @@ public class DialogTest extends AbstractUiTest {
 
         // close dialog
         $(DialogElement.class).first().$(ButtonElement.class).first().click();
+        $(ButtonElement.class).id("okButton");
+        waitUntil(invisibilityOfElementLocated(By.id("overlay")));
     }
 
     @Test
     @Order(2)
     public void testDialog_ClosedOnOk() {
+        waitUntil(invisibilityOfElementLocated(By.id("overlay")));
         clickButton("showDialog");
 
         waitUntil(visibilityOfElementLocated(By.id("overlay")));
         assertThat($(DialogElement.class).all().size(), is(1));
 
-        waitUntil(elementToBeClickable(By.id("okButton")));
         $(ButtonElement.class).id("okButton").click();
 
         // needed due to dialog closing animation
