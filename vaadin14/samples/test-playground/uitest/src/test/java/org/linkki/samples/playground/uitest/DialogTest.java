@@ -16,6 +16,8 @@ package org.linkki.samples.playground.uitest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOfElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -35,7 +37,7 @@ public class DialogTest extends AbstractUiTest {
     @Order(1)
     public void testDialogOnEntry() {
         clickMenuItem("Dialogs");
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("overlay")));
+        waitUntil(visibilityOfElementLocated(By.id("overlay")));
 
         assertThat($(DialogElement.class).all().size(), is(1));
 
@@ -46,9 +48,10 @@ public class DialogTest extends AbstractUiTest {
     @Test
     @Order(2)
     public void testDialog_ClosedOnOk() {
+        waitUntil(invisibilityOfElementLocated(By.id("overlay")));
         clickButton("showDialog");
 
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("overlay")));
+        waitUntil(visibilityOfElementLocated(By.id("overlay")));
         assertThat($(DialogElement.class).all().size(), is(1));
 
         waitUntil(ExpectedConditions.elementToBeClickable(By.id("okButton")));
@@ -69,7 +72,7 @@ public class DialogTest extends AbstractUiTest {
         section.$(TextFieldElement.class).id("cancelCaption").setValue("Not really");
         section.$(ButtonElement.class).id("showDialog").click();
 
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("overlay")));
+        waitUntil(visibilityOfElementLocated(By.id("overlay")));
 
         DialogElement dialog = $(DialogElement.class).first();
         assertThat(dialog.$(H3Element.class).first().getText(), is("Awesome dialog"));
