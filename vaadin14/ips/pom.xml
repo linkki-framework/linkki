@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin14</artifactId>
-        <version>1.4.1-SNAPSHOT</version>
+        <version>1.4.1</version>
     </parent>
 
     <artifactId>linkki-ips-vaadin14</artifactId>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-vaadin14</artifactId>
-            <version>1.4.1-SNAPSHOT</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -32,7 +32,7 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin14-test</artifactId>
-            <version>1.4.1-SNAPSHOT</version>
+            <version>1.4.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
