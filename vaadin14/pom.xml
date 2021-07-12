@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki</artifactId>
-        <version>1.5.0-a20210712-01</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>linkki-vaadin14</artifactId>
