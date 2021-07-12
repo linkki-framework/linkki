@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -20,15 +22,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-        <groupId>org.linkki-framework</groupId>
-        <artifactId>linkki-vaadin8-addon-server</artifactId>
-        <version>1.5.0-SNAPSHOT</version>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-vaadin8-addon-server</artifactId>
+            <version>1.5.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Copy source files so linkki-vaadin8-addon-client could compile the to JS using GWT -->
+            <!-- Copy source files so linkki-vaadin8-addon-client could compile 
+                the to JS using GWT -->
             <!-- configuration copied from https://github.com/vaadin/framework/blob/master/compatibility-client/pom.xml -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -55,6 +58,13 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.revapi</groupId>
+                <artifactId>revapi-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>
