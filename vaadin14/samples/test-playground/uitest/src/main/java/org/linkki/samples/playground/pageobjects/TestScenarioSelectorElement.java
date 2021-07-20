@@ -16,15 +16,17 @@ package org.linkki.samples.playground.pageobjects;
 
 import org.openqa.selenium.NoSuchElementException;
 
-import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
+import com.vaadin.testbench.TestBenchElement;
 import com.vaadin.testbench.annotations.Attribute;
+import com.vaadin.testbench.elementsbase.Element;
 
 /**
  * Page object for a test scenario selector
  */
+@Element("linkki-tab-layout")
 @Attribute(name = "id", value = "test-scenario-selector")
-public class TestScenarioSelectorElement extends HorizontalLayoutElement {
+public class TestScenarioSelectorElement extends TestBenchElement {
 
     public TestCaseSelectorElement selectTestScenario(String id) {
         $(TabElement.class).id(id).click();
@@ -35,7 +37,7 @@ public class TestScenarioSelectorElement extends HorizontalLayoutElement {
                 .filter(TestCaseSelectorElement::isDisplayed)
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException(
-                        "No displayed content of <test-scenario-selector> found!"));
+                        "No displayed content of test-scenario-selector found!"));
     }
 
 }

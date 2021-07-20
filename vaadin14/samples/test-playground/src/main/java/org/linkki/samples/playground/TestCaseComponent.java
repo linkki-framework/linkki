@@ -23,6 +23,7 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Span;
@@ -34,9 +35,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
  * covered by this section and the content with the UI elements to be tested.
  */
 @Tag("test-case-component")
-@CssImport(value = "./styles/test-case-component.css", //
-        include = "@vaadin/vaadin-ordered-layout/vaadin-vertical-layout")
-public class TestCaseComponent extends VerticalLayout {
+@CssImport(value = "./styles/test-case-component.css")
+public class TestCaseComponent extends Div {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,8 +55,7 @@ public class TestCaseComponent extends VerticalLayout {
         add(new H3(TestCatalog.getCaseTitle(testId)));
 
         VerticalLayout description = new VerticalLayout();
-        description.getStyle().set("background-color", "rgba(200,200,200,0.2)");
-
+        description.getElement().setAttribute("part", "description");
         description.add(new Span(TestCatalog.getCaseDescription(testId)));
 
         UnorderedList aspectsList = new UnorderedList();

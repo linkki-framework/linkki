@@ -19,10 +19,12 @@ import org.openqa.selenium.NoSuchElementException;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 import com.vaadin.testbench.annotations.Attribute;
+import com.vaadin.testbench.elementsbase.Element;
 
 /**
  * Page object for a test case selector
  */
+@Element("linkki-tab-layout")
 @Attribute(name = "id", value = "test-case-selector")
 public class TestCaseSelectorElement extends VerticalLayoutElement {
 
@@ -34,7 +36,7 @@ public class TestCaseSelectorElement extends VerticalLayoutElement {
                 .stream()//
                 .filter(TestCaseComponentElement::isDisplayed)//
                 .findFirst()//
-                .orElseThrow(() -> new NoSuchElementException("No displayed content of <test-case-selector> found!"));
+                .orElseThrow(() -> new NoSuchElementException("No displayed content of test-case-selector found!"));
     }
 
 }

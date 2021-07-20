@@ -16,7 +16,6 @@ package org.linkki.core.vaadin.component.tablayout;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -44,8 +43,6 @@ import org.mockito.Mockito;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
 
@@ -55,18 +52,16 @@ public class LinkkiTabLayoutTest {
     public void testLinkkiTabLayout_VerticalOrientation() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.VERTICAL);
 
-        Component layout = tabLayout.getContent();
-
-        assertThat(layout, is(instanceOf(HorizontalLayout.class)));
+        assertThat(tabLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is(true));
+        assertThat(tabLayout.getElement().getAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is("vertical"));
     }
 
     @Test
     public void testLinkkiTabLayout_HorizontalOrientation() {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
 
-        Component layout = tabLayout.getContent();
-
-        assertThat(layout, is(instanceOf(VerticalLayout.class)));
+        assertThat(tabLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is(true));
+        assertThat(tabLayout.getElement().getAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is("horizontal"));
     }
 
     @Test
@@ -221,11 +216,7 @@ public class LinkkiTabLayoutTest {
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(new Span("content1")).build();
         tabLayout.addTabSheet(tabSheet1);
-        assertThat(tabLayout.getContent().getChildren()//
-                .filter(c -> VerticalLayout.class.isInstance(c))//
-                .map(VerticalLayout.class::cast)//
-                .flatMap(VerticalLayout::getChildren)//
-                .collect(Collectors.toList()), contains(tabSheet1.getContent()));
+        assertThat(tabLayout.getContent().getChildren().collect(Collectors.toList()), contains(tabSheet1.getContent()));
 
         Supplier<Component> content2Supplier = spy(new Supplier<Component>() {
 
@@ -238,20 +229,13 @@ public class LinkkiTabLayoutTest {
         LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(content2Supplier).build();
 
         tabLayout.addTabSheet(tabSheet2);
-        assertThat(tabLayout.getContent().getChildren()//
-                .filter(c -> VerticalLayout.class.isInstance(c))//
-                .map(VerticalLayout.class::cast)//
-                .flatMap(VerticalLayout::getChildren)//
-                .collect(Collectors.toList()), contains(tabSheet1.getContent()));
+        assertThat(tabLayout.getContent().getChildren().collect(Collectors.toList()), contains(tabSheet1.getContent()));
         Mockito.verifyNoInteractions(content2Supplier);
 
         tabLayout.setSelectedTabSheet("id2");
 
-        assertThat(tabLayout.getContent().getChildren()//
-                .filter(c -> VerticalLayout.class.isInstance(c))//
-                .map(VerticalLayout.class::cast)//
-                .flatMap(VerticalLayout::getChildren)//
-                .collect(Collectors.toList()), contains(tabSheet1.getContent(), tabSheet2.getContent()));
+        assertThat(tabLayout.getContent().getChildren().collect(Collectors.toList()),
+                   contains(tabSheet1.getContent(), tabSheet2.getContent()));
     }
 
     @Test
@@ -440,8 +424,9 @@ public class LinkkiTabLayoutTest {
     public void testNewSidebarLayout() {
         LinkkiTabLayout sidebarLayout = LinkkiTabLayout.newSidebarLayout();
 
-        assertThat(sidebarLayout.getContent(), is(instanceOf(HorizontalLayout.class)));
-        assertThat(sidebarLayout.getContent().getElement().getThemeList(),
+        assertThat(sidebarLayout.getElement().hasAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is(true));
+        assertThat(sidebarLayout.getElement().getAttribute(LinkkiTabLayout.PROPERTY_ORIENTATION), is("vertical"));
+        assertThat(sidebarLayout.getElement().getThemeList(),
                    contains(LinkkiTabLayout.THEME_VARIANT_SOLID));
     }
 }

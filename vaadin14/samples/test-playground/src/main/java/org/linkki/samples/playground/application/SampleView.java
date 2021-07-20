@@ -43,7 +43,6 @@ public class SampleView extends LinkkiTabLayout {
 
     public SampleView() {
         super(Orientation.VERTICAL);
-        getContent().getElement().getThemeList().add(THEME_VARIANT_SOLID);
 
         // tag::sidebar-addSheet[]
         addTabSheets(LinkkiTabSheet.builder("CreateReport")

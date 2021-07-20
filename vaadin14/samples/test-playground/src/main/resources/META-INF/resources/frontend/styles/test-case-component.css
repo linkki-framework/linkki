@@ -1,3 +1,8 @@
-test-case-component[theme~="padding"] {
+test-case-component {
   padding: var(--lumo-space-m);
+  display: block;
+}
+
+test-case-component > *[part="description"] {
+  background-color: rgba(200,200,200,0.2);
 }

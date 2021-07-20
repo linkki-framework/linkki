@@ -45,7 +45,6 @@ public class BugCollectionView extends LinkkiTabLayout {
 
     public BugCollectionView() {
         super(Orientation.VERTICAL);
-        getContent().getElement().getThemeList().add(THEME_VARIANT_SOLID);
 
         addTabSheets(createTabSheet(PmoBasedSectionFactory
                 .createAndBindSection(new ComboBoxCaptionRefreshPmo(), new BindingContext())),

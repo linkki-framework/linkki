@@ -1,22 +1,68 @@
 {
-	"1.5.0": [
-		{
-			"extension": "revapi.differences",
-			"configuration": {
-				"ignore": true,
-				"differences": [
-					{
-						"regex": true,
-						"code": "java.missing.newClass",
-						"new": "missing-class javax\\.servlet\\..*"
-					},
-					{
-						"regex": true,
-						"code": "java.missing.oldClass",
-						"new": "missing-class javax\\.servlet\\..*"
-					}
-				]
-			}
-		}
-	]
+  "1.5.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.missing.newClass",
+            "new": "missing-class javax\\.servlet\\..*"
+          },
+          {
+            "regex": true,
+            "code": "java.missing.oldClass",
+            "new": "missing-class javax\\.servlet\\..*"
+          },
+          {
+            "code": "java.field.removedWithConstant",
+            "old": "field org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout.CLASS_NAME",
+            "justification": "FCOM-656/FCOM-666 : Uses tag instead"
+          },
+          {
+            "code": "java.method.removed",
+            "old": "method com.vaadin.flow.component.Component org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout::initContent()",
+            "justification": "FCOM-656/FCOM-666 : Content is now defined by ts"
+          },
+          {
+            "code": "java.class.noLongerInheritsFromClass",
+            "old": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
+            "new": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
+            "justification": "FCOM-656/FCOM-666 : Content is now defined by ts"
+          },
+          {
+            "code": "java.class.nonFinalClassInheritsFromNewClass",
+            "old": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
+            "new": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
+            "superClass": "com.vaadin.flow.component.HtmlComponent",
+            "justification": "FCOM-656/FCOM-666 : Content is now defined by ts"
+          },
+          {
+            "code": "java.annotation.added",
+            "old": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
+            "new": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
+            "annotation": "@com.vaadin.flow.component.Tag(\"linkki-tab-layout\")",
+            "justification": "FCOM-656/FCOM-666 : Use custom tag"
+          },
+          {
+            "ignore": true,
+            "code": "java.annotation.removed",
+            "old": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
+            "new": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
+            "annotation": "@com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-tab-layout.css\", include = \"@vaadin\/vaadin-lumo-styles\/all-imports\")",
+            "justification": "FCOM-656/FCOM-666 : Use tag instead of css"
+          },
+          {
+            "ignore": true,
+            "code": "java.annotation.added",
+            "old": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
+            "new": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
+            "annotation": "@com.vaadin.flow.component.dependency.JsModule(\".\/src\/linkki-tab-layout.ts\")",
+            "justification": "FCOM-656/FCOM-666 : Content is now defined in ts"
+          }
+        ]
+      }
+    }
+  ]
 }
