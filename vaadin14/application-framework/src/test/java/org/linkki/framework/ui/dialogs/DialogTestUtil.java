@@ -35,7 +35,10 @@ public class DialogTestUtil {
     }
 
     public static List<Button> getButtons(OkCancelDialog dialog) {
-        return dialog.getButtonArea().getChildren().map(Button.class::cast).collect(Collectors.toList());
+        return dialog.getButtonArea().getChildren()
+                .filter(Button.class::isInstance)
+                .map(Button.class::cast)
+                .collect(Collectors.toList());
     }
 
     public static List<Component> getContents(OkCancelDialog dialog) {

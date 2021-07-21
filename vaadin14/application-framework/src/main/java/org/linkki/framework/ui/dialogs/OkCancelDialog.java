@@ -353,7 +353,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
      */
     public MessageList validate() {
         MessageList messages = validationDisplayState.filter(getValidationService().getValidationMessages());
-        messageRow.ifPresent(contentArea::remove);
+        messageRow.ifPresent(buttonArea::remove);
         messages.getSeverity()
                 .flatMap(messages::getFirstMessage)
                 .ifPresent(this::addMessageRow);
@@ -365,7 +365,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
     private void addMessageRow(Message message) {
         Component messageLabel = MessageUiComponents.createMessageComponent(message);
         messageRow = Optional.of(messageLabel);
-        contentArea.add(messageLabel);
+        messageLabel.getElement().getStyle().set("width", "unset");
+        buttonArea.addComponentAtIndex(0, messageLabel);
     }
 
 

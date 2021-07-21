@@ -41,6 +41,7 @@ import org.linkki.util.validation.ValidationMarker;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -348,7 +349,7 @@ public class OkCancelDialogTest {
             protected boolean matchesSafely(OkCancelDialog dialog) {
 
                 @NonNull
-                VerticalLayout layout = dialog.getContentArea();
+                HorizontalLayout layout = dialog.getButtonArea();
                 Span message = (Span)layout.getComponentAt(0);
                 return text.contentEquals(message.getText());
             }
