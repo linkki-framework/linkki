@@ -210,6 +210,35 @@ public class UiCreator {
             BindingContext bindingContext,
             LinkkiComponentDefinition componentDefinition,
             Optional<LinkkiLayoutDefinition> layoutDefinition) {
+        return createComponent(pmo,
+                               bindingContext,
+                               componentDefinition,
+                               COMPONENT_WRAPPER_FACTORY::createComponentWrapper,
+                               layoutDefinition);
+    }
+
+    /**
+     * Creates a UI component via the {@link LinkkiComponentDefinition} found on the PMO class by way of
+     * the {@code componentDefinition}. The optional {@link LinkkiLayoutDefinition} is then used to
+     * create all children for the component if it exists. Otherwise a component binding without
+     * children is created.
+     * 
+     * @param pmo a presentation model object
+     * @param bindingContext used to bind the component and its children
+     * @param componentDefinition a {@link LinkkiComponentDefinition}, for example found via
+     *            {@link ComponentAnnotationReader#findComponentDefinition(AnnotatedElement)}
+     * @param componentWrapperCreator defines how to create a {@link ComponentWrapper}
+     * @param layoutDefinition a {@link LinkkiLayoutDefinition} from an, for example found via
+     *            {@link LayoutAnnotationReader#findLayoutDefinition(AnnotatedElement)}
+     * @return a {@link ComponentWrapper} containing the created UI component
+     * 
+     * @throws IllegalArgumentException if a {@link LinkkiComponentDefinition} cannot be found
+     */
+    public static <C, W extends ComponentWrapper> W createComponent(Object pmo,
+            BindingContext bindingContext,
+            LinkkiComponentDefinition componentDefinition,
+            Function<C, W> componentWrapperCreator,
+            Optional<LinkkiLayoutDefinition> layoutDefinition) {
         Class<?> annotatedElement = pmo.getClass();
         List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader.createAspectDefinitionsFor(annotatedElement);
         BoundProperty boundProperty = BoundPropertyAnnotationReader
@@ -219,7 +248,7 @@ public class UiCreator {
                                bindingContext,
                                boundProperty,
                                componentDefinition,
-                               COMPONENT_WRAPPER_FACTORY::createComponentWrapper,
+                               componentWrapperCreator,
                                aspectDefs,
                                layoutDefinition);
     }
@@ -230,24 +259,19 @@ public class UiCreator {
      * {@code componentDefinitionFinder}. The {@link LinkkiLayoutDefinition} found via the
      * {@code layoutDefinitionFinder} is then used to create all children for the component.
      * 
-     * @param annotatedElement an {@link AnnotatedElement} from which the
-     *            {@code componentDefinitionFinder} and {@code layoutDefinitionFinder} can extract a
-     *            {@link LinkkiComponentDefinition} and {@link LinkkiLayoutDefinition}
      * @param pmo a presentation model object
      * @param bindingContext used to bind the component and its children
-     * @param componentDefinitionFinder a function to extract a {@link LinkkiComponentDefinition} from
+     * @param componentDefinition {@link LinkkiComponentDefinition} that should be used to create the
+     *            component
+     * @param optionalLayoutDefinitionFinder a function to extract a {@link LinkkiLayoutDefinition} from
      *            an {@link AnnotatedElement}, for example
-     *            {@link ComponentAnnotationReader#findComponentDefinition(AnnotatedElement)}
-     * @param layoutDefinitionFinder a function to extract a {@link LinkkiLayoutDefinition} from an
-     *            {@link AnnotatedElement}, for example
      *            {@link LayoutAnnotationReader#findLayoutDefinition(AnnotatedElement)}
      * @return a {@link ComponentWrapper} containing the created UI component
      * 
      * @throws IllegalArgumentException if a {@link LinkkiComponentDefinition} or
      *             {@link LinkkiLayoutDefinition} cannot be found
      */
-    /* Package private for test */
-    /* private */ static <E extends AnnotatedElement, C, W extends ComponentWrapper> W createComponent(
+    private static <C, W extends ComponentWrapper> W createComponent(
             Object pmo,
             BindingContext bindingContext,
             BoundProperty boundProperty,

@@ -33,9 +33,8 @@ public abstract class AbstractGridComponentWrapper<ROW> extends VaadinComponentW
 
     private static final long serialVersionUID = 1L;
 
-    public AbstractGridComponentWrapper(String id, Grid<ROW> grid) {
+    public AbstractGridComponentWrapper(Grid<ROW> grid) {
         super(grid, COLUMN_BASED_TYPE);
-        grid.setId(id);
     }
 
     @SuppressWarnings("unchecked")

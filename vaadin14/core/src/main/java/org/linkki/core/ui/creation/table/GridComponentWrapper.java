@@ -22,10 +22,7 @@ import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.Column;
-import com.vaadin.flow.component.treegrid.TreeGrid;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.data.provider.hierarchy.TreeData;
-import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider;
 
 /**
  * Wraps a vaadin {@link Grid}.
@@ -37,17 +34,10 @@ public class GridComponentWrapper<ROW> extends AbstractGridComponentWrapper<ROW>
     private static final long serialVersionUID = 1L;
 
     private final List<ROW> items = new ArrayList<>();
-    private final TreeData<ROW> treeData = new TreeData<ROW>();
 
-    public GridComponentWrapper(String id, Grid<ROW> grid) {
-        super(id, grid);
-        grid.setId(id);
-        if (grid instanceof TreeGrid<?>) {
-            treeData.addRootItems(items);
-            grid.setDataProvider(new TreeDataProvider<ROW>(treeData));
-        } else {
-            grid.setDataProvider(new ListDataProvider<>(items));
-        }
+    public GridComponentWrapper(Grid<ROW> grid) {
+        super(grid);
+        grid.setDataProvider(new ListDataProvider<>(items));
     }
 
     @Override

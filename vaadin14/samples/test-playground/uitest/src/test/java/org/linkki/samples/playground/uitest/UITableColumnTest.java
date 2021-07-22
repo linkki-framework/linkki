@@ -35,13 +35,13 @@ public class UITableColumnTest extends AbstractUiTest {
 
     @Test
     public void testWidth() {
-        GridElement table = $(GridElement.class).id(UITableColumnTablePmo.class.getSimpleName() + "_table");
+        GridElement table = getTable();
         assertThat(table.getCell(0, 0).getSize().getWidth(), is(50));
     }
 
     @Test
     public void testNoAnnotation_ColumnsHaveSameWidth() {
-        GridElement table = $(GridElement.class).id(UITableColumnTablePmo.class.getSimpleName() + "_table");
+        GridElement table = getTable();
         GridTHTDElement cellWithoutAnnotation1 = table.getCell(0, 2);
         GridTHTDElement cellWithoutAnnotation2 = table.getCell(0, 3);
 
@@ -52,17 +52,18 @@ public class UITableColumnTest extends AbstractUiTest {
 
     @Test
     public void testFlexGrow() {
-        GridElement table = $(GridElement.class).id(UITableColumnTablePmo.class.getSimpleName() + "_table");
+        GridElement table = getTable();
         // columns with undefined width gets 100px internally
-        int excessWidthAssignedToColumnWithNoAnnotation = table.getCell(0, 3).getSize().getWidth() - 100;
-        int excessWidthAssingedToColumnWithFlexGrow3 = table.getCell(0, 1).getSize().getWidth() - 100;
+        double excessWidthAssignedToColumnWithNoAnnotation = table.getCell(0, 3).getSize().getWidth() - 100;
+        double excessWidthAssingedToColumnWithFlexGrow3 = table.getCell(0, 1).getSize().getWidth() - 100;
 
-        assertThat(excessWidthAssingedToColumnWithFlexGrow3 / excessWidthAssignedToColumnWithNoAnnotation, is(3));
+        assertThat(Math.round(excessWidthAssingedToColumnWithFlexGrow3 / excessWidthAssignedToColumnWithNoAnnotation),
+                   is(3L));
     }
 
     @Test
     public void testWidthAndFlexGrow() {
-        GridElement table = $(GridElement.class).id(UITableColumnTablePmo.class.getSimpleName() + "_table");
+        GridElement table = getTable();
 
         // columns with undefined width gets 100px internally
         int excessWidthAssignedToColumnWithNoAnnotation = table.getCell(0, 3).getSize().getWidth() - 100;
@@ -72,5 +73,11 @@ public class UITableColumnTest extends AbstractUiTest {
         // Selenium rounds to the next integer, this may lead to rounding error
         assertThat(excessWidthAssignedToColumnWithNoAnnotation - excessWidthAssingedToColumnWithFlexGrow1AndWidth200,
                    is(lessThanOrEqualTo(1)));
+    }
+
+    private GridElement getTable() {
+        GridElement table = $(GridElement.class).id(UITableColumnTablePmo.class.getSimpleName() + "_table");
+        table.scrollIntoView();
+        return table;
     }
 }

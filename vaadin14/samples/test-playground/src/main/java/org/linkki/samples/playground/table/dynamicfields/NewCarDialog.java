@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
-import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.dialog.Dialog;
@@ -27,12 +27,8 @@ public class NewCarDialog extends Dialog {
 
     private static final long serialVersionUID = -6187152700037744469L;
 
-
     private final List<Car> carStorage;
-
-    private final PmoBasedSectionFactory sectionFactory;
     private final Handler afterSaveAction;
-
 
     public NewCarDialog(List<Car> carStorage, Handler afterSaveAction) {
         this.carStorage = carStorage;
@@ -46,18 +42,14 @@ public class NewCarDialog extends Dialog {
         layout.setMargin(false);
         layout.setSpacing(false);
 
-        sectionFactory = new PmoBasedSectionFactory();
-
         NewCar car = new NewCar();
 
-        layout.add(sectionFactory.createSection(new CarTypeSectionPmo(car),
-                                                new BindingContext("car-type",
-                                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
-                                                        () -> addNewCarSection(layout, car))));
+        layout.add(VaadinUiCreator.createComponent(new CarTypeSectionPmo(car),
+                                                   new BindingContext("car-type",
+                                                           PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
+                                                           () -> addNewCarSection(layout, car))));
         add(layout);
 
-        // center();
-        // UI.getCurrent().addWindow(this);
         open();
     }
 
@@ -72,10 +64,10 @@ public class NewCarDialog extends Dialog {
             car.setRetention(null);
         }
 
-        layout.add(sectionFactory.createSection(new NewCarSectionPmo(car, this.carStorage, this::close),
-                                                new BindingContext("new-car",
-                                                        PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
-                                                        afterSaveAction)));
+        layout.add(VaadinUiCreator.createComponent(new NewCarSectionPmo(car, this.carStorage, this::close),
+                                                   new BindingContext("new-car",
+                                                           PropertyBehaviorProvider.NO_BEHAVIOR_PROVIDER,
+                                                           afterSaveAction)));
     }
 
 

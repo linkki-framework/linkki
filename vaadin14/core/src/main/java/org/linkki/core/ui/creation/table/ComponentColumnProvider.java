@@ -16,18 +16,12 @@ package org.linkki.core.ui.creation.table;
 
 import static java.util.Objects.requireNonNull;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.List;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
-import org.linkki.core.binding.descriptor.aspect.annotation.AspectAnnotationReader;
-import org.linkki.core.binding.descriptor.property.BoundProperty;
-import org.linkki.core.binding.descriptor.property.annotation.BoundPropertyAnnotationReader;
 import org.linkki.core.binding.wrapper.WrapperType;
 import org.linkki.core.ui.wrapper.NoLabelComponentWrapper;
-import org.linkki.core.uicreation.ComponentAnnotationReader;
+import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;
@@ -50,21 +44,11 @@ class ComponentColumnProvider<ROW> implements ValueProvider<ROW, Component> {
 
     @Override
     public Component apply(ROW source) {
-        Annotation componentDefinitionAnnotation = ComponentAnnotationReader.getComponentDefinitionAnnotation(method,
-                                                                                                              source);
-        Component component = (Component)ComponentAnnotationReader
-                .getComponentDefinition(componentDefinitionAnnotation, method)
-                .createComponent(source);
-        BoundProperty boundProperty = BoundPropertyAnnotationReader.getBoundProperty(componentDefinitionAnnotation,
-                                                                                     method);
-        List<LinkkiAspectDefinition> aspectDefs = AspectAnnotationReader
-                .createAspectDefinitionsFor(componentDefinitionAnnotation, method);
-        bindingContext.bind(source, boundProperty, aspectDefs,
-                            new NoLabelComponentWrapper(component, WrapperType.FIELD));
+        NoLabelComponentWrapper wrapper = UiCreator
+                .createUiElement(method, source, bindingContext,
+                                 c -> new NoLabelComponentWrapper((Component)c, WrapperType.FIELD));
+        Component component = wrapper.getComponent();
 
-        // TODO LIN-2129
-        // component.addStyleName(LinkkiTheme.BORDERLESS);
-        // component.addStyleName(LinkkiTheme.TABLE_CELL);
         if (component instanceof HasValue && component instanceof HasSize) {
             ((HasSize)component).setWidthFull();
         }

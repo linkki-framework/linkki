@@ -33,8 +33,7 @@ public class AbstractGridComponentWrapperTest {
 
         Grid<Object> componentMock = new Grid<Object>();
 
-        AbstractGridComponentWrapper<Object> wrapper = new AbstractGridComponentWrapper<Object>("",
-                componentMock) {
+        AbstractGridComponentWrapper<Object> wrapper = new AbstractGridComponentWrapper<Object>(componentMock) {
 
             private static final long serialVersionUID = 1L;
 
@@ -57,8 +56,7 @@ public class AbstractGridComponentWrapperTest {
 
         Grid<Object> componentMock = new Grid<Object>();
 
-        AbstractGridComponentWrapper<Object> wrapper = new AbstractGridComponentWrapper<Object>("",
-                componentMock) {
+        AbstractGridComponentWrapper<Object> wrapper = new AbstractGridComponentWrapper<Object>(componentMock) {
 
             private static final long serialVersionUID = 1L;
 

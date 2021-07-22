@@ -26,7 +26,6 @@ import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UILink;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
-import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -102,7 +101,7 @@ public class PlaygroundRowPmo {
     }
 
     @UITableColumn(width = 300, flexGrow = 1)
-    @UILink(position = 140, label = PlaygroundNlsText.I18N, caption = "A UI Link", captionType = CaptionType.STATIC)
+    @UILink(position = 140, label = "", caption = "A UI Link", captionType = CaptionType.STATIC)
     public String getLink() {
         return "";
     }

@@ -13,6 +13,8 @@
  */
 package org.linkki.samples.playground.table.dynamicfields;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,7 @@ import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.pmo.ButtonPmoBuilder;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.handler.Handler;
 
 @UISection(caption = "Cars")
@@ -63,9 +66,10 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo> {
 
         switch (column) {
             case Car.PROPERTY_RETENTION:
-                return String.format("%,.2f", cars.stream()
-                        .mapToDouble(Car::getRetention)
-                        .sum());
+                return new DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(UiFramework.getLocale()))
+                        .format(cars.stream()
+                                .mapToDouble(Car::getRetention)
+                                .sum());
 
             case Car.PROPERTY_CAR_TYPE:
                 return "Total Retention:";

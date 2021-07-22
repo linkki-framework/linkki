@@ -19,14 +19,19 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.util.Locale;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
+import com.vaadin.flow.component.dialog.testbench.DialogElement;
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
@@ -47,29 +52,23 @@ public class DynamicFieldTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDynamicFields_newCarDialog() {
+    public void testDynamicFields_InDialog() {
         // Select standard car type
         clickButton(BUTTON_PMO);
 
-        waitUntil(ExpectedConditions.elementToBeClickable(By.id(CAR_TYPE)));
-        selectCombobox(CAR_TYPE, "Standard");
-
-        waitUntil(ExpectedConditions.elementToBeClickable(By.id(RETENTION)));
+        $(DialogElement.class).waitForFirst().$(ComboBoxElement.class).id(CAR_TYPE).selectByText("Standard");
         // Must be a Textfield
-        assertThat($(TextFieldElement.class).all().stream().filter(tf -> RETENTION.equals(tf.getAttribute("id")))
-                .findFirst().isPresent(), is(true));
+        assertThat(findElement(By.cssSelector("#overlay #retention")).getTagName(), is("vaadin-text-field"));
 
         // Select premium car type
-        selectCombobox(CAR_TYPE, "Premium");
+        $(DialogElement.class).first().$(ComboBoxElement.class).id(CAR_TYPE).selectByText("Premium");
         // Must be a Combobox
-        assertThat($(ComboBoxElement.class).all().stream().filter(tf -> RETENTION.equals(tf.getAttribute("id")))
-                .findFirst().isPresent(), is(true));
+        assertThat(findElement(By.cssSelector("#overlay #retention")).getTagName(), is("vaadin-combo-box"));
     }
 
     @Test
-    public void testDynamicFields_carTablePmo() {
-        GridElement selectableTable = $(GridElement.class)
-                .id(CAR_TABLE_PMO);
+    public void testDynamicFields_InTableRow() {
+        GridElement selectableTable = $(GridElement.class).id(CAR_TABLE_PMO);
 
         // Test, if in first row, with cartype 'Standard', the retention is a Textfield
         assertThat(selectableTable.getCell(0, 2).$(ComboBoxElement.class).first().getSelectedText(), is("Standard"));
@@ -81,20 +80,23 @@ public class DynamicFieldTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDynamicTableFooter_carTablePmo() {
+    public void testDynamicTableFooter() throws ParseException {
+        DecimalFormat format = new DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         GridElement selectableTable = $(GridElement.class).id(CAR_TABLE_PMO);
-        assertThat(selectableTable.getFooterCell(3).getText(), is("15,500.00"));
+        double sumBeforeAdding = format.parse(selectableTable.getFooterCell(3).getText())
+                .doubleValue();
 
         // Add premium car type
         clickButton(BUTTON_PMO);
-        selectCombobox(CAR_TYPE, "Premium");
-        typeInTextBox(MAKE, "Fiat");
-        selectCombobox(MODEL, "Sonstige");
-        selectCombobox(RETENTION, "5,000.00");
+        DialogElement dialogElement = $(DialogElement.class).waitForFirst();
+        dialogElement.$(ComboBoxElement.class).id(CAR_TYPE).selectByText("Premium");
+        dialogElement.$(TextFieldElement.class).id(MAKE).setValue("Fiat");
+        dialogElement.$(ComboBoxElement.class).id(MODEL).selectByText("Sonstige");
+        dialogElement.$(ComboBoxElement.class).id(RETENTION).selectByText(format.format(5000));
         clickButton(OK);
 
         // Check, if amount has changed
         assertThat(selectableTable.getFooterCell(2).getText(), is("Total Retention:"));
-        assertThat(selectableTable.getFooterCell(3).getText(), is("20,500.00"));
+        assertThat(format.parse(selectableTable.getFooterCell(3).getText()).doubleValue(), is(sumBeforeAdding + 5000));
     }
 }

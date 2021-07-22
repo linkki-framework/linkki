@@ -1,0 +1,30 @@
+{
+  "1.5.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.method.numberOfParametersChanged",
+            "old": "method void org.linkki.core.ui.creation.table.AbstractGridComponentWrapper<ROW>::<init>(java.lang.String, com.vaadin.flow.component.grid.Grid<ROW>)",
+            "new": "method void org.linkki.core.ui.creation.table.AbstractGridComponentWrapper<ROW>::<init>(com.vaadin.flow.component.grid.Grid<ROW>)",
+            "justification": "FCOM-656/FCOM-670 :: ID is set by GridComponentCreator"
+          },
+          {
+            "code": "java.method.numberOfParametersChanged",
+            "old": "method void org.linkki.core.ui.creation.table.GridComponentWrapper<ROW>::<init>(java.lang.String, com.vaadin.flow.component.grid.Grid<ROW>)",
+            "new": "method void org.linkki.core.ui.creation.table.GridComponentWrapper<ROW>::<init>(com.vaadin.flow.component.grid.Grid<ROW>)",
+            "justification": "FCOM-656/FCOM-670 :: ID is set by GridComponentCreator"
+          },
+          {
+            "code": "java.method.numberOfParametersChanged",
+            "old": "method void org.linkki.core.ui.creation.table.TreeGridComponentWrapper<ROW>::<init>(java.lang.String, com.vaadin.flow.component.treegrid.TreeGrid<ROW>)",
+            "new": "method void org.linkki.core.ui.creation.table.TreeGridComponentWrapper<ROW>::<init>(com.vaadin.flow.component.treegrid.TreeGrid<ROW>)",
+            "justification": "FCOM-656/FCOM-670 :: ID is set by GridComponentCreator"
+          }
+        ]
+      }
+    }
+  ]
+}

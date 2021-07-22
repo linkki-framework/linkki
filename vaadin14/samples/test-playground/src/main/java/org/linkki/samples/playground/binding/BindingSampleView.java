@@ -53,6 +53,7 @@ public class BindingSampleView extends Div implements HasUrlParameter<String> {
 
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
+        removeAll();
         // can be switched with URL:
         // http://localhost:8080/linkki-sample-test-playground-vaadin14/binding/readOnly
         boolean readOnly = StringUtils.equals("readOnly", parameter);

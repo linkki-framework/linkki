@@ -16,9 +16,9 @@ package org.linkki.core.ui.table;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -31,7 +31,6 @@ import org.linkki.core.ui.creation.table.GridComponentCreator;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.table.pmo.SelectableTablePmo;
 import org.linkki.core.vaadin.component.section.GridSection;
-import org.mockito.Mockito;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSingleSelectionModel;
@@ -42,7 +41,7 @@ public class TableSelectionAspectIntegrationTest {
     public void testTableSelectable() {
         Grid<?> table = GridComponentCreator.createGrid(new TestSelectableTablePmo(), new BindingContext());
         table.setPageSize(1);
-        assertThat("Table is selectable", table.getSelectionModel(), is(not(true)));
+        assertThat("Table is selectable", table.getSelectionModel(), is(instanceOf(GridSingleSelectionModel.class)));
     }
 
     @Test
@@ -50,13 +49,13 @@ public class TableSelectionAspectIntegrationTest {
         GridSection table = (GridSection)new PmoBasedSectionFactory()
                 .createSection(new TestSelectableTablePmo(), new BindingContext());
         table.getGrid().setPageSize(1);
-        assertThat("Table is selectable", table.getSectionContent().getSelectionModel(),
+        assertThat("Table in table section is selectable", table.getSectionContent().getSelectionModel(),
                    is(instanceOf(GridSingleSelectionModel.class)));
     }
 
     @Test
     public void testTableGetSelection_initial() {
-        TestSelectableTablePmo tablePmo = Mockito.spy(new TestSelectableTablePmo());
+        TestSelectableTablePmo tablePmo = spy(new TestSelectableTablePmo());
         TestSelectableTableRowPmo secondRow = tablePmo.getItems().get(1);
         tablePmo.setSelection(secondRow);
 

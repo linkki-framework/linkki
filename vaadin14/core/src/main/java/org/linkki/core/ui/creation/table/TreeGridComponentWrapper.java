@@ -36,8 +36,8 @@ public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<
 
     private final TreeData<ROW> treeData = new TreeData<>();
 
-    public TreeGridComponentWrapper(String id, TreeGrid<ROW> grid) {
-        super(id, grid);
+    public TreeGridComponentWrapper(TreeGrid<ROW> grid) {
+        super(grid);
         grid.setDataProvider(new TreeDataProvider<>(treeData));
     }
 
