@@ -140,27 +140,27 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                LinkkiTabSheet.builder(DYNAMIC_ASPECT_TAB_ID)
                                        .caption(VaadinIcon.FLIGHT_TAKEOFF.create())
                                        .description("Dynamic Aspects")
-                                       .content(new DynamicAnnotationsLayout()).build(),
+                                       .content(DynamicAnnotationsLayout::new).build(),
                                LinkkiTabSheet.builder(TABLES_TAB_ID)
                                        .caption(VaadinIcon.TABLE.create())
                                        .description("Tables")
-                                       .content(new TablePage()).build(),
+                                       .content(TablePage::new).build(),
                                LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)
                                        .caption(VaadinIcon.ROAD_BRANCHES.create())
                                        .description("Nested Components")
-                                       .content(new NestedComponentPage()).build(),
+                                       .content(NestedComponentPage::new).build(),
                                LinkkiTabSheet.builder(TAB_LAYOUT_TAB_ID)
                                        .caption(VaadinIcon.TABS.create())
                                        .description("Tab Layout")
-                                       .content(new TabLayoutPage()).build(),
+                                       .content(TabLayoutPage::new).build(),
                                LinkkiTabSheet.builder(MESSAGES_TAB_ID)
                                        .caption(VaadinIcon.COMMENT_ELLIPSIS_O.create())
                                        .description("Messages Component")
-                                       .content(new MessagesComponent()).build(),
+                                       .content(MessagesComponent::new).build(),
                                LinkkiTabSheet.builder(TREETABLE_TAB_ID)
                                        .caption(VaadinIcon.FILE_TREE.create())
                                        .description("Tree Table")
-                                       .content(new SampleTreeTableComponent()).build()
+                                       .content(SampleTreeTableComponent::new).build()
 
         );
 

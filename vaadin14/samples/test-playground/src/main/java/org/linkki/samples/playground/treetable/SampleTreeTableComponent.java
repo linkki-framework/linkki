@@ -20,12 +20,9 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.samples.playground.treetable.dynamic.Bundesliga;
 import org.linkki.samples.playground.treetable.dynamic.League;
 import org.linkki.samples.playground.treetable.dynamic.LeagueTablePmo;
-import org.linkki.samples.playground.treetable.dynamic.PlayerTableRowPmo;
-import org.linkki.samples.playground.treetable.fixed.AbstractPersonRowPmo;
 import org.linkki.samples.playground.treetable.fixed.PersonRepository;
 import org.linkki.samples.playground.treetable.fixed.PersonTablePmo;
 
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 
@@ -43,21 +40,18 @@ public class SampleTreeTableComponent extends VerticalLayout {
 
         BindingContext bindingContext = new BindingContext();
 
-        Grid<AbstractPersonRowPmo> personsTable = GridComponentCreator
-                .createGrid(new PersonTablePmo(personRepository::getPersons),
-                            bindingContext);
-        Grid<PlayerTableRowPmo> leagueTable = GridComponentCreator
-                .createGrid(new LeagueTablePmo(league), bindingContext);
-
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
         tabLayout.addTabSheets(
                                LinkkiTabSheet.builder("PersonTable")
                                        .caption("PersonTable")
-                                       .content(personsTable)
+                                       .content(() -> GridComponentCreator
+                                               .createGrid(new PersonTablePmo(personRepository::getPersons),
+                                                           bindingContext))
                                        .build(),
                                LinkkiTabSheet.builder("LeageTable")
                                        .caption("LeagueTable")
-                                       .content(leagueTable)
+                                       .content(() -> GridComponentCreator.createGrid(new LeagueTablePmo(league),
+                                                                                      bindingContext))
                                        .build());
 
         add(tabLayout);

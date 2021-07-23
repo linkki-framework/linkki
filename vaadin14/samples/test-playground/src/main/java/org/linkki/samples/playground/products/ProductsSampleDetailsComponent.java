@@ -48,22 +48,24 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
 
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
 
-        tabLayout.addTabSheets(//
-                               LinkkiTabSheet.builder("tab1")//
-                                       .caption("Just Sections")//
-                                       .content(new VerticalLayout(ProductsSampleUtils.createSampleSectionVertical(),
+        tabLayout.addTabSheets(
+                               LinkkiTabSheet.builder("tab1")
+                                       .caption("Just Sections")
+                                       .content(() -> new VerticalLayout(
+                                               ProductsSampleUtils.createSampleSectionVertical(),
                                                ProductsSampleUtils.createSampleSectionVertical(),
                                                ProductsSampleUtils.createSampleSectionHorizontal(),
                                                ProductsSampleUtils.createSampleSectionVertical(),
-                                               ProductsSampleUtils.createSampleSectionVertical()))//
+                                               ProductsSampleUtils.createSampleSectionVertical()))
                                        .build(),
-                               LinkkiTabSheet.builder("tab3")//
-                                       .caption("Tables and Sections")//
-                                       .content(new VerticalLayout(ProductsSampleUtils.createSampleSectionVertical(),
+                               LinkkiTabSheet.builder("tab3")
+                                       .caption("Tables and Sections")
+                                       .content(() -> new VerticalLayout(
+                                               ProductsSampleUtils.createSampleSectionVertical(),
                                                ProductsSampleUtils.createSampleSectionHorizontal(),
                                                ProductsSampleUtils.createSampleTableSection(5),
                                                ProductsSampleUtils.createSampleTableSection(10),
-                                               ProductsSampleUtils.createSampleSectionVertical()))//
+                                               ProductsSampleUtils.createSampleSectionVertical()))
                                        .build());
 
         Accordion accordion = new Accordion();

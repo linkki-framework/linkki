@@ -60,6 +60,12 @@
             "new": "class org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout",
             "annotation": "@com.vaadin.flow.component.dependency.JsModule(\".\/src\/linkki-tab-layout.ts\")",
             "justification": "FCOM-656/FCOM-666 : Content is now defined in ts"
+          },
+		  {
+            "ignore": true,
+            "code": "java.method.removed",
+            "old": "method org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.LinkkiTabSheetBuilder org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.LinkkiTabSheetBuilder::content(com.vaadin.flow.component.Component)",
+            "justification": "FIPM-4084/FIPM-4146 : Remove LinkkiTabSheetBuilder#content(Component)"
           }
         ]
       }

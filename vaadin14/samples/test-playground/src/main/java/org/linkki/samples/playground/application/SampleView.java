@@ -47,11 +47,11 @@ public class SampleView extends LinkkiTabLayout {
         // tag::sidebar-addSheet[]
         addTabSheets(LinkkiTabSheet.builder("CreateReport")
                 .caption(VaadinIcon.STAR_HALF_LEFT_O.create())
-                .content(createReportLayout())
+                .content(this::createReportLayout)
                 .build(),
                      LinkkiTabSheet.builder("ReportList")
                              .caption(VaadinIcon.FILE_O.create())
-                             .content(createReportListLayout())
+                             .content(this::createReportListLayout)
                              .onSelectionHandler(this::update)
                              .build());
         // end::sidebar-addSheet[]

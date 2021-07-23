@@ -157,7 +157,7 @@ public class LinkkiTabSheet {
         }
 
         /**
-         * Specifies the description of the tab sheet that is shown as tooltip of the tab.
+         * Specifies the description of the tab sheet that is shown as the tooltip of the tab.
          * 
          * @param newDescription description of the tab sheet
          * @return {@code this} for method chaining
@@ -168,19 +168,25 @@ public class LinkkiTabSheet {
         }
 
         /**
-         * Specifies the content of the tab sheet that is shown upon selection.
+         * Specifies the content of the tab sheet using a supplier.
+         * <p>
+         * For performance reasons the supplier should only create components when called: <br>
          * 
-         * @param newContent content of the tab sheet
-         * @return {@code this} for method chaining
-         */
-        public LinkkiTabSheetBuilder content(Component newContent) {
-            this.contentSupplier = () -> requireNonNull(newContent, "newContent must not be null");
-            return this;
-        }
-
-        /**
-         * Specifies the content of the tab sheet as a supplier. The supplier is called only once when
-         * the tab is selected for the first time.
+         * <pre>
+         * {@code
+         * .content(() -> new Component())
+         * }
+         * </pre>
+         * 
+         * Do <b>not</b> create the component outside of the supplier:
+         * 
+         * <pre>
+         * {@code
+         * Component c = new Component();
+         * ...
+         * .content(() -> c)
+         * }
+         * </pre>
          * 
          * @param newContentSupplier content of the tab sheet
          * @return {@code this} for method chaining

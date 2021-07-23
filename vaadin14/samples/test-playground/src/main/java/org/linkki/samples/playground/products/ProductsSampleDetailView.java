@@ -34,11 +34,11 @@ public class ProductsSampleDetailView extends VerticalLayout {
         tabLayout.addTabSheets(//
                                LinkkiTabSheet.builder("overview")//
                                        .caption(VaadinIcon.INFO_CIRCLE.create())//
-                                       .content(new ProductsSampleOverviewComponent())//
+                                       .content(ProductsSampleOverviewComponent::new)//
                                        .build(), //
                                LinkkiTabSheet.builder("userdetails")//
                                        .caption(VaadinIcon.USER.create())//
-                                       .content(new ProductsSampleDetailsComponent())//
+                                       .content(ProductsSampleDetailsComponent::new)//
                                        .build()//
         );
 

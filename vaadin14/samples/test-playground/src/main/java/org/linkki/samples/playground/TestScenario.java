@@ -36,23 +36,19 @@ public class TestScenario {
 
     public TestScenario testCase(String testCaseId, Object pmo) {
         tabSheets.add(LinkkiTabSheet.builder(testCaseId)
-                .content(new TestCaseComponent(scenarioId, testCaseId, pmo))
+                .content(() -> new TestCaseComponent(scenarioId, testCaseId, pmo))
                 .build());
         return this;
     }
 
     public TestScenario testCase(String testCaseId, Component component) {
         tabSheets.add(LinkkiTabSheet.builder(testCaseId)
-                .content(new TestCaseComponent(scenarioId, testCaseId, component))
+                .content(() -> new TestCaseComponent(scenarioId, testCaseId, component))
                 .build());
         return this;
     }
 
     public LinkkiTabSheet createTabSheet() {
-        LinkkiTabLayout content = new LinkkiTabLayout(Orientation.HORIZONTAL);
-        content.addTabSheets(tabSheets);
-        content.setId("test-case-selector");
-
         VerticalLayout captionComponent = new VerticalLayout();
         captionComponent.setPadding(false);
 
@@ -68,8 +64,15 @@ public class TestScenario {
         return LinkkiTabSheet.builder(scenarioId)
                 .caption(captionComponent)
                 .description(TestCatalog.getScenarioTitle(scenarioId))
-                .content(content)
+                .content(this::createTestCaseSelector)
                 .build();
+    }
+
+    private LinkkiTabLayout createTestCaseSelector() {
+        LinkkiTabLayout layout = new LinkkiTabLayout(Orientation.HORIZONTAL);
+        layout.addTabSheets(tabSheets);
+        layout.setId("test-case-selector");
+        return layout;
     }
 
     public static TestScenario id(String szenarioId) {

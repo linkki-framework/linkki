@@ -72,7 +72,7 @@ public class BugCollectionView extends LinkkiTabLayout {
         String caption = section.getCaption();
         return LinkkiTabSheet.builder(caption)
                 .caption(caption)
-                .content(new VerticalLayout(section))
+                .content(() -> new VerticalLayout(section))
                 .build();
     }
 }

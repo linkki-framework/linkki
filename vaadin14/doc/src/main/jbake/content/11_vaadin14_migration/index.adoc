@@ -85,6 +85,8 @@ LinkkiTabLayout linkkiTabLayout = LinkkiTabLayout.newSidebarLayout();
 
 ===== SidebarSheet has been replaced by LinkkiTabSheet
 
+For performance reasons, components must be created via a supplier and can no longer be set directly.
+
 [source,java]
 ----
 -- Vaadin 8
@@ -93,7 +95,7 @@ SidebarSheet sidebarSheet = SidebarSheet(id, icon, name, contentSupplier, uiUpda
 LinkkiTabSheet linkkiTabSheet = LinkkiTabSheet.builder(id)
 				.caption(icon.create()) //.caption(String)
 				.description(name)
-				.content(contentSupplier) // .content(Component)
+				.content(contentSupplier)
 				.onSelectHandler(uiUpdateObserver)
 				.build();
 ----
