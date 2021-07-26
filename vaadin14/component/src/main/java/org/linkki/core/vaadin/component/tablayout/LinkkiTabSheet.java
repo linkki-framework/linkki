@@ -16,6 +16,7 @@ package org.linkki.core.vaadin.component.tablayout;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
@@ -36,10 +37,12 @@ public class LinkkiTabSheet {
     private final Tab tab;
     private final LazyReference<Component> contentReference;
     private final Handler onSelectionHandler;
+    private final BooleanSupplier visibilitySupplier;
 
     /* private */ LinkkiTabSheet(String id, String caption, @CheckForNull Component captionComponent,
             String description,
             Supplier<Component> contentSupplier,
+            BooleanSupplier visibilitySupplier,
             Handler onSelectionHandler) {
         this.tab = new Tab(requireNonNull(caption, "caption must not be null"));
         tab.setId(requireNonNull(id, "id must not be null"));
@@ -48,6 +51,8 @@ public class LinkkiTabSheet {
         this.contentReference = new LazyReference<>(
                 requireNonNull(contentSupplier, "contentSupplier must not be null"));
         this.onSelectionHandler = requireNonNull(onSelectionHandler, "onSelectionHandler must not be null");
+        this.visibilitySupplier = requireNonNull(visibilitySupplier, "visibilitySupplier must not be null");
+        tab.setVisible(visibilitySupplier.getAsBoolean());
 
         if (captionComponent != null) {
             tab.add(captionComponent);
@@ -71,6 +76,10 @@ public class LinkkiTabSheet {
         return onSelectionHandler;
     }
 
+    protected boolean isVisible() {
+        return visibilitySupplier.getAsBoolean();
+    }
+
     /**
      * Returns the ID of this tab sheet
      * 
@@ -79,7 +88,7 @@ public class LinkkiTabSheet {
      * @see #builder(String)
      */
     public String getId() {
-        return getTab().getId().get();
+        return getTab().getId().orElseThrow();
     }
 
     /**
@@ -93,7 +102,7 @@ public class LinkkiTabSheet {
 
     @Override
     public String toString() {
-        return String.format("%s [ID: %s])", getClass().getSimpleName(), tab.getId().get());
+        return String.format("%s [ID: %s])", getClass().getSimpleName(), getId());
     }
 
     /**
@@ -118,6 +127,8 @@ public class LinkkiTabSheet {
 
         @CheckForNull
         private Supplier<Component> contentSupplier;
+
+        private BooleanSupplier visibilitySupplier = () -> true;
 
         private Handler onSelectionHandler = Handler.NOP_HANDLER;
 
@@ -188,11 +199,22 @@ public class LinkkiTabSheet {
          * }
          * </pre>
          * 
-         * @param newContentSupplier content of the tab sheet
          * @return {@code this} for method chaining
          */
         public LinkkiTabSheetBuilder content(Supplier<Component> newContentSupplier) {
             this.contentSupplier = requireNonNull(newContentSupplier, "newContentSupplier must not be null");
+            return this;
+        }
+
+        /**
+         * Specifies the visibility of the tab sheet using a supplier. Visibility is updated when
+         * {@link LinkkiTabLayout#afterNavigation(com.vaadin.flow.router.AfterNavigationEvent)
+         * navigation is complete} or {@link LinkkiTabLayout#updateSheetVisibility()} is called.
+         * 
+         * @return {@code this} for method chaining
+         */
+        public LinkkiTabSheetBuilder visibleWhen(BooleanSupplier newVisibilitySupplier) {
+            this.visibilitySupplier = requireNonNull(newVisibilitySupplier, "newVisibilitySupplier must not be null");
             return this;
         }
 
@@ -220,12 +242,11 @@ public class LinkkiTabSheet {
             Supplier<Component> nonNullContentSupplier = requireNonNull(contentSupplier,
                                                                         "Content must be specified for a "
                                                                                 + LinkkiTabSheet.class.getSimpleName());
-
             String captionWithFallBack = (captionComponent == null && caption == null) ? id
                     : Optional.ofNullable(caption).orElse("");
+
             return new LinkkiTabSheet(id, captionWithFallBack, captionComponent, descriptionWithFallback,
-                    nonNullContentSupplier,
-                    onSelectionHandler);
+                    nonNullContentSupplier, visibilitySupplier, onSelectionHandler);
         }
     }
 }

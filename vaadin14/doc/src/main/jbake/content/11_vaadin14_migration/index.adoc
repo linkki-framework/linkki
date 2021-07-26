@@ -83,6 +83,8 @@ LinkkiTabLayout linkkiTabLayout = LinkkiTabLayout.newSidebarLayout();
 * `SidebarSelectionEvent#getOldValue` -> `SelectedChangeEvent#getPreviousTab`
 * `SidebarSelectionEvent#getSelectedSheet` -> `SelectedChangeEvent#getSelectedTab`
 
+Tab visibility can be controlled using `LinkkiTabSheetBuilder#visibleWhen` and `LinkkiTabLayout#updateSheetVisibility`.
+
 ===== SidebarSheet has been replaced by LinkkiTabSheet
 
 For performance reasons, components must be created via a supplier and can no longer be set directly.

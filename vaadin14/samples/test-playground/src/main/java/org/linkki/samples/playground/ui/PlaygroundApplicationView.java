@@ -30,7 +30,6 @@ import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
-import org.linkki.samples.playground.tablayout.TabLayoutPage;
 import org.linkki.samples.playground.table.TablePage;
 import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
 import org.linkki.samples.playground.ts.alignment.HorizontalAlignmentTestComponent;
@@ -64,6 +63,9 @@ import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo
 import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
 import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
 import org.linkki.samples.playground.ts.sectionheader.SectionHeaderBehaviorPmo;
+import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
+import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
+import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -141,6 +143,11 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase("TC001", new TextNotificationPmo())
                                        .testCase("TC002", new MessageListNotificationPmo())
                                        .createTabSheet(),
+                               TestScenario.id("TS010")
+                                       .testCase("TC001", new HorizontalTabLayoutComponent())
+                                       .testCase("TC002", new VerticalTabLayoutComponent())
+                                       .testCase("TC003", new TabLayoutVisibilityComponent())
+                                       .createTabSheet(),
 
                                // old tab sheets
                                LinkkiTabSheet.builder(DYNAMIC_ASPECT_TAB_ID)
@@ -155,10 +162,6 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .caption(VaadinIcon.ROAD_BRANCHES.create())
                                        .description("Nested Components")
                                        .content(NestedComponentPage::new).build(),
-                               LinkkiTabSheet.builder(TAB_LAYOUT_TAB_ID)
-                                       .caption(VaadinIcon.TABS.create())
-                                       .description("Tab Layout")
-                                       .content(TabLayoutPage::new).build(),
                                LinkkiTabSheet.builder(MESSAGES_TAB_ID)
                                        .caption(VaadinIcon.COMMENT_ELLIPSIS_O.create())
                                        .description("Messages Component")

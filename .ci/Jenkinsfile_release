@@ -70,39 +70,37 @@ pipeline {
             }
         }
 
-        stage('UI Test Vaadin 8') {
+        stage('Tests') {
+            // Run Tests only if build was successful
             when {
                 expression {
-                    currentBuild.currentResult == "SUCCESS"
+                    return currentBuild.currentResult == "SUCCESS"
                 }
             }
-
-            steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
+            parallel {
+                stage('UI Test Vaadin 8') {
+                    steps {
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                            sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
+                        }
+                    }
+        
+                    environment {
+                        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin8-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
+                    }
                 }
-            }
-
-            environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin8-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
-            }
-        }
-
-        stage('UI Test Vaadin 14') {
-            when {
-                expression {
-                    currentBuild.currentResult == "SUCCESS"
+        
+                stage('UI Test Vaadin 14') {
+                    steps {
+                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
+                            sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
+                        }
+                    }
+        
+                    environment {
+                        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin14-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin14'
+                    }
                 }
-            }
-
-            steps {
-                withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
-                }
-            }
-
-            environment {
-                MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin14-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin14'
             }
         }
 

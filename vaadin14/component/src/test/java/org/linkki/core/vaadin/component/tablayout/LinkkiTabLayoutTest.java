@@ -45,8 +45,11 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
+import com.vaadin.flow.router.AfterNavigationEvent;
 
 public class LinkkiTabLayoutTest {
+
+    private boolean tabVisibility = true;
 
     @Test
     public void testLinkkiTabLayout_VerticalOrientation() {
@@ -429,4 +432,72 @@ public class LinkkiTabLayoutTest {
         assertThat(sidebarLayout.getElement().getThemeList(),
                    contains(LinkkiTabLayout.THEME_VARIANT_SOLID));
     }
+
+    @Test
+    public void testUpdateSheetVisibility() {
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
+                .visibleWhen(() -> false).build();
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2"))
+                .visibleWhen(() -> false).build();
+        LinkkiTabSheet tabSheet3 = LinkkiTabSheet.builder("id3").content(() -> new Span("content3")).build();
+        tabLayout.addTabSheet(tabSheet1);
+        tabLayout.addTabSheet(tabSheet2);
+        tabLayout.addTabSheet(tabSheet3);
+        tabLayout.setSelectedTabSheet("id1");
+
+        tabLayout.updateSheetVisibility();
+
+        // first 2 tabs are invisible
+        assertThat(tabLayout.getSelectedTabSheet(), is(tabSheet3));
+    }
+
+    @Test
+    public void testUpdateSheetVisibility_NoTabVisible() {
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
+                .visibleWhen(() -> false).build();
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2"))
+                .visibleWhen(() -> false).build();
+        LinkkiTabSheet tabSheet3 = LinkkiTabSheet.builder("id3").content(() -> new Span("content3"))
+                .visibleWhen(() -> false).build();
+        tabLayout.addTabSheet(tabSheet1);
+        tabLayout.addTabSheet(tabSheet2);
+        tabLayout.addTabSheet(tabSheet3);
+        tabLayout.setSelectedTabSheet("id1");
+
+        tabLayout.updateSheetVisibility();
+
+        assertThat(tabLayout.getSelectedIndex(), is(-1));
+    }
+
+    @Test
+    public void testInitialVisibility() {
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
+                .visibleWhen(() -> false).build();
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2"))
+                .visibleWhen(() -> true).build();
+        tabLayout.addTabSheet(tabSheet1);
+        tabLayout.addTabSheet(tabSheet2);
+
+        assertThat(tabLayout.getTabSheet("id1").get().getTab().isVisible(), is(false));
+    }
+
+    @Test
+    public void testAfterNavigation_CallsUpdateSheetVisibility() {
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
+                .visibleWhen(() -> tabVisibility).build();
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2"))
+                .visibleWhen(() -> true).build();
+        tabLayout.addTabSheet(tabSheet1);
+        tabLayout.addTabSheet(tabSheet2);
+        tabVisibility = false;
+
+        tabLayout.afterNavigation(mock(AfterNavigationEvent.class));
+
+        assertThat(tabLayout.getTabSheet("id1").get().getTab().isVisible(), is(false));
+    }
+
 }

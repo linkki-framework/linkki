@@ -58,7 +58,7 @@ public class IdAndNameCaptionProvider implements ItemCaptionProvider<Object> {
             return invokeStringMethod(getNameMethod.get(), value);
         }
 
-        Method toStringMethod = getMethod(value, "toString").get();
+        Method toStringMethod = getMethod(value, "toString").orElseThrow();
         return invokeStringMethod(toStringMethod, value);
     }
 

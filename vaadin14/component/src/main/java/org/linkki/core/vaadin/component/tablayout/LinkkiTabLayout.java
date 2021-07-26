@@ -22,6 +22,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.LinkkiTabSheetBuilder;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.HtmlComponent;
@@ -32,6 +34,8 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
+import com.vaadin.flow.router.AfterNavigationEvent;
+import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.shared.Registration;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -49,7 +53,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  */
 @Tag("linkki-tab-layout")
 @JsModule(value = "./src/linkki-tab-layout.ts")
-public class LinkkiTabLayout extends HtmlComponent {
+public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObserver {
 
     public static final String THEME_VARIANT_SOLID = "solid";
     static final String PROPERTY_ORIENTATION = "orientation";
@@ -105,6 +109,30 @@ public class LinkkiTabLayout extends HtmlComponent {
             contentWrapper.add(content);
         }
         content.setVisible(true);
+    }
+
+    @Override
+    public void afterNavigation(AfterNavigationEvent event) {
+        updateSheetVisibility();
+    }
+
+    /**
+     * Updates the visibility of all tab sheets according to the value returned by their
+     * {@link LinkkiTabSheetBuilder#visibleWhen(java.util.function.BooleanSupplier) visibility
+     * supplier}. If the currently selected tab is not visible anymore, the first visible tab is
+     * selected.
+     * <p>
+     * Automatically called during {@link #afterNavigation(AfterNavigationEvent)}.
+     */
+    public void updateSheetVisibility() {
+        Tab selectedTab = getTabsComponent().getSelectedTab();
+        boolean selectedTabVisible = tabSheets.get(selectedTab).isVisible();
+        tabSheets.entrySet().forEach(e -> e.getKey().setVisible(e.getValue().isVisible()));
+        if (!selectedTabVisible) {
+            tabSheets.keySet().stream().filter(Tab::isVisible).findFirst()
+                    .ifPresentOrElse(tab -> getTabsComponent().setSelectedTab(tab),
+                                     () -> getTabsComponent().setSelectedTab(null));
+        }
     }
 
     /**
@@ -266,4 +294,5 @@ public class LinkkiTabLayout extends HtmlComponent {
         sidebarLayout.getElement().getThemeList().add(THEME_VARIANT_SOLID);
         return sidebarLayout;
     }
+
 }

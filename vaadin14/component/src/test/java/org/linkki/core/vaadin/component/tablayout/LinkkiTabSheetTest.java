@@ -21,6 +21,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
@@ -36,9 +38,9 @@ class LinkkiTabSheetTest {
     @Test
     void testGetTab() {
         Icon captionComponent = VaadinIcon.PLUS.create();
+
         LinkkiTabSheet tabSheet = new LinkkiTabSheet("id", "caption", captionComponent, "description",
-                () -> new Span("content"),
-                Handler.NOP_HANDLER);
+                () -> new Span("content"), () -> true, Handler.NOP_HANDLER);
 
         assertThat(tabSheet.getTab().getLabel(), is("caption"));
         assertThat(tabSheet.getTab().getChildren().findFirst().get(), is(captionComponent));
@@ -58,8 +60,7 @@ class LinkkiTabSheetTest {
         });
 
         LinkkiTabSheet tabSheet = new LinkkiTabSheet("id", "", VaadinIcon.PLUS.create(), "description",
-                contentSupplier,
-                Handler.NOP_HANDLER);
+                contentSupplier, () -> true, Handler.NOP_HANDLER);
         verifyNoInteractions(contentSupplier);
 
         Component content = tabSheet.getContent();
@@ -70,16 +71,18 @@ class LinkkiTabSheetTest {
         verifyNoMoreInteractions(contentSupplier);
     }
 
-
     @Test
     void testBuilder_CaptionDefaultsToId() {
         LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").content(() -> new Span("content")).build();
+
         assertThat(tabSheet.getTab().getLabel(), is("id"));
     }
 
     @Test
     void testBuilder_DescriptionDefaultsToBlank() {
         LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").content(() -> new Span("content")).build();
+
+
         assertThat(tabSheet.getTab().getElement().getAttribute("title"), is(""));
         // TODO LIN-2054
     }
@@ -88,6 +91,7 @@ class LinkkiTabSheetTest {
     void testBuilder_WithCaption() {
         LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").caption("caption").content(() -> new Span("content"))
                 .build();
+
         assertThat(tabSheet.getTab().getLabel(), is("caption"));
     }
 
@@ -95,6 +99,7 @@ class LinkkiTabSheetTest {
     void testBuilder_CaptionOverwritesExistingCaptionComponent() {
         LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").caption(VaadinIcon.PLUS.create())
                 .caption("caption").content(() -> new Span("content")).build();
+
         assertThat(tabSheet.getTab().getChildren().count(), is(0l));
     }
 
@@ -102,7 +107,9 @@ class LinkkiTabSheetTest {
     @Test
     void testBuilder_WithCaptionComponent() {
         Icon icon = VaadinIcon.PLUS.create();
+
         LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").caption(icon).content(() -> new Span("content")).build();
+
         assertThat(tabSheet.getTab().getLabel(), is(""));
         assertThat(tabSheet.getTab().getChildren().findFirst().get(), is(icon));
     }
@@ -110,8 +117,22 @@ class LinkkiTabSheetTest {
     @Test
     void testBuilder_WithCaptionComponent_OverwritesExistingCaption() {
         Icon icon = VaadinIcon.PLUS.create();
+
         LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").caption("caption").caption(icon)
                 .content(() -> new Span("content")).build();
+
         assertThat(tabSheet.getTab().getLabel(), is(""));
+    }
+
+    @Test
+    void testBuilder_WithVisibilitySupplier() {
+        LinkedList<Boolean> visibility = new LinkedList<Boolean>(Arrays.asList(true, true, false));
+
+        LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").content(() -> new Span("content"))
+                .visibleWhen(visibility::pop).build();
+
+        // first visibilityCheck was called by create create
+        assertThat(tabSheet.isVisible(), is(true));
+        assertThat(tabSheet.isVisible(), is(false));
     }
 }
