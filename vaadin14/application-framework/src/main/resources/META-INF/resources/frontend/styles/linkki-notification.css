@@ -1,0 +1,13 @@
+.linkki-notification-content h3 {
+	margin-top: 0;
+	margin-bottom: 5px;
+	color: inherit;
+}
+
+.linkki-notification-content h3:only-child {
+	margin-bottom: 0;
+}
+
+.linkki-notification-content + vaadin-button {
+	margin-top: 15px;
+}

@@ -68,18 +68,22 @@ public enum Marker implements IMarker {
     }
 
     /**
+     *
      * @generated
      */
     private final String id;
     /**
+     *
      * @generated
      */
     private final String name;
     /**
+     *
      * @generated
      */
     private final boolean requiredInformationMissing;
     /**
+     *
      * @generated
      */
     private final boolean technicalConstraintViolated;

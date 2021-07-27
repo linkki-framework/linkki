@@ -75,6 +75,21 @@
             "code": "java.method.removed",
             "old": "method org.linkki.framework.state.ApplicationConfig org.linkki.framework.ui.pmo.ApplicationInfoPmo::getApplicationConfig()",
             "justification": "LIN-2488 - Reduce circular usage of ApplicationConfig"
+          },
+          {
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "class com.vaadin.flow.component.notification.GeneratedVaadinNotification<R extends com.vaadin.flow.component.notification.GeneratedVaadinNotification<R>>",
+            "justification": "FIPM-4084/FIPM-4131 - Add NotificationUtil"
+          },
+          {
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "class com.vaadin.flow.component.notification.Notification",
+            "justification": "FIPM-4084/FIPM-4131 - Add NotificationUtil"
+          },
+          {
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "enum com.vaadin.flow.component.notification.NotificationVariant",
+            "justification": "FIPM-4084/FIPM-4131 - Add NotificationUtil"
           }
         ]
       }

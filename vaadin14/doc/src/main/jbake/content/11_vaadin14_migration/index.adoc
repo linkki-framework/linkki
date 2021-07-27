@@ -198,3 +198,9 @@ Valo theme has been replaced by Lumo theme. For more information see https://vaa
 https://jira.faktorzehn.de/browse/LIN-2054
 ////
 By now, tooltips are only supported by `LinkkiTabSheet`, using the `LinkkiTabSheet#description` property. Other UI components currently do not support tooltips. For more information see https://vaadin.com/forum/thread/17094165/tooltips
+
+==== Notifications
+////
+https://jira.faktorzehn.de/browse/FIPM-4131
+////
+See <<notifications, Notifications>>

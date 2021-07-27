@@ -1,0 +1,18 @@
+:jbake-title: Notifications
+:jbake-type: section
+:jbake-status: published
+:image-dir: {images}07_application-framework
+
+[[notifications]]
+=== Notifications
+
+Notifications can be created using `NotificationUtil`. It provides three types of notifications: info, warning and error.
+
+image::{image-dir}/notifications.png[]
+
+Info and warning notifications close automatically after the configured time. Error notifications require the "Close" to be pressed.
+
+==== MessageList
+When displaying a `MessageList`, the severity of the notifaction is equal to the maximum severity in the `MessageList`. Additionally, each message has an icon corresponding to its individual severity.
+
+image::{image-dir}/notification_messagelist.png[]

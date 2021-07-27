@@ -61,6 +61,8 @@ import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorUiSec
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorVerticalLayoutPmo;
 import org.linkki.samples.playground.ts.linkkitext.LinkkiTextComponent;
 import org.linkki.samples.playground.ts.localization.I18NElementsLocalizationPmo;
+import org.linkki.samples.playground.ts.notifications.MessageListNotificationPmo;
+import org.linkki.samples.playground.ts.notifications.TextNotificationPmo;
 import org.linkki.samples.playground.ts.sectionheader.SectionHeaderBehaviorPmo;
 
 import com.vaadin.flow.component.html.Div;
@@ -134,6 +136,10 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .createTabSheet(),
                                TestScenario.id("TS008")
                                        .testCase("TC001", new BindStyleNamesPmo())
+                                       .createTabSheet(),
+                               TestScenario.id("TS009")
+                                       .testCase("TC001", new TextNotificationPmo())
+                                       .testCase("TC002", new MessageListNotificationPmo())
                                        .createTabSheet(),
 
                                // old tab sheets
