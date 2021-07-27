@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.linkki-framework</groupId>
         <artifactId>linkki-vaadin8-addon</artifactId>
-        <version>1.5.0-a20210727-01</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>linkki-vaadin8-addon-client</artifactId>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-vaadin8-addon-server</artifactId>
-            <version>1.5.0-a20210727-01</version>
+            <version>1.5.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

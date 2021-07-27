@@ -9,7 +9,7 @@
 
     <groupId>org.linkki-framework.samples</groupId>
     <artifactId>linkki-samples-vaadin14</artifactId>
-    <version>1.5.0-a20210727-01</version>
+    <version>1.5.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -60,22 +60,22 @@
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core-vaadin14</artifactId>
-                <version>1.5.0-a20210727-01</version>
+                <version>1.5.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-ips-vaadin14</artifactId>
-                <version>1.5.0-a20210727-01</version>
+                <version>1.5.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-vaadin14-component</artifactId>
-                <version>1.5.0-a20210727-01</version>
+                <version>1.5.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-application-framework-vaadin14</artifactId>
-                <version>1.5.0-a20210727-01</version>
+                <version>1.5.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
