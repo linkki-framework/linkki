@@ -114,7 +114,7 @@ public abstract class AbstractPage extends VerticalLayout implements Page {
      * @throws NullPointerException if one of the given PMOs is <code>null</code>.
      */
     protected void addSections(@NonNull Object... pmos) {
-        add(Arrays.stream(pmos)
+        addHorizontally(Arrays.stream(pmos)
                 .map(pmo -> sectionFactory.createSection(pmo, getBindingContext()))
                 .toArray(AbstractSection[]::new));
     }
