@@ -6,7 +6,7 @@
 
     <groupId>org.linkki-framework.samples</groupId>
     <artifactId>linkki-sample-test-playground-vaadin8-uitest</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.0-a20210730-01</version>
     <packaging>jar</packaging>
 
     <name>Automated UI Testing for linkki Vaadin 8 Samples Test Playground</name>
