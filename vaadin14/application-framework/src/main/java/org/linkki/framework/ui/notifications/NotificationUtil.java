@@ -151,7 +151,7 @@ public class NotificationUtil {
             notification.add(closeButton);
         }
 
-        notification.setPosition(Position.BOTTOM_CENTER);
+        notification.setPosition(Position.TOP_CENTER);
         return notification;
     }
 
