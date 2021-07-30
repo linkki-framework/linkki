@@ -9,11 +9,12 @@
 
 ==== New features and improvements
 
+// https://jira.faktorzehn.de/browse/LIN-2534
 * `LinkkiTabSheetBuilder#onSelectionHandler` has been removed. There are multiple <<linkkitablayout-selection, alternatives available>>.
+// https://jira.faktorzehn.de/browse/LIN-2524
+* `linkki-application-framework-vaadin14` now includes `linkki-vaadin14-component` and `linkki-core-nestedcomponent-vaadin14` as dependencies
 
 ==== Bugfixes
 
+// https://jira.faktorzehn.de/browse/LIN-2509
 * Fixed the bug in `IpsPropertyDispatcher` that fields with an empty value set are set as required.
-////
-https://jira.faktorzehn.de/browse/LIN-2509
-////
