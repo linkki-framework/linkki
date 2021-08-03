@@ -1,6 +1,6 @@
 :jbake-title: Vaadin 14 Migration
 :jbake-type: chapter
-:jbake-status: draft
+:jbake-status: published
 :jbake-order: 1000
 
 
