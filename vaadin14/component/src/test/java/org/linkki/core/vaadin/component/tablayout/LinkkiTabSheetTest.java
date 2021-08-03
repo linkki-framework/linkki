@@ -16,19 +16,26 @@ package org.linkki.core.vaadin.component.tablayout;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.TabSheetSelectionChangeEvent;
 import org.linkki.util.handler.Handler;
+import org.mockito.ArgumentCaptor;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -40,7 +47,7 @@ class LinkkiTabSheetTest {
         Icon captionComponent = VaadinIcon.PLUS.create();
 
         LinkkiTabSheet tabSheet = new LinkkiTabSheet("id", "caption", captionComponent, "description",
-                () -> new Span("content"), () -> true, Handler.NOP_HANDLER);
+                () -> new Span("content"), () -> true, Collections.emptyList());
 
         assertThat(tabSheet.getTab().getLabel(), is("caption"));
         assertThat(tabSheet.getTab().getChildren().findFirst().get(), is(captionComponent));
@@ -60,7 +67,7 @@ class LinkkiTabSheetTest {
         });
 
         LinkkiTabSheet tabSheet = new LinkkiTabSheet("id", "", VaadinIcon.PLUS.create(), "description",
-                contentSupplier, () -> true, Handler.NOP_HANDLER);
+                contentSupplier, () -> true, Collections.emptyList());
         verifyNoInteractions(contentSupplier);
 
         Component content = tabSheet.getContent();
@@ -93,6 +100,18 @@ class LinkkiTabSheetTest {
                 .build();
 
         assertThat(tabSheet.getTab().getLabel(), is("caption"));
+    }
+
+    @Test
+    void testBuilder_WithDescription() {
+        LinkkiTabSheet tabSheet = LinkkiTabSheet
+                .builder("id")
+                .description("description")
+                .content(() -> new Span("content"))
+                .build();
+
+        assertThat(tabSheet.getDescription(), is("description"));
+        assertThat(tabSheet.getTab().getElement().getAttribute("title"), is("description"));
     }
 
     @Test
@@ -131,8 +150,137 @@ class LinkkiTabSheetTest {
         LinkkiTabSheet tabSheet = LinkkiTabSheet.builder("id").content(() -> new Span("content"))
                 .visibleWhen(visibility::pop).build();
 
-        // first visibilityCheck was called by create create
+        // first isVisible was called by build()
         assertThat(tabSheet.isVisible(), is(true));
         assertThat(tabSheet.isVisible(), is(false));
     }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testSelectionChangeListener() {
+        ComponentEventListener<TabSheetSelectionChangeEvent> onSelectionHandler1 = mock(ComponentEventListener.class);
+        Handler onSelectionHandler2 = mock(Handler.class);
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
+        tabSheet1.addTabSelectionChangeListener(onSelectionHandler1);
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
+        tabSheet2.addTabSelectionChangeListener(e -> onSelectionHandler2.apply());
+
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        tabLayout.addTabSheets(tabSheet1, tabSheet2);
+        clearInvocations(onSelectionHandler1);
+
+        tabLayout.setSelectedIndex(1);
+
+        verify(onSelectionHandler2).apply();
+
+        tabLayout.setSelectedIndex(0);
+
+        ArgumentCaptor<TabSheetSelectionChangeEvent> captor = ArgumentCaptor
+                .forClass(TabSheetSelectionChangeEvent.class);
+        verify(onSelectionHandler1).onComponentEvent(captor.capture());
+        assertThat(captor.getValue().getTabSheet(), is(tabSheet1));
+    }
+
+    @Test
+    void testAfterSelectionObserver_InitialCall() {
+        TabContent content1 = new TabContent("id1");
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1")
+                .content(() -> content1)
+                .build();
+        TabContent content2 = new TabContent("id2");
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2")
+                .content(() -> content2)
+                .build();
+
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        tabLayout.addTabSheets(tabSheet1, tabSheet2);
+
+        assertThat(content1.updateCount, is(1));
+        assertThat(content2.updateCount, is(0));
+    }
+
+    @Test
+    void testAfterSelectionObserver_SelectionChanged() {
+        TabContent content1 = new TabContent("id1");
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1")
+                .content(() -> content1)
+                .build();
+        TabContent content2 = new TabContent("id2");
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2")
+                .content(() -> content2)
+                .build();
+
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        tabLayout.addTabSheets(tabSheet1, tabSheet2);
+        tabLayout.setSelectedIndex(1);
+
+        assertThat(content1.updateCount, is(1));
+        assertThat(content2.updateCount, is(1));
+    }
+
+    @Test
+    void testAfterSelectionObserver_SelectionChanged_TabsInTabs() {
+        TabContent content1 = new TabContent("id1");
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1")
+                .content(() -> content1)
+                .build();
+        TabContent content2 = new TabContent("id2");
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2")
+                .content(() -> content2)
+                .build();
+        LinkkiTabLayout innerTabLayout = new LinkkiTabLayout();
+        TabContent innerContent1 = new TabContent("inner1");
+        TabContent innerContent2 = new TabContent("inner2");
+        innerTabLayout.addTabSheets(
+                                    LinkkiTabSheet.builder("inner1")
+                                            .content(() -> innerContent1)
+                                            .build(),
+                                    LinkkiTabSheet.builder("inner2")
+                                            .content(() -> innerContent2)
+                                            .build());
+        content2.add(innerTabLayout);
+
+
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        tabLayout.addTabSheets(tabSheet1, tabSheet2);
+        // select every tab one time to get attached to the dom
+        tabLayout.setSelectedIndex(1);
+        tabLayout.setSelectedIndex(0);
+        innerTabLayout.setSelectedIndex(1);
+        innerTabLayout.setSelectedIndex(0);
+        // reset updateCounts
+        content1.updateCount = 0;
+        content2.updateCount = 0;
+        innerContent1.updateCount = 0;
+        innerContent2.updateCount = 0;
+
+        tabLayout.setSelectedIndex(1);
+
+        assertThat(content1.updateCount, is(0));
+        assertThat(content2.updateCount, is(1));
+        assertThat(innerContent1.updateCount, is(1));
+        assertThat(innerContent2.updateCount, is(0));
+    }
+
+    static class TabContent extends Div implements AfterTabSelectedObserver {
+
+        private static final long serialVersionUID = 1L;
+        private int updateCount = 0;
+
+        public TabContent(String id) {
+            setId("content_" + id);
+        }
+
+        @Override
+        public void afterTabSelected(TabSheetSelectionChangeEvent e) {
+            updateCount++;
+        }
+
+        @Override
+        public String toString() {
+            return "Content " + getId().get();
+        }
+
+    }
+
 }

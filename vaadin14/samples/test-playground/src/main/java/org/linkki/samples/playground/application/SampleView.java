@@ -27,8 +27,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.router.Route;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-
 @Route(value = SampleView.NAME, layout = SampleApplicationLayout.class)
 public class SampleView extends LinkkiTabLayout {
 
@@ -37,9 +35,6 @@ public class SampleView extends LinkkiTabLayout {
     private static final long serialVersionUID = 1L;
 
     private static final List<Report> reports = new ArrayList<>();
-
-    @CheckForNull
-    private ReportListPage listPage;
 
     public SampleView() {
         super(Orientation.VERTICAL);
@@ -52,7 +47,6 @@ public class SampleView extends LinkkiTabLayout {
                      LinkkiTabSheet.builder("ReportList")
                              .caption(VaadinIcon.FILE_O.create())
                              .content(this::createReportListLayout)
-                             .onSelectionHandler(this::update)
                              .build());
         // end::sidebar-addSheet[]
 
@@ -69,19 +63,10 @@ public class SampleView extends LinkkiTabLayout {
     }
 
     private VerticalLayout createReportListLayout() {
-        VerticalLayout layout = new VerticalLayout();
-        layout.setPadding(false);
-        listPage = new ReportListPage(reports);
-        listPage.setPadding(false);
+        ReportListPage listPage = new ReportListPage(reports);
+        listPage.setSizeFull();
         listPage.init();
-        layout.add(listPage);
-        return layout;
-    }
-
-    private void update() {
-        if (listPage != null) {
-            listPage.update();
-        }
+        return listPage;
     }
 
 }

@@ -24,10 +24,13 @@ import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.vaadin.component.page.AbstractPage;
+import org.linkki.core.vaadin.component.section.AbstractSection;
+import org.linkki.core.vaadin.component.tablayout.AfterTabSelectedObserver;
+import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.TabSheetSelectionChangeEvent;
 import org.linkki.framework.ui.component.Headline;
 import org.linkki.samples.playground.application.model.Report;
 
-public class ReportListPage extends AbstractPage {
+public class ReportListPage extends AbstractPage implements AfterTabSelectedObserver {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,6 +46,7 @@ public class ReportListPage extends AbstractPage {
 
     @Override
     public void createContent() {
+        setPadding(false);
         setId(ID);
         Headline headline = new Headline();
         add(headline);
@@ -53,12 +57,18 @@ public class ReportListPage extends AbstractPage {
         new Binder(headline, headlinePmo).setupBindings(getBindingContext());
         // end::bind-headline[]
 
-        addSection(new ReportTablePmo(reports));
+        AbstractSection section = addSection(new ReportTablePmo(reports));
+        section.setSizeFull();
     }
 
     @Override
     protected BindingManager getBindingManager() {
         return bindingManager;
+    }
+
+    @Override
+    public void afterTabSelected(TabSheetSelectionChangeEvent event) {
+        update();
     }
 
     public void update() {

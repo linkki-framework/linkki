@@ -61,11 +61,29 @@
             "annotation": "@com.vaadin.flow.component.dependency.JsModule(\".\/src\/linkki-tab-layout.ts\")",
             "justification": "FCOM-656/FCOM-666 : Content is now defined in ts"
           },
-		  {
+          {
+            "ignore": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "interface com.vaadin.flow.component.HasComponents",
+            "justification": "LIN-2534/LIN-2536 : HasComponent needed in select method"
+          },
+          {
             "ignore": true,
             "code": "java.method.removed",
             "old": "method org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.LinkkiTabSheetBuilder org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.LinkkiTabSheetBuilder::content(com.vaadin.flow.component.Component)",
             "justification": "FIPM-4084/FIPM-4146 : Remove LinkkiTabSheetBuilder#content(Component)"
+          },
+          {
+            "ignore": true,
+            "code": "java.method.removed",
+            "old": "method org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.LinkkiTabSheetBuilder org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet.LinkkiTabSheetBuilder::onSelectionHandler(org.linkki.util.handler.Handler)",
+            "justification": "LIN-2534/LIN-2536 : listener instead of handler"
+          },
+          {
+            "ignore": true,
+            "code": "java.method.removed",
+            "old": "method org.linkki.util.handler.Handler org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet::getOnSelectionHandler()",
+            "justification": "LIN-2534/LIN-2536 : listener instead of handler"
           }
         ]
       }

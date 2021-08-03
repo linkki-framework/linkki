@@ -9,6 +9,8 @@
 
 ==== New features and improvements
 
+* `LinkkiTabSheetBuilder#onSelectionHandler` has been removed. There are multiple <<linkkitablayout-selection, alternatives available>>.
+
 ==== Bugfixes
 
 * Fixed the bug in `IpsPropertyDispatcher` that fields with an empty value set are set as required.

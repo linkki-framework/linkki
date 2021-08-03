@@ -83,7 +83,7 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
         tabsComponent.setOrientation(orientation);
         tabsComponent.addSelectedChangeListener(e -> {
             Optional.ofNullable(e.getPreviousTab()).ifPresent(this::unselect);
-            Optional.ofNullable(e.getSelectedTab()).ifPresent(this::select);
+            Optional.ofNullable(e.getSelectedTab()).ifPresent(t -> select(t, e));
         });
         tabsComponent.getElement().setAttribute("slot", "tabs");
 
@@ -97,18 +97,11 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
     }
 
     private void unselect(Tab tab) {
-        Component content = tabSheets.get(tab).getContent();
-        content.setVisible(false);
+        tabSheets.get(tab).unselect();
     }
 
-    private void select(Tab tab) {
-        LinkkiTabSheet selectedTabSheet = tabSheets.get(tab);
-        selectedTabSheet.getOnSelectionHandler().apply();
-        Component content = selectedTabSheet.getContent();
-        if (!content.getParent().isPresent()) {
-            contentWrapper.add(content);
-        }
-        content.setVisible(true);
+    private void select(Tab tab, SelectedChangeEvent e) {
+        tabSheets.get(tab).select(contentWrapper, e);
     }
 
     @Override
@@ -125,11 +118,18 @@ public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObs
      * Automatically called during {@link #afterNavigation(AfterNavigationEvent)}.
      */
     public void updateSheetVisibility() {
-        Tab selectedTab = getTabsComponent().getSelectedTab();
-        boolean selectedTabVisible = tabSheets.get(selectedTab).isVisible();
         tabSheets.entrySet().forEach(e -> e.getKey().setVisible(e.getValue().isVisible()));
-        if (!selectedTabVisible) {
-            tabSheets.keySet().stream().filter(Tab::isVisible).findFirst()
+        updateSelectionAfterVisibleChange();
+    }
+
+    private void updateSelectionAfterVisibleChange() {
+        Tab selectedTab = getTabsComponent().getSelectedTab();
+
+        if (selectedTab != null && !tabSheets.get(selectedTab).isVisible()) {
+            // selected tab is not visible -> select first visible tab
+            tabSheets.keySet().stream()
+                    .filter(Tab::isVisible)
+                    .findFirst()
                     .ifPresentOrElse(tab -> getTabsComponent().setSelectedTab(tab),
                                      () -> getTabsComponent().setSelectedTab(null));
         }

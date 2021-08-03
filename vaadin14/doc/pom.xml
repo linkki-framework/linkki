@@ -20,6 +20,7 @@
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <deploymentFolder>${project.version}-vaadin14</deploymentFolder>
+        <sonar.skip>true</sonar.skip>
     </properties>
 
     <artifactId>linkki-core-documentation-vaadin14</artifactId>
@@ -30,6 +31,12 @@
         <dependency>
             <groupId>org.linkki-framework</groupId>
             <artifactId>linkki-core-vaadin14</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.linkki-framework</groupId>
+            <artifactId>linkki-vaadin14-component</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

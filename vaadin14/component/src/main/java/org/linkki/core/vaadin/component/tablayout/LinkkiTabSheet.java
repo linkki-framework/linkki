@@ -15,16 +15,25 @@ package org.linkki.core.vaadin.component.tablayout;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.util.LazyReference;
-import org.linkki.util.handler.Handler;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventBus;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
+import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.router.EventUtil;
+import com.vaadin.flow.shared.Registration;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
@@ -36,21 +45,24 @@ public class LinkkiTabSheet {
 
     private final Tab tab;
     private final LazyReference<Component> contentReference;
-    private final Handler onSelectionHandler;
     private final BooleanSupplier visibilitySupplier;
+
+    @CheckForNull
+    private ComponentEventBus eventBus;
 
     /* private */ LinkkiTabSheet(String id, String caption, @CheckForNull Component captionComponent,
             String description,
             Supplier<Component> contentSupplier,
             BooleanSupplier visibilitySupplier,
-            Handler onSelectionHandler) {
+            List<ComponentEventListener<TabSheetSelectionChangeEvent>> onSelectionListener) {
         this.tab = new Tab(requireNonNull(caption, "caption must not be null"));
         tab.setId(requireNonNull(id, "id must not be null"));
         // TODO LIN-2054 description must be set as tooltip
         tab.getElement().setAttribute("title", description);
         this.contentReference = new LazyReference<>(
                 requireNonNull(contentSupplier, "contentSupplier must not be null"));
-        this.onSelectionHandler = requireNonNull(onSelectionHandler, "onSelectionHandler must not be null");
+        onSelectionListener.forEach(this::addTabSelectionChangeListener);
+
         this.visibilitySupplier = requireNonNull(visibilitySupplier, "visibilitySupplier must not be null");
         tab.setVisible(visibilitySupplier.getAsBoolean());
 
@@ -70,10 +82,6 @@ public class LinkkiTabSheet {
      */
     public Component getContent() {
         return contentReference.getReference();
-    }
-
-    protected Handler getOnSelectionHandler() {
-        return onSelectionHandler;
     }
 
     protected boolean isVisible() {
@@ -97,7 +105,49 @@ public class LinkkiTabSheet {
      * @return description of the tab sheet
      */
     public String getDescription() {
-        return getTab().getElement().getProperty("title");
+        return getTab().getElement().getAttribute("title");
+    }
+
+    protected void select(HasComponents contentWrapper, SelectedChangeEvent e) {
+        Component content = getContent();
+        if (!content.getParent().isPresent()) {
+            contentWrapper.add(content);
+        }
+        content.setVisible(true);
+        TabSheetSelectionChangeEvent tabSelectedEvent = new TabSheetSelectionChangeEvent(e, this);
+        fireTabSheetSelectionChangeEvent(tabSelectedEvent);
+        callAfterSelectionObserver(tabSelectedEvent);
+    }
+
+    protected ComponentEventBus getEventBus() {
+        if (eventBus == null) {
+            eventBus = new ComponentEventBus(tab);
+        }
+        return eventBus;
+    }
+
+    public Registration addTabSelectionChangeListener(ComponentEventListener<TabSheetSelectionChangeEvent> listener) {
+        return getEventBus().addListener(TabSheetSelectionChangeEvent.class, listener);
+    }
+
+    private void fireTabSheetSelectionChangeEvent(TabSheetSelectionChangeEvent e) {
+        getEventBus().fireEvent(e);
+    }
+
+    private void callAfterSelectionObserver(TabSheetSelectionChangeEvent event) {
+        Component content = event.getTabSheet().getContent();
+
+        Collection<Element> descendants = new ArrayList<>();
+        EventUtil.inspectHierarchy(content.getElement(), descendants,
+                                   e -> e.getComponent()
+                                           .map(Component::isVisible)
+                                           .orElse(false));
+        EventUtil.getImplementingComponents(descendants.stream(), AfterTabSelectedObserver.class)
+                .forEach(o -> o.afterTabSelected(event));
+    }
+
+    protected void unselect() {
+        getContent().setVisible(false);
     }
 
     @Override
@@ -130,7 +180,7 @@ public class LinkkiTabSheet {
 
         private BooleanSupplier visibilitySupplier = () -> true;
 
-        private Handler onSelectionHandler = Handler.NOP_HANDLER;
+        private final List<ComponentEventListener<TabSheetSelectionChangeEvent>> selectionChangeListeners = new ArrayList<>();
 
         private LinkkiTabSheetBuilder(String id) {
             this.id = requireNonNull(id, "id must not be null");
@@ -219,17 +269,6 @@ public class LinkkiTabSheet {
         }
 
         /**
-         * Specifies a handler that is called upon selection.
-         * 
-         * @param newOnSelectionHandler handler that should be called on selection
-         * @return {@code this} for method chaining
-         */
-        public LinkkiTabSheetBuilder onSelectionHandler(Handler newOnSelectionHandler) {
-            this.onSelectionHandler = requireNonNull(newOnSelectionHandler, "newOnSelectionHandler must not be null");
-            return this;
-        }
-
-        /**
          * Builds a {@link LinkkiTabSheet} instance using the values in this builder.
          * <p>
          * Note that a content must be provided. The caption and description default to the ID if none
@@ -246,7 +285,32 @@ public class LinkkiTabSheet {
                     : Optional.ofNullable(caption).orElse("");
 
             return new LinkkiTabSheet(id, captionWithFallBack, captionComponent, descriptionWithFallback,
-                    nonNullContentSupplier, visibilitySupplier, onSelectionHandler);
+                    nonNullContentSupplier, visibilitySupplier, selectionChangeListeners);
         }
+
     }
+
+    public static class TabSheetSelectionChangeEvent extends SelectedChangeEvent {
+
+        private static final long serialVersionUID = 1L;
+
+        private final LinkkiTabSheet tabSheet;
+
+        public TabSheetSelectionChangeEvent(SelectedChangeEvent wrappedEvent, LinkkiTabSheet tabSheet) {
+            super(wrappedEvent.getSource(), wrappedEvent.getPreviousTab(), wrappedEvent.isFromClient());
+            this.tabSheet = tabSheet;
+        }
+
+        /**
+         * Returns the {@link LinkkiTabSheet} that is linked to the tab which is now selected. The
+         * corresponding {@link Tab} is {@link #getSelectedTab()}.
+         * 
+         * @return The {@link LinkkiTabSheet} of {@link #getSelectedTab()}
+         */
+        public LinkkiTabSheet getTabSheet() {
+            return tabSheet;
+        }
+
+    }
+
 }

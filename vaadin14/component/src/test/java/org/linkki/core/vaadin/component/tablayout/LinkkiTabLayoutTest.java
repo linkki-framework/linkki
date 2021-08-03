@@ -99,10 +99,10 @@ public class LinkkiTabLayoutTest {
     public void testAddTabSheet_FirstSheetIsSelected() {
         Handler onSelectionHandler1 = mock(Handler.class);
         Handler onSelectionHandler2 = mock(Handler.class);
-        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
-                .onSelectionHandler(onSelectionHandler1).build();
-        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2"))
-                .onSelectionHandler(onSelectionHandler2).build();
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
+        tabSheet1.addTabSelectionChangeListener(e -> onSelectionHandler1.apply());
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
+        tabSheet2.addTabSelectionChangeListener(e -> onSelectionHandler2.apply());
 
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         tabLayout.addTabSheet(tabSheet1);
@@ -173,36 +173,17 @@ public class LinkkiTabLayoutTest {
     }
 
     @Test
-    public void testSetSelectedTabSheet_CallSelectionHandler() {
-        Handler onSelectionHandler1 = mock(Handler.class);
-        Handler onSelectionHandler2 = mock(Handler.class);
-
-        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
-        tabLayout.addTabSheet(LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
-                .onSelectionHandler(onSelectionHandler1).build());
-        tabLayout.addTabSheet(LinkkiTabSheet.builder("id2").content(() -> new Span("content2"))
-                .onSelectionHandler(onSelectionHandler2).build());
-        clearInvocations(onSelectionHandler1);
-
-        tabLayout.setSelectedTabSheet("id2");
-
-        verify(onSelectionHandler2).apply();
-
-        tabLayout.setSelectedTabSheet("id1");
-
-        verify(onSelectionHandler1).apply();
-    }
-
-    @Test
     public void testCallSelectionHandler_SelectionOnTabsComponent() {
         Handler onSelectionHandler1 = mock(Handler.class);
         Handler onSelectionHandler2 = mock(Handler.class);
 
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
-        tabLayout.addTabSheet(LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
-                .onSelectionHandler(onSelectionHandler1).build());
-        tabLayout.addTabSheet(LinkkiTabSheet.builder("id2").content(() -> new Span("content2"))
-                .onSelectionHandler(onSelectionHandler2).build());
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
+        tabSheet1.addTabSelectionChangeListener(e -> onSelectionHandler1.apply());
+        tabLayout.addTabSheet(tabSheet1);
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
+        tabSheet2.addTabSelectionChangeListener(e -> onSelectionHandler2.apply());
+        tabLayout.addTabSheet(tabSheet2);
         clearInvocations(onSelectionHandler1);
 
         tabLayout.getTabsComponent().setSelectedIndex(1);
@@ -293,10 +274,10 @@ public class LinkkiTabLayoutTest {
     public void testSetSelectedIndex_CallSelectionHandler() {
         Handler onSelectionHandler1 = mock(Handler.class);
         Handler onSelectionHandler2 = mock(Handler.class);
-        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1"))
-                .onSelectionHandler(onSelectionHandler1).build();
-        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2"))
-                .onSelectionHandler(onSelectionHandler2).build();
+        LinkkiTabSheet tabSheet1 = LinkkiTabSheet.builder("id1").content(() -> new Span("content1")).build();
+        tabSheet1.addTabSelectionChangeListener(e -> onSelectionHandler1.apply());
+        LinkkiTabSheet tabSheet2 = LinkkiTabSheet.builder("id2").content(() -> new Span("content2")).build();
+        tabSheet2.addTabSelectionChangeListener(e -> onSelectionHandler2.apply());
 
         LinkkiTabLayout tabLayout = new LinkkiTabLayout();
         tabLayout.addTabSheets(tabSheet1, tabSheet2);

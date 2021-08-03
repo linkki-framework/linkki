@@ -20,9 +20,7 @@
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <deploymentFolder>${project.version}-vaadin8</deploymentFolder>
-        
-        <!-- Ignore duplications due to Vaadin8/14 projects -->
-        <sonar.cpd.exclusions>**/*.java</sonar.cpd.exclusions>
+        <sonar.skip>true</sonar.skip>
     </properties>
 
     <artifactId>linkki-core-documentation-vaadin8</artifactId>
