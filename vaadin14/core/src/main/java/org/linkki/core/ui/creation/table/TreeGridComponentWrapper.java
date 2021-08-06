@@ -53,9 +53,13 @@ public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<
     @Override
     public void setItems(List<ROW> rootItems) {
         boolean hasChildChanged = updateChildren(rootItems);
-        if (hasChildChanged || hasItemListChanged(rootItems)) {
+        boolean rootItemsChanged = hasItemListChanged(rootItems);
+        if (hasChildChanged || rootItemsChanged) {
             treeData.clear();
             treeData.addItems(rootItems, this::getCurrentChildren);
+            if (rootItemsChanged) {
+                getComponent().getDataProvider().refreshAll();
+            }
         }
     }
 
