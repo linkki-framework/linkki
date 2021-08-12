@@ -26,6 +26,14 @@ import java.util.Map;
  * A registry for date format patterns that changes some rather unsuitable default patterns provided by
  * {@link DateFormat#getDateInstance(int, Locale)} such as the German "dd.MM.yyyy" instead of
  * "dd.MM.yy".
+ * <p>
+ * The date pattern for a given locale is determined using the following order:
+ * <ul>
+ * <li>Registered patterns for the locale</li>
+ * <li>Registered patterns for the language</li>
+ * <li>The {@link DateFormat#SHORT short date pattern} obtained from the JDK</li>
+ * <li>The ISO date pattern</li>
+ * </ul>
  */
 public final class DateFormats {
 
@@ -33,11 +41,18 @@ public final class DateFormats {
     public static final String PATTERN_EN = "MM/dd/yyyy";
     public static final String PATTERN_DE = "dd.MM.yyyy";
 
+    public static final String PATTERN_EN_US = "MM/dd/yyyy";
+    public static final String PATTERN_EN_GB = "dd/MM/yyyy";
+
     private static final Map<String, String> LANGUAGE_PATTERNS = new HashMap<>();
+    private static final Map<Locale, String> LOCALE_PATTERNS = new HashMap<>();
 
     static {
         LANGUAGE_PATTERNS.put(Locale.ENGLISH.getLanguage(), PATTERN_EN);
         LANGUAGE_PATTERNS.put(Locale.GERMAN.getLanguage(), PATTERN_DE);
+
+        LOCALE_PATTERNS.put(Locale.US, PATTERN_EN_US);
+        LOCALE_PATTERNS.put(Locale.UK, PATTERN_EN_GB);
     }
 
     private DateFormats() {
@@ -45,7 +60,10 @@ public final class DateFormats {
     }
 
     /**
-     * Registers the given pattern for the given language.
+     * Registers the given pattern for the given language. The language pattern is used as a fallback if
+     * no pattern has been explicitly defined for a locale.
+     * <p>
+     * To register a pattern for a specific locale use {@link #register(Locale, String)}.
      * 
      * @param languageCode a ISO 639 language code, as obtainable from {@link Locale#getLanguage()}
      * @param pattern a pattern for {@link DateTimeFormatter}
@@ -55,15 +73,33 @@ public final class DateFormats {
     }
 
     /**
-     * Returns the registered pattern if existent or a default pattern obtained from
-     * {@link DateFormat#getDateInstance(int, Locale)} with style {@link DateFormat#SHORT}.
+     * Registers the given pattern for the given locale.
+     * <p>
+     * To register a pattern for a language use {@link #register(String, String)}.
+     * 
+     * @param locale the locale
+     * @param pattern a pattern for {@link DateTimeFormatter}
+     */
+    public static void register(Locale locale, String pattern) {
+        LOCALE_PATTERNS.put(locale, pattern);
+    }
+
+    /**
+     * Returns the date pattern for the given locale. It is determined using the following order:
+     * <ul>
+     * <li>Registered patterns for the locale</li>
+     * <li>Registered patterns for the language</li>
+     * <li>The {@link DateFormat#SHORT short date pattern} obtained from the JDK</li>
+     * <li>The ISO date pattern</li>
+     * </ul>
      */
     public static String getPattern(Locale locale) {
         requireNonNull(locale, "locale must not be null");
 
-        String registeredPattern = LANGUAGE_PATTERNS.get(locale.getLanguage());
-        if (registeredPattern != null) {
-            return registeredPattern;
+        if (LOCALE_PATTERNS.containsKey(locale)) {
+            return LOCALE_PATTERNS.get(locale);
+        } else if (LANGUAGE_PATTERNS.containsKey(locale.getLanguage())) {
+            return LANGUAGE_PATTERNS.get(locale.getLanguage());
         } else {
             return defaultLocalePattern(locale);
         }
@@ -74,7 +110,9 @@ public final class DateFormats {
 
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, locale);
         if (dateFormat instanceof SimpleDateFormat) {
-            return ((SimpleDateFormat)dateFormat).toPattern();
+            String pattern = ((SimpleDateFormat)dateFormat).toPattern();
+            // for unknown locales, a "short ISO" is returned - we want the long version
+            return "y-MM-dd".equals(pattern) ? DateFormats.PATTERN_ISO : pattern;
         } else {
             // Use some sensible fallback in case the JDK implementation changes. Ahem.
             return PATTERN_ISO;

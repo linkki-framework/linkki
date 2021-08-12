@@ -15,3 +15,7 @@
 ////
 https://jira.faktorzehn.de/browse/LIN-2509
 ////
+* `DateFormats` now returns the correct format for British locale, and offers a way to register locale-specific date patterns.
+////
+https://jira.faktorzehn.de/browse/LIN-2535
+////

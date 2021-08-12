@@ -39,7 +39,7 @@ public class LocalDateFormatterTest {
         assertThat(formatter.format(DATE_2019_02_20, Locale.GERMAN), is("20.02.2019"));
         assertThat(formatter.format(DATE_2019_02_20, Locale.GERMANY), is("20.02.2019"));
         assertThat(formatter.format(DATE_2019_02_20, Locale.ENGLISH), is("02/20/2019"));
-        assertThat(formatter.format(DATE_2019_02_20, Locale.UK), is("02/20/2019"));
+        assertThat(formatter.format(DATE_2019_02_20, Locale.UK), is("20/02/2019"));
         assertThat(formatter.format(DATE_2019_02_20, Locale.US), is("02/20/2019"));
     }
 
