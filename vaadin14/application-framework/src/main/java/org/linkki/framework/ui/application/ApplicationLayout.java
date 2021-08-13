@@ -36,6 +36,7 @@ import com.vaadin.flow.server.VaadinSession;
  */
 @CssImport(value = "./styles/linkki-application-layout.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
 @CssImport(value = "./styles/linkki-utility.css")
+@CssImport(value = "./styles/linkki-required-indicator-behavior.css", themeFor = "vaadin-*")
 public abstract class ApplicationLayout extends VerticalLayout implements RouterLayout {
 
     private static final long serialVersionUID = 1L;

@@ -1,0 +1,11 @@
+:host([required]) [part="label"]::after {
+  opacity: 1;
+}
+
+:host([required][readonly]) [part="label"]::after {
+  opacity: 0;
+}
+
+:host([required][disabled]) [part="label"]::after {
+  opacity: 0;
+}

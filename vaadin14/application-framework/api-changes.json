@@ -124,6 +124,16 @@
             "new": "class org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition",
             "interface": "java.lang.Comparable<org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition>",
             "justification": "LIN-2523/LIN-2562 - Rework API of ApplicationMenuItemDefinition"
+          },
+          {
+            "code": "java.annotation.attributeValueChanged",
+            "old": "class org.linkki.framework.ui.application.ApplicationLayout",
+            "new": "class org.linkki.framework.ui.application.ApplicationLayout",
+            "annotationType": "com.vaadin.flow.component.dependency.CssImport.Container",
+            "attribute": "value",
+            "oldValue": "{@com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-application-layout.css\", include = \"@vaadin\/vaadin-lumo-styles\/all-imports\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-utility.css\")}",
+            "newValue": "{@com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-application-layout.css\", include = \"@vaadin\/vaadin-lumo-styles\/all-imports\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-utility.css\"), @com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-required-indicator-behavior.css\", themeFor = \"vaadin-*\")}",
+            "justification": "LIN-2542 : Remove required indicator for readonly components"
           }
         ]
       }

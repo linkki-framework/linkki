@@ -16,6 +16,8 @@ package org.linkki.core.vaadin.component.base;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.function.Predicate;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValidation;
 import com.vaadin.flow.component.HasValue;
@@ -66,13 +68,8 @@ public class LinkkiFormLayout extends FormLayout {
             addToLabel(label);
 
             if (component instanceof HasValue) {
-                HasValue<?, ?> field = (HasValue<?, ?>)component;
-                String requiredAttribute = "required";
-                getElement().setAttribute(requiredAttribute, field.isRequiredIndicatorVisible());
-
-                component.getElement()
-                        .addPropertyChangeListener(requiredAttribute, e -> getElement()
-                                .setAttribute(requiredAttribute, field.isRequiredIndicatorVisible()));
+                synchronizeAttributeFromField(component, "required", HasValue::isRequiredIndicatorVisible);
+                synchronizeAttributeFromField(component, "readonly", HasValue::isReadOnly);
 
                 if (component instanceof HasValidation) {
                     component.getElement().addPropertyChangeListener("invalid", "change",
@@ -82,6 +79,17 @@ public class LinkkiFormLayout extends FormLayout {
                                                                                                    .isInvalid()));
                 }
             }
+        }
+
+        private void synchronizeAttributeFromField(Component cmpt,
+                String attribute,
+                Predicate<HasValue<?, ?>> valueOfField) {
+            HasValue<?, ?> field = (HasValue<?, ?>)cmpt;
+            getElement().setAttribute(attribute, valueOfField.test(field));
+
+            cmpt.getElement()
+                    .addPropertyChangeListener(attribute, e -> getElement()
+                            .setAttribute(attribute, valueOfField.test(field)));
         }
 
         public Component getComponent() {
