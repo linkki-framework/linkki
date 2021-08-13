@@ -50,7 +50,7 @@ public class UILinkIntegrationTest extends ComponentAnnotationIntegrationTest<Li
         getDefaultPmo().setDynamic("");
         modelChanged();
 
-        assertThat(((ExternalResource)link.getResource()).getURL(), is(""));
+        assertThat(((ExternalResource)link.getResource()), is(nullValue()));
     }
 
     @Test

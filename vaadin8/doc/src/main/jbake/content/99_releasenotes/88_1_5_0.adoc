@@ -19,3 +19,7 @@ https://jira.faktorzehn.de/browse/LIN-2509
 ////
 https://jira.faktorzehn.de/browse/LIN-2535
 ////
+* `@UILink` behaves like a label if the link location (href) is empty.
+////
+https://jira.faktorzehn.de/browse/LIN-2264
+////

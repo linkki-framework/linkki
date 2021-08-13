@@ -14,8 +14,7 @@
 
 package org.linkki.samples.playground.uitestnew.ts.components;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,9 +42,47 @@ public class TC009UILinkTest extends BaseUITest {
         address.setValue("http://faktorzehn.de/");
 
         AnchorElement link = section.$(AnchorElement.class).id("link");
-        assertThat(link.getAttribute("href"), is("http://faktorzehn.de/"));
-        assertThat(link.getText(), is("FaktorZehn"));
+        assertThat(link.getAttribute("href")).isEqualTo("http://faktorzehn.de/");
+        assertThat(link.getText()).isEqualTo("FaktorZehn");
     }
 
+    @Test
+    void testLink_withNullLink_shouldBeShowAsLabel() {
+        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(LinkPmo.class.getSimpleName());
+        TextFieldElement address = section.$(TextFieldElement.class).id("href");
+        AnchorElement link = section.$(AnchorElement.class).id("link");
+
+        address.setValue(null);
+
+        assertThat(link.getAttribute("href")).isNull();
+        assertThat(link.getCssValue("pointer-events")).isEqualTo("none");
+        assertThat(link.getCssValue("text-decoration")).startsWith("none");
+    }
+
+    @Test
+    void testLink_withEmptyLink_shouldBeShowAsLabel() {
+        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(LinkPmo.class.getSimpleName());
+        TextFieldElement address = section.$(TextFieldElement.class).id("href");
+        AnchorElement link = section.$(AnchorElement.class).id("link");
+
+        address.setValue("");
+
+        assertThat(link.getAttribute("href")).isNull();
+        assertThat(link.getCssValue("pointer-events")).isEqualTo("none");
+        assertThat(link.getCssValue("text-decoration")).startsWith("none");
+    }
+
+    @Test
+    void testLink_withWhiteSpaceLink_shouldBeShowAsLabel() {
+        VerticalLayoutElement section = $(VerticalLayoutElement.class).id(LinkPmo.class.getSimpleName());
+        TextFieldElement address = section.$(TextFieldElement.class).id("href");
+        AnchorElement link = section.$(AnchorElement.class).id("link");
+
+        address.setValue(" ");
+
+        assertThat(link.getAttribute("href")).isNull();
+        assertThat(link.getCssValue("pointer-events")).isEqualTo("none");
+        assertThat(link.getCssValue("text-decoration")).startsWith("none");
+    }
 
 }

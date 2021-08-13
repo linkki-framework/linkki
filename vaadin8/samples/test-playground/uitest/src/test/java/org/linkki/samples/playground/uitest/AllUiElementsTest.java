@@ -33,6 +33,7 @@ import org.linkki.samples.playground.allelements.Direction;
 import org.linkki.samples.playground.allelements.MultipleComponentAnnotationsPmo;
 import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.CheckBoxElement;
@@ -294,9 +295,25 @@ public class AllUiElementsTest extends AbstractUiTest {
         LinkElement link = $(LinkElement.class).id("link");
         assertThat(link.getText(), endsWith("Link to Dynamic Annotations"));
 
-        String href = link.findElement(By.tagName("a")).getAttribute("href");
+        WebElement achorElement = link.findElement(By.tagName("a"));
+        String href = achorElement.getAttribute("href");
 
         assertThat(href, endsWith(DynamicAnnotationsLayout.ID.replace(" ", "%20")));
+        assertThat(achorElement.getCssValue("text-decoration"), startsWith("underline"));
+        assertThat(achorElement.getCssValue("cursor"), is("pointer"));
+    }
+
+    @Test
+    public void testLink_withoutHref_ShouldNotBeClickable() {
+        LinkElement link = $(LinkElement.class).id("linkWithoutHref");
+        assertThat(link.getText(), endsWith("Link without href"));
+
+        WebElement achorElement = link.findElement(By.tagName("a"));
+        String href = link.findElement(By.tagName("a")).getAttribute("href");
+
+        assertThat(href, is(nullValue()));
+        assertThat(achorElement.getCssValue("text-decoration"), startsWith("none"));
+        assertThat(achorElement.getCssValue("cursor"), is("auto"));
     }
 
 }

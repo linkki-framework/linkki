@@ -18,3 +18,5 @@
 
 // https://jira.faktorzehn.de/browse/LIN-2509
 * Fixed the bug in `IpsPropertyDispatcher` that fields with an empty value set are set as required.
+//https://jira.faktorzehn.de/browse/LIN-2264
+* `@UILink` behaves like a label if the link location (href) is empty.
