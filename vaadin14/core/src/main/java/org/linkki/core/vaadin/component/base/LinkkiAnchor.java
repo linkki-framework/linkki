@@ -30,6 +30,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * An anchor component that can have an additional {@link VaadinIcon}
  */
 @CssImport(value = "./styles/linkki-has-icon.css")
+@CssImport(value = "./styles/linkki-anchor.css")
 public class LinkkiAnchor extends Anchor implements HasIcon {
 
     private static final long serialVersionUID = -1027646873177686722L;

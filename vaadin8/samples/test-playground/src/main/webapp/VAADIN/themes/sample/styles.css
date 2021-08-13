@@ -2434,7 +2434,7 @@ div.v-layout.v-horizontal.v-widget {
 	color: inherit;
 	cursor: pointer;
 	color: #005596;
-	text-decoration: none;
+	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -5151,7 +5151,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-grid-editor-save, .sample .v-grid-editor-cancel {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: none;
+	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -8589,7 +8589,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-link {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: none;
+	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -8608,7 +8608,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-link a {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: none;
+	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -9918,7 +9918,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-tree8-editor-save, .sample .v-tree8-editor-cancel {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: none;
+	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -11064,7 +11064,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-treegrid-editor-save, .sample .v-treegrid-editor-cancel {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: none;
+	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -14140,7 +14140,7 @@ div.v-layout.v-horizontal.v-widget {
 .sample .v-popupview {
 	cursor: pointer;
 	color: #005596;
-	text-decoration: none;
+	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -15761,12 +15761,27 @@ div.v-layout.v-horizontal.v-widget {
 	background: transparent;
 }
 
-.sample .v-gridlayout .v-link {
-	white-space: nowrap;
+.sample .v-link.v-widget {
+	text-decoration: none;
 }
 
-.sample .v-link:hover, .sample .v-link:active {
+.sample .v-link.v-widget  > a {
 	text-decoration: underline;
+}
+
+.sample .v-link.v-widget  > a:not([href]) {
+	color: initial;
+	text-decoration: none;
+	cursor: auto;
+}
+
+.sample .v-link.v-widget  > a:not([href]):hover, .sample .v-link.v-widget  > a:not([href]):active {
+	text-decoration: none;
+	cursor: auto;
+}
+
+.sample .v-gridlayout .v-link {
+	white-space: nowrap;
 }
 
 .sample .borderLayout {

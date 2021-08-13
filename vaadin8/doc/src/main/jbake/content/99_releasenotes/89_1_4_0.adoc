@@ -9,6 +9,13 @@
 
 The Vaadin version was updated to 8.14.1.
 
+==== Bugfixes
+
+////
+https://jira.faktorzehn.de/browse/LIN-2535
+////
+* `@UILink` behaves like a label if the link location (href) is empty.
+
 === Version 1.4.1
 
 ==== Bugfixes

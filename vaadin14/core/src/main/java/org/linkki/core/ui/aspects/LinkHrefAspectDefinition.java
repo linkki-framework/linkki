@@ -17,9 +17,11 @@ package org.linkki.core.ui.aspects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.Aspect;
 import org.linkki.core.binding.descriptor.aspect.base.ModelToUiAspectDefinition;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
+import org.linkki.util.Optionals;
 
 import com.vaadin.flow.component.html.Anchor;
 
@@ -38,7 +40,9 @@ public class LinkHrefAspectDefinition extends ModelToUiAspectDefinition<String> 
     @Override
     public Consumer<String> createComponentValueSetter(ComponentWrapper componentWrapper) {
         Anchor link = (Anchor)componentWrapper.getComponent();
-        return href -> link.setHref(Optional.ofNullable(href).orElse(""));
+        return href -> Optionals.ifPresentOrElse(Optional.ofNullable(href).map(StringUtils::trimToNull),
+                                                 l -> link.setHref(l),
+                                                 () -> link.removeHref());
     }
 }
 

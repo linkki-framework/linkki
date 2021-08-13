@@ -1,5 +1,4 @@
 $v-shadow: false;
-$v-link-text-decoration: none !default;
 
 @import "linkki.scss";
 @import "../valo/valo.scss";
@@ -11,12 +10,7 @@ $v-link-text-decoration: none !default;
   @include valo;
   // Include linkki theme styles
   @include linkki;
-  
-  
-  .v-link:hover, .v-link:active{
-    text-decoration: underline;
-  }
-  
+
   .borderLayout {
     padding:5px;
     border-style: dotted;

@@ -247,7 +247,12 @@ public abstract class AbstractAllUiElementsSectionPmo {
     @BindIcon(iconType = IconType.DYNAMIC)
     @UILink(position = 140, label = NlsText.I18n, caption = "Link to Dynamic Annotations", captionType = CaptionType.STATIC)
     public String getLink() {
-        return "main#!/" + PlaygroundView.PARAM_SHEET + "=" + DynamicAnnotationsLayout.ID;
+        return "#!/" + PlaygroundView.PARAM_SHEET + "=" + DynamicAnnotationsLayout.ID;
+    }
+
+    @UILink(position = 141, label = NlsText.I18n, caption = "Link without href", captionType = CaptionType.STATIC)
+    public String getLinkWithoutHref() {
+        return null;
     }
 
     public VaadinIcons getLinkIcon() {

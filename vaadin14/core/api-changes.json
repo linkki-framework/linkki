@@ -1,42 +1,66 @@
 {
-	"1.4.0": [
-		{
-			"extension": "revapi.differences",
-			"configuration": {
-				"ignore": true,
-				"differences": [
-					{
-						"regex": true,
-						"code": "java.class.externalClassExposedInAPI",
-						"newArchive": "org\\.linkki-framework:linkki.*:.*"
-					},
-					{
-						"regex": true,
-						"code": "java.class.externalClassExposedInAPI",
-						"newArchive": "com\\.vaadin.*:.*:.*"
-					},
-					{
-						"regex": true,
-						"code": "java.class.externalClassExposedInAPI",
-						"newArchive": "javax\\.servlet:.*:.*"
-					},
-					{
-						"regex": true,
-						"code": "java.class.externalClassExposedInAPI",
-						"newArchive": "org\\.jsoup:jsoup.*:.*"
-					},
-					{
-						"regex": true,
-						"code": "java.class.nonPublicPartOfAPI",
-						"newArchive": "com\\.vaadin.*:.*:.*"
-					},
-					{
-						"regex": true,
-						"code": "java.class.nonPublicPartOfAPI",
-						"newArchive": "org\\.jsoup:jsoup.*:.*"
-					}	
-				]
-			}
-		}
-	]
+  "1.4.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "newArchive": "org\\.linkki-framework:linkki.*:.*"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "newArchive": "com\\.vaadin.*:.*:.*"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "newArchive": "javax\\.servlet:.*:.*"
+          },
+          {
+            "regex": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "newArchive": "org\\.jsoup:jsoup.*:.*"
+          },
+          {
+            "regex": true,
+            "code": "java.class.nonPublicPartOfAPI",
+            "newArchive": "com\\.vaadin.*:.*:.*"
+          },
+          {
+            "regex": true,
+            "code": "java.class.nonPublicPartOfAPI",
+            "newArchive": "org\\.jsoup:jsoup.*:.*"
+          }
+        ]
+      }
+    }
+  ],
+  "1.4.2": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+           {
+             "code": "java.annotation.removed",
+             "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+             "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+             "annotation": "@com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-has-icon.css\")",
+             "justification": "LIN-2591 :: Link should behave as label if there is no href"
+           },
+           {
+             "code": "java.annotation.added",
+             "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+             "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+             "annotation": "@com.vaadin.flow.component.dependency.CssImport.Container({@com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-has-icon.css\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-anchor.css\")})",
+             "justification": "LIN-2591 :: Link should behave as label if there is no href"
+           }
+        ]
+      }
+    }
+  ]
 }

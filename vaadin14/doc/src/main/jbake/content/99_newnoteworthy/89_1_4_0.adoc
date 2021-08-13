@@ -5,6 +5,15 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 1.4.2
+
+==== Bugfixes
+
+////
+https://jira.faktorzehn.de/browse/LIN-2535
+////
+* `@UILink` behaves like a label if the link location (href) is empty.
+
 === Version 1.4.1
 
 ==== Bugfixes
