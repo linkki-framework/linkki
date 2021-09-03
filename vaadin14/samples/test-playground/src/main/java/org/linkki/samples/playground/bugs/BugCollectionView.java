@@ -29,6 +29,7 @@ import org.linkki.samples.playground.bugs.lin1797.OnlyTablePmo;
 import org.linkki.samples.playground.bugs.lin1797.SectionTablePmo;
 import org.linkki.samples.playground.bugs.lin1917.TriangleTablePmo;
 import org.linkki.samples.playground.bugs.lin2200.ComboBoxNewInstancePmo;
+import org.linkki.samples.playground.bugs.lin2555.TextfieldWithEnterButtonPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -60,7 +61,8 @@ public class BugCollectionView extends LinkkiTabLayout {
                      // TODO LIN-2088
                      // createTabSheet(createSectionWithSeparateBindingContext(bc -> new
                      // Lin1890HierarchicalTablePmo())),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new TriangleTablePmo())));
+                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new TriangleTablePmo())),
+                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new TextfieldWithEnterButtonPmo())));
     }
 
     private AbstractSection createSectionWithSeparateBindingContext(Function<BindingContext, Object> pmoCreation) {

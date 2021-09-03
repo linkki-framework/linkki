@@ -78,7 +78,7 @@ public class ValueAspectDefinition implements LinkkiAspectDefinition {
                 .getComponent();
 
         if (field instanceof HasValueChangeMode) {
-            ((HasValueChangeMode)field).setValueChangeMode(ValueChangeMode.ON_BLUR);
+            ((HasValueChangeMode)field).setValueChangeMode(ValueChangeMode.ON_CHANGE);
         }
 
         Converter<Object, Object> converter = getConverter(propertyDispatcher, field);

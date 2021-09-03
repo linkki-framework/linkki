@@ -29,3 +29,5 @@ This causes problems when expanding the drop down list: Items must be loaded eve
 * Fixed the bug in `IpsPropertyDispatcher` that fields with an empty value set are set as required.
 //https://jira.faktorzehn.de/browse/LIN-2264
 * `@UILink` behaves like a label if the link location (href) is empty.
+// https://jira.faktorzehn.de/browse/LIN-2555
+* Fields now use the https://vaadin.com/api/platform/14/com/vaadin/flow/data/value/ValueChangeMode.html#ON_CHANGE[ValueChangeMode.ON_CHANGE] instead of https://vaadin.com/api/platform/14/com/vaadin/flow/data/value/ValueChangeMode.html#ON_BLUR[ValueChangeMode.ON_BLUR]
