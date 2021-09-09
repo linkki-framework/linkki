@@ -28,6 +28,7 @@ import org.linkki.samples.playground.bugs.lin1795.ComboBoxPmo;
 import org.linkki.samples.playground.bugs.lin1797.OnlyTablePmo;
 import org.linkki.samples.playground.bugs.lin1797.SectionTablePmo;
 import org.linkki.samples.playground.bugs.lin1917.TriangleTablePmo;
+import org.linkki.samples.playground.bugs.lin2200.ComboBoxNewInstancePmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -50,6 +51,7 @@ public class BugCollectionView extends LinkkiTabLayout {
                 .createAndBindSection(new ComboBoxCaptionRefreshPmo(), new BindingContext())),
                      createTabSheet(createSectionWithSeparateBindingContext(bc -> new ComboBoxVanishingValuePmo(
                              bc::modelChanged))),
+                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new ComboBoxNewInstancePmo())),
                      createTabSheet(createSectionWithSeparateBindingContext(bc -> new PmoReadonlyModelNotReadonlyPmo())),
                      createTabSheet(createSectionWithSeparateBindingContext(bc -> new DoubleClickPmo())),
                      createTabSheet(createSectionWithSeparateBindingContext(bc -> new ComboBoxPmo())),

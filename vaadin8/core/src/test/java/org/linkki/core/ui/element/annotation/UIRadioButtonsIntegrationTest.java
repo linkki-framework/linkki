@@ -218,7 +218,7 @@ public class UIRadioButtonsIntegrationTest
         ENUM_VALUE2;
     }
 
-    protected static class TestEnumCaptionProvider implements ItemCaptionProvider<TestEnum> {
+    public static class TestEnumCaptionProvider implements ItemCaptionProvider<TestEnum> {
 
         @Override
         public String getCaption(TestEnum value) {

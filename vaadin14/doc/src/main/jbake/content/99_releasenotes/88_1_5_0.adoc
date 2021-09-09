@@ -16,6 +16,15 @@
 
 ==== Bugfixes
 
+==== Usage of `@UIComboBox` with items that don't implement `equals`
+// https://jira.faktorzehn.de/browse/LIN-2200
+
+Returning new instances that do not implement `equals` in the getter or available values previously caused a loop that constantly reset the combo box.
+
+While this problem has been fixed, it is still *not recommended* to return new instances that do not implement `equals`.
+This causes problems when expanding the drop down list: Items must be loaded every single time and the selected item is not highlighted correctly.
+
+==== Other bugfixes
 // https://jira.faktorzehn.de/browse/LIN-2509
 * Fixed the bug in `IpsPropertyDispatcher` that fields with an empty value set are set as required.
 //https://jira.faktorzehn.de/browse/LIN-2264

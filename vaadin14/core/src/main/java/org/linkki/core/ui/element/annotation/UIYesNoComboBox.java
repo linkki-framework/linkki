@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 
-import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -125,7 +124,8 @@ public @interface UIYesNoComboBox {
         public LinkkiAspectDefinition create(UIYesNoComboBox annotation) {
             AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<ComboBox<Object>>(
                     AvailableValuesType.ENUM_VALUES_INCL_NULL,
-                    ComboBox<Object>::setDataProvider) {
+                    ComboBox<Object>::setDataProvider,
+                    ItemCaptionProvider.instantiate(annotation.itemCaptionProvider())) {
 
                 @Override
                 protected void handleNullItems(ComponentWrapper componentWrapper, List<?> items) {
@@ -156,22 +156,12 @@ public @interface UIYesNoComboBox {
         public LinkkiComponentDefinition create(UIYesNoComboBox annotation, AnnotatedElement annotatedElement) {
             return pmo -> {
                 ComboBox<Object> comboBox = ComponentFactory.newComboBox();
-                comboBox.setItemLabelGenerator(getItemCaptionProvider(annotation)::getUnsafeCaption);
+                comboBox.setItemLabelGenerator(ItemCaptionProvider
+                        .instantiate(annotation.itemCaptionProvider())::getUnsafeCaption);
                 comboBox.setAllowCustomValue(false);
                 comboBox.setWidth(annotation.width());
                 return comboBox;
             };
-        }
-
-        private ItemCaptionProvider<?> getItemCaptionProvider(UIYesNoComboBox uiYesNoComboBox) {
-            try {
-                return uiYesNoComboBox.itemCaptionProvider().getDeclaredConstructor().newInstance();
-            } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
-                throw new LinkkiBindingException(
-                        "Cannot instantiate item caption provider " + uiYesNoComboBox.itemCaptionProvider().getName()
-                                + " using default constructor.",
-                        e);
-            }
         }
     }
 

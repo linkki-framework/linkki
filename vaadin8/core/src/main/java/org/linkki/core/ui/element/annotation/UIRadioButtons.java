@@ -24,7 +24,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
-import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -165,14 +164,7 @@ public @interface UIRadioButtons {
         }
 
         private ItemCaptionProvider<?> getItemCaptionProvider(UIRadioButtons uiRadioButtons) {
-            try {
-                return uiRadioButtons.itemCaptionProvider().getDeclaredConstructor().newInstance();
-            } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
-                throw new LinkkiBindingException(
-                        "Cannot instantiate item caption provider " + uiRadioButtons.itemCaptionProvider().getName()
-                                + " using default constructor.",
-                        e);
-            }
+            return ItemCaptionProvider.instantiate(uiRadioButtons.itemCaptionProvider());
         }
     }
 }

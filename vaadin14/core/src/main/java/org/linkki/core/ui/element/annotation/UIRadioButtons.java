@@ -24,7 +24,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
-import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -130,9 +129,10 @@ public @interface UIRadioButtons {
         @Override
         public LinkkiAspectDefinition create(UIRadioButtons annotation) {
 
-            AvailableValuesAspectDefinition<?> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<RadioButtonGroup<Object>>(
+            AvailableValuesAspectDefinition<?> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<>(
                     annotation.content(),
-                    RadioButtonGroup<Object>::setDataProvider);
+                    RadioButtonGroup<Object>::setDataProvider,
+                    ItemCaptionProvider.instantiate(annotation.itemCaptionProvider()));
 
             EnabledAspectDefinition enabledAspectDefinition = new EnabledAspectDefinition(annotation.enabled());
             RequiredAspectDefinition requiredAspectDefinition = new RequiredAspectDefinition(
@@ -159,7 +159,8 @@ public @interface UIRadioButtons {
         public LinkkiComponentDefinition create(UIRadioButtons annotation, AnnotatedElement annotatedElement) {
             return pmo -> {
                 RadioButtonGroup<?> radioButtons = new RadioButtonGroup<>();
-                radioButtons.setRenderer(new TextRenderer(getItemCaptionProvider(annotation)::getUnsafeCaption));
+                radioButtons.setRenderer(new TextRenderer(
+                        ItemCaptionProvider.instantiate(annotation.itemCaptionProvider())::getUnsafeCaption));
                 AlignmentType alignment = annotation.buttonAlignment();
 
                 if (alignment.equals(AlignmentType.VERTICAL)) {
@@ -167,17 +168,6 @@ public @interface UIRadioButtons {
                 }
                 return radioButtons;
             };
-        }
-
-        private ItemCaptionProvider<?> getItemCaptionProvider(UIRadioButtons uiRadioButtons) {
-            try {
-                return uiRadioButtons.itemCaptionProvider().getDeclaredConstructor().newInstance();
-            } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
-                throw new LinkkiBindingException(
-                        "Cannot instantiate item caption provider " + uiRadioButtons.itemCaptionProvider().getName()
-                                + " using default constructor.",
-                        e);
-            }
         }
     }
 }

@@ -19,6 +19,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.uiframework.UiFramework;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -39,6 +40,21 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @FunctionalInterface
 public interface ItemCaptionProvider<T> {
+
+    /**
+     * Instantiates an {@link ItemCaptionProvider} using the default constructor.
+     * 
+     * @throws LinkkiBindingException if the class could not be instantiated
+     */
+    @SuppressWarnings("unchecked")
+    public static ItemCaptionProvider<Object> instantiate(Class<? extends ItemCaptionProvider<?>> cls) {
+        try {
+            return (ItemCaptionProvider<Object>)cls.getDeclaredConstructor().newInstance();
+        } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
+            throw new LinkkiBindingException(
+                    "Cannot instantiate item caption provider " + cls.getName() + " using default constructor.", e);
+        }
+    }
 
     /**
      * Returns the text that should be displayed for the specified value. Depending on the

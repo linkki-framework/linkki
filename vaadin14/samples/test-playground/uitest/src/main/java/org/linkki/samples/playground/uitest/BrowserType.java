@@ -19,12 +19,16 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.remote.CapabilityType;
 
 /**
  * BrowserType supported by webdriver. Currently only Chrome is supported.
@@ -37,9 +41,15 @@ public enum BrowserType {
         public WebDriver getWebdriver(Locale locale) {
             setSystemPropertyForChrome(this.getDriverName());
             ChromeOptions options = new ChromeOptions();
+
             Map<String, Object> prefs = new HashMap<>();
             prefs.put("intl.accept_languages", locale.getLanguage());
             options.setExperimentalOption("prefs", prefs);
+
+            LoggingPreferences logs = new LoggingPreferences();
+            logs.enable(LogType.PERFORMANCE, Level.ALL);
+            options.setCapability(CapabilityType.LOGGING_PREFS, logs);
+
             return new ChromeDriver(options);
         }
     },
@@ -53,6 +63,10 @@ public enum BrowserType {
             options.addArguments("--headless");
             options.addArguments("--lang=" + locale.getLanguage() + "-" + locale.getCountry());
             options.addArguments("--window-size=1280,800");
+
+            LoggingPreferences logs = new LoggingPreferences();
+            logs.enable(LogType.PERFORMANCE, Level.ALL);
+            options.setCapability(CapabilityType.LOGGING_PREFS, logs);
 
             Map<String, String> environment = new HashMap<>();
             environment.put("LANGUAGE", locale.getLanguage() + "_" + locale.getCountry());

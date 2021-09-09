@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 
-import org.linkki.core.binding.LinkkiBindingException;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -175,14 +174,7 @@ public @interface UIComboBox {
         }
 
         private ItemCaptionProvider<?> getItemCaptionProvider(UIComboBox uiComboBox) {
-            try {
-                return uiComboBox.itemCaptionProvider().getDeclaredConstructor().newInstance();
-            } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException e) {
-                throw new LinkkiBindingException(
-                        "Cannot instantiate item caption provider " + uiComboBox.itemCaptionProvider().getName()
-                                + " using default constructor.",
-                        e);
-            }
+            return ItemCaptionProvider.instantiate(uiComboBox.itemCaptionProvider());
         }
     }
 }

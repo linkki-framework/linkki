@@ -27,9 +27,9 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.wrapper.ComponentWrapper;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.defaults.ui.element.AvailableValuesProvider;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
 import org.linkki.util.handler.Handler;
 
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.data.binder.HasItems;
 import com.vaadin.flow.data.provider.ListDataProvider;
 
@@ -46,10 +46,19 @@ public class AvailableValuesAspectDefinition<C extends HasItems<?>> implements L
 
     private final BiConsumer<C, ListDataProvider<Object>> dataProviderSetter;
 
+    private final ItemCaptionProvider<Object> itemCaptionProvider;
+
     public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
             BiConsumer<C, ListDataProvider<Object>> dataProviderSetter) {
+        this(availableValuesType, dataProviderSetter, new ItemCaptionProvider.DefaultCaptionProvider());
+    }
+
+    public AvailableValuesAspectDefinition(AvailableValuesType availableValuesType,
+            BiConsumer<C, ListDataProvider<Object>> dataProviderSetter,
+            ItemCaptionProvider<Object> itemCaptionProvider) {
         this.availableValuesType = requireNonNull(availableValuesType, "availableValuesType must not be null");
         this.dataProviderSetter = requireNonNull(dataProviderSetter, "dataProviderSetter must not be null");
+        this.itemCaptionProvider = requireNonNull(itemCaptionProvider, "itemCaptionProvider must not be null");
     }
 
     @Override
@@ -57,33 +66,25 @@ public class AvailableValuesAspectDefinition<C extends HasItems<?>> implements L
         Aspect<Collection<?>> aspect = createAspect(propertyDispatcher.getProperty(),
                                                     propertyDispatcher.getValueClass());
 
-        List<Object> items = new ArrayList<>();
-        ListDataProvider<Object> listDataProvider = new ListDataProvider<>(items);
+        ItemCache cache = new ItemCache(itemCaptionProvider);
+        ListDataProvider<Object> listDataProvider = new ListDataProvider<>(cache.getItems());
 
         setDataProvider(componentWrapper, listDataProvider);
 
-        return () -> updateItems(items, propertyDispatcher.pull(aspect), componentWrapper);
+        return () -> updateItems(cache, propertyDispatcher.pull(aspect), componentWrapper);
     }
 
-    private void updateItems(List<Object> items,
+    private void updateItems(ItemCache cache,
             @Nullable Collection<?> newItemsParam,
             ComponentWrapper componentWrapper) {
-        ArrayList<?> newItems = new ArrayList<>(
+        ArrayList<Object> newItems = new ArrayList<>(
                 requireNonNull(newItemsParam, "List of available values must not be null"));
         handleNullItems(componentWrapper, newItems);
-        if (!items.equals(newItems)) {
-            items.clear();
-            items.addAll(newItems);
+
+        boolean hasChanged = cache.replaceContent(newItems);
+        if (hasChanged) {
+            refreshAll(componentWrapper, cache.getItems());
         }
-
-        refreshAll(componentWrapper, items);
-
-        // TODO LIN-2200 remove this workaround once the issue with combobox is fixed in Vaadin
-        if (componentWrapper.getComponent() instanceof ComboBox<?>) {
-            ComboBox<?> component = (ComboBox<?>)componentWrapper.getComponent();
-            component.getElement().callJsFunction("_ensureFirstPage", true);
-        }
-
     }
 
     /**

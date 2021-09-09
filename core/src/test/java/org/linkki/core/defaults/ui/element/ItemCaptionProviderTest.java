@@ -15,6 +15,7 @@ package org.linkki.core.defaults.ui.element;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 
 import java.util.Locale;
 
@@ -68,7 +69,22 @@ public class ItemCaptionProviderTest {
         Assertions.assertThrows(IllegalStateException.class, () -> {
             provider.getCaption(UnnamedEnum.VALUE);
         });
+    }
 
+    @Test
+    public void testInstantiate_DefaultCaptionProvider() {
+        ItemCaptionProvider<Object> itemCaptionProvider = ItemCaptionProvider
+                .instantiate(ItemCaptionProvider.DefaultCaptionProvider.class);
+
+        assertThat(itemCaptionProvider, instanceOf(ItemCaptionProvider.DefaultCaptionProvider.class));
+    }
+
+    @Test
+    public void testInstantiate_ToStringCaptionProvider() {
+        ItemCaptionProvider<Object> itemCaptionProvider = ItemCaptionProvider
+                .instantiate(ItemCaptionProvider.ToStringCaptionProvider.class);
+
+        assertThat(itemCaptionProvider, instanceOf(ItemCaptionProvider.ToStringCaptionProvider.class));
     }
 
     enum LocalizedEnum {
