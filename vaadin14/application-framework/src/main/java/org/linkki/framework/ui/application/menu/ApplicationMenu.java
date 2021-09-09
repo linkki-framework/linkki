@@ -15,10 +15,7 @@ package org.linkki.framework.ui.application.menu;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
-import org.linkki.core.defaults.style.LinkkiTheme;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.application.ApplicationHeader;
 
@@ -40,11 +37,8 @@ public class ApplicationMenu extends MenuBar {
 
     public ApplicationMenu(List<ApplicationMenuItemDefinition> itemDefs) {
         addClassName(LinkkiApplicationTheme.APPLICATION_MENU);
-        addClassName(LinkkiTheme.BORDERLESS);
         setSizeUndefined();
-        SortedSet<ApplicationMenuItemDefinition> sorted = new TreeSet<>();
-        itemDefs.forEach(sorted::add);
-        sorted.forEach(item -> item.createItem(this));
+        itemDefs.forEach(item -> item.createItem(this));
         setId(ID);
     }
 

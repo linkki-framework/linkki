@@ -19,13 +19,9 @@ import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
-import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.util.Sequence;
-
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.contextmenu.MenuItem;
 
 /**
  * An {@link ApplicationConfig} using the default {@link ApplicationHeader application header} and
@@ -60,17 +56,8 @@ public class ProductsSampleApplicationConfig implements ApplicationConfig {
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-        return Sequence.of(new ApplicationMenuItemDefinition("Start", 1) {
-            @Override
-            protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem("Start", e -> UI.getCurrent().navigate(ProductsSampleView.class));
-            }
-        }, new ApplicationMenuItemDefinition("Produkt", 2) {
-            @Override
-            protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem("Produkt", e -> UI.getCurrent().navigate(ProductsSampleDetailView.class));
-            }
-        });
+        return Sequence.of(new ApplicationMenuItemDefinition("Start", ProductsSampleView.class),
+                           new ApplicationMenuItemDefinition("Produkt", ProductsSampleDetailView.class));
     }
 
 }

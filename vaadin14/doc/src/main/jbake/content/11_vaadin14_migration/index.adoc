@@ -3,6 +3,9 @@
 :jbake-status: published
 :jbake-order: 1000
 
+:source-dir-v8: ../../../../../../vaadin8/samples/test-playground/src/main/java/org/linkki/samples/playground/
+:source-dir-v14: ../../../../../../vaadin14/samples/test-playground/src/main/java/org/linkki/samples/playground/
+
 
 == Vaadin 14 Migration
 
@@ -14,44 +17,212 @@
 ** `MessagePmo` has been replaced by `MessageRowPmo`
 ** `MessageRow` has been replaced by `MessageUiComponents#createMessageComponent`
 
-==== LinkkiUi
+==== LinkkiUi and navigation
 ////
 https://jira.faktorzehn.de/browse/LIN-2042
 https://jira.faktorzehn.de/browse/LIN-2488
+https://jira.faktorzehn.de/browse/LIN-2523
 ////
-* `LinkkiUi` has been removed
-* `ApplicationLayout#getApplicationConfig` has been removed. 
-* `ApplicationLayout` constructor now is taking `ApplicationConfig` as a parameter.
 
-* Create new class `MyApplicationLayout`, extending `ApplicationLayout` and pass `ApplicationConfig` to via constructor. `ApplicationLayout` itself is implementing `RouterLayout` to be used as a navigation target `Component`.
-* Create new class `MySampleView`, which should be used as an entry point for navigable view annotated with `@Route(value = MySampleView.NAME, layout = MyApplicationLayout.class)` and add further View-`Components` .
+Navigation has been replaced by https://vaadin.com/docs/v14/flow/routing/tutorial-routing-annotation[Routing], using the `@Route` annotation at the corresponding `Component` itself. With the new changes, it is no longer necessary to extend the UI as the tasks of `LinkkiUi` either became oblivious or is overtaken by `ApplicationLayout`.
 
-In addition following changes have been made:
+[[vaadin14-migration-linkkiUi]]
+LinkkiUi::
++
+|=== 
+| Change | Migration
 
-* Navigation has been replaced by Routing, using the `@Route` annotation at the corresponding `Component` itself
-** `ApplicationNavigator` has been removed
-** `ApplicationLayout#createApplicationNavigator` has been removed
+| The class `LinkkiUi` is removed.
+| Remove sub-classes of `LinkkiUi`.
+|===
 
-* `ApplicationConfig` moved from `org.linkki.framework.state` to `org.linkki.framework.ui.application` 
-* `ApplicationConfig#createApplicationLayout` has been removed. `ApplicationLayout` should be extended instead.
-* Name, version, description and copyright are moved to `ApplicationInfo`.
-* The return type `ApplicationHeaderDefinition` of `ApplicationConfig#ApplicationHeaderDefinition` has changed. It does not extend `Function<ApplicationMenu, ApplicationHeader>` anymore. Instead, it is now a functional interface that creates an `ApplicationHeader` from an `ApplicationInfo` and a sequence of  `ApplicationMenuItemDefinitions`.
-* `ApplicationConfig#ApplicationFooterDefinition` has changed. It does not extend `Function` anymore. Instead, it creates an `ApplicationFooter` from an `ApplicationInfo`.
+[[vaadin14-migration-applicationLayout]]
+ApplicationLayout::
++
+[cols="a,a"]
+|===
+| Change | Migration
 
-* `ApplicationInfoPmo` uses `ApplicationInfo` as constructor argument instead of `ApplicationConfig` 
+| * The constructor now takes `ApplicationConfig` as a parameter.
+  * #getApplicationConfig` has been removed.
+| * Create a new sub-class of `ApplicationLayout` (e.g. `MyApplicationLayout`) 
+  * In the new subclass, pass an instance of the customized `ApplicationConfig` to the super constructor. This `ApplicationConfig` was previously used in the implementation of <<vaadin14-migration-linkkiUi, `LinkkiUi`>>.
 
-* `ApplicationHeader` now extends `Composite<HorizontalLayout>` instead of `HorizontalLayout` directly
-* `ApplicationHeader` uses an `ApplicationInfo` and `Sequence<ApplicationMenuItem>` as arguments instead of `ApplicationMenu`.
-* `ApplicationHeader#addRightComponents()` visibility has changed from `protected` to `private` due to deprecation. Subclasses now should override and move their code to `addRightComponents(HorizontalLayout)` instead.
-* `MessageUiComponents` are now displayed using `Grid` instead of `Table`
-* linkki dialogs  are now extending `Composite<Dialog>` instead of `Window`. See `OkCancelDialog`.
+| `#createApplicationNavigator` has been removed.
+| No migration needed
+|===
+NOTE: `ApplicationLayout` itself implements `RouterLayout` which make it possible to use the `ApplicationLayout` as the layout for routes, previously known as views.
 
-* `ApplicationFooter` now extends `Composite<HorizontalLayout>` instead of `HorizontalLayout` directly
-* `ApplicationFooter` uses `ApplicationInfo` as constructor argument instead of `ApplicationConfig`
-* `ApplicationFooter#buildText` uses `ApplicationInfo` as argument instead of `ApplicationConfig`
-* Visibility of `ApplicationFooter#init` is reduced to protected. Remove external calls.
+ApplicationConfig::
++
+[cols="a,a"]
+|===
+| Change | Migration
+
+| The class is moved from `org.linkki.framework.state` to `org.linkki.framework.ui.application`.
+| Reorganize import in the project where `ApplicationConfig` is used.
+
+|`ApplicationConfig#createApplicationLayout` has been removed. 
+| Move the implementation of `#createApplicationLayout` to the implementation of <<vaadin14-migration-applicationLayout, `ApplicationLayout`>>.
+
+| Name, version, description and copyright are moved to `ApplicationInfo`.
+| * Create a new implementation of `ApplicationInfo` that contains the existing implementation for name, version, description and copyright. +
+If additional information needs to be stored to be displayed in the header and footer, follow the migration steps for the <<vaadin14-migration-applicationHeader, `ApplicationHeader`>> and  the <<vaadin14-migration-applicationFooter, `ApplicationFooter`>>.
+  * Return a instance of the new implementation in `ApplicationConfig#getApplicationInfo.
+
+| The return type `ApplicationHeaderDefinition` of `ApplicationConfig#ApplicationHeaderDefinition` has changed:
+
+  * Until now: creates a `ApplicationHeader` from an `ApplicationMenu`
+  * New: creates an `ApplicationHeader` from an `ApplicationInfo` and a sequence of  `ApplicationMenuItemDefinitions`.
+| * If `getHeaderDefinition` was not overridden, no migration is needed.
+  * If a custom implementation of `ApplicationHeader` was used, consult migration steps of the <<vaadin14-migration-applicationHeader, `ApplicationHeader`>>.
+
+| `ApplicationConfig#ApplicationFooterDefinition` has changed:
+  * Until now: creates a `ApplicationFooter` from an `ApplicationConfig`
+  * New: creates an `ApplicationFooter` from an `ApplicationInfo`
+| * If `getFooterDefinition` was not overridden, no migration is needed.
+  * If a custom implementation of `ApplicationFooter` was used, consult migration steps of the <<vaadin14-migration-applicationFooter, `ApplicationFooter`>>.
+|===
+
+[[vaadin14-migration-applicationHeader]]
+ApplicationHeader::
+If no custom implementation of `ApplicationHeader` is used, no migration is needed. +
+In custom implementations:
++
+[cols="a,a"]
+|===
+| Change | Migration
+
+| `ApplicationHeader` uses an `ApplicationInfo` and `Sequence<ApplicationMenuItem>` as arguments instead of `ApplicationMenu`.
+| Adjust the constructor and the super constructor call within with the new parameters.
+
+|`ApplicationHeader` now extends `Composite<HorizontalLayout>` instead of `HorizontalLayout` directly.
+| Whenever components are added, add the components to `getContent()` instead.
+
+|`ApplicationInfoPmo` uses `ApplicationInfo` as constructor argument instead of `ApplicationConfig` 
+| In a custom `ApplicationInfoPmo` implementation is used:
+
+* In subclasses of `ApplicationInfoPmo`, adjust the constructor and the super constructor call within with the new parameters.
+* If `ApplicationHeader#getApplicationInfo`, change the return type to the custom subclass.
+* In `ApplicationHeader#createApplicationInfoPmo`, use the adjusted constructor with `#getApplicationInfo`.
+
+|  `ApplicationHeader#addRightComponents()` visibility has changed from `protected` to `private` due to deprecation.
+| In the subclasses, override and move the code to `addRightComponents(HorizontalLayout)`.
+
+| API of `ApplicationMenuItemDefinition` has changed, resulting in changes in `getMenuItemDefinitions`.
+| See migration steps of the <<vaadin14-migration-applicationMenuItemDefinition, ApplicationMenuItemDefinition>>.
+|===
+
+[[vaadin14-migration-applicationMenuItemDefinition]]
+ApplicationMenuItemDefinition::
++
+The API of `ApplicationMenuItemDefinition` is completely reworked. Instead of extending the class for customization, the new API is intended to be easily composable for customization.
++
+[cols="a,a"]
+|===
+| Change | Migration
+
+| Argument `position` is removed from the constructor as it was not necessary.
+| Remove the attribute. To ensure the position of the menu item, make sure to put it at the right position in `ApplicationConfig#getMenuItemDefinitions`.
+
+| `getName` is removed.
+| Pass the name to the constructor directly instead.
+
+| The methods `createItem` and `internalCreateItem` are removed. Instead, new constructors are introduced: 
+
+* with name and a `Handler` that is executed on click. 
+* with name and a list of `ApplicationMenuItemDefinitions` as sub-menu items
+* with name and a URL String to navigate to on click. This method handles both external and internal links.
+* with name and a `Class` to navigate to. The given class should be a <<vaadin14-migration-views, route component>>. 
+| Use the existing implementation of `internalCreateItem` and `createItem` to directly create new instances of `ApplicationMenuItemDefinition`. A few examples are provided below.
+|===
++
+The following code snippet shows a simple `ApplicationMenuItem` before and after migration:
++
+.Migration of a simple ApplicationMenuItem
+[cols="a,a"]
+|===
+| Before migration | After migration
+
+| 
+[source,java]
+----
+include::{source-dir-v8}application/custom/CustomApplicationConfig.java[tags=applicationMenuItemDefinition]
+----
+|
+[source,java]
+----
+include::{source-dir-v14}application/custom/CustomApplicationConfig.java[tags=applicationMenuItemDefinition]
+----
+|===
++
+For more complex menu items that used to extend from `ApplicationMenuItem`, consider create menu item definitions directly instead of inheriting. If the implementation need to be customizable, it can be easily done by composing `ApplicationMenuItems`. +
+Here is an example of a more complex `ApplicationMenuItem`. This menu item contains one sub-menu item with caption "New". If only one sub-sub-menu item is given, the sub-menu-item shows a notification on click (caption -> New). If multiple sub-sub-menu items are given, those are shown in the sub-menu item (caption -> New -> sub-sub-menu items).
++
+.Migration of a complex ApplicationMenuItem
+[cols="a,a"]
+|===
+| Before migration | After migration
+
+| 
+[source,java]
+----
+include::{source-dir-v8}application/custom/CustomMenuItemDefinition.java[tags=class]
+----
+|
+[source,java]
+----
+include::{source-dir-v14}application/custom/CustomMenuItemDefinitionCreator.java[tags=class]
+----
+|===
+
+[[vaadin14-migration-applicationFooter]]
+ApplicationFooter::
+If no custom implementation of `ApplicationFooter` is used, no migration is needed. +
+In custom implementations:
++
+[cols="a,a"]
+|===
+| Change | Migration
+
+| `ApplicationFooter` uses an `ApplicationInfo` as argument instead of `ApplicationConfig`.
+| Adjust the constructor and the super constructor call within with the new parameters.
+
+|`ApplicationFooter` now extends `Composite<HorizontalLayout>` instead of `HorizontalLayout` directly.
+| Whenever components are added, add the components to `getContent()` instead.
+
+| `ApplicationFooter#buildText` uses `ApplicationInfo` as argument instead of `ApplicationConfig`.
+| Adjust the implementation of `#buildText` to use the given `ApplicationInfo`. If a custom `ApplicationInfo` is used, the argument may need to be casted to the custom class. 
+
+| `ApplicationHeader#addRightComponents()` visibility has changed from `protected` to `private` due to deprecation.
+| In subclasses, override and move the code to `addRightComponents(HorizontalLayout)`.
+
+| Visibility of `ApplicationFooter#init` is reduced to protected.
+| This method should not be called externally anymore. Remove external calls.
+|===
+
+[[vaadin14-migration-views]]
+Views::
+//TODO FIPM-4214
+[cols="a,a"]
+|===
+|Change | Migration
+
+| `View` interface is no longer necessary.
+| Remove the interface in all implementations.
+
+| Views must be annotated with `@Route`.
+| Annotate all views with `@Route`. If the view was previously annotated with `CDIView` or `@SpringView`, you may now need to specify the route explicitly.
+//TODO FIPM-4214 ViewScoped
+|===
+
+Other changes::
+* `ApplicationNavigator` has been removed
 
 === Components
+
+* linkki dialogs are now extending `Composite<Dialog>` instead of `Window`.
+* `MessageUiComponents` are now displayed using `Grid` instead of `Table`
 
 ==== TabSheetArea has been replaced by LinkkiTabLayout
 ////

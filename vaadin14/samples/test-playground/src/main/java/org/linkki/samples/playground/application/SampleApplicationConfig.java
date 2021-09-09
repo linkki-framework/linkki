@@ -56,6 +56,6 @@ public class SampleApplicationConfig implements ApplicationConfig {
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-        return Sequence.of(new StartMenuItemDefinition());
+        return Sequence.of(new ApplicationMenuItemDefinition("Start", SampleView.class));
     }
 }

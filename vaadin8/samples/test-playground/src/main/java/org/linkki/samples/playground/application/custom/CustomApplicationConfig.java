@@ -14,14 +14,22 @@
 package org.linkki.samples.playground.application.custom;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Optional;
 
 import org.linkki.framework.state.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
+import org.linkki.framework.ui.application.LinkkiUi;
+import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.samples.playground.application.custom.CustomMenuItemDefinition.MySubSubMenuItem;
 import org.linkki.samples.playground.nls.NlsText;
+import org.linkki.samples.playground.ui.PlaygroundView;
 import org.linkki.util.Sequence;
+
+import com.vaadin.ui.MenuBar.MenuItem;
 
 /**
  * An {@link ApplicationConfig} using a {@link CustomApplicationHeader custom application header} and no
@@ -51,7 +59,25 @@ public class CustomApplicationConfig implements ApplicationConfig {
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-        return Sequence.of();
+        return Sequence.of(
+                           // tag::applicationMenuItemDefinition[]
+                           new ApplicationMenuItemDefinition("Playground", 0) {
+
+                               @Override
+                               protected MenuItem internalCreateItem(ApplicationMenu menu) {
+                                   return menu.addItem(getName(), item -> LinkkiUi.getCurrentNavigator()
+                                           .navigateTo(PlaygroundView.NAME));
+                               }
+
+                           }
+                           // end::applicationMenuItemDefinition[]
+                           ,
+                           // customizable definition for migration documentation
+                           new CustomMenuItemDefinition("Customizable Definition: Multiple Sub-sub-menus", 1,
+                                   Arrays.asList(new MySubSubMenuItem("Item 1"),
+                                                 new MySubSubMenuItem("Item 2"))),
+                           new CustomMenuItemDefinition("Customizable Definition: Single Sub-sub-menu", 2,
+                                   Collections.singletonList(new MySubSubMenuItem("Item 1"))));
     }
 
     @Override

@@ -14,6 +14,8 @@
 package org.linkki.samples.playground.application.custom;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -21,8 +23,13 @@ import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.samples.playground.application.custom.CustomMenuItemDefinitionCreator.MySubSubMenuItem;
+import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.util.Sequence;
+
+import com.vaadin.flow.component.notification.Notification;
 
 /**
  * An {@link ApplicationConfig} using a {@link CustomApplicationHeader custom application header} and no
@@ -37,7 +44,29 @@ public class CustomApplicationConfig implements ApplicationConfig {
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-        return Sequence.of();
+        return Sequence.of(
+                           // tag::applicationMenuItemDefinition[]
+                           new ApplicationMenuItemDefinition("Playground", PlaygroundApplicationView.class)
+                           // end::applicationMenuItemDefinition[]
+                           ,
+                           new ApplicationMenuItemDefinition("Click Handler Constructor Variants",
+                                   Arrays.asList(new ApplicationMenuItemDefinition("External Link",
+                                           "https://www.linkki-framework.org"),
+                                                 new ApplicationMenuItemDefinition("Relative Link to Bugs",
+                                                         "bugs"),
+                                                 new ApplicationMenuItemDefinition("Route Class to Bugs",
+                                                         BugCollectionView.class),
+                                                 new ApplicationMenuItemDefinition("Handler",
+                                                         () -> Notification.show("Handler")))),
+                           // customizable menu item definition
+                           CustomMenuItemDefinitionCreator
+                                   .createMenuItem("Customizable Definition: Multiple Sub-sub-menus", Arrays
+                                           .asList(new MySubSubMenuItem("Item 1"),
+                                                   new MySubSubMenuItem("Item 2"))),
+                           CustomMenuItemDefinitionCreator
+                                   .createMenuItem("Customizable Definition: Single Sub-sub-menu", Collections
+                                           .singletonList(new MySubSubMenuItem(
+                                                   "Item 1"))));
     }
 
     @Override

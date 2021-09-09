@@ -12,70 +12,47 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitest.vaadin14;
+package org.linkki.samples.playground.application.uitest;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitest.DriverProperties;
 
 import com.vaadin.flow.component.menubar.testbench.MenuBarElement;
 import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement;
 import com.vaadin.testbench.ElementQuery;
-import com.vaadin.testbench.TestBenchElement;
 
-public class ApplicationLayoutTest extends AbstractUiTest {
+class CustomApplicationLayoutTest extends AbstractUiTest {
 
     @BeforeEach
-    public void setup() {
+    void setup() {
+        getDriver().get(DriverProperties.getTestUrl(""));
         clickMenuItem("Custom Layout");
     }
 
     @Test
-    public void testApplicationLayout_HeaderExists() {
+    void testApplicationLayout_HeaderExists() {
         ElementQuery<HorizontalLayoutElement> appHeader = $(HorizontalLayoutElement.class)
                 .attribute("class", LinkkiApplicationTheme.APPLICATION_HEADER);
         assertThat(appHeader.first().isDisplayed(), is(true));
     }
 
     @Test
-    public void testApplicationLayout_FooterExists() {
+    void testApplicationLayout_FooterExists() {
         ElementQuery<HorizontalLayoutElement> appHeader = $(HorizontalLayoutElement.class)
                 .attribute("class", LinkkiApplicationTheme.APPLICATION_FOOTER);
         assertThat(appHeader.first().isDisplayed(), is(true));
     }
 
     @Test
-    public void testApplicationLayout_MenuExists() {
+    void testApplicationLayout_MenuExists() {
         MenuBarElement menu = $(MenuBarElement.class)
                 .id(LinkkiApplicationTheme.APPLICATION_MENU);
         assertThat(menu.isDisplayed(), is(true));
     }
-
-
-    public static final String OVERLAY_TAG = "vaadin-context-menu-overlay";
-    public static final String MENU_ITEM_TAG = "vaadin-context-menu-item";
-
-    protected List<TestBenchElement> getAllOverlays() {
-        return $(OVERLAY_TAG).all();
-    }
-
-    protected List<TestBenchElement> getMenuItems(TestBenchElement overlay) {
-        return overlay.$(MENU_ITEM_TAG).all();
-    }
-
-    protected TestBenchElement getMenuItem(List<TestBenchElement> menuItems, String caption) {
-        for (TestBenchElement menuItem : menuItems) {
-            if (menuItem.getText().trim().equals(caption)) {
-                return menuItem;
-            }
-        }
-        return null;
-    }
-
 }

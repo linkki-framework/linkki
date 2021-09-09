@@ -26,6 +26,9 @@ import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.linkki.samples.playground.uitest.extensions.ScreenshotOnFailureExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.flow.component.button.Button;
@@ -156,7 +159,9 @@ public class AbstractUiTest extends TestBenchTestCase {
         $(MenuBarElement.class).first().getButtons().stream()//
                 .filter(e -> StringUtils.equals(e.getText(), text))//
                 .findFirst()//
-                .ifPresent(TestBenchElement::click);
+                .ifPresentOrElse(TestBenchElement::click, () -> {
+                    throw new NoSuchElementException("No MenuBarElement with text " + text + " could be found");
+                });
     }
 
     /**
@@ -203,4 +208,36 @@ public class AbstractUiTest extends TestBenchTestCase {
                 .attributeContains("class", LinkkiTheme.SECTION_CAPTION).first()
                 .$(ButtonElement.class).get(buttonIndex).click();
     }
+
+    /**
+     * Clicks on the element in the context menu of a header button with the given text
+     * 
+     * @param text displayed text of the context menu element
+     */
+    public void clickContextMenuItem(String text) {
+        findContextMenuItem(text).click();
+    }
+
+    public void openSubMenu(String text) {
+        findContextMenuItem(text).sendKeys(Keys.ARROW_RIGHT);
+    }
+
+    private WebElement findContextMenuItem(String text) {
+        String contextMenuItemTag = "vaadin-context-menu-item";
+
+        try {
+            return waitUntil($ -> {
+                for (WebElement e : findElements(By.tagName(contextMenuItemTag))) {
+                    if (text.equals(e.getText())) {
+                        return e;
+                    }
+                }
+                return null;
+            });
+        } catch (TimeoutException e) {
+            throw new NoSuchElementException(
+                    String.format("No %s element found with text \"%s\"", contextMenuItemTag, text));
+        }
+    }
+
 }

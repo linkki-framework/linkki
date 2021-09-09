@@ -31,9 +31,12 @@ import com.vaadin.flow.component.textfield.TextArea;
 
 public class ComponentFactoryTest {
 
+    // needs to be a field due to weak reference
+    private UI ui;
+
     @BeforeEach
     public void setUp() {
-        UI ui = new UI();
+        ui = new UI();
         ui.setLocale(Locale.ENGLISH);
         UI.setCurrent(ui);
     }

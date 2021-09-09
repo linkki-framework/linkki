@@ -19,7 +19,6 @@ import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
-import org.linkki.framework.ui.application.menu.ApplicationMenu;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
 import org.linkki.samples.playground.application.SampleView;
 import org.linkki.samples.playground.application.custom.CustomView;
@@ -29,9 +28,6 @@ import org.linkki.samples.playground.dialogs.DialogsView;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.samples.playground.products.ProductsSampleView;
 import org.linkki.util.Sequence;
-
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.contextmenu.MenuItem;
 
 /**
  * An {@link ApplicationConfig} using the default {@link ApplicationHeader application header} and
@@ -67,43 +63,14 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
 
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
-        return Sequence.of(new ApplicationMenuItemDefinition("Start", 0) {
-            @Override
-            protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem("Playground", e -> UI.getCurrent().navigate(PlaygroundApplicationView.class));
-            }
-        }, new ApplicationMenuItemDefinition("Dialogs", 1) {
-            @Override
-            protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem("Dialogs", e -> UI.getCurrent().navigate(DialogsView.class));
-            }
-        }, new ApplicationMenuItemDefinition("Sample Layout", 2) {
-            @Override
-            protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem("Sample Layout", e -> UI.getCurrent().navigate(SampleView.class));
-            }
-        }, new ApplicationMenuItemDefinition("Custom Layout", 3) {
-            @Override
-            protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem("Custom Layout", e -> UI.getCurrent().navigate(CustomView.class));
-            }
-        }, new ApplicationMenuItemDefinition("Binding", 4) {
-            @Override
-            protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem("Binding", e -> UI.getCurrent().navigate(BindingSampleView.class));
-            }
-        }, new ApplicationMenuItemDefinition("F10 Produkte", 5) {
-            @Override
-            protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem("F10 Produkt", e -> UI.getCurrent().navigate(ProductsSampleView.class));
-            }
-        }, new ApplicationMenuItemDefinition(BugCollectionView.NAME, 6) {
-            @Override
-            protected MenuItem internalCreateItem(ApplicationMenu menu) {
-                return menu.addItem(BugCollectionView.NAME,
-                                    e -> UI.getCurrent().navigate(BugCollectionView.class));
-            }
-        });
+        return Sequence
+                .of(new ApplicationMenuItemDefinition("Playground", PlaygroundApplicationView.class),
+                    new ApplicationMenuItemDefinition("Dialogs", DialogsView.class),
+                    new ApplicationMenuItemDefinition("Sample Layout", SampleView.class),
+                    new ApplicationMenuItemDefinition("Custom Layout", CustomView.class),
+                    new ApplicationMenuItemDefinition("Binding", BindingSampleView.class),
+                    new ApplicationMenuItemDefinition("F10 Produkte", ProductsSampleView.class),
+                    new ApplicationMenuItemDefinition(BugCollectionView.NAME, BugCollectionView.class));
     }
 
     @Override
