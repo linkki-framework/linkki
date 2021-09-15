@@ -9,3 +9,7 @@
 :host([required][disabled]) [part="label"]::after {
   opacity: 0;
 }
+
+:host([disabled][readonly]) [part="input-field"] {
+  background: transparent;
+}

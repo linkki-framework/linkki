@@ -87,7 +87,7 @@ public abstract class AbstractGridComponentWrapper<ROW> extends VaadinComponentW
                 getComponent().setPageSize(pageLength);
             }
             int headerAndFooter = 1 + getComponent().getFooterRows().size();
-            getComponent().setHeight((pageLength + headerAndFooter) * 3 + "em");
+            getComponent().setHeight((pageLength + headerAndFooter) * 3 + 1 + "em");
         }
     }
 

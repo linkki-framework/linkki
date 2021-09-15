@@ -21,6 +21,7 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 /**
@@ -86,12 +87,12 @@ public class Headline extends Composite<HorizontalLayout> {
      * @implNote Override this method to add additional components to the headline.
      */
     protected void initHeaderLayout() {
-        getContent().setSpacing(false);
         getContent().setPadding(true);
         getContent().addClassName(LinkkiApplicationTheme.HEADLINE);
         getContent().add(headerTitle);
         getContent().setWidthFull();
         getContent().setFlexGrow(1, headerTitle);
+        getContent().setAlignItems(Alignment.CENTER);
     }
 
     /**

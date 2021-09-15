@@ -1,4 +1,5 @@
 .linkki-text {
     display: flex;
     align-items: center;
+    white-space: break-spaces;
 }

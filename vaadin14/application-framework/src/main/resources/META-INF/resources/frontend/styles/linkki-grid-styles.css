@@ -1,0 +1,3 @@
+[part="row"]:only-child [part~="header-cell"] {
+  min-height: var(--lumo-size-m);
+}

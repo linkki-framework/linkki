@@ -25,8 +25,7 @@ public class ProductsSampleOverviewComponent extends VerticalLayout {
 
     public ProductsSampleOverviewComponent() {
 
-        setPadding(false); // headline border should reach sidebar
-        setSpacing(false); // content should scroll underneath headline border
+        setSpacing(false);
         setHeightFull();
 
         add(new Headline("Overview"));
@@ -37,15 +36,13 @@ public class ProductsSampleOverviewComponent extends VerticalLayout {
         content.getStyle().set("overflow", "auto");
         add(content);
 
-        content.add(ProductsSampleUtils.createSampleSectionVertical());
-        content.add(ProductsSampleUtils.createSampleSectionHorizontal());
+        content.add(ProductsSampleComponents.createVerticalSection());
+        content.add(ProductsSampleComponents.createHorizontalSection());
 
         content.add(new HorizontalLayout(
-                ProductsSampleUtils.createSampleSectionVertical(), //
-                ProductsSampleUtils.createSampleSectionVertical()));
+                ProductsSampleComponents.createVerticalSection(), //
+                ProductsSampleComponents.createVerticalSection()));
 
-
-        content.add(ProductsSampleUtils.createSampleTableSection(100));
+        content.add(ProductsSampleComponents.createTableSection(100));
     }
-
 }

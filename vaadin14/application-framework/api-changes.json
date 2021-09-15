@@ -132,8 +132,8 @@
             "annotationType": "com.vaadin.flow.component.dependency.CssImport.Container",
             "attribute": "value",
             "oldValue": "{@com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-application-layout.css\", include = \"@vaadin\/vaadin-lumo-styles\/all-imports\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-utility.css\")}",
-            "newValue": "{@com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-application-layout.css\", include = \"@vaadin\/vaadin-lumo-styles\/all-imports\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-utility.css\"), @com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-required-indicator-behavior.css\", themeFor = \"vaadin-*\")}",
-            "justification": "LIN-2542 : Remove required indicator for readonly components"
+            "newValue": "{@com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-application-layout.css\", include = \"@vaadin\/vaadin-lumo-styles\/all-imports\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-utility.css\"), @com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-grid-styles.css\", themeFor = \"vaadin-grid\"), @com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-vaadin-field-styles.css\", themeFor = \"vaadin-*\")}",
+            "justification": "LIN-2542 : Remove required indicator for readonly components; FIPM-4253/FIPM-4255 : Reduce grid header space usage"
           }
         ]
       }

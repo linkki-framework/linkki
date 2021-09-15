@@ -28,6 +28,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.tabs.Tab;
@@ -52,7 +53,8 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * selection to the next available tab sheet.
  */
 @Tag("linkki-tab-layout")
-@JsModule(value = "./src/linkki-tab-layout.ts")
+@JsModule("./src/linkki-tab-layout.ts")
+@CssImport("./styles/linkki-tab-layout.css")
 public class LinkkiTabLayout extends HtmlComponent implements AfterNavigationObserver {
 
     public static final String THEME_VARIANT_SOLID = "solid";

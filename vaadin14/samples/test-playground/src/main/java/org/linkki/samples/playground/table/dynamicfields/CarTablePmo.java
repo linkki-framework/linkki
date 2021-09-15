@@ -27,7 +27,7 @@ import org.linkki.core.ui.pmo.ButtonPmoBuilder;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.util.handler.Handler;
 
-@UISection(caption = "Cars")
+@UISection(caption = "Dynamic Fields")
 public class CarTablePmo implements ContainerPmo<CarRowPmo> {
 
     private final Handler addCarAction;

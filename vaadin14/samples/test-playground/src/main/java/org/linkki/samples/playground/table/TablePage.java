@@ -30,7 +30,6 @@ public class TablePage extends VerticalLayout {
         add(TableWithValidationSection.create());
         add(SelectableTableSection.create());
         add(UITableColumnTableSection.create());
-        addAndExpand(DynamicFieldsSection.create());
-
+        add(DynamicFieldsSection.create());
     }
 }

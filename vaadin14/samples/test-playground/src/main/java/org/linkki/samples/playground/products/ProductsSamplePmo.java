@@ -20,12 +20,15 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.SectionLayout;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(caption = "Sample Section Vertical", layout = SectionLayout.COLUMN)
-public class ProductsSampleSectionVertical {
+public class ProductsSamplePmo {
 
     private ProductsSampleModelObject sampleModelObject;
 
-    public ProductsSampleSectionVertical(ProductsSampleModelObject sampleModelObject) {
+    public ProductsSamplePmo() {
+        this(new ProductsSampleModelObject());
+    }
+
+    public ProductsSamplePmo(ProductsSampleModelObject sampleModelObject) {
         this.sampleModelObject = sampleModelObject;
     }
 
@@ -34,7 +37,7 @@ public class ProductsSampleSectionVertical {
         return sampleModelObject;
     }
 
-    @UITextField(position = 10, label = "Property 1", modelAttribute = "property1")
+    @UITextField(position = 10, label = "Property 1", modelAttribute = "property")
     public void property1() {
         /* model binding only */
     }
@@ -44,4 +47,13 @@ public class ProductsSampleSectionVertical {
         /* model binding only */
     }
 
+    @UISection(caption = "Sample Section Horizontal", layout = SectionLayout.HORIZONTAL, columns = 2)
+    public static class Horizontal extends ProductsSamplePmo {
+        // nothing needed
+    }
+
+    @UISection(caption = "Sample Section Vertical", layout = SectionLayout.COLUMN)
+    public static class Vertical extends ProductsSamplePmo {
+        // nothing needed
+    }
 }

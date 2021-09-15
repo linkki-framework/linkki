@@ -14,6 +14,7 @@
 
 package org.linkki.samples.playground.ts.layouts;
 
+import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.IconType;
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
@@ -49,6 +50,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
     private boolean readOnly;
     private boolean required;
     private boolean visible = true;
+    private boolean enabled = true;
 
     @ModelObject
     public BasicElementsLayoutBehaviorModelObject getModelObject() {
@@ -85,6 +87,16 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         this.visible = visible;
     }
 
+    @SectionHeader
+    @UICheckBox(position = -60, caption = "enabled")
+    public boolean isAllElementsEnabled() {
+        return enabled;
+    }
+
+    public void setAllElementsEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @UILabel(position = 5, label = "Label", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_TEXT, //
             visible = VisibleType.DYNAMIC)
@@ -99,7 +111,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UITextField(position = 10, label = "TextField", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_TEXT, //
-            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void text() {
         // model binding
     }
@@ -116,10 +128,14 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isTextEnabled() {
+        return isAllElementsEnabled();
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UITextArea(position = 20, height = "5em", label = "TextArea", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_LONGTEXT, //
-            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void longText() {
         // model binding
     }
@@ -136,10 +152,14 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isLongTextEnabled() {
+        return isAllElementsEnabled();
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIIntegerField(position = 30, label = "IntegerField", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_INTVALUE, //
-            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void intValue() {
         // model binding
     }
@@ -156,10 +176,14 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isIntValueEnabled() {
+        return isAllElementsEnabled();
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIDoubleField(position = 40, label = "DoubleField", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_DOUBLEVALUE, //
-            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void doubleValue() {
         // model binding
     }
@@ -176,10 +200,14 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isDoubleValueEnabled() {
+        return isAllElementsEnabled();
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIDecimalField(position = 45, label = "DecimalField", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_DECIMALVALUE, //
-            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void decimalValue() {
         // model binding
     }
@@ -196,10 +224,14 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isDecimalValueEnabled() {
+        return isAllElementsEnabled();
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIDateField(position = 50, label = "DateField", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_DATE, //
-            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void date() {
         // model binding
     }
@@ -216,10 +248,14 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isDateEnabled() {
+        return isAllElementsEnabled();
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UICustomField(position = 55, label = "CustomField", uiControl = PasswordField.class, //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_SECRET, //
-            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void secret() {
         // model binding
     }
@@ -236,10 +272,14 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isSecretEnabled() {
+        return isAllElementsEnabled();
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIComboBox(position = 60, label = "ComboBox", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_ENUMVALUE, //
-            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void enumValueComboBox() {
         // model binding
     }
@@ -256,10 +296,14 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isEnumValueComboBoxEnabled() {
+        return isAllElementsEnabled();
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UIRadioButtons(position = 65, label = "RadioButtons", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_ENUMVALUE, //
-            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void enumValueRadioButton() {
         // model binding
     }
@@ -276,10 +320,14 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isEnumValueRadioButtonEnabled() {
+        return isAllElementsEnabled();
+    }
+
     @BindReadOnly(ReadOnlyType.DYNAMIC)
     @UICheckBox(position = 70, caption = "I am a CheckBox", label = "Checkbox", //
             modelAttribute = BasicElementsLayoutBehaviorModelObject.PROPERTY_BOOLEANVALUE, //
-            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC)
+            required = RequiredType.DYNAMIC, visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void booleanValue() {
         // model binding
     }
@@ -296,6 +344,10 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isBooleanValueEnabled() {
+        return isAllElementsEnabled();
+    }
+
     @BindIcon(iconType = IconType.DYNAMIC)
     @UILink(position = 140, label = "Link", caption = "I am a Link to #", visible = VisibleType.DYNAMIC)
     public String getLink() {
@@ -310,7 +362,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
-    @UIButton(position = 150, caption = "I am a Button", label = "Button", visible = VisibleType.DYNAMIC)
+    @UIButton(position = 150, caption = "I am a Button", label = "Button", visible = VisibleType.DYNAMIC, enabled = EnabledType.DYNAMIC)
     public void button() {
         Notification.show("Button clicked", 1000, Position.MIDDLE);
     }
@@ -319,4 +371,7 @@ public abstract class AbstractBasicElementsLayoutBehaviorPmo {
         return isAllElementsVisible();
     }
 
+    public boolean isButtonEnabled() {
+        return isAllElementsEnabled();
+    }
 }

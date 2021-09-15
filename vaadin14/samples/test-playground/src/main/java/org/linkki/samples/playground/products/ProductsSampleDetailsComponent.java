@@ -19,7 +19,11 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.framework.ui.component.Headline;
 
 import com.vaadin.flow.component.accordion.Accordion;
+import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.details.DetailsVariant;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayoutVariant;
@@ -34,17 +38,10 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
 
     public ProductsSampleDetailsComponent() {
 
-        setPadding(false); // headline border should reach sidebar
-        setSpacing(false); // content should scroll underneath headline border
         setHeightFull();
+        setSpacing(false);
 
-        add(new Headline("Details"));
-
-        VerticalLayout content = new VerticalLayout();
-        content.setSizeFull();
-        content.setPadding(false); // because the split panel pads
-        content.getStyle().set("overflow", "auto");
-        add(content);
+        add(createHeadline());
 
         LinkkiTabLayout tabLayout = new LinkkiTabLayout(Orientation.HORIZONTAL);
 
@@ -52,42 +49,53 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
                                LinkkiTabSheet.builder("tab1")
                                        .caption("Just Sections")
                                        .content(() -> new VerticalLayout(
-                                               ProductsSampleUtils.createSampleSectionVertical(),
-                                               ProductsSampleUtils.createSampleSectionVertical(),
-                                               ProductsSampleUtils.createSampleSectionHorizontal(),
-                                               ProductsSampleUtils.createSampleSectionVertical(),
-                                               ProductsSampleUtils.createSampleSectionVertical()))
+                                               ProductsSampleComponents.createVerticalSection(),
+                                               ProductsSampleComponents.createVerticalSection(),
+                                               ProductsSampleComponents.createHorizontalSection(),
+                                               ProductsSampleComponents.createVerticalSection(),
+                                               ProductsSampleComponents.createVerticalSection()))
                                        .build(),
                                LinkkiTabSheet.builder("tab3")
                                        .caption("Tables and Sections")
                                        .content(() -> new VerticalLayout(
-                                               ProductsSampleUtils.createSampleSectionVertical(),
-                                               ProductsSampleUtils.createSampleSectionHorizontal(),
-                                               ProductsSampleUtils.createSampleTableSection(5),
-                                               ProductsSampleUtils.createSampleTableSection(10),
-                                               ProductsSampleUtils.createSampleSectionVertical()))
+                                               ProductsSampleComponents.createVerticalSection(),
+                                               ProductsSampleComponents.createHorizontalSection(),
+                                               ProductsSampleComponents.createTableSection(5),
+                                               ProductsSampleComponents.createTableSection(10),
+                                               ProductsSampleComponents.createVerticalSection()))
                                        .build());
 
         Accordion accordion = new Accordion();
-
-        accordion.add("Section Vertical", new VerticalLayout(ProductsSampleUtils.createSampleSectionVertical()));
-        accordion.add("Section Horizontal", new VerticalLayout(ProductsSampleUtils.createSampleSectionHorizontal()))
-                .addThemeVariants(DetailsVariant.SMALL, DetailsVariant.FILLED);
-        accordion.add("Table", new VerticalLayout(ProductsSampleUtils.createSampleTableSection(5)))
-                .addThemeVariants(DetailsVariant.SMALL, DetailsVariant.REVERSE);
-        accordion
-                .add("Table and Sections",
-                     new VerticalLayout(ProductsSampleUtils.createSampleSectionVertical(),
-                             ProductsSampleUtils.createSampleTableSection(5),
-                             ProductsSampleUtils.createSampleSectionVertical()))
-                .addThemeVariants(DetailsVariant.SMALL, DetailsVariant.REVERSE, DetailsVariant.FILLED);
+        accordion.add("Tool", new VerticalLayout(ProductsSampleComponents.createVerticalSection()))
+                .addThemeVariants(DetailsVariant.REVERSE);
+        accordion.add("Table", new VerticalLayout(ProductsSampleComponents.createTableSection(5)))
+                .addThemeVariants(DetailsVariant.REVERSE);
 
         SplitLayout splitLayout = new SplitLayout(tabLayout, accordion);
         splitLayout.addThemeVariants(SplitLayoutVariant.LUMO_MINIMAL);
         splitLayout.setSplitterPosition(75);
         splitLayout.setSizeFull();
 
-        content.add(splitLayout);
+        add(splitLayout);
+    }
+
+    private Headline createHeadline() {
+        Headline headline = new Headline("Details");
+        headline.getContent().add(new Span("additional label"));
+        headline.getContent()
+                .add(new HorizontalLayout(createMenuBar("Header Button 1"),
+                        createMenuBar("Header Button 2"),
+                        createMenuBar("Header Button 3", "Item 1", "Item 2", "Item 3")));
+        return headline;
+    }
+
+    private MenuBar createMenuBar(String caption, String... submenus) {
+        MenuBar menuBar = new MenuBar();
+        MenuItem item = menuBar.addItem(caption);
+        for (String subMenuCaption : submenus) {
+            item.getSubMenu().addItem(subMenuCaption);
+        }
+        return menuBar;
     }
 
 }

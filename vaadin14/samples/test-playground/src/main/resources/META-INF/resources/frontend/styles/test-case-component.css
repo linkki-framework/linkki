@@ -3,6 +3,11 @@ test-case-component {
   display: block;
 }
 
+test-case-component > span {
+  font-size: var(--lumo-font-size-xl);
+  margin-bottom: .5em;
+}
+
 test-case-component > *[part="description"] {
   background-color: rgba(200,200,200,0.2);
 }

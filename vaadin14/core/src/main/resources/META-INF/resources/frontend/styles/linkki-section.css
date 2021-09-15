@@ -1,8 +1,14 @@
-html {
-	--linkki-section-caption-header-color: var(--lumo-header-text-color);
+.linkki-section {
+	--linkki-section-caption-header-color: var(--lumo-contrast-80pct);
+}
+.linkki-section {
+	overflow: auto;
 }
 .linkki-section-caption {
-	margin-bottom: 1em;
+	margin-bottom: .5em;
+}
+.linkki-section {
+    margin-bottom: 1em;
 }
 .linkki-section-caption > h4 {
 	color: var(--linkki-section-caption-header-color);
@@ -20,5 +26,4 @@ html {
 	margin-bottom: 1px;
 	flex-grow: 1;
 	content: "";
-	box-shadow: 0 0.5px 0 var(--lumo-contrast-20pct);
 }

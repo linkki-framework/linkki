@@ -20,15 +20,15 @@ import org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 
 @UISection(caption = "Sample Table Section")
-public class ProductsSampleTablePmo extends SimpleTablePmo<ProductsSampleModelObject, ProductsSampleTableRowPmo> {
+public class ProductsSampleTablePmo extends SimpleTablePmo<ProductsSampleModelObject, ProductsSamplePmo> {
 
     protected ProductsSampleTablePmo(List<? extends ProductsSampleModelObject> modelObjects) {
         super(modelObjects);
     }
 
     @Override
-    protected ProductsSampleTableRowPmo createRow(ProductsSampleModelObject modelObject) {
-        return new ProductsSampleTableRowPmo(modelObject);
+    protected ProductsSamplePmo createRow(ProductsSampleModelObject modelObject) {
+        return new ProductsSamplePmo(modelObject);
     }
 
     @Override

@@ -35,12 +35,14 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class ValidationDialogPmo {
 
-    private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(Severity.INFO, Severity.WARNING, Severity.ERROR);
+    private static final List<Severity> COMBOBOX_VALUES = Arrays.asList(Severity.INFO, Severity.WARNING,
+                                                                        Severity.ERROR);
 
     private Severity severity = Severity.INFO;
+    private boolean showLongValidationMessage;
     private boolean showTextArea;
 
-    @UIComboBox(position = 10, label = "Message Severity", required = RequiredType.REQUIRED, content = AvailableValuesType.DYNAMIC)
+    @UIComboBox(position = 10, label = "Message severity", required = RequiredType.REQUIRED, content = AvailableValuesType.DYNAMIC)
     public Severity getComboBoxValue() {
         return this.severity;
     }
@@ -53,7 +55,16 @@ public class ValidationDialogPmo {
         return COMBOBOX_VALUES;
     }
 
-    @UICheckBox(position = 20, caption = "Show Text Area")
+    @UICheckBox(position = 15, caption = "Show long validation message")
+    public boolean isShowLongValidationMessage() {
+        return showLongValidationMessage;
+    }
+
+    public void setShowLongValidationMessage(boolean showLongValidationMessage) {
+        this.showLongValidationMessage = showLongValidationMessage;
+    }
+
+    @UICheckBox(position = 20, caption = "Show text area")
     public boolean isShowTextArea() {
         return showTextArea;
     }
@@ -75,17 +86,24 @@ public class ValidationDialogPmo {
     public MessageList validate() {
         MessageList messages = new MessageList();
         if (severity.compareTo(Severity.INFO) >= 0) {
-            messages.add(Message.newInfo("info", "Info validation message"));
+            messages.add(Message.newInfo("info", getValidationMessage("Info validation message")));
         }
 
         if (severity.compareTo(Severity.WARNING) >= 0) {
-            messages.add(Message.newWarning("warining", "Warning validation message"));
+            messages.add(Message.newWarning("warining", getValidationMessage("Warning validation message")));
         }
 
         if (severity.compareTo(Severity.ERROR) >= 0) {
-            messages.add(Message.newError("error", "Error validation message"));
+            messages.add(Message.newError("error", getValidationMessage("Error validation message")));
         }
         return messages;
+    }
+
+    private String getValidationMessage(String baseMessage) {
+        return isShowLongValidationMessage() ? baseMessage + " in a very long form with loooooooong words."
+                + " This message should test the line break behavior. Also, the message should be wrapped on top of the buttons."
+                + " Of course, the message only wraps if the size of the screen is small enough."
+                : baseMessage;
     }
 
     @UISection(caption = "Validation in dialog")

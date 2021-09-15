@@ -24,7 +24,7 @@ class LinkkiTabLayout extends LitElement {
                 }
 
                 :host([theme~="solid"]) > ::slotted(vaadin-tabs) {
-                    --sidebar-background-color: #eee;
+                    --sidebar-background-color: var(--lumo-contrast-5pct);
                     background-color: var(--sidebar-background-color);
                 }
                 
@@ -39,12 +39,10 @@ class LinkkiTabLayout extends LitElement {
                   display: block;
                 }
 
-                :host > ::slotted(vaadin-tabs[slot="tabs"]) {
+                :host([orientation~="vertical"]) > ::slotted(vaadin-tabs[slot="tabs"]) {
                   flex-shrink: 0;
                   overflow-y: hidden;
-                }
-                :host > ::slotted(vaadin-tabs[slot="tabs"]) > vaadin-tab {
-                  padding: .5rem 1rem;
+                  --lumo-icon-size-m: 2em;
                 }
             </style>
             

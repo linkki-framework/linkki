@@ -39,6 +39,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeLeaveEvent;
@@ -181,6 +182,8 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
         buttonArea.setSpacing(true);
         buttonArea.addClassName(LinkkiApplicationTheme.DIALOG_BUTTON_BAR);
         buttonArea.setAlignItems(Alignment.CENTER);
+        buttonArea.setJustifyContentMode(JustifyContentMode.END);
+        buttonArea.getElement().getStyle().set("flexWrap", "wrap");
         layout.add(buttonArea);
         layout.setHorizontalComponentAlignment(Alignment.END, buttonArea);
         layout.setFlexGrow(0, buttonArea);

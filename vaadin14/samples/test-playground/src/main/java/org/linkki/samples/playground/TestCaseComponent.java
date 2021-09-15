@@ -24,7 +24,6 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.html.UnorderedList;
@@ -52,7 +51,7 @@ public class TestCaseComponent extends Div {
     public TestCaseComponent(String testId, Component content) {
         setId(testId);
 
-        add(new H3(TestCatalog.getCaseTitle(testId)));
+        add(new Span(TestCatalog.getCaseTitle(testId)));
 
         VerticalLayout description = new VerticalLayout();
         description.getElement().setAttribute("part", "description");

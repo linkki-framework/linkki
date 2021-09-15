@@ -26,7 +26,7 @@ import org.linkki.samples.playground.binding.BindingSampleView;
 import org.linkki.samples.playground.bugs.BugCollectionView;
 import org.linkki.samples.playground.dialogs.DialogsView;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
-import org.linkki.samples.playground.products.ProductsSampleView;
+import org.linkki.samples.playground.products.ProductsSampleDetailView;
 import org.linkki.util.Sequence;
 
 /**
@@ -69,7 +69,7 @@ public class PlaygroundApplicationConfig implements ApplicationConfig {
                     new ApplicationMenuItemDefinition("Sample Layout", SampleView.class),
                     new ApplicationMenuItemDefinition("Custom Layout", CustomView.class),
                     new ApplicationMenuItemDefinition("Binding", BindingSampleView.class),
-                    new ApplicationMenuItemDefinition("F10 Produkte", ProductsSampleView.class),
+                    new ApplicationMenuItemDefinition("F10 Produkte", ProductsSampleDetailView.class),
                     new ApplicationMenuItemDefinition(BugCollectionView.NAME, BugCollectionView.class));
     }
 

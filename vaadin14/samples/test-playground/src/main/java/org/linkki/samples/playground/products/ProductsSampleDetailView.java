@@ -22,7 +22,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "products/details", layout = ProductsSampleAppLayout.class)
+@Route(value = "products", layout = ProductsSampleAppLayout.class)
 @PageTitle("F10 Products Sample Details")
 public class ProductsSampleDetailView extends VerticalLayout {
 
@@ -45,7 +45,6 @@ public class ProductsSampleDetailView extends VerticalLayout {
         add(tabLayout);
 
         setPadding(false);
-        setMargin(false);
         setSizeFull();
     }
 

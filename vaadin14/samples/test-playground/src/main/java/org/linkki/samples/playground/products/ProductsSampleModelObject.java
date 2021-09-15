@@ -16,12 +16,18 @@ package org.linkki.samples.playground.products;
 
 public class ProductsSampleModelObject {
 
+    public static final String DEFAULT_VALUE_NAME = "Value of Name";
+    public static final String DEFAULT_VALUE_PROPERTY = "Value of Property";
     private String name;
-    private String property1;
+    private String property;
 
-    public ProductsSampleModelObject(String name, String property1) {
+    public ProductsSampleModelObject() {
+        this(DEFAULT_VALUE_NAME, DEFAULT_VALUE_PROPERTY);
+    }
+
+    public ProductsSampleModelObject(String name, String property) {
         this.name = name;
-        this.property1 = property1;
+        this.property = property;
     }
 
     public String getName() {
@@ -32,12 +38,12 @@ public class ProductsSampleModelObject {
         this.name = name;
     }
 
-    public String getProperty1() {
-        return property1;
+    public String getProperty() {
+        return property;
     }
 
-    public void setProperty1(String property1) {
-        this.property1 = property1;
+    public void setProperty(String property) {
+        this.property = property;
     }
 
     public String getProperty2() {
