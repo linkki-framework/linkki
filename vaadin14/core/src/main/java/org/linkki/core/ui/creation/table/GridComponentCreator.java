@@ -20,6 +20,7 @@ import java.util.Optional;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.defaults.columnbased.ColumnBasedComponentCreator;
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
+import org.linkki.core.ui.ComponentStyleUtil;
 import org.linkki.core.uicreation.UiCreator;
 
 import com.vaadin.flow.component.grid.Grid;
@@ -54,6 +55,7 @@ public class GridComponentCreator {
                 .getComponent();
         // cannot set in component definition as it would be overwritten in UiCreator
         grid.setId(containerPmo.getClass().getSimpleName() + TABLE_ID_SUFFIX);
+        ComponentStyleUtil.setOverflowAuto(grid);
         return grid;
     }
 

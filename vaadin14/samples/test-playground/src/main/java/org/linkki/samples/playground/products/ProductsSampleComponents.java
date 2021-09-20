@@ -24,17 +24,17 @@ import com.vaadin.flow.component.Component;
 
 public class ProductsSampleComponents {
 
-    public static ProductsSampleTablePmo createSampleTablePmo(int elements) {
+    public static ProductsSampleTablePmo createSampleTablePmo(int elements, int pageLength) {
         List<ProductsSampleModelObject> modelObjects = Lists.newArrayList();
         for (int i = 0; i < elements; i++) {
             modelObjects
                     .add(new ProductsSampleModelObject("Value of Name " + (i + 1), "Value of Property 1 " + (i + 1)));
         }
-        return new ProductsSampleTablePmo(modelObjects);
+        return new ProductsSampleTablePmo(modelObjects, pageLength);
     }
 
     public static Component createTableSection(int elements) {
-        return VaadinUiCreator.createComponent(createSampleTablePmo(elements), new BindingContext());
+        return VaadinUiCreator.createComponent(createSampleTablePmo(elements, 5), new BindingContext());
     }
 
     public static Component createHorizontalSection() {

@@ -22,8 +22,11 @@ import org.linkki.core.ui.layout.annotation.UISection;
 @UISection(caption = "Sample Table Section")
 public class ProductsSampleTablePmo extends SimpleTablePmo<ProductsSampleModelObject, ProductsSamplePmo> {
 
-    protected ProductsSampleTablePmo(List<? extends ProductsSampleModelObject> modelObjects) {
+    private final int pageLength;
+
+    protected ProductsSampleTablePmo(List<? extends ProductsSampleModelObject> modelObjects, int pageLength) {
         super(modelObjects);
+        this.pageLength = pageLength;
     }
 
     @Override
@@ -33,7 +36,6 @@ public class ProductsSampleTablePmo extends SimpleTablePmo<ProductsSampleModelOb
 
     @Override
     public int getPageLength() {
-        return 5;
+        return pageLength;
     }
-
 }
