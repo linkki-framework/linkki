@@ -293,20 +293,14 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
             cancelButton.setId(CANCEL_BUTTON_ID);
             cancelButton.addClickListener(e -> {
                 setCancelPressed(true);
-                cancel();
-                getContent().close();
+                close();
             });
         }
 
     }
 
     private void initCloseListener() {
-        getContent().addDialogCloseActionListener(e -> {
-            if (!isOkPressed() && !isCancelPressed()) {
-                // close event was triggered by user clicking on window close icon, not a button
-                cancel();
-            }
-        });
+        getContent().addDialogCloseActionListener(e -> close());
     }
 
     /**

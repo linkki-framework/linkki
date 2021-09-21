@@ -145,6 +145,7 @@ public class OkCancelDialogTest {
         verify(okHandler).apply();
         verify(cancelHandler, never()).apply();
         assertThat(dialog.getContent().isOpened(), is(false));
+        assertThat(dialog.isOkPressed(), is(true));
     }
 
     @Test
@@ -164,6 +165,7 @@ public class OkCancelDialogTest {
         verify(okHandler, never()).apply();
         verify(cancelHandler).apply();
         assertThat(dialog.getContent().isOpened(), is(false));
+        assertThat(dialog.isCancelPressed(), is(true));
     }
 
     @Test

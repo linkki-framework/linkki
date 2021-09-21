@@ -47,6 +47,7 @@ import org.linkki.samples.playground.ts.components.LinkPmo;
 import org.linkki.samples.playground.ts.components.RadioButtonsPmo;
 import org.linkki.samples.playground.ts.components.TextAreaPmo;
 import org.linkki.samples.playground.ts.components.TextFieldPmo;
+import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
 import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
 import org.linkki.samples.playground.ts.ips.EnabledSectionPmo;
 import org.linkki.samples.playground.ts.ips.IpsPmo;
@@ -93,7 +94,8 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
     }
 
     @Override
-    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
+    public void setParameter(BeforeEvent event, @OptionalParameter
+    String parameter) {
         removeAll();
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");
@@ -147,6 +149,9 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase("TC001", new HorizontalTabLayoutComponent())
                                        .testCase("TC002", new VerticalTabLayoutComponent())
                                        .testCase("TC003", new TabLayoutVisibilityComponent())
+                                       .createTabSheet(),
+                               TestScenario.id("TS011")
+                                       .testCase("TC001", new OkCancelDialogHandlerPmo())
                                        .createTabSheet(),
 
                                // old tab sheets
