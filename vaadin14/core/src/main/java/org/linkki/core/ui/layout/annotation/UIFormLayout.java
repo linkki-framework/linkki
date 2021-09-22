@@ -30,6 +30,7 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.layout.LinkkiLayout;
 
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 
 
 /**
@@ -50,7 +51,11 @@ public @interface UIFormLayout {
     class FormLayoutComponentDefinitionCreator implements ComponentDefinitionCreator<UIFormLayout> {
         @Override
         public LinkkiComponentDefinition create(UIFormLayout annotation, AnnotatedElement annotatedElement) {
-            return pmo -> new FormLayout();
+            return pmo -> {
+                FormLayout formLayout = new FormLayout();
+                formLayout.setResponsiveSteps(new ResponsiveStep("0px", 1));
+                return formLayout;
+            };
         }
     }
 }

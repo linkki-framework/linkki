@@ -39,13 +39,19 @@ public class LinkkiText extends Div implements HasIcon {
     private static final long serialVersionUID = -1027646873177686722L;
 
     @CheckForNull
-    private VaadinIcon icon = null;
+    private VaadinIcon icon;
 
-    private String text = "";
+    private String text;
 
     public LinkkiText() {
-        super();
+        this("", null);
+    }
+
+    public LinkkiText(String text, @CheckForNull VaadinIcon icon) {
+        this.text = Objects.requireNonNull(text, "text must not be null");
+        this.icon = icon;
         addClassName(CLASS_NAME);
+        update();
     }
 
     @Override
@@ -71,11 +77,6 @@ public class LinkkiText extends Div implements HasIcon {
     public void setIcon(VaadinIcon icon) {
         if (!Objects.equals(this.icon, icon)) {
             this.icon = icon;
-            if (icon != null) {
-                addClassName(LinkkiTheme.HAS_ICON);
-            } else {
-                removeClassName(LinkkiTheme.HAS_ICON);
-            }
             update();
         }
     }
@@ -84,6 +85,9 @@ public class LinkkiText extends Div implements HasIcon {
         removeAll();
         if (icon != null) {
             add(icon.create());
+            addClassName(LinkkiTheme.HAS_ICON);
+        } else {
+            removeClassName(LinkkiTheme.HAS_ICON);
         }
         add(new Span(text));
     }

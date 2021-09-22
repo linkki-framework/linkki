@@ -14,14 +14,18 @@
 
 package org.linkki.samples.playground.products;
 
+import org.linkki.core.vaadin.component.base.LinkkiText;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.framework.ui.component.Headline;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.accordion.Accordion;
+import com.vaadin.flow.component.accordion.AccordionPanel;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -65,18 +69,28 @@ public class ProductsSampleDetailsComponent extends VerticalLayout {
                                                ProductsSampleComponents.createVerticalSection()))
                                        .build());
 
-        Accordion accordion = new Accordion();
-        accordion.add("Tool", new VerticalLayout(ProductsSampleComponents.createVerticalSection()))
-                .addThemeVariants(DetailsVariant.REVERSE);
-        accordion.add("Table", new VerticalLayout(ProductsSampleComponents.createTableSection(5)))
-                .addThemeVariants(DetailsVariant.REVERSE);
+        // TODO Property API and solution in LIN-2249
+        tabLayout.getElement().getStyle().set("--linkki-form-item-label-width", "15em");
 
-        SplitLayout splitLayout = new SplitLayout(tabLayout, accordion);
+        Accordion accordion = new Accordion();
+        accordion.add(createPanel("Tool", VaadinIcon.LIST, ProductsSampleComponents.createVerticalSection()));
+        accordion.add(createPanel("Table", VaadinIcon.TABLE, ProductsSampleComponents.createTableSection(5)));
+        VerticalLayout toolsArea = new VerticalLayout(accordion);
+        accordion.setSizeFull();
+
+        SplitLayout splitLayout = new SplitLayout(tabLayout, toolsArea);
         splitLayout.addThemeVariants(SplitLayoutVariant.LUMO_MINIMAL);
         splitLayout.setSplitterPosition(75);
         splitLayout.setSizeFull();
 
         add(splitLayout);
+    }
+
+    private AccordionPanel createPanel(String caption, VaadinIcon icon, Component content) {
+        LinkkiText toolCaption = new LinkkiText(caption, icon);
+        AccordionPanel accordionPanel = new AccordionPanel(toolCaption, content);
+        accordionPanel.addThemeVariants(DetailsVariant.REVERSE);
+        return accordionPanel;
     }
 
     private Headline createHeadline() {

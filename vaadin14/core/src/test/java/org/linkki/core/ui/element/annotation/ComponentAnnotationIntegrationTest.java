@@ -49,6 +49,9 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
     private Supplier<Object> modelObjectSupplier;
     private FormLayout defaultSection;
 
+    // needs to be a field due to weak reference
+    private UI ui;
+
     public ComponentAnnotationIntegrationTest(Supplier<Object> modelObjectSupplier,
             Function<Object, ? extends P> pmoCreator) {
         this.modelObjectSupplier = modelObjectSupplier;
@@ -65,7 +68,7 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
 
     @BeforeEach
     public void setUp() {
-        UI ui = new UI();
+        ui = new UI();
         ui.setLocale(Locale.GERMAN);
         UI.setCurrent(ui);
 

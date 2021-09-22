@@ -59,6 +59,7 @@ public class ReportListPage extends AbstractPage implements AfterTabSelectedObse
 
         AbstractSection section = addSection(new ReportTablePmo(reports));
         section.setSizeFull();
+
     }
 
     @Override

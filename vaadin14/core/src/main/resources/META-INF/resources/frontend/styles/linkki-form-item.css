@@ -6,7 +6,6 @@
 	width: 1em;
 	text-align: center;
 	margin-right: -1em;
-	--linkki-form-item-label-alignment: right;
 }
 
 :host([required]) [part="label"]::after {
@@ -18,7 +17,7 @@
 }
 
 [part="label"] {
-	text-align: var(--linkki-form-item-label-alignment);
+	text-align: var(--linkki-form-item-label-alignment, right);
 	display: flex;
 }
 

@@ -1,6 +1,6 @@
 .linkki-application-header {
 	background-color: var(--lumo-primary-color);
-	padding: 0;
+	padding-right: var(--lumo-space-m);
 }
 
 .linkki-application-header + div {
@@ -11,10 +11,9 @@
 	align-self: center;
 }
 
-
 .linkki-application-menu {
-    --_lumo-button-color: white;
-    --lumo-primary-text-color: white;
+    --_lumo-button-color: var(--lumo-base-color);
+    --lumo-primary-text-color: var(--lumo-base-color);
 }
 .linkki-application-menu.borderless {
     --_lumo-button-background-color: transparent;

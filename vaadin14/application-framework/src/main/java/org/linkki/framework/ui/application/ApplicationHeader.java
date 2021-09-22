@@ -27,7 +27,6 @@ import org.linkki.util.Sequence;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -192,7 +191,8 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      *           menu.
      */
     protected MenuItem addUserMenu(String username, MenuBar parent) {
-        MenuItem userMenu = parent.addItem(new Button(username, VaadinIcon.USER.create())); // $NON-NLS-1$
+        MenuItem userMenu = parent.addItem(VaadinIcon.USER.create()); // $NON-NLS-1$
+        userMenu.add(username);
         addUserMenuItems(userMenu);
         return userMenu;
     }
