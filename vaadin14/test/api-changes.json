@@ -5,9 +5,6 @@
 			"configuration": {
 				"elements": {
 					"exclude": [
-						"missing-class javax\\.servlet\\.http.*",
-						".* org\\.linkki\\.core\\..*",
-						".* org\\.faktorips\\..*",
 						".* com\\.vaadin\\.flow\\..*"
 					]
 				}

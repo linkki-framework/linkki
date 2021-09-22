@@ -45,7 +45,7 @@ public class AbstractGridComponentWrapperTest {
 
         wrapper.setPageLength(0);
 
-        assertThat(wrapper.getComponent().isHeightByRows(), is(true));
+        assertThat(wrapper.getComponent().isAllRowsVisible(), is(true));
     }
 
     /**
@@ -69,7 +69,7 @@ public class AbstractGridComponentWrapperTest {
         wrapper.setPageLength(0);
         wrapper.setPageLength(0);
 
-        assertThat(wrapper.getComponent().isHeightByRows(), is(true));
+        assertThat(wrapper.getComponent().isAllRowsVisible(), is(true));
     }
 
 }

@@ -76,12 +76,12 @@ public abstract class AbstractGridComponentWrapper<ROW> extends VaadinComponentW
     public void setPageLength(int pageLength) {
         // TODO LIN-2126
         if (pageLength < 1) {
-            if (!getComponent().isHeightByRows()) {
-                getComponent().setHeightByRows(true);
+            if (!getComponent().isAllRowsVisible()) {
+                getComponent().setAllRowsVisible(true);
             }
         } else {
-            if (getComponent().isHeightByRows()) {
-                getComponent().setHeightByRows(false);
+            if (getComponent().isAllRowsVisible()) {
+                getComponent().setAllRowsVisible(false);
             }
             if (getComponent().getPageSize() != pageLength) {
                 getComponent().setPageSize(pageLength);

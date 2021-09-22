@@ -1,4 +1,16 @@
 {
+    "all-versions": [
+		{
+			"extension": "revapi.filter",
+			"configuration": {
+				"elements": {
+					"exclude": [
+						".* com\\.vaadin\\.flow\\..*"
+					]
+				}
+			}
+		}
+	],
     "1.5.0": [
         {
             "extension": "revapi.differences",
@@ -38,6 +50,12 @@
                         "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
                         "annotation": "@com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-has-icon.css\")",
                         "justification": "LIN-2264/LIN-2548 :: Show link as label if no href is available"
+                    },
+                    {
+                        "ignore": true,
+                        "code": "java.class.externalClassExposedInAPI",
+                        "new": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW>",
+                        "justification": "LIN-2467/LIN-2572 :: Update vaadin to 14.7.0"
                     }
                 ]
             }
