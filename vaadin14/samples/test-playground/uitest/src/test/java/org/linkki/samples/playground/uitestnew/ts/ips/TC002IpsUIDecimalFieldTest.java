@@ -19,23 +19,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Objects;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class TC002IpsUIDecimalFieldTest extends BaseUITest {
+public class TC002IpsUIDecimalFieldTest extends PlaygroundUiTest {
 
     private TestCaseComponentElement testCaseSection;
     private LinkkiSectionElement section;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
+        super.setUp();
         testCaseSection = goToTestCase("TS004", "TC002");
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }

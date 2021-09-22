@@ -17,21 +17,22 @@ package org.linkki.samples.playground.uitestnew.ts.ips;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class TC003IpsPropertyDispatcherRequiredTest extends BaseUITest {
+public class TC003IpsPropertyDispatcherRequiredTest extends PlaygroundUiTest {
 
     private TestCaseComponentElement testCaseSection;
     private LinkkiSectionElement section;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
+        super.setUp();
         testCaseSection = goToTestCase("TS004", "TC003");
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }

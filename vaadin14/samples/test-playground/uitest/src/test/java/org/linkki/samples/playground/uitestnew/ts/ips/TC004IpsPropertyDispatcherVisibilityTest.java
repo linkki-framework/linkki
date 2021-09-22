@@ -18,23 +18,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.NoSuchElementException;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class TC004IpsPropertyDispatcherVisibilityTest extends BaseUITest {
+public class TC004IpsPropertyDispatcherVisibilityTest extends PlaygroundUiTest {
 
     private TestCaseComponentElement testCaseSection;
     private LinkkiSectionElement section;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
+        super.setUp();
         testCaseSection = goToTestCase("TS004", "TC004");
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }

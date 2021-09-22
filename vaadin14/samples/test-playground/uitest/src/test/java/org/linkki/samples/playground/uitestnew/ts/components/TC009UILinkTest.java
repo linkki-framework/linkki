@@ -19,16 +19,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.components.LinkPmo;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.html.testbench.AnchorElement;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class TC009UILinkTest extends BaseUITest {
+public class TC009UILinkTest extends PlaygroundUiTest {
 
+    @Override
     @BeforeEach
-    void setUp() {
+    public void setUp() {
+        super.setUp();
         goToTestCase("TS005", "TC009");
     }
 

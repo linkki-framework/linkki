@@ -19,7 +19,9 @@ import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
 
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.notification.Notification;
 
 @UISection(caption = "Simple OkCancelDialog")
 public class SimpleDialogPmo {
@@ -78,6 +80,28 @@ public class SimpleDialogPmo {
     @UIButton(position = 50, caption = "Show exception dialog")
     public void showExceptionDialog() {
         throw new RuntimeException("Manually triggered exception");
+    }
+
+    @UIButton(position = 60, caption = "Open dialog with okHandler")
+    public void okHandlerDialog() {
+        Html dialogContent = new Html("<div>"
+                + "When closing this dialog, the notification should only be shown once, whether if this dialog is closed by<br>"
+                + "<ul>"
+                + "<li>clicking Ok</li>"
+                + "<li>hitting Enter</li>"
+                + "<li>or hitting enter with focus set on the Ok button</li>"
+                + "<ul>"
+                + "<div>");
+
+        OkCancelDialog.builder("Dialog with okHandler")
+                .content(dialogContent)
+                .okCaption("Ok")
+                .cancelCaption("Cancel")
+                .okHandler(() -> {
+                    Notification.show("This notification should always be shown exactly once.");
+                })
+                .build()
+                .open();
     }
 
 

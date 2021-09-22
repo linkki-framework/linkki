@@ -16,18 +16,18 @@ package org.linkki.samples.playground.uitestnew.ts.sectionheader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionCaptionElement;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Dimension;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
 
-public class TC001SectionHeaderTest extends BaseUITest {
+public class TC001SectionHeaderTest extends PlaygroundUiTest {
 
     private TestCaseComponentElement testCaseSection;
     private LinkkiSectionElement section;
@@ -36,8 +36,9 @@ public class TC001SectionHeaderTest extends BaseUITest {
     private ButtonElement button2;
     private DivElement label;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
+        super.setUp();
         testCaseSection = goToTestCase("TS002", "TC001");
 
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();

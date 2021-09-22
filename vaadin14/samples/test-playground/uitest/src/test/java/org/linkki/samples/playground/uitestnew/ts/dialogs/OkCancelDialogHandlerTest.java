@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
@@ -33,10 +33,12 @@ import com.vaadin.flow.component.dialog.testbench.DialogElement;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
 
 
-public class OkCancelDialogHandlerTest extends BaseUITest {
+public class OkCancelDialogHandlerTest extends PlaygroundUiTest {
 
+    @Override
     @BeforeEach
-    void setUp() {
+    public void setUp() {
+        super.setUp();
         goToTestCase("TS011", "TC001");
     }
 

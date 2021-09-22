@@ -289,4 +289,9 @@ For more information please refer to https://vaadin.com/components/vaadin-button
 ===== Key Bindings
 Some buttons shouldn't be triggered only by mouse click, but also by key combinations. These can be specified with the properties `shortcutModifierKeys` and `shortcutKeyCode`. `shortcutModifierKeys` defines which keys must be pressed and held before the key in the `shortcutKeyCode` is pressed. For instance, in many applications saving is triggered with the shortcut combination "Ctrl + s". In this case the "Ctrl" key is the modifier and the "s" key is the shortcut key.	
 	
-In both properties individual keys are identified by integer values. The appropriate value for each key can be found in the Vaadin classes `ModifierKey` and `KeyCode`.
+The appropriate value for modifiers can be found in `KeyModifier`. The most common keys are provided by the class `KeyCode`. Other values for keys can be deducted by the Vaadin class `Keys`. 
+
+TIP: As button shortcuts work globally, there should always be only one button that uses a key combination as shortcut. +
+In addition, a button that uses enter as shortcut should also use the variant PRIMARY to make it visibly clear to the user that the button would be triggered.
+
+NOTE: To prevent unexpected behaviors, defining a shortcut for a button results in preventing the browser default for that key combination. For example, if a button defines the enter key as shortcut, it will not be possible to create line break in text areas using enter. Shift + enter would still work if there is no button that uses shift + enter as shortcut.

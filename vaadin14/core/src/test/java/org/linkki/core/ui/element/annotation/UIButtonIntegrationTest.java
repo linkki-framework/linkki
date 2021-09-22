@@ -18,13 +18,19 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
+import org.linkki.core.ui.element.annotation.UIButton.ButtonComponentDefinitionCreator;
 import org.linkki.core.ui.element.annotation.UIButtonIntegrationTest.ButtonTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.vaadin.component.KeyCode;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -47,6 +53,39 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
 
         Button staticBindingButton = getStaticComponent();
         assertThat(staticBindingButton.getText(), is("static"));
+    }
+
+    @Test
+    public void testCreateButtonShortcut() {
+        ButtonComponentDefinitionCreator buttonComponentDefinitionCreator = new UIButton.ButtonComponentDefinitionCreator();
+
+        Optional<Key> shortcutKey = buttonComponentDefinitionCreator.createShortcutKey(getAnnotation("value"));
+
+        List<String> keys = shortcutKey.get().getKeys();
+        assertThat(keys.size(), is(1));
+        assertThat(keys.get(0), is("Enter"));
+    }
+
+    @Test
+    public void testCreateButtonShortcut_NoKeys() {
+        ButtonComponentDefinitionCreator buttonComponentDefinitionCreator = new UIButton.ButtonComponentDefinitionCreator();
+
+        Optional<Key> shortcutKey = buttonComponentDefinitionCreator.createShortcutKey(getAnnotation("doFoo"));
+
+        assertThat(shortcutKey.isEmpty(), is(true));
+    }
+
+    @Test
+    public void testCreateButtonShortcut_MultipleKeys() {
+        ButtonComponentDefinitionCreator buttonComponentDefinitionCreator = new UIButton.ButtonComponentDefinitionCreator();
+
+        Optional<Key> shortcutKey = buttonComponentDefinitionCreator.createShortcutKey(getAnnotation("staticValue"));
+
+        List<String> keys = shortcutKey.get().getKeys();
+        assertThat(keys.size(), is(3));
+        assertThat(keys.get(0), is("KeyA"));
+        assertThat(keys.get(1), is("KeyB"));
+        assertThat(keys.get(2), is("KeyC"));
     }
 
     @Test
@@ -86,6 +125,14 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
         assertThat(button.getThemeNames(), containsInAnyOrder(smallVariant, successVariant));
     }
 
+    private UIButton getAnnotation(String method) {
+        try {
+            return ButtonTestPmo.class.getMethod(method).getAnnotation(UIButton.class);
+        } catch (NoSuchMethodException | SecurityException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void testLabelBinding() {
         // do nothing
@@ -102,7 +149,7 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
             super(modelObject);
         }
 
-        @UIButton(position = 1, visible = VisibleType.DYNAMIC, captionType = CaptionType.DYNAMIC, icon = VaadinIcon.ADJUST, showIcon = true, enabled = EnabledType.DYNAMIC)
+        @UIButton(position = 10, visible = VisibleType.DYNAMIC, captionType = CaptionType.DYNAMIC, icon = VaadinIcon.ADJUST, showIcon = true, enabled = EnabledType.DYNAMIC, shortcutKeyCode = KeyCode.ENTER)
         @Override
         public void value() {
             clicked = true;
@@ -117,23 +164,24 @@ public class UIButtonIntegrationTest extends ComponentAnnotationIntegrationTest<
         }
 
         @Override
-        @UIButton(position = 2, label = TEST_LABEL, visible = VisibleType.INVISIBLE, caption = "static", enabled = EnabledType.DISABLED)
+        @UIButton(position = 20, label = TEST_LABEL, visible = VisibleType.INVISIBLE, caption = "static", enabled = EnabledType.DISABLED, shortcutKeyCode = {
+                "KeyA", "KeyB", "KeyC" })
         public void staticValue() {
             // does nothing
         }
 
         @UIButton(position = 30)
-        public void getButton() {
-            // does nothing
-        }
-
-        @UIButton(position = 3)
         public void doFoo() {
             // does nothing
         }
 
-        @UIButton(position = 4, variants = { ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_SMALL })
+        @UIButton(position = 40, variants = { ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_SMALL })
         public void smallSuccess() {
+            // does nothing
+        }
+
+        @UIButton(position = 50)
+        public void getButton() {
             // does nothing
         }
 

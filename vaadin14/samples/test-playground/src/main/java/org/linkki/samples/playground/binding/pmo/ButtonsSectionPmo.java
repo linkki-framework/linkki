@@ -22,6 +22,7 @@ import org.linkki.core.ui.layout.annotation.UIHorizontalLayout;
 import org.linkki.core.vaadin.component.KeyCode;
 import org.linkki.util.handler.Handler;
 
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
 @UIHorizontalLayout
@@ -37,11 +38,8 @@ public class ButtonsSectionPmo {
         this.resetAction = resetAction;
     }
 
-    // TODO LIN-2142
     @UIButton(position = 10, showIcon = true, icon = VaadinIcon.CHECK, //
-            captionType = CaptionType.NONE, enabled = EnabledType.DYNAMIC, shortcutKeyCode = KeyCode.ENTER
-    // , styleNames = ValoTheme.BUTTON_PRIMARY */
-    )
+            captionType = CaptionType.NONE, enabled = EnabledType.DYNAMIC, shortcutKeyCode = KeyCode.ENTER, variants = ButtonVariant.LUMO_PRIMARY)
     public void save() {
         saveAction.apply();
     }
@@ -50,11 +48,7 @@ public class ButtonsSectionPmo {
         return canSaveSupplier.getAsBoolean();
     }
 
-    // TODO LIN-2142
-    @UIButton(position = 20, captionType = CaptionType.STATIC, caption = "reset"/*
-                                                                                 * , styleNames =
-                                                                                 * ValoTheme.BUTTON_LINK
-                                                                                 */)
+    @UIButton(position = 20, captionType = CaptionType.STATIC, caption = "reset", variants = ButtonVariant.LUMO_TERTIARY)
     public void reset() {
         resetAction.apply();
     }

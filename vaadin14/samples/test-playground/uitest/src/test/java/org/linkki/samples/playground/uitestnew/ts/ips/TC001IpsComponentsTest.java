@@ -17,17 +17,17 @@ package org.linkki.samples.playground.uitestnew.ts.ips;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension.Configuration;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.html.testbench.LabelElement;
 
-public class TC001IpsComponentsTest extends BaseUITest {
+public class TC001IpsComponentsTest extends PlaygroundUiTest {
 
     @Nested
     @Configuration(locale = "en")
@@ -45,15 +45,16 @@ public class TC001IpsComponentsTest extends BaseUITest {
         }
     }
 
-    private abstract class AbstractTC001IpsComponentsTest extends BaseUITest {
+    private abstract class AbstractTC001IpsComponentsTest extends PlaygroundUiTest {
         private TestCaseComponentElement testCaseSection;
         private LinkkiSectionElement section;
 
         private String expectedlabelValue;
         private String actualLabelValue;
 
-        @BeforeAll
+        @BeforeEach
         void setup() {
+            super.setUp();
             testCaseSection = goToTestCase("TS004", "TC001");
             section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
 

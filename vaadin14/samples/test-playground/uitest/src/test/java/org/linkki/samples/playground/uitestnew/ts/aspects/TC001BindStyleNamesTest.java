@@ -19,14 +19,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 
-public class TC001BindStyleNamesTest extends BaseUITest {
+public class TC001BindStyleNamesTest extends PlaygroundUiTest {
 
+    @Override
     @BeforeEach
-    void setUp() {
+    public void setUp() {
+        super.setUp();
         goToTestCase("TS008", "TC001");
     }
 

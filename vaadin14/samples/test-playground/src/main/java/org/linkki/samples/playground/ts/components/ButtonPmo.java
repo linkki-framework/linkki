@@ -16,21 +16,28 @@ package org.linkki.samples.playground.ts.components;
 
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UITextArea;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.vaadin.component.KeyCode;
 
+import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 
 @UISection
 public class ButtonPmo {
 
     private int counter;
+    private String content;
 
     @UILabel(position = 0)
     public String getCounter() {
         return "Counter: " + counter;
+    }
+
+    @UILabel(position = 5)
+    public String getContentAsText() {
+        return content;
     }
 
     @UIButton(position = 10, caption = "Increase Counter", icon = VaadinIcon.PLUS, showIcon = true)
@@ -38,14 +45,28 @@ public class ButtonPmo {
         counter++;
     }
 
-    @UIButton(position = 20, caption = "Reset Counter", icon = VaadinIcon.ARROW_BACKWARD, showIcon = true, variants = ButtonVariant.LUMO_TERTIARY)
+    @UIButton(position = 20, caption = "Reset Counter", icon = VaadinIcon.ARROW_BACKWARD, showIcon = true, variants = ButtonVariant.LUMO_TERTIARY, label = "Button with variant")
     public void resetCounter() {
         counter = 0;
     }
 
-    @UIButton(position = 30, caption = "Show Notification on Enter or Click", shortcutKeyCode = KeyCode.ENTER, variants = ButtonVariant.LUMO_PRIMARY)
-    public void onEnterButton() {
-        Notification.show("Button for Notification pressed!");
+    @UITextArea(position = 40, label = "@UITextArea", height = "5em")
+    public String getContent() {
+        return content;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @UIButton(position = 50, label = "Button with Enter", caption = "Increase counter", shortcutKeyCode = KeyCode.ENTER, variants = ButtonVariant.LUMO_PRIMARY)
+    public void button() {
+        counter++;
+    }
+
+    @UIButton(position = 70, label = "Button with Crtl+Enter", caption = "Increase counter", shortcutKeyCode = KeyCode.ENTER, shortcutKeyModifiers = {
+            KeyModifier.CONTROL })
+    public void buttonWithModifier() {
+        counter++;
+    }
 }

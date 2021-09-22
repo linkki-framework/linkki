@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject.SampleEnum;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
 import com.vaadin.flow.component.html.testbench.AnchorElement;
@@ -31,12 +31,13 @@ import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-abstract class TS001AbstractBasicElementsLayoutTest extends BaseUITest {
+abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
 
     private TestCaseComponentElement testCaseSection;
 
     @BeforeEach
-    void setupEach() {
+    void setup() {
+        super.setUp();
         testCaseSection = goToTestCase("TS001", getTestCaseId());
     }
 

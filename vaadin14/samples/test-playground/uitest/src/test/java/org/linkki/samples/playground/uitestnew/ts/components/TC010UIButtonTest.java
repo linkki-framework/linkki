@@ -19,27 +19,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitest.DriverProperties;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
-import com.vaadin.flow.component.notification.testbench.NotificationElement;
+import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 
-public class TC010UIButtonTest extends BaseUITest {
+public class TC010UIButtonTest extends PlaygroundUiTest {
 
+    @Override
     @BeforeEach
-    void setUp() {
+    public void setUp() {
+        super.setUp();
+        getDriver().get(DriverProperties.getTestUrl(""));
         goToTestCase("TS005", "TC010");
     }
 
-    @Order(1)
     @Test
-    void testButton_IncreaseCounter() {
-        DivElement counter = $(DivElement.class).id("counter");
+    void testButton_OnClick() {
+        DivElement counter = getCounter();
         ButtonElement increaseCounterButton = $(ButtonElement.class).id("increaseCounter");
 
         assertThat(counter.getText()).isEqualTo("Counter: 0");
@@ -49,34 +51,109 @@ public class TC010UIButtonTest extends BaseUITest {
         assertThat(counter.getText()).isEqualTo("Counter: 10");
     }
 
-    @Order(2)
-    // TODO LIN-2343
-    @Disabled("Button should not receive a click on enter")
     @Test
-    void testButton_ShortcutKey() {
-        DivElement counter = $(DivElement.class).id("counter");
+    void testButton_OnDoubleClick() {
+        DivElement counter = getCounter();
         ButtonElement increaseCounterButton = $(ButtonElement.class).id("increaseCounter");
 
-        String counterValueBefore = counter.getText();
+        assertThat(counter.getText()).isEqualTo("Counter: 0");
 
-        // the button shortcut should trigger even when another element is in focus
-        increaseCounterButton.sendKeys(Keys.ENTER);
+        increaseCounterButton.doubleClick();
 
-        NotificationElement notification = $(NotificationElement.class).first();
-        assertThat(notification.getText()).isEqualTo("Button for Notification pressed!");
-        // the counter should not be changed
-        assertThat(counter.getText()).isEqualTo(counterValueBefore);
+        assertThat(counter.getText()).isEqualTo("Counter: 1");
     }
 
-    @Order(3)
     @Test
-    void testButton_ResetCounter() {
-        DivElement counter = $(DivElement.class).id("counter");
-        ButtonElement resetCounterButton = $(ButtonElement.class).id("resetCounter");
-
-        resetCounterButton.click();
-
+    void testButton_ShortcutKey() {
+        DivElement counter = getCounter();
         assertThat(counter.getText()).isEqualTo("Counter: 0");
+
+        sendKeys(null, Keys.ENTER);
+
+        assertThat(counter.getText()).isEqualTo("Counter: 1");
+    }
+
+    @Test
+    void testButton_ShortcutKey_FocusOnButton() {
+        DivElement counter = getCounter();
+        assertThat(counter.getText()).isEqualTo("Counter: 0");
+        ButtonElement increaseCounterButton = $(ButtonElement.class).id("increaseCounter");
+        increaseCounterButton.focus();
+
+        sendKeys(null, Keys.ENTER);
+
+        assertThat(counter.getText())
+                .as("Browser default triggering the focused increase counter button should not be executed")
+                .isEqualTo("Counter: 1");
+    }
+
+    @Test
+    void testButtonShortcut_WithTextAreaFocus_WithEnterClickShorcut() {
+        TextAreaElement textArea = getTextArea();
+        DivElement counter = getCounter();
+        assertThat(counter.getText()).isEqualTo("Counter: 0");
+        textArea.focus();
+
+        sendKeys(null, "Enter!");
+        sendKeys(null, Keys.ENTER);
+
+        assertThat(textArea.getValue())
+                .describedAs("As enter is used as button shortcut, the browser default which would create line breaks in text area sould be prevented.")
+                .isEqualTo("Enter!");
+        assertThat(counter.getText()).isEqualTo("Counter: 1");
+        assertThat($(DivElement.class).id("contentAsText").getText())
+                .as("Value of the text area should have been sent to server")
+                .isEqualTo("Enter!");
+    }
+
+    @Test
+    void testButtonShortcut_WithTextAreaFocus_WithCrtlEnterClickShortCut() {
+        TextAreaElement textArea = getTextArea();
+        DivElement counter = getCounter();
+        assertThat(counter.getText()).isEqualTo("Counter: 0");
+        textArea.focus();
+
+        sendKeys(null, "Crtl+Enter!");
+        sendKeys(Keys.CONTROL, Keys.ENTER);
+
+        assertThat(textArea.getValue()).isEqualTo("Crtl+Enter!");
+        assertThat(counter.getText()).isEqualTo("Counter: 1");
+        assertThat($(DivElement.class).id("contentAsText").getText())
+                .as("Value of the text area should have been sent to server")
+                .isEqualTo("Crtl+Enter!");
+    }
+
+    @Test
+    void testButtonShortcut_WithTextAreaFocus_OnShiftEnter() {
+        TextAreaElement textArea = getTextArea();
+        DivElement counter = getCounter();
+
+        textArea.focus();
+        sendKeys(null, "Shift+Enter!");
+        sendKeys(Keys.SHIFT, Keys.ENTER);
+
+        assertThat(textArea.getValue()).isEqualTo("Shift+Enter!\n");
+        assertThat(counter.getText()).isEqualTo("Counter: 0");
+    }
+
+    private TextAreaElement getTextArea() {
+        return $(TextAreaElement.class).id("content");
+    }
+
+    private DivElement getCounter() {
+        return $(DivElement.class).id("counter");
+    }
+
+    private void sendKeys(Keys modifier, CharSequence... keys) {
+        Actions actionProvider = new Actions(getDriver());
+        if (modifier != null) {
+            actionProvider.keyDown(modifier);
+        }
+        actionProvider.sendKeys(keys);
+        if (modifier != null) {
+            actionProvider.keyUp(modifier);
+        }
+        actionProvider.build().perform();
     }
 
 }

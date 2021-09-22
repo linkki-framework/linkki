@@ -14,10 +14,10 @@
 
 package org.linkki.samples.playground.uitestnew.ts.tablayout;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -26,13 +26,14 @@ import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.html.testbench.SpanElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 
-public class TC003TabLayoutVisibilityTest extends BaseUITest {
+public class TC003TabLayoutVisibilityTest extends PlaygroundUiTest {
 
     private TestCaseComponentElement testCaseSection;
     private DivElement section;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
+        super.setUp();
         testCaseSection = goToTestCase("TS010", "TC003");
         section = testCaseSection.getContentWrapper().$(DivElement.class).first();
     }

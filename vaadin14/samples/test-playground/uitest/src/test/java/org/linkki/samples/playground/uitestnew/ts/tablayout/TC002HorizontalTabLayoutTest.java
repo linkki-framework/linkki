@@ -18,10 +18,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -30,13 +30,14 @@ import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.html.testbench.SpanElement;
 import com.vaadin.flow.component.tabs.testbench.TabElement;
 
-public class TC002HorizontalTabLayoutTest extends BaseUITest {
+public class TC002HorizontalTabLayoutTest extends PlaygroundUiTest {
 
     private TestCaseComponentElement testCaseSection;
     private DivElement section;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
+        super.setUp();
         testCaseSection = goToTestCase("TS010", "TC002");
         section = testCaseSection.getContentWrapper().$(DivElement.class).first();
     }

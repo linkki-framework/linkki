@@ -19,13 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension.Configuration;
-import org.linkki.samples.playground.uitestnew.BaseUITest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.LabelElement;
@@ -50,7 +50,7 @@ class TC001LocalizationTest {
         }
     }
 
-    private abstract class BaseTC001LocalizationTest extends BaseUITest {
+    private abstract class BaseTC001LocalizationTest extends PlaygroundUiTest {
 
         protected TestCaseComponentElement testCaseSection;
         protected LinkkiSectionElement section;
@@ -64,8 +64,9 @@ class TC001LocalizationTest {
             this.localizedNumber = localizedNumber;
         }
 
-        @BeforeAll
+        @BeforeEach
         void setup() {
+            super.setUp();
             testCaseSection = goToTestCase("TS003", "TC001");
 
             section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
