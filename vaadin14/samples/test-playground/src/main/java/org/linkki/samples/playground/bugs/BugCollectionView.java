@@ -14,6 +14,7 @@
 package org.linkki.samples.playground.bugs;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
@@ -30,8 +31,10 @@ import org.linkki.samples.playground.bugs.lin1797.SectionTablePmo;
 import org.linkki.samples.playground.bugs.lin1917.TriangleTablePmo;
 import org.linkki.samples.playground.bugs.lin2200.ComboBoxNewInstancePmo;
 import org.linkki.samples.playground.bugs.lin2555.TextfieldWithEnterButtonPmo;
+import org.linkki.samples.playground.bugs.lin2567.TabSheetContentWithText;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.router.PageTitle;
@@ -62,7 +65,8 @@ public class BugCollectionView extends LinkkiTabLayout {
                      // createTabSheet(createSectionWithSeparateBindingContext(bc -> new
                      // Lin1890HierarchicalTablePmo())),
                      createTabSheet(createSectionWithSeparateBindingContext(bc -> new TriangleTablePmo())),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new TextfieldWithEnterButtonPmo())));
+                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new TextfieldWithEnterButtonPmo())),
+                     createTabSheet(TabSheetContentWithText.CAPTION, TabSheetContentWithText::new));
     }
 
     private AbstractSection createSectionWithSeparateBindingContext(Function<BindingContext, Object> pmoCreation) {
@@ -73,10 +77,14 @@ public class BugCollectionView extends LinkkiTabLayout {
     }
 
     private LinkkiTabSheet createTabSheet(AbstractSection section) {
-        String caption = section.getCaption();
+        return createTabSheet(section.getCaption(), () -> new VerticalLayout(section));
+    }
+
+    private LinkkiTabSheet createTabSheet(String caption, Supplier<Component> content) {
         return LinkkiTabSheet.builder(caption)
                 .caption(caption)
-                .content(() -> new VerticalLayout(section))
+                .content(content)
                 .build();
     }
+
 }

@@ -29,6 +29,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventBus;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.HasComponents;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
 import com.vaadin.flow.dom.Element;
@@ -50,7 +51,8 @@ public class LinkkiTabSheet {
     @CheckForNull
     private ComponentEventBus eventBus;
 
-    /* private */ LinkkiTabSheet(String id, String caption, @CheckForNull Component captionComponent,
+    /* private */ LinkkiTabSheet(String id, String caption, @CheckForNull
+    Component captionComponent,
             String description,
             Supplier<Component> contentSupplier,
             BooleanSupplier visibilitySupplier,
@@ -140,6 +142,7 @@ public class LinkkiTabSheet {
         Collection<Element> descendants = new ArrayList<>();
         EventUtil.inspectHierarchy(content.getElement(), descendants,
                                    e -> e.getComponent()
+                                           .filter(c -> !(c instanceof Text))
                                            .map(Component::isVisible)
                                            .orElse(false));
         EventUtil.getImplementingComponents(descendants.stream(), AfterTabSelectedObserver.class)
@@ -248,6 +251,9 @@ public class LinkkiTabSheet {
          * .content(() -> c)
          * }
          * </pre>
+         * 
+         * The created component must support {@link Component#setVisible(boolean)}. This is not
+         * supported by {@link Text}.
          * 
          * @return {@code this} for method chaining
          */

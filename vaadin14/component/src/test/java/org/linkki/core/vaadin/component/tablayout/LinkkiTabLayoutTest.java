@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.linkki.test.matcher.Matchers.absent;
 import static org.linkki.test.matcher.Matchers.hasValue;
@@ -42,6 +43,8 @@ import org.mockito.Mockito;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
@@ -463,6 +466,20 @@ public class LinkkiTabLayoutTest {
         tabLayout.addTabSheet(tabSheet2);
 
         assertThat(tabLayout.getTabSheet("id1").get().getTab().isVisible(), is(false));
+    }
+
+    @Test
+    public void testVisibilityWithText() {
+        // LIN-2567 Text does not support isVisible
+        LinkkiTabLayout tabLayout = new LinkkiTabLayout();
+        LinkkiTabSheet sheet = LinkkiTabSheet.builder("id1")
+                .content(() -> new Div(new Text("test")))
+                .build();
+
+        assertDoesNotThrow(() -> {
+            tabLayout.addTabSheet(sheet);
+            tabLayout.updateSheetVisibility();
+        });
     }
 
     @Test
