@@ -1,16 +1,16 @@
 {
   "all-versions": [
-		{
-			"extension": "revapi.filter",
-			"configuration": {
-				"elements": {
-					"exclude": [
-						".* com\\.vaadin\\.flow\\..*"
-					]
-				}
-			}
-		}
-   ],
+    {
+      "extension": "revapi.filter",
+      "configuration": {
+        "elements": {
+          "exclude": [
+            ".* com\\.vaadin\\.flow\\..*"
+          ]
+        }
+      }
+    }
+  ],
   "1.5.0": [
     {
       "extension": "revapi.differences",
@@ -147,7 +147,7 @@
             "newValue": "{@com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-application-layout.css\", include = \"@vaadin\/vaadin-lumo-styles\/all-imports\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-utility.css\"), @com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-grid-styles.css\", themeFor = \"vaadin-grid\"), @com.vaadin.flow.component.dependency.CssImport(value = \".\/styles\/linkki-vaadin-field-styles.css\", themeFor = \"vaadin-*\")}",
             "justification": "LIN-2542 : Remove required indicator for readonly components; FIPM-4253/FIPM-4255 : Reduce grid header space usage"
           },
-		  {
+          {
             "ignore": true,
             "code": "java.method.parameterTypeChanged",
             "old": "parameter void org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition::<init>(java.lang.String, ===int===)",

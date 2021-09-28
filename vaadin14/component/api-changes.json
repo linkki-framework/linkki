@@ -1,16 +1,16 @@
 {
   "all-versions": [
-		{
-			"extension": "revapi.filter",
-			"configuration": {
-				"elements": {
-					"exclude": [
-						".* com\\.vaadin\\.flow\\..*"
-					]
-				}
-			}
-		}
-	],
+    {
+      "extension": "revapi.filter",
+      "configuration": {
+        "elements": {
+          "exclude": [
+            ".* com\\.vaadin\\.flow\\..*"
+          ]
+        }
+      }
+    }
+  ],
   "1.5.0": [
     {
       "extension": "revapi.differences",

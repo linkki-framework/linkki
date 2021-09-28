@@ -1,64 +1,64 @@
 {
-    "all-versions": [
-		{
-			"extension": "revapi.filter",
-			"configuration": {
-				"elements": {
-					"exclude": [
-						".* com\\.vaadin\\.flow\\..*"
-					]
-				}
-			}
-		}
-	],
-    "1.5.0": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "differences": [
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method void org.linkki.core.ui.creation.table.AbstractGridComponentWrapper<ROW>::<init>(java.lang.String, com.vaadin.flow.component.grid.Grid<ROW>)",
-                        "new": "method void org.linkki.core.ui.creation.table.AbstractGridComponentWrapper<ROW>::<init>(com.vaadin.flow.component.grid.Grid<ROW>)",
-                        "justification": "FCOM-656/FCOM-670 :: ID is set by GridComponentCreator"
-                    },
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method void org.linkki.core.ui.creation.table.GridComponentWrapper<ROW>::<init>(java.lang.String, com.vaadin.flow.component.grid.Grid<ROW>)",
-                        "new": "method void org.linkki.core.ui.creation.table.GridComponentWrapper<ROW>::<init>(com.vaadin.flow.component.grid.Grid<ROW>)",
-                        "justification": "FCOM-656/FCOM-670 :: ID is set by GridComponentCreator"
-                    },
-                    {
-                        "code": "java.method.numberOfParametersChanged",
-                        "old": "method void org.linkki.core.ui.creation.table.TreeGridComponentWrapper<ROW>::<init>(java.lang.String, com.vaadin.flow.component.treegrid.TreeGrid<ROW>)",
-                        "new": "method void org.linkki.core.ui.creation.table.TreeGridComponentWrapper<ROW>::<init>(com.vaadin.flow.component.treegrid.TreeGrid<ROW>)",
-                        "justification": "FCOM-656/FCOM-670 :: ID is set by GridComponentCreator"
-                    },
-                    {
-                        "ignore": true,
-                        "code": "java.annotation.added",
-                        "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
-                        "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
-                        "annotation": "@com.vaadin.flow.component.dependency.CssImport.Container({@com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-has-icon.css\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-anchor.css\")})",
-                        "justification": "LIN-2264/LIN-2548 :: Show link as label if no href is available"
-                    },
-                    {
-                        "ignore": true,
-                        "code": "java.annotation.removed",
-                        "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
-                        "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
-                        "annotation": "@com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-has-icon.css\")",
-                        "justification": "LIN-2264/LIN-2548 :: Show link as label if no href is available"
-                    },
-                    {
-                        "ignore": true,
-                        "code": "java.class.externalClassExposedInAPI",
-                        "new": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW>",
-                        "justification": "LIN-2467/LIN-2572 :: Update vaadin to 14.7.0"
-                    }
-                ]
-            }
+  "all-versions": [
+    {
+      "extension": "revapi.filter",
+      "configuration": {
+        "elements": {
+          "exclude": [
+            ".* com\\.vaadin\\.flow\\..*"
+          ]
         }
-    ]
+      }
+    }
+  ],
+  "1.5.0": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+          {
+            "code": "java.method.numberOfParametersChanged",
+            "old": "method void org.linkki.core.ui.creation.table.AbstractGridComponentWrapper<ROW>::<init>(java.lang.String, com.vaadin.flow.component.grid.Grid<ROW>)",
+            "new": "method void org.linkki.core.ui.creation.table.AbstractGridComponentWrapper<ROW>::<init>(com.vaadin.flow.component.grid.Grid<ROW>)",
+            "justification": "FCOM-656/FCOM-670 :: ID is set by GridComponentCreator"
+          },
+          {
+            "code": "java.method.numberOfParametersChanged",
+            "old": "method void org.linkki.core.ui.creation.table.GridComponentWrapper<ROW>::<init>(java.lang.String, com.vaadin.flow.component.grid.Grid<ROW>)",
+            "new": "method void org.linkki.core.ui.creation.table.GridComponentWrapper<ROW>::<init>(com.vaadin.flow.component.grid.Grid<ROW>)",
+            "justification": "FCOM-656/FCOM-670 :: ID is set by GridComponentCreator"
+          },
+          {
+            "code": "java.method.numberOfParametersChanged",
+            "old": "method void org.linkki.core.ui.creation.table.TreeGridComponentWrapper<ROW>::<init>(java.lang.String, com.vaadin.flow.component.treegrid.TreeGrid<ROW>)",
+            "new": "method void org.linkki.core.ui.creation.table.TreeGridComponentWrapper<ROW>::<init>(com.vaadin.flow.component.treegrid.TreeGrid<ROW>)",
+            "justification": "FCOM-656/FCOM-670 :: ID is set by GridComponentCreator"
+          },
+          {
+            "ignore": true,
+            "code": "java.annotation.added",
+            "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+            "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+            "annotation": "@com.vaadin.flow.component.dependency.CssImport.Container({@com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-has-icon.css\"), @com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-anchor.css\")})",
+            "justification": "LIN-2264/LIN-2548 :: Show link as label if no href is available"
+          },
+          {
+            "ignore": true,
+            "code": "java.annotation.removed",
+            "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+            "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
+            "annotation": "@com.vaadin.flow.component.dependency.CssImport(\".\/styles\/linkki-has-icon.css\")",
+            "justification": "LIN-2264/LIN-2548 :: Show link as label if no href is available"
+          },
+          {
+            "ignore": true,
+            "code": "java.class.externalClassExposedInAPI",
+            "new": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW>",
+            "justification": "LIN-2467/LIN-2572 :: Update vaadin to 14.7.0"
+          }
+        ]
+      }
+    }
+  ]
 }
