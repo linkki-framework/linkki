@@ -36,6 +36,7 @@ public class TestScenario {
 
     public TestScenario testCase(String testCaseId, Object pmo) {
         tabSheets.add(LinkkiTabSheet.builder(testCaseId)
+                .caption(createCaptionComponent(testCaseId, TestCatalog.getCaseTitle(scenarioId, testCaseId)))
                 .content(() -> new TestCaseComponent(scenarioId, testCaseId, pmo))
                 .build());
         return this;
@@ -43,29 +44,34 @@ public class TestScenario {
 
     public TestScenario testCase(String testCaseId, Component component) {
         tabSheets.add(LinkkiTabSheet.builder(testCaseId)
+                .caption(createCaptionComponent(testCaseId, TestCatalog.getCaseTitle(scenarioId, testCaseId)))
                 .content(() -> new TestCaseComponent(scenarioId, testCaseId, component))
                 .build());
         return this;
     }
 
     public LinkkiTabSheet createTabSheet() {
+        return LinkkiTabSheet.builder(scenarioId)
+                .caption(createCaptionComponent(scenarioId, TestCatalog.getScenarioTitle(scenarioId)))
+                .description(TestCatalog.getScenarioTitle(scenarioId))
+                .content(this::createTestCaseSelector)
+                .build();
+    }
+
+    private Component createCaptionComponent(String caption, String subtitle) {
         VerticalLayout captionComponent = new VerticalLayout();
         captionComponent.setPadding(false);
 
-        Label titleLabel = new Label(scenarioId);
+        Label titleLabel = new Label(caption);
         captionComponent.add(titleLabel);
 
-        Label subtitleLabel = new Label(TestCatalog.getScenarioTitle(scenarioId));
+        Label subtitleLabel = new Label(subtitle);
         subtitleLabel.getStyle().set("font-size", "70%");
         subtitleLabel.getStyle().set("margin", "0");
 
         captionComponent.add(subtitleLabel);
 
-        return LinkkiTabSheet.builder(scenarioId)
-                .caption(captionComponent)
-                .description(TestCatalog.getScenarioTitle(scenarioId))
-                .content(this::createTestCaseSelector)
-                .build();
+        return captionComponent;
     }
 
     private LinkkiTabLayout createTestCaseSelector() {

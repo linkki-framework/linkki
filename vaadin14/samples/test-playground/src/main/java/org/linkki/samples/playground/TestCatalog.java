@@ -49,6 +49,10 @@ public class TestCatalog {
         return getString(testId);
     }
 
+    public static String getCaseTitle(String scenarioId, String caseId) {
+        return getCaseTitle(scenarioId + "." + caseId);
+    }
+
     public static String getCaseDescription(String testId) {
         return getString(testId + "." + DESCRIPTION_KEY);
     }
