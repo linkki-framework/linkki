@@ -57,5 +57,4 @@ public class TC001UILabelTest extends BaseUITest {
 
         assertThat(label.getText()).isEqualTo("12.345,679");
     }
-
 }

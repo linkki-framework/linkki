@@ -21,6 +21,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
+import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.binding.descriptor.aspect.LinkkiAspectDefinition;
 import org.linkki.core.binding.descriptor.aspect.annotation.AspectDefinitionCreator;
 import org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect;
@@ -30,15 +31,22 @@ import org.linkki.core.binding.uicreation.LinkkiComponent;
 import org.linkki.core.binding.uicreation.LinkkiComponentDefinition;
 import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider.DefaultCaptionProvider;
 import org.linkki.core.pmo.ModelObject;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
 import org.linkki.core.ui.aspects.LabelValueAspectDefinition;
 import org.linkki.core.ui.aspects.annotation.BindIcon;
+import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.core.ui.element.annotation.UILabel.LabelAspectDefinitionCreator;
 import org.linkki.core.ui.element.annotation.UILabel.LabelComponentDefinitionCreator;
 import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
+import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.base.LinkkiText;
+
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
 
 /**
  * Provides a single UI-element to display text content. Creates a
@@ -91,6 +99,35 @@ public @interface UILabel {
     boolean htmlContent() default false;
 
     /**
+     * Specifies which {@link ItemCaptionProvider} should be used to convert the value into a String.
+     * <p>
+     * For enum values, getName method is used if the enum class provides such a method.
+     * 
+     * @see DefaultCaptionProvider
+     */
+    Class<? extends ItemCaptionProvider<?>> itemCaptionProvider() default DefaultLabelCaptionProvider.class;
+
+    static class DefaultLabelCaptionProvider implements ItemCaptionProvider<Object> {
+
+        @Override
+        public String getCaption(Object o) {
+            if (o != null) {
+                try {
+                    Converter<String, Object> converter = LinkkiConverterRegistry.getCurrent()
+                            .findConverter(String.class,
+                                           o.getClass());
+                    return converter.convertToPresentation(o, new ValueContext(UiFramework.getLocale()));
+                } catch (IllegalArgumentException e) {
+                    // no converter
+                    return new DefaultCaptionProvider().getCaption(o);
+                }
+            } else {
+                return StringUtils.EMPTY;
+            }
+        }
+    }
+
+    /**
      * Aspect definition creator for the {@link UILabel} annotation.
      */
     static class LabelAspectDefinitionCreator implements AspectDefinitionCreator<UILabel> {
@@ -100,7 +137,8 @@ public @interface UILabel {
             return new CompositeAspectDefinition(
                     new LabelAspectDefinition(annotation.label()),
                     new VisibleAspectDefinition(annotation.visible()),
-                    new LabelValueAspectDefinition(annotation.htmlContent()));
+                    new LabelValueAspectDefinition(annotation.htmlContent(),
+                            ItemCaptionProvider.instantiate(annotation.itemCaptionProvider())));
         }
     }
 

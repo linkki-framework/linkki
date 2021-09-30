@@ -18,9 +18,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
+import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionProvider;
 import org.linkki.core.ui.element.annotation.UILabelIntegrationTest.LabelTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
 
@@ -28,16 +32,16 @@ import com.vaadin.flow.component.html.Div;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 
-public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Div, LabelTestPmo> {
+class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<Div, LabelTestPmo> {
 
     private static final String STYLES = "blabla";
 
-    public UILabelIntegrationTest() {
+    UILabelIntegrationTest() {
         super(TestModelObjectWithString::new, LabelTestPmo::new);
     }
 
     @Test
-    public void testLabelFieldValue() {
+    void testLabelFieldValue() {
         Div label = getDynamicComponent();
 
         assertThat(label.getClassName(), containsString(STYLES));
@@ -50,7 +54,7 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<D
     }
 
     @Test
-    public void testLabelFieldValue_Integer_UsesConverter() {
+    void testLabelFieldValue_Integer_UsesConverter() {
         setModelObjectSupplier(TestModelObjectWithInteger::new);
         Div label = getDynamicComponent();
 
@@ -63,9 +67,40 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<D
         assertThat(label.getElement().getProperty("innerHTML"), is("123.456"));
     }
 
-    public void testEnabled() {
+    @Test
+    void testEnabled() {
         assertThat(getStaticComponent().isEnabled(), is(true));
         assertThat(getDynamicComponent().isEnabled(), is(true));
+    }
+
+    @Test
+    void testLocalDateUsesConverter() {
+        assertThat(getComponentById("localDate").getText(), is("06.05.1234"));
+    }
+
+    @Test
+    void testLocalDateTimeUsesConverter() {
+        assertThat(getComponentById("localDateTime").getText(), is("06.05.1234 07:08"));
+    }
+
+    @Test
+    void testUnnamedEnumUsesToString() {
+        assertThat(getComponentById("enum").getText(), is("FLOOR"));
+    }
+
+    @Test
+    void testNamedEnumUsesGetName() {
+        assertThat(getComponentById("namedEnum").getText(), is("name"));
+    }
+
+    @Test
+    void testNamedObjectUsesGetName() {
+        assertThat(getComponentById("namedObject").getText(), is("name"));
+    }
+
+    @Test
+    void testNamedEnumtWithToStringCaptionProviderUsesToString() {
+        assertThat(getComponentById("namedEnumWithToStringCaptionProvider").getText(), is("VALUE"));
     }
 
     @UISection
@@ -99,6 +134,35 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<D
             return 1231234;
         }
 
+        @UILabel(position = 5)
+        public LocalDate getLocalDate() {
+            return LocalDate.of(1234, 5, 6);
+        }
+
+        @UILabel(position = 6)
+        public LocalDateTime getLocalDateTime() {
+            return LocalDateTime.of(1234, 5, 6, 7, 8, 9);
+        }
+
+        @UILabel(position = 7)
+        public RoundingMode getEnum() {
+            return RoundingMode.FLOOR;
+        }
+
+        @UILabel(position = 8)
+        public NamedEnum getNamedEnum() {
+            return NamedEnum.VALUE;
+        }
+
+        @UILabel(position = 9)
+        public NamedObject getNamedObject() {
+            return new NamedObject();
+        }
+
+        @UILabel(position = 10, itemCaptionProvider = ToStringCaptionProvider.class)
+        public NamedEnum getNamedEnumWithToStringCaptionProvider() {
+            return NamedEnum.VALUE;
+        }
     }
 
     protected static class TestModelObjectWithString extends TestModelObject<String> {
@@ -132,6 +196,27 @@ public class UILabelIntegrationTest extends ComponentAnnotationIntegrationTest<D
         @Override
         public void setValue(@CheckForNull Integer value) {
             this.value = value;
+        }
+    }
+
+    public static enum NamedEnum {
+        VALUE;
+
+        @SuppressWarnings("unused")
+        public String getName() {
+            return "name";
+        }
+    }
+
+    public static class NamedObject {
+        @SuppressWarnings("unused")
+        public String getName() {
+            return "name";
+        }
+
+        @Override
+        public String toString() {
+            return "toString";
         }
     }
 }

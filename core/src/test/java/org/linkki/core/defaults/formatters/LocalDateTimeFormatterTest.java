@@ -26,10 +26,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.uiframework.TestUiFramework;
 
+@SuppressWarnings("deprecation")
 public class LocalDateTimeFormatterTest {
 
     private static final LocalDateTime DATE_TIME = LocalDateTime.of(2019, Month.FEBRUARY, 20, 15, 28, 35);
-
 
     private Locale defaultLocale;
 

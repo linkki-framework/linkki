@@ -24,7 +24,10 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * according to the given locale.
  *
  * @param <T> type of the subclass to format
+ * 
+ * @deprecated as it is not used internally anymore
  */
+@Deprecated(since = "1.5.0")
 public abstract class TemporalAccessorFormatter<T extends TemporalAccessor> implements Formatter<T> {
 
     /**

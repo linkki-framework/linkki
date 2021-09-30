@@ -13,6 +13,10 @@
 * `LinkkiTabSheetBuilder#onSelectionHandler` has been removed. There are multiple <<linkkitablayout-selection, alternatives available>>.
 // https://jira.faktorzehn.de/browse/LIN-2524
 * `linkki-application-framework-vaadin14` now includes `linkki-vaadin14-component` and `linkki-core-nestedcomponent-vaadin14` as dependencies
+// https://jira.faktorzehn.de/browse/LIN-2264
+* `@UILink` behaves like a label if the link location (href) is empty.
+// https://jira.faktorzehn.de/browse/LIN-2424
+* `@UILabel` can now be used with data types other than String such as `LocalDate`, `LocalDateTime` and Faktor-IPS `Decimal`. See <<ui-label, documentation of @UILabel>>) for further information.
 
 ==== Bugfixes
 
@@ -27,8 +31,6 @@ This causes problems when expanding the drop down list: Items must be loaded eve
 ==== Other bugfixes
 // https://jira.faktorzehn.de/browse/LIN-2509
 * Fixed the bug in `IpsPropertyDispatcher` that fields with an empty value set are set as required.
-//https://jira.faktorzehn.de/browse/LIN-2264
-* `@UILink` behaves like a label if the link location (href) is empty.
 // https://jira.faktorzehn.de/browse/LIN-2555
 * Fields now use the https://vaadin.com/api/platform/14/com/vaadin/flow/data/value/ValueChangeMode.html#ON_CHANGE[ValueChangeMode.ON_CHANGE] instead of https://vaadin.com/api/platform/14/com/vaadin/flow/data/value/ValueChangeMode.html#ON_BLUR[ValueChangeMode.ON_BLUR]
 // https://jira.faktorzehn.de/browse/LIN-2567

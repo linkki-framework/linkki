@@ -17,6 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
+import java.util.Currency;
 import java.util.Date;
 
 import org.junit.jupiter.api.Assertions;
@@ -27,10 +28,10 @@ import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
 import com.vaadin.flow.data.converter.StringToDateConverter;
 
-public class LinkkiConverterRegistryTest {
+class LinkkiConverterRegistryTest {
 
     @Test
-    public void testFindConverter_Default() {
+    void testFindConverter_Default() {
         LinkkiConverterRegistry linkkiConverterRegistry = new LinkkiConverterRegistry();
 
         assertThat(linkkiConverterRegistry.findConverter(String.class, Date.class),
@@ -38,15 +39,15 @@ public class LinkkiConverterRegistryTest {
     }
 
     @Test
-    public void testFindConverter_NotFound() {
+    void testFindConverter_NotFound() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new LinkkiConverterRegistry().findConverter(String.class, java.time.LocalDate.class);
+            new LinkkiConverterRegistry().findConverter(String.class, Currency.class);
         });
 
     }
 
     @Test
-    public void testFindConverter_overrideDefault() {
+    void testFindConverter_overrideDefault() {
         LinkkiConverterRegistry linkkiConverterRegistry = new LinkkiConverterRegistry(new MyStringToDateConverter());
 
         assertThat(linkkiConverterRegistry.findConverter(String.class, Date.class),

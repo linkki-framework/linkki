@@ -34,7 +34,13 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 public class FormattedDecimalFieldToStringConverter
         extends FormattedNumberToStringConverter<Decimal> {
 
+    public static final String DEFAULT_FORMAT = "#,##0.00##";
+
     private static final long serialVersionUID = 2694562525960273214L;
+
+    public FormattedDecimalFieldToStringConverter() {
+        this(DEFAULT_FORMAT);
+    }
 
     public FormattedDecimalFieldToStringConverter(String format) {
         super(format);

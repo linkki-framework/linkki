@@ -70,6 +70,8 @@ public class LinkkiConverterRegistry implements Serializable {
                                                                                   new LocalDateTimeToDateConverter(
                                                                                           ZoneId.systemDefault()),
                                                                                   new LocalDateToDateConverter(),
+                                                                                  new LocalDateToStringConverter(),
+                                                                                  new LocalDateTimeToStringConverter(),
                                                                                   new StringToBigDecimalConverter(
                                                                                           ERROR_MESSAGE),
                                                                                   new StringToBigIntegerConverter(
@@ -90,7 +92,7 @@ public class LinkkiConverterRegistry implements Serializable {
     public static final LinkkiConverterRegistry DEFAULT = new LinkkiConverterRegistry();
     // CSOON: Declaration
 
-    private Map<Type, Sequence<Converter<?, ?>>> converters;
+    private final Map<Type, Sequence<Converter<?, ?>>> converters;
 
     /**
      * Creates a new {@link LinkkiConverterRegistry} with all default converters.

@@ -16,6 +16,7 @@ package org.linkki.core.defaults.ui.element;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -130,8 +131,7 @@ public interface ItemCaptionProvider<T> {
                 return invokeStringMethod(getNameMethod.get(), value);
             }
 
-            Method toStringMethod = getMethod(value, "toString").get();
-            return invokeStringMethod(toStringMethod, value);
+            return Objects.toString(value);
         }
 
         private static Optional<Method> getMethod(Object value, String name, Class<?>... parameters) {
@@ -149,7 +149,9 @@ public interface ItemCaptionProvider<T> {
                 return (String)method.invoke(value, parameters);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new IllegalStateException(
-                        "Can't get value from method " + value.getClass() + "#" + method.getName() + " of " + value);
+                        String.format("Can't get value from method %s#%s of %s: %s", value.getClass(), method.getName(),
+                                      value, e.getMessage()),
+                        e);
             }
         }
     }

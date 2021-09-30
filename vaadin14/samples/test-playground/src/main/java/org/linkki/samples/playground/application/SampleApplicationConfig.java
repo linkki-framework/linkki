@@ -15,11 +15,13 @@ package org.linkki.samples.playground.application;
 
 import java.time.LocalDate;
 
+import org.linkki.core.ui.converters.LinkkiConverterRegistry;
 import org.linkki.framework.ui.application.ApplicationConfig;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.application.ApplicationInfo;
 import org.linkki.framework.ui.application.menu.ApplicationMenuItemDefinition;
+import org.linkki.ips.decimalfield.FormattedDecimalFieldToStringConverter;
 import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.util.Sequence;
 
@@ -57,5 +59,10 @@ public class SampleApplicationConfig implements ApplicationConfig {
     @Override
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence.of(new ApplicationMenuItemDefinition("Start", SampleView.class));
+    }
+
+    @Override
+    public LinkkiConverterRegistry getConverterRegistry() {
+        return ApplicationConfig.super.getConverterRegistry().with(new FormattedDecimalFieldToStringConverter());
     }
 }

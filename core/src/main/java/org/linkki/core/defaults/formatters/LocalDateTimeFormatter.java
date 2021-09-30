@@ -23,7 +23,10 @@ import org.linkki.util.DateFormats;
 
 /**
  * Formatter for formatting {@link LocalDateTime} to {@link String}.
+ * 
+ * @deprecated as it is not used internally anymore
  */
+@Deprecated(since = "1.5.0")
 public class LocalDateTimeFormatter extends TemporalAccessorFormatter<LocalDateTime> {
 
     @Override

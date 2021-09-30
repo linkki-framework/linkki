@@ -14,25 +14,15 @@
 
 package org.linkki.samples.playground.ts.ips;
 
-import org.linkki.core.pmo.ModelObject;
-import org.linkki.core.ui.element.annotation.UITextField;
+import org.faktorips.values.Decimal;
+import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
-import org.linkki.samples.playground.ips.model.IpsModelObject;
 
 @UISection
-public class IpsPmo {
+public class DecimalLabelPmo {
 
-    @ModelObject
-    private final IpsModelObject modelObject;
-
-    public IpsPmo(IpsModelObject modelObject) {
-        this.modelObject = modelObject;
+    @UILabel(position = 90, label = "Label with a Decimal as Value")
+    public Decimal getDecimalLabel() {
+        return Decimal.valueOf(10000.2345);
     }
-
-    @UITextField(position = 0, modelAttribute = IpsModelObject.PROPERTY_STRING)
-    public void getString() {
-        // model binding
-    }
-
-
 }

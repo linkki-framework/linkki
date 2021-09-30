@@ -15,6 +15,7 @@
 package org.linkki.core.ui.element.annotation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
 
 import java.util.Locale;
@@ -119,10 +120,9 @@ public abstract class ComponentAnnotationIntegrationTest<C extends Component, P 
 
     @Test
     public void testLabelBinding() {
-        // TODO LIN-2057
-        // assertThat(TestUiUtil.getLabelOfComponentAt(defaultSection, 0), is(emptyString()));
-        // assertThat(TestUiUtil.getLabelOfComponentAt(defaultSection, 1),
-        // is(AnnotationTestPmo.TEST_LABEL));
+        assertThat(TestUiUtil.getLabelOfComponentAt(defaultSection, 0), is(emptyString()));
+        assertThat(TestUiUtil.getLabelOfComponentAt(defaultSection, 1),
+                   is(AnnotationTestPmo.TEST_LABEL));
     }
 
     /**

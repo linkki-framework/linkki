@@ -25,7 +25,9 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  * 
  * @param <T> any class with a {@link Object#toString() toString()} method not suitable for the intended
  *            situation
+ * @deprecated as it is not used internally anymore
  */
+@Deprecated(since = "1.5.0")
 @FunctionalInterface
 public interface Formatter<T> {
 

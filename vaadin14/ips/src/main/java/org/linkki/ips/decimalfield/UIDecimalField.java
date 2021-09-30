@@ -102,7 +102,7 @@ public @interface UIDecimalField {
      * 
      * @see DecimalFormat See {@link DecimalFormat} for the documentation of the pattern.
      */
-    String format() default "#,##0.00##";
+    String format() default FormattedDecimalFieldToStringConverter.DEFAULT_FORMAT;
 
     /**
      * Name of the model object that is to be bound if multiple model objects are included for model

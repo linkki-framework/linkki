@@ -49,6 +49,7 @@ import org.linkki.samples.playground.ts.components.TextAreaPmo;
 import org.linkki.samples.playground.ts.components.TextFieldPmo;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
 import org.linkki.samples.playground.ts.ips.DecimalFieldPmo;
+import org.linkki.samples.playground.ts.ips.DecimalLabelPmo;
 import org.linkki.samples.playground.ts.ips.EnabledSectionPmo;
 import org.linkki.samples.playground.ts.ips.IpsPmo;
 import org.linkki.samples.playground.ts.ips.RequiredSectionPmo;
@@ -94,8 +95,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
     }
 
     @Override
-    public void setParameter(BeforeEvent event, @OptionalParameter
-    String parameter) {
+    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         removeAll();
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");
@@ -198,6 +198,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                 .testCase("TC003", VaadinUiCreator.createComponent(new RequiredSectionPmo(), bc))
                 .testCase("TC004", VaadinUiCreator.createComponent(new VisibleSectionPmo(), bc))
                 .testCase("TC005", VaadinUiCreator.createComponent(new EnabledSectionPmo(), bc))
+                .testCase("TC006", VaadinUiCreator.createComponent(new DecimalLabelPmo(), bc))
                 .createTabSheet();
     }
 
