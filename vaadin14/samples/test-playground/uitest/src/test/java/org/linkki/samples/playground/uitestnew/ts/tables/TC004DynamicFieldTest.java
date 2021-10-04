@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitest;
+package org.linkki.samples.playground.uitestnew.ts.tables;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -26,8 +26,8 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
@@ -36,7 +36,7 @@ import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 @DriverExtension.Configuration(locale = "en")
-public class DynamicFieldTest extends AbstractUiTest {
+class TC004DynamicFieldTest extends PlaygroundUiTest {
 
     private static final String CAR_TABLE_PMO = "CarTablePmo" + "_table";
     private static final String OK = "ok";
@@ -47,12 +47,13 @@ public class DynamicFieldTest extends AbstractUiTest {
     private static final String BUTTON_PMO = "buttonPmo";
 
     @BeforeEach
-    public void before() {
-        openTab(PlaygroundApplicationView.TABLES_TAB_ID);
+    void setup() {
+        super.setUp();
+        goToTestCase("TS012", "TC004");
     }
 
     @Test
-    public void testDynamicFields_InDialog() {
+    void testDynamicFields_InDialog() {
         // Select standard car type
         clickButton(BUTTON_PMO);
 
@@ -67,7 +68,7 @@ public class DynamicFieldTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDynamicFields_InTableRow() {
+    void testDynamicFields_InTableRow() {
         GridElement selectableTable = $(GridElement.class).id(CAR_TABLE_PMO);
 
         // Test, if in first row, with cartype 'Standard', the retention is a Textfield
@@ -80,7 +81,7 @@ public class DynamicFieldTest extends AbstractUiTest {
     }
 
     @Test
-    public void testDynamicTableFooter() throws ParseException {
+    void testDynamicTableFooter() throws ParseException {
         DecimalFormat format = new DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         GridElement selectableTable = $(GridElement.class).id(CAR_TABLE_PMO);
         double sumBeforeAdding = format.parse(selectableTable.getFooterCell(3).getText())

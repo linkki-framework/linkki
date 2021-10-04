@@ -377,3 +377,9 @@ By now, tooltips are only supported by `LinkkiTabSheet`, using the `LinkkiTabShe
 https://jira.faktorzehn.de/browse/FIPM-4131
 ////
 See <<notifications, Notifications>>
+
+==== Table footer
+////
+https://jira.faktorzehn.de/browse/FCOM-478
+////
+`F10Styles.TABLE_FOOTER_DECIMAL_SUM` has been replaced. Use `LinkkiApplicationTheme#GRID_FOOTER_SUM` now in `@BindStyleNames` annotated table PMOs to make table footer text bold and right aligned.

@@ -27,7 +27,7 @@ public class CarRowPmo extends CarPmo {
     }
 
 
-    @UITableColumn
+    @UITableColumn(width = 200)
     @UIComboBox(position = 25, label = "Car Type", modelAttribute = Car.PROPERTY_CAR_TYPE, enabled = EnabledType.DISABLED)
     public void carType() {
         /* model binding */

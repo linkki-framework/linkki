@@ -35,7 +35,7 @@ import com.vaadin.flow.server.VaadinSession;
  *           {@link #getErrorHandler()}.
  */
 @CssImport(value = "./styles/linkki-application-layout.css", include = "@vaadin/vaadin-lumo-styles/all-imports")
-@CssImport(value = "./styles/linkki-utility.css")
+@CssImport(value = "./styles/linkki-application.css")
 @CssImport(value = "./styles/linkki-grid-styles.css", themeFor = "vaadin-grid")
 @CssImport(value = "./styles/linkki-vaadin-field-styles.css", themeFor = "vaadin-*")
 public abstract class ApplicationLayout extends VerticalLayout implements RouterLayout {

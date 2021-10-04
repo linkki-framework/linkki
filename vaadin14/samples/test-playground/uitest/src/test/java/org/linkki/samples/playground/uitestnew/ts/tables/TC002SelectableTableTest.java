@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitest;
+package org.linkki.samples.playground.uitestnew.ts.tables;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -26,25 +26,23 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.selection.PlaygroundSelectableTablePmo;
 import org.linkki.samples.playground.table.selection.SelectionComparisonSectionPmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.grid.testbench.GridTRElement;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
 
+class TC002SelectableTableTest extends PlaygroundUiTest {
 
-public class SelectableTableTest extends AbstractUiTest {
-
-    @Override
     @BeforeEach
-    public void setUp() {
+    void setup() {
         super.setUp();
-        openTab(PlaygroundApplicationView.TABLES_TAB_ID);
+        goToTestCase("TS012", "TC002");
     }
 
     @Test
-    public void testSelection() {
+    void testSelection() {
         GridElement selectableTable = $(GridElement.class)
                 .id(PlaygroundSelectableTablePmo.class.getSimpleName() + "_table");
 
@@ -83,7 +81,7 @@ public class SelectableTableTest extends AbstractUiTest {
     // TODO LIN-2343
     @Disabled("Double click on row does not select it")
     @Test
-    public void testDoubleClick() {
+    void testDoubleClick() {
         GridElement selectableTable = $(GridElement.class)
                 .id(PlaygroundSelectableTablePmo.class.getSimpleName() + "_table");
 

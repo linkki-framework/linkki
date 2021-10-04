@@ -28,7 +28,6 @@ import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.vaadin.component.section.GridSection;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Label;
 
 public class TableWithValidationSection {
 
@@ -44,10 +43,6 @@ public class TableWithValidationSection {
                         () -> modelObjects.add(new TableModelObject(modelObjects.size() + 1)),
                         o -> modelObjects.remove(o)), bindingContext);
 
-        tableSection.addComponentAtIndex(0, new Label(
-                "Validation error for names which do not end with index or dates in the past."));
-        tableSection.addComponentAtIndex(1,
-                                         new Label("Validation markers must be visible after sidebar sheet switched."));
         return tableSection;
     }
 

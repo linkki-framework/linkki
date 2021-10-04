@@ -25,8 +25,6 @@ import com.vaadin.flow.component.Component;
  */
 public class ComponentStyles {
 
-    public static final String TEXT_ALIGN_RIGHT = "l-right-aligned";
-
     private ComponentStyles() {
         // prevents instantiation
     }

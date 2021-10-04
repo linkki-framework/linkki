@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitest;
+package org.linkki.samples.playground.uitestnew.ts.tables;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
@@ -20,27 +20,28 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTableSection.UITableColumnTablePmo;
-import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
 import com.vaadin.flow.component.grid.testbench.GridTHTDElement;
 
-public class UITableColumnTest extends AbstractUiTest {
+class TC003UITableColumnTest extends PlaygroundUiTest {
 
     @BeforeEach
-    public void openTablesTab() {
-        openTab(PlaygroundApplicationView.TABLES_TAB_ID);
+    void setup() {
+        super.setUp();
+        goToTestCase("TS012", "TC003");
     }
 
     @Test
-    public void testWidth() {
+    void testWidth() {
         GridElement table = getTable();
         assertThat(table.getCell(0, 0).getSize().getWidth(), is(50));
     }
 
     @Test
-    public void testNoAnnotation_ColumnsHaveSameWidth() {
+    void testNoAnnotation_ColumnsHaveSameWidth() {
         GridElement table = getTable();
         GridTHTDElement cellWithoutAnnotation1 = table.getCell(0, 2);
         GridTHTDElement cellWithoutAnnotation2 = table.getCell(0, 3);
@@ -51,7 +52,7 @@ public class UITableColumnTest extends AbstractUiTest {
     }
 
     @Test
-    public void testFlexGrow() {
+    void testFlexGrow() {
         GridElement table = getTable();
         // columns with undefined width gets 100px internally
         double excessWidthAssignedToColumnWithNoAnnotation = table.getCell(0, 3).getSize().getWidth() - 100;
@@ -62,7 +63,7 @@ public class UITableColumnTest extends AbstractUiTest {
     }
 
     @Test
-    public void testWidthAndFlexGrow() {
+    void testWidthAndFlexGrow() {
         GridElement table = getTable();
 
         // columns with undefined width gets 100px internally

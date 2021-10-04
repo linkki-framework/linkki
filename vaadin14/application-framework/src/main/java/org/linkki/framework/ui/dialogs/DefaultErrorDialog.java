@@ -64,8 +64,7 @@ public class DefaultErrorDialog extends ConfirmationDialog {
         return new Label(NlsText.format("DefaultErrorHandler.errorDialogText", formattedTimestamp));
     }
 
-    private static TextField createRootCauseTextField(@CheckForNull
-    Throwable t) {
+    private static TextField createRootCauseTextField(@CheckForNull Throwable t) {
         TextField textField = new TextField(NlsText.getString("DefaultErrorHandler.errorDialogDescription"));
 
         String message = Optional.ofNullable(ExceptionUtils.getRootCause(t))
@@ -76,8 +75,7 @@ public class DefaultErrorDialog extends ConfirmationDialog {
         return textField;
     }
 
-    private static TextArea createStackTraceTextArea(@CheckForNull
-    Throwable t) {
+    private static TextArea createStackTraceTextArea(@CheckForNull Throwable t) {
         TextArea textArea = new TextArea(NlsText.getString("DefaultErrorHandler.errorDialogDetails"));
         textArea.setValue(ExceptionUtils.getStackTrace(t));
         formatText(textArea);

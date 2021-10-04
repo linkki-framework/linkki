@@ -21,11 +21,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.linkki.core.defaults.columnbased.pmo.ContainerPmo;
-import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 import org.linkki.core.ui.table.column.annotation.UITableColumn;
+import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.samples.playground.ips.model.Marker;
 
 @UISection
@@ -100,7 +100,7 @@ public class LabelPmo {
         }
 
         @UITableColumn(flexGrow = 1)
-        @UILabel(position = 30, styleNames = ComponentStyles.TEXT_ALIGN_RIGHT)
+        @UILabel(position = 30, styleNames = LinkkiApplicationTheme.TEXT_RIGHT_ALIGNED)
         public String getRightAlignedLabel() {
             return "This label should be right aligned";
         }

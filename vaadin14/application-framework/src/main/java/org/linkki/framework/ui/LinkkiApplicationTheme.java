@@ -15,6 +15,7 @@ package org.linkki.framework.ui;
 
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
+import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.framework.ui.application.ApplicationFooter;
 import org.linkki.framework.ui.application.ApplicationHeader;
 import org.linkki.framework.ui.component.Headline;
@@ -78,9 +79,21 @@ public final class LinkkiApplicationTheme {
     public static final String APPLICATION_INFO_DIALOG = "linkki-application-info-dialog"; //$NON-NLS-1$
 
     /**
-     * Style class with overflow auto. This is defined in linkki-utility.css
+     * Style class with overflow auto. This is defined in linkki-application.css
      */
-    public static final String SCROLLABLE = "l-scrollable";
+    public static final String SCROLLABLE = "linkki-scrollable";
+
+    /**
+     * Style class for table footer that may have sums and should be right aligned and bold. <br>
+     * This is defined in linkki-application.css
+     */
+    public static final String GRID_FOOTER_SUM = "linkki-grid-footer-sum"; //$NON-NLS-1$
+
+    /**
+     * Style class for {@link UILabel}s, that should be right aligned. This can be used in tables.<br>
+     * This is defined in linkki-application.css
+     */
+    public static final String TEXT_RIGHT_ALIGNED = "linkki-right-aligned";
 
     private LinkkiApplicationTheme() {
         // This is just a utility class used to list constants and therefore should not be

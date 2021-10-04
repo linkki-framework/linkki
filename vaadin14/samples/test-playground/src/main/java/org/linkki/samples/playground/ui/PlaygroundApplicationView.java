@@ -30,7 +30,11 @@ import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
-import org.linkki.samples.playground.table.TablePage;
+import org.linkki.samples.playground.table.NumberFooterTablePmo;
+import org.linkki.samples.playground.table.TableWithValidationSection;
+import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
+import org.linkki.samples.playground.table.selection.SelectableTableSection;
+import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo;
 import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
 import org.linkki.samples.playground.ts.alignment.HorizontalAlignmentTestComponent;
 import org.linkki.samples.playground.ts.alignment.VerticalAlignmentTestComponent;
@@ -84,7 +88,6 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
     private static final long serialVersionUID = 1L;
 
     public static final String DYNAMIC_ASPECT_TAB_ID = "dynamic";
-    public static final String TABLES_TAB_ID = "tables";
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
     public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
     public static final String MESSAGES_TAB_ID = "messages";
@@ -95,7 +98,8 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
     }
 
     @Override
-    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
+    public void setParameter(BeforeEvent event, @OptionalParameter
+    String parameter) {
         removeAll();
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");
@@ -153,16 +157,19 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                TestScenario.id("TS011")
                                        .testCase("TC001", new OkCancelDialogHandlerPmo())
                                        .createTabSheet(),
+                               TestScenario.id("TS012")
+                                       .testCase("TC001", TableWithValidationSection.create())
+                                       .testCase("TC002", SelectableTableSection.create())
+                                       .testCase("TC003", new UITableColumnTablePmo())
+                                       .testCase("TC004", DynamicFieldsSection.create())
+                                       .testCase("TC005", new NumberFooterTablePmo())
+                                       .createTabSheet(),
 
                                // old tab sheets
                                LinkkiTabSheet.builder(DYNAMIC_ASPECT_TAB_ID)
                                        .caption(VaadinIcon.FLIGHT_TAKEOFF.create())
                                        .description("Dynamic Aspects")
                                        .content(DynamicAnnotationsLayout::new).build(),
-                               LinkkiTabSheet.builder(TABLES_TAB_ID)
-                                       .caption(VaadinIcon.TABLE.create())
-                                       .description("Tables")
-                                       .content(TablePage::new).build(),
                                LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)
                                        .caption(VaadinIcon.ROAD_BRANCHES.create())
                                        .description("Nested Components")
