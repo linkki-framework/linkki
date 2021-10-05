@@ -3,3 +3,7 @@
     align-items: center;
     white-space: break-spaces;
 }
+
+.linkki-text > span {
+	width: 100%;
+}

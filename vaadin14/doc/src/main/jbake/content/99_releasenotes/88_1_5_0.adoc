@@ -17,6 +17,7 @@
 * `@UILink` behaves like a label if the link location (href) is empty.
 // https://jira.faktorzehn.de/browse/LIN-2424
 * `@UILabel` can now be used with data types other than String such as `LocalDate`, `LocalDateTime` and Faktor-IPS `Decimal`. See <<ui-label, documentation of @UILabel>>) for further information.
+* `@UILabel` can now be made right aligned in a table using the style name `ComponentStyles#TEXT_RIGHT_ALIGNED`.
 
 ==== Bugfixes
 

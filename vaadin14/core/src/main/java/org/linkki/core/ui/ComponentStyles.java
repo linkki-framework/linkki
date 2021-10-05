@@ -17,14 +17,17 @@ package org.linkki.core.ui;
 import com.vaadin.flow.component.Component;
 
 /**
- * Utility class for common CSS adjustments that are not part of the Vaadin API.
+ * Utility class for common CSS adjustments that are not part of the Vaadin API. Also holds utility
+ * class names.
  * <p>
  * This class is intended to be used for small generic CSS changes. For component specific CSS styles,
  * use a CSS file instead.
  */
-public class ComponentStyleUtil {
+public class ComponentStyles {
 
-    private ComponentStyleUtil() {
+    public static final String TEXT_ALIGN_RIGHT = "l-right-aligned";
+
+    private ComponentStyles() {
         // prevents instantiation
     }
 

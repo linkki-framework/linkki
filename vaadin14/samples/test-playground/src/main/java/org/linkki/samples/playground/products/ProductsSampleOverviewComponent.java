@@ -15,7 +15,7 @@
 package org.linkki.samples.playground.products;
 
 import org.linkki.core.binding.BindingContext;
-import org.linkki.core.ui.ComponentStyleUtil;
+import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.framework.ui.component.Headline;
 
@@ -37,7 +37,7 @@ public class ProductsSampleOverviewComponent extends VerticalLayout {
         VerticalLayout content = new VerticalLayout();
         content.setSizeFull();
         content.setPadding(true);
-        ComponentStyleUtil.setOverflowAuto(content);
+        ComponentStyles.setOverflowAuto(content);
         add(content);
 
         content.add(ProductsSampleComponents.createVerticalSection());
@@ -52,7 +52,7 @@ public class ProductsSampleOverviewComponent extends VerticalLayout {
         Component scrollAndGrowTableSection = VaadinUiCreator
                 .createComponent(ProductsSampleComponents.createSampleTablePmo(100, 0),
                                  new BindingContext(getClass().getName()));
-        ComponentStyleUtil.setOverflowAuto(scrollAndGrowTableSection);
+        ComponentStyles.setOverflowAuto(scrollAndGrowTableSection);
         content.addAndExpand(scrollAndGrowTableSection);
     }
 }
