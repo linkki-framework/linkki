@@ -24,8 +24,10 @@ import org.linkki.util.Sequence;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 /**
  * {@link ApplicationHeader} with an additional help <code>MenuItem</code> as well as a
@@ -54,4 +56,9 @@ public class CustomApplicationHeader extends ApplicationHeader {
         return new CustomApplicationInfoPmo((CustomApplicationInfo)getApplicationInfo());
     }
 
+    @Override
+    protected void addRightComponents(HorizontalLayout parent) {
+        parent.add(new Span("Custom Label"));
+        super.addRightComponents(parent);
+    }
 }

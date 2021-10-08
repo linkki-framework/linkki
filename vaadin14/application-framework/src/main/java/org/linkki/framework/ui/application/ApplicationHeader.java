@@ -104,7 +104,7 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
     private void addRightComponents() {
         HorizontalLayout wrapper = new HorizontalLayout();
         wrapper.addClassName(LinkkiApplicationTheme.APPLICATION_HEADER_RIGHT);
-        wrapper.setAlignItems(Alignment.END);
+        wrapper.setAlignItems(Alignment.BASELINE);
         wrapper.setSpacing(true);
 
         addRightComponents(wrapper);
