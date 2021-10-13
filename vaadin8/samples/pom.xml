@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <!-- tag::vaadin[] -->
-        <vaadin.version>8.13.1</vaadin.version>
+        <vaadin.version>8.14.1</vaadin.version>
         <!-- end::vaadin[] -->
         <spotbugs.version>3.1.12</spotbugs.version>
         <!-- tag::vaadin[] -->
