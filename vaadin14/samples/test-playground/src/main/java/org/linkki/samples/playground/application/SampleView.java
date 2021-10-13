@@ -21,13 +21,14 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.framework.ui.component.Headline;
 import org.linkki.samples.playground.application.model.Report;
+import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 import com.vaadin.flow.router.Route;
 
-@Route(value = SampleView.NAME, layout = SampleApplicationLayout.class)
+@Route(value = SampleView.NAME, layout = PlaygroundAppLayout.class)
 public class SampleView extends LinkkiTabLayout {
 
     public static final String NAME = "sample-layout";
