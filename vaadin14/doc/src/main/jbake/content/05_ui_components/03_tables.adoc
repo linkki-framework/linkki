@@ -134,9 +134,9 @@ image::{images}{images-folder-name}/selectable_table.png[Selectable table, align
 
 
 [[ui-table-footer]]
-==== TableFooterPmo
+==== Table footer
 
-By overwriting the `default` method `getFooterPmo()` a footer row is generated. The implementation of the interface `TableFooterPmo` must implement the method `getFooterText(String column)`.
+By overriding the `default` method `getFooterPmo()` a footer row is generated. The implementation of the interface `TableFooterPmo` must implement the method `getFooterText(String column)`.
 
 The parameter `column` is the ID of the column for which the text should be displayed. An example for this would be a sum of all items from a column.
 
@@ -144,6 +144,8 @@ The parameter `column` is the ID of the column for which the text should be disp
 ----
 include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarTablePmo.java[tags=table-footer]
 ----
+
+TIP: The `ContainerPMO` can be annotated with `@BindStyleNames` and `LinkkiApplicationTheme#GRID_FOOTER_SUM` to make the table footer text bold and right aligned. This is particularly useful for right aligned number columns which have a footer to display the sum.
 
 [[button-pmo]]
 ==== ButtonPmo
