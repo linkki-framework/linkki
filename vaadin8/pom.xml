@@ -26,11 +26,7 @@
 
     <properties>
     <!-- this property must also be updated in samples-vaadin8 and uitest -->
-        <vaadin.version>
-        <!-- tag::vaadin8[] -->
-        8.13.1
-        <!-- end::vaadin8[] -->
-        </vaadin.version>
+        <vaadin.version>8.14.1</vaadin.version>
     </properties>
 
     <dependencyManagement>
