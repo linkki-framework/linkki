@@ -24,8 +24,6 @@ import org.linkki.framework.ui.nls.NlsText;
 import org.linkki.framework.ui.pmo.ApplicationInfoPmo;
 import org.linkki.util.Sequence;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -33,7 +31,6 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.server.Command;
 
 /**
  * A navigation header bar that is displayed on the top of an {@link ApplicationLayout}. By default, it
@@ -47,9 +44,8 @@ import com.vaadin.flow.server.Command;
  *           {@link #addHelpMenuItems(MenuItem)} can be used to create an {@link ApplicationInfoDialog}
  *           menu item in the right {@link MenuBar}.
  *           <p>
- *           The methods {@link #createRightMenuBar()}, {@link #addUserMenu(String, MenuBar)},
- *           {@link #addUserMenuItems(MenuItem)} and {@link #newLogoutCommand()} can be used to create a
- *           user logout menu item in the right {@link MenuBar}.
+ *           The methods {@link #createRightMenuBar()}, can for example be used to create a user logout
+ *           menu item in the right {@link MenuBar}.
  * 
  * @see ApplicationMenu
  */
@@ -182,35 +178,6 @@ public class ApplicationHeader extends Composite<HorizontalLayout> {
      */
     protected ApplicationInfoPmo createApplicationInfoPmo() {
         return new ApplicationInfoPmo(getApplicationInfo());
-    }
-
-    /**
-     * Creates a user menu item in the given parent.
-     * 
-     * @implNote Override {@link #addUserMenuItems(MenuItem)} to add sub menu items to the created user
-     *           menu.
-     */
-    protected MenuItem addUserMenu(String username, MenuBar parent) {
-        MenuItem userMenu = parent.addItem(VaadinIcon.USER.create()); // $NON-NLS-1$
-        userMenu.add(username);
-        addUserMenuItems(userMenu);
-        return userMenu;
-    }
-
-    /**
-     * Adds sub menu items to the given <code>userMenu</code> that is created in
-     * {@link #addUserMenu(String, MenuBar)}.
-     */
-    protected void addUserMenuItems(MenuItem userMenu) {
-        userMenu.getSubMenu().addItem(NlsText.getString("ApplicationHeader.Logout"), newLogoutCommand()); // $NON-NLS-1$
-    }
-
-    /**
-     * Returns a {@link Command} that can be used for a logout {@link MenuItem item} in a
-     * {@link MenuBar}.
-     */
-    protected ComponentEventListener<ClickEvent<MenuItem>> newLogoutCommand() {
-        return e -> getUI().ifPresent(ui -> ui.getPage().setLocation("./logout"));
     }
 
     /**

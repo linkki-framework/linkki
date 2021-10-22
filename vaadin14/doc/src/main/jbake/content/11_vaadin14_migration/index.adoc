@@ -93,6 +93,9 @@ In custom implementations:
 |===
 | Change | Migration
 
+| `ApplicationHeader#addUserMenu` The user menu has been completely removed. This has to be implemented by yourself. 
+| If you want to create a user menu, then overwrite `ApplicationHeader#createRightMenuBar` and add a `MenuItem` to the `MenuBar`
+
 | `ApplicationHeader` uses an `ApplicationInfo` and `Sequence<ApplicationMenuItem>` as arguments instead of `ApplicationMenu`.
 | Adjust the constructor and the super constructor call within with the new parameters.
 

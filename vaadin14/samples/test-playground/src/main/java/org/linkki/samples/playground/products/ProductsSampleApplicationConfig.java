@@ -24,8 +24,6 @@ import org.linkki.samples.playground.nls.PlaygroundNlsText;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.util.Sequence;
 
-import com.vaadin.flow.component.menubar.MenuBar;
-
 /**
  * An {@link ApplicationConfig} using the default {@link ApplicationHeader application header} and
  * {@link ApplicationFooter application footer}.
@@ -61,28 +59,5 @@ public class ProductsSampleApplicationConfig implements ApplicationConfig {
     public Sequence<ApplicationMenuItemDefinition> getMenuItemDefinitions() {
         return Sequence.of(new ApplicationMenuItemDefinition("Start", PlaygroundApplicationView.class),
                            new ApplicationMenuItemDefinition("Produkt", ProductsSampleDetailView.class));
-    }
-
-    @Override
-    public ApplicationHeaderDefinition getHeaderDefinition() {
-        return ProductsSampleApplicationHeader::new;
-    }
-
-
-    public static class ProductsSampleApplicationHeader extends ApplicationHeader {
-
-        private static final long serialVersionUID = 1L;
-
-        public ProductsSampleApplicationHeader(ApplicationInfo applicationInfo,
-                Sequence<ApplicationMenuItemDefinition> menuItemDefinitions) {
-            super(applicationInfo, menuItemDefinitions);
-        }
-
-        @Override
-        protected MenuBar createRightMenuBar() {
-            MenuBar rightMenuBar = super.createRightMenuBar();
-            addUserMenu("Dummy fixed user", rightMenuBar);
-            return rightMenuBar;
-        }
     }
 }

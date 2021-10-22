@@ -162,7 +162,12 @@
             "justification": "FCOM-478/FCOM-700 - Common naming conventions for class names",
             "oldValue": "l-scrollable",
             "newValue": "linkki-scrollable"
-          }
+          },
+          {
+		  "code": "java.method.removed",
+		  "old": "method void org.linkki.framework.ui.application.ApplicationHeader::addUserMenuItems(com.vaadin.flow.component.contextmenu.MenuItem)",
+		  "justification": "LIN-2571/LIN-2592 - moved to commons"
+		  }
         ]
       }
     }
