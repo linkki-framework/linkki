@@ -806,5 +806,30 @@
                 ]
             }
         }
+    ],
+    "1.4.2": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "justification": "Vaadin Update from 8.13.1 to 8.14.1",
+                "differences": [
+                    {
+                     "regex": true,
+                      "code": ".*",
+                      "oldArchive": "com.vaadin:vaadin-server:jar:8.13.1",
+                      "newArchive": "com.vaadin:vaadin-server:jar:8.14.1",
+                      "justification": "Updated vaadin version"
+                    },
+                    {
+                      "regex": true,
+                      "code": ".*",
+                      "oldArchive": "org.jsoup:jsoup:jar:1.11.2",
+                      "newArchive": "org.jsoup:jsoup:jar:1.14.2",
+                      "justification": "Updated vaadin version"
+                    }
+                ]
+            }
+        }
     ]
 }
