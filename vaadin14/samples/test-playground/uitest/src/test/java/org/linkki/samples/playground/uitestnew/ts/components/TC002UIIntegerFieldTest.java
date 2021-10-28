@@ -20,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ts.components.IntegerFieldPmo;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
@@ -31,7 +32,7 @@ public class TC002UIIntegerFieldTest extends PlaygroundUiTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        goToTestCase("TS005", "TC002");
+        goToTestCase(PlaygroundApplicationView.TS005, PlaygroundApplicationView.TC002);
     }
 
     @Test

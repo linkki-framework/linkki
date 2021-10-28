@@ -15,6 +15,7 @@
 package org.linkki.core.ui.wrapper;
 
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -28,6 +29,8 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.HasValidation;
+
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 
 /**
  * Base class to wrap vaadin components.
@@ -65,7 +68,7 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
 
     @Override
     public void setTooltip(String text) {
-        // TODO LIN-2054
+        component.getElement().setAttribute("title", clearHtmlAndFormat(text));
     }
 
     @Override
@@ -100,6 +103,20 @@ public abstract class VaadinComponentWrapper implements ComponentWrapper {
     @Override
     public WrapperType getType() {
         return type;
+    }
+
+    /**
+     * Removes all HTML tags from the argument String and replaces all &#60;br&#62; with a \n. The title
+     * attribute cannot handle HTML tags but with \n a line break is possible.
+     * 
+     * @param text
+     * @return The formatted String or an empty String if the argument is null
+     */
+    private String clearHtmlAndFormat(@CheckForNull String text) {
+        return Optional.ofNullable(text) //
+                .map(html -> html.replaceAll("(?i)<br */?>", "\n")) //
+                .map(html -> html.replaceAll("<[^>]*>", "")) //
+                .orElse("");
     }
 
 }

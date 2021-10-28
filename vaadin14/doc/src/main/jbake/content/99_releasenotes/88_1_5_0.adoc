@@ -8,6 +8,8 @@
 === Version 1.5.0
 
 ==== New features and improvements
+* `@BindTooltip` now uses the title attribute which can be used on every element. Limitation: Text only. Html Tags are removed.`<br>` tags are converted to `\n`.  
+// https://jira.faktorzehn.de/browse/LIN-2543
 
 // https://jira.faktorzehn.de/browse/LIN-2534
 * `LinkkiTabSheetBuilder#onSelectionHandler` has been removed. There are multiple <<linkkitablayout-selection, alternatives available>>.

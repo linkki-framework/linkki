@@ -22,6 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.NoSuchElementException;
 
@@ -36,7 +37,7 @@ public class TC004IpsPropertyDispatcherVisibilityTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        testCaseSection = goToTestCase("TS004", "TC004");
+        testCaseSection = goToTestCase(PlaygroundApplicationView.TS004, PlaygroundApplicationView.TC004);
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }
 

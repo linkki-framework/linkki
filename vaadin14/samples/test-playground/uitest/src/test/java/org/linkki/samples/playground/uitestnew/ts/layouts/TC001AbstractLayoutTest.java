@@ -129,7 +129,7 @@ abstract class TC001AbstractLayoutTest extends TS001AbstractBasicElementsLayoutT
                                                                      field);
         WebElement groupFieldContainer = shadowRoot.findElement(By.className("vaadin-group-field-container"));
 
-        assertThat(groupFieldContainer.getText()).isEqualTo("RadioButtons");
+        assertThat(groupFieldContainer.getText()).contains("RadioButtons");
     }
 
     @Test

@@ -36,6 +36,7 @@ import org.linkki.core.binding.dispatcher.PropertyDispatcher;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.ui.bind.TestEnum;
+import org.linkki.core.vaadin.component.base.LinkkiFormLayout;
 import org.linkki.core.vaadin.component.base.LinkkiFormLayout.LabelComponentFormItem;
 import org.linkki.util.handler.Handler;
 import org.mockito.ArgumentCaptor;
@@ -50,7 +51,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * basically the same tests as in {@code ElementBindingTest} but focused on the
  * {@link FormItemComponentWrapper}
  **/
-public class FormItemComponentWrapperTest {
+class FormItemComponentWrapperTest extends BaseComponentWrapperTest {
 
     private final Label label = spy(new Label());
 
@@ -70,7 +71,7 @@ public class FormItemComponentWrapperTest {
     private PropertyDispatcher propertyDispatcherEnumValue;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         propertyDispatcherValue = mock(PropertyDispatcher.class);
         when(propertyDispatcherValue.getProperty()).thenReturn("value");
         propertyDispatcherEnumValue = mock(PropertyDispatcher.class);
@@ -88,7 +89,7 @@ public class FormItemComponentWrapperTest {
     }
 
     @Test
-    public void testUpdateFromPmo_updateAspect() {
+    void testUpdateFromPmo_updateAspect() {
         Handler componentUpdater = mock(Handler.class);
         LinkkiAspectDefinition aspectDefinition = mock(LinkkiAspectDefinition.class);
         when(aspectDefinition.supports(any())).thenReturn(true);
@@ -103,7 +104,7 @@ public class FormItemComponentWrapperTest {
     }
 
     @Test
-    public void testDisplayMessages() {
+    void testDisplayMessages() {
         messageList.add(Message.newError("code", "text"));
 
         selectBinding.displayMessages(messageList);
@@ -120,7 +121,7 @@ public class FormItemComponentWrapperTest {
     }
 
     @Test
-    public void testDisplayMessages_noMessages() {
+    void testDisplayMessages_noMessages() {
         selectBinding.displayMessages(messageList);
 
         verify(selectField).setErrorMessage("");
@@ -129,14 +130,28 @@ public class FormItemComponentWrapperTest {
 
 
     @Test
-    public void testDisplayMessages_noMessageList() {
+    void testDisplayMessages_noMessageList() {
         Assertions.assertThrows(NullPointerException.class, () -> {
             selectBinding.displayMessages(null);
         });
     }
 
     @Test
-    public void testSetTooltip() {
-        // TODO LIN-2054
+    void testSetTooltip() {
+        LinkkiFormLayout layout = new LinkkiFormLayout();
+        TextField formTextField = new TextField();
+        LabelComponentFormItem formItem = layout.addFormItem(formTextField, "SomeText");
+        FormItemComponentWrapper wrapper = new FormItemComponentWrapper(formItem);
+
+        wrapper.setTooltip("testTip");
+        assertThat(getTitleAttribute(wrapper), is("testTip"));
+        wrapper.setTooltip("<script>");
+        assertThat(getTitleAttribute(wrapper), is(""));
+        wrapper.setTooltip("<div> some text </div>");
+        assertThat(getTitleAttribute(wrapper), is(" some text "));
+        wrapper.setTooltip("<div> some text <br> with page break</div> ");
+        assertThat(getTitleAttribute(wrapper), is(" some text \n with page break "));
     }
+
+
 }

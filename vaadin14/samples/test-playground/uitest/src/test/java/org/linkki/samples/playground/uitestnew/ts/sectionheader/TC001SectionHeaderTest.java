@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionCaptionElement;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Dimension;
 
@@ -39,7 +40,7 @@ public class TC001SectionHeaderTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        testCaseSection = goToTestCase("TS002", "TC001");
+        testCaseSection = goToTestCase(PlaygroundApplicationView.TS002, PlaygroundApplicationView.TC001);
 
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
         sectionCaption = section.getCaption();

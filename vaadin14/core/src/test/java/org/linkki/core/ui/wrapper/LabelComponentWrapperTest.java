@@ -20,9 +20,10 @@ import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.wrapper.WrapperType;
 
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.textfield.TextField;
 
-public class LabelComponentWrapperTest {
+public class LabelComponentWrapperTest extends BaseComponentWrapperTest {
 
     @Test
     public void testSetLabel() {
@@ -52,6 +53,21 @@ public class LabelComponentWrapperTest {
         wrapper.setLabel("");
 
         assertThat(component.getElement().hasProperty("label"), is(false));
+    }
+
+    @Test
+    public void testSetTooltip() {
+        Label component = new Label();
+        LabelComponentWrapper wrapper = new LabelComponentWrapper(component, WrapperType.COMPONENT);
+
+        wrapper.setTooltip("testTip");
+        assertThat(getTitleAttribute(wrapper), is("testTip"));
+        wrapper.setTooltip("<script>");
+        assertThat(getTitleAttribute(wrapper), is(""));
+        wrapper.setTooltip("<div> some text </div>");
+        assertThat(getTitleAttribute(wrapper), is(" some text "));
+        wrapper.setTooltip("<div> some text <br> with page break</div> ");
+        assertThat(getTitleAttribute(wrapper), is(" some text \n with page break "));
     }
 
 }

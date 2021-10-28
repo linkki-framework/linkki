@@ -20,6 +20,7 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.DriverProperties;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.Keys;
@@ -36,7 +37,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
     public void setUp() {
         super.setUp();
         getDriver().get(DriverProperties.getTestUrl(""));
-        goToTestCase("TS005", "TC010");
+        goToTestCase(PlaygroundApplicationView.TS005, PlaygroundApplicationView.TC010);
     }
 
     @Test

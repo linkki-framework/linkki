@@ -21,22 +21,24 @@ import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.dynamicannotations.BindStyleNamesComponentsPmo;
+import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
-import org.linkki.samples.playground.uitest.AbstractUiTest;
+import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class BindStyleNamesTest extends AbstractUiTest {
+public class BindStyleNamesTest extends PlaygroundUiTest {
+    private TestCaseComponentElement testCaseSection;
 
     @BeforeEach
     public void setup() {
-        openTab(PlaygroundApplicationView.DYNAMIC_ASPECT_TAB_ID);
+        super.setUp();
+        testCaseSection = goToTestCase(PlaygroundApplicationView.TS013, PlaygroundApplicationView.TC008);
     }
 
     @Test
     public void testBindStyleNames_Dynamic_EmptyStyleName() {
-        TextFieldElement textField = getSection(BindStyleNamesComponentsPmo.class).$(TextFieldElement.class)
+        TextFieldElement textField = testCaseSection.$(TextFieldElement.class)
                 .first();
         textField.setValue(" ");
         textField.sendKeys("\t");
@@ -46,7 +48,7 @@ public class BindStyleNamesTest extends AbstractUiTest {
 
     @Test
     public void testBindStyleNames_Dynamic_SingleStyleName() {
-        TextFieldElement textField = getSection(BindStyleNamesComponentsPmo.class).$(TextFieldElement.class)
+        TextFieldElement textField = testCaseSection.$(TextFieldElement.class)
                 .first();
         textField.setValue("aCustomStyleName");
         textField.sendKeys("\t");
@@ -56,7 +58,7 @@ public class BindStyleNamesTest extends AbstractUiTest {
 
     @Test
     public void testBindStyleNames_Dynamic_MultipleStyleNames() {
-        TextFieldElement textField = getSection(BindStyleNamesComponentsPmo.class).$(TextFieldElement.class)
+        TextFieldElement textField = testCaseSection.$(TextFieldElement.class)
                 .first();
         textField.setValue("aCustomStyleName anotherOne");
         textField.sendKeys("\t");

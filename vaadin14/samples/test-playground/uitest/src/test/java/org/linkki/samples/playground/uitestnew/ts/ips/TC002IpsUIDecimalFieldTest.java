@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -37,7 +38,7 @@ public class TC002IpsUIDecimalFieldTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        testCaseSection = goToTestCase("TS004", "TC002");
+        testCaseSection = goToTestCase(PlaygroundApplicationView.TS004, PlaygroundApplicationView.TC002);
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }
 

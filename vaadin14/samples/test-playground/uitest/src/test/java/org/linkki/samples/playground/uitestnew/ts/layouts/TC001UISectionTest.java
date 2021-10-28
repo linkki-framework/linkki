@@ -14,11 +14,13 @@
 
 package org.linkki.samples.playground.uitestnew.ts.layouts;
 
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+
 class TC001UISectionTest extends TC001AbstractSectionTest {
 
     @Override
     protected String getTestCaseId() {
-        return "TC001";
+        return PlaygroundApplicationView.TC001;
     }
 
 }

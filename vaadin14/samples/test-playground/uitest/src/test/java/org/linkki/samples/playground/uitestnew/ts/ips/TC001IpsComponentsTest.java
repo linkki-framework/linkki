@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension.Configuration;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
@@ -55,7 +56,7 @@ public class TC001IpsComponentsTest extends PlaygroundUiTest {
         @BeforeEach
         void setup() {
             super.setUp();
-            testCaseSection = goToTestCase("TS004", "TC001");
+            testCaseSection = goToTestCase(PlaygroundApplicationView.TS004, PlaygroundApplicationView.TC001);
             section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
 
             actualLabelValue = section.$(LabelElement.class).first().getText();

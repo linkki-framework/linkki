@@ -26,7 +26,14 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.TestScenario;
-import org.linkki.samples.playground.dynamicannotations.DynamicAnnotationsLayout;
+import org.linkki.samples.playground.dynamicannotations.BindIconComponentsPmo;
+import org.linkki.samples.playground.dynamicannotations.BindStyleNamesComponentsPmo;
+import org.linkki.samples.playground.dynamicannotations.BindVisibleSectionPmo;
+import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithCloseButtonPmo;
+import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithEditButtonPmo;
+import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithSectionHeaderButtonPmo;
+import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithoutButtonPmo;
+import org.linkki.samples.playground.dynamicannotations.DynamicTooltipPmo;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
@@ -85,7 +92,37 @@ import com.vaadin.flow.router.Route;
 @PageTitle("linkki Sample :: Playground")
 public class PlaygroundApplicationView extends Div implements HasUrlParameter<String> {
 
+
     private static final long serialVersionUID = 1L;
+
+    public static final String TS001 = "TS001";
+    public static final String TS002 = "TS002";
+    public static final String TS003 = "TS003";
+    public static final String TS004 = "TS004";
+    public static final String TS005 = "TS005";
+    public static final String TS006 = "TS006";
+    public static final String TS007 = "TS007";
+    public static final String TS008 = "TS008";
+    public static final String TS009 = "TS009";
+    public static final String TS010 = "TS010";
+    public static final String TS011 = "TS011";
+    public static final String TS012 = "TS012";
+    public static final String TS013 = "TS013";
+
+
+    public static final String TC001 = "TC001";
+    public static final String TC002 = "TC002";
+    public static final String TC003 = "TC003";
+    public static final String TC004 = "TC004";
+    public static final String TC005 = "TC005";
+    public static final String TC006 = "TC006";
+    public static final String TC007 = "TC007";
+    public static final String TC008 = "TC008";
+    public static final String TC009 = "TC009";
+    public static final String TC010 = "TC010";
+    public static final String TC011 = "TC011";
+    public static final String TC012 = "TC012";
+    public static final String TC013 = "TC013";
 
     public static final String DYNAMIC_ASPECT_TAB_ID = "dynamic";
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
@@ -104,72 +141,76 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");
         tabLayout.addTabSheets(
-
                                // new test scenarios
-                               TestScenario.id("TS001")
-                                       .testCase("TC001", new BasicElementsLayoutBehaviorUiSectionPmo())
-                                       .testCase("TC002", new BasicElementsLayoutBehaviorFormSectionPmo())
-                                       .testCase("TC003", new BasicElementsLayoutBehaviorHorizontalLayoutPmo())
-                                       .testCase("TC004", new BasicElementsLayoutBehaviorVerticalLayoutPmo())
-                                       .testCase("TC005", new BasicElementsLayoutBehaviorFormLayoutPmo())
-                                       .testCase("TC006", new BasicElementsLayoutBehaviorCssLayoutPmo())
+                               TestScenario.id(TS001)
+                                       .testCase(TC001, new BasicElementsLayoutBehaviorUiSectionPmo())
+                                       .testCase(TC002, new BasicElementsLayoutBehaviorFormSectionPmo())
+                                       .testCase(TC003, new BasicElementsLayoutBehaviorHorizontalLayoutPmo())
+                                       .testCase(TC004, new BasicElementsLayoutBehaviorVerticalLayoutPmo())
+                                       .testCase(TC005, new BasicElementsLayoutBehaviorFormLayoutPmo())
+                                       .testCase(TC006, new BasicElementsLayoutBehaviorCssLayoutPmo())
                                        .createTabSheet(),
-                               TestScenario.id("TS002")
-                                       .testCase("TC001", new SectionHeaderBehaviorPmo())
+                               TestScenario.id(TS002)
+                                       .testCase(TC001, new SectionHeaderBehaviorPmo())
                                        .createTabSheet(),
-                               TestScenario.id("TS003")
-                                       .testCase("TC001", new I18NElementsLocalizationPmo())
+                               TestScenario.id(TS003)
+                                       .testCase(TC001, new I18NElementsLocalizationPmo())
                                        .createTabSheet(),
                                addIpsTabSheet(),
-                               TestScenario.id("TS005")
-                                       .testCase("TC001", new LabelPmo())
-                                       .testCase("TC002", new IntegerFieldPmo())
-                                       .testCase("TC003", new DoubleFieldPmo())
-                                       .testCase("TC004", new TextAreaPmo())
-                                       .testCase("TC005", new TextFieldPmo())
-                                       .testCase("TC006", new DateFieldPmo())
-                                       .testCase("TC007", new ComboBoxPmo())
-                                       .testCase("TC008", new RadioButtonsPmo())
-                                       .testCase("TC009", new LinkPmo())
-                                       .testCase("TC010", new ButtonPmo())
-                                       .testCase("TC011", new CustomFieldPmo())
-                                       .testCase("TC012", new DynamicComponentPage())
+                               TestScenario.id(TS005)
+                                       .testCase(TC001, new LabelPmo())
+                                       .testCase(TC002, new IntegerFieldPmo())
+                                       .testCase(TC003, new DoubleFieldPmo())
+                                       .testCase(TC004, new TextAreaPmo())
+                                       .testCase(TC005, new TextFieldPmo())
+                                       .testCase(TC006, new DateFieldPmo())
+                                       .testCase(TC007, new ComboBoxPmo())
+                                       .testCase(TC008, new RadioButtonsPmo())
+                                       .testCase(TC009, new LinkPmo())
+                                       .testCase(TC010, new ButtonPmo())
+                                       .testCase(TC011, new CustomFieldPmo())
+                                       .testCase(TC012, new DynamicComponentPage())
                                        .createTabSheet(),
-                               TestScenario.id("TS006")
-                                       .testCase("TC001", new LinkkiTextComponent())
+                               TestScenario.id(TS006)
+                                       .testCase(TC001, new LinkkiTextComponent())
                                        .createTabSheet(),
-                               TestScenario.id("TS007")
-                                       .testCase("TC001", new VerticalAlignmentTestComponent())
-                                       .testCase("TC002", new HorizontalAlignmentTestComponent())
+                               TestScenario.id(TS007)
+                                       .testCase(TC001, new VerticalAlignmentTestComponent())
+                                       .testCase(TC002, new HorizontalAlignmentTestComponent())
                                        .createTabSheet(),
-                               TestScenario.id("TS008")
-                                       .testCase("TC001", new BindStyleNamesPmo())
+                               TestScenario.id(TS008)
+                                       .testCase(TC001, new BindStyleNamesPmo())
                                        .createTabSheet(),
-                               TestScenario.id("TS009")
-                                       .testCase("TC001", new TextNotificationPmo())
-                                       .testCase("TC002", new MessageListNotificationPmo())
+                               TestScenario.id(TS009)
+                                       .testCase(TC001, new TextNotificationPmo())
+                                       .testCase(TC002, new MessageListNotificationPmo())
                                        .createTabSheet(),
-                               TestScenario.id("TS010")
-                                       .testCase("TC001", new HorizontalTabLayoutComponent())
-                                       .testCase("TC002", new VerticalTabLayoutComponent())
-                                       .testCase("TC003", new TabLayoutVisibilityComponent())
+                               TestScenario.id(TS010)
+                                       .testCase(TC001, new HorizontalTabLayoutComponent())
+                                       .testCase(TC002, new VerticalTabLayoutComponent())
+                                       .testCase(TC003, new TabLayoutVisibilityComponent())
                                        .createTabSheet(),
-                               TestScenario.id("TS011")
-                                       .testCase("TC001", new OkCancelDialogHandlerPmo())
+                               TestScenario.id(TS011)
+                                       .testCase(TC001, new OkCancelDialogHandlerPmo())
                                        .createTabSheet(),
-                               TestScenario.id("TS012")
-                                       .testCase("TC001", TableWithValidationSection.create())
-                                       .testCase("TC002", SelectableTableSection.create())
-                                       .testCase("TC003", new UITableColumnTablePmo())
-                                       .testCase("TC004", DynamicFieldsSection.create())
-                                       .testCase("TC005", new NumberFooterTablePmo())
+                               TestScenario.id(TS012)
+                                       .testCase(TC001, TableWithValidationSection.create())
+                                       .testCase(TC002, SelectableTableSection.create())
+                                       .testCase(TC003, new UITableColumnTablePmo())
+                                       .testCase(TC004, DynamicFieldsSection.create())
+                                       .testCase(TC005, new NumberFooterTablePmo())
                                        .createTabSheet(),
-
+                               TestScenario.id(TS013)
+                                       .testCase(TC001, new DynamicTooltipPmo())
+                                       .testCase(TC002, new DynamicCaptionWithoutButtonPmo())
+                                       .testCase(TC003, new DynamicCaptionWithEditButtonPmo())
+                                       .testCase(TC004, new DynamicCaptionWithSectionHeaderButtonPmo())
+                                       .testCase(TC005, new DynamicCaptionWithCloseButtonPmo())
+                                       .testCase(TC006, new BindVisibleSectionPmo())
+                                       .testCase(TC007, new BindIconComponentsPmo())
+                                       .testCase(TC008, new BindStyleNamesComponentsPmo())
+                                       .createTabSheet(),
                                // old tab sheets
-                               LinkkiTabSheet.builder(DYNAMIC_ASPECT_TAB_ID)
-                                       .caption(VaadinIcon.FLIGHT_TAKEOFF.create())
-                                       .description("Dynamic Aspects")
-                                       .content(DynamicAnnotationsLayout::new).build(),
                                LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)
                                        .caption(VaadinIcon.ROAD_BRANCHES.create())
                                        .description("Nested Components")
@@ -181,10 +222,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                LinkkiTabSheet.builder(TREETABLE_TAB_ID)
                                        .caption(VaadinIcon.FILE_TREE.create())
                                        .description("Tree Table")
-                                       .content(SampleTreeTableComponent::new).build()
-
-        );
-
+                                       .content(SampleTreeTableComponent::new).build());
         add(tabLayout);
     }
 
@@ -199,14 +237,15 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
 
         BindingContext bc = bindingManager.getContext("IpsBindingContext");
 
-        return TestScenario.id("TS004")
-                .testCase("TC001", VaadinUiCreator.createComponent(new IpsPmo(ipsModelObject), bc))
-                .testCase("TC002", VaadinUiCreator.createComponent(new DecimalFieldPmo(), bc))
-                .testCase("TC003", VaadinUiCreator.createComponent(new RequiredSectionPmo(), bc))
-                .testCase("TC004", VaadinUiCreator.createComponent(new VisibleSectionPmo(), bc))
-                .testCase("TC005", VaadinUiCreator.createComponent(new EnabledSectionPmo(), bc))
-                .testCase("TC006", VaadinUiCreator.createComponent(new DecimalLabelPmo(), bc))
+        return TestScenario.id(TS004)
+                .testCase(TC001, VaadinUiCreator.createComponent(new IpsPmo(ipsModelObject), bc))
+                .testCase(TC002, VaadinUiCreator.createComponent(new DecimalFieldPmo(), bc))
+                .testCase(TC003, VaadinUiCreator.createComponent(new RequiredSectionPmo(), bc))
+                .testCase(TC004, VaadinUiCreator.createComponent(new VisibleSectionPmo(), bc))
+                .testCase(TC005, VaadinUiCreator.createComponent(new EnabledSectionPmo(), bc))
+                .testCase(TC006, VaadinUiCreator.createComponent(new DecimalLabelPmo(), bc))
                 .createTabSheet();
     }
+
 
 }

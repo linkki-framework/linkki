@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject;
 import org.linkki.samples.playground.ts.layouts.BasicElementsLayoutBehaviorModelObject.SampleEnum;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
@@ -38,7 +39,7 @@ abstract class TS001AbstractBasicElementsLayoutTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        testCaseSection = goToTestCase("TS001", getTestCaseId());
+        testCaseSection = goToTestCase(PlaygroundApplicationView.TS001, getTestCaseId());
     }
 
     protected abstract String getTestCaseId();

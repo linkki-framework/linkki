@@ -26,6 +26,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.extensions.DriverExtension;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
@@ -49,7 +50,7 @@ class TC004DynamicFieldTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        goToTestCase("TS012", "TC004");
+        goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC004);
     }
 
     @Test

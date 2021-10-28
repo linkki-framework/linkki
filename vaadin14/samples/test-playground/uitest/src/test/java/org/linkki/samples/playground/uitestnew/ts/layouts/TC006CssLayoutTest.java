@@ -14,11 +14,13 @@
 
 package org.linkki.samples.playground.uitestnew.ts.layouts;
 
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+
 class TC006CssLayoutTest extends TC001AbstractLayoutTest {
 
     @Override
     protected String getTestCaseId() {
-        return "TC006";
+        return PlaygroundApplicationView.TC006;
     }
 
 }

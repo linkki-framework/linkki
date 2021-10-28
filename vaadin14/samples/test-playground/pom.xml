@@ -15,7 +15,7 @@
     <packaging>war</packaging>
 
     <name>linkki Vaadin 14 Samples :: Test Playground</name>
-
+        
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>

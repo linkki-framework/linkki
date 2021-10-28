@@ -36,7 +36,7 @@ import com.vaadin.flow.component.textfield.TextField;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
-public class NoLabelComponentWrapperTest {
+public class NoLabelComponentWrapperTest extends BaseComponentWrapperTest {
 
     @Test
     public void testSetId() {
@@ -137,6 +137,21 @@ public class NoLabelComponentWrapperTest {
                    is(WrapperType.FIELD));
         assertThat(new NoLabelComponentWrapper(component, WrapperType.LAYOUT).getType(),
                    is(WrapperType.LAYOUT));
+    }
+
+    @Test
+    public void testSetTooltip() {
+        Span component = new Span();
+        NoLabelComponentWrapper wrapper = new NoLabelComponentWrapper(component, WrapperType.FIELD);
+
+        wrapper.setTooltip("testTip");
+        assertThat(getTitleAttribute(wrapper), is("testTip"));
+        wrapper.setTooltip("<script>");
+        assertThat(getTitleAttribute(wrapper), is(""));
+        wrapper.setTooltip("<div> some text </div>");
+        assertThat(getTitleAttribute(wrapper), is(" some text "));
+        wrapper.setTooltip("<div> some text <br> with page break</div> ");
+        assertThat(getTitleAttribute(wrapper), is(" some text \n with page break "));
     }
 
 }

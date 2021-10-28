@@ -21,6 +21,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.grid.testbench.GridElement;
@@ -31,7 +32,7 @@ class TC003UITableColumnTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        goToTestCase("TS012", "TC003");
+        goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC003);
     }
 
     @Test

@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 
@@ -29,7 +30,7 @@ public class TC001UILabelTest extends PlaygroundUiTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        goToTestCase("TS005", "TC001");
+        goToTestCase(PlaygroundApplicationView.TS005, PlaygroundApplicationView.TC001);
     }
 
     @Test

@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.framework.ui.dialogs.OkCancelDialog;
 import org.linkki.samples.playground.ts.dialogs.OkCancelDialogHandlerPmo;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -39,7 +40,7 @@ public class OkCancelDialogHandlerTest extends PlaygroundUiTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        goToTestCase("TS011", "TC001");
+        goToTestCase(PlaygroundApplicationView.TS011, PlaygroundApplicationView.TC001);
     }
 
     @AfterEach

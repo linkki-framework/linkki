@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.table.selection.PlaygroundSelectableTablePmo;
 import org.linkki.samples.playground.table.selection.SelectionComparisonSectionPmo;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.By;
 
@@ -38,7 +39,7 @@ class TC002SelectableTableTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        goToTestCase("TS012", "TC002");
+        goToTestCase(PlaygroundApplicationView.TS012, PlaygroundApplicationView.TC002);
     }
 
     @Test

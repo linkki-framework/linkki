@@ -21,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.LinkkiSectionElement;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
@@ -34,7 +35,7 @@ public class TC005IpsPropertyDispatcherEnabledTest extends PlaygroundUiTest {
     @BeforeEach
     void setup() {
         super.setUp();
-        testCaseSection = goToTestCase("TS004", "TC005");
+        testCaseSection = goToTestCase(PlaygroundApplicationView.TS004, PlaygroundApplicationView.TC005);
         section = testCaseSection.getContentWrapper().$(LinkkiSectionElement.class).first();
     }
 

@@ -19,12 +19,11 @@ import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(caption = "Dynamic Tooltip")
+@UISection(caption = "Tooltips")
 public class DynamicTooltipPmo {
 
-    public static final String PROPERTY_TOOLTIP_TEXT = "tooltipText";
-
-    private String tooltipText = "";
+    private String tooltipText = "This fiels has a tooltip that changes dynamically with the content of this textfield";
+    private String tooltipHtmlText = "<p>This is a nice <br /> text with some <br> new lines </p><div> <br> and some html</div>";
 
     @UITextField(position = 20, label = "Tooltip")
     @BindTooltip(tooltipType = TooltipType.DYNAMIC)
@@ -37,7 +36,27 @@ public class DynamicTooltipPmo {
     }
 
     public String getTooltipTextTooltip() {
-        return this.tooltipText;
+        return tooltipText;
     }
 
+
+    @UITextField(position = 21, label = "Html Tooltip")
+    @BindTooltip(tooltipType = TooltipType.DYNAMIC)
+    public String getTooltipHtmlText() {
+        return tooltipHtmlText;
+    }
+
+    public void setTooltipHtmlText(String tooltipText) {
+        this.tooltipHtmlText = tooltipText;
+    }
+
+    public String getTooltipHtmlTextTooltip() {
+        return tooltipHtmlText;
+    }
+
+    @UITextField(position = 22, label = "Static Tooltip")
+    @BindTooltip(tooltipType = TooltipType.STATIC, value = "A nice static tooltip")
+    public String getTooltipStaticText() {
+        return "This field has a static tooltip that cannot be changed";
+    }
 }
