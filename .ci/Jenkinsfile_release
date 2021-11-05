@@ -27,7 +27,7 @@ pipeline {
         stage('Build') {
             steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 -P production clean javadoc:jar source:jar install'
+                    sh 'mvn -U -P production clean javadoc:jar source:jar install'
                 }
 
                 junit "**/target/surefire-reports/*.xml"
