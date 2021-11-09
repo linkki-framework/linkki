@@ -19,6 +19,7 @@ import org.linkki.core.binding.dispatcher.behavior.PropertyBehaviorProvider;
 import org.linkki.core.binding.manager.BindingManager;
 import org.linkki.core.binding.manager.DefaultBindingManager;
 import org.linkki.core.binding.validation.ValidationService;
+import org.linkki.core.ui.ComponentStyles;
 import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.uiframework.UiFramework;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
@@ -79,6 +80,7 @@ import org.linkki.samples.playground.ts.tablayout.HorizontalTabLayoutComponent;
 import org.linkki.samples.playground.ts.tablayout.TabLayoutVisibilityComponent;
 import org.linkki.samples.playground.ts.tablayout.VerticalTabLayoutComponent;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.BeforeEvent;
@@ -90,7 +92,6 @@ import com.vaadin.flow.router.Route;
 @Route(value = "", layout = PlaygroundAppLayout.class)
 @PageTitle("linkki Sample :: Playground")
 public class PlaygroundApplicationView extends Div implements HasUrlParameter<String> {
-
 
     private static final long serialVersionUID = 1L;
 
@@ -138,11 +139,14 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
         removeAll();
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");
+        Component formSectionComponent = VaadinUiCreator
+                .createComponent(new BasicElementsLayoutBehaviorFormSectionPmo(), new BindingContext(TC001));
+        ComponentStyles.setFormItemLabelWidth(formSectionComponent, "200px");
         tabLayout.addTabSheets(
                                // new test scenarios
                                TestScenario.id(TS001)
                                        .testCase(TC001, new BasicElementsLayoutBehaviorUiSectionPmo())
-                                       .testCase(TC002, new BasicElementsLayoutBehaviorFormSectionPmo())
+                                       .testCase(TC002, formSectionComponent)
                                        .testCase(TC003, new BasicElementsLayoutBehaviorHorizontalLayoutPmo())
                                        .testCase(TC004, new BasicElementsLayoutBehaviorVerticalLayoutPmo())
                                        .testCase(TC005, new BasicElementsLayoutBehaviorFormLayoutPmo())

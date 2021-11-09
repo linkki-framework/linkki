@@ -45,3 +45,10 @@ Implement AfterNavigationObserver:: The recommended way is to implement the inte
 Adding a listener to LinkkiTabLayout:: Use the method `addSelectedChangeListener(ComponentEventListener<SelectedChangeEvent>)` to get a `SelectedChangeEvent` containing the selected tab.
 
 Adding a listener to LinkkiTabSheet:: It is also possible to add a listener directly to the `LinkkiTabSheet` using `addTabSelectionChangeListener(ComponentEventListener<TabSheetSelectionChangeEvent>)`. The returned `Registration` could be used to unregister the listener.
+
+[[component-styles]]
+==== ComponentStyles
+New utility class that offers several methods for styling UI components
+
+* `setOverflowAuto(Component)`: Sets the overflow of the given `Component` to "auto". This makes the `Component` automatically scroll if necessary.
+* `setFormItemLabelWidth(Component, String)`: Sets the width of all form item labels in the given `Component`.

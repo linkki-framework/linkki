@@ -22,6 +22,8 @@
 * `@UILabel` can now be made right aligned in a table using the style name `LinkkiApplicationTheme#TEXT_RIGHT_ALIGNED`.
 // https://jira.faktorzehn.de/browse/FCOM-478
 * `LinkkiApplicationTheme#GRID_FOOTER_SUM` can now be used with `@BindStyleNames` annotated table PMOs to make table footer text bold and right aligned.
+// https://jira.faktorzehn.de/browse/FIPM-4253
+* `ComponentStyles`: New utility class that offers several methods for styling `Components`. See <<component-styles, ComponentStyles>>.
 
 ==== Bugfixes
 
@@ -42,3 +44,5 @@ This causes problems when expanding the drop down list: Items must be loaded eve
 * Adding a `LinkkiTabSheet` with Text components to a `LinkkiTabLayout` no longer causes an `UnsupportedOperationException`
 // https://jira.faktorzehn.de/browse/LIN-2561
 * Fix button shortcut behavior
+// https://jira.faktorzehn.de/browse/LIN-2596
+* Width of labels in `FormLayout` can be set using `setFormItemLabelWidth(Component, String)` in <<component-styles, ComponentStyles>>.

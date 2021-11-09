@@ -14,7 +14,13 @@
 
 package org.linkki.samples.playground.uitestnew.ts.layouts;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.openqa.selenium.By;
+
+import com.vaadin.flow.component.formlayout.testbench.FormLayoutElement;
 
 class TC002UIFormSectionTest extends TC001AbstractSectionTest {
 
@@ -23,4 +29,14 @@ class TC002UIFormSectionTest extends TC001AbstractSectionTest {
         return PlaygroundApplicationView.TC002;
     }
 
+    @Test
+    void testFormSection_FormItemLabelWidth() {
+        FormLayoutElement formLayoutElement = getTestCaseSection().$(FormLayoutElement.class).first();
+
+        // all form item labels should inherit the width of 200px that is set in form layout section
+        // but we just check first form item
+        String formItemLabelWidthAttribute = formLayoutElement.findElement(By.tagName("vaadin-form-item"))
+                .findElement(By.className("linkki-label-caption")).getCssValue("width");
+        assertThat(formItemLabelWidthAttribute).isEqualTo("200px");
+    }
 }

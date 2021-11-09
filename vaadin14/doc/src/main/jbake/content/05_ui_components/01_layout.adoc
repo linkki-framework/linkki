@@ -43,16 +43,31 @@ Both annotations share the attribute to controll the content of the <<section-he
 [[formsection-label-width]]
 ===== Label width in @UIFormSection
 
-By default, the labels in a section take up as much space as the longest label in the section. When display multiple sections below each other, that often has the undesired effect that each section has a different label width. 
+The width of labels in a section have a fixed default width. Labels that exceed the defined width are broken into multiple lines. 
+The line breaks at white spaces whenever possible. This may cause unexpected line breaks which may impair readability.
 
-To mitigate this issue, `LinkkiTheme` offers two style names that can be applied to the surrounding layout such as `AbstractPage`:
+To mitigate this issue, the utility class `ComponentStyles` offers the method `setFormItemLabelWidth(Component, String)` that can be used to apply a custom label width.
+This method applies the given width to all labels inside the given component.
 
-* `LABEL_FIXED_WIDTH`: All `@UIFormSections` in the layout have a fixed label width, by default `9em`.
-* `LABEL_FIXED_WIDTH_LONG`: All `@UIFormSections` in the layout have a long fixed label width, by default `12em`.
+[source,java]
+----
+public class MyPage extends AbstractPage {
 
-Customization:: Both widths can be customized globally in the SCSS theme. The width of `LABEL_FIXED_WIDTH` can be customized by defining the variable value `$linkki-label-fixed-width` in the SCSS. The width of `LABEL_FIXED_WIDTH_LONG` is defined by the variable `$linkki-caption-fixed-width-long`. Note that it is important to defined the variable value **before** importing `linkki.scss`.
+    @Override
+    public final void createContent() {
+        Component myFormSection = VaadinUiCreator
+                .createComponent(new MyFormSectionPmo(), new BindingContext());
+        add(myFormSection);
+        
+        ComponentStyles.setFormItemLabelWidth(this, "15em");
+    }
+    
+    ...
+}
+----
 
-Line Break in Labels:: With a fixed label width, labels that exceed the defined width are broken into multiple lines. The line breaks at white spaces whenever possible. If your label does not have any white spaces, this may cause a line break at an unexpected place, which may impair readability.
+Typically, the custom fixed width should be applied to a layout containing all visible sections instead of a single section.
+A consistent label width improves readability by makes the layout appear more structured and clean.
 
 [[layout-uisection]]
 ===== Layout Options in @UISection

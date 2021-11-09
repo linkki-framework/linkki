@@ -26,3 +26,7 @@
 	width: 100%;
     overflow: hidden;
 }
+
+#label {
+	width: var(--linkki-form-item-label-width, 8em);
+}

@@ -380,3 +380,47 @@ By now, tooltips are only supported by `LinkkiTabSheet`, using the `LinkkiTabShe
 https://jira.faktorzehn.de/browse/FIPM-4131
 ////
 See <<notifications, Notifications>>
+
+==== ComponentStyles
+
+In Vaadin 8, sections created with `@UISection` have a dynamic label width by default, i.e. the labels are as long as the longest label.
+For `@UIFormSection`, `LinkkiTheme` offered style names to set a fixed width.
+
+This behavior has changed with Vaadin 14. All sections now have a fixed label width by default. It is not possible to have dynamic label width anymore.
+To set a custom label width, you can use `ComponentStyles.setFormItemLabelWidth(Component, String)`. 
+This replaces the class names `LinkkiTheme.LABEL_FIXED_WIDTH` and `LinkkiTheme.LABEL_FIXED_WIDTH_LONG`.
+
+.Migration of a page with longer fixed width
+[cols="a,a"]
+|===
+| Before migration | After migration
+
+| 
+[source,java]
+----
+public class MyPage extends AbstractPAge {
+    @Override
+    public final void createContent() {
+       ...
+       addStyleName(LinkkiTheme.LABEL_FIXED_WIDTH_LONG);
+    }
+    ...
+}
+----
+|
+[source,java]
+----
+public class MyPage extends AbstractPAge {
+    @Override
+    public final void createContent() {
+       ...
+       ComponentStyles.setFormItemLabelWidth(this, "12em");
+    }
+    ...
+}
+----
+|===
+
+To apply a custom label width to all sections inside a `Component`, the surrounding layout such as `AbstractPage` can be passed as the `Component`-Parameter.
+
+For more information see <<component-styles, ComponentStyles>>.
