@@ -19,6 +19,7 @@ import org.faktorips.runtime.internal.IpsStringUtils;
 import org.w3c.dom.Element;
 import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.IValidationContext;
+import org.faktorips.runtime.annotation.IpsGenerated;
 
 /**
  * Implementation for TestIpsObject.
@@ -109,6 +110,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsGenerated
     public TestIpsObject() {
         super();
     }
@@ -120,6 +122,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttribute(name = "foo", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @IpsGenerated
     public String getFoo() {
         return foo;
     }
@@ -130,6 +133,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttributeSetter("foo")
+    @IpsGenerated
     public void setFoo(String newValue) {
         this.foo = newValue;
     }
@@ -141,6 +145,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttribute(name = "valueSetInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @IpsGenerated
     public Boolean getValueSetInclNull() {
         return valueSetInclNull;
     }
@@ -152,6 +157,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttributeSetter("valueSetInclNull")
+    @IpsGenerated
     public void setValueSetInclNull(Boolean newValue) {
         this.valueSetInclNull = newValue;
     }
@@ -163,6 +169,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @restrainedmodifiable
      */
     @IpsAllowedValues("valueSetExclNull")
+    @IpsGenerated
     public ValueSet<Boolean> getSetOfAllowedValuesForValueSetExclNull(IValidationContext context) {
         // begin-user-code
         return new UnrestrictedValueSet<Boolean>(false);
@@ -176,6 +183,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttribute(name = "valueSetExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @IpsGenerated
     public boolean isValueSetExclNull() {
         return valueSetExclNull;
     }
@@ -187,6 +195,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttributeSetter("valueSetExclNull")
+    @IpsGenerated
     public void setValueSetExclNull(boolean newValue) {
         this.valueSetExclNull = newValue;
     }
@@ -198,6 +207,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsAllowedValues("emptyValueSet")
+    @IpsGenerated
     public OrderedValueSet<MonthDay> getAllowedValuesForEmptyValueSet(IValidationContext context) {
         return MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET;
     }
@@ -209,6 +219,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttribute(name = "emptyValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
+    @IpsGenerated
     public MonthDay getEmptyValueSet() {
         return emptyValueSet;
     }
@@ -220,6 +231,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttributeSetter("emptyValueSet")
+    @IpsGenerated
     public void setEmptyValueSet(MonthDay newValue) {
         this.emptyValueSet = newValue;
     }
@@ -230,6 +242,7 @@ public class TestIpsObject extends AbstractModelObject {
      *
      * @restrainedmodifiable
      */
+    @IpsGenerated
     public void initialize() {
         // begin-user-code
         // end-user-code
@@ -242,6 +255,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @Override
+    @IpsGenerated
     protected void initPropertiesFromXml(Map<String, String> propMap, IRuntimeRepository productRepository) {
         super.initPropertiesFromXml(propMap, productRepository);
         doInitFoo(propMap);
@@ -253,6 +267,7 @@ public class TestIpsObject extends AbstractModelObject {
     /**
      * @generated
      */
+    @IpsGenerated
     private void doInitFoo(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_FOO)) {
             this.foo = propMap.get(PROPERTY_FOO);
@@ -262,6 +277,7 @@ public class TestIpsObject extends AbstractModelObject {
     /**
      * @generated
      */
+    @IpsGenerated
     private void doInitValueSetInclNull(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_VALUESETINCLNULL)) {
             this.valueSetInclNull = IpsStringUtils.isEmpty(propMap.get(PROPERTY_VALUESETINCLNULL)) ? null
@@ -273,6 +289,7 @@ public class TestIpsObject extends AbstractModelObject {
     /**
      * @generated
      */
+    @IpsGenerated
     private void doInitValueSetExclNull(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_VALUESETEXCLNULL)) {
             this.valueSetExclNull = Boolean.valueOf(propMap.get(PROPERTY_VALUESETEXCLNULL)).booleanValue();
@@ -283,6 +300,7 @@ public class TestIpsObject extends AbstractModelObject {
     /**
      * @generated
      */
+    @IpsGenerated
     private void doInitEmptyValueSet(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_EMPTYVALUESET)) {
             this.emptyValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_EMPTYVALUESET)) ? null
@@ -297,6 +315,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @Override
+    @IpsGenerated
     protected AbstractModelObject createChildFromXml(Element childEl) {
         AbstractModelObject newChild = super.createChildFromXml(childEl);
         if (newChild != null) {
@@ -307,12 +326,13 @@ public class TestIpsObject extends AbstractModelObject {
 
 
     /**
-     * Validates the object (but not its children). Returns <code>true</code> if this object should continue
-     * validating, <code>false</code> otherwise.
+     * Validates the object (but not its children). Returns <code>true</code> if this object should
+     * continue validating, <code>false</code> otherwise.
      *
      * @generated
      */
     @Override
+    @IpsGenerated
     public boolean validateSelf(MessageList ml, IValidationContext context) {
         if (!super.validateSelf(ml, context)) {
             return STOP_VALIDATION;
@@ -326,6 +346,7 @@ public class TestIpsObject extends AbstractModelObject {
      * @generated
      */
     @Override
+    @IpsGenerated
     public void validateDependants(MessageList ml, IValidationContext context) {
         super.validateDependants(ml, context);
     }

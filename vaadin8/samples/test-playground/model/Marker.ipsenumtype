@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EnumType abstract="false" enumContentName="Marker" extensible="false" superEnumType="" xml:space="preserve">
+<EnumType xmlns="http://www.faktorzehn.org" abstract="false" enumContentName="Marker" extensible="false" superEnumType="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/21.12/EnumType.xsd" xml:space="preserve">
  <Description id="b925b000-2def-4bec-b3cb-a24b853e15c4" locale="en"/>
  <Description id="308a99ae-c0a3-42d9-a3cf-75f97e7c16c3" locale="de"/>
  <EnumValue>

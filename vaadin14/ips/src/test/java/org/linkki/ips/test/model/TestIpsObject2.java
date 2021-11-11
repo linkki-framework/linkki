@@ -6,6 +6,7 @@ import org.faktorips.runtime.internal.AbstractModelObject;
 import org.w3c.dom.Element;
 import org.faktorips.runtime.MessageList;
 import org.faktorips.runtime.IValidationContext;
+import org.faktorips.runtime.annotation.IpsGenerated;
 
 /**
  * Implementation for TestIpsObject2.
@@ -22,6 +23,7 @@ public class TestIpsObject2 extends TestIpsObject {
      *
      * @generated
      */
+    @IpsGenerated
     public TestIpsObject2() {
         super();
     }
@@ -33,6 +35,7 @@ public class TestIpsObject2 extends TestIpsObject {
      * @restrainedmodifiable
      */
     @Override
+    @IpsGenerated
     public void initialize() {
         super.initialize();
         // begin-user-code
@@ -46,6 +49,7 @@ public class TestIpsObject2 extends TestIpsObject {
      * @generated
      */
     @Override
+    @IpsGenerated
     protected AbstractModelObject createChildFromXml(Element childEl) {
         AbstractModelObject newChild = super.createChildFromXml(childEl);
         if (newChild != null) {
@@ -56,12 +60,13 @@ public class TestIpsObject2 extends TestIpsObject {
 
 
     /**
-     * Validates the object (but not its children). Returns <code>true</code> if this object should continue
-     * validating, <code>false</code> otherwise.
+     * Validates the object (but not its children). Returns <code>true</code> if this object should
+     * continue validating, <code>false</code> otherwise.
      *
      * @generated
      */
     @Override
+    @IpsGenerated
     public boolean validateSelf(MessageList ml, IValidationContext context) {
         if (!super.validateSelf(ml, context)) {
             return STOP_VALIDATION;
@@ -75,6 +80,7 @@ public class TestIpsObject2 extends TestIpsObject {
      * @generated
      */
     @Override
+    @IpsGenerated
     public void validateDependants(MessageList ml, IValidationContext context) {
         super.validateDependants(ml, context);
     }

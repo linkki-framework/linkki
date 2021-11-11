@@ -21,6 +21,7 @@ import org.faktorips.runtime.IMarker;
 import org.faktorips.runtime.model.annotation.IpsDocumented;
 import org.faktorips.runtime.model.annotation.IpsEnumAttribute;
 import org.faktorips.runtime.model.annotation.IpsEnumType;
+import org.faktorips.runtime.annotation.IpsGenerated;
 
 /**
  *
@@ -89,6 +90,7 @@ public enum Marker implements IMarker {
      *
      * @generated
      */
+    @IpsGenerated
     private Marker(String id, String name, boolean requiredInformationMissing, boolean technicalConstraintViolated) {
         this.id = id;
         this.name = name;
@@ -97,12 +99,13 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>id</code>. Returns <code>null</code>
-     * if no corresponding enumeration value is found, or if the parameter <code>id</code> is
-     * <code>null</code>.
+     * Returns the enumeration value for the specified parameter <code>id</code>. Returns
+     * <code>null</code> if no corresponding enumeration value is found, or if the parameter
+     * <code>id</code> is <code>null</code>.
      *
      * @generated
      */
+    @IpsGenerated
     public static final Marker getValueById(String id) {
         return ID_MAP.get(id);
     }
@@ -114,6 +117,7 @@ public enum Marker implements IMarker {
      *
      * @generated
      */
+    @IpsGenerated
     public static final Marker getValueByName(String name) {
         for (Marker currentValue : values()) {
             if (currentValue.name.equals(name)) {
@@ -124,13 +128,14 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>id</code>. If no corresponding enum
-     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     * Returns the enumeration value for the specified parameter <code>id</code>. If no corresponding
+     * enum value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
      *
      * @throws IllegalArgumentException if no corresponding enum value is found
      *
      * @generated
      */
+    @IpsGenerated
     public static final Marker getExistingValueById(String id) {
         if (ID_MAP.containsKey(id)) {
             return ID_MAP.get(id);
@@ -140,13 +145,14 @@ public enum Marker implements IMarker {
     }
 
     /**
-     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding enum
-     * value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
+     * Returns the enumeration value for the specified parameter <code>name</code>. If no corresponding
+     * enum value is found for the given parameter, an {@link IllegalArgumentException} is thrown.
      *
      * @throws IllegalArgumentException if no corresponding enum value is found
      *
      * @generated
      */
+    @IpsGenerated
     public static final Marker getExistingValueByName(String name) {
         for (Marker currentValue : values()) {
             if (currentValue.name.equals(name)) {
@@ -161,6 +167,7 @@ public enum Marker implements IMarker {
      *
      * @generated
      */
+    @IpsGenerated
     public static final boolean isValueById(String id) {
         return getValueById(id) != null;
     }
@@ -170,6 +177,7 @@ public enum Marker implements IMarker {
      *
      * @generated
      */
+    @IpsGenerated
     public static final boolean isValueByName(String name) {
         return getValueByName(name) != null;
     }
@@ -181,6 +189,7 @@ public enum Marker implements IMarker {
      * @generated
      */
     @IpsEnumAttribute(name = "id", identifier = true, unique = true)
+    @IpsGenerated
     public String getId() {
         return id;
     }
@@ -191,6 +200,7 @@ public enum Marker implements IMarker {
      * @generated
      */
     @IpsEnumAttribute(name = "name", unique = true, displayName = true)
+    @IpsGenerated
     public String getName() {
         return name;
     }
@@ -202,6 +212,7 @@ public enum Marker implements IMarker {
      */
     @Override
     @IpsEnumAttribute(name = "requiredInformationMissing")
+    @IpsGenerated
     public boolean isRequiredInformationMissing() {
         return requiredInformationMissing;
     }
@@ -213,6 +224,7 @@ public enum Marker implements IMarker {
      */
     @Override
     @IpsEnumAttribute(name = "technicalConstraintViolated")
+    @IpsGenerated
     public boolean isTechnicalConstraintViolated() {
         return technicalConstraintViolated;
     }
@@ -223,6 +235,7 @@ public enum Marker implements IMarker {
      * @generated
      */
     @Override
+    @IpsGenerated
     public String toString() {
         return "Marker: " + id + '(' + name + ')';
     }

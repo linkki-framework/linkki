@@ -48,7 +48,7 @@
         </RequiredIpsFeatures>
     -->
  <RequiredIpsFeatures>
-  <RequiredIpsFeature id="org.faktorips.feature" minVersion="21.6.0"/>
+  <RequiredIpsFeature id="org.faktorips.feature" minVersion="21.12.0"/>
  </RequiredIpsFeatures>
 
  <!--
@@ -75,8 +75,8 @@
    <!--Generate the published interfaces (true) or only implementation classes (false)-->
    <Property name="generatePublishedInterfaces" value="false"/>
 
-   <!--Define the qualified names of annotations which are added for every generated method (for example java.lang.SuppressWarnings or javax.annotation.Generated("org.faktorips.devtools.stdbuilder")). Multiple annotations are separated by semicolon.-->
-   <Property name="additionalAnnotations" value=""/>
+   <!--Define the qualified names of annotations which are added for every generated method (for example org.faktorips.runtime.annotation.IpsGenerated (to mark generated code as ignored by SonarQube/JaCoCo) / java.lang.SuppressWarnings / edu.umd.cs.findbugs.annotations.SuppressFBWarnings). Multiple annotations are separated by semicolon.-->
+   <Property name="additionalAnnotations" value="org.faktorips.runtime.annotation.IpsGenerated"/>
 
    <!--Separate constant names for camel case properties with an underscore-->
    <Property name="camelCaseSeparated" value="true"/>
@@ -108,7 +108,7 @@
    <!--Enables the generation of visitor code-->
    <Property name="generateVisitorSupport" value="false"/>
 
-   <!--The persistence provider, which will be used to generate special vendor specific features. Currently supported provider are 'EclipseLink 1.1', 'EclipseLink 2.5', 'Generic JPA 2.0' and 'Generic JPA 2.1'.-->
+   <!--The persistence provider, which will be used to generate special vendor specific features. Currently supported provider are 'EclipseLink 1.1', 'EclipseLink 2.5', 'Generic JPA 2.0', 'Generic JPA 2.1' and 'Jakarta Persistence 2.2'.-->
    <Property name="persistenceProvider" value="Generic JPA 2.0"/>
 
    <!--Enables the generation of a delta determining mechanism for model objects-->
@@ -365,6 +365,10 @@
             <Setting name="tableContentFormat" value="XML"/>
             <!- - Default value for 'generate validation class' property on new PolicyCmptTypes.
             <Setting name="generateValidatorClassDefault" value="true"/>
+            <!- - Whether non-standard blanks such as the non-breaking space should be escaped as XML entities when writing XML files.
+            <Setting name="escapeNonStandardBlanks" value="false"/>
+            <!- - Whether Ips-Files should be validated against their XSD schema.
+            <Setting name="validateIpsSchema" value="true"/>
         </AdditionalSettings>
     -->
  <AdditionalSettings>
@@ -384,25 +388,34 @@
   <Setting name="tableContentFormat" value="XML"/>
   <Setting enabled="false" name="generateValidatorClassDefault"/>
   <Setting enabled="false" name="genericValidationDefault"/>
+  <Setting enabled="false" name="escapeNonStandardBlanks"/>
+  <Setting enabled="true" name="validateIpsSchema"/>
  </AdditionalSettings>
 
  <!--
         PersistenceOptions
          
-        In this section you can adjust parameters relating the persistence of IPolicyCmptTypes.
+        In this section you can adjust parameters relating to the persistence of IPolicyCmptTypes.
         The table and column naming strategies define how identifier names are transformed into
         database table and column names. The attributes maxTableNameLength and maxColumnNameLength
         constrain the maximum possible length of a table or column name.
-        The attribute allowLazyFetchForSingleValuedAssociations defines if is is allowed to use lazy fetching 
+        The attribute maxTableColumnScale limits the scale of columns representing floating point
+        numbers while maxTableColumnPrecision limits their precision. The number of characters in a
+        String column is limited by maxTableColumnSize.
+        All limits are in byte length but are only validated in character length in Faktor-IPS, as the
+        mapping of multi-byte characters depends on the encoding and database used.
+        The attribute allowLazyFetchForSingleValuedAssociations defines if it is allowed to use lazy fetching 
         on the association side which holds a single value (to-one relationship side).
          
-        <PersistenceOptions maxColumnNameLength="255" maxTableNameLength="255">
-            <TableNamingStrategy id="org.faktorips.devtools.core.CamelCaseToUpperUnderscoreTableNamingStrategy">
-            <TableColumnNamingStrategy id="org.faktorips.devtools.core.CamelCaseToUpperUnderscoreColumnNamingStrategy">
+        <PersistenceOptions maxColumnNameLength="30" maxTableNameLength="30"
+                maxTableColumnPrecision="31"  maxTableColumnScale="31" maxTableColumnSize="4000"
+                allowLazyFetchForSingleValuedAssociations="true">
+            <TableNamingStrategy id="org.faktorips.devtools.model.CamelCaseToUpperUnderscoreTableNamingStrategy"/>
+            <TableColumnNamingStrategy id="org.faktorips.devtools.model.CamelCaseToUpperUnderscoreColumnNamingStrategy"/>
         </PersistenceOptions>
          
         Currently Faktor-IPS includes the strategies CamelCaseToUpperUnderscoreTableNamingStrategy
-        for tables and CamelCaseToUpperUnderscoreColumnNamingStrategy for columns, examples:
+        for tables and CamelCaseToUpperUnderscoreColumnNamingStrategy for columns, example:
             IdentifierName1 -> IDENTIFIER_NAME1
     -->
  <PersistenceOptions allowLazyFetchForSingleValuedAssociations="true" maxColumnNameLength="255" maxTableColumnPrecision="255" maxTableColumnScale="255" maxTableColumnSize="255" maxTableNameLength="255">

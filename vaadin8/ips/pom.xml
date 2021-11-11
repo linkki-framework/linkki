@@ -11,7 +11,7 @@
     <name>linkki Extension for Faktor-IPS with Vaadin 8</name>
 
     <properties>
-        <faktorips.version>21.6.0</faktorips.version>
+        <faktorips.version>21.12.0-rc06</faktorips.version>
         
         <!-- Ignore duplications due to Vaadin8/14 projects -->
         <sonar.cpd.exclusions>**/*.java</sonar.cpd.exclusions>

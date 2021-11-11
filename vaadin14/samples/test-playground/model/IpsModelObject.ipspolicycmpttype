@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PolicyCmptType abstract="false" configurableByProductCmptType="false" forceExtensionCompilationUnitGeneration="false" generateValidatorClass="false" productCmptType="" supertype="" xml:space="preserve">
+<PolicyCmptType xmlns="http://www.faktorzehn.org" abstract="false" configurableByProductCmptType="false" forceExtensionCompilationUnitGeneration="false" generateValidatorClass="false" productCmptType="" supertype="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.faktorzehn.org https://doc.faktorzehn.org/schema/faktor-ips/21.12/PolicyCmptType.xsd" xml:space="preserve">
  <Label id="ce3a050f-dcd7-479e-a6b6-d716496b223c" locale="en" pluralValue="" value=""/>
  <Label id="9c6f96ed-5e92-4ea1-91a9-ed3edcbede11" locale="de" pluralValue="" value=""/>
  <Description id="6e6091df-a83d-47bc-b3e2-978a234219c8" locale="en"/>

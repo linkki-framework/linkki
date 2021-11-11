@@ -45,6 +45,7 @@ import org.faktorips.valueset.OrderedValueSet;
 import org.faktorips.valueset.UnrestrictedValueSet;
 import org.faktorips.valueset.ValueSet;
 import org.w3c.dom.Element;
+import org.faktorips.runtime.annotation.IpsGenerated;
 
 /**
  * Implementation for IpsModelObject.
@@ -163,6 +164,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsGenerated
     public IpsModelObject() {
         super();
     }
@@ -175,6 +177,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @param context validation context
      */
     @IpsAllowedValues("decimal")
+    @IpsGenerated
     public DecimalRange getRangeForDecimal(IValidationContext context) {
         return MAX_ALLOWED_RANGE_FOR_DECIMAL;
     }
@@ -185,6 +188,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttribute(name = "decimal", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Range)
+    @IpsGenerated
     public Decimal getDecimal() {
         return decimal;
     }
@@ -195,6 +199,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttributeSetter("decimal")
+    @IpsGenerated
     public void setDecimal(Decimal newValue) {
         this.decimal = newValue;
     }
@@ -205,6 +210,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttribute(name = "string", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @IpsGenerated
     public String getString() {
         return string;
     }
@@ -215,6 +221,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttributeSetter("string")
+    @IpsGenerated
     public void setString(String newValue) {
         this.string = newValue;
     }
@@ -226,6 +233,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttribute(name = "unrestrictedInclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @IpsGenerated
     public String getUnrestrictedInclNull() {
         return unrestrictedInclNull;
     }
@@ -237,6 +245,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttributeSetter("unrestrictedInclNull")
+    @IpsGenerated
     public void setUnrestrictedInclNull(String newValue) {
         this.unrestrictedInclNull = newValue;
     }
@@ -249,6 +258,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @param context validation context
      */
     @IpsAllowedValues("unrestrictedExclNull")
+    @IpsGenerated
     public ValueSet<String> getSetOfAllowedValuesForUnrestrictedExclNull(IValidationContext context) {
         return MAX_ALLOWED_VALUES_FOR_UNRESTRICTED_EXCL_NULL;
     }
@@ -260,6 +270,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttribute(name = "unrestrictedExclNull", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.AllValues)
+    @IpsGenerated
     public String getUnrestrictedExclNull() {
         return unrestrictedExclNull;
     }
@@ -271,6 +282,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttributeSetter("unrestrictedExclNull")
+    @IpsGenerated
     public void setUnrestrictedExclNull(String newValue) {
         this.unrestrictedExclNull = newValue;
     }
@@ -283,6 +295,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @param context validation context
      */
     @IpsAllowedValues("emptyValueSet")
+    @IpsGenerated
     public OrderedValueSet<Marker> getAllowedValuesForEmptyValueSet(IValidationContext context) {
         return MAX_ALLOWED_VALUES_FOR_EMPTY_VALUE_SET;
     }
@@ -294,6 +307,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttribute(name = "emptyValueSet", kind = AttributeKind.CHANGEABLE, valueSetKind = ValueSetKind.Enum)
+    @IpsGenerated
     public Marker getEmptyValueSet() {
         return emptyValueSet;
     }
@@ -305,6 +319,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @IpsAttributeSetter("emptyValueSet")
+    @IpsGenerated
     public void setEmptyValueSet(Marker newValue) {
         this.emptyValueSet = newValue;
     }
@@ -315,6 +330,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @restrainedmodifiable
      */
+    @IpsGenerated
     public void initialize() {
         // begin-user-code
         // end-user-code
@@ -327,6 +343,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @Override
+    @IpsGenerated
     protected void initPropertiesFromXml(Map<String, String> propMap, IRuntimeRepository productRepository) {
         super.initPropertiesFromXml(propMap, productRepository);
         doInitDecimal(propMap);
@@ -339,6 +356,7 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * @generated
      */
+    @IpsGenerated
     private void doInitDecimal(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_DECIMAL)) {
             this.decimal = Decimal.valueOf(propMap.get(PROPERTY_DECIMAL));
@@ -348,6 +366,7 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * @generated
      */
+    @IpsGenerated
     private void doInitString(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_STRING)) {
             this.string = propMap.get(PROPERTY_STRING);
@@ -357,6 +376,7 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * @generated
      */
+    @IpsGenerated
     private void doInitUnrestrictedInclNull(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_UNRESTRICTEDINCLNULL)) {
             this.unrestrictedInclNull = propMap.get(PROPERTY_UNRESTRICTEDINCLNULL);
@@ -367,6 +387,7 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * @generated
      */
+    @IpsGenerated
     private void doInitUnrestrictedExclNull(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_UNRESTRICTEDEXCLNULL)) {
             this.unrestrictedExclNull = propMap.get(PROPERTY_UNRESTRICTEDEXCLNULL);
@@ -377,6 +398,7 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * @generated
      */
+    @IpsGenerated
     private void doInitEmptyValueSet(Map<String, String> propMap) {
         if (propMap.containsKey(PROPERTY_EMPTYVALUESET)) {
             this.emptyValueSet = IpsStringUtils.isEmpty(propMap.get(PROPERTY_EMPTYVALUESET)) ? null
@@ -391,6 +413,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @Override
+    @IpsGenerated
     protected AbstractModelObject createChildFromXml(Element childEl) {
         AbstractModelObject newChild = super.createChildFromXml(childEl);
         if (newChild != null) {
@@ -401,12 +424,13 @@ public class IpsModelObject extends AbstractModelObject {
 
 
     /**
-     * Validates the object (but not its children). Returns <code>true</code> if this object should continue
-     * validating, <code>false</code> otherwise.
+     * Validates the object (but not its children). Returns <code>true</code> if this object should
+     * continue validating, <code>false</code> otherwise.
      *
      * @generated
      */
     @Override
+    @IpsGenerated
     public boolean validateSelf(MessageList ml, IValidationContext context) {
         if (!super.validateSelf(ml, context)) {
             return STOP_VALIDATION;
@@ -423,6 +447,7 @@ public class IpsModelObject extends AbstractModelObject {
      * @generated
      */
     @Override
+    @IpsGenerated
     public void validateDependants(MessageList ml, IValidationContext context) {
         super.validateDependants(ml, context);
     }
@@ -431,14 +456,15 @@ public class IpsModelObject extends AbstractModelObject {
     /**
      * Executes the rule checkDecimal and adds a message to the given list if the object is invalid.
      * 
-     * @param ml      list to which validation errors are added
+     * @param ml list to which validation errors are added
      * @param context the validation context
-     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should be
-     *         stopped after processing this rule.
+     * @return <code>true</code>, if the validation should be continued, <code>false</code> if it should
+     *         be stopped after processing this rule.
      *
      * @restrainedmodifiable
      */
     @IpsValidationRule(name = "checkDecimal", msgCode = MSG_CODE_CHECK_DECIMAL, severity = Severity.ERROR)
+    @IpsGenerated
     protected boolean checkDecimal(MessageList ml, IValidationContext context) {
         if (!getRangeForDecimal(context).contains(getDecimal())) {
 
@@ -454,6 +480,7 @@ public class IpsModelObject extends AbstractModelObject {
      *
      * @generated
      */
+    @IpsGenerated
     protected Message createMessageForRuleCheckDecimal(IValidationContext context, Object range, Object actual) {
         List<ObjectProperty> invalidObjectProperties = Arrays.asList(
                                                                      new ObjectProperty(this, PROPERTY_DECIMAL));
