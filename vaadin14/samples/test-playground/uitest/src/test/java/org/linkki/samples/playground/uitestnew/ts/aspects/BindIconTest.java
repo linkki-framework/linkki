@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitest.vaadin14;
+package org.linkki.samples.playground.uitestnew.ts.aspects;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,7 +45,7 @@ public class BindIconTest extends PlaygroundUiTest {
 
     @BeforeEach
     public void setup() {
-        section = goToTestCase(PlaygroundApplicationView.TS013, PlaygroundApplicationView.TC007);
+        section = goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC007);
     }
 
     /**

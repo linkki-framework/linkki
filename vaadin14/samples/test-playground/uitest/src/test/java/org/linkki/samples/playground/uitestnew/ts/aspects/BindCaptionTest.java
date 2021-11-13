@@ -12,18 +12,18 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitest.vaadin14;
+package org.linkki.samples.playground.uitestnew.ts.aspects;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithCloseButtonPmo;
-import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithEditButtonPmo;
-import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithSectionHeaderButtonPmo;
-import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
+import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
+import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
+import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
@@ -34,7 +34,6 @@ import com.vaadin.flow.component.orderedlayout.testbench.HorizontalLayoutElement
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-
 public class BindCaptionTest extends PlaygroundUiTest {
 
     @BeforeEach
@@ -44,10 +43,10 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS013,
+        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
                                                         PlaygroundApplicationView.TC002);
         TextFieldElement captionField = section.$(TextFieldElement.class)
-                .id(DynamicCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
+                .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
         H4Element caption = getHeader(section).$(H4Element.class).first();
 
         captionField.setValue("section caption");
@@ -57,10 +56,10 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption_WithEditButton() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS013,
+        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
                                                         PlaygroundApplicationView.TC003);
         TextFieldElement captionField = section.$(TextFieldElement.class)
-                .id(DynamicCaptionWithEditButtonPmo.PROPERTY_SECTION_CAPTION);
+                .id(BindCaptionWithEditButtonPmo.PROPERTY_SECTION_CAPTION);
         H4Element caption = getHeader(section).$(H4Element.class).first();
 
         captionField.setValue("section caption");
@@ -70,10 +69,10 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption_WithSectionHeaderButton() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS013,
+        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
                                                         PlaygroundApplicationView.TC004);
         TextFieldElement captionField = section.$(TextFieldElement.class)
-                .id(DynamicCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
+                .id(BindCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
         H4Element caption = getHeader(section).$(H4Element.class).first();
 
         captionField.setValue("section caption");
@@ -83,10 +82,10 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption_WithCloseButton() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS013,
+        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
                                                         PlaygroundApplicationView.TC005);
         TextFieldElement captionField = section.$(TextFieldElement.class)
-                .id(DynamicCaptionWithCloseButtonPmo.PROPERTY_SECTION_CAPTION);
+                .id(BindCaptionWithCloseButtonPmo.PROPERTY_SECTION_CAPTION);
         H4Element caption = getHeader(section).$(H4Element.class).first();
 
         captionField.setValue("section caption");
@@ -96,10 +95,10 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption_EmptyCaptionHidesElement() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS013,
+        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
                                                         PlaygroundApplicationView.TC002);
         TextFieldElement captionField = section.$(TextFieldElement.class)
-                .id(DynamicCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
+                .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
         H4Element caption = getHeader(section).$(H4Element.class).first();
 
         captionField.setValue("");
@@ -109,10 +108,10 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testSectionCaption_ButtonStaysVisibleWithEmptyCaption() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS013,
+        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
                                                         PlaygroundApplicationView.TC004);
         TextFieldElement captionField = section.$(TextFieldElement.class)
-                .id(DynamicCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
+                .id(BindCaptionWithSectionHeaderButtonPmo.PROPERTY_SECTION_CAPTION);
         H4Element caption = getHeader(section).$(H4Element.class).first();
         ButtonElement button = getHeader(section).$(ButtonElement.class).id("callAnAmbulance");
 
@@ -124,11 +123,11 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testButtonCaption() {
-        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS013,
+        TestCaseComponentElement section = goToTestCase(PlaygroundApplicationView.TS008,
                                                         PlaygroundApplicationView.TC002);
         TextFieldElement captionField = section.$(TextFieldElement.class)
-                .id(DynamicCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
-        ButtonElement button = section.$(ButtonElement.class).id(DynamicCaptionWithoutButtonPmo.PROPERTY_BUTTON);
+                .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
+        ButtonElement button = section.$(ButtonElement.class).id(BindCaptionWithoutButtonPmo.PROPERTY_BUTTON);
 
         captionField.setValue("button caption");
 
@@ -137,11 +136,11 @@ public class BindCaptionTest extends PlaygroundUiTest {
 
     @Test
     public void testCheckboxCaption() {
-        VerticalLayoutElement section = getSection(DynamicCaptionWithoutButtonPmo.class);
+        VerticalLayoutElement section = getSection(BindCaptionWithoutButtonPmo.class);
         TextFieldElement captionField = section.$(TextFieldElement.class)
-                .id(DynamicCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
+                .id(BindCaptionWithoutButtonPmo.PROPERTY_DYNAMIC_CAPTION);
         CheckboxElement checkbox = section.$(CheckboxElement.class)
-                .id(DynamicCaptionWithoutButtonPmo.PROPERTY_CHECKBOX);
+                .id(BindCaptionWithoutButtonPmo.PROPERTY_CHECKBOX);
 
 
         captionField.setValue("checkbox caption");

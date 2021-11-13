@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.dynamicannotations;
+package org.linkki.samples.playground.ts.aspects;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +30,7 @@ import org.linkki.core.ui.layout.annotation.UISection;
 import org.linkki.core.ui.nested.annotation.UINestedComponent;
 
 @UIFormSection(caption = "@BindVisibleSectionPmo")
-public class BindVisibleSectionPmo {
+public class BindVisiblePmo {
 
     private boolean visible = true;
 
@@ -71,8 +71,8 @@ public class BindVisibleSectionPmo {
     // UIFormSection
     @BindVisible
     @UINestedComponent(position = 40, label = "")
-    public FormSectionPmo getFormSection() {
-        return new FormSectionPmo();
+    public BindVisibleFormSectionPmo getFormSection() {
+        return new BindVisibleFormSectionPmo();
     }
 
     public boolean isFormSectionVisible() {

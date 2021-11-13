@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.dynamicannotations;
+package org.linkki.samples.playground.ts.aspects;
 
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
@@ -28,8 +28,8 @@ import org.linkki.core.ui.layout.annotation.UIFormSection;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 
-@UIFormSection(caption = "Components with @BindIcon and @BindCaption")
-public class BindIconComponentsPmo {
+@UIFormSection
+public class BindIconPmo {
 
     private VaadinIcon icon = VaadinIcon.ANCHOR;
     private String text = "Text";

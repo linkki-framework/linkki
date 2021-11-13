@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.dynamicannotations;
+package org.linkki.samples.playground.ts.aspects;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +22,6 @@ import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.pmo.ButtonPmo;
 import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
-import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
@@ -30,7 +29,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 
 @BindCaption(captionType = CaptionType.DYNAMIC)
 @UISection
-public class DynamicCaptionWithEditButtonPmo implements PresentationModelObject {
+public class BindCaptionWithEditButtonPmo implements PresentationModelObject {
 
     public static final String PROPERTY_SECTION_CAPTION = "editCaption";
 
@@ -39,11 +38,6 @@ public class DynamicCaptionWithEditButtonPmo implements PresentationModelObject 
     // aspect "caption" for the section
     public String getCaption() {
         return sectionCaption;
-    }
-
-    @UILabel(position = 10, htmlContent = true)
-    public String getDescription() {
-        return "<ul><li>The caption should update dynamically</li><li>Header button should be visible even if the caption is empty</li></ul>";
     }
 
     @UITextField(position = 20, label = "Caption for section with button")
@@ -71,7 +65,7 @@ public class DynamicCaptionWithEditButtonPmo implements PresentationModelObject 
 
             @Override
             public Object getButtonIcon() {
-                return VaadinIcon.AMBULANCE.create();
+                return VaadinIcon.PENCIL.create();
             }
         };
 

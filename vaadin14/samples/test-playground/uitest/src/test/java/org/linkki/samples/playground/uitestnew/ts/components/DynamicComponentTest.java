@@ -17,25 +17,25 @@ package org.linkki.samples.playground.uitestnew.ts.components;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
+import org.linkki.samples.playground.uitest.DriverProperties;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 import org.openqa.selenium.StaleElementReferenceException;
 
 import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
-public class TC012DynamicComponentTest extends PlaygroundUiTest {
+public class DynamicComponentTest extends PlaygroundUiTest {
 
     @Override
     @BeforeEach
     public void setUp() {
         super.setUp();
+        getDriver().get(DriverProperties.getTestUrl(""));
         goToTestCase(PlaygroundApplicationView.TS005, PlaygroundApplicationView.TC012);
     }
 
-    @Order(0)
     @Test
     void testDynamicComponent() {
         ComboBoxElement dynamicCombobox = $(ComboBoxElement.class).id("value");
@@ -44,7 +44,6 @@ public class TC012DynamicComponentTest extends PlaygroundUiTest {
         assertThat(dynamicCombobox.getSelectedText()).isEqualTo("foo");
     }
 
-    @Order(1)
     @Test
     void testDynamicComponent_SelectBaaAndSwitchToTextField_TextMustBeBaa() {
 

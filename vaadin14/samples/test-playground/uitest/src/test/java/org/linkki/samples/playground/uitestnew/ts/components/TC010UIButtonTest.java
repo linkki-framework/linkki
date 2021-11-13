@@ -19,7 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.linkki.samples.playground.ts.components.ButtonPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitest.DriverProperties;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
@@ -28,7 +30,9 @@ import org.openqa.selenium.interactions.Actions;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
+import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
+import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class TC010UIButtonTest extends PlaygroundUiTest {
 
@@ -41,7 +45,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
     }
 
     @Test
-    void testButton_OnClick() {
+    void testOnClick() {
         DivElement counter = getCounter();
         ButtonElement increaseCounterButton = $(ButtonElement.class).id("increaseCounter");
 
@@ -53,7 +57,7 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
     }
 
     @Test
-    void testButton_OnDoubleClick() {
+    void testOnDoubleClick() {
         DivElement counter = getCounter();
         ButtonElement increaseCounterButton = $(ButtonElement.class).id("increaseCounter");
 
@@ -61,11 +65,13 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
 
         increaseCounterButton.doubleClick();
 
-        assertThat(counter.getText()).isEqualTo("Counter: 1");
+        assertThat(counter.getText())
+                .as("Double click on buttons should only invoke the method once")
+                .isEqualTo("Counter: 1");
     }
 
     @Test
-    void testButton_ShortcutKey() {
+    void testShortcutKey() {
         DivElement counter = getCounter();
         assertThat(counter.getText()).isEqualTo("Counter: 0");
 
@@ -74,58 +80,92 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
         assertThat(counter.getText()).isEqualTo("Counter: 1");
     }
 
+    @Disabled("LIN-2620")
     @Test
-    void testButton_ShortcutKey_FocusOnButton() {
+    void testShortcutKey_FocusOnShortcutButton() {
         DivElement counter = getCounter();
         assertThat(counter.getText()).isEqualTo("Counter: 0");
-        ButtonElement increaseCounterButton = $(ButtonElement.class).id("increaseCounter");
+        ButtonElement increaseCounterButton = $(ButtonElement.class).id("buttonWithEnter");
         increaseCounterButton.focus();
 
         sendKeys(null, Keys.ENTER);
 
         assertThat(counter.getText())
-                .as("Browser default triggering the focused increase counter button should not be executed")
+                .as("Button should not be triggered twice if the shortcut is triggered while focusing the button")
                 .isEqualTo("Counter: 1");
     }
 
     @Test
-    void testButtonShortcut_WithTextAreaFocus_WithEnterClickShorcut() {
-        TextAreaElement textArea = getTextArea();
+    void testShortcutKey_InSingleLineInput_WithEnter() {
+        TextFieldElement textField = $(TextFieldElement.class).id("contentAsTextField");
         DivElement counter = getCounter();
         assertThat(counter.getText()).isEqualTo("Counter: 0");
-        textArea.focus();
+        assertThat($(DivElement.class).id("contentAsText").getText()).isEmpty();
 
+        textField.focus();
         sendKeys(null, "Enter!");
         sendKeys(null, Keys.ENTER);
 
-        assertThat(textArea.getValue())
-                .describedAs("As enter is used as button shortcut, the browser default which would create line breaks in text area sould be prevented.")
-                .isEqualTo("Enter!");
-        assertThat(counter.getText()).isEqualTo("Counter: 1");
+        assertThat(counter.getText())
+                .describedAs("Button shortcut should be triggered")
+                .isEqualTo("Counter: 1");
         assertThat($(DivElement.class).id("contentAsText").getText())
-                .as("Value of the text area should have been sent to server")
+                .as("New value of the input should have been sent to server")
                 .isEqualTo("Enter!");
     }
 
     @Test
-    void testButtonShortcut_WithTextAreaFocus_WithCrtlEnterClickShortCut() {
+    void testShortcutKey_InSingleLineInput_WithEnterIfNotEmpty() {
+        TextFieldElement textField = $(TextFieldElement.class).id("contentAsTextField");
+        DivElement counter = getCounter();
+        RadioButtonGroupElement radioButtonGroup = $(RadioButtonGroupElement.class).id("testBehaviorWithTextArea");
+        radioButtonGroup.selectByText(ButtonPmo.TestShortcutBehavior.BUTTON_DISABLED_IF_EMPTY.toString());
+        assertThat(counter.getText()).isEqualTo("Counter: 0");
+        assertThat($(DivElement.class).id("contentAsText").getText()).isEmpty();
+        assertThat($(ButtonElement.class).id("buttonWithEnterIfNotEmpty").isEnabled()).isFalse();
+
+        textField.focus();
+        sendKeys(null, "Enter!");
+        sendKeys(null, Keys.ENTER);
+
+        assertThat(counter.getText())
+                .describedAs("Button shortcut should be triggered")
+                .isEqualTo("Counter: 1");
+        assertThat($(DivElement.class).id("contentAsText").getText())
+                .as("New value of the input should have been sent to server")
+                .isEqualTo("Enter!");
+    }
+
+    @Test
+    void testShortcutKey_InMultiLineInput_WithEnter() {
         TextAreaElement textArea = getTextArea();
         DivElement counter = getCounter();
         assertThat(counter.getText()).isEqualTo("Counter: 0");
+
         textArea.focus();
+        sendKeys(null, "Enter!");
+        sendKeys(null, Keys.ENTER);
+        sendKeys(null, "1");
 
-        sendKeys(null, "Crtl+Enter!");
-        sendKeys(Keys.CONTROL, Keys.ENTER);
+        assertThat(textArea.getValue())
+                .describedAs("Using enter in text area should result in a new line")
+                .isEqualTo("Enter!\n1");
+        assertThat(counter.getText())
+                .describedAs("Button shortcut should not be triggered if the current focus is a multi line input")
+                .isEqualTo("Counter: 0");
 
-        assertThat(textArea.getValue()).isEqualTo("Crtl+Enter!");
-        assertThat(counter.getText()).isEqualTo("Counter: 1");
+        sendKeys(null, Keys.TAB);
+        sendKeys(null, Keys.ENTER);
+
         assertThat($(DivElement.class).id("contentAsText").getText())
                 .as("Value of the text area should have been sent to server")
-                .isEqualTo("Crtl+Enter!");
+                .isEqualTo("Enter!\n1");
+        // Two invokes due to LIN-2620
+        assertThat(counter.getText()).isEqualTo("Counter: 2");
     }
 
     @Test
-    void testButtonShortcut_WithTextAreaFocus_OnShiftEnter() {
+    void testShortcut_InMultiLineInput_WithEnterOnShiftEnter() {
         TextAreaElement textArea = getTextArea();
         DivElement counter = getCounter();
 
@@ -135,6 +175,28 @@ public class TC010UIButtonTest extends PlaygroundUiTest {
 
         assertThat(textArea.getValue()).isEqualTo("Shift+Enter!\n");
         assertThat(counter.getText()).isEqualTo("Counter: 0");
+    }
+
+    @Disabled("LIN-2621")
+    @Test
+    void testShortcut_InMultiLineInput_WithCrtlEnter() {
+        TextAreaElement textArea = getTextArea();
+        DivElement counter = getCounter();
+        RadioButtonGroupElement radioButtonGroup = $(RadioButtonGroupElement.class).id("testBehaviorWithTextArea");
+        radioButtonGroup.selectByText(ButtonPmo.TestShortcutBehavior.BUTTON_WITH_CRTL_ENTER.toString());
+        assertThat(counter.getText()).isEqualTo("Counter: 0");
+        textArea.focus();
+
+        sendKeys(null, "Crtl+Enter!");
+        sendKeys(Keys.CONTROL, Keys.ENTER);
+
+        assertThat(textArea.getValue())
+                .describedAs("Crtl+Enter should not add new line")
+                .isEqualTo("Crtl+Enter!");
+        assertThat(counter.getText()).isEqualTo("Counter: 1");
+        assertThat($(DivElement.class).id("contentAsText").getText())
+                .as("Value of the text area should have been sent to server")
+                .isEqualTo("Crtl+Enter!");
     }
 
     private TextAreaElement getTextArea() {

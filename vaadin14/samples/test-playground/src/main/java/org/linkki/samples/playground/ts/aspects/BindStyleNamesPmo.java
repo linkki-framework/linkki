@@ -16,18 +16,41 @@ package org.linkki.samples.playground.ts.aspects;
 
 import org.linkki.core.ui.aspects.annotation.BindStyleNames;
 import org.linkki.core.ui.element.annotation.UILabel;
-import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
+import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.UIFormSection;
 
 import com.vaadin.flow.component.dependency.CssImport;
 
 @CssImport("./styles/shared-styles.css")
-@UIVerticalLayout
 @BindStyleNames({ "style1", "style2", "style3" })
+@UIFormSection
 public class BindStyleNamesPmo {
+
+    private String styleNames = "";
 
     @UILabel(position = 1)
     public String getString() {
         return "I am a white text within a blue box with a thick border";
+    }
+
+    @UILabel(position = 10, htmlContent = true)
+    public String getDescription() {
+        return "This section tests that style names are retrieved dynamically."
+                + "<br>The following field takes its input as style names";
+    }
+
+    @BindStyleNames
+    @UITextField(position = 20, label = "StyleNames")
+    public String getTextField() {
+        return this.styleNames;
+    }
+
+    public void setTextField(String styleNames) {
+        this.styleNames = styleNames;
+    }
+
+    public String getTextFieldStyleNames() {
+        return this.styleNames;
     }
 
 }

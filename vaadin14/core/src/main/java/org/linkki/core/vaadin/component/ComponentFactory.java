@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
+import org.linkki.core.ui.LinkkiComponentUtil;
 import org.linkki.core.vaadin.component.base.LinkkiAnchor;
 import org.linkki.core.vaadin.component.base.LinkkiDatePicker;
 
@@ -78,7 +79,7 @@ public class ComponentFactory {
      * inferred by maxLength.
      */
     public static TextField newTextField(int maxLength, String width) {
-        TextField field = new TextField();
+        TextField field = newTextField();
         setMaxLengthAndWidth(field, maxLength, width);
 
         return field;
@@ -109,7 +110,9 @@ public class ComponentFactory {
     }
 
     public static TextArea newTextArea() {
-        return new TextArea();
+        TextArea textArea = new TextArea();
+        LinkkiComponentUtil.preventEnterKeyPropagation(textArea);
+        return textArea;
     }
 
     /**
@@ -124,7 +127,7 @@ public class ComponentFactory {
      * empty}.
      */
     public static TextArea newTextArea(int maxLength, String width, String height) {
-        TextArea textArea = new TextArea();
+        TextArea textArea = newTextArea();
 
         if (maxLength > 0) {
             textArea.setMaxLength(maxLength);

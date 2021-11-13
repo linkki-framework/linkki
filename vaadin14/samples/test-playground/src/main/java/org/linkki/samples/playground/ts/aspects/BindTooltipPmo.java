@@ -12,15 +12,15 @@
  * License.
  */
 
-package org.linkki.samples.playground.dynamicannotations;
+package org.linkki.samples.playground.ts.aspects;
 
 import org.linkki.core.defaults.ui.aspects.annotations.BindTooltip;
 import org.linkki.core.defaults.ui.aspects.types.TooltipType;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
-@UISection(caption = "Tooltips")
-public class DynamicTooltipPmo {
+@UISection
+public class BindTooltipPmo {
 
     private String tooltipText = "This fiels has a tooltip that changes dynamically with the content of this textfield";
     private String tooltipHtmlText = "<p>This is a nice <br /> text with some <br> new lines </p><div> <br> and some html</div>";

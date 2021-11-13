@@ -26,14 +26,6 @@ import org.linkki.core.vaadin.component.tablayout.LinkkiTabSheet;
 import org.linkki.ips.binding.dispatcher.IpsPropertyDispatcherFactory;
 import org.linkki.ips.messages.MessageConverter;
 import org.linkki.samples.playground.TestScenario;
-import org.linkki.samples.playground.dynamicannotations.BindIconComponentsPmo;
-import org.linkki.samples.playground.dynamicannotations.BindStyleNamesComponentsPmo;
-import org.linkki.samples.playground.dynamicannotations.BindVisibleSectionPmo;
-import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithCloseButtonPmo;
-import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithEditButtonPmo;
-import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithSectionHeaderButtonPmo;
-import org.linkki.samples.playground.dynamicannotations.DynamicCaptionWithoutButtonPmo;
-import org.linkki.samples.playground.dynamicannotations.DynamicTooltipPmo;
 import org.linkki.samples.playground.ips.model.IpsModelObject;
 import org.linkki.samples.playground.messages.MessagesComponent;
 import org.linkki.samples.playground.nestedcomponent.NestedComponentPage;
@@ -45,7 +37,14 @@ import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo;
 import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
 import org.linkki.samples.playground.ts.alignment.HorizontalAlignmentTestComponent;
 import org.linkki.samples.playground.ts.alignment.VerticalAlignmentTestComponent;
+import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
+import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
+import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
+import org.linkki.samples.playground.ts.aspects.BindCaptionWithoutButtonPmo;
+import org.linkki.samples.playground.ts.aspects.BindIconPmo;
 import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
+import org.linkki.samples.playground.ts.aspects.BindVisiblePmo;
+import org.linkki.samples.playground.ts.aspects.BindTooltipPmo;
 import org.linkki.samples.playground.ts.components.ButtonPmo;
 import org.linkki.samples.playground.ts.components.ComboBoxPmo;
 import org.linkki.samples.playground.ts.components.CustomFieldPmo;
@@ -135,8 +134,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
     }
 
     @Override
-    public void setParameter(BeforeEvent event, @OptionalParameter
-    String parameter) {
+    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         removeAll();
         LinkkiTabLayout tabLayout = LinkkiTabLayout.newSidebarLayout();
         tabLayout.setId("test-scenario-selector");
@@ -179,7 +177,14 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase(TC002, new HorizontalAlignmentTestComponent())
                                        .createTabSheet(),
                                TestScenario.id(TS008)
-                                       .testCase(TC001, new BindStyleNamesPmo())
+                                       .testCase(TC001, new BindTooltipPmo())
+                                       .testCase(TC002, new BindCaptionWithoutButtonPmo())
+                                       .testCase(TC003, new BindCaptionWithEditButtonPmo())
+                                       .testCase(TC004, new BindCaptionWithSectionHeaderButtonPmo())
+                                       .testCase(TC005, new BindCaptionWithCloseButtonPmo())
+                                       .testCase(TC006, new BindVisiblePmo())
+                                       .testCase(TC007, new BindIconPmo())
+                                       .testCase(TC008, new BindStyleNamesPmo())
                                        .createTabSheet(),
                                TestScenario.id(TS009)
                                        .testCase(TC001, new TextNotificationPmo())
@@ -199,16 +204,6 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                        .testCase(TC003, new UITableColumnTablePmo())
                                        .testCase(TC004, DynamicFieldsSection.create())
                                        .testCase(TC005, new NumberFooterTablePmo())
-                                       .createTabSheet(),
-                               TestScenario.id(TS013)
-                                       .testCase(TC001, new DynamicTooltipPmo())
-                                       .testCase(TC002, new DynamicCaptionWithoutButtonPmo())
-                                       .testCase(TC003, new DynamicCaptionWithEditButtonPmo())
-                                       .testCase(TC004, new DynamicCaptionWithSectionHeaderButtonPmo())
-                                       .testCase(TC005, new DynamicCaptionWithCloseButtonPmo())
-                                       .testCase(TC006, new BindVisibleSectionPmo())
-                                       .testCase(TC007, new BindIconComponentsPmo())
-                                       .testCase(TC008, new BindStyleNamesComponentsPmo())
                                        .createTabSheet(),
                                // old tab sheets
                                LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)

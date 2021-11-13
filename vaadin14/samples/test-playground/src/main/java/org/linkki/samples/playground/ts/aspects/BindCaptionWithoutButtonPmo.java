@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.dynamicannotations;
+package org.linkki.samples.playground.ts.aspects;
 
 import java.util.Optional;
 
@@ -22,13 +22,12 @@ import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
 import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UICheckBox;
-import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
 @BindCaption(captionType = CaptionType.DYNAMIC)
 @UISection
-public class DynamicCaptionWithoutButtonPmo implements PresentationModelObject {
+public class BindCaptionWithoutButtonPmo implements PresentationModelObject {
 
     public static final String PROPERTY_DYNAMIC_CAPTION = "dynamicCaption";
     public static final String PROPERTY_BUTTON = "button";
@@ -40,11 +39,6 @@ public class DynamicCaptionWithoutButtonPmo implements PresentationModelObject {
     // aspect "caption" for the section
     public String getCaption() {
         return dynamicCaption;
-    }
-
-    @UILabel(position = 10, htmlContent = true)
-    public String getDescription() {
-        return "<ul><li>The caption should update dynamically</li><li>The header line should disappear if the caption is empty</li><li>The header line should reappear if the caption is non-empty</li></ul>";
     }
 
     @UITextField(position = 20, label = "Dynamic caption")

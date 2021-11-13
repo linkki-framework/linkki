@@ -12,58 +12,62 @@
  * License.
  */
 
-package org.linkki.samples.playground.uitest.vaadin14;
+package org.linkki.samples.playground.uitestnew.ts.aspects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.linkki.samples.playground.pageobjects.TestCaseComponentElement;
+import org.linkki.samples.playground.ts.aspects.BindStyleNamesPmo;
 import org.linkki.samples.playground.ui.PlaygroundApplicationView;
 import org.linkki.samples.playground.uitestnew.PlaygroundUiTest;
 
+import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 
 public class BindStyleNamesTest extends PlaygroundUiTest {
     private TestCaseComponentElement testCaseSection;
 
     @BeforeEach
-    public void setup() {
-        super.setUp();
-        testCaseSection = goToTestCase(PlaygroundApplicationView.TS013, PlaygroundApplicationView.TC008);
+    public void goToTestCase() {
+        testCaseSection = goToTestCase(PlaygroundApplicationView.TS008, PlaygroundApplicationView.TC008);
     }
 
     @Test
-    public void testBindStyleNames_Dynamic_EmptyStyleName() {
+    public void testDynamic_EmptyStyleName() {
         TextFieldElement textField = testCaseSection.$(TextFieldElement.class)
                 .first();
         textField.setValue(" ");
         textField.sendKeys("\t");
 
-        assertThat(textField.getClassNames(), is(empty()));
+        assertThat(textField.getClassNames()).isEmpty();
     }
 
     @Test
-    public void testBindStyleNames_Dynamic_SingleStyleName() {
+    public void testDynamic_SingleStyleName() {
         TextFieldElement textField = testCaseSection.$(TextFieldElement.class)
                 .first();
         textField.setValue("aCustomStyleName");
         textField.sendKeys("\t");
 
-        assertThat(textField.getClassNames(), contains("aCustomStyleName"));
+        assertThat(textField.getClassNames()).contains("aCustomStyleName");
     }
 
     @Test
-    public void testBindStyleNames_Dynamic_MultipleStyleNames() {
+    public void testDynamic_MultipleStyleNames() {
         TextFieldElement textField = testCaseSection.$(TextFieldElement.class)
                 .first();
         textField.setValue("aCustomStyleName anotherOne");
         textField.sendKeys("\t");
 
-        assertThat(textField.getClassNames(), contains("aCustomStyleName", "anotherOne"));
+        assertThat(textField.getClassNames()).contains("aCustomStyleName", "anotherOne");
     }
 
+    @Test
+    void testPmoStyleNames() {
+        VerticalLayoutElement label = $(VerticalLayoutElement.class).id(BindStyleNamesPmo.class.getSimpleName());
+        assertThat(label.getClassNames()).contains("style1", "style2", "style3");
+    }
 }

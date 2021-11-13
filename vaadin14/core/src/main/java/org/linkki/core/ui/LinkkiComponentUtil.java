@@ -14,13 +14,9 @@
 
 package org.linkki.core.ui;
 
-import java.util.Optional;
-
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.Shortcuts;
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 
 /**
  * Utility class for common component adjustments
@@ -32,21 +28,14 @@ public class LinkkiComponentUtil {
     }
 
     /**
-     * Adds a click shortcut to the given {@link Button}
-     * <p>
-     * <b>The shortcut event is not triggered in case, a vaadin-text-area is currently focused</b>
-     * 
-     * @param button The {@link Button} to add the shortcut click listener
-     * @param key The {@link Key shortcut key}
-     * @param keyModifier Additional {@link KeyModifier}
+     * Prevents {@link Key#ENTER} to trigger button shortcut in the given component. This is useful for
+     * multi-line components in which enter should only add a new line.
      */
-    public static final void addShortcutRegistration(Button button, Key key, KeyModifier... keyModifier) {
-        Shortcuts.addShortcutListener(button, e -> {
-            if (button.isVisible() && button.isEnabled()) {
-                UI.getCurrent().getElement().executeJs("document.activeElement.blur()")
-                        .then(v -> button.clickInClient());
-            }
-        }, key, Optional.ofNullable(keyModifier).orElse(new KeyModifier[] {})).allowEventPropagation();
+    public static final void preventEnterKeyPropagation(Component multiLineInput) {
+        Shortcuts.addShortcutListener(multiLineInput, e -> {
+            // Does nothing. This listener prevents event propagation so that enter does not
+            // trigger button enter shortcut
+        }, Key.ENTER).allowBrowserDefault().listenOn(multiLineInput);
     }
 
 }

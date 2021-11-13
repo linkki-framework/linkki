@@ -38,7 +38,6 @@ import org.linkki.core.defaults.ui.aspects.VisibleAspectDefinition;
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
 import org.linkki.core.defaults.ui.aspects.types.EnabledType;
 import org.linkki.core.defaults.ui.aspects.types.VisibleType;
-import org.linkki.core.ui.LinkkiComponentUtil;
 import org.linkki.core.ui.aspects.ButtonInvokeAspectDefinition;
 import org.linkki.core.ui.aspects.CaptionAspectDefinition;
 import org.linkki.core.ui.aspects.LabelAspectDefinition;
@@ -157,8 +156,7 @@ public @interface UIButton {
                 button.addThemeVariants(annotation.variants());
 
                 createShortcutKey(annotation)
-                        .ifPresent(key -> LinkkiComponentUtil.addShortcutRegistration(button, key,
-                                                                                annotation.shortcutKeyModifiers()));
+                        .ifPresent(key -> button.addClickShortcut(key, annotation.shortcutKeyModifiers()));
                 return button;
             };
         }

@@ -12,39 +12,43 @@
  * License.
  */
 
-package org.linkki.samples.playground.dynamicannotations;
+package org.linkki.samples.playground.ts.aspects;
 
 import org.linkki.core.defaults.ui.aspects.types.CaptionType;
-import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.aspects.annotation.BindCaption;
-import org.linkki.core.ui.element.annotation.UILabel;
+import org.linkki.core.ui.element.annotation.UIButton;
 import org.linkki.core.ui.element.annotation.UITextField;
+import org.linkki.core.ui.layout.annotation.SectionHeader;
 import org.linkki.core.ui.layout.annotation.UISection;
 
+import com.vaadin.flow.component.icon.VaadinIcon;
+
 @BindCaption(captionType = CaptionType.DYNAMIC)
-@UISection(closeable = true)
-public class DynamicCaptionWithCloseButtonPmo implements PresentationModelObject {
+@UISection
+public class BindCaptionWithSectionHeaderButtonPmo {
 
-    public static final String PROPERTY_SECTION_CAPTION = "closeCaption";
+    public static final String PROPERTY_SECTION_CAPTION = "editCaption";
 
-    private String sectionCaption = "Dynamic caption with close button";
+    private String sectionCaption = "Dynamic caption with section header button";
 
     // aspect "caption" for the section
     public String getCaption() {
         return sectionCaption;
     }
 
-    @UILabel(position = 10, htmlContent = true)
-    public String getDescription() {
-        return "<ul><li>The caption should update dynamically</li><li>Closable button should be visible even if the caption is empty</li></ul>";
-    }
-
-    @UITextField(position = 20, label = "Caption for closable section")
-    public String getCloseCaption() {
+    @UITextField(position = 20, label = "Caption for section with button")
+    public String getEditCaption() {
         return sectionCaption;
     }
 
-    public void setCloseCaption(String caption) {
+    public void setEditCaption(String caption) {
         this.sectionCaption = caption;
     }
+
+    @SectionHeader
+    @UIButton(position = -10, icon = VaadinIcon.AMBULANCE, showIcon = true, captionType = CaptionType.NONE)
+    public void callAnAmbulance() {
+        // not really
+    }
+
 }

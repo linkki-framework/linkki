@@ -12,7 +12,7 @@
  * License.
  */
 
-package org.linkki.samples.playground.dynamicannotations;
+package org.linkki.samples.playground.ts.aspects;
 
 import org.linkki.core.defaults.ui.aspects.types.RequiredType;
 import org.linkki.core.ui.element.annotation.UIButton;
@@ -24,7 +24,7 @@ import org.linkki.core.ui.layout.annotation.UIFormSection;
 import com.vaadin.flow.component.notification.Notification;
 
 @UIFormSection(caption = "@UIFormSection")
-public class FormSectionPmo {
+public class BindVisibleFormSectionPmo {
 
     private String text1 = "text1";
     private String text2 = "text2";

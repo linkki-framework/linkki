@@ -23,7 +23,6 @@ import org.linkki.core.binding.validation.ValidationService;
 import org.linkki.core.binding.validation.message.Message;
 import org.linkki.core.binding.validation.message.MessageList;
 import org.linkki.core.binding.validation.message.Severity;
-import org.linkki.core.ui.LinkkiComponentUtil;
 import org.linkki.framework.ui.LinkkiApplicationTheme;
 import org.linkki.framework.ui.component.MessageUiComponents;
 import org.linkki.framework.ui.nls.NlsText;
@@ -286,7 +285,7 @@ public class OkCancelDialog extends Composite<Dialog> implements HasSize, Before
                 }
             }).apply();
         });
-        LinkkiComponentUtil.addShortcutRegistration(okButton, Key.ENTER);
+        okButton.addClickShortcut(Key.ENTER);
 
         if (cancelButton != null) {
             buttonArea.add(cancelButton);
