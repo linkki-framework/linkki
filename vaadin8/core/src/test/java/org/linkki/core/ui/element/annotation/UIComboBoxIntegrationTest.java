@@ -24,6 +24,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
@@ -40,6 +42,7 @@ import org.linkki.core.defaults.ui.element.ItemCaptionProvider.ToStringCaptionPr
 import org.linkki.core.ui.bind.TestEnum;
 import org.linkki.core.ui.element.annotation.UIComboBoxIntegrationTest.ComboBoxTestPmo;
 import org.linkki.core.ui.layout.annotation.UISection;
+import org.linkki.core.ui.layout.annotation.UIVerticalLayout;
 import org.linkki.core.ui.wrapper.CaptionComponentWrapper;
 import org.linkki.core.uicreation.UiCreator;
 import org.linkki.core.uiframework.UiFramework;
@@ -88,6 +91,19 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
         getDefaultPmo().setDynamicAvailableValues(availableValues);
         modelChanged();
         assertThat(TestUiUtil.getData(getDynamicComponent()), contains(TestEnum.TWO, TestEnum.THREE));
+    }
+
+    /**
+     * LIN-2622
+     */
+    @Test
+    public void testOver500AvailableValues() {
+        ComboBox<?> comboBox = (ComboBox<?>)UiCreator
+                .createUiElements(new Over500ItemsComboBoxPmo(), new BindingContext(),
+                                  c -> new CaptionComponentWrapper((Component)c,
+                                          WrapperType.FIELD))
+                .findFirst().get().getComponent();
+        assertThat(comboBox.getPageLength(), is(15));
     }
 
     @Test
@@ -278,6 +294,19 @@ public class UIComboBoxIntegrationTest extends ComponentAnnotationIntegrationTes
                 return value.getName();
             }
 
+        }
+    }
+
+    @UIVerticalLayout
+    public static class Over500ItemsComboBoxPmo {
+
+        @UIComboBox(position = 0, content = AvailableValuesType.DYNAMIC)
+        public String getValue() {
+            return "1";
+        }
+
+        public List<String> getValueAvailableValues() {
+            return IntStream.range(0, 1000).mapToObj(i -> String.valueOf(i)).collect(Collectors.toList());
         }
     }
 }

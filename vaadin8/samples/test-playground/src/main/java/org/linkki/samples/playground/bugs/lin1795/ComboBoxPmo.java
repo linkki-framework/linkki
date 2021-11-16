@@ -20,14 +20,13 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.linkki.core.defaults.ui.aspects.types.AvailableValuesType;
-import org.linkki.core.pmo.PresentationModelObject;
 import org.linkki.core.ui.element.annotation.UIComboBox;
 import org.linkki.core.ui.element.annotation.UILabel;
 import org.linkki.core.ui.element.annotation.UITextField;
 import org.linkki.core.ui.layout.annotation.UISection;
 
 @UISection(caption = "LIN-1795")
-public class ComboBoxPmo implements PresentationModelObject {
+public class ComboBoxPmo {
 
     private String value;
     private String availableValues;

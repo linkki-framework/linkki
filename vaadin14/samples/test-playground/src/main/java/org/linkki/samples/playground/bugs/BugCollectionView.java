@@ -17,6 +17,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.linkki.core.binding.BindingContext;
+import org.linkki.core.ui.creation.VaadinUiCreator;
 import org.linkki.core.ui.creation.section.PmoBasedSectionFactory;
 import org.linkki.core.vaadin.component.section.AbstractSection;
 import org.linkki.core.vaadin.component.tablayout.LinkkiTabLayout;
@@ -28,10 +29,12 @@ import org.linkki.samples.playground.bugs.lin1738.DoubleClickPmo;
 import org.linkki.samples.playground.bugs.lin1795.ComboBoxPmo;
 import org.linkki.samples.playground.bugs.lin1797.OnlyTablePmo;
 import org.linkki.samples.playground.bugs.lin1797.SectionTablePmo;
+import org.linkki.samples.playground.bugs.lin1890.Lin1890HierarchicalTablePmo;
 import org.linkki.samples.playground.bugs.lin1917.TriangleTablePmo;
 import org.linkki.samples.playground.bugs.lin2200.ComboBoxNewInstancePmo;
 import org.linkki.samples.playground.bugs.lin2555.TextfieldWithEnterButtonPmo;
 import org.linkki.samples.playground.bugs.lin2567.TabSheetContentWithText;
+import org.linkki.samples.playground.bugs.lin2622.MassValuesComboBoxPmo;
 import org.linkki.samples.playground.ui.PlaygroundAppLayout;
 
 import com.vaadin.flow.component.Component;
@@ -51,40 +54,44 @@ public class BugCollectionView extends LinkkiTabLayout {
     public BugCollectionView() {
         super(Orientation.VERTICAL);
 
-        addTabSheets(createTabSheet(PmoBasedSectionFactory
-                .createAndBindSection(new ComboBoxCaptionRefreshPmo(), new BindingContext())),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new ComboBoxVanishingValuePmo(
-                             bc::modelChanged))),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new ComboBoxNewInstancePmo())),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new PmoReadonlyModelNotReadonlyPmo())),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new DoubleClickPmo())),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new ComboBoxPmo())),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new OnlyTablePmo())),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new SectionTablePmo())),
-                     // TODO LIN-2088
-                     // createTabSheet(createSectionWithSeparateBindingContext(bc -> new
-                     // Lin1890HierarchicalTablePmo())),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new TriangleTablePmo())),
-                     createTabSheet(createSectionWithSeparateBindingContext(bc -> new TextfieldWithEnterButtonPmo())),
-                     createTabSheet(TabSheetContentWithText.CAPTION, TabSheetContentWithText::new));
+        addTabSheets(createTabSheet(ComboBoxCaptionRefreshPmo::new),
+                     createTabSheet(bc -> new ComboBoxVanishingValuePmo(bc::modelChanged)),
+                     createTabSheet(ComboBoxNewInstancePmo::new),
+                     createTabSheet(PmoReadonlyModelNotReadonlyPmo::new),
+                     createTabSheet(DoubleClickPmo::new),
+                     createTabSheet(ComboBoxPmo::new),
+                     LinkkiTabSheet.builder(OnlyTablePmo.CAPTION)
+                             .content(() -> new PmoBasedSectionFactory().createSection(new OnlyTablePmo(),
+                                                                                       new BindingContext()))
+                             .build(),
+                     createTabSheet(SectionTablePmo::new),
+                     createTabSheet(Lin1890HierarchicalTablePmo::new),
+                     createTabSheet(TriangleTablePmo::new),
+                     createTabSheet(TextfieldWithEnterButtonPmo::new),
+                     LinkkiTabSheet.builder(TabSheetContentWithText.CAPTION).content(TabSheetContentWithText::new)
+                             .build(),
+                     createTabSheet(MassValuesComboBoxPmo::new));
     }
 
-    private AbstractSection createSectionWithSeparateBindingContext(Function<BindingContext, Object> pmoCreation) {
+    private LinkkiTabSheet createTabSheet(Supplier<Object> pmoCreation) {
+        return createTabSheet(bc -> pmoCreation.get());
+    }
+
+    private LinkkiTabSheet createTabSheet(Function<BindingContext, Object> pmoCreation) {
         BindingContext bindingContext = new BindingContext();
-        AbstractSection section = PmoBasedSectionFactory.createAndBindSection(pmoCreation.apply(bindingContext),
-                                                                              bindingContext);
-        return section;
-    }
+        Object pmo = pmoCreation.apply(bindingContext);
+        Component component = VaadinUiCreator.createComponent(pmo, bindingContext);
 
-    private LinkkiTabSheet createTabSheet(AbstractSection section) {
-        return createTabSheet(section.getCaption(), () -> new VerticalLayout(section));
+        if (component instanceof AbstractSection) {
+            AbstractSection section = (AbstractSection)component;
+            return LinkkiTabSheet.builder(section.getCaption())
+                    .caption(section.getCaption())
+                    .content(() -> new VerticalLayout(section))
+                    .build();
+        } else {
+            return LinkkiTabSheet.builder(pmo.getClass().getSimpleName())
+                    .content(() -> component)
+                    .build();
+        }
     }
-
-    private LinkkiTabSheet createTabSheet(String caption, Supplier<Component> content) {
-        return LinkkiTabSheet.builder(caption)
-                .caption(caption)
-                .content(content)
-                .build();
-    }
-
 }

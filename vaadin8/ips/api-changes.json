@@ -13,76 +13,18 @@
             }
         }
     ],
-    "1.4.0": [
+    "1.5.0": [
         {
             "extension": "revapi.differences",
             "configuration": {
                 "ignore": true,
-                "justification": "LIN-2093/LIN-2180 :: Deprecate and refactor annotations",
+                "justification": "Vaadin Update from 8.14.1 to 8.14.2",
                 "differences": [
-                    {
-                        "code": "java.class.removed",
-                        "old": "class org.linkki.ips.decimalfield.UIDecimalField.DecimalValueAspectCreator"
-                    },
-                    {
-                        "code": "java.annotation.added",
-                        "old": "@interface org.linkki.ips.decimalfield.UIDecimalField",
-                        "new": "@interface org.linkki.ips.decimalfield.UIDecimalField",
-                        "annotation": "@org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect(org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldAspectCreator.class)"
-                    },
-                    {
-                        "code": "java.annotation.removed",
-                        "old": "@interface org.linkki.ips.decimalfield.UIDecimalField",
-                        "new": "@interface org.linkki.ips.decimalfield.UIDecimalField",
-                        "annotation": "@org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspects({@org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect(org.linkki.core.ui.element.annotation.FieldAspectDefinitionCreator.class), @org.linkki.core.binding.descriptor.aspect.annotation.LinkkiAspect(org.linkki.ips.decimalfield.UIDecimalField.DecimalValueAspectCreator.class)})"
-                    },
-                    {
-                        "code": "java.annotation.removed",
-                        "old": "@interface org.linkki.ips.decimalfield.UIDecimalField",
-                        "new": "@interface org.linkki.ips.decimalfield.UIDecimalField",
-                        "annotation": "@org.linkki.core.binding.descriptor.bindingdefinition.annotation.LinkkiBindingDefinition(org.linkki.ips.decimalfield.DecimalFieldBindingDefinition.class)"
-                    },
-                    {
-                        "code": "java.annotation.attributeValueChanged",
-                        "old": "@interface org.linkki.ips.decimalfield.UIDecimalField",
-                        "new": "@interface org.linkki.ips.decimalfield.UIDecimalField",
-                        "annotationType": "org.linkki.core.binding.descriptor.property.annotation.LinkkiBoundProperty",
-                        "attribute": "value",
-                        "oldValue": "org.linkki.core.binding.descriptor.bindingdefinition.BindingDefinition.BindingDefinitionBoundPropertyCreator.class",
-                        "newValue": "org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldBoundPropertyCreator.class"
-                    },
-                    {
-                        "code": "java.annotation.attributeValueChanged",
-                        "old": "@interface org.linkki.ips.decimalfield.UIDecimalField",
-                        "new": "@interface org.linkki.ips.decimalfield.UIDecimalField",
-                        "annotationType": "org.linkki.core.binding.uicreation.LinkkiComponent",
-                        "attribute": "value",
-                        "oldValue": "org.linkki.core.uicreation.BindingDefinitionComponentDefinition.Creator.class",
-                        "newValue": "org.linkki.ips.decimalfield.UIDecimalField.DecimalFieldComponentDefinitionCreator.class"
-                    }
-                ]
-            }
-        }
-    ],
-    "1.4.2": [
-        {
-            "extension": "revapi.differences",
-            "configuration": {
-                "ignore": true,
-                "justification": "Vaadin Update from 8.13.1 to 8.14.1",
-                "differences": [
-                    {
-                     "regex": true,
-                      "code": ".*",
-                      "oldArchive": "com.vaadin:vaadin-server:jar:8.13.1",
-                      "newArchive": "com.vaadin:vaadin-server:jar:8.14.1",
-                      "justification": "Updated vaadin version"
-                    },
                     {
                       "regex": true,
                       "code": ".*",
-                      "oldArchive": "org.jsoup:jsoup:jar:1.11.2",
-                      "newArchive": "org.jsoup:jsoup:jar:1.14.2",
+                      "oldArchive": "org.jsoup:jsoup:jar:1.14.2",
+                      "newArchive": "org.jsoup:jsoup:jar:1.14.3",
                       "justification": "Updated vaadin version"
                     }
                 ]

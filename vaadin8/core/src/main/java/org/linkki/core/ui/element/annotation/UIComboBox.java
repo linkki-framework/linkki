@@ -53,6 +53,7 @@ import org.linkki.core.uicreation.ComponentDefinitionCreator;
 import org.linkki.core.uicreation.LinkkiPositioned;
 import org.linkki.core.vaadin.component.ComponentFactory;
 
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.ComboBox;
 
 /**
@@ -128,8 +129,7 @@ public @interface UIComboBox {
         @Override
         public LinkkiAspectDefinition create(UIComboBox annotation) {
             AvailableValuesAspectDefinition<ComboBox<Object>> availableValuesAspectDefinition = new AvailableValuesAspectDefinition<ComboBox<Object>>(
-                    annotation.content(),
-                    ComboBox<Object>::setDataProvider) {
+                    annotation.content(), this::setDataProvider) {
 
                 @Override
                 @SuppressWarnings("unchecked")
@@ -154,6 +154,15 @@ public @interface UIComboBox {
                     new VisibleAspectDefinition(annotation.visible()),
                     new ValueAspectDefinition(),
                     new DerivedReadOnlyAspectDefinition());
+        }
+
+        private void setDataProvider(ComboBox<Object> comboBox, ListDataProvider<Object> dataProvider) {
+            int size = dataProvider.getItems().size();
+            // ComboBox with more than 500 values are not allowed without paging due to DoS prevention
+            if (size > 500) {
+                comboBox.setPageLength(15);
+            }
+            comboBox.setDataProvider(dataProvider);
         }
 
     }

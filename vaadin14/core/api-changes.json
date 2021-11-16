@@ -36,7 +36,6 @@
             "justification": "FCOM-656/FCOM-670 :: ID is set by GridComponentCreator"
           },
           {
-            "ignore": true,
             "code": "java.annotation.added",
             "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
             "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
@@ -44,7 +43,6 @@
             "justification": "LIN-2264/LIN-2548 :: Show link as label if no href is available"
           },
           {
-            "ignore": true,
             "code": "java.annotation.removed",
             "old": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
             "new": "class org.linkki.core.vaadin.component.base.LinkkiAnchor",
@@ -52,7 +50,6 @@
             "justification": "LIN-2264/LIN-2548 :: Show link as label if no href is available"
           },
           {
-            "ignore": true,
             "code": "java.class.externalClassExposedInAPI",
             "new": "interface org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW>",
             "justification": "LIN-2467/LIN-2572 :: Update vaadin to 14.7.0"
