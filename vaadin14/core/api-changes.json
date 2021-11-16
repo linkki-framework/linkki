@@ -62,5 +62,26 @@
         ]
       }
     }
+  ],
+  "1.4.3": [
+    {
+      "extension": "revapi.differences",
+      "configuration": {
+        "ignore": true,
+        "differences": [
+            {
+              "code": "java.annotation.attributeValueChanged",
+              "old": "class com.vaadin.flow.component.grid.Grid<T extends java.lang.Object>",
+              "new": "class com.vaadin.flow.component.grid.Grid<T extends java.lang.Object>",
+              "annotationType": "com.vaadin.flow.component.dependency.NpmPackage",
+              "attribute": "version",
+              "oldValue": "\"5.7.13\"",
+              "newValue": "\"5.7.15\"",
+              "justification": "Vaadin upgrade from 14.6.3 to 14.6.8"
+            
+            }
+        ]
+      }
+    }
   ]
 }
