@@ -5,6 +5,18 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 1.4.3
+
+The Vaadin version was updated to 8.14.2.
+
+==== Bugfixes
+
+////
+https://jira.faktorzehn.de/browse/LIN-2622
+////
+Combo boxes with more than 500 values did not work since vaadin 8.14.1 to prevent DoS attacks. To work around this problem, linkki enables paging for all combo boxes with more than 500 values. This also improves the performance for combo boxes with a lot of values.
+
+
 === Version 1.4.2
 
 The Vaadin version was updated to 8.14.1.
