@@ -26,8 +26,15 @@ pipeline {
         stage('Build') {
             steps {
                 withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
-                    sh 'mvn -U -T 6 -Pproduction -Djade.runExternalLinkTests=false clean install javadoc:jar'
+                    sh 'mvn -U -T 6 \
+                        clean install javadoc:jar \
+                        -Pproduction \
+                        -Dmaven.test.failure.ignore=true \
+                        -Djade.runExternalLinkTests=false \
+                        -Drevapi.skip'
                 }
+
+                archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*, vaadin14/doc/target/linkki-core-documentation*/**/*.*'
             }
         }
 
@@ -42,6 +49,16 @@ pipeline {
                         <li><a href='http://linkki-vaadin14-${env:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14'>Vaadin 14</a></li>
                     </ul>
                 """
+            }
+        }
+
+        stage('Check API') {
+            steps {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
+                        sh 'mvn -T 6 -pl "!linkki-codeanalysis" validate org.revapi:revapi-maven-plugin:check'
+                    }
+                }
             }
         }
 
@@ -72,12 +89,16 @@ pipeline {
                     return currentBuild.currentResult == "SUCCESS"
                 }
             }
+
             parallel {
                 stage('UI Test Vaadin 8') {
                     steps {
                         withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test'
+                            sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test \
+                                -Dmaven.test.failure.ignore=true'
                         }
+
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin8/samples/test-playground/uitest/target/uitest/*.png'
                     }
         
                     environment {
@@ -88,8 +109,11 @@ pipeline {
                 stage('UI Test Vaadin 14') {
                     steps {
                         withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test'
+                            sh 'mvn -f vaadin14/samples/test-playground/uitest/pom.xml test \
+                                -Dmaven.test.failure.ignore=true'
                         }
+
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin14/samples/test-playground/uitest/target/uitest/*.png'
                     }
         
                     environment {
@@ -125,6 +149,7 @@ pipeline {
                 }
             }
         }
+
         // check if the SonarQube quality gate is fulfilled
         stage('SonarQube Quality Gate') {
             steps {
@@ -136,15 +161,13 @@ pipeline {
                 }
             }
         }
-    }
 
-    post {
-        always {
-            junit '**/target/surefire-reports/*.xml'
-            recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
-            jacoco sourceInclusionPattern: '**/*.java'
-
-            archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*, vaadin8/samples/test-playground/uitest/target/uitest/*.png, vaadin14/doc/target/linkki-core-documentation*/**/*.*, vaadin14/samples/test-playground/uitest/target/uitest/*.png'
+        stage('Collect Results') {
+            steps {
+                junit '**/target/surefire-reports/*.xml'
+                recordIssues enabledForFailure: true, qualityGates: [[threshold: 1, type: 'NEW', unstable: true]], tools: [java(), javaDoc(), spotBugs(), checkStyle()]
+                jacoco sourceInclusionPattern: '**/*.java'
+            }
         }
     }
 

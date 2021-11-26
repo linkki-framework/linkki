@@ -265,7 +265,7 @@
                     <dependency>
                         <groupId>org.revapi</groupId>
                         <artifactId>revapi-java</artifactId>
-                        <version>0.24.2</version>
+                        <version>0.26.0</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -396,7 +396,7 @@
                 <plugin>
                     <groupId>org.revapi</groupId>
                     <artifactId>revapi-maven-plugin</artifactId>
-                    <version>0.14.3</version>
+                    <version>0.14.6</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
