@@ -16,10 +16,6 @@
 
     <name>linkki Vaadin 8 Samples :: Test Playground</name>
 
-    <properties>
-        <faktorips.version>21.12.0-rc06</faktorips.version>
-    </properties>
-
     <dependencies>
 
         <dependency>
@@ -46,18 +42,6 @@
             <artifactId>linkki-core-vaadin8-nestedcomponent</artifactId>
             <version>1.5.0-SNAPSHOT</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.faktorips</groupId>
-            <artifactId>faktorips-runtime</artifactId>
-            <version>${faktorips.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.faktorips</groupId>
-            <artifactId>faktorips-valuetypes</artifactId>
-            <version>${faktorips.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -134,7 +118,6 @@
                     <!-- Remove draftCompile when project is ready -->
                     <draftCompile>false</draftCompile>
                     <style>OBF</style>
-                    <strict>true</strict>
                     <runTarget>http://localhost:8080/</runTarget>
                 </configuration>
                 <executions>
