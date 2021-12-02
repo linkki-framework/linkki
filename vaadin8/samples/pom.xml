@@ -6,7 +6,7 @@
 
     <groupId>org.linkki-framework.samples</groupId>
     <artifactId>linkki-samples-vaadin8</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.0</version>
 
     <packaging>pom</packaging>
 
@@ -90,21 +90,21 @@
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-vaadin8-addon-compiled</artifactId>
-                <version>1.5.0-SNAPSHOT</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- tag::linkki-core-vaadin8[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-core-vaadin8</artifactId>
-                <version>1.5.0-SNAPSHOT</version>
+                <version>1.5.0</version>
             </dependency>
             <!-- end::linkki-core-vaadin8[] -->
             <!-- tag::linkki-application-framework-vaadin8[] -->
             <dependency>
                 <groupId>org.linkki-framework</groupId>
                 <artifactId>linkki-application-framework-vaadin8</artifactId>
-                <version>1.5.0-SNAPSHOT</version>
+                <version>1.5.0</version>
             </dependency>
             <!-- end::linkki-application-framework-vaadin8[] -->
             <dependency>
@@ -146,7 +146,7 @@
         <dependency>
             <groupId>org.linkki-framework.tooling</groupId>
             <artifactId>linkki-apt</artifactId>
-            <version>1.5.0-SNAPSHOT</version>
+            <version>1.5.0</version>
             <scope>provided</scope>
         </dependency>
 
