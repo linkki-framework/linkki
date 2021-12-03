@@ -16,6 +16,7 @@ package org.linkki.core.ui.creation.table;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -23,9 +24,12 @@ import static org.hamcrest.Matchers.nullValue;
 import org.junit.jupiter.api.Test;
 import org.linkki.core.binding.BindingContext;
 import org.linkki.core.ui.element.annotation.TestUiUtil;
+import org.linkki.core.ui.table.hierarchy.CodeTablePmo;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridNoneSelectionModel;
+import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.treegrid.TreeGrid;
 
 public class GridComponentCreatorTest {
 
@@ -93,6 +97,26 @@ public class GridComponentCreatorTest {
         table.getColumns().forEach(c -> assertThat(c.isAutoWidth(), is(false)));
     }
 
+    @Test
+    public void testInitGrid_ThemeVariants() {
+        Grid<?> table = createTableWithColumns();
+
+        assertThat(table.getThemeNames(), containsInAnyOrder(GridVariant.LUMO_NO_ROW_BORDERS.getVariantName(),
+                                                             GridVariant.LUMO_WRAP_CELL_CONTENT.getVariantName(),
+                                                             GridVariant.LUMO_ROW_STRIPES.getVariantName(),
+                                                             GridVariant.LUMO_NO_BORDER.getVariantName()));
+    }
+
+    @Test
+    public void testInitTreeGrid_ThemeVariants() {
+        TreeGrid<?> table = createTreeTableWithColumns();
+
+        assertThat(table.getThemeNames(), containsInAnyOrder(GridVariant.LUMO_NO_ROW_BORDERS.getVariantName(),
+                                                             GridVariant.LUMO_WRAP_CELL_CONTENT.getVariantName(),
+                                                             GridVariant.LUMO_ROW_STRIPES.getVariantName(),
+                                                             GridVariant.LUMO_NO_BORDER.getVariantName()));
+    }
+
     // TODO LIN-2138
     // @Test
     // public void testInitColumn_CollapsibleAndCollapsedIsReadFromAnnotation() {
@@ -115,4 +139,11 @@ public class GridComponentCreatorTest {
         return componentWrapper;
     }
 
+    private TreeGrid<?> createTreeTableWithColumns() {
+        CodeTablePmo containerPmo = new CodeTablePmo();
+
+        BindingContext bindingContext = new BindingContext();
+        TreeGrid<?> componentWrapper = (TreeGrid<?>)GridComponentCreator.createGrid(containerPmo, bindingContext);
+        return componentWrapper;
+    }
 }

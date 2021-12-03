@@ -38,6 +38,7 @@ public class GridComponentDefinition implements LinkkiComponentDefinition {
             TreeGrid<?> grid = new TreeGrid<>();
             grid.addClassName("tree-table");
             grid.setWidth("100%");
+            grid.addThemeVariants(variants);
             return grid;
         } else {
             Grid<?> grid = new Grid<>();
