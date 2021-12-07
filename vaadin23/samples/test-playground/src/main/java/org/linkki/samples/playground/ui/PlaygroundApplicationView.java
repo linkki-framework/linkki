@@ -40,7 +40,7 @@ import org.linkki.samples.playground.table.VaaryingAlignmentTablePmo;
 import org.linkki.samples.playground.table.dynamicfields.DynamicFieldsSection;
 import org.linkki.samples.playground.table.selection.SelectableTableSection;
 import org.linkki.samples.playground.table.uitablecolumn.UITableColumnTablePmo;
-import org.linkki.samples.playground.treetable.SampleTreeTableComponent;
+import org.linkki.samples.playground.treetable.TreeTableSection;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithCloseButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithEditButtonPmo;
 import org.linkki.samples.playground.ts.aspects.BindCaptionWithSectionHeaderButtonPmo;
@@ -131,6 +131,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
     public static final String TS011 = "TS011";
     public static final String TS012 = "TS012";
     public static final String TS013 = "TS013";
+    public static final String TS014 = "TS014";
 
 
     public static final String TC001 = "TC001";
@@ -151,7 +152,6 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
     public static final String NESTED_COMPONENT_PAGE_TAB_ID = "nestedComponentPage";
     public static final String TAB_LAYOUT_TAB_ID = "tab-layout";
     public static final String MESSAGES_TAB_ID = "messages";
-    public static final String TREETABLE_TAB_ID = "tree-table";
 
     public PlaygroundApplicationView() {
         setSizeFull();
@@ -271,6 +271,11 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                TestScenario.id(TS013)
                                        .testCase(TC001, MessageTableSection.create())
                                        .createTabSheet(),
+                               TestScenario.id(TS014)
+                                       .testCase(TC001, TreeTableSection.createPersonTreeTableSection())
+                                       .testCase(TC002, TreeTableSection.createLeagueTreeTableSection())
+                                       .testCase(TC003, TreeTableSection.createUpdateNodeTreeTableSection())
+                                       .createTabSheet(),
                                // old tab sheets
                                LinkkiTabSheet.builder(NESTED_COMPONENT_PAGE_TAB_ID)
                                        .caption(VaadinIcon.ROAD_BRANCHES.create())
@@ -279,11 +284,7 @@ public class PlaygroundApplicationView extends Div implements HasUrlParameter<St
                                LinkkiTabSheet.builder(MESSAGES_TAB_ID)
                                        .caption(VaadinIcon.COMMENT_ELLIPSIS_O.create())
                                        .description("Messages Component")
-                                       .content(MessagesComponent::new).build(),
-                               LinkkiTabSheet.builder(TREETABLE_TAB_ID)
-                                       .caption(VaadinIcon.FILE_TREE.create())
-                                       .description("Tree Table")
-                                       .content(SampleTreeTableComponent::new).build());
+                                       .content(MessagesComponent::new).build());
         add(tabLayout);
     }
 

@@ -14,6 +14,7 @@
 
 package org.linkki.core.ui.creation.table;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -89,7 +90,6 @@ public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<
      * @return {@code true} if the underlying container changed as a result of the call
      */
     private boolean updateChildren(ROW item) {
-        // boolean expanded = getComponent().isExpanded(item);
         if (!treeData.contains(item)) {
             return false;
         }
@@ -97,12 +97,12 @@ public class TreeGridComponentWrapper<ROW> extends AbstractGridComponentWrapper<
         List<? extends ROW> currentChildren = getCurrentChildren(item);
         boolean childrenHaveChanged = !currentChildren.equals(storedChildren);
         boolean subChildrenHaveChanged = updateChildren(currentChildren);
-        // expanded && updateChildren(currentChildren);
 
         if (childrenHaveChanged || subChildrenHaveChanged) {
-            // treeData.removeItem(item);
-            // tableContainer.getChildren(item);
             getComponent().getDataProvider().refreshItem(item, true);
+            if (currentChildren.isEmpty()) {
+                getComponent().collapse(Arrays.asList(item));
+            }
             return true;
         } else {
             return false;

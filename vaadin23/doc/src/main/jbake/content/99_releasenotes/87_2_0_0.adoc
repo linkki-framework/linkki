@@ -205,3 +205,5 @@ In addition, following deprecated classes and methods are also removed:
 * `ComponentStyles.setFormItemLabelWidth()` can now add a label width to UI elements.
 // https://jira.faktorzehn.de/browse/LIN-2500
 * The `Services` class is now thread safe by using `ConcurrentHashMap` instead of `HashMap`.
+// https://jira.faktorzehn.de/browse/LIN-2648
+* `TreeGrid` now updates its child nodes correctly and collapses if no children are available.

@@ -24,7 +24,7 @@ import org.linkki.core.ui.element.annotation.UITextField;
 public class SimpleRowPmo implements HierarchicalRowPmo<SimpleRowPmo> {
 
     private final String content;
-    private List<SimpleRowPmo> children = new ArrayList<>();
+    private final List<SimpleRowPmo> children = new ArrayList<>();
 
     private SimpleRowPmo(String text) {
         this.content = text;

@@ -17,7 +17,9 @@ package org.linkki.core.ui.creation.table;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -110,9 +112,29 @@ public class TreeGridComponentWrapperTest {
         assertThat(eventCount, is(1));
     }
 
+    @Test
+    void testCollapseItem_WhenNoChildren_ThenCollapsed() {
+        eventCount = 0;
+        TreeGridComponentWrapper<Row> componentWrapper = new TreeGridComponentWrapper<>(new TreeGrid<>());
+        componentWrapper.getComponent().addCollapseListener($ -> eventCount++);
+        List<Row> items = Arrays.asList(new Row(Arrays.asList(new Row(), new Row())));
+        componentWrapper.setItems(items);
+        componentWrapper.getComponent().expand(items);
+
+        // remove all children
+        items.get(0).getChildRows().clear();
+        componentWrapper.setItems(items);
+
+        assertThat(eventCount, is(1));
+    }
+
     private static class Row implements HierarchicalRowPmo<Row> {
 
         private final List<Row> children;
+
+        public Row(Collection<Row> children) {
+            this.children = new ArrayList<>(children);
+        }
 
         public Row(Row... children) {
             this.children = Arrays.asList(children);
