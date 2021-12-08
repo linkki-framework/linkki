@@ -5,6 +5,11 @@
 // NO :source-dir: HERE, BECAUSE N&N NEEDS TO SHOW CODE AT IT'S TIME OF ORIGIN, NOT LINK TO CURRENT CODE
 :images-folder-name: 01_releasenotes
 
+=== Version 1.4.4
+
+The Vaadin version was updated to 8.14.3.
+
+
 === Version 1.4.3
 
 The Vaadin version was updated to 8.14.2.

@@ -849,5 +849,21 @@
                 ]
             }
         }
+    ],
+    "1.4.4": [
+        {
+            "extension": "revapi.differences",
+            "configuration": {
+                "ignore": true,
+                "justification": "Vaadin Update from 8.14.2 to 8.14.3",
+                "differences": [
+                    {
+                      "code": "java.method.added",
+                      "new": "method void com.vaadin.data.provider.DataCommunicator<T>::setMaximumAllowedRows(int)",
+                      "justification": "Updated vaadin version"
+                    }
+                ]
+            }
+        }
     ]
 }
