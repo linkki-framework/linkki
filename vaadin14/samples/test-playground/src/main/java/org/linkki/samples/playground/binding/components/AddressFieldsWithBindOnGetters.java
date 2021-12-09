@@ -42,6 +42,7 @@ public class AddressFieldsWithBindOnGetters {
         countryCb.setItemLabelGenerator(Country::getName);
     }
 
+    // tag::addressFields-methodBinding[]
     @Bind(pmoProperty = "street")
     public TextField getStreetTxt() {
         return streetTxt;
@@ -57,6 +58,8 @@ public class AddressFieldsWithBindOnGetters {
     public ComboBox<Country> getCountryCb() {
         return countryCb;
     }
+
+    // end::addressFields-methodBinding[]
 
     @BindValue(pmoProperty = "zip")
     public TextField getZipTxt() {

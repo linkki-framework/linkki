@@ -2,7 +2,8 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+// TODO LIN-2667
+// :source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
 
 :images-folder-name: 05_ui_components
 
@@ -21,10 +22,11 @@ Row PMO classes are standard PMOs, which do not represent sections and thus shou
 
 Here, the annotation <<ui-element,UI element>> defines the column in the table. A column showing the name of a contact, for instance, can be setup as follows:
 
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
-----
+// TODO LIN-2667
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
+// ----
 
 That means every property that was found in the row PMO class provided by the `ContainerPmo` is set up as a column. Every defined property specifies the setup of the column as well as the concrete field inside the table's cell. Next to all aspects that are provided by `@UITableColumn` it takes the label from the field definition.
 
@@ -49,10 +51,11 @@ In addition to a row PMO, a container PMO is needed to provide the row PMOs that
 
 Most commonly, the row PMO objects are converted from a list of model objects. In this case, the abstract class `org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo<MO, ROW>` may be extended. It defines a constructor that requires the list or the supplier for the list of model objects. Additionally the method `createRow(MO)` needs to be implemented. This method simply takes a model object and creates a row PMO for it and is only called once for every model object. A simple example may look like this:
 
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/binding/pmo/SimpleContactTablePmo.java[tags=simpleContactTablePmo]
-----
+// TODO LIN-2667
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/SimpleContactTablePmo.java[tags=simpleContactTablePmo]
+// ----
 
 The `SimpleTablePmo` is an abstract convenience implementation of the `ContainerPmo<ROW>` interface.
 
@@ -65,10 +68,11 @@ The method `List<ROW> getItems()` is called by the `ContainerBinding` to add the
 
 By overriding the default method `int getPageLength()` the number of rows shown can be controlled. By default 15 rows are shown. It is a common tactic to allow tables to 'grow' to a certain size and then limit the number of lines while also enabling the scrolling for the table. If `0` is returned the table grows dynamically with the content, without limit.
 
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=page-length]
-----
+// TODO LIN-2667
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=page-length]
+// ----
 
 The column structure of the table is determined by the <<ui-row-pmo, row PMO>> class, which is returned by the method `Class<? extends ROW> getItemPmoClass`. In the default implementation the class of the generic parameter `ROW` is returned. To support tables which are configured with other components for the cells, the method can be overwritten and return a subclass of `ROW`.
 
@@ -84,11 +88,12 @@ The instantiating is done with two parameters
 * `modelObjectSupplier` of type `Supplier<List<MO>>` is called to access a list of the model objects
 * `mo2pmoMapping` of type `Function<MO, PMO>` is called for the creation of a PMO for a model object
 
-.Example initialising of a SimpleItemSupplier
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=item-supplier]
-----
+// TODO LIN-2667
+// .Example initialising of a SimpleItemSupplier
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=item-supplier]
+// ----
 
 [[ui-hierarchical-table]]
 ==== Hierarchical Tables
@@ -100,17 +105,19 @@ image::{images}{images-folder-name}/treetable.png[A hierarchical table,align="ce
 
 This can be realized by using `org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo<PMO>`, row PMOs that contain further rows as children. It is possible to use multiple subclasses for row PMOs, using `HierarchicalRowPmo` only for collapsible rows. To indicate that the table contains hierarchical rows, the <<ui-container-pmo,ContainerPmo>> should return `true` in the method `isHierarchical()`. By default, this method returns `true` if `getItemPmoClass()` returns a class that implements `HierarchicalRowPmo`, which means that all rows are collapsible.
 
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/treetable/fixed/SummarizingPersonRowPmo.java[tags=hierarchical-row-pmo]
-----
+// TODO LIN-2667
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/treetable/fixed/SummarizingPersonRowPmo.java[tags=hierarchical-row-pmo]
+// ----
 
 If the order of the rows might change due to user input, you should use a <<ui-simple-item-supplier,`SimpleItemSupplier`>> as with the <<ui-container-pmo,`ContainerPmo`>> to avoid recreating the PMOs for unchanged rows.
 
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/treetable/dynamic/CategoryRowPmo.java[tags=hierarchical-row-pmo-with-simple-item-supplier]
-----
+// TODO LIN-2667
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/treetable/dynamic/CategoryRowPmo.java[tags=hierarchical-row-pmo-with-simple-item-supplier]
+// ----
 
 [[ui-selectable-table]]
 ==== Row selection in Tables
@@ -123,11 +130,12 @@ By default, table rows are not selectable. If table row selection should be poss
 
 Note that it is not possible to nullify the selection once a row is selected.
 
-.Example for a selectable table
-[source,java]
-----
-include::{source-dir}/org/linkki/samples/playground/table/PlaygroundTablePmo.java[tags=selectable-table]
-----
+// TODO LIN-2667
+// .Example for a selectable table
+// [source,java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/table/PlaygroundTablePmo.java[tags=selectable-table]
+// ----
 
 .Example result
 image::{images}{images-folder-name}/selectable_table.png[Selectable table, align="center"]
@@ -140,10 +148,11 @@ By overriding the `default` method `getFooterPmo()` a footer row is generated. T
 
 The parameter `column` is the ID of the column for which the text should be displayed. An example for this would be a sum of all items from a column.
 
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarTablePmo.java[tags=table-footer]
-----
+// TODO LIN-2667
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarTablePmo.java[tags=table-footer]
+// ----
 
 TIP: The `ContainerPMO` can be annotated with `@BindStyleNames` and `LinkkiApplicationTheme#GRID_FOOTER_SUM` to make the table footer text bold and right aligned. This is particularly useful for right aligned number columns which have a footer to display the sum.
 

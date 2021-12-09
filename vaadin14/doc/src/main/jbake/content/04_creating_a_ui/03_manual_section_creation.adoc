@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+// TODO LIN-2668 :source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
 :github: https://github.com/linkki-framework/linkki
 :github-blob: {github}/blob/master
 
@@ -15,17 +15,19 @@ Even if you might need to have more control over this custom layout, you may sti
 
 In the following example, the UI elements of a PMO are directly added to a Vaadin `FormLayout`. In this case, the possibly existing annotation of the PMO class is ignored, only annotations on methods are respected.
 
-[source,java]
-----
-include::{source-dir}/org/linkki/samples/playground/customlayout/FormLayoutCreator.java[tags=FormLayoutCreator-class]
-----
+// TODO LIN-2668
+//[source,java]
+//----
+//include ::{source-dir}/org/linkki/samples/playground/customlayout/FormLayoutCreator.java[tags=FormLayoutCreator-class]
+//----
 
 The created `FormLayout` can simply be used with other UI components:
 
-[source,java]
-----
-include::{source-dir}/org/linkki/samples/playground/customlayout/CustomLayoutComponent.java[tags=CustomLayoutUI-create]
-----
+// TODO LIN-2668
+//[source,java]
+//----
+//include ::{source-dir}/org/linkki/samples/playground/customlayout/CustomLayoutComponent.java[tags=CustomLayoutUI-create]
+//----
 
 TIP: If the layout is as simple as in this example it would be much more convenient to write a <<custom-ui-layout-annotation,custom layout annotation>>. Only use this approach to get more control over special cases of the layout.
 

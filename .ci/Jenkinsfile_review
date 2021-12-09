@@ -19,7 +19,7 @@ pipeline {
                 }
 
                 preBuildSteps()
-                verifyChangelog file: 'vaadin8/doc/src/main/jbake/content/99_releasenotes/88_1_5_0.adoc'
+                verifyChangelog file: 'vaadin14/doc/src/main/jbake/content/99_releasenotes/88_1_5_0.adoc'
             }
         }
 
@@ -34,7 +34,7 @@ pipeline {
                         -Drevapi.skip'
                 }
 
-                archiveArtifacts 'vaadin8/doc/target/linkki-core-documentation*/**/*.*, vaadin14/doc/target/linkki-core-documentation*/**/*.*'
+                archiveArtifacts 'vaadin14/doc/target/linkki-core-documentation*/**/*.*'
             }
         }
 
@@ -45,7 +45,6 @@ pipeline {
                 rtp parserName: 'HTML', nullAction: '1', stableText: """
                     <h3>Test Playground</h3>
                     <ul>
-                        <li><a href='http://linkki-vaadin8-${env:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'>Vaadin 8</a></li>
                         <li><a href='http://linkki-vaadin14-${env:BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14'>Vaadin 14</a></li>
                     </ul>
                 """
@@ -70,7 +69,6 @@ pipeline {
                     waitUntil {
                         script {
                             try {
-                                sh 'curl --fail http://linkki-vaadin8-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin8'
                                 sh 'curl --fail http://linkki-vaadin14-${BUILD_NAME}.dockerhost.i.faktorzehn.de/linkki-sample-test-playground-vaadin14'
                                 return true
                             } catch (Exception e) {
@@ -91,21 +89,6 @@ pipeline {
             }
 
             parallel {
-                stage('UI Test Vaadin 8') {
-                    steps {
-                        withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {
-                            sh 'mvn -f vaadin8/samples/test-playground/uitest/pom.xml test \
-                                -Dmaven.test.failure.ignore=true'
-                        }
-
-                        archiveArtifacts allowEmptyArchive: true, artifacts: 'vaadin8/samples/test-playground/uitest/target/uitest/*.png'
-                    }
-        
-                    environment {
-                        MAVEN_OPTS = '-Xmx2g -Dtest.hostname=linkki-vaadin8-${BUILD_NAME}.dockerhost.i.faktorzehn.de -Dtest.port=80 -Dtest.path=linkki-sample-test-playground-vaadin8'
-                    }
-                }
-        
                 stage('UI Test Vaadin 14') {
                     steps {
                         withMaven(maven: 'maven 3.5', jdk: 'OpenJDK 11', mavenLocalRepo: '.repository', publisherStrategy: 'EXPLICIT') {

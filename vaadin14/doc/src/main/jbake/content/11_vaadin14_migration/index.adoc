@@ -3,7 +3,8 @@
 :jbake-status: published
 :jbake-order: 1000
 
-:source-dir-v8: ../../../../../../vaadin8/samples/test-playground/src/main/java/org/linkki/samples/playground/
+// TODO LIN-2667
+// :source-dir-v8: ../../../../../../vaadin8/samples/test-playground/src/main/java/org/linkki/samples/playground/
 :source-dir-v14: ../../../../../../vaadin14/samples/test-playground/src/main/java/org/linkki/samples/playground/
 
 
@@ -148,10 +149,11 @@ The following code snippet shows a simple `ApplicationMenuItem` before and after
 | Before migration | After migration
 
 | 
-[source,java]
-----
-include::{source-dir-v8}application/custom/CustomApplicationConfig.java[tags=applicationMenuItemDefinition]
-----
+// TODO LIN-2667
+//[source,java]
+//----
+//include ::{source-dir-v8}application/custom/CustomApplicationConfig.java[tags=applicationMenuItemDefinition]
+//----
 |
 [source,java]
 ----
@@ -168,10 +170,12 @@ Here is an example of a more complex `ApplicationMenuItem`. This menu item conta
 | Before migration | After migration
 
 | 
-[source,java]
-----
-include::{source-dir-v8}application/custom/CustomMenuItemDefinition.java[tags=class]
-----
+
+// TODO LIN-2667
+//[source,java]
+//----
+//include ::{source-dir-v8}application/custom/CustomMenuItemDefinition.java[tags=class]
+//----
 |
 [source,java]
 ----

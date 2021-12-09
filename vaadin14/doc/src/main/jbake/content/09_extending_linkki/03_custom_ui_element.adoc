@@ -1,7 +1,8 @@
 :jbake-title: Custom UI element annotations
 :jbake-type: section
 :jbake-status: published
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main
+// TODO LIN-2667
+//:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main
 :image-dir: {images}09_extending_linkki
 :github-linkki: https://github.com/linkki-framework/linkki/blob/master
 
@@ -13,21 +14,23 @@ It is possible to keep the clean structure of PMO code even if the application n
 image::{image-dir}/radiobuttongroup.png[]
 The self-defined `@UIRadioButtonGroup` annotation type can be used inside a PMO:
 
-.Usage of @UIRadioButtonGroup
-[source, java]
-----
-include::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ContactSectionPmo.java[tags=radiobutton]
-----
+// TODO LIN-2667
+//.Usage of @UIRadioButtonGroup
+//[source, java]
+//----
+//include ::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ContactSectionPmo.java[tags=radiobutton]
+//----
 
 ==== Annotation Type
 
 The next listing shows the whole annotation type `UIRadioButtonGroup`. The relevant concepts and requirements are discussed below.
 
-.Implementation of the annotation type UIRadioButtonGroup
-[source, java]
-----
-include::{source-dir}/java/org/linkki/samples/playground/binding/annotation/UIRadioButtonGroup.java[tags=custom-annotation]
-----
+// TODO LIN-2667
+//.Implementation of the annotation type UIRadioButtonGroup
+//[source, java]
+//----
+//include ::{source-dir}/java/org/linkki/samples/playground/binding/annotation/UIRadioButtonGroup.java[tags=custom-annotation]
+//----
 
 <1> Just like any other Java annotation type `@UIRadioButtonGroup` has to specify `@Retention` and `@Target`. More detailed information about annotation types can be found at the https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html[Oracle Docs]
 <2> *linkki* must be able to position the custom UI element. Therefore the annotation type must be annotated with `@LinkkiPositioned` to indicate that it defines a position property. The actual `position()` annotation type element  is annotated with `@LinkkiPositioned.Position`.
@@ -41,11 +44,12 @@ include::{source-dir}/java/org/linkki/samples/playground/binding/annotation/UIRa
 A `ComponentDefinition` defines how the actual UI element is created. In this case the `RadioButtonGroup` from the Vaadin framework is created.
 The following listing shows the `UIRadioButtonGroupComponentDefinitionCreator` class and the corresponding `UIRadioButtonGroupComponentDefinition` class.
 
-.Implementation of the UIRadioButtonGroupComponentDefinitionCreator
-[source, java]
-----
-include::{source-dir}/java/org/linkki/samples/playground/binding/annotation/UIRadioButtonGroup.java[tags=component-definition]
-----
+// TODO LIN-2667
+//.Implementation of the UIRadioButtonGroupComponentDefinitionCreator
+//[source, java]
+//----
+//include ::{source-dir}/java/org/linkki/samples/playground/binding/annotation/UIRadioButtonGroup.java[tags=component-definition]
+//----
 The `ComponentDefinition` for the `UIRadioButtonGroup` is not directly specified for the `UIRadioButtonGroup` by the `@LinkkiComponent` meta-annotation. Instead, the `UIRadioButtonGroupComponentDefinitionCreator` which holds a reference to the annotation type and creates the actual `UIRadioButtonGroupDefinition` is specified. This separation makes `ComponentDefinition` also usable without annotations and reusable for other annotations.
 
 TIP: The separation of DefinitionCreators that are annotated to the annotation type and Definitions without annotation type dependencies is used for `BoundProperties` and `AspectDefinitions` as well. All `Creator` classes contain a `create()` method, that will return the relevant `Definition`.
@@ -81,11 +85,12 @@ This is done in the `UIRadioButtonGroup` using `AspectDefinitionCreators`:
 . The `ValueAspectDefinitionCreator` is an existing `AspectDefinitionCreator` that is reused by the `UIRadioButtonGroup` to define the aspect value change.
 . `UIRadioButtonGroupFieldAspectDefinitionCreator` defines all other Aspects using a `CompositeAspectDefinition`:
 
-.Implementation of the UIRadioButtonGroupFieldAspectDefinitionCreator
-[source, java]
-----
-include::{source-dir}/java/org/linkki/samples/playground/binding/annotation/UIRadioButtonGroup.java[tags=aspect-definition]
-----
+// TODO LIN-2667
+//.Implementation of the UIRadioButtonGroupFieldAspectDefinitionCreator
+//[source, java]
+//----
+//include ::{source-dir}/java/org/linkki/samples/playground/binding/annotation/UIRadioButtonGroup.java[tags=aspect-definition]
+//----
 The `UIRadioButtonGroupFieldAspectDefinitionCreator#create()` method gets a reference to the `UIRadioButtonGroup` annotation like other `*Creator#create()` methods as well. Given this reference it can access all annotation type elements that belong to the aspects and pass them to the appropriate `AspectDefinition`.
 
 *linkki* contains many existing `AspectDefinitions` that can be reused, like the `EnabledAspectDefinition` in this example. Common `AspectDefinitions` are:

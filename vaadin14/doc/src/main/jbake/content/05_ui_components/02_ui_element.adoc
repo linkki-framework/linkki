@@ -2,7 +2,8 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+//TODO LIN-2667
+//:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
 :images-folder-name: 05_ui_components
 
 [[ui-element]]
@@ -78,12 +79,13 @@ When used in a table, the `label` is used as the column name while the `caption`
 
 HTML Content::
 The content of the label can be styled with HTML if `htmlContent=true` is specified.
-+
-.Example HTML Label Content
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelHtmlContent]
-----
+// LIN-2667
+// +
+// .Example HTML Label Content
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelHtmlContent]
+// ----
 
 [[label-style-names]]
 Styles::
@@ -145,7 +147,7 @@ If no format is specified for a `UIIntegerField`, *linkki* uses the default Java
 [[ui-datefield]]
 ==== UIDateField
 The annotation `@UIDateField` generates a date input field and corresponds to `com.vaadin.ui.DateField`. It allows specifying a date format using the property `dateFormat: String`. If not date format is defined the format matching the `Locale` setting is used. *linkki* uses `"dd.MM.yyyy"` by default for German. For other languages `DateFormat.SHORT` from the JDK is used.
-When the <<widgetset,*linkki* widgetset>> is used, a `MultiformatDateField` is created instead. It allows multiple date formats to be set and by default uses the same date format as the standard Vaadin date field but also allows dates without punctuation to be entered, so that for example `010420` becomes `01.04.2020`.
+The UIDateField allows multiple date formats to be set and by default uses the same date format as the standard Vaadin date field but also allows dates without punctuation to be entered, so that for example `010420` becomes `01.04.2020`.
 
 [[ui-combobox]]
 ==== UIComboBox
@@ -155,10 +157,11 @@ A `@UIComboBox` allows selection of a value from a list. It has three additional
 * <<ui-combobox-width,`width: String`>>
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>>
 
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-combobox]
-----
+// TODO LIN-2667
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-combobox]
+// ----
 
 [[ui-combobox-content]]
 Content::
@@ -215,21 +218,23 @@ The control class is specified with the property `uiControl: Class<? extends Fie
 
 WARNING: `@UICustomField` only supports controls with a parameter-less constructor.
 
-.UICustomField Example: PasswordField
-[source,java]
-----
-include::{source-dir}/org/linkki/samples/playground/messages/RegistrationSectionPmo.java[tags=ui-custom-field]
-----
+// TODO LIN-2667
+// .UICustomField Example: PasswordField
+// [source,java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/messages/RegistrationSectionPmo.java[tags=ui-custom-field]
+// ----
 
 [[dynamicfield]]
 ==== Dynamic Field
 
 *linkki* allows for dynamic typing of an input field. In the following example `Retention` should only be freely writable if `CarType` is set to `STANDARD`. Otherwise the user can only select values from a list:
 
-[source,java]
-----
-include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-dynamic-field]
-----
+// TODO LIN-2667
+// [source,java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-dynamic-field]
+// ----
 The selectable UI elements are defined via annotations on the method, as is customary. They must, however, fulfill the following requirements, to allow the type to be determined dynamically:
 
 1. the `position` in the UI* annotations must match
@@ -246,10 +251,11 @@ The annotation `@UIButton` is used to mark the method that should be executed wi
 
 Buttons are not bound to values. Since buttons therefore have no corresponding PMO property, the name of the annotated method is used to determine the associated methods. The behavior is similar to the  <<domain-model-binding, domain model binding>>, although buttons have no property `modelAttribute`.
 
-[source,java]
-----
-include::{source-dir}/org/linkki/samples/playground/binding/pmo/ButtonsSectionPmo.java[tags=button]
-----
+// TODO LIN-2667
+// [source,java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ButtonsSectionPmo.java[tags=button]
+// ----
 
 Apart from the <<ui-properties, common properties>>, buttons have these additional ones:
 

@@ -75,7 +75,9 @@ public class ContactComponent extends Div {
         AddressFields addressFields = new AddressFields();
         AddressComponent addressComponent = new AddressComponent(addressFields);
 
+        // tag::manual-binding[]
         new Binder(addressFields, addressPmo).setupBindings(bindingContext);
+        // end::manual-binding[]
 
         AbstractSection childrenSection = sectionFactory.createSection(childrenSectionPmo, bindingContext);
         Component buttonsSection = VaadinUiCreator.createComponent(buttonsSectionPmo, bindingContext);

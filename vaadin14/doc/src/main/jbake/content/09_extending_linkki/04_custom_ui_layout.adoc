@@ -1,7 +1,8 @@
 :jbake-title: Custom UI layout annotations
 :jbake-type: section
 :jbake-status: published
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main
+// TODO LIN-2667
+//:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main
 :image-dir: {images}09_extending_linkki
 
 
@@ -18,24 +19,26 @@ NOTE: @UIHorizontalLayout is also included as standard annotation. This example 
 
 The `@UIHorizontalLayout` annotation can be used to annotate a PMO as shown in the following listing:
 
-.Usage of @UIHorizontalLayout
-[source, java]
-----
-include::{source-dir}/java/org/linkki/samples/playground/customlayout/pmo/HotelSearchPmo.java[tags=hotelsearch]
-    ...
-}
-----
+// TODO LIN-2667
+//.Usage of @UIHorizontalLayout
+//[source, java]
+//----
+//include ::{source-dir}/java/org/linkki/samples/playground/customlayout/pmo/HotelSearchPmo.java[tags=hotelsearch]
+//    ...
+//}
+//----
 
 ==== Annotation Type
 
 The next listing shows the annotation type for the horizontal layout. The relevant concepts are discussed below.
 
-.Implementation of the annotation type UIHorizontalLayout
-[source, java]
-----
-include::{source-dir}/java/org/linkki/samples/playground/customlayout/annotation/UIHorizontalLayout.java[tags=custom-ui-layout-annotation]
-}
-----
+// TODO LIN-2667
+//.Implementation of the annotation type UIHorizontalLayout
+//[source, java]
+//----
+//include ::{source-dir}/java/org/linkki/samples/playground/customlayout/annotation/UIHorizontalLayout.java[tags=custom-ui-layout-annotation]
+//}
+//----
 <1> Just like any other Java annotation type `@UIHorizontalLayout` has to specify `@Retention` and `@Target`. More detailed information about annotation types can be found at the https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html[Oracle Docs].
 <2> The `@LinkkiComponent` meta-annotation specifies which <<layout-component-definition, ComponentDefinitionCreator>> class is used for `@UIHorizontalLayout`. Its purpose is to define how the actual UI layout is created.
 <3> The `@LinkkiLayout` meta-annotation specifies which <<layout-definition, LayoutDefinitionCreator>> to use. A `LayoutDefinitionCreator` creates a `LayoutDefinition` that defines how UI elements are added to the layout.
@@ -48,11 +51,12 @@ TIP: The custom layout annotation uses the same `Creator` / `Definition` pattern
 
 The next listing shows the `HorizontalComponentDefinitonCreator` that returns the `LinkkiComponentDefinition` using a lambda expression.
 
-.Implementation of the HorizontalComponentDefinitonCreator
-[source, java]
-----
-include::{source-dir}/java/org/linkki/samples/playground/customlayout/annotation/UIHorizontalLayout.java[tags=component-definition]
-----
+// TODO LIN-2667
+//.Implementation of the HorizontalComponentDefinitonCreator
+//[source, java]
+//----
+//include ::{source-dir}/java/org/linkki/samples/playground/customlayout/annotation/UIHorizontalLayout.java[tags=component-definition]
+//----
 The purpose of the `LinkkiComponentDefinition` is to define how the actual Vaadin `HorizontalLayout` object is created. In this case it just needs to return a new `HorizontalLayout` instance. Due to the simplicity in this case a lambda expression is used to implement the `LinkkiComponentDefinition`. Since the `HorizontalComponentDefinitonCreator` gets a reference to the `UIHorizontalLayout` annotation, it can access its annotation type elements and use the values within the `LinkkiComponentDefiniton`. Using this mechanism it is possible to influence the layout at the creation time through annotation type elements.
 
 [#layout-definition]
@@ -60,11 +64,12 @@ The purpose of the `LinkkiComponentDefinition` is to define how the actual Vaadi
 
 The `HorizontalLayoutDefinitionCreator` that returns the `LinkkiLayoutDefinition` is implemented by a lambda expression and is shown in the next listing:
 
-.Implementation of the HorizontalLayoutDefinitionCreator
-[source, java]
-----
-include::{source-dir}/java/org/linkki/samples/playground/customlayout/annotation/UIHorizontalLayout.java[tags=layout-definition]
-----
+// TODO LIN-2667
+//.Implementation of the HorizontalLayoutDefinitionCreator
+//[source, java]
+//----
+//include ::{source-dir}/java/org/linkki/samples/playground/customlayout/annotation/UIHorizontalLayout.java[tags=layout-definition]
+//----
 A `LinkkiLayoutDefinition` defines how child components are added to the `Layout`, while the `LayoutDefinitionCreator` creates the `LinkkiLayoutDefinition`, as the name suggests. As `LinkkiLayoutDefinition` is a `FunctionalInterface` it can be created using a lambda expression, as done in the `HorizontalLayoutDefinitionCreator`. If necessary, the `HorizontalLayoutDefinitionCreator` can pass information from the `UIHorizontalLayout` annotation to the `LinkkiLayoutDefintion`.
 
 Within the `HorizontalLayoutDefinitionCreator#createChildren()` method the child UI elements are created and afterwards added to the `HorizontalLayout`. Fortunately it is possible to reuse standard *linkki* functionality for this purpose. The `UiCreator` is utilized to create a `Stream` of UI components from the PMO, while the `CaptionComponentWrapper` takes the `Label` of each UI component and adds it to the component as caption. After receiving the stream of components from the `UiCreator` the components can simply be added to the `HorizontalLayout`.
@@ -81,9 +86,10 @@ The convention that the `BoundProperty` of a PMO is empty comes into play as wel
 
 The next listing shows how a PMO that is annotated with the `UIHorizontalLayout` annotation can be added to a Page:
 
-.Usage of an PMO that is annotated with @UIHorizontalLayout
-[source, java]
-----
-include::{source-dir}/java/org/linkki/samples/playground/customlayout/CustomLayoutComponent.java[tags=CustomLayoutAnnotation]
-----
+// TODO LIN-2667
+//.Usage of an PMO that is annotated with @UIHorizontalLayout
+//[source, java]
+//----
+//include ::{source-dir}/java/org/linkki/samples/playground/customlayout/CustomLayoutComponent.java[tags=CustomLayoutAnnotation]
+//----
 `UiCreator#createComponent` creates Vaadin components from PMO objects and binds them to the passed `BindingContext`.

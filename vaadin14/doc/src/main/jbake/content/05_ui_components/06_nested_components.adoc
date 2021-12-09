@@ -5,19 +5,6 @@
 [[nested-pmos]]
 === Nested Components
 
-Nested components are an add-on to linkki-core. 
-
-.Use this to start using nested components in your project:
-[source,xml]
-----
-<dependency>
-    <groupId>org.linkki-framework</groupId>
-    <artifactId>linkki-nestedcomponent</artifactId>
-</dependency>
-----
-
-=== @UINestedComponent
-
 Methods annotated with `@UINestedComponent` can return a PMO, which is then included in the page. The resulting component has the same indentation as other components in the section and can be labeled. However, this causes fields inside nested PMOs to be indented further than fields in the nested PMO's parent.
 
 An example for this feature is pictured below, including relevant code snippets of the two classes.

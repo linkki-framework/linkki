@@ -2,7 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-:base-dir: ../../../../../../vaadin8/samples/getting-started
+:base-dir: ../../../../../../vaadin14/samples/getting-started
 :source-dir: {base-dir}/src/main/java
 :images-folder-name: 02_getting_started
 
@@ -32,7 +32,7 @@ To start this project, you need
 * Maven
 * a modern browser
 
-Follow the steps described in <<getting-started, project setup>> to create a new *linkki* Vaadin 8 project.
+Follow the steps described in <<getting-started, project setup>> to create a new *linkki* Vaadin 14 project.
 
 === Step 1: Domain Model
 
@@ -121,26 +121,13 @@ include::{source-dir}/org/linkki/samples/gettingstarted/GettingStartedUI.java[ta
 <1> Standard Vaadin code
 <2> *linkki* specific code
 
-=== Step 4: web.xml
-
-The application must be made known to the application server. It expects a `web.xml`, in which our UI is started with the `VaadinServlet`.
-
-[source,xml]
-----
-include::{source-dir}/../webapp/WEB-INF/web.xml[]
-----
-
 === Starting the Application
 
 The application can be started from the command line via
 
 [source,bash]
 ----
-$> mvn clean install tomee:run
+$> mvn spring-boot:run
 ----
 
 and is then reachable at http://localhost:8080/linkki-getting-started.
-
-=== Step 5 (optional): Using the linkki Widgetset
-
-*linkki* comes with a custom Vaadin widgetset. Follow the instructions in the chapter <<widgetset,linkki Widgetset>> to use it and extend your `Report` with a `LocalDate` field and the `ReportSectionPmo` with a <<ui-datefield,@UIDateField>>.

@@ -35,7 +35,6 @@
         <module>test</module>
         <module>utils</module>
         <module>core</module>
-        <module>vaadin8</module>
         <module>vaadin14</module>
         <module>apt</module>
     </modules>

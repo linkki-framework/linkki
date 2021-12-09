@@ -2,8 +2,9 @@
 :jbake-type: section
 :jbake-status: published
 
-:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
-:resource-dir: ../../../../../../vaadin8/samples/test-playground/src/main/webapp
+// TODO LIN-2667
+// :source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+//:resource-dir: ../../../../../../vaadin8/samples/test-playground/src/main/webapp
 :source-dir-doc: ../../../../src/main/java
 :images-folder-name: 05_ui_components
 
@@ -72,10 +73,11 @@ A consistent label width improves readability by makes the layout appear more st
 [[layout-uisection]]
 ===== Layout Options in @UISection
 
-[source, java]
-----
-include::{source-dir-doc}/org/linkki/doc/CommonDataSectionPmo.java[tags=class]
-----
+// TODO LIN-2667
+// [source, java]
+// ----
+// include ::{source-dir-doc}/org/linkki/doc/CommonDataSectionPmo.java[tags=class]
+// ----
 
 The layout for all the components within a `UISection` can be defined with the attribute `layout`. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, COLUMN or CUSTOM.
 .
@@ -97,19 +99,21 @@ image::{images}{images-folder-name}/custom_layout.png[Address section with custo
 +
 The relevant code for the class declaration and a part of the field declarations are given in this code snippet.
 +
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/customlayout/pmo/AddressSectionPmo.java[tags=declaration]
-...
-include::{source-dir}/org/linkki/samples/playground/customlayout/pmo/AddressSectionPmo.java[tags=methods]
-----
+// TODO LIN-2667
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/customlayout/pmo/AddressSectionPmo.java[tags=declaration]
+// ...
+// include ::{source-dir}/org/linkki/samples/playground/customlayout/pmo/AddressSectionPmo.java[tags=methods]
+// ----
 +
 The corresponding part of the html file may looks like this. The used css classes are not part of the default stylesheet.
 +
-[source, xml]
-----
-include::{resource-dir}/VAADIN/themes/sample/layouts/AddressSectionPmo.html[lines=45..56]
-----
+// TODO LIN-2667
+// [source, xml]
+// ----
+// include ::{resource-dir}/VAADIN/themes/sample/layouts/AddressSectionPmo.html[lines=45..56]
+// ----
 
 [[section-label-alignment]]
 ===== Label alignment in sections
@@ -123,10 +127,11 @@ To change this behavior, declare `$linkki-label-alignment: left` before importin
 
 To add more elements, for example an edit button, to the section's header than just the caption, you can annotate regular <<ui-element, UI elements>> in the section's PMO with the `@SectionHeader` annotation. They will then be placed in the header instead of in the section's content area.
 
-[source, java]
-----
-include::{source-dir}/org/linkki/samples/playground/dynamicannotations/DynamicCaptionWithSectionHeaderButtonPmo.java[tags=section-header]
-----
+// TODO LIN-2667
+// [source, java]
+// ----
+// include ::{source-dir}/org/linkki/samples/playground/dynamicannotations/DynamicCaptionWithSectionHeaderButtonPmo.java[tags=section-header]
+// ----
 
 TIP: The position is validated by linkki to be unique in the PMO independent of where the element will be placed in a section, so it is recommended to use negative numbers for the elements marked with `@SectionHeader` to avoid conflicts with the regular elements.
 
