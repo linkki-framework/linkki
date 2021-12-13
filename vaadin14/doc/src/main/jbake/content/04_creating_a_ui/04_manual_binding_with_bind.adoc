@@ -10,7 +10,7 @@
 [[manual-binding]]
 === Manual Binding With `@Bind`
 
-Due to special requirements or custom `Fields` it is sometimes not possible to use the <<pmo-create-ui, automatic creation via `@UISection`>>. For this case *linkki* offers the option of 'only' using the data binding. This way, control over creation, arrangement and configuration (e.g. `setNullRepresentation()` or `setConverter()`) of the component is kept.
+Due to special requirements or custom `Fields` it is sometimes not possible to <<pmo-create-layout, automatically create a layout with an annotated PMO>>. For this case *linkki* offers the option of 'only' using the data binding. This way, control over creation, arrangement and configuration (e.g. `setNullRepresentation()` or `setConverter()`) of the component is kept.
 
 To activate the manual binding the component must be marked with the `@Bind` annotation. Both fields and methods can be annotated. Components based on the following classes and interfaces can be used with `@Bind`:
 
@@ -52,6 +52,7 @@ You can find a sample project with the different binding options on {github-tree
 Binding summary:
 
 * <<layout, Layout annotations>> like `@UISection` -> simple and quick template with limited configuration options
+* <<ui-creator, UiCreator>> -> automated creation and binding of individual UI components with control over the layout
 * <<manual-binding, manual binding>> -> full control, but more effort and direct UI framework dependencies
 
 *linkki* uses certain naming conventions. That way sources of errors and refactoring complexity are reduced.

@@ -22,7 +22,7 @@ import org.linkki.core.defaults.columnbased.pmo.SimpleItemSupplier;
 import org.linkki.core.defaults.columnbased.pmo.TableFooterPmo;
 import org.linkki.samples.playground.binding.model.Contact;
 
-// tag::contactTablePmo-class[]
+//tag::contactTablePmo-class[]
 public class ContactTablePmo implements ContainerPmo<ContactRowPmo> {
 
     // end::contactTablePmo-class[]
@@ -45,7 +45,7 @@ public class ContactTablePmo implements ContainerPmo<ContactRowPmo> {
     // tag::page-length[]
     @Override
     public int getPageLength() {
-        return Math.min(ContainerPmo.DEFAULT_PAGE_LENGTH, getItems().size());
+        return 0;
     }
     // end::page-length[]
 

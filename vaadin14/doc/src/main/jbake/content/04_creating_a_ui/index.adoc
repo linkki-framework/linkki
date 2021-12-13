@@ -7,8 +7,9 @@
 
 *linkki* offers three ways to create a UI:
 
-1. <<pmo-create-ui, via a layout annotation on the PMO>>
-2. <<manual-binding, manual binding via `@Bind`>>
+1. <<pmo-create-layout, via a layout annotation on the PMO>>
+2. <<ui-creator, with a `UiCreator` for more layout control>> 
+3. <<manual-binding, manual binding via `@Bind`>>
 
 The first approach is hopefully sufficient in almost all cases. It defines the *linkki* default way to create any layout element.
 
