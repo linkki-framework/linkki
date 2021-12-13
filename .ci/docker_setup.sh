@@ -9,7 +9,7 @@ fi
 
 # Create vaadin14 container
 V14_NAME="linkki-vaadin14-$BUILD_NAME"
-if [ -n "$(docker container ls --filter="name=$V14_NAME" -a -q)" ]; then
+if [ -n "$(docker container ls --filter="name=^$V14_NAME$" -a -q)" ]; then
     docker rm --force $V14_NAME
 fi
 
@@ -31,7 +31,7 @@ docker start $V14_NAME
 
 # Create vaadin8 container
 V8_NAME="linkki-vaadin8-$BUILD_NAME"
-if [ -n "$(docker container ls --filter="name=$V8_NAME" -a -q)" ]; then
+if [ -n "$(docker container ls --filter="name=^$V8_NAME$" -a -q)" ]; then
     docker rm --force $V8_NAME
 fi
 
