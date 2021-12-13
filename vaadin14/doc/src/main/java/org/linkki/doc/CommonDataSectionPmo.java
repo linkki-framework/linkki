@@ -15,9 +15,11 @@ package org.linkki.doc;
 
 import org.linkki.core.ui.layout.annotation.UISection;
 
+// tag::class[]
 @UISection(caption = "Common Data", closeable = true)
 public class CommonDataSectionPmo {
 
     // ...
 
 }
+// end::class[]

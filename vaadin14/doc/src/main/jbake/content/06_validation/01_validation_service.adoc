@@ -1,9 +1,7 @@
 :jbake-title: ValidationService
 :jbake-type: section
 :jbake-status: published
-
-// TODO LIN-2667
-// :source-dir-playground: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:source-dir-playground: ../../../../../../vaadin14/samples/test-playground/src/main/java
 
 [[validation-service]]
 === ValidationService
@@ -28,13 +26,12 @@ The `ValidationService` can return a `ValidationDisplayState` via `getValidation
 ==== Message and MessageList
 A `Message` has a human readable text, an error code and a `Severity` (one of `INFORMATION`, `WARNING`, `ERROR`). It may also contain a set of <<object-properties,ObjectProperties>> to refer to specific invalid properties of an object. Additionally there may be <<validation-marker,ValidationMarkers>> to distinguish different kinds of validation messages.
 
-The easiest way to create a `Message` is to use its builder (via the `builder()` method). Alternatively, a `Message` can also be created using the static factory methods (`createError()`, `createWarning()`, `createInfo()`) or by directly calling the constructor.
+The easiest way to create a `Message` is to use its builder (via the `builder()` method). Alternatively, a `Message` can also be created using the static factory methods (`newError(String, String)`, `newWarning(String, String)`, `newInfo(String, String)`) or by directly calling the constructor.
 
-// TODO LIN-2667
-// [source, java]
-// ----
-// include ::{source-dir-playground}/org/linkki/samples/playground/messages/RegistrationValidationService.java[tags=message-builder]
-// ----
+[source, java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/messages/RegistrationValidationService.java[tags=message-builder]
+----
 
 A `MessageList` is a container for a list of messages and provides an API to access the messages, for example by using filters.
 
@@ -47,10 +44,9 @@ A *linkki* message uses a set of `ObjectProperty` to identify which properties a
 ==== ValidationMarker
 `ValidationMarkers` are used to group and categorize messages. By default, *linkki* can differentiate between mandatory-field validations and other messages using the validation marker `ValidationMarker#REQUIRED`. UI elements referring to messages that use this marker are not highlighted as long as a user hasn't had a chance to enter any values (see <<validation-display-state, ValidationDisplayState>>). The method `isMandatoryFieldMessage` on a `Message` can be used to check if any of the message's markers return `true` for `isRequiredInformationMissing`:
 
-// TODO LIN-2667
-// [source, java]
-// ----
-// include ::{source-dir-playground}/org/linkki/samples/playground/messages/MessagesPanel.java[tags=mandatory]
-// ----
+[source, java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/messages/MessagesPanel.java[tags=mandatory]
+----
 
 Applications can introduce their own specialized validation markers by implementing the `ValidationMarker` interface. That way special meaning can be attached to messages and they can be categorized and processed accordingly, if required.

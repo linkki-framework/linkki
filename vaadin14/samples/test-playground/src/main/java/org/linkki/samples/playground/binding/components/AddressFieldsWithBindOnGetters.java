@@ -61,10 +61,12 @@ public class AddressFieldsWithBindOnGetters {
 
     // end::addressFields-methodBinding[]
 
+    // tag::addressFields-custom-bind[]
     @BindValue(pmoProperty = "zip")
     public TextField getZipTxt() {
         return zipTxt;
     }
+    // end::addressFields-custom-bind[]
 
     private static TextField createTextField(String caption) {
         TextField tf = new TextField(caption);

@@ -1,7 +1,7 @@
 :jbake-title: Create a UI from the Presentation Model Object
 :jbake-type: section
 :jbake-status: published
-// TODO LIN-2668 :source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java
 
 [[pmo-create-ui]]
 === Create a UI from the Presentation Model Object (PMO)
@@ -22,11 +22,10 @@ The following examples describe how to create a standard forms section, followed
 [[binding-model-object]]
 .Binding with `@ModelObject`
 
-// TODO LIN-2668
-//[source,java]
-//----
-//include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactSectionPmo.java[tags=contactPmo-class]
-//----
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactSectionPmo.java[tags=contactPmo-class]
+----
 
 TIP: The definition of `modelAttribute` is optional if the property name in the `ModelObject` and the name of the annotated method are equal. But it
 is recommended to specify the `modelAttribute` to make it explicit. The value should be externalized to a constant in the target model object as seen for the `lastname` property.
@@ -36,36 +35,32 @@ is recommended to specify the `modelAttribute` to make it explicit. The value sh
 
 To create a section with a table the PMO class must implement <<ui-container-pmo, `org.linkki.core.defaults.columnbased.pmo.ContainerPmo<ROW>`>>. The generic parameter `ROW` represents the type of the PMO to create a row in this table.
 
-// TODO LIN-2668
-// [source,java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=contactTablePmo-class]
-// ----
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=contactTablePmo-class]
+----
 
 The method `getItems()` returns the rows of the table in the form of the previously defined `ROW` 'row PMOs'.
 
-// TODO LIN-2668
-// [source,java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=contactTablePmo-getItems]
-// ----
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactTablePmo.java[tags=contactTablePmo-getItems]
+----
 
 In the `interface ContainerPmo<ROW>` additional `default` methods are defined. A detailed description can be found in the section about <<ui-container-pmo, ContainerPmo>>.
 
 The so called 'Row PMO' is a regular PMO as described in <<form-binding, the first section>>. The only difference is that the UI elements may optionally be annotated with <<ui-table-column, `@UITableColumn`>>.
 
-// TODO LIN-2668
-// [source,java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
-// ----
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
+----
 
 All UI elements can be used in tables. The binding of a `@UIButton` looks as follows:
 
-// TODO LIN-2668
-// [source,java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
-// ----
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
+----
 
 NOTE: In our example the elements of the table shall be presented as read-only. Therefore no direct binding of the `ModelObject` via the `@ModelObject` annotation is done. If the items of your table are provided from a model object you may consider to use `org.linkki.core.defaults.columnbased.pmo.SimpleTablePmo<MO, ROW>` which is described in chapter <<ui-tables, Tables>> in detail.

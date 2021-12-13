@@ -43,8 +43,10 @@ public class AddressFields {
     private final ComboBox<Country> countryCb;
     // end::addressFields-class[]
 
+    // tag::addressFields-custom-bind[]
     @BindValue(pmoProperty = "zip", modelAttribute = Address.PROPERTY_ZIP)
     private final TextField zipTxt;
+    // end::addressFields-custom-bind[]
 
     public AddressFields() {
         streetTxt = createTextField("Street");

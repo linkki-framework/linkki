@@ -17,11 +17,11 @@ import org.linkki.core.vaadin.component.section.FormLayoutSection;
 import org.linkki.samples.playground.binding.model.Country;
 
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 
+// tag::declaration[]
 public class AddressComponent extends FormLayoutSection {
 
     private static final long serialVersionUID = 1L;
@@ -33,19 +33,25 @@ public class AddressComponent extends FormLayoutSection {
         TextField street = fields.getStreetTxt();
         TextField zip = fields.getZipTxt();
         TextField city = fields.getCity();
+        // end::declaration[]
         ComboBox<Country> country = fields.getCountryCb();
 
         street.setSizeFull();
         city.setSizeFull();
         country.setSizeFull();
 
-        HorizontalLayout zipCity = new HorizontalLayout(new Label("Zip / City"), zip, city);
-        zipCity.setSizeFull();
-        zipCity.setSpacing(true);
-        // zipCity.setCaption("Zip / City");
-        // zipCity.setExpandRatio(city, 1F);
+        // tag::methods[]
+        HorizontalLayout zipCity = new HorizontalLayout(zip, city);
+        zipCity.setSpacing(false);
 
-        add(street, zipCity, country);
+        getSectionContent().addFormItem(street, street.getLabel());
+        getSectionContent().addFormItem(zipCity, "Zip / City");
+        getSectionContent().addFormItem(country, country.getLabel());
+        // end::methods[]
+
+        zip.getStyle().set("padding-right", "10px");
+        street.setLabel(null);
+        country.setLabel(null);
     }
 
 }

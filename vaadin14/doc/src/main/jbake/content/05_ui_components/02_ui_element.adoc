@@ -2,8 +2,7 @@
 :jbake-type: section
 :jbake-status: published
 
-//TODO LIN-2667
-//:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java
 :images-folder-name: 05_ui_components
 
 [[ui-element]]
@@ -79,13 +78,12 @@ When used in a table, the `label` is used as the column name while the `caption`
 
 HTML Content::
 The content of the label can be styled with HTML if `htmlContent=true` is specified.
-// LIN-2667
-// +
-// .Example HTML Label Content
-// [source, java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelHtmlContent]
-// ----
+
+.Example HTML Label Content
+[source, java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelHtmlContent]
+----
 
 [[label-style-names]]
 Styles::
@@ -157,11 +155,10 @@ A `@UIComboBox` allows selection of a value from a list. It has three additional
 * <<ui-combobox-width,`width: String`>>
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>>
 
-// TODO LIN-2667
-// [source, java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-combobox]
-// ----
+[source, java]
+----
+include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-combobox]
+----
 
 [[ui-combobox-content]]
 Content::
@@ -202,14 +199,6 @@ A `@UIYesNoComboBox` allows selection of a boolean value from a dropdown list li
 * <<itemCaptionProvider, `itemCaptionProvider: Class<? extends ItemCaptionProvider<?>>`>> with a default implementation `DefaultCaptionProvider` that delegates to `getName` or `toString`
 * `buttonAlignment: AlignmentType`
 
-[[ui-subsetchooser]]
-==== UISubsetChooser
-For selection of multiple values from a list, *linkki* offers the `@UISubsetChooser`. In this UI control elements are selected by moving them from a list on the left to a list on the right. The display of the individual elements is similar to <<itemCaptionProvider, `UIComboBox`>>, but with a default of `ToStringCaptionProvider`. As with <<ui-combobox-width, UICombobox>> the width can be defined via the property `width`.
-
-The content of a subset chooser must be specified with the method `Collection<T> get<PropertyName>AvailableValues()`. The bound property must be of type `Set<T>`.
-
-The caption of both columns can be set through the properties `leftColumnCaption: String` and `rightColumnCaption: String`.
-
 [[ui-customfield]]
 ==== UICustomField
 Other controls can also easily be generated and bound by *linkki*. For this the annotation `@UICustomField` is used. 
@@ -218,23 +207,22 @@ The control class is specified with the property `uiControl: Class<? extends Fie
 
 WARNING: `@UICustomField` only supports controls with a parameter-less constructor.
 
-// TODO LIN-2667
-// .UICustomField Example: PasswordField
-// [source,java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/messages/RegistrationSectionPmo.java[tags=ui-custom-field]
-// ----
+.UICustomField Example: PasswordField
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/messages/RegistrationSectionPmo.java[tags=ui-custom-field]
+----
 
 [[dynamicfield]]
 ==== Dynamic Field
 
 *linkki* allows for dynamic typing of an input field. In the following example `Retention` should only be freely writable if `CarType` is set to `STANDARD`. Otherwise the user can only select values from a list:
 
-// TODO LIN-2667
-// [source,java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-dynamic-field]
-// ----
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/table/dynamicfields/CarPmo.java[tags=ui-dynamic-field]
+----
+
 The selectable UI elements are defined via annotations on the method, as is customary. They must, however, fulfill the following requirements, to allow the type to be determined dynamically:
 
 1. the `position` in the UI* annotations must match
@@ -251,11 +239,10 @@ The annotation `@UIButton` is used to mark the method that should be executed wi
 
 Buttons are not bound to values. Since buttons therefore have no corresponding PMO property, the name of the annotated method is used to determine the associated methods. The behavior is similar to the  <<domain-model-binding, domain model binding>>, although buttons have no property `modelAttribute`.
 
-// TODO LIN-2667
-// [source,java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/binding/pmo/ButtonsSectionPmo.java[tags=button]
-// ----
+[source,java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/pmo/ButtonsSectionPmo.java[tags=button]
+----
 
 Apart from the <<ui-properties, common properties>>, buttons have these additional ones:
 

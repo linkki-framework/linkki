@@ -1,9 +1,7 @@
 :jbake-title: Custom Annotation with Binder
 :jbake-type: section
 :jbake-status: published
-
-// TODO LIN-2667
-//:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main
 
 [[custom-binding-annotation]]
 === Custom Annotation with `Binder`
@@ -14,23 +12,21 @@ If the annotation does not suit your needs then a custom annotation could be imp
 
 The following example demonstrates how to design a custom `@BindValue` annotation to bind only the value of a component:
 
-// TODO LIN-2667
-//[source,java]
-//----
-//include ::{source-dir}/java/org/linkki/samples/playground/binding/annotation/BindValue.java[tags=custom-bind]
-//     //...
-//}
-//----
+[source,java]
+----
+include::{source-dir}/java/org/linkki/samples/playground/binding/annotation/BindValue.java[tags=custom-bind]
+...
+}
+----
 
 The custom annotation class must be annotated with another annotation called `@LinkkiBoundProperty` which provides a `BoundProperty`. A `BoundProperty` is necessary as it describes which property in the PMO and the business model should be bound to the annotated component. `@LinkkiBoundProperty` provides the `BoundProperty` by defining a creator Class that implements the interface `BoundPropertyCreator`. This creator must have a default constructor that can be later called by the *linkki* framework to create a `BoundProperty`.
 
 In the example, the `@BindValue` annotation defines the `BindValueAnnotationBoundPropertyCreator` as its `@LinkkiBoundProperty`:
 
-// TODO LIN-2667
-// [source,java]
-// ----
-// include ::{source-dir}/java/org/linkki/samples/playground/binding/annotation/BindValue.java[tags=custom-bound-property-creator]
-// ----
+[source,java]
+----
+include::{source-dir}/java/org/linkki/samples/playground/binding/annotation/BindValue.java[tags=custom-bound-property-creator]
+----
 
 The example above works quite similar to the existing `@Bind` annotation. But it is also possible to define the bound property in a different way. For example, the model attribute and model object might be specified by another annotation.
 If the model object is irrelevant, a simple `SimpleMemberNameBoundPropertyCreator` might be used which only uses the name of the annotated field or method.
@@ -39,16 +35,14 @@ Finally, the `@BindValue` annotation needs to define `BindFieldValueAspectDefini
 
 Now the `@BindValue` annotation can be used with a `Binder` for  <<manual-binding, manual binding>>:
 
-// TODO LIN-2667
-//[source,java]
-//----
-//include ::{source-dir}/java/org/linkki/samples/playground/binding/components/AddressFields.java[tags=addressFields-custom-bind]
-//----
+[source,java]
+----
+include::{source-dir}/java/org/linkki/samples/playground/binding/components/AddressFields.java[tags=addressFields-custom-bind]
+----
 
 Just as the `@Bind` annotation, the new annotation can also be used on getter methods:
 
-// TODO LIN-2667
-//[source,java]
-//----
-//include ::{source-dir}/java/org/linkki/samples/playground/binding/components/AddressFieldsWithBindOnGetters.java[tags=addressFields-custom-bind]
-//----
+[source,java]
+----
+include::{source-dir}/java/org/linkki/samples/playground/binding/components/AddressFieldsWithBindOnGetters.java[tags=addressFields-custom-bind]
+----

@@ -1,8 +1,7 @@
 :jbake-title: Aspects
 :jbake-type: section
 :jbake-status: published
-// TODO LIN-2667
-// :source-dir-playground: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:source-dir-playground: ../../../../../../vaadin14/samples/test-playground/src/main/java
 :source-dir: ../../../../src/main/java
 
 [[aspects]]
@@ -144,11 +143,10 @@ The following configuration options are available for `TooltipType`:
 
 TIP: Tooltips can only be added to <<ui-field, fields>> and <<ui-button, buttons>>.
 
-// TODO LIN-2667
-// [source,java]
-// ----
-// include ::{source-dir-playground}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
-// ----
+[source,java]
+----
+include::{source-dir-playground}/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-buttonBinding]
+----
 
 [[bind-read-only]]
 ===== Bind Read-Only State

@@ -1,9 +1,7 @@
 :jbake-title: Displaying Validation Messages
 :jbake-type: section
 :jbake-status: published
-
-// TODO LIN-2667
-//:source-dir-messages: ../../../../../../vaadin8/samples/test-playground/src/main/java
+:source-dir-messages: ../../../../../../vaadin14/samples/test-playground/src/main/java
 
 [[displaying-validation-messages]]
 === Displaying Validation Messages
@@ -12,16 +10,13 @@ By default *linkki* marks UI elements bound to invalid <<object-properties, Obje
 
 However, *linkki* does not provide a UI element to display all validation messages returned by a `ValidationService`. In order to display these messages a custom UI component has to be created along with a `BindingManager`. The `BindingManager` must override its `updateMessages` method that gets called after validation. A common pattern here is to use a `Consumer<MessageList>` as an argument to the `BindingManager` to decouple it from the actual custom UI component (which implements `Consumer<MessageList>`).
 
-// TODO LIN-2667
-// [source, java]
-// ----
-// include ::{source-dir-messages}/org/linkki/samples/playground/messages/RegistrationBindingManager.java[tags=binding-manager-update-messages]
-// ----
+[source, java]
+----
+include::{source-dir-messages}/org/linkki/samples/playground/messages/RegistrationBindingManager.java[tags=binding-manager-update-messages]
+----
 
 Usage:
-
-// TODO LIN-2667
-// [source, java]
-// ----
-// include ::{source-dir-messages}/org/linkki/samples/playground/messages/MessageComponent.java[tags=validation-service]
-// ----
+[source, java]
+----
+include::{source-dir-messages}/org/linkki/samples/playground/messages/MessagesComponent.java[tags=validation-service]
+----

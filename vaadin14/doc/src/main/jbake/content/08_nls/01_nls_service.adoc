@@ -3,8 +3,7 @@
 :jbake-status: published
 
 :image-dir: {images}08_nls
-// TODO LIN-2667
-//:source-dir: ../../../../../../vaadin8/samples/test-playground/src/main
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main
 
 === Location of Resource Bundles
 
@@ -22,19 +21,17 @@ These `.properties` files contain messages in text form, each file represents on
 An entry for a translation in the `linkki-messages.properties` files consists of two parts: The "key" that identifies a localizable aspect of a PMO property and the text, seperated by `=`.
 The key is a String that consists of the PMO's class name, the name of the PMO property and the localizable aspect of the property, separated by `_`. The `linkki-messages.properties` file from the picture above looks like this:
 
-// TODO LIN-2667
-//[source,java]
-//----
-//include ::{source-dir}/resources/org/linkki/samples/playground/binding/pmo/linkki-messages.properties[tags=properties]
-//----
+[source,java]
+----
+include::{source-dir}/resources/org/linkki/samples/playground/binding/pmo/linkki-messages.properties[tags=properties]
+----
 
 The last entry of the above `.properties` file points to the PMO `ContactRowPmo`, and provides an English translation for the label of its property `name`:
 
-// TODO LIN-2667
-//[source,java]
-//----
-//include ::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
-//----
+[source,java]
+----
+include::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ContactRowPmo.java[tags=contactRowPmo-labelBinding]
+----
 
 NOTE: *linkki* always tries to retrieve a value from the `linkki-messages.properties`, if the file exists. That means that the label "Name" that is defined directly in the annotation `@UILabel` above will not be used in this constellation. The entry `ContactRowPmo_name_label=name` overrides it as default value if there is no specific `.properties` file for the user's locale. It is useful to include the default label in the annotation to avoid having to look it up in the properties file when viewing the source code.
 
@@ -43,16 +40,14 @@ NOTE: *linkki* always tries to retrieve a value from the `linkki-messages.proper
 
 All aspects containing String values can be translated. Frequently used examples are label, caption and toolip. Section captions can also be translated. Their key does not contain a property name but only the PMO's class name and "_caption". For example:
 
-// TODO LIN-2667
-// [source,java]
-//----
-//include ::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ChildrenSectionPmo.java[tags=sectionCaption]
-//----
+[source,java]
+----
+include::{source-dir}/java/org/linkki/samples/playground/binding/pmo/ChildrenSectionPmo.java[tags=sectionCaption]
+----
 
 With its German translation entry in `linkki-messages_de.properties`:
 
-// TODO LIN-2667
-// [source,java]
-// ----
-// include ::{source-dir}/resources/org/linkki/samples/playground/binding/pmo/linkki-messages_de.properties[tags=sectionCaption]
-// ----
+[source,java]
+----
+include::{source-dir}/resources/org/linkki/samples/playground/binding/pmo/linkki-messages_de.properties[tags=sectionCaption]
+----

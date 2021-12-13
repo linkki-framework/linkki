@@ -42,9 +42,10 @@ public class MessagesComponent extends Div {
 
         User user = new User();
         RegistrationSectionPmo registrationPmo = new RegistrationSectionPmo(user, pmo -> handleRegistration(pmo));
-
+        // tag::validation-service[]
         validationService = new RegistrationValidationService(registrationPmo);
         bindingManager = new RegistrationBindingManager(validationService, ml -> messagesPanel.updateMessages(ml));
+        // end::validation-service[]
 
         PmoBasedSectionFactory sectionFactory = new PmoBasedSectionFactory();
         AbstractSection section = sectionFactory.createSection(registrationPmo, bindingManager.getContext(getClass()));

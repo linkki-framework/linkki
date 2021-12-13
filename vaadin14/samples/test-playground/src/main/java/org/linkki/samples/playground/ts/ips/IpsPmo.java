@@ -22,17 +22,21 @@ import org.linkki.samples.playground.ips.model.IpsModelObject;
 @UISection
 public class IpsPmo {
 
+    // tag::ModelObject[]
     @ModelObject
     private final IpsModelObject modelObject;
+    // end::ModelObject[]
 
     public IpsPmo(IpsModelObject modelObject) {
         this.modelObject = modelObject;
     }
 
+    // tag::getString[]
     @UITextField(position = 0, modelAttribute = IpsModelObject.PROPERTY_STRING)
     public void getString() {
         // model binding
     }
+    // end::getString[]
 
 
 }

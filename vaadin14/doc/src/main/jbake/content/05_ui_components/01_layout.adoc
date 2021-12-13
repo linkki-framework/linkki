@@ -1,10 +1,7 @@
 :jbake-title: Layouts
 :jbake-type: section
 :jbake-status: published
-
-// TODO LIN-2667
-// :source-dir: ../../../../../../vaadin8/samples/test-playground/src/main/java
-//:resource-dir: ../../../../../../vaadin8/samples/test-playground/src/main/webapp
+:source-dir: ../../../../../../vaadin14/samples/test-playground/src/main/java
 :source-dir-doc: ../../../../src/main/java
 :images-folder-name: 05_ui_components
 
@@ -29,7 +26,7 @@ Content:: The input fields of a section is typically ordered as a form, field de
 * `@UISection`
 * `@UIFormSection`
 
-Both annotations share the attribute to controll the content of the <<section-header, section header>>:
+Both annotations share the attribute to control the content of the <<section-header, section header>>:
 
 * `caption`: short description of the section
 * `closable`: whether the section can be collapsed
@@ -73,11 +70,10 @@ A consistent label width improves readability by makes the layout appear more st
 [[layout-uisection]]
 ===== Layout Options in @UISection
 
-// TODO LIN-2667
-// [source, java]
-// ----
-// include ::{source-dir-doc}/org/linkki/doc/CommonDataSectionPmo.java[tags=class]
-// ----
+[source, java]
+----
+include::{source-dir-doc}/org/linkki/doc/CommonDataSectionPmo.java[tags=class]
+----
 
 The layout for all the components within a `UISection` can be defined with the attribute `layout`. *linkki* defines the possible layouts in the enum `SectionLayout`: HORIZONTAL, COLUMN or CUSTOM.
 .
@@ -88,6 +84,7 @@ Horizontal Section Layout:: With the horizontal layout all input fields are disp
 [[column-section-layout]]
 Column Section Layout:: With the column layout fields are displayed one below the other. If additionally a number of columns are defined with the property `columns`, a kind of grid layout is produced. The grid is filled in the order of the field's position from left to right, row by row. 
 
+// TODO LIN-2646
 [[custom-section-layout]]
 Custom Section Layout:: Custom layout does not directly define the layout but gives the ability to create a HTML file containing the exact position of each control. Therefore it uses the https://vaadin.com/docs/v8/framework/layout/layout-customlayout.html[CustomLayout] from Vaadin.
 +
@@ -99,22 +96,15 @@ image::{images}{images-folder-name}/custom_layout.png[Address section with custo
 +
 The relevant code for the class declaration and a part of the field declarations are given in this code snippet.
 +
-// TODO LIN-2667
-// [source, java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/customlayout/pmo/AddressSectionPmo.java[tags=declaration]
-// ...
-// include ::{source-dir}/org/linkki/samples/playground/customlayout/pmo/AddressSectionPmo.java[tags=methods]
-// ----
-+
-The corresponding part of the html file may looks like this. The used css classes are not part of the default stylesheet.
-+
-// TODO LIN-2667
-// [source, xml]
-// ----
-// include ::{resource-dir}/VAADIN/themes/sample/layouts/AddressSectionPmo.html[lines=45..56]
-// ----
 
+[source, java]
+----
+include::{source-dir}/org/linkki/samples/playground/binding/components/AddressComponent.java[tags=declaration]
+
+include::{source-dir}/org/linkki/samples/playground/binding/components/AddressComponent.java[tags=methods]
+----
+
+// TODO LIN-2646
 [[section-label-alignment]]
 ===== Label alignment in sections
 
@@ -127,11 +117,10 @@ To change this behavior, declare `$linkki-label-alignment: left` before importin
 
 To add more elements, for example an edit button, to the section's header than just the caption, you can annotate regular <<ui-element, UI elements>> in the section's PMO with the `@SectionHeader` annotation. They will then be placed in the header instead of in the section's content area.
 
-// TODO LIN-2667
-// [source, java]
-// ----
-// include ::{source-dir}/org/linkki/samples/playground/dynamicannotations/DynamicCaptionWithSectionHeaderButtonPmo.java[tags=section-header]
-// ----
+[source, java]
+----
+include::{source-dir}/org/linkki/samples/playground/ts/aspects/BindCaptionWithSectionHeaderButtonPmo.java[tags=section-header]
+----
 
 TIP: The position is validated by linkki to be unique in the PMO independent of where the element will be placed in a section, so it is recommended to use negative numbers for the elements marked with `@SectionHeader` to avoid conflicts with the regular elements.
 

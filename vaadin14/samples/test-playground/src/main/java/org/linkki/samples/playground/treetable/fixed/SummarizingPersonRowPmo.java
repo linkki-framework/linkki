@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.linkki.core.defaults.columnbased.pmo.HierarchicalRowPmo;
 
+// tag::hierarchical-row-pmo[]
 public abstract class SummarizingPersonRowPmo extends AbstractPersonRowPmo
         implements HierarchicalRowPmo<AbstractPersonRowPmo> {
 
@@ -31,6 +32,7 @@ public abstract class SummarizingPersonRowPmo extends AbstractPersonRowPmo
     public List<? extends AbstractPersonRowPmo> getChildRows() {
         return childRows;
     }
+    // end::hierarchical-row-pmo[]
 
     @Override
     public String getLastName() {

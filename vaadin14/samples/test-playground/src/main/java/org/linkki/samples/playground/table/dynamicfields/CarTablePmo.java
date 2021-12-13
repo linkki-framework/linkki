@@ -33,6 +33,7 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo> {
     private final Handler addCarAction;
     private final SimpleItemSupplier<CarRowPmo, Car> items;
 
+    // tag::table-footer[]
     private final TableFooterPmo footer;
 
     public CarTablePmo(List<Car> carStorage, Handler addCarAction) {
@@ -41,6 +42,7 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo> {
 
         this.footer = c -> calculateTotalRetention(c, carStorage);
     }
+    // end::table-footer[]
 
     @Override
     public List<CarRowPmo> getItems() {
@@ -56,6 +58,7 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo> {
     public int getPageLength() {
         return Math.min(ContainerPmo.super.getPageLength(), getItems().size());
     }
+    // tag::table-footer[]
 
     @Override
     public Optional<TableFooterPmo> getFooterPmo() {
@@ -78,4 +81,5 @@ public class CarTablePmo implements ContainerPmo<CarRowPmo> {
                 return "";
         }
     }
+    // end::table-footer[]
 }

@@ -33,15 +33,18 @@ import org.linkki.samples.playground.binding.annotation.AlignmentType;
 import org.linkki.samples.playground.binding.annotation.UIRadioButtonGroup;
 import org.linkki.samples.playground.binding.model.Contact;
 
+// tag::contactPmo-class[]
 @UISection
 public class ContactSectionPmo {
 
     private Contact contact;
+    // end::contactPmo-class[]
 
     public ContactSectionPmo(Contact contact) {
         this.contact = contact;
     }
 
+    // tag::contactPmo-class[]
     @ModelObject
     public Contact getContact() {
         return contact;
@@ -67,11 +70,13 @@ public class ContactSectionPmo {
         return "Last name";
     }
 
+    // tag::radiobutton[]
     @UIRadioButtonGroup(position = 30, label = "Gender", buttonAlignment = AlignmentType.HORIZONTAL, content = AvailableValuesType.ENUM_VALUES_EXCL_NULL, //
             itemCaptionProvider = GenderCaptionProvider.class, modelAttribute = Contact.PROPERTY_GENDER)
     public void gender() {
         /* model binding only */
     }
+    // end::radiobutton[]
 
     @UIComboBox(position = 40, label = "Country of Birth", //
             content = AvailableValuesType.DYNAMIC, itemCaptionProvider = ToStringCaptionProvider.class, //
@@ -93,6 +98,7 @@ public class ContactSectionPmo {
         /* model binding only */
     }
 
+    // end::contactPmo-class[]
     public void reset(Contact newContact) {
         this.contact = newContact;
     }
@@ -100,4 +106,6 @@ public class ContactSectionPmo {
     public boolean isInputValid() {
         return !StringUtils.isEmpty(contact.getFirstname()) && !StringUtils.isEmpty(contact.getLastname());
     }
+    // tag::contactPmo-class[]
 }
+// end::contactPmo-class[]
